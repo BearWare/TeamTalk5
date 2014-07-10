@@ -1,0 +1,2040 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PreferencesDlg</class>
+ <widget class="QDialog" name="PreferencesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>758</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Preferences</string>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_6">
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="usesScrollButtons">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="generalTab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>User Settings</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Nickname</string>
+              </property>
+              <property name="buddy">
+               <cstring>nicknameEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="nicknameEdit"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>Gender</string>
+              </property>
+              <property name="buddy">
+               <cstring>maleRadioButton</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="maleRadioButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>Male</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="femaleRadioButton">
+              <property name="text">
+               <string>Female</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_13">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Set away status after</string>
+              </property>
+              <property name="buddy">
+               <cstring>awaySpinBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="awaySpinBox">
+              <property name="maximum">
+               <number>3600</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>seconds of inactivity (0 means disabled)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Voice Transmission Mode</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          </property>
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="pttChkBox">
+            <property name="text">
+             <string>Push To Talk</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="setupkeysButton">
+            <property name="text">
+             <string>&amp;Setup Keys</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Key Combination</string>
+            </property>
+            <property name="buddy">
+             <cstring>keycompEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="keycompEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="voiceactChkBox">
+            <property name="text">
+             <string>Voice activated</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="displayTab">
+      <attribute name="title">
+       <string>Display</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>User Interface Settings</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>User interface language</string>
+                </property>
+                <property name="buddy">
+                 <cstring>languageBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="languageBox"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="startminimizedChkBox">
+              <property name="text">
+               <string>Start minimized</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="trayChkBox">
+              <property name="text">
+               <string>Minimize to tray icon</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="alwaysontopChkBox">
+              <property name="text">
+               <string>&amp;Always on top</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="usercountChkBox">
+              <property name="text">
+               <string>Show number of users in channel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="msgpopupChkBox">
+              <property name="text">
+               <string>Popup dialog when receiving text message</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="videodlgChkBox">
+              <property name="text">
+               <string>Start video in popup dialog</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="returnvidChkBox">
+              <property name="text">
+               <string>Closed video dialog should return to video-tab</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="desktopdlgChkBox">
+              <property name="text">
+               <string>Start desktops in popup dialog</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_20">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QCheckBox" name="msgtimestampChkBox">
+              <property name="text">
+               <string>Timestamp text messages</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="logstatusbarChkBox">
+              <property name="text">
+               <string>Show statusbar events in chat-window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="updatesChkBox">
+              <property name="text">
+               <string>Check for program updates at startup</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QCheckBox" name="vidtextChkBox">
+                <property name="text">
+                 <string>Show source in corner of video window</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="vidtextsrcToolBtn">
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_19">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_39">
+                <property name="text">
+                 <string>Maximum text length in channel list</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="maxtextSpinBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <number>5</number>
+                </property>
+                <property name="maximum">
+                 <number>512</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_18">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="connectionTab">
+      <attribute name="title">
+       <string>Connection</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_13">
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Client Connection</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QCheckBox" name="autoconnectChkBox">
+            <property name="text">
+             <string>Connect to latest host on startup</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="reconnectChkBox">
+            <property name="text">
+             <string>Reconnect on connection dropped</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autojoinChkBox">
+            <property name="text">
+             <string>Join root channel upon connection</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="maxpayloadChkBox">
+            <property name="text">
+             <string>Query server's maximum payload upon connection</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="winfwChkBox">
+            <property name="text">
+             <string>Add application to Windows Firewall exceptions list</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_21">
+            <property name="accessibleName">
+             <string>Default Subscriptions upon Connection</string>
+            </property>
+            <property name="title">
+             <string>Default Subscriptions upon Connection</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="subusermsgChkBox">
+                 <property name="text">
+                  <string>User Messages</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QCheckBox" name="subchanmsgChkBox">
+                 <property name="text">
+                  <string>Channel Messages</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QCheckBox" name="subbcastmsgChkBox">
+                 <property name="text">
+                  <string>Broadcast Messages</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="subvoiceChkBox">
+                 <property name="text">
+                  <string>Voice</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="subvidcapChkBox">
+                 <property name="text">
+                  <string>Video Capture</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QCheckBox" name="subdesktopChkBox">
+                 <property name="text">
+                  <string>Desktop</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <layout class="QHBoxLayout" name="horizontalLayout_20">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_41">
+                   <property name="text">
+                    <string>Desktop Access</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>subdeskinputBtn</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="subdeskinputBtn">
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="3">
+                <widget class="QCheckBox" name="submediafileChkBox">
+                 <property name="text">
+                  <string>Media Files</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_15">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>265</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="accessibleName">
+             <string>Local Socket Settings</string>
+            </property>
+            <property name="title">
+             <string>Local Socket Settings</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>TCP port</string>
+               </property>
+               <property name="buddy">
+                <cstring>tcpportSpinBox</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Default: 0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>UDP port</string>
+               </property>
+               <property name="buddy">
+                <cstring>udpportSpinBox</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>Default: 0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="3">
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="tcpportSpinBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximum">
+                <number>65535</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="udpportSpinBox">
+               <property name="maximum">
+                <number>65535</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="soundTab">
+      <attribute name="title">
+       <string>Sound System</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Sound System Settings</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <spacer name="horizontalSpacer_16">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="wasapiButton">
+              <property name="text">
+               <string>Windows Audio Session</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="dsoundButton">
+              <property name="text">
+               <string>DirectSound</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="winmmButton">
+              <property name="text">
+               <string>Windows Standard</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="alsaButton">
+              <property name="text">
+               <string>ALSA</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="coreaudioButton">
+              <property name="text">
+               <string>CoreAudio</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,1,0">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Input device</string>
+              </property>
+              <property name="buddy">
+               <cstring>inputdevBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="inputdevBox"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="inputinfoLabel">
+              <property name="text">
+               <string notr="true">TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Output device</string>
+              </property>
+              <property name="buddy">
+               <cstring>outputdevBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QComboBox" name="outputdevBox"/>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="outputinfoLabel">
+              <property name="text">
+               <string notr="true">TextLabel</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QToolButton" name="refreshoutputButton">
+              <property name="text">
+               <string>Refresh devices</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QToolButton" name="refreshinputButton">
+              <property name="text">
+               <string>Refresh devices</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="sndtestButton">
+              <property name="text">
+               <string>&amp;Test Selected</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="sndduplexBox">
+            <property name="text">
+             <string>Enable duplex mode (required for echo cancellation)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="echocancelBox">
+            <property name="text">
+             <string>Enable echo cancellation (remove echo from speakers)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="denoisingBox">
+            <property name="text">
+             <string>Enable denoising</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="snddefaultButton">
+              <property name="text">
+               <string>&amp;Default</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="eventsTab">
+      <attribute name="title">
+       <string>Sound Events</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string>Sound Events</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>New user</string>
+              </property>
+              <property name="buddy">
+               <cstring>newuserEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="newuserEdit"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>User removed</string>
+              </property>
+              <property name="buddy">
+               <cstring>rmuserEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="rmuserEdit"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Server lost</string>
+              </property>
+              <property name="buddy">
+               <cstring>srvlostEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="srvlostEdit"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>New user message</string>
+              </property>
+              <property name="buddy">
+               <cstring>usermsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="usermsgEdit"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_20">
+              <property name="text">
+               <string>New channel message</string>
+              </property>
+              <property name="buddy">
+               <cstring>chanmsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="chanmsgEdit"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Hotkey pressed</string>
+              </property>
+              <property name="buddy">
+               <cstring>hotkeyEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="hotkeyEdit"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>Channel silent</string>
+              </property>
+              <property name="buddy">
+               <cstring>chansilentEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="chansilentEdit"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_23">
+              <property name="text">
+               <string>Files updated</string>
+              </property>
+              <property name="buddy">
+               <cstring>fileupdEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="fileupdEdit"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>File transfer complete</string>
+              </property>
+              <property name="buddy">
+               <cstring>transferdoneEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="transferdoneEdit"/>
+            </item>
+            <item row="0" column="2">
+             <widget class="QToolButton" name="newuserButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QToolButton" name="rmuserButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QToolButton" name="srvlostButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QToolButton" name="usermsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QToolButton" name="chanmsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QToolButton" name="hotkeyButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="2">
+             <widget class="QToolButton" name="fileupdButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QToolButton" name="chansilentButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="2">
+             <widget class="QToolButton" name="transferdoneButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="text">
+               <string>New video session</string>
+              </property>
+              <property name="buddy">
+               <cstring>videosessionEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="videosessionEdit"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_37">
+              <property name="text">
+               <string>New desktop session</string>
+              </property>
+              <property name="buddy">
+               <cstring>desktopsessionEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="desktopsessionEdit"/>
+            </item>
+            <item row="9" column="2">
+             <widget class="QToolButton" name="videosessionButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="2">
+             <widget class="QToolButton" name="desktopsessionButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="0">
+             <widget class="QLabel" name="label_38">
+              <property name="text">
+               <string>User entered question-mode</string>
+              </property>
+              <property name="buddy">
+               <cstring>questionmodeEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="questionmodeEdit"/>
+            </item>
+            <item row="11" column="2">
+             <widget class="QToolButton" name="questionmodeBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="0">
+             <widget class="QLabel" name="label_40">
+              <property name="text">
+               <string>Desktop access request</string>
+              </property>
+              <property name="buddy">
+               <cstring>desktopaccessEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="1">
+             <widget class="QLineEdit" name="desktopaccessEdit"/>
+            </item>
+            <item row="12" column="2">
+             <widget class="QToolButton" name="desktopaccessBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="shortcutsTab">
+      <attribute name="title">
+       <string>Shortcuts</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="title">
+          <string>Keyboard Shortcuts</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>Enable/disable voice activation</string>
+              </property>
+              <property name="buddy">
+               <cstring>voiceactEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="voiceactEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="voiceactButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>Increase volume</string>
+              </property>
+              <property name="buddy">
+               <cstring>volumeincEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="volumeincEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="volumeincButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_27">
+              <property name="text">
+               <string>Lower volume</string>
+              </property>
+              <property name="buddy">
+               <cstring>volumedecEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="volumedecEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="volumedecButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_28">
+              <property name="text">
+               <string>Enable/disable mute all</string>
+              </property>
+              <property name="buddy">
+               <cstring>muteallEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="muteallEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QPushButton" name="muteallButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
+               <string>Increase microphone gain</string>
+              </property>
+              <property name="buddy">
+               <cstring>voicegainincEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="voicegainincEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QPushButton" name="voicegainincButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_30">
+              <property name="text">
+               <string>Lower microphone gain</string>
+              </property>
+              <property name="buddy">
+               <cstring>voicegaindecEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="voicegaindecEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QPushButton" name="voicegaindecButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Enable/disable video transmission</string>
+              </property>
+              <property name="buddy">
+               <cstring>videotxEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="videotxEdit"/>
+            </item>
+            <item row="6" column="2">
+             <widget class="QPushButton" name="videotxButton">
+              <property name="text">
+               <string>Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="videoTab">
+      <attribute name="title">
+       <string>Video Capture</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_22">
+       <item>
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string>Video Capture Settings</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <layout class="QFormLayout" name="formLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Video Capture Device</string>
+              </property>
+              <property name="buddy">
+               <cstring>vidcapdevicesBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="vidcapdevicesBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Video Resolution</string>
+              </property>
+              <property name="buddy">
+               <cstring>captureformatsBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="captureformatsBox"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_31">
+              <property name="text">
+               <string>Image Format</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="vidrgb32RadioButton">
+              <property name="text">
+               <string>RGB32</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="vidi420RadioButton">
+              <property name="text">
+               <string>I420</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="vidyuy2RadioButton">
+              <property name="text">
+               <string>YUY2</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="vidtestButton">
+              <property name="text">
+               <string>Test Selected</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="vidgroupBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="accessibleName">
+             <string>Video Codec Settings</string>
+            </property>
+            <property name="title">
+             <string>Video Codec Settings</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_14">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_19">
+               <item>
+                <widget class="QLabel" name="label_33">
+                 <property name="text">
+                  <string>Codec</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>vidcodecBox</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="vidcodecBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_21">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QStackedWidget" name="vidcodecStackedWidget">
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <widget class="QWidget" name="vp8_page">
+                <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                   <item>
+                    <widget class="QLabel" name="label_42">
+                     <property name="text">
+                      <string>Bitrate</string>
+                     </property>
+                     <property name="buddy">
+                      <cstring>vp8bitrateSpinBox</cstring>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="vp8bitrateSpinBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimum">
+                      <number>0</number>
+                     </property>
+                     <property name="maximum">
+                      <number>1000</number>
+                     </property>
+                     <property name="value">
+                      <number>0</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_43">
+                     <property name="text">
+                      <string notr="true">kbps</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_22">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>73</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <spacer name="horizontalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="viddefaultButton">
+              <property name="text">
+               <string>&amp;Default</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>nicknameEdit</tabstop>
+  <tabstop>maleRadioButton</tabstop>
+  <tabstop>femaleRadioButton</tabstop>
+  <tabstop>awaySpinBox</tabstop>
+  <tabstop>pttChkBox</tabstop>
+  <tabstop>setupkeysButton</tabstop>
+  <tabstop>voiceactChkBox</tabstop>
+  <tabstop>keycompEdit</tabstop>
+  <tabstop>languageBox</tabstop>
+  <tabstop>startminimizedChkBox</tabstop>
+  <tabstop>trayChkBox</tabstop>
+  <tabstop>alwaysontopChkBox</tabstop>
+  <tabstop>usercountChkBox</tabstop>
+  <tabstop>msgpopupChkBox</tabstop>
+  <tabstop>videodlgChkBox</tabstop>
+  <tabstop>returnvidChkBox</tabstop>
+  <tabstop>desktopdlgChkBox</tabstop>
+  <tabstop>msgtimestampChkBox</tabstop>
+  <tabstop>logstatusbarChkBox</tabstop>
+  <tabstop>updatesChkBox</tabstop>
+  <tabstop>vidtextChkBox</tabstop>
+  <tabstop>vidtextsrcToolBtn</tabstop>
+  <tabstop>maxtextSpinBox</tabstop>
+  <tabstop>autoconnectChkBox</tabstop>
+  <tabstop>reconnectChkBox</tabstop>
+  <tabstop>autojoinChkBox</tabstop>
+  <tabstop>maxpayloadChkBox</tabstop>
+  <tabstop>winfwChkBox</tabstop>
+  <tabstop>subusermsgChkBox</tabstop>
+  <tabstop>subchanmsgChkBox</tabstop>
+  <tabstop>subbcastmsgChkBox</tabstop>
+  <tabstop>submediafileChkBox</tabstop>
+  <tabstop>subvoiceChkBox</tabstop>
+  <tabstop>subvidcapChkBox</tabstop>
+  <tabstop>subdesktopChkBox</tabstop>
+  <tabstop>subdeskinputBtn</tabstop>
+  <tabstop>tcpportSpinBox</tabstop>
+  <tabstop>udpportSpinBox</tabstop>
+  <tabstop>wasapiButton</tabstop>
+  <tabstop>dsoundButton</tabstop>
+  <tabstop>winmmButton</tabstop>
+  <tabstop>alsaButton</tabstop>
+  <tabstop>coreaudioButton</tabstop>
+  <tabstop>inputdevBox</tabstop>
+  <tabstop>refreshinputButton</tabstop>
+  <tabstop>outputdevBox</tabstop>
+  <tabstop>refreshoutputButton</tabstop>
+  <tabstop>sndtestButton</tabstop>
+  <tabstop>sndduplexBox</tabstop>
+  <tabstop>echocancelBox</tabstop>
+  <tabstop>denoisingBox</tabstop>
+  <tabstop>snddefaultButton</tabstop>
+  <tabstop>newuserEdit</tabstop>
+  <tabstop>newuserButton</tabstop>
+  <tabstop>rmuserEdit</tabstop>
+  <tabstop>rmuserButton</tabstop>
+  <tabstop>srvlostEdit</tabstop>
+  <tabstop>srvlostButton</tabstop>
+  <tabstop>usermsgEdit</tabstop>
+  <tabstop>usermsgButton</tabstop>
+  <tabstop>chanmsgEdit</tabstop>
+  <tabstop>chanmsgButton</tabstop>
+  <tabstop>hotkeyEdit</tabstop>
+  <tabstop>hotkeyButton</tabstop>
+  <tabstop>chansilentEdit</tabstop>
+  <tabstop>chansilentButton</tabstop>
+  <tabstop>fileupdEdit</tabstop>
+  <tabstop>fileupdButton</tabstop>
+  <tabstop>transferdoneEdit</tabstop>
+  <tabstop>transferdoneButton</tabstop>
+  <tabstop>videosessionEdit</tabstop>
+  <tabstop>desktopsessionEdit</tabstop>
+  <tabstop>videosessionButton</tabstop>
+  <tabstop>desktopsessionButton</tabstop>
+  <tabstop>questionmodeEdit</tabstop>
+  <tabstop>questionmodeBtn</tabstop>
+  <tabstop>desktopaccessEdit</tabstop>
+  <tabstop>desktopaccessBtn</tabstop>
+  <tabstop>voiceactEdit</tabstop>
+  <tabstop>voiceactButton</tabstop>
+  <tabstop>volumeincEdit</tabstop>
+  <tabstop>volumeincButton</tabstop>
+  <tabstop>volumedecEdit</tabstop>
+  <tabstop>volumedecButton</tabstop>
+  <tabstop>muteallEdit</tabstop>
+  <tabstop>muteallButton</tabstop>
+  <tabstop>voicegainincEdit</tabstop>
+  <tabstop>voicegainincButton</tabstop>
+  <tabstop>voicegaindecEdit</tabstop>
+  <tabstop>voicegaindecButton</tabstop>
+  <tabstop>videotxEdit</tabstop>
+  <tabstop>videotxButton</tabstop>
+  <tabstop>vidcapdevicesBox</tabstop>
+  <tabstop>captureformatsBox</tabstop>
+  <tabstop>vidrgb32RadioButton</tabstop>
+  <tabstop>vidi420RadioButton</tabstop>
+  <tabstop>vidyuy2RadioButton</tabstop>
+  <tabstop>vidtestButton</tabstop>
+  <tabstop>vidcodecBox</tabstop>
+  <tabstop>vp8bitrateSpinBox</tabstop>
+  <tabstop>viddefaultButton</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>PreferencesDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>PreferencesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sndtestButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>refreshinputButton</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sndtestButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>refreshoutputButton</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

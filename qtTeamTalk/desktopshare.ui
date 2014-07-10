@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DesktopShareDlg</class>
+ <widget class="QDialog" name="DesktopShareDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>481</width>
+    <height>277</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Desktop Sharing</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Window to Share</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="desktopRadioBtn">
+        <property name="text">
+         <string>Share entire desktop</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="actwndRadioButton">
+        <property name="text">
+         <string>Share active window</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+        <item>
+         <widget class="QRadioButton" name="specificwndRadioButton">
+          <property name="text">
+           <string>Share specific window</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="windowComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Shared Window Look</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Color mode</string>
+          </property>
+          <property name="buddy">
+           <cstring>rgbComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="rgbComboBox"/>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="updintervakChkBox">
+          <property name="text">
+           <string>Update interval</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="intervalSpinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>50</number>
+          </property>
+          <property name="maximum">
+           <number>60000</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>250</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>msec</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cursorChkBox">
+        <property name="text">
+         <string>Share desktop cursor</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>desktopRadioBtn</tabstop>
+  <tabstop>actwndRadioButton</tabstop>
+  <tabstop>specificwndRadioButton</tabstop>
+  <tabstop>windowComboBox</tabstop>
+  <tabstop>rgbComboBox</tabstop>
+  <tabstop>updintervakChkBox</tabstop>
+  <tabstop>intervalSpinBox</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>DesktopShareDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DesktopShareDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>specificwndRadioButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>windowComboBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>89</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>updintervakChkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>intervalSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>154</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

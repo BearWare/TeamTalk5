@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DesktopAccessDlg</class>
+ <widget class="QDialog" name="DesktopAccessDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>799</width>
+    <height>467</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Safe List For Automatic Desktop Access</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Safe List For Desktop Access</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QListView" name="listView"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="delBtn">
+            <property name="text">
+             <string>&amp;Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Desktop Access Entry</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Host IP-address</string>
+              </property>
+              <property name="buddy">
+               <cstring>hostaddrEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="hostaddrEdit"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>TCP port</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="tcpportSpinBox">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>65535</number>
+              </property>
+              <property name="value">
+               <number>10333</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Enable desktop access to all users in channel</string>
+              </property>
+              <property name="buddy">
+               <cstring>channelsComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="channelsComboBox">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="insertPolicy">
+               <enum>QComboBox::InsertAlphabetically</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="addchanBtn">
+              <property name="text">
+               <string>&amp;Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="delchanBtn">
+              <property name="text">
+               <string>&amp;Remove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,1,0,0">
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Enable desktop access to users with username</string>
+              </property>
+              <property name="buddy">
+               <cstring>usernamesComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="usernamesComboBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="insertPolicy">
+               <enum>QComboBox::InsertAlphabetically</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="adduserBtn">
+              <property name="text">
+               <string>A&amp;dd</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="deluserBtn">
+              <property name="text">
+               <string>R&amp;emove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QPushButton" name="clearBtn">
+              <property name="text">
+               <string>&amp;Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="addBtn">
+              <property name="text">
+               <string>Add to &amp;Safe List</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>listView</tabstop>
+  <tabstop>delBtn</tabstop>
+  <tabstop>hostaddrEdit</tabstop>
+  <tabstop>tcpportSpinBox</tabstop>
+  <tabstop>channelsComboBox</tabstop>
+  <tabstop>addchanBtn</tabstop>
+  <tabstop>delchanBtn</tabstop>
+  <tabstop>usernamesComboBox</tabstop>
+  <tabstop>adduserBtn</tabstop>
+  <tabstop>deluserBtn</tabstop>
+  <tabstop>addBtn</tabstop>
+  <tabstop>clearBtn</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>DesktopAccessDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DesktopAccessDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

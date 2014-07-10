@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserDesktopDlg</class>
+ <widget class="QDialog" name="UserDesktopDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>463</width>
+    <height>337</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Desktop</string>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="UserDesktopWidget" name="userdesktopWidget" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UserDesktopWidget</class>
+   <extends>QWidget</extends>
+   <header>userdesktopwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

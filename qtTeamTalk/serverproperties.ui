@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ServerPropertiesDlg</class>
+ <widget class="QDialog" name="ServerPropertiesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>751</width>
+    <height>674</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Server Properties</string>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Server Properties</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Server name</string>
+          </property>
+          <property name="buddy">
+           <cstring>servernameEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="servernameEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Max users</string>
+          </property>
+          <property name="buddy">
+           <cstring>maxusersSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="maxusersSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Message of the day</string>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+          <property name="buddy">
+           <cstring>motdTextEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPlainTextEdit" name="motdTextEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="motdChkBox">
+          <property name="text">
+           <string>Show variables</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server's time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+          <property name="buddy">
+           <cstring>motdTextEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>TCP port</string>
+          </property>
+          <property name="buddy">
+           <cstring>tcpportSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="tcpportSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>10333</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>UDP port</string>
+          </property>
+          <property name="buddy">
+           <cstring>udpportSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="udpportSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>10333</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>User timeout</string>
+          </property>
+          <property name="buddy">
+           <cstring>usertimeoutSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="usertimeoutSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>99999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="2">
+         <widget class="QCheckBox" name="autosaveBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Auto save server changes</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Server Bandwidth Limitations</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>Video TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>videotxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="videotxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="totaltxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Voice TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>audtxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="audtxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Total TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>totaltxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Desktop TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>desktoptxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="desktoptxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_24">
+          <property name="text">
+           <string>Media File TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>videotxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="mediafiletxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_6">
+       <property name="title">
+        <string>Server Abuse</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_22">
+          <property name="text">
+           <string>Max login attempts before ban</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="maxloginattemptsSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_23">
+          <property name="text">
+           <string>(0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Max logins per IP-address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="maxiploginsSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>(0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>Server Information</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Server version</string>
+          </property>
+          <property name="buddy">
+           <cstring>serverversionEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="serverversionEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>servernameEdit</tabstop>
+  <tabstop>maxusersSpinBox</tabstop>
+  <tabstop>motdTextEdit</tabstop>
+  <tabstop>motdChkBox</tabstop>
+  <tabstop>tcpportSpinBox</tabstop>
+  <tabstop>udpportSpinBox</tabstop>
+  <tabstop>usertimeoutSpinBox</tabstop>
+  <tabstop>autosaveBox</tabstop>
+  <tabstop>serverversionEdit</tabstop>
+  <tabstop>audtxSpinBox</tabstop>
+  <tabstop>videotxSpinBox</tabstop>
+  <tabstop>mediafiletxSpinBox</tabstop>
+  <tabstop>desktoptxSpinBox</tabstop>
+  <tabstop>totaltxSpinBox</tabstop>
+  <tabstop>maxiploginsSpinBox</tabstop>
+  <tabstop>maxloginattemptsSpinBox</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ServerPropertiesDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>637</x>
+     <y>546</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ServerPropertiesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>680</x>
+     <y>546</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

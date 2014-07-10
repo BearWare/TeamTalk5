@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserInfoDlg</class>
+ <widget class="QDialog" name="UserInfoDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>267</width>
+    <height>372</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>User Information</string>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>User ID</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="userid">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Nickname</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="nickname">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Username</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="username">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Status mode</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="statusmode">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>Status message</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="statusmsg">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_15">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string>User type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="usertype">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>IP-address</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="ipaddr">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Version</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="version">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_13">
+     <property name="text">
+      <string>Voice packet loss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="voicepacketloss">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Video frame loss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QLineEdit" name="vidpacketloss">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Audio file packets loss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLineEdit" name="mediaaudpacketloss"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Video file frame loss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QLineEdit" name="mediavidpacketloss"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

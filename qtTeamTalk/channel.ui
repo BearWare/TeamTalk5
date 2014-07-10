@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChannelDlg</class>
+ <widget class="QDialog" name="ChannelDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>801</width>
+    <height>602</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Channel</string>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Channel Information</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Channel path</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="chanpathLabel">
+          <property name="text">
+           <string notr="true">TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Channel name</string>
+          </property>
+          <property name="buddy">
+           <cstring>nameEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="nameEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Topic</string>
+          </property>
+          <property name="buddy">
+           <cstring>topicTextEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPlainTextEdit" name="topicTextEdit">
+          <property name="tabChangesFocus">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Password</string>
+          </property>
+          <property name="buddy">
+           <cstring>chanpasswdEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="chanpasswdEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Operator password</string>
+          </property>
+          <property name="buddy">
+           <cstring>oppasswdEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="oppasswdEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Max users</string>
+          </property>
+          <property name="buddy">
+           <cstring>maxusersSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="maxusersSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>256</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Disk quota (KBytes)</string>
+          </property>
+          <property name="buddy">
+           <cstring>diskquotaSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="diskquotaSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="staticchanBox">
+            <property name="text">
+             <string>Permanent channel (stored on server)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="singletxchanBox">
+            <property name="text">
+             <string>No interruptions (no simultaneous voice transmission)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="classroomchanBox">
+            <property name="text">
+             <string>Classroom (operator-controlled transmissions)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="oprecvonlychanBox">
+            <property name="text">
+             <string>Operator receive only (only operator see and hear users)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="novoiceactBox">
+            <property name="text">
+             <string>No voice activation (only Push-to-Talk allowed)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Audio Codec</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Codec type</string>
+              </property>
+              <property name="buddy">
+               <cstring>audiocodecBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="audiocodecBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QStackedWidget" name="stackedWidget">
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <widget class="QWidget" name="nocodecPage"/>
+            <widget class="QWidget" name="spxPage">
+             <layout class="QFormLayout" name="formLayout_3">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_36">
+                <property name="text">
+                 <string>Sample rate</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
+                <item>
+                 <widget class="QComboBox" name="spx_srateBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_37">
+                  <property name="text">
+                   <string>Hz</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Quality</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spx_qualitySlider</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <item>
+                 <widget class="QSlider" name="spx_qualitySlider">
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>4</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="spxQualityLabel">
+                  <property name="text">
+                   <string notr="true">TextLabel</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Transmit interval</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spx_txdelaySpinBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QSpinBox" name="spx_txdelaySpinBox">
+                  <property name="minimum">
+                   <number>20</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>20</number>
+                  </property>
+                  <property name="value">
+                   <number>40</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_16">
+                  <property name="text">
+                   <string>msec</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="spxvbrPage">
+             <layout class="QFormLayout" name="formLayout_4">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_38">
+                <property name="text">
+                 <string>Sample rate</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <item>
+                 <widget class="QComboBox" name="spxvbr_srateBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_39">
+                  <property name="text">
+                   <string>Hz</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Quality</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spx_qualitySlider</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QSlider" name="spxvbr_qualitySlider">
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>4</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="spxvbr_QualityLabel">
+                  <property name="text">
+                   <string notr="true">TextLabel</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Max bitrate</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spxvbr_maxbpsSpinBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <item>
+                 <widget class="QSpinBox" name="spxvbr_maxbpsSpinBox">
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>44000</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>1000</number>
+                  </property>
+                  <property name="value">
+                   <number>0</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="text">
+                   <string>bps</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="spxvbr_dtxBox">
+                <property name="text">
+                 <string>Ignore silence (DTX)</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>Transmit interval</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spx_txdelaySpinBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
+                <item>
+                 <widget class="QSpinBox" name="spxvbr_txdelaySpinBox">
+                  <property name="minimum">
+                   <number>20</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>20</number>
+                  </property>
+                  <property name="value">
+                   <number>40</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_24">
+                  <property name="text">
+                   <string>msec</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="opusPage">
+             <layout class="QFormLayout" name="formLayout_5">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_47">
+                <property name="text">
+                 <string>Application</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <item>
+                 <widget class="QComboBox" name="opus_appBox"/>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_43">
+                <property name="text">
+                 <string>Sample rate</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <widget class="QComboBox" name="opus_srateBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_40">
+                  <property name="text">
+                   <string>Hz</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_46">
+                <property name="text">
+                 <string>Audio channels</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <item>
+                 <widget class="QComboBox" name="opus_channelsBox"/>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_45">
+                <property name="text">
+                 <string>Bitrate</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_29">
+                <item>
+                 <widget class="QSpinBox" name="opus_bpsSpinBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_42">
+                  <property name="text">
+                   <string>Kbps</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_14">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <widget class="QCheckBox" name="opus_dtxBox">
+                <property name="text">
+                 <string>Ignore silence (DTX)</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_44">
+                <property name="text">
+                 <string>Transmit interval</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_28">
+                <item>
+                 <widget class="QSpinBox" name="opus_txdelaySpinBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_41">
+                  <property name="text">
+                   <string>msec</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_13">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Audio Configuration</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QCheckBox" name="agcBox">
+            <property name="toolTip">
+             <string>Ensure all users in the channel have the same audio volume</string>
+            </property>
+            <property name="text">
+             <string>Enable fixed audio volume for all users</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Volume level</string>
+              </property>
+              <property name="buddy">
+               <cstring>gainlevelSlider</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="gainlevelSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>32</number>
+              </property>
+              <property name="value">
+               <number>8</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="gainlevelLabel">
+              <property name="text">
+               <string notr="true">TextLabel</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>topicTextEdit</tabstop>
+  <tabstop>chanpasswdEdit</tabstop>
+  <tabstop>oppasswdEdit</tabstop>
+  <tabstop>maxusersSpinBox</tabstop>
+  <tabstop>diskquotaSpinBox</tabstop>
+  <tabstop>staticchanBox</tabstop>
+  <tabstop>singletxchanBox</tabstop>
+  <tabstop>classroomchanBox</tabstop>
+  <tabstop>oprecvonlychanBox</tabstop>
+  <tabstop>novoiceactBox</tabstop>
+  <tabstop>audiocodecBox</tabstop>
+  <tabstop>spx_srateBox</tabstop>
+  <tabstop>spx_qualitySlider</tabstop>
+  <tabstop>spx_txdelaySpinBox</tabstop>
+  <tabstop>spxvbr_srateBox</tabstop>
+  <tabstop>spxvbr_qualitySlider</tabstop>
+  <tabstop>spxvbr_maxbpsSpinBox</tabstop>
+  <tabstop>spxvbr_dtxBox</tabstop>
+  <tabstop>spxvbr_txdelaySpinBox</tabstop>
+  <tabstop>opus_appBox</tabstop>
+  <tabstop>opus_srateBox</tabstop>
+  <tabstop>opus_channelsBox</tabstop>
+  <tabstop>opus_bpsSpinBox</tabstop>
+  <tabstop>opus_dtxBox</tabstop>
+  <tabstop>opus_txdelaySpinBox</tabstop>
+  <tabstop>agcBox</tabstop>
+  <tabstop>gainlevelSlider</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ChannelDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ChannelDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>326</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

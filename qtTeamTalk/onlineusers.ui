@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OnlineUsersDlg</class>
+ <widget class="QDialog" name="OnlineUsersDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>588</width>
+    <height>617</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Online Users</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Users Currently on Server</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTreeView" name="treeView">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="indentation">
+         <number>0</number>
+        </property>
+        <property name="rootIsDecorated">
+         <bool>false</bool>
+        </property>
+        <property name="itemsExpandable">
+         <bool>false</bool>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserAccountsDlg</class>
+ <widget class="QDialog" name="UserAccountsDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>878</width>
+    <height>612</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>User Accounts</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Active Users</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QTreeView" name="usersTreeView">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="dragDropOverwriteMode">
+          <bool>false</bool>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="delButton">
+           <property name="text">
+            <string>&amp;Delete</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Modify User Account</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <layout class="QFormLayout" name="formLayout_2">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Username</string>
+             </property>
+             <property name="buddy">
+              <cstring>usernameEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="usernameEdit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Password</string>
+             </property>
+             <property name="buddy">
+              <cstring>passwordEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="passwordEdit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Note</string>
+             </property>
+             <property name="buddy">
+              <cstring>noteEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPlainTextEdit" name="noteEdit"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Initial Channel</string>
+             </property>
+             <property name="buddy">
+              <cstring>channelComboBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="channelComboBox">
+             <property name="toolTip">
+              <string>User should automatically join this channel after login</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>User type</string>
+             </property>
+             <property name="buddy">
+              <cstring>defaultuserBtn</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QRadioButton" name="adminBtn">
+               <property name="text">
+                <string>Administrator</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="defaultuserBtn">
+               <property name="text">
+                <string>Default user</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="accessibleName">
+              <string>Auto-Operator Channels</string>
+             </property>
+             <property name="title">
+              <string>Auto-Operator Channels</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Selected Channels</string>
+                </property>
+                <property name="buddy">
+                 <cstring>opchannelsListWidget</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QListWidget" name="opchannelsListWidget">
+                <property name="toolTip">
+                 <string>User will automatically become operator when joining these channels</string>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+                <property name="uniformItemSizes">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Available Channels</string>
+                </property>
+                <property name="buddy">
+                 <cstring>opchanComboBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0">
+                <item>
+                 <widget class="QComboBox" name="opchanComboBox">
+                  <property name="editable">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="addopBtn">
+                  <property name="text">
+                   <string>Add</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="rmopBtn">
+                  <property name="text">
+                   <string>Remove</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>Audio Codec Limitations</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Max bitrate for audio codecs</string>
+                </property>
+                <property name="buddy">
+                 <cstring>audmaxbpsSpinBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="audmaxbpsSpinBox">
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+                <property name="maximum">
+                 <number>2048</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>kbps (0 = disabled)</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>User Rights</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="multiloginBox">
+            <property name="text">
+             <string>User can log in multiple times</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="uploadfilesBox">
+            <property name="text">
+             <string>User can upload files</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="viewallusersBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>User can see users in all channels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="downloadfilesBox">
+            <property name="text">
+             <string>User can download files</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="permchannelsBox">
+            <property name="text">
+             <string>User can create/modify all channels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="srvpropBox">
+            <property name="text">
+             <string>User can update server properties</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="tempchannelsBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>User can create temporary channels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="transmitvoiceBox">
+            <property name="text">
+             <string>User can transmit voice data (microphone)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="clientbroadcastBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>User can broadcast text messages</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="transmitvideoBox">
+            <property name="text">
+             <string>User can transmit video data (webcam)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="kickusersBox">
+            <property name="text">
+             <string>User can kick users off the server</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QCheckBox" name="transmitaudiofileBox">
+            <property name="text">
+             <string>User can transmit audio files (wav, mp3 files)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="banusersBox">
+            <property name="text">
+             <string>User can ban users from logging in</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QCheckBox" name="transmitvideofileBox">
+            <property name="text">
+             <string>User can transmit video files (avi, mp4 files)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QCheckBox" name="moveusersBox">
+            <property name="text">
+             <string>User can move users between channels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QCheckBox" name="transmitdesktopBox">
+            <property name="text">
+             <string>User can transmit desktop sessions (shared desktop)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QCheckBox" name="chanopBox">
+            <property name="text">
+             <string>User can make other users channel operator</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QCheckBox" name="transmitdesktopaccessBox">
+            <property name="text">
+             <string>User can get remote access to desktop sessions</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="newButton">
+           <property name="text">
+            <string>&amp;Clear</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addButton">
+           <property name="text">
+            <string>&amp;Add/Update</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>236</width>
+           <height>1</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeBtn">
+       <property name="text">
+        <string>C&amp;lose</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>usersTreeView</tabstop>
+  <tabstop>delButton</tabstop>
+  <tabstop>usernameEdit</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>noteEdit</tabstop>
+  <tabstop>channelComboBox</tabstop>
+  <tabstop>defaultuserBtn</tabstop>
+  <tabstop>opchannelsListWidget</tabstop>
+  <tabstop>opchanComboBox</tabstop>
+  <tabstop>addopBtn</tabstop>
+  <tabstop>rmopBtn</tabstop>
+  <tabstop>multiloginBox</tabstop>
+  <tabstop>viewallusersBox</tabstop>
+  <tabstop>permchannelsBox</tabstop>
+  <tabstop>tempchannelsBox</tabstop>
+  <tabstop>clientbroadcastBox</tabstop>
+  <tabstop>kickusersBox</tabstop>
+  <tabstop>banusersBox</tabstop>
+  <tabstop>moveusersBox</tabstop>
+  <tabstop>chanopBox</tabstop>
+  <tabstop>uploadfilesBox</tabstop>
+  <tabstop>downloadfilesBox</tabstop>
+  <tabstop>srvpropBox</tabstop>
+  <tabstop>transmitvoiceBox</tabstop>
+  <tabstop>transmitvideoBox</tabstop>
+  <tabstop>transmitaudiofileBox</tabstop>
+  <tabstop>transmitvideofileBox</tabstop>
+  <tabstop>transmitdesktopBox</tabstop>
+  <tabstop>transmitdesktopaccessBox</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>newButton</tabstop>
+  <tabstop>closeBtn</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

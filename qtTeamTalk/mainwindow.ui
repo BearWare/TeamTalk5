@@ -1,0 +1,1844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>637</width>
+    <height>545</height>
+   </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
+  <property name="windowTitle">
+   <string notr="true"/>
+  </property>
+  <property name="locale">
+   <locale language="C" country="AnyCountry"/>
+  </property>
+  <property name="animated">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="ChannelsTree" name="channelsWidget">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="showDropIndicator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="rootIsDecorated">
+           <bool>false</bool>
+          </property>
+          <property name="uniformRowHeights">
+           <bool>true</bool>
+          </property>
+          <property name="animated">
+           <bool>false</bool>
+          </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
+          <property name="columnCount">
+           <number>5</number>
+          </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>50</number>
+          </attribute>
+          <attribute name="headerMinimumSectionSize">
+           <number>5</number>
+          </attribute>
+          <attribute name="headerStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">2</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">3</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">4</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">5</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,1">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Master volume</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/images/images/speaker.png</pixmap>
+            </property>
+            <property name="buddy">
+             <cstring>volumeSlider</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSlider" name="volumeSlider">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Master volume</string>
+            </property>
+            <property name="maximum">
+             <number>255</number>
+            </property>
+            <property name="singleStep">
+             <number>5</number>
+            </property>
+            <property name="pageStep">
+             <number>15</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>Voice level</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/images/images/vumeter.png</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QProgressBar" name="voiceactBar">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Voice level</string>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="format">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>Microphone gain</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/images/images/mike.png</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>micSlider</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSlider" name="micSlider">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Microphone gain</string>
+            </property>
+            <property name="maximum">
+             <number>8000</number>
+            </property>
+            <property name="singleStep">
+             <number>100</number>
+            </property>
+            <property name="pageStep">
+             <number>1000</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>Voice activation level</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/images/images/voiceact.png</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>voiceactSlider</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QSlider" name="voiceactSlider">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Voice activation level</string>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="chatTab">
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>Chat</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="margin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="ChatTextEdit" name="chatEdit">
+           <property name="mouseTracking">
+            <bool>false</bool>
+           </property>
+           <property name="tabChangesFocus">
+            <bool>true</bool>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+           <item>
+            <widget class="ChatLineEdit" name="msgEdit"/>
+           </item>
+           <item>
+            <widget class="QToolButton" name="sendButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Send text message</string>
+             </property>
+             <property name="text">
+              <string>Sen&amp;d</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="videoTab">
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>&amp;Video</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="margin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="VideoGridWidget" name="videogridWidget" native="true"/>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QToolButton" name="detachVideoButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Detach User Video</string>
+             </property>
+             <property name="text">
+              <string>Detach User Video</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/detach.png</normaloff>:/images/images/detach.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="addVideoButton">
+             <property name="toolTip">
+              <string>Add User to Video Grid</string>
+             </property>
+             <property name="text">
+              <string>Add User to Video Grid</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="removeVideoButton">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="toolTip">
+              <string>Remove User From Video Grid</string>
+             </property>
+             <property name="text">
+              <string>Remove User From Video Grid</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/minus.png</normaloff>:/images/images/minus.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="initVideoButton">
+             <property name="toolTip">
+              <string>Start/Stop Webcam</string>
+             </property>
+             <property name="text">
+              <string notr="true">Start/Stop Webcam</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/webcam_start.png</normaloff>
+               <normalon>:/images/images/webcam_stop.png</normalon>:/images/images/webcam_start.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="desktopTab">
+        <attribute name="title">
+         <string>Desktops</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="margin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QSplitter" name="desktopsplitter">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="handleWidth">
+            <number>5</number>
+           </property>
+           <widget class="QWidget" name="layoutWidget_1">
+            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0">
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <item>
+              <widget class="DesktopGridWidget" name="desktopgridWidget" native="true"/>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="detachDesktopButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Detach selected window</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/detach.png</normaloff>:/images/images/detach.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="addDesktopButton">
+                 <property name="toolTip">
+                  <string>Put back removed window</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="removeDesktopButton">
+                 <property name="toolTip">
+                  <string>Remove selected window</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/minus.png</normaloff>:/images/images/minus.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="desktopaccessButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Request desktop access</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/chalkstick.png</normaloff>:/images/images/chalkstick.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QStackedWidget" name="desktopstackedWidget">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="page">
+             <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,0">
+              <property name="margin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="ChatTextEdit" name="desktopchatEdit"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="ChatLineEdit" name="desktopmsgEdit"/>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="desktopsendButton">
+                  <property name="text">
+                   <string>Sen&amp;d</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="page_2"/>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="filesTab">
+        <attribute name="title">
+         <string>Files</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="margin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="channelLabel">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="FilesView" name="filesView">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DropOnly</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="indentation">
+            <number>0</number>
+           </property>
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <property name="itemsExpandable">
+            <bool>false</bool>
+           </property>
+           <property name="expandsOnDoubleClick">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QToolButton" name="uploadButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Upload</string>
+             </property>
+             <property name="text">
+              <string>Upload</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/upload.png</normaloff>:/images/images/upload.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="downloadButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Download</string>
+             </property>
+             <property name="text">
+              <string>Download</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/download.png</normaloff>:/images/images/download.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="deleteButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Delete</string>
+             </property>
+             <property name="text">
+              <string>Delete</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/delete.png</normaloff>:/images/images/delete.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>637</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuClient">
+    <property name="title">
+     <string>C&amp;lient</string>
+    </property>
+    <addaction name="actionNewClient"/>
+    <addaction name="separator"/>
+    <addaction name="actionConnect"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuMe">
+    <property name="title">
+     <string>&amp;Me</string>
+    </property>
+    <addaction name="actionChangeNickname"/>
+    <addaction name="actionChangeStatus"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnablePushToTalk"/>
+    <addaction name="actionEnableVoiceActivation"/>
+    <addaction name="actionEnableVideoTransmission"/>
+    <addaction name="actionEnableDesktopSharing"/>
+   </widget>
+   <widget class="QMenu" name="menuUsers">
+    <property name="title">
+     <string>&amp;Users</string>
+    </property>
+    <widget class="QMenu" name="menuSubscriptions">
+     <property name="title">
+      <string>&amp;Subscriptions</string>
+     </property>
+     <addaction name="actionUserMessages"/>
+     <addaction name="actionChannelMessages"/>
+     <addaction name="actionBroadcastMessages"/>
+     <addaction name="actionVoice"/>
+     <addaction name="actionVideo"/>
+     <addaction name="actionDesktop"/>
+     <addaction name="actionDesktopInput"/>
+     <addaction name="actionMediaFile"/>
+     <addaction name="separator"/>
+     <addaction name="actionInterceptUserMessages"/>
+     <addaction name="actionInterceptChannelMessages"/>
+     <addaction name="actionInterceptVoice"/>
+     <addaction name="actionInterceptVideo"/>
+     <addaction name="actionInterceptDesktop"/>
+     <addaction name="actionInterceptMediaFile"/>
+    </widget>
+    <widget class="QMenu" name="menu_Advanced">
+     <property name="title">
+      <string>&amp;Advanced</string>
+     </property>
+     <addaction name="actionIncreaseVoiceVolume"/>
+     <addaction name="actionLowerVoiceVolume"/>
+     <addaction name="actionIncreaseMediaFileVolume"/>
+     <addaction name="actionLowerMediaFileVolume"/>
+     <addaction name="separator"/>
+     <addaction name="actionStoreForMove"/>
+     <addaction name="actionMoveUser"/>
+     <addaction name="separator"/>
+     <addaction name="actionAllowVoiceTransmission"/>
+     <addaction name="actionAllowVideoTransmission"/>
+     <addaction name="actionAllowDesktopTransmission"/>
+     <addaction name="actionAllowMediaFileTransmission"/>
+    </widget>
+    <widget class="QMenu" name="menuMute">
+     <property name="title">
+      <string>&amp;Mute</string>
+     </property>
+     <addaction name="actionMuteVoice"/>
+     <addaction name="actionMuteMediaFile"/>
+    </widget>
+    <widget class="QMenu" name="menu_Kick">
+     <property name="title">
+      <string>&amp;Kick</string>
+     </property>
+     <addaction name="actionKickFromChannel"/>
+     <addaction name="actionKickFromServer"/>
+     <addaction name="actionKickBan"/>
+    </widget>
+    <addaction name="actionViewUserInformation"/>
+    <addaction name="actionMessages"/>
+    <addaction name="actionDesktopAccessAllow"/>
+    <addaction name="actionOp"/>
+    <addaction name="actionVolume"/>
+    <addaction name="menuMute"/>
+    <addaction name="menu_Kick"/>
+    <addaction name="menuSubscriptions"/>
+    <addaction name="menu_Advanced"/>
+    <addaction name="separator"/>
+    <addaction name="actionMuteAll"/>
+    <addaction name="actionSpecifyAudioFolder"/>
+   </widget>
+   <widget class="QMenu" name="menuChannels">
+    <property name="title">
+     <string>&amp;Channels</string>
+    </property>
+    <addaction name="actionJoinChannel"/>
+    <addaction name="actionViewChannelInfo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreateChannel"/>
+    <addaction name="actionUpdateChannel"/>
+    <addaction name="actionDeleteChannel"/>
+    <addaction name="separator"/>
+    <addaction name="actionStreamMediaFileToChannel"/>
+    <addaction name="separator"/>
+    <addaction name="actionUploadFile"/>
+    <addaction name="actionDownloadFile"/>
+    <addaction name="actionDeleteFile"/>
+   </widget>
+   <widget class="QMenu" name="menuServer">
+    <property name="title">
+     <string>&amp;Server</string>
+    </property>
+    <addaction name="actionUserAccounts"/>
+    <addaction name="actionBannedUsers"/>
+    <addaction name="actionOnlineUsers"/>
+    <addaction name="separator"/>
+    <addaction name="actionBroadcastMessage"/>
+    <addaction name="separator"/>
+    <addaction name="actionServerProperties"/>
+    <addaction name="actionSaveConfiguration"/>
+    <addaction name="separator"/>
+    <addaction name="actionServerStatistics"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionManual"/>
+    <addaction name="actionVisitBearWare"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuClient"/>
+   <addaction name="menuMe"/>
+   <addaction name="menuUsers"/>
+   <addaction name="menuChannels"/>
+   <addaction name="menuServer"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string notr="true">toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConnect"/>
+   <addaction name="separator"/>
+   <addaction name="actionEnablePushToTalk"/>
+   <addaction name="actionEnableVoiceActivation"/>
+   <addaction name="actionEnableVideoTransmission"/>
+   <addaction name="actionEnableDesktopSharing"/>
+   <addaction name="actionStreamMediaFileToChannel"/>
+   <addaction name="separator"/>
+   <addaction name="actionMuteAll"/>
+   <addaction name="actionEnableStoreAudioToDisk"/>
+   <addaction name="separator"/>
+   <addaction name="actionEnableQuestionMode"/>
+  </widget>
+  <action name="actionServerList">
+   <property name="text">
+    <string>&amp;Server List</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="actionConnect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/connect.png</normaloff>:/images/images/connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Connect</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>&amp;Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F4</string>
+   </property>
+  </action>
+  <action name="actionEnablePushToTalk">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/hotkey.png</normaloff>:/images/images/hotkey.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable &amp;Push To Talk</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionManual">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Manual</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionServerProperties">
+   <property name="text">
+    <string>Server &amp;Properties</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="actionCreateChannel">
+   <property name="text">
+    <string>&amp;Create Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
+  </action>
+  <action name="actionUpdateChannel">
+   <property name="text">
+    <string>&amp;Update Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F7</string>
+   </property>
+  </action>
+  <action name="actionDeleteChannel">
+   <property name="text">
+    <string>&amp;Delete Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+  </action>
+  <action name="actionJoinChannel">
+   <property name="text">
+    <string>&amp;Join Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+J</string>
+   </property>
+  </action>
+  <action name="actionEnableVoiceActivation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/voiceact.png</normaloff>:/images/images/voiceact.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable Voice &amp;Activation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="actionChangeNickname">
+   <property name="text">
+    <string>Change &amp;Nickname</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionChangeStatus">
+   <property name="text">
+    <string>Change &amp;Status</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="actionViewUserInformation">
+   <property name="text">
+    <string>&amp;View User Information</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionMuteAll">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/muteall.png</normaloff>:/images/images/muteall.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mute &amp;All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionUploadFile">
+   <property name="text">
+    <string>Up&amp;load File</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
+   </property>
+  </action>
+  <action name="actionDownloadFile">
+   <property name="text">
+    <string>D&amp;ownload File</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F6</string>
+   </property>
+  </action>
+  <action name="actionDeleteFile">
+   <property name="text">
+    <string>Dele&amp;te File</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Del</string>
+   </property>
+  </action>
+  <action name="actionBannedUsers">
+   <property name="text">
+    <string>&amp;Banned Users</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+B</string>
+   </property>
+  </action>
+  <action name="actionUserAccounts">
+   <property name="text">
+    <string>&amp;User Accounts</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+L</string>
+   </property>
+  </action>
+  <action name="actionSaveConfiguration">
+   <property name="text">
+    <string>&amp;Save Configuration</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionViewChannelInfo">
+   <property name="text">
+    <string>&amp;View Channel Info</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F3</string>
+   </property>
+  </action>
+  <action name="actionMessages">
+   <property name="text">
+    <string>M&amp;essages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionKickBan">
+   <property name="text">
+    <string>Kick and &amp;Ban From Server</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+K</string>
+   </property>
+  </action>
+  <action name="actionOp">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/op.png</normaloff>:/images/images/op.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Op</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionVolume">
+   <property name="text">
+    <string>&amp;Volume</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionVoice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/voiceact.png</normaloff>:/images/images/voiceact.png</iconset>
+   </property>
+   <property name="text">
+    <string>V&amp;oice</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionUserMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/msg.png</normaloff>:/images/images/msg.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;User Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionChannelMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Channel Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionVideo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/webcam.png</normaloff>:/images/images/webcam.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Video</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actionBroadcastMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Broadcast Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+  </action>
+  <action name="actionEnableVideoTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/webcam.png</normaloff>:/images/images/webcam.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable &amp;Video Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+V</string>
+   </property>
+  </action>
+  <action name="actionStreamAudioFileToChannel">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Stream Audio File to Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionStreamAudioFileToUser">
+   <property name="text">
+    <string>Stream Audio &amp;File to User</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+  <action name="actionSpecifyAudioFolder">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/record.png</normaloff>:/images/images/record.png</iconset>
+   </property>
+   <property name="text">
+    <string>Store &amp;Audio to Disk</string>
+   </property>
+   <property name="toolTip">
+    <string>Specify a folder where audio from users will be stored</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+A</string>
+   </property>
+  </action>
+  <action name="actionInterceptUserMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/msg.png</normaloff>:/images/images/msg.png</iconset>
+   </property>
+   <property name="text">
+    <string>Intercept User Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+1</string>
+   </property>
+  </action>
+  <action name="actionInterceptChannelMessages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Intercept Channel Messages</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+2</string>
+   </property>
+  </action>
+  <action name="actionInterceptVoice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/voiceact.png</normaloff>:/images/images/voiceact.png</iconset>
+   </property>
+   <property name="text">
+    <string>Intercept Audio</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+4</string>
+   </property>
+  </action>
+  <action name="actionInterceptVideo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/webcam.png</normaloff>:/images/images/webcam.png</iconset>
+   </property>
+   <property name="text">
+    <string>Intercept Video</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+5</string>
+   </property>
+  </action>
+  <action name="actionBroadcastMessage">
+   <property name="text">
+    <string>&amp;Broadcast Message</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+B</string>
+   </property>
+  </action>
+  <action name="actionIncreaseVoiceVolume">
+   <property name="text">
+    <string>&amp;Increase Voice Volume (+10)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Right</string>
+   </property>
+  </action>
+  <action name="actionLowerVoiceVolume">
+   <property name="text">
+    <string>&amp;Lower Voice Volume (-10)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Left</string>
+   </property>
+  </action>
+  <action name="actionStoreForMove">
+   <property name="text">
+    <string>&amp;Store User(s) for Move</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+X</string>
+   </property>
+  </action>
+  <action name="actionMoveUser">
+   <property name="text">
+    <string>&amp;Move User(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+V</string>
+   </property>
+  </action>
+  <action name="actionVisitBearWare">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/teamtalk.png</normaloff>:/images/images/teamtalk.png</iconset>
+   </property>
+   <property name="text">
+    <string notr="true">&amp;BearWare.dk Website</string>
+   </property>
+  </action>
+  <action name="actionAllowVoiceTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow V&amp;oice Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Q</string>
+   </property>
+  </action>
+  <action name="actionAllowVideoTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow Video Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+W</string>
+   </property>
+  </action>
+  <action name="actionServerStatistics">
+   <property name="text">
+    <string>Server S&amp;tatistics</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F9</string>
+   </property>
+  </action>
+  <action name="actionNewClient">
+   <property name="text">
+    <string>&amp;New Client Instance</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOnlineUsers">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Online Users</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+U</string>
+   </property>
+  </action>
+  <action name="actionEnableStoreAudioToDisk">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/record.png</normaloff>:/images/images/record.png</iconset>
+   </property>
+   <property name="text">
+    <string>Store Audio to Disk</string>
+   </property>
+   <property name="toolTip">
+    <string>Start/stop recording audio to files</string>
+   </property>
+  </action>
+  <action name="actionEnableQuestionMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/hand.png</normaloff>:/images/images/hand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable Question Mode</string>
+   </property>
+   <property name="toolTip">
+    <string>Show blinking icon</string>
+   </property>
+  </action>
+  <action name="actionEnableDesktopSharing">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/desktoptx.png</normaloff>:/images/images/desktoptx.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable Desktop Sharing</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
+   </property>
+  </action>
+  <action name="actionAllowDesktopTransmission">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Allow Desktop Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+E</string>
+   </property>
+  </action>
+  <action name="actionDesktop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/desktoptx.png</normaloff>:/images/images/desktoptx.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Desktop</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
+   </property>
+  </action>
+  <action name="actionInterceptDesktop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/desktoptx.png</normaloff>:/images/images/desktoptx.png</iconset>
+   </property>
+   <property name="text">
+    <string>Intercept Desktop</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+6</string>
+   </property>
+  </action>
+  <action name="actionStreamMediaFileToChannel">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/streammedia.png</normaloff>:/images/images/streammedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stream &amp;Media File to Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionDesktopInput">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/chalkstick.png</normaloff>:/images/images/chalkstick.png</iconset>
+   </property>
+   <property name="text">
+    <string>Desktop Acce&amp;ss</string>
+   </property>
+  </action>
+  <action name="actionDesktopAccessAllow">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/chalkstick.png</normaloff>:/images/images/chalkstick.png</iconset>
+   </property>
+   <property name="text">
+    <string>Allow Desktop Access</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
+   </property>
+  </action>
+  <action name="actionDesktopAccessDeny">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Deny</string>
+   </property>
+  </action>
+  <action name="actionMediaFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/streammedia.png</normaloff>:/images/images/streammedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Media File Stream</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+8</string>
+   </property>
+  </action>
+  <action name="actionInterceptMediaFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/streammedia.png</normaloff>:/images/images/streammedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Intercept Media File Stream</string>
+   </property>
+  </action>
+  <action name="actionAllowMediaFileTransmission">
+   <property name="text">
+    <string>Allow Media File Transmission</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+R</string>
+   </property>
+  </action>
+  <action name="actionMuteVoice">
+   <property name="text">
+    <string>Mu&amp;te Voice</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+M</string>
+   </property>
+  </action>
+  <action name="actionMuteMediaFile">
+   <property name="text">
+    <string>Mute Media File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Μ</string>
+   </property>
+  </action>
+  <action name="actionKickFromChannel">
+   <property name="text">
+    <string>Kick From Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="actionKickFromServer">
+   <property name="text">
+    <string>Kick From Server</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+K</string>
+   </property>
+  </action>
+  <action name="actionIncreaseMediaFileVolume">
+   <property name="text">
+    <string>Increase Media File Volume (+10)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Right</string>
+   </property>
+  </action>
+  <action name="actionLowerMediaFileVolume">
+   <property name="text">
+    <string>Lower Media File Volume (-10)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Left</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ChatTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>chattextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ChannelsTree</class>
+   <extends>QTreeWidget</extends>
+   <header>channelstree.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VideoGridWidget</class>
+   <extends>QWidget</extends>
+   <header>videogridwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChatLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>chatlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FilesView</class>
+   <extends>QTreeView</extends>
+   <header>filesview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DesktopGridWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">desktopgridwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>channelsWidget</tabstop>
+  <tabstop>volumeSlider</tabstop>
+  <tabstop>micSlider</tabstop>
+  <tabstop>voiceactSlider</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>chatEdit</tabstop>
+  <tabstop>msgEdit</tabstop>
+  <tabstop>sendButton</tabstop>
+  <tabstop>detachVideoButton</tabstop>
+  <tabstop>addVideoButton</tabstop>
+  <tabstop>removeVideoButton</tabstop>
+  <tabstop>initVideoButton</tabstop>
+  <tabstop>detachDesktopButton</tabstop>
+  <tabstop>addDesktopButton</tabstop>
+  <tabstop>removeDesktopButton</tabstop>
+  <tabstop>desktopaccessButton</tabstop>
+  <tabstop>filesView</tabstop>
+  <tabstop>uploadButton</tabstop>
+  <tabstop>downloadButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>desktopchatEdit</tabstop>
+  <tabstop>desktopmsgEdit</tabstop>
+  <tabstop>desktopsendButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
