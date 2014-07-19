@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="TeamTalk 5 Server Properties" >
+
+    <PreferenceCategory
+        android:key="srv_info"
+        android:title="Server Information">
+        <EditTextPreference
+            android:key="servername"
+            android:summary="This server will appear with this name in the Server List"
+            android:title="Server Name"
+            android:persistent="false" />
+        <EditTextPreference
+            android:key="ipaddr"
+            android:summary="The IP-address of the server"
+            android:title="IP-address"
+            android:persistent="false" />
+        <EditTextPreference
+            android:defaultValue="10333"
+            android:key="tcpport"
+            android:maxLength="5"
+            android:numeric="integer"
+            android:title="TCP Port"
+            android:persistent="false" />
+        <EditTextPreference
+            android:defaultValue="10333"
+            android:key="udpport"
+            android:maxLength="5"
+            android:numeric="integer"
+            android:title="UDP Port"
+            android:persistent="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="auth_info"
+        android:title="Authentication" android:persistent="false">
+        <EditTextPreference
+            android:key="username"
+            android:title="Username"
+            android:persistent="false" />
+        <EditTextPreference
+            android:key="password"
+            android:title="Password"
+            android:persistent="false" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="join_info"
+        android:title="Join Channel" android:persistent="false">
+        <EditTextPreference
+            android:defaultValue="/"
+            android:key="channel"
+            android:title="Channel"
+            android:persistent="false" />
+        <EditTextPreference
+            android:key="chanpasswd"
+            android:title="Channel Password"
+            android:persistent="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

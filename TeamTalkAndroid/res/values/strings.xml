@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TeamTalk 5</string>
+    <string name="title_activity_server_list">TeamTalk 5 Servers</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_transmit">Transmit</string>
+    <string name="title_activity_server_entry">TeamTalk 5 Server Properties</string>
+    <string name="title_activity_main">TeamTalk 5 for Android</string>
+    <string name="title_section1">Channels</string>
+    <string name="title_section2">Chat</string>
+    <string name="title_section3">Video</string>
+    <string name="title_activity_channel_prop">Channel Properties</string>
+    <string name="title_activity_user_prop">User Properties</string>
+
+</resources>

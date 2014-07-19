@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dk.bearware.gui"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <application android:label="@string/app_name" android:icon="@drawable/teamtalk">
+        <activity
+            android:name="dk.bearware.gui.ServerListActivity"
+            android:label="@string/title_activity_server_list"
+            android:icon="@drawable/teamtalk"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="dk.bearware.gui.ServerEntryActivity"
+            android:label="@string/title_activity_server_entry" >
+        </activity>
+        <activity
+            android:name="dk.bearware.gui.MainActivity"
+            android:label="@string/title_activity_main">
+        </activity>
+        <activity
+            android:name="dk.bearware.gui.ChannelPropActivity"
+            android:label="@string/title_activity_channel_prop" >
+        </activity>
+
+        <service android:name="dk.bearware.backend.TeamTalkService" />
+
+        <activity
+            android:name="dk.bearware.gui.UserPropActivity"
+            android:label="@string/title_activity_user_prop" >
+        </activity>
+    </application>
+
+    <uses-sdk android:minSdkVersion="14" />
+
+    <!-- RECORD_AUDIO is needed to create an audio recorder -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" >
+    </uses-permission>
+
+    <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" >
+    </uses-permission>
+
+    <!-- INTERNET is needed to use a URI-based audio player, depending on the URI -->
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
+</manifest>
