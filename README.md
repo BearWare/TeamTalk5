@@ -12,7 +12,7 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
   * TeamTalk 5 Android client application written in Java
   * Requires **TeamTalkJNI** project as library dependency
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-  * Copy the following files to **TeamTalkAndroid/libs** directory:
+  * Copy the following files to *TeamTalkAndroid/libs* directory:
     * android-support-v4.jar
       * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
     * gson-2.2.4.jar
@@ -23,7 +23,7 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
 * **TeamTalkJNI**
   * TeamTalk 5 JNI project with Java wrapper classes
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-  * Requires ARM-v7a JNI shared object in sub-folder TeamTalkJNI/libs/armeabi-v7a
+  * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
     * Download: [libTeamTalk5-jni.so](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/android/TeamTalk5JNI.tgz)
 * **TeamTalk_DLL**
   * TeamTalk 5 C-API DLL project 
