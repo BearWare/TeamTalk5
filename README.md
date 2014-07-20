@@ -25,6 +25,10 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
     * Download: [libTeamTalk5-jni.so](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/android/TeamTalk5JNI.tgz)
+  * The following features are currently *not* supported in the JNI API:
+    * Desktop sharing
+    * Video capture (webcam)
+    * Media file streaming
 * **TeamTalk_DLL**
   * TeamTalk 5 C-API DLL project 
   * C-API header file for TeamTalk 5 DLL
