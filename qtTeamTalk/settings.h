@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2005-2013, BearWare.dk
+ * Copyright (c) 2005-2014, BearWare.dk
  * 
  * Contact Information:
  *
  * Bjoern D. Rasmussen
- * Bedelundvej 79
- * DK-9830 Taars
+ * Skanderborgvej 40 4-2
+ * DK-8000 Aarhus C
  * Denmark
  * Email: contact@bearware.dk
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -87,8 +87,9 @@
 #define SETTINGS_SOUND_MICROPHONEGAIN               "soundsystem/microphonegain"
 #define SETTINGS_SOUND_VOICEACTIVATIONLEVEL         "soundsystem/voice-activation-level"
 #define SETTINGS_SOUND_ECHOCANCEL                   "soundsystem/echocancellation"
-#define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
 #define SETTINGS_SOUND_DUPLEXMODE                   "soundsystem/duplex-mode"
+#define SETTINGS_SOUND_AGC                          "soundsystem/agc"
+#define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
 
 #define SETTINGS_SOUNDEVENT_NEWUSER                 "soundevents/newuser"
 #define SETTINGS_SOUNDEVENT_REMOVEUSER              "soundevents/removeuser"
@@ -161,7 +162,7 @@
 #define SETTINGS_DESKTOPACCESS_USERNAME             "desktopaccess/%1_%2_username"
 
 #define SETTINGS_LAST_DIRECTORY                     "history/last-directory"
-
+#define SETTINGS_FIREWALL_ADD                       "history/firewall-add"
 
 #define SOUNDDEVICEID_DEFAULT  -2
 #define SOUNDDEVICEID_NODEVICE -1

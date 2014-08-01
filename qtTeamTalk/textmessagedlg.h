@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -44,6 +44,7 @@ public slots:
     void slotUserLogout(const User& user);
 
 signals:
+    void newMyselfTextMessage(const TextMessage& textmsg);
     void closedTextMessage(int userid);
 
 protected:

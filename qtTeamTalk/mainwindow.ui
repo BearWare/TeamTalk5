@@ -1720,6 +1720,9 @@
    <property name="text">
     <string>Intercept Media File Stream</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+8</string>
+   </property>
   </action>
   <action name="actionAllowMediaFileTransmission">
    <property name="text">

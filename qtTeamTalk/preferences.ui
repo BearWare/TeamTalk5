@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>758</width>
-    <height>547</height>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1000,9 +1000,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="agcBox">
+            <property name="text">
+             <string>Enable automatic gain control (microphone level adjusted automatically)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="denoisingBox">
             <property name="text">
-             <string>Enable denoising</string>
+             <string>Enable denoising (suppress noise from microphone)</string>
             </property>
            </widget>
           </item>
@@ -1915,6 +1922,7 @@
   <tabstop>sndtestButton</tabstop>
   <tabstop>sndduplexBox</tabstop>
   <tabstop>echocancelBox</tabstop>
+  <tabstop>agcBox</tabstop>
   <tabstop>denoisingBox</tabstop>
   <tabstop>snddefaultButton</tabstop>
   <tabstop>newuserEdit</tabstop>

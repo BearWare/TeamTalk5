@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -98,15 +98,26 @@
 
 #endif
 
-#define DEFAULT_AGC_ENABLE              FALSE
+#define DEFAULT_AGC_ENABLE              TRUE
 #define DEFAULT_AGC_GAINLEVEL           8000
 #define DEFAULT_AGC_INC_MAXDB           12
 #define DEFAULT_AGC_DEC_MAXDB           -40
 #define DEFAULT_AGC_GAINMAXDB           30
-#define DEFAULT_DENOISE_ENABLE          FALSE
+#define DEFAULT_DENOISE_ENABLE          TRUE
 #define DEFAULT_DENOISE_SUPPRESS        -30
 #define DEFAULT_ECHO_SUPPRESS           -40
 #define DEFAULT_ECHO_SUPPRESSACTIVE     -15
+
+//Default audio config settings
+#if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
+#define DEFAULT_SOUND_DUPLEXMODE        TRUE
+#define DEFAULT_ECHO_ENABLE             TRUE
+#else
+//Windows performs poorly with echo cancel so disable it
+#define DEFAULT_SOUND_DUPLEXMODE        FALSE
+#define DEFAULT_ECHO_ENABLE             FALSE
+#endif
+
 
 #define DEFAULT_MSEC_PER_PACKET         40
 
@@ -138,17 +149,6 @@
 #define DEFAULT_OPUS_VBRCONSTRAINT  FALSE
 #define DEFAULT_OPUS_BITRATE        32000
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
-
-//Default sound device settings
-#if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-#define DEFAULT_SOUND_DUPLEXMODE    TRUE
-#define DEFAULT_SOUND_ECHOCANCEL    TRUE
-#else
-//Windows performs poorly with echo cancel so disable it
-#define DEFAULT_SOUND_DUPLEXMODE    FALSE
-#define DEFAULT_SOUND_ECHOCANCEL    FALSE
-#endif
-#define DEFAULT_SOUND_DENOISING     TRUE
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \
@@ -278,7 +278,7 @@ struct DesktopAccessEntry
     : tcpport(0) { }
 };
 
-//internal TeamTalk 4 commands. Use with TT_DoTextMessage() and 
+//internal TeamTalk 5 commands. Use with TT_DoTextMessage() and 
 //message type MSGTYPE_CUSTOM
 #define TT_INTCMD_TYPING_TEXT         "typing"
 #define TT_INTCMD_DESKTOP_ACCESS      "desktopaccess"

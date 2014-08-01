@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -234,8 +234,9 @@ void PreferencesDlg::initDevices()
     showDevices(sndsys);
 
     ui.sndduplexBox->setChecked(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, DEFAULT_SOUND_DUPLEXMODE).toBool());
-    ui.echocancelBox->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_SOUND_ECHOCANCEL).toBool());
-    ui.denoisingBox->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_SOUND_DENOISING).toBool());
+    ui.echocancelBox->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool());
+    ui.agcBox->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool());
+    ui.denoisingBox->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool());
     slotUpdateSoundCheckBoxes();
 }
 
@@ -813,6 +814,7 @@ void PreferencesDlg::slotSaveChanges()
                                      _Q(m_sounddevices[i].szDeviceID));
         }
 
+        ttSettings->setValue(SETTINGS_SOUND_AGC, ui.agcBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked());
     }
     if(m_modtab.find(SOUNDEVENTS_TAB) != m_modtab.end())
@@ -1062,12 +1064,13 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
             samplerate = in_dev.nDefaultSampleRate;
 
         //denoise and echo cancel only supports
-        if(ui.echocancelBox->isChecked() || ui.denoisingBox->isChecked())
+        if(ui.echocancelBox->isChecked() || ui.denoisingBox->isChecked() || 
+           ui.agcBox->isChecked())
             channels = 1;
 
         AudioConfig audcfg;
         ZERO_STRUCT(audcfg);
-        audcfg.bEnableAGC = DEFAULT_AGC_ENABLE;
+        audcfg.bEnableAGC = ui.agcBox->isChecked();
         audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
         audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
         audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
@@ -1114,6 +1117,10 @@ void PreferencesDlg::slotSoundDefaults()
     if(index>=0)
         ui.outputdevBox->setCurrentIndex(index);
     
+    ui.sndduplexBox->setChecked(DEFAULT_SOUND_DUPLEXMODE);
+    ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE);
+    ui.agcBox->setChecked(DEFAULT_AGC_ENABLE);
+    ui.denoisingBox->setChecked(DEFAULT_DENOISE_ENABLE);
 }
 
 void PreferencesDlg::slotEventNewUser()

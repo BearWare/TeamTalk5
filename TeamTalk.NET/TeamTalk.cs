@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2005-2014, BearWare.dk
+ * 
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Skanderborgvej 40 4-2
+ * DK-8000 Aarhus C
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk 5 SDK owned by
+ * BearWare.dk. All copyright statements may not be removed 
+ * or altered from any source distribution. If you use this
+ * software in a product, an acknowledgment in the product 
+ * documentation is required.
+ *
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -636,7 +657,7 @@ namespace BearWare
 
     /** @brief Speex audio codec settings for Variable Bitrate mode
      * (VBR). */
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] //Windows Mobile tries to save space, so need to be explicit
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SpeexVBRCodec
     {
         /** @brief Set to 0 for 8 KHz (narrow band), set to 1 for 16 KHz 
@@ -1670,7 +1691,7 @@ namespace BearWare
          * For a user to transmit audio or video to this type of
          * channel the channel operator must add the user's ID to
          * either @a voiceUsers or @a videoUsers in the #BearWare.Channel
-         * struct and call #TeamTalk.DoUpdateChannel.
+         * struct and call TeamTalk.DoUpdateChannel().
          *
          * @note
          * Requires server version 4.1.0.994 or later.
@@ -1719,7 +1740,8 @@ namespace BearWare
          * users of user-type #UserType ::USERTYPE_ADMIN. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
         public string szPassword;
-        /** @brief Whether password is required to join channel */
+        /** @brief Whether password is required to join channel. Read-only 
+         * property. */
         public bool bPassword;
         /** @brief A bitmask of the type of channel based on #ChannelType. */
         public ChannelType uChannelType;
@@ -2440,8 +2462,7 @@ namespace BearWare
         /** 
          * @brief A user has sent a text-message.
          *
-         * @param nSource The user ID of the user sending the text
-         * message.
+         * @param nSource 0
          * @param ttType #__TEXTMESSAGE
          * @param textmessage Placed in union of #BearWare.TTMessage.
          *
@@ -2987,7 +3008,7 @@ namespace BearWare
     /** @} */
 
     /** @ingroup initclient
-     * @brief The class which encapsulates the TeamTalk 4 client. */
+     * @brief The class which encapsulates the TeamTalk 5 client. */
     public class TeamTalk : IDisposable
     {
         /** @addtogroup initclient
@@ -3010,7 +3031,7 @@ namespace BearWare
         /** @ingroup videocapture
          * The maximum number of video formats which will be queried for a 
          * #BearWare.VideoCaptureDevice. */
-        public const int TT_VIDEOFORMATS_MAX = 128;
+        public const int TT_VIDEOFORMATS_MAX = 1024;
 
         /** @ingroup channels
          *
@@ -3027,7 +3048,7 @@ namespace BearWare
          * TT_CLASSROOM_FREEFORALL is put in either @c voiceUsers, @c
          * videoUsers and @c desktopUsers then everyone in the channel
          * are allowed to transmit. */
-        public const int TT_CLASSROOM_FREEFORALL = 0xFFFF;
+        public const int TT_CLASSROOM_FREEFORALL = 0xFFF;
 
         /** @ingroup users
          * The maximum number of channels where a user can automatically become
@@ -7182,7 +7203,7 @@ namespace BearWare
 
             //bool ret;
             //int len, id;
-            //ret = c_tt.TTDLL.TT_SetLicenseInformation("", 0);
+            //ret = c_tt.TTDLL.TT_SetLicenseInformation("", "");
             //IntPtr ttInst = c_tt.TTDLL.TT_InitTeamTalkPoll();
             //ClientFlag flag = c_tt.TTDLL.TT_GetFlags(ttInst);
 

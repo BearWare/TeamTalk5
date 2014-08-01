@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2005-2013, BearWare.dk
+ * Copyright (c) 2005-2014, BearWare.dk
  * 
  * Contact Information:
  *
  * Bjoern D. Rasmussen
- * Bedelundvej 79
- * DK-9830 Taars
+ * Skanderborgvej 40 4-2
+ * DK-8000 Aarhus C
  * Denmark
  * Email: contact@bearware.dk
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -23,7 +23,7 @@
 #define APPINFO_H
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION          "5.0 - TEST VERSION " TEAMTALK_VERSION
+#define APPVERSION          "5.0 - ALPHA1 v" TEAMTALK_VERSION
 #define APPVERSION_SHORT    "5.0"
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
 #define APPTRAYICON         QString::fromUtf8(":/images/images/teamtalky.png")

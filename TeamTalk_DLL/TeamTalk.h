@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3201"
+#define TEAMTALK_VERSION "5.0.0.3284"
 
 
 #if defined(WIN32)
@@ -94,7 +94,7 @@ extern "C" {
      * @def TT_VIDEOFORMATS_MAX
      * The maximum number of video formats which will be queried for a 
      * #VideoCaptureDevice. */
-#define TT_VIDEOFORMATS_MAX 128
+#define TT_VIDEOFORMATS_MAX 1024
 
     /** @ingroup channels
      * @def TT_TRANSMITUSERS_MAX
@@ -109,7 +109,7 @@ extern "C" {
      * TT_CLASSROOM_FREEFORALL is put in either @c voiceUsers, @c videoUsers 
      * and @c desktopUsers then everyone in the channel are allowed to 
      * transmit. */
-#define TT_CLASSROOM_FREEFORALL 0xFFFF
+#define TT_CLASSROOM_FREEFORALL 0xFFF
 
     /** @ingroup users
      * @def TT_CHANNELS_OPERATOR_MAX
@@ -1456,7 +1456,7 @@ extern "C" {
         Subscriptions uLocalSubscriptions;
         /** @brief A bitmask of what this user subscribes to from
          * local client instance. Invoking TT_DoSubscribe() and
-         * TT_DoUnsubscribe() on the remoe client instance can change
+         * TT_DoUnsubscribe() on the remote client instance can change
          * this value. Event #CLIENTEVENT_CMD_USER_UPDATE is posted if
          * this value changes. */
         Subscriptions uPeerSubscriptions;
@@ -1696,7 +1696,8 @@ extern "C" {
          * #TT_GetChannel the password will only be set for users of 
          * user-type #USERTYPE_ADMIN. */
         TTCHAR szPassword[TT_STRLEN];
-        /** @brief Whether password is required to join channel */
+        /** @brief Whether password is required to join channel. Read-only 
+         * property. */
         BOOL bPassword;
         /** @brief A bitmask of the type of channel based on #ChannelType. */
         ChannelTypes uChannelType;
@@ -2327,8 +2328,7 @@ extern "C" {
         /** 
          * @brief A user has sent a text-message.
          *
-         * @param nSource The user ID of the user sending the text
-         * message.
+         * @param nSource 0
          * @param ttType #__TEXTMESSAGE
          * @param textmessage Placed in union of #TTMessage.
          *
@@ -5464,9 +5464,9 @@ extern "C" {
      * buffer size to 0 msec to reset the media buffer to its default value.
      */
     TEAMTALKDLL_API BOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstance,
-                                                        IN INT32 nUserID,
-                                                        IN StreamTypes uStreamType,
-                                                        IN INT32 nMSec);
+                                                         IN INT32 nUserID,
+                                                         IN StreamTypes uStreamType,
+                                                         IN INT32 nMSec);
 
     /** @brief Extract the raw audio from a user who has been talking.
      *

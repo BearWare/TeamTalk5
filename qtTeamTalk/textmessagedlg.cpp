@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -39,7 +39,7 @@ TextMessageDlg::TextMessageDlg(const User& user, QWidget * parent/* = 0*/)
 
 TextMessageDlg::TextMessageDlg(const User& user, const textmessages_t& msgs,
                                QWidget * parent/* = 0*/)
-: QDialog(parent, Qt::Dialog | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
+: QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
 , m_userid(user.nUserID)
 , m_textchanged(false)
 , m_remote_typing_id(0)
@@ -109,7 +109,8 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
                 QString cmd = makeCustomCommand(TT_INTCMD_TYPING_TEXT,
                                                 QString::number((int)!ui.newmsgTextEdit->toPlainText().isEmpty()));
                 COPY_TTSTR(msg.szMessage, cmd);
-                TT_DoTextMessage(ttInst, &msg);
+                if(TT_DoTextMessage(ttInst, &msg)>0)
+                    emit(newMyselfTextMessage(msg));
             }
             m_textchanged = false;
         }
@@ -149,6 +150,7 @@ void TextMessageDlg::slotSendMsg(const QString& txt_msg)
     {
         ui.newmsgTextEdit->setPlainText("");
         newMsg(msg);
+        emit(newMyselfTextMessage(msg));
         m_textchanged = false;
     }
 }

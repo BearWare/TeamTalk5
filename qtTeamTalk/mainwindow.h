@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -202,6 +202,9 @@ private:
     void cmdJoinedChannel(int channelid);
 
     void updateWindowTitle();
+#if defined(Q_OS_WIN32)
+    void firewallInstall();
+#endif
     void subscribeCommon(bool checked, Subscriptions subs, int userid = 0);
     void processTextMessage(const TextMessage& textmsg);
     void processMyselfJoined(int channelid);
@@ -340,6 +343,8 @@ private slots:
     void slotSendChannelMessage();
     void slotUserDoubleClicked(int userid);
     void slotChannelDoubleClicked(int channelid);
+    void slotNewTextMessage(const TextMessage& textmsg);
+    void slotNewMyselfTextMessage(const TextMessage& textmsg);
     void slotTextMessageClosed(int userid);
     void slotClassroomChanged(int channelid, const QMap<int,StreamTypes>&);
     void slotChannelUpdate(const Channel& chan);

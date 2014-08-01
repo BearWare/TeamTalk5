@@ -11,7 +11,7 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 4 SDK owned by
+ * This source code is part of the TeamTalk 5 SDK owned by
  * BearWare.dk. All copyright statements may not be removed 
  * or altered from any source distribution. If you use this
  * software in a product, an acknowledgment in the product 
@@ -463,6 +463,8 @@ MainWindow::MainWindow()
             SLOT(slotUpdateMyself()));
     connect(this, SIGNAL(newVideoCaptureFrame(int,int)), ui.channelsWidget, 
             SLOT(slotUserVideoFrame(int,int)));
+    connect(this, SIGNAL(newTextMessage(const TextMessage&)),
+            SLOT(slotNewTextMessage(const TextMessage&)));
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -533,6 +535,15 @@ void MainWindow::loadSettings()
         TT_SwapTeamTalkHWND(ttInst, reinterpret_cast<HWND>(winId()));
 #endif
     }
+
+#if defined(Q_OS_WIN32)
+    //ask once to install firewall
+    if(ttSettings->value(SETTINGS_FIREWALL_ADD, true).toBool())
+    {
+        firewallInstall();
+        ttSettings->setValue(SETTINGS_FIREWALL_ADD, false);
+    }
+#endif
 
     //show number of users
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, true).toBool());
@@ -638,26 +649,7 @@ bool MainWindow::parseArgs(const QStringList& args)
 #if defined(Q_OS_WIN32)
         else if(args[i] == "-fwadd")
         {
-            //add firewall exception
-            QString appPath = QApplication::applicationFilePath();
-            appPath = QDir::toNativeSeparators(appPath);
-            if(!TT_Firewall_AppExceptionExists(_W(appPath)))
-            {
-                QMessageBox::StandardButton answer = QMessageBox::question(this, 
-                    APPTITLE, 
-                    tr("Do you wish to add %1 to the Windows Firewall exception list?")
-                    .arg(APPTITLE), 
-                    QMessageBox::Yes | QMessageBox::No);
-
-                if(answer == QMessageBox::Yes &&
-                   !TT_Firewall_AddAppException(_W(QString(APPTITLE)), 
-                                                _W(appPath)))
-                {
-                    QMessageBox::critical(this, tr("Firewall exception"),
-                        tr("Failed to add %1 to Windows Firewall exceptions.")
-                        .arg(appPath));
-                }
-            }
+            firewallInstall();
         }
         else if(args[i] == "-fwremove")
         {
@@ -828,7 +820,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CMD_CHANNEL_UPDATE :
     {
         Q_ASSERT(msg.ttType == __CHANNEL);
-        if(m_mychannel.nChannelID == (int)msg.nSource)
+        
+        if(m_mychannel.nChannelID == (int)msg.channel.nChannelID)
         {
             m_mychannel = msg.channel;
             //update AGC, denoise, etc. if changed
@@ -858,6 +851,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CMD_USER_LOGGEDOUT :
         Q_ASSERT(msg.ttType == __USER);
         emit(userLogout(msg.user));
+        //remove text-message history from this user
+        m_usermessages.remove(msg.user.nUserID);
         break;
     case CLIENTEVENT_CMD_USER_JOINED :
         Q_ASSERT(msg.ttType == __USER);
@@ -879,7 +874,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         User prev_user;
         ZERO_STRUCT(prev_user);
-        ui.channelsWidget->getUser(msg.nSource, prev_user);
+        ui.channelsWidget->getUser(msg.user.nUserID, prev_user);
+        Q_ASSERT(prev_user.nUserID);
 
         emit(userUpdate(msg.user));
 
@@ -953,7 +949,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_INTERNAL_ERROR :
     {
         Q_ASSERT(msg.ttType == __CLIENTERRORMSG);
-
+        bool critical = true;
         QString textmsg;
         switch(msg.clienterrormsg.nErrorNo)
         {
@@ -965,34 +961,38 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         case INTERR_AUDIOCODEC_INIT_FAILED :
             textmsg = tr("Failed to initialize audio codec"); break;
         case INTERR_AUDIOCONFIG_INIT_FAILED :
+            critical = false;
             textmsg = tr("Failed to initialize audio configuration"); break;
         default :
             textmsg = _Q(msg.clienterrormsg.szErrorMsg);
             break;
         }
-        QMessageBox::critical(this, tr("Internal Error"), textmsg);
+        if(critical)
+            QMessageBox::critical(this, tr("Internal Error"), textmsg);
         addStatusMsg(textmsg);
 
         update_ui = true;
     }
     break;
     case CLIENTEVENT_USER_STATECHANGE :
+    {
         Q_ASSERT(msg.ttType == __USER);
-        emit(userStateChange(msg.user));
-        if(msg.user.uUserState & USERSTATE_VOICE)
+        const User& user = msg.user;
+        emit(userStateChange(user));
+        if(user.uUserState & USERSTATE_VOICE)
         {
-            m_talking.insert(msg.nSource);
+            m_talking.insert(user.nUserID);
 
             if(m_sysicon && m_sysicon->isVisible() &&
                m_talking.size() == 1)
                 m_sysicon->setIcon(QIcon(APPTRAYICON_ACTIVE));
 
             //update voice gain if not already set
-            updateUserGainLevel(msg.nSource);
+            updateUserGainLevel(user.nUserID);
         }
         else
         {
-            m_talking.remove(msg.nSource);
+            m_talking.remove(user.nUserID);
 
             if(m_sysicon && m_sysicon->isVisible() &&
                m_talking.size() == 0)
@@ -1001,8 +1001,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         
         if(m_talking.empty())
             PlaySoundEvent(SOUNDEVENT_SILENCE);
-
-        break;
+    }
+    break;
     case CLIENTEVENT_VOICE_ACTIVATION :
         Q_ASSERT(msg.ttType == __BOOL);
         emit(updateMyself());
@@ -1984,6 +1984,32 @@ void MainWindow::updateWindowTitle()
         setWindowTitle(APPTITLE);
 }
 
+#if defined(Q_OS_WIN32)
+void MainWindow::firewallInstall()
+{
+    //add firewall exception
+    QString appPath = QApplication::applicationFilePath();
+    appPath = QDir::toNativeSeparators(appPath);
+    if(!TT_Firewall_AppExceptionExists(_W(appPath)))
+    {
+        QMessageBox::StandardButton answer = QMessageBox::question(this, 
+            APPTITLE, 
+            tr("Do you wish to add %1 to the Windows Firewall exception list?")
+            .arg(APPTITLE), 
+            QMessageBox::Yes | QMessageBox::No);
+
+        if(answer == QMessageBox::Yes &&
+            !TT_Firewall_AddAppException(_W(QString(APPTITLE)), 
+                                        _W(appPath)))
+        {
+            QMessageBox::critical(this, tr("Firewall exception"),
+                tr("Failed to add %1 to Windows Firewall exceptions.")
+                .arg(appPath));
+        }
+    }
+}
+#endif
+
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
     if(userid == 0)
@@ -2018,15 +2044,14 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
         TextMessageDlg* dlg;
         usermessages_t::iterator ii = m_usermessages.find(userid);
         if(ii != m_usermessages.end())
-        {
             dlg = new TextMessageDlg(user, ii.value(), 0);
-            m_usermessages.erase(ii);
-        }
         else
             dlg = new TextMessageDlg(user, 0);
 
         dlg->setAttribute(Qt::WA_DeleteOnClose);
         m_usermsg.insert(userid, dlg);
+        connect(dlg, SIGNAL(newMyselfTextMessage(const TextMessage&)),
+                SLOT(slotNewMyselfTextMessage(const TextMessage&)));
         connect(dlg, SIGNAL(closedTextMessage(int)), SLOT(slotTextMessageClosed(int)));
         connect(this, SIGNAL(userUpdate(const User&)), dlg, SLOT(slotUpdateUser(const User&)));
         connect(this, SIGNAL(newTextMessage(const TextMessage&)), dlg, 
@@ -2057,16 +2082,6 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
         PlaySoundEvent(SOUNDEVENT_USERMSG);
-
-        usermessages_t::iterator ii = m_usermessages.find(textmsg.nFromUserID);
-        if(ii != m_usermessages.end())
-            ii.value().push_back(textmsg);
-        else
-        {
-            textmessages_t msgs;
-            msgs.push_back(textmsg);
-            m_usermessages.insert(textmsg.nFromUserID, msgs);
-        }
         break;
     }
     case MSGTYPE_CUSTOM :
@@ -2273,16 +2288,16 @@ void MainWindow::updateAudioConfig()
     ZERO_STRUCT(audcfg);
 
     //set default values for audio config
-    audcfg.bEnableAGC = DEFAULT_AGC_ENABLE;
+    audcfg.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool();
     audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
     audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
     audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
     audcfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-    audcfg.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_SOUND_DENOISING).toBool();
+    audcfg.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool();
     audcfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-    audcfg.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_SOUND_ECHOCANCEL).toBool();
+    audcfg.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool();
     audcfg.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
     audcfg.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
@@ -4200,6 +4215,38 @@ void MainWindow::slotUserDoubleClicked(int)
 void MainWindow::slotChannelDoubleClicked(int)
 {
     slotChannelsJoinChannel(false);
+}
+
+void MainWindow::slotNewTextMessage(const TextMessage& textmsg)
+{
+    if(textmsg.nMsgType != MSGTYPE_USER)
+        return;
+
+    usermessages_t::iterator ii = m_usermessages.find(textmsg.nFromUserID);
+    if(ii != m_usermessages.end())
+        ii.value().push_back(textmsg);
+    else
+    {
+        textmessages_t msgs;
+        msgs.push_back(textmsg);
+        m_usermessages.insert(textmsg.nFromUserID, msgs);
+    }
+}
+
+void MainWindow::slotNewMyselfTextMessage(const TextMessage& textmsg)
+{
+    if(textmsg.nMsgType != MSGTYPE_USER)
+        return;
+
+    usermessages_t::iterator ii = m_usermessages.find(textmsg.nToUserID);
+    if(ii != m_usermessages.end())
+        ii.value().push_back(textmsg);
+    else
+    {
+        textmessages_t msgs;
+        msgs.push_back(textmsg);
+        m_usermessages.insert(textmsg.nToUserID, msgs);
+    }
 }
 
 void MainWindow::slotTextMessageClosed(int userid)

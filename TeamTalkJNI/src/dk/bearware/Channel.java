@@ -36,6 +36,7 @@ public class Channel
     public int nMaxUsers = 0;
     public AudioCodec audiocodec = new AudioCodec();
     public AudioConfig audiocfg = new AudioConfig();
+	//TODO: 'transmitUsers'
     public Channel() {
     }
 }

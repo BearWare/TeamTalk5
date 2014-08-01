@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2005-2014, BearWare.dk
+ * 
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Skanderborgvej 40 4-2
+ * DK-8000 Aarhus C
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk 5 SDK owned by
+ * BearWare.dk. All copyright statements may not be removed 
+ * or altered from any source distribution. If you use this
+ * software in a product, an acknowledgment in the product 
+ * documentation is required.
+ *
+ */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +63,7 @@ namespace TeamTalkApp.NET
             InitializeComponent();
 
             /* Set license information before creating the client instance */
-            //TeamTalk.SetLicenseInformation("", 0);
+            //TeamTalk.SetLicenseInformation("", "");
 
             msgdialogs = new Dictionary<int, MessageDlg>();
             viddialogs = new Dictionary<int, VideoDlg>();
@@ -339,6 +360,9 @@ namespace TeamTalkApp.NET
             if (user.nChannelID == ttclient.GetMyChannelID())
                 AddStatusMessage(user.szNickname + " left channel");
             UpdateControls();
+
+            //if user has sent desktopinput ensure keys are released
+            closeUserDesktopInput(user.nUserID);
         }
 
         void ttclient_OnCmdUserTextMessage(TextMessage textmessage)
@@ -505,6 +529,10 @@ namespace TeamTalkApp.NET
                 dlg.FormClosed += new FormClosedEventHandler(desktopdlg_FormClosed);
                 dlg.Show();
             }
+
+            //release any keys held down by the user
+            if (nSessionID == 0)
+                closeUserDesktopInput(nUserID);
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1295,18 +1323,64 @@ namespace TeamTalkApp.NET
             streamMediaFileToChannelToolStripMenuItem.Checked = mediafileinfo.nStatus == MediaFileStatus.MFS_STARTED;
         }
 
-        void ttclient_OnUserDesktopInput(int nSrcUserID, DesktopInput desktopinput)
-        {
-            DesktopInput[] inputs = new DesktopInput[] { desktopinput}, outputs = null;
-            //assumes desktop input is received in TTKEYCODE format
-            WindowsHelper.DesktopInputKeyTranslate(TTKeyTranslate.TTKEY_TTKEYCODE_TO_WINKEYCODE,
-                                       inputs, out outputs);
-            WindowsHelper.DesktopInputExecute(outputs);
-        }
-
         private void voicetxCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             ttclient.EnableVoiceTransmission(voicetxCheckBox.Checked);
+        }
+
+        //container of users' past key-down events
+        // userid -> [key-code, DesktopInput]
+        Dictionary<int, Dictionary<uint, DesktopInput>> desktopinputs = new Dictionary<int, Dictionary<uint, DesktopInput>>();
+
+        void ttclient_OnUserDesktopInput(int nSrcUserID, DesktopInput desktopinput)
+        {
+            DesktopInput[] inputs = new DesktopInput[] { desktopinput }, trans_inputs = null;
+            //assumes desktop input is received in TTKEYCODE format
+            WindowsHelper.DesktopInputKeyTranslate(TTKeyTranslate.TTKEY_TTKEYCODE_TO_WINKEYCODE,
+                                       inputs, out trans_inputs);
+            WindowsHelper.DesktopInputExecute(trans_inputs);
+
+            //create new (or find existing) list of desktop inputs from user
+            Dictionary<uint, DesktopInput> pastinputs;
+            if (!desktopinputs.TryGetValue(nSrcUserID, out pastinputs))
+            {
+                pastinputs = new Dictionary<uint, DesktopInput>();
+                desktopinputs.Add(nSrcUserID, pastinputs);
+            }
+
+            //only store key-down events and remove previous key-down events if 
+            //the keys have been released
+            foreach (DesktopInput input in trans_inputs)
+            {
+                if (input.uKeyState == DesktopKeyState.DESKTOPKEYSTATE_DOWN)
+                    pastinputs.Add(input.uKeyCode, input);
+                else if (input.uKeyState == DesktopKeyState.DESKTOPKEYSTATE_UP)
+                    pastinputs.Remove(input.uKeyCode);
+            }
+
+            //if no keys are held by user then remove the user
+            if (pastinputs.Count == 0)
+                desktopinputs.Remove(nSrcUserID);
+        }
+
+        //release keys which have been held down by user
+        void closeUserDesktopInput(int nUserID)
+        {
+            Dictionary<uint, DesktopInput> pastinputs;
+            if (!desktopinputs.TryGetValue(nUserID, out pastinputs))
+                return;
+
+            DesktopInput[] inputs = new DesktopInput[pastinputs.Count];
+            int i=0;
+            foreach (KeyValuePair<uint, DesktopInput> pair in pastinputs)
+            {
+                //invert key-down event so it's now a key up event
+                //(and all keys are release by the user)
+                DesktopInput input = pair.Value;
+                input.uKeyState = DesktopKeyState.DESKTOPKEYSTATE_UP;
+                inputs[i++] = input;
+            }
+            WindowsHelper.DesktopInputExecute(inputs);
         }
     }
 }
