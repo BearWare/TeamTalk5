@@ -2,11 +2,11 @@
 
 Repository for TeamTalk 5 SDK
 
-Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3201)
+Current version: [5.0.0.3284](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284)
 
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/docs/NET/)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
@@ -24,7 +24,7 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
   * TeamTalk 5 JNI project with Java wrapper classes
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
-    * Download: [libTeamTalk5-jni.so](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/android/TeamTalk5JNI.tgz)
+    * Download: [libTeamTalk5-jni.so](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/android/TeamTalk5JNI.tgz)
     * Based on Android API Level 17
   * The following features are currently *not* supported in the JNI API:
     * Desktop sharing
@@ -34,14 +34,14 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
   * TeamTalk 5 C-API DLL project 
   * C-API header file for TeamTalk 5 DLL
     * Windows 32-bit
-      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win32/TeamTalk5.lib
-      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win32/TeamTalk5.dll
+      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/TeamTalk5.lib
+      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/TeamTalk5.dll
     * Windows 64-bit
-      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win64/TeamTalk5.lib
-      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win64/TeamTalk5.dll
+      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/TeamTalk5.lib
+      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/TeamTalk5.dll
     * Mac OS X 64-bit
-      * DLL: http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/mac64/libTeamTalk5.dylib
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/docs/C-API/)
+      * DLL: http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/mac64/libTeamTalk5.dylib
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/C-API/)
 * **qtTeamTalk** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 client application written in C++ and based on [Qt](http://www.qt-project.org)
   * Requires **TeamTalk_DLL** project for DLL dependency
@@ -50,17 +50,17 @@ Current version: [5.0.0.3201](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
 
 * TeamTalk 5 console server
   * Windows 32-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win32/tt5srv.exe
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/tt5srv.exe
   * Windows 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win64/tt5srv.exe
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/tt5srv.exe
   * Debian i386
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/deb32/tt5srv
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/deb32/tt5srv
   * Mac OS X 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/mac64/tt5srv
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/mac64/tt5srv
 
 * TeamTalk 5 NT service
   * Windows 32-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win32/tt5svc.exe
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/tt5svc.exe
   * Windows 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3201/win64/tt5svc.exe
+    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/tt5svc.exe
 
