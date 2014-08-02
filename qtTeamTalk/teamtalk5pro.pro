@@ -7,7 +7,7 @@ mac:TARGET = TeamTalk5Pro
 DEFINES += ENABLE_ENCRYPTION
 
 win32 {
-    LIBS += ../TeamTalk_DLL/lib/TeamTalk5Pro.lib
+    LIBS += ../TeamTalk_DLL/TeamTalk5Pro.lib
 }
 
 unix {

@@ -46,13 +46,6 @@ mac {
     LIBS += -framework IOKit -framework Carbon
 }
 
-unix {
-    OBJECTS_DIR = .obj
-    MOC_DIR = .moc
-    RCC_DIR = .qrc
-    UI_DIR = .ui
-}
-
 # install
 target.path = .
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS *.pro

@@ -1811,7 +1811,7 @@
   <customwidget>
    <class>DesktopGridWidget</class>
    <extends>QWidget</extends>
-   <header location="global">desktopgridwidget.h</header>
+   <header>desktopgridwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
