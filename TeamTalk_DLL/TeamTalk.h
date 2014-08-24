@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3284"
+#define TEAMTALK_VERSION "5.0.0.3331"
 
 
 #if defined(WIN32)
@@ -241,7 +241,7 @@ extern "C" {
          * DirectSound, WASAPI and WinMM it would be the GUID of the sound
          * device. Note that it may not always be available. */
         TTCHAR szDeviceID[TT_STRLEN];
-#ifdef WIN32
+#if defined(WIN32)
         /** 
          * @brief The ID of the device used in Win32's
          * waveInGetDevCaps and waveOutGetDevCaps.
@@ -1651,9 +1651,6 @@ extern "C" {
          * either @a voiceUsers or @a videoUsers in the #Channel
          * struct and call #TT_DoUpdateChannel.
          *
-         * @note
-         * Requires server version 4.1.0.994 or later.
-         *
          * @see TT_IsChannelOperator
          * @see #USERTYPE_ADMIN */
         CHANNEL_CLASSROOM           = 0x0004,
@@ -1664,7 +1661,9 @@ extern "C" {
         CHANNEL_OPERATOR_RECVONLY   = 0x0008,
         /** @brief Don't allow voice transmission if it's trigged by
          * voice activation. @see TT_EnableVoiceActivation() */
-        CHANNEL_NO_VOICEACTIVATION  = 0x0010
+        CHANNEL_NO_VOICEACTIVATION  = 0x0010,
+        /** @brief Don't allow recording to files in the channel. */
+        CHANNEL_NO_RECORDING        = 0x0020
     } ChannelType;
 
     /** 
@@ -1749,9 +1748,6 @@ extern "C" {
          * allowed to change the users who are allowed to transmit data to a 
          * channel. Call #TT_DoUpdateChannel to update the list of users who
          * are allowed to transmit data to the channel.
-         *
-         * @note
-         * Requires server version 4.1.0.994 or later.
          *
          * @see TT_IsChannelOperator
          * @see TT_DoChannelOp
@@ -2685,22 +2681,37 @@ extern "C" {
         UINT32 uReserved;
         union
         {
+            /** @brief Valid if @c ttType is #__CHANNEL. */
             Channel channel;
+            /** @brief Valid if @c ttType is #__CLIENTERRORMSG. */
             ClientErrorMsg clienterrormsg;
+            /** @brief Valid if @c ttType is #__DESKTOPINPUT. */
             DesktopInput desktopinput;
+            /** @brief Valid if @c ttType is #__FILETRANSFER. */
             FileTransfer filetransfer;
+            /** @brief Valid if @c ttType is #__MEDIAFILEINFO. */
             MediaFileInfo mediafileinfo;
+            /** @brief Valid if @c ttType is #__REMOTEFILE. */
             RemoteFile remotefile;
+            /** @brief Valid if @c ttType is #__SERVERPROPERTIES. */
             ServerProperties serverproperties;
+            /** @brief Valid if @c ttType is #__SERVERSTATISTICS. */
             ServerStatistics serverstatistics;
+            /** @brief Valid if @c ttType is #__TEXTMESSAGE. */
             TextMessage textmessage;
+            /** @brief Valid if @c ttType is #__USER. */
             User user;
+            /** @brief Valid if @c ttType is #__USERACCOUNT. */
             UserAccount useraccount;
+            /** @brief Valid if @c ttType is #__BOOL. */
             BOOL bActive;
+            /** @brief Valid if @c ttType is #__INT32. */
             INT32 nBytesRemain;
+            /** @brief Valid if @c ttType is #__INT32. */
             INT32 nStreamID;
+            /** @brief Valid if @c ttType is #__INT32. */
             INT32 nPayloadSize;
-
+            /* brief First byte in union. */
             char data[1];
         };
     } TTMessage;
@@ -3552,7 +3563,7 @@ extern "C" {
      * @see TT_InitVideoCaptureDevice */
     TEAMTALKDLL_API BOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance);
 
-#ifdef WIN32
+#if defined(WIN32)
     /**
      * @brief Paint user's video frame using a Windows' DC (device
      * context).
@@ -3769,9 +3780,6 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_DESKTOP
      *
-     * @note
-     * Requires server version 4.3.0.1490 or later.
-     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param lpDesktopWindow Properties of the bitmap. Set the @c nSessionID 
@@ -3818,7 +3826,7 @@ extern "C" {
      * third Green. Returns NULL if the color-index is invalid. */
     TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPalette,
                                                             IN INT32 nIndex);
-#ifdef WIN32
+#if defined(WIN32)
 
     /** @brief Get the handle (HWND) of the window which is currently
      * active (focused) on the Windows desktop. */
@@ -4012,9 +4020,6 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_DESKTOP
      *
-     * @note
-     * Requires server version 4.3.0.1490 or later.
-     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param nPosX X coordinate of mouse cursor.
@@ -4038,8 +4043,6 @@ extern "C" {
      *
      * User rights required:
      * - #USERRIGHT_TRANSMIT_DESKTOPINPUT
-     *
-     * Requires TeamTalk v. 4.6+ client and server.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
@@ -4459,9 +4462,6 @@ extern "C" {
      * - #CMDERR_CHANNEL_NOT_FOUND
      * - #CMDERR_USER_NOT_FOUND
      * - #CMDERR_INCORRECT_OP_PASSWORD
-     *
-     * @note
-     * Requires server version 4.1.0.994 or later.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -4999,9 +4999,6 @@ extern "C" {
      * - #CMDERR_NOT_AUTHORIZED
      * - #CMDERR_UNKNOWN_COMMAND
      *
-     * @note
-     * Requires server version 4.1.0.1089 or later.
-     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @return Returns command ID which will be passed in 
@@ -5210,9 +5207,6 @@ extern "C" {
      * This information can be retrieved after
      * #CLIENTEVENT_CMD_MYSELF_LOGGEDIN event.
      *
-     * @note
-     * Requires server version 4.0.1.970 or later.
-     * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param lpUserAccount The local client's user account registered on
@@ -5236,6 +5230,12 @@ extern "C" {
      * @see UserType */
     TEAMTALKDLL_API UserTypes TT_GetMyUserType(IN TTInstance* lpTTInstance);
 
+    /**
+     * @brief Convenience method for TT_GetMyUserAccount()
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     */
     TEAMTALKDLL_API UserRights TT_GetMyUserRights(IN TTInstance* lpTTInstance);
 
     /**

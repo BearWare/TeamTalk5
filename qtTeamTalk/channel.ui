@@ -201,6 +201,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="norecordBox">
+            <property name="text">
+             <string>No audio recording allowed (save to disk not allowed)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -813,6 +820,7 @@
   <tabstop>classroomchanBox</tabstop>
   <tabstop>oprecvonlychanBox</tabstop>
   <tabstop>novoiceactBox</tabstop>
+  <tabstop>norecordBox</tabstop>
   <tabstop>audiocodecBox</tabstop>
   <tabstop>spx_srateBox</tabstop>
   <tabstop>spx_qualitySlider</tabstop>

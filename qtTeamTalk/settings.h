@@ -90,6 +90,10 @@
 #define SETTINGS_SOUND_DUPLEXMODE                   "soundsystem/duplex-mode"
 #define SETTINGS_SOUND_AGC                          "soundsystem/agc"
 #define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
+#define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT           "soundsystem/sndoutput-mute-left"
+#define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT   false
+#define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT          "soundsystem/sndoutput-mute-right"
+#define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT_DEFAULT  false
 
 #define SETTINGS_SOUNDEVENT_NEWUSER                 "soundevents/newuser"
 #define SETTINGS_SOUNDEVENT_REMOVEUSER              "soundevents/removeuser"

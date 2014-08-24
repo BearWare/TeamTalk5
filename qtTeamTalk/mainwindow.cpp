@@ -4749,6 +4749,13 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
         PlaySoundEvent(SOUNDEVENT_NEWUSER);
         addStatusMsg(tr("%1 joined channel").arg(_Q(user.szNickname)));
     }
+
+    //set use to mute if enabled
+    TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_VOICE,
+                     !ttSettings->value(SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT,
+                     SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT).toBool(),
+                     !ttSettings->value(SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT,
+                     SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT_DEFAULT).toBool());
 }
 
 void MainWindow::slotUserLeft(int channelid, const User& user)

@@ -72,6 +72,8 @@ namespace TeamTalkApp.NET
                 singletxCheckBox.Checked = chan.uChannelType.HasFlag(ChannelType.CHANNEL_SOLO_TRANSMIT);
                 classroomCheckBox.Checked = chan.uChannelType.HasFlag(ChannelType.CHANNEL_CLASSROOM);
                 oprecvonlyCheckBox.Checked = chan.uChannelType.HasFlag(ChannelType.CHANNEL_OPERATOR_RECVONLY);
+                novoiceactCheckBox.Checked = chan.uChannelType.HasFlag(ChannelType.CHANNEL_NO_VOICEACTIVATION);
+                norecordCheckBox.Checked = chan.uChannelType.HasFlag(ChannelType.CHANNEL_NO_RECORDING);
 
                 switch (chan.audiocodec.nCodec)
                 {
@@ -169,6 +171,8 @@ namespace TeamTalkApp.NET
                     singletxCheckBox.Enabled = false;
                     classroomCheckBox.Enabled = false;
                     oprecvonlyCheckBox.Enabled = false;
+                    novoiceactCheckBox.Enabled = false;
+                    norecordCheckBox.Enabled = false;
                     agcCheckBox.Enabled = false;
                     gainlevelTrackBar.Enabled = false;
                     denoiseCheckBox.Enabled = false;
@@ -240,6 +244,9 @@ namespace TeamTalkApp.NET
             chan.uChannelType |= singletxCheckBox.Checked ? ChannelType.CHANNEL_SOLO_TRANSMIT : ChannelType.CHANNEL_DEFAULT;
             chan.uChannelType |= classroomCheckBox.Checked ? ChannelType.CHANNEL_CLASSROOM: ChannelType.CHANNEL_DEFAULT;
             chan.uChannelType |= oprecvonlyCheckBox.Checked ? ChannelType.CHANNEL_OPERATOR_RECVONLY : ChannelType.CHANNEL_DEFAULT;
+            chan.uChannelType |= novoiceactCheckBox.Checked ? ChannelType.CHANNEL_NO_VOICEACTIVATION : ChannelType.CHANNEL_DEFAULT;
+            chan.uChannelType |= norecordCheckBox.Checked ? ChannelType.CHANNEL_NO_RECORDING : ChannelType.CHANNEL_DEFAULT;
+
 
             chan.audiocfg.bEnableAGC = agcCheckBox.Checked;
             chan.audiocfg.nGainLevel = gainlevelTrackBar.Value;
@@ -278,6 +285,14 @@ namespace TeamTalkApp.NET
                         chan.uChannelType |= ChannelType.CHANNEL_OPERATOR_RECVONLY;
                     else
                         chan.uChannelType &= ~ChannelType.CHANNEL_OPERATOR_RECVONLY;
+                    if (novoiceactCheckBox.Checked)
+                        chan.uChannelType |= ChannelType.CHANNEL_NO_VOICEACTIVATION;
+                    else
+                        chan.uChannelType &= ~ChannelType.CHANNEL_NO_VOICEACTIVATION;
+                    if (norecordCheckBox.Checked)
+                        chan.uChannelType |= ChannelType.CHANNEL_NO_RECORDING;
+                    else
+                        chan.uChannelType &= ~ChannelType.CHANNEL_NO_RECORDING;
 
                     if (ttclient.DoUpdateChannel(chan) < 0)
                         MessageBox.Show("Unable to update channel", "Update Channel");

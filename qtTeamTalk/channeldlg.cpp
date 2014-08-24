@@ -169,6 +169,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.singletxchanBox->setEnabled(false);
         ui.classroomchanBox->setEnabled(false);
         ui.oprecvonlychanBox->setEnabled(false);
+        ui.novoiceactBox->setEnabled(false);
+        ui.norecordBox->setEnabled(false);
 
         ui.audiocodecBox->setEnabled(false);
 
@@ -206,6 +208,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.classroomchanBox->setChecked(m_channel.uChannelType & CHANNEL_CLASSROOM);
     ui.oprecvonlychanBox->setChecked(m_channel.uChannelType & CHANNEL_OPERATOR_RECVONLY);
     ui.novoiceactBox->setChecked(m_channel.uChannelType & CHANNEL_NO_VOICEACTIVATION);
+    ui.norecordBox->setChecked(m_channel.uChannelType & CHANNEL_NO_RECORDING);
+
     //codec
     switch(m_channel.audiocodec.nCodec)
     {
@@ -276,6 +280,11 @@ Channel ChannelDlg::GetChannel() const
         newchannel.uChannelType |= CHANNEL_NO_VOICEACTIVATION;
     else
         newchannel.uChannelType &= ~CHANNEL_NO_VOICEACTIVATION;
+
+    if(ui.norecordBox->isChecked())
+        newchannel.uChannelType |= CHANNEL_NO_RECORDING;
+    else
+        newchannel.uChannelType &= ~CHANNEL_NO_RECORDING;
 
     newchannel.audiocodec.nCodec = (Codec)ui.audiocodecBox->itemData(ui.audiocodecBox->currentIndex()).toInt();
     switch(newchannel.audiocodec.nCodec)

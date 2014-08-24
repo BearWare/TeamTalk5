@@ -104,6 +104,8 @@ namespace TeamTalkApp.NET
             this.agcCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.novoiceactCheckBox = new System.Windows.Forms.CheckBox();
+            this.norecordCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.diskquotaNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxusersNumericUpDown)).BeginInit();
@@ -128,6 +130,8 @@ namespace TeamTalkApp.NET
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.norecordCheckBox);
+            this.groupBox1.Controls.Add(this.novoiceactCheckBox);
             this.groupBox1.Controls.Add(this.oprecvonlyCheckBox);
             this.groupBox1.Controls.Add(this.oppasswdTextBox);
             this.groupBox1.Controls.Add(this.label19);
@@ -1043,6 +1047,26 @@ namespace TeamTalkApp.NET
             this.label8.TabIndex = 3;
             this.label8.Text = "Audio Channels";
             // 
+            // novoiceactCheckBox
+            // 
+            this.novoiceactCheckBox.AutoSize = true;
+            this.novoiceactCheckBox.Location = new System.Drawing.Point(6, 332);
+            this.novoiceactCheckBox.Name = "novoiceactCheckBox";
+            this.novoiceactCheckBox.Size = new System.Drawing.Size(248, 17);
+            this.novoiceactCheckBox.TabIndex = 21;
+            this.novoiceactCheckBox.Text = "No voice activation (only Push-to-Talk allowed)";
+            this.novoiceactCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // norecordCheckBox
+            // 
+            this.norecordCheckBox.AutoSize = true;
+            this.norecordCheckBox.Location = new System.Drawing.Point(6, 355);
+            this.norecordCheckBox.Name = "norecordCheckBox";
+            this.norecordCheckBox.Size = new System.Drawing.Size(278, 17);
+            this.norecordCheckBox.TabIndex = 22;
+            this.norecordCheckBox.Text = "No audio recording allowed (save to disk not allowed)";
+            this.norecordCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ChannelDlg
             // 
             this.AcceptButton = this.button1;
@@ -1165,5 +1189,7 @@ namespace TeamTalkApp.NET
         private System.Windows.Forms.CheckBox opusdtxCheckBox;
         private System.Windows.Forms.CheckBox opusvbrconstraintCheckBox;
         private System.Windows.Forms.CheckBox opusvbrCheckBox;
+        private System.Windows.Forms.CheckBox norecordCheckBox;
+        private System.Windows.Forms.CheckBox novoiceactCheckBox;
     }
 }
