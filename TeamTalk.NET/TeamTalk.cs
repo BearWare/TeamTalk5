@@ -1693,9 +1693,6 @@ namespace BearWare
          * either @a voiceUsers or @a videoUsers in the #BearWare.Channel
          * struct and call TeamTalk.DoUpdateChannel().
          *
-         * @note
-         * Requires server version 4.1.0.994 or later.
-         *
          * @see TeamTalk.IsChannelOperator
          * @see ::USERTYPE_ADMIN */
         CHANNEL_CLASSROOM                                       = 0x0004,
@@ -1706,7 +1703,9 @@ namespace BearWare
         CHANNEL_OPERATOR_RECVONLY                               = 0x0008,
         /** @brief Don't allow voice transmission if it's trigged by
          * voice activation. @see TeamTalk.EnableVoiceActivation() */
-        CHANNEL_NO_VOICEACTIVATION                              = 0x0010
+        CHANNEL_NO_VOICEACTIVATION                              = 0x0010,
+        /** @brief Don't allow recording to files in the channel. */
+        CHANNEL_NO_RECORDING                                    = 0x0020
     }
 
     /**
@@ -1796,9 +1795,6 @@ namespace BearWare
          * are allowed to transmit data to a channel. Call
          * TeamTalk.DoUpdateChannel() to update the list of users who
          * are allowed to transmit data to the channel.
-         *
-         * @note
-         * Requires server version 4.1.0.994 or later.
          *
          * @see TeamTalk.IsChannelOperator
          * @see TeamTalk.DoChannelOp
@@ -4373,9 +4369,6 @@ namespace BearWare
          * User rights required:
          * - ::USERRIGHT_TRANSMIT_DESKTOP
          * 
-         * @note
-         * Requires server version 4.3.0.1490 or later.
-         *
          * @param lpDesktopWindow Properties of the bitmap. Set the @c nSessionID 
          * property to 0.
          * @param nConvertBmpFormat Before transmission convert the bitmap to this 
@@ -4531,9 +4524,6 @@ namespace BearWare
          * User rights required:
          * - ::USERRIGHT_TRANSMIT_DESKTOP
          *
-         * @note
-         * Requires server version 4.3.0.1490 or later.
-         *
          * @param nPosX X coordinate of mouse cursor.
          * @param nPosY Y coordinate of mouse cursor.
          * @see TeamTalk.SendDesktopWindow() */
@@ -4557,8 +4547,6 @@ namespace BearWare
          *
          * User rights required:
          * - ::USERRIGHT_TRANSMIT_DESKTOPINPUT
-         *
-         * Requires TeamTalk v. 4.6+ client and server.
          *
          * @param nUserID The user's ID who owns the shared desktop window
          * and should receive desktop input.
@@ -4987,9 +4975,6 @@ namespace BearWare
          * - #ClientError ::CMDERR_CHANNEL_NOT_FOUND
          * - #ClientError ::CMDERR_USER_NOT_FOUND
          * - #ClientError ::CMDERR_INCORRECT_OP_PASSWORD
-         *
-         * @note
-         * Requires server version 4.1.0.994 or later.
          *
          * @param nUserID The user who should become channel operator. 
          * @param nChannelID The channel where the user should become operator.
@@ -5497,9 +5482,6 @@ namespace BearWare
          * - #ClientError ::CMDERR_NOT_AUTHORIZED
          * - #ClientError ::CMDERR_UNKNOWN_COMMAND
          *
-         * @note
-         * Requires server version 4.1.0.1089 or later.
-         *
          * @return Returns command ID which will be passed in 
          * OnCmdProcessing() event when the server is processing the 
          * command. -1 is returned in case of error. */
@@ -5716,9 +5698,6 @@ namespace BearWare
          * This information can be retrieved after
          * TeamTalk.OnCmdMyselfLoggedIn() event.
          *
-         * @note
-         * Requires server version 4.0.1.970 or later.
-         * 
          * @param lpUserAccount The local client's user account registered on
          * the server. Note that the @a szPassword field of #BearWare.UserAccount
          * will not be set.
@@ -5758,6 +5737,7 @@ namespace BearWare
          */
         public BearWare.UserRight UserRights { get { return GetMyUserRights(); } }
 
+        /** @brief Convenience method for TeamTalk.GetMyUserAccount() */
         public BearWare.UserRight GetMyUserRights()
         {
             return TTDLL.TT_GetMyUserRights(m_ttInst);
