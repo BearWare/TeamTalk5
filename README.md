@@ -26,7 +26,7 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalk_DLL**
   * TeamTalk 5 C-API DLL project 
   * C-API header file for TeamTalk 5 DLL
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/C-API/)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/docs/C-API/)
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
     * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/docs/NET/)
@@ -35,7 +35,6 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
   * TeamTalk 5 JNI project with Java wrapper classes
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
-    * Download: [libTeamTalk5-jni.so](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/android/TeamTalk5JNI.tgz)
     * Based on Android API Level 17
   * The following features are currently *not* supported in the JNI API:
     * Desktop sharing
