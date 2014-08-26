@@ -62,8 +62,8 @@ public class ClientError {
     public final int CMDERR_FILESHARING_DISABLED             = 3013;
     public final int CMDERR_CHANNEL_HAS_USERS                = 3015;
 
-    public final int PUBLIC FINAL INTERR_SNDINPUT_FAILURE                 = 10000;
-    public final int PUBLIC FINAL INTERR_SNDOUTPUT_FAILURE                = 10001;
-    public final int PUBLIC FINAL INTERR_AUDIOCODEC_INIT_FAILED           = 10002;
-    public final int PUBLIC FINAL INTERR_AUDIOCONFIG_INIT_FAILED          = 10003;
+    public final int INTERR_SNDINPUT_FAILURE                 = 10000;
+    public final int INTERR_SNDOUTPUT_FAILURE                = 10001;
+    public final int INTERR_AUDIOCODEC_INIT_FAILED           = 10002;
+    public final int INTERR_AUDIOCONFIG_INIT_FAILED          = 10003;
 }
