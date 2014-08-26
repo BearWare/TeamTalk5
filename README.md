@@ -1,25 +1,36 @@
 # TeamTalk 5 SDK
 
-Repository for TeamTalk 5 SDK
+Repository for TeamTalk 5 SDK development.
 
-Current version: [5.0.0.3284](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284)
+Current version: **TeamTalk 5 Alpha 1 (rev. 3331)**
 
+## Download TeamTalk 5 SDK
+* TeamTalk 5 Alpha1 Standard SDK
+  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_win32.zip)
+  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_win64.zip)
+  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_macos_amd64.tar.gz)
+  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_debian7_i386.tar.gz)
+  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_debian7_amd64.tar.gz)
+  * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_raspbian_armhf.tar.gz)
+  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_android_armv7a.tar.gz)
+* TeamTalk 5 Alpha1 Professional SDK
+  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_win32.zip)
+  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_win64.zip)
+  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_macos_amd64.tar.gz)
+  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_debian7_i386.tar.gz)
+  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_debian7_amd64.tar.gz)
+  * [Raspberry Pi](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_raspbian_armhf.tar.gz)
+
+## TeamTalk 5 Libraries
+Projects wrapping the client DLL file in the TeamTalk SDK.
+* **TeamTalk_DLL**
+  * TeamTalk 5 C-API DLL project 
+  * C-API header file for TeamTalk 5 DLL
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/C-API/)
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/NET/)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
-* **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
-  * TeamTalk 5 Android client application written in Java
-  * Requires **TeamTalkJNI** project as library dependency
-  * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-  * Copy the following files to *TeamTalkAndroid/libs* directory:
-    * android-support-v4.jar
-      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
-    * gson-2.2.4.jar
-      * Download from http://code.google.com/p/google-gson/
-* **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
-  * TeamTalk 5 .NET client application written in C#
-  * Requires **TeamTalk.NET** project for DLL dependency
 * **TeamTalkJNI**
   * TeamTalk 5 JNI project with Java wrapper classes
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
@@ -30,37 +41,21 @@ Current version: [5.0.0.3284](http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.32
     * Desktop sharing
     * Video capture (webcam)
     * Media file streaming
-* **TeamTalk_DLL**
-  * TeamTalk 5 C-API DLL project 
-  * C-API header file for TeamTalk 5 DLL
-    * Windows 32-bit
-      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/TeamTalk5.lib
-      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/TeamTalk5.dll
-    * Windows 64-bit
-      * Import library: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/TeamTalk5.lib
-      * DLL: http://www.bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/TeamTalk5.dll
-    * Mac OS X 64-bit
-      * DLL: http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/mac64/libTeamTalk5.dylib
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/docs/C-API/)
+
+## TeamTalk 5 Clients
+Projects containing client applications which use the TeamTalk 5 client DLL.
 * **qtTeamTalk** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 client application written in C++ and based on [Qt](http://www.qt-project.org)
   * Requires **TeamTalk_DLL** project for DLL dependency
-
-## TeamTalk 5 Server binaries
-
-* TeamTalk 5 console server
-  * Windows 32-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/tt5srv.exe
-  * Windows 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/tt5srv.exe
-  * Debian i386
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/deb32/tt5srv
-  * Mac OS X 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/mac64/tt5srv
-
-* TeamTalk 5 NT service
-  * Windows 32-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win32/tt5svc.exe
-  * Windows 64-bit
-    * http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3284/win64/tt5svc.exe
-
+* **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
+  * TeamTalk 5 .NET client application written in C#
+  * Requires **TeamTalk.NET** project for DLL dependency
+* **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
+  * TeamTalk 5 Android client application written in Java
+  * Requires **TeamTalkJNI** project as library dependency
+  * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
+  * Copy the following files to *TeamTalkAndroid/libs* directory:
+    * android-support-v4.jar
+      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
+    * gson-2.2.4.jar
+      * Download from http://code.google.com/p/google-gson/
