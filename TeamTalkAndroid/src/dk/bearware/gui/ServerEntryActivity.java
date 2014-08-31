@@ -26,6 +26,7 @@ import dk.bearware.gui.R;
 import dk.bearware.data.ServerEntry;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -49,6 +50,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         findPreference(ServerEntry.KEY_IPADDR).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_UDPPORT).setOnPreferenceChangeListener(this);
+        findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
@@ -105,6 +107,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         server.ipaddr = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_IPADDR));
         server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT)));
         server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT)));
+        server.encrypted = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).isChecked();
         server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME));
         server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD));
         server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL));
@@ -117,6 +120,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), String.valueOf(entry.tcpport), String.valueOf(entry.tcpport));        
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), String.valueOf(entry.udpport), String.valueOf(entry.udpport));
+        ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).setChecked(entry.encrypted);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), entry.channel, entry.channel);

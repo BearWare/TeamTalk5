@@ -102,9 +102,9 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(fromUser) {
                     if(seekBar == voiceVol)
-                        ttclient.SetUserVolume(user.nUserID, StreamType.STREAMTYPE_VOICE, progress);
+                        ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_VOICE, progress);
                     else if(seekBar == mediaVol)
-                        ttclient.SetUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, progress);
+                        ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, progress);
                 }
             }
 
@@ -123,9 +123,9 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
             @Override
             public void onCheckedChanged(CompoundButton btn, boolean checked) {
                 if(btn == voiceMute)
-                    ttclient.SetUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
+                    ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
                 else if(btn == mediaMute)
-                    ttclient.SetUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
+                    ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
             }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
@@ -138,7 +138,7 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         ttclient = ttservice.getTTInstance();
 
         int userid = UserPropActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
-        if(!ttclient.GetUser(userid, user)) {
+        if(!ttclient.getUser(userid, user)) {
             UserPropActivity.this.setResult(RESULT_CANCELED);
             finish();
         }

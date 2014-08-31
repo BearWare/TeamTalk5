@@ -29,6 +29,11 @@
             android:numeric="integer"
             android:title="UDP Port"
             android:persistent="false" />
+        <CheckBoxPreference 
+            android:key="encrypted" 
+            android:title="Encrypted" 
+            android:defaultValue="false"
+            android:persistent="false" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="auth_info"

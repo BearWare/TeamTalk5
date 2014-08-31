@@ -28,7 +28,7 @@ public class TeamTalkConnection implements ServiceConnection {
         String s = new String();
         s = "TeamTalk instance 0x" +
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
-            " running v. " + ttclient.GetVersion() + " connected";
+            " running v. " + TeamTalkBase.getVersion() + " connected";
         Log.i(tag, s);
         
         ttlistener.onServiceConnected(ttservice);

@@ -21,11 +21,24 @@
 
 package dk.bearware.gui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import com.google.gson.Gson;
 
 import dk.bearware.Channel;
@@ -83,5 +96,106 @@ public class Utils {
                 result.add(user);
         }
         return result;
+    }
+    
+    public static String getURL(String urlToRead) {
+        URL url;
+        HttpURLConnection conn;
+        BufferedReader rd;
+        String line;
+        String result = "";
+        try {
+            url = new URL(urlToRead);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while((line = rd.readLine()) != null) {
+                result += line;
+            }
+            rd.close();
+        }
+        catch(IOException e) {
+        }
+        
+        return result;
+    }
+    
+    public static Vector<ServerEntry> getXmlServerEntries(String xml) {
+        Vector<ServerEntry> servers = new Vector<ServerEntry>();
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder;
+        Document doc;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("BearWare Exception: " + e);
+            return servers;
+        }
+        
+        doc.getDocumentElement().normalize();
+        
+        NodeList nList = doc.getElementsByTagName("host");
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                ServerEntry entry = new ServerEntry();
+                entry.public_server = true;
+                NodeList nHost = eElement.getElementsByTagName("name");
+                if(nHost.getLength()>0)
+                    entry.servername = nHost.item(0).getTextContent();
+                nHost = eElement.getElementsByTagName("address");
+                if(nHost.getLength()>0)
+                    entry.ipaddr = nHost.item(0).getTextContent();
+                nHost = eElement.getElementsByTagName("tcpport");
+                try {
+                    if(nHost.getLength() > 0)
+                        entry.tcpport = Integer.parseInt(nHost.item(0).getTextContent());
+                    nHost = eElement.getElementsByTagName("udpport");
+                    if(nHost.getLength() > 0)
+                        entry.udpport = Integer.parseInt(nHost.item(0).getTextContent());
+                }
+                catch(NumberFormatException e) {
+                    continue;
+                }
+                nHost = eElement.getElementsByTagName("encrypted");
+                if(nHost.getLength()>0)
+                    entry.encrypted = nHost.item(0).getTextContent().equalsIgnoreCase("true");
+                //process <auth>
+                NodeList nListAuth = eElement.getElementsByTagName("auth");
+                for(int j = 0;j<nListAuth.getLength();j++) {
+                    nNode = nListAuth.item(j);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement1 = (Element) nNode;
+                        NodeList nAuth = eElement1.getElementsByTagName("username");
+                        if(nAuth.getLength()>0)
+                            entry.username = nAuth.item(0).getTextContent();
+                        nAuth = eElement1.getElementsByTagName("password");
+                        if(nAuth.getLength()>0)
+                            entry.password = nAuth.item(0).getTextContent();
+                    }
+                }
+                //process <join>
+                NodeList nListJoin = eElement.getElementsByTagName("join");
+                for(int k=0;k<nListJoin.getLength();k++) {
+                    nNode = nListJoin.item(k);
+                    if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement1 = (Element) nNode;
+                        NodeList nJoin = eElement1.getElementsByTagName("channel");
+                        if(nJoin.getLength()>0)
+                            entry.channel = nJoin.item(0).getTextContent();
+                        nJoin = eElement1.getElementsByTagName("password");
+                        if(nJoin.getLength()>0)
+                            entry.chanpasswd = nJoin.item(0).getTextContent();
+                    }
+                }
+                servers.add(entry);
+            }
+        }
+        
+        return servers;
     }
 }

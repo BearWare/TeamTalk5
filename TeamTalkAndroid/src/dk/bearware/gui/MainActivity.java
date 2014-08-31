@@ -149,7 +149,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             case R.id.action_transmit : {
                 boolean b = !item.isChecked();
                 item.setChecked(b);
-                ttclient.EnableVoiceTransmission(b);
+                ttclient.enableVoiceTransmission(b);
             }
             break;
         }
@@ -178,7 +178,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     protected void onStop() {
         super.onStop();
         // Unbind from the service
-        unbindService(mConnection);
+        if(isFinishing())
+            unbindService(mConnection);
     }
 
     ChannelsSectionFragment channelsFragment;
@@ -282,9 +283,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 public void onClick(View arg0) {
                     TextMessage textmsg = new TextMessage();
                     textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
-                    textmsg.nChannelID = mainActivity.ttclient.GetMyChannelID();
+                    textmsg.nChannelID = mainActivity.ttclient.getMyChannelID();
                     textmsg.szMessage = newmsg.getText().toString();
-                    int cmdid = mainActivity.ttclient.DoTextMessage(textmsg);
+                    int cmdid = mainActivity.ttclient.doTextMessage(textmsg);
                     if(cmdid>0) {
                         mainActivity.activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_TEXTMSG);
                         newmsg.setText("");
@@ -330,7 +331,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 currentusers = Utils.getUsers(chanid, ttservice.getUsers());
             }
             else {
-                chanid = ttclient.GetRootChannelID();
+                chanid = ttclient.getRootChannelID();
                 Channel root = ttservice.getChannels().get(chanid);
                 if(root != null)
                     subchannels.add(root);
@@ -404,7 +405,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     if(channel.nParentID == 0) {
                         // show server name as channel name for root channel
                         ServerProperties srvprop = new ServerProperties();
-                        ttclient.GetServerProperties(srvprop);
+                        ttclient.getServerProperties(srvprop);
                         name.setText(srvprop.szServerName);
                     }
                     else {
@@ -433,7 +434,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 String passwd = input.getText().toString();
-                                                int cmdid = ttclient.DoJoinChannelByID(channel.nChannelID, passwd);
+                                                int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
                                                 if(cmdid>0) {
                                                     activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
                                                 }
@@ -442,7 +443,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                         alert.show();
                                     }
                                     else {
-                                        int cmdid = ttclient.DoJoinChannelByID(channel.nChannelID, "");
+                                        int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, "");
                                         if(cmdid>0) {
                                             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
                                         }
@@ -490,16 +491,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             adapter.notifyDataSetChanged();
         }
         else {
-            item = item;
         }
     }
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
+        
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        int mychannel = ttclient.GetMyChannelID();
+        int mychannel = ttclient.getMyChannelID();
         if(curchannel == null && mychannel > 0) {
             curchannel = ttservice.getChannels().get(mychannel);
         }
@@ -510,13 +511,13 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         ttservice.registerCommandListener(MainActivity.this);
         ttservice.registerUserListener(MainActivity.this);
         
-        if(((ttclient.GetFlags() & ClientFlag.CLIENT_SNDINPUT_READY) == 0) &&
-            !ttclient.InitSoundInputDevice(0))
+        if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) == 0) &&
+            !ttclient.initSoundInputDevice(0))
             Toast.makeText(this, "Failed to initialize sound input device",
                 Toast.LENGTH_LONG).show();
 
-        if(((ttclient.GetFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !ttclient.InitSoundOutputDevice(0))
+        if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
+            !ttclient.initSoundOutputDevice(0))
             Toast.makeText(this, "Failed to initialize sound output device",
                 Toast.LENGTH_LONG).show();
     }
@@ -591,7 +592,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onCmdUserJoinedChannel(User user) {
         if(curchannel != null && curchannel.nChannelID == user.nChannelID)
             adapter.notifyDataSetChanged();
-        else if(user.nUserID == ttclient.GetMyUserID()) {
+        else if(user.nUserID == ttclient.getMyUserID()) {
             curchannel = ttservice.getChannels().get(user.nChannelID);
             adapter.notifyDataSetChanged();
         }

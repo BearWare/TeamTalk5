@@ -7,8 +7,9 @@
         android:title="@string/action_settings"/>
     <item
         android:id="@+id/action_newserverentry"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="always|withText"
         android:title="New Server">
     </item>
+    <item android:id="@+id/action_refreshserverlist" android:title="Refresh" android:showAsAction="ifRoom|withText"></item>
 
 </menu>

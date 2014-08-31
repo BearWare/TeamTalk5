@@ -31,13 +31,16 @@ public class ServerEntry {
                                KEY_USERNAME = "username",
                                KEY_PASSWORD = "password",
                                KEY_CHANNEL = "channel",
-                               KEY_CHANPASSWD = "chanpasswd";
+                               KEY_CHANPASSWD = "chanpasswd",
+                               KEY_ENCRYPTED = "encrypted";
     
     public String servername = "";
     public String ipaddr = "";
     public int tcpport = 0, udpport = 0;
     public String username = "", password = "";
     public String channel = "", chanpasswd = "";
+    public boolean encrypted = false;
+    public boolean public_server = false;
 //    
 //    public void putBundle(Bundle bundle) {
 //        bundle.putString(KEY_SERVERNAME, servername);

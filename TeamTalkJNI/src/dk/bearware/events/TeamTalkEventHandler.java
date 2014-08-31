@@ -84,7 +84,7 @@ public class TeamTalkEventHandler {
     public boolean processEvent(TeamTalkBase ttclient, int timeoutMsecs) {
 
         TTMessage pMsg = new TTMessage();
-        if(!ttclient.GetMessage(pMsg, timeoutMsecs))
+        if(!ttclient.getMessage(pMsg, timeoutMsecs))
             return false;
         
         switch(pMsg.nClientEvent) {

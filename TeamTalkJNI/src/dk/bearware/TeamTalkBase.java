@@ -27,49 +27,49 @@ public abstract class TeamTalkBase
 {
     private long ttInst = 0;
 
-    public native String GetVersion();
+    public static native String getVersion();
 
-    private native long InitTeamTalkPoll();
+    private native long initTeamTalkPoll();
 
     public TeamTalkBase() {
-        ttInst = InitTeamTalkPoll();
+        ttInst = initTeamTalkPoll();
     }
     
     protected void finalize( ) throws Throwable {
-        CloseTeamTalk(ttInst);
+        closeTeamTalk(ttInst);
     }
 
-    private native boolean CloseTeamTalk(long lpTTInstance);
-    public boolean CloseTeamTalk() {
-        return CloseTeamTalk(ttInst);
+    private native boolean closeTeamTalk(long lpTTInstance);
+    public boolean closeTeamTalk() {
+        return closeTeamTalk(ttInst);
     }
 
-    private native boolean GetMessage(long lpTTInstance,
+    private native boolean getMessage(long lpTTInstance,
                                       TTMessage pMsg,
                                       int pnWaitMs);
-    public boolean GetMessage(TTMessage pMsg,
+    public boolean getMessage(TTMessage pMsg,
                               int pnWaitMs) {
-        return GetMessage(ttInst, pMsg, pnWaitMs);
+        return getMessage(ttInst, pMsg, pnWaitMs);
     }
 
-    private native int GetFlags(long lpTTInstance);
-    public int GetFlags() { return GetFlags(ttInst); }
+    private native int getFlags(long lpTTInstance);
+    public int getFlags() { return getFlags(ttInst); }
 
-    public static native boolean SetLicenseInformation(String szRegName,
-                                                String szRegKey);
+    public static native boolean setLicenseInformation(String szRegName,
+                                                       String szRegKey);
 
-    public static native boolean GetDefaultSoundDevices(IntPtr lpnInputDeviceID,
+    public static native boolean getDefaultSoundDevices(IntPtr lpnInputDeviceID,
                                                         IntPtr lpnOutputDeviceID);
     
-    private static native boolean GetSoundDevices(SoundDevice[] lpSoundDevices,
+    private static native boolean getSoundDevices(SoundDevice[] lpSoundDevices,
                                                   IntPtr lpnHowMany);
-    public static boolean GetSoundDevices(Vector<SoundDevice> lpSoundDevices) {
+    public static boolean getSoundDevices(Vector<SoundDevice> lpSoundDevices) {
         IntPtr lpnHowMany = new IntPtr();
-        if(!GetSoundDevices(null, lpnHowMany))
+        if(!getSoundDevices(null, lpnHowMany))
             return false;
 
         SoundDevice[] devs = new SoundDevice[lpnHowMany.value];
-        if(GetSoundDevices(devs, lpnHowMany))
+        if(getSoundDevices(devs, lpnHowMany))
         {
             for(int i=0;i<lpnHowMany.value;i++)
                 lpSoundDevices.add(devs[i]);
@@ -78,183 +78,183 @@ public abstract class TeamTalkBase
     }
 
 
-    public static native boolean RestartSoundSystem();
+    public static native boolean restartSoundSystem();
 
-    public static native long StartSoundLoopbackTest(int nInputDeviceID, 
+    public static native long startSoundLoopbackTest(int nInputDeviceID, 
                                                      int nOutputDeviceID,
                                                      int nSampleRate,
                                                      int nChannels,
                                                      boolean bDuplexMode,
                                                      AudioConfig lpAudioConfig);
 
-    public static native boolean CloseSoundLoopbackTest(long lpTTSoundLoop);
+    public static native boolean closeSoundLoopbackTest(long lpTTSoundLoop);
 
-    private native boolean InitSoundInputDevice(long lpTTInstance, int nInputDeviceID);
-    public boolean InitSoundInputDevice(int nInputDeviceID) {
-        return InitSoundInputDevice(ttInst, nInputDeviceID);
+    private native boolean initSoundInputDevice(long lpTTInstance, int nInputDeviceID);
+    public boolean initSoundInputDevice(int nInputDeviceID) {
+        return initSoundInputDevice(ttInst, nInputDeviceID);
     }
-    private native boolean InitSoundOutputDevice(long lpTTInstance, int nOutputDeviceID);
-    public boolean InitSoundOutputDevice(int nOutputDeviceID) {
-        return InitSoundOutputDevice(ttInst, nOutputDeviceID);
+    private native boolean initSoundOutputDevice(long lpTTInstance, int nOutputDeviceID);
+    public boolean initSoundOutputDevice(int nOutputDeviceID) {
+        return initSoundOutputDevice(ttInst, nOutputDeviceID);
     }
-    private native boolean CloseSoundInputDevice(long lpTTInstance);
-    public boolean CloseSoundInputDevice() {
-        return CloseSoundInputDevice(ttInst);
+    private native boolean closeSoundInputDevice(long lpTTInstance);
+    public boolean closeSoundInputDevice() {
+        return closeSoundInputDevice(ttInst);
     }
-    private native boolean CloseSoundOutputDevice(long lpTTInstance);
-    public boolean CloseSoundOutputDevice() {
-        return CloseSoundOutputDevice(ttInst);
-    }
-
-    private native int GetSoundInputLevel(long lpTTInstance);
-    public int GetSoundInputLevel() { return GetSoundInputLevel(ttInst); }
-
-    private native boolean SetSoundInputGainLevel(long lpTTInstance, int nLevel);
-    public boolean SetSoundInputGainLevel(int nLevel)
-        { return SetSoundInputGainLevel(ttInst, nLevel); }
-
-    private native int GetSoundInputGainLevel(long lpTTInstance);
-    public int GetSoundInputGainLevel() { return GetSoundInputGainLevel(ttInst); }
-
-    private native boolean SetAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
-    public boolean SetAudioConfig(AudioConfig lpAudioConfig) {
-        return SetAudioConfig(ttInst, lpAudioConfig);
+    private native boolean closeSoundOutputDevice(long lpTTInstance);
+    public boolean closeSoundOutputDevice() {
+        return closeSoundOutputDevice(ttInst);
     }
 
-    private native boolean GetAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
-    public boolean GetAudioConfig(AudioConfig lpAudioConfig) {
-        return GetAudioConfig(ttInst, lpAudioConfig);
+    private native int getSoundInputLevel(long lpTTInstance);
+    public int getSoundInputLevel() { return getSoundInputLevel(ttInst); }
+
+    private native boolean setSoundInputGainLevel(long lpTTInstance, int nLevel);
+    public boolean setSoundInputGainLevel(int nLevel)
+        { return setSoundInputGainLevel(ttInst, nLevel); }
+
+    private native int getSoundInputGainLevel(long lpTTInstance);
+    public int getSoundInputGainLevel() { return getSoundInputGainLevel(ttInst); }
+
+    private native boolean setAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
+    public boolean setAudioConfig(AudioConfig lpAudioConfig) {
+        return setAudioConfig(ttInst, lpAudioConfig);
     }
 
-    private native boolean SetSoundOutputVolume(long lpTTInstance, int nVolume);
-    public boolean SetSoundOutputVolume(int nVolume)
-        { return SetSoundOutputVolume(ttInst, nVolume); }
+    private native boolean getAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
+    public boolean getAudioConfig(AudioConfig lpAudioConfig) {
+        return getAudioConfig(ttInst, lpAudioConfig);
+    }
 
-    private native int GetSoundOutputVolume(long lpTTInstance);
-    public int GetSoundOutputVolume()
-        { return GetSoundOutputVolume(ttInst); }
+    private native boolean setSoundOutputVolume(long lpTTInstance, int nVolume);
+    public boolean setSoundOutputVolume(int nVolume)
+        { return setSoundOutputVolume(ttInst, nVolume); }
 
-    private native boolean SetSoundOutputMute(long lpTTInstance, boolean bMuteAll);
-    public boolean SetSoundOutputMute(boolean bMuteAll)
-        { return SetSoundOutputMute(ttInst, bMuteAll); }
+    private native int getSoundOutputVolume(long lpTTInstance);
+    public int getSoundOutputVolume()
+        { return getSoundOutputVolume(ttInst); }
 
-    private native boolean Enable3DSoundPositioning(long lpTTInstance,
+    private native boolean setSoundOutputMute(long lpTTInstance, boolean bMuteAll);
+    public boolean setSoundOutputMute(boolean bMuteAll)
+        { return setSoundOutputMute(ttInst, bMuteAll); }
+
+    private native boolean enable3DSoundPositioning(long lpTTInstance,
                                                     boolean bEnable);
-    public boolean Enable3DSoundPositioning(boolean bEnable) {
-        return Enable3DSoundPositioning(ttInst, bEnable);
+    public boolean enable3DSoundPositioning(boolean bEnable) {
+        return enable3DSoundPositioning(ttInst, bEnable);
     }
     
-    private native boolean AutoPositionUsers(long lpTTInstance);
-    public boolean AutoPositionUsers() { return AutoPositionUsers(ttInst); }
+    private native boolean autoPositionUsers(long lpTTInstance);
+    public boolean autoPositionUsers() { return autoPositionUsers(ttInst); }
 
-    private native boolean EnableAudioBlockEvent(long lpTTInstance,
+    private native boolean enableAudioBlockEvent(long lpTTInstance,
                                                  boolean bEnable);
-    public boolean EnableAudioBlockEvent(boolean bEnable)
-        { return EnableAudioBlockEvent(ttInst, bEnable); }
+    public boolean enableAudioBlockEvent(boolean bEnable)
+        { return enableAudioBlockEvent(ttInst, bEnable); }
 
-    private native boolean EnableVoiceTransmission(long lpTTInstance, 
+    private native boolean enableVoiceTransmission(long lpTTInstance, 
                                                    boolean bEnable);
-    public boolean EnableVoiceTransmission(boolean bEnable) {
-        return EnableVoiceTransmission(ttInst, bEnable);
+    public boolean enableVoiceTransmission(boolean bEnable) {
+        return enableVoiceTransmission(ttInst, bEnable);
     }
 
-    private native boolean EnableVoiceActivation(long lpTTInstance,
+    private native boolean enableVoiceActivation(long lpTTInstance,
                                                  boolean bEnable);
-    public boolean EnableVoiceActivation(boolean bEnable)
-        { return EnableVoiceActivation(ttInst, bEnable); }
+    public boolean enableVoiceActivation(boolean bEnable)
+        { return enableVoiceActivation(ttInst, bEnable); }
     
-    private native boolean SetVoiceActivationLevel(long lpTTInstance,
+    private native boolean setVoiceActivationLevel(long lpTTInstance,
                                                    int nLevel);
-    public boolean SetVoiceActivationLevel(int nLevel)
-        { return SetVoiceActivationLevel(nLevel); }
+    public boolean setVoiceActivationLevel(int nLevel)
+        { return setVoiceActivationLevel(nLevel); }
 
-    private native int GetVoiceActivationLevel(long lpTTInstance);
-    public int GetVoiceActivationLevel()
-        { return GetVoiceActivationLevel(ttInst); }
+    private native int getVoiceActivationLevel(long lpTTInstance);
+    public int getVoiceActivationLevel()
+        { return getVoiceActivationLevel(ttInst); }
 
-    private native boolean SetVoiceActivationStopDelay(long lpTTInstance,
+    private native boolean setVoiceActivationStopDelay(long lpTTInstance,
                                                        int nDelayMSec);
-    public boolean SetVoiceActivationStopDelay(int nDelayMSec)
-        { return SetVoiceActivationStopDelay(nDelayMSec); }
+    public boolean setVoiceActivationStopDelay(int nDelayMSec)
+        { return setVoiceActivationStopDelay(nDelayMSec); }
 
-    private native int GetVoiceActivationStopDelay(long lpTTInstance);
-    public int GetVoiceActivationStopDelay()
-        { return GetVoiceActivationStopDelay(ttInst); }
+    private native int getVoiceActivationStopDelay(long lpTTInstance);
+    public int getVoiceActivationStopDelay()
+        { return getVoiceActivationStopDelay(ttInst); }
 
     /** TODO: not implemented
-    private native boolean StartVideoCaptureTransmission(long lpTTInstance,
+    private native boolean startVideoCaptureTransmission(long lpTTInstance,
                                                          VideoCodec lpVideoCodec);
-    public boolean StartVideoCaptureTransmission(VideoCodec lpVideoCodec) {
-        return StartVideoCaptureTransmission(ttInst, lpVideoCodec);
+    public boolean startVideoCaptureTransmission(VideoCodec lpVideoCodec) {
+        return startVideoCaptureTransmission(ttInst, lpVideoCodec);
     }
 
-    private native boolean StopVideoCaptureTransmission(long lpTTInstance);
-    public boolean StopVideoCaptureTransmission() {
-        return StopVideoCaptureTransmission(ttInst);
+    private native boolean stopVideoCaptureTransmission(long lpTTInstance);
+    public boolean stopVideoCaptureTransmission() {
+        return stopVideoCaptureTransmission(ttInst);
     }
 
-    private native boolean StartStreamingMediaFileToChannel(long lpTTInstance,
+    private native boolean startStreamingMediaFileToChannel(long lpTTInstance,
                                                             String szMediaFilePath,
                                                             VideoCodec lpVideoCodec);
-    public boolean StartStreamingMediaFileToChannel(String szMediaFilePath,
+    public boolean startStreamingMediaFileToChannel(String szMediaFilePath,
                                                     VideoCodec lpVideoCodec) {
-        return StartStreamingMediaFileToChannel(ttInst, szMediaFilePath,
+        return startStreamingMediaFileToChannel(ttInst, szMediaFilePath,
                                                 lpVideoCodec);
     }
 
-    private native boolean StopStreamingMediaFileToChannel(long lpTTInstance);
-    public boolean StopStreamingMediaFileToChannel() {
-        return StopStreamingMediaFileToChannel(ttInst);
+    private native boolean stopStreamingMediaFileToChannel(long lpTTInstance);
+    public boolean stopStreamingMediaFileToChannel() {
+        return stopStreamingMediaFileToChannel(ttInst);
     }
 
-    public static native boolean GetMediaFileInfo(String szMediaFilePath,
+    public static native boolean getMediaFileInfo(String szMediaFilePath,
                                                   MediaFileInfo lpMediaFileInfo);
 
-    private native VideoFrame AcquireUserMediaVideoFrame(long lpTTInstance,
+    private native VideoFrame acquireUserMediaVideoFrame(long lpTTInstance,
                                                          int nUserID);
-    public VideoFrame AcquireUserMediaVideoFrame(int nUserID) {
-        return AcquireUserMediaVideoFrame(ttInst, nUserID);
+    public VideoFrame acquireUserMediaVideoFrame(int nUserID) {
+        return acquireUserMediaVideoFrame(ttInst, nUserID);
     }
 
-    private native boolean ReleaseUserMediaVideoFrame(long lpTTInstance,
+    private native boolean releaseUserMediaVideoFrame(long lpTTInstance,
                                                       int nUserID);
-    public boolean ReleaseUserMediaVideoFrame(int nUserID) {
-        return ReleaseUserMediaVideoFrame(ttInst, nUserID);
+    public boolean releaseUserMediaVideoFrame(int nUserID) {
+        return releaseUserMediaVideoFrame(ttInst, nUserID);
     }
 
-    private native boolean SendDesktopCursorPosition(long lpTTInstance,
+    private native boolean sendDesktopCursorPosition(long lpTTInstance,
                                                      int nPosX, int nPosY);
-    public boolean SendDesktopCursorPosition(int nPosX, int nPosY) {
-        return SendDesktopCursorPosition(ttInst, nPosX, nPosY);
+    public boolean sendDesktopCursorPosition(int nPosX, int nPosY) {
+        return sendDesktopCursorPosition(ttInst, nPosX, nPosY);
     }
 
-    private native boolean SendDesktopInput(long lpTTInstance,
+    private native boolean sendDesktopInput(long lpTTInstance,
                                             int nUserID,
                                             DesktopInput[] lpDesktopInputs);
-    public boolean SendDesktopInput(int nUserID,
+    public boolean sendDesktopInput(int nUserID,
                                     DesktopInput[] lpDesktopInputs) {
-        return SendDesktopInput(ttInst, nUserID, lpDesktopInputs);
+        return sendDesktopInput(ttInst, nUserID, lpDesktopInputs);
     }
     */
 
-    private native boolean Connect(long lpTTInstance,
+    private native boolean connect(long lpTTInstance,
                                    String szHostAddress,
                                    int nTcpPort, 
                                    int nUdpPort, 
                                    int nLocalTcpPort, 
                                    int nLocalUdpPort,
                                    boolean bEncrypted);
-    public boolean Connect(String szHostAddress,
+    public boolean connect(String szHostAddress,
                            int nTcpPort, 
                            int nUdpPort, 
                            int nLocalTcpPort, 
                            int nLocalUdpPort,
                            boolean bEncrypted) {
-        return Connect(ttInst, szHostAddress, nTcpPort, nUdpPort, 
+        return connect(ttInst, szHostAddress, nTcpPort, nUdpPort, 
                        nLocalTcpPort, nLocalUdpPort, bEncrypted);
     }
     
-    private native boolean ConnectEx(long lpTTInstance,
+    private native boolean connectEx(long lpTTInstance,
                                      String szHostAddress,
                                      int nTcpPort, 
                                      int nUdpPort, 
@@ -262,368 +262,368 @@ public abstract class TeamTalkBase
                                      int nLocalTcpPort, 
                                      int nLocalUdpPort,
                                      boolean bEncrypted);
-    public boolean ConnectEx(String szHostAddress,
+    public boolean connectEx(String szHostAddress,
                              int nTcpPort, 
                              int nUdpPort, 
                              String szBindIPAddr,
                              int nLocalTcpPort, 
                              int nLocalUdpPort,
                              boolean bEncrypted) {
-        return ConnectEx(ttInst, szHostAddress, nTcpPort, nUdpPort, 
+        return connectEx(ttInst, szHostAddress, nTcpPort, nUdpPort, 
                          szBindIPAddr, nLocalTcpPort, nLocalUdpPort,
                          bEncrypted);
     }
-    private native boolean Disconnect(long lpTTInstance);
-    public boolean Disconnect() {
-        return Disconnect(ttInst);
+    private native boolean disconnect(long lpTTInstance);
+    public boolean disconnect() {
+        return disconnect(ttInst);
     }
-    private native boolean QueryMaxPayload(long lpTTInstance, int nUserID);
-    public boolean QueryMaxPayload(int nUserID) {
-        return QueryMaxPayload(ttInst, nUserID);
-    }
-
-    private native boolean GetClientStatistics(long lpTTInstance, ClientStatistics lpClientStatistics);
-    public boolean GetClientStatistics(ClientStatistics lpClientStatistics) {
-        return GetClientStatistics(ttInst, lpClientStatistics);
+    private native boolean queryMaxPayload(long lpTTInstance, int nUserID);
+    public boolean queryMaxPayload(int nUserID) {
+        return queryMaxPayload(ttInst, nUserID);
     }
 
-    private native int DoPing(long lpTTInstance);
-    public int DoPing() {
-        return DoPing(ttInst);
+    private native boolean getClientStatistics(long lpTTInstance, ClientStatistics lpClientStatistics);
+    public boolean getClientStatistics(ClientStatistics lpClientStatistics) {
+        return getClientStatistics(ttInst, lpClientStatistics);
     }
 
-    private native int DoLogin(long lpTTInstance,
+    private native int doPing(long lpTTInstance);
+    public int doPing() {
+        return doPing(ttInst);
+    }
+
+    private native int doLogin(long lpTTInstance,
                               String szNickname, 
                               String szUsername,
                               String szPassword);
-    public int DoLogin(String szNickname, 
+    public int doLogin(String szNickname, 
                        String szUsername,
                        String szPassword) {
-        return DoLogin(ttInst, szNickname,
+        return doLogin(ttInst, szNickname,
                        szUsername, szPassword);
     }
-    private native int DoLogout(long lpTTInstance);
-    public int DoLogout() { return DoLogout(ttInst); }
+    private native int doLogout(long lpTTInstance);
+    public int doLogout() { return doLogout(ttInst); }
 
-    private native int DoJoinChannel(long lpTTInstance,
+    private native int doJoinChannel(long lpTTInstance,
                                      Channel lpChannel);
-    public int DoJoinChannel(Channel lpChannel) {
-        return DoJoinChannel(ttInst, lpChannel);
+    public int doJoinChannel(Channel lpChannel) {
+        return doJoinChannel(ttInst, lpChannel);
     }
-    private native int DoJoinChannelByID(long lpTTInstance,
+    private native int doJoinChannelByID(long lpTTInstance,
                                          int nChannelID, 
                                          String szPassword);
-    public int DoJoinChannelByID(int nChannelID, 
+    public int doJoinChannelByID(int nChannelID, 
                                  String szPassword) {
-        return DoJoinChannelByID(ttInst, nChannelID, szPassword);
+        return doJoinChannelByID(ttInst, nChannelID, szPassword);
     }
-    private native int DoLeaveChannel(long lpTTInstance);
-    public int DoLeaveChannel() { 
-        return DoLeaveChannel(ttInst);
+    private native int doLeaveChannel(long lpTTInstance);
+    public int doLeaveChannel() { 
+        return doLeaveChannel(ttInst);
     }
-    private native int DoChangeNickname(long lpTTInstance,
+    private native int doChangeNickname(long lpTTInstance,
                                         String szNewNick);
-    public int DoChangeNickname(String szNewNick) { 
-        return DoChangeNickname(ttInst, szNewNick);
+    public int doChangeNickname(String szNewNick) { 
+        return doChangeNickname(ttInst, szNewNick);
     }
-    private native int DoChangeStatus(long lpTTInstance, int nStatusMode, String szStatusMessage);
-    public int DoChangeStatus(int nStatusMode, String szStatusMessage) {
-        return DoChangeStatus(ttInst, nStatusMode, szStatusMessage);
+    private native int doChangeStatus(long lpTTInstance, int nStatusMode, String szStatusMessage);
+    public int doChangeStatus(int nStatusMode, String szStatusMessage) {
+        return doChangeStatus(ttInst, nStatusMode, szStatusMessage);
     }
-    private native int DoTextMessage(long lpTTInstance, TextMessage lpTextMessage);
-    public int DoTextMessage(TextMessage lpTextMessage) {
-        return DoTextMessage(ttInst, lpTextMessage);
+    private native int doTextMessage(long lpTTInstance, TextMessage lpTextMessage);
+    public int doTextMessage(TextMessage lpTextMessage) {
+        return doTextMessage(ttInst, lpTextMessage);
     }
-    private native int DoChannelOp(long lpTTInstance, int nUserID, int nChannelID, boolean bMakeOperator);
-    public int DoChannelOp(int nUserID, int nChannelID, boolean bMakeOperator) {
-        return DoChannelOp(ttInst, nUserID, nChannelID, bMakeOperator);
+    private native int doChannelOp(long lpTTInstance, int nUserID, int nChannelID, boolean bMakeOperator);
+    public int doChannelOp(int nUserID, int nChannelID, boolean bMakeOperator) {
+        return doChannelOp(ttInst, nUserID, nChannelID, bMakeOperator);
     }
-    private native int DoChannelOpEx(long lpTTInstance, int nUserID, int nChannelID, 
+    private native int doChannelOpEx(long lpTTInstance, int nUserID, int nChannelID, 
                                      String szOpPassword,boolean bMakeOperator);
-    public int DoChannelOpEx(int nUserID, int nChannelID, 
+    public int doChannelOpEx(int nUserID, int nChannelID, 
                              String szOpPassword, boolean bMakeOperator) {
-        return DoChannelOpEx(ttInst, nUserID, nChannelID, szOpPassword, bMakeOperator);
+        return doChannelOpEx(ttInst, nUserID, nChannelID, szOpPassword, bMakeOperator);
     }
-    private native int DoKickUser(long lpTTInstance, int nUserID, int nChannelID);
-    public int DoKickUser(int nUserID, int nChannelID) {
-        return DoKickUser(ttInst, nUserID, nChannelID);
+    private native int doKickUser(long lpTTInstance, int nUserID, int nChannelID);
+    public int doKickUser(int nUserID, int nChannelID) {
+        return doKickUser(ttInst, nUserID, nChannelID);
     }
-    private native int DoSendFile(long lpTTInstance, int nChannelID, String szLocalFilePath);
-    public int DoSendFile(int nChannelID, String szLocalFilePath) {
-        return DoSendFile(ttInst, nChannelID, szLocalFilePath);
+    private native int doSendFile(long lpTTInstance, int nChannelID, String szLocalFilePath);
+    public int doSendFile(int nChannelID, String szLocalFilePath) {
+        return doSendFile(ttInst, nChannelID, szLocalFilePath);
     }
-    private native int DoRecvFile(long lpTTInstance, int nChannelID, int nFileID,
+    private native int doRecvFile(long lpTTInstance, int nChannelID, int nFileID,
                                   String szLocalFilePath);
-    public int DoRecvFile(int nChannelID, int nFileID,
+    public int doRecvFile(int nChannelID, int nFileID,
                           String szLocalFilePath) {
-        return DoRecvFile(ttInst, nChannelID, nFileID, szLocalFilePath);
+        return doRecvFile(ttInst, nChannelID, nFileID, szLocalFilePath);
     }
-    private native int DoDeleteFile(long lpTTInstance, int nChannelID, int nFileID);
-    public int DoDeleteFile(int nChannelID, int nFileID) {
-        return DoDeleteFile(ttInst, nChannelID, nFileID);
+    private native int doDeleteFile(long lpTTInstance, int nChannelID, int nFileID);
+    public int doDeleteFile(int nChannelID, int nFileID) {
+        return doDeleteFile(ttInst, nChannelID, nFileID);
     }
-    private native int DoSubscribe(long lpTTInstance, int uSubscriptions);
-    public int DoSubscribe(int uSubscriptions) {
-        return DoSubscribe(ttInst, uSubscriptions);
+    private native int doSubscribe(long lpTTInstance, int uSubscriptions);
+    public int doSubscribe(int uSubscriptions) {
+        return doSubscribe(ttInst, uSubscriptions);
     }
-    private native int DoUnsubscribe(long lpTTInstance, int uSubscriptions);
-    public int DoUnsubscribe(int uSubscriptions) {
-        return DoUnsubscribe(ttInst, uSubscriptions);
+    private native int doUnsubscribe(long lpTTInstance, int uSubscriptions);
+    public int doUnsubscribe(int uSubscriptions) {
+        return doUnsubscribe(ttInst, uSubscriptions);
     }
-    private native int DoMakeChannel(long lpTTInstance, Channel lpChannel);
-    public int DoMakeChannel(Channel lpChannel) {
-        return DoMakeChannel(ttInst, lpChannel);
+    private native int doMakeChannel(long lpTTInstance, Channel lpChannel);
+    public int doMakeChannel(Channel lpChannel) {
+        return doMakeChannel(ttInst, lpChannel);
     }
-    private native int DoUpdateChannel(long lpTTInstance, Channel lpChannel);
-    public int DoUpdateChannel(Channel lpChannel) {
-        return DoUpdateChannel(ttInst, lpChannel);
+    private native int doUpdateChannel(long lpTTInstance, Channel lpChannel);
+    public int doUpdateChannel(Channel lpChannel) {
+        return doUpdateChannel(ttInst, lpChannel);
     }
-    private native int DoRemoveChannel(long lpTTInstance, int nChannelID);
-    public int DoRemoveChannel(int nChannelID) {
-        return DoRemoveChannel(ttInst, nChannelID);
+    private native int doRemoveChannel(long lpTTInstance, int nChannelID);
+    public int doRemoveChannel(int nChannelID) {
+        return doRemoveChannel(ttInst, nChannelID);
     }
-    private native int DoUpdateServer(long lpTTInstance, ServerProperties lpServerProperties);
-    public int DoUpdateServer(ServerProperties lpServerProperties) {
-        return DoUpdateServer(ttInst, lpServerProperties);
+    private native int doUpdateServer(long lpTTInstance, ServerProperties lpServerProperties);
+    public int doUpdateServer(ServerProperties lpServerProperties) {
+        return doUpdateServer(ttInst, lpServerProperties);
     }
-    private native int DoListUserAccounts(long lpTTInstance, int nIndex, int nCount);
-    public int DoListUserAccounts(int nIndex, int nCount) {
-        return DoListUserAccounts(ttInst, nIndex, nCount);
+    private native int doListUserAccounts(long lpTTInstance, int nIndex, int nCount);
+    public int doListUserAccounts(int nIndex, int nCount) {
+        return doListUserAccounts(ttInst, nIndex, nCount);
     }
-    private native int DoNewUserAccount(long lpTTInstance, UserAccount lpUserAccount);
-    public int DoNewUserAccount(UserAccount lpUserAccount) {
-        return DoNewUserAccount(ttInst, lpUserAccount);
+    private native int doNewUserAccount(long lpTTInstance, UserAccount lpUserAccount);
+    public int doNewUserAccount(UserAccount lpUserAccount) {
+        return doNewUserAccount(ttInst, lpUserAccount);
     }
-    private native int DoDeleteUserAccount(long lpTTInstance, String szUsername);
-    public int DoDeleteUserAccount(String szUsername) {
-        return DoDeleteUserAccount(ttInst, szUsername);
+    private native int doDeleteUserAccount(long lpTTInstance, String szUsername);
+    public int doDeleteUserAccount(String szUsername) {
+        return doDeleteUserAccount(ttInst, szUsername);
     }
-    private native int DoBanUser(long lpTTInstance, int nUserID);
-    public int DoBanUser(int nUserID) {
-        return DoBanUser(ttInst, nUserID);
+    private native int doBanUser(long lpTTInstance, int nUserID);
+    public int doBanUser(int nUserID) {
+        return doBanUser(ttInst, nUserID);
     }
-    private native int DoBanIPAddress(long lpTTInstance, String szIPAddress);
-    public int DoBanIPAddress(String szIPAddress) {
-        return DoBanIPAddress(ttInst, szIPAddress);
+    private native int doBanIPAddress(long lpTTInstance, String szIPAddress);
+    public int doBanIPAddress(String szIPAddress) {
+        return doBanIPAddress(ttInst, szIPAddress);
     }
-    private native int DoUnBanUser(long lpTTInstance, String szIPAddress);
-    public int DoUnBanUser(String szIPAddress) {
-        return DoUnBanUser(ttInst, szIPAddress);
+    private native int doUnBanUser(long lpTTInstance, String szIPAddress);
+    public int doUnBanUser(String szIPAddress) {
+        return doUnBanUser(ttInst, szIPAddress);
     }
-    private native int DoListBans(long lpTTInstance, int nIndex, int nCount);
-    public int DoListBans(int nIndex, int nCount) {
-        return DoListBans(ttInst, nIndex, nCount);
+    private native int doListBans(long lpTTInstance, int nIndex, int nCount);
+    public int doListBans(int nIndex, int nCount) {
+        return doListBans(ttInst, nIndex, nCount);
     }
-    private native int DoSaveConfig(long lpTTInstance);
-    public int DoSaveConfig() {
-        return DoSaveConfig(ttInst);
+    private native int doSaveConfig(long lpTTInstance);
+    public int doSaveConfig() {
+        return doSaveConfig(ttInst);
     }
-    private native int DoQueryServerStats(long lpTTInstance);
-    public int DoQueryServerStats() {
-        return DoQueryServerStats(ttInst);
+    private native int doQueryServerStats(long lpTTInstance);
+    public int doQueryServerStats() {
+        return doQueryServerStats(ttInst);
     }
-    private native int DoQuit(long lpTTInstance);
-    public int DoQuit() {
-        return DoQuit(ttInst);
+    private native int doQuit(long lpTTInstance);
+    public int doQuit() {
+        return doQuit(ttInst);
     }
-    private native boolean GetServerProperties(long lpTTInstance,
+    private native boolean getServerProperties(long lpTTInstance,
                                                ServerProperties lpServerProperties);
-    public boolean GetServerProperties(ServerProperties lpServerProperties)
-        { return GetServerProperties(ttInst, lpServerProperties); }
-    private native boolean GetServerUsers(long lpTTInstance,
+    public boolean getServerProperties(ServerProperties lpServerProperties)
+        { return getServerProperties(ttInst, lpServerProperties); }
+    private native boolean getServerUsers(long lpTTInstance,
                                           User[] lpUserIDs, IntPtr lpnHowMany);
-    public boolean GetServerUsers(User[] lpUsers, IntPtr lpnHowMany) {
-        return GetServerUsers(ttInst, lpUsers, lpnHowMany);
+    public boolean getServerUsers(User[] lpUsers, IntPtr lpnHowMany) {
+        return getServerUsers(ttInst, lpUsers, lpnHowMany);
     }
-    private native int GetRootChannelID(long lpTTInstance);
-    public int GetRootChannelID() {
-        return GetRootChannelID(ttInst);
+    private native int getRootChannelID(long lpTTInstance);
+    public int getRootChannelID() {
+        return getRootChannelID(ttInst);
     }
-    private native int GetMyChannelID(long lpTTInstance);
-    public int GetMyChannelID() {
-        return GetMyChannelID(ttInst);
+    private native int getMyChannelID(long lpTTInstance);
+    public int getMyChannelID() {
+        return getMyChannelID(ttInst);
     }
-    private native boolean GetChannel(long lpTTInstance,
+    private native boolean getChannel(long lpTTInstance,
                                      int nChannelID,
                                      Channel lpChannel);
-    public boolean GetChannel(int nChannelID,
+    public boolean getChannel(int nChannelID,
                               Channel lpChannel) {
-        return GetChannel(ttInst, nChannelID, lpChannel);
+        return getChannel(ttInst, nChannelID, lpChannel);
     }
-    private native String GetChannelPath(long lpTTInstance,
+    private native String getChannelPath(long lpTTInstance,
                                          int nChannelID);
-    public String GetChannelPath(int nChannelID) {
-        return GetChannelPath(ttInst, nChannelID);
+    public String getChannelPath(int nChannelID) {
+        return getChannelPath(ttInst, nChannelID);
     }
-    private native int GetChannelIDFromPath(long lpTTInstance,
+    private native int getChannelIDFromPath(long lpTTInstance,
                                             String szChannelPath);
-    public int GetChannelIDFromPath(String szChannelPath) {
-        return GetChannelIDFromPath(ttInst, szChannelPath);
+    public int getChannelIDFromPath(String szChannelPath) {
+        return getChannelIDFromPath(ttInst, szChannelPath);
     }
-    private native boolean GetChannelUsers(long lpTTInstance,
+    private native boolean getChannelUsers(long lpTTInstance,
                                            int nChannelID,
                                            User[] lpUsers,
                                            IntPtr lpnHowMany);
-    public boolean GetChannelUsers(int nChannelID,
+    public boolean getChannelUsers(int nChannelID,
                                    User[] lpUsers,
                                    IntPtr lpnHowMany) {
-        return GetChannelUsers(ttInst, nChannelID, lpUsers, lpnHowMany);
+        return getChannelUsers(ttInst, nChannelID, lpUsers, lpnHowMany);
     }
 
-    private native boolean GetChannelFiles(long lpTTInstance,
+    private native boolean getChannelFiles(long lpTTInstance,
                                            int nChannelID,
                                            RemoteFile[] lpRemoteFiles,
                                            IntPtr lpnHowMany);
-    public boolean GetChannelFiles(int nChannelID,
+    public boolean getChannelFiles(int nChannelID,
                                    RemoteFile[] lpRemoteFiles,
                                    IntPtr lpnHowMany) {
-        return GetChannelFiles(ttInst, nChannelID, lpRemoteFiles, lpnHowMany);
+        return getChannelFiles(ttInst, nChannelID, lpRemoteFiles, lpnHowMany);
     }
 
-    private native boolean GetChannelFile(long lpTTInstance,
+    private native boolean getChannelFile(long lpTTInstance,
                                           int nChannelID,
                                           int nFileID, 
                                           RemoteFile lpRemoteFile);
-    public boolean GetChannelFile(int nChannelID,
+    public boolean getChannelFile(int nChannelID,
                                   int nFileID, 
                                   RemoteFile lpRemoteFile) {
-        return GetChannelFile(ttInst, nChannelID, nFileID, lpRemoteFile);
+        return getChannelFile(ttInst, nChannelID, nFileID, lpRemoteFile);
     }
-    private native boolean IsChannelOperator(long lpTTInstance,
+    private native boolean isChannelOperator(long lpTTInstance,
                                       int nUserID,
                                       int nChannelID);
-    public boolean IsChannelOperator(int nUserID,
+    public boolean isChannelOperator(int nUserID,
                                      int nChannelID) {
-        return IsChannelOperator(ttInst, nUserID, nChannelID);
+        return isChannelOperator(ttInst, nUserID, nChannelID);
     }
 
-    private native boolean GetServerChannels(long lpTTInstance,
+    private native boolean getServerChannels(long lpTTInstance,
                                              Channel[] lpChannels,
                                              IntPtr lpnHowMany);
     //TODO: return array instead of query
-    public boolean GetServerChannels(Channel[] lpChannels,
+    public boolean getServerChannels(Channel[] lpChannels,
                                      IntPtr lpnHowMany) {
-        return GetServerChannels(ttInst, lpChannels, lpnHowMany);
+        return getServerChannels(ttInst, lpChannels, lpnHowMany);
     }
 
-    private native int GetMyUserID(long lpTTInstance);
-    public int GetMyUserID() {
-        return GetMyUserID(ttInst);
+    private native int getMyUserID(long lpTTInstance);
+    public int getMyUserID() {
+        return getMyUserID(ttInst);
     }
-    private native boolean GetMyUserAccount(long lpTTInstance,
+    private native boolean getMyUserAccount(long lpTTInstance,
                                             UserAccount lpUserAccount);
-    public boolean GetMyUserAccount(UserAccount lpUserAccount) {
-        return GetMyUserAccount(ttInst, lpUserAccount);
+    public boolean getMyUserAccount(UserAccount lpUserAccount) {
+        return getMyUserAccount(ttInst, lpUserAccount);
     }
-    private native boolean GetUser(long lpTTInstance,
+    private native boolean getUser(long lpTTInstance,
                                   int nUserID,
                                   User lpUser);
-    public boolean GetUser(int nUserID,
+    public boolean getUser(int nUserID,
                            User lpUser) {
-        return GetUser(ttInst, nUserID, lpUser);
+        return getUser(ttInst, nUserID, lpUser);
     }
-    private native boolean GetUserStatistics(long lpTTInstance,
+    private native boolean getUserStatistics(long lpTTInstance,
                                              int nUserID,
                                              UserStatistics lpUserStatistics);
-    public boolean GetUserStatistics(int nUserID,
+    public boolean getUserStatistics(int nUserID,
                            UserStatistics lpUserStatistics) {
-        return GetUserStatistics(ttInst, nUserID, lpUserStatistics);
+        return getUserStatistics(ttInst, nUserID, lpUserStatistics);
     }
 
-    private native boolean SetUserVolume(long lpTTInstance,
+    private native boolean setUserVolume(long lpTTInstance,
                                          int nUserID,
                                          int nStreamType,
                                          int nVolume);
-    public boolean SetUserVolume(int nUserID,
+    public boolean setUserVolume(int nUserID,
                                  int nStreamType,
                                  int nVolume) {
-        return SetUserVolume(ttInst, nUserID, nStreamType, nVolume);
+        return setUserVolume(ttInst, nUserID, nStreamType, nVolume);
     }
-    private native boolean SetUserGainLevel(long lpTTInstance,
+    private native boolean setUserGainLevel(long lpTTInstance,
                                             int nUserID,
                                             int nStreamType,
                                             int nGainLevel);
-    public boolean SetUserGainLevel(int nUserID,
+    public boolean setUserGainLevel(int nUserID,
                                     int nStreamType,
                                     int nGainLevel) {
-        return SetUserGainLevel(ttInst, nUserID, nStreamType, nGainLevel);
+        return setUserGainLevel(ttInst, nUserID, nStreamType, nGainLevel);
     }
-    private native boolean SetUserMute(long lpTTInstance,
+    private native boolean setUserMute(long lpTTInstance,
                                        int nUserID,
                                        int nStreamType,
                                        boolean bMute);
-    public boolean SetUserMute(int nUserID,
+    public boolean setUserMute(int nUserID,
                                int nStreamType,
                                boolean bMute) {
-        return SetUserMute(ttInst, nUserID, nStreamType, bMute);
+        return setUserMute(ttInst, nUserID, nStreamType, bMute);
     }
-    private native boolean SetUserStoppedPlaybackDelay(long lpTTInstance,
+    private native boolean setUserStoppedPlaybackDelay(long lpTTInstance,
                                                        int nUserID,
                                                        int nStreamType,
                                                        int nDelayMSec);
-    public boolean SetUserStoppedPlaybackDelay(int nUserID,
+    public boolean setUserStoppedPlaybackDelay(int nUserID,
                                               int nStreamType,
                                               int nDelayMSec) {
-        return SetUserStoppedPlaybackDelay(ttInst, nUserID, nStreamType, nDelayMSec);
+        return setUserStoppedPlaybackDelay(ttInst, nUserID, nStreamType, nDelayMSec);
     }
-    private native boolean SetUserPosition(long lpTTInstance,
+    private native boolean setUserPosition(long lpTTInstance,
                                            int nUserID,
                                            int nStreamType,
                                            float x, float y, float z);
-    public boolean SetUserPosition(int nUserID,
+    public boolean setUserPosition(int nUserID,
                                    int nStreamType,
                                    float x, float y, float z) {
-        return SetUserPosition(ttInst, nUserID, nStreamType, x, y, z);
+        return setUserPosition(ttInst, nUserID, nStreamType, x, y, z);
     }
-    private native boolean SetUserStereo(long lpTTInstance,
+    private native boolean setUserStereo(long lpTTInstance,
                                          int nUserID,
                                          int nStreamType,
                                          boolean bLeftSpeaker,
                                          boolean bRightSpeaker);
-    public boolean SetUserStereo(int nUserID,
+    public boolean setUserStereo(int nUserID,
                                  int nStreamType,
                                  boolean bLeftSpeaker,
                                  boolean bRightSpeaker) {
-        return SetUserStereo(ttInst, nUserID, nStreamType, bLeftSpeaker, bRightSpeaker);
+        return setUserStereo(ttInst, nUserID, nStreamType, bLeftSpeaker, bRightSpeaker);
     }
-    private native boolean SetUserAudioFolder(long lpTTInstance,
+    private native boolean setUserAudioFolder(long lpTTInstance,
                                               int nUserID,
                                               String szFolderPath,
                                               String szFileNameVars,
                                               int uAFF);
-    public boolean SetUserAudioFolder(int nUserID,
+    public boolean setUserAudioFolder(int nUserID,
                                       String szFolderPath,
                                       String szFileNameVars, int uAFF) {
-        return SetUserAudioFolder(ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
+        return setUserAudioFolder(ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
     }
-    private native boolean SetUserAudioStreamBufferSize(long lpTTInstance,
+    private native boolean setUserAudioStreamBufferSize(long lpTTInstance,
                                                         int nUserID, int uStreamType, int nMSec);
-    public boolean SetUserAudioStreamBufferSize(int nUserID, int uStreamType, int nMSec) {
-        return SetUserAudioStreamBufferSize(ttInst, nUserID, uStreamType, nMSec);
+    public boolean setUserAudioStreamBufferSize(int nUserID, int uStreamType, int nMSec) {
+        return setUserAudioStreamBufferSize(ttInst, nUserID, uStreamType, nMSec);
     }
-    private native boolean GetFileTransferInfo(long lpTTInstance,
+    private native boolean getFileTransferInfo(long lpTTInstance,
                                                int nTransferID, FileTransfer lpFileTransfer);
-    public boolean GetFileTransferInfo(int nTransferID, FileTransfer lpFileTransfer) {
-        return GetFileTransferInfo(ttInst, nTransferID, lpFileTransfer);
+    public boolean getFileTransferInfo(int nTransferID, FileTransfer lpFileTransfer) {
+        return getFileTransferInfo(ttInst, nTransferID, lpFileTransfer);
     }
-    private native boolean CancelFileTransfer(long lpTTInstance,
+    private native boolean cancelFileTransfer(long lpTTInstance,
                                               int nTransferID);
-    public boolean CancelFileTransfer(int nTransferID) {
-        return CancelFileTransfer(ttInst, nTransferID);
+    public boolean cancelFileTransfer(int nTransferID) {
+        return cancelFileTransfer(ttInst, nTransferID);
     }
-    private native boolean GetBannedUsers(long lpTTInstance,
+    private native boolean getBannedUsers(long lpTTInstance,
                                           BannedUser[] lpBannedUsers,
                                           IntPtr lpnHowMany);
-    public boolean GetBannedUsers(BannedUser[] lpBannedUsers,
+    public boolean getBannedUsers(BannedUser[] lpBannedUsers,
                                   IntPtr lpnHowMany) {
-        return GetBannedUsers(ttInst, lpBannedUsers, lpnHowMany);
+        return getBannedUsers(ttInst, lpBannedUsers, lpnHowMany);
     }
-    private native boolean GetUserAccounts(long lpTTInstance,
+    private native boolean getUserAccounts(long lpTTInstance,
                                            UserAccount[] lpUserAccounts,
                                            IntPtr lpnHowMany);
-    public boolean GetUserAccounts(UserAccount[] lpUserAccounts,
+    public boolean getUserAccounts(UserAccount[] lpUserAccounts,
                                    IntPtr lpnHowMany) {
-        return GetUserAccounts(ttInst, lpUserAccounts, lpnHowMany);
+        return getUserAccounts(ttInst, lpUserAccounts, lpnHowMany);
     }
-    public native String GetErrorMessage(int nError);
+    public native String getErrorMessage(int nError);
 }

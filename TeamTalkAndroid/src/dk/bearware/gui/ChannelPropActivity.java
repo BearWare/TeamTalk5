@@ -73,10 +73,10 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
             case R.id.action_updatechannel : {
                 setgetChannel(true);
                 if (channel.nChannelID > 0)
-                    updateCmdId = ttclient.DoUpdateChannel(channel);
+                    updateCmdId = ttclient.doUpdateChannel(channel);
                 else {
                     setgetChannel(true);
-                    updateCmdId = ttclient.DoJoinChannel(channel);
+                    updateCmdId = ttclient.doJoinChannel(channel);
                 }
             }
                 break;

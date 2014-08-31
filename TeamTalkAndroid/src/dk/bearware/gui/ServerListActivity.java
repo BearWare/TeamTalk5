@@ -39,13 +39,14 @@ import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
 import dk.bearware.data.ServerEntry;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,14 +69,10 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mConnection = new TeamTalkConnection(this);
-
         adapter = new ServerListAdapter(this.getBaseContext());
         setListAdapter(adapter);
 
-        setContentView(R.layout.activity_server_list);
-
-        loadServers();
+        setContentView(R.layout.activity_server_list);        
     }
 
     @Override
@@ -83,13 +80,14 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         super.onResume();
     }
 
-    TeamTalkConnection mConnection;
+    TeamTalkConnection mConnection = new TeamTalkConnection(this);
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
 
     @Override
     protected void onStart() {
         super.onStart();
+        
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -100,7 +98,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     protected void onStop() {
         super.onStop();
         // Unbind from the service
-        unbindService(mConnection);
+         unbindService(mConnection);
     }
 
     ServerEntry serverentry;
@@ -154,6 +152,9 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
                 Intent edit = new Intent(this, ServerEntryActivity.class);
                 startActivityForResult(edit, REQUEST_NEWSERVER);
             break;
+            case R.id.action_refreshserverlist :
+                refreshServerList();
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -203,6 +204,8 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
             TextView name = (TextView) convertView.findViewById(R.id.server_name);
             TextView address = (TextView) convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
+            if(servers.get(position).public_server)
+                name.setTextColor(Color.parseColor("#85E58D"));
             address.setText(servers.get(position).ipaddr);
             Button connect = (Button) convertView.findViewById(R.id.server_connect);
             Button remove = (Button) convertView.findViewById(R.id.server_remove);
@@ -213,8 +216,8 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
                         case R.id.server_connect :
                             serverentry = servers.get(position);
 
-                            if(!ttclient.Connect(serverentry.ipaddr, serverentry.tcpport, serverentry.udpport, 0, 0, false)) {
-                                ttclient.Disconnect();
+                            if(!ttclient.connect(serverentry.ipaddr, serverentry.tcpport, serverentry.udpport, 0, 0, false)) {
+                                ttclient.disconnect();
                                 Toast.makeText(ServerListActivity.this, "Failed to connect to " + serverentry.ipaddr,
                                     Toast.LENGTH_LONG).show();
                             }
@@ -256,6 +259,8 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         }
 
         for(i = 0;i < servers.size();i++) {
+            if(servers.get(i).public_server)
+                continue;
             edit.putString(i + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
             edit.putString(i + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
             edit.putInt(i + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
@@ -271,8 +276,8 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         edit.apply();
     }
 
-    void loadServers() {
-        // SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+    void loadLocalServers() {
+        //load from file
         SharedPreferences pref = this.getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
         int i = 0;
         while(!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
@@ -281,6 +286,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
             entry.ipaddr = pref.getString(i + ServerEntry.KEY_IPADDR, "");
             entry.tcpport = pref.getInt(i + ServerEntry.KEY_TCPPORT, 0);
             entry.udpport = pref.getInt(i + ServerEntry.KEY_UDPPORT, 0);
+            entry.encrypted = pref.getBoolean(i + ServerEntry.KEY_ENCRYPTED, false);
             entry.username = pref.getString(i + ServerEntry.KEY_USERNAME, "");
             entry.password = pref.getString(i + ServerEntry.KEY_PASSWORD, "");
             entry.channel = pref.getString(i + ServerEntry.KEY_CHANNEL, "");
@@ -288,10 +294,53 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
             servers.add(entry);
             i++;
         }
-        if(servers.size() > 0)
-            adapter.notifyDataSetChanged();
+        
+        adapter.notifyDataSetChanged();
     }
+    
+    class UrlAsyncTask extends AsyncTask<Void, Void, Void> {
 
+        Vector<ServerEntry> entries;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String APPNAME_SHORT = "TeamTalk5", APPVERSION_SHORT = "5.0", OSTYPE = "Android";
+            final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
+            String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + APPNAME_SHORT + "&version="
+                + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+
+            String xml = Utils.getURL(urlToRead);
+            if(!xml.isEmpty())
+                entries = Utils.getXmlServerEntries(xml);
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            if(entries == null)
+                Toast.makeText(ServerListActivity.this,
+                               "Failed to retrieve public server list",
+                               Toast.LENGTH_LONG).show();
+            else if(entries.size() > 0) {
+                synchronized(servers) {
+                    servers.addAll(entries);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+    
+    void refreshServerList() {
+        synchronized(servers) {
+            servers.clear();
+            loadLocalServers();        
+        }
+
+        // Get public servers from from http. TeamTalk DLL must be loaded by 
+        // service, otherwise static methods are unavailable (for getting DLL
+        // version number).
+        new UrlAsyncTask().execute();
+    }
+    
     @Override
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
@@ -302,9 +351,11 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
 
         // reset state since we're creating a new connection
         ttservice.resetState();
-        ttclient.Disconnect();
-        ttclient.CloseSoundInputDevice();
-        ttclient.CloseSoundOutputDevice();
+        ttclient.disconnect();
+        ttclient.closeSoundInputDevice();
+        ttclient.closeSoundOutputDevice();
+        
+        refreshServerList();
     }
 
     @Override
@@ -317,7 +368,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     @Override
     public void onConnectSuccess() {
         assert (serverentry != null);
-        loginCmdId = ttclient.DoLogin("Android", serverentry.username, serverentry.password);
+        loginCmdId = ttclient.doLogin("Android", serverentry.username, serverentry.password);
     }
 
     @Override
