@@ -304,53 +304,53 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
 
-QString GetHotKeyText(const hotkey_t& hotkey);
+QString getHotKeyText(const hotkey_t& hotkey);
 
-bool IsComputerIdle(int idle_secs);
+bool isComputerIdle(int idle_secs);
 
-void SaveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
+void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 
-bool LoadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
+bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
 
-void DeleteHotKeySettings(HotKeyID hotkeyid);
+void deleteHotKeySettings(HotKeyID hotkeyid);
 
-void PlaySoundEvent(SoundEvent event);
+void playSoundEvent(SoundEvent event);
 
-void AddLatestHost(const HostEntry& host);
-bool GetLatestHost(int index, HostEntry& host);
+void addLatestHost(const HostEntry& host);
+bool getLatestHost(int index, HostEntry& host);
 
 //server entries in settings file
-void AddServerEntry(const HostEntry& host);
-void SetServerEntry(int index, const HostEntry& host);
-bool GetServerEntry(int index, HostEntry& host);
-void DeleteServerEntry(const QString& name);
+void addServerEntry(const HostEntry& host);
+void setServerEntry(int index, const HostEntry& host);
+bool getServerEntry(int index, HostEntry& host);
+void deleteServerEntry(const QString& name);
 
 //server entry from XML
-bool GetServerEntry(const QDomElement& hostElement, HostEntry& entry);
+bool getServerEntry(const QDomElement& hostElement, HostEntry& entry);
 
 //get desktop access list
-void AddDesktopAccessEntry(const DesktopAccessEntry& entry);
-void GetDesktopAccessList(QVector<DesktopAccessEntry>& entries);
-void GetDesktopAccessList(QVector<DesktopAccessEntry>& entries,
+void addDesktopAccessEntry(const DesktopAccessEntry& entry);
+void getDesktopAccessList(QVector<DesktopAccessEntry>& entries);
+void getDesktopAccessList(QVector<DesktopAccessEntry>& entries,
                           const QString& ipaddr, int tcpport);
 bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
                       const User& user);
-void DeleteDesktopAccessEntries();
+void deleteDesktopAccessEntries();
 
-QString NewVersionAvailable(const QDomDocument& updateDoc);
+QString newVersionAvailable(const QDomDocument& updateDoc);
 
-QByteArray GenerateTTFile(const HostEntry& entry);
+QByteArray generateTTFile(const HostEntry& entry);
 
 //gain level based on volume (volume can be greater than SOUND_VOLUME_MAX)
 int gainLevel(int ref_volume);
 void incVolume(int userid, StreamType stream_type);
 void decVolume(int userid, StreamType stream_type);
 
-bool VersionSameOrLater(const QString& check, const QString& against);
+bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);
 
-QString GetDateTimeStamp();
-QString GenerateAudioStorageFilename(AudioFileFormat aff);
+QString getDateTimeStamp();
+QString generateAudioStorageFilename(AudioFileFormat aff);
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
                      const QColor& fgcolor, const QString& text,

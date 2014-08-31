@@ -136,8 +136,6 @@ void UserDesktopWidget::refreshTimeout()
     Q_ASSERT(!m_image.isNull());
     if(m_desktop_window->bmpFormat == BMP_RGB8_PALETTE)
     {
-        int bytes_per_line = m_image.bytesPerLine();
-        bytes_per_line = bytes_per_line;
         QVector<QRgb> colors(256);
         for(int i=0;i<256;i++)
         {

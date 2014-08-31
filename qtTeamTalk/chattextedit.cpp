@@ -218,6 +218,7 @@ void ChatTextEdit::addTextMessage(const TextMessage& msg)
         line += QString("<%1->BROADCAST> %2").arg(_Q(user.szNickname))
                        .arg(_Q(msg.szMessage));
         break;
+    case MSGTYPE_CUSTOM : break;
     }
 
     if(TT_GetMyUserID(ttInst) == msg.nFromUserID)

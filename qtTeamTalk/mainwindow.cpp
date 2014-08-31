@@ -638,7 +638,7 @@ bool MainWindow::parseArgs(const QStringList& args)
                 if(rx.indexIn(prop)>=0)
                     entry.chanpasswd = rx.cap(1);
 
-                AddLatestHost(entry);
+                addLatestHost(entry);
                 Disconnect();
                 Connect();
                 return false;
@@ -697,7 +697,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ZERO_STRUCT(m_clientstats);
 
         HostEntry entry;
-        GetLatestHost(0, entry);
+        getLatestHost(0, entry);
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
 
         int cmdid = TT_DoLogin(ttInst, _W(nick), _W(entry.username),
@@ -719,7 +719,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Disconnect();
         HostEntry entry;
-        GetLatestHost(0, entry);
+        getLatestHost(0, entry);
 
         addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
                      .arg(entry.ipaddr).arg(entry.tcpport).arg(entry.udpport));
@@ -734,12 +734,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
         HostEntry entry;
-        GetLatestHost(0, entry);
+        getLatestHost(0, entry);
 
         addStatusMsg(tr("Connection lost to %1 TCP port %2 UDP port %3")
                      .arg(entry.ipaddr).arg(entry.tcpport).arg(entry.udpport));
 
-        PlaySoundEvent(SOUNDEVENT_SERVERLOST);
+        playSoundEvent(SOUNDEVENT_SERVERLOST);
 
         update_ui = true;
     }
@@ -884,7 +884,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         {
             if((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 &&
                (msg.user.nStatusMode & STATUSMODE_QUESTION))
-               PlaySoundEvent(SOUNDEVENT_QUESTIONMODE);
+               playSoundEvent(SOUNDEVENT_QUESTIONMODE);
         }
 
         //update desktop access button
@@ -911,7 +911,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                                         *ite != CMD_COMPLETE_JOINCHANNEL)) )
         {
             updateChannelFiles(file.nChannelID);
-            PlaySoundEvent(SOUNDEVENT_FILESUPD);
+            playSoundEvent(SOUNDEVENT_FILESUPD);
         }
 
         update_ui = true;
@@ -1000,7 +1000,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         }
         
         if(m_talking.empty())
-            PlaySoundEvent(SOUNDEVENT_SILENCE);
+            playSoundEvent(SOUNDEVENT_SILENCE);
     }
     break;
     case CLIENTEVENT_VOICE_ACTIVATION :
@@ -1069,7 +1069,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             else
                 ui.videogridWidget->slotAddUser(userid);
 
-            PlaySoundEvent(SOUNDEVENT_NEWVIDEO);
+            playSoundEvent(SOUNDEVENT_NEWVIDEO);
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
@@ -1101,7 +1101,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             else
                 ui.videogridWidget->slotAddUser(userid);
 
-            PlaySoundEvent(SOUNDEVENT_NEWVIDEO);
+            playSoundEvent(SOUNDEVENT_NEWVIDEO);
 
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
@@ -1128,7 +1128,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 else
                     ui.desktopgridWidget->slotAddUser(msg.nSource);
 
-                PlaySoundEvent(SOUNDEVENT_NEWDESKTOP);
+                playSoundEvent(SOUNDEVENT_NEWDESKTOP);
 
                 User user;
                 if(ui.channelsWidget->getUser(msg.nSource, user))
@@ -1188,6 +1188,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             addStatusMsg(tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
                          .arg(_Q(user.szNickname)));
+            break;
+        case MFS_FINISHED :
+            addStatusMsg(tr("Finished audio file %1")
+                         .arg(_Q(msg.mediafileinfo.szFileName)));
+            break;
+        case MFS_ABORTED :
+            addStatusMsg(tr("Aborted audio file %1")
+                         .arg(_Q(msg.mediafileinfo.szFileName)));
+            break;
+        case MFS_CLOSED :
             break;
         }
     }
@@ -1278,6 +1288,8 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
                 m_useraccountsdlg->activateWindow();
         }
         break;
+        default :
+            break;
         }
     }
 
@@ -1309,7 +1321,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
     //join channel (if specified)
     HostEntry host;
-    GetLatestHost(0, host);
+    getLatestHost(0, host);
 
     Channel tmpchan;
     int channelid = TT_GetChannelIDFromPath(ttInst, _W(host.channel));
@@ -1490,7 +1502,7 @@ void MainWindow::Connect()
 
     //find host to connect to
     HostEntry host;
-    GetLatestHost(0, host);
+    getLatestHost(0, host);
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
 
@@ -1498,7 +1510,7 @@ void MainWindow::Connect()
         .arg(host.ipaddr).arg(host.tcpport).arg(host.udpport));
 
     m_desktopaccess_entries.clear();
-    GetDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
+    getDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
 
     if(!TT_Connect(ttInst, _W(host.ipaddr), host.tcpport,
                    host.udpport, localtcpport, localudpport, host.encrypted))
@@ -1554,7 +1566,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INVALID_ACCOUNT :
         {
             HostEntry host;
-            GetLatestHost(0, host);
+            getLatestHost(0, host);
             bool ok = false;
             host.username = QInputDialog::getText(this, tr("Login error"), 
                 tr("Invalid user account. Type username:"), 
@@ -1566,7 +1578,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 QLineEdit::Password, host.password, &ok);
             if(!ok)
                 return;
-            AddLatestHost(host);
+            addLatestHost(host);
             int cmdid = TT_DoLogin(ttInst, 
                 _W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()),
                 _W(host.username), _W(host.password));
@@ -1683,7 +1695,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     case HOTKEY_PUSHTOTALK :
         TT_EnableVoiceTransmission(ttInst, active);
         emit(updateMyself());
-        PlaySoundEvent(SOUNDEVENT_HOTKEY);
+        playSoundEvent(SOUNDEVENT_HOTKEY);
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
@@ -1808,13 +1820,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
             if(idle_time != 0)
             {
                 QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-                if(IsComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
+                if(isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_AWAY) == 0)
                 {
                     m_statusmode |= STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
                     m_idled_out = true;
                 }
-                else if(m_idled_out && !IsComputerIdle(idle_time))
+                else if(m_idled_out && !isComputerIdle(idle_time))
                 {
                     m_statusmode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
@@ -2066,7 +2078,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
     switch(textmsg.nMsgType)
     {
     case MSGTYPE_CHANNEL :
-        PlaySoundEvent(SOUNDEVENT_CHANNELMSG);
+        playSoundEvent(SOUNDEVENT_CHANNELMSG);
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
@@ -2081,7 +2093,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         }
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
-        PlaySoundEvent(SOUNDEVENT_USERMSG);
+        playSoundEvent(SOUNDEVENT_USERMSG);
         break;
     }
     case MSGTYPE_CUSTOM :
@@ -2102,7 +2114,7 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
             if(cmd[1] == "1")
             {
                 addStatusMsg(QString(tr("%1 is requesting desktop access").arg(_Q(user.szNickname))));
-                PlaySoundEvent(SOUNDEVENT_DESKTOPACCESS);
+                playSoundEvent(SOUNDEVENT_DESKTOPACCESS);
                 if(hasDesktopAccess(m_desktopaccess_entries, user))
                 {
                     subscribeCommon(true, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
@@ -2247,7 +2259,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
         if(enable)
         {
             QString filepath = audiofolder;
-            filepath += QDir::toNativeSeparators("/") + GenerateAudioStorageFilename(aff);
+            filepath += QDir::toNativeSeparators("/") + generateAudioStorageFilename(aff);
 
             if(!TT_StartRecordingMuxedAudioFile(ttInst, &m_mychannel.audiocodec, 
                                                 _W(filepath), aff))
@@ -2655,6 +2667,8 @@ void MainWindow::startStreamMediaFile()
     case WEBM_VP8_CODEC :
         vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE).toInt();
         break;
+    default :
+        break;
     }
 
     if(fileName.size() && 
@@ -2696,25 +2710,25 @@ void MainWindow::stopStreamMediaFile()
 void MainWindow::loadHotKeys()
 {
     hotkey_t hotkey;
-    if(LoadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
+    if(loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
         enableHotKey(HOTKEY_VOICEACTIVATION, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
+    if(loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
         enableHotKey(HOTKEY_INCVOLUME, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
+    if(loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
         enableHotKey(HOTKEY_DECVOLUME, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_MUTEALL, hotkey))
+    if(loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
         enableHotKey(HOTKEY_MUTEALL, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
+    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_INC, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
+    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
     hotkey.clear();
-    if(LoadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
+    if(loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
         enableHotKey(HOTKEY_VIDEOTX, hotkey);
 }
 
@@ -2774,7 +2788,7 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
         return;
 
     quint32 mods = 0, keycode = 0;
-    if(hk[0] != MAC_NO_KEY)
+    if(hk[0] != (INT32)MAC_NO_KEY)
     {
         if(hk[0] & cmdKey)
             mods |= cmdKey;
@@ -3071,9 +3085,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     emit(preferencesModified());
 
     HostEntry host;
-    GetLatestHost(0, host);
+    getLatestHost(0, host);
     m_desktopaccess_entries.clear();
-    GetDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
+    getDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
 
     slotUpdateUI();
 }
@@ -3112,12 +3126,12 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     if(checked)
     {
         hotkey_t hotkey;
-        if(!LoadHotKeySettings(HOTKEY_PUSHTOTALK, hotkey))
+        if(!loadHotKeySettings(HOTKEY_PUSHTOTALK, hotkey))
         {
             KeyCompDlg dlg(this);
             if(!dlg.exec())
                 return;
-            SaveHotKeySettings(HOTKEY_PUSHTOTALK, dlg.m_hotkey);
+            saveHotKeySettings(HOTKEY_PUSHTOTALK, dlg.m_hotkey);
             hotkey = dlg.m_hotkey;
         }
 
@@ -3125,7 +3139,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
             enableHotKey(HOTKEY_PUSHTOTALK, hotkey);
 
 #if defined(Q_OS_WIN32)
-        m_pttKeys = GetHotKeyText(hotkey);
+        m_pttKeys = getHotKeyText(hotkey);
 #endif
     }
     else
@@ -3858,7 +3872,7 @@ void MainWindow::slotConnectToLatest()
     //auto connect to latest host
     HostEntry host;
     if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, false).toBool() &&
-        GetLatestHost(0, host))
+        getLatestHost(0, host))
         Connect();
 }
 
@@ -4746,7 +4760,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     //like e.g. joining a new channel
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
-        PlaySoundEvent(SOUNDEVENT_NEWUSER);
+        playSoundEvent(SOUNDEVENT_NEWUSER);
         addStatusMsg(tr("%1 joined channel").arg(_Q(user.szNickname)));
     }
 
@@ -4762,7 +4776,7 @@ void MainWindow::slotUserLeft(int channelid, const User& user)
 {
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
-        PlaySoundEvent(SOUNDEVENT_REMOVEUSER);
+        playSoundEvent(SOUNDEVENT_REMOVEUSER);
         addStatusMsg(tr("%1 left channel").arg(_Q(user.szNickname)));
     }
 
@@ -4987,9 +5001,9 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             QDomElement rootElement(doc.documentElement());
             QDomElement element = rootElement.firstChildElement("host");
             HostEntry entry;
-            if(GetServerEntry(element, entry))
+            if(getServerEntry(element, entry))
             {
-                AddLatestHost(entry);
+                addLatestHost(entry);
                 Disconnect();
                 Connect();
                 return;
@@ -5008,7 +5022,7 @@ void MainWindow::slotHttpUpdateReply(QNetworkReply* reply)
     QDomDocument doc("foo");
     if(doc.setContent(data))
     {
-        QString version = NewVersionAvailable(doc);
+        QString version = newVersionAvailable(doc);
         if(version.size())
             addStatusMsg(tr("New version available: %1").arg(version));
     }

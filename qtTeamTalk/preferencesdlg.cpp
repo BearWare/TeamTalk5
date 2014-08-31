@@ -277,6 +277,9 @@ void PreferencesDlg::showDevices(SoundSystem snd)
         ui.alsaButton->setChecked(true);break;
     case SOUNDSYSTEM_COREAUDIO :
         ui.coreaudioButton->setChecked(true);break;
+    case SOUNDSYSTEM_NONE :
+    case SOUNDSYSTEM_OPENSLES_ANDROID :
+        break;
     }
 
     SoundDevice dev;
@@ -398,8 +401,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         ui.voiceactChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED).toBool());
-        LoadHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
-        ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+        loadHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
+        ui.keycompEdit->setText(getHotKeyText(m_hotkey));
         break;
     case DISPLAY_TAB : //display
     {
@@ -477,52 +480,52 @@ void PreferencesDlg::slotTabChange(int index)
     case SHORTCUTS_TAB :  //shortcuts
     {
         hotkey_t hotkey;
-        if(LoadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
+        if(loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
         {
             m_hotkeys.insert(HOTKEY_VOICEACTIVATION, hotkey);
-            ui.voiceactEdit->setText(GetHotKeyText(hotkey));
+            ui.voiceactEdit->setText(getHotKeyText(hotkey));
             ui.voiceactButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
+        if(loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
         {
             m_hotkeys.insert(HOTKEY_INCVOLUME, hotkey);
-            ui.volumeincEdit->setText(GetHotKeyText(hotkey));
+            ui.volumeincEdit->setText(getHotKeyText(hotkey));
             ui.volumeincButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
+        if(loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
         {
             m_hotkeys.insert(HOTKEY_DECVOLUME, hotkey);
-            ui.volumedecEdit->setText(GetHotKeyText(hotkey));
+            ui.volumedecEdit->setText(getHotKeyText(hotkey));
             ui.volumedecButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_MUTEALL, hotkey))
+        if(loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
         {
             m_hotkeys.insert(HOTKEY_MUTEALL, hotkey);
-            ui.muteallEdit->setText(GetHotKeyText(hotkey));
+            ui.muteallEdit->setText(getHotKeyText(hotkey));
             ui.muteallButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
+        if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
         {
             m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_INC, hotkey);
-            ui.voicegainincEdit->setText(GetHotKeyText(hotkey));
+            ui.voicegainincEdit->setText(getHotKeyText(hotkey));
             ui.voicegainincButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
+        if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
         {
             m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
-            ui.voicegaindecEdit->setText(GetHotKeyText(hotkey));
+            ui.voicegaindecEdit->setText(getHotKeyText(hotkey));
             ui.voicegaindecButton->setChecked(true);
         }
         hotkey.clear();
-        if(LoadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
+        if(loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
         {
             m_hotkeys.insert(HOTKEY_VIDEOTX, hotkey);
-            ui.videotxEdit->setText(GetHotKeyText(hotkey));
+            ui.videotxEdit->setText(getHotKeyText(hotkey));
             ui.videotxButton->setChecked(true);
         }
     }
@@ -595,7 +598,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_GENDER, ui.maleRadioButton->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
-        SaveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
+        saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked());
     }
@@ -844,18 +847,18 @@ void PreferencesDlg::slotSaveChanges()
         TT_HotKey_Unregister(ttInst, HOTKEY_MICROPHONEGAIN_DEC);
         TT_HotKey_Unregister(ttInst, HOTKEY_VIDEOTX);
 #endif
-        DeleteHotKeySettings(HOTKEY_VOICEACTIVATION);
-        DeleteHotKeySettings(HOTKEY_INCVOLUME);
-        DeleteHotKeySettings(HOTKEY_DECVOLUME);
-        DeleteHotKeySettings(HOTKEY_MUTEALL);
-        DeleteHotKeySettings(HOTKEY_MICROPHONEGAIN_INC);
-        DeleteHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC);
-        DeleteHotKeySettings(HOTKEY_VIDEOTX);
+        deleteHotKeySettings(HOTKEY_VOICEACTIVATION);
+        deleteHotKeySettings(HOTKEY_INCVOLUME);
+        deleteHotKeySettings(HOTKEY_DECVOLUME);
+        deleteHotKeySettings(HOTKEY_MUTEALL);
+        deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_INC);
+        deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC);
+        deleteHotKeySettings(HOTKEY_VIDEOTX);
 
         hotkeys_t::iterator ite = m_hotkeys.begin();
         while(ite != m_hotkeys.end())
         {
-            SaveHotKeySettings(ite.key(), *ite);
+            saveHotKeySettings(ite.key(), *ite);
 #ifdef Q_OS_WIN32
             TT_HotKey_Register(ttInst, ite.key(), &(*ite)[0], ite->size());
 #endif
@@ -934,7 +937,7 @@ void PreferencesDlg::slotSetupHotkey()
         return;
 
     m_hotkey = dlg.m_hotkey;
-    ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+    ui.keycompEdit->setText(getHotKeyText(m_hotkey));
 }
 
 void PreferencesDlg::slotLanguageChange(int /*index*/)
@@ -1223,7 +1226,7 @@ void PreferencesDlg::slotShortcutVoiceActivation(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_VOICEACTIVATION, dlg.m_hotkey);
-        ui.voiceactEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.voiceactEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1241,7 +1244,7 @@ void PreferencesDlg::slotShortcutIncVolume(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_INCVOLUME, dlg.m_hotkey);
-        ui.volumeincEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.volumeincEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1259,7 +1262,7 @@ void PreferencesDlg::slotShortcutDecVolume(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_DECVOLUME, dlg.m_hotkey);
-        ui.volumedecEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.volumedecEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1277,7 +1280,7 @@ void PreferencesDlg::slotShortcutMuteAll(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_MUTEALL, dlg.m_hotkey);
-        ui.muteallEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.muteallEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1295,7 +1298,7 @@ void PreferencesDlg::slotShortcutIncVoiceGain(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_INC, dlg.m_hotkey);
-        ui.voicegainincEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.voicegainincEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1313,7 +1316,7 @@ void PreferencesDlg::slotShortcutDecVoiceGain(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_DEC, dlg.m_hotkey);
-        ui.voicegaindecEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.voicegaindecEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
@@ -1331,7 +1334,7 @@ void PreferencesDlg::slotShortcutVideoTx(bool checked)
             return;
 
         m_hotkeys.insert(HOTKEY_VIDEOTX, dlg.m_hotkey);
-        ui.videotxEdit->setText(GetHotKeyText(dlg.m_hotkey));
+        ui.videotxEdit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {

@@ -76,7 +76,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     HostEntry host;
     int index = 0;
-    while(GetLatestHost(index++, host))
+    while(getLatestHost(index++, host))
         ui.hostaddrBox->addItem(host.ipaddr);
     slotShowHost(0);
 
@@ -106,7 +106,7 @@ void ServerListDlg::slotClearServer()
 void ServerListDlg::slotShowHost(int index)
 {
     HostEntry host;
-    if(GetLatestHost(index, host))
+    if(getLatestHost(index, host))
     {
         showHost(host);
         ui.delButton->setEnabled(false);
@@ -134,7 +134,7 @@ void ServerListDlg::showServers()
     ui.listWidget->clear();
     int index = 0;
     HostEntry entry;
-    while(GetServerEntry(index++, entry))
+    while(getServerEntry(index++, entry))
         m_servers.push_back(entry);
 
     for(int i=0;i<m_servers.size();i++)
@@ -164,8 +164,8 @@ void ServerListDlg::slotAddUpdServer()
     HostEntry entry;
     if(getHostEntry(entry))
     {
-        DeleteServerEntry(entry.name);
-        AddServerEntry(entry);
+        deleteServerEntry(entry.name);
+        addServerEntry(entry);
         showServers();
     }
 }
@@ -175,7 +175,7 @@ void ServerListDlg::slotDeleteServer()
     QListWidgetItem* item = ui.listWidget->currentItem();
     if(item)
     {
-        DeleteServerEntry(item->text());
+        deleteServerEntry(item->text());
         slotClearServer();
         showServers();
         ui.delButton->setEnabled(false);
@@ -211,7 +211,7 @@ void ServerListDlg::slotConnect()
     HostEntry entry;
     if(getHostEntry(entry))
     {
-        AddLatestHost(entry);
+        addLatestHost(entry);
         this->accept();
     }
 }
@@ -259,7 +259,7 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     while(!element.isNull())
     {
         HostEntry entry;
-        if(GetServerEntry(element, entry))
+        if(getServerEntry(element, entry))
             m_servers.push_back(entry);
 		element = element.nextSiblingElement();
     }
@@ -278,7 +278,7 @@ void ServerListDlg::slotGenerateFile()
     if(!getHostEntry(entry))
         return;
 
-    QByteArray xml = GenerateTTFile(entry);
+    QByteArray xml = generateTTFile(entry);
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
         "", tr("%1 File (*%1)").arg(TTFILE_EXT));
     if(filename.size())

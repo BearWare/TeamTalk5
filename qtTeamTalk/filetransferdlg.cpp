@@ -122,7 +122,7 @@ void FileTransferDlg::slotTransferUpdate(const FileTransfer& transfer)
         case FILETRANSFER_FINISHED :
             ui.cancelButton->setText(tr("&Close"));
             ui.openButton->setEnabled(true);
-            PlaySoundEvent(SOUNDEVENT_FILETXDONE);
+            playSoundEvent(SOUNDEVENT_FILETXDONE);
 
             killTimer(m_timerid);
             m_timerid = -1;
@@ -134,6 +134,7 @@ void FileTransferDlg::slotTransferUpdate(const FileTransfer& transfer)
             killTimer(m_timerid);
             m_timerid = -1;
             break;
+        default : break;
         }
     }
 }

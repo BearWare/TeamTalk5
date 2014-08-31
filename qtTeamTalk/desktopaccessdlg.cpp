@@ -55,12 +55,12 @@ DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
     m_model = new DesktopAccessModel(this);
 
     QVector<DesktopAccessEntry> entries;
-    GetDesktopAccessList(entries);
+    getDesktopAccessList(entries);
     ui.listView->setModel(m_model);
     m_model->setEntries(entries);
 
     HostEntry host;
-    if(GetLatestHost(0, host))
+    if(getLatestHost(0, host))
     {
         int i;
         for(i=0;i<m_model->getEntries().size();i++)
@@ -84,9 +84,9 @@ DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
 
 void DesktopAccessDlg::accept()
 {
-    DeleteDesktopAccessEntries();
+    deleteDesktopAccessEntries();
     for(int i=0;i<m_model->getEntries().size();i++)
-        AddDesktopAccessEntry(m_model->getEntries()[i]);
+        addDesktopAccessEntry(m_model->getEntries()[i]);
 
     QDialog::accept();
 }

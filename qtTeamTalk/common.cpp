@@ -110,6 +110,8 @@ bool getVideoCaptureCodec(VideoCodec& vidcodec)
         vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
                                                                DEFAULT_WEBMVP8_BITRATE).toInt();
         break;
+    default :
+        break;
     }
     return codec != NO_CODEC;
 }
@@ -295,7 +297,7 @@ QString GetMacOSHotKeyText(const hotkey_t& hotkey)
         return QString();
 
     QString comp;
-    if(hotkey[0] != MAC_NO_KEY)
+    if(hotkey[0] != (INT32)MAC_NO_KEY)
     {
         if(hotkey[0] & cmdKey)
             comp += comp.size()? " + Cmd" : "Cmd";
@@ -308,7 +310,7 @@ QString GetMacOSHotKeyText(const hotkey_t& hotkey)
     }
 
     QString tmp;
-    if(hotkey[1] != MAC_NO_KEY)
+    if(hotkey[1] != (INT32)MAC_NO_KEY)
     {
         quint8 vk = hotkey[1];
         switch(vk)
@@ -477,7 +479,7 @@ QString GetMacOSHotKeyText(const hotkey_t& hotkey)
 #endif
 
 
-QString GetHotKeyText(const hotkey_t& hotkey)
+QString getHotKeyText(const hotkey_t& hotkey)
 {
 #ifdef Q_OS_WIN32
     QString key;
@@ -517,7 +519,7 @@ QString GetHotKeyText(const hotkey_t& hotkey)
 
 
 #if defined(Q_OS_WIN32) && !defined(Q_OS_WINCE)
-bool IsComputerIdle(int idle_secs)
+bool isComputerIdle(int idle_secs)
 {
     LASTINPUTINFO info;
     info.cbSize = sizeof(LASTINPUTINFO);
@@ -528,7 +530,7 @@ bool IsComputerIdle(int idle_secs)
 }
 #elif defined(Q_OS_DARWIN)
 #include <IOKit/IOKitLib.h>
-bool IsComputerIdle(int idle_secs)
+bool isComputerIdle(int idle_secs)
 {
     int64_t os_idle_secs = 0;
     io_iterator_t iter = 0;
@@ -565,7 +567,7 @@ bool IsComputerIdle(int idle_secs)
     return (int)os_idle_secs > idle_secs;
 }
 #else
-bool IsComputerIdle(int idle_secs)
+bool isComputerIdle(int idle_secs)
 {
     return false;
 }
@@ -597,7 +599,7 @@ QString getHotKeyString(HotKeyID keyid)
     return QString();
 }
 
-void SaveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey)
+void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey)
 {
     QStringList hklst;
     for(int i=0;i<hotkey.size();i++)
@@ -605,7 +607,7 @@ void SaveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey)
     ttSettings->setValue(getHotKeyString(hotkeyid), hklst);
 }
 
-bool LoadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
+bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
 {
     QStringList hklst = ttSettings->value(getHotKeyString(hotkeyid)).toStringList();
     for(int i=0;i<hklst.size();i++)
@@ -613,12 +615,12 @@ bool LoadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
     return hklst.size();
 }
 
-void DeleteHotKeySettings(HotKeyID hotkeyid)
+void deleteHotKeySettings(HotKeyID hotkeyid)
 {
     ttSettings->remove(getHotKeyString(hotkeyid));
 }
 
-void PlaySoundEvent(SoundEvent event)
+void playSoundEvent(SoundEvent event)
 {
     QString filename;
     switch(event)
@@ -667,12 +669,12 @@ void PlaySoundEvent(SoundEvent event)
         QSound::play(filename);
 }
 
-void AddLatestHost(const HostEntry& host)
+void addLatestHost(const HostEntry& host)
 {
     QList<HostEntry> hosts;
     HostEntry tmp;
     int index = 0;
-    while(GetLatestHost(index, tmp))
+    while(getLatestHost(index, tmp))
     {
         hosts.push_back(tmp);
         index++;
@@ -708,7 +710,7 @@ void AddLatestHost(const HostEntry& host)
     }
 }
 
-bool GetLatestHost(int index, HostEntry& host)
+bool getLatestHost(int index, HostEntry& host)
 {
     host.ipaddr = ttSettings->value(QString(SETTINGS_LATESTHOST_HOSTADDR).arg(index)).toString();
     host.tcpport = ttSettings->value(QString(SETTINGS_LATESTHOST_TCPPORT).arg(index)).toInt();
@@ -725,12 +727,12 @@ bool GetLatestHost(int index, HostEntry& host)
     return host.ipaddr.size();
 }
 
-void AddServerEntry(const HostEntry& host)
+void addServerEntry(const HostEntry& host)
 {
     QList<HostEntry> hosts;
     HostEntry tmp;
     int index = 0;
-    while(GetServerEntry(index, tmp))
+    while(getServerEntry(index, tmp))
     {
         hosts.push_back(tmp);
         index++;
@@ -738,10 +740,10 @@ void AddServerEntry(const HostEntry& host)
     hosts.append(host);
 
     for(int i=0;i<hosts.size();i++)
-        SetServerEntry(i, hosts[i]);
+        setServerEntry(i, hosts[i]);
 }
 
-void SetServerEntry(int index, const HostEntry& host)
+void setServerEntry(int index, const HostEntry& host)
 {
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NAME).arg(index), host.name);
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_HOSTADDR).arg(index), host.ipaddr);
@@ -754,7 +756,7 @@ void SetServerEntry(int index, const HostEntry& host)
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_CHANNELPASSWD).arg(index), host.chanpasswd); 
 }
 
-bool GetServerEntry(int index, HostEntry& host)
+bool getServerEntry(int index, HostEntry& host)
 {
     host.name = ttSettings->value(QString(SETTINGS_SERVERENTRIES_NAME).arg(index)).toString();
     host.ipaddr = ttSettings->value(QString(SETTINGS_SERVERENTRIES_HOSTADDR).arg(index)).toString();
@@ -772,12 +774,12 @@ bool GetServerEntry(int index, HostEntry& host)
     return host.name.size();
 }
 
-void DeleteServerEntry(const QString& name)
+void deleteServerEntry(const QString& name)
 {
     QList<HostEntry> hosts;
     HostEntry tmp;
     int index = 0;
-    while(GetServerEntry(index, tmp))
+    while(getServerEntry(index, tmp))
     {
         if(tmp.name != name)
             hosts.push_back(tmp);
@@ -793,10 +795,10 @@ void DeleteServerEntry(const QString& name)
     }
 
     for(int i=0;i<hosts.size();i++)
-        SetServerEntry(i, hosts[i]);
+        setServerEntry(i, hosts[i]);
 }
 
-bool GetServerEntry(const QDomElement& hostElement, HostEntry& entry)
+bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
 {
     Q_ASSERT(hostElement.tagName() == "host");
     bool ok = true;
@@ -849,10 +851,10 @@ bool GetServerEntry(const QDomElement& hostElement, HostEntry& entry)
     return ok;
 }
 
-void AddDesktopAccessEntry(const DesktopAccessEntry& entry)
+void addDesktopAccessEntry(const DesktopAccessEntry& entry)
 {
     QVector<DesktopAccessEntry> entries;
-    GetDesktopAccessList(entries);
+    getDesktopAccessList(entries);
     entries.push_back(entry);
 
     for(int c=0;c<entries.size();c++)
@@ -870,7 +872,7 @@ void AddDesktopAccessEntry(const DesktopAccessEntry& entry)
     }
 }
 
-void GetDesktopAccessList(QVector<DesktopAccessEntry>& entries)
+void getDesktopAccessList(QVector<DesktopAccessEntry>& entries)
 {
     int c = 0;
     while(ttSettings->value(QString(SETTINGS_DESKTOPACCESS_HOSTADDR).arg(c)).toString().size())
@@ -896,11 +898,11 @@ void GetDesktopAccessList(QVector<DesktopAccessEntry>& entries)
     }
 }
 
-void GetDesktopAccessList(QVector<DesktopAccessEntry>& entries,
+void getDesktopAccessList(QVector<DesktopAccessEntry>& entries,
                           const QString& ipaddr, int tcpport)
 {
     QVector<DesktopAccessEntry> tmp;
-    GetDesktopAccessList(tmp);
+    getDesktopAccessList(tmp);
     foreach(DesktopAccessEntry entry, tmp)
         if(entry.ipaddr == ipaddr && tcpport == entry.tcpport)
             entries.push_back(entry);
@@ -932,10 +934,10 @@ bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
     return false;
 }
 
-void DeleteDesktopAccessEntries()
+void deleteDesktopAccessEntries()
 {
     QVector<DesktopAccessEntry> entries;
-    GetDesktopAccessList(entries);
+    getDesktopAccessList(entries);
 
     for(int c=0;c<entries.size();c++)
     {
@@ -950,7 +952,7 @@ void DeleteDesktopAccessEntries()
 }
 
 
-QString NewVersionAvailable(const QDomDocument& updateDoc)
+QString newVersionAvailable(const QDomDocument& updateDoc)
 {
 	QDomElement rootElement(updateDoc.documentElement());
 	QDomElement element = rootElement.firstChildElement();
@@ -959,7 +961,7 @@ QString NewVersionAvailable(const QDomDocument& updateDoc)
     return QString();
 }
 
-QByteArray GenerateTTFile(const HostEntry& entry)
+QByteArray generateTTFile(const HostEntry& entry)
 {
     QDomDocument doc(TTFILE_ROOT);
     QDomProcessingInstruction pi = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" ");
@@ -1069,7 +1071,7 @@ void decVolume(int userid, StreamType stream_type)
     setVolume(userid, -10, stream_type);
 }
 
-bool VersionSameOrLater(const QString& check, const QString& against)
+bool versionSameOrLater(const QString& check, const QString& against)
 {
     if(check == against) return true;
 
@@ -1101,14 +1103,14 @@ QString getVersion(const User& user)
         .arg(user.uVersion & 0xFF);
 }
 
-QString GetDateTimeStamp()
+QString getDateTimeStamp()
 {
     return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
 }
 
-QString GenerateAudioStorageFilename(AudioFileFormat aff)
+QString generateAudioStorageFilename(AudioFileFormat aff)
 {
-    QString filename = GetDateTimeStamp() + " ";
+    QString filename = getDateTimeStamp() + " ";
     filename += QObject::tr("Conference");
     switch(aff)
     {

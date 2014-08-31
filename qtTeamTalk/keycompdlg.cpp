@@ -65,7 +65,7 @@ bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
         if(msg->lParam)
         {
             m_hotkey.push_back(msg->wParam);
-            ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+            ui.keycompEdit->setText(getHotKeyText(m_hotkey));
             m_activekeys.insert(msg->wParam);
         }
         else
@@ -87,7 +87,7 @@ bool KeyCompDlg::winEvent(MSG *message, long *result)
         if(message->lParam)
         {
             m_hotkey.push_back(message->wParam);
-            ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+            ui.keycompEdit->setText(getHotKeyText(m_hotkey));
             m_activekeys.insert(message->wParam);
         }
         else
@@ -130,7 +130,7 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
     for(;ite != m_activekeys.end();ite++)
         m_hotkey.push_back(*ite);
 
-    ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+    ui.keycompEdit->setText(getHotKeyText(m_hotkey));
 }
 
 #elif defined(Q_OS_DARWIN)
@@ -153,22 +153,22 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
     {
     case 0 : break;
     case Qt::Key_Control :
-        m_hotkey[0] = m_hotkey[0] == MAC_NO_KEY? 0 : m_hotkey[0];
+        m_hotkey[0] = m_hotkey[0] == (INT32)MAC_NO_KEY? 0 : m_hotkey[0];
         m_hotkey[0] |= cmdKey;
         qDebug() << "Ctrl";
         break;
     case Qt::Key_Alt :
-        m_hotkey[0] = m_hotkey[0] == MAC_NO_KEY? 0 : m_hotkey[0];
+        m_hotkey[0] = m_hotkey[0] == (INT32)MAC_NO_KEY? 0 : m_hotkey[0];
         m_hotkey[0] |= optionKey;
         qDebug() << "Alt";
         break;
     case Qt::Key_Shift :
-        m_hotkey[0] = m_hotkey[0] == MAC_NO_KEY? 0 : m_hotkey[0];
+        m_hotkey[0] = m_hotkey[0] == (INT32)MAC_NO_KEY? 0 : m_hotkey[0];
         m_hotkey[0] |= shiftKey;
         qDebug() << "Shift";
         break;
     case Qt::Key_Meta :
-        m_hotkey[0] = m_hotkey[0] == MAC_NO_KEY? 0 : m_hotkey[0];
+        m_hotkey[0] = m_hotkey[0] == (INT32)MAC_NO_KEY? 0 : m_hotkey[0];
         m_hotkey[0] |= controlKey;
         qDebug() << "MEta";
         break;
@@ -182,7 +182,7 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
 
     Q_ASSERT(m_hotkey.size() == 2);
 
-    ui.keycompEdit->setText(GetHotKeyText(m_hotkey));
+    ui.keycompEdit->setText(getHotKeyText(m_hotkey));
 }
 
 void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
@@ -214,7 +214,7 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
         break;
     }
 
-    if(close_dlg && m_hotkey[0] != MAC_NO_KEY && m_hotkey[1] == MAC_NO_KEY)
+    if(close_dlg && m_hotkey[0] != (INT32)MAC_NO_KEY && m_hotkey[1] == (INT32)MAC_NO_KEY)
     {
         QMessageBox::information(this, tr("Invalid key combination"),
                                  tr("Mac OS X does not support only modifier keys, "

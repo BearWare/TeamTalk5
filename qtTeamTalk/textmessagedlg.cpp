@@ -191,5 +191,7 @@ void TextMessageDlg::newMsg(const TextMessage& msg)
         }
         break;
     }
+    default :
+        break;
     }
 }

@@ -182,6 +182,7 @@ public:
     //standalone method.
     bool macEventFilter(EventHandlerCallRef caller, EventRef event)
     {
+        Q_UNUSED(caller);
         if(GetEventClass(event) == kEventClassKeyboard)
         {
             UInt32 kind = GetEventKind(event);
