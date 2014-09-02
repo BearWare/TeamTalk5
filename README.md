@@ -5,7 +5,7 @@ Repository for TeamTalk 5 SDK development.
 Current version: **TeamTalk 5 Alpha 1 (rev. 3331)**
 
 ## Download TeamTalk 5 SDK
-* TeamTalk 5 Alpha1 Standard SDK
+* TeamTalk 5 Alpha1 SDK Standard Edition
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_win32.zip)
   * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_win64.zip)
   * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_macos_amd64.tar.gz)
@@ -13,7 +13,7 @@ Current version: **TeamTalk 5 Alpha 1 (rev. 3331)**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_debian7_amd64.tar.gz)
   * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_raspbian_armhf.tar.gz)
   * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5sdk_v5.0alpha1_android_armv7a.tar.gz)
-* TeamTalk 5 Alpha1 Professional SDK
+* TeamTalk 5 Alpha1 SDK Professional Edition
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_win32.zip)
   * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_win64.zip)
   * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3331/tt5prosdk_v5.0alpha1_macos_amd64.tar.gz)
