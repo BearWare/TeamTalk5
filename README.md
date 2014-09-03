@@ -58,3 +58,5 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
       * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
     * gson-2.2.4.jar
       * Download from http://code.google.com/p/google-gson/
+* **ttphpadmin**
+  * Console PHP-script for administrating a TeamTalk 5 server.
