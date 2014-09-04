@@ -23,6 +23,8 @@ package dk.bearware.backend;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
+
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.DesktopInput;
@@ -32,8 +34,10 @@ import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalk5;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
+import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.data.MyTextMessage;
 import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.ConnectionListener;
@@ -91,6 +95,8 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
 
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
     Map<Integer, User> users = new HashMap<Integer, User>();
+    Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
+    Map<Integer, Vector<MyTextMessage>> chantxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
 
     public Map<Integer, Channel> getChannels() {
         return channels;
@@ -99,10 +105,39 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     public Map<Integer, User> getUsers() {
         return users;
     }
+    
+    public int HISTORY_CHANNEL_MSG_MAX = 100;
+    public int HISTORY_USER_MSG_MAX = 100;
+
+    public Vector<MyTextMessage> getUserTextMsgs(int userid) {
+        Vector<MyTextMessage> msgs;
+        if(usertxtmsgs.get(userid) == null) {
+            msgs = new Vector<MyTextMessage>();
+            usertxtmsgs.put(userid, msgs);
+        }
+        msgs = usertxtmsgs.get(userid);
+        if(msgs.size() > HISTORY_USER_MSG_MAX)
+            msgs.remove(0);
+        return msgs;
+    }
+
+    public Vector<MyTextMessage> getChannelTextMsgs(int channelid) {
+        Vector<MyTextMessage> msgs;
+        if(chantxtmsgs.get(channelid) == null) {
+            msgs = new Vector<MyTextMessage>();
+            chantxtmsgs.put(channelid, msgs);
+        }
+        msgs = chantxtmsgs.get(channelid);
+        if(msgs.size() > HISTORY_CHANNEL_MSG_MAX)
+            msgs.remove(0);
+        return msgs;
+    }
 
     public void resetState() {
         channels.clear();
         users.clear();
+        usertxtmsgs.clear();
+        chantxtmsgs.clear();
     }
 
     void createTimer() {
@@ -230,6 +265,21 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
+
+        User user = getUsers().get(textmessage.nFromUserID);
+        MyTextMessage newmsg = new MyTextMessage(textmessage, 
+                                                 user == null? "" : user.szNickname);
+
+        switch(textmessage.nMsgType) {
+            case TextMsgType.MSGTYPE_USER : {
+                getUserTextMsgs(textmessage.nFromUserID).add(newmsg);
+                break;
+            }
+            case TextMsgType.MSGTYPE_CHANNEL : {
+                getChannelTextMsgs(textmessage.nChannelID).add(newmsg);
+                break;
+            }
+        }
     }
 
     @Override

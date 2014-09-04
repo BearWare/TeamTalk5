@@ -4,35 +4,46 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <application android:label="@string/app_name" android:icon="@drawable/teamtalk">
+    <application
+        android:icon="@drawable/teamtalk"
+        android:label="@string/app_name" >
         <activity
-            android:name="dk.bearware.gui.ServerListActivity"
-            android:label="@string/title_activity_server_list"
+            android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk"
+            android:label="@string/title_activity_server_list"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="dk.bearware.gui.ServerEntryActivity"
+            android:name=".ServerEntryActivity"
             android:label="@string/title_activity_server_entry" >
         </activity>
         <activity
-            android:name="dk.bearware.gui.MainActivity"
-            android:label="@string/title_activity_main">
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name="dk.bearware.gui.ChannelPropActivity"
+            android:name=".ChannelPropActivity"
             android:label="@string/title_activity_channel_prop" >
         </activity>
 
         <service android:name="dk.bearware.backend.TeamTalkService" />
 
         <activity
-            android:name="dk.bearware.gui.UserPropActivity"
+            android:name=".UserPropActivity"
             android:label="@string/title_activity_user_prop" >
+        </activity>
+        <activity
+            android:name=".TextMessageActivity"
+            android:label="@string/title_activity_text_message"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.bearware.gui.MainActivity" />
         </activity>
     </application>
 

@@ -42,6 +42,7 @@ import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.UserListener;
@@ -105,10 +106,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     Map<Integer, CmdComplete> activecmds = new HashMap<Integer, CmdComplete>();
 
-    ChannelListAdapter adapter;
+    ChannelListAdapter channelsAdapter;
+    TextMessageAdapter textmsgAdapter;
 
     public ChannelListAdapter getChannelsAdapter() {
-        return adapter;
+        return channelsAdapter;
+    }
+    
+    public TextMessageAdapter getTextMessagesAdapter() {
+        return textmsgAdapter;
     }
 
     @Override
@@ -126,7 +132,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        adapter = new ChannelListAdapter(this.getBaseContext());
+        channelsAdapter = new ChannelListAdapter(this.getBaseContext());
+        textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
     }
 
     @Override
@@ -170,8 +177,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         super.onStart();
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        assert (ret);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -274,10 +280,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_chat, container, false);
-            final EditText newmsg = (EditText) rootView.findViewById(R.id.textmsg);
-            EditText chatlog = (EditText)rootView.findViewById(R.id.chatlog);
-            chatlog.setKeyListener(null);
-            Button sendBtn = (Button) rootView.findViewById(R.id.textmsg_send_btn);
+            final EditText newmsg = (EditText) rootView.findViewById(R.id.channel_im_edittext);
+            ListView chatlog = (ListView)rootView.findViewById(R.id.channel_im_listview);
+            chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            chatlog.setAdapter(mainActivity.getTextMessagesAdapter());
+
+            Button sendBtn = (Button) rootView.findViewById(R.id.channel_im_sendbtn);
             sendBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
@@ -295,15 +303,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 }
             });
             return rootView;
-        }
-        
-        public void addTextMessage(TextMessage textmsg) {
-            EditText chatlog = (EditText)getView().findViewById(R.id.chatlog);
-            
-            User from = mainActivity.ttservice.getUsers().get(textmsg.nFromUserID);
-            if(from != null)
-                chatlog.append("<" + from.szNickname + "> " + textmsg.szMessage + "\n");
-        }
+        }        
     }
 
     class ChannelListAdapter extends BaseAdapter {
@@ -373,7 +373,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         @Override
         public long getItemId(int arg0) {
-            // TODO Auto-generated method stub
             return 0;
         }
 
@@ -460,11 +459,26 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             else if(item instanceof User) {
                 convertView = inflater.inflate(R.layout.user_item, null);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
-                User user = (User) item;
+                final User user = (User) item;
                 nickname.setText(user.szNickname);
                 
                 if((user.uUserState & UserState.USERSTATE_VOICE) != 0)
                     convertView.setBackgroundColor(Color.rgb(133, 229, 141));
+                
+                Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
+                OnClickListener listener = new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch(v.getId()) {
+                            case R.id.msg_btn : {
+                                Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
+                                startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, user.nUserID));
+                                break;
+                            }
+                        }
+                    }
+                };
+                sndmsg.setOnClickListener(listener);
             }
             return convertView;
         }
@@ -473,7 +487,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     @Override
     public void onItemClick(AdapterView< ? > l, View v, int position, long id) {
 
-        Object item = adapter.getItem(position);
+        Object item = channelsAdapter.getItem(position);
         if(item instanceof User) {
             User user = (User)item;
             Intent intent = new Intent(this, UserPropActivity.class);
@@ -488,7 +502,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             else
                 curchannel = null;
 
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
         }
         else {
         }
@@ -505,7 +519,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             curchannel = ttservice.getChannels().get(mychannel);
         }
 
-        adapter.notifyDataSetChanged();
+        channelsAdapter.notifyDataSetChanged();
+        
+        textmsgAdapter.setTextMessages(ttservice.getChannelTextMsgs(mychannel));
+        textmsgAdapter.notifyDataSetChanged();
 
         ttservice.registerConnectionListener(MainActivity.this);
         ttservice.registerCommandListener(MainActivity.this);
@@ -526,6 +543,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onServiceDisconnected(TeamTalkService service) {
         ttservice.unregisterConnectionListener(MainActivity.this);
         ttservice.unregisterCommandListener(MainActivity.this);
+        ttservice.unregisterUserListener(MainActivity.this);
         ttservice = null;
     }
 
@@ -536,173 +554,144 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdSuccess(int cmdId) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfLoggedOut() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel(User kicker) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedIn(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserUpdate(User user) {
         if(curchannel != null && curchannel.nChannelID == user.nChannelID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
         if(curchannel != null && curchannel.nChannelID == user.nChannelID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
         else if(user.nUserID == ttclient.getMyUserID()) {
             curchannel = ttservice.getChannels().get(user.nChannelID);
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
+            
+            //switch data source for text message to new channel
+            if(textmsgAdapter != null) {
+                textmsgAdapter.setTextMessages(ttservice.getChannelTextMsgs(user.nChannelID));
+                textmsgAdapter.notifyDataSetChanged();
+            }
         }
     }
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
         if(curchannel != null && curchannel.nChannelID == channelid)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        // TODO Auto-generated method stub
-        chatFragment.addTextMessage(textmessage);
+        
+        if(textmessage.nMsgType != TextMsgType.MSGTYPE_CHANNEL)
+            return;
+        
+        if(textmsgAdapter != null)
+            textmsgAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdChannelNew(Channel channel) {
         if(curchannel != null && curchannel.nChannelID == channel.nParentID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
         if(curchannel != null && curchannel.nChannelID == channel.nParentID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdChannelRemove(Channel channel) {
         if(curchannel != null && curchannel.nChannelID == channel.nParentID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onConnectSuccess() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onConnectFailed() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onConnectionLost() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onMaxPayloadUpdate(int payload_size) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onUserStateChange(User user) {
         if(curchannel != null && user.nChannelID == curchannel.nChannelID)
-            adapter.notifyDataSetChanged();
+            channelsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onUserVideoCapture(int nUserID, int nStreamID) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void onUserMediaFileVideo(int nUserID, int nStreamID) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void onUserDesktopWindow(int nUserID, int nStreamID) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-        // TODO Auto-generated method stub
-        
     }
 }

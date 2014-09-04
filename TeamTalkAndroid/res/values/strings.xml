@@ -12,5 +12,7 @@
     <string name="title_section3">Video</string>
     <string name="title_activity_channel_prop">Channel Properties</string>
     <string name="title_activity_user_prop">User Properties</string>
+    <string name="title_activity_text_message">Text Message</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

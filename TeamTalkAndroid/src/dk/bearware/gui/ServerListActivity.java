@@ -44,6 +44,7 @@ import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
@@ -90,8 +91,8 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        assert (ret);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(tag, "Failed to bind to TeamTalk service");
     }
 
     @Override
@@ -181,19 +182,16 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return servers.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return servers.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
@@ -226,6 +224,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
                         case R.id.server_remove :
                             servers.remove(position);
                             notifyDataSetChanged();
+                            saveServers();
                         break;
                     }
                 }
@@ -258,19 +257,21 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
             i++;
         }
 
+        int j=0;
         for(i = 0;i < servers.size();i++) {
             if(servers.get(i).public_server)
                 continue;
-            edit.putString(i + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
-            edit.putString(i + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
-            edit.putInt(i + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
-            edit.putInt(i + ServerEntry.KEY_UDPPORT, servers.get(i).udpport);
+            edit.putString(j + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
+            edit.putString(j + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
+            edit.putInt(j + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
+            edit.putInt(j + ServerEntry.KEY_UDPPORT, servers.get(i).udpport);
 
-            edit.putString(i + ServerEntry.KEY_USERNAME, servers.get(i).username);
-            edit.putString(i + ServerEntry.KEY_PASSWORD, servers.get(i).password);
+            edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
+            edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);
 
-            edit.putString(i + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
-            edit.putString(i + ServerEntry.KEY_CHANPASSWD, servers.get(i).chanpasswd);
+            edit.putString(j + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
+            edit.putString(j + ServerEntry.KEY_CHANPASSWD, servers.get(i).chanpasswd);
+            j++;
         }
 
         edit.apply();
