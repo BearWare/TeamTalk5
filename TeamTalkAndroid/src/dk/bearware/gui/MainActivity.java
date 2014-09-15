@@ -60,6 +60,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -177,7 +178,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         super.onStart();
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(tag, "Failed to bind to TeamTalk service");
     }
 
     @Override
