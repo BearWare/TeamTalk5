@@ -21,12 +21,13 @@
 
 package dk.bearware;
 
-public class VideoCodec
-{
-    public int /* Codec */ nCodec;
-    public WebMVP8Codec webm_vp8 = new WebMVP8Codec();
-
-    public VideoCodec() {
-        nCodec = Codec.NO_CODEC;
-    }
+public class DesktopWindow {
+    public int nWidth;
+    public int nHeight;
+    public /* BitmapFormat */ int bmpFormat;
+    public int nBytesPerLine;
+    public int nSessionID;
+    public /* DesktopProtocol */ int nProtocol;
+    public byte[] frameBuffer;
+    public DesktopWindow() {}
 }

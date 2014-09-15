@@ -181,7 +181,22 @@ public abstract class TeamTalkBase
     public int getVoiceActivationStopDelay()
         { return getVoiceActivationStopDelay(ttInst); }
 
-    /** TODO: not implemented
+    private native boolean startRecordingMuxedAudioFile(long lpTTInstance,
+                                                        AudioCodec lpAudioCodec,
+                                                        String szAudioFileName,
+                                                        int uAFF);
+    public boolean startRecordingMuxedAudioFile(AudioCodec lpAudioCodec,
+                                                String szAudioFileName,
+                                                int uAFF) {
+        return startRecordingMuxedAudioFile(ttInst, lpAudioCodec, szAudioFileName, uAFF);
+    }
+
+    private native boolean stopRecordingMuxedAudioFile(long lpTTInstance);
+    
+    public boolean stopRecordingMuxedAudioFile() {
+        return stopRecordingMuxedAudioFile(ttInst);
+    }
+
     private native boolean startVideoCaptureTransmission(long lpTTInstance,
                                                          VideoCodec lpVideoCodec);
     public boolean startVideoCaptureTransmission(VideoCodec lpVideoCodec) {
@@ -192,6 +207,50 @@ public abstract class TeamTalkBase
     public boolean stopVideoCaptureTransmission() {
         return stopVideoCaptureTransmission(ttInst);
     }
+
+    private static native boolean getVideoCaptureDevices(VideoCaptureDevice[] lpVideoDevices,
+                                                         IntPtr lpnHowMany);
+    public static boolean getVideoCaptureDevices(Vector<VideoCaptureDevice> lpVideoDevices) {
+        IntPtr lpnHowMany = new IntPtr();
+        if(!getVideoCaptureDevices(null, lpnHowMany))
+            return false;
+
+        VideoCaptureDevice[] devs = new VideoCaptureDevice[lpnHowMany.value];
+        if(getVideoCaptureDevices(devs, lpnHowMany))
+        {
+            for(int i=0;i<lpnHowMany.value;i++)
+                lpVideoDevices.add(devs[i]);
+        }
+        return true;
+    }
+
+    private native boolean initVideoCaptureDevice(long lpTTInstance, String szDeviceID,
+                                                  VideoFormat lpVideoFormat);
+
+    public boolean initVideoCaptureDevice(String szDeviceID,
+                                          VideoFormat lpVideoFormat) {
+        return initVideoCaptureDevice(ttInst, szDeviceID, lpVideoFormat);
+    }
+
+    private native boolean closeVideoCaptureDevice(long lpTTInstance);
+
+    public boolean closeVideoCaptureDevice() {
+        return closeVideoCaptureDevice(ttInst);
+    }
+
+    private native VideoFrame acquireUserVideoCaptureFrame(long lpTTInstance,
+                                                           int nUserID);
+    public VideoFrame acquireUserVideoCaptureFrame(int nUserID) {
+        return acquireUserVideoCaptureFrame(ttInst, nUserID);
+    }
+
+/*
+    private native boolean releaseVideoCaptureFrame(long lpTTInstance,
+                                                      int nUserID);
+    public boolean releaseVideoCaptureFrame(int nUserID) {
+        return releaseVideoCaptureFrame(ttInst, nUserID);
+    }
+*/
 
     private native boolean startStreamingMediaFileToChannel(long lpTTInstance,
                                                             String szMediaFilePath,
@@ -216,10 +275,24 @@ public abstract class TeamTalkBase
         return acquireUserMediaVideoFrame(ttInst, nUserID);
     }
 
+/*
     private native boolean releaseUserMediaVideoFrame(long lpTTInstance,
                                                       int nUserID);
     public boolean releaseUserMediaVideoFrame(int nUserID) {
         return releaseUserMediaVideoFrame(ttInst, nUserID);
+    }
+*/
+    private native int sendDesktopWindow(long lpTTInstance,
+                                         DesktopWindow lpDesktopWindow,
+                                         int nConvertBitmap);
+    public int sendDesktopWindow(DesktopWindow lpDesktopWindow,
+                                 int nConvertBitmap) {
+        return sendDesktopWindow(ttInst, lpDesktopWindow, nConvertBitmap);
+    }
+
+    private native boolean closeDesktopWindow(long lpTTInstance);
+    public boolean closeDesktopWindow() {
+        return closeDesktopWindow(ttInst);
     }
 
     private native boolean sendDesktopCursorPosition(long lpTTInstance,
@@ -235,7 +308,12 @@ public abstract class TeamTalkBase
                                     DesktopInput[] lpDesktopInputs) {
         return sendDesktopInput(ttInst, nUserID, lpDesktopInputs);
     }
-    */
+
+    private native DesktopWindow acquireUserDesktopWindow(long lpTTInstance,
+                                                          int nUserID);
+    public DesktopWindow acquireUserDesktopWindow(int nUserID) {
+        return acquireUserDesktopWindow(ttInst, nUserID);
+    }
 
     private native boolean connect(long lpTTInstance,
                                    String szHostAddress,
@@ -362,13 +440,13 @@ public abstract class TeamTalkBase
     public int doDeleteFile(int nChannelID, int nFileID) {
         return doDeleteFile(ttInst, nChannelID, nFileID);
     }
-    private native int doSubscribe(long lpTTInstance, int uSubscriptions);
-    public int doSubscribe(int uSubscriptions) {
-        return doSubscribe(ttInst, uSubscriptions);
+    private native int doSubscribe(long lpTTInstance, int nUserID, int uSubscriptions);
+    public int doSubscribe(int nUserID, int uSubscriptions) {
+        return doSubscribe(ttInst, nUserID, uSubscriptions);
     }
-    private native int doUnsubscribe(long lpTTInstance, int uSubscriptions);
-    public int doUnsubscribe(int uSubscriptions) {
-        return doUnsubscribe(ttInst, uSubscriptions);
+    private native int doUnsubscribe(long lpTTInstance, int nUserID, int uSubscriptions);
+    public int doUnsubscribe(int nUserID, int uSubscriptions) {
+        return doUnsubscribe(ttInst, nUserID, uSubscriptions);
     }
     private native int doMakeChannel(long lpTTInstance, Channel lpChannel);
     public int doMakeChannel(Channel lpChannel) {

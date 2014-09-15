@@ -21,12 +21,10 @@
 
 package dk.bearware;
 
-public class VideoCodec
-{
-    public int /* Codec */ nCodec;
-    public WebMVP8Codec webm_vp8 = new WebMVP8Codec();
-
-    public VideoCodec() {
-        nCodec = Codec.NO_CODEC;
-    }
+public interface BitmapFormat {
+    public int BMP_NONE            = 0;
+    public int BMP_RGB8_PALETTE    = 1;
+    public int BMP_RGB16_555       = 2;
+    public int BMP_RGB24           = 3;
+    public int BMP_RGB32           = 4;
 }

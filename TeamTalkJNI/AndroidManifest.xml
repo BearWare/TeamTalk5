@@ -4,7 +4,7 @@
       android:versionCode="1"
       android:versionName="1.0">
     
-    <uses-sdk android:minSdkVersion="14" />
+    <uses-sdk android:minSdkVersion="16" />
     
     <!-- RECORD_AUDIO is needed to create an audio recorder -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>

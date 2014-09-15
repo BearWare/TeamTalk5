@@ -43,7 +43,5 @@ public class TTMessage
     public int nStreamID;
     public int nPayloadSize;
 
-    public TTMessage()
-        {
-        }
+    public TTMessage() { }
 }

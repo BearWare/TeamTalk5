@@ -22,5 +22,10 @@
 package dk.bearware;
 
 public class VideoFrame {
-    
+    public int nWidth;
+    public int nHeight;
+    public int nStreamID;
+    public boolean bKeyFrame;
+    public byte[] frameBuffer;
+    public VideoFrame() {}
 }

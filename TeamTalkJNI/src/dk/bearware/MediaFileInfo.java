@@ -22,7 +22,7 @@
 package dk.bearware;
 
 public class MediaFileInfo {
-    public int nStatus;
+    public /* MediaFileStatus */ int nStatus;
     public String szFileName;
     public AudioFormat audioFmt;
     public VideoFormat videoFmt;

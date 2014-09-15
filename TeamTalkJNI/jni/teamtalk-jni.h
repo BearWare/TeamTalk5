@@ -19,14 +19,7 @@
  *
  */
 
-package dk.bearware;
+#ifndef TEAMTALKJNI_H
+#define TEAMTALKJNI_H
 
-public class VideoCodec
-{
-    public int /* Codec */ nCodec;
-    public WebMVP8Codec webm_vp8 = new WebMVP8Codec();
-
-    public VideoCodec() {
-        nCodec = Codec.NO_CODEC;
-    }
-}
+#endif

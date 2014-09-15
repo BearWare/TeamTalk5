@@ -21,12 +21,10 @@
 
 package dk.bearware;
 
-public class VideoCodec
-{
-    public int /* Codec */ nCodec;
-    public WebMVP8Codec webm_vp8 = new WebMVP8Codec();
+public interface FourCC {
 
-    public VideoCodec() {
-        nCodec = Codec.NO_CODEC;
-    }
+    public static final int FOURCC       = 0;
+    public static final int FOURCC_I420  = 100;
+    public static final int FOURCC_YUY2  = 101;
+    public static final int FOURCC_RGB32 = 102;
 }

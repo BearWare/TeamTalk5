@@ -26,5 +26,5 @@ public class VideoCaptureDevice
     public String szDeviceID;
     public String szDeviceName;
     public String szCaptureAPI;
-    public int[] videoFormats;
+    public VideoFormat[] videoFormats;
 }

@@ -27,5 +27,5 @@ public class VideoFormat
     public int nHeight;
     public int nFPS_Numerator;
     public int nFPS_Denominator;
-    public int picFourCC;
+    public /* FourCC */ int picFourCC;
 }

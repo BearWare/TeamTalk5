@@ -21,12 +21,6 @@
 
 package dk.bearware;
 
-public class VideoCodec
-{
-    public int /* Codec */ nCodec;
-    public WebMVP8Codec webm_vp8 = new WebMVP8Codec();
-
-    public VideoCodec() {
-        nCodec = Codec.NO_CODEC;
-    }
+public interface DesktopProtocol {
+    public int DESKTOPPROTOCOL_ZLIB_1  = 1;
 }
