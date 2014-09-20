@@ -41,10 +41,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import com.google.gson.Gson;
 
+import dk.bearware.BitmapFormat;
 import dk.bearware.Channel;
 import dk.bearware.User;
 import dk.bearware.data.ServerEntry;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 
@@ -94,6 +96,16 @@ public class Utils {
             User user = it.next().getValue();
             if (user.nChannelID == chanid)
                 result.add(user);
+        }
+        return result;
+    }
+    
+    public static Vector<User> getUsers(Map<Integer, User> users) {
+        Vector<User> result = new Vector<User>();
+        Iterator<Entry<Integer, User>> it = users.entrySet().iterator();
+
+        while (it.hasNext()) {
+            result.add(it.next().getValue());
         }
         return result;
     }

@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,8 @@ import android.widget.Toast;
 public class TextMessageActivity
 extends Activity implements TeamTalkConnectionListener, CommandListener {
 
+    public static final String TAG = "bearware";
+    
     public static final String EXTRA_USERID = "userid";
     
     TeamTalkConnection mConnection = new TeamTalkConnection(this);
@@ -69,8 +72,8 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        assert (ret);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override

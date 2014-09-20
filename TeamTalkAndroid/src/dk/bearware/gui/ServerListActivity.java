@@ -27,10 +27,12 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.UserState;
 import dk.bearware.gui.R;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -41,10 +43,12 @@ import dk.bearware.data.ServerEntry;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
@@ -59,12 +63,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ServerListActivity extends ListActivity implements TeamTalkConnectionListener, ConnectionListener,
-    CommandListener {
+public class ServerListActivity
+extends ListActivity
+implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     private ServerListAdapter adapter;
 
-    public String tag = "bearware";
+    public static final String TAG = "bearware";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,9 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     TeamTalkConnection mConnection = new TeamTalkConnection(this);
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
-
+    
+    SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
+    
     @Override
     protected void onStart() {
         super.onStart();
@@ -92,7 +99,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(tag, "Failed to bind to TeamTalk service");
+            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override
@@ -156,6 +163,11 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
             case R.id.action_refreshserverlist :
                 refreshServerList();
             break;
+            case R.id.action_settings : {
+                Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -196,9 +208,11 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
         }
 
         @Override
-        public View getView(final int position, View convertView_, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
-            View convertView = inflater.inflate(R.layout.serverentry_item, null);
+            if(convertView == null)
+                convertView = inflater.inflate(R.layout.item_serverentry, null);
+            
             TextView name = (TextView) convertView.findViewById(R.id.server_name);
             TextView address = (TextView) convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
@@ -369,7 +383,16 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     @Override
     public void onConnectSuccess() {
         assert (serverentry != null);
-        loginCmdId = ttclient.doLogin("Android", serverentry.username, serverentry.password);
+        
+        String def_nick = getResources().getString(R.string.pref_default_nickname);
+        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("nickname_text", def_nick);
+
+        int loginCmdId = ttclient.doLogin(nickname, serverentry.username, serverentry.password);
+        if(loginCmdId<0)
+            Toast.makeText(this, getResources().getString(R.string.text_login_cmderr),
+                           Toast.LENGTH_LONG).show();
+        else
+            activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);
     }
 
     @Override
@@ -378,21 +401,16 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
 
     @Override
     public void onConnectionLost() {
-        loginCmdId = 0;
+        activecmds.clear();
     }
 
     @Override
     public void onMaxPayloadUpdate(int payload_size) {
-        // TODO Auto-generated method stub
-
     }
-
-    int loginCmdId = 0;
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        if(loginCmdId == cmdId) {
-            loginCmdId = 0;
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
             Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
         }
     }
@@ -400,7 +418,7 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
     @Override
     public void onCmdSuccess(int cmdId) {
         assert (serverentry != null);
-        if(loginCmdId == cmdId) {
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(Utils.putServerEntry(intent, serverentry));
         }
@@ -408,102 +426,103 @@ public class ServerListActivity extends ListActivity implements TeamTalkConnecti
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
+        
+        if(!complete)
+            return;
 
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int def_unsub = Subscription.SUBSCRIBE_NONE;
+            if(!pref.getBoolean("sub_txtmsg_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
+            if(!pref.getBoolean("sub_chanmsg_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
+            if(!pref.getBoolean("sub_bcastmsg_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
+            if(!pref.getBoolean("sub_voice_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_VOICE;
+            if(!pref.getBoolean("sub_video_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
+            if(!pref.getBoolean("sub_desktop_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
+            if(!pref.getBoolean("sub_mediafile_checkbox", true))
+                def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
+
+            Vector<User> vecusers = Utils.getUsers(ttservice.getUsers());
+            for(User u : vecusers) {
+                if((u.uLocalSubscriptions & def_unsub) != 0) {
+                    int cmdid = ttclient.doUnsubscribe(u.nUserID, def_unsub);
+                    if(cmdid > 0)
+                        activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
+                }
+            }
+        }
+
+        activecmds.delete(cmdId);
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onCmdMyselfLoggedOut() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel(User kicker) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedIn(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserUpdate(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelNew(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelRemove(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 }

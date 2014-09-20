@@ -4,15 +4,55 @@
     <string name="app_name">TeamTalk 5</string>
     <string name="title_activity_server_list">TeamTalk 5 Servers</string>
     <string name="action_settings">Settings</string>
-    <string name="action_transmit">Transmit</string>
     <string name="title_activity_server_entry">TeamTalk 5 Server Properties</string>
     <string name="title_activity_main">TeamTalk 5 for Android</string>
-    <string name="title_section1">Channels</string>
-    <string name="title_section2">Chat</string>
-    <string name="title_section3">Video</string>
+    <string name="title_section_channels">Channels</string>
+    <string name="title_section_chat">Chat</string>
+    <string name="title_section_video">Video</string>
+    <string name="title_section_desktop">Desktops</string>
     <string name="title_activity_channel_prop">Channel Properties</string>
     <string name="title_activity_user_prop">User Properties</string>
     <string name="title_activity_text_message">Text Message</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_preferences">Preferences</string>
+    
+    <string name="action_createchannel">Create</string>
+    <string name="action_updatechannel">Update</string>
+    
+    <string name="text_login_cmderr">Failed to issue login command</string>
+    <string name="text_txtmsg_cmderr">"Failed to send text message"</string>
+    
+    <string name="pref_cat_subscriptions">Subscriptions</string>
+    <string name="pref_cat_soundtest">Sound Test</string>
+    
+    <string name="pref_header_general">General</string>
+    
+    <string name="pref_title_nickname">Nickname</string>
+    <string name="pref_default_nickname">Noname</string>
+	
+    <string name="pref_header_connection">Connection</string>
+    
+    <string name="pref_title_sub_txtmsg">Text Messages</string>
+    <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
+    
+    <string name="pref_title_sub_chanmsg">Channel Messages</string>
+    <string name="pref_summary_sub_chanmsg">Subscribe to channel text messages</string>
 
+    <string name="pref_title_sub_bcastmsg">Broadcast Messages</string>
+    <string name="pref_summary_sub_bcastmsg">Subscribe to broadcast text messages</string>
+    
+    <string name="pref_title_sub_voice">Voice</string>
+    <string name="pref_summary_sub_voice">Subscribe to voice streams</string>
+    
+    <string name="pref_title_sub_video">Video Capture</string>
+    <string name="pref_summary_sub_video">Subscribe to video capture streams</string>
+
+    <string name="pref_title_sub_desktop">Desktop</string>
+    <string name="pref_summary_sub_desktop">Subscribe to desktop streams</string>
+
+    <string name="pref_title_sub_mediafile">Media File</string>
+    <string name="pref_summary_sub_mediafile">Subscribe to media file streams</string>
+
+    <string name="pref_header_soundsystem">Sound System</string>
+    
+    
 </resources>

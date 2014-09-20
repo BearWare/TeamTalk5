@@ -8,6 +8,6 @@
     <item
         android:id="@+id/action_updatechannel"
         android:showAsAction="ifRoom|withText"
-        android:title="Update">
+        android:title="@string/action_updatechannel">
     </item>
 </menu>

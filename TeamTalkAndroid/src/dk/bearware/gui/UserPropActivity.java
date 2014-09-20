@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -43,6 +44,8 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
 
     public final static String EXTRA_USERID = "userid";
 
+    public static final String TAG = "bearware";
+    
     TeamTalkConnection mConnection;
 
     @Override
@@ -65,8 +68,8 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         super.onStart();
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        assert (ret);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override

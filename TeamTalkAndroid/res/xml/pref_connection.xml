@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:key="subscriptions_def"
+        android:title="@string/pref_cat_subscriptions">
+        
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_txtmsg_checkbox"
+        android:summary="@string/pref_summary_sub_txtmsg"
+        android:title="@string/pref_title_sub_txtmsg" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_chanmsg_checkbox"
+        android:summary="@string/pref_summary_sub_chanmsg"
+        android:title="@string/pref_title_sub_chanmsg" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_bcastmsg_checkbox"
+        android:summary="@string/pref_summary_sub_bcastmsg"
+        android:title="@string/pref_title_sub_bcastmsg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_voice_checkbox"
+        android:summary="@string/pref_summary_sub_voice"
+        android:title="@string/pref_title_sub_voice" />
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_video_checkbox"
+        android:summary="@string/pref_summary_sub_video"
+        android:title="@string/pref_title_sub_video" />
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_desktop_checkbox"
+        android:summary="@string/pref_summary_sub_desktop"
+        android:title="@string/pref_title_sub_desktop" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sub_mediafile_checkbox"
+        android:summary="@string/pref_summary_sub_mediafile"
+        android:title="@string/pref_title_sub_mediafile" />
+    </PreferenceCategory>
+    
+</PreferenceScreen>

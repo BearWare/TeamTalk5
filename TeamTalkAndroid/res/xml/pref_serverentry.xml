@@ -9,11 +9,13 @@
             android:key="servername"
             android:summary="This server will appear with this name in the Server List"
             android:title="Server Name"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="ipaddr"
             android:summary="The IP-address of the server"
             android:title="IP-address"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:defaultValue="10333"
@@ -21,6 +23,7 @@
             android:maxLength="5"
             android:numeric="integer"
             android:title="TCP Port"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:defaultValue="10333"
@@ -28,6 +31,7 @@
             android:maxLength="5"
             android:numeric="integer"
             android:title="UDP Port"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <CheckBoxPreference 
             android:key="encrypted" 
@@ -41,10 +45,12 @@
         <EditTextPreference
             android:key="username"
             android:title="Username"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="password"
             android:title="Password"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
     </PreferenceCategory>
     
@@ -55,10 +61,12 @@
             android:defaultValue="/"
             android:key="channel"
             android:title="Channel"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="chanpasswd"
             android:title="Channel Password"
+            android:selectAllOnFocus="true"
             android:persistent="false" />
     </PreferenceCategory>
 

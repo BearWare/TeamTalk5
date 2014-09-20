@@ -143,7 +143,7 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     void createTimer() {
         new CountDownTimer(100, 100) {
             public void onTick(long millisUntilFinished) {
-                mEventHandler.processEvent(ttclient, 0);
+                while(mEventHandler.processEvent(ttclient, 0));
             }
 
             public void onFinish() {
@@ -245,7 +245,7 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        users.put(user.nUserID, user);
+        users.remove(user.nUserID);
     }
 
     @Override

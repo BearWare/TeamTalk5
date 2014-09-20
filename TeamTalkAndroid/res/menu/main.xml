@@ -11,11 +11,4 @@
         android:showAsAction="ifRoom|withText"
         android:title="New">
     </item>
-    
-    <item
-        android:id="@+id/action_transmit"
-        android:showAsAction="always|withText"
-        android:checkable="true"
-        android:title="@string/action_transmit" android:visible="true" android:checked="true" android:enabled="true">
-    </item>
 </menu>

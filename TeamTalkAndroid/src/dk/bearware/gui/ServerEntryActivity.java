@@ -39,7 +39,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.serverentry_preferences);
+        addPreferencesFromResource(R.xml.pref_serverentry);
 
         ServerEntry entry = Utils.getServerEntry(this.getIntent());
         if(entry != null) {

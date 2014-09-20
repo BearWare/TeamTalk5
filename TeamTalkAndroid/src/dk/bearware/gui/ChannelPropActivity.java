@@ -39,6 +39,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -49,6 +50,8 @@ public class ChannelPropActivity
 extends Activity
 implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
+    public static final String TAG = "bearware";
+    
     public static final String EXTRA_CHANNELID = "channelid",   //edit existing channel
                                EXTRA_PARENTID = "parentid";     //create new channel
 
@@ -64,22 +67,28 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.channel_prop, menu);
+        
+        if(getIntent().getExtras().getInt(EXTRA_CHANNELID) == 0) {
+            MenuItem item = menu.findItem(R.id.action_updatechannel);
+            item.setTitle(getResources().getString(R.string.action_createchannel));
+        }
+        
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId()) {
             case R.id.action_updatechannel : {
                 setgetChannel(true);
-                if (channel.nChannelID > 0)
+                if(channel.nChannelID > 0)
                     updateCmdId = ttclient.doUpdateChannel(channel);
                 else {
                     setgetChannel(true);
                     updateCmdId = ttclient.doJoinChannel(channel);
                 }
             }
-                break;
+            break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -99,8 +108,8 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         super.onStart();
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        boolean ret = bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        assert (ret);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override

@@ -1,23 +1,155 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <!--
-    This title strip will display the currently visible page title, as well as the page
-    titles for adjacent pages.
-    -->
+	<android.support.v4.view.ViewPager
+	    android:id="@+id/pager"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1.0"
+	    >
+	
+	    <!--
+	    This title strip will display the currently visible page title, as well as the page
+	    titles for adjacent pages.
+	    -->
+	
+	    <android.support.v4.view.PagerTitleStrip
+	        android:id="@+id/pager_title_strip"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="top"
+	        android:background="#33b5e5"
+	        android:paddingBottom="4dp"
+	        android:paddingTop="4dp"
+	        android:textColor="#fff" />
+	    
+	</android.support.v4.view.ViewPager>
+	
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.1"
+	    android:orientation="horizontal">
+	    
+	    <GridLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    
+		    android:columnCount="4"
+		    android:rowCount="3">
+	        <!-- Row 0 -->
+			<TextView
+			    android:layout_column="0"
+			    android:layout_row="0"
+			    android:text="Connection:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <android.support.v4.view.PagerTitleStrip
-        android:id="@+id/pager_title_strip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="#33b5e5"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:textColor="#fff" />
+			<TextView
+			    android:id="@+id/connectionstat_textview"
+			    android:layout_column="1"
+			    android:layout_row="0"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text="Online"
+			    android:textAppearance="?android:attr/textAppearanceSmall"
+			    android:textStyle="bold" />
+						
+			<TextView
+			    android:layout_column="2"
+			    android:layout_row="0"
+			    android:text="Voice:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-</android.support.v4.view.ViewPager>
+			<TextView
+			    android:id="@+id/voicestat_textview"
+			    android:layout_column="3"
+			    android:layout_row="0"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text="0/0 KB"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<!-- Row 1 -->
+			<TextView
+			    android:layout_column="2"
+			    android:layout_row="1"
+			    android:text="Desktop:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/desktopstat_textview"
+			    android:layout_column="3"
+			    android:layout_row="1"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text="0/0 KB"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+			<TextView
+			    android:layout_column="0"
+			    android:layout_row="1"
+			    android:text="Ping:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/pingstat_textview"
+			    android:layout_column="1"
+			    android:layout_row="1"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text=""
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+			<!-- Row 2 -->
+			<TextView
+			    android:layout_column="0"
+			    android:layout_row="2"
+			    android:text="Total:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/totalstat_textview"
+			    android:layout_column="1"
+			    android:layout_row="2"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text=""
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:layout_column="2"
+			    android:layout_row="2"
+			    android:text="Media File:"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/mediafilestat_textview"
+			    android:layout_column="3"
+			    android:layout_row="2"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:text="0/0 KB"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+			</GridLayout>
+		
+		<Space
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    />
+		
+        <Button
+            android:id="@+id/transmit_voice"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/holo_red_light"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="TX" />
+	</RelativeLayout>
+	
+</LinearLayout>

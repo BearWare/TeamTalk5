@@ -45,6 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.bearware.gui.MainActivity" />
         </activity>
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/title_activity_preferences" >
+        </activity>
     </application>
 
     <uses-sdk android:minSdkVersion="16" />

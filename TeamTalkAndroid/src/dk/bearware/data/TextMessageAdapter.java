@@ -49,7 +49,7 @@ public class TextMessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView_, ViewGroup parent) {
-        View convertView = inflater.inflate(R.layout.textmsg_item, null);
+        View convertView = inflater.inflate(R.layout.item_textmsg, null);
         
         TextView name = (TextView) convertView.findViewById(R.id.name_text);
         TextView msgtext = (TextView) convertView.findViewById(R.id.msg_text);
