@@ -7,4 +7,9 @@
 		android:selectAllOnFocus="true"
 		android:singleLine="true" />
 
+    <CheckBoxPreference
+		android:key="vibrate_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_vibrate" />
+
 </PreferenceScreen>
