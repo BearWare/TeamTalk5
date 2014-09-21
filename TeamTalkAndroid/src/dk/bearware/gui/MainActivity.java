@@ -57,6 +57,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -168,6 +169,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
                     }
 
+                    Vibrator vi = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vi.vibrate(80);
                     ttclient.enableVoiceTransmission(tx);
                     tx_btn.setBackgroundColor(tx?Color.GREEN : Color.RED);
                 }
