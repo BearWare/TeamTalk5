@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:key="tts_def"
+        android:title="@string/pref_cat_tts">
+        
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="server_login_checkbox"
+        android:summary="@string/pref_summary_server_login"
+        android:title="@string/pref_title_server_login" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="server_logout_checkbox"
+        android:summary="@string/pref_summary_server_logout"
+        android:title="@string/pref_title_server_logout" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="channel_join_checkbox"
+        android:summary="@string/pref_summary_channel_join"
+        android:title="@string/pref_title_channel_join" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="channel_leave_checkbox"
+        android:summary="@string/pref_summary_channel_leave"
+        android:title="@string/pref_title_channel_leave" />
+    
+    </PreferenceCategory>
+    
+</PreferenceScreen>

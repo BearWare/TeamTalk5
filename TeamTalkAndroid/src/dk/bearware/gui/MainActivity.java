@@ -47,6 +47,7 @@ import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.TextMessageAdapter;
+import dk.bearware.data.TTSWrapper;
 import dk.bearware.gui.R;
 
 import android.app.Activity;
@@ -114,6 +115,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     ChannelListAdapter channelsAdapter;
     TextMessageAdapter textmsgAdapter;
     DesktopAdapter desktopAdapter;
+    TTSWrapper ttsWrapper = null;
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
@@ -146,6 +148,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
+        if (ttsWrapper == null) {
+        	ttsWrapper = TTSWrapper.getInstance(this);
+        }
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setOnTouchListener(new OnTouchListener() {
             
@@ -245,6 +250,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             stats_timer = null;
         }
         
+        if (ttsWrapper == null) {
+        	ttsWrapper.shutdown();
+        }
+
         // Unbind from the service
         if(isFinishing())
             unbindService(mConnection);
@@ -794,10 +803,18 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        boolean tts_login = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false);
+        if (tts_login) {
+            ttsWrapper.speak(user.szNickname+"has logged in");
+       }
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        boolean tts_logout = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false);
+        if (tts_logout) {
+            ttsWrapper.speak(user.szNickname+"has logged out");
+       }
     }
 
     @Override
@@ -808,6 +825,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+        boolean tts_join = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false);
+        if (tts_join) {
+            ttsWrapper.speak(user.szNickname+"has has joinned the channel");
+       }
         if(curchannel != null && curchannel.nChannelID == user.nChannelID)
             channelsAdapter.notifyDataSetChanged();
         else if(user.nUserID == ttclient.getMyUserID()) {
@@ -824,6 +845,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+        boolean tts_leave = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false);
+        if (tts_leave) {
+            ttsWrapper.speak(user.szNickname+"has has left the channel");
+       }
         if(curchannel != null && curchannel.nChannelID == channelid)
             channelsAdapter.notifyDataSetChanged();
     }

@@ -9,6 +9,9 @@
         android:fragment="dk.bearware.gui.PreferencesActivity$ConnectionPreferenceFragment"
         android:title="@string/pref_header_connection" />
     <header
+        android:fragment="dk.bearware.gui.PreferencesActivity$TtsPreferenceFragment"
+        android:title="@string/pref_header_tts" />
+    <header
         android:fragment="dk.bearware.gui.PreferencesActivity$SoundSystemPreferenceFragment"
         android:title="@string/pref_header_soundsystem" />
     

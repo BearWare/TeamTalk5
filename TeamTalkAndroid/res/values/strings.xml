@@ -22,6 +22,7 @@
     <string name="text_txtmsg_cmderr">"Failed to send text message"</string>
     
     <string name="pref_cat_subscriptions">Subscriptions</string>
+    <string name="pref_cat_tts">Configure Text to Speech messages</string>
     <string name="pref_cat_soundtest">Sound Test</string>
     
     <string name="pref_header_general">General</string>
@@ -54,6 +55,20 @@
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Subscribe to media file streams</string>
 
+    <string name="pref_header_tts">Text to Speech</string>
+    
+    <string name="pref_title_server_login">User Logs on the server</string>
+    <string name="pref_summary_server_login">Announce name of the currently logged in user</string>
+    
+    <string name="pref_title_server_logout">User Logs out from the server</string>
+    <string name="pref_summary_server_logout">Announce name of the currently logged out user</string>
+
+    <string name="pref_title_channel_join">User joins the channel</string>
+    <string name="pref_summary_channel_join">Announce name of the user, which joinned the channel</string>
+    
+    <string name="pref_title_channel_leave">user leaves the channel</string>
+    <string name="pref_summary_channel_leave">Announce name of the user, which left the channel</string>
+    
     <string name="pref_header_soundsystem">Sound System</string>
     
     
