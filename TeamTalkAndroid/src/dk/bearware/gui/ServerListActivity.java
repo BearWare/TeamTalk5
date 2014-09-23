@@ -389,7 +389,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
         int loginCmdId = ttclient.doLogin(nickname, serverentry.username, serverentry.password);
         if(loginCmdId<0)
-            Toast.makeText(this, getResources().getString(R.string.text_login_cmderr),
+            Toast.makeText(this, getResources().getString(R.string.text_cmderr_login),
                            Toast.LENGTH_LONG).show();
         else
             activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);

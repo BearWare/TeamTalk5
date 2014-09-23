@@ -386,7 +386,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         newmsg.setText("");
                     }
                     else {
-                        Toast.makeText(mainActivity, getResources().getString(R.string.text_txtmsg_cmderr),
+                        Toast.makeText(mainActivity, getResources().getString(R.string.text_cmderr_txtmsg),
                                        Toast.LENGTH_LONG).show();
                     }
                 }
@@ -805,7 +805,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onCmdUserLoggedIn(User user) {
         boolean tts_login = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false);
         if (tts_login) {
-            ttsWrapper.speak(user.szNickname+"has logged in");
+            ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedin));
        }
     }
 
@@ -813,7 +813,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onCmdUserLoggedOut(User user) {
         boolean tts_logout = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false);
         if (tts_logout) {
-            ttsWrapper.speak(user.szNickname+"has logged out");
+            ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedout));
        }
     }
 
@@ -825,12 +825,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
-        boolean tts_join = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false);
-        if (tts_join) {
-            ttsWrapper.speak(user.szNickname+"has has joinned the channel");
-       }
-        if(curchannel != null && curchannel.nChannelID == user.nChannelID)
+        if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             channelsAdapter.notifyDataSetChanged();
+
+            boolean tts_join = PreferenceManager.getDefaultSharedPreferences(
+                getBaseContext()).getBoolean("channel_join_checkbox", false);
+            if(tts_join) {
+                ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
+            }
+        }
         else if(user.nUserID == ttclient.getMyUserID()) {
             curchannel = ttservice.getChannels().get(user.nChannelID);
             channelsAdapter.notifyDataSetChanged();
@@ -845,12 +848,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
-        boolean tts_leave = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false);
-        if (tts_leave) {
-            ttsWrapper.speak(user.szNickname+"has has left the channel");
-       }
-        if(curchannel != null && curchannel.nChannelID == channelid)
+        if(curchannel != null && curchannel.nChannelID == channelid) {
             channelsAdapter.notifyDataSetChanged();
+
+            boolean tts_leave = PreferenceManager.getDefaultSharedPreferences(
+                getBaseContext()).getBoolean("channel_leave_checkbox", false);
+            if(tts_leave) {
+                ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
+            }
+        }
     }
 
     @Override
