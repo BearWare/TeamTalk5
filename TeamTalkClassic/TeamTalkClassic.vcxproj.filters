@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{3317651f-6056-49ba-ae0f-47072dbb5fdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controls">
+      <UniqueIdentifier>{7db0603c-6a83-4704-807d-18a7c1cc5d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Property pages">
+      <UniqueIdentifier>{11c4cb1f-b4b3-4429-afff-ff164be3e17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Speech">
+      <UniqueIdentifier>{e5fafce2-b8ff-4fe1-ae0c-dc362e699363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wizard">
+      <UniqueIdentifier>{78e96248-b6d1-4858-81a6-d5cb1e46227d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Settings">
+      <UniqueIdentifier>{4d43fb7a-5716-4bb3-89b7-0b6983d323a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Dialogs">
+      <UniqueIdentifier>{b6452859-7a39-4a67-8640-80059cf14450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controls">
+      <UniqueIdentifier>{0e59f4dd-c6b3-4714-8a79-46cc6e402eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Property pages">
+      <UniqueIdentifier>{4ac73f2e-efae-4762-8d08-e43cfa238dec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Speech">
+      <UniqueIdentifier>{3f96c8bb-f899-4e38-b632-d613735903c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wizard">
+      <UniqueIdentifier>{b8d40a5e-1b3a-4a38-b654-2116d762535b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Settings">
+      <UniqueIdentifier>{abe50008-c1d4-4a85-ab7a-34375f2e3be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Languages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mdump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamTalkApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamTalkBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamTalkDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\AboutBox.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\AudioStorageDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\BannedDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ChangeStatusDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ChannelDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ConnectDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\DesktopShareDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\DirectConDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\FileTransferDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\HostManagerDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\InputDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\IpAddressesDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\KeyCompDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MessageDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MoveToChannelDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\OnlineUsersDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\PositionUsersDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ServerPropertiesDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ServerStatisticsDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserAccountsDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserDesktopDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserInfoDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserVideoDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserVolumeDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\BitmapSlider.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ChatRichEditCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ChatTab.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\dialogex\ControlsEx.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\dialogex\DialogEx.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ExListBox.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\FilesListCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\FilesTab.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MyBitmapButton.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MyEdit.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MySliderCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MyTab.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MyTabCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\Resizer.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\RichEditThemed.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\RoomBox.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SessionTreeCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SessionTreeCtrlWin32.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\splitterbar.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SysColStatic.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SystemTray.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\UserButton.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\XPTabCtrl.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\AdvancedPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ClientPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GeneralPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\MyPropertySheet.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\ShortcutsPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SoundEventsPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\SoundSysPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\VideoCapturePage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\WindowPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Speech\Speech.cpp">
+      <Filter>Source Files\Speech</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\DIBitmap.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\BmpPalette.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\NGWizard.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\NGWizardPage.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\ResizeCtrl.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\WizCompletionPage.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\WizGeneralPage.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\WizMasterSheet.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\WizSoundSysPage.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard\WizWelcomePage.cpp">
+      <Filter>Source Files\Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\ClientXML.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\mystd\CPrintfArg.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\mystd\MyStd.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\settings\Settings.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\mystd\StringPrintf.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\XMLLanguages.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\StreamMediaDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Languages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mdump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamTalkApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamTalkBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamTalkDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\AboutBox.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\AudioStorageDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\BannedDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ChangeStatusDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ChannelDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ConnectDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\DesktopShareDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\DirectConDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\FileTransferDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\HostingDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\HostManagerDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\InputDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\IpAddressesDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\KeyCompDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MessageDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MoveToChannelDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\OnlineUsersDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\PositionUsersDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ServerPropertiesDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ServerStatisticsDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserAccountsDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserDesktopDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserInfoDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserRightsDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserStatusDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserVideoDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserVolumeDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\BitmapSlider.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ChatRichEditCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ChatTab.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\dialogex\ControlsEx.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\dialogex\DialogEx.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ExListBox.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\FilesListCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\FilesTab.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MyBitmapButton.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MyEdit.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MySliderCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MyTab.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MyTabCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\Resizer.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\RichEditThemed.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\RoomBox.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SessionTreeCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SessionTreeCtrlWin32.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\splitterbar.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SysColStatic.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SystemTray.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\UserButton.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\XPTabCtrl.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\AdvancedPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ClientPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GeneralPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\HostingPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\MyPropertySheet.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ShortcutsPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SoundEventsPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\SoundSysPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\VideoCapturePage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\WindowPage.h">
+      <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Speech\Speech.h">
+      <Filter>Header Files\Speech</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\DIBitmap.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\BmpPalette.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\NGWizard.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\NGWizardPage.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\ResizeCtrl.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\WizCompletionPage.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\WizGeneralPage.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\WizMasterSheet.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\WizSoundSysPage.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="wizard\WizWelcomePage.h">
+      <Filter>Header Files\Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\ClientXML.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libteamtalk\mystd\CPrintfArg.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libteamtalk\mystd\MyStd.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libteamtalk\settings\Settings.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libteamtalk\mystd\StringPrintf.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\XMLLanguages.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\StreamMediaDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00001.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00002.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00003.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00004.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00005.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00006.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\logo.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\session.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\session2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TeamTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TeamTalk2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\toolbar1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeamTalk.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="res\TeamTalk.rc2">
+      <Filter>Resource Files</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="res\TeamTalk.manifest" />
+    <CustomBuildStep Include="res\TeamTalk_amd64.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

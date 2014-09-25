@@ -1,0 +1,29 @@
+// TeamTalk3.idl : type library source for TeamTalk3.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (TeamTalk3.tlb).
+
+[ uuid(BC4E1CC0-8B80-4BD4-85C3-D1AC386A29B8), version(1.0) ]
+library TeamTalk3
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Primary dispatch interface for CTeamTalk3Doc
+	
+	[ uuid(EFBD8B79-31DE-4926-82A1-908CB83C7EAD) ]
+	dispinterface ITeamTalk3
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  Class information for CTeamTalk3Doc
+	
+	[ uuid(3E84AB86-7138-4B54-B580-8C692AD2C3FE) ]
+	coclass TeamTalk3
+	{
+		[default] dispinterface ITeamTalk3;
+	};
+};

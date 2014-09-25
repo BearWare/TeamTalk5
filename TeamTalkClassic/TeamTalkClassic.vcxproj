@@ -1,0 +1,942 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug-SSL|Win32">
+      <Configuration>Debug-SSL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-SSL|x64">
+      <Configuration>Debug-SSL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-SSL|Win32">
+      <Configuration>Release-SSL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-SSL|x64">
+      <Configuration>Release-SSL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|x64">
+      <Configuration>Template</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CC0C9207-04B3-49B2-A282-1C6802FA1E32}</ProjectGuid>
+    <RootNamespace>TeamTalk</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <ProjectName>TeamTalk5Classic</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">false</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">false</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">false</EmbedManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;tinyxmld.lib;teamtalk5d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AMD64_;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>tinyxmld.lib;teamtalk5d.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalOptions>/nod:kernel32.lib /nod:advapi32.lib /nod:user32.lib /nod:gdi32.lib /nod:shell32.lib /nod:comdlg32.lib /nod:version.lib /nod:mpr.lib /nod:rasapi32.lib /nod:winmm.lib /nod:winspool.lib /nod:vfw32.lib /nod:secur32.lib /nod:oleacc.lib /nod:oledlg.lib /nod:sensapi.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;tinyxml.lib;teamtalk5.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AMD64_;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>teamtalk5.lib;tinyxml.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;tinyxmld.lib;teamtalk5prod.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AMD64_;_WIN64;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>tinyxmld.lib;teamtalk5prod.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;tinyxml.lib;teamtalk5pro.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>$(IntDir)$(ProjectName).tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\;..\TeamTalk_DLL;C:\Programming\Libraries\tinyxml;..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AMD64_;_WIN64;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>teamtalk5pro.lib;tinyxml.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Programming\Libraries\tinyxml\lib\$(Platform);..\TeamTalk_DLL\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="gui\StreamMediaDlg.cpp" />
+    <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="HttpRequest.cpp" />
+    <ClCompile Include="Languages.cpp" />
+    <ClCompile Include="mdump.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TeamTalkApp.cpp" />
+    <ClCompile Include="TeamTalkBase.cpp" />
+    <ClCompile Include="TeamTalkDlg.cpp" />
+    <ClCompile Include="gui\AboutBox.cpp" />
+    <ClCompile Include="gui\AudioStorageDlg.cpp" />
+    <ClCompile Include="gui\BannedDlg.cpp" />
+    <ClCompile Include="gui\ChangeStatusDlg.cpp" />
+    <ClCompile Include="gui\ChannelDlg.cpp" />
+    <ClCompile Include="gui\ConnectDlg.cpp" />
+    <ClCompile Include="gui\DesktopShareDlg.cpp" />
+    <ClCompile Include="gui\DirectConDlg.cpp" />
+    <ClCompile Include="gui\FileTransferDlg.cpp" />
+    <ClCompile Include="gui\HostManagerDlg.cpp" />
+    <ClCompile Include="gui\InputDlg.cpp" />
+    <ClCompile Include="gui\IpAddressesDlg.cpp" />
+    <ClCompile Include="gui\KeyCompDlg.cpp" />
+    <ClCompile Include="gui\MessageDlg.cpp" />
+    <ClCompile Include="gui\MoveToChannelDlg.cpp" />
+    <ClCompile Include="gui\OnlineUsersDlg.cpp" />
+    <ClCompile Include="gui\PositionUsersDlg.cpp" />
+    <ClCompile Include="gui\ServerPropertiesDlg.cpp" />
+    <ClCompile Include="gui\ServerStatisticsDlg.cpp" />
+    <ClCompile Include="gui\UserAccountsDlg.cpp" />
+    <ClCompile Include="gui\UserDesktopDlg.cpp" />
+    <ClCompile Include="gui\UserInfoDlg.cpp" />
+    <ClCompile Include="gui\UserVideoDlg.cpp" />
+    <ClCompile Include="gui\UserVolumeDlg.cpp" />
+    <ClCompile Include="gui\BitmapSlider.cpp" />
+    <ClCompile Include="gui\ChatRichEditCtrl.cpp" />
+    <ClCompile Include="gui\ChatTab.cpp" />
+    <ClCompile Include="gui\dialogex\ControlsEx.cpp" />
+    <ClCompile Include="gui\dialogex\DialogEx.cpp" />
+    <ClCompile Include="gui\ExListBox.cpp" />
+    <ClCompile Include="gui\FilesListCtrl.cpp" />
+    <ClCompile Include="gui\FilesTab.cpp" />
+    <ClCompile Include="gui\MyBitmapButton.cpp" />
+    <ClCompile Include="gui\MyEdit.cpp" />
+    <ClCompile Include="gui\MySliderCtrl.cpp" />
+    <ClCompile Include="gui\MyTab.cpp" />
+    <ClCompile Include="gui\MyTabCtrl.cpp" />
+    <ClCompile Include="gui\Resizer.cpp" />
+    <ClCompile Include="gui\RichEditThemed.cpp" />
+    <ClCompile Include="gui\RoomBox.cpp" />
+    <ClCompile Include="gui\SessionTreeCtrl.cpp" />
+    <ClCompile Include="gui\SessionTreeCtrlWin32.cpp" />
+    <ClCompile Include="gui\splitterbar.cpp" />
+    <ClCompile Include="gui\SysColStatic.cpp" />
+    <ClCompile Include="gui\SystemTray.cpp" />
+    <ClCompile Include="gui\UserButton.cpp" />
+    <ClCompile Include="gui\XPTabCtrl.cpp" />
+    <ClCompile Include="gui\AdvancedPage.cpp" />
+    <ClCompile Include="gui\ClientPage.cpp" />
+    <ClCompile Include="gui\GeneralPage.cpp" />
+    <ClCompile Include="gui\MyPropertySheet.cpp" />
+    <ClCompile Include="gui\ShortcutsPage.cpp" />
+    <ClCompile Include="gui\SoundEventsPage.cpp" />
+    <ClCompile Include="gui\SoundSysPage.cpp" />
+    <ClCompile Include="gui\VideoCapturePage.cpp" />
+    <ClCompile Include="gui\WindowPage.cpp" />
+    <ClCompile Include="Speech\Speech.cpp" />
+    <ClCompile Include="wizard\DIBitmap.cpp" />
+    <ClCompile Include="wizard\BmpPalette.cpp" />
+    <ClCompile Include="wizard\NGWizard.cpp" />
+    <ClCompile Include="wizard\NGWizardPage.cpp" />
+    <ClCompile Include="wizard\ResizeCtrl.cpp" />
+    <ClCompile Include="wizard\WizCompletionPage.cpp" />
+    <ClCompile Include="wizard\WizGeneralPage.cpp" />
+    <ClCompile Include="wizard\WizMasterSheet.cpp" />
+    <ClCompile Include="wizard\WizSoundSysPage.cpp" />
+    <ClCompile Include="wizard\WizWelcomePage.cpp" />
+    <ClCompile Include="settings\ClientXML.cpp" />
+    <ClCompile Include="..\libteamtalk\mystd\CPrintfArg.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\mystd\MyStd.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\settings\Settings.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\libteamtalk\mystd\StringPrintf.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="settings\XMLLanguages.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gui\StreamMediaDlg.h" />
+    <ClInclude Include="Helper.h" />
+    <ClInclude Include="HttpRequest.h" />
+    <ClInclude Include="Languages.h" />
+    <ClInclude Include="mdump.h" />
+    <CustomBuild Include="Resource.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating map file for help compiler...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo // Generated Help Map file.  Used by TeamTalk.HHP. &gt; hlp\HTMLDefines.h
+echo. &gt; hlp\HTMLDefines.h
+echo // Commands (ID_* and IDM_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Prompts (IDP_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDP_,HIDP_,0x30000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Resources (IDR_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDR_,HIDR_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Dialogs (IDD_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h IDD_,HIDD_,0x20000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+echo. &gt;&gt; hlp\HTMLDefines.h
+echo // Frame Controls (IDW_*) &gt;&gt; hlp\HTMLDefines.h
+makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTMLDefines.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TeamTalkApp.h" />
+    <ClInclude Include="TeamTalkBase.h" />
+    <ClInclude Include="TeamTalkDlg.h" />
+    <ClInclude Include="gui\AboutBox.h" />
+    <ClInclude Include="gui\AudioStorageDlg.h" />
+    <ClInclude Include="gui\BannedDlg.h" />
+    <ClInclude Include="gui\ChangeStatusDlg.h" />
+    <ClInclude Include="gui\ChannelDlg.h" />
+    <ClInclude Include="gui\ConnectDlg.h" />
+    <ClInclude Include="gui\DesktopShareDlg.h" />
+    <ClInclude Include="gui\DirectConDlg.h" />
+    <ClInclude Include="gui\FileTransferDlg.h" />
+    <ClInclude Include="gui\HostingDlg.h" />
+    <ClInclude Include="gui\HostManagerDlg.h" />
+    <ClInclude Include="gui\InputDlg.h" />
+    <ClInclude Include="gui\IpAddressesDlg.h" />
+    <ClInclude Include="gui\KeyCompDlg.h" />
+    <ClInclude Include="gui\MessageDlg.h" />
+    <ClInclude Include="gui\MoveToChannelDlg.h" />
+    <ClInclude Include="gui\OnlineUsersDlg.h" />
+    <ClInclude Include="gui\PositionUsersDlg.h" />
+    <ClInclude Include="gui\ServerPropertiesDlg.h" />
+    <ClInclude Include="gui\ServerStatisticsDlg.h" />
+    <ClInclude Include="gui\UserAccountsDlg.h" />
+    <ClInclude Include="gui\UserDesktopDlg.h" />
+    <ClInclude Include="gui\UserInfoDlg.h" />
+    <ClInclude Include="gui\UserRightsDlg.h" />
+    <ClInclude Include="gui\UserStatusDlg.h" />
+    <ClInclude Include="gui\UserVideoDlg.h" />
+    <ClInclude Include="gui\UserVolumeDlg.h" />
+    <ClInclude Include="gui\BitmapSlider.h" />
+    <ClInclude Include="gui\ChatRichEditCtrl.h" />
+    <ClInclude Include="gui\ChatTab.h" />
+    <ClInclude Include="gui\dialogex\ControlsEx.h" />
+    <ClInclude Include="gui\dialogex\DialogEx.h" />
+    <ClInclude Include="gui\ExListBox.h" />
+    <ClInclude Include="gui\FilesListCtrl.h" />
+    <ClInclude Include="gui\FilesTab.h" />
+    <ClInclude Include="gui\MyBitmapButton.h" />
+    <ClInclude Include="gui\MyEdit.h" />
+    <ClInclude Include="gui\MySliderCtrl.h" />
+    <ClInclude Include="gui\MyTab.h" />
+    <ClInclude Include="gui\MyTabCtrl.h" />
+    <ClInclude Include="gui\Resizer.h" />
+    <ClInclude Include="gui\RichEditThemed.h" />
+    <ClInclude Include="gui\RoomBox.h" />
+    <ClInclude Include="gui\SessionTreeCtrl.h" />
+    <ClInclude Include="gui\SessionTreeCtrlWin32.h" />
+    <ClInclude Include="gui\splitterbar.h" />
+    <ClInclude Include="gui\SysColStatic.h" />
+    <ClInclude Include="gui\SystemTray.h" />
+    <ClInclude Include="gui\UserButton.h" />
+    <ClInclude Include="gui\XPTabCtrl.h" />
+    <ClInclude Include="gui\AdvancedPage.h" />
+    <ClInclude Include="gui\ClientPage.h" />
+    <ClInclude Include="gui\GeneralPage.h" />
+    <ClInclude Include="gui\HostingPage.h" />
+    <ClInclude Include="gui\MyPropertySheet.h" />
+    <ClInclude Include="gui\ShortcutsPage.h" />
+    <ClInclude Include="gui\SoundEventsPage.h" />
+    <ClInclude Include="gui\SoundSysPage.h" />
+    <ClInclude Include="gui\VideoCapturePage.h" />
+    <ClInclude Include="gui\WindowPage.h" />
+    <ClInclude Include="Speech\Speech.h" />
+    <ClInclude Include="wizard\DIBitmap.h" />
+    <ClInclude Include="wizard\BmpPalette.h" />
+    <ClInclude Include="wizard\NGWizard.h" />
+    <ClInclude Include="wizard\NGWizardPage.h" />
+    <ClInclude Include="wizard\ResizeCtrl.h" />
+    <ClInclude Include="wizard\WizCompletionPage.h" />
+    <ClInclude Include="wizard\WizGeneralPage.h" />
+    <ClInclude Include="wizard\WizMasterSheet.h" />
+    <ClInclude Include="wizard\WizSoundSysPage.h" />
+    <ClInclude Include="wizard\WizWelcomePage.h" />
+    <ClInclude Include="settings\ClientXML.h" />
+    <ClInclude Include="..\libteamtalk\mystd\CPrintfArg.h" />
+    <ClInclude Include="..\libteamtalk\mystd\MyStd.h" />
+    <ClInclude Include="..\libteamtalk\settings\Settings.h" />
+    <ClInclude Include="..\libteamtalk\mystd\StringPrintf.h" />
+    <ClInclude Include="settings\XMLLanguages.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\bitmap1.bmp" />
+    <None Include="res\bmp00001.bmp" />
+    <None Include="res\bmp00002.bmp" />
+    <None Include="res\bmp00003.bmp" />
+    <None Include="res\bmp00004.bmp" />
+    <None Include="res\bmp00005.bmp" />
+    <None Include="res\bmp00006.bmp" />
+    <None Include="res\icon1.ico" />
+    <None Include="res\logo.bmp" />
+    <None Include="res\session.bmp" />
+    <None Include="res\session2.bmp" />
+    <None Include="res\TeamTalk.ico" />
+    <CustomBuildStep Include="res\TeamTalk.rc2">
+      <FileType>RC</FileType>
+    </CustomBuildStep>
+    <None Include="res\TeamTalk2.ico" />
+    <None Include="res\toolbar1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeamTalk.rc">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">_DEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NDEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir);..\libteamtalk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="res\TeamTalk.manifest">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="res\TeamTalk_amd64.manifest">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="TeamTalk.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

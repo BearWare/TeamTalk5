@@ -1,0 +1,17 @@
+//
+// TeamTalk3.RC2 - resources Microsoft Visual C++ does not edit directly
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+#ifdef _WIN64
+IDR_MANIFEST RT_MANIFEST MOVEABLE PURE "res\\TeamTalk_amd64.manifest"
+#else
+IDR_MANIFEST RT_MANIFEST MOVEABLE PURE "res\\TeamTalk.manifest"
+#endif
+/////////////////////////////////////////////////////////////////////////////
