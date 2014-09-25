@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "ClientXML.h"
-#include <mystd/MyStd.h>
+#include "MyStd.h"
 #include <assert.h>
 
 using namespace std;

@@ -49,15 +49,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
+    <Filter Include="Header Files\Xml">
+      <UniqueIdentifier>{a473f027-6c14-4def-bdad-2b7760bf737a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Xml">
+      <UniqueIdentifier>{e183e426-da65-4762-bbc1-02dc6754025c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HttpRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Languages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mdump.cpp">
@@ -276,26 +279,41 @@
     <ClCompile Include="wizard\WizWelcomePage.cpp">
       <Filter>Source Files\Wizard</Filter>
     </ClCompile>
-    <ClCompile Include="settings\ClientXML.cpp">
-      <Filter>Source Files\Settings</Filter>
+    <ClCompile Include="gui\StreamMediaDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="..\libteamtalk\mystd\CPrintfArg.cpp">
-      <Filter>Source Files\Settings</Filter>
+    <ClCompile Include="xml\tinyxmlparser.cpp">
+      <Filter>Source Files\Xml</Filter>
     </ClCompile>
-    <ClCompile Include="..\libteamtalk\mystd\MyStd.cpp">
-      <Filter>Source Files\Settings</Filter>
+    <ClCompile Include="xml\tinyxmlerror.cpp">
+      <Filter>Source Files\Xml</Filter>
     </ClCompile>
-    <ClCompile Include="..\libteamtalk\settings\Settings.cpp">
-      <Filter>Source Files\Settings</Filter>
+    <ClCompile Include="xml\tinyxml.cpp">
+      <Filter>Source Files\Xml</Filter>
     </ClCompile>
-    <ClCompile Include="..\libteamtalk\mystd\StringPrintf.cpp">
-      <Filter>Source Files\Settings</Filter>
+    <ClCompile Include="xml\tinystr.cpp">
+      <Filter>Source Files\Xml</Filter>
     </ClCompile>
     <ClCompile Include="settings\XMLLanguages.cpp">
       <Filter>Source Files\Settings</Filter>
     </ClCompile>
-    <ClCompile Include="gui\StreamMediaDlg.cpp">
-      <Filter>Source Files\Dialogs</Filter>
+    <ClCompile Include="settings\Settings.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\MyStd.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\ClientXML.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\StringPrintf.cpp">
+      <Filter>Source Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Languages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings\CPrintfArg.cpp">
+      <Filter>Source Files\Settings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +321,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HttpRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Languages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mdump.h">
@@ -536,26 +551,35 @@
     <ClInclude Include="wizard\WizWelcomePage.h">
       <Filter>Header Files\Wizard</Filter>
     </ClInclude>
-    <ClInclude Include="settings\ClientXML.h">
-      <Filter>Header Files\Settings</Filter>
+    <ClInclude Include="gui\StreamMediaDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
-    <ClInclude Include="..\libteamtalk\mystd\CPrintfArg.h">
-      <Filter>Header Files\Settings</Filter>
+    <ClInclude Include="xml\tinyxml.h">
+      <Filter>Header Files\Xml</Filter>
     </ClInclude>
-    <ClInclude Include="..\libteamtalk\mystd\MyStd.h">
-      <Filter>Header Files\Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libteamtalk\settings\Settings.h">
-      <Filter>Header Files\Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libteamtalk\mystd\StringPrintf.h">
-      <Filter>Header Files\Settings</Filter>
+    <ClInclude Include="xml\tinystr.h">
+      <Filter>Header Files\Xml</Filter>
     </ClInclude>
     <ClInclude Include="settings\XMLLanguages.h">
       <Filter>Header Files\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="gui\StreamMediaDlg.h">
-      <Filter>Header Files\Dialogs</Filter>
+    <ClInclude Include="settings\StringPrintf.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\Settings.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\MyStd.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\ClientXML.h">
+      <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Languages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\CPrintfArg.h">
+      <Filter>Header Files\Settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

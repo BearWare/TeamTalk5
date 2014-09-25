@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "XMLLanguages.h"
-#include <mystd/MyStd.h>
+#include "MyStd.h"
 
 #include <vector>
 #include <algorithm>

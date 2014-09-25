@@ -22,7 +22,7 @@
 #ifndef CLIENTXML_H
 #define CLIENTXML_H
 
-#include <settings/Settings.h>
+#include "Settings.h"
 
 namespace teamtalk {
 
