@@ -145,8 +145,9 @@ BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
 
 BOOL CanToggleTransmitUsers(int nChannelID)
 {
+    bool bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     return TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), nChannelID) ||
-           (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+          bEnableChan;
 }
 
 messages_t GetMessages(int nFromUserID, const messages_t& messages)

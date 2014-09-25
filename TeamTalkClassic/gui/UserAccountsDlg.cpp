@@ -137,13 +137,15 @@ void CUserAccountsDlg::OnBnClickedButtonNew()
 
 void CUserAccountsDlg::OnBnClickedButtonAdd()
 {
-    if(MessageBox(_T("Create anonymous user account?"), 
-                  _T("Add/Update User Account"), MB_YESNO) != IDYES)
-        return;
-
     UserAccount account = {0};
     m_wndUsername.GetWindowText(account.szUsername, TT_STRLEN);
     m_wndPassword.GetWindowText(account.szPassword, TT_STRLEN);
+
+    if(_tcslen(account.szUsername) == 0 &&
+       MessageBox(_T("Create anonymous user account?"), 
+                  _T("Add/Update User Account"), MB_YESNO) != IDYES)
+        return;
+
     account.uUserType = (m_wndAdminUser.GetCheck() == BST_CHECKED)? USERTYPE_ADMIN : USERTYPE_DEFAULT;
     if(m_wndDoubleLogin.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_MULTI_LOGIN;

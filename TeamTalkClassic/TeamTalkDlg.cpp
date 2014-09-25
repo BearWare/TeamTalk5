@@ -3377,7 +3377,7 @@ void CTeamTalkDlg::OnUsersViewinfo()
 
         dlg.m_szUsername = user.szUsername;
         dlg.m_szUserType = (user.uUserType & USERTYPE_ADMIN)? _T("Admin"): _T("Default");
-        if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+        if(TT_GetMyUserRights(ttInst) & USERRIGHT_BAN_USERS)
             dlg.m_szIPAddr = user.szIPAddress;
         dlg.m_szVersion = GetVersion(user);
 
@@ -3642,8 +3642,8 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
     if(dlg.DoModal() == IDOK)
     {
         int nParentID = TT_GetMyChannelID(ttInst);
-        if((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) &&
-            m_wndTree.GetSelectedChannel())
+        bool bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
+        if(bEnableChan && m_wndTree.GetSelectedChannel())
             nParentID = m_wndTree.GetSelectedChannel();
         else if(nParentID<=0)
             nParentID = TT_GetRootChannelID(ttInst);
@@ -3687,7 +3687,7 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         m_host.szChannel = STR_UTF8(szPath);
         m_host.szChPasswd = STR_UTF8(dlg.m_szChannelPassword);
 
-        if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+        if(bEnableChan)
             TT_DoMakeChannel(ttInst, &chan);
         else
         {
@@ -4945,10 +4945,12 @@ void CTeamTalkDlg::OnUpdateServerServerproperties(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnServerServerproperties()
 {
-    CServerPropertiesDlg dlg(!(bool)(TT_GetMyUserType(ttInst)&USERTYPE_ADMIN), this);
     ServerProperties prop = {0};
     if(!TT_GetServerProperties(ttInst, &prop))
         return;
+
+    BOOL bReadOnly = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0;
+    CServerPropertiesDlg dlg(bReadOnly, this);
     dlg.m_szSrvName = prop.szServerName;
     dlg.m_szMOTD = prop.szMOTD;
     dlg.m_szMOTDRaw = prop.szMOTDRaw;
@@ -4965,13 +4967,13 @@ void CTeamTalkDlg::OnServerServerproperties()
     dlg.m_nLoginsBan = prop.nMaxLoginAttempts;
     dlg.m_nMaxIPLogins = prop.nMaxLoginsPerIPAddress;
     dlg.m_szVersion = prop.szServerVersion;
-    if(dlg.DoModal() == IDOK && (TT_GetMyUserType(ttInst)&USERTYPE_ADMIN))
+    if(dlg.DoModal() == IDOK && !bReadOnly)
     {
         COPYTTSTR(prop.szServerName, dlg.m_szSrvName);
         //if(dlg.m_szMOTD != prop.szMOTDRaw &&
         //   MessageBox(_T("Update message of the day?"),
         //              _T("Message of the day"), MB_YESNO) == IDYES)
-        COPYTTSTR(prop.szMOTD, dlg.m_szMOTD);
+        COPYTTSTR(prop.szMOTDRaw, dlg.m_szMOTD);
         prop.nMaxUsers = dlg.m_nMaxUsers;
         prop.nTcpPort = dlg.m_nTcpPort;
         prop.nUdpPort = dlg.m_nUdpPort;
@@ -5071,7 +5073,8 @@ void CTeamTalkDlg::OnAdvancedMoveuserdialog()
 
 void CTeamTalkDlg::OnUpdateServerListbannedusers(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable((bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN));
+    bool bEnable = (TT_GetMyUserRights(ttInst) & USERRIGHT_BAN_USERS);
+    pCmdUI->Enable(bEnable);
 }
 
 void CTeamTalkDlg::OnServerListbannedusers()
@@ -5532,7 +5535,8 @@ void CTeamTalkDlg::OnNMCustomdrawSliderGainlevel(NMHDR *pNMHDR, LRESULT *pResult
 
 void CTeamTalkDlg::OnUpdateServerBroadcastmessage(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable((bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN));
+    bool bEnable = (TT_GetMyUserRights(ttInst) & USERRIGHT_TEXTMESSAGE_BROADCAST);
+    pCmdUI->Enable(bEnable);
 }
 
 void CTeamTalkDlg::OnServerBroadcastmessage()

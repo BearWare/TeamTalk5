@@ -133,7 +133,8 @@ BOOL CChannelDlg::OnInitDialog()
 
     m_btnStaticChannel.EnableWindow(TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     
-    if((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == 0)
+    bool bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
+    if(!bEnableChan)
     {
         m_wndDiskQuota.EnableWindow(FALSE);
         m_wndMaxUsers.EnableWindow(FALSE);
