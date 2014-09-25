@@ -46,7 +46,7 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * **qtTeamTalk** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 client application written in C++ and based on [Qt](http://www.qt-project.org)
   * Requires **TeamTalk_DLL** project for DLL dependency
-* ** TeamTalkClassic** (dependency: **TeamTalk_DLL**)
+* **TeamTalkClassic** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 accessible client application written in C++ and based on MFC
     * Works well with screen-readers
   * Requires **TeamTalk_DLL** project for DLL dependency
