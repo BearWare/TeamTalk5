@@ -43,6 +43,7 @@ import dk.bearware.data.ServerEntry;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.app.ListActivity;
 import android.content.Context;
@@ -90,8 +91,6 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
     
-    SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
-    
     @Override
     protected void onStart() {
         super.onStart();
@@ -107,6 +106,11 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         super.onStop();
         // Unbind from the service
          unbindService(mConnection);
+         
+         if(ttservice != null) {
+             ttservice.unregisterConnectionListener(this);
+             ttservice.unregisterCommandListener(this);
+         }
     }
 
     ServerEntry serverentry;
@@ -228,12 +232,8 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                         case R.id.server_connect :
                             serverentry = servers.get(position);
 
-                            if(!ttclient.connect(serverentry.ipaddr, serverentry.tcpport, serverentry.udpport, 0, 0, false)) {
-                                ttclient.disconnect();
-                                Toast.makeText(ServerListActivity.this, "Failed to connect to " + serverentry.ipaddr,
-                                    Toast.LENGTH_LONG).show();
-                            }
-
+                            ttservice.setServerEntry(serverentry);
+                            ttservice.reconnect();                            
                         break;
                         case R.id.server_remove :
                             servers.remove(position);
@@ -361,12 +361,11 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         ttservice = service;
         ttclient = service.getTTInstance();
 
-        ttservice.registerConnectionListener(ServerListActivity.this);
-        ttservice.registerCommandListener(ServerListActivity.this);
+        ttservice.registerConnectionListener(this);
+        ttservice.registerCommandListener(this);
 
         // reset state since we're creating a new connection
         ttservice.resetState();
-        ttclient.disconnect();
         ttclient.closeSoundInputDevice();
         ttclient.closeSoundOutputDevice();
         
@@ -375,24 +374,10 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-
-        ttservice.unregisterConnectionListener(ServerListActivity.this);
-        ttservice.unregisterCommandListener(ServerListActivity.this);
     }
 
     @Override
     public void onConnectSuccess() {
-        assert (serverentry != null);
-        
-        String def_nick = getResources().getString(R.string.pref_default_nickname);
-        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("nickname_text", def_nick);
-
-        int loginCmdId = ttclient.doLogin(nickname, serverentry.username, serverentry.password);
-        if(loginCmdId<0)
-            Toast.makeText(this, getResources().getString(R.string.text_cmderr_login),
-                           Toast.LENGTH_LONG).show();
-        else
-            activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);
     }
 
     @Override
@@ -401,7 +386,6 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onConnectionLost() {
-        activecmds.clear();
     }
 
     @Override
@@ -410,60 +394,20 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
     public void onCmdSuccess(int cmdId) {
-        assert (serverentry != null);
-        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(Utils.putServerEntry(intent, serverentry));
-        }
     }
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
-        
-        if(!complete)
-            return;
-
-        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            int def_unsub = Subscription.SUBSCRIBE_NONE;
-            if(!pref.getBoolean("sub_txtmsg_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
-            if(!pref.getBoolean("sub_chanmsg_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
-            if(!pref.getBoolean("sub_bcastmsg_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
-            if(!pref.getBoolean("sub_voice_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_VOICE;
-            if(!pref.getBoolean("sub_video_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
-            if(!pref.getBoolean("sub_desktop_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
-            if(!pref.getBoolean("sub_mediafile_checkbox", true))
-                def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
-
-            Vector<User> vecusers = Utils.getUsers(ttservice.getUsers());
-            for(User u : vecusers) {
-                if((u.uLocalSubscriptions & def_unsub) != 0) {
-                    int cmdid = ttclient.doUnsubscribe(u.nUserID, def_unsub);
-                    if(cmdid > 0)
-                        activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
-                }
-            }
-        }
-
-        activecmds.delete(cmdId);
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

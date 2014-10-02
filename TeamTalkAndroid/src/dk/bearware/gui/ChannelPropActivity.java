@@ -81,11 +81,24 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         switch(item.getItemId()) {
             case R.id.action_updatechannel : {
                 setgetChannel(true);
-                if(channel.nChannelID > 0)
+                if(channel.nChannelID > 0) {
+                    
                     updateCmdId = ttclient.doUpdateChannel(channel);
+                    if(updateCmdId < 0) {
+                        Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
+                                       Toast.LENGTH_LONG).show();
+                    }
+                }
                 else {
                     setgetChannel(true);
+                    
                     updateCmdId = ttclient.doJoinChannel(channel);
+                    if(updateCmdId > 0)
+                        ttservice.setJoinChannel(channel);
+                    else {
+                        Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
+                                       Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             break;
@@ -185,26 +198,18 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onConnectSuccess() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onConnectFailed() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onConnectionLost() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onMaxPayloadUpdate(int payload_size) {
-        // TODO Auto-generated method stub
-
     }
 
     int updateCmdId = 0;
@@ -225,103 +230,69 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfLoggedOut() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel(User kicker) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedIn(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserUpdate(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelNew(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdChannelRemove(Channel channel) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
-        // TODO Auto-generated method stub
-
     }
 }

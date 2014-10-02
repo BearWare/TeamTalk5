@@ -386,8 +386,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         newmsg.setText("");
                     }
                     else {
-                        Toast.makeText(mainActivity, getResources().getString(R.string.text_cmderr_txtmsg),
-                                       Toast.LENGTH_LONG).show();
+                        Toast.makeText(mainActivity, getResources().getString(R.string.text_con_cmderr),
+                            Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -561,6 +561,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                         alert.setTitle("Join Channel");
                                         alert.setMessage("Enter channel password");
                                         final EditText input = new EditText(MainActivity.this);
+                                        input.setText(channel.szPassword);
                                         alert.setView(input);
                                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -568,6 +569,13 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                                 int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
                                                 if(cmdid>0) {
                                                     activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+                                                    
+                                                    channel.szPassword = passwd;
+                                                    ttservice.setJoinChannel(channel);
+                                                }
+                                                else {
+                                                    Toast.makeText(MainActivity.this, getResources().getString(R.string.text_con_cmderr),
+                                                        Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
@@ -577,6 +585,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, "");
                                         if(cmdid>0) {
                                             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+                                            ttservice.setJoinChannel(channel);
+                                        }
+                                        else {
+                                            Toast.makeText(MainActivity.this, getResources().getString(R.string.text_con_cmderr),
+                                                Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
@@ -633,13 +646,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    ClientStatistics stats = new ClientStatistics();
-                    if(!ttclient.getClientStatistics(stats))
-                        return;
-                    
-                    if(prev_stats == null)
-                        prev_stats = stats;
-                    
                     String con = "";
                     int con_color = Color.GREEN;
                     int flags = ttclient.getFlags(); 
@@ -655,6 +661,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         con_color = Color.RED;
                     }
                     
+                    connection.setText(con);
+                    connection.setTextColor(con_color);
+
+                    ClientStatistics stats = new ClientStatistics();
+                    if(!ttclient.getClientStatistics(stats))
+                        return;
+                    
+                    if(prev_stats == null)
+                        prev_stats = stats;
+                    
                     long totalrx = stats.nUdpBytesRecv - prev_stats.nUdpBytesRecv;
                     long totaltx = stats.nUdpBytesSent - prev_stats.nUdpBytesSent;
                     long voicerx = stats.nVoiceBytesRecv - prev_stats.nVoiceBytesRecv;
@@ -666,9 +682,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     long mftx = (stats.nMediaFileAudioBytesSent + stats.nMediaFileVideoBytesSent) - 
                                 (prev_stats.nMediaFileAudioBytesSent + prev_stats.nMediaFileVideoBytesSent);
 
-                    connection.setText(con);
-                    connection.setTextColor(con_color);
-                    
                     String str;
                     if(stats.nUdpPingTimeMs >= 0) {
                         str = String.format("%1$d", stats.nUdpPingTimeMs); 

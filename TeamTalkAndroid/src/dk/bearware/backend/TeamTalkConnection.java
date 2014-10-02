@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class TeamTalkConnection implements ServiceConnection {
     
-    public String tag = "bearware";
+    public String TAG = "bearware";
     
     TeamTalkConnectionListener ttlistener;
     TeamTalkService ttservice;
@@ -29,7 +29,7 @@ public class TeamTalkConnection implements ServiceConnection {
         s = "TeamTalk instance 0x" +
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
             " running v. " + TeamTalkBase.getVersion() + " connected";
-        Log.i(tag, s);
+        Log.i(TAG, s);
         
         ttlistener.onServiceConnected(ttservice);
     }
@@ -44,7 +44,7 @@ public class TeamTalkConnection implements ServiceConnection {
         s = "TeamTalk instance 0x" +
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
             " disconnected";
-        Log.i(tag, s);
+        Log.i(TAG, s);
         
         ttservice = null;
     }

@@ -27,10 +27,12 @@ import java.util.Vector;
 
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.ClientFlag;
 import dk.bearware.DesktopInput;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalk5;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
@@ -38,19 +40,32 @@ import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.ServerEntry;
 import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.UserListener;
+import dk.bearware.gui.CmdComplete;
+import dk.bearware.gui.R;
+import dk.bearware.gui.Utils;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.util.SparseArray;
+import android.widget.Toast;
 
-public class TeamTalkService extends Service implements CommandListener, UserListener {
+public class TeamTalkService extends Service
+implements CommandListener, UserListener, ConnectionListener {
 
+    public static final String TAG = "bearware";
+    
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
@@ -70,11 +85,12 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
         ttclient = new TeamTalk5();
         
         //register self as event handler so 'users' and 'channels' can be updated
+        mEventHandler.addConnectionListener(this);
         mEventHandler.addCommandListener(this);
         mEventHandler.addUserListener(this);
         
         //create timer to process 'mEventHandler'
-        createTimer();
+        createEventTimer();
     }
 
     @Override
@@ -88,9 +104,37 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     }
 
     TeamTalkBase ttclient;
+    ServerEntry ttserver;
+    Channel curchannel;
+    
+    SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
     public TeamTalkBase getTTInstance() {
         return ttclient;
+    }
+    
+    // set TT server which service should connect to
+    public void setServerEntry(ServerEntry entry) {
+        ttserver = entry;
+    }
+    
+    // set channel which service should join
+    public void setJoinChannel(Channel channel) {
+        curchannel = channel;
+    }
+    
+    public boolean reconnect() {
+        if(ttserver == null || ttclient == null)
+            return false;
+        
+        ttclient.disconnect();
+        
+        if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
+                             ttserver.udpport, 0, 0, ttserver.encrypted)) {
+            ttclient.disconnect();
+        }
+        
+        return true;
     }
 
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
@@ -134,24 +178,44 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     }
 
     public void resetState() {
+        reconnectHandler.removeCallbacks(reconnectTimer);
+        
+        if(ttclient != null)
+            ttclient.disconnect();
+        
+        curchannel = null;
         channels.clear();
         users.clear();
         usertxtmsgs.clear();
         chantxtmsgs.clear();
     }
-
-    void createTimer() {
-        new CountDownTimer(100, 100) {
+    
+    void createEventTimer() {
+        new CountDownTimer(10000, 100) {
             public void onTick(long millisUntilFinished) {
                 while(mEventHandler.processEvent(ttclient, 0));
             }
 
             public void onFinish() {
-                createTimer();
+                createEventTimer();
             }
         }.start();
     }
 
+    Handler reconnectHandler = new Handler();
+    Runnable reconnectTimer = new Runnable() {
+        @Override
+        public void run() {
+            reconnect();
+        }
+    };
+    
+    void createReconnectTimer(long delayMsec) {
+        
+        reconnectHandler.removeCallbacks(reconnectTimer);
+        reconnectHandler.postDelayed(reconnectTimer, delayMsec);
+    }
+    
     public void registerConnectionListener(ConnectionListener l) {
         mEventHandler.addConnectionListener(l);
     }
@@ -185,44 +249,96 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     }
 
     @Override
-    public void onUserStateChange(User user) {
-        users.put(user.nUserID, user);
+    public void onConnectSuccess() {
+        
+        assert (ttserver != null);
+        
+        String def_nick = getResources().getString(R.string.pref_default_nickname);
+        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("nickname_text", def_nick);
+
+        int loginCmdId = ttclient.doLogin(nickname, ttserver.username, ttserver.password);
+        if(loginCmdId<0) {
+            Toast.makeText(this, getResources().getString(R.string.text_cmderr_login),
+                           Toast.LENGTH_LONG).show();
+        }
+        else {
+            activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);
+        }
     }
 
     @Override
-    public void onUserVideoCapture(int nUserID, int nStreamID) {
+    public void onConnectFailed() {
+        
+        Log.i(TAG, "Failed to connect " + ttserver.ipaddr + ":" + ttserver.tcpport);
+        
+        Toast.makeText(this, getResources().getString(R.string.text_con_failed),
+                       Toast.LENGTH_SHORT).show();
+        
+        createReconnectTimer(5000);
     }
 
     @Override
-    public void onUserMediaFileVideo(int nUserID, int nStreamID) {
+    public void onConnectionLost() {
+        
+        Log.i(TAG, "Connection lost to " + ttserver.ipaddr + ":" + ttserver.tcpport);
+        
+        activecmds.clear();
+        
+        Toast.makeText(this, getResources().getString(R.string.text_con_lost),
+                       Toast.LENGTH_LONG).show();
+
+        createReconnectTimer(5000);
     }
 
     @Override
-    public void onUserDesktopWindow(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-    }
-
-    @Override
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
+    public void onMaxPayloadUpdate(int payload_size) {
     }
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
+            Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
+            
+            //don't try to reconnect if we get a server login error
+            reconnectHandler.removeCallbacks(reconnectTimer);
+        }
     }
 
     @Override
     public void onCmdSuccess(int cmdId) {
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
+            
+            //stop reconnect timer since we're now connected and logged in
+            reconnectHandler.removeCallbacks(reconnectTimer);
+        }
     }
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
+
+        if(!complete && activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
+            //new users and channels will be posted for new login, so delete old ones
+            users.clear();
+            channels.clear();
+        }
+        
+        if(!complete)
+            return;
+
+        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
+
+        }
+
+        activecmds.delete(cmdId);
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
+        
+        if(curchannel != null) {
+            int cmdid = ttclient.doJoinChannel(curchannel);
+            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+        }
     }
 
     @Override
@@ -241,6 +357,29 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     @Override
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
+        
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int def_unsub = Subscription.SUBSCRIBE_NONE;
+        if(!pref.getBoolean("sub_txtmsg_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
+        if(!pref.getBoolean("sub_chanmsg_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
+        if(!pref.getBoolean("sub_bcastmsg_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
+        if(!pref.getBoolean("sub_voice_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_VOICE;
+        if(!pref.getBoolean("sub_video_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
+        if(!pref.getBoolean("sub_desktop_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
+        if(!pref.getBoolean("sub_mediafile_checkbox", true))
+            def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
+
+        if((user.uLocalSubscriptions & def_unsub) != 0) {
+            int cmdid = ttclient.doUnsubscribe(user.nUserID, def_unsub);
+            if(cmdid > 0)
+                activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
+        }
     }
 
     @Override
@@ -308,4 +447,30 @@ public class TeamTalkService extends Service implements CommandListener, UserLis
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
     }
+    
+    @Override
+    public void onUserStateChange(User user) {
+        users.put(user.nUserID, user);
+    }
+
+    @Override
+    public void onUserVideoCapture(int nUserID, int nStreamID) {
+    }
+
+    @Override
+    public void onUserMediaFileVideo(int nUserID, int nStreamID) {
+    }
+
+    @Override
+    public void onUserDesktopWindow(int nUserID, int nStreamID) {
+    }
+
+    @Override
+    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
+    }
+
+    @Override
+    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
+    }
+
 }

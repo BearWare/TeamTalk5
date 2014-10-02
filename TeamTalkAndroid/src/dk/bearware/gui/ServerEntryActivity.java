@@ -93,6 +93,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
             case R.id.action_saveserver : {
                 Intent intent = this.getIntent();
                 ServerEntry server = getServerEntry();
+                server.public_server = false;
                 setResult(RESULT_OK, Utils.putServerEntry(intent, server)); 
                 finish();
             }

@@ -18,8 +18,10 @@
     <string name="action_createchannel">Create</string>
     <string name="action_updatechannel">Update</string>
     
+    <string name="text_con_failed">Failed to connect to server. Retrying...</string>
+    <string name="text_con_lost">Lost connection to server</string>
+    <string name="text_con_cmderr">Failed to issue command</string>
     <string name="text_cmderr_login">Failed to issue login command</string>
-    <string name="text_cmderr_txtmsg">"Failed to send text message"</string>
     
     <string name="pref_cat_subscriptions">Subscriptions</string>
     <string name="pref_cat_tts">Configure Text to Speech messages</string>
