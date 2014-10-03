@@ -1150,7 +1150,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
 
     if(user.nUserID != TT_GetMyUserID(ttInst))
     {
-        if(TT_GetMyChannelID(ttInst) == user.nUserID)
+        if(TT_GetMyChannelID(ttInst) == user.nChannelID)
         {
             CString szMsg = user.szNickname;
             szMsg += _T(" joined channel");
@@ -1354,7 +1354,7 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
     }
 
     int nMyChannelID = TT_GetMyChannelID(ttInst);
-    if(nMyChannelID == msg.user.nChannelID)
+    if(nMyChannelID == msg.nSource)
     {
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
         CString szMsg = CString(user.szNickname) + _T(" left the channel");
