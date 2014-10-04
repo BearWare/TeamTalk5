@@ -1,0 +1,13 @@
+*.sln
+*.bat
+UnitTest
+libteamtalk
+TeamTalk_DLL
+ChangeLog.txt
+Copyright.txt
+Documentation
+Makefile
+SignExecutables.bat
+teamtalkd
+ttserverlog*
+ttenvrc
