@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "Resource.h"
-#include "Speech/Speech.h"
+#include "Speech/Tolk.h"
 #include "SoundEventsPage.h"
 
 
@@ -179,9 +179,15 @@ void CSoundEventsPage::OnBnClickedButtonEventsTransferend()
 void CSoundEventsPage::OnBnClickedCheckSpeech()
 {
   if(m_wndSpeech.GetCheck() == BST_CHECKED)
-    Speak(_T("Speech is now enabled"));
+    if(!Tolk_IsLoaded()) {
+        Tolk_Load();
+        Tolk_Output(_T("speech is now enabled"));
+    }
   else
-    Speak(_T("Speech is now disabled"));
+    if(!Tolk_IsLoaded()) {
+        Tolk_Load();
+        Tolk_Output(_T("speech is now disabled"));
+    }
 }
 
 

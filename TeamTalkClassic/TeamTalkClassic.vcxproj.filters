@@ -246,9 +246,6 @@
     <ClCompile Include="gui\WindowPage.cpp">
       <Filter>Source Files\Property pages</Filter>
     </ClCompile>
-    <ClCompile Include="Speech\Speech.cpp">
-      <Filter>Source Files\Speech</Filter>
-    </ClCompile>
     <ClCompile Include="wizard\DIBitmap.cpp">
       <Filter>Source Files\Wizard</Filter>
     </ClCompile>
@@ -518,9 +515,6 @@
     <ClInclude Include="gui\WindowPage.h">
       <Filter>Header Files\Property pages</Filter>
     </ClInclude>
-    <ClInclude Include="Speech\Speech.h">
-      <Filter>Header Files\Speech</Filter>
-    </ClInclude>
     <ClInclude Include="wizard\DIBitmap.h">
       <Filter>Header Files\Wizard</Filter>
     </ClInclude>
@@ -580,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="settings\CPrintfArg.h">
       <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="speech\Tolk.h">
+      <Filter>Header Files\Speech</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

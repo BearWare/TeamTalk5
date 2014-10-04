@@ -30,7 +30,7 @@
 #include "gui/SplitterBar.h"
 #include "gui/MyEdit.h"
 #include "gui/MyTabCtrl.h"
-#include "Speech/Speech.h"
+#include "Speech/Tolk.h"
 #include "settings/ClientXML.h"
 
 #include "HttpRequest.h"
@@ -191,7 +191,6 @@ protected:
 
     // Implementation
 protected:
-    CSpeechThread* m_pSpeechThread;
     HICON m_hIcon;
     CBrush m_brush;
     BOOL m_bTwoPanes;
