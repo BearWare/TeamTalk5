@@ -143,14 +143,18 @@ void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
 
 void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
 {
+#if !defined(_WIN64)
     if(m_bSpeech)
     {
-        Tolk_Unload();    }
+        Tolk_Unload();
+    }
 
     if(bEnable)
     {
-        Tolk_Load();    }
-        Tolk_TrySAPI(true);
+        Tolk_Load();
+    }
+    Tolk_TrySAPI(true);
+#endif
     m_bSpeech = bEnable;
 }
 
@@ -414,9 +418,11 @@ void CTeamTalkDlg::AddLogMessage(LPCTSTR szMsg)
 
 void CTeamTalkDlg::AddVoiceMessage(LPCTSTR szMsg)
 {
+#if !defined(_WIN64)
     if(m_bSpeech)
         Tolk_Output(szMsg);
-    }
+#endif
+}
 
 void CTeamTalkDlg::RunWizard()
 {
@@ -2445,9 +2451,11 @@ void CTeamTalkDlg::OnClose()
 
     //Close TeamTalk DLLs
     TT_CloseTeamTalk(ttInst);
+#if !defined(_WIN64)
     if(Tolk_IsLoaded()) {
       Tolk_Unload();
     }
+#endif
     m_xmlSettings.SaveFile();
 
     CDialog::OnCancel();

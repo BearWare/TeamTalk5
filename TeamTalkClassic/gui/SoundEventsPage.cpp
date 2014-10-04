@@ -178,16 +178,22 @@ void CSoundEventsPage::OnBnClickedButtonEventsTransferend()
 
 void CSoundEventsPage::OnBnClickedCheckSpeech()
 {
-  if(m_wndSpeech.GetCheck() == BST_CHECKED)
-    if(!Tolk_IsLoaded()) {
-        Tolk_Load();
-        Tolk_Output(_T("speech is now enabled"));
+#if !defined(_WIN64)
+    if(m_wndSpeech.GetCheck() == BST_CHECKED)
+    {
+        if(!Tolk_IsLoaded())
+        {
+            Tolk_Load();
+            Tolk_Output(_T("speech is now enabled"));
+        }
+        else
+            if(!Tolk_IsLoaded())
+            {
+                Tolk_Load();
+                Tolk_Output(_T("speech is now disabled"));
+            }
     }
-  else
-    if(!Tolk_IsLoaded()) {
-        Tolk_Load();
-        Tolk_Output(_T("speech is now disabled"));
-    }
+#endif
 }
 
 
