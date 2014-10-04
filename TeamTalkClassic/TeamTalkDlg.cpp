@@ -152,8 +152,9 @@ void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
     if(bEnable)
     {
         Tolk_Load();
-    }
-    Tolk_TrySAPI(true);
+        Tolk_TrySAPI(true);
+		}
+
 #endif
     m_bSpeech = bEnable;
 }
