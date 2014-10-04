@@ -140,7 +140,7 @@ implements CommandListener, UserListener, ConnectionListener {
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
     Map<Integer, User> users = new HashMap<Integer, User>();
     Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
-    Map<Integer, Vector<MyTextMessage>> chantxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
+    Vector<MyTextMessage> chatlogtxtmsgs = new Vector<MyTextMessage>();
 
     public Map<Integer, Channel> getChannels() {
         return channels;
@@ -150,7 +150,7 @@ implements CommandListener, UserListener, ConnectionListener {
         return users;
     }
     
-    public int HISTORY_CHANNEL_MSG_MAX = 100;
+    public int HISTORY_CHATLOG_MSG_MAX = 100;
     public int HISTORY_USER_MSG_MAX = 100;
 
     public Vector<MyTextMessage> getUserTextMsgs(int userid) {
@@ -165,18 +165,13 @@ implements CommandListener, UserListener, ConnectionListener {
         return msgs;
     }
 
-    public Vector<MyTextMessage> getChannelTextMsgs(int channelid) {
-        Vector<MyTextMessage> msgs;
-        if(chantxtmsgs.get(channelid) == null) {
-            msgs = new Vector<MyTextMessage>();
-            chantxtmsgs.put(channelid, msgs);
-        }
-        msgs = chantxtmsgs.get(channelid);
-        if(msgs.size() > HISTORY_CHANNEL_MSG_MAX)
-            msgs.remove(0);
-        return msgs;
+    public Vector<MyTextMessage> getChatLogTextMsgs() {
+        if(chatlogtxtmsgs.size()>HISTORY_CHATLOG_MSG_MAX)
+            chatlogtxtmsgs.remove(0);
+        
+        return chatlogtxtmsgs;
     }
-
+    
     public void resetState() {
         reconnectHandler.removeCallbacks(reconnectTimer);
         
@@ -187,7 +182,7 @@ implements CommandListener, UserListener, ConnectionListener {
         channels.clear();
         users.clear();
         usertxtmsgs.clear();
-        chantxtmsgs.clear();
+        chatlogtxtmsgs.clear();
     }
     
     void createEventTimer() {
@@ -394,7 +389,7 @@ implements CommandListener, UserListener, ConnectionListener {
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
-        users.put(user.nUserID, user);
+        users.put(user.nUserID, user);        
     }
 
     @Override
@@ -415,7 +410,7 @@ implements CommandListener, UserListener, ConnectionListener {
                 break;
             }
             case TextMsgType.MSGTYPE_CHANNEL : {
-                getChannelTextMsgs(textmessage.nChannelID).add(newmsg);
+                getChatLogTextMsgs().add(newmsg);
                 break;
             }
         }

@@ -46,6 +46,7 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
+import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
 import dk.bearware.gui.R;
@@ -752,7 +753,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         channelsAdapter.notifyDataSetChanged();
         
-        textmsgAdapter.setTextMessages(ttservice.getChannelTextMsgs(mychannel));
+        textmsgAdapter.setTextMessages(ttservice.getChatLogTextMsgs());
+        textmsgAdapter.setMyUserID(ttclient.getMyUserID());
         textmsgAdapter.notifyDataSetChanged();
         
         desktopAdapter.setTeamTalkService(service);
@@ -800,6 +802,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
+        textmsgAdapter.setMyUserID(my_userid);
+        
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            getResources().getString(R.string.text_cmd_loggedin));
+        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -838,35 +845,84 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+        
+        if(user.nUserID == ttclient.getMyUserID()) {
+            //myself joined channel
+            
+            Channel chan = ttservice.getChannels().get(user.nChannelID); 
+            MyTextMessage msg;
+            if(chan.nParentID == 0) {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_joinroot));
+            }
+            else {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_joinchan) + " " + chan.szName);
+            }
+            ttservice.getChatLogTextMsgs().add(msg);
+            
+            curchannel = ttservice.getChannels().get(user.nChannelID);
+        }
+        else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+            //other user joined current channel
+            
+            MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                user.szNickname + " " + getResources().getString(R.string.text_cmd_userjoinchan));
+            ttservice.getChatLogTextMsgs().add(msg);
+        }
+        
         if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+            //event took place in current channel
+            
+            textmsgAdapter.notifyDataSetChanged();
             channelsAdapter.notifyDataSetChanged();
 
             boolean tts_join = PreferenceManager.getDefaultSharedPreferences(
                 getBaseContext()).getBoolean("channel_join_checkbox", false);
-            if(tts_join) {
+            if(tts_join && user.nUserID != ttclient.getMyUserID()) {
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
-            }
-        }
-        else if(user.nUserID == ttclient.getMyUserID()) {
-            curchannel = ttservice.getChannels().get(user.nChannelID);
-            channelsAdapter.notifyDataSetChanged();
-            
-            //switch data source for text message to new channel
-            if(textmsgAdapter != null) {
-                textmsgAdapter.setTextMessages(ttservice.getChannelTextMsgs(user.nChannelID));
-                textmsgAdapter.notifyDataSetChanged();
             }
         }
     }
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+        
+        if(user.nUserID == ttclient.getMyUserID()) {
+            //myself left current channel
+            
+            Channel chan = ttservice.getChannels().get(channelid);
+            MyTextMessage msg;
+            if(chan.nParentID == 0) {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_leftroot));
+            }
+            else {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
+            }
+            ttservice.getChatLogTextMsgs().add(msg);
+            textmsgAdapter.notifyDataSetChanged();
+            
+            curchannel = null;
+        }
+        else if(curchannel != null && channelid == curchannel.nChannelID){
+            //other user left current channel
+            
+            MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
+            ttservice.getChatLogTextMsgs().add(msg);
+            textmsgAdapter.notifyDataSetChanged();
+        }
+        
         if(curchannel != null && curchannel.nChannelID == channelid) {
+            //event took place in current channel
+            
             channelsAdapter.notifyDataSetChanged();
 
             boolean tts_leave = PreferenceManager.getDefaultSharedPreferences(
                 getBaseContext()).getBoolean("channel_leave_checkbox", false);
-            if(tts_leave) {
+            if(tts_leave && user.nUserID != ttclient.getMyUserID()) {
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
             }
         }
@@ -878,8 +934,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         if(textmessage.nMsgType != TextMsgType.MSGTYPE_CHANNEL)
             return;
         
-        if(textmsgAdapter != null)
-            textmsgAdapter.notifyDataSetChanged();
+        textmsgAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -915,6 +970,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onConnectSuccess() {
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            getResources().getString(R.string.text_con_success));
+        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -923,6 +981,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onConnectionLost() {
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_ERROR,
+            getResources().getString(R.string.text_con_lost));
+        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override

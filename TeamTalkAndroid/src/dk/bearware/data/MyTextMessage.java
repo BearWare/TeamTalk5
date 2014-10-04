@@ -23,4 +23,17 @@ public class MyTextMessage extends TextMessage {
     public MyTextMessage(String name) {
         this.szNickName = name;
     }
+    
+    public MyTextMessage() {
+    }
+    
+    public static final int MSGTYPE_LOG_INFO    = 0x80000000;
+    public static final int MSGTYPE_LOG_ERROR   = 0x40000000;
+    
+    public static MyTextMessage createLogMsg(int nMsgType, String msg) {
+        MyTextMessage newmsg = new MyTextMessage();
+        newmsg.nMsgType = nMsgType;
+        newmsg.szMessage = msg;
+        return newmsg;
+    }
 }

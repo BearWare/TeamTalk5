@@ -20,8 +20,17 @@
     
     <string name="text_con_failed">Failed to connect to server. Retrying...</string>
     <string name="text_con_lost">Lost connection to server</string>
+    <string name="text_con_success">Connected to server</string>
     <string name="text_con_cmderr">Failed to issue command</string>
     <string name="text_cmderr_login">Failed to issue login command</string>
+    
+    <string name="text_cmd_loggedin">Logged on to server</string>
+    <string name="text_cmd_joinchan">Joined channel:</string>
+    <string name="text_cmd_leftchan">Left channel:</string>
+    <string name="text_cmd_joinroot">Joined root channel</string>
+    <string name="text_cmd_leftroot">Left root channel</string>
+    <string name="text_cmd_userjoinchan">joined channel</string>
+    <string name="text_cmd_userleftchan">left channel</string>
     
     <string name="pref_cat_subscriptions">Subscriptions</string>
     <string name="pref_cat_tts">Configure Text to Speech messages</string>
