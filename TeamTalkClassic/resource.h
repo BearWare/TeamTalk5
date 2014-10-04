@@ -223,7 +223,7 @@
 #define IDC_STATIC_IPADDR               1123
 #define IDC_EDIT_TOTALTX                1124
 #define IDC_EDIT_CCLIENTPORT            1126
-#define IDC_STATIC_VOICELOSS          1127
+#define IDC_STATIC_VOICELOSS            1127
 #define IDC_EDIT_CSOUNDPORT             1128
 #define IDC_EDIT_VOICE                  1129
 #define IDC_EDIT_MAXBITRATE             1130
