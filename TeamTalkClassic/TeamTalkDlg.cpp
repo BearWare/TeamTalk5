@@ -100,7 +100,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_nLastSentBytes(0)
 , m_pTray(NULL)
 , m_bMinimized(FALSE)
-, m_nVUTimerID(0)
 , m_nConnectTimerID(0)
 , m_nReconnectTimerID(0)
 , m_nStatusTimerID(0)
@@ -159,19 +158,6 @@ void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
     m_bSpeech = bEnable;
 }
 
-void CTeamTalkDlg::EnableTalkStop(BOOL bEnable)
-{
-    if(bEnable && !m_xmlSettings.GetEventUserStoppedTalking().empty())
-    {
-        m_szEndTalkFile = STR_UTF8( m_xmlSettings.GetEventUserStoppedTalking().c_str() );
-
-        if(!FileExists( m_szEndTalkFile ))
-            m_szEndTalkFile.Empty();
-    }
-    else
-        m_szEndTalkFile.Empty();
-}
-
 BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL bEncrypted)
 {
     if( TT_GetFlags(ttInst) & CLIENT_CONNECTION)
@@ -193,7 +179,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     {
         if(!TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice))
         {
-            MessageBox(_T("Check your settings in File->Preferences->Sound System"),
+            MessageBox(_T("Check your settings in Client->Preferences->Sound System"),
                 _T("Failed to initialize sound system.\r\n"));
         }
     }
@@ -202,7 +188,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
         if(!TT_InitSoundInputDevice(ttInst, nInputDevice) || 
             !TT_InitSoundOutputDevice(ttInst, nOutputDevice))
         {
-            MessageBox(_T("Check your settings in File->Preferences->Sound System"),
+            MessageBox(_T("Check your settings in Client->Preferences->Sound System"),
                 _T("Failed to initialize sound system.\r\n"));
             TT_CloseSoundInputDevice(ttInst);
             TT_CloseSoundOutputDevice(ttInst);
@@ -227,7 +213,8 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     {
         SetTimer(TIMER_ONESECOND_ID, 1000, NULL);
         m_nConnectTimerID = SetTimer(TIMER_CONNECT_TIMEOUT_ID, CONNECT_TIMEOUT, NULL);
-        m_nVUTimerID = SetTimer(TIMER_VOICELEVEL_ID, 50, NULL);
+        if(m_xmlSettings.GetVuMeterUpdate())
+            SetTimer(TIMER_VOICELEVEL_ID, VUMETER_UPDATE_TIMEOUT, NULL);
 
         CString szText;
         szText.Format(_T("Connecting to host \"%s\" TCP port %d UDP port %d"), szAddress, nTcpPort, nUdpPort);
@@ -239,9 +226,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
 
 void CTeamTalkDlg::Disconnect()
 {
-    if ( m_nVUTimerID )
-        KillTimer(TIMER_VOICELEVEL_ID);
-    m_nVUTimerID = 0;
+    KillTimer(TIMER_VOICELEVEL_ID);
 
     if(m_nConnectTimerID)
         KillTimer(TIMER_CONNECT_TIMEOUT_ID);
@@ -271,7 +256,7 @@ void CTeamTalkDlg::Disconnect()
     m_desktopignore.clear();
 
     //add to stopped talking (for event)
-    m_mStoppedTalking.clear();
+    m_Talking.clear();
     m_users.clear();
 
     UpdateWindowTitle();
@@ -1659,20 +1644,24 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
 void CTeamTalkDlg::OnUserStateChange(const TTMessage& msg)
 {
     ASSERT(msg.ttType == __USER);
-    m_wndTree.UpdateUser(msg.user);
     const User& user = msg.user;
 
-    if(user.uUserType & USERSTATE_VOICE)
-    {
-        //add to stopped talking (for event)
-        m_mStoppedTalking.erase(user.nUserID);
-    }
+    User olduser = {0};
+    m_wndTree.GetUser(user.nUserID, olduser);
+
+    m_wndTree.UpdateUser(msg.user);
+
+    if((user.uUserState & USERSTATE_VOICE))
+        m_Talking.insert(user.nUserID);
     else
     {
-        if(user.nUserID != TT_GetMyUserID(ttInst))
+        //add to stopped talking (for event)
+        m_Talking.erase(user.nUserID);
+
+        if(m_xmlSettings.GetEventUserStoppedTalking().size() && m_Talking.empty())
         {
-            //add to stopped talking (for event)
-            m_mStoppedTalking[user.nUserID] = ::GetTickCount();
+            CString szFile = STR_UTF8(m_xmlSettings.GetEventUserStoppedTalking().c_str());
+            PlayWaveFile(szFile);
         }
     }
 }
@@ -2171,10 +2160,6 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //voice activation
     EnableVoiceActivation(m_xmlSettings.GetVoiceActivated());
 
-    //stopped talking event
-    if(!m_xmlSettings.GetEventUserStoppedTalking().empty())
-        EnableTalkStop(TRUE);
-
     UpdateWindowTitle();
 
     if(m_xmlSettings.GetFirewallInstall(true))
@@ -2249,6 +2234,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
+
+    m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
     //detect whether mixer device differs from orginal
     int nMixerDeviceIndex = m_xmlSettings.GetSoundMixerDevice();
@@ -2942,6 +2929,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bQuitClearChannels = m_xmlSettings.GetQuitClearChannels();
     windowpage.m_bTimeStamp = m_xmlSettings.GetMessageTimeStamp();
     windowpage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
+    windowpage.m_bVuMeter = m_xmlSettings.GetVuMeterUpdate();
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
 
     ///////////////////////
@@ -3115,6 +3103,13 @@ void CTeamTalkDlg::OnFilePreferences()
         ASSERT(GetMenu());
         TranslateMenu();
 
+        m_xmlSettings.SetVuMeterUpdate(windowpage.m_bVuMeter);
+        if(windowpage.m_bVuMeter)
+            SetTimer(TIMER_VOICELEVEL_ID, VUMETER_UPDATE_TIMEOUT, NULL);
+        else
+            KillTimer(TIMER_VOICELEVEL_ID);
+        m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
+
         m_xmlSettings.SetCheckApplicationUpdates(windowpage.m_bCheckUpdates);
 
         //////////////////////////////////////////////////
@@ -3206,7 +3201,6 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8( eventspage.m_szDesktopAccessReq.GetBuffer()));
         m_xmlSettings.SetEventSpeechEvents(eventspage.m_bSpeech);
         EnableSpeech(eventspage.m_bSpeech);
-        EnableTalkStop(!m_xmlSettings.GetEventUserStoppedTalking().empty());
 
         ///////////////////////////////////////
         // write settings for shortcuts
@@ -4025,23 +4019,6 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
     case TIMER_VOICELEVEL_ID :
         //VU-Meter update
         m_wndVUProgress.SetPos(TT_GetSoundInputLevel(ttInst));
-
-        //play stopped talking event
-        if(!m_szEndTalkFile.IsEmpty())
-        {
-            DWORD dwNow = ::GetTickCount();
-            for(talking_t::iterator ite=m_mStoppedTalking.begin();
-                ite != m_mStoppedTalking.end();)
-            {
-                if(dwNow - ite->second >= 200)
-                {
-                    m_mStoppedTalking.erase(ite++);
-                    if(m_mStoppedTalking.empty())
-                        PlayWaveFile(m_szEndTalkFile);
-                }
-                else ite++;
-            }
-        }
         break;
     case TIMER_CONNECT_TIMEOUT_ID :
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)

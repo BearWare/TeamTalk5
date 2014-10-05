@@ -570,6 +570,7 @@
 #define IDC_STATIC_MFAUDIOLOSS          1517
 #define IDC_STATIC_MFVIDEOLOSS          1518
 #define IDC_STATIC_SMFAUDIO             1519
+#define IDC_CHECK_VUMETER               1520
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -671,7 +672,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32940
-#define _APS_NEXT_CONTROL_VALUE         1520
+#define _APS_NEXT_CONTROL_VALUE         1521
 #define _APS_NEXT_SYMED_VALUE           154
 #endif
 #endif

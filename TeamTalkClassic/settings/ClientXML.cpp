@@ -1098,6 +1098,28 @@ namespace teamtalk {
         return bEnabled;
     }
 
+    bool ClientXML::SetVuMeterUpdate(bool bEnable)
+    {
+        TiXmlElement* pParent = GetWindowElement();
+        if(pParent)
+        {
+            PutBoolean(*pParent, "update-vu-meter", bEnable);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ClientXML::GetVuMeterUpdate()
+    {
+        bool bEnabled = true;
+        TiXmlElement* child = GetWindowElement();
+        if(child)
+            GetBoolean(*child, "update-vu-meter", bEnabled);
+
+        return bEnabled;
+    }
+
     bool ClientXML::SetCheckApplicationUpdates(bool bEnable)
     {
         TiXmlElement* pParent = GetWindowElement();

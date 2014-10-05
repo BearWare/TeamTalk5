@@ -79,6 +79,7 @@
 
 #define CONNECT_TIMEOUT 30000
 #define RECONNECT_TIMEOUT 7000
+#define VUMETER_UPDATE_TIMEOUT 50
 
 enum
 {
@@ -146,7 +147,6 @@ public:
 
     void EnableVoiceActivation(BOOL bEnable);
     void EnableSpeech(BOOL bEnable);
-    void EnableTalkStop(BOOL bEnable);
 
     void CloseMessageSessions();
     CMessageDlg* GetUsersMessageSession(int nUserID, BOOL bCreateNew, BOOL* lpbNew = NULL);
@@ -216,7 +216,6 @@ protected:
     CString m_szStatusBar;
     CRect m_rectLast;
 
-    UINT_PTR m_nVUTimerID;
     UINT_PTR m_nConnectTimerID, m_nReconnectTimerID;
     //pictures
     CSysColStatic m_wndVolPic;
@@ -252,9 +251,8 @@ protected:
     mtransferdlg_t m_mTransfers;
 
     //user stopped talking
-    typedef std::map<int, DWORD> talking_t;
-    talking_t m_mStoppedTalking;
-    CString m_szEndTalkFile;
+    typedef std::set<int> talking_t;
+    talking_t m_Talking;
 
     typedef std::map<int, CommmandComplete> cmdreply_t;
     cmdreply_t m_commands;

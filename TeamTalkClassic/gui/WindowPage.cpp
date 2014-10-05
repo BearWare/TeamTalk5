@@ -44,6 +44,7 @@ CWindowPage::CWindowPage()
     , m_bTimeStamp(FALSE)
     , m_szLanguage(_T(""))
     , m_bCheckUpdates(FALSE)
+    , m_bVuMeter(FALSE)
 {
     m_bTray = FALSE;
     m_bStartMinimized = FALSE;
@@ -71,6 +72,7 @@ void CWindowPage::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_COMBO_LANGUAGE, m_szLanguage);
     DDX_Control(pDX, IDC_COMBO_LANGUAGE, m_wndLanguages);
     DDX_Check(pDX, IDC_CHECK_CHECKUPDATES, m_bCheckUpdates);
+    DDX_Check(pDX, IDC_CHECK_VUMETER, m_bVuMeter);
 }
 
 void CWindowPage::ShowFont()

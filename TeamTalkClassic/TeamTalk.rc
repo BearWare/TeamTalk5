@@ -322,23 +322,24 @@ BEGIN
     GROUPBOX        "Window behavior",IDC_STATIC_GRPWINDOW,7,7,246,226
     LTEXT           "User interface language",IDC_STATIC_UILANGUAGE,15,23,94,8
     COMBOBOX        IDC_COMBO_LANGUAGE,111,21,130,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Font ",IDC_STATIC_FONT,15,42,53,8
-    LTEXT           "No font selected",IDC_STATIC_FONTNAME,71,42,150,8
-    PUSHBUTTON      "...",IDC_BUTTON_FONT,226,39,15,14
-    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,13,58,117,16
+    LTEXT           "Font ",IDC_STATIC_FONT,15,37,53,8
+    LTEXT           "No font selected",IDC_STATIC_FONTNAME,71,37,150,8
+    PUSHBUTTON      "...",IDC_BUTTON_FONT,226,34,15,14
+    CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,51,117,16
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,58,114,16
-    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,13,79,117,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,114,16
+    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,73,117,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,81,114,16
-    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,13,100,117,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,73,114,16
+    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,95,117,16
     CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,100,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,95,114,16
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,13,122,117,16
-    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,123,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,117,117,16
+    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,117,114,16
+    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,139,112,10
     CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,146,117,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,139,114,10
 END
 
 IDD_TAB_CHAT DIALOGEX 0, 0, 176, 142
@@ -1576,6 +1577,8 @@ BEGIN
     IDS_WIZCAPTION          "Wizard"
     IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
     IDS_DISCONNECT          "Dis&connect\tF2"
+    IDS_CHANNEL_JOINED      "%s joined channel"
+    IDS_CHANNEL_LEFT        "%s left channel"
     IDS_CONNECT             "&Connect\tF2"
     IDS_CREATECHANNEL       "Create channel"
     IDS_UPDATECHANNEL       "Update channel"
@@ -1646,11 +1649,13 @@ BEGIN
     IDS_VOICEQUALITY        "Voice quality"
     IDS_SOUNDEVENTS         "Sound events"
     IDS_SOUNDSYSTEM         "Sound system"
+    IDS_CHANNEL_SELF_JOINED "Joined channel %s"
     IDS_SUPPORTS3D          "Output device supports 3D sound"
     IDS_NOSUPPORTS3D        "Output device does not support 3D sound"
     IDS_TESTSELECTED        "Test selected"
     IDS_STOP                "Stop"
     IDS_DEFAULT             "Default"
+    IDS_CHANNEL_SELF_LEFT   "Left channel %s"
 END
 
 STRINGTABLE
@@ -1676,15 +1681,11 @@ BEGIN
     IDS_NEWNICKNAME         "New nickname"
     IDS_CHANGENICKNAME      "Change nickname"
     IDS_SHORTCUTS           "Shortcuts"
+    IDS_CLASSROOM_SELF_JOINED "Joined classroom channel %s"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-	IDS_CHANNEL_JOINED       "%s joined channel"
-	IDS_CHANNEL_LEFT		 "%s left channel"
-	IDS_CHANNEL_SELF_JOINED  "Joined channel %s"
-	IDS_CHANNEL_SELF_LEFT	 "Left channel %s"
-	IDS_CLASSROOM_SELF_JOINED     "Joined classroom channel %s"
     IDS_VIDEOCAPTURE        "Video Capture"
 END
 

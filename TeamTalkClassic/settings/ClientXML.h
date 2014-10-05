@@ -150,6 +150,9 @@ namespace teamtalk {
         bool SetCloseTransferDialog(bool bEnable);
         bool GetCloseTransferDialog();
 
+        bool SetVuMeterUpdate(bool bEnable);
+        bool GetVuMeterUpdate();
+
         bool SetCheckApplicationUpdates(bool bEnable);
         bool GetCheckApplicationUpdates();
 

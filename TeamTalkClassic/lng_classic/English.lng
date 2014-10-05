@@ -348,6 +348,7 @@
     <item id="1515">Refresh devices</item>
     <item id="1516">No audio recording allowed (save to disk not allowed)</item>
     <item id="1519">Media-file audio packetloss</item>
+    <item id="1520">Enable VU-meter updates</item>
 	
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>

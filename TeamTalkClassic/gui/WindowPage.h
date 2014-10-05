@@ -59,4 +59,5 @@ public:
     CString m_szLanguage;
     CComboBox m_wndLanguages;
     BOOL m_bCheckUpdates;
+    BOOL m_bVuMeter;
 };
