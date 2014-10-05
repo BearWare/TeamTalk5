@@ -186,12 +186,12 @@ void CSoundEventsPage::OnBnClickedCheckSpeech()
             Tolk_Load();
             Tolk_Output(_T("speech is now enabled"));
         }
-        else
-            if(!Tolk_IsLoaded())
-            {
-                Tolk_Load();
-                Tolk_Output(_T("speech is now disabled"));
-            }
+    }
+    else
+    {
+        if(Tolk_IsLoaded())
+            Tolk_Output(_T("speech is now disabled"));
+        Tolk_Unload();
     }
 #endif
 }

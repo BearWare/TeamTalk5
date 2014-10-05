@@ -1154,8 +1154,9 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
     {
         if(TT_GetMyChannelID(ttInst) == user.nChannelID)
         {
-            CString szMsg = user.szNickname;
-            szMsg += _T(" joined channel");
+            CString szMsg, szFormat;
+            szFormat.LoadString(IDS_CHANNEL_JOINED);
+            szMsg.Format(szFormat, user.szNickname);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
 
@@ -1344,7 +1345,7 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
     {
         //myself left channel
         Channel chan;
-        if(m_wndTree.GetChannel(msg.user.nChannelID, chan))
+        if(m_wndTree.GetChannel(msg.nSource, chan))
             OnChannelLeft(chan);
     }
     m_wndTree.RemoveUser(user);
@@ -1359,7 +1360,10 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
     if(nMyChannelID == msg.nSource)
     {
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
-        CString szMsg = CString(user.szNickname) + _T(" left the channel");
+        CString szMsg, szFormat;
+        szFormat.LoadString(IDS_CHANNEL_LEFT);
+        szMsg.Format(szFormat, user.szNickname);
+
         AddStatusText(szMsg);
         AddVoiceMessage(szMsg);
     }
@@ -1396,7 +1400,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     GetTransmitUsers(chan, newTransmit);
 
     User user;
-    CString szMsg;
+    CString szMsg, szFormat;
     for(ii=oldTransmit.begin();ii!=oldTransmit.end();ii++)
     {
         CString szNickname;
@@ -1493,21 +1497,20 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
 
     m_tabChat.m_wndRichEdit.SetChannelInfo(chan.nChannelID);
 
-    CString szMsg;
-    CString szVoiceMsg;
+    CString szMsg, szFormat;
     if(chan.uChannelType & CHANNEL_CLASSROOM)
     {
-        szMsg = CString(_T("Joined classroom channel ")) + chan.szName;
-        szVoiceMsg = CString(_T("Joined classroom channel ")) + chan.szName;
+        szFormat.LoadString(IDS_CLASSROOM_SELF_JOINED);
+        szMsg.Format(szFormat, chan.szName);
     }
     else
     {
-        szMsg = CString(_T("Joined channel ")) + chan.szName;
-        szVoiceMsg = CString(_T("Joined channel ")) + chan.szName;
+        szFormat.LoadString(IDS_CHANNEL_SELF_JOINED);
+        szMsg.Format(szFormat, chan.szName);
     }
 
     AddStatusText(szMsg);
-    AddVoiceMessage(szVoiceMsg);
+    AddVoiceMessage(szMsg);
 
     UpdateAudioStorage(TRUE);
     UpdateAudioConfig();
@@ -1518,6 +1521,13 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
 {
     m_tabFiles.UpdateFiles(-1);
     UpdateWindowTitle();
+
+    CString szMsg, szFormat;
+    szFormat.LoadString(IDS_CHANNEL_SELF_LEFT);
+    szMsg.Format(szFormat, chan.szName);
+
+    AddStatusText(szMsg);
+    AddVoiceMessage(szMsg);
 }
 
 void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)

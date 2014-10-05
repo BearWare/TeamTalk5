@@ -1680,6 +1680,11 @@ BEGIN
     IDS_CHAT                "Chat"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+	IDS_CHANNEL_JOINED       "%s joined channel"
+	IDS_CHANNEL_LEFT		 "%s left channel"
+	IDS_CHANNEL_SELF_JOINED  "Joined channel %s"
+	IDS_CHANNEL_SELF_LEFT	 "Left channel %s"
+	IDS_CLASSROOM_SELF_JOINED     "Joined classroom channel %s"
     IDS_VIDEOCAPTURE        "Video Capture"
 END
 
