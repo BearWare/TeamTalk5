@@ -35,7 +35,7 @@ extern TTInstance* ttInst;
 
 IMPLEMENT_DYNAMIC(CGeneralPage, CPropertyPage)
 CGeneralPage::CGeneralPage()
-: CPropertyPage(CGeneralPage::IDD, IDS_GENERAL)
+: CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
 {

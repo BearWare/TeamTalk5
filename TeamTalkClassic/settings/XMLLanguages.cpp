@@ -108,7 +108,9 @@ std::string XMLLanguages::GetItemText(int id)
     std::string text;
     TiXmlElement* item = GetItem(id);
     if(item)
+    {
         GetElementText(*item, text);
+    }
     return text;
 }
 

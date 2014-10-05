@@ -30,7 +30,7 @@ public:
     enum { IDD = IDD_DIALOG_HOSTMANAGER };
     CButton    m_wndDelete;
     CListBox    m_wndHosts;
-    CEdit    m_wndHostSoundPort;
+    CEdit    m_wndHostUdpPort;
     CEdit    m_wndHostPort;
     CEdit    m_wndEntryName;
     CString    m_szEntryName;

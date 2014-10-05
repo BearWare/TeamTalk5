@@ -153,7 +153,7 @@ void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
     {
         Tolk_Load();
         Tolk_TrySAPI(true);
-		}
+    }
 
 #endif
     m_bSpeech = bEnable;
@@ -651,8 +651,6 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_UPDATE_COMMAND_UI(ID_ME_USESPEECHONEVENTS, OnUpdateMeUsespeechonevents)
     ON_COMMAND(ID_ME_USESPEECHONEVENTS, OnMeUsespeechonevents)
     ON_COMMAND(ID_HELP_RUNWIZARD, OnHelpRunwizard)
-    ON_COMMAND(ID_ME_USEECHOCANCELLATION, OnMeUseechocancellation)
-    ON_UPDATE_COMMAND_UI(ID_ME_USEECHOCANCELLATION, OnUpdateMeUseechocancellation)
     ON_UPDATE_COMMAND_UI(ID_CHANNELS_UPLOADFILE, OnUpdateChannelsUploadfile)
     ON_COMMAND(ID_CHANNELS_UPLOADFILE, OnChannelsUploadfile)
     ON_UPDATE_COMMAND_UI(ID_CHANNELS_DOWNLOADFILE, OnUpdateChannelsDownloadfile)
@@ -4345,15 +4343,6 @@ void CTeamTalkDlg::OnMeUsespeechonevents()
     m_xmlSettings.SetEventSpeechEvents(m_bSpeech);
 }
 
-void CTeamTalkDlg::OnUpdateMeUseechocancellation(CCmdUI *pCmdUI)
-{
-    pCmdUI->Enable(FALSE);
-}
-
-void CTeamTalkDlg::OnMeUseechocancellation()
-{
-}
-
 void CTeamTalkDlg::OnHelpRunwizard()
 {
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
@@ -4369,17 +4358,17 @@ void CTeamTalkDlg::TranslateMenu()
     CMenu& menu = *GetMenu();
     ASSERT(menu.GetMenuItemCount() == 6);
 
-    CString szFile = _T("&File");
+    CString szFile;
     TRANSLATE_ITEM(ID_FILE, szFile);
-    CString szMe = _T("&Me");
+    CString szMe;
     TRANSLATE_ITEM(ID_ME, szMe);
-    CString szUsers = _T("&Users");
+    CString szUsers;
     TRANSLATE_ITEM(ID_USERS, szUsers);
-    CString szChannels = _T("&Channels");
+    CString szChannels;
     TRANSLATE_ITEM(ID_CHANNELS, szChannels);
-    CString szServer = _T("&Server");
+    CString szServer;
     TRANSLATE_ITEM(ID_SERVER, szServer);
-    CString szHelp = _T("&Help");
+    CString szHelp;
     TRANSLATE_ITEM(IDS_IDHELP, szHelp);
 
     menu.ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szFile);
@@ -4389,16 +4378,24 @@ void CTeamTalkDlg::TranslateMenu()
     menu.ModifyMenu(4, MF_BYPOSITION | MF_STRING, 0, szServer);
     menu.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szHelp);
 
-    CString szAdvanced;
+    CString szAdvanced, szMute, szKick, szSubscriptions;
     szAdvanced.LoadString(ID_ADVANCED);
-    CString szSubscriptions;
+    szMute.LoadString(ID_MUTE);
+    szKick.LoadString(ID_KICK);
     szSubscriptions.LoadString(ID_SUBSCRIPTIONS);
+
     TRANSLATE_ITEM(ID_ADVANCED, szAdvanced);
     TRANSLATE_ITEM(ID_SUBSCRIPTIONS, szSubscriptions);
+    TRANSLATE_ITEM(ID_KICK, szKick);
+    TRANSLATE_ITEM(ID_MUTE, szMute);
+
     ASSERT(menu.GetSubMenu(2));
     CMenu& sub = *menu.GetSubMenu(2);
-    sub.ModifyMenu(9, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
-    sub.ModifyMenu(10, MF_BYPOSITION | MF_STRING, 0, szAdvanced);
+
+    sub.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szMute);
+    sub.ModifyMenu(6, MF_BYPOSITION | MF_STRING, 0, szKick);
+    sub.ModifyMenu(7, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
+    sub.ModifyMenu(8, MF_BYPOSITION | MF_STRING, 0, szAdvanced);
     //redraw
     DrawMenuBar();
     m_wndTabCtrl.Translate();

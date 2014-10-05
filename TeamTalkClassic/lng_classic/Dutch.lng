@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="102">TeamTalk 4 installatie wizard</item>
     <item id="104">Dis&amp;Verbinden\F2</item>
     <item id="105">Start &amp;hosting\tF3</item>
     <item id="106">Stop &amp;hosting\tF3</item>
@@ -18,13 +17,11 @@
     <item id="118">spraak kwaliteit</item>
     <item id="119">geluids gebeurtenis</item>
     <item id="120">geluids systeem</item>
-    <item id="121">hosting</item>
     <item id="122">uitgangs apparaat ondersteund 3d geluid</item>
     <item id="123">uitgangs apparaat ondersteund geen 3d geluid</item>
     <item id="124">test geselecteerde</item>
     <item id="125">stop</item>
     <item id="126">standaard</item>
-    <item id="127">geluid kan niet geconfigureerd worden tijdens een verbinding</item>
     <item id="128">voorkeuren</item>
     <item id="129">help</item>
     <item id="130">nieuwe nicknaam</item>
@@ -32,7 +29,6 @@
     <item id="201">berichten</item>
     <item id="205">verander status</item>
     <item id="207">kanaal informatie</item>
-    <item id="225">verbind met host</item>
     <item id="243">host beheerder</item>
     <item id="247">wat is mijn ip adres</item>
     <item id="249">toetsen combinatie</item>
@@ -46,13 +42,11 @@
     <item id="1020">bekijk aantal gebruikers in de kanalen</item>
     <item id="1021">auto positioneer gebruikers met 3d geluid</item>
     <item id="1022">schakel stem activatie uit indien niet actief</item>
-    <item id="1023">gebruik ms speech voor statusbar events (req. winXP)</item>
     <item id="1024">start de snel start gids om te leren hoe je een server opzet en verbind</item>
     <item id="1025">standaard: 10333</item>
     <item id="1035">gebruikers ID</item>
     <item id="1036">nicknaam</item>
     <item id="1041">poort nummer</item>
-    <item id="1042">Deze wizard begeleid u door de stappen die nodig zijn om TeamTalk 4 te installeren. Klik op de &quot;next&quot;knop om de stappen te volgen en de installatie te voltooien. Indien je op &quot;cancel&quot;klikt moet je Teamtalk handmatig installeren</item>
     <item id="1043">frequentie</item>
     <item id="1044">kijk op www.bearware.dk om meerdere team talk servers te vinden</item>
     <item id="1045">packet verlies</item>
@@ -61,17 +55,13 @@
     <item id="1050">huidige packet</item>
     <item id="1051">dubbel klik om in een kanaal te komen</item>
     <item id="1053">tijdstempel op berichten</item>
-    <item id="1055">gebruikers status</item>
     <item id="1056">stem geactiveerd</item>
-    <item id="1057">afwezigheids bericht</item>
     <item id="1059">kanaal naam</item>
     <item id="1060">minimaliseer naar start balk</item>
     <item id="1061">actualiteit</item>
     <item id="1063">wachtwoord</item>
     <item id="1065">operators</item>
-    <item id="1066">Windows audio</item>
     <item id="1067">wachtwoord beveiligd</item>
-    <item id="1068">DirectSound (standaard)</item>
     <item id="1069">B.V 192.168.0.12</item>
     <item id="1071">optioneel</item>
     <item id="1073">Wachtwoord</item>
@@ -93,14 +83,12 @@
     <item id="1111">dit venster sluit als u alle toetsen hebt losgelaten</item>
     <item id="1112">&amp;afwezig</item>
     <item id="1114">geschiedenis</item>
-    <item id="1117">indien u een geluidskaart hebt geselecteerd die 3d geluid ondersteunt (bestand-&gt;voorkeuren-&gt;geluidssysteem) dan kunt u alle gebruikers op een apparte positie plaatsen in het kanaal. let op ! voor het beste effect gebruik een koptelefoon</item>
     <item id="1122">wachtwoord beveiligd</item>
     <item id="1131">her-verbind bij Verbindings verlies</item>
     <item id="1134">huidige status</item>
     <item id="1137">status bericht</item>
     <item id="1142">geavanceerde opties</item>
     <item id="1145">windows mixer helper</item>
-    <item id="1146">welkom bij de CVLSB Team Talk 3 installatie wizard</item>
     <item id="1147">tijdelijke mixer invoer</item>
     <item id="1148">client versie</item>
     <item id="1149">client instellingen</item>
@@ -133,11 +121,9 @@
     <item id="1185">compenseer microfoon BOOST fout</item>
     <item id="1186">geluids gebeurtenis</item>
     <item id="1187">onthoud dat een hogere kwaliteit voor de encoder meer bandbreedte en cpu verbruikt</item>
-    <item id="1188">recorder frequentie</item>
     <item id="1189">invoer apparaat</item>
     <item id="1190">stem kwaliteit</item>
     <item id="1191">uitgang apparaat</item>
-    <item id="1192">doorvoer vereist per gebruiker</item>
     <item id="1193">zet lawaai vermindering aan</item>
     <item id="1194">stem gain level</item>
     <item id="1196">&amp;instel toetsen</item>
@@ -157,7 +143,6 @@
     <item id="1215">Door het indrukken &quot;test geselecteerde&quot;kunt u het huidige geselecteerde apparaat testen of u in staat bent de opgenomen audio af te spelen</item>
     <item id="1217">gebruiker kan kanalen aanmaken</item>
     <item id="1218">gebruiker kan audio via server forwarden</item>
-    <item id="1219">gebruiker kan kanaal operator worden</item>
     <item id="1220">geavanceerde hosting</item>
     <item id="1221">altijd boven aan</item>
     <item id="1225">&amp;standaard</item>
@@ -167,21 +152,15 @@
     <item id="1235">hosting instellingen</item>
     <item id="1236">Welkom bij het CVLSB Team TALk 3 installatie wizard</item>
     <item id="1237">volbreng de team talk 3 installatie wizard</item>
-    <item id="1238">stem kwaliteit instellingen</item>
     <item id="1240">Vertaald door Patrick Scheeper (c)2007 cvlsb</item>
     <item id="1241">gebruikers Taal</item>
-    <item id="1242">u heeft nu de Team Talk 3 installatie wizard voltooid indien u de handleiding wilt lezen klik dan hieronder op de box , u kunt ook op de website kijken voor meer informatie en servers</item>
     <item id="1243">mixer apparaat</item>
     <item id="1245">gebruik een andere installatie taal</item>
-    <item id="32788">adres boek\tF8</item>
     <item id="32791">Wat is mijn &amp;IP-address?</item>
     <item id="32792">vastgesteld &amp;playback snelheid\ctrl=shift=p</item>
     <item id="32794">stel catch-up &amp;delay\tCtrl+Shift+D in</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">bekijk kanaal berichten\f10</item>
-    <item id="32805">gebruik MS speech bij gebeurtenissen\ctrl+s</item>
-    <item id="32806">lager volume (-10)\tCtrl+Left</item>
-    <item id="32807">hoger volume (+10)\tCtrl+Right</item>
     <item id="32814">&amp;voer de wizard uit</item>
     <item id="32815">&amp;positioneer gebruikers \ctrl+p</item>
     <item id="32816">&amp;Mute alles\ctrl+m</item>
@@ -202,13 +181,11 @@
     <item id="32833">&amp;Volume\tCtrl+U</item>
     <item id="32834">Start &amp;hosting\tF3</item>
     <item id="32835">&amp;bekijk gebruikers info\tCtrl+I</item>
-    <item id="32836">&amp;Mute\tCtrl+Shift+M</item>
     <item id="32837">&amp;Creeer kanaal\tF7</item>
     <item id="32838">&amp;Join kanaal\tCtrl+J</item>
     <item id="32839">&amp;Berichten\tCtrl+E</item>
     <item id="32847">&amp;Kanalen</item>
     <item id="32848">&amp;gebruikers</item>
-    <item id="32849">&amp;bestand</item>
     <item id="32850">&amp;Ik</item>
     <item id="32851">&amp;geavanceerd</item>
 </language>

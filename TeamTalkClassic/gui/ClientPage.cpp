@@ -58,13 +58,13 @@ void CClientPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
     DDX_Check(pDX, IDC_CHECK_AUTOCONNECT, m_bAutoConnect);
-    DDX_Text(pDX, IDC_EDIT_CCLIENTPORT, m_nClientTcpPort);
+    DDX_Text(pDX, IDC_EDIT_LOCALTCPPORT, m_nClientTcpPort);
     DDV_MinMaxUInt(pDX, m_nClientTcpPort, 0, 65535);
-    DDX_Text(pDX, IDC_EDIT_CSOUNDPORT, m_nClientUdpPort);
+    DDX_Text(pDX, IDC_EDIT_LOCALUDPPORT, m_nClientUdpPort);
     DDV_MinMaxUInt(pDX, m_nClientUdpPort, 0, 65535);
     DDX_Check(pDX, IDC_CHECK_RECONNECT, m_bReconnect);
-    DDX_Control(pDX, IDC_EDIT_CCLIENTPORT, m_wndHostPort);
-    DDX_Control(pDX, IDC_EDIT_CSOUNDPORT, m_wndSoundPort);
+    DDX_Control(pDX, IDC_EDIT_LOCALTCPPORT, m_wndHostPort);
+    DDX_Control(pDX, IDC_EDIT_LOCALUDPPORT, m_wndSoundPort);
     DDX_Check(pDX, IDC_CHECK_AUTOJOINROOT, m_bAutoJoinRoot);
     DDX_Check(pDX, IDC_CHECK_SUBUSERMSG, m_bSubUserMsg);
     DDX_Check(pDX, IDC_CHECK_SUBCHANMSG, m_bSubChanMsg);

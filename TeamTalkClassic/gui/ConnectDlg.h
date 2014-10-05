@@ -44,12 +44,12 @@ protected:
     DECLARE_MESSAGE_MAP()
 public:
     CStatic m_wndGroupBox;
-    CEdit m_wndHostSoundPort;
+    CEdit m_wndHostUdpPort;
     CStatic m_wndDefHostText;
     CStatic m_wndDefSoundText;
     CStatic m_wndHostPortText;
     CEdit m_wndHostPort;
-    CStatic m_wndHostSoundPortText;
+    CStatic m_wndHostUdpPortText;
     CButton m_btnOK;
     CButton m_btnCancel;
     //lastest

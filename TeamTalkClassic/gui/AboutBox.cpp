@@ -22,9 +22,9 @@ CAboutBox::~CAboutBox()
 void CAboutBox::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_STATIC_TT3TITLE, m_strProgramTitle);
+    DDX_Text(pDX, IDC_STATIC_APPTITLE, m_strProgramTitle);
     DDX_Text(pDX, IDC_STATIC_VERSION, m_strVersion);
-    DDX_Control(pDX, IDC_STATIC_TT3TITLE, m_wndProgramTitle);
+    DDX_Control(pDX, IDC_STATIC_APPTITLE, m_wndProgramTitle);
     DDX_Control(pDX, IDC_STATIC_VERSION, m_wndVersion);
     DDX_Control(pDX, IDC_STATIC_AUTHOR, m_wndAuthor);
     DDX_Control(pDX, IDC_STATIC_COPYRIGHT, m_wndCopyright);

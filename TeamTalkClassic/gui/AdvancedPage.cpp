@@ -33,7 +33,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CAdvancedPage, CPropertyPage)
 CAdvancedPage::CAdvancedPage()
-    : CPropertyPage(CAdvancedPage::IDD, IDS_ADVANCED)
+    : CPropertyPage(CAdvancedPage::IDD)
     , m_bMixerAutoSelect(FALSE)
     , m_nMixerIndex(UNDEFINED)
     , m_bBoostBug(FALSE)

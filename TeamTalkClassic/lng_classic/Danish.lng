@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="102">TeamTalk 4 installationsguide</item>
     <item id="104">Afbryd &amp;forbindelse\tF2</item>
     <item id="107">Etabler &amp;forbindelse\tF2</item>
     <item id="108">Opret kanal</item>
@@ -16,26 +15,19 @@
     <item id="118">Lydkvalitet</item>
     <item id="119">Lydhændelser</item>
     <item id="120">Lydsystem</item>
-    <item id="121">Server</item>
     <item id="122">Afspilningsenhed understøtter 3D-lyd</item>
     <item id="123">Afspilningsenhed understøtter ikke 3D-lyd</item>
     <item id="124">Afprøv valgte</item>
-    <item id="125">Stop</item>
     <item id="126">Standard</item>
-    <item id="127">Lydsystem kan ikke ændres mens du er forbundet til server.</item>
     <item id="128">Indstillinger</item>
     <item id="129">&amp;Hjælp</item>
     <item id="130">Nyt brugernavn</item>
     <item id="131">Ændre brugernavn</item>
     <item id="132">Genveje</item>
-    <item id="133">Nulstil</item>
     <item id="134">Filer</item>
     <item id="135">Chat</item>
-    <item id="136">Filnavn</item>
-    <item id="137">Størrelse</item>
     <item id="140">Serverindstillinger</item>
     <item id="141">Brugerkonti</item>
-    <item id="142">Lydforstærkning vha. software</item>
     <item id="143">Videooptagelse</item>
     <item id="144">Flyt Bruger Dialog</item>
     <item id="145">Serverstatistik</item>
@@ -49,13 +41,11 @@
     <item id="201">Beskeder</item>
     <item id="205">Ændre status</item>
     <item id="207">Kanalinformation</item>
-    <item id="225">Opret forbindelse til server</item>
     <item id="227">Brugerinformation</item>
     <item id="243">Serverliste</item>
     <item id="247">Hvad er min IP-adresse?</item>
     <item id="249">Tastekombination</item>
     <item id="251">Positioner deltagere (3D lydkort)</item>
-    <item id="254">Genveje</item>
     <item id="256">Blokerede Brugere</item>
     <item id="1008">Altid send gennem server</item>
     <item id="1009">Indtræd automatisk i rodkanalen ved tilslutning</item>
@@ -67,14 +57,11 @@
     <item id="1020">Vis antal af brugere i kanal</item>
     <item id="1021">Positioner brugere automatisk vha. 3D lyd</item>
     <item id="1022">Deaktiver stemmeaktivering ved away status</item>
-    <item id="1023">Benyt MS Speech ved hændelser (kræver WinXP)</item>
     <item id="1024">Start Quick-start guiden for at lære hvorledes du konfigurerer en server og opretter forbindelse til den</item>
     <item id="1025">Standard: 10333</item>
     <item id="1035">BrugerID</item>
     <item id="1036">Brugernavn</item>
-    <item id="1040">Kvalitet</item>
     <item id="1041">Portnummer</item>
-    <item id="1042">Denne guide vil gennemgå de trin der skal til for at konfigurere samtaleprogrammet TeamTalk 4. Tryk på knappen &quot;Næste&quot; for at påbegynde disse trin. Hvis du trykker på &quot;Annullerer&quot; vil du selv blive nødsaget til at konfigurere TeamTalk manuelt.</item>
     <item id="1043">Frekvens</item>
     <item id="1044">Åben www.bearware.dk for at se efter TeamTalk servere</item>
     <item id="1045">Pakketab</item>
@@ -84,17 +71,13 @@
     <item id="1051">Dobbeltklik for at indtræde i kanal</item>
     <item id="1053">Tidsstempel på beskeder</item>
     <item id="1054">Tryk for at tale</item>
-    <item id="1055">Brugerstatus</item>
     <item id="1056">Stemmeaktiveret</item>
-    <item id="1057">Away-besked</item>
     <item id="1059">Kanalnavn</item>
     <item id="1060">Minimer til tray</item>
     <item id="1061">Emne</item>
     <item id="1063">Kodeord</item>
     <item id="1065">Kanalejere</item>
-    <item id="1066">Windows-lydsystem</item>
     <item id="1067">Kodeordsbeskyttet</item>
-    <item id="1068">DirectSound (standard)</item>
     <item id="1069">F.eks. 192.168.0.12</item>
     <item id="1071">Valgfri</item>
     <item id="1073">Kodeord</item>
@@ -104,7 +87,6 @@
     <item id="1081">Fjernadministration</item>
     <item id="1082">Gennemløb:</item>
     <item id="1083">Brugernavn</item>
-    <item id="1084">Brugergodkendelse (valgfri)</item>
     <item id="1085">Servere</item>
     <item id="1088">Serverindstillinger</item>
     <item id="1092">Navn</item>
@@ -119,7 +101,6 @@
     <item id="1111">Denne dialogboks lukker når du har sluppet alle tasterne.</item>
     <item id="1112">&amp;Væk</item>
     <item id="1114">Historik</item>
-    <item id="1117">Hvis du har valgt et lydkort som understøtter 3D lydeffekter (Filer-&gt;Indstillinger-&gt;Lydsystem), så kan du placere hver af brugerne i din kanal på forskellige positioner. Vær opmærksom på at du bør benytte hovedtelefoner for bedste oplevelse.</item>
     <item id="1118">Spørgsmål</item>
     <item id="1122">Kodeordsbeskyttet</item>
     <item id="1123">IP-adresse</item>
@@ -128,7 +109,6 @@
     <item id="1137">Statusbesked</item>
     <item id="1142">Avancerede indstillinger</item>
     <item id="1145">Windows mixer hjælper</item>
-    <item id="1146">Velkommen til TeamTalk 4 opsætningsguiden</item>
     <item id="1147">Midlertidig mixer input</item>
     <item id="1148">Klientversion</item>
     <item id="1149">Klientindstillinger</item>
@@ -145,7 +125,6 @@
     <item id="1165">Serverkodeord</item>
     <item id="1166">Lokal UDP port</item>
     <item id="1167">&amp;Tilføj/Opdater</item>
-    <item id="1168"></item>
     <item id="1169">&amp;Ny</item>
     <item id="1170">&amp;Generer .tt Fil</item>
     <item id="1172">MOTD</item>
@@ -162,11 +141,9 @@
     <item id="1185">Kompenser for mikrofon boost fejl</item>
     <item id="1186">Lydhændelser</item>
     <item id="1187">Husk at en højere kvalitet for encoder vil kræve mere båndbredde og CPU forbrug.</item>
-    <item id="1188">Optagefrekvens</item>
     <item id="1189">Indspilningsenhed</item>
     <item id="1190">Lydkvalitet</item>
     <item id="1191">Afspilningsenhed</item>
-    <item id="1192">Båndbredde pr. bruger</item>
     <item id="1193">Aktiver støjreduktion</item>
     <item id="1194">Mikrofonforstærkning</item>
     <item id="1196">&amp;Vælg taster</item>
@@ -186,7 +163,6 @@
     <item id="1215">Ved at trykke &quot;Afprøv valgte&quot; kan du teste de valgte lydenheder og høre om du er i stand til at afspille den lyd der optages.</item>
     <item id="1217">Brugere kan oprette kanaler</item>
     <item id="1218">Brugere kan fremsende lyd gennem server</item>
-    <item id="1219">Bruger kan blive kanalejere</item>
     <item id="1220">Avanceret hosting</item>
     <item id="1221">Altid øverst</item>
     <item id="1225">&amp;Standard</item>
@@ -196,10 +172,8 @@
     <item id="1235">Serverindstillinger</item>
     <item id="1236">Velkommen til TeamTalk 4 opsætningsguide</item>
     <item id="1237">TeamTalk 4 opsætningsguiden er nu færdig</item>
-    <item id="1238">Lydkvalitetsindstillinger</item>
     <item id="1240">Oversat af Bjørn D. Rasmussen</item>
     <item id="1241">Sprog</item>
-    <item id="1242">Du har nu færdiggjort TeamTalk 4 guiden. Hvis du ønsker at læse om brugen af TeamTalk kan du markere checkboksen herunder. Du kan også åbne TeamTalks hjemmeside for at se efter servere der kan oprettes forbindelse til ved at markere den anden checkboks herunder.</item>
     <item id="1243">Mixer enhed</item>
     <item id="1245">Brug et andet sprog til installationen</item>
     <item id="1246">Luk ved fuldførelse</item>
@@ -219,7 +193,6 @@
     <item id="1279">Filer opdateret</item>
     <item id="1280">Overførsel færdig</item>
     <item id="1287">Kanalejer kodeord</item>
-    <item id="1289">Lydforstærkning</item>
     <item id="1292">Serverindstillinger</item>
     <item id="1293">Diskkvota (i KBytes)</item>
     <item id="1294">Max antal brugere</item>
@@ -227,19 +200,13 @@
     <item id="1296">Brugertimeout</item>
     <item id="1298">Lydcodec</item>
     <item id="1299">Aktive Konti</item>
-    <item id="1302">Ekkokanal (hør dig selv)</item>
     <item id="1303">Tillad kun en bruger at sende af gangen (ingen duplex)</item>
-    <item id="1304">Statisk kanal</item>
     <item id="1308">Brugertype</item>
     <item id="1309">Gem serverændringer automatisk</item>
-    <item id="1310">Brugere kan logge ind uden en brugerkonto</item>
     <item id="1311">Brugere kan se brugere i alle kanaler</item>
     <item id="1312">Brugere kan broadcaste tekstbeskeder</item>
     <item id="1313">Brugere kan send kanalkommandoer</item>
-    <item id="1314">Brugere kan ændre abonnementer</item>
-    <item id="1315">Brugere kan videresende lyd gennem server</item>
     <item id="1316">Modificer Brugerkonto</item>
-    <item id="1317">Brugere kan videresende video gennem server</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Tilføj</item>
     <item id="1325">&amp;Slet</item>
@@ -248,10 +215,8 @@
     <item id="1332">Check for programopdateringer</item>
     <item id="1333">Aktiver peer til peer (P2P) mode</item>
     <item id="1334">Inkluder offentlige servere</item>
-    <item id="1335">Flere brugere kan logge ind med samme brugerkonto</item>
     <item id="1339">Klasseværelse (kanalejer styrer transmissioner)</item>
     <item id="1341">Aktiver samme lydniveau for alle brugere</item>
-    <item id="1343">Aktiver støjreduktion</item>
     <item id="1345">Aktiver duplex mode (påkrævet for fjernelse af ekko)</item>
     <item id="1347">Ignorer stilhed</item>
     <item id="1349">Bitrate</item>
@@ -278,15 +243,12 @@
     <item id="1398">KBytes/sek (0 = fra)</item>
     <item id="1399">KBytes/sek (0 = fra)</item>
     <item id="1400">KBytes/sek (0 = fra)</item>
-    <item id="1401">Lyd TX max</item>
     <item id="1402">Video TX max</item>
     <item id="1403">Total TX max</item>
     <item id="1404">Serverversion</item>
     <item id="1405">Serverinformation</item>
     <item id="1406">Lydcodec Begrænsninger</item>
     <item id="1407">Serverbåndbreddebegrænsninger</item>
-    <item id="1408">Keep Alive</item>
-    <item id="1409">UDP keepalive interval</item>
     <item id="1411">Codec</item>
     <item id="1412">Lydkonfiguration</item>
     <item id="1413">Volumeniveau</item>
@@ -307,12 +269,8 @@
     <item id="1431">Video RX/TX</item>
     <item id="1432">KBytes</item>
     <item id="1433">KBytes</item>
-    <item id="1434">KBytes</item>
-    <item id="1435">Ekko video (se egen videostrøm)</item>
-    <item id="1436">Ekko desktop (se egen delte desktop)</item>
     <item id="1437">Fjern</item>
     <item id="1438">Desktop TX max</item>
-    <item id="1440">Brugere kan sende desktops gennem serveren</item>
     <item id="1441">Vis MOTD variabler</item>
     <item id="1443">Note</item>
     <item id="1445">Start-kanal</item>
@@ -327,19 +285,14 @@
     <item id="1463">Output sample rater</item>
     <item id="1464">Input sample rater</item>
     <item id="1465">Krypteret server</item>
-    <item id="1469">Stream lyd</item>
-    <item id="1470">Stream video</item>
     <item id="1473">Dagens besked</item>
     <item id="1474">KBytes/sek (0 = fra)</item>
-    <item id="32788">Serverliste\tF3</item>
     <item id="32791">Hvad er min IP-adresse?</item>
     <item id="32792">Fast &amp;Afspilningshastighed\tCtrl+Shift+P</item>
     <item id="32794">Angiv catch-up &amp;Forsinkelse\tCtrl+Shift+D</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">&amp;Vis Kanalbeskeder\tF10</item>
-    <item id="32805">Benyt MS Speech ved Hændelser\tCtrl+S</item>
     <item id="32806">Lavere Volume (-10)\tCtrl+Left</item>
-    <item id="32807">Forøge Volume (+10)\tCtrl+Right</item>
     <item id="32814">&amp;Start guide</item>
     <item id="32815">&amp;Placer brugere\tCtrl+P</item>
     <item id="32816">&amp;Lydløs\tCtrl+M</item>
@@ -357,7 +310,6 @@
     <item id="32831">&amp;Vis Kanalinformation\tAlt+I</item>
     <item id="32833">&amp;Lydstyrke\tCtrl+U</item>
     <item id="32835">&amp;Vis Brugerinformation\tCtrl+I</item>
-    <item id="32836">&amp;Lysløs\tCtrl+Shift+M</item>
     <item id="32837">&amp;Opret Kanal\tF7</item>
     <item id="32838">&amp;Indtræd i Kanal\tCtrl+J</item>
     <item id="32839">&amp;Beskeder\tCtrl+E</item>
@@ -369,20 +321,13 @@
     <item id="32845">Fortryd</item>
     <item id="32846">Indsæt</item>
     <item id="32847">&amp;Kanaler</item>
-    <item id="32848">&amp;Brugere</item>
-    <item id="32849">&amp;Filer</item>
     <item id="32850">&amp;Mig</item>
     <item id="32851">&amp;Avanceret</item>
     <item id="32853">Abonnementer</item>
     <item id="32857">Upload Fil\tSkift+F5</item>
     <item id="32858">&amp;Download Fil\tSkift+F6</item>
     <item id="32859">Slet &amp;Fil\tSkift+Del</item>
-    <item id="32860">Forøge Lydforstærkning\tCtrl+Skift+Højre</item>
-    <item id="32861">Lavere Lydforstærkning\tCtrl+Skift+Venstre</item>
-    <item id="32862">Lydforstærkning\tCtrl+Shift+G</item>
-    <item id="32863">Global Lydforstærkning\tCtrl+G</item>
     <item id="32864">For&amp;lad Kanal\tCtrl+L</item>
-    <item id="32865">&amp;Stream Wave-fil til Kanal\tCtrl+Shift+W</item>
     <item id="32866">&amp;Slet Kanal\tF8</item>
     <item id="32867">&amp;Opdater Kanal\tCtrl+Alt+U</item>
     <item id="32868">Serverindstillinger\tF9</item>
@@ -394,14 +339,11 @@
     <item id="32882">Vis &amp;Blokerede Brugere\tCtrl+Shift+B</item>
     <item id="32885">Spark ud og Bloker\tCtrl+Shift+K</item>
     <item id="32888">Gem &amp;Lyd Til Disk\tCtrl+Alt+A</item>
-    <item id="32889">&amp;Giv Donation</item>
     <item id="32890">Flyt Bruger &amp;Dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;Brugerbeskeder</item>
     <item id="32893">&amp;Kanalbeskeder</item>
     <item id="32894">&amp;Broadcastbeskeder</item>
-    <item id="32895">&amp;Lyd</item>
     <item id="32896">&amp;Video</item>
-    <item id="32897">&amp;Opsnap Lyd</item>
     <item id="32898">Opsnap Bruge&amp;rbeskeder</item>
     <item id="32899">Opsnap Kanalbeskeder</item>
     <item id="32900">Opsnap V&amp;ideo</item>

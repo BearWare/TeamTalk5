@@ -50,13 +50,13 @@ void CHostManagerDlg::DoDataExchange(CDataExchange* pDX)
     //{{AFX_DATA_MAP(CHostManagerDlg)
     DDX_Control(pDX, IDC_BUTTON_DELETE, m_wndDelete);
     DDX_Control(pDX, IDC_LIST_HOSTS, m_wndHosts);
-    DDX_Control(pDX, IDC_EDIT_HOSTSOUNDPORT, m_wndHostSoundPort);
-    DDX_Control(pDX, IDC_EDIT_HOSTPORT, m_wndHostPort);
+    DDX_Control(pDX, IDC_EDIT_HOSTUDPPORT, m_wndHostUdpPort);
+    DDX_Control(pDX, IDC_EDIT_HOSTTCPPORT, m_wndHostPort);
     DDX_Control(pDX, IDC_EDIT_ENTRYNAME, m_wndEntryName);
     DDX_Text(pDX, IDC_EDIT_ENTRYNAME, m_szEntryName);
-    DDX_Text(pDX, IDC_EDIT_HOSTPORT, m_nTcpPort);
+    DDX_Text(pDX, IDC_EDIT_HOSTTCPPORT, m_nTcpPort);
     DDV_MinMaxUInt(pDX, m_nTcpPort, 1, 65535);
-    DDX_Text(pDX, IDC_EDIT_HOSTSOUNDPORT, m_nUdpPort);
+    DDX_Text(pDX, IDC_EDIT_HOSTUDPPORT, m_nUdpPort);
     DDV_MinMaxUInt(pDX, m_nUdpPort, 1, 65535);
     //}}AFX_DATA_MAP
     DDX_Text(pDX, IDC_EDIT_CHANNEL, m_szChannel);
@@ -83,7 +83,7 @@ BEGIN_MESSAGE_MAP(CHostManagerDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_DELETE, OnButtonDelete)
     ON_LBN_SELCHANGE(IDC_LIST_HOSTS, OnSelchangeListHosts)
     //}}AFX_MSG_MAP
-    ON_BN_CLICKED(IDOK, OnBnClickedOk)
+    ON_BN_CLICKED(IDC_BUTTON_CONNECT, OnBnClickedOk)
     ON_WM_TIMER()
     ON_BN_CLICKED(IDC_CHECK_PUBLICSERVERS, &CHostManagerDlg::OnBnClickedCheckPublicservers)
     ON_LBN_DBLCLK(IDC_LIST_HOSTS, &CHostManagerDlg::OnLbnDblclkListHosts)
@@ -149,7 +149,7 @@ void CHostManagerDlg::DisplayHosts()
         m_wndHostPort.SetWindowText(s);
         s.Format(_T("%d"),m_vecHosts[0].nUdpPort);
         m_nUdpPort = m_vecHosts[0].nUdpPort;
-        m_wndHostSoundPort.SetWindowText(s);
+        m_wndHostUdpPort.SetWindowText(s);
         m_wndChannel.SetWindowText(STR_UTF8(m_vecHosts[0].szChannel.c_str()));
         m_wndChPasswd.SetWindowText(STR_UTF8(m_vecHosts[0].szChPasswd.c_str()));
         */
@@ -176,7 +176,7 @@ BOOL CHostManagerDlg::GetHostEntry(teamtalk::HostEntry& entry)
     CString tmp;
     m_wndHostPort.GetWindowText(tmp);
     entry.nTcpPort = _ttoi(tmp);
-    m_wndHostSoundPort.GetWindowText(tmp);
+    m_wndHostUdpPort.GetWindowText(tmp);
     entry.nUdpPort = _ttoi(tmp);
     if(entry.szEntryName.size()==0 ||
         entry.szAddress.size()==0 ||
@@ -199,7 +199,7 @@ void CHostManagerDlg::OnButtonNew()
     m_wndHostAddress.SetWindowText(_T(""));
     CString s;
     s.Format(_T("%d"),DEFAULT_TEAMTALK_UDPPORT);
-    m_wndHostSoundPort.SetWindowText(s);
+    m_wndHostUdpPort.SetWindowText(s);
     s.Format(_T("%d"),DEFAULT_TEAMTALK_TCPPORT);
     m_wndHostPort.SetWindowText(s);
     m_wndEncrypted.SetCheck(BST_UNCHECKED);
@@ -307,7 +307,7 @@ void CHostManagerDlg::OnSelchangeListHosts()
             CString s;s.Format(_T("%d"),entry.nTcpPort);
             m_wndHostPort.SetWindowText(s);
             s.Format(_T("%d"),entry.nUdpPort);
-            m_wndHostSoundPort.SetWindowText(s);
+            m_wndHostUdpPort.SetWindowText(s);
             m_wndEncrypted.SetCheck(entry.bEncrypted?BST_CHECKED:BST_UNCHECKED);
             m_wndUsername.SetWindowText(STR_UTF8(entry.szUsername.c_str()));
             m_wndPassword.SetWindowText(STR_UTF8(entry.szPassword.c_str()));
@@ -323,7 +323,7 @@ void CHostManagerDlg::OnBnClickedOk()
 {
     if(m_wndHostAddress.GetWindowTextLength()==0 ||
         m_wndHostPort.GetWindowTextLength()==0 ||
-        m_wndHostSoundPort.GetWindowTextLength()==0)
+        m_wndHostUdpPort.GetWindowTextLength()==0)
         AfxMessageBox(_T("Please fill in all the required fields.\r\n")
                                     _T("- Host address\r\n")
                                     _T("- Host port\r\n")
@@ -465,7 +465,7 @@ void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
         CString s;s.Format(_T("%d"),m_vecHosts[index].nTcpPort);
         m_wndHostPort.SetWindowText(s);
         s.Format(_T("%d"),m_vecHosts[index].nUdpPort);
-        m_wndHostSoundPort.SetWindowText(s);
+        m_wndHostUdpPort.SetWindowText(s);
         m_wndEncrypted.SetCheck(m_vecHosts[index].bEncrypted?BST_CHECKED:BST_UNCHECKED);
         m_wndUsername.SetWindowText(STR_UTF8(m_vecHosts[index].szUsername.c_str()));
         m_wndPassword.SetWindowText(STR_UTF8(m_vecHosts[index].szPassword.c_str()));

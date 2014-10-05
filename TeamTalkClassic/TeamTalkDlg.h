@@ -413,8 +413,6 @@ public:
     afx_msg void OnUpdateAdvancedLowerVolumeVoice(CCmdUI *pCmdUI);
     afx_msg void OnAdvancedLowerVolumeVoice();
     afx_msg void OnHelpRunwizard();
-    afx_msg void OnMeUseechocancellation();
-    afx_msg void OnUpdateMeUseechocancellation(CCmdUI *pCmdUI);
     afx_msg void OnUpdateChannelsUploadfile(CCmdUI *pCmdUI);
     afx_msg void OnChannelsUploadfile();
     afx_msg void OnUpdateChannelsDownloadfile(CCmdUI *pCmdUI);

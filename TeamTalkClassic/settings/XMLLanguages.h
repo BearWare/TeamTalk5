@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "ClientXML.h"
+#include <settings/Settings.h>
 
 #define XML_LANGUAGE_VERSION "1.0"
 

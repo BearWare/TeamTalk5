@@ -69,8 +69,8 @@ BEGIN
     GROUPBOX        "Server Abuse",IDC_STATIC_SERVERABUSE,225,103,228,47
     EDITTEXT        IDC_EDIT_LOGINBAN,360,113,40,14,ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_EDIT_IPLOGINS,359,129,40,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Max login attempts before ban",IDC_STATIC,229,116,126,8
-    LTEXT           "Max logins per IP-address",IDC_STATIC,229,132,126,8
+    LTEXT           "Max login attempts before ban",IDC_STATIC_MAXLOGINSBAN,229,116,126,8
+    LTEXT           "Max logins per IP-address",IDC_STATIC_MAXLOGINSIP,229,132,126,8
     LTEXT           "(0=disabled)",IDC_STATIC,403,116,42,8
     LTEXT           "(0=disabled)",IDC_STATIC,402,132,42,8
 END
@@ -226,10 +226,10 @@ BEGIN
     CONTROL         "Media file stream",IDC_CHECK_SUBMEDIAFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,106,101,10
     GROUPBOX        "Local ports",IDC_STATIC_GRPLOCALPORTS,12,121,236,41
     LTEXT           "Local TCP port",IDC_STATIC_LOCALTCPPORT,18,132,59,8
-    EDITTEXT        IDC_EDIT_CCLIENTPORT,79,129,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_LOCALTCPPORT,79,129,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Default: 0 (TCP)",IDC_STATIC_DEFLOCALTCP,122,132,67,8
     LTEXT           "Local UDP port",IDC_STATIC_LOCALUDPPORT,18,148,59,8
-    EDITTEXT        IDC_EDIT_CSOUNDPORT,79,145,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_LOCALUDPPORT,79,145,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Default: 0 (UDP)",IDC_STATIC_DEFLOCALUDP,122,148,67,8
 END
 
@@ -278,7 +278,7 @@ BEGIN
     LTEXT           "Desktop access request",IDC_STATIC_DESKACCESS_REQ,14,199,97,8
     EDITTEXT        IDC_EDIT_EVENTS_DESKTOPACCESSREQ,113,196,116,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BUTTON_EVENTS_DESKTOPACCESSREQ,233,197,16,11
-    CONTROL         "Use MS Speech for statusbar events (req. WinXP)",IDC_CHECK_SPEECH,
+    CONTROL         "Use Text-To-Speech for statusbar events",IDC_CHECK_SPEECH,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,14,218,182,15
 END
 
@@ -399,14 +399,14 @@ BEGIN
     COMBOBOX        IDC_COMBO_HOSTADDRESS,73,18,122,47,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Remove",IDC_BUTTON_DELENTRY,197,17,33,14
     LTEXT           "Optional",IDC_STATIC_OPTIONAL,148,38,66,8
-    LTEXT           "Host TCP port",IDC_STATIC_HOSTPORT,13,56,57,8
-    EDITTEXT        IDC_HOSTPORT_EDIT,73,53,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Host TCP port",IDC_STATIC_HOSTTCPPORT,13,56,57,8
+    EDITTEXT        IDC_EDIT_HOSTTCPPORT,73,53,40,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Default: 10333",IDC_STATIC_DEFHOST,123,56,100,8
-    LTEXT           "Host UDP port",IDC_STATIC_SOUNDPORT,13,74,59,8
-    EDITTEXT        IDC_HOSTSOUNDPORT_EDIT,73,71,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Host UDP port",IDC_STATIC_HOSTUDPPORT,13,74,59,8
+    EDITTEXT        IDC_EDIT_HOSTUDPPORT,73,71,40,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Default: 10333",IDC_STATIC_DEFSOUND,123,74,102,8
     CONTROL         "Encrypted server",IDC_CHECK_ENCRYPTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,73,88,118,10
-    GROUPBOX        "Authentication (optional)",IDC_STATIC_OPTAUTH,7,105,226,44
+    GROUPBOX        "Authentication",IDC_STATIC_OPTAUTH,7,105,226,44
     LTEXT           "Username",IDC_STATIC_USERNAME,13,118,86,8
     EDITTEXT        IDC_EDIT_USERNAME,103,115,62,14,ES_AUTOHSCROLL
     LTEXT           "Password",IDC_STATIC_PASSWORD,13,134,86,8
@@ -504,7 +504,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,81,125,50,14
     LTEXT           "Media-file audio packetloss",IDC_STATIC_SMFAUDIO,7,85,86,8
     LTEXT           "Static",IDC_STATIC_MFAUDIOLOSS,131,85,76,8
-    LTEXT           "Media-file video frameloss",IDC_STATIC,7,98,86,8
+    LTEXT           "Media-file video frameloss",IDC_STATIC_MFVFLOSS,7,98,86,8
     LTEXT           "Static",IDC_STATIC_MFVIDEOLOSS,131,98,76,8
 END
 
@@ -558,7 +558,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Static",IDC_STATIC_TT3TITLE,7,13,143,47
+    LTEXT           "Static",IDC_STATIC_APPTITLE,7,13,143,47
     LTEXT           "Static",IDC_STATIC_VERSION,97,42,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
     LTEXT           "Copyright (c) 2002-2014, BearWare.dk",IDC_STATIC_COPYRIGHT,7,76,183,8
@@ -578,12 +578,12 @@ BEGIN
     LTEXT           "Host address",IDC_STATIC_HOSTADDR,201,21,68,8
     COMBOBOX        IDC_COMBO_HOSTADDRESS,275,18,98,47,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Remove",IDC_BUTTON_DELENTRY,375,17,33,14
-    LTEXT           "Host TCP port",IDC_STATIC_HOSTPORT,201,37,55,8
-    EDITTEXT        IDC_EDIT_HOSTPORT,275,34,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Host TCP port",IDC_STATIC_HOSTTCPPORT,201,37,55,8
+    EDITTEXT        IDC_EDIT_HOSTTCPPORT,275,34,40,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Default: 10333",IDC_STATIC_DEFHOSTPORT,322,37,69,8
-    LTEXT           "Host UDP port",IDC_STATIC_SOUNDPORT,201,54,55,8
-    EDITTEXT        IDC_EDIT_HOSTSOUNDPORT,275,51,40,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Default: 10333",IDC_STATIC_DEFSOUNDPORT,322,54,69,8
+    LTEXT           "Host UDP port",IDC_STATIC_HOSTUDPPORT,201,54,55,8
+    EDITTEXT        IDC_EDIT_HOSTUDPPORT,275,51,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Default: 10333",IDC_STATIC_DEFUDPPORT,322,54,69,8
     CONTROL         "Encrypted server",IDC_CHECK_ENCRYPTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,277,68,103,10
     GROUPBOX        "Authentication (optional)",IDC_STATIC_OPTAUTH,196,81,212,46
     LTEXT           "Username",IDC_STATIC_USERNAME,207,95,68,8
@@ -596,7 +596,7 @@ BEGIN
     LTEXT           "Password",IDC_STATIC_CHPASSWORD,207,160,68,8
     EDITTEXT        IDC_EDIT_CHPASSWD,275,157,56,14,ES_PASSWORD | ES_AUTOHSCROLL
     PUSHBUTTON      "C&lear",IDC_BUTTON_NEW,196,178,36,14
-    DEFPUSHBUTTON   "&Connect",IDOK,358,176,50,14
+    DEFPUSHBUTTON   "&Connect",IDC_BUTTON_CONNECT,358,176,50,14
     GROUPBOX        "Hosts",IDC_STATIC_GRPHOSTS,7,7,178,261
     LISTBOX         IDC_LIST_HOSTS,13,18,163,225,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Include public servers",IDC_CHECK_PUBLICSERVERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,251,115,10
@@ -634,7 +634,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Position participants (3D sound cards)"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "If you have selected a sound card which supports 3D sound effects (File -> Preferences -> Sound system) then you can place each of the users in your channel at different positions. Note that you should use headphones for best experience.",IDC_STATIC_3DDESCRIP,7,7,209,38
+    LTEXT           "If you have selected a sound card which supports 3D sound effects then you can place each of the users in your channel at different positions. Note that you should use headphones for best experience.",IDC_STATIC_3DDESCRIP,7,7,209,38
     GROUPBOX        "",IDC_STATIC_ROOM,7,44,209,154
     LTEXT           "",IDC_STATIC_COOR,7,180,100,17
     CONTROL         "Auto position users using 3D sound",IDC_CHECK_POSITIONING,
@@ -1265,8 +1265,6 @@ BEGIN
     "D",            ID_ME_ENABLEDESKTOPSHARING, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "E",            ID_USERS_MESSAGES,      VIRTKEY, CONTROL, NOINVERT
     "E",            ID_ADVANCED_ALLOWDESKTOPTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
-    "G",            ID_USERS_SOFTWAREGAIN_ALL, VIRTKEY, CONTROL, NOINVERT
-    "G",            ID_USERS_SOFTWAREGAIN,  VIRTKEY, SHIFT, CONTROL, NOINVERT
     "I",            ID_USERS_VIEWINFO,      VIRTKEY, CONTROL, NOINVERT
     "I",            ID_CHANNELS_VIEWCHANNELINFO, VIRTKEY, ALT, NOINVERT
     "J",            ID_CHANNELS_JOINCHANNEL, VIRTKEY, CONTROL, NOINVERT
@@ -1394,7 +1392,7 @@ BEGIN
         MENUITEM "Enable V&ideo Transmission\tCtrl+Shift+V", ID_ME_ENABLEVIDEOTRANSMISSION
         MENUITEM "Enable &Desktop Sharing\tCtrl+Shift+D", ID_ME_ENABLEDESKTOPSHARING
         MENUITEM SEPARATOR
-        MENUITEM "Enable MS Speech on Events\tCtrl+S", ID_ME_USESPEECHONEVENTS
+        MENUITEM "Enable Text-To-Speech on Events\tCtrl+S", ID_ME_USESPEECHONEVENTS
     END
     POPUP "&Users"
     BEGIN
@@ -1578,8 +1576,6 @@ BEGIN
     IDS_WIZCAPTION          "Wizard"
     IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
     IDS_DISCONNECT          "Dis&connect\tF2"
-    IDS_STARTHOSTING        "Start &hosting\tF3"
-    IDS_STOPHOSTING         "Stop &hosting\tF3"
     IDS_CONNECT             "&Connect\tF2"
     IDS_CREATECHANNEL       "Create channel"
     IDS_UPDATECHANNEL       "Update channel"
@@ -1594,10 +1590,7 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_USERS_FORWARDTHROUGHSERVER 
-                            "Forward voice data through server to the selected user"
     ID_USERS_VOLUME         "Change the volume of the selected user"
-    ID_FILE_HOST            "Host a server which others can join"
     ID_USERS_VIEWINFO       "View information about the selected user"
     ID_CHANNELS_CREATECHANNEL "Create a sub channel inyour current channel"
     ID_CHANNELS_JOINCHANNEL "Join the selected channel"
@@ -1616,8 +1609,6 @@ END
 STRINGTABLE
 BEGIN
     ID_USERS_MUTEALL        "Mute all users in your channel"
-    ID_USERS_FORWARDTHROUGHSERVERFORAL 
-                            "Forward voice packets through server to all users in your channel"
     ID_FILE_CONNECT         "Connect to a server"
     ID_HELP_MANUAL          "Read the manual"
     ID_HELP_ABOUT           "Read copyright information"
@@ -1627,7 +1618,6 @@ BEGIN
     ID_ME_ENABLEVOICEACTIVATION "Use voice activation to transmit voice data"
     ID_HELP_WEBSITE         "Goto the application's website"
     ID_ME_CHANGESTATUS      "Change your online status"
-    ID_USERS_READSTATUSMESSAGE "Read the selected user's status message"
     ID_ME_CHANGENICK        "Change your nick name"
     ID_CHANNELS_VIEWCHANNELINFO 
                             "View information about the currently selected channel"
@@ -1656,24 +1646,27 @@ BEGIN
     IDS_VOICEQUALITY        "Voice quality"
     IDS_SOUNDEVENTS         "Sound events"
     IDS_SOUNDSYSTEM         "Sound system"
-    IDS_HOSTING             "Hosting"
     IDS_SUPPORTS3D          "Output device supports 3D sound"
     IDS_NOSUPPORTS3D        "Output device does not support 3D sound"
     IDS_TESTSELECTED        "Test selected"
     IDS_STOP                "Stop"
     IDS_DEFAULT             "Default"
-    IDS_SOUNDCANNOT         "Sound cannot be configured while connected"
 END
 
 STRINGTABLE
 BEGIN
     ID_USERS                "&Users"
-    ID_FILE                 "&File"
+    ID_FILE                 "&Client"
     ID_ME                   "&Me"
     ID_ADVANCED             "&Advanced"
-    ID_ME_USEECHOCANCELLATION 
-                            "Enable echo cancellation to prevent echo from speakers"
     ID_SUBSCRIPTIONS        "&Subscriptions"
+    ID_MUTE                 "Mute"
+    ID_KICK                 "Kick"
+END
+
+STRINGTABLE
+BEGIN
+    ID_SERVER               "&Server"
 END
 
 STRINGTABLE
@@ -1683,11 +1676,8 @@ BEGIN
     IDS_NEWNICKNAME         "New nickname"
     IDS_CHANGENICKNAME      "Change nickname"
     IDS_SHORTCUTS           "Shortcuts"
-    IDS_CLEAR               "Clear"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
-    IDS_FILENAME            "Filename"
-    IDS_FILESIZE            "Size"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
     IDS_VIDEOCAPTURE        "Video Capture"

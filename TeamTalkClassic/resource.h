@@ -10,8 +10,6 @@
 #define IDS_WIZCAPTION                  102
 #define IDP_SOCKETS_INIT_FAILED         103
 #define IDS_DISCONNECT                  104
-#define IDS_STARTHOSTING                105
-#define IDS_STOPHOSTING                 106
 #define IDS_CONNECT                     107
 #define IDS_CREATECHANNEL               108
 #define IDS_UPDATECHANNEL               109
@@ -26,23 +24,18 @@
 #define IDS_VOICEQUALITY                118
 #define IDS_SOUNDEVENTS                 119
 #define IDS_SOUNDSYSTEM                 120
-#define IDS_HOSTING                     121
 #define IDS_SUPPORTS3D                  122
 #define IDS_NOSUPPORTS3D                123
 #define IDS_TESTSELECTED                124
 #define IDS_STOP                        125
 #define IDS_DEFAULT                     126
-#define IDS_SOUNDCANNOT                 127
 #define IDS_PREFERENCES                 128
 #define IDS_IDHELP                      129
 #define IDS_NEWNICKNAME                 130
 #define IDS_CHANGENICKNAME              131
 #define IDS_SHORTCUTS                   132
-#define IDS_CLEAR                       133
 #define IDS_FILES                       134
 #define IDS_CHAT                        135
-#define IDS_FILENAME                    136
-#define IDS_FILESIZE                    137
 #define IDS_DESKTOPINPUT_REQUEST        138
 #define IDS_DESKTOPINPUT_RETRACT        139
 #define IDD_DIALOG_SERVERPROPERTIES     140
@@ -112,23 +105,22 @@
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
-#define IDC_HOSTPORT_EDIT               1003
+#define IDC_EDIT_HOSTTCPPORT            1003
 #define IDC_PROGRESS_VOICEACT           1004
-#define IDC_HOSTSOUNDPORT_EDIT          1005
+#define IDC_EDIT_HOSTUDPPORT            1005
 #define IDC_LIST_FILES                  1006
 #define IDC_EDIT_PASSWORD               1007
 #define IDC_STATIC_MIKE                 1008
 #define IDC_CHECK_AUTOJOINROOT          1009
-#define IDC_STATIC_TT3TITLE             1010
+#define IDC_STATIC_APPTITLE             1010
 #define IDC_STATIC_GRPCONNECT           1011
-#define IDC_STATIC_HOSTPORT             1012
+#define IDC_STATIC_HOSTTCPPORT          1012
 #define IDC_STATIC_SPLITTER             1013
 #define IDC_TREE_SESSION                1014
 #define IDC_EDIT_MOTD                   1015
-#define IDC_STATIC_SOUNDPORT            1016
+#define IDC_STATIC_HOSTUDPPORT          1016
 #define IDC_STATIC_VOLUME               1017
 #define IDC_STATIC_DEFSOUND             1018
-#define IDC_STATIC_VOLUME2              1018
 #define IDC_CHECK_DISABLE               1019
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
@@ -138,7 +130,9 @@
 #define IDC_STATIC_DEFHOST              1025
 #define IDC_STATIC_MSG                  1026
 #define IDC_STATIC_VOICEACT             1027
+#define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
+#define IDC_BUTTON_CONNECT              1030
 #define IDC_EDIT_CHANNAME               1031
 #define IDC_EDIT_CHANTOPIC              1032
 #define IDC_EDIT_INACTIVITY             1033
@@ -146,6 +140,7 @@
 #define IDC_STATIC_NICKNAME             1036
 #define IDC_COMBO_MIXER                 1039
 #define IDC_STATIC_INTRO                1042
+#define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
 #define IDC_STATIC_PACKETLOSS           1045
 #define IDC_EDIT_EVENTS_STOPPEDTALK     1046
@@ -153,7 +148,6 @@
 #define IDC_CHECK_QUITCLEAR             1048
 #define IDC_SLIDER_VOICEVOL             1049
 #define IDC_STATIC_SFILESIZE            1050
-#define IDC_SLIDER_MEDIAFILEVOL         1050
 #define IDC_CHECK_DBCLICKJOIN           1051
 #define IDC_EDIT_NICKNAME               1052
 #define IDC_CHECK_MSGTIMESTAMP          1053
@@ -166,9 +160,9 @@
 #define IDC_CHECK_TRAY                  1060
 #define IDC_STATIC_CHTOPIC              1061
 #define IDC_STATIC_CHPASSWORD           1063
-#define IDC_EDIT_HOSTPORT               1064
 #define IDC_RADIO_WASAPI                1065
 #define IDC_RADIO_WINAUDIO              1066
+#define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
 #define IDC_COMBO_INPUTDRIVER           1070
 #define IDC_STATIC_OPTIONAL             1071
@@ -181,6 +175,7 @@
 #define IDC_STATIC_APPLICATION          1078
 #define IDC_STATIC_GRPUSRRIGHTS         1079
 #define IDC_SLIDER_QUALITY              1080
+#define IDC_STATIC_MAXLOGINSBAN         1081
 #define IDC_STATIC_THROUGHPUT           1082
 #define IDC_STATIC_USERNAME             1083
 #define IDC_STATIC_OPTAUTH              1084
@@ -200,7 +195,7 @@
 #define IDC_STATIC_DEFHOSTPORT          1098
 #define IDC_COMBO_HOSTADDRESS           1099
 #define IDC_EDIT_EVENTS_NEWUSER         1100
-#define IDC_STATIC_DEFSOUNDPORT         1101
+#define IDC_STATIC_DEFUDPPORT           1101
 #define IDC_CHECK_AUTOCONNECT           1102
 #define IDC_EDIT_EVENTS_USERREMOVED     1103
 #define IDC_STATIC_GRPKEYCOMP           1104
@@ -222,9 +217,9 @@
 #define IDC_STATIC_SNICKNAME            1121
 #define IDC_STATIC_IPADDR               1123
 #define IDC_EDIT_TOTALTX                1124
-#define IDC_EDIT_CCLIENTPORT            1126
+#define IDC_EDIT_LOCALTCPPORT           1126
 #define IDC_STATIC_VOICELOSS            1127
-#define IDC_EDIT_CSOUNDPORT             1128
+#define IDC_EDIT_LOCALUDPPORT           1128
 #define IDC_EDIT_VOICE                  1129
 #define IDC_EDIT_MAXBITRATE             1130
 #define IDC_CHECK_RECONNECT             1131
@@ -245,12 +240,12 @@
 #define IDC_STATIC_GRPCLIENT            1149
 #define IDC_CHECK_STARTMINIMIZED        1150
 #define IDC_STATIC_GRPLOCALPORTS        1151
+#define IDC_STATIC_MFVFLOSS             1152
 #define IDC_STATIC_LOCALTCPPORT         1153
 #define IDC_LIST_HOSTS                  1154
 #define IDC_STATIC_DEFLOCALTCP          1155
 #define IDC_STATIC_GRPUSERSETTINGS      1157
 #define IDC_STATIC_GRPSPEECH            1158
-#define IDC_EDIT_HOSTSOUNDPORT          1159
 #define IDC_STATIC_SECINACT             1160
 #define IDC_EDIT_ENTRYNAME              1161
 #define IDC_STATIC_SETAWAY              1162
@@ -577,7 +572,6 @@
 #define ID_HELP_RUNWIZARD               32814
 #define ID_USERS_POSITIONUSERS          32815
 #define ID_USERS_MUTEALL                32816
-#define ID_USERS_FORWARDTHROUGHSERVERFORAL 32817
 #define ID_FILE_CONNECT                 32818
 #define ID_HELP_MANUAL                  32819
 #define ID_HELP_ABOUT                   32820
@@ -587,13 +581,10 @@
 #define ID_ME_ENABLEVOICEACTIVATION     32824
 #define ID_HELP_WEBSITE                 32825
 #define ID_ME_CHANGESTATUS              32826
-#define ID_USERS_READSTATUSMESSAGE      32827
 #define ID_POPUP_RESTORE                32829
 #define ID_ME_CHANGENICK                32830
 #define ID_CHANNELS_VIEWCHANNELINFO     32831
-#define ID_USERS_FORWARDTHROUGHSERVER   32832
 #define ID_USERS_VOLUME                 32833
-#define ID_FILE_HOST                    32834
 #define ID_USERS_VIEWINFO               32835
 #define ID_CHANNELS_CREATECHANNEL       32837
 #define ID_CHANNELS_JOINCHANNEL         32838
@@ -610,13 +601,12 @@
 #define ID_FILE                         32849
 #define ID_ME                           32850
 #define ID_ADVANCED                     32851
-#define ID_ME_USEECHOCANCELLATION       32852
 #define ID_SUBSCRIPTIONS                32853
+#define ID_MUTE                         32854
+#define ID_KICK                         32855
 #define ID_CHANNELS_UPLOADFILE          32857
 #define ID_CHANNELS_DOWNLOADFILE        32858
 #define ID_CHANNELS_DELETEFILE          32859
-#define ID_USERS_SOFTWAREGAIN           32862
-#define ID_USERS_SOFTWAREGAIN_ALL       32863
 #define ID_CHANNELS_LEAVECHANNEL        32864
 #define ID_CHANNELS_DELETECHANNEL       32866
 #define ID_CHANNELS_UPDATECHANNEL       32867
@@ -630,7 +620,6 @@
 #define ID_USERS_KICKANDBAN             32885
 #define ID_USERS_STOREAUDIOTODISK       32888
 #define ID_ADVANCED_MOVEUSERDIALOG      32890
-#define ID_USERS_SUBSCRIPTIONS          32891
 #define ID_SUBSCRIPTIONS_USERMESSAGES   32892
 #define ID_SUBSCRIPTIONS_CHANNELMESSAGES 32893
 #define ID_SUBSCRIPTIONS_BROADCASTMESSAGES 32894
@@ -676,7 +665,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
-#define _APS_NEXT_COMMAND_VALUE         32942
+#define _APS_NEXT_COMMAND_VALUE         32940
 #define _APS_NEXT_CONTROL_VALUE         1520
 #define _APS_NEXT_SYMED_VALUE           154
 #endif

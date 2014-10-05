@@ -35,16 +35,16 @@ void CConnectDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_STATIC_GRPCONNECT, m_wndGroupBox);
-    DDX_Control(pDX, IDC_HOSTSOUNDPORT_EDIT, m_wndHostSoundPort);
+    DDX_Control(pDX, IDC_EDIT_HOSTUDPPORT, m_wndHostUdpPort);
     DDX_Control(pDX, IDC_STATIC_DEFHOST, m_wndDefHostText);
     DDX_Control(pDX, IDC_STATIC_DEFSOUND, m_wndDefSoundText);
-    DDX_Control(pDX, IDC_STATIC_HOSTPORT, m_wndHostPortText);
-    DDX_Control(pDX, IDC_HOSTPORT_EDIT, m_wndHostPort);
-    DDX_Control(pDX, IDC_STATIC_SOUNDPORT, m_wndHostSoundPortText);
+    DDX_Control(pDX, IDC_STATIC_HOSTTCPPORT, m_wndHostPortText);
+    DDX_Control(pDX, IDC_EDIT_HOSTTCPPORT, m_wndHostPort);
+    DDX_Control(pDX, IDC_STATIC_HOSTUDPPORT, m_wndHostUdpPortText);
     DDX_Control(pDX, IDOK, m_btnOK);
     DDX_Control(pDX, IDCANCEL, m_btnCancel);
-    DDX_Text(pDX, IDC_HOSTPORT_EDIT, m_nTcpPort);
-    DDX_Text(pDX, IDC_HOSTSOUNDPORT_EDIT, m_nUdpPort);
+    DDX_Text(pDX, IDC_EDIT_HOSTTCPPORT, m_nTcpPort);
+    DDX_Text(pDX, IDC_EDIT_HOSTUDPPORT, m_nUdpPort);
     DDX_Control(pDX, IDC_COMBO_HOSTADDRESS, m_wndHostAddress);
     DDX_CBString(pDX, IDC_COMBO_HOSTADDRESS, m_szHostAddress);
     DDV_MinMaxUInt(pDX, m_nTcpPort, 1, 65535);
@@ -80,7 +80,7 @@ void CConnectDlg::DisplayHosts()
         m_wndHostPort.SetWindowText(s);
         s.Format(_T("%d"),m_vecHosts[0].nUdpPort);
         m_nUdpPort = m_vecHosts[0].nUdpPort;
-        m_wndHostSoundPort.SetWindowText(s);
+        m_wndHostUdpPort.SetWindowText(s);
         m_wndChannel.SetWindowText(STR_UTF8(m_vecHosts[0].szChannel.c_str()));
         m_wndChPasswd.SetWindowText(STR_UTF8(m_vecHosts[0].szChPasswd.c_str()));
         */
@@ -124,7 +124,7 @@ void CConnectDlg::OnCbnSelchangeComboHostaddress()
         CString s;s.Format(_T("%d"),m_vecHosts[index].nTcpPort);
         m_wndHostPort.SetWindowText(s);
         s.Format(_T("%d"),m_vecHosts[index].nUdpPort);
-        m_wndHostSoundPort.SetWindowText(s);
+        m_wndHostUdpPort.SetWindowText(s);
         m_wndEncrypted.SetCheck(m_vecHosts[index].bEncrypted?BST_CHECKED:BST_UNCHECKED);
         m_wndUsername.SetWindowText(STR_UTF8(m_vecHosts[index].szUsername.c_str()));
         m_wndPassword.SetWindowText(STR_UTF8(m_vecHosts[index].szPassword.c_str()));
@@ -155,7 +155,7 @@ void CConnectDlg::OnCbnEditupdateComboHostaddress()
     //m_wndHostPort.SetWindowText(s);
     //s.Format("%d",DEFAULT_TEAMTALK_UDPPORT);
     //m_nUdpPort = DEFAULT_TEAMTALK_UDPPORT;
-    //m_wndHostSoundPort.SetWindowText(s);
+    //m_wndHostUdpPort.SetWindowText(s);
 }
 
 void CConnectDlg::OnBnClickedButtonDelentry()
