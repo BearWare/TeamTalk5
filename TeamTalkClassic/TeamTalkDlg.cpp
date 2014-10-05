@@ -4358,18 +4358,32 @@ void CTeamTalkDlg::TranslateMenu()
     CMenu& menu = *GetMenu();
     ASSERT(menu.GetMenuItemCount() == 6);
 
-    CString szFile;
+    CString szFile, szMe, szUsers, szChannels, szServer, szHelp;
+    CString szAdvanced, szMute, szKick, szSubscriptions;
+
+    szFile.LoadString(ID_FILE);
+    szMe.LoadString(ID_ME);
+    szUsers.LoadString(ID_USERS);
+    szChannels.LoadString(ID_CHANNELS);
+    szServer.LoadString(ID_SERVER);
+    szHelp.LoadString(ID_HELP);
+
+    szAdvanced.LoadString(ID_ADVANCED);
+    szMute.LoadString(ID_MUTE);
+    szKick.LoadString(ID_KICK);
+    szSubscriptions.LoadString(ID_SUBSCRIPTIONS);
+
     TRANSLATE_ITEM(ID_FILE, szFile);
-    CString szMe;
     TRANSLATE_ITEM(ID_ME, szMe);
-    CString szUsers;
     TRANSLATE_ITEM(ID_USERS, szUsers);
-    CString szChannels;
     TRANSLATE_ITEM(ID_CHANNELS, szChannels);
-    CString szServer;
     TRANSLATE_ITEM(ID_SERVER, szServer);
-    CString szHelp;
     TRANSLATE_ITEM(IDS_IDHELP, szHelp);
+
+    TRANSLATE_ITEM(ID_ADVANCED, szAdvanced);
+    TRANSLATE_ITEM(ID_SUBSCRIPTIONS, szSubscriptions);
+    TRANSLATE_ITEM(ID_KICK, szKick);
+    TRANSLATE_ITEM(ID_MUTE, szMute);
 
     menu.ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szFile);
     menu.ModifyMenu(1, MF_BYPOSITION | MF_STRING, 0, szMe);
@@ -4377,17 +4391,6 @@ void CTeamTalkDlg::TranslateMenu()
     menu.ModifyMenu(3, MF_BYPOSITION | MF_STRING, 0, szChannels);
     menu.ModifyMenu(4, MF_BYPOSITION | MF_STRING, 0, szServer);
     menu.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szHelp);
-
-    CString szAdvanced, szMute, szKick, szSubscriptions;
-    szAdvanced.LoadString(ID_ADVANCED);
-    szMute.LoadString(ID_MUTE);
-    szKick.LoadString(ID_KICK);
-    szSubscriptions.LoadString(ID_SUBSCRIPTIONS);
-
-    TRANSLATE_ITEM(ID_ADVANCED, szAdvanced);
-    TRANSLATE_ITEM(ID_SUBSCRIPTIONS, szSubscriptions);
-    TRANSLATE_ITEM(ID_KICK, szKick);
-    TRANSLATE_ITEM(ID_MUTE, szMute);
 
     ASSERT(menu.GetSubMenu(2));
     CMenu& sub = *menu.GetSubMenu(2);

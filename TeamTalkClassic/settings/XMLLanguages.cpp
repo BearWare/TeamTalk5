@@ -111,6 +111,10 @@ std::string XMLLanguages::GetItemText(int id)
     {
         GetElementText(*item, text);
     }
+    else
+    {
+    }
+
     return text;
 }
 
