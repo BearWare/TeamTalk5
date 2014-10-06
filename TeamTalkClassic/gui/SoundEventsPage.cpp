@@ -178,7 +178,7 @@ void CSoundEventsPage::OnBnClickedButtonEventsTransferend()
 
 void CSoundEventsPage::OnBnClickedCheckSpeech()
 {
-#if !defined(_WIN64)
+#if defined(ENABLE_TOLK)
     if(m_wndSpeech.GetCheck() == BST_CHECKED)
     {
         if(!Tolk_IsLoaded())

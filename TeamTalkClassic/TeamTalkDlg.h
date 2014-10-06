@@ -44,7 +44,7 @@
 #include "afxwin.h"
 #include <afxpriv.h>
 
-#define APPVERSION              _T("5.0 - ALPHA2 v") _T( ##TEAMTALK_VERSION )
+#define APPVERSION              _T("5.0 - ALPHA3 v") _T( ##TEAMTALK_VERSION )
 #define APPVERSION_SHORT        _T("5.0")
 
 #ifdef ENABLE_ENCRYPTION

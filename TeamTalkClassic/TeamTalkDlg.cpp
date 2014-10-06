@@ -142,7 +142,7 @@ void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
 
 void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
 {
-#if !defined(_WIN64)
+#if defined(ENABLE_TOLK)
     if(m_bSpeech)
     {
         Tolk_Unload();
@@ -404,7 +404,7 @@ void CTeamTalkDlg::AddLogMessage(LPCTSTR szMsg)
 
 void CTeamTalkDlg::AddVoiceMessage(LPCTSTR szMsg)
 {
-#if !defined(_WIN64)
+#if defined(ENABLE_TOLK)
     if(m_bSpeech)
         Tolk_Output(szMsg);
 #endif
@@ -2447,7 +2447,7 @@ void CTeamTalkDlg::OnClose()
 
     //Close TeamTalk DLLs
     TT_CloseTeamTalk(ttInst);
-#if !defined(_WIN64)
+#if defined(ENABLE_TOLK)
     if(Tolk_IsLoaded()) {
       Tolk_Unload();
     }
