@@ -73,9 +73,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.AccessibilityDelegate;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -329,6 +332,34 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
     }
 
+    boolean lockStatUpdate = false;
+    AccessibilityDelegate accessibilityFocusMonitor = new AccessibilityDelegate() {
+
+            @Override
+            public void sendAccessibilityEvent(View host, int eventType) {
+                super.sendAccessibilityEvent(host, eventType);
+            }
+
+            @Override
+            public void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event) {
+                checkEvent(event.getEventType());
+                super.sendAccessibilityEventUnchecked(host, event);
+            }
+
+            private void checkEvent(int eventType) {
+                switch (eventType) {
+                case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
+                    lockStatUpdate = true;
+                    break;
+                case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED:
+                    lockStatUpdate = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+        };
+
     public static class ChannelsSectionFragment extends Fragment {
         MainActivity mainActivity;
 
@@ -441,6 +472,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     class ChannelListAdapter extends BaseAdapter {
 
+        private static final int PARENT_CHANNEL_VIEW_TYPE = 0,
+            CHANNEL_VIEW_TYPE = 1,
+            USER_VIEW_TYPE = 2,
+
+            VIEW_TYPE_COUNT = 3;
+
         private LayoutInflater inflater;
 
         Vector<Channel> subchannels = new Vector<Channel>();
@@ -505,8 +542,30 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
 
         @Override
-        public long getItemId(int arg0) {
-            return 0;
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (curchannel != null) {
+                if (position == 0) {
+                    return PARENT_CHANNEL_VIEW_TYPE;
+                }
+                else if (position <= subchannels.size()) {
+                    return CHANNEL_VIEW_TYPE;
+                }
+                return USER_VIEW_TYPE;
+            }
+            else if (position < subchannels.size()) {
+                return CHANNEL_VIEW_TYPE;
+            }
+            return USER_VIEW_TYPE;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return VIEW_TYPE_COUNT;
         }
 
         @Override
@@ -521,7 +580,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 if(curchannel != null && position == 0) {
                     assert (curchannel.nParentID == ((Channel) getItem(position)).nChannelID);
                     // show parent channel shortcut
-                    convertView = inflater.inflate(R.layout.item_channel_back, null);
+                    if (convertView == null ||
+                        convertView.findViewById(R.id.parentname) == null)
+                        convertView = inflater.inflate(R.layout.item_channel_back, null);
                     TextView name = (TextView) convertView.findViewById(R.id.parentname);
                     name.setText("..");
                     return convertView;
@@ -529,7 +590,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 else {
                     assert (channel.nChannelID > 0);
 
-                    convertView = inflater.inflate(R.layout.item_channel, null);
+                    if (convertView == null ||
+                        convertView.findViewById(R.id.channelname) == null)
+                        convertView = inflater.inflate(R.layout.item_channel, null);
 
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
                     Button edit = (Button) convertView.findViewById(R.id.edit_btn);
@@ -600,10 +663,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     };
                     edit.setOnClickListener(listener);
                     join.setOnClickListener(listener);
+                    edit.setAccessibilityDelegate(accessibilityFocusMonitor);
+                    join.setAccessibilityDelegate(accessibilityFocusMonitor);
                 }
             }
             else if(item instanceof User) {
-                convertView = inflater.inflate(R.layout.item_user, null);
+                if (convertView == null ||
+                    convertView.findViewById(R.id.nickname) == null)
+                    convertView = inflater.inflate(R.layout.item_user, null);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
                 final User user = (User) item;
                 nickname.setText(user.szNickname);
@@ -625,6 +692,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     }
                 };
                 sndmsg.setOnClickListener(listener);
+                sndmsg.setAccessibilityDelegate(accessibilityFocusMonitor);
             }
             return convertView;
         }
@@ -639,6 +707,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         final TextView desktop = (TextView) findViewById(R.id.desktopstat_textview);
         final TextView mediafile = (TextView) findViewById(R.id.mediafilestat_textview);
         final int defcolor = connection.getTextColors().getDefaultColor();
+        final AccessibilityManager accessibilityService = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         
         if(stats_timer == null) {
             stats_timer = new CountDownTimer(10000, 1000) {
@@ -647,6 +716,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
+                    if (lockStatUpdate && accessibilityService.isEnabled())
+                        return;
+
                     int con = R.string.stat_offline;
                     int con_color = Color.RED;
                     int flags = ttclient.getFlags(); 
