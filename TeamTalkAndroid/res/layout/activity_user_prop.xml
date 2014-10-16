@@ -15,7 +15,7 @@
         android:id="@+id/user_nicknamelabel"
         android:layout_column="0"
         android:layout_gravity="left|center_vertical"
-        android:text="Nickname" />
+        android:text="@string/pref_title_nickname" />
 
     <TextView
         android:id="@+id/user_nickname"
@@ -26,7 +26,7 @@
         android:id="@+id/user_usernamelabel"
         android:layout_column="0"
         android:layout_gravity="left|center_vertical"
-        android:text="Username" />
+        android:text="@string/user_prop_title_username" />
 
     <TextView
         android:id="@+id/user_username"
@@ -38,7 +38,7 @@
         android:layout_column="0"
         android:layout_gravity="left|center_vertical"
         android:gravity="center"
-        android:text="Voice Volume" />
+        android:text="@string/user_prop_title_voice_volume" />
 
     <SeekBar
         android:id="@+id/user_vol_voiceSeekBar"
@@ -51,13 +51,13 @@
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:layout_gravity="left"
-        android:text="Mute Voice" />
+        android:text="@string/user_prop_title_mute_voice" />
 
     <TextView
         android:id="@+id/user_vol_medialabel"
         android:layout_column="0"
         android:layout_gravity="left|center_vertical"
-        android:text="Media File Volume" />
+        android:text="@string/user_prop_title_media_volume" />
 
     <SeekBar
         android:id="@+id/user_vol_mediaSeekBar"
@@ -69,7 +69,7 @@
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:layout_gravity="left"
-        android:text="Mute Media File" />
+        android:text="@string/user_prop_title_mute_media" />
     
     <Space 
         android:layout_height="match_parent"

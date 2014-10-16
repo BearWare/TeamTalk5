@@ -333,7 +333,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         protected void onPostExecute(Void result) {
             if(entries == null)
                 Toast.makeText(ServerListActivity.this,
-                               "Failed to retrieve public server list",
+                               R.string.err_retrieve_public_server_list,
                                Toast.LENGTH_LONG).show();
             else if(entries.size() > 0) {
                 synchronized(servers) {

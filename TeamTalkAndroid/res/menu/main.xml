@@ -9,6 +9,6 @@
     <item
         android:id="@+id/action_newchannel"
         android:showAsAction="ifRoom|withText"
-        android:title="New">
+        android:title="@string/action_new">
     </item>
 </menu>

@@ -87,6 +87,69 @@
     
     
     <string name="pref_header_soundsystem">Sound System</string>
-    
-    
+
+    <string name="button_tx">TX</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_join">Join</string>
+    <string name="button_msg">Msg</string>
+    <string name="button_send">Send</string>
+
+    <string name="channel_prop_title_name">Name</string>
+    <string name="channel_prop_title_topic">Topic</string>
+    <string name="channel_prop_title_password">Password</string>
+    <string name="channel_prop_title_op_password">Op Password</string>
+    <string name="channel_prop_title_permanent">Permanent Channel</string>
+    <string name="channel_prop_title_nointerrupt">No interruptions</string>
+
+    <string name="user_prop_title_username">Username</string>
+    <string name="user_prop_title_voice_volume">Voice Volume</string>
+    <string name="user_prop_title_mute_voice">Mute Voice</string>
+    <string name="user_prop_title_media_volume">Media File Volume</string>
+    <string name="user_prop_title_mute_media">Mute Media File</string>
+
+    <string name="label_connection">Connection:</string>
+    <string name="stat_online">Online</string>
+    <string name="stat_offline">Offline</string>
+    <string name="stat_connecting">Connecting</string>
+    <string name="label_voice">Voice:</string>
+    <string name="label_desktop">Desktop:</string>
+    <string name="label_ping">Ping:</string>
+    <string name="label_total">Total:</string>
+    <string name="label_mediafile">Media File:</string>
+
+    <string name="server_list_empty">TeamTalk 5 Server List is empty</string>
+    <string name="no_nickname">No Nickname</string>
+    <string name="message_text">Message Text</string>
+    <string name="time_date">Time Date</string>
+    <string name="name">Name</string>
+
+    <string name="err_init_sound_input">Failed to initialize sound input device</string>
+    <string name="err_init_sound_output">Failed to initialize sound output device</string>
+    <string name="err_retrieve_public_server_list">Failed to retrieve public server list</string>
+    <string name="err_send_text_message">Failed to send text message</string>
+
+    <string name="action_new">New</string>
+    <string name="action_save">Save</string>
+    <string name="action_connect">Connect</string>
+    <string name="action_new_server">New Server</string>
+    <string name="action_refresh">Refresh</string>
+
+    <string name="pref_title_server_props">TeamTalk 5 Server Properties</string>
+    <string name="pref_title_server_info">Server Information</string>
+    <string name="pref_title_server_name">Server Name</string>
+    <string name="pref_title_server_address">Domain Name or IP-address</string>
+    <string name="pref_title_tcp_port">TCP Port</string>
+    <string name="pref_title_udp_port">UDP Port</string>
+    <string name="pref_title_encription">Encrypted</string>
+    <string name="pref_title_authentication">Authentication</string>
+    <string name="pref_title_username">Username</string>
+    <string name="pref_title_password">Password</string>
+    <string name="pref_title_join_channel">Join Channel</string>
+    <string name="pref_title_channel">Channel</string>
+    <string name="pref_title_channel_password">Channel Password</string>
+
+    <string name="pref_summary_server_name">This server will appear with this name in the Server List</string>
+    <string name="pref_summary_server_address">The domain name or IP-address of the server</string>
+
 </resources>

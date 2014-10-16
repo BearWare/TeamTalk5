@@ -15,7 +15,7 @@
             android:id="@+id/msg_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Message Text"
+            android:text="@string/message_text"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
-                android:text="Name"
+                android:text="@string/name"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Time Date" />
+                android:text="@string/time_date" />
         </LinearLayout>
     </LinearLayout>
 

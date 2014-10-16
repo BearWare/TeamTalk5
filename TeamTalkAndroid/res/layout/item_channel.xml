@@ -37,7 +37,7 @@
         android:id="@+id/edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:text="@string/button_edit"
         android:focusable="false" 
         android:clickable="true" />
 
@@ -45,7 +45,7 @@
         android:id="@+id/join_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join"
+        android:text="@string/button_join"
         android:focusable="false" 
         android:clickable="true" />
     

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dip"
-        android:text="No Nickname"
+        android:text="@string/no_nickname"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 	<TextView

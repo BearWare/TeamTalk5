@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="TeamTalk 5 Server Properties" >
+    android:title="@string/pref_title_server_props" >
 
     <PreferenceCategory
         android:key="srv_info"
-        android:title="Server Information">
+        android:title="@string/pref_title_server_info">
         <EditTextPreference
             android:key="servername"
-            android:summary="This server will appear with this name in the Server List"
-            android:title="Server Name"
+            android:summary="@string/pref_summary_server_name"
+            android:title="@string/pref_title_server_name"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="ipaddr"
-            android:summary="The IP-address of the server"
-            android:title="IP-address"
+            android:summary="@string/pref_summary_server_address"
+            android:title="@string/pref_title_server_address"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
@@ -22,7 +22,7 @@
             android:key="tcpport"
             android:maxLength="5"
             android:numeric="integer"
-            android:title="TCP Port"
+            android:title="@string/pref_title_tcp_port"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
@@ -30,42 +30,42 @@
             android:key="udpport"
             android:maxLength="5"
             android:numeric="integer"
-            android:title="UDP Port"
+            android:title="@string/pref_title_udp_port"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <CheckBoxPreference 
             android:key="encrypted" 
-            android:title="Encrypted" 
+            android:title="@string/pref_title_encription" 
             android:defaultValue="false"
             android:persistent="false" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="auth_info"
-        android:title="Authentication" android:persistent="false">
+        android:title="@string/pref_title_authentication" android:persistent="false">
         <EditTextPreference
             android:key="username"
-            android:title="Username"
+            android:title="@string/pref_title_username"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="password"
-            android:title="Password"
+            android:title="@string/pref_title_password"
             android:selectAllOnFocus="true"
             android:persistent="false" />
     </PreferenceCategory>
     
     <PreferenceCategory
         android:key="join_info"
-        android:title="Join Channel" android:persistent="false">
+        android:title="@string/pref_title_join_channel" android:persistent="false">
         <EditTextPreference
             android:defaultValue="/"
             android:key="channel"
-            android:title="Channel"
+            android:title="@string/pref_title_channel"
             android:selectAllOnFocus="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="chanpasswd"
-            android:title="Channel Password"
+            android:title="@string/pref_title_channel_password"
             android:selectAllOnFocus="true"
             android:persistent="false" />
     </PreferenceCategory>

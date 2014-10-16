@@ -19,5 +19,5 @@
      <TextView android:id="@android:id/empty"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:text="TeamTalk 5 Server List is empty"/>
+               android:text="@string/server_list_empty"/>
 </LinearLayout>

@@ -123,7 +123,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
                 }
                 else {
                     Toast.makeText(TextMessageActivity.this,
-                                   "Failed to send text message",
+                                   R.string.err_send_text_message,
                                    Toast.LENGTH_LONG).show();
                 }
             }

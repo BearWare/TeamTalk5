@@ -647,19 +647,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    String con = "";
-                    int con_color = Color.GREEN;
+                    int con = R.string.stat_offline;
+                    int con_color = Color.RED;
                     int flags = ttclient.getFlags(); 
                     if((flags & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED) {
-                        con = "Online";
+                        con = R.string.stat_online;
+                        con_color = Color.GREEN;
                     }
                     else if((flags & ClientFlag.CLIENT_CONNECTING) == ClientFlag.CLIENT_CONNECTING) {
-                        con = "Connecting";
-                        con_color = Color.RED;
-                    }
-                    else {
-                        con = "Offline";
-                        con_color = Color.RED;
+                        con = R.string.stat_connecting;
                     }
                     
                     connection.setText(con);
@@ -770,12 +766,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         
         if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) == 0) &&
             !ttclient.initSoundInputDevice(0))
-            Toast.makeText(this, "Failed to initialize sound input device",
+            Toast.makeText(this, R.string.err_init_sound_input,
                 Toast.LENGTH_LONG).show();
 
         if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
             !ttclient.initSoundOutputDevice(0))
-            Toast.makeText(this, "Failed to initialize sound output device",
+            Toast.makeText(this, R.string.err_init_sound_output,
                 Toast.LENGTH_LONG).show();
     }
 

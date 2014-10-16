@@ -8,12 +8,12 @@
     <item
         android:id="@+id/action_saveserver"
         android:showAsAction="ifRoom|withText"
-        android:title="Save">
+        android:title="@string/action_save">
     </item>
     <item
         android:id="@+id/action_connect"
         android:showAsAction="ifRoom|withText"
-        android:title="Connect">
+        android:title="@string/action_connect">
     </item>
 
 </menu>

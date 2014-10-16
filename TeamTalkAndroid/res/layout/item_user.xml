@@ -37,7 +37,7 @@
 	    android:id="@+id/msg_btn"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="Msg"
+	    android:text="@string/button_msg"
 	    android:focusable="false" 
 	    android:clickable="true" />
     </LinearLayout>

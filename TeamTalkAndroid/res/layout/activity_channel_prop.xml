@@ -19,7 +19,7 @@
             android:id="@+id/channamelabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:text="@string/channel_prop_title_name" />
 
         <EditText
             android:id="@+id/channame"
@@ -39,7 +39,7 @@
             android:id="@+id/chantopiclabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Topic" />
+            android:text="@string/channel_prop_title_topic" />
 
         <EditText
             android:id="@+id/chantopic"
@@ -59,7 +59,7 @@
             android:id="@+id/chanpasswdlabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="@string/channel_prop_title_password"
             />
 
         <EditText
@@ -81,7 +81,7 @@
             android:id="@+id/chanoppasswdlabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Op Password"
+            android:text="@string/channel_prop_title_op_password"
             />
 
         <EditText
@@ -102,13 +102,13 @@
             android:id="@+id/chan_permanent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Permanent Channel" />
+            android:text="@string/channel_prop_title_permanent" />
 
         <CheckBox
             android:id="@+id/chan_nointerrupt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No interruptions" />
+            android:text="@string/channel_prop_title_nointerrupt" />
         
         </LinearLayout>
 
