@@ -716,7 +716,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    if (lockStatUpdate && accessibilityService.isEnabled())
+                    if (ttclient == null || (lockStatUpdate && accessibilityService.isEnabled()))
                         return;
 
                     int con = R.string.stat_offline;
