@@ -66,6 +66,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -378,6 +379,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             alert.setTitle(R.string.pref_title_join_channel);
             alert.setMessage(R.string.channel_password_prompt);
             final EditText input = new EditText(this);
+            input.setTransformationMethod(SingleLineTransformationMethod.getInstance());
             input.setText(channel.szPassword);
             alert.setView(input);
             alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
