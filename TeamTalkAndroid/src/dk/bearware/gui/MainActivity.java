@@ -622,12 +622,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                 case R.id.join_btn : {
                                     if(channel.bPassword) {
                                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                                        alert.setTitle("Join Channel");
-                                        alert.setMessage("Enter channel password");
+                                        alert.setTitle(R.string.pref_title_join_channel);
+                                        alert.setMessage(R.string.channel_password_prompt);
                                         final EditText input = new EditText(MainActivity.this);
                                         input.setText(channel.szPassword);
                                         alert.setView(input);
-                                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 String passwd = input.getText().toString();
                                                 int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);

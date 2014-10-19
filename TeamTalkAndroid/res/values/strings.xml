@@ -153,4 +153,6 @@
     <string name="pref_summary_server_name">This server will appear with this name in the Server List</string>
     <string name="pref_summary_server_address">The domain name or IP-address of the server</string>
 
+    <string name="channel_password_prompt">Enter channel password</string>
+
 </resources>
