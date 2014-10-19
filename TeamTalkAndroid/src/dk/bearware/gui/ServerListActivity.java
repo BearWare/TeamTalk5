@@ -233,7 +233,8 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                             serverentry = servers.get(position);
 
                             ttservice.setServerEntry(serverentry);
-                            ttservice.reconnect();                            
+                            if (!ttservice.reconnect())
+                                Toast.makeText(ServerListActivity.this, R.string.err_connection, Toast.LENGTH_LONG).show();
                         break;
                         case R.id.server_remove :
                             servers.remove(position);

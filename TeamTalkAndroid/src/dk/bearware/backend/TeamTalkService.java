@@ -132,6 +132,7 @@ implements CommandListener, UserListener, ConnectionListener {
         if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
                              ttserver.udpport, 0, 0, ttserver.encrypted)) {
             ttclient.disconnect();
+            return false;
         }
         
         return true;
