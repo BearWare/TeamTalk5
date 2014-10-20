@@ -338,6 +338,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
             @Override
             public void sendAccessibilityEvent(View host, int eventType) {
+                checkEvent(eventType);
                 super.sendAccessibilityEvent(host, eventType);
             }
 
