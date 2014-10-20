@@ -10,12 +10,14 @@
             android:summary="@string/pref_summary_server_name"
             android:title="@string/pref_title_server_name"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="ipaddr"
             android:summary="@string/pref_summary_server_address"
             android:title="@string/pref_title_server_address"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <EditTextPreference
             android:defaultValue="10333"
@@ -24,6 +26,7 @@
             android:numeric="integer"
             android:title="@string/pref_title_tcp_port"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <EditTextPreference
             android:defaultValue="10333"
@@ -32,6 +35,7 @@
             android:numeric="integer"
             android:title="@string/pref_title_udp_port"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <CheckBoxPreference 
             android:key="encrypted" 
@@ -46,11 +50,13 @@
             android:key="username"
             android:title="@string/pref_title_username"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="password"
             android:title="@string/pref_title_password"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
     </PreferenceCategory>
     
@@ -62,11 +68,13 @@
             android:key="channel"
             android:title="@string/pref_title_channel"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
         <EditTextPreference
             android:key="chanpasswd"
             android:title="@string/pref_title_channel_password"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:persistent="false" />
     </PreferenceCategory>
 

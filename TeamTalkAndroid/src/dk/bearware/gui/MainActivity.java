@@ -66,6 +66,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -337,6 +338,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
             @Override
             public void sendAccessibilityEvent(View host, int eventType) {
+                checkEvent(eventType);
                 super.sendAccessibilityEvent(host, eventType);
             }
 
@@ -359,6 +361,40 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 }
             }
         };
+
+    private void joinChannel(Channel channel, String passwd) {
+        int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
+        if(cmdid>0) {
+            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+            channel.szPassword = passwd;
+            ttservice.setJoinChannel(channel);
+        }
+        else {
+            Toast.makeText(this, R.string.text_con_cmderr, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void joinChannel(final Channel channel) {
+        if(channel.bPassword) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(R.string.pref_title_join_channel);
+            alert.setMessage(R.string.channel_password_prompt);
+            final EditText input = new EditText(this);
+            input.setTransformationMethod(SingleLineTransformationMethod.getInstance());
+            input.setText(channel.szPassword);
+            alert.setView(input);
+            alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        joinChannel(channel, input.getText().toString());
+                    }
+                });
+            alert.show();
+        }
+        else {
+            joinChannel(channel, "");
+        }
+    }
 
     public static class ChannelsSectionFragment extends Fragment {
         MainActivity mainActivity;
@@ -620,42 +656,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                     break;
                                 }
                                 case R.id.join_btn : {
-                                    if(channel.bPassword) {
-                                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                                        alert.setTitle("Join Channel");
-                                        alert.setMessage("Enter channel password");
-                                        final EditText input = new EditText(MainActivity.this);
-                                        input.setText(channel.szPassword);
-                                        alert.setView(input);
-                                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                String passwd = input.getText().toString();
-                                                int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
-                                                if(cmdid>0) {
-                                                    activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
-                                                    
-                                                    channel.szPassword = passwd;
-                                                    ttservice.setJoinChannel(channel);
-                                                }
-                                                else {
-                                                    Toast.makeText(MainActivity.this, getResources().getString(R.string.text_con_cmderr),
-                                                        Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                        alert.show();
-                                    }
-                                    else {
-                                        int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, "");
-                                        if(cmdid>0) {
-                                            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
-                                            ttservice.setJoinChannel(channel);
-                                        }
-                                        else {
-                                            Toast.makeText(MainActivity.this, getResources().getString(R.string.text_con_cmderr),
-                                                Toast.LENGTH_LONG).show();
-                                        }
-                                    }
+                                    joinChannel(channel);
                                 }
                                 break;
                             }
@@ -716,7 +717,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    if (lockStatUpdate && accessibilityService.isEnabled())
+                    if (ttclient == null || (lockStatUpdate && accessibilityService.isEnabled()))
                         return;
 
                     int con = R.string.stat_offline;
@@ -797,12 +798,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
         else if(item instanceof Channel) {
             Channel channel = (Channel) item;
-            if(channel.nChannelID > 0)
-                curchannel = channel;
-            else
+            if(channel.nChannelID > 0) {
+                if (position > 0)
+                    joinChannel(channel);
+                else
+                    joinChannel(channel, channel.szPassword);
+            }
+            else {
                 curchannel = null;
-
-            channelsAdapter.notifyDataSetChanged();
+                channelsAdapter.notifyDataSetChanged();
+            }
         }
         else {
         }
