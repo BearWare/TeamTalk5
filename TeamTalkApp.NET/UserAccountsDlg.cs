@@ -189,9 +189,6 @@ namespace TeamTalkApp.NET
 
         private void createButton_Click(object sender, EventArgs e)
         {
-            if(usernameTextBox.Text.Length == 0)
-                return;
-
             account_create = new UserAccount(); ;
             account_create.szUsername = usernameTextBox.Text;
             account_create.szPassword = passwordTextBox.Text;
