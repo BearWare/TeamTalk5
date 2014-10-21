@@ -38,6 +38,7 @@ CGeneralPage::CGeneralPage()
 : CPropertyPage(CGeneralPage::IDD)
 , m_nInactivity(0)
 , m_bIdleVox(FALSE)
+, m_bFemale(FALSE)
 {
     m_bPush = FALSE;
     m_sNickname = _T("");
@@ -63,6 +64,9 @@ void CGeneralPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_INACTIVITY, m_wndInactivity);
     DDX_Control(pDX, IDC_CHECK_IDLEVOX, m_wndIdleVox);
     DDX_Check(pDX, IDC_CHECK_IDLEVOX, m_bIdleVox);
+    BOOL bMale = !m_bFemale;
+    DDX_Check(pDX, IDC_RADIO_MALE, bMale);
+    DDX_Check(pDX, IDC_RADIO_FEMALE, m_bFemale);
 }
 
 

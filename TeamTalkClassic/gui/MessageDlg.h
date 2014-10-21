@@ -19,7 +19,8 @@ class CMessageDlg : public CDialog
 {
 // Construction
 public:
-    CMessageDlg(CWnd* pParent, const User& myself, const User& user);   // standard constructor
+    CMessageDlg(CWnd* pParent, const User& myself, const User& user,
+                LPCTSTR szLogFolder = NULL);   // standard constructor
 
     void AppendMessage(const TextMessage& msg, BOOL bStore = TRUE);
     void SetAlive(BOOL state);
@@ -68,6 +69,7 @@ private:
     CResizer m_resizer;
     CFont m_Font;
     HACCEL m_hAccel; // accelerator table
+    CFile m_logFile;
 
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);

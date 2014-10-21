@@ -38,7 +38,7 @@ void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CStreamMediaDlg, CDialog)
-    ON_BN_CLICKED(IDC_BUTTON_BROWSE, &CStreamMediaDlg::OnBnClickedButtonBrowse)
+    ON_BN_CLICKED(IDC_BUTTON_AUDIOBROWSE, &CStreamMediaDlg::OnBnClickedButtonBrowse)
 END_MESSAGE_MAP()
 
 

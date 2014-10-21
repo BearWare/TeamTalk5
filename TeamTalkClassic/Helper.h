@@ -70,5 +70,14 @@ void AddString(CComboBox& wnd, LPCTSTR szText, DWORD_PTR nItemData);
 int GetItemData(CComboBox& wnd, BOOL* pError = NULL);
 void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData);
 void PlayWaveFile(LPCTSTR szFilePath);
+CString LimitText(const CString& szName);
 void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *pCmdUI);
+
+CString GetLogTimeStamp();
+CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName);
+CString TrimForPath(LPCTSTR szPath);
+BOOL OpenLogFile(CFile& file, LPCTSTR szFolder, LPCTSTR szName, CString& szLogFileName = CString());
+void CloseLogFile(CFile& file);
+void WriteLogMsg(CFile& file, LPCTSTR szMsg);
+
 #endif

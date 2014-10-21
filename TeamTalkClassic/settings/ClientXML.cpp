@@ -98,10 +98,10 @@ namespace teamtalk {
         TiXmlElement* root = GetRootElement();
         if(root)
         {
-            TiXmlElement* child = root->FirstChildElement("client");
+            TiXmlElement* child = root->FirstChildElement("clientsetup");
             if(!child)
             {
-                TiXmlElement newchild("client");
+                TiXmlElement newchild("clientsetup");
                 child = root->InsertEndChild(newchild)->ToElement();
             }
             return child;
@@ -287,41 +287,6 @@ namespace teamtalk {
         return false;
     }
 
-    bool ClientXML::SetShowDirectConnectionDlg(bool bShow)
-    {
-        TiXmlElement* pParent = GetMainElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "show-dircon-dlg", bShow);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetShowDirectConnectionDlg()
-    {
-        TiXmlElement* pParent = GetMainElement();
-        if(pParent)
-        {
-            bool bEnabled = true;
-            GetBoolean(*pParent, "show-dircon-dlg", bEnabled);
-            return bEnabled;
-        }
-        return false;
-    }
-
-    bool ClientXML::SetRegisteredUsername(string szName)
-    {
-        TiXmlElement* pParent = GetMainElement();
-        if(pParent)
-        {
-            PutString(*pParent, "registration-name", szName);
-            return true;
-        }
-        return false;
-    }
-
     bool ClientXML::SetWindowExtended(bool bExtended)
     {
         TiXmlElement* pParent = GetMainElement();
@@ -343,42 +308,6 @@ namespace teamtalk {
             return bEnabled;
         }
         return true;
-    }
-
-
-    string ClientXML::GetRegisteredUsername()
-    {
-        TiXmlElement* child = GetMainElement();
-        if(child)
-        {
-            string s;
-            GetString(*child, "registration-name", s);
-            return s;
-        }
-        return "";
-    }
-
-    bool ClientXML::SetRegisteredSerial(string szSerial)
-    {
-        TiXmlElement* pParent = GetMainElement();
-        if(pParent)
-        {
-            PutString(*pParent, "license-key", szSerial);
-            return true;
-        }
-        return false;
-    }
-
-    string ClientXML::GetRegisteredSerial()
-    {
-        TiXmlElement* child = GetMainElement();
-        if(child)
-        {
-            string s;
-            GetString(*child, "license-key", s);
-            return s;
-        }
-        return "";
     }
 
     /**************************************/
@@ -516,7 +445,31 @@ namespace teamtalk {
             return false;
     }
 
-    string ClientXML::GetNickname()
+    string ClientXML::GetNickname(std::string def_nickname/* = std::string()*/)
+    {
+        TiXmlElement* root=m_xmlDocument.RootElement();
+        if(root)
+        {
+            TiXmlElement* child = root->FirstChildElement("general");
+            if(child)
+                GetString(*child, "nickname", def_nickname);
+        }
+        return def_nickname;
+    }
+
+    bool ClientXML::SetGender(int nGender)
+    {
+        TiXmlElement* pParent = GetGeneralElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "gender", nGender);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ClientXML::GetGender(int nDefGender /*= DEFAULT_GENDER*/)
     {
         TiXmlElement* root=m_xmlDocument.RootElement();
         if(root)
@@ -524,12 +477,10 @@ namespace teamtalk {
             TiXmlElement* child = root->FirstChildElement("general");
             if(child)
             {
-                string s;
-                GetString(*child, "nickname", s);
-                return s;
+                GetInteger(*child, "gender", nDefGender);
             }
         }
-        return "";
+        return nDefGender;
     }
 
     bool ClientXML::SetStartMinimized(bool bEnable)
@@ -600,20 +551,16 @@ namespace teamtalk {
             return false;
     }
 
-    bool ClientXML::GetPushToTalk()
+    bool ClientXML::GetPushToTalk(bool bDefEnable /*= DEFAULT_PUSHTOTALK*/)
     {
         TiXmlElement* root=m_xmlDocument.RootElement();
         if(root)
         {
             TiXmlElement* child = root->FirstChildElement("general");
             if(child)
-            {
-                bool bEnabled = false;
-                GetBoolean(*child, "push-to-talk", bEnabled);
-                return bEnabled;
-            }
+                GetBoolean(*child, "push-to-talk", bDefEnable);
         }
-        return false;
+        return bDefEnable;
     }
 
     bool ClientXML::SetPushToTalkKey(const HotKey& hotkey)
@@ -660,7 +607,7 @@ namespace teamtalk {
             return false;
     }
 
-    bool ClientXML::GetVoiceActivated()
+    bool ClientXML::GetVoiceActivated(bool bDefVoiceAct /*= DEFAULT_VOICEACTIVATED*/)
     {
         TiXmlElement* root=m_xmlDocument.RootElement();
         if(root)
@@ -668,12 +615,10 @@ namespace teamtalk {
             TiXmlElement* child = root->FirstChildElement("general");
             if(child)
             {
-                bool bEnabled = true;
-                GetBoolean(*child, "voice-activated", bEnabled);
-                return bEnabled;
+                GetBoolean(*child, "voice-activated", bDefVoiceAct);
             }
         }
-        return true;
+        return bDefVoiceAct;
     }
 
     bool ClientXML::SetVoiceActivationLevel(int nLevel)
@@ -688,41 +633,16 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetVoiceActivationLevel()
+    int ClientXML::GetVoiceActivationLevel(int nDefVoxLevel/* = DEFAULT_VOICEACTIVATE_LEVEL*/)
     {
-        int nValue = UNDEFINED;
         TiXmlElement* root=m_xmlDocument.RootElement();
         if(root)
         {
             TiXmlElement* child = root->FirstChildElement("general");
             if(child)
-                GetInteger(*child, "voice-activation-level", nValue);
+                GetInteger(*child, "voice-activation-level", nDefVoxLevel);
         }
-        return nValue;
-    }
-
-    bool ClientXML::SetXShouldClose(bool bEnable)
-    {
-        TiXmlElement* pParent = GetGeneralElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "x-should-close", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetXShouldClose()
-    {
-        TiXmlElement* pParent = GetGeneralElement();
-        if(pParent)
-        {
-            bool bEnabled = false;
-            GetBoolean(*pParent, "x-should-close", bEnabled);
-            return bEnabled;
-        }
-        return false;
+        return nDefVoxLevel;
     }
 
     int ClientXML::SetInactivityDelay(int nDelay)
@@ -766,29 +686,6 @@ namespace teamtalk {
         TiXmlElement* pParent = GetGeneralElement();
         if(pParent)
             GetBoolean(*pParent, "idle-disable-vad", bEnabled);
-        return bEnabled;
-    }
-
-    bool ClientXML::SetPreventStandby(bool bEnable)
-    {
-        TiXmlElement* pParent = GetGeneralElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "prevent-standby", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetPreventStandby()
-    {
-        bool bEnabled = false;
-        TiXmlElement* pParent = GetGeneralElement();
-        if(pParent)
-        {
-            GetBoolean(*pParent, "prevent-standby", bEnabled);
-        }
         return bEnabled;
     }
 
@@ -1142,6 +1039,27 @@ namespace teamtalk {
         return bEnabled;
     }
 
+    bool ClientXML::SetMaxTextLength(int nLength)
+    {
+        TiXmlElement* pParent = GetWindowElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "max-text-length", nLength);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ClientXML::GetMaxTextLength(int nDefault)
+    {
+        TiXmlElement* child = GetWindowElement();
+        if(child)
+            GetInteger(*child, "max-text-length", nDefault);
+
+        return nDefault;
+    }
+
     bool ClientXML::SetShowPublicServers(bool bEnable)
     {
         TiXmlElement* pParent = GetWindowElement();
@@ -1287,31 +1205,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool ClientXML::SetAudioStorage(const std::string& audiofolder)
-    {
-        TiXmlElement* pParent = GetClientElement();
-        if(pParent)
-        {
-            PutString(*pParent, "audio-folder", audiofolder);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    std::string ClientXML::GetAudioStorage()
-    {
-        TiXmlElement* child = GetClientElement();
-        if(child)
-        {
-            string s;
-            GetString(*child, "audio-folder", s);
-            return s;
-        }
-        return "";
-    }
-
-    bool ClientXML::SetAudioStorageMode(int mode)
+    bool ClientXML::SetAudioLogStorageMode(int mode)
     {
         TiXmlElement* pParent = GetClientElement();
         if(pParent)
@@ -1323,7 +1217,7 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetAudioStorageMode()
+    int ClientXML::GetAudioLogStorageMode()
     {
         TiXmlElement* child = GetClientElement();
         if(child)
@@ -1335,7 +1229,7 @@ namespace teamtalk {
         return 0;
     }
 
-    bool ClientXML::SetAudioStorageFormat(int aff)
+    bool ClientXML::SetAudioLogStorageFormat(int aff)
     {
         TiXmlElement* pParent = GetClientElement();
         if(pParent)
@@ -1347,7 +1241,7 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetAudioStorageFormat()
+    int ClientXML::GetAudioLogStorageFormat()
     {
         TiXmlElement* child = GetClientElement();
         if(child)
@@ -1358,6 +1252,79 @@ namespace teamtalk {
         }
         return 0;
     }
+
+    bool ClientXML::SetAudioLogStorage(const std::string& folder)
+    {
+        TiXmlElement* pParent = GetClientElement();
+        if(pParent)
+        {
+            PutString(*pParent, "audio-folder", folder);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetAudioLogStorage()
+    {
+        TiXmlElement* child = GetClientElement();
+        if(child)
+        {
+            string s;
+            GetString(*child, "audio-folder", s);
+            return s;
+        }
+        return "";
+    }
+
+    bool ClientXML::SetChanTextLogStorage(const std::string& folder)
+    {
+        TiXmlElement* pParent = GetClientElement();
+        if(pParent)
+        {
+            PutString(*pParent, "channel-text-folder", folder);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetChanTextLogStorage()
+    {
+        TiXmlElement* child = GetClientElement();
+        if(child)
+        {
+            string s;
+            GetString(*child, "channel-text-folder", s);
+            return s;
+        }
+        return "";
+    }
+
+    bool ClientXML::SetUserTextLogStorage(const std::string& folder)
+    {
+        TiXmlElement* pParent = GetClientElement();
+        if(pParent)
+        {
+            PutString(*pParent, "user-text-folder", folder);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetUserTextLogStorage()
+    {
+        TiXmlElement* child = GetClientElement();
+        if(child)
+        {
+            string s;
+            GetString(*child, "user-text-folder", s);
+            return s;
+        }
+        return "";
+    }
+
 
     bool ClientXML::SetDefaultSubscriptions(int subs)
     {
@@ -2595,6 +2562,27 @@ namespace teamtalk {
         PutString(join, "password", entry.szChPasswd);
         ReplaceElement(hostElement, join);
 
+        TiXmlElement client("clientsetup");
+        if(entry.szNickname.size())
+            PutString(client, "nickname", entry.szNickname);
+        if(entry.nGender)
+            PutInteger(client, "gender", entry.nGender);
+        if(entry.hotkey.size())
+        {
+            TiXmlElement hotkey("win-hotkey");
+            for(int i=0;i<entry.hotkey.size();i++)
+            {
+                TiXmlElement newelement("key");
+                TiXmlText text(i2str(entry.hotkey[i]).c_str());
+                newelement.InsertEndChild(text);
+
+                hotkey.InsertEndChild(newelement);
+            }
+            client.InsertEndChild(hotkey);
+        }
+        if(client.FirstChildElement())
+            hostElement.InsertEndChild(client);
+
         TiXmlElement* item=m_xmlDocument.RootElement();
         if(item)
             item->InsertEndChild(hostElement);
@@ -2628,6 +2616,25 @@ namespace teamtalk {
                 {
                     GetString(*join, "channel", entry.szChannel);
                     GetString(*join, "password", entry.szChPasswd);
+                }
+                TiXmlElement* client = item->FirstChildElement("clientsetup");
+                if(client)
+                {
+                    GetString(*client, "nickname", entry.szNickname);
+                    GetInteger(*client, "gender", entry.nGender);
+
+                    TiXmlElement* hotkey = client->FirstChildElement("win-hotkey");
+                    if(hotkey)
+                    {
+                        TiXmlElement* key = hotkey->FirstChildElement("key");
+                        while(key)
+                        {
+                            string v;
+                            GetElementText(*key, v);
+                            entry.hotkey.push_back(str2i(v));
+                            key = key->NextSiblingElement("key");
+                        }
+                    }
                 }
                 
                 found = ok && i == 0;

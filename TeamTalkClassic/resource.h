@@ -49,13 +49,15 @@
 #define IDD_DIALOG_MOVETOCHANNEL        144
 #define IDD_DIALOG_SERVERSTATISTICS     145
 #define IDD_DIALOG_ONLINEUSERS          146
-#define IDD_DIALOG_AUDIOSTORAGE         147
+#define IDD_DIALOG_STORECONVERSATIONS   147
 #define IDD_PROPPAGE_VIDEOCAPTURE       148
 #define IDD_DIALOG_USERDESKTOP          149
 #define IDD_DIALOG_DESKTOPSHARE         150
 #define IDD_DIALOG_STREAMMEDIA          151
 #define IDS_STARTSTREAMMEDIAFILE        152
 #define IDS_STOPSTREAMINGMEDIAFILE      153
+#define IDS_PUSHTOTALK                  154
+#define IDD_DIALOG_GENERATETTFILE       155
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
@@ -320,6 +322,7 @@
 #define IDC_COMBO_LANGUAGE              1239
 #define IDC_STATIC_TRANSLATOR           1240
 #define IDC_STATIC_UILANGUAGE           1241
+#define IDC_STATIC_TRANSLATOR2          1241
 #define IDC_EDIT_WIZCOMPLETED           1242
 #define IDC_STATIC_MIXERDEVICE          1243
 #define IDC_CHECK_UILANGUAGE            1245
@@ -416,15 +419,17 @@
 #define IDC_EDIT_AUDIOTX                1354
 #define IDC_SPIN_DELAY                  1355
 #define IDC_SPIN_VIDBITRATE             1356
+#define IDC_BUTTON_USER2USERBROWSE      1357
 #define IDC_LIST_ONLINEUSERS            1358
-#define IDC_BUTTON_BROWSE               1359
+#define IDC_BUTTON_AUDIOBROWSE          1359
+#define IDC_BUTTON_CHANLOGBROWSE        1360
 #define IDC_EDIT_TXDELAY                1361
 #define IDC_STATIC_TXINTERVAL           1362
 #define IDC_STATIC_TXI1                 1363
 #define IDC_CHECK_SINGLEFILE            1364
 #define IDC_CHECK_SEPARATEFILES         1365
 #define IDC_COMBO_AFF                   1366
-#define IDC_EDIT_STORAGEDIR             1367
+#define IDC_EDIT_AUDIOFOLDER            1367
 #define IDC_COMBO_VIDDEV                1368
 #define IDC_STATIC_VIDCAPDEV            1369
 #define IDC_COMBO_VIDRES                1370
@@ -571,6 +576,20 @@
 #define IDC_STATIC_MFVIDEOLOSS          1518
 #define IDC_STATIC_SMFAUDIO             1519
 #define IDC_CHECK_VUMETER               1520
+#define IDC_EDIT_CHANLOGFOLDER          1521
+#define IDC_EDIT_TEXTLOGFOLDER          1522
+#define IDC_STATIC_TXTMSGGRP            1523
+#define IDC_STATIC_CHANLOGFOLDER        1524
+#define IDC_STATIC_USER2USERLOGFOLDER   1525
+#define IDC_STATIC_GRPCLIENTSETTINGS    1526
+#define IDC_CHECK_CLIENTOVERRIDE        1527
+#define IDC_STATIC_GENDER               1528
+#define IDC_RADIO_MALE                  1529
+#define IDC_RADIO_FEMALE                1530
+#define IDC_BUTTON_SAVETTFILE           1531
+#define IDC_EDIT_LIMITTEXT              1532
+#define IDC_SPIN_TEXTLEN                1533
+#define IDC_STATIC_LIMITTEXT            1534
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -624,7 +643,7 @@
 #define ID_ADVANCED_MOVEUSER            32878
 #define ID_SERVER_LISTBANNEDUSERS       32882
 #define ID_USERS_KICKANDBAN             32885
-#define ID_USERS_STOREAUDIOTODISK       32888
+#define ID_USERS_STORECONVERSATIONSTODISK 32888
 #define ID_ADVANCED_MOVEUSERDIALOG      32890
 #define ID_SUBSCRIPTIONS_USERMESSAGES   32892
 #define ID_SUBSCRIPTIONS_CHANNELMESSAGES 32893
@@ -672,7 +691,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32940
-#define _APS_NEXT_CONTROL_VALUE         1521
-#define _APS_NEXT_SYMED_VALUE           154
+#define _APS_NEXT_CONTROL_VALUE         1535
+#define _APS_NEXT_SYMED_VALUE           156
 #endif
 #endif

@@ -41,12 +41,14 @@
     <item id="144">Move User Dialog</item>
     <item id="145">Server Statistics</item>
     <item id="146">Online Users</item>
-    <item id="147">Store Audio to Disk</item>
+    <item id="147">Store Conversations to Disk</item>
     <item id="148">Video Capture</item>
     <item id="150">Desktop Sharing</item>
     <item id="151">Stream Media File to Channel</item>
     <item id="152">&amp;Stream Media File to Channel\tCtrl+Shift+W</item>
     <item id="153">&amp;Stop Streaming Media File to Channel\tCtrl+Shift+W</item>
+    <item id="154">Push To Talk: %s</item>
+    <item id="155">Generate .tt File</item>
     <item id="201">Messages</item>
     <item id="205">Change status</item>
     <item id="227">User Information</item>
@@ -59,7 +61,7 @@
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
-	<item id="1017">Volume</item>
+    <item id="1017">Volume</item>
     <item id="1018">Default: 10333</item>
     <item id="1019">Disable this message</item>
     <item id="1020">Show number of users in channels</item>
@@ -68,8 +70,8 @@
     <item id="1023">Use Text-To-Speech for statusbar events</item>
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
     <item id="1025">Default: 10333</item>
-	<item id="1028">Volume</item>
-	<item id="1030">&amp;Connect</item>
+    <item id="1028">Volume</item>
+    <item id="1030">&amp;Connect</item>
     <item id="1035">User ID</item>
     <item id="1036">Nickname</item>
     <item id="1042">This wizard will guide you through the steps required to setup the TeamTalk conference application. Press the &quot;Next&quot; button to start going through the steps to complete this wizard. If you press &quot;Cancel&quot; you&apos;ll have to setup TeamTalk manually.</item>
@@ -334,7 +336,7 @@
     <item id="1494">Mute right</item>
     <item id="1495">No voice activation (only Push-to-Talk allowed)</item>
     <item id="1496">Media File Volume Settings</item>
-	<item id="1497">Mute left</item>
+    <item id="1497">Mute left</item>
     <item id="1498">Mute right</item>
     <item id="1503">Desktop RX/TX</item>
     <item id="1504">Files RX/TX</item>
@@ -349,7 +351,16 @@
     <item id="1516">No audio recording allowed (save to disk not allowed)</item>
     <item id="1519">Media-file audio packetloss</item>
     <item id="1520">Enable VU-meter updates</item>
-	
+    <item id="1523">Store text message conversations</item>
+    <item id="1524">Folder for channel log-files</item>
+    <item id="1525">Folder for user-to-user log files</item>
+    <item id="1526">Client settings</item>
+    <item id="1527">Override client&apos;s predefined settings</item>
+    <item id="1528">Gender</item>
+    <item id="1529">Male</item>
+    <item id="1530">Female</item>
+    <item id="1531">&amp;Save .tt File</item>
+    <item id="1534">Maximum text length</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>
@@ -403,7 +414,7 @@
     <item id="32878">&amp;Move User\tCtrl+Alt+V</item>
     <item id="32882">&amp;Banned Users\tCtrl+Shift+B</item>
     <item id="32885">Kick and &amp;Ban\tCtrl+Shift+K</item>
-    <item id="32888">Store Audio to &amp;Disk\tCtrl+Alt+A</item>
+    <item id="32888">Recor&amp;d Conversations\tCtrl+Alt+A</item>
     <item id="32890">Move User &amp;Dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;User Messages\tCtrl+1</item>
     <item id="32893">&amp;Channel Messages\tCtrl+2</item>
@@ -443,8 +454,4 @@
     <item id="32937">Allow M&amp;edia File Transmission\tCtrl+Alt+R</item>
     <item id="32938">&amp;Media File Stream\tCtrl+8</item>
     <item id="32939">Intercept Medi&amp;a File Stream\tCtrl+Shift+8</item>
-	
-	
-	
-	
 </language>

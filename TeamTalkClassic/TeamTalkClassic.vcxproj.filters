@@ -81,7 +81,7 @@
     <ClCompile Include="gui\AboutBox.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="gui\AudioStorageDlg.cpp">
+    <ClCompile Include="gui\MediaStorageDlg.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="gui\BannedDlg.cpp">
@@ -312,6 +312,9 @@
     <ClCompile Include="settings\CPrintfArg.cpp">
       <Filter>Source Files\Settings</Filter>
     </ClCompile>
+    <ClCompile Include="gui\GenerateTTFileDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.h">
@@ -338,7 +341,7 @@
     <ClInclude Include="gui\AboutBox.h">
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
-    <ClInclude Include="gui\AudioStorageDlg.h">
+    <ClInclude Include="gui\MediaStorageDlg.h">
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="gui\BannedDlg.h">
@@ -577,6 +580,9 @@
     </ClInclude>
     <ClInclude Include="speech\Tolk.h">
       <Filter>Header Files\Speech</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GenerateTTFileDlg.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

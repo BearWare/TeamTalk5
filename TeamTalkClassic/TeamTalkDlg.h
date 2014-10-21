@@ -176,6 +176,7 @@ public:
     void UpdateVolume(int nUserID = -1);
     void UpdateAudioStorage(BOOL bEnable);
     void UpdateAudioConfig();
+    void UpdateChannelLog();
     HWND GetSharedDesktopWindowHWND();
     BOOL SendDesktopWindow();
     void RestartSendDesktopWindowTimer();
@@ -241,6 +242,7 @@ protected:
     CString m_szAwayMessage;
     BOOL m_bResizeReady;
     BOOL m_bHotKey;
+    CString m_szHotKey;
     BOOL m_bSendDesktopOnCompletion;
 
     //right side controls
@@ -352,6 +354,7 @@ public:
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
     CHttpRequest* m_pHttpUpdate;
+    CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);
     afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -438,8 +441,8 @@ public:
     afx_msg void OnUpdateUsersKickchannel(CCmdUI *pCmdUI);
     afx_msg void OnUpdateUsersKickandban(CCmdUI *pCmdUI);
     afx_msg void OnUsersKickFromChannelandban();
-    afx_msg void OnUpdateUsersStoreaudiotodisk(CCmdUI *pCmdUI);
-    afx_msg void OnUsersStoreaudiotodisk();
+    afx_msg void OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI);
+    afx_msg void OnUsersStoreconversationstodisk();
     afx_msg void OnUpdateAdvancedMoveuserdialog(CCmdUI *pCmdUI);
     afx_msg void OnAdvancedMoveuserdialog();
     afx_msg void OnUpdateSubscriptionsUsermessages(CCmdUI *pCmdUI);

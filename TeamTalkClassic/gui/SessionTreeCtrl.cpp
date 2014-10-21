@@ -10,6 +10,7 @@
 using namespace std;
 
 extern TTInstance* ttInst;
+extern int nTextLimit;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -458,7 +459,8 @@ void CSessionTreeCtrl::AddUser(const User& user)
     if(hChanItem)
     {
         int nImg = USER_SILENT;
-        HTREEITEM hNewItem = InsertItem( GetUserText(user.nUserID), USER_SILENT, USER_SILENT, hChanItem, TVI_FIRST);
+        HTREEITEM hNewItem = InsertItem(LimitText(GetUserText(user.nUserID)),
+                                        USER_SILENT, USER_SILENT, hChanItem, TVI_FIRST);
         SetItemData(hNewItem, (DWORD)(user.nUserID | USER_ITEMDATA));
 
         if(user.uUserState & USERSTATE_VOICE)
@@ -562,7 +564,8 @@ void CSessionTreeCtrl::AddChannel(const Channel& channel)
         ASSERT(hParent);
         if(hParent)
         {
-            HTREEITEM hNewItem = InsertItem(GetChannelText(channel.nChannelID), CHANNEL_CLOSED, CHANNEL_CLOSED, hParent);
+            HTREEITEM hNewItem = InsertItem(LimitText(GetChannelText(channel.nChannelID)),
+                                            CHANNEL_CLOSED, CHANNEL_CLOSED, hParent);
             SetItemData(hNewItem, (channel.nChannelID | CHANNEL_ITEMDATA));
             if(channel.bPassword)
                 ChannelItemPlus(hNewItem, ChannelLocked);
@@ -578,7 +581,7 @@ void CSessionTreeCtrl::UpdateChannel(const Channel& chan)
     HTREEITEM hItem = GetChannelItem(chan.nChannelID);
     if(hItem)
     {
-        SetItemText(hItem, GetChannelText(chan.nChannelID));
+        SetItemText(hItem, LimitText(GetChannelText(chan.nChannelID)));
 
         if(chan.bPassword)
             ChannelItemPlus(hItem, ChannelLocked);
@@ -805,7 +808,7 @@ void CSessionTreeCtrl::ShowUserCount(BOOL bShow)
             qItems.pop();
 
             int nChannelID = (GetItemData(hItem) & ID_ITEMDATA);
-            SetItemText(hItem, GetChannelText(nChannelID));
+            SetItemText(hItem, LimitText(GetChannelText(nChannelID)));
             hItem = GetChildItem(hItem);
 
             while(hItem)

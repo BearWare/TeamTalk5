@@ -19,7 +19,8 @@ extern TTInstance* ttInst;
 /////////////////////////////////////////////////////////////////////////////
 // CSendMessageDlg dialog
 
-CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user)
+CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user,
+                         LPCTSTR szLogFolder/* = NULL*/)
 : CDialog(CMessageDlg::IDD, pParent)
 , m_myself(myself)
 , m_user(user)
@@ -31,6 +32,9 @@ CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user)
     //}}AFX_DATA_INIT
 
     memset(&m_lf, 0, sizeof(LOGFONT));
+
+    if(szLogFolder && _tcslen(szLogFolder))
+        OpenLogFile(m_logFile, szLogFolder, user.szNickname);
 }
 
 
@@ -58,6 +62,7 @@ END_MESSAGE_MAP()
 void CMessageDlg::OnCancel() 
 {
     CDialog::OnCancel();
+    CloseLogFile(m_logFile);
     DestroyWindow();
 }
 
@@ -150,7 +155,7 @@ void CMessageDlg::OnButtonSend()
         _tcsncpy(usermsg.szMessage, msg.GetBuffer(), TT_STRLEN - 1);
 
         if( TT_DoTextMessage(ttInst, &usermsg)>0)
-            AppendMessage(usermsg);
+            AppendMessage(usermsg, TRUE);
         else
             AfxMessageBox(_T("Failed to send message!"));
     }
@@ -235,6 +240,9 @@ void CMessageDlg::AppendMessage(const TextMessage& msg, BOOL bStore/* = TRUE*/)
     m_richHistory.SetSel(0,name.GetLength());
     m_richHistory.SetSelectionCharFormat(cf);
     m_richHistory.HideSelection(TRUE, FALSE);
+
+    if(bStore)
+        WriteLogMsg(m_logFile, name + msg.szMessage + _T("\r\n"));
 }
 
 void CMessageDlg::OnSize(UINT nType, int cx, int cy)

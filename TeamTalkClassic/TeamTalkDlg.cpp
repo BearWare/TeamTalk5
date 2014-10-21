@@ -52,7 +52,7 @@
 #include "gui/MoveToChannelDlg.h"
 #include "gui/ServerStatisticsDlg.h"
 #include "gui/OnlineUsersDlg.h"
-#include "gui/AudioStorageDlg.h"
+#include "gui/MediaStorageDlg.h"
 #include "gui/UserDesktopDlg.h"
 #include "gui/DesktopShareDlg.h"
 #include "gui/StreamMediaDlg.h"
@@ -75,6 +75,9 @@ TTInstance* ttInst = NULL;
 
 #define GAIN_DIV_FACTOR 100
 #define GAIN_INCREMENT 100
+
+//Limit text lengths for nickname, etc.
+extern int nTextLimit;
 
 #define VOLUME_INCREMENT 10
 
@@ -153,7 +156,6 @@ void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
         Tolk_Load();
         Tolk_TrySAPI(true);
     }
-
 #endif
     m_bSpeech = bEnable;
 }
@@ -270,7 +272,7 @@ void CTeamTalkDlg::UpdateWindowTitle()
     //set window title
     CString szTitle;
     if(chan.nChannelID>0 && TT_GetRootChannelID(ttInst) != chan.nChannelID)
-        szTitle.Format(_T("%s - %s"), chan.szName, APPTITLE);
+        szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
     else
         szTitle.Format(_T("%s"), APPTITLE);
     SetWindowText(szTitle);
@@ -314,7 +316,9 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
         TT_GetUser(ttInst, nUserID, &user);
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself);
 
-        CMessageDlg* pMsgDlg = new CMessageDlg(this, myself, user);
+        CString szLogFolder = STR_UTF8(m_xmlSettings.GetUserTextLogStorage());
+
+        CMessageDlg* pMsgDlg = new CMessageDlg(this, myself, user, szLogFolder);
         pMsgDlg->m_messages = m_wndTree.GetUserMessages(nUserID);
         m_mUserDlgs[user.nUserID] = pMsgDlg;
         Font font;
@@ -426,7 +430,7 @@ void CTeamTalkDlg::RunWizard()
     welcomepage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
 
     /// General page
-    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname().c_str() );
+    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
     generalpage.m_bPush = m_xmlSettings.GetPushToTalk();
     HotKey hotkey;
 
@@ -466,6 +470,11 @@ void CTeamTalkDlg::RunWizard()
         {
             m_xmlSettings.SetPushToTalkKey(hotkey);
             TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &hotkey[0], hotkey.size());
+            m_szHotKey = CKeyCompDlg::GetHotkeyString(hotkey);
+        }
+        else
+        {
+            m_szHotKey.Empty();
         }
         m_xmlSettings.SetVoiceActivated(generalpage.m_bVoiceAct);
         m_xmlSettings.SetInactivityDelay(generalpage.m_nInactivity);
@@ -660,8 +669,8 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_ADVANCED_MOVEUSER, &CTeamTalkDlg::OnAdvancedMoveuser)
     ON_UPDATE_COMMAND_UI(ID_SERVER_LISTBANNEDUSERS, &CTeamTalkDlg::OnUpdateServerListbannedusers)
     ON_COMMAND(ID_SERVER_LISTBANNEDUSERS, &CTeamTalkDlg::OnServerListbannedusers)
-    ON_UPDATE_COMMAND_UI(ID_USERS_STOREAUDIOTODISK, &CTeamTalkDlg::OnUpdateUsersStoreaudiotodisk)
-    ON_COMMAND(ID_USERS_STOREAUDIOTODISK, &CTeamTalkDlg::OnUsersStoreaudiotodisk)
+    ON_UPDATE_COMMAND_UI(ID_USERS_STORECONVERSATIONSTODISK, &CTeamTalkDlg::OnUpdateUsersStoreconversationstodisk)
+    ON_COMMAND(ID_USERS_STORECONVERSATIONSTODISK, &CTeamTalkDlg::OnUsersStoreconversationstodisk)
     ON_UPDATE_COMMAND_UI(ID_ADVANCED_MOVEUSERDIALOG, &CTeamTalkDlg::OnUpdateAdvancedMoveuserdialog)
     ON_COMMAND(ID_ADVANCED_MOVEUSERDIALOG, &CTeamTalkDlg::OnAdvancedMoveuserdialog)
     ON_UPDATE_COMMAND_UI(ID_SUBSCRIPTIONS_USERMESSAGES, &CTeamTalkDlg::OnUpdateSubscriptionsUsermessages)
@@ -858,7 +867,7 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
     m_nReconnectTimerID = 0;
 
     int cmd = TT_DoLogin(ttInst, 
-        STR_UTF8(m_xmlSettings.GetNickname().c_str()), 
+        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()), 
         STR_UTF8(m_host.szUsername.c_str()), 
         STR_UTF8(m_host.szPassword.c_str()));
 
@@ -909,6 +918,16 @@ void CTeamTalkDlg::OnConnectionLost(const TTMessage& msg)
 void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
 {
     AddStatusText(_T("Successfully logged in"));
+
+    switch(m_xmlSettings.GetGender(GENDER_NONE))
+    {
+    case GENDER_MALE :
+        m_nStatusMode &= ~STATUSMODE_FEMALE;
+        break;
+    case GENDER_FEMALE :
+        m_nStatusMode |= STATUSMODE_FEMALE;
+        break;
+    }
     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
 }
 
@@ -1105,10 +1124,10 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
     const User& user = msg.user;
     m_users.insert(user.nUserID);
     m_wndTree.AddUser(user);
-    if(m_xmlSettings.GetAudioStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
+    if(m_xmlSettings.GetAudioLogStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
     {
-        CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioStorage());
-        AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioStorageFormat();
+        CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
+        AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioLogStorageFormat();
 
         if(szAudioFolder.GetLength())
             TT_SetUserAudioFolder(ttInst, user.nUserID, szAudioFolder,
@@ -1141,7 +1160,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
         {
             CString szMsg, szFormat;
             szFormat.LoadString(IDS_CHANNEL_JOINED);
-            szMsg.Format(szFormat, user.szNickname);
+            szMsg.Format(szFormat, LimitText(user.szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
 
@@ -1159,10 +1178,10 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
 
     UpdateVolume(user.nUserID);
 
-    if(m_xmlSettings.GetAudioStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
+    if(m_xmlSettings.GetAudioLogStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
     {
-        CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioStorage());
-        AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioStorageFormat();
+        CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
+        AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioLogStorageFormat();
         if(szAudioFolder.GetLength())
             TT_SetUserAudioFolder(ttInst, user.nUserID, szAudioFolder, NULL, uAFF);
     }
@@ -1184,70 +1203,65 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
        (user.nStatusMode & STATUSMODE_QUESTION))
        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventQuestionMode()));
 
+    CString szNickname = LimitText(user.szNickname);
     CString s;
+
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
     {
         s.Format(_T("%s changed subscription \"User Messages\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
     {
         s.Format(_T("%s changed subscription \"Channel Messages\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
     {
         s.Format(_T("%s changed subscription \"Broadcast Messages\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
     {
         s.Format(_T("%s changed subscription \"Voice\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VOICE));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VOICE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
     {
         s.Format(_T("%s changed subscription \"Video\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
     {
         s.Format(_T("%s changed subscription \"Desktop\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
     {
         s.Format(_T("%s changed subscription \"Desktop Access\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT));
         AddStatusText(s);
         if(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
-            s.Format(_T("%s has granted desktop access"), user.szNickname);
+            s.Format(_T("%s has granted desktop access"), szNickname);
             AddVoiceMessage(s);
         }
         else
         {
-            s.Format(_T("%s has retracted desktop access"), user.szNickname);
+            s.Format(_T("%s has retracted desktop access"), szNickname);
             AddVoiceMessage(s);
         }
     }
@@ -1264,12 +1278,12 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     {
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
-            s.Format(_T("%s now has desktop access"), user.szNickname);
+            s.Format(_T("%s now has desktop access"), szNickname);
             AddVoiceMessage(s);
         }
         else
         {
-            s.Format(_T("%s no longer has desktop access"), user.szNickname);
+            s.Format(_T("%s no longer has desktop access"), szNickname);
             AddVoiceMessage(s);
         }
     }
@@ -1277,40 +1291,35 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
     {
         s.Format(_T("%s changed subscription \"Intercept User Messages\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
     {
         s.Format(_T("%s changed subscription \"Intercept Channel Messages\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
     {
         s.Format(_T("%s changed subscription \"Intercept Voice\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
     {
         s.Format(_T("%s changed subscription \"Intercept Video\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
     {
         s.Format(_T("%s changed subscription \"Intercept Desktop\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP));
+                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
@@ -1400,21 +1409,24 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if((ii->second & STREAMTYPE_VOICE) &&
            ((newTransmit[userid] & STREAMTYPE_VOICE) == 0))
         {
-            szMsg.Format(_T("%s can no longer transmit voice!"), szNickname);
+            szMsg.Format(_T("%s can no longer transmit voice!"),
+                         LimitText(szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
            ((newTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0))
         {
-            szMsg.Format(_T("%s can no longer transmit video input!"), szNickname);
+            szMsg.Format(_T("%s can no longer transmit video input!"),
+                         LimitText(szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_DESKTOP) &&
             ((newTransmit[userid] & STREAMTYPE_DESKTOP) == 0))
         {
-            szMsg.Format(_T("%s can no longer transmit shared desktops!"), szNickname);
+            szMsg.Format(_T("%s can no longer transmit shared desktops!"),
+                         LimitText(szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1441,7 +1453,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         if((ii->second & STREAMTYPE_VOICE) &&
            ((oldTransmit[userid] & STREAMTYPE_VOICE) == 0 ))
         {
-            szMsg.Format(_T("%s can now transmit voice!"), szNickname);
+            szMsg.Format(_T("%s can now transmit voice!"), LimitText(szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1486,16 +1498,18 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     if(chan.uChannelType & CHANNEL_CLASSROOM)
     {
         szFormat.LoadString(IDS_CLASSROOM_SELF_JOINED);
-        szMsg.Format(szFormat, chan.szName);
+        szMsg.Format(szFormat, LimitText(chan.szName));
     }
     else
     {
         szFormat.LoadString(IDS_CHANNEL_SELF_JOINED);
-        szMsg.Format(szFormat, chan.szName);
+        szMsg.Format(szFormat, LimitText(chan.szName));
     }
 
     AddStatusText(szMsg);
     AddVoiceMessage(szMsg);
+
+    UpdateChannelLog();
 
     UpdateAudioStorage(TRUE);
     UpdateAudioConfig();
@@ -1561,7 +1575,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             {
                 TextMessage msg;
                 if(m_wndTree.GetLastUserMessage(textmsg.nFromUserID, msg))
-                    pMsgDlg->AppendMessage(msg);
+                    pMsgDlg->AppendMessage(msg, TRUE);
             }
 
             if( m_xmlSettings.GetPopupOnMessage() )
@@ -1593,9 +1607,16 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         //add message to channel console
         if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
         {
-            m_tabChat.m_wndRichEdit.AddMessage( user.szNickname, textmsg.szMessage);
+            CString szLine = m_tabChat.m_wndRichEdit.AddMessage(LimitText(user.szNickname),
+                                                                textmsg.szMessage);
+
             if(!m_bTwoPanes)
                 m_wndTree.SetChannelMessage(textmsg.nFromUserID, TRUE);
+
+            Channel chan;
+            if(m_wndTree.GetChannel(textmsg.nChannelID, chan))
+                WriteLogMsg(m_logChan, szLine);
+            
         }
 
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelMsg()));
@@ -1623,7 +1644,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             {
                 szFormat.LoadString(IDS_DESKTOPINPUT_REQUEST);
                 TRANSLATE_ITEM(IDS_DESKTOPINPUT_REQUEST, szFormat);
-                szText.Format(szFormat, user.szNickname);
+                szText.Format(szFormat, LimitText(user.szNickname));
                 AddVoiceMessage(szText);
                 PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq()));
             }
@@ -1802,7 +1823,8 @@ void CTeamTalkDlg::OnUserAudioFile(const TTMessage& msg)
     if(msg.mediafileinfo.nStatus == MFS_ERROR)
     {
         CString szMsg;
-        szMsg.Format(_T("Failed to write audio file for %s"),user.szNickname);
+        szMsg.Format(_T("Failed to write audio file for %s"),
+                     LimitText(user.szNickname));
         AddStatusText(szMsg);
     }
 }
@@ -2111,6 +2133,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
         bRunWizard = TRUE;
     }
 
+    nTextLimit = m_xmlSettings.GetMaxTextLength(TT_STRLEN);
+
     //see if wizard should be invoked
     if(!bRunWizard)
         bRunWizard = m_cmdArgs.Find(_T("wizard")) > 0;
@@ -2142,10 +2166,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_nMasterVol = m_wndVolSlider.GetPos();
 
     //set vumeter and voice act-settings
-    if(m_xmlSettings.GetVoiceActivationLevel() == UNDEFINED)
-        m_wndVoiceSlider.SetPos(SOUND_VU_MAX/2);
-    else
-        m_wndVoiceSlider.SetPos(m_xmlSettings.GetVoiceActivationLevel());
+    m_wndVoiceSlider.SetPos(m_xmlSettings.GetVoiceActivationLevel());
 
     //load hotkey
     ASSERT(IsWindow(GetSafeHwnd()));
@@ -2154,8 +2175,15 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_xmlSettings.GetPushToTalkKey(hotkey);
 
     if(m_xmlSettings.GetPushToTalk() && hotkey.size())
+    {
         TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &hotkey[0], hotkey.size());
-    m_bHotKey = m_xmlSettings.GetPushToTalk();
+        m_bHotKey = m_xmlSettings.GetPushToTalk();
+        m_szHotKey = CKeyCompDlg::GetHotkeyString(hotkey);
+    }
+    else
+    {
+        m_szHotKey.Empty();
+    }
 
     //voice activation
     EnableVoiceActivation(m_xmlSettings.GetVoiceActivated());
@@ -2444,6 +2472,8 @@ void CTeamTalkDlg::OnClose()
     }
 
     m_xmlSettings.SetWindowExtended(m_bTwoPanes);
+
+    CloseLogFile(m_logChan);
 
     //Close TeamTalk DLLs
     TT_CloseTeamTalk(ttInst);
@@ -2900,7 +2930,8 @@ void CTeamTalkDlg::OnFilePreferences()
     HotKey hook;
     m_xmlSettings.GetPushToTalkKey(hook);
 
-    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname().c_str() );
+    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
+    generalpage.m_bFemale = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
     generalpage.m_Hotkey = hook;
@@ -2931,6 +2962,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
     windowpage.m_bVuMeter = m_xmlSettings.GetVuMeterUpdate();
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
+    windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(TT_STRLEN);
 
     ///////////////////////
     // client settings
@@ -3026,17 +3058,31 @@ void CTeamTalkDlg::OnFilePreferences()
     if(sheet.DoModal() == IDOK)
     {
         //change the username if connected
-        if( STR_UTF8( m_xmlSettings.GetNickname().c_str() ) != generalpage.m_sNickname.GetBuffer())
+        if( STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() ) != generalpage.m_sNickname.GetBuffer())
         {
             if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
             {
                 TT_DoChangeNickname(ttInst, generalpage.m_sNickname);
             }
         }
+
+        int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
+        if(m_xmlSettings.GetGender() != nGender)
+        {
+            if(nGender == GENDER_FEMALE)
+                m_nStatusMode |= STATUSMODE_FEMALE;
+            else
+                m_nStatusMode &= ~STATUSMODE_FEMALE;
+
+            if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
+                TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+        }
+
         //////////////////////////////////////////////////
         //    write settings for General Page to ini file
         //////////////////////////////////////////////////
         m_xmlSettings.SetNickname( STR_UTF8( generalpage.m_sNickname.GetBuffer()));
+        m_xmlSettings.SetGender(nGender);
         m_xmlSettings.SetPushToTalk(generalpage.m_bPush);
         m_bHotKey = generalpage.m_bPush;
         HotKey hotkey = generalpage.m_Hotkey;
@@ -3049,9 +3095,15 @@ void CTeamTalkDlg::OnFilePreferences()
 
         // hook is installed in CGeneralPage so make sure that it's not installed twice
         if(generalpage.m_bPush && hotkey.size())
+        {
             TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &hotkey[0], hotkey.size());
+            m_szHotKey = CKeyCompDlg::GetHotkeyString(hotkey);
+        }
         else
+        {
             TT_HotKey_Unregister(ttInst, HOTKEY_PUSHTOTALK_ID);
+            m_szHotKey.Empty();
+        }
 
         ////////////////////////////////////////
         // write settings for window page
@@ -3111,7 +3163,17 @@ void CTeamTalkDlg::OnFilePreferences()
         m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
         m_xmlSettings.SetCheckApplicationUpdates(windowpage.m_bCheckUpdates);
-
+        m_xmlSettings.SetMaxTextLength(windowpage.m_nTextLen);
+        if(nTextLimit != windowpage.m_nTextLen)
+        {
+            nTextLimit = windowpage.m_nTextLen;
+            users_t users = m_wndTree.GetUsers(0);
+            channels_t chans = m_wndTree.GetChannels();
+            for(users_t::const_iterator i=users.begin();i!=users.end();i++)
+                m_wndTree.UpdateUser(i->second);
+            for(channels_t::const_iterator i=chans.begin();i!=chans.end();i++)
+                m_wndTree.UpdateChannel(i->second);
+        }
         //////////////////////////////////////////////////
         //    write settings for Client Page to ini file
         //////////////////////////////////////////////////
@@ -3288,7 +3350,7 @@ void CTeamTalkDlg::OnMeChangenick()
     TRANSLATE_ITEM(IDS_CHANGENICKNAME, szChNick);
     TRANSLATE_ITEM(IDS_NEWNICKNAME, szNewNick);
 
-    CInputDlg dlg(szChNick, szNewNick, STR_UTF8( m_xmlSettings.GetNickname().c_str() ), this);
+    CInputDlg dlg(szChNick, szNewNick, STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() ), this);
     if(dlg.DoModal() == IDOK)
     {
         TT_DoChangeNickname(ttInst, dlg.GetInputString());
@@ -3316,6 +3378,7 @@ void CTeamTalkDlg::OnMeChangestatus()
 
 void CTeamTalkDlg::OnMeEnablehotkey()
 {
+    m_szHotKey.Empty();
     if(m_bHotKey)
     {
         TT_HotKey_Unregister(ttInst, HOTKEY_PUSHTOTALK_ID);
@@ -3326,7 +3389,9 @@ void CTeamTalkDlg::OnMeEnablehotkey()
         HotKey hotkey;
         m_xmlSettings.GetPushToTalkKey(hotkey);
         if( hotkey.size())
+        {
             TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &hotkey[0], hotkey.size());
+        }
         else
         {
             if( AfxMessageBox(    _T("No push-to-talk key combination is currently configured.\r\n")
@@ -3334,6 +3399,7 @@ void CTeamTalkDlg::OnMeEnablehotkey()
             {
                 CKeyCompDlg dlg;
                 dlg.DoModal();
+                hotkey = dlg.m_Hotkey;
 
                 if(dlg.m_Hotkey.size() )
                 {
@@ -3345,6 +3411,7 @@ void CTeamTalkDlg::OnMeEnablehotkey()
         }
 
         VERIFY(m_xmlSettings.SetPushToTalk(true));
+        m_szHotKey = CKeyCompDlg::GetHotkeyString(hotkey);
     }
     m_bHotKey = m_xmlSettings.GetPushToTalk();
 }
@@ -3980,12 +4047,21 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 //display RX/TX as default in the statusbar
                 if(!m_nStatusTimerID)
                 {
+                    CString szHotKey;
+                    if(m_bHotKey && !m_szHotKey.IsEmpty())
+                    {
+                        CString szFmt;
+                        szFmt.LoadString(IDS_PUSHTOTALK);
+                        TRANSLATE_ITEM(IDS_PUSHTOTALK, szFmt);
+                        szHotKey.Format(szFmt, m_szHotKey);
+                    }
+
                     if(stats.nUdpPingTimeMs != -1)
-                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB PING: %u"), 
-                        rx, tx, stats.nUdpPingTimeMs);
+                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB PING: %u %s"), 
+                        rx, tx, stats.nUdpPingTimeMs, szHotKey);
                     else
-                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB"), 
-                        rx, tx);
+                        m_szStatusBar.Format(_T("RX: %.2fKB TX: %.2fKB %s"), 
+                        rx, tx, szHotKey);
                 }
             }
 
@@ -4191,11 +4267,32 @@ BOOL CTeamTalkDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pData)
 /// load XML file containing host settings (.tt file)
 LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 {
+    
     TTFile tt(TT_XML_ROOTNAME);
     if(tt.LoadFile(STR_LOCAL( m_szTTLink )) && 
+       VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T(TEAMTALK_XML_VERSION)) &&
        !tt.HasErrors() && tt.GetHostEntry(m_host, 0))
     {
+        //override nickname if set in .tt file and not set in settings
+        if(m_host.szNickname.size() &&
+           STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME))) == DEFAULT_NICKNAME)
+           m_xmlSettings.SetNickname(m_host.szNickname);
+
+        if(m_host.nGender != GENDER_NONE && m_xmlSettings.GetGender(GENDER_NONE) == GENDER_NONE)
+            m_xmlSettings.SetGender(m_host.nGender);
+
+        //override PTT-key if set in .tt file and not set in settings
+        teamtalk::HotKey tt_hotkey;
+        m_xmlSettings.GetPushToTalkKey(tt_hotkey);
+        if(m_host.hotkey.size() && tt_hotkey.size() == 0)
+        {
+            m_bHotKey = FALSE;
+            m_xmlSettings.SetPushToTalkKey(m_host.hotkey);
+            OnMeEnablehotkey(); //now enable hotkey
+        }
+
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
+        {
             if(AfxMessageBox(_T("Disconnect from current host?"), MB_YESNO) == IDNO)
             {
                 m_szTTLink.Empty();
@@ -4203,6 +4300,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
             }
             else
                 Disconnect();
+        }
 
         if(!Connect(STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort,
                     m_host.nUdpPort, m_host.bEncrypted))
@@ -4215,6 +4313,12 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 
         m_xmlSettings.RemoveLatestHostEntry(m_host);
         m_xmlSettings.AddLatestHostEntry(m_host);
+    }
+    else if(!VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T(TEAMTALK_XML_VERSION)))
+    {
+        CString szError;
+        szError.Format(_T("The file \"%s\" is incompatible with %s"), m_szTTLink, APPTITLE);
+        MessageBox(szError, _T("Load File"), MB_ICONERROR);
     }
     else
     {
@@ -4556,9 +4660,9 @@ void CTeamTalkDlg::UpdateVolume(int nUserID/* = -1*/)
 
 void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
 {
-    UINT uStorageMode = m_xmlSettings.GetAudioStorageMode();
-    CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioStorage());
-    AudioFileFormat aff = (AudioFileFormat)m_xmlSettings.GetAudioStorageFormat();
+    UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
+    CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
+    AudioFileFormat aff = (AudioFileFormat)m_xmlSettings.GetAudioLogStorageFormat();
 
     userids_t::const_iterator ite = m_users.begin();
     while(ite != m_users.end())
@@ -4636,6 +4740,28 @@ void CTeamTalkDlg::UpdateAudioConfig()
     TT_SetAudioConfig(ttInst, &audcfg);
 
     TT_Enable3DSoundPositioning(ttInst, m_xmlSettings.GetAutoPositioning());
+}
+
+void CTeamTalkDlg::UpdateChannelLog()
+{
+    Channel chan;
+    ZERO_STRUCT(chan);
+
+    CloseLogFile(m_logChan);
+
+    if(!m_wndTree.GetChannel(TT_GetMyChannelID(ttInst), chan))
+        return;
+
+    CString szPath = STR_UTF8(m_xmlSettings.GetChanTextLogStorage());
+    if(szPath.GetLength())
+    {
+        if(!OpenLogFile(m_logChan, szPath, chan.szName, szPath))
+        {
+            CString szFormat;
+            szFormat.Format(_T("Failed to open file: %s"), szPath);
+            m_tabChat.m_wndRichEdit.AddLogMesage(szFormat);
+        }
+    }
 }
 
 HWND CTeamTalkDlg::GetSharedDesktopWindowHWND()
@@ -5091,38 +5217,45 @@ void CTeamTalkDlg::OnUsersKickFromChannelandban()
     TT_DoKickUser(ttInst, nUserID, 0);
 }
 
-void CTeamTalkDlg::OnUpdateUsersStoreaudiotodisk(CCmdUI *pCmdUI)
+void CTeamTalkDlg::OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI)
 {
-    pCmdUI->SetCheck(m_xmlSettings.GetAudioStorageMode() != AUDIOSTORAGE_NONE);
+    pCmdUI->SetCheck(m_xmlSettings.GetAudioLogStorageMode() != AUDIOSTORAGE_NONE);
 }
 
-void CTeamTalkDlg::OnUsersStoreaudiotodisk()
+void CTeamTalkDlg::OnUsersStoreconversationstodisk()
 {
-    UINT uStorageMode = m_xmlSettings.GetAudioStorageMode();
+    UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
 
     if(uStorageMode != AUDIOSTORAGE_NONE)
     {
         UpdateAudioStorage(FALSE);
-        m_xmlSettings.SetAudioStorageMode(AUDIOSTORAGE_NONE);
+        m_xmlSettings.SetAudioLogStorageMode(AUDIOSTORAGE_NONE);
         return;
     }
 
-    CAudioStorageDlg dlg;
-    dlg.m_szStorageDir = STR_UTF8(m_xmlSettings.GetAudioStorage());
-    dlg.m_uAFF = m_xmlSettings.GetAudioStorageFormat();
+    CMediaStorageDlg dlg;
+    dlg.m_szAudioDir = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
+    dlg.m_uAFF = m_xmlSettings.GetAudioLogStorageFormat();
     dlg.m_bSingleFile = (uStorageMode & AUDIOSTORAGE_SINGLEFILE)?TRUE:FALSE;
     dlg.m_bSeparateFiles = (uStorageMode & AUDIOSTORAGE_SEPARATEFILES)?TRUE:FALSE;
 
+    dlg.m_szChanLogDir = STR_UTF8(m_xmlSettings.GetChanTextLogStorage());
+    dlg.m_szUserTxtDir = STR_UTF8(m_xmlSettings.GetUserTextLogStorage());
+
     if(dlg.DoModal() == IDOK)
     {
-        m_xmlSettings.SetAudioStorage(STR_UTF8(dlg.m_szStorageDir));
-        m_xmlSettings.SetAudioStorageFormat(dlg.m_uAFF);
+        m_xmlSettings.SetAudioLogStorage(STR_UTF8(dlg.m_szAudioDir));
+        m_xmlSettings.SetAudioLogStorageFormat(dlg.m_uAFF);
         uStorageMode = AUDIOSTORAGE_NONE;
         if(dlg.m_bSingleFile)
             uStorageMode |= AUDIOSTORAGE_SINGLEFILE;
         if(dlg.m_bSeparateFiles)
             uStorageMode |= AUDIOSTORAGE_SEPARATEFILES;
-        m_xmlSettings.SetAudioStorageMode(uStorageMode);
+        m_xmlSettings.SetAudioLogStorageMode(uStorageMode);
+        m_xmlSettings.SetChanTextLogStorage(STR_UTF8(dlg.m_szChanLogDir));
+        m_xmlSettings.SetUserTextLogStorage(STR_UTF8(dlg.m_szUserTxtDir));
+
+        UpdateChannelLog();
 
         UpdateAudioStorage(TRUE);
     }

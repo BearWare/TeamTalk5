@@ -22,6 +22,7 @@
 #pragma once
 #include "afxwin.h"
 #include "Helper.h"
+#include "afxcmn.h"
 
 // CWindowPage dialog
 
@@ -60,4 +61,6 @@ public:
     CComboBox m_wndLanguages;
     BOOL m_bCheckUpdates;
     BOOL m_bVuMeter;
+    int m_nTextLen;
+    CSpinButtonCtrl m_wndSpinTextLen;
 };

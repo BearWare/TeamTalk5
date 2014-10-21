@@ -145,6 +145,13 @@ enum StatusMode
     STATUSMODE_STREAM_MEDIAFILE = 0x00000800
 };
 
+enum Gender
+{
+    GENDER_NONE             = 0,
+    GENDER_MALE             = 1,
+    GENDER_FEMALE           = 2
+};
+
 enum AudioStorageMode
 {
     AUDIOSTORAGE_NONE               = 0x0,

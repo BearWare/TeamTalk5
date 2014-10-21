@@ -10,7 +10,7 @@ class CChatRichEditCtrl : public CRichEditCtrl
 public:
     CChatRichEditCtrl();
     virtual ~CChatRichEditCtrl();
-    void AddMessage(CString szNick, CString szMessage);
+    CString AddMessage(CString szNick, CString szMessage);
     void AddBroadcastMessage(CString szMessage);
     void AddLogMesage(CString szMsg);
     void SetServerInfo(CString szServerName, CString szMOTD);

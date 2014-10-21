@@ -45,6 +45,7 @@ CWindowPage::CWindowPage()
     , m_szLanguage(_T(""))
     , m_bCheckUpdates(FALSE)
     , m_bVuMeter(FALSE)
+    , m_nTextLen(TT_STRLEN)
 {
     m_bTray = FALSE;
     m_bStartMinimized = FALSE;
@@ -73,6 +74,9 @@ void CWindowPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO_LANGUAGE, m_wndLanguages);
     DDX_Check(pDX, IDC_CHECK_CHECKUPDATES, m_bCheckUpdates);
     DDX_Check(pDX, IDC_CHECK_VUMETER, m_bVuMeter);
+    DDX_Text(pDX, IDC_EDIT_LIMITTEXT, m_nTextLen);
+    DDX_Control(pDX, IDC_SPIN_TEXTLEN, m_wndSpinTextLen);
+    DDV_MinMaxInt(pDX, m_nTextLen, 1, TT_STRLEN);
 }
 
 void CWindowPage::ShowFont()
@@ -136,6 +140,8 @@ BOOL CWindowPage::OnInitDialog()
     CPropertyPage::OnInitDialog();
 
     TRANSLATE(*this, IDD);
+
+    m_wndSpinTextLen.SetRange32(1, TT_STRLEN);
 
     //convert font to LOGFONT
     ConvertFont(m_Font, m_lf);

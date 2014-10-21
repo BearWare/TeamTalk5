@@ -272,6 +272,70 @@ void PlayWaveFile(LPCTSTR szFilePath)
         ::PlaySound(szFilePath, NULL, SND_FILENAME | SND_ASYNC);
 }
 
+int nTextLimit = TT_STRLEN;
+
+CString LimitText(const CString& szName)
+{
+    if(szName.GetLength() <= nTextLimit)
+        return szName;
+    return szName.Left(nTextLimit) + _T("...");
+}
+
+CString GetLogTimeStamp()
+{
+    CTime tm = CTime::GetCurrentTime();
+    CString szTime;
+    szTime.Format(_T("%.4d%.2d%.2d-%.2d%.2d%.2d"), tm.GetYear(), tm.GetMonth(),
+                  tm.GetDay(), tm.GetHour(), tm.GetMinute(), tm.GetSecond());
+    return szTime;
+}
+
+CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName)
+{
+    CString szPath = szFolder;
+    szPath.Format(_T("%s\\%s - %s"), szFolder, GetLogTimeStamp(),
+                  TrimForPath(szName).GetBuffer());
+    return szPath;
+}
+
+CString TrimForPath(LPCTSTR szPath)
+{
+    CString szTmp = szPath;
+    szTmp.Trim(_T("\\/:?\"<>|"));
+    return szTmp;
+}
+
+BOOL OpenLogFile(CFile& file, LPCTSTR szFolder, LPCTSTR szName, CString& szLogFileName)
+{
+    CloseLogFile(file);
+
+    CString szFileName = GetLogFileName(szFolder, szName);
+    szLogFileName = szFileName;
+    return file.Open(szFileName,
+                     CFile::modeCreate|CFile::modeWrite|CFile::modeNoTruncate);
+}
+
+void CloseLogFile(CFile& file)
+{
+    if(file.m_hFile != CFile::hFileNull)
+    {
+        CString szFileName = file.GetFilePath();
+        ULONGLONG uSize = file.GetLength();
+        file.Close();
+        if(uSize == 0)
+            CFile::Remove(szFileName);
+    }
+}
+
+void WriteLogMsg(CFile& file, LPCTSTR szMsg)
+{
+    if(file.m_hFile == CFile::hFileNull)
+        return;
+
+    std::string utf8 = STR_UTF8(szMsg);
+    file.Write(utf8.c_str(), (UINT)utf8.size());
+}
+
 void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *pCmdUI)
 {
     User user;

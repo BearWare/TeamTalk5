@@ -187,7 +187,7 @@ CString CChatRichEditCtrl::GetChatTime()
 }
 
 
-void CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
+CString CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
 {
     CHARFORMAT cf;
     memset(&cf,0,sizeof (CHARFORMAT));
@@ -212,6 +212,8 @@ void CChatRichEditCtrl::AddMessage(CString szNick, CString szMessage)
     ReplaceSel(szMessage);
 
     ScrollDown(nOldLineCount);
+
+    return name + szMessage;
 }
 
 void CChatRichEditCtrl::AddBroadcastMessage(CString szMessage)

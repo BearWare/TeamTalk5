@@ -480,6 +480,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gui\GenerateTTFileDlg.cpp" />
     <ClCompile Include="gui\StreamMediaDlg.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
@@ -655,7 +656,7 @@
     <ClCompile Include="TeamTalkBase.cpp" />
     <ClCompile Include="TeamTalkDlg.cpp" />
     <ClCompile Include="gui\AboutBox.cpp" />
-    <ClCompile Include="gui\AudioStorageDlg.cpp" />
+    <ClCompile Include="gui\MediaStorageDlg.cpp" />
     <ClCompile Include="gui\BannedDlg.cpp" />
     <ClCompile Include="gui\ChangeStatusDlg.cpp" />
     <ClCompile Include="gui\ChannelDlg.cpp" />
@@ -850,6 +851,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gui\GenerateTTFileDlg.h" />
     <ClInclude Include="gui\StreamMediaDlg.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HttpRequest.h" />
@@ -1023,7 +1025,7 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTM
     <ClInclude Include="TeamTalkBase.h" />
     <ClInclude Include="TeamTalkDlg.h" />
     <ClInclude Include="gui\AboutBox.h" />
-    <ClInclude Include="gui\AudioStorageDlg.h" />
+    <ClInclude Include="gui\MediaStorageDlg.h" />
     <ClInclude Include="gui\BannedDlg.h" />
     <ClInclude Include="gui\ChangeStatusDlg.h" />
     <ClInclude Include="gui\ChannelDlg.h" />

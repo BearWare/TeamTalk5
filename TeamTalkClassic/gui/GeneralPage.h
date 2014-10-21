@@ -40,6 +40,7 @@ public:
     BOOL    m_bPush;
     BOOL    m_bVoiceAct;
     CString    m_sNickname;
+    BOOL m_bFemale;
   int m_nInactivity;
   BOOL m_bIdleVox;
 

@@ -24,7 +24,15 @@
 
 #include "Settings.h"
 
+#define DEFAULT_NICKNAME                            _T("NoName")
+#define DEFAULT_GENDER                              1
+#define DEFAULT_PUSHTOTALK                          false
+#define DEFAULT_VOICEACTIVATED                      true
+#define DEFAULT_VOICEACTIVATE_LEVEL                 2
+
 namespace teamtalk {
+
+    typedef std::vector<int> HotKey;
 
     struct HostEntry
     {
@@ -37,10 +45,16 @@ namespace teamtalk {
         std::string szPassword;
         std::string szChannel;
         std::string szChPasswd;
+
+        std::string szNickname;
+        int nGender;
+        HotKey hotkey;
+
         HostEntry()
         : nTcpPort(0)
         , nUdpPort(0)
-        , bEncrypted(FALSE) {}
+        , bEncrypted(FALSE)
+        , nGender(0) { }
     };
 
     //used for join channel
@@ -52,7 +66,6 @@ namespace teamtalk {
         std::string szOpPasswd;
     };
 
-    typedef std::vector<int> HotKey;
 
     class ClientXML : public XMLDocument
     {
@@ -66,42 +79,32 @@ namespace teamtalk {
         bool SetWindowExtended(bool bExtended);
         bool GetWindowExtended();
 
-        bool SetRegisteredUsername(std::string szName);
-        std::string GetRegisteredUsername();
-        bool SetRegisteredSerial(std::string szSerial);
-        std::string GetRegisteredSerial();
-
-        bool SetShowDirectConnectionDlg(bool bShow);
-        bool GetShowDirectConnectionDlg();
         /******** </main> ********/
 
         /******** <general> *******/
         bool SetNickname(std::string szNickname);
-        std::string GetNickname();
+        std::string GetNickname(std::string def_nickname = std::string());
+
+        bool SetGender(int nGender);
+        int GetGender(int nDefGender = DEFAULT_GENDER);
 
         bool SetPushToTalk(bool bEnable);
-        bool GetPushToTalk();
+        bool GetPushToTalk(bool bDefEnable = DEFAULT_PUSHTOTALK);
 
         bool SetPushToTalkKey(const HotKey& keykey);
         bool GetPushToTalkKey(HotKey& hotkey);
 
         bool SetVoiceActivated(bool bEnable);
-        bool GetVoiceActivated();
+        bool GetVoiceActivated(bool bDefVoiceAct = DEFAULT_VOICEACTIVATED);
 
         bool SetVoiceActivationLevel(int nLevel);
-        int GetVoiceActivationLevel();
-
-        bool SetXShouldClose(bool bEnable);
-        bool GetXShouldClose();
+        int GetVoiceActivationLevel(int nDefVoxLevel = DEFAULT_VOICEACTIVATE_LEVEL);
 
         int SetInactivityDelay(int nDelay);
         int GetInactivityDelay();
 
         bool SetDisableVadOnIdle(bool bEnable);
         bool GetDisableVadOnIdle();
-
-        bool SetPreventStandby(bool bEnable);
-        bool GetPreventStandby();
 
         bool SetDesktopShareMode(int nMode);
         int GetDesktopShareMode();
@@ -156,6 +159,9 @@ namespace teamtalk {
         bool SetCheckApplicationUpdates(bool bEnable);
         bool GetCheckApplicationUpdates();
 
+        bool SetMaxTextLength(int nLength);
+        int GetMaxTextLength(int nDefault);
+
         bool SetShowPublicServers(bool bEnable);
         bool GetShowPublicServers();
 
@@ -178,14 +184,20 @@ namespace teamtalk {
         bool SetAutoJoinRootChannel(bool bEnable);
         bool GetAutoJoinRootChannel();
 
-        bool SetAudioStorage(const std::string& audiofolder);
-        std::string GetAudioStorage();
+        bool SetAudioLogStorageFormat(int aff);
+        int GetAudioLogStorageFormat();
 
-        bool SetAudioStorageMode(int mode);
-        int GetAudioStorageMode();
+        bool SetAudioLogStorageMode(int mode);
+        int GetAudioLogStorageMode();
 
-        bool SetAudioStorageFormat(int aff);
-        int GetAudioStorageFormat();
+        bool SetAudioLogStorage(const std::string& audiofolder);
+        std::string GetAudioLogStorage();
+
+        bool SetChanTextLogStorage(const std::string& audiofolder);
+        std::string GetChanTextLogStorage();
+
+        bool SetUserTextLogStorage(const std::string& audiofolder);
+        std::string GetUserTextLogStorage();
 
         bool SetDefaultSubscriptions(int subs);
         int GetDefaultSubscriptions();

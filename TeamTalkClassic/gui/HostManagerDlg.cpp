@@ -5,6 +5,7 @@
 #include "Resource.h"
 #include "HostManagerDlg.h"
 #include "TeamTalkDlg.h"
+#include "GenerateTTFileDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -419,27 +420,9 @@ void CHostManagerDlg::OnBnClickedButtonGentt()
     if(!GetHostEntry(entry))
         return;
 
-    CString szWorkDir;
-    GetCurrentDirectory(MAX_PATH, szWorkDir.GetBufferSetLength(MAX_PATH));
-
-    TCHAR szFilters[] = _T(".tt Files (*.tt)|*.tt||");
-    CFileDialog fileDlg(FALSE, NULL, _T(""), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
-    if(fileDlg.DoModal() == IDOK)
-    {
-        CString szFileName = fileDlg.GetPathName();
-        if(szFileName.Right(3) != _T(".tt"))
-            szFileName += _T(".tt");
-
-        TTFile ttfile(TT_XML_ROOTNAME);
-        if(!ttfile.CreateFile(STR_LOCAL(szFileName)))
-            MessageBox(_T("Failed to save .tt file."), _T("Save .tt File"));
-        else
-        {
-            ttfile.SetHostEntry(entry);
-            ttfile.SaveFile();
-        }
-    }
-    SetCurrentDirectory(szWorkDir);
+    CGenerateTTFileDlg dlg(this);
+    dlg.m_hostentry = entry;
+    dlg.DoModal();
 }
 
 
