@@ -395,8 +395,10 @@ void PreferencesDlg::slotTabChange(int index)
     {
     case GENERAL_TAB : //general
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
-        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER, true).toBool());
-        ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER, true).toBool());
+        ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
+                                                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
+        ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
+                                                            SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());

@@ -25,7 +25,9 @@
 #include <QSettings>
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
+#define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
+#define SETTINGS_GENERAL_GENDER_DEFAULT             true
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
@@ -55,6 +57,7 @@
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_WINDOWPOS                  "display/windowposition"
 #define SETTINGS_DISPLAY_SPLITTER                   "display/splitter"
+#define SETTINGS_DISPLAY_VIDEOSPLITTER              "display/video-splitter"
 #define SETTINGS_DISPLAY_DESKTOPSPLITTER            "display/desktop-splitter"
 #define SETTINGS_DISPLAY_FILESHEADER                "display/filesheader"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR               "display/log-statusbar"
@@ -124,9 +127,11 @@
 #define SETTINGS_VIDCAP_CODEC                       "videocapture/codec"
 #define SETTINGS_VIDCAP_WEBMVP8_BITRATE             "videocapture/codec/webmvp8-bitrate"
 
-#define SETTINGS_AUDIOSTORAGE_MODE                  "audio-storage/audio-storage-mode"
-#define SETTINGS_AUDIOSTORAGE_FOLDER                "audio-storage/audio-storage-folder"
-#define SETTINGS_AUDIOSTORAGE_FILEFORMAT            "audio-storage/audio-storage-format"
+#define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
+#define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
+#define SETTINGS_MEDIASTORAGE_FILEFORMAT            "media-storage/audio-storage-format"
+#define SETTINGS_MEDIASTORAGE_CHANLOGFOLDER         "media-storage/channellog-folder"
+#define SETTINGS_MEDIASTORAGE_USERLOGFOLDER         "media-storage/userlog-folder"
 
 #define SETTINGS_STREAMAUDIO_FILENAME               "stream-audio/stream-audio-file"
 #define SETTINGS_STREAMAUDIO_LOOP                   "stream-audio/stream-audio-file-loop"

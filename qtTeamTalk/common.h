@@ -29,6 +29,7 @@
 #include <QPainter>
 #include <QLayout>
 #include <QComboBox>
+#include <QFile>
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS 1
@@ -186,6 +187,13 @@ enum StatusMode
     STATUSMODE_STREAM_MEDIAFILE = 0x00000800
 };
 
+enum Gender
+{
+    GENDER_NONE             = 0,
+    GENDER_MALE             = 1,
+    GENDER_FEMALE           = 2
+};
+
 enum SoundEvent
 {
     SOUNDEVENT_NEWUSER,
@@ -263,9 +271,14 @@ struct HostEntry
     QString password;
     QString channel;
     QString chanpasswd;
+    //tt-file specific
+    QString nickname;
+    Gender gender;
+    hotkey_t hotkey;
+
     HostEntry()
     : tcpport(0), udpport(0)
-    , encrypted(false){}
+    , encrypted(false), gender(GENDER_NONE) {}
 };
 
 struct DesktopAccessEntry
@@ -348,9 +361,14 @@ void decVolume(int userid, StreamType stream_type);
 
 bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);
+QString limitText(const QString& text);
 
 QString getDateTimeStamp();
 QString generateAudioStorageFilename(AudioFileFormat aff);
+
+QString generateLogFileName(const QString& name);
+bool openLogFile(QFile& file, const QString& folder, const QString& name);
+bool writeLogEntry(QFile& file, const QString& line);
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
                      const QColor& fgcolor, const QString& text,

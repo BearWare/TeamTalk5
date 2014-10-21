@@ -371,7 +371,7 @@
         <attribute name="title">
          <string>&amp;Video</string>
         </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+        <layout class="QVBoxLayout" name="verticalLayout_10">
          <property name="spacing">
           <number>3</number>
          </property>
@@ -379,101 +379,219 @@
           <number>3</number>
          </property>
          <item>
-          <widget class="VideoGridWidget" name="videogridWidget" native="true"/>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QToolButton" name="detachVideoButton">
-             <property name="enabled">
-              <bool>false</bool>
+          <widget class="QSplitter" name="videosplitter">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="handleWidth">
+            <number>5</number>
+           </property>
+           <widget class="QWidget" name="layoutWidget_2">
+            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+             <property name="spacing">
+              <number>3</number>
              </property>
-             <property name="toolTip">
-              <string>Detach User Video</string>
-             </property>
-             <property name="text">
-              <string>Detach User Video</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/detach.png</normaloff>:/images/images/detach.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
+             <item>
+              <widget class="VideoGridWidget" name="videogridWidget" native="true"/>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <spacer name="verticalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="detachVideoButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Detach User Video</string>
+                 </property>
+                 <property name="text">
+                  <string>Detach User Video</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/detach.png</normaloff>:/images/images/detach.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_8">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="addVideoButton">
+                 <property name="toolTip">
+                  <string>Add User to Video Grid</string>
+                 </property>
+                 <property name="text">
+                  <string>Add User to Video Grid</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="removeVideoButton">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Remove User From Video Grid</string>
+                 </property>
+                 <property name="text">
+                  <string>Remove User From Video Grid</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/minus.png</normaloff>:/images/images/minus.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="initVideoButton">
+                 <property name="toolTip">
+                  <string>Start/Stop Webcam</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">Start/Stop Webcam</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/images/webcam_start.png</normaloff>
+                   <normalon>:/images/images/webcam_stop.png</normalon>:/images/images/webcam_start.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_7">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QStackedWidget" name="videostackedWidget">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="page_3">
+             <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,0">
+              <property name="margin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="ChatTextEdit" name="videochatEdit"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="ChatLineEdit" name="videomsgEdit"/>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="videosendButton">
+                  <property name="text">
+                   <string>Sen&amp;d</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="addVideoButton">
-             <property name="toolTip">
-              <string>Add User to Video Grid</string>
-             </property>
-             <property name="text">
-              <string>Add User to Video Grid</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/plus.png</normaloff>:/images/images/plus.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="removeVideoButton">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="toolTip">
-              <string>Remove User From Video Grid</string>
-             </property>
-             <property name="text">
-              <string>Remove User From Video Grid</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/minus.png</normaloff>:/images/images/minus.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="initVideoButton">
-             <property name="toolTip">
-              <string>Start/Stop Webcam</string>
-             </property>
-             <property name="text">
-              <string notr="true">Start/Stop Webcam</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/webcam_start.png</normaloff>
-               <normalon>:/images/images/webcam_stop.png</normalon>:/images/images/webcam_start.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
+            <widget class="QWidget" name="page_4"/>
+           </widget>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -851,6 +969,7 @@
     <addaction name="actionConnect"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
+    <addaction name="actionMediaStorage"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -933,7 +1052,6 @@
     <addaction name="menu_Advanced"/>
     <addaction name="separator"/>
     <addaction name="actionMuteAll"/>
-    <addaction name="actionSpecifyAudioFolder"/>
    </widget>
    <widget class="QMenu" name="menuChannels">
     <property name="title">
@@ -1025,7 +1143,7 @@
    <addaction name="actionStreamMediaFileToChannel"/>
    <addaction name="separator"/>
    <addaction name="actionMuteAll"/>
-   <addaction name="actionEnableStoreAudioToDisk"/>
+   <addaction name="actionMediaStorage"/>
    <addaction name="separator"/>
    <addaction name="actionEnableQuestionMode"/>
   </widget>
@@ -1386,16 +1504,16 @@
     <string>Ctrl+Shift+W</string>
    </property>
   </action>
-  <action name="actionSpecifyAudioFolder">
+  <action name="actionMediaStorage">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/images/images/record.png</normaloff>:/images/images/record.png</iconset>
    </property>
    <property name="text">
-    <string>Store &amp;Audio to Disk</string>
+    <string>Record Conversations to &amp;Disk</string>
    </property>
    <property name="toolTip">
     <string>Specify a folder where audio from users will be stored</string>
@@ -1556,21 +1674,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+U</string>
-   </property>
-  </action>
-  <action name="actionEnableStoreAudioToDisk">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/images/record.png</normaloff>:/images/images/record.png</iconset>
-   </property>
-   <property name="text">
-    <string>Store Audio to Disk</string>
-   </property>
-   <property name="toolTip">
-    <string>Start/stop recording audio to files</string>
    </property>
   </action>
   <action name="actionEnableQuestionMode">

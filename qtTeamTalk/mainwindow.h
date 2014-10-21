@@ -122,6 +122,7 @@ private:
     class FilesModel* m_filesmodel;
     QSystemTrayIcon* m_sysicon;
     QMenu* m_sysmenu;
+    QLabel* m_pttlabel;
     QLabel* m_pinglabel;
     QLabel* m_dtxlabel;
     QProgressBar* m_dtxprogress;
@@ -151,6 +152,8 @@ private:
     bool m_idled_out;
     int m_statusmode;
 
+    //current host
+    HostEntry m_host;
     //ping and tx/rx information
     ClientStatistics m_clientstats;
     //last channel that were joined by the client
@@ -159,6 +162,8 @@ private:
     ServerProperties m_srvprop;
     //current channel
     Channel m_mychannel;
+    //channel log file
+    QFile m_logChan;
 
     //op text messsage dialogs (userid -> dlg)
     typedef QMap<int, class TextMessageDlg*> usermsg_t;
@@ -234,7 +239,6 @@ private:
 #endif
 
 #if defined(Q_OS_WIN32)
-    QString m_pttKeys;
     HWND m_hShareWnd;
 #endif
 #if defined(Q_OS_LINUX)
@@ -374,7 +378,6 @@ private slots:
     void slotMasterVolumeChanged(int value);
     void slotMicrophoneGainChanged(int value);
     void slotVoiceActivationLevelChanged(int value);
-    void slotEnableAudioRecording(bool checked);
 
     void slotTrayIconChange(QSystemTrayIcon::ActivationReason reason);
 

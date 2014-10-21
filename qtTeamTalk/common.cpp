@@ -297,6 +297,7 @@ QString GetMacOSHotKeyText(const hotkey_t& hotkey)
         return QString();
 
     QString comp;
+
     if(hotkey[0] != (INT32)MAC_NO_KEY)
     {
         if(hotkey[0] & cmdKey)
@@ -848,6 +849,35 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         if(!tmp.isNull())
             entry.chanpasswd = tmp.text();
     }
+
+    QDomElement client = hostElement.firstChildElement("clientsetup");
+    if(!client.isNull())
+    {
+        tmp = client.firstChildElement("nickname");
+        if(!tmp.isNull())
+            entry.nickname = tmp.text();
+        tmp = client.firstChildElement("gender");
+        if(!tmp.isNull())
+            entry.gender = tmp.text().toInt() == GENDER_FEMALE? GENDER_FEMALE : GENDER_MALE;
+#if defined(Q_OS_WIN32)
+        tmp = client.firstChildElement("win-hotkey");
+#elif defined(Q_OS_DARWIN)
+        tmp = client.firstChildElement("mac-hotkey");
+#elif defined(Q_OS_LINUX)
+        tmp = client.firstChildElement("x11-hotkey");
+#else
+#error Unknown OS
+#endif
+        if(!tmp.isNull())
+        {
+            tmp = tmp.firstChildElement("key");
+            while(!tmp.isNull())
+            {
+                entry.hotkey.push_back(tmp.text().toInt());
+                tmp = tmp.nextSiblingElement("key");
+            }
+        }
+    }
     return ok;
 }
 
@@ -985,10 +1015,14 @@ QByteArray generateTTFile(const HostEntry& entry)
     QDomElement udpport = doc.createElement("udpport");
     udpport.appendChild(doc.createTextNode(QString::number(entry.udpport)));
 
+    QDomElement encrypted = doc.createElement("encrypted");
+    encrypted.appendChild(doc.createTextNode(entry.encrypted?"true":"false"));
+
     host.appendChild(name);
     host.appendChild(address);
     host.appendChild(tcpport);
     host.appendChild(udpport);
+    host.appendChild(encrypted);
 
     if(entry.username.size())
     {
@@ -1021,6 +1055,43 @@ QByteArray generateTTFile(const HostEntry& entry)
 
         host.appendChild(join);
     }
+
+    QDomElement client = doc.createElement("clientsetup");
+
+    if(entry.nickname.size())
+    {
+        QDomElement nickname = doc.createElement("nickname");
+        nickname.appendChild(doc.createTextNode(entry.nickname));
+        client.appendChild(nickname);
+    }
+    if(entry.gender != GENDER_NONE)
+    {
+        QDomElement gender = doc.createElement("gender");
+        gender.appendChild(doc.createTextNode(QString::number(entry.gender)));
+        client.appendChild(gender);
+    }
+    if(entry.hotkey.size())
+    {
+#if defined(Q_OS_WIN32)
+        QDomElement hotkey = doc.createElement("win-hotkey");
+#elif defined(Q_OS_DARWIN)
+        QDomElement hotkey = doc.createElement("mac-hotkey");
+#elif defined(Q_OS_LINUX)
+        QDomElement hotkey = doc.createElement("x11-hotkey");
+#else
+#error Unknown OS
+#endif
+        foreach(int k, entry.hotkey)
+        {
+            QDomElement key = doc.createElement("key");
+            key.appendChild(doc.createTextNode(QString::number(k)));
+            hotkey.appendChild(key);
+        }
+        client.appendChild(hotkey);
+    }
+
+    if(client.hasChildNodes())
+        host.appendChild(client);
 
     root.appendChild(host);
 
@@ -1103,6 +1174,14 @@ QString getVersion(const User& user)
         .arg(user.uVersion & 0xFF);
 }
 
+QString limitText(const QString& text)
+{
+    int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, TT_STRLEN).toInt();
+    if(text.size()>len+3)
+        return text.left(len) + "...";
+    return text;
+}
+
 QString getDateTimeStamp()
 {
     return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
@@ -1128,6 +1207,38 @@ QString generateAudioStorageFilename(AudioFileFormat aff)
         break;
     }
     return filename;
+}
+
+
+QString generateLogFileName(const QString& name)
+{
+    static QString invalidPath("?:*\"|<>/\\");
+
+    QString filename = getDateTimeStamp();
+    filename += " - " + name;
+    for(int i=0;i<filename.size();i++)
+    {
+        if(invalidPath.contains(filename[i]))
+            filename[i] = '_';
+    }
+    return filename + ".log";
+}
+
+bool openLogFile(QFile& file, const QString& folder, const QString& name)
+{
+    if(file.isOpen())
+        file.close();
+
+    QString filename = folder + "/";
+    filename += generateLogFileName(name);
+
+    file.setFileName(filename);
+    return file.open(QFile::WriteOnly | QFile::Append);
+}
+
+bool writeLogEntry(QFile& file, const QString& line)
+{
+    return file.write(QString(line + "\r\n").toUtf8())>0;
 }
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,

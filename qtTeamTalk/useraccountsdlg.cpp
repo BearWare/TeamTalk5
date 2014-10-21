@@ -328,6 +328,16 @@ void UserAccountsDlg::slotClearUser()
 
 void UserAccountsDlg::slotAddUser()
 {
+    if(ui.usernameEdit->text().isEmpty())
+    {
+        QMessageBox::StandardButton answer = 
+            QMessageBox::question(this, tr("Add/Update"), 
+                                  tr("Create anonymous user account?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+        if(answer != QMessageBox::Yes)
+            return;
+    }
+
     ZERO_STRUCT(m_add_user);
     COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());

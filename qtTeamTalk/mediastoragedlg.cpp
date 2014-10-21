@@ -20,7 +20,7 @@
  */
 
 
-#include "audiostoragedlg.h"
+#include "mediastoragedlg.h"
 #include "appinfo.h"
 #include "settings.h"
 #include "common.h"
@@ -32,14 +32,18 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-AudioStorageDlg::AudioStorageDlg(QWidget * parent/* = 0*/)
+MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    connect(ui.folderToolButton, SIGNAL(clicked()),
-            SLOT(slotShowDirectoryTreeDlg()));
+    connect(ui.audioToolButton, SIGNAL(clicked()),
+            SLOT(slotSetAudioFolder()));
+    connect(ui.chanlogToolButton, SIGNAL(clicked()),
+            SLOT(slotSetChanLogFolder()));
+    connect(ui.usertextToolButton, SIGNAL(clicked()),
+            SLOT(slotSetUserLogFolder()));
 
 #ifdef MP3ENCDLL_FILENAME
     if(QFile::exists(QString(MP3ENCDLL_FILENAME)))
@@ -53,37 +57,34 @@ AudioStorageDlg::AudioStorageDlg(QWidget * parent/* = 0*/)
 #endif
     ui.affComboBox->addItem("Wave-format", AFF_WAVE_FORMAT);
 
-    quint32 audiostorage_mode = ttSettings->value(SETTINGS_AUDIOSTORAGE_MODE, 
+    quint32 audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
                                               AUDIOSTORAGE_SINGLEFILE).toUInt();
     ui.singleCheckBox->setChecked(audiostorage_mode & AUDIOSTORAGE_SINGLEFILE);
     ui.multipleCheckBox->setChecked(audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES);
 
-    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_AUDIOSTORAGE_FILEFORMAT, 
+    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, 
                                                              AFF_WAVE_FORMAT).toInt();
     
     int index = ui.affComboBox->findData(aff);
     if(index>=0)
         ui.affComboBox->setCurrentIndex(index);
 
-    ui.filespathEdit->setText(ttSettings->value(SETTINGS_AUDIOSTORAGE_FOLDER).toString());
+    ui.audiopathEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString());
+    ui.chanlogEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString());
+    ui.usertextEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString());
 }
 
-void AudioStorageDlg::accept()
+void MediaStorageDlg::accept()
 {
     int audiostorage_mode = AUDIOSTORAGE_NONE;
     if(ui.multipleCheckBox->isChecked())
         audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
     if(ui.singleCheckBox->isChecked())
         audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
-    if(audiostorage_mode == AUDIOSTORAGE_NONE)
-    {
-        QMessageBox::information(this, tr("Storage mode"),
-                                 tr("Storage mode not selected"));
-        return;
-    }
 
-    QString audiofolder = ui.filespathEdit->text();
-    if(!QDir(audiofolder).exists() || audiofolder.isEmpty())
+    QString folder = ui.audiopathEdit->text();
+    if((audiostorage_mode & (AUDIOSTORAGE_SEPARATEFILES | AUDIOSTORAGE_SINGLEFILE)) &&
+       (folder.isEmpty() || !QDir(folder).exists()))
     {
         QMessageBox::information(this, tr("Folder for audio files"),
                                  tr("Folder for storing audio files does not exist"));
@@ -92,21 +93,41 @@ void AudioStorageDlg::accept()
 
     AudioFileFormat aff = (AudioFileFormat)ui.affComboBox->itemData(ui.affComboBox->currentIndex()).toInt();
 
-    ttSettings->setValue(SETTINGS_AUDIOSTORAGE_MODE, audiostorage_mode);
-    ttSettings->setValue(SETTINGS_AUDIOSTORAGE_FOLDER, audiofolder);
-    ttSettings->setValue(SETTINGS_AUDIOSTORAGE_FILEFORMAT, aff);
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_MODE, audiostorage_mode);
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_AUDIOFOLDER, folder);
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_FILEFORMAT, aff);
+
+    folder = ui.chanlogEdit->text();
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER, folder);
+    folder = ui.usertextEdit->text();
+    ttSettings->setValue(SETTINGS_MEDIASTORAGE_USERLOGFOLDER, folder);
 
     QDialog::accept();
 }
 
-void AudioStorageDlg::slotShowDirectoryTreeDlg()
+void MediaStorageDlg::slotSetAudioFolder()
+{
+    ui.audiopathEdit->setText(getFolder());
+}
+
+void MediaStorageDlg::slotSetChanLogFolder()
+{
+    ui.chanlogEdit->setText(getFolder());
+}
+
+void MediaStorageDlg::slotSetUserLogFolder()
+{
+    ui.usertextEdit->setText(getFolder());
+}
+
+QString MediaStorageDlg::getFolder()
 {
     QFileDialog dlg(this);
     dlg.setFileMode(QFileDialog::DirectoryOnly);
 
     if(!dlg.exec())
-        return;
+        return QString();
 
     QDir dir = dlg.directory();
-    ui.filespathEdit->setText(dir.toNativeSeparators(dir.absolutePath()));
+    return dir.toNativeSeparators(dir.absolutePath());
 }

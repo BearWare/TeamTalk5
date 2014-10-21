@@ -188,11 +188,11 @@ void ChatTextEdit::joinedChannel(int channelid)
     limitText();
 }
 
-void ChatTextEdit::addTextMessage(const TextMessage& msg)
+QString ChatTextEdit::addTextMessage(const TextMessage& msg)
 {
     User user;
     if(!TT_GetUser(ttInst, msg.nFromUserID, &user))
-        return;
+        return QString();
 
     QString dt = getTimeStamp();
     QString line = dt;
@@ -236,6 +236,8 @@ void ChatTextEdit::addTextMessage(const TextMessage& msg)
     else
         appendPlainText(line);
     limitText();
+
+    return line;
 }
 
 void ChatTextEdit::addLogMessage(const QString& msg)

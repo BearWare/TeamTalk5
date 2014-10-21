@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AudioStorageDlg</class>
- <widget class="QDialog" name="AudioStorageDlg">
+ <class>MediaStorageDlg</class>
+ <widget class="QDialog" name="MediaStorageDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>344</width>
-    <height>181</height>
+    <width>429</width>
+    <height>288</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Store Audio to Disk</string>
+   <string>Record Conversations to Disk</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Audio file storage</string>
+      <string>Store audio conversations</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -69,15 +69,15 @@
            <string>Folder for audio files</string>
           </property>
           <property name="buddy">
-           <cstring>filespathEdit</cstring>
+           <cstring>audiopathEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="filespathEdit"/>
+         <widget class="QLineEdit" name="audiopathEdit"/>
         </item>
         <item row="1" column="2">
-         <widget class="QToolButton" name="folderToolButton">
+         <widget class="QToolButton" name="audioToolButton">
           <property name="text">
            <string>...</string>
           </property>
@@ -87,6 +87,68 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Store text message conversations</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Folder for channel log files</string>
+        </property>
+        <property name="buddy">
+         <cstring>chanlogEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="chanlogEdit"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QToolButton" name="chanlogToolButton">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Folder for user-to-user log files</string>
+        </property>
+        <property name="buddy">
+         <cstring>usertextEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="usertextEdit"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="usertextToolButton">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -104,8 +166,12 @@
   <tabstop>singleCheckBox</tabstop>
   <tabstop>multipleCheckBox</tabstop>
   <tabstop>affComboBox</tabstop>
-  <tabstop>filespathEdit</tabstop>
-  <tabstop>folderToolButton</tabstop>
+  <tabstop>audiopathEdit</tabstop>
+  <tabstop>audioToolButton</tabstop>
+  <tabstop>chanlogEdit</tabstop>
+  <tabstop>chanlogToolButton</tabstop>
+  <tabstop>usertextEdit</tabstop>
+  <tabstop>usertextToolButton</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
@@ -113,7 +179,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>AudioStorageDlg</receiver>
+   <receiver>MediaStorageDlg</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -129,7 +195,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AudioStorageDlg</receiver>
+   <receiver>MediaStorageDlg</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -21,12 +21,14 @@
 
 #include "textmessagedlg.h"
 #include "appinfo.h"
+#include "settings.h"
 #include <QDebug>
 
 #define LOCAL_TYPING_DELAY  5000
 #define REMOTE_TYPING_DELAY 10000
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 TextMessageDlg::TextMessageDlg(const User& user, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
@@ -48,7 +50,7 @@ TextMessageDlg::TextMessageDlg(const User& user, const textmessages_t& msgs,
     
     textmessages_t::const_iterator ii = msgs.begin();
     for(;ii!=msgs.end();ii++)
-        newMsg(*ii);
+        newMsg(*ii, false);
 }
 
 void TextMessageDlg::init(const User& user)
@@ -82,7 +84,7 @@ void TextMessageDlg::slotNewMessage(const TextMessage& textmsg)
 {
     if(textmsg.nFromUserID == m_userid)
     {
-        newMsg(textmsg);
+            newMsg(textmsg, true);
     }
 }
 
@@ -149,7 +151,7 @@ void TextMessageDlg::slotSendMsg(const QString& txt_msg)
     if(TT_DoTextMessage(ttInst, &msg)>0)
     {
         ui.newmsgTextEdit->setPlainText("");
-        newMsg(msg);
+        newMsg(msg, true);
         emit(newMyselfTextMessage(msg));
         m_textchanged = false;
     }
@@ -161,14 +163,28 @@ void TextMessageDlg::slotTextChanged()
     m_textchanged = true;
 }
 
-void TextMessageDlg::newMsg(const TextMessage& msg)
+void TextMessageDlg::newMsg(const TextMessage& msg, bool store)
 {
     switch(msg.nMsgType)
     {
     case MSGTYPE_USER :
-        ui.historyTextEdit->addTextMessage(msg);
+    {
+        QString line = ui.historyTextEdit->addTextMessage(msg);
         ui.newmsgLabel->setText(tr("New message"));
-        break;
+
+        QString folder = ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString();
+        if(store && folder.size())
+        {
+            User user;
+            if(TT_GetUser(ttInst, m_userid, &user))
+            {
+                if(!m_logFile.isOpen())
+                    openLogFile(m_logFile, folder, _Q(user.szNickname));
+            }
+            writeLogEntry(m_logFile, line);
+        }
+    }
+    break;
     case MSGTYPE_CUSTOM :
     {
         QStringList cmd_msg = getCustomCommand(msg);

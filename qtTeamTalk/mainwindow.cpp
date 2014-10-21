@@ -34,7 +34,7 @@
 #include "uservolumedlg.h"
 #include "changestatusdlg.h"
 #include "aboutdlg.h"
-#include "audiostoragedlg.h"
+#include "mediastoragedlg.h"
 #include "channelstree.h"
 #include "desktopsharedlg.h"
 #include "streammediafiledlg.h"
@@ -155,8 +155,9 @@ MainWindow::MainWindow()
     ui.volumeSlider->setRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX*(gainMax/SOUND_GAIN_DEFAULT));
     ui.micSlider->setRange(SOUND_GAIN_MIN, gainMax);
     m_pinglabel = new QLabel(ui.statusbar);
-    m_pinglabel->setMinimumWidth(75);
     m_pinglabel->setAlignment(Qt::AlignHCenter);
+    m_pttlabel = new QLabel(ui.statusbar);
+    m_pttlabel->setAlignment(Qt::AlignHCenter);
     m_dtxlabel = new QLabel(ui.statusbar);
     QPixmap dtxImg(QString::fromUtf8(":/images/images/desktoptx.png"));
     m_dtxlabel->setPixmap(dtxImg.scaled(16, 16));
@@ -169,12 +170,17 @@ MainWindow::MainWindow()
     ui.statusbar->addPermanentWidget(m_dtxlabel);
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
+    ui.statusbar->addPermanentWidget(m_pttlabel);
 
     connect(ui.sendButton, SIGNAL(clicked()),
             SLOT(slotSendChannelMessage()));
     connect(ui.msgEdit, SIGNAL(returnPressed()),
             SLOT(slotSendChannelMessage()));
+    connect(ui.videosendButton, SIGNAL(clicked()),
+            SLOT(slotSendChannelMessage()));
     connect(ui.desktopsendButton, SIGNAL(clicked()),
+            SLOT(slotSendChannelMessage()));
+    connect(ui.videomsgEdit, SIGNAL(returnPressed()),
             SLOT(slotSendChannelMessage()));
     connect(ui.desktopmsgEdit, SIGNAL(returnPressed()),
             SLOT(slotSendChannelMessage()));
@@ -313,7 +319,7 @@ MainWindow::MainWindow()
             SLOT(slotUsersKickBan(bool)));
     connect(ui.actionMuteAll, SIGNAL(triggered(bool)),
             SLOT(slotUsersMuteVoiceAll(bool)));
-    connect(ui.actionSpecifyAudioFolder, SIGNAL(triggered(bool)),
+    connect(ui.actionMediaStorage, SIGNAL(triggered(bool)),
             SLOT(slotUsersStoreAudioToDisk(bool)));
     //Desktop access
     connect(ui.actionDesktopAccessAllow, SIGNAL(triggered(bool)),
@@ -422,8 +428,6 @@ MainWindow::MainWindow()
     /* Begin - Extra toolbar buttons */
     connect(ui.actionEnableQuestionMode, SIGNAL(triggered(bool)),
             SLOT(slotEnableQuestionMode(bool)));
-    connect(ui.actionEnableStoreAudioToDisk, SIGNAL(triggered(bool)),
-            SLOT(slotEnableAudioRecording(bool)));
     /* End - Extra toolbar buttons */
 
     /* Begin - CLIENTEVENT_* messages */
@@ -564,6 +568,7 @@ void MainWindow::loadSettings()
         if(x <= desktopW && y <= desktopH)
             setGeometry(x, y, w, h);
         ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
+        ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
         ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
     }
     //set files header to last position
@@ -639,6 +644,7 @@ bool MainWindow::parseArgs(const QStringList& args)
                     entry.chanpasswd = rx.cap(1);
 
                 addLatestHost(entry);
+                m_host = entry;
                 Disconnect();
                 Connect();
                 return false;
@@ -696,17 +702,15 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         //reset stats
         ZERO_STRUCT(m_clientstats);
 
-        HostEntry entry;
-        getLatestHost(0, entry);
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
 
-        int cmdid = TT_DoLogin(ttInst, _W(nick), _W(entry.username),
-                               _W(entry.password));
+        int cmdid = TT_DoLogin(ttInst, _W(nick), _W(m_host.username),
+                               _W(m_host.password));
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
         addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
-                     .arg(entry.ipaddr).arg(entry.tcpport).arg(entry.udpport));
+                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         //query server's max payload
         if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
@@ -718,11 +722,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CON_FAILED :
     {
         Disconnect();
-        HostEntry entry;
-        getLatestHost(0, entry);
 
         addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
-                     .arg(entry.ipaddr).arg(entry.tcpport).arg(entry.udpport));
+                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         update_ui = true;
     }
@@ -733,11 +735,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-        HostEntry entry;
-        getLatestHost(0, entry);
-
         addStatusMsg(tr("Connection lost to %1 TCP port %2 UDP port %3")
-                     .arg(entry.ipaddr).arg(entry.tcpport).arg(entry.udpport));
+                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
         playSoundEvent(SOUNDEVENT_SERVERLOST);
 
@@ -789,7 +788,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __USER || msg.ttType == __NONE);
 
         if(msg.ttType == __USER)
-            addStatusMsg(tr("Kicked by %1").arg(_Q(msg.user.szNickname)));
+            addStatusMsg(tr("Kicked by %1")
+                         .arg(limitText(_Q(msg.user.szNickname))));
         else
             addStatusMsg(tr("Kicked by unknown user"));
 
@@ -840,8 +840,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __USER);
         emit(userLogin(msg.user));
-        QString audiofolder = ttSettings->value(SETTINGS_AUDIOSTORAGE_FOLDER).toString();
-        AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_AUDIOSTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
+        QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
+        AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
         if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
             TT_SetUserAudioFolder(ttInst, msg.user.nUserID, _W(audiofolder), NULL, aff);
 
@@ -1074,7 +1074,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
                 addStatusMsg(tr("New video session from %1")
-                .arg(_Q(user.szNickname)));
+                             .arg(limitText(_Q(user.szNickname))));
 
             update_ui = true;
         }
@@ -1133,7 +1133,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 User user;
                 if(ui.channelsWidget->getUser(msg.nSource, user))
                     addStatusMsg(tr("New desktop session from %1")
-                    .arg(_Q(user.szNickname)));
+                    .arg(limitText(_Q(user.szNickname))));
             }
 
             update_ui = true;
@@ -1187,7 +1187,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         case MFS_ERROR :
             addStatusMsg(tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
-                         .arg(_Q(user.szNickname)));
+                         .arg(limitText(_Q(user.szNickname))));
             break;
         case MFS_FINISHED :
             addStatusMsg(tr("Finished audio file %1")
@@ -1308,9 +1308,11 @@ void MainWindow::cmdLoggedIn(int myuserid)
     //login command completed
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-    //change to female if set
-    if(!ttSettings->value(SETTINGS_GENERAL_GENDER, true).toBool())
+
+    if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
+                         SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
         m_statusmode |= STATUSMODE_FEMALE;
+
     //set status mode flags
     if(m_statusmode || statusmsg.size())
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
@@ -1320,17 +1322,14 @@ void MainWindow::cmdLoggedIn(int myuserid)
     TT_GetMyUserAccount(ttInst, &account);
 
     //join channel (if specified)
-    HostEntry host;
-    getLatestHost(0, host);
-
     Channel tmpchan;
-    int channelid = TT_GetChannelIDFromPath(ttInst, _W(host.channel));
+    int channelid = TT_GetChannelIDFromPath(ttInst, _W(m_host.channel));
     int parentid = 0;
     int account_channelid = TT_GetChannelIDFromPath(ttInst, 
                                                     account.szInitChannel);
 
     //see if parent channel exists (otherwise we cannot create it)
-    QStringList subchannels = host.channel.split('/');
+    QStringList subchannels = m_host.channel.split('/');
     if(subchannels.size())
     {
         QStringList parent = subchannels;
@@ -1354,13 +1353,13 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(host.channel.size() && channelid > 0) //join if channel exists
+    else if(m_host.channel.size() && channelid > 0) //join if channel exists
     {
-        int cmdid = TT_DoJoinChannelByID(ttInst, channelid, _W(host.chanpasswd));
+        int cmdid = TT_DoJoinChannelByID(ttInst, channelid, _W(m_host.chanpasswd));
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(host.channel.size() && parentid>0) //make a new channel if parent exists
+    else if(m_host.channel.size() && parentid>0) //make a new channel if parent exists
     {
         QString name;
         if(subchannels.size())
@@ -1381,15 +1380,15 @@ void MainWindow::cmdLoggedIn(int myuserid)
         chan.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
         COPY_TTSTR(chan.szName, name);
-        COPY_TTSTR(chan.szPassword, host.chanpasswd);
+        COPY_TTSTR(chan.szPassword, m_host.chanpasswd);
         int cmdid = TT_DoJoinChannel(ttInst, &chan);
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
     else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, true).toBool()) //just join root
     {
-        if(host.channel.size())
-            addStatusMsg(tr("Cannot join channel %1").arg(host.channel));
+        if(m_host.channel.size())
+            addStatusMsg(tr("Cannot join channel %1").arg(m_host.channel));
 
         //auto join root channel
         int cmdid = TT_DoJoinChannelByID(ttInst, 
@@ -1413,6 +1412,7 @@ void MainWindow::addStatusMsg(const QString& msg)
     if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR).toBool(), true)
     {
         ui.chatEdit->addLogMessage(msg);
+        ui.videochatEdit->addLogMessage(msg);
         ui.desktopchatEdit->addLogMessage(msg);
     }
     m_statusmsg.enqueue(msg);
@@ -1500,21 +1500,19 @@ void MainWindow::Connect()
         volume = SOUND_VOLUME_MAX;
     TT_SetSoundOutputVolume(ttInst, volume); 
 
-    //find host to connect to
-    HostEntry host;
-    getLatestHost(0, host);
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
 
     addStatusMsg(tr("Connecting to %1 TCP port %2 UDP port %3")
-        .arg(host.ipaddr).arg(host.tcpport).arg(host.udpport));
+                 .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     m_desktopaccess_entries.clear();
-    getDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
+    getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
-    if(!TT_Connect(ttInst, _W(host.ipaddr), host.tcpport,
-                   host.udpport, localtcpport, localudpport, host.encrypted))
-        addStatusMsg(tr("Failed to connect to server"));
+    if(!TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport,
+                   m_host.udpport, localtcpport, localudpport, m_host.encrypted))
+        addStatusMsg(tr("Failed to connect to %1 TCP port %2 UDP port %3")
+                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
 void MainWindow::Disconnect()
@@ -1565,23 +1563,22 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         // command errors due to rights
     case CMDERR_INVALID_ACCOUNT :
         {
-            HostEntry host;
-            getLatestHost(0, host);
             bool ok = false;
-            host.username = QInputDialog::getText(this, tr("Login error"), 
+            m_host.username = QInputDialog::getText(this, tr("Login error"), 
                 tr("Invalid user account. Type username:"), 
-                QLineEdit::Normal, host.username, &ok);
+                QLineEdit::Normal, m_host.username, &ok);
             if(!ok)
                 return;
-            host.password = QInputDialog::getText(this, tr("Login error"), 
+            m_host.password = QInputDialog::getText(this, tr("Login error"), 
                 tr("Invalid user account. Type password:"), 
-                QLineEdit::Password, host.password, &ok);
+                QLineEdit::Password, m_host.password, &ok);
             if(!ok)
                 return;
-            addLatestHost(host);
-            int cmdid = TT_DoLogin(ttInst, 
-                _W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()),
-                _W(host.username), _W(host.password));
+            
+            addLatestHost(m_host);
+            int cmdid = TT_DoLogin(ttInst,
+                                   _W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()),
+                                   _W(m_host.username), _W(m_host.password));
             if(cmdid>0)
                 m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);            
             return;
@@ -1763,11 +1760,6 @@ void MainWindow::timerEvent(QTimerEvent *event)
             else
                 m_pinglabel->setText("");
 
-#if defined(Q_OS_WIN32)
-            //if(m_pttKeys.size())
-            //    status = "Push-To-Talk: " + m_pttKeys + "    " + status;
-#endif
-
             //don't show in status if there's status messages
             if(!timerExists(TIMER_STATUSMSG))
                 ui.statusbar->showMessage(status);
@@ -1911,6 +1903,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         windowpos.push_back(r.height());
         ttSettings->setValue(SETTINGS_DISPLAY_WINDOWPOS, windowpos);
         ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui.splitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui.videosplitter->saveState());
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
     }
 
@@ -2078,9 +2071,27 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
     switch(textmsg.nMsgType)
     {
     case MSGTYPE_CHANNEL :
+    {
         playSoundEvent(SOUNDEVENT_CHANNELMSG);
+
+        QString line;
+        line = ui.chatEdit->addTextMessage(textmsg);
+        ui.videochatEdit->addTextMessage(textmsg);
+        ui.desktopchatEdit->addTextMessage(textmsg);
+
+        //setup channel text logging
+        QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
+        if(chanlog.size())
+        {
+            if(!m_logChan.isOpen())
+                openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName));
+            writeLogEntry(m_logChan, line);
+        }
+        break;
+    }
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
+        ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
         break;
     case MSGTYPE_USER :
@@ -2113,17 +2124,20 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
             ui.channelsWidget->setUserDesktopAccess(textmsg.nFromUserID, cmd[1] == "1");
             if(cmd[1] == "1")
             {
-                addStatusMsg(QString(tr("%1 is requesting desktop access").arg(_Q(user.szNickname))));
+                addStatusMsg(QString(tr("%1 is requesting desktop access")
+                             .arg(limitText(_Q(user.szNickname)))));
                 playSoundEvent(SOUNDEVENT_DESKTOPACCESS);
                 if(hasDesktopAccess(m_desktopaccess_entries, user))
                 {
                     subscribeCommon(true, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
-                    addStatusMsg(QString(tr("%1 granted desktop access").arg(_Q(user.szNickname))));
+                    addStatusMsg(QString(tr("%1 granted desktop access")
+                                 .arg(limitText(_Q(user.szNickname)))));
                 }
             }
             else
             {
-                addStatusMsg(QString(tr("%1 retracted desktop access").arg(_Q(user.szNickname))));
+                addStatusMsg(QString(tr("%1 retracted desktop access")
+                             .arg(limitText(_Q(user.szNickname)))));
                 subscribeCommon(false, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
             }
         }
@@ -2143,7 +2157,7 @@ void MainWindow::processMyselfJoined(int channelid)
     addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
 
     //store new muxed audio file if we're changing channel
-    if(ui.actionEnableStoreAudioToDisk->isChecked() &&
+    if(ui.actionMediaStorage->isChecked() &&
         (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
     {
         updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
@@ -2162,6 +2176,14 @@ void MainWindow::processMyselfLeft(int channelid)
     ui.videogridWidget->ResetGrid();
     ui.desktopgridWidget->ResetGrid();
 
+    if(m_logChan.isOpen())
+    {
+        QString filename = m_logChan.fileName();
+        quint64 size = m_logChan.size();
+        m_logChan.close();
+        if(size == 0)
+            QFile::remove(filename);
+    }
     updateWindowTitle();
 }
 
@@ -2250,14 +2272,18 @@ void MainWindow::updateUserSubscription(int userid)
 
 void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
 {
-    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_AUDIOSTORAGE_FILEFORMAT, 
+    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, 
                                                              AFF_WAVE_FORMAT).toInt();
-    QString audiofolder = ttSettings->value(SETTINGS_AUDIOSTORAGE_FOLDER).toString();
+    QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
 
     if(mode == AUDIOSTORAGE_SINGLEFILE)
     {
         if(enable)
         {
+            //don't try to record with no audio codec specified (it will fail)
+            if(m_mychannel.audiocodec.nCodec == NO_CODEC)
+                return;
+
             QString filepath = audiofolder;
             filepath += QDir::toNativeSeparators("/") + generateAudioStorageFilename(aff);
 
@@ -2271,7 +2297,9 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
                 addStatusMsg(tr("Recording to file: %1").arg(filepath));
         }
         else
+        {
             TT_StopRecordingMuxedAudioFile(ttInst);
+        }
     }
     
     if(mode == AUDIOSTORAGE_SEPARATEFILES)
@@ -2814,8 +2842,10 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
         QMessageBox::warning(this, tr("Enable HotKey"), 
                              tr("Failed to register hotkey. Please try another key combination."));
     }
-
 #endif
+
+    if(id == HOTKEY_PUSHTOTALK)
+        m_pttlabel->setText(tr("Push To Talk: ") + getHotKeyText(hk));
 }
 
 void MainWindow::disableHotKey(HotKeyID id)
@@ -2870,7 +2900,10 @@ void MainWindow::disableHotKey(HotKeyID id)
         m_hotkeys.erase(i);
     }
 
-#endif    
+#endif
+
+    if(id == HOTKEY_PUSHTOTALK)
+        m_pttlabel->setText("");
 }
 
 #if defined(Q_OS_LINUX)
@@ -2978,7 +3011,10 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
     {
         ServerListDlg dlg(this);
         if(dlg.exec())
+        {
+            getLatestHost(0, m_host);
             Connect();
+        }
     }
 
     //update checked state
@@ -3036,7 +3072,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         //change to female if set
-        if(!ttSettings->value(SETTINGS_GENERAL_GENDER, true).toBool())
+        if(!ttSettings->value(SETTINGS_GENERAL_GENDER,
+                              SETTINGS_GENERAL_GENDER_DEFAULT).toBool())
             m_statusmode |= STATUSMODE_FEMALE;
         else
             m_statusmode &= ~STATUSMODE_FEMALE;
@@ -3084,10 +3121,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     emit(preferencesModified());
 
-    HostEntry host;
-    getLatestHost(0, host);
     m_desktopaccess_entries.clear();
-    getDesktopAccessList(m_desktopaccess_entries, host.ipaddr, host.tcpport);
+
+    getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
     slotUpdateUI();
 }
@@ -3137,17 +3173,10 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
         if(hotkey.size())
             enableHotKey(HOTKEY_PUSHTOTALK, hotkey);
-
-#if defined(Q_OS_WIN32)
-        m_pttKeys = getHotKeyText(hotkey);
-#endif
     }
     else
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
-#if defined(Q_OS_WIN32)
-        m_pttKeys.clear();
-#endif
     }
 
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
@@ -3378,7 +3407,7 @@ void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
     User user;
     if(ui.channelsWidget->getUser(userid, user))
         addStatusMsg(QString(tr("%1 granted desktop access")
-                        .arg(_Q(user.szNickname))));
+                        .arg(limitText(_Q(user.szNickname)))));
 }
 
 void MainWindow::slotUsersSubscriptionsMediaFile(bool checked /*=false*/)
@@ -3545,16 +3574,44 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
 {
-    if(AudioStorageDlg(this).exec())
+    quint32 old_mode = m_audiostorage_mode;
+
+    if(MediaStorageDlg(this).exec())
     {
-        m_audiostorage_mode = ttSettings->value(SETTINGS_AUDIOSTORAGE_MODE, 
+        m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
                                                 AUDIOSTORAGE_NONE).toUInt();
-        ui.actionEnableStoreAudioToDisk->setChecked(true);
-        slotEnableAudioRecording(true);
+        ui.actionMediaStorage->setChecked(true);
+        quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
+                                             AUDIOSTORAGE_NONE).toUInt();
+        if(old_mode & AUDIOSTORAGE_SINGLEFILE)
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
+        }
+        if(old_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if(new_mode & AUDIOSTORAGE_SINGLEFILE)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
+        }
+        if(new_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().isEmpty())
+            m_logChan.close();
     }
     else
-        ui.actionEnableStoreAudioToDisk->setChecked(false);
-
+    {
+        m_audiostorage_mode = AUDIOSTORAGE_NONE;
+    }
     slotUpdateUI();
 }
 
@@ -3870,9 +3927,8 @@ void MainWindow::slotHelpAbout(bool /*checked =false */)
 void MainWindow::slotConnectToLatest()
 {
     //auto connect to latest host
-    HostEntry host;
     if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, false).toBool() &&
-        getLatestHost(0, host))
+        getLatestHost(0, m_host))
         Connect();
 }
 
@@ -4055,7 +4111,7 @@ void MainWindow::slotUpdateUI()
 
     //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
     ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
-    ui.actionSpecifyAudioFolder->setEnabled(true);
+    ui.actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE);
 
     //Channel-menu items
     Channel chan;
@@ -4152,6 +4208,10 @@ void MainWindow::slotSendChannelMessage()
     case TAB_CHAT :
         txtmsg = ui.msgEdit->text();
         ui.msgEdit->clear();
+        break;
+    case TAB_VIDEO :
+        txtmsg = ui.videomsgEdit->text();
+        ui.videomsgEdit->clear();
         break;
     case TAB_DESKTOP :
         txtmsg = ui.desktopmsgEdit->text();
@@ -4398,7 +4458,7 @@ void MainWindow::slotAddUserVideo()
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
            (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
-           menu.addAction(_Q(user.szNickname))->setData(users[i]);
+           menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
     }
 
     if(menu.isEmpty())return;
@@ -4438,7 +4498,7 @@ void MainWindow::slotRemoveUserVideo()
         for(int i=0;i<users.size();i++)
         {
             if(TT_GetUser(ttInst, users[i], &user))
-                menu.addAction(_Q(user.szNickname))->setData(users[i]);
+                menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
         }
 
         if(menu.isEmpty())
@@ -4607,7 +4667,7 @@ void MainWindow::slotAddUserDesktop()
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
            (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == 0)
-           menu.addAction(_Q(user.szNickname))->setData(users[i]);
+           menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
     }
 
     if(menu.isEmpty())
@@ -4636,7 +4696,7 @@ void MainWindow::slotRemoveUserDesktop()
         for(int i=0;i<users.size();i++)
         {
             if(TT_GetUser(ttInst, users[i], &user))
-                menu.addAction(_Q(user.szNickname))->setData(users[i]);
+                menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
         }
 
         if(menu.isEmpty())
@@ -4751,8 +4811,8 @@ void MainWindow::slotUserDesktopDlgClosing(int userid)
 void MainWindow::slotUserJoin(int channelid, const User& user)
 {
     //also set here in case VIEW_ALL_USERS is false
-    QString audiofolder = ttSettings->value(SETTINGS_AUDIOSTORAGE_FOLDER).toString();
-    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_AUDIOSTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
+    QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
+    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
     if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
         TT_SetUserAudioFolder(ttInst, user.nUserID, _W(audiofolder), NULL, aff);
 
@@ -4791,11 +4851,12 @@ void MainWindow::slotUserUpdate(const User& user)
     User oldUser;
     if(ui.channelsWidget->getUser(user.nUserID, oldUser))
     {
+        QString nickname = limitText(_Q(user.szNickname));
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?
                      tr("On"):tr("Off")));
@@ -4804,7 +4865,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?
                      tr("On"):tr("Off")));
@@ -4813,7 +4874,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionBroadcastMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?
                      tr("On"):tr("Off")));
@@ -4822,7 +4883,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?
                      tr("On"):tr("Off")));
@@ -4831,7 +4892,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
@@ -4840,7 +4901,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionDesktop->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?
                      tr("On"):tr("Off")));
@@ -4849,7 +4910,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionDesktopInput->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?
                      tr("On"):tr("Off")));
@@ -4858,7 +4919,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
@@ -4867,7 +4928,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
@@ -4876,7 +4937,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
@@ -4885,7 +4946,7 @@ void MainWindow::slotUserUpdate(const User& user)
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
         {
             addStatusMsg(tr("%1 changed subscription \"%2\" to: %3")
-                .arg(_Q(user.szNickname))
+                .arg(nickname)
                 .arg(MENUTEXT(ui.actionInterceptVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
@@ -4938,47 +4999,6 @@ void MainWindow::slotVoiceActivationLevelChanged(int value)
     TT_SetVoiceActivationLevel(ttInst, value);
 }
 
-void MainWindow::slotEnableAudioRecording(bool checked)
-{
-    quint32 old_mode = m_audiostorage_mode;
-
-    if(checked &&
-       ttSettings->value(SETTINGS_AUDIOSTORAGE_MODE, 
-                         AUDIOSTORAGE_NONE).toUInt() == AUDIOSTORAGE_NONE)
-        slotUsersStoreAudioToDisk(checked);
-    else
-    {
-        quint32 new_mode = ttSettings->value(SETTINGS_AUDIOSTORAGE_MODE, 
-                                             AUDIOSTORAGE_NONE).toUInt();
-        if(old_mode & AUDIOSTORAGE_SINGLEFILE)
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
-        }
-        if(old_mode & AUDIOSTORAGE_SEPARATEFILES)
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
-        }
-
-        if(checked)
-        {
-            if(new_mode & AUDIOSTORAGE_SINGLEFILE)
-            {
-                updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
-                m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
-            }
-            if(new_mode & AUDIOSTORAGE_SEPARATEFILES)
-            {
-                updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
-                m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
-            }
-        }
-        else
-            m_audiostorage_mode = AUDIOSTORAGE_NONE;
-    }
-}
-
 void MainWindow::slotTrayIconChange(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
@@ -4999,11 +5019,48 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
         if(doc.setContent(data))
         {
             QDomElement rootElement(doc.documentElement());
+            QString version = rootElement.attribute("version");
+            
+            if(!versionSameOrLater(version, TTFILE_VERSION))
+            {
+                QMessageBox::information(this, tr("Load File"), 
+                    tr("The file \"%1\" is incompatible with %2")
+                    .arg(QDir::toNativeSeparators(filepath))
+                    .arg(APPTITLE));
+                return;
+            }
+
             QDomElement element = rootElement.firstChildElement("host");
             HostEntry entry;
             if(getServerEntry(element, entry))
             {
                 addLatestHost(entry);
+                m_host = entry;
+
+                //if no nickname specified use from .tt file
+                if(m_host.nickname.size() &&
+                   ttSettings->value(SETTINGS_GENERAL_NICKNAME,
+                                     SETTINGS_GENERAL_NICKNAME_DEFAULT).toString() ==
+                                     SETTINGS_GENERAL_NICKNAME_DEFAULT)
+                    ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
+
+                //if no gender specified use from .tt file
+                if(m_host.gender == GENDER_FEMALE &&
+                    ttSettings->value(SETTINGS_GENERAL_GENDER,
+                                      SETTINGS_GENERAL_GENDER_DEFAULT) == true)
+                    m_statusmode |= STATUSMODE_FEMALE;
+                else
+                    m_statusmode &= ~STATUSMODE_FEMALE;
+                ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);
+                
+                //if no PTT-key specified use from .tt file
+                hotkey_t hotkey;
+                loadHotKeySettings(HOTKEY_PUSHTOTALK, hotkey);
+                if(hotkey.size() == 0 && m_host.hotkey.size())
+                {
+                    saveHotKeySettings(HOTKEY_PUSHTOTALK, m_host.hotkey);
+                    enableHotKey(HOTKEY_PUSHTOTALK, m_host.hotkey);
+                }
                 Disconnect();
                 Connect();
                 return;

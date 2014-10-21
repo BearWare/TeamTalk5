@@ -22,21 +22,24 @@
 #ifndef AUDIOSTORAGEDLG_H
 #define AUDIOSTORAGEDLG_H
 
-#include "ui_audiostorage.h"
+#include "ui_mediastorage.h"
 
-class AudioStorageDlg : public QDialog
+class MediaStorageDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    AudioStorageDlg(QWidget * parent = 0);
+    MediaStorageDlg(QWidget * parent = 0);
 
 public slots:
     void accept();
 private slots:
-    void slotShowDirectoryTreeDlg();
+    void slotSetAudioFolder();
+    void slotSetChanLogFolder();
+    void slotSetUserLogFolder();
 private:
-    Ui::AudioStorageDlg ui;
+    QString getFolder();
+    Ui::MediaStorageDlg ui;
 };
 
 #endif

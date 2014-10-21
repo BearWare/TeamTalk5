@@ -37,7 +37,7 @@ public:
 
     void joinedChannel(int channelid);
 
-    void addTextMessage(const TextMessage& msg);
+    QString addTextMessage(const TextMessage& msg);
     void addLogMessage(const QString& msg);
 
 protected:

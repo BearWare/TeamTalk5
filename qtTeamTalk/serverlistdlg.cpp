@@ -23,9 +23,9 @@
 #include "common.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "generatettfiledlg.h"
 
 #include <QUrl>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QFile>
 #include <QNetworkRequest>
@@ -278,17 +278,8 @@ void ServerListDlg::slotGenerateFile()
     if(!getHostEntry(entry))
         return;
 
-    QByteArray xml = generateTTFile(entry);
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
-        "", tr("%1 File (*%1)").arg(TTFILE_EXT));
-    if(filename.size())
-    {
-        QFile file(filename);
-        if(!file.open(QIODevice::WriteOnly))
-            QMessageBox::critical(this, tr("Save File"), tr("Unable to save file"));
-        else
-            file.write(xml);
-    }
+    GenerateTTFileDlg dlg(entry, this);
+    dlg.exec();
 }
 
 void ServerListDlg::slotSaveEntryChanged(const QString& text)
