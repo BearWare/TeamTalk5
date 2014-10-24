@@ -33,4 +33,21 @@ public class OpusCodec
     public boolean bVBR;
     public boolean bVBRConstraint;
     public int nMSecPerPacket;
+    
+    public OpusCodec() {}
+    public OpusCodec(boolean set_defaults) {
+        if(!set_defaults)
+            return;
+
+        nSampleRate = OpusConstants.DEFAULT_OPUS_SAMPLERATE;
+        nChannels = OpusConstants.DEFAULT_OPUS_CHANNELS;
+        nApplication = OpusConstants.DEFAULT_OPUS_APPLICATION;
+        nComplexity = OpusConstants.DEFAULT_OPUS_COMPLEXITY;
+        bFEC = OpusConstants.DEFAULT_OPUS_FEC;
+        bDTX = OpusConstants.DEFAULT_OPUS_DTX;
+        nBitRate = OpusConstants.DEFAULT_OPUS_BITRATE;
+        bVBR = OpusConstants.DEFAULT_OPUS_VBR;
+        bVBRConstraint = OpusConstants.DEFAULT_OPUS_VBRCONSTRAINT;
+        nMSecPerPacket = OpusConstants.DEFAULT_OPUS_DELAY;
+    }
 }

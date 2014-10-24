@@ -23,15 +23,19 @@ package dk.bearware;
 
 public class SpeexCodec
 {
-    public static final int SPEEX_NB_MIN_BITRATE = 2150;
-    public static final int SPEEX_NB_MAX_BITRATE = 24600;
-    public static final int SPEEX_WB_MIN_BITRATE = 3950;
-    public static final int SPEEX_WB_MAX_BITRATE = 42200;
-    public static final int SPEEX_UWB_MIN_BITRATE = 4150;
-    public static final int SPEEX_UWB_MAX_BITRATE = 44000;
-    
     public int nBandmode;
     public int nQuality;
     public int nMSecPerPacket;
     public boolean bStereoPlayback;
+    
+    public SpeexCodec() {}
+    public SpeexCodec(boolean set_defaults) {
+        if(!set_defaults)
+            return;
+
+        nBandmode = SpeexConstants.DEFAULT_SPEEX_BANDMODE;
+        nQuality = SpeexConstants.DEFAULT_SPEEX_QUALITY;
+        nMSecPerPacket = SpeexConstants.DEFAULT_SPEEX_DELAY;
+        bStereoPlayback = SpeexConstants.DEFAULT_SPEEX_SIMSTEREO;
+    }
 }

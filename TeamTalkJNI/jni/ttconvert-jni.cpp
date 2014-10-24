@@ -1054,7 +1054,7 @@ void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTran
     assert(fid_inbound);
 
     env->SetIntField(lpFileTransfer, fid_status, filetx.nStatus);
-    env->SetIntField(lpFileTransfer, fid_txed, filetx.nTransferID);
+    env->SetIntField(lpFileTransfer, fid_txid, filetx.nTransferID);
     env->SetIntField(lpFileTransfer, fid_chanid, filetx.nChannelID);
     env->SetObjectField(lpFileTransfer, fid_filepath, env->NewStringUTF(filetx.szLocalFilePath));
     env->SetObjectField(lpFileTransfer, fid_rempath, env->NewStringUTF(filetx.szRemoteFileName));

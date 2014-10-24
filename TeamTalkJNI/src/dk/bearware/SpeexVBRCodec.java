@@ -30,4 +30,19 @@ public class SpeexVBRCodec
     public boolean bDTX;
     public int nMSecPerPacket;
     public boolean bStereoPlayback;
+    
+    public SpeexVBRCodec() {}
+    
+    public SpeexVBRCodec(boolean set_defaults) {
+        if(!set_defaults)
+            return;
+        
+        nBandmode = SpeexConstants.DEFAULT_SPEEX_BANDMODE;
+        nQuality = SpeexConstants.DEFAULT_SPEEX_QUALITY;
+        nBitRate = SpeexConstants.DEFAULT_SPEEX_BITRATE;
+        nMaxBitRate = SpeexConstants.DEFAULT_SPEEX_MAXBITRATE;
+        bDTX = SpeexConstants.DEFAULT_SPEEX_DTX;
+        nMSecPerPacket = SpeexConstants.DEFAULT_SPEEX_DELAY;
+        bStereoPlayback = SpeexConstants.DEFAULT_SPEEX_SIMSTEREO;
+    }
 }

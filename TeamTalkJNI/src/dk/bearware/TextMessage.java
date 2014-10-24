@@ -23,7 +23,7 @@ package dk.bearware;
 
 public class TextMessage
 {
-    public int nMsgType;
+    public int /* TextMsgType */ nMsgType;
     public int nFromUserID;
     public String szFromUsername;
     public int nToUserID;
