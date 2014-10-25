@@ -56,12 +56,13 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Requires **TeamTalk.NET** project for DLL dependency
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
-  * Requires **TeamTalkJNI** project as library dependency
-  * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
+  * Import project in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
+    * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the following files to *TeamTalkAndroid/libs* directory:
     * android-support-v4.jar
       * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
     * gson-2.2.4.jar
       * Download from http://code.google.com/p/google-gson/
+  * Requires **TeamTalkJNI** project as library dependency
 * **ttphpadmin**
   * Console PHP-script for administrating a TeamTalk 5 server.
