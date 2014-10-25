@@ -29,4 +29,5 @@ public interface ChannelType
     public static final int CHANNEL_CLASSROOM           = 0x0004;
     public static final int CHANNEL_OPERATOR_RECVONLY   = 0x0008;
     public static final int CHANNEL_NO_VOICEACTIVATION  = 0x0010;
+    public static final int CHANNEL_NO_RECORDING        = 0x0020;
 }

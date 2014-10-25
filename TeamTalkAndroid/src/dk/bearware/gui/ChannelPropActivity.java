@@ -21,6 +21,7 @@
 
 package dk.bearware.gui;
 
+import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
 import dk.bearware.ChannelType;
 import dk.bearware.ClientErrorMsg;
@@ -42,6 +43,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -54,6 +58,18 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     
     public static final String EXTRA_CHANNELID = "channelid",   //edit existing channel
                                EXTRA_PARENTID = "parentid";     //create new channel
+
+    public static final int REQUEST_AUDIOCODEC = 1,
+                            REQUEST_AUDIOCONFIG = 2;
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            channel.audiocodec = Utils.getAudioCodec(data);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +96,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_updatechannel : {
-                setgetChannel(true);
+                exchangeChannel(true);
                 if(channel.nChannelID > 0) {
                     
                     updateCmdId = ttclient.doUpdateChannel(channel);
@@ -90,7 +106,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                     }
                 }
                 else {
-                    setgetChannel(true);
+                    exchangeChannel(true);
                     
                     updateCmdId = ttclient.doJoinChannel(channel);
                     if(updateCmdId > 0)
@@ -132,20 +148,29 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         unbindService(mConnection);
     }
 
-    void setgetChannel(boolean set) {
+    void exchangeChannel(boolean store) {
 
         EditText chanName = (EditText) findViewById(R.id.channame);
         EditText chanTopic = (EditText) findViewById(R.id.chantopic);
         EditText chanPasswd = (EditText) findViewById(R.id.chanpasswd);
         EditText chanOpPasswd = (EditText) findViewById(R.id.chanoppasswd);
+        EditText chanMaxUsers = (EditText) findViewById(R.id.chanmaxusers);
+        EditText chanDiskQuota = (EditText) findViewById(R.id.chandiskquota);
         CheckBox chanPermanent = (CheckBox) findViewById(R.id.chan_permanent);
         CheckBox chanNoInterrupt = (CheckBox) findViewById(R.id.chan_nointerrupt);
+        CheckBox chanClassroom = (CheckBox)findViewById(R.id.chan_classroom);
+        CheckBox chanOpRecvOnly = (CheckBox)findViewById(R.id.chan_oprecvonly);
+        CheckBox chanNoVoiceAct = (CheckBox)findViewById(R.id.chan_novoiceact);
+        CheckBox chanNoAudioRec = (CheckBox)findViewById(R.id.chan_noaudiorecord);
 
-        if (set) {
+        if (store) {
             channel.szName = chanName.getText().toString();
             channel.szTopic = chanTopic.getText().toString();
             channel.szPassword = chanPasswd.getText().toString();
-            channel.szOpPassword = chanPasswd.getText().toString();
+            channel.szOpPassword = chanOpPasswd.getText().toString();
+            channel.nMaxUsers = Integer.parseInt(chanMaxUsers.getText().toString());
+            channel.nDiskQuota = Long.parseLong(chanDiskQuota.getText().toString());
+            channel.nDiskQuota *= 1024;
             
             if(chanPermanent.isChecked())
                 channel.uChannelType |= ChannelType.CHANNEL_PERMANENT;
@@ -155,6 +180,22 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                 channel.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
             else
                 channel.uChannelType &= ~ChannelType.CHANNEL_SOLO_TRANSMIT;
+            if(chanClassroom.isChecked())
+                channel.uChannelType |= ChannelType.CHANNEL_CLASSROOM;
+            else
+                channel.uChannelType &= ~ChannelType.CHANNEL_CLASSROOM;
+            if(chanOpRecvOnly.isChecked())
+                channel.uChannelType |= ChannelType.CHANNEL_OPERATOR_RECVONLY;
+            else
+                channel.uChannelType &= ~ChannelType.CHANNEL_OPERATOR_RECVONLY;
+            if(chanNoVoiceAct.isChecked())
+                channel.uChannelType |= ChannelType.CHANNEL_NO_VOICEACTIVATION;
+            else
+                channel.uChannelType &= ~ChannelType.CHANNEL_NO_VOICEACTIVATION;
+            if(chanNoAudioRec.isChecked())
+                channel.uChannelType |= ChannelType.CHANNEL_NO_RECORDING;
+            else
+                channel.uChannelType &= ~ChannelType.CHANNEL_NO_RECORDING;
         }
         else {
             chanName.setFocusable(channel.nParentID > 0);
@@ -162,9 +203,15 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
             chanTopic.setText(channel.szTopic);
             chanPasswd.setText(channel.szPassword);
             chanOpPasswd.setText(channel.szOpPassword);
+            chanMaxUsers.setText(Integer.toString(channel.nMaxUsers));
+            chanDiskQuota.setText(Long.toString(channel.nDiskQuota / 1024));
             
             chanPermanent.setChecked((channel.uChannelType & ChannelType.CHANNEL_PERMANENT) != 0);
             chanNoInterrupt.setChecked((channel.uChannelType & ChannelType.CHANNEL_SOLO_TRANSMIT) != 0);
+            chanClassroom.setChecked((channel.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0);
+            chanOpRecvOnly.setChecked((channel.uChannelType & ChannelType.CHANNEL_OPERATOR_RECVONLY) != 0);
+            chanNoVoiceAct.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_VOICEACTIVATION) != 0);
+            chanNoAudioRec.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_RECORDING) != 0);
         }
     }
 
@@ -176,17 +223,39 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         ttservice.registerConnectionListener(ChannelPropActivity.this);
         ttservice.registerCommandListener(ChannelPropActivity.this);
 
-        int channelid = ChannelPropActivity.this.getIntent().getExtras().getInt(EXTRA_CHANNELID);
-        int parentid = ChannelPropActivity.this.getIntent().getExtras().getInt(EXTRA_PARENTID);
+        int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
+        int parentid = getIntent().getExtras().getInt(EXTRA_PARENTID);
         if(channelid > 0) {
+            //existing channel
             channel = ttservice.getChannels().get(channelid);
 
-            setgetChannel(false);
+            exchangeChannel(false);
         }
         else if(parentid > 0) {
+            //create new channel
             channel = new Channel();
             channel.nParentID = parentid;
         }
+        
+
+        Button codec_btn = (Button) findViewById(R.id.setup_audcodec_btn);
+//        Button audcfg_btn = (Button) findViewById(R.id.setup_audcfg_btn);
+        
+        OnClickListener listener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(v.getId()) {
+                    case R.id.setup_audcodec_btn :
+                        Intent edit = new Intent(ChannelPropActivity.this, AudioCodecActivity.class);
+                        edit = Utils.putAudioCodec(edit, channel.audiocodec);
+                        startActivityForResult(edit, REQUEST_AUDIOCODEC);
+                        break;
+                }
+            }
+        };
+        codec_btn.setOnClickListener(listener);
+//        audcfg_btn.setOnClickListener(listener);
+
     }
 
     @Override

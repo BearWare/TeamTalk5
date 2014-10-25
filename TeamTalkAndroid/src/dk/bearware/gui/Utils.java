@@ -41,6 +41,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import com.google.gson.Gson;
 
+import dk.bearware.AudioCodec;
 import dk.bearware.BitmapFormat;
 import dk.bearware.Channel;
 import dk.bearware.User;
@@ -71,6 +72,17 @@ public class Utils {
     public static ServerEntry getServerEntry(Intent intent) {
         if (intent.hasExtra(ServerEntry.class.getName())) {
             return new Gson().fromJson(intent.getExtras().getString(ServerEntry.class.getName()),  ServerEntry.class);
+        }
+        return null;
+    }
+    
+    public static Intent putAudioCodec(Intent intent, AudioCodec entry) {
+        return intent.putExtra(AudioCodec.class.getName(), new Gson().toJson(entry));
+    }
+    
+    public static AudioCodec getAudioCodec(Intent intent) {
+        if (intent.hasExtra(AudioCodec.class.getName())) {
+            return new Gson().fromJson(intent.getExtras().getString(AudioCodec.class.getName()),  AudioCodec.class);
         }
         return null;
     }

@@ -23,7 +23,7 @@ package dk.bearware;
 
 public class FileTransfer
 {
-    public int nStatus;
+    public /* FileTransferStatus */ int nStatus;
     public int nTransferID;
     public int nChannelID;
     public String szLocalFilePath;

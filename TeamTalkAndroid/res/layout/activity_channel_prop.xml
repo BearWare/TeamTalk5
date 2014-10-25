@@ -36,6 +36,25 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/chanpasswdlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_password" />
+
+        <EditText
+            android:id="@+id/chanpasswd"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:lines="1" >
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
             android:id="@+id/chantopiclabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,27 +66,6 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:lines="3" >
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/chanpasswdlabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/channel_prop_title_password"
-            />
-
-        <EditText
-            android:id="@+id/chanpasswd"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:lines="1" >
         </EditText>
     </LinearLayout>
     
@@ -96,6 +94,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_maxusers"
+            />
+
+        <EditText
+            android:id="@+id/chanmaxusers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_diskquota"
+            />
+
+        <EditText
+            android:id="@+id/chandiskquota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/setup_audcodec_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Audio Codec" />
+<!-- 
+        <Button
+            android:id="@+id/setup_audcfg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Audio Config" />
+ -->   
+	</LinearLayout>
+	
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <CheckBox
@@ -109,7 +167,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_nointerrupt" />
+
+        <CheckBox
+            android:id="@+id/chan_classroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_classroom" />
+                
+        <CheckBox
+            android:id="@+id/chan_oprecvonly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_oprecvonly" />
         
+        <CheckBox
+            android:id="@+id/chan_novoiceact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_novoiceact" />
+
+        <CheckBox
+            android:id="@+id/chan_noaudiorecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_prop_title_noaudiorecord" />
+
         </LinearLayout>
 
 </LinearLayout>

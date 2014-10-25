@@ -5,7 +5,7 @@ public interface SpeexConstants {
     public static final int SPEEX_BANDMODE_WIDE = 1;
     public static final int SPEEX_BANDMODE_UWIDE = 2;
 
-    public static final int SPEEX_QUALITY_MIN = 1;
+    public static final int SPEEX_QUALITY_MIN = 0;
     public static final int SPEEX_QUALITY_MAX = 10;
 
     public static final int SPEEX_NB_MIN_BITRATE = 2150;

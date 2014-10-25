@@ -49,6 +49,10 @@
             android:name=".PreferencesActivity"
             android:label="@string/title_activity_preferences" >
         </activity>
+        <activity
+            android:name=".AudioCodecActivity"
+            android:label="@string/title_activity_audio_codec" >
+        </activity>
     </application>
 
     <uses-sdk android:minSdkVersion="16" />
@@ -61,13 +65,15 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" >
     </uses-permission>
 
-    <!-- INTERNET is needed to use a URI-based audio player, depending
-         on the URI -->
+    <!--
+         INTERNET is needed to use a URI-based audio player, depending
+         on the URI
+    -->
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
 
     <!-- VIBRATE is needed to vibrate on up/down of tx button -->
     <uses-permission android:name="android.permission.VIBRATE" >
     </uses-permission>
-    
+
 </manifest>
