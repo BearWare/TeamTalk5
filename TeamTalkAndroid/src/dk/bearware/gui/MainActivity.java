@@ -799,10 +799,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         else if(item instanceof Channel) {
             Channel channel = (Channel) item;
             if(channel.nChannelID > 0) {
-                if (position > 0)
-                    joinChannel(channel);
-                else
-                    joinChannel(channel, channel.szPassword);
+                curchannel = channel;
+                channelsAdapter.notifyDataSetChanged();
+//                if (position > 0)
+//                    joinChannel(channel);
+//                else
+//                    joinChannel(channel, channel.szPassword);
             }
             else {
                 curchannel = null;
