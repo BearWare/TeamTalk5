@@ -91,7 +91,7 @@ void CBannedDlg::Update()
     {
         BannedUser& ban = m_vecBanned[i];
         szUser.Format(_T("%s, %s, %s, %s"), ban.szNickname, ban.szUsername, 
-            ban.szIpAddress, ban.szBanTime);
+            ban.szIPAddress, ban.szBanTime);
         m_wndBanned.AddString(szUser);
     }
 
@@ -99,7 +99,7 @@ void CBannedDlg::Update()
     {
         BannedUser& ban = m_vecUnBanned[i];
         szUser.Format(_T("%s, %s, %s, %s"), ban.szNickname, ban.szUsername, 
-            ban.szIpAddress, ban.szBanTime);
+            ban.szIPAddress, ban.szBanTime);
         m_wndUnbanned.AddString(szUser);
     }
 }

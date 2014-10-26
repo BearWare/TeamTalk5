@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3504"
+#define TEAMTALK_VERSION "5.0.0.3529"
 
 
 #if defined(WIN32)
@@ -209,6 +209,7 @@ extern "C" {
          * Check @c supportedSampleRates and @c nDefaultSampleRate of
          * #SoundDevice to see which sample rates are supported. */
         SOUNDSYSTEM_WASAPI = 5,
+        /** @brief Android sound API. */
         SOUNDSYSTEM_OPENSLES_ANDROID = 7
     } SoundSystem;
 
@@ -700,10 +701,10 @@ extern "C" {
         /** @brief A value from 1-10. As of DLL version 4.2 also 0 is
          * supported.*/
         INT32 nQuality;
-        /** @brief Milliseconds of audio data in each packet. Speex
+        /** @brief Milliseconds of audio data before each transmission. Speex
          * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
          * max is 100. */
-        INT32 nMSecPerPacket;
+        INT32 nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
@@ -739,10 +740,10 @@ extern "C" {
          * enabled Speex will ignore silence, so the bitrate will
          * become very low. */
         BOOL bDTX;
-        /** @brief Milliseconds of audio data in each packet. Speex
+        /** @brief Milliseconds of audio data before each transmission. Speex
          * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
          * max is 100. */
-        INT32 nMSecPerPacket;
+        INT32 nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
@@ -777,9 +778,7 @@ extern "C" {
         /** @brief The sample rate to use. Sample rate must be in the
          * range 8000 - 48000 Hz. */
         INT32 nSampleRate;
-        /** @brief Mono = 1 or stereo = 2. Note that echo
-         * cancellation, denoising and AGC is not support when using
-         * stereo. @see AudioConfig */
+        /** @brief Mono = 1 or stereo = 2. */
         INT32 nChannels;
         /** @brief Application of encoded audio, i.e. VoIP or music.
          * @see OPUS_APPLICATION_VOIP
@@ -802,9 +801,9 @@ extern "C" {
         /** @brief Enable constrained VBR.
          * @c bVBR must be enabled to enable this. */
         BOOL bVBRConstraint;
-        /** @brief Duration of audio in each packet.
+        /** @brief Duration of audio before each transmission.
          * OPUS supports 2.5, 5, 10, 20, 40 or 60 ms. */
-        INT32 nMSecPerPacket;
+        INT32 nTxIntervalMSec;
     } OpusCodec;
 
 /** @brief Audio encoding is for VoIP. This value should be set as
@@ -819,6 +818,77 @@ extern "C" {
 /** @brief The maximum bitrate for OPUS codec. Checkout @c nBitRate of
  * #OpusCodec. */
 #define OPUS_MAX_BITRATE 510000
+
+    /** @brief Speex DSP is used for specifying how recorded audio
+     * from a sound input device should be preprocessed before
+     * transmission.
+     *
+     * Users' audio levels may be diffent due to how their microphone
+     * is configured in their OS. Automatic Gain Control (AGC) can be
+     * used to ensure all users in the same channel have the same
+     * audio level.
+     *
+     * Enable the preprocessing configuration by calling
+     * TT_SetSoundInputPreprocess().
+     *
+     * When joining a #Channel and @c bEnableGainControl of
+     * #AudioConfig is enabled in the channel then enable sound input
+     * preprocessing by setting @c bEnableAGC to TRUE and @c
+     * nGainLevel of #SpeexDSP to the @c nGainLevel of
+     * #AudioConfig. */
+    typedef struct SpeexDSP
+    {
+        /** @brief Whether to enable AGC with the settings specified
+         * @a nGainLevel, @a nMaxIncDBSec, @a nMaxDecDBSec and @a
+         * nMaxGainDB. */
+        BOOL bEnableAGC;
+        /** @brief A value from 0 to 32768. Default is 8000.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        INT32 nGainLevel;
+        /** @brief Used so volume should not be amplified too quickly 
+         * (maximal gain increase in dB/second). Default is 12. 
+         * * Value is ignored if @a bEnableAGC is FALSE. */
+        INT32 nMaxIncDBSec;
+        /** @brief Used so volume should not be attenuated
+         * too quickly (maximal gain decrease in dB/second).
+         * Negative value! Default is -40.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        INT32 nMaxDecDBSec;
+        /** @brief Ensure volume doesn't become too loud (maximal gain
+         * in dB). Default is 30.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        INT32 nMaxGainDB;
+        /** @brief Whether clients who join the channel should automatically
+         * enable denoising. */
+        BOOL bEnableDenoise;
+        /** @brief Maximum attenuation of the noise in dB.
+         * Negative value! Default value is -30. 
+         * Value is ignored if @a bEnableDenoise is FALSE. */
+        INT32 nMaxNoiseSuppressDB;
+        /** @brief Enable/disable acoustic echo cancellation (AEC).
+         *
+         * In order to enable echo cancellation mode the local client
+         * instance must first be set in sound duplex mode by calling
+         * TT_InitSoundDuplexDevices(). This is because the echo canceller
+         * must first mixed all audio streams into a single stream and
+         * have then run in synch with the input stream. After calling
+         * TT_InitSoundDuplexDevices() the flag #CLIENT_SNDINOUTPUT_DUPLEX
+         * will be set.
+         *
+         * For echo cancellation to work the sound input and output device
+         * must be the same sound card since the input and output stream
+         * must be completely synchronized. Also it is recommended to also
+         * enable denoising and AGC for better echo cancellation. */
+        BOOL bEnableEchoCancellation;
+        /** @brief Set maximum attenuation of the residual echo in dB 
+         * (negative number). Default is -40.
+         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
+        INT32 nEchoSuppress;
+        /** @brief Set maximum attenuation of the residual echo in dB 
+         * when near end is active (negative number). Default is -15.
+         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
+        INT32 nEchoSuppressActive;
+    } SpeexDSP;
 
     /** @brief WebM video codec settings. 
      * @see VideoCodec
@@ -872,76 +942,25 @@ extern "C" {
         };
     } AudioCodec;
 
-    /** @brief Audio configuration specifying how recorded audio from
-     * sound input device should be preprocessed before transmission.
+    /** @brief Audio configuration for clients in a channel.
      *
-     * Users' audio levels may be diffent due to how their microphone
-     * is configured in their OS. Automatic Gain Control (AGC) can be used
-     * to ensure all users in the same channel have the same audio level.
+     * An audio configuration can be used to set common audio
+     * properties for all users in a channel. Checkout @c audiocfg of
+     * #Channel.
      *
-     * Enable the audio configuration by calling TT_SetAudioConfig().
+     * The audio configuration only supports same audio level
+     * for all users by manually converting the values to the
+     * #SpeexDSP preprocessor.
      *
+     * @see TT_SetSoundInputPreprocess()
      * @see TT_DoMakeChannel()
-     * @see TT_DoUpdateChannel() */
+     * @see TT_DoJoinChannel() */
     typedef struct AudioConfig
     {
-        /** @brief Whether clients who join a #Channel should
-         * enable AGC with the settings specified @a
-         * nGainLevel, @a nMaxIncDBSec, @a nMaxDecDBSec and @a
-         * nMaxGainDB. */
+        /** @brief Users should enable automatic gain control. */
         BOOL bEnableAGC;
-        /** @brief A value from 0 to 32768. Default is 8000.
-         * Value is ignored if @a bEnableAGC is FALSE. */
+        /** @brief Reference gain level to be used by all users. */
         INT32 nGainLevel;
-        /** @brief Used so volume should not be amplified too quickly 
-         * (maximal gain increase in dB/second). Default is 12. 
-         * * Value is ignored if @a bEnableAGC is FALSE. */
-        INT32 nMaxIncDBSec;
-        /** @brief Used so volume should not be attenuated
-         * too quickly (maximal gain decrease in dB/second).
-         * Negative value! Default is -40.
-         * Value is ignored if @a bEnableAGC is FALSE. */
-        INT32 nMaxDecDBSec;
-        /** @brief Ensure volume doesn't become too loud (maximal gain
-         * in dB). Default is 30.
-         * Value is ignored if @a bEnableAGC is FALSE. */
-        INT32 nMaxGainDB;
-        /** @brief Whether clients who join the channel should automatically
-         * enable denoising. */
-        BOOL bEnableDenoise;
-        /** @brief Maximum attenuation of the noise in dB.
-         * Negative value! Default value is -30. 
-         * Value is ignored if @a bEnableDenoise is FALSE. */
-        INT32 nMaxNoiseSuppressDB;
-        /** @brief Enable/disable acoustic echo cancellation (AEC).
-         *
-         * In order to enable echo cancellation mode the local client
-         * instance must first be set in sound duplex mode by calling
-         * TT_InitSoundDuplexDevices(). This is because the echo canceller
-         * must first mixed all audio streams into a single stream and
-         * have then run in synch with the input stream. After calling
-         * TT_InitSoundDuplexDevices() the flag #CLIENT_SNDINOUTPUT_DUPLEX
-         * will be set.
-         *
-         * For echo cancellation to work the sound input and output device
-         * must be the same sound card since the input and output stream
-         * must be completely synchronized. Also it is recommended to also
-         * enable denoising and AGC for better echo cancellation.
-         *
-         * Echo cancellation will not be active if the local client
-         * instance is participating in a channel which uses a stereo
-         * #AudioCodec.
-         *
-         * @see TT_SetAudioConfig() */
-        BOOL bEnableEchoCancellation;
-        /** @brief Set maximum attenuation of the residual echo in dB 
-         * (negative number). Default is -40.
-         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
-        INT32 nEchoSuppress;
-        /** @brief Set maximum attenuation of the residual echo in dB 
-         * when near end is active (negative number). Default is -15.
-         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
-        INT32 nEchoSuppressActive;
     } AudioConfig;
 
     /** @brief Struct used for specifying the video codec to use. */
@@ -1198,12 +1217,11 @@ extern "C" {
 
     /**
      * @brief A struct containing the properties of a banned user.
-     * This struct is used by #TT_GetBannedUsers.
-     * @see TT_GetBannedUsers */
+     * @see TT_DoListBans() */
     typedef struct BannedUser
     {
         /** @brief IP-address of banned user. */
-        TTCHAR szIpAddress[TT_STRLEN]; 
+        TTCHAR szIPAddress[TT_STRLEN]; 
         /** @brief Channel where user was located when banned. */
         TTCHAR szChannelPath[TT_STRLEN]; 
         /** @brief Date and time when user was banned. */
@@ -1479,8 +1497,8 @@ extern "C" {
          * e.g. talking, muted, etc.   */
         UserStates uUserState;
         /** @brief Store audio received from this user to this
-         * folder. @see TT_SetUserAudioFolder */
-        TTCHAR szAudioFolder[TT_STRLEN];
+         * folder. @see TT_SetUserMediaStorageDir */
+        TTCHAR szMediaStorageDir[TT_STRLEN];
         /** @brief The user's voice volume level. Note that it's a virtual 
          * volume which is being set since the master volume affects 
          * the user volume. The value will be between
@@ -1714,7 +1732,7 @@ extern "C" {
         /** @brief The audio codec used by users in the channel. */
         AudioCodec audiocodec;
         /** @brief The audio configuration which users who join the channel
-         * should use. Use TT_SetAudioConfig() to enable the #AudioConfig. */
+         * should use. @see TT_SetSoundInputPreprocess() */
         AudioConfig audiocfg;
         /** @brief List of users who can transmit in a classroom channel.
          * 
@@ -2113,15 +2131,14 @@ extern "C" {
          * Ensure the settings specified in #AudioCodec are valid.
          * @see TT_DoJoinChannel() */
         INTERR_AUDIOCODEC_INIT_FAILED = 10002,
-        /** @brief #AudioConfig failed to initialize.
+        /** @brief #SpeexDSP failed to initialize.
          *
          * This error occurs when joining a channel.
          *
-         * The settings specified by TT_SetAudioConfig() are invalid for the
-         * specified codec. This typically occurs if the values in the 
-         * #AudioConfig are invalid or if the #AudioCodec is using stereo.
-         * @see TT_DoJoinChannel() */
-        INTERR_AUDIOCONFIG_INIT_FAILED = 10003
+         * The settings specified by TT_SetSoundInputPreprocess() are
+         * invalid for the specified audio codec. @see
+         * TT_DoJoinChannel() */
+        INTERR_SPEEXDSP_INIT_FAILED = 10003
     } ClientError;
 
     /** @brief Struct containing an error message. */
@@ -2397,6 +2414,24 @@ extern "C" {
          * @param ttType #__REMOTEFILE
          * @param remotefile Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380,
+        /** 
+         * @brief A user account has been received from the server.
+         *
+         * This message is posted as a result of TT_DoListUserAccounts()
+         *
+         * @param nSource 0
+         * @param ttType #__USERACCOUNT
+         * @param useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390,
+        /** 
+         * @brief A banned user has been received from the server.
+         *
+         * This message is posted as a result of TT_DoListBans()
+         *
+         * @param nSource 0
+         * @param ttType #__BANNEDUSER
+         * @param useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
         /**
          * @brief A user state has changed.
          *
@@ -2495,7 +2530,7 @@ extern "C" {
         /** 
          * @brief A media file recording has changed status.
          *
-         * #TT_SetUserAudioFolder makes the client instance store all
+         * #TT_SetUserMediaStorageDir makes the client instance store all
          * audio from a user to a specified folder. Every time an
          * audio file is being processed this event is posted.
          *
@@ -2508,13 +2543,16 @@ extern "C" {
         /**
          * @brief A new audio block can be extracted.
          *
+         * The #AudioBlock can either be of #STREAMTYPE_VOICE or
+         * #STREAMTYPE_MEDIAFILE_AUDIO.
+         *
          * This event is only generated if TT_EnableAudioBlockEvent()
          * is first called.
          *
          * Call TT_AcquireUserAudioBlock() to extract the #AudioBlock.
          *
          * @param nSource The user ID.
-         * @param ttType #__NONE */
+         * @param ttType #__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
          * @brief An internal error occurred in the client instance.
@@ -2656,7 +2694,9 @@ extern "C" {
         __CLIENTERRORMSG          = 28,
         __BOOL                    = 29,
         __INT32                   = 30,
-        __DESKTOPINPUT            = 31
+        __DESKTOPINPUT            = 31,
+        __SPEEXDSP                = 32,
+        __STREAMTYPE              = 33
     } TTType;
 
     /**
@@ -2703,6 +2743,8 @@ extern "C" {
             User user;
             /** @brief Valid if @c ttType is #__USERACCOUNT. */
             UserAccount useraccount;
+            /** @brief Valid if @c ttType is #__BANNEDUSER. */
+            BannedUser banneduser;
             /** @brief Valid if @c ttType is #__BOOL. */
             BOOL bActive;
             /** @brief Valid if @c ttType is #__INT32. */
@@ -2711,6 +2753,8 @@ extern "C" {
             INT32 nStreamID;
             /** @brief Valid if @c ttType is #__INT32. */
             INT32 nPayloadSize;
+            /** @brief Valid if @c ttType is #__STREAMTYPE. */
+            StreamType nStreamType;
             /* brief First byte in union. */
             char data[1];
         };
@@ -2752,7 +2796,7 @@ extern "C" {
         /** @brief If set the client instance is running in sound
          * duplex mode where multiple audio output streams are mixed
          * into a single stream. This option must be enabled to
-         * support echo cancellation (see #AudioConfig). Call
+         * support echo cancellation (see TT_SetSoundInputPreprocess()). Call
          * TT_InitSoundDuplexDevices() to enable duplex mode.*/
         CLIENT_SNDINOUTPUT_DUPLEX       = 0x00000004,
         /** @brief If set the client instance will start transmitting
@@ -3007,9 +3051,8 @@ extern "C" {
      * Call TT_CloseSoundLoopbackTest() to stop the loopback
      * test.
      *
-     * This function allows the use of #AudioConfig to enable AGC and echo
-     * cancellation. Note that AGC and echo cancellation can only be
-     * used in mono, i.e. @c nChannels = 1.
+     * This function allows the use of #SpeexDSP to enable AGC and echo
+     * cancellation.
      *
      * @param nInputDeviceID Should be the @a nDeviceID extracted through 
      * TT_GetSoundDevices().
@@ -3018,14 +3061,12 @@ extern "C" {
      * @param nSampleRate The sample rate the client's recorder should 
      * use.
      * @param nChannels Number of channels to use, i.e. 1 = mono, 2 = stereo.
-     * Note that echo cancellation, denoising and AGC is not supported in
-     * stereo.
      * @param bDuplexMode Both input and output devices MUST support
      * the specified sample rate since this loop back test uses duplex
      * mode ( @see TT_InitSoundDuplexDevices() ). Check out @c
      * supportedSampleRates of #SoundDevice to see which sample rates
      * are supported.
-     * @param lpAudioConfig The audio configuration to use, i.e. AGC 
+     * @param lpSpeexDSP The preprocessing settings to use, i.e. AGC 
      * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
      * @return Returns NULL in case of error, otherwise sound loop instance
      * which can be closed by TT_CloseSoundLoopbackTest();
@@ -3038,7 +3079,7 @@ extern "C" {
                                                            IN INT32 nSampleRate,
                                                            IN INT32 nChannels,
                                                            IN BOOL bDuplexMode,
-                                                           IN const AudioConfig* lpAudioConfig);
+                                                           IN const SpeexDSP* lpSpeexDSP);
     
     /**
      * @brief Stop recorder and playback test.
@@ -3209,6 +3250,10 @@ extern "C" {
      * where #SOUND_GAIN_DEFAULT is no gain. So 100 is 1/10 of the
      * original volume and 8000 is 8 times the original volume.
      *
+     * Note that using TT_SetSoundInputPreprocess() will override
+     * settings an input gain level. This is because automatic gain
+     * control will adjust the volume level.
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param nLevel A value from #SOUND_GAIN_MIN to #SOUND_GAIN_MAX.
@@ -3226,7 +3271,7 @@ extern "C" {
     TEAMTALKDLL_API INT32 TT_GetSoundInputGainLevel(IN TTInstance* lpTTInstance);
 
     /**
-     * @brief Enable an audio configuration which should be used for
+     * @brief Enable sound preprocessor which should be used for
      * processing audio recorded by the sound input device (voice input).
      *
      * To ensure common settings for all users in a channel it's
@@ -3234,32 +3279,29 @@ extern "C" {
      * source for audio settings.
      *
      * In order for echo cancellation to work best it's important to
-     * also enable AGC in the #AudioConfig.
-     *
-     * Note that an #AudioConfig currently only works for sound input
-     * devices using mono. Stereo is not supported.
+     * also enable AGC in the #SpeexDSP.
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
-     * @param lpAudioConfig The audio configuration settings to use. 
+     * @param lpSpeexDSP The sound preprocessor settings to use. 
      * Preferably from the #Channel's @c audiocfg member to ensure common
      * settings for all users.
      * @return TRUE on success, FALSE on failure. */
-    TEAMTALKDLL_API BOOL TT_SetAudioConfig(IN TTInstance* lpTTInstance,
-                                           IN AudioConfig* lpAudioConfig);
+    TEAMTALKDLL_API BOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
+                                                    const IN SpeexDSP* lpSpeexDSP);
 
     /** 
-     * @brief Get the audio configuration which is currently in use
+     * @brief Get the sound preprocessor settings which are currently in use
      * for recorded sound input device (voice input).
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
-     * @param lpAudioConfig A preallocated AudioConfig which will 
-     * receive the audio configuration which is currently in effect.
+     * @param lpSpeexDSP A preallocated SpeexDSP which will 
+     * receive the settings that is currently in effect.
      *
      * @return TRUE on success, FALSE on failure. */
-    TEAMTALKDLL_API BOOL TT_GetAudioConfig(IN TTInstance* lpTTInstance,
-                                           OUT AudioConfig* lpAudioConfig);
+    TEAMTALKDLL_API BOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
+                                                    OUT SpeexDSP* lpSpeexDSP);
 
     /**
      * @brief Set master volume. 
@@ -3327,12 +3369,20 @@ extern "C" {
      * time a new #AudioBlock is available the event
      * #CLIENTEVENT_USER_AUDIOBLOCK is generated.
      * 
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nUserID The user ID to monitor for audio callback. Pass 0
+     * to monitor local audio.
+     * @param nStreamType Either #STREAMTYPE_VOICE or 
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
      * @see TT_AcquireUserAudioBlock()
      * @see TT_ReleaseUserAudioBlock()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
     TEAMTALKDLL_API BOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
+                                                  IN INT32 nUserID,
+                                                  IN StreamType nStreamType,
                                                   IN BOOL bEnable);
-
     /** @} */
 
     /** @addtogroup transmission
@@ -3432,7 +3482,7 @@ extern "C" {
     /**
      * @brief Store audio conversations to a single file.
      *
-     * Unlike TT_SetUserAudioFolder(), which stores users' audio
+     * Unlike TT_SetUserMediaStorageDir(), which stores users' audio
      * streams in separate files, TT_StartRecordingMuxedAudioFile()
      * muxes the audio streams into a single file.
      *
@@ -3464,7 +3514,7 @@ extern "C" {
      * @param uAFF The audio format which should be used in the recorded
      * file. The muxer will convert to this format.
      *
-     * @see TT_SetUserAudioFolder()
+     * @see TT_SetUserMediaStorageDir()
      * @see TT_StopRecordingMuxedAudioFile() */
     TEAMTALKDLL_API BOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
                                                          IN const AudioCodec* lpAudioCodec,
@@ -4792,6 +4842,10 @@ extern "C" {
     /**
      * @brief Issue command to list user accounts on the server.
      *
+     * The event #CLIENTEVENT_CMD_USERACCOUNT will be posted for every
+     * #UserAccount on the server. Ensure not to list too many many user
+     * accounts since this may suspend event handling.
+     *
      * User accounts can be used to create users with different user
      * rights.
      *
@@ -4809,8 +4863,7 @@ extern "C" {
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
      * @see UserAccount
-     * @see UserType
-     * @see TT_GetUserAccounts */
+     * @see UserType  */
     TEAMTALKDLL_API INT32 TT_DoListUserAccounts(IN TTInstance* lpTTInstance,
                                                 IN INT32 nIndex,
                                                 IN INT32 nCount);
@@ -4907,14 +4960,14 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param szIpAddress The IP-address to ban.
+     * @param szIPAddress The IP-address to ban.
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
      * @see TT_DoKickUser
      * @see TT_DoListBans */
     TEAMTALKDLL_API INT32 TT_DoBanIPAddress(IN TTInstance* lpTTInstance,
-                                            IN const TTCHAR* szIpAddress);
+                                            IN const TTCHAR* szIPAddress);
 
     /**
      * @brief Unban the user with the specified IP-address.
@@ -4929,7 +4982,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param szIpAddress The IP-address to unban.
+     * @param szIPAddress The IP-address to unban.
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
@@ -4937,13 +4990,13 @@ extern "C" {
      * @see TT_DoListBans
      * @see TT_DoBanIPAddress */
     TEAMTALKDLL_API INT32 TT_DoUnBanUser(IN TTInstance* lpTTInstance,
-                                         IN const TTCHAR* szIpAddress);
+                                         IN const TTCHAR* szIPAddress);
 
     /**
      * @brief Issue a command to list the banned users.
      *
-     * Once completed call the function #TT_GetBannedUsers to get the
-     * list of users.
+     * The event #CLIENTEVENT_CMD_BANNEDUSER will be posted for every
+     * #BannedUser on the server.
      *
      * User rights required:
      * - #USERRIGHT_BAN_USERS
@@ -4959,8 +5012,7 @@ extern "C" {
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
-     * @see TT_InitTeamTalk
-     * @see TT_GetBannedUsers */
+     * @see TT_DoBanUser() */
     TEAMTALKDLL_API INT32 TT_DoListBans(IN TTInstance* lpTTInstance,
                                         IN INT32 nIndex,
                                         IN INT32 nCount);
@@ -5027,9 +5079,9 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param lpProperties A struct to hold the server's properties. */
+     * @param lpServerProperties A struct to hold the server's properties. */
     TEAMTALKDLL_API BOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
-                                                OUT ServerProperties* lpProperties);
+                                                OUT ServerProperties* lpServerProperties);
 
     /**
      * @brief Get all the users on the server.
@@ -5268,10 +5320,10 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param nUserID The ID of the user to extract.
-     * @param lpStats A preallocated #UserStatistics struct. */
+     * @param lpUserStatistics A preallocated #UserStatistics struct. */
     TEAMTALKDLL_API BOOL TT_GetUserStatistics(IN TTInstance* lpTTInstance,
                                               IN INT32 nUserID, 
-                                              OUT UserStatistics* lpStats);
+                                              OUT UserStatistics* lpUserStatistics);
     /**
      * @brief Get the user with the specified username.
      *
@@ -5414,7 +5466,7 @@ extern "C" {
      * @param nUserID The ID of the #User which should store audio to
      * disk.
      * @param szFolderPath The path on disk to where files should be
-     * stored.  This value will be stored in @a szAudioFolder of
+     * stored.  This value will be stored in @a szMediaStorageDir of
      * #User.  
      * @param szFileNameVars The file name used for audio files can
      * consist of the following variables: \%nickname\%, \%username\%,
@@ -5432,11 +5484,11 @@ extern "C" {
      * @return FALSE if path is invalid, otherwise TRUE.
      * @see User
      * @see CLIENTEVENT_USER_AUDIOFILE */
-    TEAMTALKDLL_API BOOL TT_SetUserAudioFolder(IN TTInstance* lpTTInstance,
-                                               IN INT32 nUserID,
-                                               IN const TTCHAR* szFolderPath,
-                                               IN const TTCHAR* szFileNameVars,
-                                               IN AudioFileFormat uAFF);
+    TEAMTALKDLL_API BOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
+                                                   IN INT32 nUserID,
+                                                   IN const TTCHAR* szFolderPath,
+                                                   IN const TTCHAR* szFileNameVars,
+                                                   IN AudioFileFormat uAFF);
     /**
      * @brief Change the amount of media data which can be buffered
      * in the user's playback queue.
@@ -5481,11 +5533,14 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
+     * @param nStreamType The stream type to extract, either ::STREAMTYPE_VOICE
+     * ::STREAMTYPE_MEDIAFILE_AUDIO.
      * @param nUserID The ID of the user to retrieve the #AudioBlock from.
      * @see TT_ReleaseUserAudioBlock()
      * @see TT_EnableAudioBlockEvent()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
     TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance,
+                                                         IN StreamType nStreamType,
                                                          IN INT32 nUserID);
 
     /** 
@@ -5535,56 +5590,6 @@ extern "C" {
      * ID is passed by #CLIENTEVENT_FILETRANSFER. */
     TEAMTALKDLL_API BOOL TT_CancelFileTransfer(IN TTInstance* lpTTInstance,
                                                IN INT32 nTransferID);
-
-
-    /** @ingroup server
-     * @brief Get the list of banned users.
-     * 
-     * After the command #TT_DoListBans has completed, this function
-     * can be called to retrieve the list of banned users. The list of
-     * banned users can only be retrieved once after which the
-     * internal representation of the users is deleted (to save
-     * memory).
-     *
-     * @param lpTTInstance Pointer to client instance created by
-     * #TT_InitTeamTalk.
-     * @param lpBannedUsers A preallocated array to hold banned users or NULL
-     * to query how many banned users are listed.
-     * @param lpnHowMany This is both an input and an output
-     * parameter. If @a lpBannedUsers is NULL lpnHowMany will receive
-     * the number of banned users. If @a lpBannedUsers is not NULL @a
-     * lpnHowMany must contain how many banned users which will fit in
-     * the @a lpBannedUsers array. Upon returning @a lpnHowMany will
-     * contain how many were actually written to the array.
-     * @see TT_DoBanUser  */
-    TEAMTALKDLL_API BOOL TT_GetBannedUsers(IN TTInstance* lpTTInstance,
-                                           IN OUT BannedUser* lpBannedUsers, 
-                                           IN OUT INT32* lpnHowMany);
-
-    /** @ingroup server
-     * @brief Get the list of user accounts.
-     * 
-     * After the command #TT_DoListUserAccounts has competed, this
-     * function can be called to retrieve the list of user accounts on
-     * the server. The list of user accounts can only be retrieved
-     * once after which the internal representation of the users is
-     * deleted (to save memory).
-     *
-     * @param lpTTInstance Pointer to client instance created by
-     * #TT_InitTeamTalk.
-     * @param lpUserAccounts A preallocated array to hold user accounts or NULL
-     * to query how many user accounts are available for retrieval.
-     * @param lpnHowMany This is both an input and an output
-     * parameter. If @a lpUserAccounts is NULL lpnHowMany will receive
-     * the number of user accounts. If @a lpUserAccounts is not NULL
-     * @a lpnHowMany must contain how many user accounts which will
-     * fit in the @a lpUserAccounts array. Upon returning lpnHowMany
-     * will contain how many were actually written to the array.
-     * @see TT_DoListUserAccounts
-     * @see UserAccount */
-    TEAMTALKDLL_API BOOL TT_GetUserAccounts(IN TTInstance* lpTTInstance,
-                                            IN OUT UserAccount* lpUserAccounts, 
-                                            IN OUT INT32* lpnHowMany);
 
     /** @ingroup errorhandling
      * @brief Get textual discription of an error message.

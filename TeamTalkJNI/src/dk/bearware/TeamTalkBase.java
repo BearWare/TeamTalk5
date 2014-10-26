@@ -85,7 +85,7 @@ public abstract class TeamTalkBase
                                                      int nSampleRate,
                                                      int nChannels,
                                                      boolean bDuplexMode,
-                                                     AudioConfig lpAudioConfig);
+                                                     SpeexDSP lpSpeexDSP);
 
     public static native boolean closeSoundLoopbackTest(long lpTTSoundLoop);
 
@@ -116,14 +116,14 @@ public abstract class TeamTalkBase
     private native int getSoundInputGainLevel(long lpTTInstance);
     public int getSoundInputGainLevel() { return getSoundInputGainLevel(ttInst); }
 
-    private native boolean setAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
-    public boolean setAudioConfig(AudioConfig lpAudioConfig) {
-        return setAudioConfig(ttInst, lpAudioConfig);
+    private native boolean setSoundInputPreprocess(long lpTTInstance, SpeexDSP lpSpeexDSP);
+    public boolean setSoundInputPreprocess(SpeexDSP lpSpeexDSP) {
+        return setSoundInputPreprocess(ttInst, lpSpeexDSP);
     }
 
-    private native boolean getAudioConfig(long lpTTInstance, AudioConfig lpAudioConfig);
-    public boolean getAudioConfig(AudioConfig lpAudioConfig) {
-        return getAudioConfig(ttInst, lpAudioConfig);
+    private native boolean getSoundInputPreprocess(long lpTTInstance, SpeexDSP lpSpeexDSP);
+    public boolean getSoundInputPreprocess(SpeexDSP lpSpeexDSP) {
+        return getSoundInputPreprocess(ttInst, lpSpeexDSP);
     }
 
     private native boolean setSoundOutputVolume(long lpTTInstance, int nVolume);
@@ -147,10 +147,10 @@ public abstract class TeamTalkBase
     private native boolean autoPositionUsers(long lpTTInstance);
     public boolean autoPositionUsers() { return autoPositionUsers(ttInst); }
 
-    private native boolean enableAudioBlockEvent(long lpTTInstance,
-                                                 boolean bEnable);
-    public boolean enableAudioBlockEvent(boolean bEnable)
-        { return enableAudioBlockEvent(ttInst, bEnable); }
+    private native boolean enableAudioBlockEvent(long lpTTInstance, int nUserID,
+                                                 int nStreamType, boolean bEnable);
+    public boolean enableAudioBlockEvent(int nUserID, int nStreamType, boolean bEnable)
+        { return enableAudioBlockEvent(ttInst, nUserID, nStreamType, bEnable); }
 
     private native boolean enableVoiceTransmission(long lpTTInstance, 
                                                    boolean bEnable);
@@ -664,20 +664,25 @@ public abstract class TeamTalkBase
                                  boolean bRightSpeaker) {
         return setUserStereo(ttInst, nUserID, nStreamType, bLeftSpeaker, bRightSpeaker);
     }
-    private native boolean setUserAudioFolder(long lpTTInstance,
+    private native boolean setUserMediaStorageDir(long lpTTInstance,
                                               int nUserID,
                                               String szFolderPath,
                                               String szFileNameVars,
                                               int uAFF);
-    public boolean setUserAudioFolder(int nUserID,
+    public boolean setUserMediaStorageDir(int nUserID,
                                       String szFolderPath,
                                       String szFileNameVars, int uAFF) {
-        return setUserAudioFolder(ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
+        return setUserMediaStorageDir(ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
     }
     private native boolean setUserAudioStreamBufferSize(long lpTTInstance,
                                                         int nUserID, int uStreamType, int nMSec);
     public boolean setUserAudioStreamBufferSize(int nUserID, int uStreamType, int nMSec) {
         return setUserAudioStreamBufferSize(ttInst, nUserID, uStreamType, nMSec);
+    }
+    private native AudioBlock acquireUserAudioBlock(long lpTTInstance,
+                                                    int nStreamType, int nUserID);
+    public AudioBlock acquireUserAudioBlock(int nStreamType, int nUserID) {
+        return acquireUserAudioBlock(ttInst, nStreamType, nUserID);
     }
     private native boolean getFileTransferInfo(long lpTTInstance,
                                                int nTransferID, FileTransfer lpFileTransfer);
@@ -688,20 +693,6 @@ public abstract class TeamTalkBase
                                               int nTransferID);
     public boolean cancelFileTransfer(int nTransferID) {
         return cancelFileTransfer(ttInst, nTransferID);
-    }
-    private native boolean getBannedUsers(long lpTTInstance,
-                                          BannedUser[] lpBannedUsers,
-                                          IntPtr lpnHowMany);
-    public boolean getBannedUsers(BannedUser[] lpBannedUsers,
-                                  IntPtr lpnHowMany) {
-        return getBannedUsers(ttInst, lpBannedUsers, lpnHowMany);
-    }
-    private native boolean getUserAccounts(long lpTTInstance,
-                                           UserAccount[] lpUserAccounts,
-                                           IntPtr lpnHowMany);
-    public boolean getUserAccounts(UserAccount[] lpUserAccounts,
-                                   IntPtr lpnHowMany) {
-        return getUserAccounts(ttInst, lpUserAccounts, lpnHowMany);
     }
     public native String getErrorMessage(int nError);
 }

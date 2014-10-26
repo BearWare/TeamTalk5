@@ -313,7 +313,7 @@
       <Filter>Source Files\Settings</Filter>
     </ClCompile>
     <ClCompile Include="gui\GenerateTTFileDlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -582,7 +582,7 @@
       <Filter>Header Files\Speech</Filter>
     </ClInclude>
     <ClInclude Include="gui\GenerateTTFileDlg.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

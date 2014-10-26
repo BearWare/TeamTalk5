@@ -230,4 +230,8 @@ implements UserListener
     @Override
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
     }
+
+    @Override
+    public void onUserAudioBlock(int nUserID, int nStreamType) {
+    }
 }

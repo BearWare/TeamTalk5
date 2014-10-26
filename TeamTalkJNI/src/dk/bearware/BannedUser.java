@@ -23,7 +23,7 @@ package dk.bearware;
 
 public class BannedUser
 {
-    public String szIpAddress;
+    public String szIPAddress;
     public String szChannelPath;
     public String szBanTime;
     public String szNickname;

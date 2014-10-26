@@ -52,7 +52,7 @@ namespace TeamTalkApp.NET
 
             textBox1.Text = openFileDialog1.FileName;
 
-            if (TeamTalk.GetMediaFileInfo(openFileDialog1.FileName, out info))
+            if (TeamTalk.GetMediaFileInfo(openFileDialog1.FileName, ref info))
             {
                 if (info.audioFmt.nAudioFmt != AudioFileFormat.AFF_NONE)
                     audioLabel.Text = String.Format("{0} Hz, {1}", info.audioFmt.nSampleRate,

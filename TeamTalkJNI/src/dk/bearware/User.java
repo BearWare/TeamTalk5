@@ -37,7 +37,7 @@ public class User
     public int nStatusMode;
     public String szStatusMsg;
     public int uUserState;
-    public String szAudioFolder;
+    public String szMediaStorageDir;
     public int nVolumeVoice;
     public int nVolumeMediaFile;
     public int nGainLevelVoice;

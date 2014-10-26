@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
@@ -467,6 +468,20 @@ implements CommandListener, UserListener, ConnectionListener {
 
     @Override
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
+    }
+
+    @Override
+    public void onUserAudioBlock(int nUserID, int nStreamType) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCmdUserAccount(UserAccount useraccount) {
+    }
+
+    @Override
+    public void onCmdBannedUser(BannedUser banneduser) {
     }
 
 }

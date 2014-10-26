@@ -44,8 +44,8 @@ namespace TeamTalkApp.NET
 
         void UpdateUser()
         {
-            User user;
-            if (ttclient.GetUser(userid, out user))
+            User user = new User();
+            if (ttclient.GetUser(userid, ref user))
             {
                 useridTextBox.Text = user.nUserID.ToString();
                 nicknameTextBox.Text = user.szNickname;
@@ -55,8 +55,8 @@ namespace TeamTalkApp.NET
                 usertypeTextBox.Text = (user.uUserType & UserType.USERTYPE_ADMIN) == UserType.USERTYPE_ADMIN ? "Admin" : "Default";
                 versionTextBox.Text = user.uVersion.ToString();
             }
-            UserStatistics stats;
-            if (ttclient.GetUserStatistics(userid, out stats))
+            UserStatistics stats = new UserStatistics();
+            if (ttclient.GetUserStatistics(userid, ref stats))
             {
                 audiolossTextBox.Text = String.Format("{0}/{1}", stats.nVoicePacketsLost, stats.nVoicePacketsRecv + stats.nVoicePacketsLost);
                 videolossTextBox.Text = String.Format("{0}/{1}", stats.nVideoCaptureFramesLost, stats.nVideoCaptureFramesRecv + stats.nVideoCaptureFramesLost);

@@ -62,8 +62,8 @@ namespace TeamTalkApp.NET
 
         void UpdateFileTransfer()
         {
-            FileTransfer transfer;
-            if (ttclient.GetFileTransferInfo(transferid, out transfer))
+            FileTransfer transfer = new FileTransfer();
+            if (ttclient.GetFileTransferInfo(transferid, ref transfer))
             {
                 if (transfer.nTransferred == transfer.nFileSize)
                     timer1.Enabled = false;
@@ -85,8 +85,8 @@ namespace TeamTalkApp.NET
 
         private void FileTransferDlg_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FileTransfer transfer;
-            if (ttclient.GetFileTransferInfo(transferid, out transfer))
+            FileTransfer transfer = new FileTransfer();
+            if (ttclient.GetFileTransferInfo(transferid, ref transfer))
                 ttclient.CancelFileTranfer(transferid);
         }
     }

@@ -182,11 +182,11 @@ namespace TeamTalkApp.NET
                         in_samplerate = dev.nDefaultSampleRate;
                 }
 
-                AudioConfig audcfg = new AudioConfig(true);
-                audcfg.bEnableAGC = true;
-                audcfg.bEnableDenoise = true;
-                audcfg.bEnableEchoCancellation = echocancelCheckBox.Checked;
-                soundloop = TeamTalk.StartSoundLoopbackTest(input.id, output.id, in_samplerate, 1, duplexCheckBox.Checked, audcfg);
+                SpeexDSP spxdsp = new SpeexDSP(true);
+                spxdsp.bEnableAGC = true;
+                spxdsp.bEnableDenoise = true;
+                spxdsp.bEnableEchoCancellation = echocancelCheckBox.Checked;
+                soundloop = TeamTalk.StartSoundLoopbackTest(input.id, output.id, in_samplerate, 1, duplexCheckBox.Checked, spxdsp);
                 if (soundloop == IntPtr.Zero)
                 {
                     MessageBox.Show("Failed to test selected device");
@@ -241,12 +241,12 @@ namespace TeamTalkApp.NET
                 if (!ttclient.InitSoundDuplexDevices(settings.sndinputid, settings.sndoutputid))
                     MessageBox.Show("Failed to init sound devices");
 
-                AudioConfig audcfg = new AudioConfig(false);
-                ttclient.GetAudioConfig(ref audcfg);
-                audcfg.nEchoSuppress = AudioConfigConstants.DEFAULT_ECHO_SUPPRESS;
-                audcfg.nEchoSuppressActive = AudioConfigConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
-                audcfg.bEnableEchoCancellation = echocancelCheckBox.Checked;
-                ttclient.SetAudioConfig(audcfg);
+                SpeexDSP spxdsp = new SpeexDSP(false);
+                ttclient.GetSoundInputPreprocess(ref spxdsp);
+                spxdsp.nEchoSuppress = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS;
+                spxdsp.nEchoSuppressActive = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
+                spxdsp.bEnableEchoCancellation = echocancelCheckBox.Checked;
+                ttclient.SetSoundInputPreprocess(spxdsp);
             }
             else
             {

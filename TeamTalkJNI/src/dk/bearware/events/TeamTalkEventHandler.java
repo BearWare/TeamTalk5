@@ -24,6 +24,7 @@ package dk.bearware.events;
 import java.util.List;
 import java.util.Vector;
 
+import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientEvent;
@@ -37,6 +38,7 @@ import dk.bearware.TTType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
+import dk.bearware.UserAccount;
 
 public class TeamTalkEventHandler {
     
@@ -242,6 +244,24 @@ public class TeamTalkEventHandler {
                     l.onCmdFileRemove(file);
             }
             break;
+            case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT : {
+                assert (pMsg.ttType == TTType.__USERACCOUNT);
+
+                UserAccount useraccount = pMsg.useraccount;
+
+                for(CommandListener l : cmdListener)
+                    l.onCmdUserAccount(useraccount);
+            }
+            break;
+            case ClientEvent.CLIENTEVENT_CMD_BANNEDUSER : {
+                assert (pMsg.ttType == TTType.__BANNEDUSER);
+
+                BannedUser banneduser  = pMsg.banneduser;
+
+                for(CommandListener l : cmdListener)
+                    l.onCmdBannedUser(banneduser);
+            }
+            break;
             case ClientEvent.CLIENTEVENT_USER_STATECHANGE : {
                 assert (pMsg.ttType == TTType.__USER);
                 User user = pMsg.user;
@@ -297,12 +317,11 @@ public class TeamTalkEventHandler {
             }
             break;
             case ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK : {
-                // TODO: implement
-                assert (pMsg.ttType == TTType.__AUDIOBLOCK);
-                //
-                // int nUserID = pMsg.nSource;
-                // for(UserListener l : userListener)
-                // l.on
+                assert (pMsg.ttType == TTType.__STREAMTYPE);
+                
+                int nUserID = pMsg.nSource;
+                for(UserListener l : userListener)
+                    l.onUserAudioBlock(nUserID, pMsg.nStreamType);
             }
             break;
             case ClientEvent.CLIENTEVENT_INTERNAL_ERROR : {

@@ -34,7 +34,7 @@ public:
 public slots:
     void accept();
 private slots:
-    void slotSetAudioFolder();
+    void slotSetMediaFolder();
     void slotSetChanLogFolder();
     void slotSetUserLogFolder();
 private:

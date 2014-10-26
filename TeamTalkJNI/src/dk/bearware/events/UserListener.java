@@ -33,6 +33,5 @@ public interface UserListener {
     public void onUserDesktopWindow(int nUserID, int nStreamID);
     public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput);
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo);
-    //TODO: AudioBlock-struct
-    //public void onUserAudioBlock();
+    public void onUserAudioBlock(int nUserID, int nStreamType);
 }

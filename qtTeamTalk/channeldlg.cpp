@@ -124,11 +124,6 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         //set AGC
         m_channel.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
         m_channel.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        m_channel.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        m_channel.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        m_channel.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-        m_channel.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-        m_channel.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
         break;
     case CHANNEL_UPDATE :
     {
@@ -216,14 +211,14 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     case SPEEX_CODEC :
         setCurrentItemData(ui.spx_srateBox, m_channel.audiocodec.speex.nBandmode);
         ui.spx_qualitySlider->setValue(m_channel.audiocodec.speex.nQuality);
-        ui.spx_txdelaySpinBox->setValue(m_channel.audiocodec.speex.nMSecPerPacket);
+        ui.spx_txdelaySpinBox->setValue(m_channel.audiocodec.speex.nTxIntervalMSec);
         break;
     case SPEEX_VBR_CODEC :
         setCurrentItemData(ui.spxvbr_srateBox, m_channel.audiocodec.speex_vbr.nBandmode);
         ui.spxvbr_qualitySlider->setValue(m_channel.audiocodec.speex_vbr.nQuality);
         ui.spxvbr_maxbpsSpinBox->setValue(m_channel.audiocodec.speex_vbr.nMaxBitRate);
         ui.spxvbr_dtxBox->setChecked(m_channel.audiocodec.speex_vbr.bDTX);
-        ui.spxvbr_txdelaySpinBox->setValue(m_channel.audiocodec.speex_vbr.nMSecPerPacket);
+        ui.spxvbr_txdelaySpinBox->setValue(m_channel.audiocodec.speex_vbr.nTxIntervalMSec);
         break;
     case OPUS_CODEC :
         setCurrentItemData(ui.opus_srateBox, m_channel.audiocodec.opus.nSampleRate);
@@ -231,7 +226,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         setCurrentItemData(ui.opus_appBox, m_channel.audiocodec.opus.nApplication);
         ui.opus_bpsSpinBox->setValue(m_channel.audiocodec.opus.nBitRate / 1000);
         ui.opus_dtxBox->setChecked(m_channel.audiocodec.opus.bDTX);
-        ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nMSecPerPacket);
+        ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nTxIntervalMSec);
         break;
     default :
         break;
@@ -292,7 +287,7 @@ Channel ChannelDlg::GetChannel() const
     case SPEEX_CODEC :
         newchannel.audiocodec.speex.nBandmode = getCurrentItemData(ui.spx_srateBox).toInt();
         newchannel.audiocodec.speex.nQuality = ui.spx_qualitySlider->value();
-        newchannel.audiocodec.speex.nMSecPerPacket = ui.spx_txdelaySpinBox->value();
+        newchannel.audiocodec.speex.nTxIntervalMSec = ui.spx_txdelaySpinBox->value();
         newchannel.audiocodec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
         break;
     case SPEEX_VBR_CODEC :
@@ -301,7 +296,7 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.speex_vbr.nBitRate = DEFAULT_SPEEX_VBR_BITRATE;
         newchannel.audiocodec.speex_vbr.nMaxBitRate = ui.spxvbr_maxbpsSpinBox->value();
         newchannel.audiocodec.speex_vbr.bDTX = ui.spxvbr_dtxBox->isChecked();
-        newchannel.audiocodec.speex_vbr.nMSecPerPacket = ui.spxvbr_txdelaySpinBox->value();
+        newchannel.audiocodec.speex_vbr.nTxIntervalMSec = ui.spxvbr_txdelaySpinBox->value();
         newchannel.audiocodec.speex_vbr.bStereoPlayback = DEFAULT_SPEEX_VBR_SIMSTEREO;
         break;
     case OPUS_CODEC :
@@ -314,23 +309,18 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.opus.nBitRate = ui.opus_bpsSpinBox->value() * 1000;
         newchannel.audiocodec.opus.bVBR = DEFAULT_OPUS_VBR;
         newchannel.audiocodec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
-        newchannel.audiocodec.opus.nMSecPerPacket = ui.opus_txdelaySpinBox->value();
+        newchannel.audiocodec.opus.nTxIntervalMSec = ui.opus_txdelaySpinBox->value();
         break;
     default :
         break;
     }
 
     newchannel.audiocfg.bEnableAGC = ui.agcBox->isChecked();
-    newchannel.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-    newchannel.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
     
     //set default values since they may otherwise be 0
     if(newchannel.audiocfg.bEnableAGC)
     {
         newchannel.audiocfg.nGainLevel = ui.gainlevelSlider->value()*1000;
-        newchannel.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        newchannel.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        newchannel.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
     }
 
     return newchannel;

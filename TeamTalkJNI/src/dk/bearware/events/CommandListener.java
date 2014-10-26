@@ -28,6 +28,7 @@ import dk.bearware.ServerProperties;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.BannedUser;
 
 public interface CommandListener {
 
@@ -57,5 +58,8 @@ public interface CommandListener {
     
     public void onCmdFileNew(RemoteFile remotefile);
     public void onCmdFileRemove(RemoteFile remotefile);
+
+    public void onCmdUserAccount(UserAccount useraccount);
+    public void onCmdBannedUser(BannedUser banneduser);
 }
     

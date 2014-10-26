@@ -45,8 +45,8 @@ namespace TeamTalkApp.NET
 
         public void NewMessage(TextMessage msg)
         {
-            User user;
-            if (!ttclient.GetUser(msg.nFromUserID, out user))
+            User user = new User();
+            if (!ttclient.GetUser(msg.nFromUserID, ref user))
                 return;
             this.Text = "Message - " + user.szNickname;
             historyTextBox.AppendText("<" + user.szNickname + "> " + msg.szMessage + Environment.NewLine);

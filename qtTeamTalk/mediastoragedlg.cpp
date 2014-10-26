@@ -39,7 +39,7 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     setWindowIcon(QIcon(APPICON));
 
     connect(ui.audioToolButton, SIGNAL(clicked()),
-            SLOT(slotSetAudioFolder()));
+            SLOT(slotSetMediaFolder()));
     connect(ui.chanlogToolButton, SIGNAL(clicked()),
             SLOT(slotSetChanLogFolder()));
     connect(ui.usertextToolButton, SIGNAL(clicked()),
@@ -105,7 +105,7 @@ void MediaStorageDlg::accept()
     QDialog::accept();
 }
 
-void MediaStorageDlg::slotSetAudioFolder()
+void MediaStorageDlg::slotSetMediaFolder()
 {
     ui.audiopathEdit->setText(getFolder());
 }

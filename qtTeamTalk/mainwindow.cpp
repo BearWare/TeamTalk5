@@ -843,7 +843,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
         AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
         if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-            TT_SetUserAudioFolder(ttInst, msg.user.nUserID, _W(audiofolder), NULL, aff);
+            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), NULL, aff);
 
         updateUserSubscription(msg.user.nUserID);
     }
@@ -917,6 +917,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         update_ui = true;
     }
     break;
+    case CLIENTEVENT_CMD_USERACCOUNT :
+        Q_ASSERT(msg.ttType == __USERACCOUNT);
+        m_useraccounts.push_back(msg.useraccount);
+        break;
+    case CLIENTEVENT_CMD_BANNEDUSER :
+        Q_ASSERT(msg.ttType == __BANNEDUSER);
+        m_bannedusers.push_back(msg.banneduser);
+        break;
     case CLIENTEVENT_FILETRANSFER :
         Q_ASSERT(msg.ttType == __FILETRANSFER);
 
@@ -960,7 +968,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             textmsg = tr("Failed to initialize sound output device"); break;
         case INTERR_AUDIOCODEC_INIT_FAILED :
             textmsg = tr("Failed to initialize audio codec"); break;
-        case INTERR_AUDIOCONFIG_INIT_FAILED :
+        case INTERR_SPEEXDSP_INIT_FAILED :
             critical = false;
             textmsg = tr("Failed to initialize audio configuration"); break;
         default :
@@ -1204,9 +1212,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_USER_AUDIOBLOCK :
     {
-         AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, msg.nSource);
-         if(block)
-         {
+        AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, msg.nStreamType, msg.nSource);
+        if(block)
+        {
             int mean = 0;
             int size = block->nSamples * block->nChannels;
             short* ptr = (short*)block->lpRawAudio;
@@ -1214,12 +1222,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 mean += ptr[i];
             mean /= size;
             qDebug() << "AudioBlock from #" << msg.nSource 
-                     << "stream id" << block->nStreamID 
-                     << "index" << block->uSampleIndex 
-                     << "samples" << block->nSamples
-                     << "avg" << mean;
+                << "stream id" << block->nStreamID 
+                << "index" << block->uSampleIndex 
+                << "samples" << block->nSamples
+                << "avg" << mean;
             TT_ReleaseUserAudioBlock(ttInst, block);
-         }
+        }
     }
     break;
     case CLIENTEVENT_HOTKEY :
@@ -1260,11 +1268,12 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
         {
             if(!m_bannedusersdlg)
             {
-                m_bannedusersdlg = new BannedUsersDlg();
+                m_bannedusersdlg = new BannedUsersDlg(m_bannedusers);
                 connect(m_bannedusersdlg, SIGNAL(finished(int)),
                         SLOT(slotClosedBannedUsersDlg(int)));
                 m_bannedusersdlg->setAttribute(Qt::WA_DeleteOnClose);
                 m_bannedusersdlg->show();
+                m_bannedusers.clear();
             }
             else
                 m_bannedusersdlg->activateWindow();
@@ -1274,7 +1283,7 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
         {
             if(!m_useraccountsdlg)
             {
-                m_useraccountsdlg = new UserAccountsDlg();
+                m_useraccountsdlg = new UserAccountsDlg(m_useraccounts);
                 connect(this, SIGNAL(cmdSuccess(int)), m_useraccountsdlg, 
                         SLOT(slotCmdSuccess(int)));
                 connect(this, SIGNAL(cmdError(int, int)), m_useraccountsdlg, 
@@ -1283,6 +1292,7 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
                         SLOT(slotClosedUserAccountsDlg(int)));
                 m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
                 m_useraccountsdlg->show();
+                m_useraccounts.clear();
             }
             else
                 m_useraccountsdlg->activateWindow();
@@ -1373,11 +1383,6 @@ void MainWindow::cmdLoggedIn(int myuserid)
 
         chan.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
         chan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        chan.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        chan.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        chan.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-        chan.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-        chan.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
         COPY_TTSTR(chan.szName, name);
         COPY_TTSTR(chan.szPassword, m_host.chanpasswd);
@@ -1539,6 +1544,9 @@ void MainWindow::Disconnect()
 
     ZERO_STRUCT(m_srvprop);
     ZERO_STRUCT(m_mychannel);
+
+    m_useraccounts.clear();
+    m_bannedusers.clear();
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
@@ -2315,43 +2323,40 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
         for(int i=0;i<userCount;i++)
         {
             if(enable)
-                TT_SetUserAudioFolder(ttInst, users[i].nUserID, _W(audiofolder), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), NULL, aff);
             else
-                TT_SetUserAudioFolder(ttInst, users[i].nUserID, _W(QString()), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(QString()), NULL, aff);
         }
     }
 }
 
 void MainWindow::updateAudioConfig()
 {
-    AudioConfig audcfg;
-    ZERO_STRUCT(audcfg);
+    SpeexDSP spxdsp;
+    ZERO_STRUCT(spxdsp);
 
     //set default values for audio config
-    audcfg.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool();
-    audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    audcfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+    spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool();
+    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-    audcfg.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool();
-    audcfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+    spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool();
+    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-    audcfg.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool();
-    audcfg.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    audcfg.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+    spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool();
+    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
     //check if channel AGC settings should override default settings
     if(m_mychannel.audiocfg.bEnableAGC)
     {
-        audcfg.bEnableAGC = m_mychannel.audiocfg.bEnableAGC;
-        audcfg.nGainLevel = m_mychannel.audiocfg.nGainLevel;
-        audcfg.nMaxIncDBSec = m_mychannel.audiocfg.nMaxIncDBSec;
-        audcfg.nMaxDecDBSec = m_mychannel.audiocfg.nMaxDecDBSec;
-        audcfg.nMaxGainDB = m_mychannel.audiocfg.nMaxGainDB;
+        spxdsp.bEnableAGC = m_mychannel.audiocfg.bEnableAGC;
+        spxdsp.nGainLevel = m_mychannel.audiocfg.nGainLevel;
     }
 
-    TT_SetAudioConfig(ttInst, &audcfg);
+    TT_SetSoundInputPreprocess(ttInst, &spxdsp);
 }
 
 bool MainWindow::sendDesktopWindow()
@@ -4814,7 +4819,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
     AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
     if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-        TT_SetUserAudioFolder(ttInst, user.nUserID, _W(audiofolder), NULL, aff);
+        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), NULL, aff);
 
     //only play sound when we're not currently performing an operation
     //like e.g. joining a new channel

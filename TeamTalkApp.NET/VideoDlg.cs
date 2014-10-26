@@ -38,7 +38,6 @@ namespace TeamTalkApp.NET
         int userid;
         Bitmap bmp;
         int unsubscribe_cmdid = 0;
-        int stream_id = 0;
 
         public VideoDlg(TeamTalk tt, int userid)
         {
@@ -47,8 +46,8 @@ namespace TeamTalkApp.NET
             InitializeComponent();
             this.CenterToScreen();
 
-            User user;
-            if (userid > 0 && ttclient.GetUser(userid, out user))
+            User user = new User();
+            if (userid > 0 && ttclient.GetUser(userid, ref user))
                 this.Text = "Video - " + user.szNickname;
             else
                 this.Text = "Local Video";
@@ -69,8 +68,8 @@ namespace TeamTalkApp.NET
 
                     //figure out how we're subscribing to video
                     Subscription subtype = Subscription.SUBSCRIBE_NONE;
-                    User user;
-                    if (ttclient.GetUser(this.userid, out user))
+                    User user = new User();
+                    if (ttclient.GetUser(this.userid, ref user))
                     {
                         if (user.uLocalSubscriptions.HasFlag(Subscription.SUBSCRIBE_VIDEOCAPTURE))
                             subtype = Subscription.SUBSCRIBE_VIDEOCAPTURE;

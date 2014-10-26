@@ -22,6 +22,7 @@
 package dk.bearware.gui;
 
 import dk.bearware.AudioCodec;
+import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ChannelType;
 import dk.bearware.ClientErrorMsg;
@@ -363,5 +364,13 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
+    }
+
+    @Override
+    public void onCmdUserAccount(UserAccount useraccount) {
+    }
+
+    @Override
+    public void onCmdBannedUser(BannedUser banneduser) {
     }
 }

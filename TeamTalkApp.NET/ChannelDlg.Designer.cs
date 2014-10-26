@@ -29,6 +29,8 @@ namespace TeamTalkApp.NET
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.norecordCheckBox = new System.Windows.Forms.CheckBox();
+            this.novoiceactCheckBox = new System.Windows.Forms.CheckBox();
             this.oprecvonlyCheckBox = new System.Windows.Forms.CheckBox();
             this.oppasswdTextBox = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -98,14 +100,11 @@ namespace TeamTalkApp.NET
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.denoiseCheckBox = new System.Windows.Forms.CheckBox();
             this.gainlevelTrackBar = new System.Windows.Forms.TrackBar();
             this.label10 = new System.Windows.Forms.Label();
             this.agcCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.novoiceactCheckBox = new System.Windows.Forms.CheckBox();
-            this.norecordCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.diskquotaNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxusersNumericUpDown)).BeginInit();
@@ -152,10 +151,30 @@ namespace TeamTalkApp.NET
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(9, 14);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(319, 440);
+            this.groupBox1.Size = new System.Drawing.Size(319, 385);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Channel Information";
+            // 
+            // norecordCheckBox
+            // 
+            this.norecordCheckBox.AutoSize = true;
+            this.norecordCheckBox.Location = new System.Drawing.Point(6, 355);
+            this.norecordCheckBox.Name = "norecordCheckBox";
+            this.norecordCheckBox.Size = new System.Drawing.Size(278, 17);
+            this.norecordCheckBox.TabIndex = 22;
+            this.norecordCheckBox.Text = "No audio recording allowed (save to disk not allowed)";
+            this.norecordCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // novoiceactCheckBox
+            // 
+            this.novoiceactCheckBox.AutoSize = true;
+            this.novoiceactCheckBox.Location = new System.Drawing.Point(6, 332);
+            this.novoiceactCheckBox.Name = "novoiceactCheckBox";
+            this.novoiceactCheckBox.Size = new System.Drawing.Size(248, 17);
+            this.novoiceactCheckBox.TabIndex = 21;
+            this.novoiceactCheckBox.Text = "No voice activation (only Push-to-Talk allowed)";
+            this.novoiceactCheckBox.UseVisualStyleBackColor = true;
             // 
             // oprecvonlyCheckBox
             // 
@@ -946,7 +965,7 @@ namespace TeamTalkApp.NET
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(316, 460);
+            this.button1.Location = new System.Drawing.Point(333, 405);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -957,7 +976,7 @@ namespace TeamTalkApp.NET
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(225, 460);
+            this.button2.Location = new System.Drawing.Point(242, 405);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -967,13 +986,12 @@ namespace TeamTalkApp.NET
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.denoiseCheckBox);
             this.groupBox3.Controls.Add(this.gainlevelTrackBar);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.agcCheckBox);
             this.groupBox3.Location = new System.Drawing.Point(340, 298);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(285, 150);
+            this.groupBox3.Size = new System.Drawing.Size(285, 101);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Audio Config";
@@ -986,16 +1004,6 @@ namespace TeamTalkApp.NET
             this.label11.Size = new System.Drawing.Size(41, 13);
             this.label11.TabIndex = 4;
             this.label11.Text = "label11";
-            // 
-            // denoiseCheckBox
-            // 
-            this.denoiseCheckBox.AutoSize = true;
-            this.denoiseCheckBox.Location = new System.Drawing.Point(10, 95);
-            this.denoiseCheckBox.Name = "denoiseCheckBox";
-            this.denoiseCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.denoiseCheckBox.TabIndex = 3;
-            this.denoiseCheckBox.Text = "Denoise";
-            this.denoiseCheckBox.UseVisualStyleBackColor = true;
             // 
             // gainlevelTrackBar
             // 
@@ -1047,33 +1055,13 @@ namespace TeamTalkApp.NET
             this.label8.TabIndex = 3;
             this.label8.Text = "Audio Channels";
             // 
-            // novoiceactCheckBox
-            // 
-            this.novoiceactCheckBox.AutoSize = true;
-            this.novoiceactCheckBox.Location = new System.Drawing.Point(6, 332);
-            this.novoiceactCheckBox.Name = "novoiceactCheckBox";
-            this.novoiceactCheckBox.Size = new System.Drawing.Size(248, 17);
-            this.novoiceactCheckBox.TabIndex = 21;
-            this.novoiceactCheckBox.Text = "No voice activation (only Push-to-Talk allowed)";
-            this.novoiceactCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // norecordCheckBox
-            // 
-            this.norecordCheckBox.AutoSize = true;
-            this.norecordCheckBox.Location = new System.Drawing.Point(6, 355);
-            this.norecordCheckBox.Name = "norecordCheckBox";
-            this.norecordCheckBox.Size = new System.Drawing.Size(278, 17);
-            this.norecordCheckBox.TabIndex = 22;
-            this.norecordCheckBox.Text = "No audio recording allowed (save to disk not allowed)";
-            this.norecordCheckBox.UseVisualStyleBackColor = true;
-            // 
             // ChannelDlg
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button2;
-            this.ClientSize = new System.Drawing.Size(674, 495);
+            this.ClientSize = new System.Drawing.Size(674, 435);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -1133,7 +1121,6 @@ namespace TeamTalkApp.NET
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox classroomCheckBox;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox denoiseCheckBox;
         private System.Windows.Forms.TrackBar gainlevelTrackBar;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox agcCheckBox;

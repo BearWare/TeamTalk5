@@ -54,4 +54,6 @@ public interface TTType {
     public static final int __BOOL               = 29;
     public static final int __INT32              = 30;
     public static final int __DESKTOPINPUT       = 31;
+    public static final int __SPEEXDSP           = 32;
+    public static final int __STREAMTYPE         = 33;
 }

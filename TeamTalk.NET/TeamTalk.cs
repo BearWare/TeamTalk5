@@ -72,7 +72,9 @@ namespace BearWare
          * 
          * Check @c supportedSampleRates and @c nDefaultSampleRate of
          * #BearWare.SoundDevice to see which sample rates are supported. */
-        SOUNDSYSTEM_WASAPI = 5
+        SOUNDSYSTEM_WASAPI = 5,
+        /** @brief Android sound API. */
+        SOUNDSYSTEM_OPENSLES_ANDROID = 7
     }
 
     /**
@@ -642,10 +644,10 @@ namespace BearWare
         /** @brief A value from 1-10. */
         [FieldOffset(4)]
         public int nQuality;
-        /** @brief Milliseconds of audio data in each
-         * packet. Recommended is 40 ms. Max is 1000. */
+        /** @brief Milliseconds of audio data before each transmission.
+         * Recommended is 40 ms. Max is 1000. */
         [FieldOffset(8)]
-        public int nMSecPerPacket;
+        public int nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
@@ -681,10 +683,10 @@ namespace BearWare
          * enabled Speex will ignore silence, so the bitrate will
          * become very low. */
         public bool bDTX;
-        /** @brief Milliseconds of audio data in each packet. Speex
+        /** @brief Milliseconds of audio data before each transmission. Speex
          * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
          * max is 1000. */
-        public int nMSecPerPacket;
+        public int nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
          *
@@ -696,6 +698,16 @@ namespace BearWare
     /** @brief Speex constants for #BearWare.SpeexCodec and #BearWare.SpeexVBRCodec. */
     public struct SpeexConstants
     {
+        /** @brief Use #BearWare.SpeexCodec or #BearWare.SpeexVBRCodec as 8 KHz */
+        public const int SPEEX_BANDMODE_NARROW = 0;
+        /** @brief Use #BearWare.SpeexCodec or #BearWare.SpeexVBRCodec as 16 KHz */
+        public const int SPEEX_BANDMODE_WIDE = 1;
+        /** @brief Use #BearWare.SpeexCodec or #BearWare.SpeexVBRCodec as 32 KHz */
+        public const int SPEEX_BANDMODE_UWIDE = 2;
+        /** @brief The minimum quality for Speex codec. */ 
+        public const int SPEEX_QUALITY_MIN = 0;
+        /** @brief The maximum quality for Speex codec. */ 
+        public const int SPEEX_QUALITY_MAX = 10;
         /** @brief The minimum bitrate for Speex codec in 8 KHz
          * mode, i.e. quality set to 0. */
         public const int SPEEX_NB_MIN_BITRATE = 2150;
@@ -714,6 +726,27 @@ namespace BearWare
         /** @brief The maximum bitrate for Speex codec in 32 KHz
          * mode, i.e. quality set to 10. */
         public const int SPEEX_UWB_MAX_BITRATE = 44000;
+        /** @brief Default Speex bandmode for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const int DEFAULT_SPEEX_BANDMODE = 1;
+        /** @brief Default Speex quality for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const int DEFAULT_SPEEX_QUALITY = 4;
+        /** @brief Default Speex delay for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const int DEFAULT_SPEEX_DELAY = 40;
+        /** @brief Default Speex stereo playback for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const bool DEFAULT_SPEEX_SIMSTEREO = false;
+        /** @brief Default Speex bitrate for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const int DEFAULT_SPEEX_BITRATE = 0;
+        /** @brief Default Speex max bitrate for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const int DEFAULT_SPEEX_MAXBITRATE = 0;
+        /** @brief Default Speex DTX for #BearWare.SpeexCodec or
+         * #BearWare.SpeexVBRCodec. */
+        public const bool DEFAULT_SPEEX_DTX = true;
     }
 
     /** @brief OPUS audio codec settings. For detailed information
@@ -724,9 +757,7 @@ namespace BearWare
         /** @brief The sample rate to use. Sample rate must be in the
          * range 8000 - 48000 Hz. */
         public int nSampleRate;
-        /** @brief Mono = 1 or stereo = 2. Note that echo
-         * cancellation, denoising and AGC is not support when using
-         * stereo. @see AudioConfig */
+        /** @brief Mono = 1 or stereo = 2. */
         public int nChannels;
         /** @brief Application of encoded audio, VoIP or music.
          * @see OPUS_APPLICATION_VOIP
@@ -750,9 +781,9 @@ namespace BearWare
         /** @brief Enable constrained VBR.
          * @c bVBR must be enabled to enable this. */
         public bool bVBRConstraint;
-        /** @brief Duration of audio in each packet.
+        /** @brief Duration of audio before each transmission.
          * OPUS supports 2.5, 5, 10, 20, 40 or 60 ms. */
-        public int nMSecPerPacket;
+        public int nTxIntervalMSec;
     }
 
     /** @brief OPUS constants for #BearWare.OpusCodec. */
@@ -781,6 +812,138 @@ namespace BearWare
         public const bool DEFAULT_OPUS_VBRCONSTRAINT = false;
         public const int DEFAULT_OPUS_BITRATE = 32000;
         public const int DEFAULT_OPUS_DELAY = 20;
+    }
+
+    /** @brief Audio configuration specifying how recorded audio from
+    * sound input device should be preprocessed before transmission.
+    *
+    * Users' audio levels may be diffent due to how their microphone
+    * is configured in their OS. Automatic Gain Control (AGC) can be used
+    * to ensure all users in the same channel have the same audio level.
+    *
+    * Enable the preprocessing configuration by calling
+    * TeamTalk.SetSoundInputPreprocess().
+    *
+    * When joining a #BearWare.Channel and @c bEnableGainControl of
+    * #BearWare.AudioConfig is enabled in the channel then enable sound input
+    * preprocessing by setting @c bEnableAGC to TRUE and @c
+    * nGainLevel of #BearWare.SpeexDSP to the @c nGainLevel of
+    * #BearWare.AudioConfig. */
+    [StructLayout(LayoutKind.Explicit)]
+    public struct SpeexDSP
+    {
+        /** @brief Whether clients who join a #BearWare.Channel should
+         * enable AGC with the settings specified @a nGainLevel, @a
+         * nMaxIncDBSec, @a nMaxDecDBSec and @a nMaxGainDB. */
+        [FieldOffset(0)]
+        public bool bEnableAGC;
+        /** @brief A value from 0 to 32768. Default is 8000.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        [FieldOffset(4)]
+        public int nGainLevel;
+        /** @brief Used so volume should not be amplified too quickly 
+         * (maximal gain increase in dB/second). Default is 12. 
+         * * Value is ignored if @a bEnableAGC is FALSE. */
+        [FieldOffset(8)]
+        public int nMaxIncDBSec;
+        /** @brief Used so volume should not be attenuated
+         * too quickly (maximal gain decrease in dB/second).
+         * Negative value! Default is -40.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        [FieldOffset(12)]
+        public int nMaxDecDBSec;
+        /** @brief Ensure volume doesn't become too loud (maximal gain
+         * in dB). Default is 30.
+         * Value is ignored if @a bEnableAGC is FALSE. */
+        [FieldOffset(16)]
+        public int nMaxGainDB;
+        /** @brief Whether clients who join the channel should automatically
+         * enable denoising.  */
+        [FieldOffset(20)]
+        public bool bEnableDenoise;
+        /** @brief Maximum attenuation of the noise in dB.
+         * Negative value! Default value is -30. 
+         * Value is ignored if @a bEnableDenoise is FALSE. */
+        [FieldOffset(24)]
+        public int nMaxNoiseSuppressDB;
+        /** @brief Speex DSP is used for specifying how recorded audio
+         * from a sound input device should be preprocessed before
+         * transmission.
+         *
+         * In order to enable echo cancellation mode the local client
+         * instance must first be set in sound duplex mode by calling
+         * TeamTalk.InitSoundDuplexDevices(). This is because the echo canceller
+         * must first mixed all audio streams into a single stream and
+         * have then run in synch with the input stream. After calling
+         * TeamTalk.InitSoundDuplexDevices() the flag ::CLIENT_SNDINOUTPUT_DUPLEX
+         * will be set.
+         *
+         * For echo cancellation to work the sound input and output device
+         * must be the same sound card since the input and output stream
+         * must be completely synchronized. Also it is recommended to also
+         * enable denoising and AGC for better echo cancellation.
+         *
+         * @see TeamTalk.SetSoundInputPreprocess() */
+        [FieldOffset(28)]
+        public bool bEnableEchoCancellation;
+        /** @brief Set maximum attenuation of the residual echo in dB 
+         * (negative number). Default is -40.
+         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
+        [FieldOffset(32)]
+        public int nEchoSuppress;
+        /** @brief Set maximum attenuation of the residual echo in dB 
+         * when near end is active (negative number). Default is -15.
+         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
+        [FieldOffset(36)]
+        public int nEchoSuppressActive;
+
+        public SpeexDSP(bool set_defaults)
+        {
+            if (set_defaults)
+            {
+                bEnableAGC = SpeexDSPConstants.DEFAULT_AGC_ENABLE;
+                nGainLevel = SpeexDSPConstants.DEFAULT_AGC_GAINLEVEL;
+                nMaxIncDBSec = SpeexDSPConstants.DEFAULT_AGC_INC_MAXDB;
+                nMaxDecDBSec = SpeexDSPConstants.DEFAULT_AGC_DEC_MAXDB;
+                nMaxGainDB = SpeexDSPConstants.DEFAULT_AGC_GAINMAXDB;
+
+                bEnableDenoise = SpeexDSPConstants.DEFAULT_DENOISE_ENABLE;
+                nMaxNoiseSuppressDB = SpeexDSPConstants.DEFAULT_DENOISE_SUPPRESS;
+
+                bEnableEchoCancellation = SpeexDSPConstants.DEFAULT_ECHO_ENABLE;
+                nEchoSuppress = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS;
+                nEchoSuppressActive = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
+            }
+            else
+            {
+                bEnableAGC = false;
+                nGainLevel = 0;
+                nMaxIncDBSec = 0;
+                nMaxDecDBSec = 0;
+                nMaxGainDB = 0;
+
+                bEnableDenoise = false;
+                nMaxNoiseSuppressDB = 0;
+
+                bEnableEchoCancellation = false;
+                nEchoSuppress = 0;
+                nEchoSuppressActive = 0;
+            }
+        }
+    }
+
+    public struct SpeexDSPConstants
+    {
+        public const bool DEFAULT_AGC_ENABLE = true;
+        public const int DEFAULT_AGC_GAINLEVEL = 8000;
+        public const int DEFAULT_AGC_INC_MAXDB = 12;
+        public const int DEFAULT_AGC_DEC_MAXDB = -40;
+        public const int DEFAULT_AGC_GAINMAXDB = 30;
+        public const bool DEFAULT_DENOISE_ENABLE = true;
+        public const int DEFAULT_DENOISE_SUPPRESS = -30;
+        public const bool DEFAULT_ECHO_ENABLE = true;
+        public const int DEFAULT_ECHO_SUPPRESS = -40;
+        public const int DEFAULT_ECHO_SUPPRESS_ACTIVE = -15;
     }
 
     /** @brief WebM video codec settings.
@@ -840,86 +1003,28 @@ namespace BearWare
         public OpusCodec opus;
     }
 
-    /** @brief Audio configuration specifying how recorded audio from
-     * sound input device should be preprocessed before transmission.
+    /** @brief Audio configuration for clients in a channel.
      *
-     * Users' audio levels may be diffent due to how their microphone
-     * is configured in their OS. Automatic Gain Control (AGC) can be used
-     * to ensure all users in the same channel have the same audio level.
+     * An audio configuration can be used to set common audio
+     * properties for all users in a channel. Checkout @c audiocfg of
+     * #BearWare.Channel.
      *
-     * Enable the audio configuration by calling TeamTalk.SetAudioConfig().
+     * The audio configuration only supports same audio level
+     * for all users by manually converting the values to the
+     * #BearWare.SpeexDSP preprocessor.
      *
+     * @see TeamTalk.SetSoundInputPreprocess()
      * @see TeamTalk.DoMakeChannel()
-     * @see TeamTalk.DoUpdateChannel() */
+     * @see TeamTalk.DoJoinChannel() */
     [StructLayout(LayoutKind.Explicit)]
     public struct AudioConfig
     {
-        /** @brief Whether clients who join a #BearWare.Channel should
-         * enable AGC with the settings specified @a nGainLevel, @a
-         * nMaxIncDBSec, @a nMaxDecDBSec and @a nMaxGainDB. */
+        /** @brief Users should enable automatic gain control. */
         [FieldOffset(0)]
         public bool bEnableAGC;
-        /** @brief A value from 0 to 32768. Default is 8000.
-         * Value is ignored if @a bEnableAGC is FALSE. */
+        /** @brief Reference gain level to be used by all users. */
         [FieldOffset(4)]
         public int nGainLevel;
-        /** @brief Used so volume should not be amplified too quickly 
-         * (maximal gain increase in dB/second). Default is 12. 
-         * * Value is ignored if @a bEnableAGC is FALSE. */
-        [FieldOffset(8)]
-        public int nMaxIncDBSec;
-        /** @brief Used so volume should not be attenuated
-         * too quickly (maximal gain decrease in dB/second).
-         * Negative value! Default is -40.
-         * Value is ignored if @a bEnableAGC is FALSE. */
-        [FieldOffset(12)]
-        public int nMaxDecDBSec;
-        /** @brief Ensure volume doesn't become too loud (maximal gain
-         * in dB). Default is 30.
-         * Value is ignored if @a bEnableAGC is FALSE. */
-        [FieldOffset(16)]
-        public int nMaxGainDB;
-        /** @brief Whether clients who join the channel should automatically
-         * enable denoising.  */
-        [FieldOffset(20)]
-        public bool bEnableDenoise;
-        /** @brief Maximum attenuation of the noise in dB.
-         * Negative value! Default value is -30. 
-         * Value is ignored if @a bEnableDenoise is FALSE. */
-        [FieldOffset(24)]
-        public int nMaxNoiseSuppressDB;
-        /** @brief Enable/disable acoustic echo cancellation (AEC).
-         *
-         * In order to enable echo cancellation mode the local client
-         * instance must first be set in sound duplex mode by calling
-         * TeamTalk.InitSoundDuplexDevices(). This is because the echo canceller
-         * must first mixed all audio streams into a single stream and
-         * have then run in synch with the input stream. After calling
-         * TeamTalk.InitSoundDuplexDevices() the flag ::CLIENT_SNDINOUTPUT_DUPLEX
-         * will be set.
-         *
-         * For echo cancellation to work the sound input and output device
-         * must be the same sound card since the input and output stream
-         * must be completely synchronized. Also it is recommended to also
-         * enable denoising and AGC for better echo cancellation.
-         *
-         * Echo cancellation will not be active if the local client
-         * instance is participating in a channel which uses a stereo
-         * #BearWare.AudioCodec.
-         *
-         * @see TeamTalk.SetAudioConfig() */
-        [FieldOffset(28)]
-        public bool bEnableEchoCancellation;
-        /** @brief Set maximum attenuation of the residual echo in dB 
-         * (negative number). Default is -40.
-         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
-        [FieldOffset(32)]
-        public int nEchoSuppress;
-        /** @brief Set maximum attenuation of the residual echo in dB 
-         * when near end is active (negative number). Default is -15.
-         * Value is ignored if @a bEnableEchoCancellation is FALSE. */
-        [FieldOffset(36)]
-        public int nEchoSuppressActive;
 
         public AudioConfig(bool set_defaults)
         {
@@ -927,31 +1032,11 @@ namespace BearWare
             {
                 bEnableAGC = true;
                 nGainLevel = AudioConfigConstants.DEFAULT_AGC_GAINLEVEL;
-                nMaxIncDBSec = AudioConfigConstants.DEFAULT_AGC_INC_MAXDB;
-                nMaxDecDBSec = AudioConfigConstants.DEFAULT_AGC_DEC_MAXDB;
-                nMaxGainDB = AudioConfigConstants.DEFAULT_AGC_GAINMAXDB;
-
-                bEnableDenoise = true;
-                nMaxNoiseSuppressDB = AudioConfigConstants.DEFAULT_DENOISE_SUPPRESS;
-
-                bEnableEchoCancellation = true;
-                nEchoSuppress = AudioConfigConstants.DEFAULT_ECHO_SUPPRESS;
-                nEchoSuppressActive = AudioConfigConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
             }
             else
             {
                 bEnableAGC = false;
                 nGainLevel = 0;
-                nMaxIncDBSec = 0;
-                nMaxDecDBSec = 0;
-                nMaxGainDB = 0;
-
-                bEnableDenoise = false;
-                nMaxNoiseSuppressDB = 0;
-
-                bEnableEchoCancellation = false;
-                nEchoSuppress = 0;
-                nEchoSuppressActive = 0;
             }
         }
     }
@@ -960,11 +1045,6 @@ namespace BearWare
     {
         public const int DEFAULT_AGC_GAINLEVEL = 8000;
         public const int DEFAULT_AGC_INC_MAXDB = 12;
-        public const int DEFAULT_AGC_DEC_MAXDB = -40;
-        public const int DEFAULT_AGC_GAINMAXDB = 30;
-        public const int DEFAULT_DENOISE_SUPPRESS = -30;
-        public const int DEFAULT_ECHO_SUPPRESS = -40;
-        public const int DEFAULT_ECHO_SUPPRESS_ACTIVE = -15;
     }
 
     /** @brief Struct used for specifying the video codec to use. */
@@ -1222,13 +1302,13 @@ namespace BearWare
 
     /**
      * @brief A struct containing the properties of a banned user.
-     * This struct is used by TeamTalk.GetBannedUsers(). */
+     * @see TT_DoListBans() */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BannedUser
     {
         /** @brief IP-address of banned user. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
-        public string szIpAddress;
+        public string szIPAddress;
         /** @brief Channel where user was located when banned. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
         public string szChannelPath;
@@ -1508,9 +1588,9 @@ namespace BearWare
          * e.g. talking, muted, etc.   */
         public UserState uUserState;
         /** @brief Store audio received from this user to this
-         * folder. @see TeamTalk.SetUserAudioFolder */
+         * folder. @see TeamTalk.SetUserMediaStorageDir */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
-        public string szAudioFolder;
+        public string szMediaStorageDir;
         /** @brief The user's voice volume level. Note that it's a virtual 
          * volume which is being set since the master volume affects 
          * the user volume. The value will be between
@@ -1742,7 +1822,7 @@ namespace BearWare
         /** @brief Whether password is required to join channel. Read-only 
          * property. */
         public bool bPassword;
-        /** @brief A bitmask of the type of channel based on #ChannelType. */
+        /** @brief A bitmask of the type of channel based on #BearWare.ChannelType. */
         public ChannelType uChannelType;
         /** @brief User specific data which will be stored on
          * persistent storage on the server if the channel type is
@@ -1759,8 +1839,7 @@ namespace BearWare
         /** @brief The audio codec used by users in the channel. */
         public AudioCodec audiocodec;
         /** @brief The audio configuration which users who join the
-         * channel should use. Use TeamTalk.SetAudioConfig() to enable
-         * the #BearWare.AudioConfig. */
+         * channel should use. @see TeamTalk.SetSoundInputPreprocess() */
         public AudioConfig audiocfg;
         /** @brief List of users who can transmit in a classroom channel (::CHANNEL_CLASSROOM).
          * 
@@ -2246,15 +2325,14 @@ namespace BearWare
          * Ensure the settings specified in #BearWare.AudioCodec are valid.
          * @see TeamTalk.DoJoinChannel() */
         INTERR_AUDIOCODEC_INIT_FAILED           = 10002,
-        /** @brief #BearWare.AudioConfig failed to initialize.
+        /** @brief #BearWare.SpeexDSP failed to initialize.
          *
          * This error occurs when joining a channel.
          *
-         * The settings specified by TeamTalk.SetAudioConfig() are invalid for the
-         * specified codec. This typically occurs if the values in the 
-         * #BearWare.AudioConfig are invalid or if the #BearWare.AudioCodec is using stereo.
-         * @see TeamTalk.DoJoinChannel() */
-        INTERR_AUDIOCONFIG_INIT_FAILED          = 10003
+         * The settings specified by TeamTalk.SetSoundInputPreprocess() are
+         * invalid for the specified audio codec. @see
+         * TeamTalk.DoJoinChannel() */
+        INTERR_SPEEXDSP_INIT_FAILED = 10003
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -2532,6 +2610,24 @@ namespace BearWare
          * @param ttType #__REMOTEFILE
          * @param remotefile Placed in union of #BearWare.TTMessage. */
         CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380,
+        /** 
+         * @brief A user account has been received from the server.
+         *
+         * This message is posted as a result of TT_DoListUserAccounts()
+         *
+         * @param nSource 0
+         * @param ttType #__USERACCOUNT
+         * @param useraccount Placed in union of #BearWare.TTMessage. */
+        CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390,
+        /** 
+         * @brief A banned user has been received from the server.
+         *
+         * This message is posted as a result of TT_DoListBans()
+         *
+         * @param nSource 0
+         * @param ttType #__BANNEDUSER
+         * @param useraccount Placed in union of #BearWare.TTMessage. */
+        CLIENTEVENT_CMD_BANNEDUSER = CLIENTEVENT_NONE + 400,
         /**
          * @brief A user state has changed.
          *
@@ -2630,7 +2726,7 @@ namespace BearWare
         /** 
          * @brief A media file recording has changed status.
          *
-         * TeamTalk.SetUserAudioFolder() makes the client instance store all
+         * TeamTalk.SetUserMediaStorageDir() makes the client instance store all
          * audio from a user to a specified folder. Every time an
          * audio file is being processed this event is posted.
          *
@@ -2643,13 +2739,16 @@ namespace BearWare
         /**
          * @brief A new audio block can be extracted.
          *
+         * The #BearWare.AudioBlock can either be of #STREAMTYPE_VOICE or
+         * #STREAMTYPE_MEDIAFILE_AUDIO.
+         * 
          * This event is only generated if TeamTalk.EnableAudioBlockEvent()
          * is first called.
          *
          * Call TeamTalk.AcquireUserAudioBlock() to extract the #BearWare.AudioBlock.
          *
          * @param nSource The user ID.
-         * @param ttType #__NONE */
+         * @param ttType #__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
          * @brief An internal error occurred in the client instance.
@@ -2792,7 +2891,9 @@ namespace BearWare
         __CLIENTERRORMSG          = 28,
         __BOOL                    = 29,
         __INT32                   = 30,
-        __DESKTOPINPUT            = 31
+        __DESKTOPINPUT            = 31,
+        __SPEEXDSP                = 32,
+        __STREAMTYPE              = 33
     }
 
     /**
@@ -2816,7 +2917,7 @@ namespace BearWare
         public TTType ttType;
         /** @brief Reserved. To preserve alignment. */
         public uint uReserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5240)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5232)]
         public byte[] data;
         //UnionData data;
         
@@ -2846,10 +2947,14 @@ namespace BearWare
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(User));
                 case TTType.__USERACCOUNT:
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(UserAccount));
+                case TTType.__BANNEDUSER :
+                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(BannedUser));
                 case TTType.__BOOL:
                     return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this)) != 0;
                 case TTType.__INT32:
                     return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
+                case TTType.__STREAMTYPE :
+                    return (StreamType)Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
                 default:
                     return null;
             }
@@ -2923,7 +3028,7 @@ namespace BearWare
         /** @brief If set the client instance is running in sound
          * duplex mode where multiple audio output streams are mixed
          * into a single stream. This option must be enabled to
-         * support echo cancellation (see #BearWare.AudioConfig). Call
+         * support echo cancellation (see #BearWare.SpeexDSP). Call
          * TeamTalk.InitSoundDuplexDevices() to enable duplex mode.*/
         CLIENT_SNDINOUTPUT_DUPLEX = 0x00000004,
         /** @brief If set the client instance will start transmitting
@@ -3104,13 +3209,13 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__REMOTEFILE) == Marshal.SizeOf(new RemoteFile()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__FILETRANSFER) == Marshal.SizeOf(new FileTransfer()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILESTATUS) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(MediaFileStatus))));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__STREAMTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(StreamType))));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SERVERPROPERTIES) == Marshal.SizeOf(new ServerProperties()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SERVERSTATISTICS) == Marshal.SizeOf(new ServerStatistics()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SOUNDDEVICE) == Marshal.SizeOf(new SoundDevice()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SPEEXCODEC) == Marshal.SizeOf(new SpeexCodec()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TEXTMESSAGE) == Marshal.SizeOf(new TextMessage()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__WEBMVP8CODEC) == Marshal.SizeOf(new WebMVP8Codec()));
-            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTMESSAGE) == Marshal.SizeOf(new TTMessage()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USER) == Marshal.SizeOf(new User()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USERACCOUNT) == Marshal.SizeOf(new UserAccount()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USERSTATISTICS) == Marshal.SizeOf(new UserStatistics()));
@@ -3124,6 +3229,8 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILEINFO) == Marshal.SizeOf(new MediaFileInfo()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__CLIENTERRORMSG) == Marshal.SizeOf(new ClientErrorMsg()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__DESKTOPINPUT) == Marshal.SizeOf(new DesktopInput()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SPEEXDSP) == Marshal.SizeOf(new SpeexDSP()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTMESSAGE) == Marshal.SizeOf(new TTMessage()));
 
             if (poll_based)
                 m_ttInst = TTDLL.TT_InitTeamTalkPoll();
@@ -3187,7 +3294,7 @@ namespace BearWare
          * @see ClientEvent */
         public bool GetMessage(ref TTMessage pMsg, int nWaitMs)
         {
-            return TTDLL.TT_GetMessage(m_ttInst, out pMsg, ref nWaitMs);
+            return TTDLL.TT_GetMessage(m_ttInst, ref pMsg, ref nWaitMs);
         }
 
         /**
@@ -3329,6 +3436,14 @@ namespace BearWare
                     if (OnCmdFileRemove != null)
                         OnCmdFileRemove((RemoteFile)msg.DataToObject());
                     break;
+                case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT :
+                    if (OnCmdUserAccount != null)
+                        OnCmdUserAccount((UserAccount)msg.DataToObject());
+                    break;
+                case ClientEvent.CLIENTEVENT_CMD_BANNEDUSER :
+                    if (OnCmdBannedUser != null)
+                        OnCmdBannedUser((BannedUser)msg.DataToObject());
+                    break;
                 
                 case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
                     if (OnUserStateChange != null)
@@ -3360,7 +3475,7 @@ namespace BearWare
                     break;
                 case ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK :
                     if(OnUserAudioBlock != null)
-                        OnUserAudioBlock((int)msg.nSource);
+                        OnUserAudioBlock((int)msg.nSource, (StreamType)msg.DataToObject());
                     break;
                 case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
                     if(OnInternalError!= null)
@@ -3405,20 +3520,20 @@ namespace BearWare
          * @param lpnOutputDeviceID The ID of the default output device.
          * @see TeamTalk.InitSoundInputDevice
          * @see TeamTalk.InitSoundOutputDevice */
-        public static bool GetDefaultSoundDevices(out int lpnInputDeviceID,
-                                                  out int lpnOutputDeviceID)
+        public static bool GetDefaultSoundDevices(ref int lpnInputDeviceID,
+                                                  ref int lpnOutputDeviceID)
         {
-            return TTDLL.TT_GetDefaultSoundDevices(out lpnInputDeviceID, out lpnOutputDeviceID);
+            return TTDLL.TT_GetDefaultSoundDevices(ref lpnInputDeviceID, ref lpnOutputDeviceID);
         }
         /**
          * @brief Get the default sound devices for the specified sound system.
          *
          * @see TeamTalk.GetDefaultSoundDevices() */
         public static bool GetDefaultSoundDevicesEx(SoundSystem nSndSystem,
-                                                    out int lpnInputDeviceID,
-                                                    out int lpnOutputDeviceID)
+                                                    ref int lpnInputDeviceID,
+                                                    ref int lpnOutputDeviceID)
         {
-            return TTDLL.TT_GetDefaultSoundDevicesEx(nSndSystem, out lpnInputDeviceID, out lpnOutputDeviceID);
+            return TTDLL.TT_GetDefaultSoundDevicesEx(nSndSystem, ref lpnInputDeviceID, ref lpnOutputDeviceID);
         }
         /**
          * @brief Retrieve list of sound devices for recording and playback.
@@ -3461,12 +3576,8 @@ namespace BearWare
          * devices along with an audio configuration and ability to try
          * echo cancellation.
          *
-         * Call TeamTalk.StopSoundLoopbackTest() to stop the loopback
-         * test.
-         *
-         * This function allows the use of #BearWare.AudioConfig to enable AGC and echo
-         * cancellation. Note that AGC and echo cancellation can only be
-         * used in mono, i.e. @c nChannels = 1.
+         * This function allows the use of #BearWare.SpeexDSP to enable AGC and echo
+         * cancellation.
          * 
          * @param nInputDeviceID Should be the @a nDeviceID extracted through 
          * TeamTalk.GetSoundDevices().
@@ -3475,14 +3586,12 @@ namespace BearWare
          * @param nSampleRate The sample rate the client's recorder should 
          * use.
          * @param nChannels Number of channels to use, i.e. 1 = mono, 2 = stereo.
-         * Note that echo cancellation, denoising and AGC is not supported in
-         * stereo.
          * @param bDuplexMode Both input and output devices MUST support
          * the specified sample rate since this loop back test uses duplex
          * mode ( @see TeamTalk.InitSoundDuplexDevices() ). Check out @c
          * supportedSampleRates of #BearWare.SoundDevice to see which sample rates
          * are supported.
-         * @param lpAudioConfig The audio configuration to use, i.e. AGC 
+         * @param lpSpeexDSP The preprocessing settings to use, i.e. AGC 
          * and denoising properties.
          * @return Returns IntPtr.Zero in case of error, otherwise sound loop instance
          * which can be closed by TeamTalk.CloseSoundLoopbackTest();
@@ -3492,11 +3601,11 @@ namespace BearWare
          * @see TeamTalk.StopSoundLoopbackTest() */
         public static IntPtr StartSoundLoopbackTest(int nInputDeviceID, int nOutputDeviceID,
                                                     int nSampleRate, int nChannels,
-                                                    bool bDuplexMode, AudioConfig lpAudioConfig)
+                                                    bool bDuplexMode, SpeexDSP lpSpeexDSP)
         {
             return TTDLL.TT_StartSoundLoopbackTest(nInputDeviceID, nOutputDeviceID,
-                                                 nSampleRate, nChannels, bDuplexMode, 
-                                                 ref lpAudioConfig);
+                                                 nSampleRate, nChannels, bDuplexMode,
+                                                 ref lpSpeexDSP);
         }
         /**
          * @brief Stop recorder and playback test.
@@ -3675,6 +3784,10 @@ namespace BearWare
          * where #BearWare.SoundLevel.SOUND_GAIN_DEFAULT is no gain. So 100 is 1/10 of the
          * original volume and 8000 is 8 times the original volume.
          *
+         * Note that using TeamTalk.SetSoundInputPreprocess() will override
+         * settings an input gain level. This is because automatic gain
+         * control will adjust the volume level.
+         *
          * @param nLevel A value from
          * #BearWare.SoundLevel.SOUND_GAIN_MIN to
          * #BearWare.SoundLevel.SOUND_GAIN_MAX.
@@ -3695,7 +3808,7 @@ namespace BearWare
         }
 
         /**
-         * @brief Enable an audio configuration which should be used for
+         * @brief Enable sound preprocessor which should be used for
          * processing audio recorded by the sound input device (voice input).
          *
          * To ensure common settings for all users in a channel it's
@@ -3703,31 +3816,28 @@ namespace BearWare
          * source for audio settings.
          *
          * In order for echo cancellation to work best it's important to
-         * also enable AGC in the #BearWare.AudioConfig.
+         * also enable AGC in the #BearWare.SpeexDSP.
          *
-         * Note that an #BearWare.AudioConfig currently only works for sound input
-         * devices using mono. Stereo is not supported.
-         *
-         * @param lpAudioConfig The audio configuration settings to use. 
+         * @param lpSpeexDSP The sound preprocessor settings to use. 
          * Preferably from the #BearWare.Channel's @c audiocfg member to ensure common
          * settings for all users.
          * @return TRUE on success, FALSE on failure. */
-        public bool SetAudioConfig(AudioConfig lpAudioConfig)
+        public bool SetSoundInputPreprocess(SpeexDSP lpSpeexDSP)
         {
-            return TTDLL.TT_SetAudioConfig(m_ttInst, ref lpAudioConfig);
+            return TTDLL.TT_SetSoundInputPreprocess(m_ttInst, ref lpSpeexDSP);
         }
 
         /** 
-         * @brief Get the audio configuration which is currently in use
+         * @brief Get the sound preprocessor settings which are currently in use
          * for recorded sound input device (voice input).
          *
-         * @param lpAudioConfig A preallocated AudioConfig which will 
-         * receive the audio configuration which is currently in effect.
+         * @param lpSpeexDSP A preallocated SpeexDSP which will 
+         * receive the settings that is currently in effect.
          *
          * @return TRUE on success, FALSE on failure. */
-        public bool GetAudioConfig(ref AudioConfig lpAudioConfig)
+        public bool GetSoundInputPreprocess(ref SpeexDSP lpSpeexDSP)
         {
-            return TTDLL.TT_GetAudioConfig(m_ttInst, ref lpAudioConfig);
+            return TTDLL.TT_GetSoundInputPreprocess(m_ttInst, ref lpSpeexDSP);
         }
 
         /**
@@ -3794,12 +3904,19 @@ namespace BearWare
          * time a new #BearWare.AudioBlock is available the event
          * OnUserAudioBlock() is generated.
          * 
+         * @param nUserID The user ID to monitor for audio callback. Pass 0
+         * to monitor local audio.
+         * @param nStreamType Either ::STREAMTYPE_VOICE or 
+         * ::STREAMTYPE_MEDIAFILE_AUDIO.
+         * @param bEnable Whether to enable the #CLIENTEVENT_USER_AUDIOBLOCK event.
+         * 
          * @see TeamTalk.AcquireUserAudioBlock()
          * @see TeamTalk.ReleaseUserAudioBlock()
          * @see OnUserAudioBlock() */
-        public bool EnableAudioBlockEvent(bool bEnable)
+        public bool EnableAudioBlockEvent(int nUserID, StreamType nStreamType,
+                                          bool bEnable)
         {
-            return TTDLL.TT_EnableAudioBlockEvent(m_ttInst, bEnable);
+            return TTDLL.TT_EnableAudioBlockEvent(m_ttInst, nUserID, nStreamType, bEnable);
         }
         /** @} */
 
@@ -3901,7 +4018,7 @@ namespace BearWare
         /**
          * @brief Store audio conversations to a single file.
          *
-         * Unlike TeamTalk.SetUserAudioFolder(), which stores users' audio
+         * Unlike TeamTalk.SetUserMediaStorageDir(), which stores users' audio
          * streams in separate files, TeamTalk.StartRecordingMuxedAudioFile()
          * muxes the audio streams into a single file.
          *
@@ -3931,7 +4048,7 @@ namespace BearWare
          * @param uAFF The audio format which should be used in the recorded
          * file. The muxer will convert to this format.
          *
-         * @see SetUserAudioFolder()
+         * @see SetUserMediaStorageDir()
          * @see StopRecordingMuxedAudioFile() */
         public bool StartRecordingMuxedAudioFile(AudioCodec lpAudioCodec,
                                                  string szAudioFileName,
@@ -4279,9 +4396,9 @@ namespace BearWare
          *
          * @see TeamTalk.StartStreamingMediaFileToChannel() */
         public static bool GetMediaFileInfo(string szMediaFilePath,
-                                            out MediaFileInfo pMediaFileInfo)
+                                            ref MediaFileInfo lpMediaFileInfo)
         {
-            return TTDLL.TT_GetMediaFileInfo(szMediaFilePath, out pMediaFileInfo);
+            return TTDLL.TT_GetMediaFileInfo(szMediaFilePath, ref lpMediaFileInfo);
         }
 
         /** @brief Extract a user's media video frame for display.
@@ -4709,9 +4826,9 @@ namespace BearWare
          * response times.
          *
          * @see BearWare.ClientStatistics */
-        public bool GetClientStatistics(out ClientStatistics lpStats)
+        public bool GetClientStatistics(ref ClientStatistics lpClientStatistics)
         {
-            return TTDLL.TT_GetClientStatistics(m_ttInst, out lpStats);
+            return TTDLL.TT_GetClientStatistics(m_ttInst, ref lpClientStatistics);
         }
         /** @} */
 
@@ -5283,6 +5400,10 @@ namespace BearWare
         /**
          * @brief Issue command to list user accounts on the server.
          *
+         * The event OnCmdUserAccount() will be posted for every
+         * #BearWare.UserAccount on the server. Ensure not to list too many many user
+         * accounts since this may suspend event handling.
+         *
          * User accounts can be used to create users with different user
          * rights.
          *
@@ -5299,8 +5420,7 @@ namespace BearWare
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see UserAccount
-         * @see UserType
-         * @see GetUserAccounts */
+         * @see UserType */
         public int DoListUserAccounts(int nIndex, int nCount)
         {
             return TTDLL.TT_DoListUserAccounts(m_ttInst, nIndex, nCount);
@@ -5391,15 +5511,15 @@ namespace BearWare
          * - #CMDERR_NOT_LOGGEDIN
          * - #CMDERR_NOT_AUTHORIZED
          *
-         * @param szIpAddress The IP-address to ban.
+         * @param szIPAddress The IP-address to ban.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see TeamTalk.DoKickUser
          * @see TeamTalk.DoListBans */
-        public int DoBanIPAddress(string szIpAddress)
+        public int DoBanIPAddress(string szIPAddress)
         {
-            return TTDLL.TT_DoBanIPAddress(m_ttInst, szIpAddress);
+            return TTDLL.TT_DoBanIPAddress(m_ttInst, szIPAddress);
         }
 
         /**
@@ -5414,22 +5534,22 @@ namespace BearWare
          * - #ClientError ::CMDERR_NOT_AUTHORIZED
          * - #ClientError ::CMDERR_BAN_NOT_FOUND
          *
-         * @param szIpAddress The IP-address to unban.
+         * @param szIPAddress The IP-address to unban.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see DoBanUser
          * @see DoListBans
          * @see DoBanIPAddress */
-        public int DoUnBanUser(string szIpAddress)
+        public int DoUnBanUser(string szIPAddress)
         {
-            return TTDLL.TT_DoUnBanUser(m_ttInst, szIpAddress);
+            return TTDLL.TT_DoUnBanUser(m_ttInst, szIPAddress);
         }
         /**
          * @brief Issue a command to list the banned users.
          *
-         * Once completed call the function TeamTalk.GetBannedUsers()
-         * to get the list of users.
+         * The event OnCmdBannedUser() will be posted for every
+         * #BearWare.BannedUser on the server.
          *
          * User rights required:
          * - ::USERRIGHT_BAN_USERS
@@ -5443,7 +5563,7 @@ namespace BearWare
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
-         * @see TeamTalk.GetBannedUsers */
+         * @see TT_DoBanUser() */
         public int DoListBans(int nIndex, int nCount)
         {
             return TTDLL.TT_DoListBans(m_ttInst, nIndex, nCount);
@@ -5515,10 +5635,10 @@ namespace BearWare
          *
          * @brief Get the server's properties.
          *
-         * @param lpProperties A struct to hold the server's properties. */
-        public bool GetServerProperties(out ServerProperties lpProperties)
+         * @param lpServerProperties A struct to hold the server's properties. */
+        public bool GetServerProperties(ref ServerProperties lpServerProperties)
         {
-            return TTDLL.TT_GetServerProperties(m_ttInst, out lpProperties);
+            return TTDLL.TT_GetServerProperties(m_ttInst, ref lpServerProperties);
         }
        /**
          * @brief Get all the users on the server.
@@ -5576,9 +5696,9 @@ namespace BearWare
          * @param lpChannel A preallocated struct which will receive the 
          * channel's properties.
          * @return FALSE if unable to retrieve channel otherwise TRUE. */
-        public bool GetChannel(int nChannelID, out Channel lpChannel)
+        public bool GetChannel(int nChannelID, ref Channel lpChannel)
         {
-            return TTDLL.TT_GetChannel(m_ttInst, nChannelID, out lpChannel);
+            return TTDLL.TT_GetChannel(m_ttInst, nChannelID, ref lpChannel);
         }
         /**
          * @brief Get the channel's path. Channels are separated by '/'.
@@ -5645,9 +5765,9 @@ namespace BearWare
          * @param nFileID The ID of the file.
          * @param lpRemoteFile A preallocated struct which will receive 
          * file information. */
-        public bool GetChannelFile(int nChannelID, int nFileID, out RemoteFile lpRemoteFile)
+        public bool GetChannelFile(int nChannelID, int nFileID, ref RemoteFile lpRemoteFile)
         {
-            return TTDLL.TT_GetChannelFile(m_ttInst, nChannelID, nFileID, out lpRemoteFile);
+            return TTDLL.TT_GetChannelFile(m_ttInst, nChannelID, nFileID, ref lpRemoteFile);
         }
         /**
          * @brief Check whether user is operator of a channel
@@ -5702,9 +5822,9 @@ namespace BearWare
          * the server. Note that the @a szPassword field of #BearWare.UserAccount
          * will not be set.
          * @see TeamTalk.DoLogin */
-        public bool GetMyUserAccount(out UserAccount lpUserAccount)
+        public bool GetMyUserAccount(ref UserAccount lpUserAccount)
         {
-            return TTDLL.TT_GetMyUserAccount(m_ttInst, out lpUserAccount);
+            return TTDLL.TT_GetMyUserAccount(m_ttInst, ref lpUserAccount);
         }
 
         /**
@@ -5768,18 +5888,18 @@ namespace BearWare
          * @param nUserID The ID of the user to extract.
          * @param lpUser A preallocated #BearWare.User struct.
          * @see GetUserByUsername */
-        public bool GetUser(int nUserID, out User lpUser)
+        public bool GetUser(int nUserID, ref User lpUser)
         {
-            return TTDLL.TT_GetUser(m_ttInst, nUserID, out lpUser);
+            return TTDLL.TT_GetUser(m_ttInst, nUserID, ref lpUser);
         }
         /**
          * @brief Get statistics for data and packet reception from a user.
          *
          * @param nUserID The ID of the user to extract.
-         * @param lpStats A preallocated #BearWare.UserStatistics struct. */
-        public bool GetUserStatistics(int nUserID, out UserStatistics lpStats)
+         * @param lpUserStatistics A preallocated #BearWare.UserStatistics struct. */
+        public bool GetUserStatistics(int nUserID, ref UserStatistics lpUserStatistics)
         {
-            return TTDLL.TT_GetUserStatistics(m_ttInst, nUserID, out lpStats);
+            return TTDLL.TT_GetUserStatistics(m_ttInst, nUserID, ref lpUserStatistics);
         }
         /**
          * @brief Get the user with the specified username.
@@ -5789,9 +5909,9 @@ namespace BearWare
          * 
          * @param szUsername The user's username (from #BearWare.UserAccount).
          * @param lpUser A preallocated #BearWare.User struct. */
-        public bool GetUserByUsername(string szUsername, out User lpUser)
+        public bool GetUserByUsername(string szUsername, ref User lpUser)
         {
-            return TTDLL.TT_GetUserByUsername(m_ttInst, szUsername, out lpUser);
+            return TTDLL.TT_GetUserByUsername(m_ttInst, szUsername, ref lpUser);
         }
         /** @} */
 
@@ -5909,7 +6029,7 @@ namespace BearWare
          * @param nUserID The ID of the #BearWare.User which should
          * store audio to disk.
          * @param szFolderPath The path on disk to where files should be stored.
-         * This value will be stored in @a szAudioFolder of #BearWare.User.
+         * This value will be stored in @a szMediaStorageDir of #BearWare.User.
          * @param szFileNameVars The file name used for audio files
          * can consist of the following variables: \%nickname\%,
          * \%username\%, \%userid\%, \%counter\% and a specified time
@@ -5927,10 +6047,10 @@ namespace BearWare
          * @return FALSE if path is invalid, otherwise TRUE.
          * @see BearWare.User
          * @see OnUserAudioFile */
-        public bool SetUserAudioFolder(int nUserID, string szFolderPath, string szFileNameVars,
+        public bool SetUserMediaStorageDir(int nUserID, string szFolderPath, string szFileNameVars,
                                        AudioFileFormat uAFF)
         {
-            return TTDLL.TT_SetUserAudioFolder(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
+            return TTDLL.TT_SetUserMediaStorageDir(m_ttInst, nUserID, szFolderPath, szFileNameVars, uAFF);
         }
         /**
          * @brief Change the amount of media data which can be buffered
@@ -5972,14 +6092,17 @@ namespace BearWare
          * instance therefore always remember to call
          * TeamTalk.ReleaseUserAudioBlock() to release the shared memory.
          *
-         * @param nUserID The ID of the user to retrieve the #BearWare.AudioBlock from.
+         * @param nUserID The user ID to monitor for audio callback. Pass 0
+         * to monitor local audio.
+         * @param nStreamType Either ::STREAMTYPE_VOICE or 
+         * ::STREAMTYPE_MEDIAFILE_AUDIO.
          * 
          * @see TeamTalk.ReleaseUserAudioBlock()
          * @see TeamTalk.EnableAudioBlockEvent()
          * @see TeamTalk.OnUserAudioBlock() */
-        public AudioBlock AcquireUserAudioBlock(int nUserID)
+        public AudioBlock AcquireUserAudioBlock(StreamType nStreamType, int nUserID)
         {
-            IntPtr ptr = TTDLL.TT_AcquireUserAudioBlock(m_ttInst, nUserID);
+            IntPtr ptr = TTDLL.TT_AcquireUserAudioBlock(m_ttInst, nStreamType, nUserID);
             if (ptr == IntPtr.Zero)
                 return new AudioBlock();
             AudioBlock lpAudioBlock = (AudioBlock)Marshal.PtrToStructure(ptr, typeof(AudioBlock));
@@ -6025,9 +6148,9 @@ namespace BearWare
          * @param lpFileTransfer A preallocated struct which will receive the file 
          * transfer information.
          * @see CancelFileTransfer */
-        public bool GetFileTransferInfo(int nTransferID, out FileTransfer lpFileTransfer)
+        public bool GetFileTransferInfo(int nTransferID, ref FileTransfer lpFileTransfer)
         {
-            return TTDLL.TT_GetFileTransferInfo(m_ttInst, nTransferID, out lpFileTransfer);
+            return TTDLL.TT_GetFileTransferInfo(m_ttInst, nTransferID, ref lpFileTransfer);
         }
 
         /** @ingroup channels
@@ -6041,50 +6164,6 @@ namespace BearWare
         public bool CancelFileTranfer(int nTransferID)
         {
             return TTDLL.TT_CancelFileTransfer(m_ttInst, nTransferID);
-        }
-
-        /** @ingroup server
-         * @brief Get the list of banned users.
-         * 
-         * After the command #DoListBans has completed, this function
-         * can be called to retrieve the list of banned users. The list of
-         * banned users can only be retrieved once after which the
-         * internal representation of the users is deleted (to save
-         * memory).
-         *
-         * @param lpBannedUsers An output array which will receive the banned 
-         * users.
-         * @see DoBanUser  */
-        public bool GetBannedUsers(out BannedUser[] lpBannedUsers)
-        {
-            int count = 0;
-            bool b = TTDLL.TT_GetBannedUsers_NULL(m_ttInst, IntPtr.Zero, ref count);
-            BannedUser[] banned = new BannedUser[count];
-            b = TTDLL.TT_GetBannedUsers(m_ttInst, banned, ref count);
-            lpBannedUsers = b ? banned : null;
-            return b;
-        }
-        /** @ingroup server
-         * @brief Get the list of user accounts.
-         * 
-         * After the command #DoListUserAccounts has competed, this
-         * function can be called to retrieve the list of user accounts on
-         * the server. The list of user accounts can only be retrieved
-         * once after which the internal representation of the users is
-         * deleted (to save memory).
-         *
-         * @param lpUserAccounts An output array which will receive the
-         * user accounts on the server.
-         * @see DoListUserAccounts
-         * @see UserAccount */
-        public bool GetUserAccounts(out UserAccount[] lpUserAccounts)
-        {
-            int count = 0;
-            bool b = TTDLL.TT_GetUserAccounts_NULL(m_ttInst, IntPtr.Zero, ref count);
-            UserAccount[] accounts = new UserAccount[count];
-            b = TTDLL.TT_GetUserAccounts(m_ttInst, accounts, ref count);
-            lpUserAccounts = b ? accounts : null;
-            return b;
         }
 
         /** @ingroup errorhandling
@@ -6457,6 +6536,20 @@ namespace BearWare
          * Event handler for ::CLIENTEVENT_CMD_FILE_REMOVE */
         public event FileUpdate OnCmdFileRemove;
 
+        /** @brief A delegate for event #OnCmdUserAccount. */
+        public delegate void ListUserAccount(UserAccount useraccount);
+
+        /** @brief A new user account has been listed by the server.
+         * Event handler for ::CLIENTEVENT_CMD_USERACCOUNT */
+        public event ListUserAccount OnCmdUserAccount;
+
+        /** @brief A delegate for event #OnCmdUserAccount. */
+        public delegate void ListBannedUser(BannedUser banneduser);
+
+        /** @brief A new banned user has been listed by the server.
+         * Event handler for ::CLIENTEVENT_CMD_BANNEDUSER */
+        public event ListBannedUser OnCmdBannedUser;
+
         /** @brief A user's state has been updated.
          * 
          * Event handler for ::CLIENTEVENT_USER_STATECHANGE */
@@ -6524,7 +6617,7 @@ namespace BearWare
         public event UserRecordMediaFile OnUserRecordMediaFile;
 
         /** @brief Delegate for event #OnUserAudioBlock. */
-        public delegate void NewAudioBlock(int nUserID);
+        public delegate void NewAudioBlock(int nUserID, StreamType nStreamType);
 
         /**
          * @brief A new audio block can be extracted.
@@ -7232,7 +7325,7 @@ namespace BearWare
             //audcodec.speex.bStereoPlayback = false;
             //audcodec.speex.bUseJitterBuffer = false;
             //audcodec.speex.nBandmode = 0;
-            //audcodec.speex.nMSecPerPacket = 45;
+            //audcodec.speex.nTxIntervalMSec = 45;
             //audcodec.speex.nQuality = 10;
             //len = c_tt.TTDLL.TT_GetPacketSize(ref audcodec);
 

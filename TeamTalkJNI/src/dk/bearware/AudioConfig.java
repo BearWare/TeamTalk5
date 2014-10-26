@@ -25,25 +25,14 @@ public class AudioConfig
 {
     public boolean bEnableAGC;
     public int nGainLevel;
-    public int nMaxIncDBSec;
-    public int nMaxDecDBSec;
-    public int nMaxGainDB;
-    public boolean bEnableDenoise;
-    public int nMaxNoiseSuppressDB;
-    public boolean bEnableEchoCancellation;
-    public int nEchoSuppress;
-    public int nEchoSuppressActive;
 
     public AudioConfig() {
-        bEnableAGC = false;
-        nGainLevel = 16000;
-        nMaxIncDBSec = 12;
-        nMaxDecDBSec = -40;
-        nMaxGainDB = 30;
-        bEnableDenoise = false;
-        nMaxNoiseSuppressDB = -30;
-        bEnableEchoCancellation = false;
-        nEchoSuppress = -40;
-        nEchoSuppressActive = -15;
+    }
+
+    public AudioConfig(boolean set_defaults) {
+        if(!set_defaults)
+            return;
+        bEnableAGC = AudioConfigConstants.DEFAULT_AGC_ENABLE;
+        nGainLevel = AudioConfigConstants.DEFAULT_AGC_GAINLEVEL;
     }
 }

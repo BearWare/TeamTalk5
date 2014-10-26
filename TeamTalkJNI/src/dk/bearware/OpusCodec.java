@@ -32,7 +32,7 @@ public class OpusCodec
     public int nBitRate;
     public boolean bVBR;
     public boolean bVBRConstraint;
-    public int nMSecPerPacket;
+    public int nTxIntervalMSec;
     
     public OpusCodec() {}
     public OpusCodec(boolean set_defaults) {
@@ -48,6 +48,6 @@ public class OpusCodec
         nBitRate = OpusConstants.DEFAULT_OPUS_BITRATE;
         bVBR = OpusConstants.DEFAULT_OPUS_VBR;
         bVBRConstraint = OpusConstants.DEFAULT_OPUS_VBRCONSTRAINT;
-        nMSecPerPacket = OpusConstants.DEFAULT_OPUS_DELAY;
+        nTxIntervalMSec = OpusConstants.DEFAULT_OPUS_DELAY;
     }
 }

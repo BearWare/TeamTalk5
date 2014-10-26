@@ -24,6 +24,7 @@ package dk.bearware.gui;
 import java.util.Locale;
 import java.util.Vector;
 
+import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
@@ -1044,6 +1045,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     }
 
     @Override
+    public void onCmdUserAccount(UserAccount useraccount) {
+    }
+
+    @Override
+    public void onCmdBannedUser(BannedUser banneduser) {
+    }
+
+    @Override
     public void onConnectSuccess() {
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
             getResources().getString(R.string.text_con_success));
@@ -1093,4 +1102,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     @Override
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
     }
+
+    @Override
+    public void onUserAudioBlock(int nUserID, int nStreamType) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

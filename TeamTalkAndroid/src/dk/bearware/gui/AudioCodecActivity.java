@@ -331,7 +331,7 @@ public class AudioCodecActivity extends Activity implements
                 opuscodec.bVBR = OpusConstants.DEFAULT_OPUS_VBR;
                 opuscodec.bVBRConstraint = OpusConstants.DEFAULT_OPUS_VBRCONSTRAINT;
                 opuscodec.nBitRate = bitrate.getProgress() * 1000 + OpusConstants.OPUS_MIN_BITRATE; 
-                opuscodec.nMSecPerPacket = delayMap.getValue(delay.getSelectedItemPosition(),
+                opuscodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
                                                              OpusConstants.DEFAULT_OPUS_DELAY);
             }
             else {
@@ -372,7 +372,7 @@ public class AudioCodecActivity extends Activity implements
                                     (OpusConstants.OPUS_MIN_BITRATE / 1000)); 
 
                 delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(opuscodec.nMSecPerPacket, 0));
+                delay.setSelection(delayMap.getIndex(opuscodec.nTxIntervalMSec, 0));
             }
         }
     }
@@ -427,7 +427,7 @@ public class AudioCodecActivity extends Activity implements
                 speexcodec.nBandmode = srMap.getValue(sr.getSelectedItemPosition(),
                                                       SpeexConstants.DEFAULT_SPEEX_BANDMODE);
                 speexcodec.nQuality = quality.getProgress() + SpeexConstants.SPEEX_QUALITY_MIN;
-                speexcodec.nMSecPerPacket = delayMap.getValue(delay.getSelectedItemPosition(),
+                speexcodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
                                                               SpeexConstants.DEFAULT_SPEEX_DELAY);
             }
             else {
@@ -436,7 +436,7 @@ public class AudioCodecActivity extends Activity implements
                 quality.setMax(SpeexConstants.SPEEX_QUALITY_MAX - SpeexConstants.SPEEX_QUALITY_MIN);
                 quality.setProgress(speexcodec.nQuality + SpeexConstants.SPEEX_QUALITY_MIN);
                 delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(speexcodec.nMSecPerPacket, 1));
+                delay.setSelection(delayMap.getIndex(speexcodec.nTxIntervalMSec, 1));
             }
         }
     }
@@ -494,7 +494,7 @@ public class AudioCodecActivity extends Activity implements
                                                          SpeexConstants.DEFAULT_SPEEX_BANDMODE);
                 speexvbrcodec.nQuality = quality.getProgress() + SpeexConstants.SPEEX_QUALITY_MIN;
                 speexvbrcodec.bDTX = dtx.isChecked();
-                speexvbrcodec.nMSecPerPacket = delayMap.getValue(delay.getSelectedItemPosition(),
+                speexvbrcodec.nTxIntervalMSec = delayMap.getValue(delay.getSelectedItemPosition(),
                                                                  SpeexConstants.DEFAULT_SPEEX_DELAY);
             }
             else {
@@ -521,7 +521,7 @@ public class AudioCodecActivity extends Activity implements
                 quality.setProgress(speexvbrcodec.nQuality - SpeexConstants.SPEEX_QUALITY_MIN);
                 dtx.setChecked(speexvbrcodec.bDTX);
                 delay.setAdapter(delayMap);
-                delay.setSelection(delayMap.getIndex(speexvbrcodec.nMSecPerPacket, 1));
+                delay.setSelection(delayMap.getIndex(speexvbrcodec.nTxIntervalMSec, 1));
             }
         }
     }

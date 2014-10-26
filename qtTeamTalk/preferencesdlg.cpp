@@ -1068,31 +1068,26 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
         if(getSoundDevice(inputid, m_sounddevices, in_dev))
             samplerate = in_dev.nDefaultSampleRate;
 
-        //denoise and echo cancel only supports
-        if(ui.echocancelBox->isChecked() || ui.denoisingBox->isChecked() || 
-           ui.agcBox->isChecked())
-            channels = 1;
+        SpeexDSP spxdsp;
+        ZERO_STRUCT(spxdsp);
+        spxdsp.bEnableAGC = ui.agcBox->isChecked();
+        spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-        AudioConfig audcfg;
-        ZERO_STRUCT(audcfg);
-        audcfg.bEnableAGC = ui.agcBox->isChecked();
-        audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-        audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        audcfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        spxdsp.bEnableDenoise = ui.denoisingBox->isChecked();
+        spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-        audcfg.bEnableDenoise = ui.denoisingBox->isChecked();
-        audcfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-
-        audcfg.bEnableEchoCancellation = ui.echocancelBox->isChecked();
-        audcfg.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-        audcfg.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+        spxdsp.bEnableEchoCancellation = ui.echocancelBox->isChecked();
+        spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+        spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
         //input and output devices MUST support the specified 'samplerate' in duplex mode
         m_sndloop = TT_StartSoundLoopbackTest(inputid, outputid, 
                                               samplerate, channels, 
                                               ui.sndduplexBox->isChecked(), 
-                                              &audcfg);
+                                              &spxdsp);
         if(!m_sndloop)
         {
             QMessageBox::critical(this, tr("Sound Initialization"),

@@ -448,7 +448,7 @@ void CChannelDlg::UpdateCodec()
         m_codec.speex.nBandmode = GetItemData(m_wndSampleRate);
         m_codec.speex.nQuality = m_wndQuality.GetPos();
         m_codec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
-        m_codec.speex.nMSecPerPacket = GetWindowNumber(m_wndTxDelay);
+        m_codec.speex.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case SPEEX_VBR_CODEC :
         m_codec.speex_vbr.nBandmode = GetItemData(m_wndSampleRate);
@@ -457,7 +457,7 @@ void CChannelDlg::UpdateCodec()
         m_codec.speex_vbr.nMaxBitRate = maxbitrate;
         m_codec.speex_vbr.bDTX = m_wndDtx.GetCheck() == BST_CHECKED;
         m_codec.speex_vbr.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
-        m_codec.speex_vbr.nMSecPerPacket = GetWindowNumber(m_wndTxDelay);
+        m_codec.speex_vbr.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     case OPUS_CODEC :
         m_codec.opus.nSampleRate = GetItemData(m_wndSampleRate);
@@ -469,7 +469,7 @@ void CChannelDlg::UpdateCodec()
         m_codec.opus.nBitRate = bitrate;
         m_codec.opus.bVBR = DEFAULT_OPUS_VBR;
         m_codec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
-        m_codec.opus.nMSecPerPacket = GetWindowNumber(m_wndTxDelay);
+        m_codec.opus.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
         break;
     }
 }
@@ -487,7 +487,7 @@ void CChannelDlg::ShowCurrentCodec()
         SetCurSelItemData(m_wndSampleRate, m_codec.speex.nBandmode);
         m_wndQuality.SetPos(m_codec.speex.nQuality);
         m_wndAudioChannels.SetCurSel(0);
-        SetWindowNumber(m_wndTxDelay, m_codec.speex.nMSecPerPacket);
+        SetWindowNumber(m_wndTxDelay, m_codec.speex.nTxIntervalMSec);
         break;
     case SPEEX_VBR_CODEC :
         SetCurSelItemData(m_wndSampleRate, m_codec.speex_vbr.nBandmode);
@@ -496,7 +496,7 @@ void CChannelDlg::ShowCurrentCodec()
         m_wndAudioChannels.SetCurSel(0);
         m_wndQuality.SetPos(m_codec.speex_vbr.nQuality);
         m_wndDtx.SetCheck(m_codec.speex_vbr.bDTX);
-        SetWindowNumber(m_wndTxDelay, m_codec.speex_vbr.nMSecPerPacket);
+        SetWindowNumber(m_wndTxDelay, m_codec.speex_vbr.nTxIntervalMSec);
         break;
     case OPUS_CODEC :
         SetCurSelItemData(m_wndCodecApp, m_codec.opus.nApplication);
@@ -504,7 +504,7 @@ void CChannelDlg::ShowCurrentCodec()
         SetCurSelItemData(m_wndAudioChannels, m_codec.opus.nChannels);
         SetWindowNumber(m_wndBitrate, m_codec.opus.nBitRate);
         m_wndDtx.SetCheck(m_codec.opus.bDTX? BST_CHECKED : BST_UNCHECKED);
-        SetWindowNumber(m_wndTxDelay, m_codec.opus.nMSecPerPacket);
+        SetWindowNumber(m_wndTxDelay, m_codec.opus.nTxIntervalMSec);
         break;
     }
 }

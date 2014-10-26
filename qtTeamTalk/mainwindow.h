@@ -195,6 +195,8 @@ private:
     bool m_desktopsend_on_completion;
     typedef QMap<int, textmessages_t> usermessages_t;
     usermessages_t m_usermessages;
+    QVector<UserAccount> m_useraccounts;
+    QVector<BannedUser> m_bannedusers;
     //position of mouse cursor
     QPoint m_lastCursorPos;
     //list of desktop access users

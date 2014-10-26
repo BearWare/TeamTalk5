@@ -83,9 +83,15 @@ namespace TeamTalkApp.NET
             ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
             ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
             ttclient.OnCmdSuccess += new TeamTalk.CommandSuccess(ttclient_OnCmdSuccess);
+            ttclient.OnCmdUserAccount += new TeamTalk.ListUserAccount(ttclient_OnCmdUserAccount);
 
             //hopefully you have less than 100000 accounts
             list_cmdid = ttclient.DoListUserAccounts(0, 100000);
+        }
+
+        void ttclient_OnCmdUserAccount(UserAccount useraccount)
+        {
+            AddAccount(useraccount);
         }
 
         void ClearControls()
@@ -146,12 +152,6 @@ namespace TeamTalkApp.NET
             }
             else if (list_cmdid == nCmdID && !bActive)
             {
-                UserAccount[] accounts;
-                if (ttclient.GetUserAccounts(out accounts))
-                {
-                    foreach (UserAccount account in accounts)
-                        AddAccount(account);
-                }
             }
             else if (del_cmdid == nCmdID && !bActive)
             {

@@ -65,5 +65,5 @@ public class ClientError {
     public final int INTERR_SNDINPUT_FAILURE                 = 10000;
     public final int INTERR_SNDOUTPUT_FAILURE                = 10001;
     public final int INTERR_AUDIOCODEC_INIT_FAILED           = 10002;
-    public final int INTERR_AUDIOCONFIG_INIT_FAILED          = 10003;
+    public final int INTERR_SPEEXDSP_INIT_FAILED             = 10003;
 }

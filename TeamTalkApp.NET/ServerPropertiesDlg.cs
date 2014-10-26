@@ -40,7 +40,7 @@ namespace TeamTalkApp.NET
             ttclient = tt;
             InitializeComponent();
 
-            ttclient.GetServerProperties(out prop);
+            ttclient.GetServerProperties(ref prop);
             srvnameTextBox.Text = prop.szServerName;
             maxusersNumericUpDown.Value = prop.nMaxUsers;
             motdTextBox.Text = prop.szMOTD;

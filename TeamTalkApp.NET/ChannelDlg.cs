@@ -58,7 +58,7 @@ namespace TeamTalkApp.NET
 
             InitializeComponent();
 
-            if (channelid > 0 && ttclient.GetChannel(channelid, out chan))
+            if (channelid > 0 && ttclient.GetChannel(channelid, ref chan))
             {
                 string path = "";
                 ttclient.GetChannelPath(channelid, out path);
@@ -83,7 +83,7 @@ namespace TeamTalkApp.NET
                         speexwbRadioButton.Checked = chan.audiocodec.speex.nBandmode == 1;
                         speexuwbRadioButton.Checked = chan.audiocodec.speex.nBandmode == 2;
                         speexqualityTrackBar.Value = chan.audiocodec.speex.nQuality;
-                        speexTxInterval.Value = chan.audiocodec.speex.nMSecPerPacket;
+                        speexTxInterval.Value = chan.audiocodec.speex.nTxIntervalMSec;
                         speexstereoCheckBox.Checked = chan.audiocodec.speex.bStereoPlayback;
                         break;
                     case Codec.SPEEX_VBR_CODEC :
@@ -94,7 +94,7 @@ namespace TeamTalkApp.NET
                         speexvbrqualityTrackBar.Value = chan.audiocodec.speex_vbr.nQuality;
                         speexvbrbitrateNumericUpDown.Value = chan.audiocodec.speex_vbr.nBitRate;
                         speexvbrmaxbrNumericUpDown.Value = chan.audiocodec.speex_vbr.nMaxBitRate;
-                        speexvbrTxInterval.Value = chan.audiocodec.speex_vbr.nMSecPerPacket;
+                        speexvbrTxInterval.Value = chan.audiocodec.speex_vbr.nTxIntervalMSec;
                         speexvbrdtxCheckBox.Checked = chan.audiocodec.speex_vbr.bDTX;
                         speexvbrstereoCheckBox.Checked = chan.audiocodec.speex_vbr.bStereoPlayback;
                         break;
@@ -123,13 +123,12 @@ namespace TeamTalkApp.NET
                         opusvbrCheckBox.Checked = chan.audiocodec.opus.bVBR;
                         opusvbrconstraintCheckBox.Checked = chan.audiocodec.opus.bVBRConstraint;
                         opusbitrateNumericUpDown.Value = chan.audiocodec.opus.nBitRate / 1000;
-                        opusTxIntervalNumericUpDown.Value = chan.audiocodec.opus.nMSecPerPacket;
+                        opusTxIntervalNumericUpDown.Value = chan.audiocodec.opus.nTxIntervalMSec;
                         break;
                 }
 
                 agcCheckBox.Checked = chan.audiocfg.bEnableAGC;
                 gainlevelTrackBar.Value = chan.audiocfg.nGainLevel;
-                denoiseCheckBox.Checked = chan.audiocfg.bEnableDenoise;
             }
             else
             {
@@ -156,7 +155,6 @@ namespace TeamTalkApp.NET
                     diskquotaNumericUpDown.ReadOnly = !ttclient.UserRights.HasFlag(UserRight.USERRIGHT_MODIFY_CHANNELS);
                     agcCheckBox.Checked = true;
                     gainlevelTrackBar.Value = 8000;
-                    denoiseCheckBox.Checked = true;
                     break;
                 case ChannelDlgType.UPDATE_CHANNEL :
                     break;
@@ -175,7 +173,6 @@ namespace TeamTalkApp.NET
                     norecordCheckBox.Enabled = false;
                     agcCheckBox.Enabled = false;
                     gainlevelTrackBar.Enabled = false;
-                    denoiseCheckBox.Enabled = false;
                     tabControl1.Enabled = false;
                     break;
             }
@@ -202,7 +199,7 @@ namespace TeamTalkApp.NET
                     else if (speexuwbRadioButton.Checked)
                         chan.audiocodec.speex.nBandmode = 2;
                     chan.audiocodec.speex.nQuality = speexqualityTrackBar.Value;
-                    chan.audiocodec.speex.nMSecPerPacket = (int)speexTxInterval.Value;
+                    chan.audiocodec.speex.nTxIntervalMSec = (int)speexTxInterval.Value;
                     chan.audiocodec.speex.bStereoPlayback = speexstereoCheckBox.Checked;
                     break;
 
@@ -219,7 +216,7 @@ namespace TeamTalkApp.NET
                     chan.audiocodec.speex_vbr.nBitRate = (int)speexvbrbitrateNumericUpDown.Value;
                     chan.audiocodec.speex_vbr.nMaxBitRate = (int)speexvbrmaxbrNumericUpDown.Value;
                     chan.audiocodec.speex_vbr.bDTX = speexvbrdtxCheckBox.Checked;
-                    chan.audiocodec.speex_vbr.nMSecPerPacket = (int)speexvbrTxInterval.Value;
+                    chan.audiocodec.speex_vbr.nTxIntervalMSec = (int)speexvbrTxInterval.Value;
                     chan.audiocodec.speex_vbr.bStereoPlayback = speexvbrstereoCheckBox.Checked;
                     break;
                 case (int)CodecTabs.OPUS_TAB :
@@ -237,7 +234,7 @@ namespace TeamTalkApp.NET
                     chan.audiocodec.opus.bFEC = opusfecCheckBox.Checked;
                     chan.audiocodec.opus.bVBR = opusvbrCheckBox.Checked;
                     chan.audiocodec.opus.bVBRConstraint = opusvbrconstraintCheckBox.Checked;
-                    chan.audiocodec.opus.nMSecPerPacket = (int)opusTxIntervalNumericUpDown.Value;
+                    chan.audiocodec.opus.nTxIntervalMSec = (int)opusTxIntervalNumericUpDown.Value;
                     break;
             }
             chan.uChannelType |= permchannelCheckBox.Checked ? ChannelType.CHANNEL_PERMANENT : ChannelType.CHANNEL_DEFAULT;
@@ -250,11 +247,6 @@ namespace TeamTalkApp.NET
 
             chan.audiocfg.bEnableAGC = agcCheckBox.Checked;
             chan.audiocfg.nGainLevel = gainlevelTrackBar.Value;
-            chan.audiocfg.nMaxIncDBSec = AudioConfigConstants.DEFAULT_AGC_INC_MAXDB;
-            chan.audiocfg.nMaxDecDBSec = AudioConfigConstants.DEFAULT_AGC_DEC_MAXDB;
-            chan.audiocfg.nMaxGainDB = AudioConfigConstants.DEFAULT_AGC_GAINMAXDB;
-            chan.audiocfg.bEnableDenoise = denoiseCheckBox.Checked;
-            chan.audiocfg.nMaxNoiseSuppressDB = AudioConfigConstants.DEFAULT_DENOISE_SUPPRESS;
 
             switch (dlgtype)
             {

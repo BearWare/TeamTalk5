@@ -58,7 +58,7 @@ class UserAccountsDlg : public QDialog
     Q_OBJECT
 
 public:
-    UserAccountsDlg(QWidget * parent = 0);
+    UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent = 0);
 
 public slots:
     void slotCmdSuccess(int cmdid);

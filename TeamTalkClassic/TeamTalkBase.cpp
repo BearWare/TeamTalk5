@@ -34,13 +34,13 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec)
     case SPEEX_CODEC :
         audiocodec.speex.nQuality = DEFAULT_SPEEX_QUALITY;
         audiocodec.speex.nBandmode = DEFAULT_SPEEX_BANDMODE;
-        audiocodec.speex.nMSecPerPacket = DEFAULT_SPEEX_DELAY;
+        audiocodec.speex.nTxIntervalMSec = DEFAULT_SPEEX_DELAY;
         audiocodec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
         break;
     case SPEEX_VBR_CODEC :
         audiocodec.speex_vbr.nQuality = DEFAULT_SPEEX_VBR_QUALITY;
         audiocodec.speex_vbr.nBandmode = DEFAULT_SPEEX_VBR_BANDMODE;
-        audiocodec.speex_vbr.nMSecPerPacket = DEFAULT_SPEEX_VBR_DELAY;
+        audiocodec.speex_vbr.nTxIntervalMSec = DEFAULT_SPEEX_VBR_DELAY;
         audiocodec.speex_vbr.bStereoPlayback = DEFAULT_SPEEX_VBR_SIMSTEREO;
         audiocodec.speex_vbr.nBitRate = DEFAULT_SPEEX_VBR_BITRATE;
         audiocodec.speex_vbr.nMaxBitRate = DEFAULT_SPEEX_VBR_MAXBITRATE;
@@ -50,7 +50,7 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec)
         audiocodec.opus.nApplication = DEFAULT_OPUS_APPLICATION;
         audiocodec.opus.nSampleRate = DEFAULT_OPUS_SAMPLERATE;
         audiocodec.opus.nChannels = DEFAULT_OPUS_CHANNELS;
-        audiocodec.opus.nMSecPerPacket = DEFAULT_OPUS_DELAY;
+        audiocodec.opus.nTxIntervalMSec = DEFAULT_OPUS_DELAY;
         audiocodec.opus.nComplexity = DEFAULT_OPUS_COMPLEXITY;
         audiocodec.opus.bVBR = DEFAULT_OPUS_VBR;
         audiocodec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;

@@ -25,7 +25,7 @@ public class SpeexCodec
 {
     public int nBandmode;
     public int nQuality;
-    public int nMSecPerPacket;
+    public int nTxIntervalMSec;
     public boolean bStereoPlayback;
     
     public SpeexCodec() {}
@@ -35,7 +35,7 @@ public class SpeexCodec
 
         nBandmode = SpeexConstants.DEFAULT_SPEEX_BANDMODE;
         nQuality = SpeexConstants.DEFAULT_SPEEX_QUALITY;
-        nMSecPerPacket = SpeexConstants.DEFAULT_SPEEX_DELAY;
+        nTxIntervalMSec = SpeexConstants.DEFAULT_SPEEX_DELAY;
         bStereoPlayback = SpeexConstants.DEFAULT_SPEEX_SIMSTEREO;
     }
 }

@@ -69,17 +69,9 @@ BOOL CUserAccountsDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    int nCount = 0;
-    TT_GetUserAccounts(ttInst, NULL, &nCount);
-    if(nCount)
-    {
-        m_accounts.resize(nCount);
-        TT_GetUserAccounts(ttInst, &m_accounts[0], &nCount);
-    }
-
     m_wndInitChannel.AddString(_T(""));
 
-    nCount = 0;
+    int nCount = 0;
     TT_GetServerChannels(ttInst, NULL, &nCount);
     if(nCount)
     {

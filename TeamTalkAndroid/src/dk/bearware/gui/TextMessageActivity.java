@@ -1,5 +1,6 @@
 package dk.bearware.gui;
 
+import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.RemoteFile;
@@ -215,5 +216,13 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
+    }
+
+    @Override
+    public void onCmdUserAccount(UserAccount useraccount) {
+    }
+
+    @Override
+    public void onCmdBannedUser(BannedUser banneduser) {
     }
 }

@@ -260,6 +260,8 @@ void CTeamTalkDlg::Disconnect()
     //add to stopped talking (for event)
     m_Talking.clear();
     m_users.clear();
+    m_useraccounts.clear();
+    m_bannedusers.clear();
 
     UpdateWindowTitle();
 }
@@ -814,6 +816,12 @@ LRESULT CTeamTalkDlg::OnClientEvent(WPARAM wParam, LPARAM lParam)
         case CLIENTEVENT_CMD_FILE_REMOVE :
             OnFileRemove(msg);
             break;
+        case CLIENTEVENT_CMD_USERACCOUNT :
+            OnUserAccount(msg);
+            break;
+        case CLIENTEVENT_CMD_BANNEDUSER :
+            OnBannedUser(msg);
+            break;
         case CLIENTEVENT_USER_STATECHANGE :
             OnUserStateChange(msg);
             break;
@@ -1060,16 +1068,11 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
                 newchan.audiocodec.nCodec = SPEEX_CODEC;
                 newchan.audiocodec.speex.nBandmode = DEFAULT_SPEEX_BANDMODE;
                 newchan.audiocodec.speex.nQuality = DEFAULT_SPEEX_QUALITY;
-                newchan.audiocodec.speex.nMSecPerPacket = DEFAULT_SPEEX_DELAY;
+                newchan.audiocodec.speex.nTxIntervalMSec = DEFAULT_SPEEX_DELAY;
                 newchan.audiocodec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
 
                 newchan.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
                 newchan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-                newchan.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-                newchan.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-                newchan.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-                newchan.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-                newchan.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
                 newchan.nMaxUsers = srvprop.nMaxUsers;
                 int nCmdID = TT_DoJoinChannel(ttInst, &newchan);
@@ -1086,30 +1089,21 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
     case CMD_COMPLETE_LISTACCOUNTS :
     {
         CUserAccountsDlg dlg(this);
+        dlg.m_accounts = m_useraccounts;
         dlg.DoModal();
+        m_useraccounts.clear();
     }
     break;
     case CMD_COMPLETE_LISTBANS :
     {
-        std::vector<BannedUser> users;
-        int nHowMany = 0;
-        TT_GetBannedUsers(ttInst, NULL, &nHowMany);
-        users.resize(nHowMany);
-
-        if(nHowMany>0)
-        {
-            std::vector<BannedUser>::pointer ptr = &users[0];
-            TT_GetBannedUsers(ttInst, ptr, &nHowMany);
-        }
-
         CBannedDlg dlg;
-
-        dlg.m_vecBanned = users;
+        dlg.m_vecBanned = m_bannedusers;
         if(dlg.DoModal() == IDOK)
         {
             for(int i=0;i<dlg.m_vecUnBanned.size();i++)
-                TT_DoUnBanUser(ttInst, dlg.m_vecUnBanned[i].szIpAddress);
+                TT_DoUnBanUser(ttInst, dlg.m_vecUnBanned[i].szIPAddress);
         }
+        m_bannedusers.clear();
         break;
     }
     }
@@ -1130,7 +1124,7 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
         AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioLogStorageFormat();
 
         if(szAudioFolder.GetLength())
-            TT_SetUserAudioFolder(ttInst, user.nUserID, szAudioFolder,
+            TT_SetUserMediaStorageDir(ttInst, user.nUserID, szAudioFolder,
                                   NULL, uAFF);
     }
 
@@ -1183,7 +1177,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
         CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
         AudioFileFormat uAFF = (AudioFileFormat)m_xmlSettings.GetAudioLogStorageFormat();
         if(szAudioFolder.GetLength())
-            TT_SetUserAudioFolder(ttInst, user.nUserID, szAudioFolder, NULL, uAFF);
+            TT_SetUserMediaStorageDir(ttInst, user.nUserID, szAudioFolder, NULL, uAFF);
     }
 }
 
@@ -1548,6 +1542,16 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventFilesUpd()));
+}
+
+void CTeamTalkDlg::OnUserAccount(const TTMessage& msg)
+{
+    m_useraccounts.push_back(msg.useraccount);
+}
+
+void CTeamTalkDlg::OnBannedUser(const TTMessage& msg)
+{
+    m_bannedusers.push_back(msg.banneduser);
 }
 
 void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
@@ -3749,14 +3753,7 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         chan.audiocodec = dlg.m_codec;
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
         if(dlg.m_bEnableAGC)
-        {
             chan.audiocfg.nGainLevel = dlg.m_nGainLevel*1000;
-            chan.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-            chan.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-            chan.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-        }
-        chan.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-        chan.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
         //store the channel in case the user's connection is dropped
         TTCHAR szParentPath[TT_STRLEN] = _T("");
         TT_GetChannelPath(ttInst, nParentID, szParentPath);
@@ -3839,11 +3836,6 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
         
         chan.audiocfg.bEnableAGC = dlg.m_bEnableAGC;
         chan.audiocfg.nGainLevel = dlg.m_nGainLevel * 1000;
-        chan.audiocfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-        chan.audiocfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-        chan.audiocfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-        chan.audiocfg.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
-        chan.audiocfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
         TT_DoUpdateChannel(ttInst, &chan);
     }
@@ -4668,9 +4660,9 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
     while(ite != m_users.end())
     {
         if(bEnable && (uStorageMode & AUDIOSTORAGE_SEPARATEFILES))
-            TT_SetUserAudioFolder(ttInst, *ite, szAudioFolder, NULL, aff);
+            TT_SetUserMediaStorageDir(ttInst, *ite, szAudioFolder, NULL, aff);
         else
-            TT_SetUserAudioFolder(ttInst, *ite, _T(""), NULL, aff);
+            TT_SetUserMediaStorageDir(ttInst, *ite, _T(""), NULL, aff);
         ite++;
     }
 
@@ -4713,31 +4705,28 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
 
 void CTeamTalkDlg::UpdateAudioConfig()
 {
-    AudioConfig audcfg = {0};
-    audcfg.bEnableAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
-    audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    audcfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
-    audcfg.bEnableDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
-    audcfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
-    audcfg.bEnableEchoCancellation = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
-    audcfg.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    audcfg.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+    SpeexDSP spxdsp = {0};
+    spxdsp.bEnableAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
+    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+    spxdsp.bEnableDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+    spxdsp.bEnableEchoCancellation = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
+    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
     //if in a channel then let AGC settings override local settings
     Channel chan;
     if(m_wndTree.GetChannel(m_wndTree.GetMyChannelID(), chan) &&
        chan.audiocfg.bEnableAGC)
     {
-        audcfg.bEnableAGC = chan.audiocfg.bEnableAGC;
-        audcfg.nGainLevel = chan.audiocfg.nGainLevel;
-        audcfg.nMaxIncDBSec = chan.audiocfg.nMaxIncDBSec;
-        audcfg.nMaxDecDBSec = chan.audiocfg.nMaxDecDBSec;
-        audcfg.nMaxGainDB = chan.audiocfg.nMaxGainDB;
+        spxdsp.bEnableAGC = chan.audiocfg.bEnableAGC;
+        spxdsp.nGainLevel = chan.audiocfg.nGainLevel;
     }
 
-    TT_SetAudioConfig(ttInst, &audcfg);
+    TT_SetSoundInputPreprocess(ttInst, &spxdsp);
 
     TT_Enable3DSoundPositioning(ttInst, m_xmlSettings.GetAutoPositioning());
 }

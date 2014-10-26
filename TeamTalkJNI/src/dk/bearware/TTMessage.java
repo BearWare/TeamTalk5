@@ -38,10 +38,12 @@ public class TTMessage
     public TextMessage textmessage;
     public User user;
     public UserAccount useraccount;
+    public BannedUser banneduser;
     public boolean bActive;
     public int nBytesRemain;
     public int nStreamID;
     public int nPayloadSize;
+    public int nStreamType;
 
     public TTMessage() { }
 }

@@ -55,6 +55,9 @@ public interface ClientEvent
     public static final int CLIENTEVENT_CMD_FILE_NEW = CLIENTEVENT_NONE + 370;
     public static final int CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380;
 
+    public static final int CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390;
+    public static final int CLIENTEVENT_CMD_BANNEDUSER = CLIENTEVENT_NONE + 400;
+
     public static final int CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500;
     public static final int CLIENTEVENT_USER_VIDEOCAPTURE = CLIENTEVENT_NONE + 510;
     public static final int CLIENTEVENT_USER_MEDIAFILE_VIDEO = CLIENTEVENT_NONE + 520;

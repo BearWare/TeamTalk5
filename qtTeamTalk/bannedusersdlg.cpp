@@ -82,7 +82,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
         case COLUMN_INDEX_CHANPATH :
             return _Q(m_users[index.row()].szChannelPath);
         case COLUMN_INDEX_IPADDRESS : 
-            return _Q(m_users[index.row()].szIpAddress);
+            return _Q(m_users[index.row()].szIPAddress);
         }
         break;
     }
@@ -125,7 +125,7 @@ void BannedUsersModel::delBannedUser(int index)
     this->endResetModel();
 }
 
-BannedUsersDlg::BannedUsersDlg(QWidget * parent/* = 0*/)
+BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
 {
     ui.setupUi(this);
@@ -134,15 +134,8 @@ BannedUsersDlg::BannedUsersDlg(QWidget * parent/* = 0*/)
     m_bannedmodel = new BannedUsersModel(this);
     m_unbannedmodel = new BannedUsersModel(this);
 
-    int count = 0;
-    TT_GetBannedUsers(ttInst, NULL, &count);
-    QVector<BannedUser> users;
-    users.resize(count);
-    if(count)
-        TT_GetBannedUsers(ttInst, &users[0], &count);
-
-    for(int i=0;i<count;i++)
-        m_bannedmodel->addBannedUser(users[i], i+1 == count);
+    for(int i=0;i<bannedusers.size();i++)
+        m_bannedmodel->addBannedUser(bannedusers[i], i+1 == bannedusers.size());
 
     ui.bannedTreeView->setModel(m_bannedmodel);
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
@@ -161,7 +154,7 @@ void BannedUsersDlg::slotClose()
 {
     bannedusers_t users = m_unbannedmodel->getUsers();
     for(int i=0;i<users.size();i++)
-        TT_DoUnBanUser(ttInst, users[i].szIpAddress);
+        TT_DoUnBanUser(ttInst, users[i].szIPAddress);
 }
 
 void BannedUsersDlg::slotUnbanUser()
@@ -188,7 +181,7 @@ void BannedUsersDlg::slotBanIPAddress()
     {
         BannedUser user;
         ZERO_STRUCT(user);
-        COPY_TTSTR(user.szIpAddress, ui.ipaddrEdit->text());
+        COPY_TTSTR(user.szIPAddress, ui.ipaddrEdit->text());
         ui.ipaddrEdit->setText("");
         m_bannedmodel->addBannedUser(user, true);
     }

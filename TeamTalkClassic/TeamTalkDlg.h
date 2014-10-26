@@ -44,7 +44,7 @@
 #include "afxwin.h"
 #include <afxpriv.h>
 
-#define APPVERSION              _T("5.0 - ALPHA3 v") _T( ##TEAMTALK_VERSION )
+#define APPVERSION              _T("5.0 - ALPHA4 v") _T( ##TEAMTALK_VERSION )
 #define APPVERSION_SHORT        _T("5.0")
 
 #ifdef ENABLE_ENCRYPTION
@@ -262,6 +262,9 @@ protected:
 
     teamtalk::ClientXML m_xmlSettings;
 
+    std::vector<UserAccount> m_useraccounts;
+    std::vector<BannedUser> m_bannedusers;
+
     int m_nMoveUserID;
 
     //from tt instance
@@ -294,6 +297,9 @@ protected:
     
     void OnFileAdd(const TTMessage& msg);
     void OnFileRemove(const TTMessage& msg);
+
+    void OnUserAccount(const TTMessage& msg);
+    void OnBannedUser(const TTMessage& msg);
     
     void OnUserMessage(const TTMessage& msg);
     

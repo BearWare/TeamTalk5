@@ -54,7 +54,7 @@ class BannedUsersDlg : public QDialog
     Q_OBJECT
 
 public:
-    BannedUsersDlg(QWidget * parent = 0);
+    BannedUsersDlg(const bannedusers_t& bannedusers, QWidget * parent = 0);
 
 private:
     Ui::BannedUsersDlg ui;

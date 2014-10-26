@@ -95,7 +95,7 @@ namespace TeamTalkApp.NET
             outputgainTrackBar.Value = SoundLevel.SOUND_GAIN_DEFAULT;
 
             //get default devices
-            TeamTalk.GetDefaultSoundDevices(out settings.sndinputid, out settings.sndoutputid);
+            TeamTalk.GetDefaultSoundDevices(ref settings.sndinputid, ref settings.sndoutputid);
 
             ttclient.OnConnectionSuccess += new TeamTalk.Connection(ttclient_OnConnectionSuccess);
             ttclient.OnConnectionFailed += new TeamTalk.Connection(ttclient_OnConnectionFailed);
@@ -138,12 +138,12 @@ namespace TeamTalkApp.NET
         {
             ClientFlag flags = ttclient.Flags;
             UserType myusertype = ttclient.UserType;
-            ServerProperties srvprop;
+            ServerProperties srvprop = new ServerProperties();
 
             if ((flags & ClientFlag.CLIENT_CONNECTED) != ClientFlag.CLIENT_CONNECTED)
                 ResetControls();
 
-            ttclient.GetServerProperties(out srvprop);
+            ttclient.GetServerProperties(ref srvprop);
 
             int userid = channels.GetSelectedUser();
             int channelid = channels.GetSelectedChannel();
@@ -162,8 +162,8 @@ namespace TeamTalkApp.NET
             storeAudioToDiskToolStripMenuItem.Enabled = flags.HasFlag(ClientFlag.CLIENT_AUTHORIZED);
             storeAudioToDiskToolStripMenuItem.Checked = settings.audiofolder.Length > 0;
 
-            User user;
-            if (userid > 0 && ttclient.GetUser(userid, out user))
+            User user = new User();
+            if (userid > 0 && ttclient.GetUser(userid, ref user))
             {
                 Debug.Assert((flags & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_AUTHORIZED);
                 viewUserInformationToolStripMenuItem.Enabled = true;
@@ -197,8 +197,8 @@ namespace TeamTalkApp.NET
 
                 advancedToolStripMenuItem.Enabled = true;
 
-                Channel userchan;
-                if (ttclient.GetChannel(user.nChannelID, out userchan))
+                Channel userchan = new Channel();
+                if (ttclient.GetChannel(user.nChannelID, ref userchan))
                 {
                     allowVoiceTransmissionToolStripMenuItem.Checked = userchan.GetTransmitStreamTypes(user.nUserID).HasFlag(StreamType.STREAMTYPE_VOICE);
                     allowVideoTransmissionToolStripMenuItem.Checked = userchan.GetTransmitStreamTypes(user.nUserID).HasFlag(StreamType.STREAMTYPE_VIDEOCAPTURE);
@@ -221,8 +221,8 @@ namespace TeamTalkApp.NET
                 allowVideoTransmissionToolStripMenuItem.Enabled = false;
             }
 
-            Channel chan;
-            if (channelid > 0 && ttclient.GetChannel(channelid, out chan))
+            Channel chan = new Channel();
+            if (channelid > 0 && ttclient.GetChannel(channelid, ref chan))
             {
                 Debug.Assert((flags & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_AUTHORIZED);
                 joinChannelToolStripMenuItem.Enabled = flags.HasFlag(ClientFlag.CLIENT_AUTHORIZED);
@@ -342,7 +342,7 @@ namespace TeamTalkApp.NET
         {
             //store audio to disk if an audio-folder has been specified
             if (!settings.muxed_audio_file && settings.audiofolder.Length > 0)
-                ttclient.SetUserAudioFolder(user.nUserID, settings.audiofolder, "", settings.aff);
+                ttclient.SetUserMediaStorageDir(user.nUserID, settings.audiofolder, "", settings.aff);
         }
 
         void ttclient_OnCmdUserJoinedChannel(User user)
@@ -386,16 +386,21 @@ namespace TeamTalkApp.NET
                         msgdialogs.Add(textmessage.nFromUserID, dlg);
                     }
                     break;
-                case TextMsgType.MSGTYPE_CHANNEL :
-                    User user;
-                    if (ttclient.GetUser(textmessage.nFromUserID, out user))
-                        chatTextBox.AppendText("<" + user.szNickname + "> " + textmessage.szMessage + Environment.NewLine);
-                    break;
-                case TextMsgType.MSGTYPE_BROADCAST :
-                    if (ttclient.GetUser(textmessage.nFromUserID, out user))
+                case TextMsgType.MSGTYPE_CHANNEL:
                     {
-                        MessageBox.Show("Broadcast message from " + user.szNickname + Environment.NewLine +
-                                        textmessage.szMessage);
+                        User user = new User();
+                        if (ttclient.GetUser(textmessage.nFromUserID, ref user))
+                            chatTextBox.AppendText("<" + user.szNickname + "> " + textmessage.szMessage + Environment.NewLine);
+                        break;
+                    }
+                case TextMsgType.MSGTYPE_BROADCAST:
+                    {
+                        User user = new User();
+                        if (ttclient.GetUser(textmessage.nFromUserID, ref user))
+                        {
+                            MessageBox.Show("Broadcast message from " + user.szNickname + Environment.NewLine +
+                                            textmessage.szMessage);
+                        }
                     }
                     break;
                 case TextMsgType.MSGTYPE_CUSTOM:
@@ -490,8 +495,8 @@ namespace TeamTalkApp.NET
 
         void ttclient_OnUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo)
         {
-            User user;
-            ttclient.GetUser(nUserID, out user);
+            User user = new User();
+            ttclient.GetUser(nUserID, ref user);
             switch (mediafileinfo.nStatus)
             {
                 case MediaFileStatus.MFS_STARTED :
@@ -509,9 +514,9 @@ namespace TeamTalkApp.NET
             }
         }
 
-        void ttclient_OnUserAudioBlock(int nUserID)
+        void ttclient_OnUserAudioBlock(int nUserID, StreamType nStreamType)
         {
-            AudioBlock block = ttclient.AcquireUserAudioBlock(nUserID);
+            AudioBlock block = ttclient.AcquireUserAudioBlock(nStreamType, nUserID);
             if(block.nSamples>0)
             {
                 ttclient.ReleaseUserAudioBlock(block);
@@ -576,8 +581,8 @@ namespace TeamTalkApp.NET
             if (channelid <= 0)
                 return;
             //check if password protected
-            Channel chan;
-            if (!ttclient.GetChannel(channelid, out chan))
+            Channel chan = new Channel();
+            if (!ttclient.GetChannel(channelid, ref chan))
                 return;
             string passwd = "";
             if (chan.bPassword)
@@ -756,8 +761,8 @@ namespace TeamTalkApp.NET
 
         private void opDeOpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            if (!ttclient.GetUser(channels.GetSelectedUser(), out user))
+            User user = new User();
+            if (!ttclient.GetUser(channels.GetSelectedUser(), ref user))
                 return;
 
             ttclient.DoChannelOp(user.nUserID, user.nChannelID, 
@@ -766,8 +771,8 @@ namespace TeamTalkApp.NET
 
         private void kickToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            if (!ttclient.GetUser(channels.GetSelectedUser(), out user))
+            User user = new User();
+            if (!ttclient.GetUser(channels.GetSelectedUser(), ref user))
                 return;
             //pass 0 as 'nChannelID' to kick from server instead of channel
             ttclient.DoKickUser(user.nUserID, user.nChannelID);
@@ -775,8 +780,8 @@ namespace TeamTalkApp.NET
 
         private void kickAndBanToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            if (!ttclient.GetUser(channels.GetSelectedUser(), out user))
+            User user = new User();
+            if (!ttclient.GetUser(channels.GetSelectedUser(), ref user))
                 return;
             //Req. UserRight.USERRIGHT_BAN_USERS
             //Req. UserRight.USERRIGHT_KICK_USERS
@@ -809,8 +814,8 @@ namespace TeamTalkApp.NET
 
         private void subscribeCommon(int userid, Subscription sub)
         {
-            User user;
-            if (!ttclient.GetUser(userid, out user))
+            User user = new User();
+            if (!ttclient.GetUser(userid, ref user))
                 return;
 
             if ((user.uLocalSubscriptions & sub) == sub)
@@ -898,8 +903,8 @@ namespace TeamTalkApp.NET
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            ClientStatistics tmp;
-            if (!ttclient.GetClientStatistics(out tmp))
+            ClientStatistics tmp = new ClientStatistics();
+            if (!ttclient.GetClientStatistics(ref tmp))
                 return;
 
             double totalrx = (tmp.nUdpBytesRecv - statistics.nUdpBytesRecv) / 1024;
@@ -940,9 +945,9 @@ namespace TeamTalkApp.NET
                 {
                     List<int> userids = users.GetUsers();
                     foreach (int id in userids)
-                        ttclient.SetUserAudioFolder(id, settings.audiofolder, "", settings.aff);
+                        ttclient.SetUserMediaStorageDir(id, settings.audiofolder, "", settings.aff);
                     //To store audio in other channels, log in as admin, call DoSubscribe(.,SUBSCRIBE_INTERCEPT_AUDIO) 
-                    //and set SetUserAudioFolder() on the user
+                    //and set SetUserMediaStorageDir() on the user
                 }
             }
             else
@@ -955,7 +960,7 @@ namespace TeamTalkApp.NET
                 //clear if separate files
                 List<int> userids = users.GetUsers();
                 foreach (int id in userids)
-                    ttclient.SetUserAudioFolder(id, "", "", settings.aff);
+                    ttclient.SetUserMediaStorageDir(id, "", "", settings.aff);
             }
 
             UpdateControls();
@@ -965,8 +970,8 @@ namespace TeamTalkApp.NET
         {
             ttclient.StopRecordingMuxedAudioFile();
 
-            Channel chan;
-            if (!ttclient.GetChannel(ttclient.ChannelID, out chan))
+            Channel chan = new Channel();
+            if (!ttclient.GetChannel(ttclient.ChannelID, ref chan))
             {
                 MessageBox.Show("Must be in a channel to start muxed audio recording");
                 return;
@@ -1062,8 +1067,8 @@ namespace TeamTalkApp.NET
             int fileid = files.GetSelectedFile();
             int channelid = files.GetSelectedChannel();
 
-            RemoteFile file;
-            if (!ttclient.GetChannelFile(channelid, fileid, out file))
+            RemoteFile file = new RemoteFile();
+            if (!ttclient.GetChannelFile(channelid, fileid, ref file))
                 return;
 
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -1135,17 +1140,17 @@ namespace TeamTalkApp.NET
 
         private void mutevoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            if(ttclient.GetUser(channels.GetSelectedUser(), out user))
+            User user = new User();
+            if(ttclient.GetUser(channels.GetSelectedUser(), ref user))
                 ttclient.SetUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, !user.uUserState.HasFlag(UserState.USERSTATE_MUTE_VOICE));
         }
 
         private void allowVoiceTransmissionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            Channel chan;
-            if (ttclient.GetUser(channels.GetSelectedUser(), out user) && 
-                ttclient.GetChannel(user.nChannelID, out chan))
+            User user = new User();
+            Channel chan = new Channel();
+            if (ttclient.GetUser(channels.GetSelectedUser(), ref user) && 
+                ttclient.GetChannel(user.nChannelID, ref chan))
             {
                 if(allowVoiceTransmissionToolStripMenuItem.Checked)
                 {
@@ -1164,10 +1169,10 @@ namespace TeamTalkApp.NET
 
         private void allowVideoTransmissionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User user;
-            Channel chan;
-            if (ttclient.GetUser(channels.GetSelectedUser(), out user) &&
-                ttclient.GetChannel(user.nChannelID, out chan))
+            User user = new User();
+            Channel chan = new Channel();
+            if (ttclient.GetUser(channels.GetSelectedUser(), ref user) &&
+                ttclient.GetChannel(user.nChannelID, ref chan))
             {
                 if (allowVideoTransmissionToolStripMenuItem.Checked)
                 {
@@ -1214,8 +1219,8 @@ namespace TeamTalkApp.NET
                     chanid = (int)targetNode.Tag;
                     break;
                 case (int)ChannelsView.ImageIndex.USER:
-                    User user;
-                    if(ttclient.GetUser((int)targetNode.Tag, out user))
+                    User user = new User();
+                    if(ttclient.GetUser((int)targetNode.Tag, ref user))
                         chanid = user.nChannelID;
                     break;
             }

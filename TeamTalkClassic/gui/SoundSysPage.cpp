@@ -281,26 +281,26 @@ BOOL CSoundSysPage::StartTest()
     int nChannels = 1;
     const SoundDevice& in_dev = ii->second;
 
-    AudioConfig audcfg = {0};
-    audcfg.bEnableAGC = DEFAULT_AGC_ENABLE;
-    audcfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
-    audcfg.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
-    audcfg.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
-    audcfg.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+    SpeexDSP spxdsp = {0};
+    spxdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
+    spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+    spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+    spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+    spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-    audcfg.bEnableDenoise = m_bDenoise;
-    audcfg.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+    spxdsp.bEnableDenoise = m_bDenoise;
+    spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-    audcfg.bEnableEchoCancellation = m_bEchoCancel;
-    audcfg.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
-    audcfg.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
+    spxdsp.bEnableEchoCancellation = m_bEchoCancel;
+    spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
+    spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
     m_SndLoopBack = TT_StartSoundLoopbackTest(m_nInputDevice, 
                                               m_nOutputDevice, 
                                               in_dev.nDefaultSampleRate, 
                                               nChannels,
                                               m_btnDuplexMode.GetCheck() == BST_CHECKED,
-                                              &audcfg);
+                                              &spxdsp);
     if(!m_SndLoopBack)
     {
         AfxMessageBox(_T("Failed to initialize sound devices. Check your selected input and output devices."));

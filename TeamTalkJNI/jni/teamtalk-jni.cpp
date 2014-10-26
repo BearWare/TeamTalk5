@@ -164,18 +164,18 @@ extern "C" {
                                                                                  jint nSampleRate,
                                                                                  jint nChannels,
                                                                                  jboolean bDuplexMode,
-                                                                                 jobject lpAudioConfig)
+                                                                                 jobject lpSpeexDSP)
     {
     
         TTSoundLoop* inst;
-        if(lpAudioConfig)
+        if(lpSpeexDSP)
         {
-            AudioConfig audcfg;
-            ZERO_STRUCT(audcfg);
-            setAudioConfig(env, audcfg, lpAudioConfig, J2N);
+            SpeexDSP spxdsp;
+            ZERO_STRUCT(spxdsp);
+            setSpeexDSP(env, spxdsp, lpSpeexDSP, J2N);
         
             inst = TT_StartSoundLoopbackTest(nInputDeviceID, nOutputDeviceID, 
-                                             nSampleRate, nChannels, bDuplexMode, &audcfg);
+                                             nSampleRate, nChannels, bDuplexMode, &spxdsp);
         }
         else
         {
@@ -246,31 +246,31 @@ extern "C" {
         return TT_GetSoundInputGainLevel(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setAudioConfig(JNIEnv* env,
-                                                                            jobject thiz,
-                                                                            jlong lpTTInstance,
-                                                                            jobject lpAudioConfig)
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundInputPreprocess(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jlong lpTTInstance,
+                                                                                     jobject lpSpeexDSP)
     {
-        THROW_NULLEX(env, lpAudioConfig, false);
+        THROW_NULLEX(env, lpSpeexDSP, false);
 
-        AudioConfig audcfg;
-        ZERO_STRUCT(audcfg);
-        setAudioConfig(env, audcfg, lpAudioConfig, J2N);
-        return TT_SetAudioConfig(reinterpret_cast<TTInstance*>(lpTTInstance), &audcfg);
+        SpeexDSP spxdsp;
+        ZERO_STRUCT(spxdsp);
+        setSpeexDSP(env, spxdsp, lpSpeexDSP, J2N);
+        return TT_SetSoundInputPreprocess(reinterpret_cast<TTInstance*>(lpTTInstance), &spxdsp);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getAudioConfig(JNIEnv* env,
-                                                                            jobject thiz,
-                                                                            jlong lpTTInstance,
-                                                                            jobject lpAudioConfig)
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputPreprocess(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jlong lpTTInstance,
+                                                                                     jobject lpSpeexDSP)
     {
-        THROW_NULLEX(env, lpAudioConfig, false);
+        THROW_NULLEX(env, lpSpeexDSP, false);
 
-        AudioConfig audcfg;
-        ZERO_STRUCT(audcfg);
-        if(TT_GetAudioConfig(reinterpret_cast<TTInstance*>(lpTTInstance), &audcfg))
+        SpeexDSP spxdsp;
+        ZERO_STRUCT(spxdsp);
+        if(TT_GetSoundInputPreprocess(reinterpret_cast<TTInstance*>(lpTTInstance), &spxdsp))
         {
-            setAudioConfig(env, audcfg, lpAudioConfig, N2J);
+            setSpeexDSP(env, spxdsp, lpSpeexDSP, N2J);
             return true;
         }
         return false;
@@ -329,10 +329,12 @@ extern "C" {
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableAudioBlockEvent(JNIEnv* env,
                                                                                    jobject thiz,
                                                                                    jlong lpTTInstance,
+                                                                                   jint nUserID,
+                                                                                   jint nStreamType,
                                                                                    jboolean bEnable)
     {
         return TT_EnableAudioBlockEvent(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                        bEnable);
+                                        nUserID, (StreamType)nStreamType, bEnable);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableVoiceActivation(JNIEnv* env,
@@ -1475,21 +1477,21 @@ extern "C" {
                                 nUserID, (StreamType)nStreamType, bLeftSpeaker, bRightSpeaker);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserAudioFolder(JNIEnv* env,
-                                                                                jobject thiz,
-                                                                                jlong lpTTInstance,
-                                                                                jint nUserID,
-                                                                                jstring szFolderPath,
-                                                                                jstring szFileNameVars,
-                                                                                jint uAFF)
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMediaStorageDir(JNIEnv* env,
+                                                                                    jobject thiz,
+                                                                                    jlong lpTTInstance,
+                                                                                    jint nUserID,
+                                                                                    jstring szFolderPath,
+                                                                                    jstring szFileNameVars,
+                                                                                    jint uAFF)
     {
         THROW_NULLEX(env, szFolderPath, false);
         THROW_NULLEX(env, szFileNameVars, false);
 
-        return TT_SetUserAudioFolder(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                     nUserID, ttstr(env, szFolderPath), 
-                                     ttstr(env, szFileNameVars),
-                                     (AudioFileFormat)uAFF);
+        return TT_SetUserMediaStorageDir(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                         nUserID, ttstr(env, szFolderPath), 
+                                         ttstr(env, szFileNameVars),
+                                         (AudioFileFormat)uAFF);
     }
 
 
@@ -1504,8 +1506,22 @@ extern "C" {
                                                nUserID, (StreamType)uStreamType, nMSec);
     }
 
-//TODO: TT_AcquireUserAudioBlock
-//TODO: TT_ReleaseUserAudioBlock
+    JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserAudioBlock(JNIEnv* env,
+                                                                                  jobject thiz,
+                                                                                  jlong lpTTInstance,
+                                                                                  jint nStreamType,
+                                                                                  jint nUserID)
+    {
+        AudioBlock* audblock = TT_AcquireUserAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                        (StreamType)nStreamType, nUserID);
+        if(!audblock)
+            return NULL;
+        jclass cls = env->FindClass("dk/bearware/AudioBlock");
+        jobject audblk_obj = newObject(env, cls);
+        setAudioBlock(env, *audblock, audblk_obj);
+        TT_ReleaseUserAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), audblock);
+        return audblk_obj;
+    }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getFileTransferInfo(JNIEnv* env,
                                                                                  jobject thiz,
@@ -1532,100 +1548,6 @@ extern "C" {
     {
         return TT_CancelFileTransfer(reinterpret_cast<TTInstance*>(lpTTInstance),
                                      nTransferID);
-    }
-
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getBannedUsers(JNIEnv* env,
-                                                                            jobject thiz,
-                                                                            jlong lpTTInstance,
-                                                                            jobjectArray lpBannedUsers,
-                                                                            jobject lpnHowMany)
-    {
-        THROW_NULLEX(env, lpnHowMany, false);
-
-        int n_bans = 0;
-        if(!lpBannedUsers)
-        {
-            if(TT_GetBannedUsers(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                 NULL, &n_bans))
-            {
-                setIntPtr(env, lpnHowMany, n_bans);
-                return true;
-            }
-            return false;
-        }
-
-        n_bans = getIntPtr(env, lpnHowMany);
-        std::vector<BannedUser> bans(n_bans);
-        if(n_bans > 0 &&
-           TT_GetBannedUsers(reinterpret_cast<TTInstance*>(lpTTInstance),
-                             &bans[0], &n_bans))
-        {
-            n_bans = std::min(n_bans, getIntPtr(env, lpnHowMany));
-            if(n_bans>0)
-            {
-                std::vector<jobject> jbans(n_bans);
-                jclass cls_ban = env->FindClass("dk/bearware/BannedUser");
-                jmethodID midInit = env->GetMethodID(cls_ban, "<init>", "()V");
-                assert(midInit);
-                for(size_t i=0;i<n_bans;i++)
-                {
-                    jbans[i] = env->NewObject(cls_ban, midInit);
-                    assert(jbans[i]);
-                    setBannedUser(env, bans[i], jbans[i]);
-                    env->SetObjectArrayElement(lpBannedUsers, i, jbans[i]);
-                }
-            }
-            setIntPtr(env, lpnHowMany, n_bans);
-            return true;
-        }
-        return false;
-    }
-
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUserAccounts(JNIEnv* env,
-                                                                             jobject thiz,
-                                                                             jlong lpTTInstance,
-                                                                             jobjectArray lpUserAccounts,
-                                                                             jobject lpnHowMany)
-    {
-        THROW_NULLEX(env, lpnHowMany, false);
-
-        int n_accounts = 0;
-        if(!lpUserAccounts)
-        {
-            if(TT_GetUserAccounts(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                  NULL, &n_accounts))
-            {
-                setIntPtr(env, lpnHowMany, n_accounts);
-                return true;
-            }
-            return false;
-        }
-
-        n_accounts = getIntPtr(env, lpnHowMany);
-        std::vector<UserAccount> accounts(n_accounts);
-        if(n_accounts > 0 &&
-           TT_GetUserAccounts(reinterpret_cast<TTInstance*>(lpTTInstance),
-                              &accounts[0], &n_accounts))
-        {
-            n_accounts = std::min(n_accounts, getIntPtr(env, lpnHowMany));
-            if(n_accounts>0)
-            {
-                std::vector<jobject> jaccounts(n_accounts);
-                jclass cls_account = env->FindClass("dk/bearware/UserAccount");
-                jmethodID midInit = env->GetMethodID(cls_account, "<init>", "()V");
-                assert(midInit);
-                for(size_t i=0;i<n_accounts;i++)
-                {
-                    jaccounts[i] = env->NewObject(cls_account, midInit);
-                    assert(jaccounts[i]);
-                    setUserAccount(env, accounts[i], jaccounts[i], N2J);
-                    env->SetObjectArrayElement(lpUserAccounts, i, jaccounts[i]);
-                }
-            }
-            setIntPtr(env, lpnHowMany, n_accounts);
-            return true;
-        }
-        return false;
     }
 
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkBase_getErrorMessage(JNIEnv* env,

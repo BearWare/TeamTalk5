@@ -36,7 +36,6 @@ namespace TeamTalkApp.NET
     {
         TeamTalk ttclient;
         int userid;
-        int sessionid = 0;
         Bitmap bmp;
         int unsubscribe_cmdid = 0;
 
@@ -64,8 +63,8 @@ namespace TeamTalkApp.NET
 
                     //figure out how we're subscribing to video
                     Subscription subtype = Subscription.SUBSCRIBE_NONE;
-                    User user;
-                    if (ttclient.GetUser(this.userid, out user))
+                    User user = new User();
+                    if (ttclient.GetUser(this.userid, ref user))
                     {
                         if ((user.uLocalSubscriptions & Subscription.SUBSCRIBE_DESKTOP) == Subscription.SUBSCRIBE_DESKTOP)
                             subtype = Subscription.SUBSCRIBE_DESKTOP;

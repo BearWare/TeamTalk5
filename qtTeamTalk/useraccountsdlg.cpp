@@ -152,7 +152,7 @@ void UserAccountsModel::delRegUser(const QString& username)
     this->endResetModel();
 }
 
-UserAccountsDlg::UserAccountsDlg(QWidget * parent/* = 0*/)
+UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
     , m_add_cmdid(0)
     , m_del_cmdid(0)
@@ -188,15 +188,8 @@ UserAccountsDlg::UserAccountsDlg(QWidget * parent/* = 0*/)
         }
     }
 
-    count = 0;
-    TT_GetUserAccounts(ttInst, NULL, &count);
-    QVector<UserAccount> users;
-    users.resize(count);
-    if(count)
-        TT_GetUserAccounts(ttInst, &users[0], &count);
-
-    for(int i=0;i<count;i++)
-        m_model->addRegUser(users[i], i+1 == count);
+    for(int i=0;i<useraccounts.size();i++)
+        m_model->addRegUser(useraccounts[i], i+1 == useraccounts.size());
 
     for(int i=0;i<COLUMN_COUNT_USERACCOUNTS;i++)
         ui.usersTreeView->resizeColumnToContents(i);

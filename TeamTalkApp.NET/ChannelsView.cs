@@ -112,8 +112,8 @@ namespace TeamTalkApp.NET
                 //it's the root channel
 
                 //user servername as root channel name
-                ServerProperties prop;
-                ttclient.GetServerProperties(out prop);
+                ServerProperties prop = new ServerProperties();
+                ttclient.GetServerProperties(ref prop);
                 TreeNode newnode = new TreeNode(prop.szServerName, (int)ImageIndex.CHANNEL, (int)ImageIndex.CHANNEL);
                 newnode.Tag = chan.nChannelID;
                 treeview.Nodes.Add(newnode);
@@ -142,8 +142,8 @@ namespace TeamTalkApp.NET
             }
             foreach (TreeNode userNode in users)
             {
-                User user;
-                if (ttclient.GetUser((int)userNode.Tag, out user))
+                User user = new User();
+                if (ttclient.GetUser((int)userNode.Tag, ref user))
                 {
                     userNode.Text = String.Format("{0} [Voice={1}, Video={2}, Desktop={3}, MediaFile={4}]",
                         user.szNickname,

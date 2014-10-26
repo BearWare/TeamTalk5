@@ -81,7 +81,7 @@ namespace c_tt
         public static extern bool TT_CloseTeamTalk(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetMessage(IntPtr lpTTInstance,
-                                               out BearWare.TTMessage pMsg,
+                                               ref BearWare.TTMessage pMsg,
                                                ref int pnWaitMs);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientFlag TT_GetFlags(IntPtr lpTTInstance);
@@ -89,12 +89,12 @@ namespace c_tt
         public static extern bool TT_SetLicenseInformation([MarshalAs(UnmanagedType.LPWStr)] string szRegName,
                                                            [MarshalAs(UnmanagedType.LPWStr)] string szRegKey);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_GetDefaultSoundDevices(out int lpnInputDeviceID,
-                                                            out int lpnOutputDeviceID);
+        public static extern bool TT_GetDefaultSoundDevices(ref int lpnInputDeviceID,
+                                                            ref int lpnOutputDeviceID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetDefaultSoundDevicesEx(BearWare.SoundSystem nSoundSystem,
-                                                              out int lpnInputDeviceID,
-                                                              out int lpnOutputDeviceID);
+                                                              ref int lpnInputDeviceID,
+                                                              ref int lpnOutputDeviceID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetSoundDevices([In, Out] BearWare.SoundDevice[] lpSoundDevices,
                                                      ref int lpnHowMany);
@@ -107,7 +107,7 @@ namespace c_tt
         public static extern IntPtr TT_StartSoundLoopbackTest(int nInputDeviceID, int nOutputDeviceID,
                                                               int nSampleRate, int nChannels,
                                                               bool bDuplexMode,
-                                                              ref BearWare.AudioConfig lpAudioConfig);
+                                                              ref BearWare.SpeexDSP lpSpeexDSP);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_CloseSoundLoopbackTest(IntPtr lpTTSoundLoop);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -134,9 +134,9 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_GetSoundInputGainLevel(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_SetAudioConfig(IntPtr lpTTInstance, ref BearWare.AudioConfig lpAudioConfig);
+        public static extern bool TT_SetSoundInputPreprocess(IntPtr lpTTInstance, ref BearWare.SpeexDSP lpSpeexDSP);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_GetAudioConfig(IntPtr lpTTInstance, ref BearWare.AudioConfig lpAudioConfig);
+        public static extern bool TT_GetSoundInputPreprocess(IntPtr lpTTInstance, ref BearWare.SpeexDSP lpSpeexDSP);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetSoundOutputVolume(IntPtr lpTTInstance,
                                                      int nVolume);
@@ -151,7 +151,8 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_AutoPositionUsers(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_EnableAudioBlockEvent(IntPtr lpTTInstance, bool bEnable);
+        public static extern bool TT_EnableAudioBlockEvent(IntPtr lpTTInstance, int nUserID, 
+                                                           BearWare.StreamType nStreamType, bool bEnable);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_EnableVoiceTransmission(IntPtr lpTTInstance, bool bEnable);
@@ -216,7 +217,7 @@ namespace c_tt
         public static extern bool TT_StopStreamingMediaFileToChannel(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetMediaFileInfo([MarshalAs(UnmanagedType.LPWStr)] string szMediaFilePath,
-                                                      out BearWare.MediaFileInfo pMediaFileInfo);
+                                                      ref BearWare.MediaFileInfo pMediaFileInfo);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern System.IntPtr TT_AcquireUserMediaVideoFrame(IntPtr lpTTInstance, int nUserID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -307,7 +308,7 @@ namespace c_tt
         public static extern bool TT_QueryMaxPayload(IntPtr lpTTInstance, int nUserID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetClientStatistics(IntPtr lpTTInstance,
-                                                         out BearWare.ClientStatistics lpStats);
+                                                         ref BearWare.ClientStatistics lpStats);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoPing(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -403,10 +404,10 @@ namespace c_tt
                                            int nUserID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoBanIPAddress(IntPtr lpTTInstance,
-                                                   [MarshalAs(UnmanagedType.LPWStr)] string szIpAddress);
+                                                   [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoUnBanUser(IntPtr lpTTInstance,
-                                             [MarshalAs(UnmanagedType.LPWStr)] string szIpAddress);
+                                             [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoListBans(IntPtr lpTTInstance,
                                             int nIndex,
@@ -419,7 +420,7 @@ namespace c_tt
         public static extern int TT_DoQuit(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetServerProperties(IntPtr lpTTInstance,
-                                                    out BearWare.ServerProperties lpProperties);
+                                                    ref BearWare.ServerProperties lpProperties);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "TT_GetServerUsers")] /* Windows CE NULL pointer workaround */
         public static extern bool TT_GetServerUsers_NULL(IntPtr lpTTInstance,
                                                 IntPtr lpUsers,
@@ -435,7 +436,7 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetChannel(IntPtr lpTTInstance,
                                            int nChannelID,
-                                           out BearWare.Channel lpChannel);
+                                           ref BearWare.Channel lpChannel);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetChannelPath(IntPtr lpTTInstance,
                                                int nChannelID,
@@ -467,7 +468,7 @@ namespace c_tt
         public static extern bool TT_GetChannelFile(IntPtr lpTTInstance,
                                                     int nChannelID,
                                                     int nFileID,
-                                                    out BearWare.RemoteFile lpRemoteFile);
+                                                    ref BearWare.RemoteFile lpRemoteFile);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_IsChannelOperator(IntPtr lpTTInstance,
                                                   int nUserID,
@@ -484,7 +485,7 @@ namespace c_tt
         public static extern int TT_GetMyUserID(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetMyUserAccount(IntPtr lpTTInstance,
-                                                 out BearWare.UserAccount lpUserAccount);
+                                                 ref BearWare.UserAccount lpUserAccount);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.UserType TT_GetMyUserType(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -493,20 +494,20 @@ namespace c_tt
         public static extern int TT_GetMyUserData(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetUser(IntPtr lpTTInstance,
-                                        int nUserID, out BearWare.User lpUser);
+                                        int nUserID, ref BearWare.User lpUser);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetUserStatistics(IntPtr lpTTInstance,
                                                   int nUserID,
-                                                  out BearWare.UserStatistics lpStats);
+                                                  ref BearWare.UserStatistics lpStats);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetUserByUsername(IntPtr lpTTInstance,
                                                   [MarshalAs(UnmanagedType.LPWStr)] string szUsername,
-                                                 out BearWare.User lpUser);
+                                                 ref BearWare.User lpUser);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetTextMessage(IntPtr lpTTInstance,
                                                int nMsgID,
                                                bool bRemoveMsg,
-                                               out BearWare.TextMessage lpTextMessage);
+                                               ref BearWare.TextMessage lpTextMessage);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetUserVolume(IntPtr lpTTInstance,
                                               int nUserID, BearWare.StreamType nStreamType, int nVolume);
@@ -539,7 +540,7 @@ namespace c_tt
                                               bool bLeftSpeaker,
                                               bool bRightSpeaker);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_SetUserAudioFolder(IntPtr lpTTInstance,
+        public static extern bool TT_SetUserMediaStorageDir(IntPtr lpTTInstance,
                                                    int nUserID,
                                                    [MarshalAs(UnmanagedType.LPWStr)] string szFolderPath,
                                                    [MarshalAs(UnmanagedType.LPWStr)] string szFileNameVars,
@@ -551,33 +552,18 @@ namespace c_tt
                                                             int nMSec);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr TT_AcquireUserAudioBlock(IntPtr lpTTInstance,
-                                                           int nUserID);
+                                                             BearWare.StreamType nStreamType,
+                                                             int nUserID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_ReleaseUserAudioBlock(IntPtr lpTTInstance, IntPtr lpAudioBlock);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetFileTransferInfo(IntPtr lpTTInstance,
                                                     int nTransferID,
-                                                    out BearWare.FileTransfer lpFileTransfer);
+                                                    ref BearWare.FileTransfer lpFileTransfer);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_CancelFileTransfer(IntPtr lpTTInstance,
                                                    int nTransferID);
-        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "TT_GetBannedUsers")] /* Windows CE NULL pointer workaround */
-        public static extern bool TT_GetBannedUsers_NULL(IntPtr lpTTInstance,
-                                               IntPtr lpBannedUsers,
-                                               ref int lpnHowMany);
-        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_GetBannedUsers(IntPtr lpTTInstance,
-                                               [In, Out] BearWare.BannedUser[] lpBannedUsers,
-                                               ref int lpnHowMany);
-        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "TT_GetUserAccounts")] /* Windows CE NULL pointer workaround */
-        public static extern bool TT_GetUserAccounts_NULL(IntPtr lpTTInstance,
-                                                IntPtr lpUserAccounts,
-                                                ref int lpnHowMany);
-        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_GetUserAccounts(IntPtr lpTTInstance,
-                                                [In, Out] BearWare.UserAccount[] lpUserAccounts,
-                                                ref int lpnHowMany);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void TT_GetErrorMessage(int nError,
                                                 IntPtr szErrorMsg);

@@ -78,6 +78,7 @@ void setIntPtr(JNIEnv* env, jobject intptr, jint value);
 jint getIntPtr(JNIEnv* env, jobject intptr);
 void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConvert conv);
 void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JConvert conv);
+void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, const ClientStatistics& stats, jobject lpStats);
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
@@ -91,6 +92,7 @@ void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClien
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv);
 void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWindow, JConvert conv);
 void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame);
+void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock);
 void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo);
 void setAudioFormat(JNIEnv* env, const AudioFormat& fmt, jobject lpAudioFormat);
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv);
