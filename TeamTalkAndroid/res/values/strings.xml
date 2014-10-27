@@ -10,6 +10,7 @@
     <string name="title_section_chat">Chat</string>
     <string name="title_section_video">Video</string>
     <string name="title_section_desktop">Desktops</string>
+    <string name="title_section_files">Files</string>
     <string name="title_activity_channel_prop">Channel Properties</string>
     <string name="title_activity_user_prop">User Properties</string>
     <string name="title_activity_text_message">Text Message</string>
@@ -145,6 +146,13 @@
     <string name="pref_summary_server_address">The domain name or IP-address of the server</string>
 
     <string name="channel_password_prompt">Enter channel password</string>
+    <string name="button_download">Download</string>
+    <string name="download_succeeded">File %1$s has been successfully downloaded and saved in %2$s</string>
+    <string name="download_failed">Failed to download file %1$s</string>
+    <string name="alert_file_override">File %1$s already exists, override it?</string>
+    <string name="err_file_delete">Cannot delete file %1$s</string>
+    <string name="err_download_path">Download path %1$s is unavailable</string>
+    <string name="download_progress">%1$d%% downloaded</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>

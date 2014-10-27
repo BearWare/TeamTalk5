@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 import dk.bearware.AudioCodec;
 import dk.bearware.BitmapFormat;
 import dk.bearware.Channel;
+import dk.bearware.RemoteFile;
 import dk.bearware.User;
 import dk.bearware.data.ServerEntry;
 import android.content.Intent;
@@ -115,6 +116,28 @@ public class Utils {
     public static Vector<User> getUsers(Map<Integer, User> users) {
         Vector<User> result = new Vector<User>();
         Iterator<Entry<Integer, User>> it = users.entrySet().iterator();
+
+        while (it.hasNext()) {
+            result.add(it.next().getValue());
+        }
+        return result;
+    }
+    
+    public static Vector<RemoteFile> getRemoteFiles(int chanid, Map<Integer, RemoteFile> remotefiles) {
+        Vector<RemoteFile> result = new Vector<RemoteFile>();
+        Iterator<Entry<Integer, RemoteFile>> it = remotefiles.entrySet().iterator();
+
+        while (it.hasNext()) {
+            RemoteFile remotefile = it.next().getValue();
+            if (remotefile.nChannelID == chanid)
+                result.add(remotefile);
+        }
+        return result;
+    }
+    
+    public static Vector<RemoteFile> getRemoteFiles(Map<Integer, RemoteFile> remotefiles) {
+        Vector<RemoteFile> result = new Vector<RemoteFile>();
+        Iterator<Entry<Integer, RemoteFile>> it = remotefiles.entrySet().iterator();
 
         while (it.hasNext()) {
             result.add(it.next().getValue());

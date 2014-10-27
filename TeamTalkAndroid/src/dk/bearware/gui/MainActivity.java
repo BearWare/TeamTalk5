@@ -47,6 +47,7 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
+import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
@@ -66,6 +67,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
@@ -75,12 +77,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.AccessibilityDelegate;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -119,14 +118,20 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
     ChannelListAdapter channelsAdapter;
+    FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
     DesktopAdapter desktopAdapter;
     TTSWrapper ttsWrapper = null;
+    AccessibilityAssistant accessibilityAssistant;
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
     }
     
+    public FileListAdapter getFilesAdapter() {
+        return filesAdapter;
+    }
+
     public TextMessageAdapter getTextMessagesAdapter() {
         return textmsgAdapter;
     }
@@ -141,6 +146,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         setContentView(R.layout.activity_main);
 
         mConnection = new TeamTalkConnection(this);
+        accessibilityAssistant = new AccessibilityAssistant(this);
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -151,6 +157,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
+        filesAdapter = new FileListAdapter(this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
@@ -269,6 +276,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     ChatSectionFragment chatFragment;
     VidcapSectionFragment vidcapFragment;
     DesktopSectionFragment desktopFragment;
+    FilesSectionFragment filesFragment;
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
@@ -279,8 +287,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                                 CHAT_PAGE = 1,
                                 VIDCAP_PAGE = 2,
                                 DESKTOP_PAGE = 3,
+                                FILES_PAGE = 4,
                                 
-                                PAGE_COUNT = 4;
+                                PAGE_COUNT = 5;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -309,6 +318,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     desktopFragment = new DesktopSectionFragment();
                     return desktopFragment;
                 }
+                case FILES_PAGE : {
+                    filesFragment = new FilesSectionFragment();
+                    return filesFragment;
+                }
             }
         }
 
@@ -329,39 +342,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     return getString(R.string.title_section_video).toUpperCase(l);
                 case DESKTOP_PAGE :
                     return getString(R.string.title_section_desktop).toUpperCase(l);
+                case FILES_PAGE :
+                    return getString(R.string.title_section_files).toUpperCase(l);
             }
             return null;
         }
     }
-
-    boolean lockStatUpdate = false;
-    AccessibilityDelegate accessibilityFocusMonitor = new AccessibilityDelegate() {
-
-            @Override
-            public void sendAccessibilityEvent(View host, int eventType) {
-                checkEvent(eventType);
-                super.sendAccessibilityEvent(host, eventType);
-            }
-
-            @Override
-            public void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event) {
-                checkEvent(event.getEventType());
-                super.sendAccessibilityEventUnchecked(host, event);
-            }
-
-            private void checkEvent(int eventType) {
-                switch (eventType) {
-                case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
-                    lockStatUpdate = true;
-                    break;
-                case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED:
-                    lockStatUpdate = false;
-                    break;
-                default:
-                    break;
-                }
-            }
-        };
 
     private void joinChannel(Channel channel, String passwd) {
         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
@@ -504,6 +490,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             ExpandableListView exview = (ExpandableListView) rootView.findViewById(R.id.desktop_elist_view);
             exview.setAdapter(mainActivity.getDesktopAdapter());
             return rootView;
+        }
+    }
+
+    public static class FilesSectionFragment extends ListFragment {
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            setListAdapter(((MainActivity)activity).getFilesAdapter());
         }
     }
 
@@ -665,8 +660,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     };
                     edit.setOnClickListener(listener);
                     join.setOnClickListener(listener);
-                    edit.setAccessibilityDelegate(accessibilityFocusMonitor);
-                    join.setAccessibilityDelegate(accessibilityFocusMonitor);
+                    edit.setAccessibilityDelegate(accessibilityAssistant);
+                    join.setAccessibilityDelegate(accessibilityAssistant);
                 }
             }
             else if(item instanceof User) {
@@ -694,7 +689,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     }
                 };
                 sndmsg.setOnClickListener(listener);
-                sndmsg.setAccessibilityDelegate(accessibilityFocusMonitor);
+                sndmsg.setAccessibilityDelegate(accessibilityAssistant);
             }
             return convertView;
         }
@@ -709,7 +704,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         final TextView desktop = (TextView) findViewById(R.id.desktopstat_textview);
         final TextView mediafile = (TextView) findViewById(R.id.mediafilestat_textview);
         final int defcolor = connection.getTextColors().getDefaultColor();
-        final AccessibilityManager accessibilityService = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         
         if(stats_timer == null) {
             stats_timer = new CountDownTimer(10000, 1000) {
@@ -718,8 +712,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    if (ttclient == null || (lockStatUpdate && accessibilityService.isEnabled()))
+                    if (ttclient == null || accessibilityAssistant.uiUpdatesDiscouraged())
                         return;
+                    filesAdapter.performPendingUpdate();
 
                     int con = R.string.stat_offline;
                     int con_color = Color.RED;
@@ -836,6 +831,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         desktopAdapter.setTeamTalkService(service);
         desktopAdapter.notifyDataSetChanged();
         
+        filesAdapter.setTeamTalkService(service);
+        filesAdapter.update(mychannel);
+
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor((ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) == ClientFlag.CLIENT_TX_VOICE?
                                   Color.GREEN : Color.RED);
@@ -860,6 +858,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         ttservice.unregisterConnectionListener(MainActivity.this);
         ttservice.unregisterCommandListener(MainActivity.this);
         ttservice.unregisterUserListener(MainActivity.this);
+        filesAdapter.setTeamTalkService(null);
         ttservice = null;
     }
 
@@ -938,6 +937,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             ttservice.getChatLogTextMsgs().add(msg);
             
             curchannel = ttservice.getChannels().get(user.nChannelID);
+            filesAdapter.update(curchannel);
         }
         else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             //other user joined current channel
@@ -1038,10 +1038,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
+        filesAdapter.update();
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
+        filesAdapter.update();
     }
 
     @Override

@@ -140,12 +140,17 @@ implements CommandListener, UserListener, ConnectionListener {
     }
 
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
+    Map<Integer, RemoteFile> remoteFiles = new HashMap<Integer, RemoteFile>();
     Map<Integer, User> users = new HashMap<Integer, User>();
     Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
     Vector<MyTextMessage> chatlogtxtmsgs = new Vector<MyTextMessage>();
 
     public Map<Integer, Channel> getChannels() {
         return channels;
+    }
+
+    public Map<Integer, RemoteFile> getRemoteFiles() {
+        return remoteFiles;
     }
 
     public Map<Integer, User> getUsers() {
@@ -182,6 +187,7 @@ implements CommandListener, UserListener, ConnectionListener {
         
         curchannel = null;
         channels.clear();
+        remoteFiles.clear();
         users.clear();
         usertxtmsgs.clear();
         chatlogtxtmsgs.clear();
@@ -316,6 +322,7 @@ implements CommandListener, UserListener, ConnectionListener {
         if(!complete && activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
             //new users and channels will be posted for new login, so delete old ones
             users.clear();
+            remoteFiles.clear();
             channels.clear();
         }
         
@@ -439,10 +446,12 @@ implements CommandListener, UserListener, ConnectionListener {
 
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
+        remoteFiles.put(remotefile.nFileID, remotefile);
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
+        remoteFiles.remove(remotefile.nFileID);
     }
     
     @Override
