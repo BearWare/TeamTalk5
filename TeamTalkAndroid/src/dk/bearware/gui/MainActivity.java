@@ -712,7 +712,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 
                 public void onTick(long millisUntilFinished) {
                 
-                    if (ttclient == null || accessibilityAssistant.uiUpdatesDiscouraged())
+                    if (ttclient == null || accessibilityAssistant.isUiUpdateDiscouraged())
                         return;
                     filesAdapter.performPendingUpdate();
 

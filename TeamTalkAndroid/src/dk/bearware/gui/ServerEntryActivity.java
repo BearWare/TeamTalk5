@@ -36,6 +36,7 @@ import android.view.MenuItem;
 
 public class ServerEntryActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +103,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         return super.onOptionsItemSelected(item);
     }
     
+    @SuppressWarnings("deprecation")
     ServerEntry getServerEntry() {
         ServerEntry server = new ServerEntry();
         server.servername = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME));
@@ -116,6 +118,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         return server;
     }
     
+    @SuppressWarnings("deprecation")
     void showServer(ServerEntry entry) {
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), entry.servername, entry.servername);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);

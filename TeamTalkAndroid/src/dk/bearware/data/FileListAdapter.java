@@ -218,6 +218,7 @@ implements ClientListener, Comparator<RemoteFile> {
     public void onHotKeyTest(int nVkCode, boolean bActive) {
     }
 
+    @SuppressWarnings("fallthrough")
     @Override
     public void onFileTransfer(FileTransfer filetransfer) {
         if (filetransfer.bInbound && filetransfer.nChannelID == chanId) {
@@ -248,7 +249,7 @@ implements ClientListener, Comparator<RemoteFile> {
             default:
                 break;
             }
-            if (progress && accessibilityAssistant.uiUpdatesDiscouraged()) {
+            if (progress && accessibilityAssistant.isUiUpdateDiscouraged()) {
                 needRefresh = true;
             }
             else {
