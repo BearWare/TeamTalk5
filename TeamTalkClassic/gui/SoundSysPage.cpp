@@ -319,10 +319,10 @@ void CSoundSysPage::RefreshSoundDevices()
 {
     m_SoundDevices.clear();
 
-    int count = 25;
-    std::vector<SoundDevice> devices(count);
-    TT_GetSoundDevices(&devices[0], &count);
-    if(count == 25)
+    int count = 0;
+    std::vector<SoundDevice> devices;
+    TT_GetSoundDevices(NULL, &count);
+    if(count)
     {
         devices.resize(count);
         TT_GetSoundDevices(&devices[0], &count);
