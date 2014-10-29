@@ -39,4 +39,8 @@ public class Channel
 	//TODO: 'transmitUsers'
     public Channel() {
     }
+    public Channel(boolean default_audiocodec, boolean default_audiocfg) {
+        audiocodec = new AudioCodec(default_audiocodec);
+        audiocfg = new AudioConfig(default_audiocfg);
+    }
 }

@@ -26,6 +26,7 @@ import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ChannelType;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.Codec;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;
@@ -234,7 +235,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         }
         else if(parentid > 0) {
             //create new channel
-            channel = new Channel();
+            channel = new Channel(true, true);
             channel.nParentID = parentid;
         }
         

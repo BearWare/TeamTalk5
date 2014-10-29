@@ -30,4 +30,10 @@ public class AudioCodec
     public AudioCodec() {
         nCodec = Codec.NO_CODEC;
     }
+    public AudioCodec(boolean set_defaults) {
+        if(!set_defaults)
+            return;
+        nCodec = Codec.OPUS_CODEC;
+        opus = new OpusCodec(true);
+    }
 }
