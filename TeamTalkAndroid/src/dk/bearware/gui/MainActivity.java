@@ -43,6 +43,7 @@ import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.UserListener;
 
+import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
@@ -55,10 +56,13 @@ import dk.bearware.gui.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -92,7 +96,7 @@ import android.widget.Toast;
 
 public class MainActivity
 extends FragmentActivity
-implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, CommandListener, UserListener {
+implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -123,6 +127,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     DesktopAdapter desktopAdapter;
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
+    AudioManager audioManager;
+    SoundPool audioIcons;
+    ComponentName mediaButtonEventReceiver;
+
+    int voiceTransmissionEnabledSound;
+    int voiceTransmissionDisabledSound;
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
@@ -147,6 +157,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         mConnection = new TeamTalkConnection(this);
         accessibilityAssistant = new AccessibilityAssistant(this);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -189,7 +201,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     }
 
                     ttclient.enableVoiceTransmission(tx);
-                    tx_btn.setBackgroundColor(tx?Color.GREEN : Color.RED);
                     boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
                     if (ptt_vibrate) {
                         Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -238,6 +249,17 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onResume() {
         super.onResume();
 
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("audioicons_checkbox", true)) {
+            if (audioIcons == null) {
+                audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+                voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
+                voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
+            }
+        }
+        else if (audioIcons != null) {
+            audioIcons.release();
+            audioIcons = null;
+        }
         createStatusTimer();
     }
 
@@ -265,6 +287,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         
         if (ttsWrapper == null) {
         	ttsWrapper.shutdown();
+        }
+
+        if (audioIcons != null) {
+            audioIcons.release();
+            audioIcons = null;
         }
 
         // Unbind from the service
@@ -835,12 +862,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         filesAdapter.update(mychannel);
 
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setBackgroundColor((ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) == ClientFlag.CLIENT_TX_VOICE?
-                                  Color.GREEN : Color.RED);
+        tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
 
         ttservice.registerConnectionListener(MainActivity.this);
         ttservice.registerCommandListener(MainActivity.this);
         ttservice.registerUserListener(MainActivity.this);
+        ttservice.setOnVoiceTransmissionToggleListener(this);
         
         if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) == 0) &&
             !ttclient.initSoundInputDevice(0))
@@ -851,10 +878,13 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             !ttclient.initSoundOutputDevice(0))
             Toast.makeText(this, R.string.err_init_sound_output,
                 Toast.LENGTH_LONG).show();
+        audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
+        ttservice.setOnVoiceTransmissionToggleListener(null);
         ttservice.unregisterConnectionListener(MainActivity.this);
         ttservice.unregisterCommandListener(MainActivity.this);
         ttservice.unregisterUserListener(MainActivity.this);
@@ -1109,6 +1139,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public void onUserAudioBlock(int nUserID, int nStreamType) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
+        Button tx_btn = (Button) findViewById(R.id.transmit_voice);
+        tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
+        if (audioIcons != null)
+            audioIcons.play(voiceTransmissionEnabled ? voiceTransmissionEnabledSound : voiceTransmissionDisabledSound, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 
 }

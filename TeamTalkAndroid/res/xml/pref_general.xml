@@ -12,4 +12,9 @@
 		android:defaultValue="true"
 		android:title="@string/pref_title_vibrate" />
 
+    <CheckBoxPreference
+		android:key="audioicons_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_audioicons" />
+
 </PreferenceScreen>

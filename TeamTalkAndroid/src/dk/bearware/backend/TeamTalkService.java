@@ -107,6 +107,7 @@ implements CommandListener, UserListener, ConnectionListener {
     TeamTalkBase ttclient;
     ServerEntry ttserver;
     Channel curchannel;
+    OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
@@ -124,6 +125,14 @@ implements CommandListener, UserListener, ConnectionListener {
         curchannel = channel;
     }
     
+    public void setOnVoiceTransmissionToggleListener(OnVoiceTransmissionToggleListener listener) {
+        onVoiceTransmissionToggleListener = listener;
+    }
+
+    public boolean isVoiceTransmissionEnabled() {
+        return (ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) != 0;
+    }
+
     public boolean reconnect() {
         if(ttserver == null || ttclient == null)
             return false;
@@ -195,12 +204,19 @@ implements CommandListener, UserListener, ConnectionListener {
     
     void createEventTimer() {
         new CountDownTimer(10000, 100) {
+            private boolean prevVoiceTransmissionState = isVoiceTransmissionEnabled();
+
             public void onTick(long millisUntilFinished) {
                 while(mEventHandler.processEvent(ttclient, 0));
+                boolean newVoiceTransmissionState = isVoiceTransmissionEnabled();
+                if ((onVoiceTransmissionToggleListener != null) &&
+                    (newVoiceTransmissionState != prevVoiceTransmissionState))
+                    onVoiceTransmissionToggleListener.onVoiceTransmissionToggle(newVoiceTransmissionState);
+                prevVoiceTransmissionState = newVoiceTransmissionState;
             }
 
             public void onFinish() {
-                createEventTimer();
+                start();
             }
         }.start();
     }
