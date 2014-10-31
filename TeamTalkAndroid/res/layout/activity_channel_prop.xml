@@ -141,7 +141,7 @@
             android:id="@+id/setup_audcodec_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Audio Codec" />
+            android:text="@string/title_activity_audio_codec" />
 <!-- 
         <Button
             android:id="@+id/setup_audcfg_btn"

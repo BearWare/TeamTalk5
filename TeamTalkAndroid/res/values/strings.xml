@@ -161,5 +161,6 @@
     <string name="text_maxbitrate">Max Bitrate</string>
     <string name="text_txinterval">Transmit interval</string>
     <string name="text_quality">Quality</string>
+    <string name="desktop_image">Desktop image</string>
 
 </resources>
