@@ -3,6 +3,7 @@ package dk.bearware.data;
 import java.util.HashMap;
 import java.util.Vector;
 
+import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,12 @@ public class MapAdapter extends BaseAdapter {
     Vector<Integer> values = new Vector<Integer>();
     
     LayoutInflater inflater;
+    int layout_item, text_id;
     
-    public MapAdapter(Context context) {
+    public MapAdapter(Context context, int layout_item, int text_id) {
         inflater = LayoutInflater.from(context);
+        this.layout_item = layout_item;
+        this.text_id = text_id;
     }
     
     public void addPair(String key, int value) {
@@ -64,9 +68,9 @@ public class MapAdapter extends BaseAdapter {
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
         if(convertView == null)
-            convertView = inflater.inflate(android.R.layout.simple_spinner_item, null);
+            convertView = inflater.inflate(layout_item, null);
         
-        TextView text = (TextView)convertView.findViewById(android.R.id.text1);
+        TextView text = (TextView)convertView.findViewById(text_id);
         text.setText(keys.get(pos));
 
         return convertView;

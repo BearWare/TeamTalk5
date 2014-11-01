@@ -273,10 +273,10 @@ public class AudioCodecActivity extends Activity implements
         @Override
         public void onAttach(Activity activity) {
             
-            appMap = new MapAdapter(activity);
-            srMap = new MapAdapter(activity);
-            audMap = new MapAdapter(activity);
-            delayMap = new MapAdapter(activity);
+            appMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            audMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
 
             appMap.addPair("VoIP", OpusConstants.OPUS_APPLICATION_VOIP);
             appMap.addPair("Music", OpusConstants.OPUS_APPLICATION_AUDIO);
@@ -391,12 +391,12 @@ public class AudioCodecActivity extends Activity implements
         @Override
         public void onAttach(Activity activity) {
             
-            srMap = new MapAdapter(activity);
+            srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);
             srMap.addPair("32 KHz", SpeexConstants.SPEEX_BANDMODE_UWIDE);
             
-            delayMap = new MapAdapter(activity);
+            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             delayMap.addPair("20 msec", 20);
             delayMap.addPair("40 msec", 40);
             delayMap.addPair("60 msec", 60);
@@ -454,12 +454,12 @@ public class AudioCodecActivity extends Activity implements
         @Override
         public void onAttach(Activity activity) {
             
-            srMap = new MapAdapter(activity);
+            srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);
             srMap.addPair("32 KHz", SpeexConstants.SPEEX_BANDMODE_UWIDE);
             
-            delayMap = new MapAdapter(activity);
+            delayMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             delayMap.addPair("20 msec", 20);
             delayMap.addPair("40 msec", 40);
             delayMap.addPair("60 msec", 60);
