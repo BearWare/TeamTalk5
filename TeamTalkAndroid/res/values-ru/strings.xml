@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_activity_server_list">Серверы TeamTalk 5</string>
+    <string name="action_settings">Настройки</string>
+    <string name="title_activity_server_entry">Свойства Сервера TeamTalk 5</string>
+    <string name="title_section_channels">Каналы</string>
+    <string name="title_section_chat">Сообщения</string>
+    <string name="title_section_video">Видео</string>
+    <string name="title_section_desktop">Рабочие Столы</string>
+    <string name="title_section_files">Файлы</string>
+    <string name="title_activity_channel_prop">Свойства Канала</string>
+    <string name="title_activity_user_prop">Свойства Пользователя</string>
+    <string name="title_activity_text_message">Текстовое Сообщение</string>
+    <string name="title_activity_preferences">Настройки</string>
+    <string name="action_createchannel">Создать</string>
+    <string name="action_updatechannel">Обновить</string>
+    <string name="text_con_failed">Не удалось соединиться с сервером. Попробуем еще...</string>
+    <string name="text_con_lost">Потеряна связь с сервером</string>
+    <string name="text_con_success">Установлено соединение с сервером</string>
+    <string name="text_con_cmderr">Не удалось выдать команду</string>
+    <string name="text_cmderr_login">Не удалось выдать команду регистрации</string>
+    <string name="text_cmd_loggedin">Выполнена регистрация на сервере</string>
+    <string name="text_cmd_joinchan">Подключен канал:</string>
+    <string name="text_cmd_leftchan">Отключен канал:</string>
+    <string name="text_cmd_joinroot">Подключен корневой канал</string>
+    <string name="text_cmd_leftroot">Отключен корневой канал</string>
+    <string name="text_cmd_userjoinchan">подключил канал</string>
+    <string name="text_cmd_userleftchan">Отключил канал</string>
+    <string name="pref_cat_subscriptions">Подписки</string>
+    <string name="pref_cat_tts">Настройка речевых сообщений</string>
+    <string name="pref_cat_soundtest">Тест Звука</string>
+    <string name="pref_header_general">Общие Настройки</string>
+    <string name="pref_title_nickname">Кличка</string>
+    <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
+    <string name="pref_title_audioicons">Звуковая индикация включения и выключения передачи</string>
+    <string name="pref_header_connection">Настройки Соединения</string>
+    <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
+    <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>
+    <string name="pref_title_sub_chanmsg">Сообщения Каналов</string>
+    <string name="pref_summary_sub_chanmsg">Подписаться на текстовые сообщения в каналах</string>
+    <string name="pref_title_sub_bcastmsg">Широковещательные Сообщения</string>
+    <string name="pref_summary_sub_bcastmsg">Подписаться на широковещательные текстовые сообщения</string>
+    <string name="pref_title_sub_voice">Голос</string>
+    <string name="pref_summary_sub_voice">Подписаться на голосовые трансляции</string>
+    <string name="pref_title_sub_video">Видеосъёмка</string>
+    <string name="pref_summary_sub_video">Подписаться на видеотрансляции</string>
+    <string name="pref_title_sub_desktop">Рабочие Столы</string>
+    <string name="pref_summary_sub_desktop">Подписаться на трансляции рабочего стола</string>
+    <string name="pref_title_sub_mediafile">Медиафайлы</string>
+    <string name="pref_summary_sub_mediafile">Подписаться на трансляции медиафайлов</string>
+    <string name="pref_header_tts">Синтез Речи</string>
+    <string name="pref_title_server_login">Вход пользователя на сервер</string>
+    <string name="pref_summary_server_login">Объявлять имя входящего пользователя</string>
+    <string name="pref_title_server_logout">Уход пользователя с сервера</string>
+    <string name="pref_summary_server_logout">Объявлять имя уходящего пользователя</string>
+    <string name="pref_title_channel_join">Подключение пользователя к каналу</string>
+    <string name="pref_summary_channel_join">Объявлять имя подключающегося пользователя</string>
+    <string name="pref_title_channel_leave">Отключение пользователя от канала</string>
+    <string name="pref_summary_channel_leave">Объявлять имя пользователя, покидающего канал</string>
+    <string name="text_tts_loggedin">вошел</string>
+    <string name="text_tts_loggedout">ушел</string>
+    <string name="text_tts_joined_chan">присоединился к каналу</string>
+    <string name="text_tts_left_chan">покинул канал</string>
+    <string name="pref_header_soundsystem">Звуковая Система</string>
+    <string name="title_activity_audio_codec">Аудио Кодек</string>
+    <string name="opus_application">Приложение</string>
+    
+    <string name="button_tx">ПРД</string>
+    <string name="button_remove">Удалить</string>
+    <string name="button_edit">Редактировать</string>
+    <string name="button_join">Войти</string>
+    <string name="button_msg">Сообщение</string>
+    <string name="button_send">Отослать</string>
+
+    <string name="channel_prop_title_name">Название</string>
+    <string name="channel_prop_title_topic">Тема</string>
+    <string name="channel_prop_title_password">Пароль</string>
+    <string name="channel_prop_title_op_password">Пароль Оператора</string>
+    <string name="channel_prop_title_maxusers">Максимальное Число Пользователей</string>
+    <string name="channel_prop_title_diskquota">Квота Дискового Пространства (КБайт)</string>
+    
+    <string name="channel_prop_title_permanent">Постоянный Канал</string>
+    <string name="channel_prop_title_nointerrupt">Не перебивать говорящего</string>
+    <string name="channel_prop_title_classroom">Классная Комната</string>
+    <string name="channel_prop_title_oprecvonly">Связь Только с Оператором</string>
+    <string name="channel_prop_title_novoiceact">Запрет Активации Голосом</string>
+    <string name="channel_prop_title_noaudiorecord">Запрет Аудиозаписи</string>
+
+    <string name="user_prop_title_username">Имя Пользователя</string>
+    <string name="user_prop_title_voice_volume">Громкость Голоса</string>
+    <string name="user_prop_title_mute_voice">Выключить Голос</string>
+    <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
+    <string name="user_prop_title_mute_media">Выключить Проигрывание Медиафайлов</string>
+
+    <string name="label_connection">Соединение:</string>
+    <string name="stat_online">Активно</string>
+    <string name="stat_offline">Отсутствует</string>
+    <string name="stat_connecting">Устанавливается</string>
+    <string name="label_voice">Голос:</string>
+    <string name="label_desktop">Рабстол:</string>
+    <string name="label_ping">Пинг:</string>
+    <string name="label_total">Итого:</string>
+    <string name="label_mediafile">Медиа:</string>
+
+    <string name="server_list_empty">Список Серверов TeamTalk 5 пуст</string>
+    <string name="no_nickname">Нет Клички</string>
+    <string name="message_text">Текст Сообщения</string>
+    <string name="time_date">Время и Дата</string>
+    <string name="name">Имя</string>
+
+    <string name="err_init_sound_input">Не удалось инициализировать устройство звукового ввода</string>
+    <string name="err_init_sound_output">Не удалось инициализировать устройство звукового вывода</string>
+    <string name="err_retrieve_public_server_list">Не удалось получить список публичных серверов</string>
+    <string name="err_send_text_message">Не удалось отослать текстовое сообщение</string>
+    <string name="err_connection">Не удалось установить соединение</string>
+
+    <string name="action_new_channel">Новый Канал</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_connect">Войти</string>
+    <string name="action_new_server">Новый Сервер</string>
+    <string name="action_refresh">Обновить Список</string>
+
+    <string name="pref_title_server_props">Свойства Сервера TeamTalk 5</string>
+    <string name="pref_title_server_info">Информация о Сервере</string>
+    <string name="pref_title_server_name">Имя Сервера</string>
+    <string name="pref_title_server_address">Доменное Имя или IP-адрес</string>
+    <string name="pref_title_tcp_port">TCP Порт</string>
+    <string name="pref_title_udp_port">UDP Порт</string>
+    <string name="pref_title_encription">Шифрование</string>
+    <string name="pref_title_authentication">Идентификация</string>
+    <string name="pref_title_username">Имя Пользователя</string>
+    <string name="pref_title_password">Пароль</string>
+    <string name="pref_title_join_channel">Подключить Канал</string>
+    <string name="pref_title_channel">Канал</string>
+    <string name="pref_title_channel_password">Пароль Канала</string>
+
+    <string name="pref_summary_server_name">С этим именем сервер будет фигурировать в списке</string>
+    <string name="pref_summary_server_address">Доменное имя сервера или его IP-адрес</string>
+
+    <string name="channel_password_prompt">Введите пароль канала</string>
+    <string name="button_download">Загрузить</string>
+    <string name="download_succeeded">Файл %1$s успешно загружен и сохранен в %2$s</string>
+    <string name="download_failed">Не удалось загрузить файл %1$s</string>
+    <string name="alert_file_override">Файл %1$s уже существует, перезаписать его?</string>
+    <string name="err_file_delete">Невозможно удалить файл %1$s</string>
+    <string name="err_download_path">Невозможно сохранить %1$s</string>
+    <string name="download_progress">%1$d%% загружено</string>
+
+    <string name="text_samplerate">Частота квантования</string>
+    <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
+    <string name="text_audchan">Аудио каналы</string>
+    <string name="text_bitrate">Битрейт</string>
+    <string name="text_maxbitrate">Максимальный битрейт</string>
+    <string name="text_txinterval">Интервал передачи</string>
+    <string name="text_quality">Качество</string>
+    <string name="desktop_image">Образ рабочего стола</string>
+
+</resources>
