@@ -123,7 +123,7 @@
     <string name="err_send_text_message">Failed to send text message</string>
     <string name="err_connection">Connection failed</string>
 
-    <string name="action_new">New</string>
+    <string name="action_new_channel">New Channel</string>
     <string name="action_save">Save</string>
     <string name="action_connect">Connect</string>
     <string name="action_new_server">New Server</string>
