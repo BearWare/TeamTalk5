@@ -10,8 +10,8 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     static final boolean DEBUG_OUTPUT = false;
     static final int DEF_WAIT = 15000;
-    static final String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
-    static final String IPADDR = "192.168.1.110";
+    static final String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
+    static final String IPADDR = "my.server.ip.address";
 
     static final int TCPPORT = 10333, UDPPORT = 10333;
     static final boolean ENCRYPTED = false;
