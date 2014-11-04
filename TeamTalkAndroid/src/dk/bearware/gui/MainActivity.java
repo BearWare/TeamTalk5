@@ -879,6 +879,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             Toast.makeText(this, R.string.err_init_sound_output,
                 Toast.LENGTH_LONG).show();
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
+
+        ServerProperties srvprop = new ServerProperties();
+        if (ttclient.getServerProperties(srvprop)) {
+            TextView serverMessage = (TextView) findViewById(R.id.server_message);
+            serverMessage.setText(srvprop.szMOTD);
+        }
     }
 
     @Override
