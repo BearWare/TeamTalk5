@@ -354,7 +354,18 @@ implements CommandListener, UserListener, ConnectionListener {
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        
+        if (curchannel == null) {
+            curchannel = new Channel();
+            int rootchanid = ttclient.getRootChannelID();
+            int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
+            if (ttclient.getChannel(chanid, curchannel)) {
+                curchannel.szPassword = ttserver.chanpasswd;
+            }
+            else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, curchannel)) {
+                curchannel = null;
+            }
+        }
+
         if(curchannel != null) {
             int cmdid = ttclient.doJoinChannel(curchannel);
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
