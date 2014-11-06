@@ -15,7 +15,7 @@
     <string name="title_activity_preferences">Настройки</string>
     <string name="action_createchannel">Создать</string>
     <string name="action_updatechannel">Обновить</string>
-    <string name="text_con_failed">Не удалось соединиться с сервером. Попробуем еще...</string>
+    <string name="text_con_failed">Не удалось подключиться к серверу. Попробуем еще...</string>
     <string name="text_con_lost">Потеряна связь с сервером</string>
     <string name="text_con_success">Установлено соединение с сервером</string>
     <string name="text_con_cmderr">Не удалось выдать команду</string>
@@ -82,7 +82,7 @@
     
     <string name="channel_prop_title_permanent">Постоянный Канал</string>
     <string name="channel_prop_title_nointerrupt">Не перебивать говорящего</string>
-    <string name="channel_prop_title_classroom">Классная Комната</string>
+    <string name="channel_prop_title_classroom">Учебный Класс</string>
     <string name="channel_prop_title_oprecvonly">Связь Только с Оператором</string>
     <string name="channel_prop_title_novoiceact">Запрет Активации Голосом</string>
     <string name="channel_prop_title_noaudiorecord">Запрет Аудиозаписи</string>
@@ -117,7 +117,7 @@
 
     <string name="action_new_channel">Новый Канал</string>
     <string name="action_save">Сохранить</string>
-    <string name="action_connect">Войти</string>
+    <string name="action_connect">Подключиться</string>
     <string name="action_new_server">Новый Сервер</string>
     <string name="action_refresh">Обновить Список</string>
 
