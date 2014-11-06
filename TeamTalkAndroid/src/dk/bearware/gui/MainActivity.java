@@ -410,6 +410,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
     }
 
+    private void setCurrentChannel(Channel channel) {
+        curchannel = channel;
+        getActionBar().setSubtitle((channel != null) ? channel.szName : null);
+    }
+
     public static class ChannelsSectionFragment extends Fragment {
         MainActivity mainActivity;
 
@@ -821,18 +826,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
         else if(item instanceof Channel) {
             Channel channel = (Channel) item;
-            if(channel.nChannelID > 0) {
-                curchannel = channel;
-                channelsAdapter.notifyDataSetChanged();
-//                if (position > 0)
-//                    joinChannel(channel);
-//                else
-//                    joinChannel(channel, channel.szPassword);
-            }
-            else {
-                curchannel = null;
-                channelsAdapter.notifyDataSetChanged();
-            }
+            setCurrentChannel((channel.nChannelID > 0) ? channel : null);
+            channelsAdapter.notifyDataSetChanged();
         }
         else {
         }
@@ -846,7 +841,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         int mychannel = ttclient.getMyChannelID();
         if(curchannel == null && mychannel > 0) {
-            curchannel = ttservice.getChannels().get(mychannel);
+            setCurrentChannel(ttservice.getChannels().get(mychannel));
         }
 
         channelsAdapter.notifyDataSetChanged();
@@ -882,8 +877,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         ServerProperties srvprop = new ServerProperties();
         if (ttclient.getServerProperties(srvprop)) {
-            TextView serverMessage = (TextView) findViewById(R.id.server_message);
-            serverMessage.setText(srvprop.szMOTD);
+            getActionBar().setTitle(srvprop.szServerName);
+            ((TextView)findViewById(R.id.server_message)).setText(srvprop.szMOTD);
         }
     }
 
@@ -972,7 +967,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             }
             ttservice.getChatLogTextMsgs().add(msg);
             
-            curchannel = ttservice.getChannels().get(user.nChannelID);
+            setCurrentChannel(ttservice.getChannels().get(user.nChannelID));
             filesAdapter.update(curchannel);
         }
         else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
@@ -1016,7 +1011,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             ttservice.getChatLogTextMsgs().add(msg);
             textmsgAdapter.notifyDataSetChanged();
             
-            curchannel = null;
+            setCurrentChannel(null);
         }
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
