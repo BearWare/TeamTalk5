@@ -105,13 +105,12 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     @Override
     protected void onStop() {
         super.onStop();
+
+        if (isFinishing() && ttservice != null)
+            ttservice.resetState();
+
         // Unbind from the service
-         unbindService(mConnection);
-         
-         if(ttservice != null) {
-             ttservice.unregisterConnectionListener(this);
-             ttservice.unregisterCommandListener(this);
-         }
+        unbindService(mConnection);
     }
 
     ServerEntry serverentry;
@@ -376,6 +375,9 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        service.unregisterConnectionListener(this);
+        service.unregisterCommandListener(this);
+        ttservice = null;
     }
 
     @Override
