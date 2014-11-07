@@ -603,7 +603,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         @Override
         public int getCount() {
             int count = subchannels.size() + currentusers.size();
-            if(curchannel != null) {
+            if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 count++; // include parent channel shortcut
             }
             return count;
@@ -611,7 +611,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         @Override
         public Object getItem(int position) {
-            if(curchannel != null) {
+            if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 if(position == 0) {
                     Channel parent = ttservice.getChannels().get(curchannel.nParentID);
 
@@ -638,7 +638,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         @Override
         public int getItemViewType(int position) {
-            if (curchannel != null) {
+            if ((curchannel != null) && (curchannel.nParentID > 0)) {
                 if (position == 0) {
                     return PARENT_CHANNEL_VIEW_TYPE;
                 }
@@ -667,7 +667,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
                 final Channel channel = (Channel) item;
 
-                if(curchannel != null && position == 0) {
+                if ((curchannel != null) && (curchannel.nParentID > 0) && (position == 0)) {
                     assert (curchannel.nParentID == ((Channel) getItem(position)).nChannelID);
                     // show parent channel shortcut
                     if (convertView == null ||
