@@ -172,9 +172,11 @@ public class AudioCodecActivity extends Activity implements
                 finish();
                 break;
             }
+            default :
+                return super.onOptionsItemSelected(item);
         }
         
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
