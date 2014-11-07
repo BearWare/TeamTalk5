@@ -37,7 +37,6 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
-import dk.bearware.events.ConnectionListener;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -54,7 +53,7 @@ import android.widget.Toast;
 
 public class ChannelPropActivity
 extends Activity
-implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
+implements TeamTalkConnectionListener, CommandListener {
 
     public static final String TAG = "bearware";
     
@@ -230,7 +229,6 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        ttservice.registerConnectionListener(ChannelPropActivity.this);
         ttservice.registerCommandListener(ChannelPropActivity.this);
 
         int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
@@ -270,25 +268,8 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        ttservice.unregisterConnectionListener(ChannelPropActivity.this);
         ttservice.unregisterCommandListener(ChannelPropActivity.this);
         ttservice = null;
-    }
-
-    @Override
-    public void onConnectSuccess() {
-    }
-
-    @Override
-    public void onConnectFailed() {
-    }
-
-    @Override
-    public void onConnectionLost() {
-    }
-
-    @Override
-    public void onMaxPayloadUpdate(int payload_size) {
     }
 
     int updateCmdId = 0;

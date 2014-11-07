@@ -39,7 +39,6 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
-import dk.bearware.events.ConnectionListener;
 import dk.bearware.data.ServerEntry;
 
 import android.os.AsyncTask;
@@ -67,7 +66,7 @@ import android.widget.Toast;
 
 public class ServerListActivity
 extends ListActivity
-implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
+implements TeamTalkConnectionListener, CommandListener {
 
     private ServerListAdapter adapter;
 
@@ -375,7 +374,6 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
         ttservice = service;
         ttclient = service.getTTInstance();
 
-        ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
 
         // reset state since we're creating a new connection
@@ -388,25 +386,8 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterConnectionListener(this);
         service.unregisterCommandListener(this);
         ttservice = null;
-    }
-
-    @Override
-    public void onConnectSuccess() {
-    }
-
-    @Override
-    public void onConnectFailed() {
-    }
-
-    @Override
-    public void onConnectionLost() {
-    }
-
-    @Override
-    public void onMaxPayloadUpdate(int payload_size) {
     }
 
     @Override
