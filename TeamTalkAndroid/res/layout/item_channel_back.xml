@@ -21,6 +21,13 @@
         android:id="@+id/parentname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=".."
+        android:singleLine="true" />
+    
+    <TextView
+        android:id="@+id/population"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:singleLine="true" />
 
     </LinearLayout>

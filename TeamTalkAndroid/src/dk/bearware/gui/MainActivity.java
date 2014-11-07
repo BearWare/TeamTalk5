@@ -673,9 +673,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     if (convertView == null ||
                         convertView.findViewById(R.id.parentname) == null)
                         convertView = inflater.inflate(R.layout.item_channel_back, null);
-                    TextView name = (TextView) convertView.findViewById(R.id.parentname);
-                    name.setText("..");
-                    return convertView;
                 }
                 else {
                     assert (channel.nChannelID > 0);
@@ -718,6 +715,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                     edit.setAccessibilityDelegate(accessibilityAssistant);
                     join.setAccessibilityDelegate(accessibilityAssistant);
                 }
+                int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
+                ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
             }
             else if(item instanceof User) {
                 if (convertView == null ||
