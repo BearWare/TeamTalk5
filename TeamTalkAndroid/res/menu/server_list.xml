@@ -6,6 +6,11 @@
         android:showAsAction="never"
         android:title="@string/action_settings"/>
     <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_exit"/>
+    <item
         android:id="@+id/action_newserverentry"
         android:showAsAction="always|withText"
         android:title="@string/action_new_server">

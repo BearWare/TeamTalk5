@@ -177,8 +177,13 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                 startActivity(intent);
                 break;
             }
+            case R.id.action_exit :
+                finish();
+            break;
+            default :
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
