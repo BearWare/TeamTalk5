@@ -63,18 +63,26 @@
     <PreferenceCategory
         android:key="join_info"
         android:title="@string/pref_title_join_channel" android:persistent="false">
+        <CheckBoxPreference
+            android:key="remember_last_channel" 
+            android:title="@string/pref_title_last_channel"
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:persistent="false" />
         <EditTextPreference
             android:defaultValue="/"
             android:key="channel"
             android:title="@string/pref_title_channel"
             android:selectAllOnFocus="true"
             android:singleLine="true"
+            android:dependency="remember_last_channel" 
             android:persistent="false" />
         <EditTextPreference
             android:key="chanpasswd"
             android:title="@string/pref_title_channel_password"
             android:selectAllOnFocus="true"
             android:singleLine="true"
+            android:dependency="remember_last_channel" 
             android:persistent="false" />
     </PreferenceCategory>
 

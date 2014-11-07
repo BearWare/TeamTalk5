@@ -96,6 +96,11 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     protected void onStart() {
         super.onStart();
         
+        if ((serverentry != null) && serverentry.rememberLastChannel) {
+            saveServers();
+            serverentry = null;
+        }
+
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -267,6 +272,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
             edit.remove(i + ServerEntry.KEY_UDPPORT);
             edit.remove(i + ServerEntry.KEY_USERNAME);
             edit.remove(i + ServerEntry.KEY_PASSWORD);
+            edit.remove(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL);
             edit.remove(i + ServerEntry.KEY_CHANNEL);
             edit.remove(i + ServerEntry.KEY_CHANPASSWD);
             i++;
@@ -284,6 +290,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
             edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
             edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);
 
+            edit.putBoolean(j + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, servers.get(i).rememberLastChannel);
             edit.putString(j + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
             edit.putString(j + ServerEntry.KEY_CHANPASSWD, servers.get(i).chanpasswd);
             j++;
@@ -305,6 +312,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
             entry.encrypted = pref.getBoolean(i + ServerEntry.KEY_ENCRYPTED, false);
             entry.username = pref.getString(i + ServerEntry.KEY_USERNAME, "");
             entry.password = pref.getString(i + ServerEntry.KEY_PASSWORD, "");
+            entry.rememberLastChannel = pref.getBoolean(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
             entry.channel = pref.getString(i + ServerEntry.KEY_CHANNEL, "");
             entry.chanpasswd = pref.getString(i + ServerEntry.KEY_CHANPASSWD, "");
             servers.add(entry);

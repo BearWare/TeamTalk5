@@ -132,6 +132,7 @@
     <string name="pref_title_username">Имя Пользователя</string>
     <string name="pref_title_password">Пароль</string>
     <string name="pref_title_join_channel">Подключить Канал</string>
+    <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
     <string name="pref_title_channel_password">Пароль Канала</string>
 

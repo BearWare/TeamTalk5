@@ -191,6 +191,7 @@ public class Utils {
                 Element eElement = (Element) nNode;
                 ServerEntry entry = new ServerEntry();
                 entry.public_server = true;
+                entry.rememberLastChannel = false;
                 NodeList nHost = eElement.getElementsByTagName("name");
                 if(nHost.getLength()>0)
                     entry.servername = nHost.item(0).getTextContent();

@@ -426,6 +426,10 @@ implements CommandListener, UserListener, ConnectionListener {
     @Override
     public void onCmdUserJoinedChannel(User user) {
         users.put(user.nUserID, user);        
+        if (ttserver.rememberLastChannel && (user.nUserID == ttclient.getMyUserID()) && (curchannel != null)) {
+            ttserver.channel = ttclient.getChannelPath(curchannel.nChannelID);
+            ttserver.chanpasswd = curchannel.szPassword;
+        }
     }
 
     @Override

@@ -32,6 +32,7 @@ public class ServerEntry {
                                KEY_PASSWORD = "password",
                                KEY_CHANNEL = "channel",
                                KEY_CHANPASSWD = "chanpasswd",
+                               KEY_REMEMBER_LAST_CHANNEL = "remember_last_channel",
                                KEY_ENCRYPTED = "encrypted";
     
     public String servername = "";
@@ -39,6 +40,7 @@ public class ServerEntry {
     public int tcpport = 0, udpport = 0;
     public String username = "", password = "";
     public String channel = "", chanpasswd = "";
+    public boolean rememberLastChannel = true;
     public boolean encrypted = false;
     public boolean public_server = false;
 //    

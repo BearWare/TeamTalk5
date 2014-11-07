@@ -142,6 +142,7 @@
     <string name="pref_title_join_channel">Join Channel</string>
     <string name="pref_title_channel">Channel</string>
     <string name="pref_title_channel_password">Channel Password</string>
+    <string name="pref_title_last_channel">Last Joined Channel</string>
 
     <string name="pref_summary_server_name">This server will appear with this name in the Server List</string>
     <string name="pref_summary_server_address">The domain name or IP-address of the server</string>

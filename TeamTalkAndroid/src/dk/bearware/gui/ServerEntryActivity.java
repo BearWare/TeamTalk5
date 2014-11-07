@@ -54,6 +54,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
+        findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANPASSWD).setOnPreferenceChangeListener(this);
     }
@@ -113,6 +114,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         server.encrypted = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).isChecked();
         server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME));
         server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD));
+        server.rememberLastChannel = ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).isChecked();
         server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL));
         server.chanpasswd = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD));
         return server;
@@ -127,6 +129,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).setChecked(entry.encrypted);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password);
+        ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).setChecked(entry.rememberLastChannel);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), entry.channel, entry.channel);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), entry.chanpasswd, entry.chanpasswd);
     }
