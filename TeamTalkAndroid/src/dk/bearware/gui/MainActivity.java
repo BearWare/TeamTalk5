@@ -221,8 +221,28 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean isEditable = curchannel != null;
+        boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID);
+        menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
+        menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            case R.id.action_join : {
+                if (curchannel != null)
+                    joinChannel(curchannel);
+            }
+            break;
+            case R.id.action_edit : {
+                if (curchannel != null)
+                    editChannelProperties(curchannel);
+            }
+            break;
+
             case R.id.action_newchannel : {
                 Intent intent = new Intent(MainActivity.this, ChannelPropActivity.class);
                 
@@ -376,6 +396,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
     }
 
+    private void editChannelProperties(Channel channel) {
+        Intent intent = new Intent(this, ChannelPropActivity.class);
+        startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
+    }
+
     private void joinChannel(Channel channel, String passwd) {
         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
         if(cmdid>0) {
@@ -413,6 +438,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     private void setCurrentChannel(Channel channel) {
         curchannel = channel;
         getActionBar().setSubtitle((channel != null) ? channel.szName : null);
+        invalidateOptionsMenu();
     }
 
     public static class ChannelsSectionFragment extends Fragment {
@@ -677,10 +703,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         public void onClick(View v) {
                             switch(v.getId()) {
                                 case R.id.edit_btn : {
-                                    Intent intent = new Intent(MainActivity.this, ChannelPropActivity.class);
-                                    startActivityForResult(
-                                        intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID),
-                                        REQUEST_EDITCHANNEL);
+                                    editChannelProperties(channel);
                                     break;
                                 }
                                 case R.id.join_btn : {

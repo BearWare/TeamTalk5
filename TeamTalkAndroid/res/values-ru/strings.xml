@@ -69,7 +69,8 @@
     <string name="button_tx">ПРД</string>
     <string name="button_remove">Удалить</string>
     <string name="button_edit">Редактировать</string>
-    <string name="button_join">Войти</string>
+    <string name="action_edit">Редактировать Свойства</string>
+    <string name="action_join">Войти</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
 

@@ -7,8 +7,16 @@
         android:title="@string/action_settings"/>
 
     <item
+        android:id="@+id/action_join"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_join"/>
+    <item
+        android:id="@+id/action_edit"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_edit"/>
+    <item
         android:id="@+id/action_newchannel"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/action_new_channel">
-    </item>
+        android:title="@string/action_new_channel"/>
+
 </menu>

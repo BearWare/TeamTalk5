@@ -76,7 +76,8 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
-    <string name="button_join">Join</string>
+    <string name="action_edit">Edit Properties</string>
+    <string name="action_join">Join</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>
 

@@ -45,7 +45,7 @@
         android:id="@+id/join_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_join"
+        android:text="@string/action_join"
         android:focusable="false" 
         android:clickable="true" />
     
