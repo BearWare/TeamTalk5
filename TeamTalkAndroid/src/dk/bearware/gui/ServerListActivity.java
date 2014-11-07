@@ -110,8 +110,11 @@ implements TeamTalkConnectionListener, CommandListener {
     protected void onStop() {
         super.onStop();
 
-        if (isFinishing() && ttservice != null)
-            ttservice.resetState();
+        if (ttservice != null) {
+            if (isFinishing() && ttservice != null)
+                ttservice.resetState();
+            ttservice.unregisterCommandListener(this);
+        }
 
         // Unbind from the service
         unbindService(mConnection);
@@ -127,6 +130,8 @@ implements TeamTalkConnectionListener, CommandListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case REQUEST_NEWSERVER : {
+                if (ttservice != null)
+                    ttservice.registerCommandListener(this);
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -138,6 +143,8 @@ implements TeamTalkConnectionListener, CommandListener {
                 break;
             }
             case REQUEST_EDITSERVER : {
+                if (ttservice != null)
+                    ttservice.registerCommandListener(this);
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -166,6 +173,8 @@ implements TeamTalkConnectionListener, CommandListener {
         switch(item.getItemId()) {
             case R.id.action_newserverentry :
                 Intent edit = new Intent(this, ServerEntryActivity.class);
+                if (ttservice != null)
+                    ttservice.unregisterCommandListener(this);
                 startActivityForResult(edit, REQUEST_NEWSERVER);
             break;
             case R.id.action_refreshserverlist :
@@ -191,6 +200,8 @@ implements TeamTalkConnectionListener, CommandListener {
 
         ServerEntry entry = servers.elementAt(position);
 
+        if (ttservice != null)
+            ttservice.unregisterCommandListener(this);
         startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position),
             REQUEST_EDITSERVER);
     }
@@ -386,7 +397,6 @@ implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterCommandListener(this);
         ttservice = null;
     }
 

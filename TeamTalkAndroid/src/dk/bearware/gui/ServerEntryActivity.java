@@ -21,9 +21,24 @@
 
 package dk.bearware.gui;
 
-import dk.bearware.gui.R;
-
+import dk.bearware.BannedUser;
+import dk.bearware.Channel;
+import dk.bearware.ClientErrorMsg;
+import dk.bearware.RemoteFile;
+import dk.bearware.ServerProperties;
+import dk.bearware.Subscription;
+import dk.bearware.TeamTalkBase;
+import dk.bearware.TextMessage;
+import dk.bearware.User;
+import dk.bearware.UserAccount;
+import dk.bearware.UserState;
+import dk.bearware.backend.TeamTalkConnection;
+import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.ServerEntry;
+import dk.bearware.events.CommandListener;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -31,10 +46,16 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class ServerEntryActivity extends PreferenceActivity implements OnPreferenceChangeListener {
+public class ServerEntryActivity
+extends PreferenceActivity
+implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListener {
+
+    public static final String TAG = "bearware";
 
     @SuppressWarnings("deprecation")
     @Override
@@ -70,9 +91,38 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         super.onPause();
     }
     
+    TeamTalkConnection mConnection = new TeamTalkConnection(this);
+    TeamTalkService ttservice;
+    TeamTalkBase ttclient;
+    ServerEntry serverentry;
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        
+        if ((serverentry != null) && serverentry.rememberLastChannel) {
+            showServer(serverentry);
+            serverentry = null;
+        }
+
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
+
+        if (ttservice != null) {
+            if (isFinishing() && ttservice != null)
+                ttservice.resetState();
+            ttservice.unregisterCommandListener(this);
+        }
+
+        // Unbind from the service
+        unbindService(mConnection);
     }
     
     @Override
@@ -87,10 +137,10 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_connect : {
-                Intent intent = new Intent(this, MainActivity.class);
-
-                ServerEntry server = getServerEntry();
-                startActivity(Utils.putServerEntry(intent, server));
+                serverentry = getServerEntry();
+                ttservice.setServerEntry(serverentry);
+                if (!ttservice.reconnect())
+                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
             }
             break;
             case R.id.action_saveserver : {
@@ -151,4 +201,109 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
         }
         return true;
     }
+    
+    @Override
+    public void onServiceConnected(TeamTalkService service) {
+        ttservice = service;
+        ttclient = service.getTTInstance();
+
+        ttservice.registerCommandListener(this);
+
+        // reset state since we're creating a new connection
+        ttservice.resetState();
+        ttclient.closeSoundInputDevice();
+        ttclient.closeSoundOutputDevice();
+    }
+
+    @Override
+    public void onServiceDisconnected(TeamTalkService service) {
+        ttservice = null;
+    }
+
+    @Override
+    public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
+    }
+
+    @Override
+    public void onCmdSuccess(int cmdId) {
+    }
+
+    @Override
+    public void onCmdProcessing(int cmdId, boolean complete) {
+    }
+
+    @Override
+    public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCmdMyselfLoggedOut() {
+    }
+
+    @Override
+    public void onCmdMyselfKickedFromChannel() {
+    }
+
+    @Override
+    public void onCmdMyselfKickedFromChannel(User kicker) {
+    }
+
+    @Override
+    public void onCmdUserLoggedIn(User user) {
+    }
+
+    @Override
+    public void onCmdUserLoggedOut(User user) {
+    }
+
+    @Override
+    public void onCmdUserUpdate(User user) {
+    }
+
+    @Override
+    public void onCmdUserJoinedChannel(User user) {
+    }
+
+    @Override
+    public void onCmdUserLeftChannel(int channelid, User user) {
+    }
+
+    @Override
+    public void onCmdUserTextMessage(TextMessage textmessage) {
+    }
+
+    @Override
+    public void onCmdChannelNew(Channel channel) {
+    }
+
+    @Override
+    public void onCmdChannelUpdate(Channel channel) {
+    }
+
+    @Override
+    public void onCmdChannelRemove(Channel channel) {
+    }
+
+    @Override
+    public void onCmdServerUpdate(ServerProperties serverproperties) {
+    }
+
+    @Override
+    public void onCmdFileNew(RemoteFile remotefile) {
+    }
+
+    @Override
+    public void onCmdFileRemove(RemoteFile remotefile) {
+    }
+
+    @Override
+    public void onCmdUserAccount(UserAccount useraccount) {
+    }
+
+    @Override
+    public void onCmdBannedUser(BannedUser banneduser) {
+    }
+
 }
