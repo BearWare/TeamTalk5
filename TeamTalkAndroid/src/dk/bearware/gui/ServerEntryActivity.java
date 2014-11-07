@@ -41,6 +41,7 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_serverentry);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         ServerEntry entry = Utils.getServerEntry(this.getIntent());
         if(entry != null) {
@@ -100,8 +101,15 @@ public class ServerEntryActivity extends PreferenceActivity implements OnPrefere
                 finish();
             }
             break;
+            case android.R.id.home : {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            break;
+            default :
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
     
     @SuppressWarnings("deprecation")

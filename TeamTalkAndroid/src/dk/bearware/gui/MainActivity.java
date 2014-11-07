@@ -154,6 +154,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mConnection = new TeamTalkConnection(this);
         accessibilityAssistant = new AccessibilityAssistant(this);
@@ -259,8 +260,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 startActivity(intent);
                 break;
             }
+            case android.R.id.home : {
+                finish();
+                break;
+            }
+            default :
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     CountDownTimer stats_timer = null;

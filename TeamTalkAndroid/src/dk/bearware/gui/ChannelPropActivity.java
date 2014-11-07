@@ -77,6 +77,7 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_prop);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         
         mConnection = new TeamTalkConnection(this);
     }
@@ -120,8 +121,15 @@ implements TeamTalkConnectionListener, ConnectionListener, CommandListener {
                 }
             }
             break;
+            case android.R.id.home : {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            break;
+            default :
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

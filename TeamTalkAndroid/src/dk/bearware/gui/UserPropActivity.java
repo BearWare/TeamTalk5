@@ -35,6 +35,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -52,6 +53,7 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_prop);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mConnection = new TeamTalkConnection(this);
     }
@@ -61,6 +63,15 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_prop, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

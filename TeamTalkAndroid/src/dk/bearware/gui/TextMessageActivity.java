@@ -46,6 +46,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_text_message);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -62,6 +63,10 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_settings) {
+            return true;
+        }
+        else if (id == android.R.id.home) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
