@@ -21,6 +21,7 @@
 
 #include "userinfodlg.h"
 #include "appinfo.h"
+#include "common.h"
 
 extern TTInstance* ttInst;
 

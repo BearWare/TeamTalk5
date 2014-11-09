@@ -6,55 +6,72 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
-    <height>366</height>
+    <width>481</width>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Generate .tt File</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="accessibleName">
-      <string>Authentication (optional)</string>
-     </property>
-     <property name="title">
-      <string>Authentication (optional)</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Username</string>
-        </property>
-        <property name="buddy">
-         <cstring>usernameEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="usernameEdit"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Password</string>
-        </property>
-        <property name="buddy">
-         <cstring>passwordEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="passwordEdit">
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="accessibleName">
+        <string>Authentication (optional)</string>
+       </property>
+       <property name="title">
+        <string>Authentication (optional)</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Username</string>
+          </property>
+          <property name="buddy">
+           <cstring>usernameEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="usernameEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Password</string>
+          </property>
+          <property name="buddy">
+           <cstring>passwordEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="passwordEdit">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
@@ -70,85 +87,284 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Nickname</string>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>User Settings</string>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Nickname</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="nicknameEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Gender</string>
+               </property>
+               <property name="buddy">
+                <cstring>maleRadioButton</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_12">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="maleRadioButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="text">
+                <string>Male</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="femaleRadioButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Female</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_13">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="nicknameEdit">
-          <property name="enabled">
-           <bool>false</bool>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="title">
+           <string>Voice Transmission Mode</string>
           </property>
+          <layout class="QFormLayout" name="formLayout_3">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+           </property>
+           <property name="labelAlignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="pttChkBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Push To Talk</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="setupkeysButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>&amp;Setup Keys</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Key Combination</string>
+             </property>
+             <property name="buddy">
+              <cstring>keycompEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="keycompEdit">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="voiceactChkBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Voice activated</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Gender</string>
-          </property>
-          <property name="buddy">
-           <cstring>maleRadioButton</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_12">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="maleRadioButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+         <widget class="QGroupBox" name="vidgroupBox">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+          <property name="accessibleName">
+           <string>Video Codec Settings</string>
           </property>
-          <property name="text">
-           <string>Male</string>
+          <property name="title">
+           <string>Video Capture Settings</string>
           </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
+          <layout class="QFormLayout" name="formLayout_4">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Video Resolution</string>
+             </property>
+             <property name="buddy">
+              <cstring>captureformatsBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="captureformatsBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_33">
+             <property name="text">
+              <string>Codec</string>
+             </property>
+             <property name="buddy">
+              <cstring>vidcodecBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="vidcodecBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_35">
+             <property name="text">
+              <string>Bitrate</string>
+             </property>
+             <property name="buddy">
+              <cstring>vidbitrateSpinBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QSpinBox" name="vidbitrateSpinBox">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_36">
+               <property name="text">
+                <string notr="true">kbps (0 = VBR)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="femaleRadioButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Female</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_13">
+         <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -161,61 +377,6 @@
          </spacer>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Voice Transmission Mode</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_3">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-         </property>
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="pttChkBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Push To Talk</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="setupkeysButton">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>&amp;Setup Keys</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Key Combination</string>
-           </property>
-           <property name="buddy">
-            <cstring>keycompEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="keycompEdit">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer">
@@ -276,6 +437,9 @@
   <tabstop>pttChkBox</tabstop>
   <tabstop>setupkeysButton</tabstop>
   <tabstop>keycompEdit</tabstop>
+  <tabstop>voiceactChkBox</tabstop>
+  <tabstop>vidcodecBox</tabstop>
+  <tabstop>vidbitrateSpinBox</tabstop>
   <tabstop>saveBtn</tabstop>
   <tabstop>closeBtn</tabstop>
  </tabstops>

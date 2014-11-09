@@ -22,8 +22,6 @@
 #ifndef USERVOLUMEDLG_H
 #define USERVOLUMEDLG_H
 
-#include "common.h"
-
 #include "ui_uservolume.h"
 
 class UserVolumeDlg : public QDialog
@@ -36,6 +34,7 @@ public:
 private slots:
     void slotVolumeChanged(int);
     void slotMuteChannel();
+    void slotDefaults();
 
 private:
     int m_userid;

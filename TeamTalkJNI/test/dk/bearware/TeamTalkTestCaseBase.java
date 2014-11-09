@@ -21,7 +21,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     static final String MUXEDMEDIAFILE = "muxwavefile.wav";
     static final String MEDIAFILE_AUDIO = "music.wav";
     static final String MEDIAFILE = "video.avi";
-
+    static final String MEDIAFILE_AUDIO = "/Users/bdr/Music.wav";
     Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
     
     protected void setUp() throws Exception {

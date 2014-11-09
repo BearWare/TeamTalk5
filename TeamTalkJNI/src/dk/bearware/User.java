@@ -40,8 +40,6 @@ public class User
     public String szMediaStorageDir;
     public int nVolumeVoice;
     public int nVolumeMediaFile;
-    public int nGainLevelVoice;
-    public int nGainLevelMediaFile;
     public int nStoppedDelayVoice;
     public int nStoppedDelayMediaFile;
     public boolean[] stereoPlaybackVoice;

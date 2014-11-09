@@ -153,7 +153,7 @@ namespace BearWare
          * @see TeamTalk.GetSoundInputLevel
          * @see TeamTalk.SetVoiceActivationLevel
          * @see TeamTalk.GetVoiceActivationLevel */
-        public const int SOUND_VU_MAX = 20;
+        public const int SOUND_VU_MAX = 100;
         /**
          * @brief The minimum value of recorded audio.
          * @see TeamTalk.GetSoundInputLevel
@@ -161,15 +161,23 @@ namespace BearWare
          * @see TeamTalk.GetVoiceActivationLevel */
         public const int SOUND_VU_MIN = 0;
         /**
-         * @brief The maximum volume for master volume. To gain the
-         * volume level using software call TeamTalk.SetUserGainLevel().
+         * @brief The maximum volume.
+         *
+         * @see BearWare.TeamTalk.SetSoundOutputVolume
+         * @see BearWare.TeamTalk.GetSoundOutputVolume
+         * @see BearWare.TeamTalk.SetUserVolume
+         * @see SOUND_VOLUME_DEFAULT */
+        public const int SOUND_VOLUME_MAX = 32000;
+        /**
+         * @brief The default volume. Use this whenever possible since
+         * it requires the least amount of CPU usage.
          *
          * @see BearWare.TeamTalk.SetSoundOutputVolume
          * @see BearWare.TeamTalk.GetSoundOutputVolume
          * @see BearWare.TeamTalk.SetUserVolume */
-        public const int SOUND_VOLUME_MAX = 255;
+        public const int SOUND_VOLUME_DEFAULT = 1000;
         /**
-         * @brief The minimum volume for master volume.
+         * @brief The minimum volume.
          * @see BearWare.TeamTalk.SetSoundOutputVolume
          * @see BearWare.TeamTalk.GetSoundOutputVolume
          * @see BearWare.TeamTalk.SetUserVolume */
@@ -181,8 +189,7 @@ namespace BearWare
          * level of #SOUND_GAIN_DEFAULT means no gain.
          *
          * @see BearWare.TeamTalk.SetSoundInputGainLevel
-         * @see BearWare.TeamTalk.GetSoundInputGainLevel
-         * @see BearWare.TeamTalk.SetUserGainLevel */
+         * @see BearWare.TeamTalk.GetSoundInputGainLevel */
         public const int SOUND_GAIN_MAX = 32000;
         /**
          * @brief The default gain level.
@@ -192,8 +199,7 @@ namespace BearWare
          * level.
          *
          * @see BearWare.TeamTalk.SetSoundInputGainLevel
-         * @see BearWare.TeamTalk.GetSoundInputGainLevel
-         * @see BearWare.TeamTalk.SetUserGainLevel */
+         * @see BearWare.TeamTalk.GetSoundInputGainLevel */
         public const int SOUND_GAIN_DEFAULT = 1000;
         /**
          * @brief The minimum gain level (since it's zero it means
@@ -202,8 +208,7 @@ namespace BearWare
          * A gain level of 100 is 1/10 of the default volume.
          *
          * @see BearWare.TeamTalk.SetSoundInputGainLevel
-         * @see BearWare.TeamTalk.GetSoundInputGainLevel
-         * @see BearWare.TeamTalk.SetUserGainLevel */
+         * @see BearWare.TeamTalk.GetSoundInputGainLevel */
         public const int SOUND_GAIN_MIN = 0;
     }
 
@@ -1603,16 +1608,6 @@ namespace BearWare
          * #BearWare.SoundLevel.SOUND_VOLUME_MIN and #BearWare.SoundLevel.SOUND_VOLUME_MAX
          * @see TeamTalk.SetUserVolume */
         public int nVolumeMediaFile;
-        /** @brief Get the software gain level for a user's voice.
-         * The value will between #BearWare.SoundLevel.SOUND_GAIN_MIN
-         * and #BearWare.SoundLevel.SOUND_GAIN_MAX.
-         * @see TeamTalk.SetUserGainLevel */
-        public int nGainLevelVoice;
-        /** @brief Get the software gain level for a user's media
-         * file.  The value will between #BearWare.SoundLevel.SOUND_GAIN_MIN
-         * and #BearWare.SoundLevel.SOUND_GAIN_MAX.
-         * @see TeamTalk.SetUserGainLevel */
-        public int nGainLevelMediaFile;
         /** @brief The delay of when a user should no longer be 
          * considered as talking.
          * @see TeamTalk.SetUserStoppedTalkingDelay */
@@ -2917,7 +2912,7 @@ namespace BearWare
         public TTType ttType;
         /** @brief Reserved. To preserve alignment. */
         public uint uReserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5232)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5224)]
         public byte[] data;
         //UnionData data;
         
@@ -3843,7 +3838,7 @@ namespace BearWare
         /**
          * @brief Set master volume. 
          *
-         * If still not loud enough use SetUserGainLevel().
+         * If still not loud enough use SetUserVolume().
          *
          * @param nVolume A value from #BearWare.SoundLevel.SOUND_VOLUME_MIN to  #BearWare.SoundLevel.SOUND_VOLUME_MAX.
          * @see TeamTalk.SetUserVolume */
@@ -5932,20 +5927,6 @@ namespace BearWare
         public bool SetUserVolume(int nUserID, StreamType nStreamType, int nVolume)
         {
             return TTDLL.TT_SetUserVolume(m_ttInst, nUserID, nStreamType, nVolume);
-        }
-        /**
-         * @brief Use software to gain a user's volume.
-         *
-         * @param nUserID The ID of the user who should have sound gained.
-         * @param nStreamType The type of stream to change, either 
-         * ::STREAMTYPE_VOICE or ::STREAMTYPE_MEDIAFILE_AUDIO.
-         * @param nGainLevel The gain level for the user. A value from
-         * #BearWare.SoundLevel.SOUND_GAIN_MIN to #BearWare.SoundLevel.SOUND_GAIN_MAX
-         * @see GetUserGainLevel
-         * @see SoundLevel.SOUND_GAIN_DEFAULT */
-        public bool SetUserGainLevel(int nUserID, StreamType nStreamType, int nGainLevel)
-        {
-            return TTDLL.TT_SetUserGainLevel(m_ttInst, nUserID, nStreamType, nGainLevel);
         }
         /**
          * @brief Mute a user.

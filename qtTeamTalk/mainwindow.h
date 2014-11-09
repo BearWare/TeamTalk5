@@ -221,7 +221,6 @@ private:
     void killLocalTimer(TimerEvent e);
     bool timerExists(TimerEvent e);
     void updateChannelFiles(int channelid);
-    void updateUserGainLevel(int userid = -1 /* means all */);
     void updateUserSubscription(int userid);
     /* 'mode' is mask of 'AudioStorageMode' */
     void updateAudioStorage(bool enable, AudioStorageMode mode);

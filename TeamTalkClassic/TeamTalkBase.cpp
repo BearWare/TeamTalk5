@@ -213,3 +213,9 @@ void GetCustomCommand(const CString& szMessage, CStringList& result)
     while(i >= 0 && i < szMessage.GetLength())
         result.AddTail(szMessage.Tokenize(_T("\r\n"), i));
 }
+
+BOOL IsValid(const VideoFormat& capfmt)
+{
+    return capfmt.nWidth>0 && capfmt.nHeight>0 && capfmt.nFPS_Numerator>0 &&
+        capfmt.nFPS_Denominator > 0 && capfmt.picFourCC != FOURCC_NONE;
+}

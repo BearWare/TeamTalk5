@@ -78,42 +78,66 @@ void initDefaultAudioCodec(AudioCodec& audiocodec)
     }
 }
 
-bool InitVideoFromSettings()
+bool getVideoCaptureCodec(VideoCodec& vidcodec)
+{
+    Codec codec = (Codec)ttSettings->value(SETTINGS_VIDCAP_CODEC,
+                                           SETTINGS_VIDCAP_CODEC_DEFAULT).toInt();
+    vidcodec.nCodec = codec;
+    
+    switch(vidcodec.nCodec)
+    {
+    case WEBM_VP8_CODEC :
+        vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
+                                                               SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT).toInt();
+        break;
+    case NO_CODEC :
+        break;
+    }
+    return codec != NO_CODEC;
+}
+
+bool initVideoCaptureFromSettings()
 {
     QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();
 
-    QStringList fps = ttSettings->value(SETTINGS_VIDCAP_FPS).toString().split("/");
-    QStringList res = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION).toString().split("x");
-    FourCC fourcc = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, 0).toInt();
+    QStringList fps = ttSettings->value(SETTINGS_VIDCAP_FPS, SETTINGS_VIDCAP_FPS_DEFAULT).toString().split("/");
+    QStringList res = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION, SETTINGS_VIDCAP_RESOLUTION_DEFAULT).toString().split("x");
+    FourCC fourcc = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, SETTINGS_VIDCAP_FOURCC_DEFAULT).toInt();
 
-    if(devid.size() && fps.size() == 2 && res.size() == 2)
+    if(fps.size() == 2 && res.size() == 2)
     {
         VideoFormat format;
+
         format.nFPS_Numerator = fps[0].toInt();
         format.nFPS_Denominator = fps[1].toInt();
         format.nWidth = res[0].toInt();
         format.nHeight = res[1].toInt();
         format.picFourCC = fourcc;
-        return TT_InitVideoCaptureDevice(ttInst, _W(devid), &format);
+
+        return initVideoCapture(devid, format);
     }
     return false;
 }
 
-bool getVideoCaptureCodec(VideoCodec& vidcodec)
+bool initVideoCapture(const QString& devid, const VideoFormat& fmt)
 {
-    Codec codec = (Codec)ttSettings->value(SETTINGS_VIDCAP_CODEC, NO_CODEC).toInt();
-    vidcodec.nCodec = codec;
-    
-    switch(codec)
+    QString use_devid = devid;
+    if(use_devid.isEmpty())
     {
-    case WEBM_VP8_CODEC :
-        vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
-                                                               DEFAULT_WEBMVP8_BITRATE).toInt();
-        break;
-    default :
-        break;
+        int count = 1;
+        QVector<VideoCaptureDevice> devs(1);
+        TT_GetVideoCaptureDevices(&devs[0], &count);
+        if(count)
+            use_devid = _Q(devs[0].szDeviceID);
     }
-    return codec != NO_CODEC;
+
+    return TT_InitVideoCaptureDevice(ttInst, _W(use_devid), &fmt);
+}
+
+bool isValid(const VideoFormat& fmt)
+{
+    return fmt.nWidth>0 && fmt.nHeight>0 && fmt.nFPS_Numerator>0 && 
+        fmt.nFPS_Denominator>0 && fmt.picFourCC != FOURCC_NONE;
 }
 
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs,
@@ -750,7 +774,7 @@ void setServerEntry(int index, const HostEntry& host)
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_HOSTADDR).arg(index), host.ipaddr);
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index), host.tcpport);  
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index), host.udpport);  
-    ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(index), host.encrypted);
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), host.encrypted);
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index), host.username); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index), host.password); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index), host.channel); 
@@ -764,9 +788,9 @@ bool getServerEntry(int index, HostEntry& host)
     host.tcpport = ttSettings->value(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index)).toInt();
     host.udpport = ttSettings->value(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index)).toInt();
 #ifdef ENABLE_ENCRYPTION
-    host.encrypted = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(index), true).toBool();
+    host.encrypted = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), true).toBool();
 #else
-    host.encrypted = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(index), false).toBool();
+    host.encrypted = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), false).toBool();
 #endif
     host.username = ttSettings->value(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index)).toString();
     host.password = ttSettings->value(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index)).toString();
@@ -788,6 +812,7 @@ void deleteServerEntry(const QString& name)
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_HOSTADDR).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index));
@@ -850,7 +875,7 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             entry.chanpasswd = tmp.text();
     }
 
-    QDomElement client = hostElement.firstChildElement("clientsetup");
+    QDomElement client = hostElement.firstChildElement(CLIENTSETUP_TAG);
     if(!client.isNull())
     {
         tmp = client.firstChildElement("nickname");
@@ -875,6 +900,47 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             {
                 entry.hotkey.push_back(tmp.text().toInt());
                 tmp = tmp.nextSiblingElement("key");
+            }
+        }
+        tmp = client.firstChildElement("voice-activated");
+        if(!tmp.isNull())
+            entry.voiceact = tmp.text().toInt();
+        tmp = client.firstChildElement("videoformat");
+        if(!tmp.isNull())
+        {
+            QDomElement cap = tmp.firstChildElement("width");
+            if(!cap.isNull())
+                entry.capformat.nWidth = cap.text().toInt();
+            cap = tmp.firstChildElement("height");
+            if(!cap.isNull())
+                entry.capformat.nHeight = cap.text().toInt();
+            
+            cap = tmp.firstChildElement("fps-numerator");
+            if(!cap.isNull())
+                entry.capformat.nFPS_Numerator = cap.text().toInt();
+            cap = tmp.firstChildElement("fps-denominator");
+            if(!cap.isNull())
+                entry.capformat.nFPS_Denominator = cap.text().toInt();
+
+            cap = tmp.firstChildElement("fourcc");
+            if(!cap.isNull())
+                entry.capformat.picFourCC = (FourCC)cap.text().toInt();
+        }
+        tmp = client.firstChildElement("videocodec");
+        if(!tmp.isNull())
+        {
+            QDomElement vid = tmp.firstChildElement("codec");
+            if(!vid.isNull())
+                entry.vidcodec.nCodec = (Codec)vid.text().toInt();
+            switch(entry.vidcodec.nCodec)
+            {
+            case WEBM_VP8_CODEC :
+                vid = tmp.firstChildElement("webm-vp8-bitrate");
+                if(!vid.isNull())
+                    entry.vidcodec.webm_vp8.nRcTargetBitrate = vid.text().toInt();
+                break;
+            case NO_CODEC :
+                break;
             }
         }
     }
@@ -1056,7 +1122,7 @@ QByteArray generateTTFile(const HostEntry& entry)
         host.appendChild(join);
     }
 
-    QDomElement client = doc.createElement("clientsetup");
+    QDomElement client = doc.createElement(CLIENTSETUP_TAG);
 
     if(entry.nickname.size())
     {
@@ -1089,6 +1155,55 @@ QByteArray generateTTFile(const HostEntry& entry)
         }
         client.appendChild(hotkey);
     }
+    if(entry.voiceact >= 0)
+    {
+        QDomElement vox = doc.createElement("voice-activated");
+        vox.appendChild(doc.createTextNode(QString::number(entry.voiceact)));
+        client.appendChild(vox);
+    }
+    if(entry.capformat.nWidth)
+    {
+        QDomElement cap = doc.createElement("videoformat");
+
+        QDomElement newElement = doc.createElement("width");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.capformat.nWidth)));
+        cap.appendChild(newElement);
+        newElement = doc.createElement("height");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.capformat.nHeight)));
+        cap.appendChild(newElement);
+
+        newElement = doc.createElement("fps-numerator");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.capformat.nFPS_Numerator)));
+        cap.appendChild(newElement);
+        newElement = doc.createElement("fps-denominator");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.capformat.nFPS_Denominator)));
+        cap.appendChild(newElement);
+
+        newElement = doc.createElement("fourcc");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.capformat.picFourCC)));
+        cap.appendChild(newElement);
+
+        client.appendChild(cap);
+    }
+    if(entry.vidcodec.nCodec != NO_CODEC)
+    {
+        QDomElement vidcodec = doc.createElement("videocodec");
+
+        QDomElement newElement = doc.createElement("codec");
+        newElement.appendChild(doc.createTextNode(QString::number(entry.vidcodec.nCodec)));
+        vidcodec.appendChild(newElement);
+        switch(entry.vidcodec.nCodec)
+        {
+        case WEBM_VP8_CODEC :
+            newElement = doc.createElement("webm-vp8-bitrate");
+            newElement.appendChild(doc.createTextNode(QString::number(entry.vidcodec.webm_vp8.nRcTargetBitrate)));
+            vidcodec.appendChild(newElement);
+            break;
+            case NO_CODEC :
+                break;
+        }
+        client.appendChild(vidcodec);
+    }
 
     if(client.hasChildNodes())
         host.appendChild(client);
@@ -1096,16 +1211,6 @@ QByteArray generateTTFile(const HostEntry& entry)
     root.appendChild(host);
 
     return doc.toByteArray();
-}
-
-int gainLevel(int ref_volume)
-{
-    if(ref_volume <= SOUND_VOLUME_MAX)
-        return SOUND_GAIN_DEFAULT;
-
-    float gain = ref_volume/(float)SOUND_VOLUME_MAX;
-    gain *= SOUND_GAIN_DEFAULT;
-    return gain;
 }
 
 void setVolume(int userid, int vol_diff, StreamType stream_type)
@@ -1134,12 +1239,12 @@ void setVolume(int userid, int vol_diff, StreamType stream_type)
 
 void incVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, 10, stream_type);
+    setVolume(userid, VOLUME_SINGLE_STEP, stream_type);
 }
 
 void decVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, -10, stream_type);
+    setVolume(userid, -VOLUME_SINGLE_STEP, stream_type);
 }
 
 bool versionSameOrLater(const QString& check, const QString& against)

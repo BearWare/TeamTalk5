@@ -104,6 +104,7 @@ namespace TeamTalkApp.NET
             this.deleteFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.voxtxCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.inputProgressBar = new System.Windows.Forms.ProgressBar();
@@ -113,8 +114,6 @@ namespace TeamTalkApp.NET
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.outputmuteCheckBox = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.outputgainTrackBar = new System.Windows.Forms.TrackBar();
             this.vumeterTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chanmsgButton = new System.Windows.Forms.Button();
@@ -126,12 +125,11 @@ namespace TeamTalkApp.NET
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.vidlocalPictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.voicetxCheckBox = new System.Windows.Forms.CheckBox();
             this.pttCheckBox = new System.Windows.Forms.CheckBox();
-            this.voxtxCheckBox = new System.Windows.Forms.CheckBox();
             this.vidtxCheckBox = new System.Windows.Forms.CheckBox();
             this.senddesktopTimer = new System.Windows.Forms.Timer(this.components);
             this.sendcursorTimer = new System.Windows.Forms.Timer(this.components);
-            this.voicetxCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -143,7 +141,6 @@ namespace TeamTalkApp.NET
             ((System.ComponentModel.ISupportInitialize)(this.voiceactTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.outputgainTrackBar)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -624,7 +621,7 @@ namespace TeamTalkApp.NET
             this.tabControl1.Location = new System.Drawing.Point(0, 29);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(331, 337);
+            this.tabControl1.Size = new System.Drawing.Size(331, 369);
             this.tabControl1.TabIndex = 11;
             // 
             // tabPage1
@@ -633,7 +630,7 @@ namespace TeamTalkApp.NET
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(323, 311);
+            this.tabPage1.Size = new System.Drawing.Size(323, 343);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Channels";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -649,7 +646,7 @@ namespace TeamTalkApp.NET
             this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(317, 305);
+            this.treeView1.Size = new System.Drawing.Size(317, 337);
             this.treeView1.TabIndex = 0;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -757,7 +754,7 @@ namespace TeamTalkApp.NET
             this.groupBox1.Controls.Add(this.inputProgressBar);
             this.groupBox1.Controls.Add(this.inputgainTrackBar);
             this.groupBox1.Controls.Add(this.voiceactTrackBar);
-            this.groupBox1.Location = new System.Drawing.Point(343, 372);
+            this.groupBox1.Location = new System.Drawing.Point(343, 404);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(333, 145);
             this.groupBox1.TabIndex = 12;
@@ -772,6 +769,17 @@ namespace TeamTalkApp.NET
             this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Gain Input";
+            // 
+            // voxtxCheckBox
+            // 
+            this.voxtxCheckBox.AutoSize = true;
+            this.voxtxCheckBox.Location = new System.Drawing.Point(10, 19);
+            this.voxtxCheckBox.Name = "voxtxCheckBox";
+            this.voxtxCheckBox.Size = new System.Drawing.Size(103, 17);
+            this.voxtxCheckBox.TabIndex = 1;
+            this.voxtxCheckBox.Text = "Voice Activation";
+            this.voxtxCheckBox.UseVisualStyleBackColor = true;
+            this.voxtxCheckBox.CheckedChanged += new System.EventHandler(this.voxtxCheckBox_CheckedChanged);
             // 
             // label2
             // 
@@ -840,13 +848,11 @@ namespace TeamTalkApp.NET
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.outputmuteCheckBox);
-            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.outputgainTrackBar);
             this.groupBox2.Controls.Add(this.volumeTrackBar);
-            this.groupBox2.Location = new System.Drawing.Point(343, 523);
+            this.groupBox2.Location = new System.Drawing.Point(343, 555);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(333, 105);
+            this.groupBox2.Size = new System.Drawing.Size(333, 77);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sound Output Control";
@@ -854,30 +860,12 @@ namespace TeamTalkApp.NET
             // outputmuteCheckBox
             // 
             this.outputmuteCheckBox.AutoSize = true;
-            this.outputmuteCheckBox.Location = new System.Drawing.Point(9, 70);
+            this.outputmuteCheckBox.Location = new System.Drawing.Point(9, 48);
             this.outputmuteCheckBox.Name = "outputmuteCheckBox";
             this.outputmuteCheckBox.Size = new System.Drawing.Size(64, 17);
             this.outputmuteCheckBox.TabIndex = 9;
             this.outputmuteCheckBox.Text = "Mute All";
             this.outputmuteCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 47);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Gain Output";
-            // 
-            // outputgainTrackBar
-            // 
-            this.outputgainTrackBar.Location = new System.Drawing.Point(133, 42);
-            this.outputgainTrackBar.Name = "outputgainTrackBar";
-            this.outputgainTrackBar.Size = new System.Drawing.Size(190, 45);
-            this.outputgainTrackBar.TabIndex = 8;
-            this.outputgainTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.outputgainTrackBar.ValueChanged += new System.EventHandler(this.outputgainTrackBar_ValueChanged);
             // 
             // vumeterTimer
             // 
@@ -891,7 +879,7 @@ namespace TeamTalkApp.NET
             this.groupBox3.Controls.Add(this.chanmsgButton);
             this.groupBox3.Controls.Add(this.chanmsgTextBox);
             this.groupBox3.Controls.Add(this.chatTextBox);
-            this.groupBox3.Location = new System.Drawing.Point(4, 372);
+            this.groupBox3.Location = new System.Drawing.Point(4, 404);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(333, 216);
             this.groupBox3.TabIndex = 14;
@@ -933,7 +921,7 @@ namespace TeamTalkApp.NET
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 631);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 663);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(685, 22);
             this.statusStrip1.TabIndex = 15;
@@ -955,7 +943,7 @@ namespace TeamTalkApp.NET
             this.groupBox4.Controls.Add(this.vidlocalPictureBox);
             this.groupBox4.Location = new System.Drawing.Point(343, 29);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(333, 269);
+            this.groupBox4.Size = new System.Drawing.Size(333, 301);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Video Capture";
@@ -965,7 +953,7 @@ namespace TeamTalkApp.NET
             this.vidlocalPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vidlocalPictureBox.Location = new System.Drawing.Point(3, 16);
             this.vidlocalPictureBox.Name = "vidlocalPictureBox";
-            this.vidlocalPictureBox.Size = new System.Drawing.Size(327, 250);
+            this.vidlocalPictureBox.Size = new System.Drawing.Size(327, 282);
             this.vidlocalPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vidlocalPictureBox.TabIndex = 0;
             this.vidlocalPictureBox.TabStop = false;
@@ -976,12 +964,24 @@ namespace TeamTalkApp.NET
             this.groupBox5.Controls.Add(this.voicetxCheckBox);
             this.groupBox5.Controls.Add(this.pttCheckBox);
             this.groupBox5.Controls.Add(this.vidtxCheckBox);
-            this.groupBox5.Location = new System.Drawing.Point(343, 304);
+            this.groupBox5.Location = new System.Drawing.Point(343, 336);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(333, 62);
             this.groupBox5.TabIndex = 18;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Transmission";
+            // 
+            // voicetxCheckBox
+            // 
+            this.voicetxCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.voicetxCheckBox.AutoSize = true;
+            this.voicetxCheckBox.Location = new System.Drawing.Point(12, 24);
+            this.voicetxCheckBox.Name = "voicetxCheckBox";
+            this.voicetxCheckBox.Size = new System.Drawing.Size(61, 23);
+            this.voicetxCheckBox.TabIndex = 3;
+            this.voicetxCheckBox.Text = "Voice TX";
+            this.voicetxCheckBox.UseVisualStyleBackColor = true;
+            this.voicetxCheckBox.CheckedChanged += new System.EventHandler(this.voicetxCheckBox_CheckedChanged);
             // 
             // pttCheckBox
             // 
@@ -994,17 +994,6 @@ namespace TeamTalkApp.NET
             this.pttCheckBox.Text = "Push to Talk";
             this.pttCheckBox.UseVisualStyleBackColor = true;
             this.pttCheckBox.CheckedChanged += new System.EventHandler(this.pttCheckBox_CheckedChanged);
-            // 
-            // voxtxCheckBox
-            // 
-            this.voxtxCheckBox.AutoSize = true;
-            this.voxtxCheckBox.Location = new System.Drawing.Point(10, 19);
-            this.voxtxCheckBox.Name = "voxtxCheckBox";
-            this.voxtxCheckBox.Size = new System.Drawing.Size(103, 17);
-            this.voxtxCheckBox.TabIndex = 1;
-            this.voxtxCheckBox.Text = "Voice Activation";
-            this.voxtxCheckBox.UseVisualStyleBackColor = true;
-            this.voxtxCheckBox.CheckedChanged += new System.EventHandler(this.voxtxCheckBox_CheckedChanged);
             // 
             // vidtxCheckBox
             // 
@@ -1026,23 +1015,11 @@ namespace TeamTalkApp.NET
             // 
             this.sendcursorTimer.Tick += new System.EventHandler(this.sendcursorTimer_Tick);
             // 
-            // voicetxCheckBox
-            // 
-            this.voicetxCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.voicetxCheckBox.AutoSize = true;
-            this.voicetxCheckBox.Location = new System.Drawing.Point(12, 24);
-            this.voicetxCheckBox.Name = "voicetxCheckBox";
-            this.voicetxCheckBox.Size = new System.Drawing.Size(61, 23);
-            this.voicetxCheckBox.TabIndex = 3;
-            this.voicetxCheckBox.Text = "Voice TX";
-            this.voicetxCheckBox.UseVisualStyleBackColor = true;
-            this.voicetxCheckBox.CheckedChanged += new System.EventHandler(this.voicetxCheckBox_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(685, 653);
+            this.ClientSize = new System.Drawing.Size(685, 685);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox5);
@@ -1069,7 +1046,6 @@ namespace TeamTalkApp.NET
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.outputgainTrackBar)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -1113,8 +1089,6 @@ namespace TeamTalkApp.NET
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TrackBar inputgainTrackBar;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TrackBar outputgainTrackBar;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer vumeterTimer;
         private System.Windows.Forms.CheckBox outputmuteCheckBox;
         private System.Windows.Forms.GroupBox groupBox3;

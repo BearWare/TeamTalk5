@@ -36,12 +36,6 @@
 #pragma warning(disable:4800)
 #endif
 
-#if defined(Q_OS_WIN32) && !defined(Q_OS_WINCE)
-#define WINVER 0x0500
-#define _WIN32_WINDOWS 0x500
-#define _WIN32_WINNT 0x500
-#endif
-
 #ifdef Q_OS_WIN32
 #define NOMINMAX //prevent std::...::min() collision
 #include <windows.h>
@@ -99,6 +93,16 @@
 
 #endif
 
+//Client specific SOUND_VOLUME_MAX (volume slider)
+#define DEFAULT_SOUND_VOLUME_MAX        12000
+#define VOLUME_SINGLE_STEP              25
+#define VOLUME_PAGE_STEP                200
+
+//Client specific gain SOUND_GAIN_MAX (mic slider)
+#define DEFAULT_GAIN_MAX                6000
+//Client spefic VU max SOUND_VU_MAX (voice act slider)
+#define DEFAULT_SOUND_VU_MAX            20
+
 #define DEFAULT_AGC_ENABLE              TRUE
 #define DEFAULT_AGC_GAINLEVEL           8000
 #define DEFAULT_AGC_INC_MAXDB           12
@@ -150,6 +154,16 @@
 #define DEFAULT_OPUS_VBRCONSTRAINT  FALSE
 #define DEFAULT_OPUS_BITRATE        32000
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
+
+//Default video capture settings
+#define DEFAULT_VIDEO_WIDTH     320
+#define DEFAULT_VIDEO_HEIGHT    240
+#define DEFAULT_VIDEO_FPS       10
+#define DEFAULT_VIDEO_FOURCC    FOURCC_RGB32
+
+//Default video codec settings
+#define DEFAULT_VIDEO_CODEC     WEBM_VP8_CODEC
+#define DEFAULT_WEBMVP8_BITRATE 256
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \
@@ -275,10 +289,13 @@ struct HostEntry
     QString nickname;
     Gender gender;
     hotkey_t hotkey;
+    int voiceact;
+    VideoFormat capformat;
+    VideoCodec vidcodec;
 
     HostEntry()
-    : tcpport(0), udpport(0)
-    , encrypted(false), gender(GENDER_NONE) {}
+    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
+    , voiceact(-1), capformat(), vidcodec() {}
 };
 
 struct DesktopAccessEntry
@@ -302,8 +319,12 @@ QString makeCustomCommand(const QString& cmd, const QString& value);
 QStringList getCustomCommand(const TextMessage& msg);
 
 void initDefaultAudioCodec(AudioCodec& codec);
-bool InitVideoFromSettings();
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
+
+bool initVideoCaptureFromSettings();
+bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
+bool isValid(const VideoFormat& fmt);
+
 
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs, SoundDevice& dev);
@@ -340,6 +361,7 @@ void deleteServerEntry(const QString& name);
 
 //server entry from XML
 bool getServerEntry(const QDomElement& hostElement, HostEntry& entry);
+#define CLIENTSETUP_TAG "clientsetup"
 
 //get desktop access list
 void addDesktopAccessEntry(const DesktopAccessEntry& entry);
@@ -354,8 +376,6 @@ QString newVersionAvailable(const QDomDocument& updateDoc);
 
 QByteArray generateTTFile(const HostEntry& entry);
 
-//gain level based on volume (volume can be greater than SOUND_VOLUME_MAX)
-int gainLevel(int ref_volume);
 void incVolume(int userid, StreamType stream_type);
 void decVolume(int userid, StreamType stream_type);
 

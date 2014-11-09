@@ -77,9 +77,7 @@ namespace TeamTalkApp.NET
             inputgainTrackBar.Maximum = SoundLevel.SOUND_GAIN_MAX;
 
             volumeTrackBar.Minimum = SoundLevel.SOUND_VOLUME_MIN;
-            volumeTrackBar.Maximum = SoundLevel.SOUND_VOLUME_MAX;
-            outputgainTrackBar.Minimum = SoundLevel.SOUND_GAIN_MIN;
-            outputgainTrackBar.Maximum = SoundLevel.SOUND_GAIN_MAX;
+            volumeTrackBar.Maximum = 16000;
 
             /* we pass 'false' to poll_events since we don't want to 
              * manually process events using ttclient.GetMessage */
@@ -92,7 +90,6 @@ namespace TeamTalkApp.NET
             voiceactTrackBar.Value = ttclient.GetVoiceActivationLevel();
             inputgainTrackBar.Value = ttclient.GetSoundInputGainLevel();
             volumeTrackBar.Value = ttclient.GetSoundOutputVolume();
-            outputgainTrackBar.Value = SoundLevel.SOUND_GAIN_DEFAULT;
 
             //get default devices
             TeamTalk.GetDefaultSoundDevices(ref settings.sndinputid, ref settings.sndoutputid);
@@ -348,7 +345,6 @@ namespace TeamTalkApp.NET
         void ttclient_OnCmdUserJoinedChannel(User user)
         {
             //set default gain level for user (software gain volume)
-            ttclient.SetUserGainLevel(user.nUserID, StreamType.STREAMTYPE_VOICE, outputgainTrackBar.Value);
             if (user.nChannelID == ttclient.GetMyChannelID())
                 AddStatusMessage(user.szNickname + " joined channel");
 
@@ -619,22 +615,6 @@ namespace TeamTalkApp.NET
         private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             ttclient.SetSoundOutputVolume(volumeTrackBar.Value);
-        }
-
-        private void outputgainTrackBar_ValueChanged(object sender, EventArgs e)
-        {
-            int channelid = ttclient.GetMyChannelID();
-            if (channelid <= 0)
-                return;
-
-            //Here we just gain the user for all users. We could also use
-            //SetUserVolume or SetUserGainLevel on individual users.
-            User[] users;
-            if (ttclient.GetChannelUsers(channelid, out users))
-            {
-                foreach (User userid in users)
-                    ttclient.SetUserGainLevel(userid.nUserID, StreamType.STREAMTYPE_VOICE, outputgainTrackBar.Value);
-            }
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

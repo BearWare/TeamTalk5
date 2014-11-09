@@ -23,7 +23,6 @@
 #define VIDEOTEXTDLG_H
 
 #include "ui_videotext.h"
-#include "common.h"
 
 class VideoTextDlg : public QDialog
 {

@@ -53,6 +53,18 @@ BOOL IsMyselfTalking();
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
+#define GAIN_FACTOR 100
+
+//Client specific SOUND_VOLUME_MAX (volume slider)
+#define DEFAULT_SOUND_VOLUME_MAX        12000
+#define VOLUME_SINGLE_STEP              25
+#define VOLUME_PAGE_STEP                200
+
+//Client specific gain SOUND_GAIN_MAX (mic slider)
+#define DEFAULT_GAIN_MAX                6000
+//Client spefic VU max SOUND_VU_MAX (voice act slider)
+#define DEFAULT_SOUND_VU_MAX            20
+
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
 #define DEFAULT_MSEC_PER_PACKET         40
 
@@ -103,6 +115,7 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_TEAMTALK_UDPPORT 10333
 #endif
 
+//Automatic gain control settings
 #define DEFAULT_AGC_ENABLE          TRUE
 #define DEFAULT_AGC_GAINLEVEL       8000
 #define DEFAULT_AGC_INC_MAXDB       12
@@ -115,6 +128,13 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_ECHO_SUPPRESSACTIVE -15
 
 #define DEFAULT_SOUND_DUPLEXMODE        FALSE
+
+//Video settings
+#define DEFAULT_VIDEO_WIDTH             320
+#define DEFAULT_VIDEO_HEIGHT            240
+#define DEFAULT_VIDEO_FPS               10
+#define DEFAULT_VIDEO_FOURCC            FOURCC_RGB32
+
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \
@@ -166,5 +186,7 @@ enum AudioStorageMode
 
 CString MakeCustomCommand(LPCTSTR szCmd, LPCTSTR szValue);
 void GetCustomCommand(const CString& szMessage, CStringList& result);
+
+BOOL IsValid(const VideoFormat& capfmt);
 
 #endif

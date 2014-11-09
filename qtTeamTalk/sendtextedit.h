@@ -22,8 +22,6 @@
 #ifndef SENDTEXTEDIT_H
 #define SENDTEXTEDIT_H
 
-#include "common.h"
-
 #include <QPlainTextEdit>
 
 class SendTextEdit : public QPlainTextEdit

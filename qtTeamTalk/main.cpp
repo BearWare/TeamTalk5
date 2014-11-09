@@ -248,12 +248,6 @@ int main(int argc, char *argv[])
 
     /* Set license information before creating the first client instance */
     TT_SetLicenseInformation(_W(QString("")), _W(QString("")));
-    int x = TT_DBG_SIZEOF(__CHANNEL);
-    for(int i=1;i<50;i++)
-    {
-        x = qMax(x, TT_DBG_SIZEOF((TTType)i));
-        qDebug() << i << "=" << TT_DBG_SIZEOF((TTType)i);
-    }
 
 #if defined(Q_OS_WIN32) && USE_POLL == 0
     HWND hWnd = reinterpret_cast<HWND>(window.winId());

@@ -49,12 +49,18 @@ namespace teamtalk {
         std::string szNickname;
         int nGender;
         HotKey hotkey;
+        int nVoiceAct; // < 0 = disabled
+        VideoFormat capformat;
+        VideoCodec vidcodec;
 
         HostEntry()
         : nTcpPort(0)
         , nUdpPort(0)
         , bEncrypted(FALSE)
-        , nGender(0) { }
+        , nGender(0)
+        , nVoiceAct(-1)
+        , capformat()
+        , vidcodec() { }
     };
 
     //used for join channel
@@ -211,7 +217,7 @@ namespace teamtalk {
         int GetSoundOutputDevice();
 
         bool SetSoundOutputVolume(int nVolume);
-        int GetSoundOutputVolume();
+        int GetSoundOutputVolume(int def_vol);
 
         bool SetSoundMixerDevice(int nDevice);
         int GetSoundMixerDevice();
@@ -232,7 +238,7 @@ namespace teamtalk {
         bool GetVoiceGain();
 
         bool SetVoiceGainLevel(int nGain);
-        int GetVoiceGainLevel();
+        int GetVoiceGainLevel(int nDefGain);
 
         bool SetDuplexMode(bool bEnable);
         bool GetDuplexMode(bool bDefValue);
@@ -336,13 +342,13 @@ namespace teamtalk {
         std::string GetVideoCaptureDevice();
 
         bool SetVideoCaptureFormat(int index);
-        int GetVideoCaptureFormat();
+        int GetVideoCaptureFormat(int nDefIndex);
 
-        bool SetVideoCodecQuality(int quality);
-        int GetVideoCodecQuality();
+        bool SetVideoCaptureFormat(const VideoFormat& capformat);
+        bool GetVideoCaptureFormat(VideoFormat& capformat);
 
         bool SetVideoCodecBitrate(int bitrate);
-        int GetVideoCodecBitrate();
+        int GetVideoCodecBitrate(int nDefBitrate);
         /********* </videocapture> *********/
 
         /********* <latesthosts> ********/
@@ -386,10 +392,13 @@ namespace teamtalk {
     class TTFile : public XMLDocument
     {
     public:
-       TTFile(const std::string& rootname) : XMLDocument(rootname){}
+       TTFile(const std::string& rootname) : 
+          XMLDocument(rootname) { }
+
        void SetHostEntry(const HostEntry& entry);
        bool GetHostEntry(HostEntry& entry, int i);
        TiXmlElement* GetRootElement();
+       bool HasClientSetup();
     };
 
 }

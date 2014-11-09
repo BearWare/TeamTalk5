@@ -22,8 +22,6 @@
 #ifndef ABOUTDLG_H
 #define ABOUTDLG_H
 
-#include "common.h"
-
 #include "ui_about.h"
 
 class AboutDlg : public QDialog

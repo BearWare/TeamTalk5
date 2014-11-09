@@ -40,6 +40,7 @@ CVideoCapturePage::CVideoCapturePage()
     , m_nVidDev(-1)
     , m_nCapFormatIndex(-1)
     , m_nVidCodecBitrate(DEFAULT_WEBM_VP8_BITRATE)
+    , m_capformat()
 {
 
 }
@@ -69,6 +70,7 @@ BEGIN_MESSAGE_MAP(CVideoCapturePage, CPropertyPage)
     ON_BN_CLICKED(IDC_RADIO_VIDRGB32, &CVideoCapturePage::OnBnClickedRadioVidrgb32)
     ON_BN_CLICKED(IDC_RADIO_VIDI420, &CVideoCapturePage::OnBnClickedRadioVidi420)
     ON_BN_CLICKED(IDC_RADIO_VIDYUY2, &CVideoCapturePage::OnBnClickedRadioVidyuy2)
+    ON_CBN_SELCHANGE(IDC_COMBO_VIDRES, &CVideoCapturePage::OnCbnSelchangeComboVidres)
 END_MESSAGE_MAP()
 
 
@@ -223,6 +225,10 @@ void CVideoCapturePage::OnBnClickedRadioVidyuy2()
     OnCbnSelchangeComboViddev();
 }
 
+void CVideoCapturePage::OnCbnSelchangeComboVidres()
+{
+}
+
 void CVideoCapturePage::OnOK()
 {
     int iDev = m_wndVidDev.GetCurSel();
@@ -230,6 +236,8 @@ void CVideoCapturePage::OnOK()
     {
         m_szVidDevID = m_videodevices[iDev].szDeviceID;
         m_nCapFormatIndex = m_wndVidRes.GetItemData(m_wndVidRes.GetCurSel());
+        m_capformat = m_videodevices[iDev].videoFormats[m_nCapFormatIndex];
     }
     CPropertyPage::OnOK();
 }
+

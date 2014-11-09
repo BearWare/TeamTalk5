@@ -22,7 +22,6 @@
 #ifndef USERINFODLG_H
 #define USERINFODLG_H
 
-#include "common.h"
 #include "ui_userinfo.h"
 
 class UserInfoDlg : public QDialog

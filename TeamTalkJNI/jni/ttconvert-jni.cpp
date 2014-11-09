@@ -199,8 +199,6 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     jfieldID fid_folder = env->GetFieldID(cls_user, "szMediaStorageDir", "Ljava/lang/String;");
     jfieldID fid_volvoice = env->GetFieldID(cls_user, "nVolumeVoice", "I");
     jfieldID fid_volmf = env->GetFieldID(cls_user, "nVolumeMediaFile", "I");
-    jfieldID fid_gainvoice = env->GetFieldID(cls_user, "nGainLevelVoice", "I");
-    jfieldID fid_gainmf = env->GetFieldID(cls_user, "nGainLevelMediaFile", "I");
     jfieldID fid_stopvoice = env->GetFieldID(cls_user, "nStoppedDelayVoice", "I");
     jfieldID fid_stopmf = env->GetFieldID(cls_user, "nStoppedDelayMediaFile", "I");
     jfieldID fid_pbvoice = env->GetFieldID(cls_user, "stereoPlaybackVoice", "[Z");
@@ -223,8 +221,6 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_folder);
     assert(fid_volvoice);
     assert(fid_volmf);
-    assert(fid_gainvoice);
-    assert(fid_gainmf);
     assert(fid_stopvoice);
     assert(fid_stopmf);
     assert(fid_pbvoice);
@@ -247,8 +243,6 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     env->SetObjectField(lpUser, fid_folder, env->NewStringUTF(user.szMediaStorageDir));
     env->SetIntField(lpUser, fid_volvoice, user.nVolumeVoice);
     env->SetIntField(lpUser, fid_volmf, user.nVolumeMediaFile);
-    env->SetIntField(lpUser, fid_gainvoice, user.nGainLevelVoice);
-    env->SetIntField(lpUser, fid_gainmf, user.nGainLevelMediaFile);
     env->SetIntField(lpUser, fid_stopvoice, user.nStoppedDelayVoice);
     env->SetIntField(lpUser, fid_stopmf, user.nStoppedDelayMediaFile);
     jbooleanArray boolArray = env->NewBooleanArray(2);

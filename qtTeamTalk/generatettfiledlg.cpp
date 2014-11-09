@@ -49,11 +49,77 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.maleRadioButton, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.femaleRadioButton, SLOT(setEnabled(bool)));
     connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.pttChkBox, SLOT(setEnabled(bool)));
-    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.setupkeysButton, SLOT(setEnabled(bool)));
+    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.voiceactChkBox, SLOT(setEnabled(bool)));
+    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.captureformatsBox, SLOT(setEnabled(bool)));
+    connect(ui.overrideChkBox, SIGNAL(clicked(bool)), ui.vidcodecBox, SLOT(setEnabled(bool)));
 
     connect(ui.pttChkBox, SIGNAL(clicked(bool)), ui.setupkeysButton, SLOT(setEnabled(bool)));
     connect(ui.pttChkBox, SIGNAL(clicked(bool)), ui.keycompEdit, SLOT(setEnabled(bool)));
     connect(ui.setupkeysButton, SIGNAL(clicked()), SLOT(slotSetupHotkey()));
+    connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
+            SLOT(slotVideoCodecChange(int)));
+
+    loadVideoFormats();
+
+    ui.captureformatsBox->addItem(tr("Any"), 0);
+    for(int i=1;i<m_vidcap_fmts.size();i++)
+    {
+        int fps = m_vidcap_fmts[i].nFPS_Denominator == 0? 0 : 
+            m_vidcap_fmts[i].nFPS_Numerator / m_vidcap_fmts[i].nFPS_Denominator;
+
+        QString res = QString("%1x%2, FPS %3").arg(m_vidcap_fmts[i].nWidth)
+                                              .arg(m_vidcap_fmts[i].nHeight).arg(fps);
+        ui.captureformatsBox->addItem(res, i);
+    }
+
+    ui.vidcodecBox->addItem(tr("Any"), NO_CODEC);
+    ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
+}
+
+void GenerateTTFileDlg::loadVideoFormats()
+{
+    VideoFormat fmt = {0};
+    m_vidcap_fmts.push_back(fmt);
+
+    fmt.picFourCC = FOURCC_RGB32;
+    fmt.nFPS_Denominator = 1;
+
+    fmt.nWidth = 160;
+    fmt.nHeight = 120;
+
+    fmt.nFPS_Numerator = 1;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 10;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 15;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 30;
+    m_vidcap_fmts.push_back(fmt);
+    
+    fmt.nWidth = 320;
+    fmt.nHeight = 240;
+
+    fmt.nFPS_Numerator = 1;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 10;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 15;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 30;
+    m_vidcap_fmts.push_back(fmt);
+
+    fmt.nWidth = 640;
+    fmt.nHeight = 480;
+
+    fmt.nFPS_Numerator = 1;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 10;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 15;
+    m_vidcap_fmts.push_back(fmt);
+    fmt.nFPS_Numerator = 30;
+    m_vidcap_fmts.push_back(fmt);
+
 }
 
 void GenerateTTFileDlg::slotSetupHotkey()
@@ -66,6 +132,12 @@ void GenerateTTFileDlg::slotSetupHotkey()
     ui.keycompEdit->setText(getHotKeyText(dlg.m_hotkey));
 }
 
+void GenerateTTFileDlg::slotVideoCodecChange(int)
+{
+    int c = ui.vidcodecBox->itemData(ui.vidcodecBox->currentIndex()).toInt();
+    ui.vidbitrateSpinBox->setEnabled(c == WEBM_VP8_CODEC);
+}
+
 void GenerateTTFileDlg::slotSaveTTFile()
 {
     if(ui.overrideChkBox->isChecked())
@@ -76,6 +148,15 @@ void GenerateTTFileDlg::slotSaveTTFile()
         m_hostentry.gender = ui.femaleRadioButton->isChecked()?GENDER_FEMALE:GENDER_MALE;
         if(!ui.pttChkBox->isChecked())
             m_hostentry.hotkey.clear();
+        m_hostentry.voiceact = ui.voiceactChkBox->isChecked();
+        int c = ui.vidcodecBox->itemData(ui.vidcodecBox->currentIndex()).toInt();
+        m_hostentry.vidcodec.nCodec = (Codec)c;
+        switch(m_hostentry.vidcodec.nCodec)
+        {
+        case WEBM_VP8_CODEC :
+            m_hostentry.vidcodec.webm_vp8.nRcTargetBitrate = ui.vidbitrateSpinBox->value();
+        }
+        m_hostentry.capformat = m_vidcap_fmts[ui.captureformatsBox->currentIndex()];
     }
     QByteArray xml = generateTTFile(m_hostentry);
 

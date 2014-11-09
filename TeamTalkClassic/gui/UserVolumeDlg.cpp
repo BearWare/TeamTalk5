@@ -36,9 +36,9 @@ void CUserVolumeDlg::DoDataExchange(CDataExchange* pDX)
 void CUserVolumeDlg::UpdateProperties()
 {
     TT_SetUserVolume(ttInst, m_user.nUserID, STREAMTYPE_VOICE,
-                     m_wndVoiceVol.GetPos());
+                     m_wndVoiceVol.GetPos() * GAIN_FACTOR);
     TT_SetUserVolume(ttInst, m_user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                     m_wndMediaFileVol.GetPos());
+                     m_wndMediaFileVol.GetPos() * GAIN_FACTOR);
     
     TT_SetUserStereo(ttInst, m_user.nUserID, STREAMTYPE_VOICE,
                      m_wndVoiceMuteLeft.GetCheck() != BST_CHECKED,
@@ -55,6 +55,8 @@ BEGIN_MESSAGE_MAP(CUserVolumeDlg, CDialog)
     ON_BN_CLICKED(IDC_CHECK_MUTERIGHTMEDIAFILE, &CUserVolumeDlg::OnBnClickedCheckMuterightmediafile)
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_VOICEVOL, &CUserVolumeDlg::OnNMCustomdrawSliderVoicevol)
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_MEDIAFILEVOL, &CUserVolumeDlg::OnNMCustomdrawSliderMediafilevol)
+    ON_BN_CLICKED(IDCANCEL, &CUserVolumeDlg::OnBnClickedCancel)
+    ON_BN_CLICKED(IDC_BUTTON_DEFAULT, &CUserVolumeDlg::OnBnClickedButtonDefault)
 END_MESSAGE_MAP()
 
 
@@ -65,10 +67,10 @@ BOOL CUserVolumeDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    m_wndVoiceVol.SetRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX, TRUE);
-    m_wndVoiceVol.SetPos(m_user.nVolumeVoice);
-    m_wndMediaFileVol.SetRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX, TRUE);
-    m_wndMediaFileVol.SetPos(m_user.nVolumeMediaFile);
+    m_wndVoiceVol.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
+    m_wndVoiceVol.SetPos(m_user.nVolumeVoice / GAIN_FACTOR);
+    m_wndMediaFileVol.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
+    m_wndMediaFileVol.SetPos(m_user.nVolumeMediaFile / GAIN_FACTOR);
 
     m_wndVoiceMuteLeft.SetCheck(!m_user.stereoPlaybackVoice[0]?BST_CHECKED:BST_UNCHECKED);
     m_wndVoiceMuteRight.SetCheck(!m_user.stereoPlaybackVoice[1]?BST_CHECKED:BST_UNCHECKED);
@@ -122,5 +124,19 @@ void CUserVolumeDlg::OnNMCustomdrawSliderMediafilevol(NMHDR *pNMHDR, LRESULT *pR
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
     *pResult = 0;
+    UpdateProperties();
+}
+
+
+void CUserVolumeDlg::OnBnClickedCancel()
+{
+    CDialog::OnCancel();
+}
+
+
+void CUserVolumeDlg::OnBnClickedButtonDefault()
+{
+    m_wndVoiceVol.SetPos(SOUND_VOLUME_DEFAULT / GAIN_FACTOR);
+    m_wndMediaFileVol.SetPos(SOUND_VOLUME_DEFAULT / GAIN_FACTOR);
     UpdateProperties();
 }

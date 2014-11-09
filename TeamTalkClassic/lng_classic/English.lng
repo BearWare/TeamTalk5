@@ -33,6 +33,7 @@
     <item id="133">Joined classroom channel %s</item>
     <item id="134">Files</item>
     <item id="135">Chat</item>
+    <item id="136">The file %s contains %s setup information.\r\nShould these settings be applied?</item>
     <item id="138">%s is requesting desktop access</item>
     <item id="139">%s has retracted desktop access</item>
     <item id="140">Server Properties</item>
@@ -361,6 +362,7 @@
     <item id="1530">Female</item>
     <item id="1531">&amp;Save .tt File</item>
     <item id="1534">Maximum text length</item>
+    <item id="1535">Video Capture Settings</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>

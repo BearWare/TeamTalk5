@@ -1419,17 +1419,6 @@ extern "C" {
                                 nUserID, (StreamType)nStreamType, nVolume);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserGainLevel(JNIEnv* env,
-                                                                              jobject thiz,
-                                                                              jlong lpTTInstance,
-                                                                              jint nUserID,
-                                                                              jint nStreamType,
-                                                                              jint nGainLevel)
-    {
-        return TT_SetUserGainLevel(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                   nUserID, (StreamType)nStreamType, nGainLevel);
-    }
-
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMute(JNIEnv* env,
                                                                          jobject thiz,
                                                                          jlong lpTTInstance,

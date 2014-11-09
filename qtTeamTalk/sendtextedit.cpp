@@ -20,6 +20,8 @@
  */
 
 #include "sendtextedit.h"
+#include "common.h"
+
 
 SendTextEdit::SendTextEdit(QWidget * parent/* = 0*/)
     : QPlainTextEdit(parent)

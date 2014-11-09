@@ -151,9 +151,14 @@ MainWindow::MainWindow()
     m_filesmodel = new FilesModel(this);
     ui.filesView->setModel(m_filesmodel);
     QItemSelectionModel* selmodel = ui.filesView->selectionModel();
-    int gainMax = 4000;
-    ui.volumeSlider->setRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX*(gainMax/SOUND_GAIN_DEFAULT));
-    ui.micSlider->setRange(SOUND_GAIN_MIN, gainMax);
+
+    ui.volumeSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX/*SOUND_VOLUME_MAX*/);
+    ui.volumeSlider->setSingleStep(VOLUME_SINGLE_STEP);
+    ui.volumeSlider->setPageStep(VOLUME_PAGE_STEP);
+    ui.micSlider->setRange(SOUND_GAIN_MIN, DEFAULT_GAIN_MAX /*SOUND_GAIN_MAX*/);
+    ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
+    ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
+
     m_pinglabel = new QLabel(ui.statusbar);
     m_pinglabel->setAlignment(Qt::AlignHCenter);
     m_pttlabel = new QLabel(ui.statusbar);
@@ -519,7 +524,7 @@ void MainWindow::loadSettings()
     //load shortcuts
     loadHotKeys();
 
-    int value = ttSettings->value(SETTINGS_SOUND_MASTERVOLUME, SOUND_VOLUME_MAX).toInt();
+    int value = ttSettings->value(SETTINGS_SOUND_MASTERVOLUME, SOUND_VOLUME_DEFAULT).toInt();
     ui.volumeSlider->setValue(value);
     //slotMasterVolumeChanged(value);
     value = ttSettings->value(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, 0).toInt();
@@ -994,9 +999,6 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             if(m_sysicon && m_sysicon->isVisible() &&
                m_talking.size() == 1)
                 m_sysicon->setIcon(QIcon(APPTRAYICON_ACTIVE));
-
-            //update voice gain if not already set
-            updateUserGainLevel(user.nUserID);
         }
         else
         {
@@ -1501,8 +1503,6 @@ void MainWindow::Connect()
 
     //output settings
     int volume = ui.volumeSlider->value();
-    if(volume >= SOUND_VOLUME_MAX) //compensate for software gain
-        volume = SOUND_VOLUME_MAX;
     TT_SetSoundOutputVolume(ttInst, volume); 
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
@@ -2233,27 +2233,6 @@ void MainWindow::updateChannelFiles(int channelid)
         ui.tabWidget->setTabText(TAB_FILES, tr("Files"));
     else
         ui.tabWidget->setTabText(TAB_FILES, tr("Files (%1)").arg(m_filesmodel->rowCount()));
-}
-
-void MainWindow::updateUserGainLevel(int userid)
-{
-    int volume = ui.volumeSlider->value();
-    int gain = gainLevel(ui.volumeSlider->value());
-
-    if(volume <= SOUND_VOLUME_MAX)
-        gain = SOUND_GAIN_DEFAULT; //disable soft gain
-
-    QVector<int> users;
-    if(userid == -1)
-        users = ui.channelsWidget->getUsers();
-    else
-        users.push_back(userid);
-
-    for(int i=0;i<users.size();i++)
-    {
-        TT_SetUserGainLevel(ttInst, users[i], STREAMTYPE_VOICE, gain);
-        TT_SetUserGainLevel(ttInst, users[i], STREAMTYPE_MEDIAFILE_AUDIO, gain);
-    }
 }
 
 void MainWindow::updateUserSubscription(int userid)
@@ -3017,6 +2996,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         ServerListDlg dlg(this);
         if(dlg.exec())
         {
+            m_host = HostEntry();
             getLatestHost(0, m_host);
             Connect();
         }
@@ -3205,7 +3185,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
     if((flags & CLIENT_VIDEOCAPTURE_READY) == 0)
     {
         VideoCodec vidcodec;
-        if(!getVideoCaptureCodec(vidcodec) || !InitVideoFromSettings())
+        if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
         {
             ui.actionEnableVideoTransmission->setChecked(false);
             QMessageBox::warning(this, 
@@ -3931,10 +3911,15 @@ void MainWindow::slotHelpAbout(bool /*checked =false */)
 
 void MainWindow::slotConnectToLatest()
 {
+    HostEntry lasthost;
+
     //auto connect to latest host
     if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, false).toBool() &&
-        getLatestHost(0, m_host))
+        getLatestHost(0, lasthost))
+    {
+        m_host = lasthost;
         Connect();
+    }
 }
 
 void MainWindow::slotUsersViewUserInformation(int userid)
@@ -4418,7 +4403,7 @@ void MainWindow::slotInitVideo()
 {
     if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
     {
-        if(!InitVideoFromSettings())
+        if(!initVideoCaptureFromSettings())
             QMessageBox::warning(this, tr("Start Webcam"), 
             tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
     }
@@ -4989,9 +4974,7 @@ void MainWindow::slotUpdateDesktopCount(int count)
 
 void MainWindow::slotMasterVolumeChanged(int value)
 {
-    if(value <= SOUND_VOLUME_MAX) //compensate for soft volume
-        TT_SetSoundOutputVolume(ttInst, value);
-    updateUserGainLevel(-1);
+    TT_SetSoundOutputVolume(ttInst, value);
 }
 
 void MainWindow::slotMicrophoneGainChanged(int value)
@@ -5017,63 +5000,100 @@ void MainWindow::slotTrayIconChange(QSystemTrayIcon::ActivationReason reason)
 void MainWindow::slotLoadTTFile(const QString& filepath)
 {
     QFile ttfile(QDir::fromNativeSeparators(filepath));
-    if(ttfile.open(QFile::ReadOnly))
+    if(!ttfile.open(QFile::ReadOnly))
     {
-        QByteArray data = ttfile.readAll();
-        QDomDocument doc(TTFILE_ROOT);
-        if(doc.setContent(data))
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QByteArray data = ttfile.readAll();
+    QDomDocument doc(TTFILE_ROOT);
+    if(!doc.setContent(data))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QDomElement rootElement(doc.documentElement());
+    QString version = rootElement.attribute("version");
+    
+    if(!versionSameOrLater(version, TTFILE_VERSION))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("The file \"%1\" is incompatible with %2")
+            .arg(QDir::toNativeSeparators(filepath))
+            .arg(APPTITLE));
+        return;
+    }
+
+    QDomElement element = rootElement.firstChildElement("host");
+    HostEntry entry;
+    if(!getServerEntry(element, entry))
+    {
+        QMessageBox::information(this, tr("Load File"), 
+            tr("Failed to extract host-information from %1").arg(filepath));
+        return;
+    }
+
+    addLatestHost(entry);
+    m_host = entry;
+
+    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() &&
+        QMessageBox::question(this, tr("Load %1 File").arg(TTFILE_EXT),
+        tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?")
+        .arg(filepath).arg(APPNAME_SHORT),
+        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    {
+        //if no nickname specified use from .tt file
+        if(m_host.nickname.size())
+            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
+
+        //if no gender specified use from .tt file
+        if(m_host.gender != GENDER_NONE)
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);
+        
+        //if no PTT-key specified use from .tt file
+        hotkey_t hotkey;
+        if(m_host.hotkey.size())
         {
-            QDomElement rootElement(doc.documentElement());
-            QString version = rootElement.attribute("version");
-            
-            if(!versionSameOrLater(version, TTFILE_VERSION))
-            {
-                QMessageBox::information(this, tr("Load File"), 
-                    tr("The file \"%1\" is incompatible with %2")
-                    .arg(QDir::toNativeSeparators(filepath))
-                    .arg(APPTITLE));
-                return;
-            }
+            saveHotKeySettings(HOTKEY_PUSHTOTALK, m_host.hotkey);
+            enableHotKey(HOTKEY_PUSHTOTALK, m_host.hotkey);
+        }
 
-            QDomElement element = rootElement.firstChildElement("host");
-            HostEntry entry;
-            if(getServerEntry(element, entry))
-            {
-                addLatestHost(entry);
-                m_host = entry;
+        //voice activation
+        if(m_host.voiceact >= 0)
+            slotMeEnableVoiceActivation(m_host.voiceact>0);
 
-                //if no nickname specified use from .tt file
-                if(m_host.nickname.size() &&
-                   ttSettings->value(SETTINGS_GENERAL_NICKNAME,
-                                     SETTINGS_GENERAL_NICKNAME_DEFAULT).toString() ==
-                                     SETTINGS_GENERAL_NICKNAME_DEFAULT)
-                    ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
+        //video capture
+        if(isValid(m_host.capformat))
+        {
+            ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, m_host.capformat.picFourCC);
+            ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, QString("%1x%2")
+                                 .arg(m_host.capformat.nWidth)
+                                 .arg(m_host.capformat.nHeight));
+            ttSettings->setValue(SETTINGS_VIDCAP_FPS, QString("%1/%2")
+                                 .arg(m_host.capformat.nFPS_Numerator)
+                                 .arg(m_host.capformat.nFPS_Denominator));
+            TT_CloseVideoCaptureDevice(ttInst);
+        }
 
-                //if no gender specified use from .tt file
-                if(m_host.gender == GENDER_FEMALE &&
-                    ttSettings->value(SETTINGS_GENERAL_GENDER,
-                                      SETTINGS_GENERAL_GENDER_DEFAULT) == true)
-                    m_statusmode |= STATUSMODE_FEMALE;
-                else
-                    m_statusmode &= ~STATUSMODE_FEMALE;
-                ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender != GENDER_FEMALE);
-                
-                //if no PTT-key specified use from .tt file
-                hotkey_t hotkey;
-                loadHotKeySettings(HOTKEY_PUSHTOTALK, hotkey);
-                if(hotkey.size() == 0 && m_host.hotkey.size())
-                {
-                    saveHotKeySettings(HOTKEY_PUSHTOTALK, m_host.hotkey);
-                    enableHotKey(HOTKEY_PUSHTOTALK, m_host.hotkey);
-                }
-                Disconnect();
-                Connect();
-                return;
-            }
+        //video codec
+        switch(m_host.vidcodec.nCodec)
+        {
+            case WEBM_VP8_CODEC :
+                ttSettings->setValue(SETTINGS_VIDCAP_CODEC,
+                                     m_host.vidcodec.nCodec);
+                ttSettings->setValue(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
+                                     m_host.vidcodec.webm_vp8.nRcTargetBitrate);
+                TT_CloseVideoCaptureDevice(ttInst);
+            break;
         }
     }
-    QMessageBox::information(this, tr("Load File"), 
-        tr("Failed to load file %1").arg(filepath));
+
+    Disconnect();
+    Connect();
 }
 
 void MainWindow::slotHttpUpdateReply(QNetworkReply* reply)

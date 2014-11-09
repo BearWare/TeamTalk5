@@ -512,11 +512,6 @@ namespace c_tt
         public static extern bool TT_SetUserVolume(IntPtr lpTTInstance,
                                               int nUserID, BearWare.StreamType nStreamType, int nVolume);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern bool TT_SetUserGainLevel(IntPtr lpTTInstance,
-                                                 int nUserID,
-                                                 BearWare.StreamType nStreamType,
-                                                 int nGainLevel);
-        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetUserMute(IntPtr lpTTInstance,
                                             int nUserID, BearWare.StreamType nStreamType, bool bMute);
 

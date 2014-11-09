@@ -45,6 +45,7 @@ protected:
 public:
     CString m_szVidDevID;
     int m_nCapFormatIndex;
+    VideoFormat m_capformat;
 
     CComboBox m_wndVidDev;
     CComboBox m_wndVidRes;
@@ -69,4 +70,5 @@ public:
     CSpinButtonCtrl m_wndVidBitrateSpinCtrl;
     int m_nVidCodecBitrate;
     virtual void OnOK();
+    afx_msg void OnCbnSelchangeComboVidres();
 };

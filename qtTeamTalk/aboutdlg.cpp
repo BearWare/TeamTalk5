@@ -21,6 +21,7 @@
 
 #include "aboutdlg.h"
 #include "appinfo.h"
+#include "common.h"
 
 AboutDlg::AboutDlg(QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

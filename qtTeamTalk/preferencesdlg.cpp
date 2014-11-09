@@ -908,7 +908,7 @@ void PreferencesDlg::slotSaveChanges()
         if(modified && m_video_ready)
         {
             TT_CloseVideoCaptureDevice(ttInst);
-            if(!InitVideoFromSettings())
+            if(!initVideoCaptureFromSettings())
                 QMessageBox::critical(this, tr("Video Device"), 
                 tr("Failed to initialize video device"));
         }
@@ -920,7 +920,7 @@ void PreferencesDlg::slotCancelChanges()
     //if user tested video settings, we need to revert to what it was before
     if(m_video_ready && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
     {
-        if(!InitVideoFromSettings())
+        if(!initVideoCaptureFromSettings())
             QMessageBox::critical(this, tr("Video Device"), 
             tr("Failed to initialize video device"));
     }
@@ -1385,7 +1385,9 @@ void PreferencesDlg::slotVideoCaptureDevChange(int index)
             Q_ASSERT(0);
             continue;
         }
-        QString res = QString("%1x%2, FPS %3").arg(m_videodevices[index].videoFormats[j].nWidth).arg(m_videodevices[index].videoFormats[j].nHeight).arg(fps);
+
+        QString res = QString("%1x%2, FPS %3").arg(m_videodevices[index].videoFormats[j].nWidth)
+            .arg(m_videodevices[index].videoFormats[j].nHeight).arg(fps);
         ui.captureformatsBox->addItem(res, j);
 
         if(_Q(m_videodevices[index].szDeviceID) == ttSettings->value(SETTINGS_VIDCAP_DEVICEID) &&

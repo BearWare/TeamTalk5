@@ -44,7 +44,7 @@
 #include "afxwin.h"
 #include <afxpriv.h>
 
-#define APPVERSION              _T("5.0 - ALPHA4 v") _T( ##TEAMTALK_VERSION )
+#define APPVERSION              _T("5.0 - ALPHA5 v") _T( ##TEAMTALK_VERSION )
 #define APPVERSION_SHORT        _T("5.0")
 
 #ifdef ENABLE_ENCRYPTION
@@ -64,6 +64,7 @@
 #define TEAMTALK_INSTALLDIR _T("BearWare.dk")
 #define TTURL _T("tt://")
 #define TT_XML_ROOTNAME "teamtalk"
+#define TTFILE_EXT          ".tt"
 
 #define MP3ENCDLL_FILENAME _T("lame_enc.dll")
 
@@ -173,7 +174,6 @@ public:
     int GetSoundInputDevice(SoundDevice* pSoundDev = NULL);
     int GetSoundOutputDevice(SoundDevice* pSoundDev = NULL);
 
-    void UpdateVolume(int nUserID = -1);
     void UpdateAudioStorage(BOOL bEnable);
     void UpdateAudioConfig();
     void UpdateChannelLog();
@@ -199,7 +199,6 @@ protected:
     BOOL m_bMinimized;
     BOOL m_bSpeech;
     HACCEL m_hAccel; // accelerator table
-    int m_nMasterVol;
     int m_nLastMoveChannel;
     HWND m_hShareWnd;
 

@@ -73,13 +73,8 @@ using namespace teamtalk;
 
 TTInstance* ttInst = NULL;
 
-#define GAIN_DIV_FACTOR 100
-#define GAIN_INCREMENT 100
-
 //Limit text lengths for nickname, etc.
 extern int nTextLimit;
-
-#define VOLUME_INCREMENT 10
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -95,7 +90,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_bTwoPanes(TRUE)
 , m_bIgnoreResize(FALSE)
 , m_bHotKey(FALSE)
-, m_nMasterVol(SOUND_VOLUME_MAX)
 , m_bBoostBugComp(FALSE)
 , m_bTempMixerInput(FALSE)
 , m_nLastMixerInput(UNDEFINED)
@@ -1170,8 +1164,6 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
             OnChannelJoined(chan);
     }
 
-    UpdateVolume(user.nUserID);
-
     if(m_xmlSettings.GetAudioLogStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
     {
         CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
@@ -1985,13 +1977,17 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
         break;
     case HOTKEY_VOLUME_PLUS :
         if(msg.bActive)
-            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() + GAIN_INCREMENT);
-        UpdateVolume();
+        {
+            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() + VOLUME_PAGE_STEP / GAIN_FACTOR);
+            TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
+        }
         break;
     case HOTKEY_VOLUME_MINUS :
         if(msg.bActive)
-            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() - GAIN_INCREMENT);
-        UpdateVolume();
+        {
+            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() - VOLUME_PAGE_STEP / GAIN_FACTOR);
+            TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
+        }
         break;
     case HOTKEY_MUTEALL :
         if(msg.bActive)
@@ -2153,21 +2149,16 @@ BOOL CTeamTalkDlg::OnInitDialog()
         RunWizard();
     }
 
-    m_wndVolSlider.SetRange(0, SOUND_GAIN_MAX / 1000);
-    m_wndVoiceSlider.SetRange(SOUND_VU_MIN, SOUND_VU_MAX);
-    m_wndVUProgress.SetRange(SOUND_VU_MIN, SOUND_VU_MAX);
-    m_wndGainSlider.SetRange(SOUND_GAIN_MIN/GAIN_DIV_FACTOR, SOUND_GAIN_MAX/GAIN_DIV_FACTOR, TRUE);
-    m_wndGainSlider.SetPageSize(10);
-    if(m_xmlSettings.GetVoiceGainLevel() == UNDEFINED)
-        m_wndGainSlider.SetPos(SOUND_GAIN_DEFAULT/GAIN_DIV_FACTOR);
-    else
-        m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel()/GAIN_DIV_FACTOR);
+    m_wndVolSlider.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
+    m_wndVolSlider.SetPageSize(VOLUME_PAGE_STEP / GAIN_FACTOR);
+    m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(SOUND_VOLUME_DEFAULT) / GAIN_FACTOR);
 
-    if(m_xmlSettings.GetSoundOutputVolume() == UNDEFINED)
-        m_wndVolSlider.SetPos(SOUND_GAIN_DEFAULT);
-    else
-        m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume());
-    m_nMasterVol = m_wndVolSlider.GetPos();
+    m_wndGainSlider.SetRange(SOUND_GAIN_MIN/GAIN_FACTOR, DEFAULT_GAIN_MAX/GAIN_FACTOR, TRUE);
+    m_wndGainSlider.SetPageSize(10);
+    m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(SOUND_GAIN_DEFAULT) / GAIN_FACTOR);
+
+    m_wndVoiceSlider.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX, TRUE);
+    m_wndVUProgress.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX);
 
     //set vumeter and voice act-settings
     m_wndVoiceSlider.SetPos(m_xmlSettings.GetVoiceActivationLevel());
@@ -2326,7 +2317,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
     {
         m_nLastRecvBytes = 0;
         m_nLastSentBytes = 0;
-        m_xmlSettings.GetLatestHostEntry(m_xmlSettings.GetLatestHostEntryCount()-1, m_host);
+        HostEntry lasthost;
+        m_xmlSettings.GetLatestHostEntry(m_xmlSettings.GetLatestHostEntryCount()-1, lasthost);
+        m_host = lasthost;
         Connect( STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort,
                  m_host.nUdpPort, m_host.bEncrypted);
     }
@@ -2449,10 +2442,10 @@ void CTeamTalkDlg::OnClose()
     //////////////////////
 
     //save output volume
-    VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos()));
+    VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos() * GAIN_FACTOR));
     VERIFY(m_xmlSettings.SetVoiceActivationLevel(m_wndVoiceSlider.GetPos()));
     VERIFY(m_xmlSettings.SetVoiceActivated(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-    VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos() * GAIN_DIV_FACTOR));
+    VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos() * GAIN_FACTOR));
     VERIFY(m_xmlSettings.SetPushToTalk(m_bHotKey));
 
     //erase tray of minimized
@@ -2827,6 +2820,7 @@ void CTeamTalkDlg::OnFileConnect()
         }
         if(dlg.DoModal()==IDOK)
         {
+            m_host = HostEntry();
             m_host.szAddress = STR_UTF8( dlg.m_szHostAddress.GetBuffer() );
             m_host.nTcpPort = dlg.m_nTcpPort;
             m_host.nUdpPort = dlg.m_nUdpPort;
@@ -3040,8 +3034,10 @@ void CTeamTalkDlg::OnFilePreferences()
     // Video Capture
     ////////////////////
     videopage.m_szVidDevID = STR_UTF8(m_xmlSettings.GetVideoCaptureDevice().c_str());
-    videopage.m_nCapFormatIndex = m_xmlSettings.GetVideoCaptureFormat();
-    videopage.m_nVidCodecBitrate = m_xmlSettings.GetVideoCodecBitrate();
+
+    m_xmlSettings.GetVideoCaptureFormat(videopage.m_capformat);
+    videopage.m_nCapFormatIndex = m_xmlSettings.GetVideoCaptureFormat(-1);
+    videopage.m_nVidCodecBitrate = m_xmlSettings.GetVideoCodecBitrate(DEFAULT_WEBM_VP8_BITRATE);
 
     ////////////////////
     // advanced
@@ -3287,6 +3283,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetVideoCaptureDevice(STR_UTF8(videopage.m_szVidDevID));
         m_xmlSettings.SetVideoCaptureFormat(videopage.m_nCapFormatIndex);
         m_xmlSettings.SetVideoCodecBitrate(videopage.m_nVidCodecBitrate);
+        m_xmlSettings.SetVideoCaptureFormat(videopage.m_capformat);
 
         /////////////////////////////////////////
         //   write settings for Advanced
@@ -3650,7 +3647,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice + VOLUME_INCREMENT);
+                         user.nVolumeVoice + VOLUME_PAGE_STEP);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumevoice(CCmdUI *pCmdUI)
@@ -3668,7 +3665,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice - VOLUME_INCREMENT);
+                         user.nVolumeVoice - VOLUME_PAGE_STEP);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumemediafile(CCmdUI *pCmdUI)
@@ -3686,7 +3683,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile + VOLUME_INCREMENT);
+                         user.nVolumeMediaFile + VOLUME_SINGLE_STEP);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumemediafile(CCmdUI *pCmdUI)
@@ -3704,7 +3701,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile - VOLUME_INCREMENT);
+                         user.nVolumeMediaFile - VOLUME_SINGLE_STEP);
 }
 
 void CTeamTalkDlg::OnUpdateChannelsCreatechannel(CCmdUI *pCmdUI)
@@ -4195,8 +4192,8 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
 void CTeamTalkDlg::OnNMCustomdrawSliderVolume(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-    m_nMasterVol = m_wndVolSlider.GetPos();
-    UpdateVolume();
+    TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
+    TRACE(_T("New volume %d => %d\n"), m_wndVolSlider.GetPos(), m_wndVolSlider.GetPos() * GAIN_FACTOR);
     *pResult = 0;
 }
 
@@ -4259,28 +4256,61 @@ BOOL CTeamTalkDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pData)
 /// load XML file containing host settings (.tt file)
 LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 {
-    
+    HostEntry tthost;
+
     TTFile tt(TT_XML_ROOTNAME);
     if(tt.LoadFile(STR_LOCAL( m_szTTLink )) && 
        VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T(TEAMTALK_XML_VERSION)) &&
-       !tt.HasErrors() && tt.GetHostEntry(m_host, 0))
+       !tt.HasErrors() && tt.GetHostEntry(tthost, 0))
     {
-        //override nickname if set in .tt file and not set in settings
-        if(m_host.szNickname.size() &&
-           STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME))) == DEFAULT_NICKNAME)
-           m_xmlSettings.SetNickname(m_host.szNickname);
+        m_host = tthost;
 
-        if(m_host.nGender != GENDER_NONE && m_xmlSettings.GetGender(GENDER_NONE) == GENDER_NONE)
-            m_xmlSettings.SetGender(m_host.nGender);
-
-        //override PTT-key if set in .tt file and not set in settings
-        teamtalk::HotKey tt_hotkey;
-        m_xmlSettings.GetPushToTalkKey(tt_hotkey);
-        if(m_host.hotkey.size() && tt_hotkey.size() == 0)
+        CString szFormat, szText;
+        szFormat.LoadString(IDS_CLIENTSETTINGS);
+        szText.Format(szFormat, m_szTTLink, APPTITLE_SHORT);
+        if(tt.HasClientSetup() && MessageBox(szText, _T("Load ") _T(TTFILE_EXT) _T(" File"), MB_YESNO) == IDYES)
         {
-            m_bHotKey = FALSE;
-            m_xmlSettings.SetPushToTalkKey(m_host.hotkey);
-            OnMeEnablehotkey(); //now enable hotkey
+            //override nickname if set in .tt file and not set in settings
+            if(m_host.szNickname.size())
+            {
+                m_xmlSettings.SetNickname(m_host.szNickname);
+            }
+
+            if(m_host.nGender != GENDER_NONE)
+            {
+                m_xmlSettings.SetGender(m_host.nGender);
+            }
+
+            //override PTT-key if set in .tt file and not set in settings
+            teamtalk::HotKey tt_hotkey;
+            m_xmlSettings.GetPushToTalkKey(tt_hotkey);
+            if(m_host.hotkey.size())
+            {
+                m_bHotKey = FALSE;
+                m_xmlSettings.SetPushToTalkKey(m_host.hotkey);
+                OnMeEnablehotkey(); //now enable hotkey
+            }
+
+            //voice act
+            if(m_host.nVoiceAct>=0)
+            {
+                EnableVoiceActivation(m_host.nVoiceAct>0);
+                m_xmlSettings.SetVoiceActivated(m_host.nVoiceAct>0);
+            }
+
+            //video capture
+            if(IsValid(m_host.capformat))
+            {
+                m_xmlSettings.SetVideoCaptureFormat(m_host.capformat);
+                TT_CloseVideoCaptureDevice(ttInst);
+            }
+
+            //video codec
+            if(m_host.vidcodec.nCodec == WEBM_VP8_CODEC)
+            {
+                m_xmlSettings.SetVideoCodecBitrate(m_host.vidcodec.webm_vp8.nRcTargetBitrate);
+                TT_CloseVideoCaptureDevice(ttInst);
+            }
         }
 
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
@@ -4627,27 +4657,6 @@ int CTeamTalkDlg::GetSoundOutputDevice(SoundDevice* pSoundDev/* = NULL*/)
     if(pSoundDev)
         GetSoundDevice(nOutputDevice, *pSoundDev);
     return nOutputDevice;
-}
-
-void CTeamTalkDlg::UpdateVolume(int nUserID/* = -1*/)
-{
-    int nPos = m_wndVolSlider.GetPos() * GAIN_DIV_FACTOR;
-    std::vector<int> users;
-    if(nUserID<0)
-    {
-        users_t musers = m_wndTree.GetUsers(0);
-        users_t::const_iterator ii=musers.begin();
-        for(;ii!=musers.end();ii++)
-            users.push_back(ii->first);
-    }
-    else
-        users.push_back(nUserID);
-
-    for(size_t i=0;i<users.size();i++)
-    {
-        TT_SetUserGainLevel(ttInst, users[i], STREAMTYPE_VOICE, nPos);
-        TT_SetUserGainLevel(ttInst, users[i], STREAMTYPE_MEDIAFILE_AUDIO, nPos);
-    }
 }
 
 void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
@@ -5645,7 +5654,7 @@ void CTeamTalkDlg::OnServerServerstatistics()
 void CTeamTalkDlg::OnNMCustomdrawSliderGainlevel(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-    int nGainLevel = m_wndGainSlider.GetPos() * GAIN_DIV_FACTOR;
+    int nGainLevel = m_wndGainSlider.GetPos() * GAIN_FACTOR;
     TT_SetSoundInputGainLevel(ttInst, nGainLevel);
     *pResult = 0;
 }
@@ -5705,21 +5714,34 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
             break;
     }
 
+    VideoFormat capformat;
+    ZERO_STRUCT(capformat);
+
     if(i == viddevs.size())
     {
-        MessageBox(_T("No video devices detected.\r\n")
-                   _T("Press Client -> Preferences -> Video Capture to reconfigure."), 
-                   szCaption, MB_OK);
-        return;
+        //just select video dev 0 as primary
+        if(viddevs.size())
+        {
+            szDeviceID = viddevs[0].szDeviceID;
+        }
+        else
+        {
+            MessageBox(_T("No video devices detected.\r\n")
+                       _T("Press Client -> Preferences -> Video Capture to reconfigure."), 
+                       szCaption, MB_OK);
+            return;
+        }
     }
 
-    int capformat = m_xmlSettings.GetVideoCaptureFormat();
-    if(capformat < 0 || capformat >= viddevs[i].nVideoFormatsCount)
+    m_xmlSettings.GetVideoCaptureFormat(capformat);
+    
+    if(!IsValid(capformat))
     {
-        MessageBox(_T("Invalid capture format for selected video device.\r\n")
-                   _T("Press Client -> Preferences -> Video Capture to reconfigure."), 
-                   szCaption, MB_OK);
-        return;
+        capformat.nWidth = DEFAULT_VIDEO_WIDTH;
+        capformat.nHeight = DEFAULT_VIDEO_HEIGHT;
+        capformat.nFPS_Numerator = DEFAULT_VIDEO_FPS;
+        capformat.nFPS_Denominator = 1;
+        capformat.picFourCC = DEFAULT_VIDEO_FOURCC;
     }
 
     VideoCodec codec;
@@ -5728,11 +5750,11 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
     switch(codec.nCodec)
     {
     case WEBM_VP8_CODEC :
-        codec.webm_vp8.nRcTargetBitrate = m_xmlSettings.GetVideoCodecBitrate();
+        codec.webm_vp8.nRcTargetBitrate = m_xmlSettings.GetVideoCodecBitrate(DEFAULT_WEBM_VP8_BITRATE);
         break;
     }
 
-    if(!TT_InitVideoCaptureDevice(ttInst, szDeviceID, &viddevs[i].videoFormats[capformat]))
+    if(!TT_InitVideoCaptureDevice(ttInst, szDeviceID, &capformat))
     {
         MessageBox(_T("Failed to start video capture device."),
                    szCaption, MB_OK);

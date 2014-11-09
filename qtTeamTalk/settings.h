@@ -122,10 +122,15 @@
 
 #define SETTINGS_VIDCAP_DEVICEID                    "videocapture/deviceid"
 #define SETTINGS_VIDCAP_RESOLUTION                  "videocapture/resolution"
+#define SETTINGS_VIDCAP_RESOLUTION_DEFAULT          (QString("%1x%2").arg(DEFAULT_VIDEO_WIDTH).arg(DEFAULT_VIDEO_HEIGHT))
 #define SETTINGS_VIDCAP_FPS                         "videocapture/fps"
+#define SETTINGS_VIDCAP_FPS_DEFAULT                 (QString("%1/1").arg(DEFAULT_VIDEO_FPS))
 #define SETTINGS_VIDCAP_FOURCC                      "videocapture/fourcc"
+#define SETTINGS_VIDCAP_FOURCC_DEFAULT              DEFAULT_VIDEO_FOURCC
 #define SETTINGS_VIDCAP_CODEC                       "videocapture/codec"
+#define SETTINGS_VIDCAP_CODEC_DEFAULT               DEFAULT_VIDEO_CODEC
 #define SETTINGS_VIDCAP_WEBMVP8_BITRATE             "videocapture/codec/webmvp8-bitrate"
+#define SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT     DEFAULT_WEBMVP8_BITRATE
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
@@ -160,6 +165,7 @@
 #define SETTINGS_SERVERENTRIES_HOSTADDR             "serverentries/%1_hostaddr"
 #define SETTINGS_SERVERENTRIES_TCPPORT              "serverentries/%1_tcpport"
 #define SETTINGS_SERVERENTRIES_UDPPORT              "serverentries/%1_udpport"
+#define SETTINGS_SERVERENTRIES_ENCRYPTED            "serverentries/%1_encrypted"
 #define SETTINGS_SERVERENTRIES_USERNAME             "serverentries/%1_username"
 #define SETTINGS_SERVERENTRIES_PASSWORD             "serverentries/%1_password"
 #define SETTINGS_SERVERENTRIES_CHANNEL              "serverentries/%1_channel"
@@ -175,13 +181,5 @@
 
 #define SOUNDDEVICEID_DEFAULT  -2
 #define SOUNDDEVICEID_NODEVICE -1
-
-#define DEFAULT_VIDEO_WIDTH     320
-#define DEFAULT_VIDEO_HEIGHT    240
-#define DEFAULT_VIDEO_FPS       10
-#define DEFAULT_VIDEO_FOURCC    FOURCC_RGB32
-#define DEFAULT_VIDEO_CODEC     WEBM_VP8_CODEC
-#define DEFAULT_WEBMVP8_BITRATE 256
-
 
 #endif

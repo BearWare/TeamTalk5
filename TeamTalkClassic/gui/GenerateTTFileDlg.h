@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "afxcmn.h"
 
 
 // CGenerateTTFileDlg dialog
@@ -20,6 +21,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
+    void LoadVideoFormats();
+
 public:
     virtual BOOL OnInitDialog();
     teamtalk::HostEntry m_hostentry;
@@ -37,4 +40,11 @@ public:
     afx_msg void OnBnClickedButtonSetupkeys();
     afx_msg void OnBnClickedButtonSavettfile();
     CButton m_wndOverrideClient;
+    CComboBox m_wndVidCodec;
+    CEdit m_wndVidBitrate;
+    CSpinButtonCtrl m_wndVidBitrateSpinCtrl;
+    afx_msg void OnCbnSelchangeComboVidcodec();
+    CButton m_wndVox;
+    CComboBox m_wndCapfmt;
+    std::vector<VideoFormat> m_vidcap_fmts;
 };

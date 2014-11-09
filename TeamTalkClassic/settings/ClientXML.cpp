@@ -23,6 +23,7 @@
 #include "ClientXML.h"
 #include "MyStd.h"
 #include <assert.h>
+#include <sstream>
 
 using namespace std;
 namespace teamtalk {
@@ -1436,16 +1437,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetSoundOutputVolume()
+    int ClientXML::GetSoundOutputVolume(int def_vol)
     {
         TiXmlElement* child = GetSoundSystemElement();
         if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "volume", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
+            GetInteger(*child, "volume", def_vol);
+        return def_vol;
     }
 
     bool ClientXML::SetAutoPositioning(bool bEnable)
@@ -1573,14 +1570,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetVoiceGainLevel()
+    int ClientXML::GetVoiceGainLevel(int nDefGain)
     {
-        int nValue = UNDEFINED;
         TiXmlElement* child = GetSoundSystemElement();
         if(child)
-            GetInteger(*child, "gain-level", nValue);
-
-        return nValue;
+            GetInteger(*child, "gain-level", nDefGain);
+        return nDefGain;
     }
 
     bool ClientXML::SetDuplexMode(bool bEnable)
@@ -2323,34 +2318,52 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetVideoCaptureFormat()
+    int ClientXML::GetVideoCaptureFormat(int nDefIndex)
     {
         TiXmlElement* child = GetVideoElement();
-        int index = -1;
         if(child)
-            GetInteger(*child, "capture-format", index);
-        return index;
+            GetInteger(*child, "capture-format", nDefIndex);
+        return nDefIndex;
     }
 
-    bool ClientXML::SetVideoCodecQuality(int quality)
+    bool ClientXML::SetVideoCaptureFormat(const VideoFormat& capformat)
     {
-        TiXmlElement* pParent = GetVideoElement();
-        if(pParent)
+        TiXmlElement* child = GetVideoElement();
+        if(child && capformat.nWidth)
         {
-            PutInteger(*pParent, "theora-quality", quality);
+            TiXmlElement capfmt("videoformat");
+            PutInteger(capfmt, "fourcc", capformat.picFourCC);
+            PutInteger(capfmt, "width", capformat.nWidth);
+            PutInteger(capfmt, "height", capformat.nHeight);
+            PutInteger(capfmt, "fps-numerator", capformat.nFPS_Numerator);
+            PutInteger(capfmt, "fps-denominator", capformat.nFPS_Denominator);
+
+            TiXmlElement* vidcap = child->FirstChildElement("videoformat");
+            if(vidcap)
+                child->ReplaceChild(vidcap, capfmt);
+            else
+                child->InsertEndChild(capfmt);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
-    int ClientXML::GetVideoCodecQuality()
+    bool ClientXML::GetVideoCaptureFormat(VideoFormat& capformat)
     {
         TiXmlElement* child = GetVideoElement();
-        int quality = 10;
-        if(child)
-            GetInteger(*child, "theora-quality", quality);
-        return quality;
+        TiXmlElement* capElem = child->FirstChildElement("videoformat");
+        if(capElem)
+        {
+            int c = 0;
+            GetInteger(*capElem, "fourcc", c);
+            capformat.picFourCC = (FourCC)c;
+            GetInteger(*capElem, "width", capformat.nWidth);
+            GetInteger(*capElem, "height", capformat.nHeight);
+            GetInteger(*capElem, "fps-numerator", capformat.nFPS_Numerator);
+            GetInteger(*capElem, "fps-denominator", capformat.nFPS_Denominator);
+            return true;
+        }
+        return false;
     }
 
     bool ClientXML::SetVideoCodecBitrate(int bitrate)
@@ -2358,20 +2371,19 @@ namespace teamtalk {
         TiXmlElement* pParent = GetVideoElement();
         if(pParent)
         {
-            PutInteger(*pParent, "theora-bitrate", bitrate);
+            PutInteger(*pParent, "webm-vp8-bitrate", bitrate);
             return true;
         }
         else
             return false;
     }
 
-    int ClientXML::GetVideoCodecBitrate()
+    int ClientXML::GetVideoCodecBitrate(int nDefBitrate)
     {
         TiXmlElement* child = GetVideoElement();
-        int bitrate = 0;
         if(child)
-            GetInteger(*child, "theora-bitrate", bitrate);
-        return bitrate;
+            GetInteger(*child, "webm-vp8-bitrate", nDefBitrate);
+        return nDefBitrate;
     }
 
     /********* </videocapture> *********/
@@ -2580,6 +2592,28 @@ namespace teamtalk {
             }
             client.InsertEndChild(hotkey);
         }
+        PutInteger(client, "voice-activated", entry.nVoiceAct);
+
+        if(entry.capformat.nWidth)
+        {
+            TiXmlElement capfmt("videoformat");
+            PutInteger(capfmt, "fourcc", entry.capformat.picFourCC);
+            PutInteger(capfmt, "width", entry.capformat.nWidth);
+            PutInteger(capfmt, "height", entry.capformat.nHeight);
+            PutInteger(capfmt, "fps-numerator", entry.capformat.nFPS_Numerator);
+            PutInteger(capfmt, "fps-denominator", entry.capformat.nFPS_Denominator);
+
+            client.InsertEndChild(capfmt);
+        }
+
+        if(entry.vidcodec.nCodec != NO_CODEC)
+        {
+            TiXmlElement vidcodec("videocodec");
+            PutInteger(vidcodec, "codec", entry.vidcodec.nCodec);
+            PutInteger(vidcodec, "webm-vp8-bitrate", entry.vidcodec.webm_vp8.nRcTargetBitrate);
+            client.InsertEndChild(vidcodec);
+        }
+
         if(client.FirstChildElement())
             hostElement.InsertEndChild(client);
 
@@ -2620,6 +2654,7 @@ namespace teamtalk {
                 TiXmlElement* client = item->FirstChildElement("clientsetup");
                 if(client)
                 {
+
                     GetString(*client, "nickname", entry.szNickname);
                     GetInteger(*client, "gender", entry.nGender);
 
@@ -2635,15 +2670,53 @@ namespace teamtalk {
                             key = key->NextSiblingElement("key");
                         }
                     }
+                    GetInteger(*client, "voice-activated", entry.nVoiceAct);
+
+                    TiXmlElement* capformat = client->FirstChildElement("videoformat");
+                    if(capformat)
+                    {
+                        int c = 0;
+                        GetInteger(*capformat, "fourcc", c);
+                        entry.capformat.picFourCC = (FourCC)c;
+
+                        GetInteger(*capformat, "width", entry.capformat.nWidth);
+                        GetInteger(*capformat, "height", entry.capformat.nHeight);
+                        GetInteger(*capformat, "fps-numerator", entry.capformat.nFPS_Numerator);
+                        GetInteger(*capformat, "fps-denominator", entry.capformat.nFPS_Denominator);
+                    }
+
+                    TiXmlElement* vidcodec = client->FirstChildElement("videocodec");
+                    if(vidcodec)
+                    {
+                        int c = NO_CODEC;
+                        GetInteger(*vidcodec, "codec", c);
+                        entry.vidcodec.nCodec = (Codec)c;
+                        switch(entry.vidcodec.nCodec)
+                        {
+                        case WEBM_VP8_CODEC :
+                            GetInteger(*vidcodec, "webm-vp8-bitrate", entry.vidcodec.webm_vp8.nRcTargetBitrate);
+                            break;
+                        }
+                    }
                 }
                 
                 found = ok && i == 0;
                 item = item->NextSiblingElement("host");
                 i--;
             }
-            return found;
         }
-
         return found;
     }
+    
+    bool TTFile::HasClientSetup()    {
+        TiXmlElement* item=m_xmlDocument.RootElement();
+        if(item)
+        {
+            item = item->FirstChildElement("host");
+            TiXmlElement* client = item->FirstChildElement("clientsetup");
+            return client != NULL;
+        }
+        return false;
+    }
+
 }

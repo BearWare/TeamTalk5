@@ -35,10 +35,13 @@ public:
 
 private slots:
     void slotSetupHotkey();
+    void slotVideoCodecChange(int);
     void slotSaveTTFile();
 
 private:
+    void loadVideoFormats();
     Ui::GenTTFileDlg ui;
+    QVector<VideoFormat> m_vidcap_fmts;
     HostEntry m_hostentry;
 };
 

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3529"
+#define TEAMTALK_VERSION "5.0.0.3581"
 
 
 #if defined(WIN32)
@@ -286,7 +286,7 @@ extern "C" {
          * @see TT_GetSoundInputLevel
          * @see TT_SetVoiceActivationLevel
          * @see TT_GetVoiceActivationLevel */
-        SOUND_VU_MAX = 20,
+        SOUND_VU_MAX = 100,
         /**
          * @brief The minimum value of recorded audio.
          * @see TT_GetSoundInputLevel
@@ -294,15 +294,23 @@ extern "C" {
          * @see TT_GetVoiceActivationLevel */
         SOUND_VU_MIN = 0,
         /**
-         * @brief The maximum volume for master volume. To gain the
-         * volume level using software call #TT_SetUserGainLevel.
+         * @brief The maximum volume.
+         *
+         * @see TT_SetSoundOutputVolume
+         * @see TT_GetSoundOutputVolume
+         * @see TT_SetUserVolume
+         * @see SOUND_VOLUME_DEFAULT */
+        SOUND_VOLUME_MAX = 32000,
+        /**
+         * @brief The default volume. Use this whenever possible since
+         * it requires the least amount of CPU usage.
          *
          * @see TT_SetSoundOutputVolume
          * @see TT_GetSoundOutputVolume
          * @see TT_SetUserVolume */
-        SOUND_VOLUME_MAX = 255,
+        SOUND_VOLUME_DEFAULT = 1000,
         /**
-         * @brief The minimum volume for master volume.
+         * @brief The minimum volume.
          * @see TT_SetSoundOutputVolume
          * @see TT_GetSoundOutputVolume
          * @see TT_SetUserVolume */
@@ -314,8 +322,7 @@ extern "C" {
          * level of #SOUND_GAIN_DEFAULT means no gain.
          *
          * @see TT_SetSoundInputGainLevel
-         * @see TT_GetSoundInputGainLevel
-         * @see TT_SetUserGainLevel */
+         * @see TT_GetSoundInputGainLevel */
         SOUND_GAIN_MAX = 32000,
         /**
          * @brief The default gain level.
@@ -325,8 +332,7 @@ extern "C" {
          * level.
          *
          * @see TT_SetSoundInputGainLevel
-         * @see TT_GetSoundInputGainLevel
-         * @see TT_SetUserGainLevel */
+         * @see TT_GetSoundInputGainLevel */
         SOUND_GAIN_DEFAULT = 1000,
         /**
          * @brief The minimum gain level (since it's zero it means
@@ -335,8 +341,7 @@ extern "C" {
          * A gain level of 100 is 1/10 of the default volume.
          *
          * @see TT_SetSoundInputGainLevel
-         * @see TT_GetSoundInputGainLevel
-         * @see TT_SetUserGainLevel */
+         * @see TT_GetSoundInputGainLevel */
         SOUND_GAIN_MIN = 0
     } SoundLevel;
 
@@ -1511,14 +1516,6 @@ extern "C" {
          * #SOUND_VOLUME_MIN and #SOUND_VOLUME_MAX
          * @see TT_SetUserVolume */
         INT32 nVolumeMediaFile;
-        /** @brief Get the software gain level for a user's voice.
-         * The value will between #SOUND_GAIN_MIN and #SOUND_GAIN_MAX.
-         * @see TT_SetUserGainLevel */
-        INT32 nGainLevelVoice;
-        /** @brief Get the software gain level for a user's media file.
-         * The value will between #SOUND_GAIN_MIN and #SOUND_GAIN_MAX.
-         * @see TT_SetUserGainLevel */
-        INT32 nGainLevelMediaFile;
         /** @brief The delay of when a user should no longer be 
          * considered as talking.
          * @see TT_SetUserStoppedTalkingDelay */
@@ -3306,7 +3303,7 @@ extern "C" {
     /**
      * @brief Set master volume. 
      *
-     * If still not loud enough use #TT_SetUserGainLevel.
+     * If still not loud enough use #TT_SetUserVolume.
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
@@ -5359,22 +5356,6 @@ extern "C" {
                                           IN INT32 nUserID, 
                                           IN StreamType nStreamType,
                                           IN INT32 nVolume);
-
-    /**
-     * @brief Use software to gain a user's volume.
-     *
-     * @param lpTTInstance Pointer to client instance created by
-     * #TT_InitTeamTalk.
-     * @param nUserID The ID of the user who should have sound gained.
-     * @param nStreamType The type of stream to change, either 
-     * #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE_AUDIO.
-     * @param nGainLevel The gain level for the user. A value from
-     * #SOUND_GAIN_MIN to #SOUND_GAIN_MAX
-     * @see SOUND_GAIN_DEFAULT */
-    TEAMTALKDLL_API BOOL TT_SetUserGainLevel(IN TTInstance* lpTTInstance,
-                                             IN INT32 nUserID, 
-                                             IN StreamType nStreamType,
-                                             IN INT32 nGainLevel);
 
     /**
      * @brief Mute a user.

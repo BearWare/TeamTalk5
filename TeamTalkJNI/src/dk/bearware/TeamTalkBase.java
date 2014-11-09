@@ -617,15 +617,6 @@ public abstract class TeamTalkBase
                                  int nVolume) {
         return setUserVolume(ttInst, nUserID, nStreamType, nVolume);
     }
-    private native boolean setUserGainLevel(long lpTTInstance,
-                                            int nUserID,
-                                            int nStreamType,
-                                            int nGainLevel);
-    public boolean setUserGainLevel(int nUserID,
-                                    int nStreamType,
-                                    int nGainLevel) {
-        return setUserGainLevel(ttInst, nUserID, nStreamType, nGainLevel);
-    }
     private native boolean setUserMute(long lpTTInstance,
                                        int nUserID,
                                        int nStreamType,

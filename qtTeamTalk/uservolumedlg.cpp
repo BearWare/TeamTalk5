@@ -21,6 +21,7 @@
 
 #include "uservolumedlg.h"
 #include "appinfo.h"
+#include "common.h"
 
 #include <QMessageBox>
 
@@ -33,8 +34,12 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    ui.voicevolSlider->setRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
-    ui.mfvolSlider->setRange(SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
+    ui.voicevolSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX);
+    ui.voicevolSlider->setSingleStep(VOLUME_SINGLE_STEP);
+    ui.voicevolSlider->setPageStep(VOLUME_PAGE_STEP);
+    ui.mfvolSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX);
+    ui.mfvolSlider->setSingleStep(VOLUME_SINGLE_STEP);
+    ui.mfvolSlider->setPageStep(VOLUME_PAGE_STEP);
 
     connect(ui.voicevolSlider, SIGNAL(valueChanged(int)),
             SLOT(slotVolumeChanged(int)));
@@ -45,6 +50,7 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
             SLOT(slotVolumeChanged(int)));
     connect(ui.mfleftChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
     connect(ui.mfrightChkBox, SIGNAL(clicked()), SLOT(slotMuteChannel()));
+    connect(ui.defaultsButton, SIGNAL(clicked()), SLOT(slotDefaults()));
 
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))
@@ -82,3 +88,11 @@ void UserVolumeDlg::slotMuteChannel()
                      !ui.mfleftChkBox->isChecked(), 
                      !ui.mfrightChkBox->isChecked());
 }
+
+void UserVolumeDlg::slotDefaults()
+{
+    ui.voicevolSlider->setValue(SOUND_VOLUME_DEFAULT);
+    ui.mfvolSlider->setValue(SOUND_VOLUME_DEFAULT);
+    slotVolumeChanged(SOUND_VOLUME_DEFAULT);
+}
+

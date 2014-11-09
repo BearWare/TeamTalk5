@@ -38,4 +38,6 @@ public:
     afx_msg void OnBnClickedCheckMuterightmediafile();
     afx_msg void OnNMCustomdrawSliderVoicevol(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnNMCustomdrawSliderMediafilevol(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnBnClickedCancel();
+    afx_msg void OnBnClickedButtonDefault();
 };

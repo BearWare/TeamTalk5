@@ -41,6 +41,7 @@
 #define IDS_CLASSROOM_SELF_JOINED       133
 #define IDS_FILES                       134
 #define IDS_CHAT                        135
+#define IDS_CLIENTSETTINGS              136
 #define IDS_DESKTOPINPUT_REQUEST        138
 #define IDS_DESKTOPINPUT_RETRACT        139
 #define IDD_DIALOG_SERVERPROPERTIES     140
@@ -590,6 +591,7 @@
 #define IDC_EDIT_LIMITTEXT              1532
 #define IDC_SPIN_TEXTLEN                1533
 #define IDC_STATIC_LIMITTEXT            1534
+#define IDC_STATIC_VIDCAPCODECSETTINGS  1535
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -691,7 +693,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32940
-#define _APS_NEXT_CONTROL_VALUE         1535
+#define _APS_NEXT_CONTROL_VALUE         1536
 #define _APS_NEXT_SYMED_VALUE           156
 #endif
 #endif

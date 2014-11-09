@@ -16,8 +16,10 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
+#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -387,7 +389,7 @@ BEGIN
     CONTROL         155,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,77,47,12
     LTEXT           "VU",IDC_STATIC_VU,66,79,11,8
-    CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",PBS_SMOOTH | WS_BORDER,79,79,47,8
+    CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",WS_BORDER | 0x1,79,79,47,8
     CONTROL         155,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,88,47,12
     CONTROL         154,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
@@ -530,8 +532,8 @@ BEGIN
     CONTROL         "",IDC_SLIDER_MEDIAFILEVOL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,61,66,83,14
     CONTROL         "Mute left",IDC_CHECK_MUTELEFTMEDIAFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,85,63,10
     CONTROL         "Mute right",IDC_CHECK_MUTERIGHTMEDIAFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,85,63,10
+    PUSHBUTTON      "&Default",IDC_BUTTON_DEFAULT,7,108,47,14
     DEFPUSHBUTTON   "OK",IDOK,113,108,34,14
-    PUSHBUTTON      "Cancel",IDCANCEL,7,108,34,14
 END
 
 IDD_DIALOG_INPUT DIALOGEX 0, 0, 184, 54
@@ -741,7 +743,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_SFILESIZE,82,19,123,8
     LTEXT           "Throughput:",IDC_STATIC_THROUGHPUT,7,31,64,8
     LTEXT           "Static",IDC_STATIC_STHROUGHPUT,82,31,123,8
-    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH | WS_BORDER,7,43,198,9
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER | 0x1,7,43,198,9
     CTEXT           "Static",IDC_STATIC_TRANSFERRED,7,59,198,8
     CONTROL         "Close when completed",IDC_CHECK_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,74,112,10
     PUSHBUTTON      "&Open",IDC_BUTTON_OPEN,167,70,38,14,WS_DISABLED
@@ -899,31 +901,42 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,7,129,50,16
 END
 
-IDD_DIALOG_GENERATETTFILE DIALOGEX 0, 0, 213, 200
+IDD_DIALOG_GENERATETTFILE DIALOGEX 0, 0, 375, 261
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Generate .tt File"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Authentication (optional)",IDC_STATIC_OPTAUTH,7,7,199,46
+    GROUPBOX        "Authentication (optional)",IDC_STATIC_OPTAUTH,7,7,361,46
     LTEXT           "Username",IDC_STATIC_USERNAME,15,21,68,8
-    EDITTEXT        IDC_EDIT_USERNAME,83,18,56,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_USERNAME,83,18,76,14,ES_AUTOHSCROLL
     LTEXT           "Password",IDC_STATIC_PASSWORD,15,38,68,8
-    EDITTEXT        IDC_EDIT_PASSWORD,83,35,56,14,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Client settings",IDC_STATIC_GRPCLIENTSETTINGS,7,57,199,119
+    EDITTEXT        IDC_EDIT_PASSWORD,83,35,76,14,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Client settings",IDC_STATIC_GRPCLIENTSETTINGS,7,57,361,179
     CONTROL         "Override client's predefined settings",IDC_CHECK_CLIENTOVERRIDE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,73,185,10
-    LTEXT           "Nickname",IDC_STATIC_NICKNAME,13,88,49,8
-    EDITTEXT        IDC_EDIT_NICKNAME,67,85,76,14,ES_AUTOHSCROLL | WS_DISABLED
-    LTEXT           "Gender",IDC_STATIC_GENDER,13,105,49,8
-    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,67,104,35,10
-    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,104,104,39,10
-    GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,13,117,186,54
-    CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,21,135,78,10
-    PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,105,133,59,13,WS_DISABLED
-    LTEXT           "Key combination",IDC_STATIC_KEYCOMP,21,154,80,8
-    EDITTEXT        IDC_EDIT_KEYCOMB,105,151,87,14,ES_AUTOHSCROLL | ES_READONLY
-    PUSHBUTTON      "&Save .tt File",IDC_BUTTON_SAVETTFILE,104,179,50,14
-    PUSHBUTTON      "&Close",IDCANCEL,156,179,50,14
+    GROUPBOX        "User Settings",IDC_STATIC_GRPUSERSETTINGS,13,92,162,47
+    LTEXT           "Nickname",IDC_STATIC_NICKNAME,23,105,49,8
+    EDITTEXT        IDC_EDIT_NICKNAME,77,102,76,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Gender",IDC_STATIC_GENDER,23,122,49,8
+    CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,77,121,35,10
+    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,113,121,39,10
+    GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,178,65,186,74
+    CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,186,83,78,10
+    PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,270,81,59,13,WS_DISABLED
+    LTEXT           "Key combination",IDC_STATIC_KEYCOMP,186,102,80,8
+    EDITTEXT        IDC_EDIT_KEYCOMB,270,99,87,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Voice activated",IDC_CHECK_VOICEACT,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,186,119,96,10
+    GROUPBOX        "Video Capture Settings",IDC_STATIC_VIDCAPCODECSETTINGS,13,142,162,89
+    LTEXT           "Video Resolution",IDC_STATIC_VIDRES,18,156,68,8
+    COMBOBOX        IDC_COMBO_VIDRES,89,154,81,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Codec",IDC_STATIC_CODEC,18,174,41,8
+    COMBOBOX        IDC_COMBO_VIDCODEC,62,172,108,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bitrate",IDC_STATIC_BPS,18,214,41,8
+    EDITTEXT        IDC_EDIT_VIDBITRATE,62,211,40,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "",IDC_SPIN_VIDBITRATE,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK | WS_DISABLED,102,211,11,14
+    LTEXT           "kbps (0 = VBR)",IDC_STATIC_VBRKBPS,116,214,56,8
+    PUSHBUTTON      "&Save .tt File",IDC_BUTTON_SAVETTFILE,112,240,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,216,240,50,14
 END
 
 
@@ -933,7 +946,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_DIALOG_SERVERPROPERTIES, DIALOG
     BEGIN
@@ -1260,9 +1273,10 @@ BEGIN
     IDD_DIALOG_GENERATETTFILE, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 206
+        RIGHTMARGIN, 368
+        VERTGUIDE, 175
         TOPMARGIN, 7
-        BOTTOMMARGIN, 193
+        BOTTOMMARGIN, 254
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1289,12 +1303,12 @@ IDB_BITMAP_SESSION2     BITMAP                  "res\\session2.bmp"
 // Accelerator
 //
 
-IDR_ACCELERATOR1 ACCELERATORS
+IDR_ACCELERATOR1 ACCELERATORS 
 BEGIN
     VK_RETURN,      IDC_BUTTON_SEND,        VIRTKEY, NOINVERT
 END
 
-IDR_ACCELERATOR2 ACCELERATORS
+IDR_ACCELERATOR2 ACCELERATORS 
 BEGIN
     "1",            ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "1",            ID_SUBSCRIPTIONS_INTERCEPTUSERMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
@@ -1362,7 +1376,7 @@ BEGIN
     "X",            ID_ADVANCED_STOREFORMOVE, VIRTKEY, CONTROL, ALT, NOINVERT
 END
 
-IDR_ACCELERATOR3 ACCELERATORS
+IDR_ACCELERATOR3 ACCELERATORS 
 BEGIN
     "K",            ID_POPUP_KICK,          VIRTKEY, CONTROL, NOINVERT
     "K",            ID_POPUP_KICKANDBAN,    VIRTKEY, SHIFT, CONTROL, NOINVERT
@@ -1424,7 +1438,7 @@ END
 // Menu
 //
 
-IDR_MENU_MAIN MENU
+IDR_MENU_MAIN MENU 
 BEGIN
     POPUP "C&lient"
     BEGIN
@@ -1545,7 +1559,7 @@ BEGIN
     END
 END
 
-IDR_MENU_TRAY MENU
+IDR_MENU_TRAY MENU 
 BEGIN
     POPUP "POPUP"
     BEGIN
@@ -1557,7 +1571,7 @@ BEGIN
     END
 END
 
-IDR_MENU_MSGPOPUP MENU
+IDR_MENU_MSGPOPUP MENU 
 BEGIN
     POPUP "PopUp"
     BEGIN
@@ -1573,7 +1587,7 @@ BEGIN
     END
 END
 
-IDR_MENU_ONLINEUSERS MENU
+IDR_MENU_ONLINEUSERS MENU 
 BEGIN
     POPUP "PopUp"
     BEGIN
@@ -1585,7 +1599,7 @@ BEGIN
     END
 END
 
-IDR_MENU_DESKTOPINPUT MENU
+IDR_MENU_DESKTOPINPUT MENU 
 BEGIN
     POPUP "PopUP"
     BEGIN
@@ -1599,7 +1613,7 @@ END
 // Toolbar
 //
 
-IDR_TOOLBAR1 TOOLBAR 16, 15
+IDR_TOOLBAR1 TOOLBAR  16, 15
 BEGIN
     BUTTON      ID_FILE_CONNECT
     SEPARATOR
@@ -1621,7 +1635,7 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
     IDS_ABOUTBOX            "&About TeamTalk..."
@@ -1637,12 +1651,12 @@ BEGIN
     IDS_UPDEXISTINGCHANNEL  "Update existing channel"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_INDICATOR_STATS      "RX: 0.0KB TX: 0.0KB"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_USERS_VOLUME         "Change the volume of the selected user"
     ID_USERS_VIEWINFO       "View information about the selected user"
@@ -1652,7 +1666,7 @@ BEGIN
     ID_CHANNELS             "&Channels"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_USERS_MUTE_VOICE     "Mute voice of the selected user"
     ID_USERS_KICKCHANNEL    "Kick the selected user"
@@ -1677,19 +1691,19 @@ BEGIN
                             "View information about the currently selected channel"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_CHANNELS_VIEWCHANNELMESSAGES 
                             "Expand the main window to include channel messages"
     ID_USERS_POSITIONUSERS  "Change where the voice from users should come from"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_HELP_WHATISMYIP      "View information about your network devices"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_YES                 "Yes"
     IDS_NO                  "No"
@@ -1709,7 +1723,7 @@ BEGIN
     IDS_CHANNEL_SELF_LEFT   "Left channel %s"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_USERS                "&Users"
     ID_FILE                 "&Client"
@@ -1720,7 +1734,7 @@ BEGIN
     ID_KICK                 "Kick"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_SERVER               "&Server"
 END
@@ -1737,10 +1751,11 @@ BEGIN
     IDS_CHAT                "Chat"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_VIDEOCAPTURE        "Video Capture"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_STARTSTREAMMEDIAFILE "&Stream Media File to Channel\tCtrl+Shift+W"
     IDS_STOPSTREAMINGMEDIAFILE 
@@ -1748,18 +1763,18 @@ BEGIN
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ME_ENABLEVIDEOTRANSMISSION 
                             "Start video device and transmit video to channel"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_USERS_STORECONVERSATIONSTODISK "Start/stop recording audio to disk"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ME_ENABLEDESKTOPSHARING "Enable desktop sharing"
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
@@ -1773,8 +1788,10 @@ END
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1252)
+#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1818,7 +1835,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_DIALOG_SERVERSTATISTICS, DIALOG
     BEGIN
@@ -1835,11 +1852,13 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Danish (Denmark) resources
+// Danish resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
+#ifdef _WIN32
 LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
 #pragma code_page(1252)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -1876,7 +1895,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Danish (Denmark) resources
+#endif    // Danish resources
 /////////////////////////////////////////////////////////////////////////////
 
 
