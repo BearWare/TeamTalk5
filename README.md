@@ -61,6 +61,8 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Copy the following files to *TeamTalkAndroid/libs* directory:
     * android-support-v4.jar
       * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
+    * android-support-v13.jar
+      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v13
     * gson-2.2.4.jar
       * Download from http://code.google.com/p/google-gson/
   * Requires **TeamTalkJNI** project as library dependency
