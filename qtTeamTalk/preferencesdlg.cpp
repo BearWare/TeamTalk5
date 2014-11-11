@@ -1475,4 +1475,22 @@ void PreferencesDlg::slotDefaultVideoSettings()
         QMessageBox::information(this,
                                  tr("Default Video Capture"),
                                  tr("Unable to find preferred video capture settings"));
+
+    for(int i=0;i<ui.vidcodecBox->count();i++)
+    {
+        if(ui.vidcodecBox->itemData(i).toInt() == DEFAULT_VIDEO_CODEC)
+            ui.vidcodecBox->setCurrentIndex(i);
+    }
+
+    switch(DEFAULT_VIDEO_CODEC)
+    {
+    case WEBM_VP8_CODEC :
+        ui.vp8bitrateSpinBox->setValue(DEFAULT_WEBMVP8_BITRATE);
+        break;
+    case OPUS_CODEC :
+    case SPEEX_VBR_CODEC :
+    case SPEEX_CODEC :
+    case NO_CODEC :
+        break;
+    }
 }
