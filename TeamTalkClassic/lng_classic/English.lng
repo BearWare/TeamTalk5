@@ -46,8 +46,8 @@
     <item id="148">Video Capture</item>
     <item id="150">Desktop Sharing</item>
     <item id="151">Stream Media File to Channel</item>
-    <item id="152">&amp;Stream Media File to Channel\tCtrl+Shift+W</item>
-    <item id="153">&amp;Stop Streaming Media File to Channel\tCtrl+Shift+W</item>
+    <item id="152">&amp;Stream Media File to Channel\tCtrl+S</item>
+    <item id="153">&amp;Stop Streaming Media File to Channel\tCtrl+S</item>
     <item id="154">Push To Talk: %s</item>
     <item id="155">Generate .tt File</item>
     <item id="201">Messages</item>
@@ -366,7 +366,7 @@
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>
-    <item id="32805">Enable Text-To-Speech on Events\tCtrl+S</item>
+    <item id="32805">Enable Text-To-Speech on Events\tCtrl+Alt+S</item>
     <item id="32814">&amp;Run Wizard</item>
     <item id="32815">&amp;Position Users\tCtrl+P</item>
     <item id="32816">Mu&amp;te All\tCtrl+M</item>
@@ -381,7 +381,7 @@
     <item id="32828">&amp;Kick\tCtrl+K</item>
     <item id="32829">Restore</item>
     <item id="32830">Change &amp;Nick\tF5</item>
-    <item id="32831">&amp;View Channel Info\tAlt+I</item>
+    <item id="32831">&amp;View Channel Info\tF3</item>
     <item id="32833">&amp;Volume\tCtrl+U</item>
     <item id="32835">&amp;View User Info\tCtrl+I</item>
     <item id="32837">&amp;Create Channel\tF7</item>
@@ -407,7 +407,7 @@
     <item id="32859">Delete &amp;File\tShift+Del</item>
     <item id="32864">Leave Channel\tCtrl+L</item>
     <item id="32866">D&amp;elete Channel\tF8</item>
-    <item id="32867">U&amp;pdate Channel\tCtrl+Alt+U</item>
+    <item id="32867">U&amp;pdate Channel\tShift+F7</item>
     <item id="32868">Server &amp;Properties\tF9</item>
     <item id="32869">&amp;User Accounts\tCtrl+Shift+L</item>
     <item id="32870">&amp;Server</item>
@@ -440,7 +440,7 @@
     <item id="32915">Intercept D&amp;esktop\tCtrl+Shift+6</item>
     <item id="32916">Enable &amp;Desktop Sharing\tCtrl+Shift+D</item>
     <item id="32921">&amp;Copy User Information to Clipboard\tCtrl+C</item>
-    <item id="32922">&amp;Stream Media File to Channel\tCtrl+Shift+W</item>
+    <item id="32922">&amp;Stream Media File to Channel\tCtrl+S</item>
     <item id="32923">Desktop Acce&amp;ss\tCtrl+7</item>
     <item id="32924">Allow &amp;Desktop Access\tCtrl+7</item>
     <item id="32925">&amp;Request Desktop Access</item>

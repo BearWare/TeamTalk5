@@ -176,7 +176,7 @@
     <item id="32828">&amp;Kick\tCtrl+K</item>
     <item id="32829">herstel</item>
     <item id="32830">verander &amp;nick\tF5</item>
-    <item id="32831">&amp;Bekijk kanaal info\tAlt+I</item>
+    <item id="32831">&amp;Bekijk kanaal info\tF3</item>
     <item id="32832">&amp;Forward packets</item>
     <item id="32833">&amp;Volume\tCtrl+U</item>
     <item id="32834">Start &amp;hosting\tF3</item>

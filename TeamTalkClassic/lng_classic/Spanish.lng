@@ -37,8 +37,8 @@
     <item id="148">Captura de video</item>
     <item id="150">Compartición del escritorio</item>
     <item id="151">Transmitir archivo multimedia en el canal</item>
-    <item id="152">Tran&amp;smitir archivo multimedia en el canal\tCtrl+Shift+W</item>
-    <item id="153">Detener la transmisión del archivo multimedia en el canal\tCtrl+Shift+W</item>
+    <item id="152">Tran&amp;smitir archivo multimedia en el canal\tCtrl+S</item>
+    <item id="153">Detener la transmisión del archivo multimedia en el canal\tCtrl+S</item>
     <item id="201">Mensajes</item>
     <item id="205">Cambiar estado</item>
     <item id="227">Información del usuario</item>
@@ -301,7 +301,7 @@
     <item id="32828">&amp;Clic\tCtrl+K</item>
     <item id="32829">Restaurar</item>
     <item id="32830">Cambiar sobre&amp;nombre\tF5</item>
-    <item id="32831">&amp;Ver información del canal\tAlt+I</item>
+    <item id="32831">&amp;Ver información del canal\tF3</item>
     <item id="32833">&amp;Volumen\tCtrl+U</item>
     <item id="32835">&amp;Ver información de usuario\tCtrl+I</item>
     <item id="32837">&amp;Crear canal\tF7</item>
@@ -324,7 +324,7 @@
     <item id="32859">Eliminar &amp;archivo\tShift+Supr</item>
     <item id="32864">Abandonar canal\tCtrl+L</item>
     <item id="32866">&amp;Eliminar canal\tF8</item>
-    <item id="32867">Actualizar canal\tCtrl+Alt+U</item>
+    <item id="32867">Actualizar canal\tShift+F7</item>
     <item id="32868">&amp;Propiedades del servidor\tF9</item>
     <item id="32869">Cuentas de &amp;usuario\tCtrl+Shift+L</item>
     <item id="32870">&amp;Servidor</item>
@@ -351,7 +351,7 @@
     <item id="32915">Interceptar es&amp;critorio\tCtrl+Shift+6</item>
     <item id="32916">Activar compartición del &amp;escritorio\tCtrl+Shift+D</item>
     <item id="32921">&amp;Copiar información del usuario al portapapeles\tCtrl+C</item>
-    <item id="32922">&amp;Transmitir archivo multimedia en el canal\tCtrl+Shift+W</item>
+    <item id="32922">&amp;Transmitir archivo multimedia en el canal\tCtrl+S</item>
     <item id="32923">Acce&amp;so al escritorio\tCtrl+7</item>
     <item id="32924">Permitir &amp;acceso al escritorio\tCtrl+7</item>
     <item id="32925">S&amp;olicitar acceso al escritorio</item>

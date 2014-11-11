@@ -39,8 +39,8 @@
     <item id="148">video yakalama</item>
     <item id="150">masaüstü paylaşımı</item>
     <item id="151">ses dosyası yayınla</item>
-    <item id="152">&amp;Ses dosyası yayınla\Ctrl+Shift+W</item>
-    <item id="153">&amp;Yayını Durdur\yCtrl+Shift+W</item>
+    <item id="152">&amp;Ses dosyası yayınla\Ctrl+S</item>
+    <item id="153">&amp;Yayını Durdur\yCtrl+S</item>
     <item id="201">mesajlar</item>
     <item id="205">durum değiştir</item>
     <item id="227">kullanıcı bilgisi</item>
@@ -287,7 +287,7 @@
     <item id="32828">&amp;sunucudan at \tCtrl+K</item>
     <item id="32829">Geri yükle</item>
     <item id="32830">kullanıcı adı &amp;değiştir \tF5</item>
-    <item id="32831">&amp;kanal bilgisi&apos;ni görüntüle\tAlt+I</item>
+    <item id="32831">&amp;kanal bilgisi&apos;ni görüntüle\tF3</item>
     <item id="32833">&amp;ses \tCtrl+U</item>
     <item id="32835">&amp;Kullanıcı bilgisini görüntüle\tCtrl+I</item>
     <item id="32837">&amp;kanal oluştur \tF7</item>
@@ -310,7 +310,7 @@
     <item id="32859">dosya &amp;sil \tShift+Del</item>
     <item id="32864">Kanaldan ayrıl \tCtrl+L</item>
     <item id="32866">k&amp;analı sil \tF8</item>
-    <item id="32867">k&amp;analı güncelle \tCtrl+Alt+U</item>
+    <item id="32867">k&amp;analı güncelle \tShift+F7</item>
     <item id="32868">sunucu &amp;özellikleri \tF9</item>
     <item id="32869">kullanıcı hesapları\tCtrl+Shift+L</item>
     <item id="32870">&amp;sunucu</item>

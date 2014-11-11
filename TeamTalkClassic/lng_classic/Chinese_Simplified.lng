@@ -189,7 +189,7 @@
     <item id="32828">踢出(&amp;K)\tCtrl+K</item>
     <item id="32829">恢复</item>
     <item id="32830">更改昵称(&amp;n)\tF5</item>
-    <item id="32831">查看频道信息(&amp;V)\tAlt+I</item>
+    <item id="32831">查看频道信息(&amp;V)\tF3</item>
     <item id="32832">发送数据包(&amp;F)</item>
     <item id="32833">量(&amp;V)\tCtrl+U</item>
     <item id="32834">开始主持(&amp;h)\tF3</item>

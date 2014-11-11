@@ -27,8 +27,8 @@
     <item id="132">Ярлыки</item>
     <item id="134">Файлы</item>
     <item id="135">Чат</item>
-    <item id="138">&amp;Транслировать Wav-файл в Канал\tCtrl+Shift+W</item>
-    <item id="139">&amp;Остановить Трансляцию Wav-файла в Канал\tCtrl+Shift+W</item>
+    <item id="138">&amp;Транслировать Wav-файл в Канал\tCtrl+S</item>
+    <item id="139">&amp;Остановить Трансляцию Wav-файла в Канал\tCtrl+S</item>
     <item id="140">Свойства Сервера</item>
     <item id="141">Учётные записи пользователей</item>
     <item id="143">Захват Видео</item>
@@ -39,8 +39,8 @@
     <item id="148">Захват Видео</item>
     <item id="150">Предоставление рабочего стола</item>
     <item id="151">Транслировать Медиа Файл в Канал</item>
-    <item id="152">&amp;Транслировать Медиа Файл в Канал\tCtrl+Shift+W</item>
-    <item id="153">&amp;Остановить Трансляцию Медиа Файла в Канал\tCtrl+Shift+W</item>
+    <item id="152">&amp;Транслировать Медиа Файл в Канал\tCtrl+S</item>
+    <item id="153">&amp;Остановить Трансляцию Медиа Файла в Канал\tCtrl+S</item>
     <item id="201">Сообщения</item>
     <item id="203">Заглавие</item>
     <item id="205">Смена состояния</item>
@@ -315,7 +315,7 @@
     <item id="32828">&amp;Выгнать\tCtrl+K</item>
     <item id="32829">Восстановить</item>
     <item id="32830">Сменить &amp;Ник\tF5</item>
-    <item id="32831">&amp;Просмотр Информации Канала\tAlt+I</item>
+    <item id="32831">&amp;Просмотр Информации Канала\tF3</item>
     <item id="32833">&amp;Громкость\tCtrl+U</item>
     <item id="32835">&amp;Просмотр Информации Пользователя\tCtrl+I</item>
     <item id="32837">Создать канал\tF7</item>
@@ -338,7 +338,7 @@
     <item id="32859">Удалить &amp;Файл\tShift+Del</item>
     <item id="32864">Покинуть Канал\tCtrl+L</item>
     <item id="32866">У&amp;далить Канал\tF8</item>
-    <item id="32867">О&amp;бновить Канал\tCtrl+Alt+U</item>
+    <item id="32867">О&amp;бновить Канал\tShift+F7</item>
     <item id="32868">Свойства &amp;Сервера\tF9</item>
     <item id="32869">&amp;Учётные Записи Пользователей\tCtrl+Shift+L</item>
     <item id="32870">&amp;Сервер</item>
@@ -368,7 +368,7 @@
     <item id="32915">Перехватить Р&amp;абочий стол\tCtrl+Shift+6</item>
     <item id="32916">Разрешить &amp;Предоставление рабочего стола\tCtrl+Shift+D</item>
     <item id="32921">&amp;Копировать Информацию о Пользователе в Буфер\tCtrl+C</item>
-    <item id="32922">&amp;Транслировать Медиа Файл в Канал\tCtrl+Shift+W</item>
+    <item id="32922">&amp;Транслировать Медиа Файл в Канал\tCtrl+S</item>
     <item id="32923">Доступ к &amp;Рабочему столу</item>
     <item id="32924">Разрешить Доступ к &amp;Рабочему столу\tCtrl+7</item>
     <item id="32925">&amp;Запрос Доступа к Рабочему столу</item>

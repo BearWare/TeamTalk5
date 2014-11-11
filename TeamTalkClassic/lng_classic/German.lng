@@ -307,7 +307,7 @@
     <item id="32828">&amp;rauswerfen\tSTRG+K</item>
     <item id="32829">Wiederherstellen</item>
     <item id="32830">&amp;Nick ändern\tF5</item>
-    <item id="32831">Raum&amp;info ansehen\tAlt+I</item>
+    <item id="32831">Raum&amp;info ansehen\tF3</item>
     <item id="32832">Pakete &amp;weiterleiten</item>
     <item id="32833">La&amp;utstärke\tSTRG+U</item>
     <item id="32834">&amp;Hosting starten\tF3</item>
@@ -332,7 +332,6 @@
     <item id="32859">Datei &amp;löschen\tUmsch+entfernen</item>
     <item id="32864">Raum verlassen\tSTRG+L</item>
     <item id="32866">Raum lösch&amp;en\tF8</item>
-    <item id="32867">Raum &amp;bearbeiten\tSTRG+Alt+U</item>
     <item id="32868">Server&amp;eigenschaften\tF9</item>
     <item id="32869">Ben&amp;utzeraccounts verwalten\tSTRG+Umsch+L</item>
     <item id="32870">&amp;Server</item>
@@ -359,5 +358,4 @@
     <item id="32915">D&amp;esktop abfangen\tSTRG+#umsch+6</item>
     <item id="32916">&amp;Desktopübertragung ein/aus\tSTRG+Umsch+D</item>
     <item id="32921">Benutzerinformationen in die Zwischenablage &amp;kopierend\tSTRG+C</item>
-    <item id="32922">Mediendatei in Raum &amp;streamen\tSTRG+Umsch+W</item>
 </language>

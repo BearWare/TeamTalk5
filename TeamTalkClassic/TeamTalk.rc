@@ -16,10 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -389,7 +387,7 @@ BEGIN
     CONTROL         155,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,77,47,12
     LTEXT           "VU",IDC_STATIC_VU,66,79,11,8
-    CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",WS_BORDER | 0x1,79,79,47,8
+    CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",PBS_SMOOTH | WS_BORDER,79,79,47,8
     CONTROL         155,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,88,47,12
     CONTROL         154,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
@@ -743,7 +741,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_SFILESIZE,82,19,123,8
     LTEXT           "Throughput:",IDC_STATIC_THROUGHPUT,7,31,64,8
     LTEXT           "Static",IDC_STATIC_STHROUGHPUT,82,31,123,8
-    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER | 0x1,7,43,198,9
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH | WS_BORDER,7,43,198,9
     CTEXT           "Static",IDC_STATIC_TRANSFERRED,7,59,198,8
     CONTROL         "Close when completed",IDC_CHECK_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,74,112,10
     PUSHBUTTON      "&Open",IDC_BUTTON_OPEN,167,70,38,14,WS_DISABLED
@@ -946,7 +944,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG_SERVERPROPERTIES, DIALOG
     BEGIN
@@ -1303,12 +1301,12 @@ IDB_BITMAP_SESSION2     BITMAP                  "res\\session2.bmp"
 // Accelerator
 //
 
-IDR_ACCELERATOR1 ACCELERATORS 
+IDR_ACCELERATOR1 ACCELERATORS
 BEGIN
     VK_RETURN,      IDC_BUTTON_SEND,        VIRTKEY, NOINVERT
 END
 
-IDR_ACCELERATOR2 ACCELERATORS 
+IDR_ACCELERATOR2 ACCELERATORS
 BEGIN
     "1",            ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "1",            ID_SUBSCRIPTIONS_INTERCEPTUSERMESSAGES, VIRTKEY, SHIFT, CONTROL, NOINVERT
@@ -1332,7 +1330,6 @@ BEGIN
     "E",            ID_USERS_MESSAGES,      VIRTKEY, CONTROL, NOINVERT
     "E",            ID_ADVANCED_ALLOWDESKTOPTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "I",            ID_USERS_VIEWINFO,      VIRTKEY, CONTROL, NOINVERT
-    "I",            ID_CHANNELS_VIEWCHANNELINFO, VIRTKEY, ALT, NOINVERT
     "J",            ID_CHANNELS_JOINCHANNEL, VIRTKEY, CONTROL, NOINVERT
     "K",            ID_USERS_KICKCHANNEL,   VIRTKEY, CONTROL, NOINVERT
     "K",            ID_USERS_KICKFROMSERVER, VIRTKEY, CONTROL, ALT, NOINVERT
@@ -1346,11 +1343,11 @@ BEGIN
     "P",            ID_USERS_POSITIONUSERS, VIRTKEY, CONTROL, NOINVERT
     "Q",            ID_ADVANCED_ALLOWVOICETRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "R",            ID_ADVANCED_ALLOWMEDIAFILETRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
-    "S",            ID_ME_USESPEECHONEVENTS, VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_CHANNELS_STREAMMEDIAFILETOCHANNEL, VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_ME_USESPEECHONEVENTS, VIRTKEY, CONTROL, ALT, NOINVERT
     "S",            ID_SERVER_SAVECONFIGURATION, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "T",            ID_ME_ENABLEHOTKEY,     VIRTKEY, SHIFT, CONTROL, NOINVERT
     "U",            ID_USERS_VOLUME,        VIRTKEY, CONTROL, NOINVERT
-    "U",            ID_CHANNELS_UPDATECHANNEL, VIRTKEY, CONTROL, ALT, NOINVERT
     "U",            ID_SERVER_ONLINEUSERS,  VIRTKEY, SHIFT, CONTROL, NOINVERT
     "V",            ID_ADVANCED_MOVEUSER,   VIRTKEY, CONTROL, ALT, NOINVERT
     "V",            ID_ME_ENABLEVIDEOTRANSMISSION, VIRTKEY, SHIFT, CONTROL, NOINVERT
@@ -1358,12 +1355,14 @@ BEGIN
     VK_F1,          ID_HELP_MANUAL,         VIRTKEY, NOINVERT
     VK_F10,         ID_CHANNELS_VIEWCHANNELMESSAGES, VIRTKEY, NOINVERT
     VK_F2,          ID_FILE_CONNECT,        VIRTKEY, NOINVERT
+    VK_F3,          ID_CHANNELS_VIEWCHANNELINFO, VIRTKEY, NOINVERT
     VK_F4,          ID_FILE_PREFERENCES,    VIRTKEY, NOINVERT
     VK_F5,          ID_ME_CHANGENICK,       VIRTKEY, NOINVERT
     VK_F5,          ID_CHANNELS_UPLOADFILE, VIRTKEY, SHIFT, NOINVERT
     VK_F6,          ID_ME_CHANGESTATUS,     VIRTKEY, NOINVERT
     VK_F6,          ID_CHANNELS_DOWNLOADFILE, VIRTKEY, SHIFT, NOINVERT
     VK_F7,          ID_CHANNELS_CREATECHANNEL, VIRTKEY, NOINVERT
+    VK_F7,          ID_CHANNELS_UPDATECHANNEL, VIRTKEY, SHIFT, NOINVERT
     VK_F8,          ID_CHANNELS_DELETECHANNEL, VIRTKEY, NOINVERT
     VK_F9,          ID_SERVER_SERVERPROPERTIES, VIRTKEY, NOINVERT
     VK_F9,          ID_SERVER_SERVERSTATISTICS, VIRTKEY, SHIFT, NOINVERT
@@ -1372,11 +1371,10 @@ BEGIN
     VK_RIGHT,       ID_ADVANCED_INCVOLUMEVOICE, VIRTKEY, CONTROL, ALT, NOINVERT
     VK_RIGHT,       ID_ADVANCED_INCVOLUMEMEDIAFILE, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "W",            ID_ADVANCED_ALLOWVIDEOTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
-    "W",            ID_CHANNELS_STREAMMEDIAFILETOCHANNEL, VIRTKEY, SHIFT, CONTROL, NOINVERT
     "X",            ID_ADVANCED_STOREFORMOVE, VIRTKEY, CONTROL, ALT, NOINVERT
 END
 
-IDR_ACCELERATOR3 ACCELERATORS 
+IDR_ACCELERATOR3 ACCELERATORS
 BEGIN
     "K",            ID_POPUP_KICK,          VIRTKEY, CONTROL, NOINVERT
     "K",            ID_POPUP_KICKANDBAN,    VIRTKEY, SHIFT, CONTROL, NOINVERT
@@ -1438,7 +1436,7 @@ END
 // Menu
 //
 
-IDR_MENU_MAIN MENU 
+IDR_MENU_MAIN MENU
 BEGIN
     POPUP "C&lient"
     BEGIN
@@ -1459,7 +1457,7 @@ BEGIN
         MENUITEM "Enable V&ideo Transmission\tCtrl+Shift+V", ID_ME_ENABLEVIDEOTRANSMISSION
         MENUITEM "Enable &Desktop Sharing\tCtrl+Shift+D", ID_ME_ENABLEDESKTOPSHARING
         MENUITEM SEPARATOR
-        MENUITEM "Enable Text-To-Speech on Events\tCtrl+S", ID_ME_USESPEECHONEVENTS
+        MENUITEM "Enable Text-To-Speech on Events\tCtrl+Alt+S", ID_ME_USESPEECHONEVENTS
     END
     POPUP "&Users"
     BEGIN
@@ -1519,19 +1517,19 @@ BEGIN
     END
     POPUP "&Channels"
     BEGIN
-        MENUITEM "&View Channel Info\tAlt+I",   ID_CHANNELS_VIEWCHANNELINFO
+        MENUITEM "&View Channel Info\tF3",      ID_CHANNELS_VIEWCHANNELINFO
         MENUITEM "&Join Channel\tCtrl+J",       ID_CHANNELS_JOINCHANNEL
         MENUITEM "&Leave Channel\tCtrl+L",      ID_CHANNELS_LEAVECHANNEL
         MENUITEM SEPARATOR
         MENUITEM "&Create Channel\tF7",         ID_CHANNELS_CREATECHANNEL
-        MENUITEM "U&pdate Channel\tCtrl+Alt+U", ID_CHANNELS_UPDATECHANNEL
+        MENUITEM "U&pdate Channel\tShift+F7",   ID_CHANNELS_UPDATECHANNEL
         MENUITEM "D&elete Channel\tF8",         ID_CHANNELS_DELETECHANNEL
         MENUITEM SEPARATOR
         MENUITEM "&Upload File\tShift+F5",      ID_CHANNELS_UPLOADFILE
         MENUITEM "&Download File\tShift+F6",    ID_CHANNELS_DOWNLOADFILE
         MENUITEM "Delete &File\tShift+Del",     ID_CHANNELS_DELETEFILE
         MENUITEM SEPARATOR
-        MENUITEM "&Stream Media File to Channel\tCtrl+Shift+W", ID_CHANNELS_STREAMMEDIAFILETOCHANNEL
+        MENUITEM "&Stream Media File to Channel\tCtrl+S", ID_CHANNELS_STREAMMEDIAFILETOCHANNEL
         MENUITEM SEPARATOR
         MENUITEM "Vie&w Channel Messages\tF10", ID_CHANNELS_VIEWCHANNELMESSAGES
     END
@@ -1559,7 +1557,7 @@ BEGIN
     END
 END
 
-IDR_MENU_TRAY MENU 
+IDR_MENU_TRAY MENU
 BEGIN
     POPUP "POPUP"
     BEGIN
@@ -1571,7 +1569,7 @@ BEGIN
     END
 END
 
-IDR_MENU_MSGPOPUP MENU 
+IDR_MENU_MSGPOPUP MENU
 BEGIN
     POPUP "PopUp"
     BEGIN
@@ -1587,7 +1585,7 @@ BEGIN
     END
 END
 
-IDR_MENU_ONLINEUSERS MENU 
+IDR_MENU_ONLINEUSERS MENU
 BEGIN
     POPUP "PopUp"
     BEGIN
@@ -1599,7 +1597,7 @@ BEGIN
     END
 END
 
-IDR_MENU_DESKTOPINPUT MENU 
+IDR_MENU_DESKTOPINPUT MENU
 BEGIN
     POPUP "PopUP"
     BEGIN
@@ -1613,7 +1611,7 @@ END
 // Toolbar
 //
 
-IDR_TOOLBAR1 TOOLBAR  16, 15
+IDR_TOOLBAR1 TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILE_CONNECT
     SEPARATOR
@@ -1635,7 +1633,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
     IDS_ABOUTBOX            "&About TeamTalk..."
@@ -1651,12 +1649,12 @@ BEGIN
     IDS_UPDEXISTINGCHANNEL  "Update existing channel"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_STATS      "RX: 0.0KB TX: 0.0KB"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_USERS_VOLUME         "Change the volume of the selected user"
     ID_USERS_VIEWINFO       "View information about the selected user"
@@ -1666,7 +1664,7 @@ BEGIN
     ID_CHANNELS             "&Channels"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_USERS_MUTE_VOICE     "Mute voice of the selected user"
     ID_USERS_KICKCHANNEL    "Kick the selected user"
@@ -1691,19 +1689,19 @@ BEGIN
                             "View information about the currently selected channel"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_CHANNELS_VIEWCHANNELMESSAGES 
                             "Expand the main window to include channel messages"
     ID_USERS_POSITIONUSERS  "Change where the voice from users should come from"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_HELP_WHATISMYIP      "View information about your network devices"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_YES                 "Yes"
     IDS_NO                  "No"
@@ -1723,7 +1721,7 @@ BEGIN
     IDS_CHANNEL_SELF_LEFT   "Left channel %s"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_USERS                "&Users"
     ID_FILE                 "&Client"
@@ -1734,7 +1732,7 @@ BEGIN
     ID_KICK                 "Kick"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_SERVER               "&Server"
 END
@@ -1749,13 +1747,13 @@ BEGIN
     IDS_CLASSROOM_SELF_JOINED "Joined classroom channel %s"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
+    IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_VIDEOCAPTURE        "Video Capture"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_STARTSTREAMMEDIAFILE "&Stream Media File to Channel\tCtrl+Shift+W"
     IDS_STOPSTREAMINGMEDIAFILE 
@@ -1763,18 +1761,18 @@ BEGIN
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_ME_ENABLEVIDEOTRANSMISSION 
                             "Start video device and transmit video to channel"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_USERS_STORECONVERSATIONSTODISK "Start/stop recording audio to disk"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_ME_ENABLEDESKTOPSHARING "Enable desktop sharing"
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
@@ -1788,10 +1786,8 @@ END
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1835,7 +1831,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG_SERVERSTATISTICS, DIALOG
     BEGIN
@@ -1852,13 +1848,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Danish resources
+// Danish (Denmark) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
-#ifdef _WIN32
 LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -1895,7 +1889,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Danish resources
+#endif    // Danish (Denmark) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

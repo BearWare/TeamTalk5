@@ -36,8 +36,8 @@
     <item id="148">Videooptagelse</item>
     <item id="150">Desktopdeling</item>
     <item id="151">Stream Mediefil til Kanal</item>
-    <item id="152">&amp;Stream Mediefil til Kanal\tCtrl+Shift+W</item>
-    <item id="153">&amp;Stop Streaming Mediefil til Kanal\tCtrl+Shift+W</item>
+    <item id="152">&amp;Stream Mediefil til Kanal\tCtrl+S</item>
+    <item id="153">&amp;Stop Streaming Mediefil til Kanal\tCtrl+S</item>
     <item id="201">Beskeder</item>
     <item id="205">Ændre status</item>
     <item id="207">Kanalinformation</item>
@@ -307,7 +307,7 @@
     <item id="32828">&amp;Spark ud\tCtrl+K</item>
     <item id="32829">Gendan</item>
     <item id="32830">&amp;Skift Brugernavn\tF5</item>
-    <item id="32831">&amp;Vis Kanalinformation\tAlt+I</item>
+    <item id="32831">&amp;Vis Kanalinformation\tF3</item>
     <item id="32833">&amp;Lydstyrke\tCtrl+U</item>
     <item id="32835">&amp;Vis Brugerinformation\tCtrl+I</item>
     <item id="32837">&amp;Opret Kanal\tF7</item>
@@ -329,7 +329,7 @@
     <item id="32859">Slet &amp;Fil\tSkift+Del</item>
     <item id="32864">For&amp;lad Kanal\tCtrl+L</item>
     <item id="32866">&amp;Slet Kanal\tF8</item>
-    <item id="32867">&amp;Opdater Kanal\tCtrl+Alt+U</item>
+    <item id="32867">&amp;Opdater Kanal\tShift+F7</item>
     <item id="32868">Serverindstillinger\tF9</item>
     <item id="32869">Vis &amp;Brugerkonti\tCtrl+Shift+L</item>
     <item id="32870">&amp;Server</item>
@@ -356,6 +356,6 @@
     <item id="32915">Opsnap D&amp;esktop</item>
     <item id="32916">Aktiver &amp;Desktopdeling\tCtrl+Shift+D</item>
     <item id="32921">&amp;Kopier brugerinformation til klippebord\tCtrl+C</item>
-    <item id="32922">&amp;Stream Media Fil til Kanal\tCtrl+Shift+W</item>
+    <item id="32922">&amp;Stream Media Fil til Kanal\tCtrl+S</item>
     <item id="57670">&amp;Hjælp</item>
 </language>

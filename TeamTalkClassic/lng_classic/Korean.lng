@@ -189,7 +189,7 @@
     <item id="32828">(&amp;K)강퇴\tCtrl+K</item>
     <item id="32829">(&amp;R)복구</item>
     <item id="32830">(&amp;N)대화명 바꾸기\tF5</item>
-    <item id="32831">(&amp;V)채널 정보 보기\tAlt+I</item>
+    <item id="32831">(&amp;V)채널 정보 보기\tF3</item>
     <item id="32832">(&amp;F)패킷 전달</item>
     <item id="32833">(&amp;V)볼륨\tCtrl+U</item>
     <item id="32834">(&amp;H)서버 생성\tF3</item>
