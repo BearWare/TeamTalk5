@@ -159,6 +159,7 @@
     <string name="upload_failed">Failed to upload file %1$s</string>
     <string name="alert_file_override">File %1$s already exists, override it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
+    <string name="err_channel_remove">Cannot delete channel %1$s</string>
     <string name="err_download_path">Download path %1$s is unavailable</string>
     <string name="download_progress">%1$d%% downloaded</string>
     <string name="upload_progress_title">Uploading %1$s</string>
@@ -169,6 +170,7 @@
     <string name="remote_file_exists">File %1$s already exists on the server in this channel</string>
     <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from the server?</string>
     <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
+    <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>

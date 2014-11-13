@@ -151,6 +151,7 @@
     <string name="upload_failed">Не удалось выложить файл %1$s</string>
     <string name="alert_file_override">Файл %1$s уже существует, перезаписать его?</string>
     <string name="err_file_delete">Невозможно удалить файл %1$s</string>
+    <string name="err_channel_remove">Невозможно удалить канал %1$s</string>
     <string name="err_download_path">Невозможно сохранить %1$s</string>
     <string name="download_progress">%1$d%% загружено</string>
     <string name="upload_progress_title">Закачка файла %1$s</string>
@@ -161,6 +162,7 @@
     <string name="remote_file_exists">Файл %1$s уже лежит на сервере в этом канале</string>
     <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
     <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
+    <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>

@@ -86,6 +86,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,7 +97,7 @@ import android.widget.Toast;
 
 public class MainActivity
 extends FragmentActivity
-implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
+implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -490,6 +491,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             ListView channelsList = (ListView) rootView.findViewById(R.id.listChannels);
             channelsList.setAdapter(mainActivity.getChannelsAdapter());
             channelsList.setOnItemClickListener(mainActivity);
+            channelsList.setOnItemLongClickListener(mainActivity);
 
             return rootView;
         }
@@ -712,7 +714,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         convertView = inflater.inflate(R.layout.item_channel, null);
 
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
-                    Button edit = (Button) convertView.findViewById(R.id.edit_btn);
+                    Button remove = (Button) convertView.findViewById(R.id.remove_btn);
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
                     if(channel.nParentID == 0) {
                         // show server name as channel name for root channel
@@ -729,8 +731,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         @Override
                         public void onClick(View v) {
                             switch(v.getId()) {
-                                case R.id.edit_btn : {
-                                    editChannelProperties(channel);
+                                case R.id.remove_btn : {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                                    alert.setMessage(getString(R.string.channel_remove_confirmation, channel.szName));
+                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                if (ttclient.doRemoveChannel(channel.nChannelID) <= 0)
+                                                    Toast.makeText(MainActivity.this,
+                                                                   getString(R.string.err_channel_remove,
+                                                                                     channel.szName),
+                                                                   Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                                    alert.setNegativeButton(android.R.string.no, null);
+                                    alert.show();
                                     break;
                                 }
                                 case R.id.join_btn : {
@@ -740,9 +757,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                             }
                         }
                     };
-                    edit.setOnClickListener(listener);
+                    remove.setOnClickListener(listener);
                     join.setOnClickListener(listener);
-                    edit.setAccessibilityDelegate(accessibilityAssistant);
+                    remove.setAccessibilityDelegate(accessibilityAssistant);
                     join.setAccessibilityDelegate(accessibilityAssistant);
                 }
                 int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
@@ -883,6 +900,19 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
         else {
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
+        Object item = channelsAdapter.getItem(position);
+        if (item instanceof Channel) {
+            Channel channel = (Channel) item;
+            if ((curchannel != null) && (curchannel.nParentID != channel.nChannelID)) {
+                editChannelProperties(channel);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
