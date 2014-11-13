@@ -472,6 +472,20 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         invalidateOptionsMenu();
     }
 
+    private boolean isVisibleChannel(int chanid) {
+        if (curchannel != null) {
+            if (curchannel.nParentID == chanid)
+                return true;
+            Channel channel = ttservice.getChannels().get(chanid);
+            if (channel != null)
+                return curchannel.nChannelID == channel.nParentID;
+        }
+        else {
+            return chanid == ttclient.getRootChannelID();
+        }
+        return false;
+    }
+
     public static class ChannelsSectionFragment extends Fragment {
         MainActivity mainActivity;
 
@@ -792,6 +806,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 sndmsg.setOnClickListener(listener);
                 sndmsg.setAccessibilityDelegate(accessibilityAssistant);
             }
+            convertView.setAccessibilityDelegate(accessibilityAssistant);
             return convertView;
         }
     }
@@ -1027,8 +1042,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdUserUpdate(User user) {
-        if(curchannel != null && curchannel.nChannelID == user.nChannelID)
+        if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
@@ -1072,6 +1090,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
             }
         }
+        else if (isVisibleChannel(user.nChannelID)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
@@ -1114,6 +1137,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             if(tts_leave && user.nUserID != ttclient.getMyUserID()) {
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
             }
+        }
+        else if (isVisibleChannel(channelid)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
     }
 
