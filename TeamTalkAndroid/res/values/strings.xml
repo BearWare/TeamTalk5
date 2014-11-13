@@ -168,6 +168,7 @@
     <string name="complete">Complete</string>
     <string name="remote_file_exists">File %1$s already exists on the server in this channel</string>
     <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from the server?</string>
+    <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
