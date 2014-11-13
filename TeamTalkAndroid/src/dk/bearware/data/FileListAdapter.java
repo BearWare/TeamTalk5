@@ -32,7 +32,6 @@ import android.os.Environment;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -42,6 +41,11 @@ import android.widget.Toast;
 public class FileListAdapter
 extends BaseAdapter
 implements ClientListener, Comparator<RemoteFile> {
+
+    private static final int REMOTE_FILE_VIEW_TYPE = 0,
+        FILE_TRANSFER_VIEW_TYPE = 1,
+
+        VIEW_TYPE_COUNT = 2;
 
     private final Context context;
     private final LayoutInflater inflater;
@@ -148,39 +152,30 @@ implements ClientListener, Comparator<RemoteFile> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return isTransferring(remoteFiles.get(position)) ? FILE_TRANSFER_VIEW_TYPE : REMOTE_FILE_VIEW_TYPE;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final RemoteFile remoteFile = remoteFiles.get(position);
-
-        if(convertView == null)
-            convertView = inflater.inflate(R.layout.item_remote_file, null);
-
-        TextView filename = (TextView) convertView.findViewById(R.id.filename);
-        TextView fileinfo = (TextView) convertView.findViewById(R.id.fileinfo);
-        Button actionButton = (Button) convertView.findViewById(R.id.action_btn);
-
-        filename.setText(remoteFile.szFileName);
-        if (isTransferring(remoteFile)) {
-            FileTransfer transferinfo = downloads.get(remoteFile.szFileName);
-            fileinfo.setText(context.getString(R.string.download_progress, transferinfo.nTransferred * 100 / transferinfo.nFileSize));
-            actionButton.setText(android.R.string.cancel);
-        }
-        else {
-            fileinfo.setText(String.valueOf(remoteFile.nFileSize));
-            actionButton.setText(R.string.button_download);
-        }
-
-        actionButton.setOnClickListener(new OnClickListener() {
+        View.OnClickListener buttonClickListener = new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if (isTransferring(remoteFile)) {
+                    switch (v.getId()) {
+                    case R.id.cancel_btn:
                         if (ttClient.cancelFileTransfer(downloads.get(remoteFile.szFileName).nTransferID)) {
                             downloads.remove(remoteFile.szFileName);
                             notifyDataSetChanged();
                         }
-                    }
-
-                    else {
+                        break;
+                    case R.id.download_btn: {
                         File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                         if (dlPath.mkdirs() || dlPath.isDirectory()) {
                             final File localFile = new File(dlPath, remoteFile.szFileName);
@@ -190,7 +185,7 @@ implements ClientListener, Comparator<RemoteFile> {
                                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                         @Override
-                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
                                             if (localFile.delete()) {
                                                 startDownload(remoteFile, localFile);
                                             }
@@ -218,11 +213,60 @@ implements ClientListener, Comparator<RemoteFile> {
                                                              dlPath.getAbsolutePath()),
                                            Toast.LENGTH_LONG).show();
                         }
+                        break;
+                    }
+                    case R.id.remove_btn: {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage(context.getString(R.string.remote_file_remove_confirmation, remoteFile.szFileName));
+                        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    if (ttClient.doDeleteFile(chanId, remoteFile.nFileID) <= 0)
+                                        Toast.makeText(context,
+                                                       context.getString(R.string.err_file_delete,
+                                                                         remoteFile.szFileName),
+                                                       Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        alert.setNegativeButton(android.R.string.no, null);
+                        alert.show();
+                        break;
+                    }
+                    default:
+                        break;
                     }
                 }
-            });
+            };
 
-        actionButton.setAccessibilityDelegate(accessibilityAssistant);
+        switch (getItemViewType(position)) {
+        case REMOTE_FILE_VIEW_TYPE: {
+            if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
+                convertView = inflater.inflate(R.layout.item_remote_file, null);
+            ((TextView)convertView.findViewById(R.id.fileinfo)).setText(String.valueOf(remoteFile.nFileSize));
+            Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
+            Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
+            downloadButton.setOnClickListener(buttonClickListener);
+            downloadButton.setAccessibilityDelegate(accessibilityAssistant);
+            removeButton.setOnClickListener(buttonClickListener);
+            removeButton.setAccessibilityDelegate(accessibilityAssistant);
+            break;
+        }
+        case FILE_TRANSFER_VIEW_TYPE: {
+            if((convertView == null) || (convertView.findViewById(R.id.progress) == null))
+                convertView = inflater.inflate(R.layout.item_file_transfer, null);
+            FileTransfer transferinfo = downloads.get(remoteFile.szFileName);
+            ((TextView)convertView.findViewById(R.id.progress)).setText(context.getString(R.string.download_progress, transferinfo.nTransferred * 100 / transferinfo.nFileSize));
+            Button cancelButton = (Button)convertView.findViewById(R.id.cancel_btn);
+            cancelButton.setOnClickListener(buttonClickListener);
+            cancelButton.setAccessibilityDelegate(accessibilityAssistant);
+            break;
+        }
+        default:
+            break;
+        }
+        ((TextView)convertView.findViewById(R.id.filename)).setText(remoteFile.szFileName);
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         return convertView;
     }

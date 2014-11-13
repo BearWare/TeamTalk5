@@ -159,6 +159,7 @@
     <string name="transfer_stopped">Закачка остановлена</string>
     <string name="complete">Готово</string>
     <string name="remote_file_exists">Файл %1$s уже лежит на сервере в этом канале</string>
+    <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
