@@ -283,7 +283,7 @@ implements ClientListener, Comparator<RemoteFile> {
         case REMOTE_FILE_VIEW_TYPE: {
             if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
                 convertView = inflater.inflate(R.layout.item_remote_file, null);
-            ((TextView)convertView.findViewById(R.id.fileinfo)).setText(String.valueOf(remoteFile.nFileSize));
+            ((TextView)convertView.findViewById(R.id.fileinfo)).setText(String.format("%d (%s)", remoteFile.nFileSize, remoteFile.szUsername));
             Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
             Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
             downloadButton.setOnClickListener(buttonClickListener);
