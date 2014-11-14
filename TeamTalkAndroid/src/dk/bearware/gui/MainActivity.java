@@ -50,9 +50,9 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
-import dk.bearware.gui.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -156,6 +156,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
+        if ((serverName != null) && !serverName.isEmpty())
+            setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mConnection = new TeamTalkConnection(this);
@@ -1015,7 +1018,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
         ServerProperties srvprop = new ServerProperties();
         if (ttclient.getServerProperties(srvprop)) {
-            getActionBar().setTitle(srvprop.szServerName);
+            ((TextView)findViewById(R.id.server_name)).setText(srvprop.szServerName);
             ((TextView)findViewById(R.id.server_message)).setText(srvprop.szMOTD);
         }
     }

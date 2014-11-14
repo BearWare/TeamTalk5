@@ -424,7 +424,7 @@ implements TeamTalkConnectionListener, CommandListener {
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(intent);
+        startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
     }
 
     @Override
