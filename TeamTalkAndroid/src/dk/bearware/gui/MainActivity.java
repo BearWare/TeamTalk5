@@ -176,9 +176,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
-        if (ttsWrapper == null) {
-        	ttsWrapper = TTSWrapper.getInstance(this);
-        }
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setOnTouchListener(new OnTouchListener() {
             
@@ -305,6 +302,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (ttsWrapper == null)
+            ttsWrapper = TTSWrapper.getInstance(this);
+
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -320,8 +321,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             stats_timer = null;
         }
         
-        if (ttsWrapper == null) {
-        	ttsWrapper.shutdown();
+        if (ttsWrapper != null) {
+            ttsWrapper.shutdown();
+            ttsWrapper = null;
         }
 
         if (audioIcons != null) {
