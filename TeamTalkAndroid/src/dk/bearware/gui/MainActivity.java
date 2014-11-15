@@ -115,7 +115,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     public final int REQUEST_EDITCHANNEL = 1,
                      REQUEST_NEWCHANNEL = 2,
-                     REQUEST_EDITUSER = 3;
+                     REQUEST_EDITUSER = 3,
+                     REQUEST_SELECT_FILE = 4;
 
     Channel curchannel;
 
@@ -225,8 +226,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID);
+        boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
+        menu.findItem(R.id.action_upload).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -236,6 +239,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             case R.id.action_join : {
                 if (curchannel != null)
                     joinChannel(curchannel);
+            }
+            break;
+            case R.id.action_upload : {
+                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
             }
             break;
             case R.id.action_edit : {
@@ -324,6 +331,22 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         // Unbind from the service
         if(isFinishing())
             unbindService(mConnection);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
+            String path = data.getStringExtra(FilePickerActivity.SELECTED_FILE);
+            String remoteName = filesAdapter.getRemoteName(path);
+            if (remoteName != null) {
+                Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
+            } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
+                Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     ChannelsSectionFragment channelsFragment;

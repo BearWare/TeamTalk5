@@ -65,6 +65,8 @@ import android.widget.Toast;
 public class TeamTalkService extends Service
 implements CommandListener, UserListener, ConnectionListener {
 
+    public static final String CANCEL_TRANSFER = "cancel_transfer";
+
     public static final String TAG = "bearware";
     
     // Binder given to clients
@@ -92,6 +94,13 @@ implements CommandListener, UserListener, ConnectionListener {
         
         //create timer to process 'mEventHandler'
         createEventTimer();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.hasExtra(CANCEL_TRANSFER) && (ttclient != null) && ttclient.cancelFileTransfer(intent.getIntExtra(CANCEL_TRANSFER, 0)))
+            Toast.makeText(this, R.string.transfer_stopped, Toast.LENGTH_LONG).show();
+        return START_NOT_STICKY;
     }
 
     @Override

@@ -65,6 +65,7 @@
     <string name="text_tts_left_chan">покинул канал</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
     <string name="title_activity_audio_codec">Аудио Кодек</string>
+    <string name="title_activity_filepicker">Выбор Файла</string>
     <string name="opus_application">Приложение</string>
     
     <string name="button_tx">ПРД</string>
@@ -72,6 +73,7 @@
     <string name="button_edit">Редактировать</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_upload">Выложить Файл</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
 
@@ -145,10 +147,18 @@
     <string name="button_download">Загрузить</string>
     <string name="download_succeeded">Файл %1$s успешно загружен и сохранен в %2$s</string>
     <string name="download_failed">Не удалось загрузить файл %1$s</string>
+    <string name="upload_succeeded">Файл %1$s успешно выложен</string>
+    <string name="upload_failed">Не удалось выложить файл %1$s</string>
     <string name="alert_file_override">Файл %1$s уже существует, перезаписать его?</string>
     <string name="err_file_delete">Невозможно удалить файл %1$s</string>
     <string name="err_download_path">Невозможно сохранить %1$s</string>
     <string name="download_progress">%1$d%% загружено</string>
+    <string name="upload_progress_title">Закачка файла %1$s</string>
+    <string name="upload_progress">%1$d%%, Нажмите чтобы отменить</string>
+    <string name="upload_started">Закачка инициирована</string>
+    <string name="transfer_stopped">Закачка остановлена</string>
+    <string name="complete">Готово</string>
+    <string name="remote_file_exists">Файл %1$s уже лежит на сервере в этом канале</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
