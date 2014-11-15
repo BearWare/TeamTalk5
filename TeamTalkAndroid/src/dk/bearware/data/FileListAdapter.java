@@ -83,6 +83,8 @@ implements ClientListener, Comparator<RemoteFile> {
     public void update(int chanId) {
         this.chanId = chanId;
         downloads.clear();
+        for (int i = 0; i < uploads.size(); i++)
+            notificationManager.cancel(uploads.keyAt(i));
         uploads.clear();
         update();
     }
@@ -127,6 +129,17 @@ implements ClientListener, Comparator<RemoteFile> {
             if (remoteFile.szFileName.equals(filename))
                 return filename;
         return null;
+    }
+
+    public int getActiveTransfersCount() {
+        return downloads.size() + uploads.size();
+    }
+
+    public void cancelAllTransfers() {
+        for (FileTransfer transfer : downloads.values())
+            ttClient.cancelFileTransfer(transfer.nTransferID);
+        for (int i = 0; i < uploads.size(); i++)
+            ttClient.cancelFileTransfer(uploads.keyAt(i));
     }
 
 

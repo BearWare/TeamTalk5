@@ -266,7 +266,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 break;
             }
             case android.R.id.home : {
-                finish();
+                if (filesAdapter.getActiveTransfersCount() > 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage(R.string.disconnect_alert);
+                    alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                filesAdapter.cancelAllTransfers();
+                                finish();
+                            }
+                        });
+                    alert.setNegativeButton(android.R.string.cancel, null);
+                    alert.show();
+                }
+                else {
+                    finish();
+                }
                 break;
             }
             default :
@@ -434,7 +450,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
     }
 
-    private void joinChannel(Channel channel, String passwd) {
+    private void joinChannelUnsafe(Channel channel, String passwd) {
         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
         if(cmdid>0) {
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
@@ -443,6 +459,27 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         }
         else {
             Toast.makeText(this, R.string.text_con_cmderr, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void joinChannel(final Channel channel, final String passwd) {
+        if (filesAdapter.getActiveTransfersCount() > 0) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage(R.string.channel_change_alert);
+            alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        filesAdapter.cancelAllTransfers();
+                        joinChannelUnsafe(channel, passwd);
+                    }
+                });
+            alert.setNegativeButton(android.R.string.cancel, null);
+            alert.show();
+        }
+
+        else {
+            joinChannelUnsafe(channel, passwd);
         }
     }
 
