@@ -639,9 +639,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     public static class FilesSectionFragment extends ListFragment {
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            setListAdapter(((MainActivity)activity).getFilesAdapter());
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            setListAdapter(((MainActivity)getActivity()).getFilesAdapter());
+            super.onViewCreated(view, savedInstanceState);
         }
     }
 

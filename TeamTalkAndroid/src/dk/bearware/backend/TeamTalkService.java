@@ -30,6 +30,8 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.DesktopInput;
+import dk.bearware.FileTransfer;
+import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
@@ -42,10 +44,10 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.ServerEntry;
-import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.ClientListener;
-import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.CommandListener;
+import dk.bearware.events.ConnectionListener;
+import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.UserListener;
 import dk.bearware.gui.CmdComplete;
 import dk.bearware.gui.R;
@@ -63,7 +65,7 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 public class TeamTalkService extends Service
-implements CommandListener, UserListener, ConnectionListener {
+implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     public static final String CANCEL_TRANSFER = "cancel_transfer";
 
@@ -89,6 +91,7 @@ implements CommandListener, UserListener, ConnectionListener {
         
         //register self as event handler so 'users' and 'channels' can be updated
         mEventHandler.addConnectionListener(this);
+        mEventHandler.addClientListener(this);
         mEventHandler.addCommandListener(this);
         mEventHandler.addUserListener(this);
         
@@ -159,6 +162,7 @@ implements CommandListener, UserListener, ConnectionListener {
 
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
     Map<Integer, RemoteFile> remoteFiles = new HashMap<Integer, RemoteFile>();
+    Map<Integer, FileTransfer> fileTransfers = new HashMap<Integer, FileTransfer>();
     Map<Integer, User> users = new HashMap<Integer, User>();
     Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
     Vector<MyTextMessage> chatlogtxtmsgs = new Vector<MyTextMessage>();
@@ -169,6 +173,10 @@ implements CommandListener, UserListener, ConnectionListener {
 
     public Map<Integer, RemoteFile> getRemoteFiles() {
         return remoteFiles;
+    }
+
+    public Map<Integer, FileTransfer> getFileTransfers() {
+        return fileTransfers;
     }
 
     public Map<Integer, User> getUsers() {
@@ -206,6 +214,7 @@ implements CommandListener, UserListener, ConnectionListener {
         curchannel = null;
         channels.clear();
         remoteFiles.clear();
+        fileTransfers.clear();
         users.clear();
         usertxtmsgs.clear();
         chatlogtxtmsgs.clear();
@@ -348,6 +357,7 @@ implements CommandListener, UserListener, ConnectionListener {
             //new users and channels will be posted for new login, so delete old ones
             users.clear();
             remoteFiles.clear();
+            fileTransfers.clear();
             channels.clear();
         }
         
@@ -531,6 +541,40 @@ implements CommandListener, UserListener, ConnectionListener {
 
     @Override
     public void onCmdBannedUser(BannedUser banneduser) {
+    }
+
+    @Override
+    public void onInternalError(ClientErrorMsg clienterrormsg) {
+    }
+
+    @Override
+    public void onVoiceActivation(boolean bVoiceActive) {
+    }
+
+    @Override
+    public void onHotKeyToggle(int nHotKeyID, boolean bActive) {
+    }
+
+    @Override
+    public void onHotKeyTest(int nVkCode, boolean bActive) {
+    }
+
+    @Override
+    public void onFileTransfer(FileTransfer transfer) {
+        if (transfer.nStatus == FileTransferStatus.FILETRANSFER_ACTIVE) {
+            fileTransfers.put(transfer.nTransferID, transfer);
+        }
+        else {
+            fileTransfers.remove(transfer.nTransferID);
+        }
+    }
+
+    @Override
+    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining) {
+    }
+
+    @Override
+    public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
     }
 
 }

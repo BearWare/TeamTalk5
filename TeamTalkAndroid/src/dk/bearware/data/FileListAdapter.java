@@ -81,11 +81,17 @@ implements ClientListener, Comparator<RemoteFile> {
     }
 
     public void update(int chanId) {
-        this.chanId = chanId;
-        downloads.clear();
-        for (int i = 0; i < uploads.size(); i++)
-            notificationManager.cancel(uploads.keyAt(i));
-        uploads.clear();
+        if (this.chanId != chanId) {
+            this.chanId = chanId;
+            downloads.clear();
+            for (int i = 0; i < uploads.size(); i++)
+                notificationManager.cancel(uploads.keyAt(i));
+            uploads.clear();
+            if (ttService != null) {
+                for (FileTransfer transfer : Utils.getFileTransfers(chanId, ttService.getFileTransfers()))
+                    onFileTransfer(transfer);
+            }
+        }
         update();
     }
 
@@ -108,17 +114,34 @@ implements ClientListener, Comparator<RemoteFile> {
 
     public void performPendingUpdate() {
         for (FileTransfer transfer : downloads.values())
-            if (ttClient.getFileTransferInfo(transfer.nTransferID, transfer))
+            if (ttClient.getFileTransferInfo(transfer.nTransferID, transfer)) {
+                if (transfer.nStatus != FileTransferStatus.FILETRANSFER_ACTIVE) {
+                    if (ttService != null)
+                        ttService.getFileTransfers().remove(transfer.nTransferID);
+                    onFileTransfer(transfer);
+                }
                 needRefresh = true;
+            }
         if (needRefresh) {
             accessibilityAssistant.lockEvents();
             notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
         for (int i = 0; i < uploads.size(); i++) {
-            FileTransfer transfer = new FileTransfer();
-            if (ttClient.getFileTransferInfo(uploads.keyAt(i), transfer))
-                indicateUploadProgress(transfer);
+            int transferId = uploads.keyAt(i);
+            FileTransfer transfer = (ttService != null) ? ttService.getFileTransfers().get(transferId) : null;
+            if (transfer == null)
+                transfer = new FileTransfer();
+            if (ttClient.getFileTransferInfo(transferId, transfer)) {
+                if (transfer.nStatus != FileTransferStatus.FILETRANSFER_ACTIVE) {
+                    if (ttService != null)
+                        ttService.getFileTransfers().remove(transferId);
+                    onFileTransfer(transfer);
+                }
+                else {
+                    indicateUploadProgress(transfer);
+                }
+            }
         }
     }
 
@@ -137,7 +160,8 @@ implements ClientListener, Comparator<RemoteFile> {
 
     public void cancelAllTransfers() {
         for (FileTransfer transfer : downloads.values())
-            ttClient.cancelFileTransfer(transfer.nTransferID);
+            if (ttClient.cancelFileTransfer(transfer.nTransferID))
+                downloadCancellationCleanup(transfer);
         for (int i = 0; i < uploads.size(); i++)
             ttClient.cancelFileTransfer(uploads.keyAt(i));
     }
@@ -182,12 +206,14 @@ implements ClientListener, Comparator<RemoteFile> {
                 @Override
                 public void onClick(View v) {
                     switch (v.getId()) {
-                    case R.id.cancel_btn:
-                        if (ttClient.cancelFileTransfer(downloads.get(remoteFile.szFileName).nTransferID)) {
-                            downloads.remove(remoteFile.szFileName);
+                    case R.id.cancel_btn: {
+                        FileTransfer transfer = downloads.get(remoteFile.szFileName);
+                        if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
+                            downloadCancellationCleanup(transfer);
                             notifyDataSetChanged();
                         }
                         break;
+                    }
                     case R.id.download_btn: {
                         File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                         if (dlPath.mkdirs() || dlPath.isDirectory()) {
@@ -270,7 +296,7 @@ implements ClientListener, Comparator<RemoteFile> {
             if((convertView == null) || (convertView.findViewById(R.id.progress) == null))
                 convertView = inflater.inflate(R.layout.item_file_transfer, null);
             FileTransfer transferinfo = downloads.get(remoteFile.szFileName);
-            ((TextView)convertView.findViewById(R.id.progress)).setText(context.getString(R.string.download_progress, transferinfo.nTransferred * 100 / transferinfo.nFileSize));
+            ((TextView)convertView.findViewById(R.id.progress)).setText(context.getString(R.string.download_progress, getPercentage(transferinfo)));
             Button cancelButton = (Button)convertView.findViewById(R.id.cancel_btn);
             cancelButton.setOnClickListener(buttonClickListener);
             cancelButton.setAccessibilityDelegate(accessibilityAssistant);
@@ -307,35 +333,38 @@ implements ClientListener, Comparator<RemoteFile> {
         if (transfer.bInbound) {
             if (transfer.nChannelID == chanId) {
                 boolean progress = false;
+                boolean newState = false;
                 switch (transfer.nStatus) {
                 case FileTransferStatus.FILETRANSFER_ERROR:
-                    warnDownloadFailure(transfer.szRemoteFileName);
+                    if (downloads.containsKey(transfer.szRemoteFileName))
+                        warnDownloadFailure(transfer.szRemoteFileName);
                 case FileTransferStatus.FILETRANSFER_CLOSED:
-                    if (downloads.containsKey(transfer.szRemoteFileName)) {
-                        downloads.remove(transfer.szRemoteFileName);
-                        File localFile = new File(transfer.szLocalFilePath);
-                        if (localFile.exists())
-                            localFile.delete();
-                    }
+                    if (downloads.containsKey(transfer.szRemoteFileName))
+                        newState = true;
+                    downloadCancellationCleanup(transfer);
                     break;
                 case FileTransferStatus.FILETRANSFER_ACTIVE:
                     progress = downloads.containsKey(transfer.szRemoteFileName);
                     downloads.put(transfer.szRemoteFileName, transfer);
+                    newState = true;
                     break;
                 case FileTransferStatus.FILETRANSFER_FINISHED:
-                    downloads.remove(transfer.szRemoteFileName);
-                    Toast.makeText(context,
-                                   context.getString(R.string.download_succeeded,
-                                                     transfer.szRemoteFileName,
-                                                     transfer.szLocalFilePath),
-                                   Toast.LENGTH_LONG).show();
+                    if (downloads.containsKey(transfer.szRemoteFileName)) {
+                        downloads.remove(transfer.szRemoteFileName);
+                        Toast.makeText(context,
+                                       context.getString(R.string.download_succeeded,
+                                                         transfer.szRemoteFileName,
+                                                         transfer.szLocalFilePath),
+                                       Toast.LENGTH_LONG).show();
+                        newState = true;
+                    }
                 default:
                     break;
                 }
                 if (progress && accessibilityAssistant.isUiUpdateDiscouraged()) {
                     needRefresh = true;
                 }
-                else {
+                else if (newState) {
                     notifyDataSetChanged();
                 }
             }
@@ -344,10 +373,11 @@ implements ClientListener, Comparator<RemoteFile> {
             Notification.Builder progressNotification = uploads.get(transfer.nTransferID);
             switch (transfer.nStatus) {
             case FileTransferStatus.FILETRANSFER_ERROR:
-                Toast.makeText(context,
-                               context.getString(R.string.upload_failed,
-                                                 transfer.szLocalFilePath),
-                               Toast.LENGTH_LONG).show();
+                if (progressNotification != null)
+                    Toast.makeText(context,
+                                   context.getString(R.string.upload_failed,
+                                                     transfer.szLocalFilePath),
+                                   Toast.LENGTH_LONG).show();
             case FileTransferStatus.FILETRANSFER_CLOSED:
                 if (progressNotification != null) {
                     notificationManager.cancel(transfer.nTransferID);
@@ -370,17 +400,19 @@ implements ClientListener, Comparator<RemoteFile> {
                 indicateUploadProgress(transfer);
                 break;
             case FileTransferStatus.FILETRANSFER_FINISHED:
-                progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload_done)
-                    .setContentText(context.getString(R.string.complete))
-                    .setProgress(0, 0, false)
-                    .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
-                    .setAutoCancel(true);
-                notificationManager.notify(transfer.nTransferID, progressNotification.build());
-                uploads.remove(transfer.nTransferID);
-                Toast.makeText(context,
-                               context.getString(R.string.upload_succeeded,
-                                                 transfer.szLocalFilePath),
-                               Toast.LENGTH_LONG).show();
+                if (progressNotification != null) {
+                    progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload_done)
+                        .setContentText(context.getString(R.string.complete))
+                        .setProgress(0, 0, false)
+                        .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
+                        .setAutoCancel(true);
+                    notificationManager.notify(transfer.nTransferID, progressNotification.build());
+                    uploads.remove(transfer.nTransferID);
+                    Toast.makeText(context,
+                                   context.getString(R.string.upload_succeeded,
+                                                     transfer.szLocalFilePath),
+                                   Toast.LENGTH_LONG).show();
+                }
             default:
                 break;
             }
@@ -418,10 +450,21 @@ implements ClientListener, Comparator<RemoteFile> {
             warnDownloadFailure(remoteFile.szFileName);
     }
 
+    private int getPercentage(FileTransfer transfer) {
+        return (int)(transfer.nTransferred * 100 / transfer.nFileSize);
+    }
+
     private void indicateUploadProgress(FileTransfer transfer) {
         int id = transfer.nTransferID;
-        int percentage = (int)(transfer.nTransferred * 100 / transfer.nFileSize);
+        int percentage = getPercentage(transfer);
         notificationManager.notify(id, uploads.get(id).setContentText(context.getString(R.string.upload_progress, percentage)).setProgress(100, percentage, false).build());
+    }
+
+    private void downloadCancellationCleanup(FileTransfer transfer) {
+        File localFile = new File(transfer.szLocalFilePath);
+        if (localFile.exists())
+            localFile.delete();
+        downloads.remove(transfer.szRemoteFileName);
     }
 
 }

@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 import dk.bearware.AudioCodec;
 import dk.bearware.BitmapFormat;
 import dk.bearware.Channel;
+import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.User;
 import dk.bearware.data.ServerEntry;
@@ -138,6 +139,28 @@ public class Utils {
     public static Vector<RemoteFile> getRemoteFiles(Map<Integer, RemoteFile> remotefiles) {
         Vector<RemoteFile> result = new Vector<RemoteFile>();
         Iterator<Entry<Integer, RemoteFile>> it = remotefiles.entrySet().iterator();
+
+        while (it.hasNext()) {
+            result.add(it.next().getValue());
+        }
+        return result;
+    }
+    
+    public static Vector<FileTransfer> getFileTransfers(int chanid, Map<Integer, FileTransfer> filetransfers) {
+        Vector<FileTransfer> result = new Vector<FileTransfer>();
+        Iterator<Entry<Integer, FileTransfer>> it = filetransfers.entrySet().iterator();
+
+        while (it.hasNext()) {
+            FileTransfer transfer = it.next().getValue();
+            if (transfer.nChannelID == chanid)
+                result.add(transfer);
+        }
+        return result;
+    }
+    
+    public static Vector<FileTransfer> getFileTransfers(Map<Integer, FileTransfer> filetransfers) {
+        Vector<FileTransfer> result = new Vector<FileTransfer>();
+        Iterator<Entry<Integer, FileTransfer>> it = filetransfers.entrySet().iterator();
 
         while (it.hasNext()) {
             result.add(it.next().getValue());
