@@ -817,7 +817,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     join.setOnClickListener(listener);
                     remove.setAccessibilityDelegate(accessibilityAssistant);
                     join.setAccessibilityDelegate(accessibilityAssistant);
-                    remove.setEnabled(curchannel.nChannelID == ttclient.getMyChannelID());
+                    remove.setEnabled((curchannel != null) && (curchannel.nChannelID == ttclient.getMyChannelID()));
                     join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
                 }
                 int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
