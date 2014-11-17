@@ -501,6 +501,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                         joinChannel(channel, input.getText().toString());
                     }
                 });
+            alert.setNegativeButton(android.R.string.cancel, null);
             alert.show();
         }
         else {
