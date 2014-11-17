@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,16 +45,51 @@ import com.google.gson.Gson;
 import dk.bearware.AudioCodec;
 import dk.bearware.BitmapFormat;
 import dk.bearware.Channel;
+import dk.bearware.ClientError;
+import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.User;
 import dk.bearware.data.ServerEntry;
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.widget.Toast;
 
 public class Utils {
+
+    private static Map<Integer, Integer> errorMessages = new HashMap<Integer, Integer>();
+
+    static {
+        errorMessages.put(ClientError.CMDERR_INVALID_USERNAME, R.string.err_invalid_username);
+        errorMessages.put(ClientError.CMDERR_INCORRECT_SERVER_PASSWORD, R.string.err_incorrect_server_password);
+        errorMessages.put(ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD, R.string.err_incorrect_channel_password);
+        errorMessages.put(ClientError.CMDERR_INVALID_ACCOUNT, R.string.err_invalid_account);
+        errorMessages.put(ClientError.CMDERR_MAX_SERVER_USERS_EXCEEDED, R.string.err_max_server_users_exceeded);
+        errorMessages.put(ClientError.CMDERR_MAX_CHANNEL_USERS_EXCEEDED, R.string.err_max_channel_users_exceeded);
+        errorMessages.put(ClientError.CMDERR_SERVER_BANNED, R.string.err_server_banned);
+        errorMessages.put(ClientError.CMDERR_NOT_AUTHORIZED, R.string.err_not_authorized);
+        errorMessages.put(ClientError.CMDERR_MAX_DISKUSAGE_EXCEEDED, R.string.err_max_diskusage_exceeded);
+        errorMessages.put(ClientError.CMDERR_INCORRECT_OP_PASSWORD, R.string.err_incorrect_op_password);
+        errorMessages.put(ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED, R.string.err_max_logins_per_ipaddress_exceeded);
+        errorMessages.put(ClientError.CMDERR_MAX_CHANNELS_EXCEEDED, R.string.err_max_channels_exceeded);
+        errorMessages.put(ClientError.CMDERR_CHANNEL_ALREADY_EXISTS, R.string.err_channel_already_exists);
+        errorMessages.put(ClientError.CMDERR_OPENFILE_FAILED, R.string.err_openfile_failed);
+        errorMessages.put(ClientError.CMDERR_FILESHARING_DISABLED, R.string.err_filesharing_disabled);
+        errorMessages.put(ClientError.CMDERR_CHANNEL_HAS_USERS, R.string.err_channel_has_users);
+    }
+
+    public static void notifyError(Context context, ClientErrorMsg err) {
+        if (errorMessages.containsKey(err.nErrorNo)) {
+            Toast.makeText(context, errorMessages.get(err.nErrorNo), Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(context, err.szErrorMsg, Toast.LENGTH_LONG).show();
+        }
+    }
 
     public static void setEditTextPreference(Preference preference, String text, String summary) {
         EditTextPreference textpref = (EditTextPreference) preference;

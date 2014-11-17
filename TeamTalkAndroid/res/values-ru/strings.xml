@@ -175,4 +175,21 @@
     <string name="channel_change_alert">При смене канала все текущие закачки будут остановлены</string>
     <string name="disconnect_alert">При уходе с сервера все текущие закачки будут остановлены</string>
 
+    <string name="err_invalid_username">Недопустимое имя пользователя</string>
+    <string name="err_incorrect_server_password">Неверный пароль для входа на сервер</string>
+    <string name="err_incorrect_channel_password">Неверный пароль для входа в канал</string>
+    <string name="err_invalid_account">Недопустимая учетная запись</string>
+    <string name="err_max_server_users_exceeded">Чересчур много народу на сервере</string>
+    <string name="err_max_channel_users_exceeded">Чересчур много народу в канале</string>
+    <string name="err_server_banned">Запрещен вход с вашего IP адреса</string>
+    <string name="err_not_authorized">Недостаточно полномочий</string>
+    <string name="err_max_diskusage_exceeded">Недостаточно места на диске</string>
+    <string name="err_incorrect_op_password">Неверный пароль оператора</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">Слишком много подключений с одного IP адреса</string>
+    <string name="err_max_channels_exceeded">Слишком много каналов</string>
+    <string name="err_channel_already_exists">Канал уже существует</string>
+    <string name="err_openfile_failed">Не удалось открыть файл на сервере</string>
+    <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
+    <string name="err_channel_has_users">Канал не пуст</string>
+
 </resources>

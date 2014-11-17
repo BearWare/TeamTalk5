@@ -334,7 +334,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
         if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
+            Utils.notifyError(this, errmsg);
             
             //don't try to reconnect if we get a server login error
             reconnectHandler.removeCallbacks(reconnectTimer);

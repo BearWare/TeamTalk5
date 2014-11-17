@@ -1036,7 +1036,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
+        Utils.notifyError(this, errmsg);
     }
 
     @Override

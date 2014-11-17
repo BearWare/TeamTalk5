@@ -183,4 +183,21 @@
     <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
     <string name="disconnect_alert">All active transfers will be stopped when leaving the server</string>
 
+    <string name="err_invalid_username">Invalid username</string>
+    <string name="err_incorrect_server_password">Server password is incorrect</string>
+    <string name="err_incorrect_channel_password">Channel password is incorrect</string>
+    <string name="err_invalid_account">Invalid account</string>
+    <string name="err_max_server_users_exceeded">Too many users on the server</string>
+    <string name="err_max_channel_users_exceeded">Too many users in the channel</string>
+    <string name="err_server_banned">Your IP address is banned</string>
+    <string name="err_not_authorized">Not authorized</string>
+    <string name="err_max_diskusage_exceeded">Insufficient disk space</string>
+    <string name="err_incorrect_op_password">Operator password is incorrect</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">Too many connections from one IP address</string>
+    <string name="err_max_channels_exceeded">Too many channels</string>
+    <string name="err_channel_already_exists">Channel already exists</string>
+    <string name="err_openfile_failed">Server failed to open file</string>
+    <string name="err_filesharing_disabled">Server does not allow file transfers</string>
+    <string name="err_channel_has_users">Channel is not empty</string>
+
 </resources>

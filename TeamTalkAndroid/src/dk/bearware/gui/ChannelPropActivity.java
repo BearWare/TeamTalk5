@@ -278,7 +278,7 @@ implements TeamTalkConnectionListener, CommandListener {
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
         if (updateCmdId == cmdId) {
             updateCmdId = 0;
-            Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
+            Utils.notifyError(this, errmsg);
         }
     }
 
