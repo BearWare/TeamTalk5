@@ -354,7 +354,7 @@
              <item>
               <widget class="QLabel" name="label_36">
                <property name="text">
-                <string notr="true">kbps (0 = VBR)</string>
+                <string notr="true">kbps</string>
                </property>
               </widget>
              </item>

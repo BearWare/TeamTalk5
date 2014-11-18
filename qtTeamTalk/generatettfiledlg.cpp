@@ -74,6 +74,7 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
 
     ui.vidcodecBox->addItem(tr("Any"), NO_CODEC);
     ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
+    ui.vidbitrateSpinBox->setValue(DEFAULT_WEBMVP8_BITRATE);
 }
 
 void GenerateTTFileDlg::loadVideoFormats()
