@@ -68,6 +68,7 @@
     <string name="text_tts_left_chan">has left the channel</string>
     <string name="pref_header_soundsystem">Sound System</string>
     <string name="title_activity_audio_codec">Audio Codec</string>
+    <string name="title_activity_filepicker">File Selection</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -79,6 +80,7 @@
     <string name="button_edit">Edit</string>
     <string name="action_edit">Edit Properties</string>
     <string name="action_join">Join</string>
+    <string name="action_upload">Upload File</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>
 
@@ -153,10 +155,22 @@
     <string name="button_download">Download</string>
     <string name="download_succeeded">File %1$s has been successfully downloaded and saved in %2$s</string>
     <string name="download_failed">Failed to download file %1$s</string>
+    <string name="upload_succeeded">File %1$s has been successfully uploaded</string>
+    <string name="upload_failed">Failed to upload file %1$s</string>
     <string name="alert_file_override">File %1$s already exists, override it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
+    <string name="err_channel_remove">Cannot delete channel %1$s</string>
     <string name="err_download_path">Download path %1$s is unavailable</string>
     <string name="download_progress">%1$d%% downloaded</string>
+    <string name="upload_progress_title">Uploading %1$s</string>
+    <string name="upload_progress">%1$d%%, Click to cancel</string>
+    <string name="upload_started">Upload started</string>
+    <string name="transfer_stopped">Transfer stopped</string>
+    <string name="complete">Complete</string>
+    <string name="remote_file_exists">File %1$s already exists on the server in this channel</string>
+    <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from the server?</string>
+    <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
+    <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
@@ -166,5 +180,24 @@
     <string name="text_txinterval">Transmit interval</string>
     <string name="text_quality">Quality</string>
     <string name="desktop_image">Desktop image</string>
+    <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
+    <string name="disconnect_alert">All active transfers will be stopped when leaving the server</string>
+
+    <string name="err_invalid_username">Invalid username</string>
+    <string name="err_incorrect_server_password">Server password is incorrect</string>
+    <string name="err_incorrect_channel_password">Channel password is incorrect</string>
+    <string name="err_invalid_account">Invalid account</string>
+    <string name="err_max_server_users_exceeded">Too many users on the server</string>
+    <string name="err_max_channel_users_exceeded">Too many users in the channel</string>
+    <string name="err_server_banned">Your IP address is banned</string>
+    <string name="err_not_authorized">Not authorized</string>
+    <string name="err_max_diskusage_exceeded">Insufficient disk space</string>
+    <string name="err_incorrect_op_password">Operator password is incorrect</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">Too many connections from one IP address</string>
+    <string name="err_max_channels_exceeded">Too many channels</string>
+    <string name="err_channel_already_exists">Channel already exists</string>
+    <string name="err_openfile_failed">Server failed to open file</string>
+    <string name="err_filesharing_disabled">Server does not allow file transfers</string>
+    <string name="err_channel_has_users">Channel is not empty</string>
 
 </resources>

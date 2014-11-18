@@ -50,9 +50,9 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
-import dk.bearware.gui.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -86,6 +86,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,7 +97,7 @@ import android.widget.Toast;
 
 public class MainActivity
 extends FragmentActivity
-implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
+implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -115,7 +116,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     public final int REQUEST_EDITCHANNEL = 1,
                      REQUEST_NEWCHANNEL = 2,
-                     REQUEST_EDITUSER = 3;
+                     REQUEST_EDITUSER = 3,
+                     REQUEST_SELECT_FILE = 4;
 
     Channel curchannel;
 
@@ -154,6 +156,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
+        if ((serverName != null) && !serverName.isEmpty())
+            setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mConnection = new TeamTalkConnection(this);
@@ -174,9 +179,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
-        if (ttsWrapper == null) {
-        	ttsWrapper = TTSWrapper.getInstance(this);
-        }
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setOnTouchListener(new OnTouchListener() {
             
@@ -225,8 +227,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID);
+        boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
+        menu.findItem(R.id.action_upload).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -236,6 +240,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             case R.id.action_join : {
                 if (curchannel != null)
                     joinChannel(curchannel);
+            }
+            break;
+            case R.id.action_upload : {
+                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
             }
             break;
             case R.id.action_edit : {
@@ -261,7 +269,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 break;
             }
             case android.R.id.home : {
-                finish();
+                if (filesAdapter.getActiveTransfersCount() > 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage(R.string.disconnect_alert);
+                    alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                filesAdapter.cancelAllTransfers();
+                                finish();
+                            }
+                        });
+                    alert.setNegativeButton(android.R.string.cancel, null);
+                    alert.show();
+                }
+                else {
+                    finish();
+                }
                 break;
             }
             default :
@@ -297,6 +321,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (ttsWrapper == null)
+            ttsWrapper = TTSWrapper.getInstance(this);
+
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -312,8 +340,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             stats_timer = null;
         }
         
-        if (ttsWrapper == null) {
-        	ttsWrapper.shutdown();
+        if (ttsWrapper != null) {
+            ttsWrapper.shutdown();
+            ttsWrapper = null;
         }
 
         if (audioIcons != null) {
@@ -324,6 +353,22 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         // Unbind from the service
         if(isFinishing())
             unbindService(mConnection);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
+            String path = data.getStringExtra(FilePickerActivity.SELECTED_FILE);
+            String remoteName = filesAdapter.getRemoteName(path);
+            if (remoteName != null) {
+                Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
+            } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
+                Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     ChannelsSectionFragment channelsFragment;
@@ -408,7 +453,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
     }
 
-    private void joinChannel(Channel channel, String passwd) {
+    private void joinChannelUnsafe(Channel channel, String passwd) {
         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
         if(cmdid>0) {
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
@@ -417,6 +462,27 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         }
         else {
             Toast.makeText(this, R.string.text_con_cmderr, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void joinChannel(final Channel channel, final String passwd) {
+        if (filesAdapter.getActiveTransfersCount() > 0) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage(R.string.channel_change_alert);
+            alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        filesAdapter.cancelAllTransfers();
+                        joinChannelUnsafe(channel, passwd);
+                    }
+                });
+            alert.setNegativeButton(android.R.string.cancel, null);
+            alert.show();
+        }
+
+        else {
+            joinChannelUnsafe(channel, passwd);
         }
     }
 
@@ -435,6 +501,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         joinChannel(channel, input.getText().toString());
                     }
                 });
+            alert.setNegativeButton(android.R.string.cancel, null);
             alert.show();
         }
         else {
@@ -446,6 +513,20 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
         curchannel = channel;
         getActionBar().setSubtitle((channel != null) ? channel.szName : null);
         invalidateOptionsMenu();
+    }
+
+    private boolean isVisibleChannel(int chanid) {
+        if (curchannel != null) {
+            if (curchannel.nParentID == chanid)
+                return true;
+            Channel channel = ttservice.getChannels().get(chanid);
+            if (channel != null)
+                return curchannel.nChannelID == channel.nParentID;
+        }
+        else {
+            return chanid == ttclient.getRootChannelID();
+        }
+        return false;
     }
 
     public static class ChannelsSectionFragment extends Fragment {
@@ -467,6 +548,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             ListView channelsList = (ListView) rootView.findViewById(R.id.listChannels);
             channelsList.setAdapter(mainActivity.getChannelsAdapter());
             channelsList.setOnItemClickListener(mainActivity);
+            channelsList.setOnItemLongClickListener(mainActivity);
 
             return rootView;
         }
@@ -561,9 +643,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     public static class FilesSectionFragment extends ListFragment {
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            setListAdapter(((MainActivity)activity).getFilesAdapter());
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            setListAdapter(((MainActivity)getActivity()).getFilesAdapter());
+            super.onViewCreated(view, savedInstanceState);
         }
     }
 
@@ -689,7 +771,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         convertView = inflater.inflate(R.layout.item_channel, null);
 
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
-                    Button edit = (Button) convertView.findViewById(R.id.edit_btn);
+                    Button remove = (Button) convertView.findViewById(R.id.remove_btn);
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
                     if(channel.nParentID == 0) {
                         // show server name as channel name for root channel
@@ -706,8 +788,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                         @Override
                         public void onClick(View v) {
                             switch(v.getId()) {
-                                case R.id.edit_btn : {
-                                    editChannelProperties(channel);
+                                case R.id.remove_btn : {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                                    alert.setMessage(getString(R.string.channel_remove_confirmation, channel.szName));
+                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                if (ttclient.doRemoveChannel(channel.nChannelID) <= 0)
+                                                    Toast.makeText(MainActivity.this,
+                                                                   getString(R.string.err_channel_remove,
+                                                                                     channel.szName),
+                                                                   Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                                    alert.setNegativeButton(android.R.string.no, null);
+                                    alert.show();
                                     break;
                                 }
                                 case R.id.join_btn : {
@@ -717,10 +814,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                             }
                         }
                     };
-                    edit.setOnClickListener(listener);
+                    remove.setOnClickListener(listener);
                     join.setOnClickListener(listener);
-                    edit.setAccessibilityDelegate(accessibilityAssistant);
+                    remove.setAccessibilityDelegate(accessibilityAssistant);
                     join.setAccessibilityDelegate(accessibilityAssistant);
+                    remove.setEnabled((curchannel != null) && (curchannel.nChannelID == ttclient.getMyChannelID()));
+                    join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
                 }
                 int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
                 ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
@@ -752,6 +851,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 sndmsg.setOnClickListener(listener);
                 sndmsg.setAccessibilityDelegate(accessibilityAssistant);
             }
+            convertView.setAccessibilityDelegate(accessibilityAssistant);
             return convertView;
         }
     }
@@ -863,6 +963,19 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
+        Object item = channelsAdapter.getItem(position);
+        if (item instanceof Channel) {
+            Channel channel = (Channel) item;
+            if ((curchannel != null) && (curchannel.nParentID != channel.nChannelID)) {
+                editChannelProperties(channel);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void onServiceConnected(TeamTalkService service) {
         
         ttservice = service;
@@ -906,7 +1019,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
         ServerProperties srvprop = new ServerProperties();
         if (ttclient.getServerProperties(srvprop)) {
-            getActionBar().setTitle(srvprop.szServerName);
+            ((TextView)findViewById(R.id.server_name)).setText(srvprop.szServerName);
             ((TextView)findViewById(R.id.server_message)).setText(srvprop.szMOTD);
         }
     }
@@ -924,7 +1037,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        Toast.makeText(this, errmsg.szErrorMsg, Toast.LENGTH_LONG).show();
+        Utils.notifyError(this, errmsg);
     }
 
     @Override
@@ -974,8 +1087,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
 
     @Override
     public void onCmdUserUpdate(User user) {
-        if(curchannel != null && curchannel.nChannelID == user.nChannelID)
+        if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
@@ -1019,6 +1135,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
             }
         }
+        else if (isVisibleChannel(user.nChannelID)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
@@ -1061,6 +1182,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, ConnectionListener, 
             if(tts_leave && user.nUserID != ttclient.getMyUserID()) {
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
             }
+        }
+        else if (isVisibleChannel(channelid)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
     }
 

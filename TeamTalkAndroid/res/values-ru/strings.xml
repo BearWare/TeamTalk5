@@ -65,6 +65,7 @@
     <string name="text_tts_left_chan">покинул канал</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
     <string name="title_activity_audio_codec">Аудио Кодек</string>
+    <string name="title_activity_filepicker">Выбор Файла</string>
     <string name="opus_application">Приложение</string>
     
     <string name="button_tx">ПРД</string>
@@ -72,6 +73,7 @@
     <string name="button_edit">Редактировать</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_upload">Выложить Файл</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
 
@@ -145,10 +147,22 @@
     <string name="button_download">Загрузить</string>
     <string name="download_succeeded">Файл %1$s успешно загружен и сохранен в %2$s</string>
     <string name="download_failed">Не удалось загрузить файл %1$s</string>
+    <string name="upload_succeeded">Файл %1$s успешно выложен</string>
+    <string name="upload_failed">Не удалось выложить файл %1$s</string>
     <string name="alert_file_override">Файл %1$s уже существует, перезаписать его?</string>
     <string name="err_file_delete">Невозможно удалить файл %1$s</string>
+    <string name="err_channel_remove">Невозможно удалить канал %1$s</string>
     <string name="err_download_path">Невозможно сохранить %1$s</string>
     <string name="download_progress">%1$d%% загружено</string>
+    <string name="upload_progress_title">Закачка файла %1$s</string>
+    <string name="upload_progress">%1$d%%, Нажмите чтобы отменить</string>
+    <string name="upload_started">Закачка инициирована</string>
+    <string name="transfer_stopped">Закачка остановлена</string>
+    <string name="complete">Готово</string>
+    <string name="remote_file_exists">Файл %1$s уже лежит на сервере в этом канале</string>
+    <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
+    <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
+    <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
@@ -158,5 +172,24 @@
     <string name="text_txinterval">Интервал передачи</string>
     <string name="text_quality">Качество</string>
     <string name="desktop_image">Образ рабочего стола</string>
+    <string name="channel_change_alert">При смене канала все текущие закачки будут остановлены</string>
+    <string name="disconnect_alert">При уходе с сервера все текущие закачки будут остановлены</string>
+
+    <string name="err_invalid_username">Недопустимое имя пользователя</string>
+    <string name="err_incorrect_server_password">Неверный пароль для входа на сервер</string>
+    <string name="err_incorrect_channel_password">Неверный пароль для входа в канал</string>
+    <string name="err_invalid_account">Недопустимая учетная запись</string>
+    <string name="err_max_server_users_exceeded">Чересчур много народу на сервере</string>
+    <string name="err_max_channel_users_exceeded">Чересчур много народу в канале</string>
+    <string name="err_server_banned">Запрещен вход с вашего IP адреса</string>
+    <string name="err_not_authorized">Недостаточно полномочий</string>
+    <string name="err_max_diskusage_exceeded">Недостаточно места на диске</string>
+    <string name="err_incorrect_op_password">Неверный пароль оператора</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">Слишком много подключений с одного IP адреса</string>
+    <string name="err_max_channels_exceeded">Слишком много каналов</string>
+    <string name="err_channel_already_exists">Канал уже существует</string>
+    <string name="err_openfile_failed">Не удалось открыть файл на сервере</string>
+    <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
+    <string name="err_channel_has_users">Канал не пуст</string>
 
 </resources>

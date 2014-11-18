@@ -41,18 +41,17 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
 import dk.bearware.data.ServerEntry;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.View.OnClickListener;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -245,7 +244,7 @@ implements TeamTalkConnectionListener, CommandListener {
             address.setText(servers.get(position).ipaddr);
             Button connect = (Button) convertView.findViewById(R.id.server_connect);
             Button remove = (Button) convertView.findViewById(R.id.server_remove);
-            OnClickListener listener = new OnClickListener() {
+            View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch(v.getId()) {
@@ -257,9 +256,19 @@ implements TeamTalkConnectionListener, CommandListener {
                                 Toast.makeText(ServerListActivity.this, R.string.err_connection, Toast.LENGTH_LONG).show();
                         break;
                         case R.id.server_remove :
-                            servers.remove(position);
-                            notifyDataSetChanged();
-                            saveServers();
+                            AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
+                            alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
+                            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        servers.remove(position);
+                                        notifyDataSetChanged();
+                                        saveServers();
+                                    }
+                                });
+                            alert.setNegativeButton(android.R.string.no, null);
+                            alert.show();
                         break;
                     }
                 }
@@ -415,7 +424,7 @@ implements TeamTalkConnectionListener, CommandListener {
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(intent);
+        startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
     }
 
     @Override

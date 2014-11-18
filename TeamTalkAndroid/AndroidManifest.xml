@@ -53,6 +53,11 @@
             android:name=".AudioCodecActivity"
             android:label="@string/title_activity_audio_codec" >
         </activity>
+        <activity
+            android:name=".FilePickerActivity"
+            android:label="@string/title_activity_filepicker" >
+        </activity>
+
         <receiver android:name=".MediaButtonEventReceiver">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

@@ -11,6 +11,10 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_join"/>
     <item
+        android:id="@+id/action_upload"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_upload"/>
+    <item
         android:id="@+id/action_edit"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_edit"/>

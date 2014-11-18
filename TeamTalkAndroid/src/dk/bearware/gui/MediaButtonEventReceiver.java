@@ -1,6 +1,5 @@
 package dk.bearware.gui;
 
-import dk.bearware.ClientFlag;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.backend.TeamTalkService;
 
@@ -14,7 +13,8 @@ public class MediaButtonEventReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
-            TeamTalkBase ttClient = ((TeamTalkService.LocalBinder)peekService(context, new Intent(context, TeamTalkService.class))).getService().getTTInstance();
+            TeamTalkService ttService = ((TeamTalkService.LocalBinder)peekService(context, new Intent(context, TeamTalkService.class))).getService();
+            TeamTalkBase ttClient = ttService.getTTInstance();
             KeyEvent keyEvent = (KeyEvent)intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
             int keyAction = keyEvent.getAction();
             int keyCode = keyEvent.getKeyCode();
@@ -25,7 +25,7 @@ public class MediaButtonEventReceiver extends BroadcastReceiver {
             case KeyEvent.KEYCODE_HEADSETHOOK:
                 switch (keyAction) {
                 case KeyEvent.ACTION_UP:
-                    ttClient.enableVoiceTransmission((ttClient.getFlags() & ClientFlag.CLIENT_TX_VOICE) == 0);
+                    ttClient.enableVoiceTransmission(!ttService.isVoiceTransmissionEnabled());
                     break;
                 default:
                     break;
