@@ -45,6 +45,8 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void test_03_Connect() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
+        
+        assertTrue("ping", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
     }
     
     public void test_04_Auth() {
@@ -578,6 +580,12 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
         login(ttclient, "test_09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
+        
+        User user = new User();
+        assertTrue(ttclient.getUser(ttclient.getMyUserID(), user));
+        String IPADDR = "10.2.3.4";
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient.getMyUserID()), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanIPAddress(IPADDR), DEF_WAIT));
 
         TTMessage msg = new TTMessage();
 
@@ -585,5 +593,126 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
         BannedUser ban = msg.banneduser;
         assertTrue(ban.szIPAddress.length()>0);
+        
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(user.szIPAddress), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(IPADDR), DEF_WAIT));
+    }
+    
+    public void test_17_ChannelSwitch() throws InterruptedException{
+        
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        initSound(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+        assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+        for(int i=0;i<20;i++) {
+
+            AudioBlock audblk = new AudioBlock();
+            for(int j=0;j<200;j++) {
+                assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT));
+                audblk = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
+                assertTrue(audblk.nStreamID>0);
+            }
+            
+            Channel chan;
+            if(i % 2 == 0) {
+                chan = buildDefaultChannel(ttclient, "Opus_" + i);
+                assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+            }
+            else {
+                chan = new Channel();
+                assertTrue(ttclient.getChannel(ttclient.getRootChannelID(), chan));
+            }
+            
+            assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        }
+    }
+    
+    public void test_18_ViewAllUsersBug() throws InterruptedException {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
+            + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL
+            | UserRight.USERRIGHT_TRANSMIT_VOICE
+            | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        initSound(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+        assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(),
+            StreamType.STREAMTYPE_VOICE, true));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(
+            ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+    }
+    
+    public void test_19_MessageQueue() throws InterruptedException {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
+            + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL
+            | UserRight.USERRIGHT_TRANSMIT_VOICE
+            | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        String longstr = "";
+        for(int i=0;i<Constants.TT_STRLEN-2;i++)
+            longstr = longstr.concat("T");
+        String channame = longstr.substring(0, 500); 
+        
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        
+        Channel chan = buildDefaultChannel(ttclient, channame);
+        chan.nUserData = 0x7fffffff;
+        chan.uChannelType = ~ChannelType.CHANNEL_PERMANENT;
+        chan.szOpPassword = longstr;
+        chan.szPassword = longstr;
+        chan.szTopic = longstr;
+        
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        
+        chan.nChannelID = ttclient.getMyChannelID();
+        
+        for(int j = 0;j < 20;j++) {
+            for(int i = 0;i < 50;i++) {
+                if(ttclient.doUpdateChannel(chan) < 0)
+                    break;
+            }
+            Thread.sleep(500);
+        }
+        
+        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
+        assertTrue(msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);
+        
+        int cmdid = ttclient.doLeaveChannel();
+        assertTrue("Update again after overflow", cmdid>0);
+        
+        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LEFT, DEF_WAIT, msg));
+        assertEquals("message queue lives again", ttclient.getMyUserID(), msg.user.nUserID);
+        
     }
 }

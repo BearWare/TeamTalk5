@@ -40,5 +40,9 @@ public interface Constants
     public static final int TT_DESKTOPINPUT_KEYCODE_LMOUSEBTN = 0x1000;
     public static final int TT_DESKTOPINPUT_KEYCODE_RMOUSEBTN = 0x1001;
     public static final int TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN = 0x1002;
-    //TODO: Speex constants
+
+    public static final int DEFAULT_TCP_PORT = 10333;
+    public static final int DEFAULT_UDP_PORT = 10333;
+    public static final int DEFAULT_TCP_PORT_ENCRYPTED = 10443;
+    public static final int DEFAULT_UDP_PORT_ENCRYPTED = 10443;
 }
