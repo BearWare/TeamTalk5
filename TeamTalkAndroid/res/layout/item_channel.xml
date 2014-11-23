@@ -48,14 +48,6 @@
         android:focusable="false" 
         android:clickable="true" />
     
-    <Button
-        android:id="@+id/remove_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_remove"
-        android:focusable="false" 
-        android:clickable="true" />
-    
     </LinearLayout>
     
 </RelativeLayout>

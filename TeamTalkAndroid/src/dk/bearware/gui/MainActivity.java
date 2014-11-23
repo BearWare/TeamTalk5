@@ -92,12 +92,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity
 extends FragmentActivity
-implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
+implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListener, OnMenuItemClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -303,9 +305,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("audioicons_checkbox", true)) {
             if (audioIcons == null) {
                 audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-                voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
-                voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
             }
+            else {
+                audioIcons.release();
+            }
+            voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
+            voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
         }
         else if (audioIcons != null) {
             audioIcons.release();
@@ -345,14 +350,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             ttsWrapper = null;
         }
 
-        if (audioIcons != null) {
-            audioIcons.release();
-            audioIcons = null;
-        }
+        // Cleanup resources
+        if(isFinishing()) {
+            if (audioIcons != null) {
+                audioIcons.release();
+                audioIcons = null;
+            }
 
-        // Unbind from the service
-        if(isFinishing())
+            // Unbind from the service
             unbindService(mConnection);
+        }
     }
 
     @Override
@@ -771,7 +778,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                         convertView = inflater.inflate(R.layout.item_channel, null);
 
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
-                    Button remove = (Button) convertView.findViewById(R.id.remove_btn);
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
                     if(channel.nParentID == 0) {
                         // show server name as channel name for root channel
@@ -788,25 +794,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                         @Override
                         public void onClick(View v) {
                             switch(v.getId()) {
-                                case R.id.remove_btn : {
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                                    alert.setMessage(getString(R.string.channel_remove_confirmation, channel.szName));
-                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                if (ttclient.doRemoveChannel(channel.nChannelID) <= 0)
-                                                    Toast.makeText(MainActivity.this,
-                                                                   getString(R.string.err_channel_remove,
-                                                                                     channel.szName),
-                                                                   Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-
-                                    alert.setNegativeButton(android.R.string.no, null);
-                                    alert.show();
-                                    break;
-                                }
                                 case R.id.join_btn : {
                                     joinChannel(channel);
                                 }
@@ -814,11 +801,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                             }
                         }
                     };
-                    remove.setOnClickListener(listener);
                     join.setOnClickListener(listener);
-                    remove.setAccessibilityDelegate(accessibilityAssistant);
                     join.setAccessibilityDelegate(accessibilityAssistant);
-                    remove.setEnabled((curchannel != null) && (curchannel.nChannelID == ttclient.getMyChannelID()));
                     join.setEnabled(channel.nChannelID != ttclient.getMyChannelID());
                 }
                 int population = Utils.getUsers(channel.nChannelID, ttservice.getUsers()).size();
@@ -962,17 +946,56 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         }
     }
 
+    Channel selectedChannel;
+
     @Override
     public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
         Object item = channelsAdapter.getItem(position);
         if (item instanceof Channel) {
-            Channel channel = (Channel) item;
-            if ((curchannel != null) && (curchannel.nParentID != channel.nChannelID)) {
-                editChannelProperties(channel);
+            selectedChannel = (Channel) item;
+            if ((curchannel != null) && (curchannel.nParentID != selectedChannel.nChannelID)) {
+                boolean isRemovable = (ttclient != null) && (selectedChannel.nChannelID != ttclient.getMyChannelID());
+                PopupMenu channelActions = new PopupMenu(this, v);
+                channelActions.setOnMenuItemClickListener(this);
+                channelActions.inflate(R.menu.channel_actions);
+                channelActions.getMenu().findItem(R.id.action_remove).setEnabled(isRemovable).setVisible(isRemovable);
+                channelActions.show();
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_edit:
+            editChannelProperties(selectedChannel);
+            break;
+        case R.id.action_remove: {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage(getString(R.string.channel_remove_confirmation, selectedChannel.szName));
+            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (ttclient.doRemoveChannel(selectedChannel.nChannelID) <= 0)
+                            Toast.makeText(MainActivity.this,
+                                           getString(R.string.err_channel_remove,
+                                                     selectedChannel.szName),
+                                           Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            alert.setNegativeButton(android.R.string.no, null);
+            alert.show();
+            break;
+        }
+
+        default:
+            return false;
+        }
+        return true;
     }
 
     @Override
