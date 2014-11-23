@@ -91,12 +91,8 @@ void ServerPropertiesDlg::slotAccepted()
         if(QMessageBox::question(this,  tr("Message of the day"), 
                     tr("Change message of the day?"), 
                     QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
-           COPY_TTSTR(m_srvprop.szMOTD, ui.motdTextEdit->toPlainText());
-        else
-           COPY_TTSTR(m_srvprop.szMOTD, _Q(m_srvprop.szMOTDRaw));
+           COPY_TTSTR(m_srvprop.szMOTDRaw, ui.motdTextEdit->toPlainText());
     }
-    else
-        COPY_TTSTR(m_srvprop.szMOTD, ui.motdTextEdit->toPlainText());
     m_srvprop.nTcpPort = ui.tcpportSpinBox->value();
     m_srvprop.nUdpPort = ui.udpportSpinBox->value();
     m_srvprop.nUserTimeout = ui.usertimeoutSpinBox->value();
