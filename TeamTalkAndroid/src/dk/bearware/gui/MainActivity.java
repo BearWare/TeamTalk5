@@ -303,9 +303,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("audioicons_checkbox", true)) {
             if (audioIcons == null) {
                 audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-                voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
-                voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
             }
+            else {
+                audioIcons.release();
+            }
+            voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
+            voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
         }
         else if (audioIcons != null) {
             audioIcons.release();
@@ -345,14 +348,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             ttsWrapper = null;
         }
 
-        if (audioIcons != null) {
-            audioIcons.release();
-            audioIcons = null;
-        }
+        // Cleanup resources
+        if(isFinishing()) {
+            if (audioIcons != null) {
+                audioIcons.release();
+                audioIcons = null;
+            }
 
-        // Unbind from the service
-        if(isFinishing())
+            // Unbind from the service
             unbindService(mConnection);
+        }
     }
 
     @Override
