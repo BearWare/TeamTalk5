@@ -196,5 +196,6 @@
 
     <string name="personal_message_notification">Новое сообщение от пользователя %1$s</string>
     <string name="personal_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
+    <string name="user_state_now_speaking">%1$s сейчас говорит</string>
 
 </resources>

@@ -838,8 +838,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 final User user = (User) item;
                 nickname.setText(user.szNickname);
                 
-                if((user.uUserState & UserState.USERSTATE_VOICE) != 0)
+                if((user.uUserState & UserState.USERSTATE_VOICE) != 0) {
                     convertView.setBackgroundColor(Color.rgb(133, 229, 141));
+                    nickname.setContentDescription(getString(R.string.user_state_now_speaking, user.szNickname));
+                }
+                else {
+                    convertView.setBackgroundColor(Color.rgb(0, 0, 0));
+                    nickname.setContentDescription(null);
+                }
                 
                 Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
                 OnClickListener listener = new OnClickListener() {
