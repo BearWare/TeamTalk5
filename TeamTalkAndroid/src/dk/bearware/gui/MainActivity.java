@@ -178,7 +178,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, accessibilityAssistant);
-        textmsgAdapter = new TextMessageAdapter(this.getBaseContext());
+        textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
@@ -1149,13 +1149,17 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             //event took place in current channel
             
-            textmsgAdapter.notifyDataSetChanged();
-            channelsAdapter.notifyDataSetChanged();
-
-            boolean tts_join = PreferenceManager.getDefaultSharedPreferences(
-                getBaseContext()).getBoolean("channel_join_checkbox", false);
-            if(tts_join && user.nUserID != ttclient.getMyUserID()) {
-                ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
+            if(user.nUserID != ttclient.getMyUserID()) {
+                accessibilityAssistant.lockEvents();
+                textmsgAdapter.notifyDataSetChanged();
+                channelsAdapter.notifyDataSetChanged();
+                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
+                    ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
+                accessibilityAssistant.unlockEvents();
+            }
+            else {
+                textmsgAdapter.notifyDataSetChanged();
+                channelsAdapter.notifyDataSetChanged();
             }
         }
         else if (isVisibleChannel(user.nChannelID)) {
@@ -1192,19 +1196,19 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                 user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
             ttservice.getChatLogTextMsgs().add(msg);
+            accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
         
         if(curchannel != null && curchannel.nChannelID == channelid) {
             //event took place in current channel
             
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
-
-            boolean tts_leave = PreferenceManager.getDefaultSharedPreferences(
-                getBaseContext()).getBoolean("channel_leave_checkbox", false);
-            if(tts_leave && user.nUserID != ttclient.getMyUserID()) {
+            if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false))
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
-            }
+            accessibilityAssistant.unlockEvents();
         }
         else if (isVisibleChannel(channelid)) {
             accessibilityAssistant.lockEvents();
@@ -1219,25 +1223,36 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         if(textmessage.nMsgType != TextMsgType.MSGTYPE_CHANNEL)
             return;
         
+        accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
     public void onCmdChannelNew(Channel channel) {
-        if(curchannel != null && curchannel.nChannelID == channel.nParentID)
+        if (curchannel != null && curchannel.nChannelID == channel.nParentID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
-        if(curchannel != null && curchannel.nChannelID == channel.nParentID)
+        if (curchannel != null && curchannel.nChannelID == channel.nParentID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
     public void onCmdChannelRemove(Channel channel) {
-        if(curchannel != null && curchannel.nChannelID == channel.nParentID)
+        if (curchannel != null && curchannel.nChannelID == channel.nParentID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
@@ -1288,8 +1303,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     @Override
     public void onUserStateChange(User user) {
         
-        if(curchannel != null && user.nChannelID == curchannel.nChannelID)
+        if (curchannel != null && user.nChannelID == curchannel.nChannelID) {
+            accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
         
     }
 

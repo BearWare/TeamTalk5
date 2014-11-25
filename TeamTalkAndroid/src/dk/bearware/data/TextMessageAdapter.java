@@ -3,7 +3,7 @@ package dk.bearware.data;
 import java.util.Vector;
 
 import dk.bearware.TextMsgType;
-import dk.bearware.data.MyTextMessage;
+import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 
 import android.content.Context;
@@ -20,18 +20,20 @@ public class TextMessageAdapter extends BaseAdapter {
     private Vector<MyTextMessage> messages;
     
     private LayoutInflater inflater;
+    private AccessibilityAssistant accessibilityAssistant;
     
     private int myuserid;
     
     int def_bg_color, def_text_color;
 
-    public TextMessageAdapter(Context context, Vector<MyTextMessage> msgs) {
-        this(context);
+    public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant, Vector<MyTextMessage> msgs) {
+        this(context, accessibilityAssistant);
         setTextMessages(msgs);
     }
     
-    public TextMessageAdapter(Context context) {
+    public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant) {
         inflater = LayoutInflater.from(context);
+        this.accessibilityAssistant = accessibilityAssistant;
         setTextMessages(new Vector<MyTextMessage>());
         
         TypedArray array = context.getTheme().obtainStyledAttributes(new int[] {  
@@ -142,6 +144,7 @@ public class TextMessageAdapter extends BaseAdapter {
         }
         
         convertView.setBackgroundColor(bg_color);
+        convertView.setAccessibilityDelegate(accessibilityAssistant);
         
         return convertView;
     }

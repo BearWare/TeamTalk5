@@ -40,6 +40,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
     TeamTalkConnection mConnection = new TeamTalkConnection(this);
     TeamTalkService ttservice;
     TextMessageAdapter adapter;
+    AccessibilityAssistant accessibilityAssistant;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         
         setContentView(R.layout.activity_text_message);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        accessibilityAssistant = new AccessibilityAssistant(this);
     }
 
     @Override
@@ -96,7 +99,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         
         final int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         final TeamTalkBase ttclient = service.getTTInstance();
-        adapter = new TextMessageAdapter(this.getBaseContext(),
+        adapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant,
                                          service.getUserTextMsgs(userid));
         
         ListView lv = (ListView) findViewById(R.id.user_im_listview);
@@ -195,8 +198,11 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
     public void onCmdUserTextMessage(TextMessage textmessage) {
         int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         if(adapter != null && textmessage.nFromUserID == userid &&
-           textmessage.nMsgType == TextMsgType.MSGTYPE_USER)
+           textmessage.nMsgType == TextMsgType.MSGTYPE_USER) {
+            accessibilityAssistant.lockEvents();
             adapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
     }
 
     @Override
