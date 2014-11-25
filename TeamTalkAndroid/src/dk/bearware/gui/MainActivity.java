@@ -56,10 +56,14 @@ import dk.bearware.data.TTSWrapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -134,9 +138,18 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     AudioManager audioManager;
     SoundPool audioIcons;
     ComponentName mediaButtonEventReceiver;
+    NotificationManager notificationManager;
+
+    static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
     int voiceTransmissionEnabledSound;
     int voiceTransmissionDisabledSound;
+    int personalMessageSound;
+    int broadcastMessageSound;
+
+    volatile boolean rxtxSoundEnabled;
+    volatile boolean personalMessageSoundEnabled;
+    volatile boolean broadcastMessageSoundEnabled;
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
@@ -167,6 +180,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -302,20 +316,27 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     public void onResume() {
         super.onResume();
 
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("audioicons_checkbox", true)) {
-            if (audioIcons == null) {
-                audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-            }
-            else {
-                audioIcons.release();
-            }
+        rxtxSoundEnabled = false;
+        personalMessageSoundEnabled = false;
+        broadcastMessageSoundEnabled = false;
+        if (audioIcons != null)
+            audioIcons.release();
+    audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        if (prefs.getBoolean("rx_tx_audio_icon", true)) {
             voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
             voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
+            rxtxSoundEnabled = true;
         }
-        else if (audioIcons != null) {
-            audioIcons.release();
-            audioIcons = null;
+        if (prefs.getBoolean("personal_message_audio_icon", true)) {
+            personalMessageSound = audioIcons.load(getApplicationContext(), R.raw.personal_message, 1);
+            personalMessageSoundEnabled = true;
         }
+        if (prefs.getBoolean("broadcast_message_audio_icon", true)) {
+            broadcastMessageSound = audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1);
+            broadcastMessageSoundEnabled = true;
+        }
+
         createStatusTimer();
     }
 
@@ -356,6 +377,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 audioIcons.release();
                 audioIcons = null;
             }
+            notificationManager.cancelAll();
 
             // Unbind from the service
             unbindService(mConnection);
@@ -1219,13 +1241,34 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        
-        if(textmessage.nMsgType != TextMsgType.MSGTYPE_CHANNEL)
-            return;
-        
-        accessibilityAssistant.lockEvents();
-        textmsgAdapter.notifyDataSetChanged();
-        accessibilityAssistant.unlockEvents();
+        switch (textmessage.nMsgType) {
+        case TextMsgType.MSGTYPE_CHANNEL:
+        case TextMsgType.MSGTYPE_BROADCAST:
+            accessibilityAssistant.lockEvents();
+            textmsgAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+            if (broadcastMessageSoundEnabled && (audioIcons != null) && (ttclient.getMyUserID() != textmessage.nFromUserID))
+                audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
+            break;
+        case TextMsgType.MSGTYPE_USER:
+        case TextMsgType.MSGTYPE_CUSTOM:
+            if (ttclient.getMyUserID() != textmessage.nFromUserID) {
+                if (personalMessageSoundEnabled && (audioIcons != null))
+                    audioIcons.play(personalMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
+                Intent action = new Intent(this, TextMessageActivity.class);
+                User sender = ttservice.getUsers().get(textmessage.nFromUserID);
+                Notification.Builder notification = new Notification.Builder(this);
+                notification.setSmallIcon(R.drawable.message)
+                    .setContentTitle(getString(R.string.personal_message_notification, (sender != null) ? sender.szNickname : ""))
+                    .setContentText(getString(R.string.personal_message_notification_hint))
+                    .setContentIntent(PendingIntent.getActivity(this, 0, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                    .setAutoCancel(true);
+                notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
+            }
+            break;
+        default:
+            break;
+        }
     }
 
     @Override
@@ -1342,7 +1385,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
-        if (audioIcons != null)
+        if (rxtxSoundEnabled && audioIcons != null)
             audioIcons.play(voiceTransmissionEnabled ? voiceTransmissionEnabledSound : voiceTransmissionDisabledSound, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 

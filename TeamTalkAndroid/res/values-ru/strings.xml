@@ -33,7 +33,10 @@
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
-    <string name="pref_title_audioicons">Звуковая индикация включения и выключения передачи</string>
+    <string name="pref_title_audio_icons">Звуковые Оповещения</string>
+    <string name="pref_title_rx_tx_audio_icon">Звуковая индикация включения и выключения передачи</string>
+    <string name="pref_title_personal_message_audio_icon">Звуковое оповещение о приходе личных сообщений</string>
+    <string name="pref_title_broadcast_message_audio_icon">Звуковое оповещение о приходе общих сообщений</string>
     <string name="pref_header_connection">Настройки Соединения</string>
     <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
     <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>
@@ -190,5 +193,8 @@
     <string name="err_openfile_failed">Не удалось открыть файл на сервере</string>
     <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
     <string name="err_channel_has_users">Канал не пуст</string>
+
+    <string name="personal_message_notification">Новое сообщение от пользователя %1$s</string>
+    <string name="personal_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
 
 </resources>

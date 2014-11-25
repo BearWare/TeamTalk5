@@ -47,6 +47,8 @@ implements ClientListener, Comparator<RemoteFile> {
 
         VIEW_TYPE_COUNT = 2;
 
+    private static final String PROGRESS_NOTIFICATION_TAG = "file_transfer";
+
     private final Context context;
     private final LayoutInflater inflater;
     private final NotificationManager notificationManager;
@@ -85,7 +87,7 @@ implements ClientListener, Comparator<RemoteFile> {
             this.chanId = chanId;
             downloads.clear();
             for (int i = 0; i < uploads.size(); i++)
-                notificationManager.cancel(uploads.keyAt(i));
+                notificationManager.cancel(PROGRESS_NOTIFICATION_TAG, uploads.keyAt(i));
             uploads.clear();
             if (ttService != null) {
                 for (FileTransfer transfer : Utils.getFileTransfers(chanId, ttService.getFileTransfers()))
@@ -380,7 +382,7 @@ implements ClientListener, Comparator<RemoteFile> {
                                    Toast.LENGTH_LONG).show();
             case FileTransferStatus.FILETRANSFER_CLOSED:
                 if (progressNotification != null) {
-                    notificationManager.cancel(transfer.nTransferID);
+                    notificationManager.cancel(PROGRESS_NOTIFICATION_TAG, transfer.nTransferID);
                     uploads.remove(transfer.nTransferID);
                 }
                 break;
@@ -406,7 +408,7 @@ implements ClientListener, Comparator<RemoteFile> {
                         .setProgress(0, 0, false)
                         .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
                         .setAutoCancel(true);
-                    notificationManager.notify(transfer.nTransferID, progressNotification.build());
+                    notificationManager.notify(PROGRESS_NOTIFICATION_TAG, transfer.nTransferID, progressNotification.build());
                     uploads.remove(transfer.nTransferID);
                     Toast.makeText(context,
                                    context.getString(R.string.upload_succeeded,
@@ -457,7 +459,7 @@ implements ClientListener, Comparator<RemoteFile> {
     private void indicateUploadProgress(FileTransfer transfer) {
         int id = transfer.nTransferID;
         int percentage = getPercentage(transfer);
-        notificationManager.notify(id, uploads.get(id).setContentText(context.getString(R.string.upload_progress, percentage)).setProgress(100, percentage, false).build());
+        notificationManager.notify(PROGRESS_NOTIFICATION_TAG, id, uploads.get(id).setContentText(context.getString(R.string.upload_progress, percentage)).setProgress(100, percentage, false).build());
     }
 
     private void downloadCancellationCleanup(FileTransfer transfer) {

@@ -37,7 +37,10 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Noname</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
-    <string name="pref_title_audioicons">Sound indication of voice transmission toggling</string>
+    <string name="pref_title_audio_icons">Audio Icons</string>
+    <string name="pref_title_rx_tx_audio_icon">Sound indication of voice transmission toggling</string>
+    <string name="pref_title_personal_message_audio_icon">Sound indication of incoming personal messages</string>
+    <string name="pref_title_broadcast_message_audio_icon">Sound indication of incoming broadcast messages</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
@@ -199,5 +202,8 @@
     <string name="err_openfile_failed">Server failed to open file</string>
     <string name="err_filesharing_disabled">Server does not allow file transfers</string>
     <string name="err_channel_has_users">Channel is not empty</string>
+
+    <string name="personal_message_notification">New message from user %1$s</string>
+    <string name="personal_message_notification_hint">Click to read and answer</string>
 
 </resources>

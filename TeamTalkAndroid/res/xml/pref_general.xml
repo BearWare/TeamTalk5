@@ -12,9 +12,21 @@
 		android:defaultValue="true"
 		android:title="@string/pref_title_vibrate" />
 
-    <CheckBoxPreference
-		android:key="audioicons_checkbox"
+    <PreferenceCategory
+        android:key="audio_icons"
+        android:title="@string/pref_title_audio_icons">
+        <CheckBoxPreference
+		android:key="rx_tx_audio_icon"
 		android:defaultValue="true"
-		android:title="@string/pref_title_audioicons" />
+		android:title="@string/pref_title_rx_tx_audio_icon" />
+        <CheckBoxPreference
+		android:key="personal_message_audio_icon"
+		android:defaultValue="true"
+		android:title="@string/pref_title_personal_message_audio_icon" />
+        <CheckBoxPreference
+		android:key="broadcast_message_audio_icon"
+		android:defaultValue="true"
+		android:title="@string/pref_title_broadcast_message_audio_icon" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
