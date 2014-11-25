@@ -31,6 +31,7 @@ extends BaseExpandableListAdapter
 implements UserListener
 {
     private LayoutInflater inflater;
+    private volatile boolean visibilityState;
     
     TeamTalkService ttservice;
     SparseArray<User> display_users = new SparseArray<User>();
@@ -38,6 +39,17 @@ implements UserListener
     
     public DesktopAdapter(Context context) {
         inflater = LayoutInflater.from(context);
+        visibilityState = false;
+    }
+
+    public void setVisibility(boolean visible) {
+        if (visible)
+            super.notifyDataSetChanged();
+        visibilityState = visible;
+    }
+
+    public boolean isVisible() {
+        return visibilityState;
     }
     
     public void setTeamTalkService(TeamTalkService service) {
@@ -152,8 +164,10 @@ implements UserListener
     @Override
     public void notifyDataSetChanged() {
         //ensure we don't do too many updates
-        if(timer == null)
-            super.notifyDataSetChanged();
+        if (timer == null) {
+            if (isVisible())
+                super.notifyDataSetChanged();
+        }
         else {
             timer = new CountDownTimer(100, 100) {
                 public void onTick(long millisUntilFinished) {

@@ -181,19 +181,20 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        channelsAdapter = new ChannelListAdapter(this.getBaseContext());
+        filesAdapter = new FileListAdapter(this, accessibilityAssistant);
+        textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
+        desktopAdapter = new DesktopAdapter(this.getBaseContext());
         
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        channelsAdapter = new ChannelListAdapter(this.getBaseContext());
-        filesAdapter = new FileListAdapter(this, accessibilityAssistant);
-        textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
-        desktopAdapter = new DesktopAdapter(this.getBaseContext());
+        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
         
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setOnTouchListener(new OnTouchListener() {
@@ -409,7 +410,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
         
         public static final int CHANNELS_PAGE = 0,
                                 CHAT_PAGE = 1,
@@ -474,6 +475,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     return getString(R.string.title_section_files).toUpperCase(l);
             }
             return null;
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if (position == CHAT_PAGE)
+                textmsgAdapter.notifyDataSetChanged();
+            channelsAdapter.setVisibility(position == CHANNELS_PAGE);
+            desktopAdapter.setVisibility(position == DESKTOP_PAGE);
+            filesAdapter.setVisibility(position == FILES_PAGE);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
         }
     }
 
@@ -687,12 +705,24 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             VIEW_TYPE_COUNT = 3;
 
         private LayoutInflater inflater;
+        private volatile boolean visibilityState;
 
         Vector<Channel> subchannels = new Vector<Channel>();
         Vector<User> currentusers = new Vector<User>();
 
         ChannelListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
+            visibilityState = false;
+        }
+
+        public void setVisibility(boolean visible) {
+            if (visible)
+                super.notifyDataSetChanged();
+            visibilityState = visible;
+        }
+
+        public boolean isVisible() {
+            return visibilityState;
         }
 
         @Override
@@ -715,7 +745,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     subchannels.add(root);
             }
 
-            super.notifyDataSetChanged();
+            if (isVisible())
+                super.notifyDataSetChanged();
         }
 
         @Override
@@ -1041,13 +1072,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         
         textmsgAdapter.setTextMessages(ttservice.getChatLogTextMsgs());
         textmsgAdapter.setMyUserID(ttclient.getMyUserID());
-        textmsgAdapter.notifyDataSetChanged();
         
         desktopAdapter.setTeamTalkService(service);
         desktopAdapter.notifyDataSetChanged();
         
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
+
+        mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
@@ -1179,14 +1211,16 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             
             if(user.nUserID != ttclient.getMyUserID()) {
                 accessibilityAssistant.lockEvents();
-                textmsgAdapter.notifyDataSetChanged();
+                if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
+                    textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
                 if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
                     ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
                 accessibilityAssistant.unlockEvents();
             }
             else {
-                textmsgAdapter.notifyDataSetChanged();
+                if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
+                    textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
             }
         }
@@ -1214,7 +1248,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
             }
             ttservice.getChatLogTextMsgs().add(msg);
-            textmsgAdapter.notifyDataSetChanged();
+            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
+                textmsgAdapter.notifyDataSetChanged();
             
             setCurrentChannel(null);
         }
@@ -1224,9 +1259,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                 user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
             ttservice.getChatLogTextMsgs().add(msg);
-            accessibilityAssistant.lockEvents();
-            textmsgAdapter.notifyDataSetChanged();
-            accessibilityAssistant.unlockEvents();
+            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE) {
+                accessibilityAssistant.lockEvents();
+                textmsgAdapter.notifyDataSetChanged();
+                accessibilityAssistant.unlockEvents();
+            }
         }
         
         if(curchannel != null && curchannel.nChannelID == channelid) {
@@ -1250,9 +1287,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL:
         case TextMsgType.MSGTYPE_BROADCAST:
-            accessibilityAssistant.lockEvents();
-            textmsgAdapter.notifyDataSetChanged();
-            accessibilityAssistant.unlockEvents();
+            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE) {
+                accessibilityAssistant.lockEvents();
+                textmsgAdapter.notifyDataSetChanged();
+                accessibilityAssistant.unlockEvents();
+            }
             if (broadcastMessageSoundEnabled && (audioIcons != null) && (ttclient.getMyUserID() != textmessage.nFromUserID))
                 audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
             break;
