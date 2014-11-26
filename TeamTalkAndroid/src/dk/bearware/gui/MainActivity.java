@@ -483,11 +483,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
         @Override
         public void onPageSelected(int position) {
-            if (position == CHAT_PAGE)
-                textmsgAdapter.notifyDataSetChanged();
-            channelsAdapter.setVisibility(position == CHANNELS_PAGE);
-            desktopAdapter.setVisibility(position == DESKTOP_PAGE);
-            filesAdapter.setVisibility(position == FILES_PAGE);
+            accessibilityAssistant.setVisiblePage(position);
         }
 
         @Override
@@ -591,6 +587,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_channels, container, false);
+            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.CHANNELS_PAGE);
 
             ListView channelsList = (ListView) rootView.findViewById(R.id.listChannels);
             channelsList.setAdapter(mainActivity.getChannelsAdapter());
@@ -616,6 +613,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_chat, container, false);
+            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.CHAT_PAGE);
             final EditText newmsg = (EditText) rootView.findViewById(R.id.channel_im_edittext);
             ListView chatlog = (ListView)rootView.findViewById(R.id.channel_im_listview);
             chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -659,6 +657,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_vidcap, container, false);
+            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.VIDCAP_PAGE);
 
             return rootView;
         }
@@ -680,6 +679,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_desktop, container, false);
+            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.DESKTOP_PAGE);
 
             ExpandableListView exview = (ExpandableListView) rootView.findViewById(R.id.desktop_elist_view);
             exview.setAdapter(mainActivity.getDesktopAdapter());
@@ -691,7 +691,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
-            setListAdapter(((MainActivity)getActivity()).getFilesAdapter());
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.accessibilityAssistant.registerPage(view, SectionsPagerAdapter.FILES_PAGE);
+            setListAdapter(mainActivity.getFilesAdapter());
             super.onViewCreated(view, savedInstanceState);
         }
     }
@@ -705,24 +707,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             VIEW_TYPE_COUNT = 3;
 
         private LayoutInflater inflater;
-        private volatile boolean visibilityState;
 
         Vector<Channel> subchannels = new Vector<Channel>();
         Vector<User> currentusers = new Vector<User>();
 
         ChannelListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
-            visibilityState = false;
-        }
-
-        public void setVisibility(boolean visible) {
-            if (visible)
-                super.notifyDataSetChanged();
-            visibilityState = visible;
-        }
-
-        public boolean isVisible() {
-            return visibilityState;
         }
 
         @Override
@@ -745,8 +735,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     subchannels.add(root);
             }
 
-            if (isVisible())
-                super.notifyDataSetChanged();
+            super.notifyDataSetChanged();
         }
 
         @Override
@@ -1068,18 +1057,19 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             setCurrentChannel(ttservice.getChannels().get(mychannel));
         }
 
+        mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
+
         channelsAdapter.notifyDataSetChanged();
         
         textmsgAdapter.setTextMessages(ttservice.getChatLogTextMsgs());
         textmsgAdapter.setMyUserID(ttclient.getMyUserID());
+        textmsgAdapter.notifyDataSetChanged();
         
         desktopAdapter.setTeamTalkService(service);
         desktopAdapter.notifyDataSetChanged();
         
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
-
-        mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
@@ -1211,16 +1201,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             
             if(user.nUserID != ttclient.getMyUserID()) {
                 accessibilityAssistant.lockEvents();
-                if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
-                    textmsgAdapter.notifyDataSetChanged();
+                textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
                 if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
                     ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
                 accessibilityAssistant.unlockEvents();
             }
             else {
-                if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
-                    textmsgAdapter.notifyDataSetChanged();
+                textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
             }
         }
@@ -1248,8 +1236,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
             }
             ttservice.getChatLogTextMsgs().add(msg);
-            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE)
-                textmsgAdapter.notifyDataSetChanged();
+            textmsgAdapter.notifyDataSetChanged();
             
             setCurrentChannel(null);
         }
@@ -1259,11 +1246,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                 user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
             ttservice.getChatLogTextMsgs().add(msg);
-            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE) {
-                accessibilityAssistant.lockEvents();
-                textmsgAdapter.notifyDataSetChanged();
-                accessibilityAssistant.unlockEvents();
-            }
+            accessibilityAssistant.lockEvents();
+            textmsgAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
         
         if(curchannel != null && curchannel.nChannelID == channelid) {
@@ -1287,11 +1272,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL:
         case TextMsgType.MSGTYPE_BROADCAST:
-            if (mViewPager.getCurrentItem() == SectionsPagerAdapter.CHAT_PAGE) {
-                accessibilityAssistant.lockEvents();
-                textmsgAdapter.notifyDataSetChanged();
-                accessibilityAssistant.unlockEvents();
-            }
+            accessibilityAssistant.lockEvents();
+            textmsgAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
             if (broadcastMessageSoundEnabled && (audioIcons != null) && (ttclient.getMyUserID() != textmessage.nFromUserID))
                 audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
             break;

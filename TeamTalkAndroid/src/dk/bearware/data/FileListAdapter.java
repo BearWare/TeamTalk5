@@ -61,7 +61,6 @@ implements ClientListener, Comparator<RemoteFile> {
     private SparseArray<Notification.Builder> uploads;
     private volatile int chanId;
     private volatile boolean needRefresh;
-    private volatile boolean visibilityState;
 
     public FileListAdapter(Context uiContext, AccessibilityAssistant accessibilityAssistant) {
         context = uiContext;
@@ -73,17 +72,6 @@ implements ClientListener, Comparator<RemoteFile> {
         uploads = new SparseArray<Notification.Builder>();
         chanId = 0;
         needRefresh = false;
-        visibilityState = false;
-    }
-
-    public void setVisibility(boolean visible) {
-        if (visible)
-            super.notifyDataSetChanged();
-        visibilityState = visible;
-    }
-
-    public boolean isVisible() {
-        return visibilityState;
     }
 
     public void update() {
@@ -137,14 +125,9 @@ implements ClientListener, Comparator<RemoteFile> {
                 needRefresh = true;
             }
         if (needRefresh) {
-            if (isVisible()) {
-                accessibilityAssistant.lockEvents();
-                notifyDataSetChanged();
-                accessibilityAssistant.unlockEvents();
-            }
-            else {
-                notifyDataSetChanged();
-            }
+            accessibilityAssistant.lockEvents();
+            notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
         for (int i = 0; i < uploads.size(); i++) {
             int transferId = uploads.keyAt(i);
@@ -188,8 +171,7 @@ implements ClientListener, Comparator<RemoteFile> {
 
     @Override
     public void notifyDataSetChanged() {
-        if (isVisible())
-            super.notifyDataSetChanged();
+        super.notifyDataSetChanged();
         needRefresh = false;
     }
 
