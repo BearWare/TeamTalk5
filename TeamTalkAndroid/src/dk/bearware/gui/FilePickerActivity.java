@@ -22,16 +22,19 @@ public class FilePickerActivity
 extends ListActivity
 implements FileFilter, Comparator<File> {
 
-    static final String CURRENT_DIRECTORY = "filepicker_directory";
-    static final String SELECTED_FILE = "selected_file";
+    public static final String CURRENT_DIRECTORY = "filepicker_directory";
+    public static final String SELECTED_FILE = "selected_file";
+    public static final String FILTER_EXTENSION = "filter_extension";
 
     private File currentDirectory;
     private int currentPosition = 0;
+    private String acceptedSuffix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        acceptedSuffix = getIntent().getStringExtra(FILTER_EXTENSION);
     }
 
     @Override
@@ -76,8 +79,7 @@ implements FileFilter, Comparator<File> {
         super.onStop();
         if (currentDirectory != null) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath());
-            editor.commit();
+            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath()).commit();
         }
     }
 
@@ -123,7 +125,7 @@ implements FileFilter, Comparator<File> {
 
     @Override
     public boolean accept(File file) {
-        return file.canRead();
+        return file.canRead() && (file.isDirectory() || (acceptedSuffix == null) || acceptedSuffix.isEmpty() || file.getName().endsWith(acceptedSuffix));
     }
 
 

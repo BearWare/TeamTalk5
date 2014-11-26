@@ -15,6 +15,15 @@
         android:showAsAction="always|withText"
         android:title="@string/action_new_server">
     </item>
-    <item android:id="@+id/action_refreshserverlist" android:title="@string/action_refresh" android:showAsAction="ifRoom|withText"></item>
+    <item
+        android:id="@+id/action_refreshserverlist"
+        android:title="@string/action_refresh"
+        android:showAsAction="ifRoom|withText">
+    </item>
+    <item
+        android:id="@+id/action_import_serverlist"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_import_serverlist">
+    </item>
 
 </menu>

@@ -21,7 +21,9 @@
 
 package dk.bearware.gui;
 
+import java.io.BufferedReader;
 import java.util.Vector;
+import java.io.FileReader;
 
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
@@ -123,6 +125,7 @@ implements TeamTalkConnectionListener, CommandListener {
 
     static final int REQUEST_EDITSERVER = 1;
     static final int REQUEST_NEWSERVER = 2;
+    static final int REQUEST_IMPORT_SERVERLIST = 3;
     static final String POSITION_NAME = "pos";
 
     @Override
@@ -157,6 +160,34 @@ implements TeamTalkConnectionListener, CommandListener {
                 }
                 break;
             }
+            case REQUEST_IMPORT_SERVERLIST : {
+                if (ttservice != null)
+                    ttservice.registerCommandListener(this);
+                if(resultCode == RESULT_OK) {
+                    String xml = "";
+                    try {
+                        String line;
+                        BufferedReader source = new BufferedReader(new FileReader(data.getStringExtra(FilePickerActivity.SELECTED_FILE)));
+                        while ((line = source.readLine()) != null) {
+                            xml += line;
+                        }
+                        source.close();
+                    }
+                    catch (Exception ex) {
+                    }
+                    Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml);
+                    if (entries != null) {
+                        for (ServerEntry entry : entries) {
+                            entry.public_server = false;
+                            entry.rememberLastChannel = true;
+                        }
+                        servers.addAll(entries);
+                        adapter.notifyDataSetChanged();
+                        saveServers();
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -178,6 +209,12 @@ implements TeamTalkConnectionListener, CommandListener {
             break;
             case R.id.action_refreshserverlist :
                 refreshServerList();
+            break;
+            case R.id.action_import_serverlist :
+                Intent filepicker = new Intent(this, FilePickerActivity.class);
+                if (ttservice != null)
+                    ttservice.unregisterCommandListener(this);
+                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".xml"), REQUEST_IMPORT_SERVERLIST);
             break;
             case R.id.action_settings : {
                 Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);

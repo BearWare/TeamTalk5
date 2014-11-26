@@ -126,6 +126,7 @@
     <string name="action_connect">Подключиться</string>
     <string name="action_new_server">Новый Сервер</string>
     <string name="action_refresh">Обновить Список</string>
+    <string name="action_import_serverlist">Импортировать из Файла</string>
 
     <string name="pref_title_server_props">Свойства Сервера TeamTalk 5</string>
     <string name="pref_title_server_info">Информация о Сервере</string>

@@ -135,6 +135,7 @@
     <string name="action_connect">Connect</string>
     <string name="action_new_server">New Server</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_import_serverlist">Import from File</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Server Properties</string>
     <string name="pref_title_server_info">Server Information</string>
