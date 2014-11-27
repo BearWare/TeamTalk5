@@ -64,7 +64,7 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
 
     @Override
     public boolean onRequestSendAccessibilityEvent(ViewGroup host, View child, AccessibilityEvent event) {
-        return (monitoredPages.indexOfValue(host) < 0) || (host == visiblePage);
+        return ((monitoredPages.indexOfValue(host) < 0) || (host == visiblePage)) && super.onRequestSendAccessibilityEvent(host, child, event);
     }
 
     @Override
