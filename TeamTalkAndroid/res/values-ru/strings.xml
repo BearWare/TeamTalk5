@@ -61,10 +61,15 @@
     <string name="pref_summary_channel_join">Объявлять имя подключающегося пользователя</string>
     <string name="pref_title_channel_leave">Отключение пользователя от канала</string>
     <string name="pref_summary_channel_leave">Объявлять имя пользователя, покидающего канал</string>
+    <string name="pref_title_personal_message">Личные сообщения</string>
+    <string name="pref_title_broadcast_message">Общие сообщения</string>
+    <string name="pref_summary_message">Объявлять имя отправителя</string>
     <string name="text_tts_loggedin">вошел</string>
     <string name="text_tts_loggedout">ушел</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
     <string name="text_tts_left_chan">покинул канал</string>
+    <string name="text_tts_personal_message">Личное сообщение от пользователя %1$s</string>
+    <string name="text_tts_broadcast_message">Общее сообщение от пользователя %1$s</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
     <string name="title_activity_audio_codec">Аудио Кодек</string>
     <string name="title_activity_filepicker">Выбор Файла</string>

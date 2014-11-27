@@ -1269,25 +1269,35 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL:
         case TextMsgType.MSGTYPE_BROADCAST:
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
-            if (broadcastMessageSoundEnabled && (audioIcons != null) && (ttclient.getMyUserID() != textmessage.nFromUserID))
-                audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if (ttclient.getMyUserID() != textmessage.nFromUserID) {
+                if (broadcastMessageSoundEnabled && (audioIcons != null))
+                    audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
+                if (prefs.getBoolean("broadcast_message_checkbox", false)) {
+                    User sender = ttservice.getUsers().get(textmessage.nFromUserID);
+                    ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
+                }
+            }
             break;
         case TextMsgType.MSGTYPE_USER:
         case TextMsgType.MSGTYPE_CUSTOM:
             if (ttclient.getMyUserID() != textmessage.nFromUserID) {
                 if (personalMessageSoundEnabled && (audioIcons != null))
                     audioIcons.play(personalMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
-                Intent action = new Intent(this, TextMessageActivity.class);
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
+                String senderName = (sender != null) ? sender.szNickname : "";
+                if (prefs.getBoolean("personal_message_checkbox", false))
+                    ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
+                Intent action = new Intent(this, TextMessageActivity.class);
                 Notification.Builder notification = new Notification.Builder(this);
                 notification.setSmallIcon(R.drawable.message)
-                    .setContentTitle(getString(R.string.personal_message_notification, (sender != null) ? sender.szNickname : ""))
+                    .setContentTitle(getString(R.string.personal_message_notification, senderName))
                     .setContentText(getString(R.string.personal_message_notification_hint))
                     .setContentIntent(PendingIntent.getActivity(this, 0, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
                     .setAutoCancel(true);

@@ -28,6 +28,18 @@
         android:key="channel_leave_checkbox"
         android:summary="@string/pref_summary_channel_leave"
         android:title="@string/pref_title_channel_leave" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="personal_message_checkbox"
+        android:summary="@string/pref_summary_message"
+        android:title="@string/pref_title_personal_message" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="broadcast_message_checkbox"
+        android:summary="@string/pref_summary_message"
+        android:title="@string/pref_title_broadcast_message" />
     
     </PreferenceCategory>
     

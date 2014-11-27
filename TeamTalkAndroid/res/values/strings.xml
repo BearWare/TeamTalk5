@@ -65,10 +65,15 @@
     <string name="pref_summary_channel_join">Announce name of the user joining the channel</string>
     <string name="pref_title_channel_leave">User leaves the channel</string>
     <string name="pref_summary_channel_leave">Announce name of the user leaving the channel</string>
+    <string name="pref_title_personal_message">Personal messages</string>
+    <string name="pref_title_broadcast_message">Broadcast messages</string>
+    <string name="pref_summary_message">Announce name of the sender</string>
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>
     <string name="text_tts_joined_chan">has joined the channel</string>
     <string name="text_tts_left_chan">has left the channel</string>
+    <string name="text_tts_personal_message">Personal message from user %1$s</string>
+    <string name="text_tts_broadcast_message">Broadcast message from user %1$s</string>
     <string name="pref_header_soundsystem">Sound System</string>
     <string name="title_activity_audio_codec">Audio Codec</string>
     <string name="title_activity_filepicker">File Selection</string>
