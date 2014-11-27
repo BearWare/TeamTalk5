@@ -1143,18 +1143,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdUserLoggedIn(User user) {
-        boolean tts_login = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false);
-        if (tts_login) {
+        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false))
             ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedin));
-       }
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        boolean tts_logout = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false);
-        if (tts_logout) {
+        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false))
             ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedout));
-       }
     }
 
     @Override
@@ -1202,7 +1198,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 accessibilityAssistant.lockEvents();
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
-                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
+                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
                     ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
                 accessibilityAssistant.unlockEvents();
             }
@@ -1255,7 +1251,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
-            if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false))
+            if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false))
                 ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
             accessibilityAssistant.unlockEvents();
         }
@@ -1278,7 +1274,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             if (ttclient.getMyUserID() != textmessage.nFromUserID) {
                 if (broadcastMessageSoundEnabled && (audioIcons != null))
                     audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
-                if (prefs.getBoolean("broadcast_message_checkbox", false)) {
+                if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
                     User sender = ttservice.getUsers().get(textmessage.nFromUserID);
                     ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
                 }
@@ -1291,7 +1287,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     audioIcons.play(personalMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
                 String senderName = (sender != null) ? sender.szNickname : "";
-                if (prefs.getBoolean("personal_message_checkbox", false))
+                if (ttsWrapper != null && prefs.getBoolean("personal_message_checkbox", false))
                     ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
                 Intent action = new Intent(this, TextMessageActivity.class);
                 Notification.Builder notification = new Notification.Builder(this);
