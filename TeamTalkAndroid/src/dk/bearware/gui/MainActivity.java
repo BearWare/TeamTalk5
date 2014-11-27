@@ -367,16 +367,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             stats_timer = null;
         }
         
-        if (ttsWrapper != null) {
-            ttsWrapper.shutdown();
-            ttsWrapper = null;
-        }
-
         // Cleanup resources
         if(isFinishing()) {
             if (audioIcons != null) {
                 audioIcons.release();
                 audioIcons = null;
+            }
+            if (ttsWrapper != null) {
+                ttsWrapper.shutdown();
+                ttsWrapper = null;
             }
             notificationManager.cancelAll();
 
