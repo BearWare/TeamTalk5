@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3581"
+#define TEAMTALK_VERSION "5.0.0.3640"
 
 
 #if defined(WIN32)
@@ -2135,7 +2135,15 @@ extern "C" {
          * The settings specified by TT_SetSoundInputPreprocess() are
          * invalid for the specified audio codec. @see
          * TT_DoJoinChannel() */
-        INTERR_SPEEXDSP_INIT_FAILED = 10003
+        INTERR_SPEEXDSP_INIT_FAILED = 10003,
+        /** @brief #TTMessage event queue overflowed.
+         *
+         * The message queue for events has overflowed because
+         * TT_GetMessage() has not drained the queue in time. The
+         * #TTMessage message queue will suspend event handling once
+         * the queue overflows and resumes event handling again when
+         * the message queue has been drained. */
+        INTERR_TTMESSAGE_QUEUE_OVERFLOW = 10004,
     } ClientError;
 
     /** @brief Struct containing an error message. */
@@ -4129,6 +4137,16 @@ extern "C" {
      * @see TT_SendDesktopWindow() */
     TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTInstance, 
                                                                IN INT32 nUserID);
+
+    /**
+     * @brief Same as TT_AcquireUserDesktopWindow() except an extra
+     * option for converting bitmap to a different format.
+     *
+     * It is highly adviced to use TT_AcquireUserDesktopWindow() since
+     * converting to a different bitmap format is very inefficient. */
+    TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTTInstance, 
+                                                                 IN INT32 nUserID,
+                                                                 IN BitmapFormat nBitmapFormat);
 
     /** @brief Release memory allocated by the #DesktopWindow.
      * @see TT_AcquireUserDesktopWindow() */

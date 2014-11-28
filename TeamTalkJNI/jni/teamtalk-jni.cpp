@@ -632,9 +632,26 @@ extern "C" {
                                                                                      jobject thiz,
                                                                                      jlong lpTTInstance,
                                                                                      jint nUserID) {
-        
         DesktopWindow* deskwnd = TT_AcquireUserDesktopWindow(reinterpret_cast<TTInstance*>(lpTTInstance), 
                                                              nUserID);
+        if(!deskwnd)
+            return NULL;
+
+        jclass cls = env->FindClass("dk/bearware/DesktopWindow");
+        jobject deskwnd_obj = newObject(env, cls);
+        setDesktopWindow(env, *deskwnd, deskwnd_obj, N2J);
+
+        TT_ReleaseUserDesktopWindow(reinterpret_cast<TTInstance*>(lpTTInstance), deskwnd);
+        return deskwnd_obj;
+    }
+
+    JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserDesktopWindowEx(JNIEnv* env,
+                                                                                       jobject thiz,
+                                                                                       jlong lpTTInstance,
+                                                                                       jint nUserID,
+                                                                                       jint nBitmapFormat) {
+        DesktopWindow* deskwnd = TT_AcquireUserDesktopWindowEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                               nUserID, (BitmapFormat)nBitmapFormat);
         if(!deskwnd)
             return NULL;
 

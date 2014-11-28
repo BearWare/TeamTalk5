@@ -202,7 +202,8 @@ implements UserListener
     
     boolean updateUserBitmap(int userid) {
 
-        DesktopWindow wnd = ttservice.getTTInstance().acquireUserDesktopWindow(userid);
+        DesktopWindow wnd = ttservice.getTTInstance().acquireUserDesktopWindowEx(userid,
+                                                                                 BitmapFormat.BMP_RGB32);
         // TODO: only RGB32 support for now 
         if(wnd == null || wnd.bmpFormat != BitmapFormat.BMP_RGB32)
             return false;

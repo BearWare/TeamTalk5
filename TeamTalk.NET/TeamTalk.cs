@@ -434,7 +434,7 @@ namespace BearWare
      * @brief Struct describing the audio and video format used by a
      * media file.
      *
-     * @see TT_GetMediaFile() */
+     * @see TeamTalk.GetMediaFile() */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MediaFileInfo
     {
@@ -1307,7 +1307,7 @@ namespace BearWare
 
     /**
      * @brief A struct containing the properties of a banned user.
-     * @see TT_DoListBans() */
+     * @see TeamTalk.DoListBans() */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BannedUser
     {
@@ -2327,7 +2327,15 @@ namespace BearWare
          * The settings specified by TeamTalk.SetSoundInputPreprocess() are
          * invalid for the specified audio codec. @see
          * TeamTalk.DoJoinChannel() */
-        INTERR_SPEEXDSP_INIT_FAILED = 10003
+        INTERR_SPEEXDSP_INIT_FAILED             = 10003,
+        /** @brief #BearWare.TTMessage event queue overflowed.
+         *
+         * The message queue for events has overflowed because
+         * TeamTalk.GetMessage() has not drained the queue in
+         * time. The #BearWare.TTMessage message queue will suspend
+         * event handling once the queue overflows and resumes event
+         * handling again when the message queue has been drained. */
+        INTERR_TTMESSAGE_QUEUE_OVERFLOW         = 10004
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -2608,7 +2616,7 @@ namespace BearWare
         /** 
          * @brief A user account has been received from the server.
          *
-         * This message is posted as a result of TT_DoListUserAccounts()
+         * This message is posted as a result of TeamTalk.DoListUserAccounts()
          *
          * @param nSource 0
          * @param ttType #__USERACCOUNT
@@ -2617,7 +2625,7 @@ namespace BearWare
         /** 
          * @brief A banned user has been received from the server.
          *
-         * This message is posted as a result of TT_DoListBans()
+         * This message is posted as a result of TeamTalk.DoListBans()
          *
          * @param nSource 0
          * @param ttType #__BANNEDUSER
@@ -4707,6 +4715,22 @@ namespace BearWare
             return lpDesktopWindow;
         }
 
+        /**
+         * @brief Same as TeamTalk.AcquireUserDesktopWindow() except an extra
+         * option for converting bitmap to a different format.
+         *
+         * It is highly adviced to use TeamTalk.AcquireUserDesktopWindow() since
+         * converting to a different bitmap format is very inefficient. */
+        public DesktopWindow AcquireUserDesktopWindowEx(int nUserID, BitmapFormat nBitmapFormat)
+        {
+            IntPtr ptr = TTDLL.TT_AcquireUserDesktopWindowEx(m_ttInst, nUserID, nBitmapFormat);
+            if (ptr == IntPtr.Zero)
+                return new DesktopWindow();
+            DesktopWindow lpDesktopWindow = (DesktopWindow)Marshal.PtrToStructure(ptr, typeof(DesktopWindow));
+            desktopwindows.Add(lpDesktopWindow.frameBuffer, ptr);
+            return lpDesktopWindow;
+        }
+
         Dictionary<IntPtr, IntPtr> desktopwindows = new Dictionary<IntPtr, IntPtr>();
         /** @brief Release memory allocated by the #BearWare.DesktopWindow.
          * @see TeamTalk.AcquireUserDesktopWindow() */
@@ -5558,7 +5582,7 @@ namespace BearWare
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
-         * @see TT_DoBanUser() */
+         * @see TeamTalk.DoBanUser() */
         public int DoListBans(int nIndex, int nCount)
         {
             return TTDLL.TT_DoListBans(m_ttInst, nIndex, nCount);

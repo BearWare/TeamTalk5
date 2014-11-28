@@ -315,6 +315,14 @@ public abstract class TeamTalkBase
         return acquireUserDesktopWindow(ttInst, nUserID);
     }
 
+    private native DesktopWindow acquireUserDesktopWindowEx(long lpTTInstance,
+                                                            int nUserID,
+                                                            int nBitmapFormat);
+    public DesktopWindow acquireUserDesktopWindowEx(int nUserID,
+                                                    int /*BitmapFormat*/nBitmapFormat) {
+        return acquireUserDesktopWindowEx(ttInst, nUserID, nBitmapFormat);
+    }
+
     private native boolean connect(long lpTTInstance,
                                    String szHostAddress,
                                    int nTcpPort, 

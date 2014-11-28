@@ -282,6 +282,11 @@ namespace c_tt
                                                                 int nUserID);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern IntPtr TT_AcquireUserDesktopWindowEx(IntPtr lpTTInstance,
+                                                                  int nUserID,
+                                                                  BearWare.BitmapFormat nBitmapFormat);
+
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_ReleaseUserDesktopWindow(IntPtr lpTTInstance,
                                                               IntPtr lpDesktopWindow);
 
