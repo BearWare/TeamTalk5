@@ -13,7 +13,7 @@ To build the TeamTalk client projects you must first download the TeamTalk 5 SDK
   * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3581/tt5sdk_v5.0.0.3581_alpha5_debian7_i386.tar.gz) **rev. 3581**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3581/tt5sdk_v5.0.0.3581_alpha5_debian7_amd64.tar.gz) **rev. 3581**
   * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3581/tt5sdk_v5.0.0.3581_alpha5_raspbian_armhf.tar.gz) **rev. 3581**
-  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3619/tt5sdk_v5.0.0.3619_alpha5_android_armv7a.tar.gz)  **rev. 3619**
+  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3640/tt5sdk_v5.0.0.3640_alpha5_android_armv7a.tar.gz)  **rev. 3640**
 * TeamTalk 5 SDK Professional Edition - **Alpha** releases
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3581/tt5prosdk_v5.0.0.3581_alpha5_win32.zip)  **rev. 3581**
   * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3581/tt5prosdk_v5.0.0.3581_alpha5_win64.zip)  **rev. 3581**
