@@ -20,6 +20,7 @@ import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -329,7 +330,7 @@ implements ClientListener, Comparator<RemoteFile> {
     public void onHotKeyTest(int nVkCode, boolean bActive) {
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressLint("NewApi") @SuppressWarnings("fallthrough")
     @Override
     public void onFileTransfer(FileTransfer transfer) {
         if (transfer.bInbound) {
