@@ -86,7 +86,7 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
-    <string name="action_edit">Edit Properties</string>
+    <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
     <string name="action_upload">Upload File</string>
     <string name="button_msg">Msg</string>
