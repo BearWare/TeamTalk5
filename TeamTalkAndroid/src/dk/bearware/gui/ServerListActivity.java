@@ -22,8 +22,10 @@
 package dk.bearware.gui;
 
 import java.io.BufferedReader;
-import java.util.Vector;
 import java.io.FileReader;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Vector;
 
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
@@ -67,7 +69,7 @@ import android.widget.Toast;
 
 public class ServerListActivity
 extends ListActivity
-implements TeamTalkConnectionListener, CommandListener {
+implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
 
     private ServerListAdapter adapter;
 
@@ -138,6 +140,7 @@ implements TeamTalkConnectionListener, CommandListener {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
                         servers.add(entry);
+                        Collections.sort(servers, this);
                         adapter.notifyDataSetChanged();
                         saveServers();
                     }
@@ -154,6 +157,7 @@ implements TeamTalkConnectionListener, CommandListener {
                         if(pos >= 0)
                             servers.removeElementAt(pos);
                         servers.insertElementAt(entry, pos);
+                        Collections.sort(servers, this);
                         adapter.notifyDataSetChanged();
                         saveServers();
                     }
@@ -182,6 +186,7 @@ implements TeamTalkConnectionListener, CommandListener {
                             entry.rememberLastChannel = true;
                         }
                         servers.addAll(entries);
+                        Collections.sort(servers, this);
                         adapter.notifyDataSetChanged();
                         saveServers();
                     }
@@ -380,6 +385,7 @@ implements TeamTalkConnectionListener, CommandListener {
             i++;
         }
         
+        Collections.sort(servers, this);
         adapter.notifyDataSetChanged();
     }
     
@@ -406,6 +412,7 @@ implements TeamTalkConnectionListener, CommandListener {
                                R.string.err_retrieve_public_server_list,
                                Toast.LENGTH_LONG).show();
             else if(entries.size() > 0) {
+                Collections.sort(entries, ServerListActivity.this);
                 synchronized(servers) {
                     servers.addAll(entries);
                 }
@@ -420,7 +427,7 @@ implements TeamTalkConnectionListener, CommandListener {
             loadLocalServers();        
         }
 
-        // Get public servers from from http. TeamTalk DLL must be loaded by 
+        // Get public servers from http. TeamTalk DLL must be loaded by 
         // service, otherwise static methods are unavailable (for getting DLL
         // version number).
         new UrlAsyncTask().execute();
@@ -530,5 +537,14 @@ implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onCmdBannedUser(BannedUser banneduser) {
+    }
+
+    @Override
+    public int compare(ServerEntry s1, ServerEntry s2) {
+        if (s1.public_server && !s2.public_server)
+            return 1;
+        else if (s2.public_server && !s1.public_server)
+            return -1;
+        return s1.servername.compareToIgnoreCase(s2.servername);
     }
 }
