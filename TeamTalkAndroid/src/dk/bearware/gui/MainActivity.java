@@ -21,6 +21,8 @@
 
 package dk.bearware.gui;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -733,6 +735,26 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 if(root != null)
                     subchannels.add(root);
             }
+
+            Collections.sort(subchannels, new Comparator<Channel>() {
+                    @Override
+                    public int compare(Channel c1, Channel c2) {
+                        return c1.szName.compareToIgnoreCase(c2.szName);
+                    }
+                });
+
+            Collections.sort(currentusers, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
+                            ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
+                            return -1;
+                        else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
+                                 ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
+                            return 1;
+                        return u1.szNickname.compareToIgnoreCase(u2.szNickname);
+                    }
+                });
 
             super.notifyDataSetChanged();
         }
