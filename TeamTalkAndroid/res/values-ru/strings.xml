@@ -26,8 +26,8 @@
     <string name="text_cmd_leftchan">Отключен канал:</string>
     <string name="text_cmd_joinroot">Подключен корневой канал</string>
     <string name="text_cmd_leftroot">Отключен корневой канал</string>
-    <string name="text_cmd_userjoinchan">подключил канал</string>
-    <string name="text_cmd_userleftchan">Отключил канал</string>
+    <string name="text_cmd_userjoinchan">подключился к каналу</string>
+    <string name="text_cmd_userleftchan">Покинул канал</string>
     <string name="pref_cat_subscriptions">Подписки</string>
     <string name="pref_cat_tts">Настройка речевых сообщений</string>
     <string name="pref_cat_soundtest">Тест Звука</string>
