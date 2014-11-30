@@ -406,17 +406,17 @@ namespace c_tt
                                                      [MarshalAs(UnmanagedType.LPWStr)] string szUsername);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoBanUser(IntPtr lpTTInstance,
-                                           int nUserID);
+                                              int nUserID, int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoBanIPAddress(IntPtr lpTTInstance,
-                                                   [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
+                                                   [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress,
+                                                   int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoUnBanUser(IntPtr lpTTInstance,
-                                             [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
+                                                [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress,
+                                                int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern int TT_DoListBans(IntPtr lpTTInstance,
-                                            int nIndex,
-                                            int nCount);
+        public static extern int TT_DoListBans(IntPtr lpTTInstance, int nChannelID, int nIndex, int nCount);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoSaveConfig(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

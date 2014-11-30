@@ -8,22 +8,17 @@ using System.Runtime.InteropServices;
 #if ENABLE_ENCRYPTION
 [assembly: AssemblyTitle("TeamTalk 5 Professional .NET DLL")]
 [assembly: AssemblyDescription("TeamTalk 5 Professional .NET Dynamic Link Library")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BearWare.dk")]
 [assembly: AssemblyProduct("TeamTalk 5 Professional .NET Dynamic Link Library")]
-[assembly: AssemblyCopyright("Copyright (c) BearWare.dk 2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 #else
 [assembly: AssemblyTitle("TeamTalk 5 .NET DLL")]
 [assembly: AssemblyDescription("TeamTalk 5 .NET Dynamic Link Library")]
+[assembly: AssemblyProduct("TeamTalk 5 .NET Dynamic Link Library")]
+#endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BearWare.dk")]
-[assembly: AssemblyProduct("TeamTalk 5 .NET Dynamic Link Library")]
 [assembly: AssemblyCopyright("Copyright (c) BearWare.dk 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-#endif
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -40,5 +35,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("5.0.0.3640")]
+[assembly: AssemblyVersion("5.0.0.3653")]
 

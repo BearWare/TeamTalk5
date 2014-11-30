@@ -213,6 +213,52 @@ namespace BearWare
     }
 
     /**
+     * @brief An audio block containing the raw audio from a user who
+     * was talking.
+     *
+     * To enable audio blocks first call TeamTalk.EnableAudioBlockEvent()
+     * then whenever new audio is played the event
+     * TeamTalk.OnUserAudioBlock() is generated. Use
+     * TeamTalk.AcquireUserAudioBlock() to retrieve the audio block.
+     *
+     * Note that each user is limited to 128 kbytes of audio data.
+     *
+     * @see TeamTalk.EnableAudioBlockEvent()
+     * @see TeamTalk.AcquireUserAudioBlock()
+     * @see TeamTalk.ReleaseUserAudioBlock() */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct AudioBlock
+    {
+        /** @brief The ID of the stream. The stream id changes every time
+         * the user enables a new transmission using TeamTalk.EnableTransmission()
+         * or through voice activation. */
+        public int nStreamID;
+        /** @brief The sample rate of the raw audio. */
+        public int nSampleRate;
+        /** @brief The number of channels used (1 for mono, 2 for stereo). */
+        public int nChannels;
+        /** @brief The raw audio in 16-bit integer format array. The
+         * size of the array in bytes is @c sizeof(short) * @c
+         * nSamples * @c nChannels. */
+        public System.IntPtr lpRawAudio;
+        /** @brief The number of samples in the raw audio array. */
+        public int nSamples;
+        /** @brief The index of the first sample in @c lpRawAudio. Its
+         * value will be a multiple of @c nSamples. The sample index
+         * can be used to detect overflows of the internal
+         * buffer. When a user initially starts talking the @c
+         * nSampleIndex will be 0 and while the user is talking @c
+         * nSampleIndex will be greater than 0. When the user stops
+         * talking @c nSampleIndex will be reset to 0 again. */
+        public uint uSampleIndex;
+    }
+
+    /** @} */
+
+    /** @addtogroup mediastream
+     * @{ */
+
+    /**
      * @brief Status of media file being written to disk.
      * @see CLIENTEVENT_USER_RECORD_MEDIAFILE */
     public enum MediaFileStatus : uint
@@ -253,48 +299,6 @@ namespace BearWare
         AFF_MP3_128KBIT_FORMAT = 6,
         /** @see #AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT = 7,
-    }
-
-
-    /**
-     * @brief An audio block containing the raw audio from a user who
-     * was talking.
-     *
-     * To enable audio blocks first call TeamTalk.EnableAudioBlockEvent()
-     * then whenever new audio is played the event
-     * TeamTalk.OnUserAudioBlock() is generated. Use
-     * TeamTalk.AcquireUserAudioBlock() to retrieve the audio block.
-     *
-     * Note that each user is limited to 128 kbytes of audio data.
-     *
-     * @see TeamTalk.EnableAudioBlockEvent()
-     * @see TeamTalk.AcquireUserAudioBlock()
-     * @see TeamTalk.ReleaseUserAudioBlock() */
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct AudioBlock
-    {
-        /** @brief The ID of the stream. The stream id changes every time
-         * the user enables a new transmission using TeamTalk.EnableTransmission()
-         * or through voice activation. */
-        public int nStreamID;
-        /** @brief The sample rate of the raw audio. */
-        public int nSampleRate;
-        /** @brief The number of channels used (1 for mono, 2 for stereo). */
-        public int nChannels;
-        /** @brief The raw audio in 16-bit integer format array. The
-         * size of the array in bytes is @c sizeof(short) * @c
-         * nSamples * @c nChannels. */
-        public System.IntPtr lpRawAudio;
-        /** @brief The number of samples in the raw audio array. */
-        public int nSamples;
-        /** @brief The index of the first sample in @c lpRawAudio. Its
-         * value will be a multiple of @c nSamples. The sample index
-         * can be used to detect overflows of the internal
-         * buffer. When a user initially starts talking the @c
-         * nSampleIndex will be 0 and while the user is talking @c
-         * nSampleIndex will be greater than 0. When the user stops
-         * talking @c nSampleIndex will be reset to 0 again. */
-        public uint uSampleIndex;
     }
 
     /**
@@ -3934,7 +3938,8 @@ namespace BearWare
          *
          * Voice transmission is stream type ::STREAMTYPE_VOICE.
          *
-         * ::USERRIGHT_TRANSMIT_VOICE is required to transmit voice data.
+         * User rights required:
+         * - ::USERRIGHT_TRANSMIT_VOICE
          *
          *
          * @param bEnable Enable/disable transmission. */
@@ -3956,7 +3961,8 @@ namespace BearWare
          *
          * Voice transmission is stream type ::STREAMTYPE_VOICE.
          *
-         * ::USERRIGHT_TRANSMIT_VOICE is required to transmit voice data.
+         * User rights required:
+         * - ::USERRIGHT_TRANSMIT_VOICE
          *
          * @param bEnable TRUE to enable, otherwise FALSE.
          * @see ClientFlag ::CLIENT_SNDINPUT_VOICEACTIVATED */
@@ -4091,10 +4097,10 @@ namespace BearWare
          * ::STREAMTYPE_VIDEOCAPTURE and is subscribed/unsubscribed using
          * ::SUBSCRIBE_VIDEOCAPTURE.
          *
-         * To transmit data from a video capture device the user must have
-         * ::USERRIGHT_TRANSMIT_VIDEOCAPTURE.
-         *
          * To stop transmitting call TeamTalk.StopVideoCaptureTransmission()
+         *
+         * User rights required:
+         * - ::USERRIGHT_TRANSMIT_VIDEOCAPTURE.
          *
          * @param lpVideoCodec The video codec settings to use for
          * transmission.
@@ -4346,7 +4352,7 @@ namespace BearWare
 
         /** @} */
 
-        /** @addtogroup transmission
+        /** @addtogroup mediastream
          * @{ */
 
         /**
@@ -5508,14 +5514,15 @@ namespace BearWare
          * - #ClientError ::CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user to ban.
+         * @param nChannelID Set to zero.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see DoKickUser
          * @see DoListBans */
-        public int DoBanUser(int nUserID)
+        public int DoBanUser(int nUserID, int nChannelID)
         {
-            return TTDLL.TT_DoBanUser(m_ttInst, nUserID);
+            return TTDLL.TT_DoBanUser(m_ttInst, nUserID, nChannelID);
         }
         /**
          * @brief Issue a ban command on an IP-address user. 
@@ -5531,14 +5538,15 @@ namespace BearWare
          * - #CMDERR_NOT_AUTHORIZED
          *
          * @param szIPAddress The IP-address to ban.
+         * @param nChannelID Set to zero.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see TeamTalk.DoKickUser
          * @see TeamTalk.DoListBans */
-        public int DoBanIPAddress(string szIPAddress)
+        public int DoBanIPAddress(string szIPAddress, int nChannelID)
         {
-            return TTDLL.TT_DoBanIPAddress(m_ttInst, szIPAddress);
+            return TTDLL.TT_DoBanIPAddress(m_ttInst, szIPAddress, nChannelID);
         }
 
         /**
@@ -5554,15 +5562,16 @@ namespace BearWare
          * - #ClientError ::CMDERR_BAN_NOT_FOUND
          *
          * @param szIPAddress The IP-address to unban.
+         * @param nChannelID Set to zero.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see DoBanUser
          * @see DoListBans
          * @see DoBanIPAddress */
-        public int DoUnBanUser(string szIPAddress)
+        public int DoUnBanUser(string szIPAddress, int nChannelID)
         {
-            return TTDLL.TT_DoUnBanUser(m_ttInst, szIPAddress);
+            return TTDLL.TT_DoUnBanUser(m_ttInst, szIPAddress, nChannelID);
         }
         /**
          * @brief Issue a command to list the banned users.
@@ -5577,15 +5586,16 @@ namespace BearWare
          * - #ClientError ::CMDERR_NOT_LOGGEDIN
          * - #ClientError ::CMDERR_NOT_AUTHORIZED
          *
+         * @param nChannelID Set to zero.
          * @param nIndex Index of first ban to display.
          * @param nCount The number of bans to display.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see TeamTalk.DoBanUser() */
-        public int DoListBans(int nIndex, int nCount)
+        public int DoListBans(int nChannelID, int nIndex, int nCount)
         {
-            return TTDLL.TT_DoListBans(m_ttInst, nIndex, nCount);
+            return TTDLL.TT_DoListBans(m_ttInst, nChannelID, nIndex, nCount);
         }
         /**
          * @brief Save the server's current state to its settings file

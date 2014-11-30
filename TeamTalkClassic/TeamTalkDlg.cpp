@@ -1095,7 +1095,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
         if(dlg.DoModal() == IDOK)
         {
             for(int i=0;i<dlg.m_vecUnBanned.size();i++)
-                TT_DoUnBanUser(ttInst, dlg.m_vecUnBanned[i].szIPAddress);
+                TT_DoUnBanUser(ttInst, dlg.m_vecUnBanned[i].szIPAddress, 0);
         }
         m_bannedusers.clear();
         break;
@@ -5198,7 +5198,7 @@ void CTeamTalkDlg::OnUpdateServerListbannedusers(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnServerListbannedusers()
 {
-    int cmdid = TT_DoListBans(ttInst, 0, 1000000);
+    int cmdid = TT_DoListBans(ttInst, 0, 0, 1000000);
     if(cmdid>0)
         m_commands[cmdid] = CMD_COMPLETE_LISTBANS;
 }
@@ -5211,7 +5211,7 @@ void CTeamTalkDlg::OnUpdateUsersKickandban(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersKickFromChannelandban()
 {
     int nUserID = m_wndTree.GetSelectedUser();
-    TT_DoBanUser(ttInst, nUserID);
+    TT_DoBanUser(ttInst, nUserID, 0);
     TT_DoKickUser(ttInst, nUserID, 0);
 }
 

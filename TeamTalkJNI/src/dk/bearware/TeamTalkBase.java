@@ -484,21 +484,21 @@ public abstract class TeamTalkBase
     public int doDeleteUserAccount(String szUsername) {
         return doDeleteUserAccount(ttInst, szUsername);
     }
-    private native int doBanUser(long lpTTInstance, int nUserID);
-    public int doBanUser(int nUserID) {
-        return doBanUser(ttInst, nUserID);
+    private native int doBanUser(long lpTTInstance, int nUserID, int nChannelID);
+    public int doBanUser(int nUserID, int nChannelID) {
+        return doBanUser(ttInst, nUserID, nChannelID);
     }
-    private native int doBanIPAddress(long lpTTInstance, String szIPAddress);
-    public int doBanIPAddress(String szIPAddress) {
-        return doBanIPAddress(ttInst, szIPAddress);
+    private native int doBanIPAddress(long lpTTInstance, String szIPAddress, int nChannelID);
+    public int doBanIPAddress(String szIPAddress, int nChannelID) {
+        return doBanIPAddress(ttInst, szIPAddress, nChannelID);
     }
-    private native int doUnBanUser(long lpTTInstance, String szIPAddress);
-    public int doUnBanUser(String szIPAddress) {
-        return doUnBanUser(ttInst, szIPAddress);
+    private native int doUnBanUser(long lpTTInstance, String szIPAddress, int nChannelID);
+    public int doUnBanUser(String szIPAddress, int nChannelID) {
+        return doUnBanUser(ttInst, szIPAddress, nChannelID);
     }
-    private native int doListBans(long lpTTInstance, int nIndex, int nCount);
-    public int doListBans(int nIndex, int nCount) {
-        return doListBans(ttInst, nIndex, nCount);
+    private native int doListBans(long lpTTInstance, int nChannelID, int nIndex, int nCount);
+    public int doListBans(int nChannelID, int nIndex, int nCount) {
+        return doListBans(ttInst, nChannelID, nIndex, nCount);
     }
     private native int doSaveConfig(long lpTTInstance);
     public int doSaveConfig() {

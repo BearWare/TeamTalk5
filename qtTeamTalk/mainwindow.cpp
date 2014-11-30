@@ -3804,7 +3804,7 @@ void MainWindow::slotServerUserAccounts(bool /*checked =false */)
 void MainWindow::slotServerBannedUsers(bool /*checked =false */)
 {
     //don't display dialog box until we get the result
-    int cmdid = TT_DoListBans(ttInst, 0, 1000000);
+    int cmdid = TT_DoListBans(ttInst, 0, 0, 1000000);
     if(cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LISTBANS);
 }
@@ -3983,7 +3983,7 @@ void MainWindow::slotUsersKick(int userid, int chanid)
 void MainWindow::slotUsersKickBan(int userid, int /*chanid*/)
 {
     //ban first since the user will otherwise have disappeared
-    TT_DoBanUser(ttInst, userid);
+    TT_DoBanUser(ttInst, userid, 0);
     TT_DoKickUser(ttInst, userid, 0);
 }
 

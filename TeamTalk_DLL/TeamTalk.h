@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3640"
+#define TEAMTALK_VERSION "5.0.0.3653"
 
 
 #if defined(WIN32)
@@ -346,6 +346,51 @@ extern "C" {
     } SoundLevel;
 
     /**
+     * @brief An audio block containing the raw audio from a user who
+     * was talking.
+     *
+     * To enable audio blocks first call TT_EnableAudioBlockEvent()
+     * then whenever new audio is played the event
+     * #CLIENTEVENT_USER_AUDIOBLOCK is generated. Use
+     * TT_AcquireUserAudioBlock() to retrieve the audio block.
+     *
+     * Note that each user is limited to 128 kbytes of audio data.
+     *
+     * @see TT_EnableAudioBlockEvent()
+     * @see TT_AcquireUserAudioBlock()
+     * @see TT_ReleaseUserAudioBlock() */
+    typedef struct AudioBlock
+    {
+        /** @brief The ID of the stream. The stream id changes every time
+         * the user enables a new transmission using TT_EnableTransmission()
+         * or through voice activation. */
+        INT32 nStreamID;
+        /** @brief The sample rate of the raw audio. */
+        INT32 nSampleRate;
+        /** @brief The number of channels used (1 for mono, 2 for stereo). */
+        INT32 nChannels;
+        /** @brief The raw audio in 16-bit integer format array. The
+         * size of the array in bytes is @c sizeof(short) * @c
+         * nSamples * @c nChannels. */
+        VOID* lpRawAudio;
+        /** @brief The number of samples in the raw audio array. */
+        INT32 nSamples;
+        /** @brief The index of the first sample in @c lpRawAudio. Its
+         * value will be a multiple of @c nSamples. The sample index
+         * can be used to detect overflows of the internal
+         * buffer. When a user initially starts talking the @c
+         * nSampleIndex will be 0 and while the user is talking @c
+         * nSampleIndex will be greater than 0. When the user stops
+         * talking @c nSampleIndex will be reset to 0 again. */
+        UINT32 uSampleIndex;
+    } AudioBlock;
+
+    /** @} */
+
+    /** @addtogroup mediastream
+     * @{ */
+
+    /**
      * @brief Status of media file being written to disk.
      * @see CLIENTEVENT_USER_RECORD_MEDIAFILE */
     typedef enum MediaFileStatus
@@ -387,46 +432,6 @@ extern "C" {
         /** @see #AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT   = 7,
     } AudioFileFormat;
-
-    /**
-     * @brief An audio block containing the raw audio from a user who
-     * was talking.
-     *
-     * To enable audio blocks first call TT_EnableAudioBlockEvent()
-     * then whenever new audio is played the event
-     * #CLIENTEVENT_USER_AUDIOBLOCK is generated. Use
-     * TT_AcquireUserAudioBlock() to retrieve the audio block.
-     *
-     * Note that each user is limited to 128 kbytes of audio data.
-     *
-     * @see TT_EnableAudioBlockEvent()
-     * @see TT_AcquireUserAudioBlock()
-     * @see TT_ReleaseUserAudioBlock() */
-    typedef struct AudioBlock
-    {
-        /** @brief The ID of the stream. The stream id changes every time
-         * the user enables a new transmission using TT_EnableTransmission()
-         * or through voice activation. */
-        INT32 nStreamID;
-        /** @brief The sample rate of the raw audio. */
-        INT32 nSampleRate;
-        /** @brief The number of channels used (1 for mono, 2 for stereo). */
-        INT32 nChannels;
-        /** @brief The raw audio in 16-bit integer format array. The
-         * size of the array in bytes is @c sizeof(short) * @c
-         * nSamples * @c nChannels. */
-        VOID* lpRawAudio;
-        /** @brief The number of samples in the raw audio array. */
-        INT32 nSamples;
-        /** @brief The index of the first sample in @c lpRawAudio. Its
-         * value will be a multiple of @c nSamples. The sample index
-         * can be used to detect overflows of the internal
-         * buffer. When a user initially starts talking the @c
-         * nSampleIndex will be 0 and while the user is talking @c
-         * nSampleIndex will be greater than 0. When the user stops
-         * talking @c nSampleIndex will be reset to 0 again. */
-        UINT32 uSampleIndex;
-    } AudioBlock;
 
     /**
      * @brief Struct describing the audio format used by a
@@ -3401,7 +3406,8 @@ extern "C" {
      *
      * Voice transmission is stream type #STREAMTYPE_VOICE.
      *
-     * #USERRIGHT_TRANSMIT_VOICE is required to transmit voice data.
+     * User rights required:
+     * - #USERRIGHT_TRANSMIT_VOICE
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
@@ -3423,7 +3429,8 @@ extern "C" {
      *
      * Voice transmission is stream type #STREAMTYPE_VOICE.
      *
-     * #USERRIGHT_TRANSMIT_VOICE is required to transmit voice data.
+     * User rights required:
+     * - #USERRIGHT_TRANSMIT_VOICE
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
@@ -3554,10 +3561,10 @@ extern "C" {
      * #STREAMTYPE_VIDEOCAPTURE and is subscribed/unsubscribed using
      * #SUBSCRIBE_VIDEOCAPTURE.
      *
-     * To transmit data from a video capture device the user must have
-     * #USERRIGHT_TRANSMIT_VIDEOCAPTURE.
-     *
      * To stop transmitting call TT_StopVideoCaptureTransmission()
+     *
+     * User rights required:
+     * - #USERRIGHT_TRANSMIT_VIDEOCAPTURE.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -3720,7 +3727,7 @@ extern "C" {
                                                          IN VideoFrame* lpVideoFrame);
     /** @} */
 
-    /** @addtogroup transmission
+    /** @addtogroup mediastream
      * @{ */
 
     /**
@@ -4950,6 +4957,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param nUserID The ID of the user to ban.
+     * @param nChannelID Set to zero.
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
@@ -4957,7 +4965,8 @@ extern "C" {
      * @see TT_DoListBans
      * @see TT_DoBanIPAddress */
     TEAMTALKDLL_API INT32 TT_DoBanUser(IN TTInstance* lpTTInstance,
-                                       IN INT32 nUserID);
+                                       IN INT32 nUserID,
+                                       IN INT32 nChannelID);
 
 
     /**
@@ -4976,13 +4985,15 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param szIPAddress The IP-address to ban.
+     * @param nChannelID Set to zero.
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
      * @see TT_DoKickUser
      * @see TT_DoListBans */
     TEAMTALKDLL_API INT32 TT_DoBanIPAddress(IN TTInstance* lpTTInstance,
-                                            IN const TTCHAR* szIPAddress);
+                                            IN const TTCHAR* szIPAddress,
+                                            IN INT32 nChannelID);
 
     /**
      * @brief Unban the user with the specified IP-address.
@@ -4998,6 +5009,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param szIPAddress The IP-address to unban.
+     * @param nChannelID Set to zero.
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
@@ -5005,7 +5017,8 @@ extern "C" {
      * @see TT_DoListBans
      * @see TT_DoBanIPAddress */
     TEAMTALKDLL_API INT32 TT_DoUnBanUser(IN TTInstance* lpTTInstance,
-                                         IN const TTCHAR* szIPAddress);
+                                         IN const TTCHAR* szIPAddress,
+                                         IN INT32 nChannelID);
 
     /**
      * @brief Issue a command to list the banned users.
@@ -5022,6 +5035,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
+     * @param nChannelID Set to zero.
      * @param nIndex Index of first ban to display.
      * @param nCount The number of bans to display.
      * @return Returns command ID which will be passed in 
@@ -5029,6 +5043,7 @@ extern "C" {
      * command. -1 is returned in case of error.
      * @see TT_DoBanUser() */
     TEAMTALKDLL_API INT32 TT_DoListBans(IN TTInstance* lpTTInstance,
+                                        IN INT32 nChannelID,
                                         IN INT32 nIndex,
                                         IN INT32 nCount);
 

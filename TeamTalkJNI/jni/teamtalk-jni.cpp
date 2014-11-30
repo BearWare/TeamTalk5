@@ -1003,40 +1003,44 @@ extern "C" {
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanUser(JNIEnv* env,
                                                                    jobject thiz,
                                                                    jlong lpTTInstance,
-                                                                   jint nUserID)
+                                                                   jint nUserID,
+                                                                   jint nChannelID)
     {
-        return TT_DoBanUser(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID);
+        return TT_DoBanUser(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID, nChannelID);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanIPAddress(JNIEnv* env,
                                                                         jobject thiz,
                                                                         jlong lpTTInstance,
-                                                                        jstring szIPAddress)
+                                                                        jstring szIPAddress,
+                                                                        jint nChannelID)
     {
         THROW_NULLEX(env, szIPAddress, -1);
 
         return TT_DoBanIPAddress(reinterpret_cast<TTInstance*>(lpTTInstance), 
-                                 ttstr(env, szIPAddress));
+                                 ttstr(env, szIPAddress), nChannelID);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUnBanUser(JNIEnv* env,
                                                                      jobject thiz,
                                                                      jlong lpTTInstance,
-                                                                     jstring szIPAddress)
+                                                                     jstring szIPAddress,
+                                                                     jint nChannelID)
     {
         THROW_NULLEX(env, szIPAddress, -1);
 
         return TT_DoUnBanUser(reinterpret_cast<TTInstance*>(lpTTInstance), 
-                              ttstr(env, szIPAddress));
+                              ttstr(env, szIPAddress), nChannelID);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doListBans(JNIEnv* env,
                                                                     jobject thiz,
                                                                     jlong lpTTInstance,
+                                                                    jint nChannelID,
                                                                     jint nIndex,
                                                                     jint nCount)
     {
-        return TT_DoListBans(reinterpret_cast<TTInstance*>(lpTTInstance), 
+        return TT_DoListBans(reinterpret_cast<TTInstance*>(lpTTInstance), nChannelID,
                              nIndex, nCount);
     }
 

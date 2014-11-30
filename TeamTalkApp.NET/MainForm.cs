@@ -765,7 +765,7 @@ namespace TeamTalkApp.NET
                 return;
             //Req. UserRight.USERRIGHT_BAN_USERS
             //Req. UserRight.USERRIGHT_KICK_USERS
-            ttclient.DoBanUser(user.nUserID);
+            ttclient.DoBanUser(user.nUserID, 0);
             ttclient.DoKickUser(user.nUserID, user.nChannelID);
         }
 

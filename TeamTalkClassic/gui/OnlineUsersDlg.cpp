@@ -142,7 +142,7 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
     switch(uCmd)
     {
     case ID_POPUP_KICKANDBAN :
-        TT_DoBanUser(ttInst, nUserID);
+        TT_DoBanUser(ttInst, nUserID, 0);
         TT_DoKickUser(ttInst, nUserID, 0);
         break;
     case ID_POPUP_KICK :

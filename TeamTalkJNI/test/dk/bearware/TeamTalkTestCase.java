@@ -584,18 +584,18 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         User user = new User();
         assertTrue(ttclient.getUser(ttclient.getMyUserID(), user));
         String IPADDR = "10.2.3.4";
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient.getMyUserID()), DEF_WAIT));
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanIPAddress(IPADDR), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient.getMyUserID(), 0), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanIPAddress(IPADDR, 0), DEF_WAIT));
 
         TTMessage msg = new TTMessage();
 
-        assertTrue(ttclient.doListBans(0, 100)>0);
+        assertTrue(ttclient.doListBans(0, 0, 100)>0);
         assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
         BannedUser ban = msg.banneduser;
         assertTrue(ban.szIPAddress.length()>0);
         
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(user.szIPAddress), DEF_WAIT));
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(IPADDR), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(IPADDR, 0), DEF_WAIT));
     }
     
     public void test_17_ChannelSwitch() throws InterruptedException{
@@ -618,7 +618,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
-        for(int i=0;i<20;i++) {
+        for(int i=0;i<5;i++) {
 
             AudioBlock audblk = new AudioBlock();
             for(int j=0;j<200;j++) {
@@ -641,7 +641,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
     }
     
-    public void test_18_ViewAllUsersBug() throws InterruptedException {
+    public void bug_test_18_ViewAllUsers() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
             + getCurrentMethod();

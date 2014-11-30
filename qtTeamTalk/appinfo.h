@@ -23,7 +23,7 @@
 #define APPINFO_H
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION          "5.0 - ALPHA5 v" TEAMTALK_VERSION
+#define APPVERSION          "5.0 - BETA1"
 #define APPVERSION_SHORT    "5.0"
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
 #define APPTRAYICON         QString::fromUtf8(":/images/images/teamtalky.png")
@@ -42,10 +42,13 @@
 #define APPINIFILE          (QApplication::applicationName() + ".ini")
 
 #if defined(Q_OS_DARWIN)
-#define APPMANUAL           (QApplication::applicationDirPath() + "/../Resources/Help/toc.html")
+#define APPMANUAL           (QApplication::applicationDirPath() + "/../Resources/Help/index.html")
 #define TRANSLATE_FOLDER    (QApplication::applicationDirPath() + "/../Resources/Languages")
-#else
+#elif defined(Q_OS_WIN32)
 #define APPMANUAL           (QApplication::applicationDirPath() + "/TeamTalk5.chm")
+#define TRANSLATE_FOLDER    (QApplication::applicationDirPath() + "/" "languages")
+#else
+#define APPMANUAL           (QApplication::applicationDirPath() + "/help/index.html")
 #define TRANSLATE_FOLDER    (QApplication::applicationDirPath() + "/" "languages")
 #endif
 
