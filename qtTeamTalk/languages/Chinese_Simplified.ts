@@ -850,18 +850,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="165"/>
-        <location filename="../generatettfiledlg.cpp" line="173"/>
+        <location filename="../generatettfiledlg.cpp" line="166"/>
+        <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="166"/>
+        <location filename="../generatettfiledlg.cpp" line="167"/>
         <source>%1 File (*%1)</source>
         <translation type="unfinished">%1 File (*%1)</translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="173"/>
+        <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Unable to save file</source>
         <translation type="unfinished">无法保存文件</translation>
     </message>
@@ -1827,6 +1827,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1155"/>
+        <location filename="../mainwindow.ui" line="1367"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
@@ -1976,13 +1977,13 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1591"/>
-        <source>&amp;Increase Voice Volume (+10)</source>
+        <location filename="../mainwindow.ui" line="1872"/>
+        <source>Increase Media File Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1599"/>
-        <source>&amp;Lower Voice Volume (-10)</source>
+        <location filename="../mainwindow.ui" line="1880"/>
+        <source>Lower Media File Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2016,18 +2017,8 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1872"/>
-        <source>Increase Media File Volume (+10)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1875"/>
         <source>Ctrl+Shift+Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1880"/>
-        <source>Lower Media File Volume (-10)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2038,6 +2029,16 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1688"/>
         <source>Enable Question Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1591"/>
+        <source>&amp;Increase Voice Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1599"/>
+        <source>&amp;Lower Voice Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2271,11 +2272,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1364"/>
         <source>&amp;View Channel Info</source>
         <translation>查看频道信息&amp;V</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1367"/>
-        <source>Shift+F3</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1501"/>

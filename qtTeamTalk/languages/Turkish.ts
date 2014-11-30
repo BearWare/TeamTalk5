@@ -889,18 +889,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="165"/>
-        <location filename="../generatettfiledlg.cpp" line="173"/>
+        <location filename="../generatettfiledlg.cpp" line="166"/>
+        <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="166"/>
+        <location filename="../generatettfiledlg.cpp" line="167"/>
         <source>%1 File (*%1)</source>
         <translation type="unfinished">%1 Dosya (*%1)</translation>
     </message>
     <message>
-        <location filename="../generatettfiledlg.cpp" line="173"/>
+        <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Unable to save file</source>
         <translation type="unfinished">Dosya kaydetmek var</translation>
     </message>
@@ -1644,6 +1644,12 @@
         <translation>Kendi kendime</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5045"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 Abonelik ayarla %2 üzerinizden:%3</translation>
     </message>
@@ -1674,12 +1680,6 @@
     <message>
         <location filename="../mainwindow.cpp" line="5044"/>
         <source>Load %1 File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5045"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1861,6 +1861,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1155"/>
+        <location filename="../mainwindow.ui" line="1367"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
@@ -2116,13 +2117,13 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1591"/>
-        <source>&amp;Increase Voice Volume (+10)</source>
+        <location filename="../mainwindow.ui" line="1872"/>
+        <source>Increase Media File Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1599"/>
-        <source>&amp;Lower Voice Volume (-10)</source>
+        <location filename="../mainwindow.ui" line="1880"/>
+        <source>Lower Media File Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2156,18 +2157,8 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1872"/>
-        <source>Increase Media File Volume (+10)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1875"/>
         <source>Ctrl+Shift+Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1880"/>
-        <source>Lower Media File Volume (-10)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2293,9 +2284,8 @@ Should these settings be applied?</source>
         <translation>&amp;Kanal Bilgisini Göster</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1367"/>
         <source>Shift+F3</source>
-        <translation>Shift+F3 (Shift ile beraber F3 ede basınız)</translation>
+        <translation type="vanished">Shift+F3 (Shift ile beraber F3 ede basınız)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1372"/>
@@ -2311,6 +2301,16 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1031"/>
         <source>&amp;Mute</source>
         <translation type="unfinished">&amp;Sessiz</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1591"/>
+        <source>&amp;Increase Voice Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1599"/>
+        <source>&amp;Lower Voice Volume</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1809"/>
