@@ -281,8 +281,14 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             TextView name = (TextView) convertView.findViewById(R.id.server_name);
             TextView address = (TextView) convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
-            if(servers.get(position).public_server)
+            if (servers.get(position).public_server) {
                 name.setTextColor(Color.parseColor("#85E58D"));
+                name.setContentDescription(getString(R.string.public_server_description, servers.get(position).servername));
+            }
+            else {
+                name.setTextColor(Color.parseColor("#C8C8C8"));
+                name.setContentDescription(null);
+            }
             address.setText(servers.get(position).ipaddr);
             Button connect = (Button) convertView.findViewById(R.id.server_connect);
             Button remove = (Button) convertView.findViewById(R.id.server_remove);
