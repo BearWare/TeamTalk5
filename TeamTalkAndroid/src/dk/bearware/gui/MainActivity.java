@@ -1316,7 +1316,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 notification.setSmallIcon(R.drawable.message)
                     .setContentTitle(getString(R.string.personal_message_notification, senderName))
                     .setContentText(getString(R.string.personal_message_notification_hint))
-                    .setContentIntent(PendingIntent.getActivity(this, 0, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                    .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
                     .setAutoCancel(true);
                 notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
             }

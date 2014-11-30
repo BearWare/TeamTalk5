@@ -395,7 +395,7 @@ implements ClientListener, Comparator<RemoteFile> {
                     cancellationIntent.putExtra(TeamTalkService.CANCEL_TRANSFER, id);
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload)
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
-                        .setContentIntent(PendingIntent.getService(context, 0, cancellationIntent, 0));
+                        .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0));
                     if (Build.VERSION.SDK_INT >= 17)
                         progressNotification.setShowWhen(false);
                     uploads.put(id, progressNotification);
