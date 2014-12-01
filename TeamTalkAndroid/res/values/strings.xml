@@ -205,6 +205,7 @@
     <string name="err_max_logins_per_ipaddress_exceeded">Too many connections from one IP address</string>
     <string name="err_max_channels_exceeded">Too many channels</string>
     <string name="err_channel_already_exists">Channel already exists</string>
+    <string name="err_user_not_found">User not found</string>
     <string name="err_openfile_failed">Server failed to open file</string>
     <string name="err_filesharing_disabled">Server does not allow file transfers</string>
     <string name="err_channel_has_users">Channel is not empty</string>

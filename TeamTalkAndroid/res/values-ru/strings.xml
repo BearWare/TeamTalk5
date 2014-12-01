@@ -196,6 +196,7 @@
     <string name="err_max_logins_per_ipaddress_exceeded">Слишком много подключений с одного IP адреса</string>
     <string name="err_max_channels_exceeded">Слишком много каналов</string>
     <string name="err_channel_already_exists">Канал уже существует</string>
+    <string name="err_user_not_found">Пользователь не найден</string>
     <string name="err_openfile_failed">Не удалось открыть файл на сервере</string>
     <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
     <string name="err_channel_has_users">Канал не пуст</string>
