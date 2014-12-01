@@ -133,17 +133,23 @@ implements ClientListener, Comparator<RemoteFile> {
         for (int i = 0; i < uploads.size(); i++) {
             int transferId = uploads.keyAt(i);
             FileTransfer transfer = (ttService != null) ? ttService.getFileTransfers().get(transferId) : null;
-            if (transfer == null)
-                transfer = new FileTransfer();
-            if (ttClient.getFileTransferInfo(transferId, transfer)) {
-                if (transfer.nStatus != FileTransferStatus.FILETRANSFER_ACTIVE) {
-                    if (ttService != null)
+            if (transfer != null) {
+                if (ttClient.getFileTransferInfo(transferId, transfer)) {
+                    if (transfer.nStatus != FileTransferStatus.FILETRANSFER_ACTIVE) {
                         ttService.getFileTransfers().remove(transferId);
-                    onFileTransfer(transfer);
+                        onFileTransfer(transfer);
+                    }
+                    else {
+                        indicateUploadProgress(transfer);
+                    }
                 }
                 else {
-                    indicateUploadProgress(transfer);
+                    ttService.getFileTransfers().remove(transferId);
+                    uploads.remove(transferId);
                 }
+            }
+            else {
+                uploads.remove(transferId);
             }
         }
     }
@@ -395,7 +401,8 @@ implements ClientListener, Comparator<RemoteFile> {
                     cancellationIntent.putExtra(TeamTalkService.CANCEL_TRANSFER, id);
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload)
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
-                        .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0));
+                        .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0))
+                        .setAutoCancel(true);
                     if (Build.VERSION.SDK_INT >= 17)
                         progressNotification.setShowWhen(false);
                     uploads.put(id, progressNotification);
@@ -407,8 +414,7 @@ implements ClientListener, Comparator<RemoteFile> {
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload_done)
                         .setContentText(context.getString(R.string.complete))
                         .setProgress(0, 0, false)
-                        .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
-                        .setAutoCancel(true);
+                        .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0));
                     notificationManager.notify(PROGRESS_NOTIFICATION_TAG, transfer.nTransferID, progressNotification.build());
                     uploads.remove(transfer.nTransferID);
                     Toast.makeText(context,

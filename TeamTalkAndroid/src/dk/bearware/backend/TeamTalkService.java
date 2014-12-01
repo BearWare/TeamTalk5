@@ -101,8 +101,13 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.hasExtra(CANCEL_TRANSFER) && (ttclient != null) && ttclient.cancelFileTransfer(intent.getIntExtra(CANCEL_TRANSFER, 0)))
-            Toast.makeText(this, R.string.transfer_stopped, Toast.LENGTH_LONG).show();
+        if (intent.hasExtra(CANCEL_TRANSFER)) {
+            int transferId = intent.getIntExtra(CANCEL_TRANSFER, 0);
+            if ((ttclient != null) && ttclient.cancelFileTransfer(transferId)) {
+                fileTransfers.remove(transferId);
+                Toast.makeText(this, R.string.transfer_stopped, Toast.LENGTH_LONG).show();
+            }
+        }
         return START_NOT_STICKY;
     }
 
