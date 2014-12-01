@@ -150,6 +150,16 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         return (ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) != 0;
     }
 
+    public boolean enableVoiceTransmission(boolean enable) {
+        if (enable)
+            return (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0)) && ttclient.enableVoiceTransmission(true);
+        else if (ttclient.enableVoiceTransmission(false)) {
+            ttclient.closeSoundInputDevice();
+            return true;
+        }
+        return false;
+    }
+
     public boolean reconnect() {
         if(ttserver == null || ttclient == null)
             return false;

@@ -222,7 +222,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                         //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
                     }
 
-                    ttclient.enableVoiceTransmission(tx);
+                    ttservice.enableVoiceTransmission(tx);
                     boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
                     if (ptt_vibrate) {
                         Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -1099,11 +1099,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         ttservice.registerCommandListener(MainActivity.this);
         ttservice.registerUserListener(MainActivity.this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
-        
-        if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) == 0) &&
-            !ttclient.initSoundInputDevice(0))
-            Toast.makeText(this, R.string.err_init_sound_input,
-                Toast.LENGTH_LONG).show();
 
         if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
             !ttclient.initSoundOutputDevice(0))
