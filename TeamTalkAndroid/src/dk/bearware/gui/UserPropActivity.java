@@ -21,6 +21,7 @@
 
 package dk.bearware.gui;
 
+import dk.bearware.Constants;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
@@ -104,9 +105,9 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
-        voiceVol.setMax(SoundLevel.SOUND_VOLUME_MAX);
+        voiceVol.setMax(Constants.DEFAULT_SOUND_VOLUME_MAX);
         voiceVol.setProgress(user.nVolumeVoice);
-        mediaVol.setMax(SoundLevel.SOUND_VOLUME_MAX);
+        mediaVol.setMax(Constants.DEFAULT_SOUND_VOLUME_MAX);
         mediaVol.setProgress(user.nVolumeMediaFile);
         voiceMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_VOICE) != 0);
         mediaMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_MEDIAFILE) != 0);
