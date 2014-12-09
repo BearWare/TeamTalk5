@@ -1130,6 +1130,12 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     ASSERT(msg.ttType == __USER);
     const User& user = msg.user;
 
+    CMessageDlg* pDlg = GetUsersMessageSession(msg.user.nUserID, FALSE);
+    if(pDlg)
+    {
+        pDlg->SetAlive(FALSE);
+    }
+
     m_users.erase(user.nUserID);
     m_wndTree.RemoveUser(user);
 }
@@ -1329,12 +1335,6 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
             OnChannelLeft(chan);
     }
     m_wndTree.RemoveUser(user);
-
-    CMessageDlg* pDlg = GetUsersMessageSession(msg.user.nUserID, FALSE);
-    if(pDlg)
-    {
-        pDlg->SetAlive(FALSE);
-    }
 
     int nMyChannelID = TT_GetMyChannelID(ttInst);
     if(nMyChannelID == msg.nSource)
@@ -1721,7 +1721,7 @@ void CTeamTalkDlg::OnUserMediaVideoFrame(const TTMessage& msg)
 
     mapvideodlg_t::iterator ii = m_videodlgs.find(nUserID);
     if(ii != m_videodlgs.end())
-        ii->second->Invalidate();
+        ii->second->NewVideoFrame();
     else
         OpenVideoSession(nUserID);
     return;
