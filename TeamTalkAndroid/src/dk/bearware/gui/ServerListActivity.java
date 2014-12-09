@@ -23,21 +23,29 @@ package dk.bearware.gui;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
-import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
-import dk.bearware.UserState;
 import dk.bearware.gui.R;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -54,7 +62,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,6 +81,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
     private ServerListAdapter adapter;
 
     public static final String TAG = "bearware";
+    final String APPNAME_SHORT = "TeamTalk5", APPVERSION_SHORT = "5.0", OSTYPE = "Android";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -395,13 +403,12 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         adapter.notifyDataSetChanged();
     }
     
-    class UrlAsyncTask extends AsyncTask<Void, Void, Void> {
+    class ServerListAsyncTask extends AsyncTask<Void, Void, Void> {
 
         Vector<ServerEntry> entries;
 
         @Override
         protected Void doInBackground(Void... params) {
-            final String APPNAME_SHORT = "TeamTalk5", APPVERSION_SHORT = "5.0", OSTYPE = "Android";
             final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
             String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + APPNAME_SHORT + "&version="
                 + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
@@ -436,7 +443,55 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         // Get public servers from http. TeamTalk DLL must be loaded by 
         // service, otherwise static methods are unavailable (for getting DLL
         // version number).
-        new UrlAsyncTask().execute();
+        new ServerListAsyncTask().execute();
+    }
+    
+    class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
+        
+        String latestclient = "", versionmsg = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
+            String urlToRead = "http://www.bearware.dk/teamtalk/tt5update.php?client=" + APPNAME_SHORT + "&version="
+                + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+
+            String xml = Utils.getURL(urlToRead);
+            if(!xml.isEmpty()) {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder;
+                Document doc;
+                try {
+                    dBuilder = dbFactory.newDocumentBuilder();
+                    doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+                }
+                catch(Exception e) {
+                    return null;
+                }
+                
+                doc.getDocumentElement().normalize();
+                
+                NodeList nList = doc.getElementsByTagName("teamtalk");
+                for (int i = 0; i < nList.getLength(); i++) {
+                    Node nNode = nList.item(i);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        NodeList nName = eElement.getElementsByTagName("name");
+                        if(nName.getLength()>0)
+                            latestclient = nName.item(0).getTextContent();
+                    }
+                }
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            if(versionmsg.length()>0) {
+                Toast.makeText(ServerListActivity.this,
+                               getString(R.string.version_update, latestclient),
+                               Toast.LENGTH_LONG).show();
+            }
+        }
     }
     
     @Override
@@ -452,6 +507,11 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         ttclient.closeSoundOutputDevice();
         
         refreshServerList();
+        
+        TextView tv_version = (TextView)findViewById(R.id.version_textview);
+        tv_version.setText("TeamTalk 5 Alpha1 - v" + TeamTalkBase.getVersion());
+
+        new VersionCheckAsyncTask().execute();
     }
 
     @Override
