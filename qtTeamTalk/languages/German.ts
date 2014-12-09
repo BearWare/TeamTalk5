@@ -174,12 +174,12 @@
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Permanent channel (stored on server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Permanenter Raum (auf Server gespeichert)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="179"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Unterbrechungen (keine simultanen Audioübertragungen)</translation>
     </message>
     <message>
         <source>Static channel (persistent)</source>
@@ -218,26 +218,26 @@
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Spracherkennung (nur Push-To-Talk)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="207"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Audiomitschnitte erlaubt (Speicherung auf Festplatte)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="259"/>
         <location filename="../channel.ui" line="397"/>
         <location filename="../channel.ui" line="583"/>
         <source>Sample rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Samplerate</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="271"/>
         <location filename="../channel.ui" line="409"/>
         <location filename="../channel.ui" line="595"/>
         <source>Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="343"/>
@@ -276,7 +276,7 @@
     <message>
         <location filename="../channel.ui" line="556"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendung</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="644"/>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../channel.ui" line="656"/>
         <source>Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="729"/>
@@ -381,12 +381,12 @@
     <message>
         <location filename="../channeldlg.cpp" line="78"/>
         <source>VoIP</source>
-        <translation type="unfinished"></translation>
+        <translation>VoIP</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="79"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Musik</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="118"/>
@@ -773,118 +773,118 @@
     <message>
         <location filename="../generatettfile.ui" line="14"/>
         <source>Generate .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>.tt-Datei erstellen</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">Anmeldung (optional)</translation>
+        <translation>Anmeldung (optional)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
         <source>Password</source>
-        <translation type="unfinished">Passwort</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="79"/>
         <source>Client settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Einstellungen</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Vordefinierte Einstellungen des Clients überschreiben</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
         <source>User Settings</source>
-        <translation type="unfinished">Benutzereinstellungen</translation>
+        <translation>Benutzereinstellungen</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="102"/>
         <source>Nickname</source>
-        <translation type="unfinished">Nickname</translation>
+        <translation>Nickname</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="123"/>
         <source>Gender</source>
-        <translation type="unfinished">Geschlecht</translation>
+        <translation>Geschlecht</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="158"/>
         <source>Male</source>
-        <translation type="unfinished">Männlich</translation>
+        <translation>Männlich</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="171"/>
         <source>Female</source>
-        <translation type="unfinished">Weiblich</translation>
+        <translation>Weiblich</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="196"/>
         <source>Voice Transmission Mode</source>
-        <translation type="unfinished">Sprachübertragungsmodus</translation>
+        <translation>Sprachübertragungsmodus</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="211"/>
         <source>Push To Talk</source>
-        <translation type="unfinished">Push-to-talk</translation>
+        <translation>Push-to-talk</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="221"/>
         <source>&amp;Setup Keys</source>
-        <translation type="unfinished">Tasten &amp;definieren</translation>
+        <translation>Tasten &amp;definieren</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="228"/>
         <source>Key Combination</source>
-        <translation type="unfinished">Tastenkombination</translation>
+        <translation>Tastenkombination</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="251"/>
         <source>Voice activated</source>
-        <translation type="unfinished">Spracherkennung</translation>
+        <translation>Spracherkennung</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="271"/>
         <source>Video Codec Settings</source>
-        <translation type="unfinished">Videocodec-Einstellungen</translation>
+        <translation>Videocodec-Einstellungen</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="274"/>
         <source>Video Capture Settings</source>
-        <translation type="unfinished">Videoeinstellungen</translation>
+        <translation>Videoeinstellungen</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="283"/>
         <source>Video Resolution</source>
-        <translation type="unfinished">Videoauflösung</translation>
+        <translation>Videoauflösung</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="300"/>
         <source>Codec</source>
-        <translation type="unfinished">Codec</translation>
+        <translation>Codec</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="323"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="415"/>
         <source>&amp;Save .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>.tt-Datei speichern</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="422"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Schließen</translation>
+        <translation>&amp;Schließen</translation>
     </message>
 </context>
 <context>
@@ -893,23 +893,23 @@
         <location filename="../generatettfiledlg.cpp" line="64"/>
         <location filename="../generatettfiledlg.cpp" line="75"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jede</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="166"/>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Save File</source>
-        <translation type="unfinished">Datei speichern</translation>
+        <translation>Datei speichern</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="167"/>
         <source>%1 File (*%1)</source>
-        <translation type="unfinished">%1 Datei (*%1)</translation>
+        <translation>%1 Datei (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">Kann Datei nicht speichern</translation>
+        <translation>Kann Datei nicht speichern</translation>
     </message>
 </context>
 <context>
@@ -1503,37 +1503,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Failed to initialize audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Audiocodec nicht initialisieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"/>
         <source>Failed to initialize audio configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Audiokonfiguration nicht initialisieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Writing audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe Audiodatei %1 für %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1198"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Audiodatei %1 für %2 nicht schreiben</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Finished audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiodatei %1 abgeschlossen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1207"/>
         <source>Aborted audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiodatei %1 abgebrochen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1569"/>
         <source>The username is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Benutzername ist ungültig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2235"/>
@@ -1553,12 +1553,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>Push To Talk: </source>
-        <translation type="unfinished"></translation>
+        <translation>Push-To-Talk: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Videocodec konnte nicht konfiguriert werden. Bitte prüfe die Einstellungen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
@@ -1650,7 +1650,8 @@
         <location filename="../mainwindow.cpp" line="5045"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Setup-Informationen.
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
@@ -1685,17 +1686,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5025"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei &quot;%1&quot; ist mit %2 nicht kompatibel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5036"/>
         <source>Failed to extract host-information from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Host-Informationen von %1 nicht extrahieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5044"/>
         <source>Load %1 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade %1 Datei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5109"/>
@@ -2074,12 +2075,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1380"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauswerfen und &amp;sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1415"/>
         <source>V&amp;oice</source>
-        <translation type="unfinished"></translation>
+        <translation>Spr&amp;ache</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1418"/>
@@ -2109,7 +2110,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1516"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Konversationen auf&amp;zeichnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1537"/>
@@ -2134,12 +2135,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1872"/>
         <source>Increase Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei-Lautstärke erhöhen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1880"/>
         <source>Lower Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei-Lautstärke verringern</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1662"/>
@@ -2164,22 +2165,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1864"/>
         <source>Kick From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom Server verweisen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1867"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
         <source>Ctrl+Shift+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Right</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1883"/>
         <source>Ctrl+Shift+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Left</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
@@ -2324,47 +2325,47 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1591"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachlautstärke er&amp;höhen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1599"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachlautstärke ver&amp;ringern</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1809"/>
         <source>Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei-Stream</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1812"/>
         <source>Ctrl+8</source>
-        <translation type="unfinished">STRG+8</translation>
+        <translation>STRG+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1824"/>
         <source>Intercept Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei-Stream abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1827"/>
         <source>Ctrl+Shift+8</source>
-        <translation type="unfinished">STRG+Umsch+8</translation>
+        <translation>STRG+Umsch+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1832"/>
         <source>Allow Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Senden von Mediendateien erlauben</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1835"/>
         <source>Ctrl+Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1840"/>
         <source>Mu&amp;te Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache s&amp;tumm</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1843"/>
@@ -2379,17 +2380,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1848"/>
         <source>Mute Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei stumm</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1851"/>
         <source>Ctrl+Alt+Μ</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Μ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1856"/>
         <source>Kick From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum werfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
@@ -2604,65 +2605,65 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Konversationen auf Festplatte aufzeichnen</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiokonversationen speichern</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation type="unfinished">Speichermodus</translation>
+        <translation>Speichermodus</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="38"/>
         <source>Single audio file for all users</source>
-        <translation type="unfinished">Eine Datei für alle Benutzer</translation>
+        <translation>Eine Datei für alle Benutzer</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="45"/>
         <source>Separate audio file for each user</source>
-        <translation type="unfinished">Getrennte Dateien für jeden Benutzer</translation>
+        <translation>Getrennte Dateien für jeden Benutzer</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="56"/>
         <source>Audio file format</source>
-        <translation type="unfinished">Audio-Dateiformat</translation>
+        <translation>Audio-Dateiformat</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="69"/>
         <location filename="../mediastoragedlg.cpp" line="89"/>
         <source>Folder for audio files</source>
-        <translation type="unfinished">Ordner für Audiodateien</translation>
+        <translation>Ordner für Audiodateien</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="82"/>
         <location filename="../mediastorage.ui" line="113"/>
         <location filename="../mediastorage.ui" line="133"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="94"/>
         <source>Store text message conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>Textkonversationen speichern</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="100"/>
         <source>Folder for channel log files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner für Raumnachrichten-Logs</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="120"/>
         <source>Folder for user-to-user log files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner für Privatnachrichten-Logs</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="90"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="unfinished">Der Speicherordner existiert nicht</translation>
+        <translation>Der Speicherordner existiert nicht</translation>
     </message>
 </context>
 <context>
@@ -2882,7 +2883,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1759"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="364"/>
@@ -3174,22 +3175,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="608"/>
         <source>Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="653"/>
         <source>Media Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendateien</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische Mikrofonpegelkontrolle einschalten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauschunterdrückung einschalten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1320"/>
@@ -3455,7 +3456,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="148"/>
         <source>Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmeldung</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="237"/>
@@ -3773,7 +3774,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="283"/>
         <source>Voice TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Sprach-TX</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="310"/>
@@ -3788,7 +3789,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="347"/>
         <source>Media File TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Mediendatei-TX</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -3831,12 +3832,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendatei RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateien RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="186"/>
@@ -3881,12 +3882,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="285"/>
         <source>Users served</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer gesamt</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="305"/>
         <source>Users peak</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer-Spitze</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="342"/>
@@ -3955,7 +3956,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <source>Stream audio</source>
@@ -4143,7 +4144,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="187"/>
         <source>Default user</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardbenutzer</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="203"/>
@@ -4179,112 +4180,112 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="273"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">Audiocodec-Begrenzungen</translation>
+        <translation>Audiocodec-Begrenzungen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="279"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">Max. Bitrate für Audiocodecs</translation>
+        <translation>Max. Bitrate für Audiocodecs</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="302"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">KBPS (0 = ausgeschaltet)</translation>
+        <translation>KBPS (0 = ausgeschaltet)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
         <source>User Rights</source>
-        <translation type="unfinished">Benutzerrechte</translation>
+        <translation>Benutzerrechte</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="322"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann sich mehrfach anmelden</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>User can upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Dateien hochladen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann alle Benutzer in allen Räumen sehen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="349"/>
         <source>User can download files</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Dateien herunterladen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann alle Räume erstellen/bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="363"/>
         <source>User can update server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Server-Eigenschaften bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="376"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann temporäre Räume erstellen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="383"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Sprachdaten senden (Mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Textnachrichten übermitteln</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Videodaten senden (Webcam)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="410"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann andere Benutzer vom Server verweisen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="417"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Audiodateien senden (wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="424"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann andere Benutzer sperren</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="431"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Videodateien senden (avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="438"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann andere Benutzer zwischen Räumen verschieben</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="445"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Desktopsitzungen übertragen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="452"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann andere Benutzer Operatorrechte verleihen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Fernzugriff auf Desktops erhalten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="484"/>
@@ -4313,12 +4314,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="327"/>
         <source>Add/Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen/Bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="328"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonymes Benutzerkonto erstellen</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="508"/>
@@ -4336,7 +4337,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4495,17 +4496,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="165"/>
         <source>Voice packet loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachpaketverlust</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="199"/>
         <source>Audio file packets loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiodatei-Paketverlust</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
         <source>Video file frame loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Videodatei-Frameverlust</translation>
     </message>
     <message>
         <source>P2P connection</source>
@@ -4585,17 +4586,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservideowidget.cpp" line="53"/>
         <source>Waiting for video from %1</source>
-        <translation type="unfinished">Warte auf Video von %1</translation>
+        <translation>Warte auf Video von %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="57"/>
         <source>Waiting for media file from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf Mediendatei von %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="51"/>
         <source>Waiting for local video</source>
-        <translation type="unfinished">Warte auf lokales Video</translation>
+        <translation>Warte auf lokales Video</translation>
     </message>
 </context>
 <context>
@@ -4611,7 +4612,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservolume.ui" line="23"/>
         <source>Voice Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachlautstärke-Einstellungen</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="53"/>
@@ -4634,12 +4635,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendateilautstärke-Einstellungen</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation type="unfinished">&amp;Standard</translation>
+        <translation>&amp;Standard</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="77"/>
