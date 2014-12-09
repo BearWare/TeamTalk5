@@ -204,9 +204,7 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
     }
     m_accounts.push_back(account);
 
-    m_wndUsername.SetWindowText(_T(""));
-    m_wndPassword.SetWindowText(_T(""));
-    m_wndDefaultUser.SetCheck(BST_CHECKED);
+    OnBnClickedButtonNew();
 
     ListAccounts();
     UpdateControls();
