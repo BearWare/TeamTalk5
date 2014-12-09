@@ -236,15 +236,18 @@ implements TeamTalkConnectionListener, CommandListener {
         if(channelid > 0) {
             //existing channel
             channel = ttservice.getChannels().get(channelid);
-
-            exchangeChannel(false);
         }
         else if(parentid > 0) {
             //create new channel
             channel = new Channel(true, true);
             channel.nParentID = parentid;
+            ServerProperties prop = new ServerProperties();
+            if(ttservice.getTTInstance().getServerProperties(prop)) {
+                channel.nMaxUsers = prop.nMaxUsers;
+            }
         }
-        
+
+        exchangeChannel(false);
 
         Button codec_btn = (Button) findViewById(R.id.setup_audcodec_btn);
 //        Button audcfg_btn = (Button) findViewById(R.id.setup_audcfg_btn);
