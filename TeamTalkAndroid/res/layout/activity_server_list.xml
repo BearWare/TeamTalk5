@@ -13,11 +13,23 @@
      <ListView android:id="@android:id/list"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:layout_weight="1"
+               android:layout_weight="0.8"
                android:drawSelectorOnTop="false"/>
 
      <TextView android:id="@android:id/empty"
                android:layout_width="match_parent"
-               android:layout_height="match_parent"
+               android:layout_height="wrap_content"
                android:text="@string/server_list_empty"/>
+
+     <Space
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_weight="0.2" />
+     
+     <TextView android:id="@+id/version_textview"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textAppearance="?android:attr/textAppearanceLarge" 
+               android:text=""/>
+
 </LinearLayout>
