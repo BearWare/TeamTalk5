@@ -44,6 +44,12 @@ CUserVideoDlg::~CUserVideoDlg()
     }
 }
 
+void CUserVideoDlg::NewVideoFrame()
+{
+    Invalidate();
+    m_nDeadCounter = 0;
+}
+
 void CUserVideoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -72,7 +78,6 @@ BOOL CUserVideoDlg::OnEraseBkgnd(CDC* pDC)
         {
             TT_ReleaseUserVideoCaptureFrame(ttInst, m_VideoFrame);
             m_VideoFrame = pTmpFrame;
-            m_nDeadCounter = 0;
         }
     }
     break;
@@ -81,7 +86,6 @@ BOOL CUserVideoDlg::OnEraseBkgnd(CDC* pDC)
         {
             TT_ReleaseUserMediaVideoFrame(ttInst, m_VideoFrame);
             m_VideoFrame = pTmpFrame;
-            m_nDeadCounter = 0;
         }
         break;
     }

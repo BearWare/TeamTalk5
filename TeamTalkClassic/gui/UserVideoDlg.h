@@ -28,6 +28,7 @@ public:
 	CUserVideoDlg(int nUserID, int nTimedUpdateMSec, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CUserVideoDlg();
 
+    void NewVideoFrame();
 // Dialog Data
 	enum { IDD = IDD_DIALOG_USERVIDEO };
 private:
