@@ -227,7 +227,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                 Intent filepicker = new Intent(this, FilePickerActivity.class);
                 if (ttservice != null)
                     ttservice.unregisterCommandListener(this);
-                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".xml"), REQUEST_IMPORT_SERVERLIST);
+                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
             break;
             case R.id.action_settings : {
                 Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
