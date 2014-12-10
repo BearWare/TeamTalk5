@@ -171,6 +171,7 @@
     <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
     <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
     <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
+    <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
