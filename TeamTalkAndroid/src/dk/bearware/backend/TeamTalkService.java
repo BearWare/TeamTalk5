@@ -118,6 +118,15 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onDestroy() {
+        eventTimer.cancel();
+        mEventHandler.removeConnectionListener(this);
+        mEventHandler.removeClientListener(this);
+        mEventHandler.removeCommandListener(this);
+        mEventHandler.removeUserListener(this);
+
+        if (ttclient != null)
+            ttclient.closeTeamTalk();
+
         super.onDestroy();
     }
 
@@ -125,6 +134,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     ServerEntry ttserver;
     Channel curchannel;
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
+    CountDownTimer eventTimer;
     
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
@@ -236,7 +246,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     }
     
     void createEventTimer() {
-        new CountDownTimer(10000, 100) {
+        eventTimer = new CountDownTimer(10000, 100) {
             private boolean prevVoiceTransmissionState = isVoiceTransmissionEnabled();
 
             public void onTick(long millisUntilFinished) {
@@ -251,7 +261,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             public void onFinish() {
                 start();
             }
-        }.start();
+        };
+        eventTimer.start();
     }
 
     Handler reconnectHandler = new Handler();
