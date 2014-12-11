@@ -165,8 +165,8 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     ASSERT(nTcpPort);
     ASSERT(nUdpPort);
 
-    UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort()==UNDEFINED? 0 : m_xmlSettings.GetClientTcpPort();
-    UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort()==UNDEFINED? 0 : m_xmlSettings.GetClientUdpPort();
+    UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort(0);
+    UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
     int nInputDevice = GetSoundInputDevice();
     int nOutputDevice = GetSoundOutputDevice();
@@ -175,8 +175,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     {
         if(!TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice))
         {
-            MessageBox(_T("Check your settings in Client->Preferences->Sound System"),
-                _T("Failed to initialize sound system.\r\n"));
+            AddStatusText(_T("Failed to initialize sound system."));
         }
     }
     else
@@ -184,8 +183,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
         if(!TT_InitSoundInputDevice(ttInst, nInputDevice) || 
             !TT_InitSoundOutputDevice(ttInst, nOutputDevice))
         {
-            MessageBox(_T("Check your settings in Client->Preferences->Sound System"),
-                _T("Failed to initialize sound system.\r\n"));
+            AddStatusText(_T("Failed to initialize sound system."));
             TT_CloseSoundInputDevice(ttInst);
             TT_CloseSoundOutputDevice(ttInst);
         }
@@ -437,10 +435,8 @@ void CTeamTalkDlg::RunWizard()
     generalpage.m_nInactivity = m_xmlSettings.GetInactivityDelay();
 
     /// Sound system
-    if(m_xmlSettings.GetSoundInputDevice() != UNDEFINED)
-        soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice();
-    if(m_xmlSettings.GetSoundOutputDevice() != UNDEFINED)
-        soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice();
+    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
+    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
     if(m_xmlSettings.GetSoundMixerDevice() != UNDEFINED)
         soundpage.m_nMixerInput = m_xmlSettings.GetSoundMixerDevice();
 
@@ -2978,23 +2974,14 @@ void CTeamTalkDlg::OnFilePreferences()
     clientpage.m_bSubDesktop = bool(nSub & SUBSCRIBE_DESKTOP);
     clientpage.m_bSubMediaFile = bool(nSub & SUBSCRIBE_MEDIAFILE);
 
-    if(m_xmlSettings.GetClientTcpPort() != UNDEFINED)
-        clientpage.m_nClientTcpPort = m_xmlSettings.GetClientTcpPort();
-    else
-        clientpage.m_nClientTcpPort = 0;
-
-    if(m_xmlSettings.GetClientUdpPort() != UNDEFINED)
-        clientpage.m_nClientUdpPort = m_xmlSettings.GetClientUdpPort();
-    else
-        clientpage.m_nClientUdpPort = 0;
+    clientpage.m_nClientTcpPort = m_xmlSettings.GetClientTcpPort(0);
+    clientpage.m_nClientUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
     ////////////////////
     // sound output page
     ///////////////////
-    if(m_xmlSettings.GetSoundOutputDevice() != UNDEFINED)
-        soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice();
-    if(m_xmlSettings.GetSoundInputDevice() != UNDEFINED)
-        soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice();
+    soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
+    soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
     soundpage.m_bDuplexMode = m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE);
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
@@ -3204,8 +3191,8 @@ void CTeamTalkDlg::OnFilePreferences()
         //    write settings for Sound System
         //////////////////////////////////////////////////
         BOOL bRestart = FALSE;
-        bRestart |= m_xmlSettings.GetSoundOutputDevice() != soundpage.m_nOutputDevice;
-        bRestart |= m_xmlSettings.GetSoundInputDevice() != soundpage.m_nInputDevice;
+        bRestart |= m_xmlSettings.GetSoundOutputDevice(UNDEFINED) != soundpage.m_nOutputDevice;
+        bRestart |= m_xmlSettings.GetSoundInputDevice(UNDEFINED) != soundpage.m_nInputDevice;
         bRestart |= m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE) != (bool)soundpage.m_bDuplexMode;
         bRestart = bRestart && (TT_GetFlags(ttInst) & CLIENT_CONNECTION);
 
@@ -4640,8 +4627,8 @@ void CTeamTalkDlg::FirewallInstall()
 
 int CTeamTalkDlg::GetSoundInputDevice(SoundDevice* pSoundDev/* = NULL*/)
 {
-    int nInputDevice = m_xmlSettings.GetSoundInputDevice() == UNDEFINED? -1 : m_xmlSettings.GetSoundInputDevice();
-    if(nInputDevice == UNDEFINED)
+    int nInputDevice = m_xmlSettings.GetSoundInputDevice(-1);
+    if(nInputDevice == -1)
         TT_GetDefaultSoundDevices(&nInputDevice, NULL);
     if(pSoundDev)
         GetSoundDevice(nInputDevice, *pSoundDev);
@@ -4650,8 +4637,8 @@ int CTeamTalkDlg::GetSoundInputDevice(SoundDevice* pSoundDev/* = NULL*/)
 
 int CTeamTalkDlg::GetSoundOutputDevice(SoundDevice* pSoundDev/* = NULL*/)
 {
-    int nOutputDevice = m_xmlSettings.GetSoundOutputDevice() == UNDEFINED? -1 : m_xmlSettings.GetSoundOutputDevice();
-    if(nOutputDevice == UNDEFINED)
+    int nOutputDevice = m_xmlSettings.GetSoundOutputDevice(-1);
+    if(nOutputDevice == -1)
         TT_GetDefaultSoundDevices(NULL, &nOutputDevice);
 
     if(pSoundDev)
