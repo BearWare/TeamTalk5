@@ -1755,9 +1755,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STARTSTREAMMEDIAFILE "&Stream Media File to Channel\tCtrl+Shift+W"
+    IDS_STARTSTREAMMEDIAFILE "&Stream Media File to Channel\tCtrl+S"
     IDS_STOPSTREAMINGMEDIAFILE 
-                            "&Stop Streaming Media File to Channel\tCtrl+Shift+W"
+                            "&Stop Streaming Media File to Channel\tCtrl+S"
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 
