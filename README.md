@@ -7,20 +7,20 @@ Repository for TeamTalk 5 SDK development.
 To build the TeamTalk client projects you must first download the TeamTalk 5 SDK to obtain the client and server binaries.
 
 * TeamTalk 5 SDK Standard Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_win32.zip) **rev. 3708**
-  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_win64.zip) **rev. 3708**
-  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_macos_amd64.tar.gz) **rev. 3708**
-  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_debian7_i386.tar.gz) **rev. 3708**
-  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_debian7_amd64.tar.gz) **rev. 3708**
-  * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_raspbian_armhf.tar.gz) **rev. 3708**
-  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708_beta2_android_armv7a.tar.gz)  **rev. 3708**
+  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_win32.zip) **rev. 3708**
+  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_win64.zip) **rev. 3708**
+  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_macos_amd64.tar.gz) **rev. 3708**
+  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_debian7_i386.tar.gz) **rev. 3708**
+  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_debian7_amd64.tar.gz) **rev. 3708**
+  * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_raspbian_armhf.tar.gz) **rev. 3708**
+  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5sdk_v5.0.0.3708beta2_android_armv7a.tar.gz)  **rev. 3708**
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_win32.zip)  **rev. 3708**
-  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_win64.zip)  **rev. 3708**
-  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_debian7_i386.tar.gz) **rev. 3708**
-  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_debian7_i386.tar.gz) **rev. 3708**
-  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_debian7_amd64.tar.gz) **rev. 3708**
-  * [Raspberry Pi](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708_beta2_raspbian_armhf.tar.gz) **rev. 3708**
+  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_win32.zip)  **rev. 3708**
+  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_win64.zip)  **rev. 3708**
+  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_debian7_i386.tar.gz) **rev. 3708**
+  * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_debian7_i386.tar.gz) **rev. 3708**
+  * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_debian7_amd64.tar.gz) **rev. 3708**
+  * [Raspberry Pi](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3708/tt5prosdk_v5.0.0.3708beta2_raspbian_armhf.tar.gz) **rev. 3708**
 
 ## TeamTalk 5 Libraries
 Projects wrapping the client DLL file in the TeamTalk SDK.
