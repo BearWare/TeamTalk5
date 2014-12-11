@@ -6296,6 +6296,11 @@ namespace BearWare
         }
         /** @} */
 
+        public bool DBG_SetSoundInputTone(StreamType uStreamTypes, int nFrequency)
+        {
+            return TTDLL.TT_DBG_SetSoundInputTone(m_ttInst, uStreamTypes, nFrequency);
+        }
+
         /** @addtogroup events
          * @{ */
 

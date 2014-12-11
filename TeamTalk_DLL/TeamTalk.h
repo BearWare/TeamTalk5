@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3653"
+#define TEAMTALK_VERSION "5.0.0.3708"
 
 
 #if defined(WIN32)
@@ -4074,7 +4074,8 @@ extern "C" {
 #endif
 
     /**
-     * @brief Send the position of mouse cursor to users in the same channel.
+     * @brief Send the position of mouse cursor to users in the same
+     * channel.
      *
      * It's only possible to send the mouse cursor position if there's
      * a desktop session which is currently active.
@@ -4137,6 +4138,9 @@ extern "C" {
      *
      * For #BMP_RGB8_PALETTE bitmaps check out TT_Palette_GetColorTable().
      *
+     * To convert bitmap to a different format use
+     * TT_AcquireUserDesktopWindowEx().
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param nUserID The user's ID.
@@ -4150,12 +4154,22 @@ extern "C" {
      * option for converting bitmap to a different format.
      *
      * It is highly adviced to use TT_AcquireUserDesktopWindow() since
-     * converting to a different bitmap format is very inefficient. */
+     * converting to a different bitmap format is very inefficient.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk. 
+     * @param nUserID The user's ID.
+     * @param nBitmapFormat The bitmap format to convert to.
+     * @return NULL If there's no active desktop window for this user. */
     TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTTInstance, 
                                                                  IN INT32 nUserID,
                                                                  IN BitmapFormat nBitmapFormat);
 
     /** @brief Release memory allocated by the #DesktopWindow.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param lpDesktopWindow Pointer to #DesktopWindow to release.
      * @see TT_AcquireUserDesktopWindow() */
     TEAMTALKDLL_API BOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance, 
                                                      IN DesktopWindow* lpDesktopWindow);
@@ -5800,6 +5814,11 @@ extern "C" {
     TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType);
 
     TEAMTALKDLL_API VOID* TT_DBG_GETDATAPTR(IN TTMessage* pMsg);
+
+    TEAMTALKDLL_API BOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
+                                                  StreamTypes uStreamTypes,
+                                                  IN INT32 nFrequency);
+
 #if defined(WIN32) /* Exclude mixer and firewall functions from
                     * non-Windows platforms */
 

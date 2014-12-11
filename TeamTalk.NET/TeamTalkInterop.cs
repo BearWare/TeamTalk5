@@ -598,6 +598,10 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DBG_SIZEOF(BearWare.TTType nType);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_DBG_SetSoundInputTone(IntPtr lpTTInstance,
+                                                           BearWare.StreamType uStreamTypes,
+                                                           int nFrequency);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern System.IntPtr TT_DBG_GETDATAPTR(ref BearWare.TTMessage pMsg);
 
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
