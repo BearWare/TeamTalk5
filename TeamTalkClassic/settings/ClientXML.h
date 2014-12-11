@@ -176,10 +176,10 @@ namespace teamtalk {
 
         /******** <client> *********/
         bool SetClientTcpPort(int nPort);
-        int GetClientTcpPort();
+        int GetClientTcpPort(int nDefPort);
 
         bool SetClientUdpPort(int nPort);
-        int GetClientUdpPort();
+        int GetClientUdpPort(int nDefPort);
 
         bool SetAutoConnectToLastest(bool bEnable);
         bool GetAutoConnectToLastest();
@@ -211,10 +211,10 @@ namespace teamtalk {
 
         /********* <soundsystem> ********/
         bool SetSoundInputDevice(int nDevice);
-        int GetSoundInputDevice();
+        int GetSoundInputDevice(int nDefDeviceId);
 
         bool SetSoundOutputDevice(int nDevice);
-        int GetSoundOutputDevice();
+        int GetSoundOutputDevice(int nDefDeviceId);
 
         bool SetSoundOutputVolume(int nVolume);
         int GetSoundOutputVolume(int def_vol);

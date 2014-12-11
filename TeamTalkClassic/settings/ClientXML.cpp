@@ -1098,16 +1098,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetClientTcpPort()
+    int ClientXML::GetClientTcpPort(int nDefPort)
     {
         TiXmlElement* child = GetClientElement();
         if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "tcpport", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
+            GetInteger(*child, "tcpport", nDefPort);
+        return nDefPort;
     }
 
     bool ClientXML::SetClientUdpPort(int nPort)
@@ -1122,16 +1118,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetClientUdpPort()
+    int ClientXML::GetClientUdpPort(int nDefPort)
     {
         TiXmlElement* child = GetClientElement();
         if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "udpport", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
+            GetInteger(*child, "udpport", nDefPort);
+        return nDefPort;
     }
 
     bool ClientXML::SetAutoConnectToLastest(bool bEnable)
@@ -1365,16 +1357,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetSoundInputDevice()
+    int ClientXML::GetSoundInputDevice(int nDefDeviceId)
     {
         TiXmlElement* child = GetSoundSystemElement();
         if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "input-driver", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
+            GetInteger(*child, "input-driver", nDefDeviceId);
+        return nDefDeviceId;
     }
 
     bool ClientXML::SetSoundOutputDevice(int nDevice)
@@ -1389,16 +1377,12 @@ namespace teamtalk {
             return false;
     }
 
-    int ClientXML::GetSoundOutputDevice()
+    int ClientXML::GetSoundOutputDevice(int nDefDeviceId)
     {
         TiXmlElement* child = GetSoundSystemElement();
         if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "output-driver", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
+            GetInteger(*child, "output-driver", nDefDeviceId);
+        return nDefDeviceId;
     }
 
     bool ClientXML::SetSoundMixerDevice(int nDevice)
