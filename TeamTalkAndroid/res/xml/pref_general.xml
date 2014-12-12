@@ -12,6 +12,11 @@
 		android:defaultValue="true"
 		android:title="@string/pref_title_vibrate" />
 
+    <CheckBoxPreference
+		android:key="keep_screen_on_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_keep_screen_on" />
+
     <PreferenceCategory
         android:key="audio_icons"
         android:title="@string/pref_title_audio_icons">

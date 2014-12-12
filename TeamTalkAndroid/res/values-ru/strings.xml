@@ -32,6 +32,7 @@
     <string name="pref_cat_tts">Настройка речевых сообщений</string>
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
+    <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
     <string name="pref_title_audio_icons">Звуковые Оповещения</string>
     <string name="pref_title_rx_tx_audio_icon">Звуковая индикация включения и выключения передачи</string>

@@ -324,7 +324,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         broadcastMessageSoundEnabled = false;
         if (audioIcons != null)
             audioIcons.release();
-    audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (prefs.getBoolean("rx_tx_audio_icon", true)) {
             voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
@@ -339,6 +339,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             broadcastMessageSound = audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1);
             broadcastMessageSoundEnabled = true;
         }
+        getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
     }
