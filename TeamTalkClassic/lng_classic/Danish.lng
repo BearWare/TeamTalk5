@@ -36,8 +36,6 @@
     <item id="148">Videooptagelse</item>
     <item id="150">Desktopdeling</item>
     <item id="151">Stream Mediefil til Kanal</item>
-    <item id="152">&amp;Stream Mediefil til Kanal\tCtrl+S</item>
-    <item id="153">&amp;Stop Streaming Mediefil til Kanal\tCtrl+S</item>
     <item id="201">Beskeder</item>
     <item id="205">Ændre status</item>
     <item id="207">Kanalinformation</item>

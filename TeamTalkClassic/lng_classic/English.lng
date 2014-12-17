@@ -46,8 +46,6 @@
     <item id="148">Video Capture</item>
     <item id="150">Desktop Sharing</item>
     <item id="151">Stream Media File to Channel</item>
-    <item id="152">&amp;Stream Media File to Channel\tCtrl+S</item>
-    <item id="153">&amp;Stop Streaming Media File to Channel\tCtrl+S</item>
     <item id="154">Push To Talk: %s</item>
     <item id="155">Generate .tt File</item>
     <item id="201">Messages</item>

@@ -1,6 +1,6 @@
 ﻿	<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
-    <item id="102">Úvodní nastavení programu TeamTalk</item>
+    <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
     <item id="105">%s vstoupil na kanál</item>
     <item id="106">%s opustil kanál</item>
@@ -46,8 +46,6 @@
     <item id="148">Snímání videa</item>
     <item id="150">Sdílení obrazovky</item>
     <item id="151">Streamovat multimediální soubor na kanál</item>
-    <item id="152">&amp;Streamovat multimediální soubor na kanál\tCtrl+S</item>
-    <item id="153">&amp;Zastavit streamování multimediálního souboru na kanál\tCtrl+S</item>
     <item id="154">Stiskni a mluv: %s</item>
     <item id="155">Vytvořit soubor .tt</item>
     <item id="201">Zprávy</item>
@@ -58,7 +56,7 @@
     <item id="249">Kombinace kláves</item>
     <item id="251">Rozmístit uživatele (prostorový zvuk 3D)</item>
     <item id="256">Zakázaní uživatelé</item>
-    <item id="1009">Po připojení automaticky vstoupit na hlavní kanál</item>
+    <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
     <item id="1012">TCP port</item>
     <item id="1016">UDP port</item>
@@ -79,7 +77,7 @@
     <item id="1044">Navštívit stránku www.bearware.dk pro vyhledání veřejných serverů programu TeamTalk</item>
     <item id="1045">Ztráta paketů</item>
     <item id="1047">Velikost souborů:</item>
-    <item id="1048">Vyprázdnit seznam kanálů po odpojení od serveru</item>
+    <item id="1048">Vyprázdnit seznam kanálů po odpojení</item>
     <item id="1051">Vstoupit na kanál dvojklikem</item>
     <item id="1053">Zobrazovat čas u zpráv</item>
     <item id="1054">Stiskni a mluv</item>
@@ -173,12 +171,12 @@
     <item id="1213">Zde zvolte zařízení, která bude TeamTalk používat pro nahrávání a přehrávání zvuku. Doporučujeme vybrat DirectSound, protože zvuk bude vysílán s menším zpožděním než u výchozího zvuku Windows.</item>
     <item id="1215">Stisknutím tlačítka Testovat vybrané můžete zjistit, zda vstupní i výstupní zvukové zařízení funguje.</item>
     <item id="1217">Uživatelé mohou tvořit kanály</item>
-    <item id="1218">Uživatel může vytvářet i modifikovat všechny kanály</item>
+    <item id="1218">Uživatel může vytvářet i upravovat všechny kanály</item>
     <item id="1221">Vždy nahoře</item>
     <item id="1225">&amp;Výchozí</item>
     <item id="1230">Nové informace o kanálu</item>
     <item id="1231">&amp;Odeslat</item>
-    <item id="1236">Vítejte v úvodním nastavení programu TeamTalk</item>
+    <item id="1236">Vítejte v průvodci nastavením programu TeamTalk</item>
     <item id="1237">Úvodní nastavení programu TeamTalk dokončeno</item>
     <item id="1240">Přeložil Roberto Lombino</item>
     <item id="1241">Jazykové rozhraní</item>
@@ -204,7 +202,7 @@
     <item id="1284">&amp;Otevřít</item>
     <item id="1287">Heslo operátora</item>
     <item id="1292">Nastavení serveru</item>
-    <item id="1293">Místo pro soubory (v KB)</item>
+    <item id="1293">Místo pro soubory (v kB)</item>
     <item id="1294">Maximální počet uživatelů</item>
     <item id="1295">Vstoupit na kanál (volitelné)</item>
     <item id="1296">Timeout uživatele</item>
@@ -257,10 +255,10 @@
     <item id="1394">TCP port</item>
     <item id="1395">UDP port</item>
     <item id="1396">Maximální bitrate pro zvukové kodeky</item>
-    <item id="1397">kbps (0 = vypnuto)</item>
-    <item id="1398">KB/s (0 = vypnuto)</item>
-    <item id="1399">KB/s (0 = vypnuto)</item>
-    <item id="1400">KB/s (0 = vypnuto)</item>
+    <item id="1397">kB/s (0 = vypnuto)</item>
+    <item id="1398">kB/s (0 = vypnuto)</item>
+    <item id="1399">kB/s (0 = vypnuto)</item>
+    <item id="1400">kB/s (0 = vypnuto)</item>
     <item id="1401">Maximální vysílaný zvuk</item>
     <item id="1402">Maximální vysílaný obraz</item>
     <item id="1403">Maximální vysílaná data</item>
@@ -282,18 +280,18 @@
     <item id="1422">Formát obrazu</item>
     <item id="1423">Nastavení kodeku videa</item>
     <item id="1424">Bitrate</item>
-    <item id="1425">kbps (0 = VBR)</item>
+    <item id="1425">kB/s (0 = VBR)</item>
     <item id="1426">Okno pro sdílení</item>
     <item id="1427">Barevný režim</item>
     <item id="1428">ms</item>
     <item id="1429">Celková vysílaná a přijímaná data</item>
     <item id="1430">Vysílaný a přijímaný zvuk</item>
     <item id="1431">Vysílaný a přijímaný obraz</item>
-    <item id="1432">KB</item>
-    <item id="1433">KB</item>
-    <item id="1434">KB</item>
+    <item id="1432">kB</item>
+    <item id="1433">kB</item>
+    <item id="1434">kB</item>
     <item id="1435">Vysílaná a přijímaná data multimediálních souborů</item>
-    <item id="1436">KB</item>
+    <item id="1436">kB</item>
     <item id="1437">Smazat</item>
     <item id="1438">Maximální vysílaná data sdílení obrazovky</item>
     <item id="1440">Uživatelé mohou sdílet svoji obrazovku</item>
@@ -312,15 +310,15 @@
     <item id="1464">Vstupní vzorkování</item>
     <item id="1465">Šifrovaný server</item>
     <item id="1468">Uložit informace o serveru</item>
-    <item id="1469">KB</item>
+    <item id="1469">kB</item>
     <item id="1473">Uvítací zpráva</item>
-    <item id="1474">KB/s (0 = vypnuto)</item>
+    <item id="1474">kB/s (0 = vypnuto)</item>
     <item id="1475">Zvukový formát:</item>
     <item id="1476">Formát videa:</item>
     <item id="1477">Vlastnosti multimediálního souboru</item>
     <item id="1478">Umístění souboru</item>
     <item id="1479">Žádost o sdílení obrazovky</item>
-    <item id="1480">KB/s (0 = vypnuto)</item>
+    <item id="1480">kB/s (0 = vypnuto)</item>
     <item id="1481">Výchozí uživatel</item>
     <item id="1482">Uživatel může mít vzdálený přístup ke sdíleným obrazovkám</item>
     <item id="1483">Uživatel může vyhazovat uživatele ze serveru</item>
@@ -344,7 +342,7 @@
     <item id="1506">Maximální vysílaná data multimediálních souborů</item>
     <item id="1507">Zneužívání serveru</item>
     <item id="1510">Nejvyšší počet uživatelů</item>
-    <item id="1511">KB</item>
+    <item id="1511">kB</item>
     <item id="1512">Privilegovaní uživatelé</item>
     <item id="1513">Streamy multimediálních souborů</item>
     <item id="1514">Povolit automatickou kontrolu hlasitosti (úprava hlasitosti mikrofonu)</item>
@@ -367,7 +365,7 @@
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>
     <item id="32805">Číst upozornění hlasovým výstupem\tCtrl+S</item>
-    <item id="32814">&amp;Spustit nastavení</item>
+    <item id="32814">&amp;Spustit průvodce nastavením</item>
     <item id="32815">&amp;Rozmístit uživatele\tCtrl+P</item>
     <item id="32816">Ztlumit &amp;vše\tCtrl+m</item>
     <item id="32818">&amp;Připojit\tF2</item>
