@@ -30,8 +30,8 @@
 #include "gui/SplitterBar.h"
 #include "gui/MyEdit.h"
 #include "gui/MyTabCtrl.h"
-#include "Speech/Tolk.h"
 #include "settings/ClientXML.h"
+#include <Tolk.h>
 
 #include "HttpRequest.h"
 

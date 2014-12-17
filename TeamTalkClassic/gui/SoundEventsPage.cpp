@@ -21,8 +21,8 @@
 
 #include "stdafx.h"
 #include "Resource.h"
-#include "Speech/Tolk.h"
 #include "SoundEventsPage.h"
+#include <Tolk.h>
 
 
 #ifdef _DEBUG

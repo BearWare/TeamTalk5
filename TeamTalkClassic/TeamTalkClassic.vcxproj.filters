@@ -14,9 +14,6 @@
     <Filter Include="Source Files\Property pages">
       <UniqueIdentifier>{11c4cb1f-b4b3-4429-afff-ff164be3e17a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Speech">
-      <UniqueIdentifier>{e5fafce2-b8ff-4fe1-ae0c-dc362e699363}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Wizard">
       <UniqueIdentifier>{78e96248-b6d1-4858-81a6-d5cb1e46227d}</UniqueIdentifier>
     </Filter>
@@ -35,9 +32,6 @@
     </Filter>
     <Filter Include="Header Files\Property pages">
       <UniqueIdentifier>{4ac73f2e-efae-4762-8d08-e43cfa238dec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Speech">
-      <UniqueIdentifier>{3f96c8bb-f899-4e38-b632-d613735903c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Wizard">
       <UniqueIdentifier>{b8d40a5e-1b3a-4a38-b654-2116d762535b}</UniqueIdentifier>
