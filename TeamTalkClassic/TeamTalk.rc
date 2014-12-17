@@ -1751,13 +1751,6 @@ BEGIN
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
     IDS_VIDEOCAPTURE        "Video Capture"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_STARTSTREAMMEDIAFILE "&Stream Media File to Channel\tCtrl+S"
-    IDS_STOPSTREAMINGMEDIAFILE 
-                            "&Stop Streaming Media File to Channel\tCtrl+S"
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 

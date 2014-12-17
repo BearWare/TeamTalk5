@@ -152,10 +152,8 @@ MainWindow::MainWindow()
     ui.filesView->setModel(m_filesmodel);
     QItemSelectionModel* selmodel = ui.filesView->selectionModel();
 
-    ui.volumeSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX/*SOUND_VOLUME_MAX*/);
-    ui.volumeSlider->setSingleStep(VOLUME_SINGLE_STEP);
-    ui.volumeSlider->setPageStep(VOLUME_PAGE_STEP);
-    ui.micSlider->setRange(SOUND_GAIN_MIN, DEFAULT_GAIN_MAX /*SOUND_GAIN_MAX*/);
+    ui.volumeSlider->setRange(0, 100);
+    ui.micSlider->setRange(0, 100);
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
     ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
 
@@ -518,21 +516,31 @@ void MainWindow::loadSettings()
     //load settings
     bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
     slotMeEnablePushToTalk(ptt);
-    bool vox = ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED).toBool();
+    bool vox = ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
+                                 SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool();
     slotMeEnableVoiceActivation(vox);
 
     //load shortcuts
     loadHotKeys();
 
-    int value = ttSettings->value(SETTINGS_SOUND_MASTERVOLUME, SOUND_VOLUME_DEFAULT).toInt();
+    int value = ttSettings->value(SETTINGS_SOUND_MASTERVOLUME, 
+                                  SETTINGS_SOUND_MASTERVOLUME_DEFAULT).toInt();
     ui.volumeSlider->setValue(value);
-    //slotMasterVolumeChanged(value);
-    value = ttSettings->value(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, 0).toInt();
+    slotMasterVolumeChanged(value);  //force update on equal
+    value = ttSettings->value(SETTINGS_SOUND_VOICEACTIVATIONLEVEL,
+                              SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT).toInt();
     ui.voiceactSlider->setValue(value);
-    //slotVoiceActivationLevelChanged(value);
-    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN, SOUND_GAIN_DEFAULT).toInt();
+    slotVoiceActivationLevelChanged(value); //force update on equal
+
+    //default voice gain level depends on whether AGC or normal gain
+    //is enabled
+    bool agc = ttSettings->value(SETTINGS_SOUND_AGC,
+                                 SETTINGS_SOUND_AGC_DEFAULT).toBool();
+    value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN, agc?
+                              SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT :
+                              SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT).toInt();
     ui.micSlider->setValue(value);
-    //slotMicrophoneGainChanged(value);
+    slotMicrophoneGainChanged(value); //force update on equal
 
     if(ttSettings->value(SETTINGS_DISPLAY_ALWAYSONTOP, false).toBool())
     {
@@ -678,6 +686,10 @@ bool MainWindow::parseArgs(const QStringList& args)
             }
         }
 #endif
+        else if(args[i] == "-tone")
+        {
+            TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+        }
         else
         {
             QMessageBox::information(this, tr("Startup arguments"), 
@@ -1449,7 +1461,7 @@ void MainWindow::Connect()
 
     bool snd_init_ok = true;
 
-    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, DEFAULT_SOUND_DUPLEXMODE).toBool())
+    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
     {
         if(init_indev && init_outdev &&
            !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
@@ -1495,15 +1507,6 @@ void MainWindow::Connect()
             return;
         }
     }
-
-    //input settings
-    TT_SetVoiceActivationLevel(ttInst, ui.voiceactSlider->value());
-    TT_SetSoundInputGainLevel(ttInst, ui.micSlider->value());
-    TT_EnableVoiceActivation(ttInst, ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED, false).toBool());
-
-    //output settings
-    int volume = ui.volumeSlider->value();
-    TT_SetSoundOutputVolume(ttInst, volume); 
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
@@ -1709,11 +1712,11 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_INCVOLUME :
         if(active)
-            ui.volumeSlider->setValue(ui.volumeSlider->value()+15);
+            ui.volumeSlider->setValue(ui.volumeSlider->value()+1);
         break;
     case HOTKEY_DECVOLUME :
         if(active)
-            ui.volumeSlider->setValue(ui.volumeSlider->value()-15);
+            ui.volumeSlider->setValue(ui.volumeSlider->value()-1);
         break;
     case HOTKEY_MUTEALL :
         if(active)
@@ -1722,11 +1725,11 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_MICROPHONEGAIN_INC :
         if(active)
-            ui.micSlider->setValue(TT_GetSoundInputGainLevel(ttInst)+200);
+            ui.micSlider->setValue(ui.micSlider->value() + 1);
         break;
     case HOTKEY_MICROPHONEGAIN_DEC :
         if(active)
-            ui.micSlider->setValue(TT_GetSoundInputGainLevel(ttInst)-200);
+            ui.micSlider->setValue(ui.micSlider->value() - 1);
         break;
     case HOTKEY_VIDEOTX :
         slotMeEnableVideoTransmission(active);
@@ -2315,16 +2318,18 @@ void MainWindow::updateAudioConfig()
     ZERO_STRUCT(spxdsp);
 
     //set default values for audio config
-    spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool();
+    spxdsp.bEnableAGC = ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool();
     spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
     spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
     spxdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
     spxdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
 
-    spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool();
+    spxdsp.bEnableDenoise = ttSettings->value(SETTINGS_SOUND_DENOISING, 
+                                              SETTINGS_SOUND_DENOISING_DEFAULT).toBool();
     spxdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
 
-    spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool();
+    spxdsp.bEnableEchoCancellation = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
+                                                       SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
     spxdsp.nEchoSuppress = DEFAULT_ECHO_SUPPRESS;
     spxdsp.nEchoSuppressActive = DEFAULT_ECHO_SUPPRESSACTIVE;
 
@@ -2333,9 +2338,17 @@ void MainWindow::updateAudioConfig()
     {
         spxdsp.bEnableAGC = m_mychannel.audiocfg.bEnableAGC;
         spxdsp.nGainLevel = m_mychannel.audiocfg.nGainLevel;
+        //override preset sound gain
+        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+        ui.micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
     }
-
+    else
+    {
+        slotMicrophoneGainChanged(ui.micSlider->value());
+        ui.micSlider->setToolTip(tr("Microphone gain"));
+    }
     TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+    ui.micSlider->setEnabled(!m_mychannel.audiocfg.bEnableAGC);
 }
 
 bool MainWindow::sendDesktopWindow()
@@ -3067,7 +3080,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         if(m_statusmode != myself.nStatusMode || statusmsg != _Q(myself.szStatusMsg))
             TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
     }
-    slotMeEnableVoiceActivation(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED).toBool());
+    slotMeEnableVoiceActivation(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
+                                                  SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
     slotMeEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
 
     updateAudioConfig();
@@ -4974,12 +4988,27 @@ void MainWindow::slotUpdateDesktopCount(int count)
 
 void MainWindow::slotMasterVolumeChanged(int value)
 {
-    TT_SetSoundOutputVolume(ttInst, value);
+    int vol = refVolume(value, SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX);
+    TT_SetSoundOutputVolume(ttInst, vol);
 }
 
 void MainWindow::slotMicrophoneGainChanged(int value)
 {
-    TT_SetSoundInputGainLevel(ttInst, value);
+    SpeexDSP spxdsp;
+    ZERO_STRUCT(spxdsp);
+    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
+    {
+        double percent = value;
+        percent /= 100.;
+        spxdsp.nGainLevel = SOUND_GAIN_MAX * percent;
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    }
+    else
+    {
+        int gain = refVolume(value, SOUND_GAIN_DEFAULT, DEFAULT_SOUND_GAIN_MAX);
+        TT_SetSoundInputGainLevel(ttInst, gain);
+    }
 }
 
 void MainWindow::slotVoiceActivationLevelChanged(int value)

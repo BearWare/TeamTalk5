@@ -32,6 +32,7 @@
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
+#define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
 
 #define SETTINGS_DISPLAY_MESSAGEPOPUP               "display/msgpopup"
@@ -87,12 +88,20 @@
 #define SETTINGS_SOUND_OUTPUTDEVICE                 "soundsystem/outputdeviceid"
 #define SETTINGS_SOUND_OUTPUTDEVICE_UID             "soundsystem/outputdeviceuid"
 #define SETTINGS_SOUND_MASTERVOLUME                 "soundsystem/mastervolume"
+#define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         (100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX)
 #define SETTINGS_SOUND_MICROPHONEGAIN               "soundsystem/microphonegain"
+#define SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT   (100 * DEFAULT_AGC_GAINLEVEL / SOUND_GAIN_MAX)
+#define SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT  (100 * SOUND_GAIN_DEFAULT / DEFAULT_SOUND_GAIN_MAX)
 #define SETTINGS_SOUND_VOICEACTIVATIONLEVEL         "soundsystem/voice-activation-level"
+#define SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT 2
 #define SETTINGS_SOUND_ECHOCANCEL                   "soundsystem/echocancellation"
+#define SETTINGS_SOUND_ECHOCANCEL_DEFAULT           DEFAULT_ECHO_ENABLE
 #define SETTINGS_SOUND_DUPLEXMODE                   "soundsystem/duplex-mode"
+#define SETTINGS_SOUND_DUPLEXMODE_DEFAULT           DEFAULT_SOUND_DUPLEXMODE
 #define SETTINGS_SOUND_AGC                          "soundsystem/agc"
+#define SETTINGS_SOUND_AGC_DEFAULT                  DEFAULT_AGC_ENABLE
 #define SETTINGS_SOUND_DENOISING                    "soundsystem/denoising"
+#define SETTINGS_SOUND_DENOISING_DEFAULT            DEFAULT_DENOISE_ENABLE
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT           "soundsystem/sndoutput-mute-left"
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT   false
 #define SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT          "soundsystem/sndoutput-mute-right"

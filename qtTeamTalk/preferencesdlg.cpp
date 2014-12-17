@@ -151,8 +151,6 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotShortcutIncVoiceGain(bool)));
     connect(ui.voicegaindecButton, SIGNAL(clicked(bool)),
             SLOT(slotShortcutDecVoiceGain(bool)));
-    connect(ui.voicegaindecButton, SIGNAL(clicked(bool)),
-            SLOT(slotShortcutDecVoiceGain(bool)));
     connect(ui.videotxButton, SIGNAL(clicked(bool)),
             SLOT(slotShortcutVideoTx(bool)));
 
@@ -233,10 +231,13 @@ void PreferencesDlg::initDevices()
 
     showDevices(sndsys);
 
-    ui.sndduplexBox->setChecked(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, DEFAULT_SOUND_DUPLEXMODE).toBool());
-    ui.echocancelBox->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, DEFAULT_ECHO_ENABLE).toBool());
-    ui.agcBox->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, DEFAULT_AGC_ENABLE).toBool());
-    ui.denoisingBox->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, DEFAULT_DENOISE_ENABLE).toBool());
+    ui.sndduplexBox->setChecked(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE,
+                                                  SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool());
+    ui.echocancelBox->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL,
+                                                   SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
+    ui.agcBox->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
+    ui.denoisingBox->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING,
+                                                  SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
     slotUpdateSoundCheckBoxes();
 }
 
@@ -402,7 +403,8 @@ void PreferencesDlg::slotTabChange(int index)
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
-        ui.voiceactChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED).toBool());
+        ui.voiceactChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
+                                                        SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
         loadHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ui.keycompEdit->setText(getHotKeyText(m_hotkey));
         break;

@@ -153,13 +153,7 @@
              <string>Master volume</string>
             </property>
             <property name="maximum">
-             <number>255</number>
-            </property>
-            <property name="singleStep">
-             <number>5</number>
-            </property>
-            <property name="pageStep">
-             <number>15</number>
+             <number>100</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -238,13 +232,7 @@
              <string>Microphone gain</string>
             </property>
             <property name="maximum">
-             <number>8000</number>
-            </property>
-            <property name="singleStep">
              <number>100</number>
-            </property>
-            <property name="pageStep">
-             <number>1000</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -284,6 +272,9 @@
             <property name="maximum">
              <number>20</number>
             </property>
+            <property name="pageStep">
+             <number>5</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -314,7 +305,16 @@
          <string>Chat</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
           <number>3</number>
          </property>
          <item>
@@ -375,7 +375,16 @@
          <property name="spacing">
           <number>3</number>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
           <number>3</number>
          </property>
          <item>
@@ -567,7 +576,16 @@
             </property>
             <widget class="QWidget" name="page_3">
              <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,0">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item>
@@ -603,7 +621,16 @@
          <property name="spacing">
           <number>3</number>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
           <number>3</number>
          </property>
          <item>
@@ -794,7 +821,16 @@
             </property>
             <widget class="QWidget" name="page">
              <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,0">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item>
@@ -827,7 +863,16 @@
          <string>Files</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
           <number>3</number>
          </property>
          <item>
@@ -957,7 +1002,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">

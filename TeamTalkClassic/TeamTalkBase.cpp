@@ -183,6 +183,13 @@ BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev)
     return i < devices.size();
 }
 
+int RefVolume(double percent, int nDefVol, int nMaxVol)
+{
+    // if integer multiplication gives default value then use default
+    int def_percent = 100 * nDefVol / nMaxVol;
+    return (def_percent == (int)percent? nDefVol : nMaxVol * percent / 100.);
+}
+
 CString GetVersion(const User& user)
 {
     CString szVersion;

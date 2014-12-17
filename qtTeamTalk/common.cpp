@@ -1239,12 +1239,19 @@ void setVolume(int userid, int vol_diff, StreamType stream_type)
 
 void incVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, VOLUME_SINGLE_STEP, stream_type);
+    setVolume(userid, DEFAULT_SOUND_VOLUME_MAX * 0.01, stream_type);
 }
 
 void decVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, -VOLUME_SINGLE_STEP, stream_type);
+    setVolume(userid, -DEFAULT_SOUND_VOLUME_MAX * 0.01, stream_type);
+}
+
+int refVolume(double percent, int default_vol, int max_vol)
+{
+    // if integer multiplication gives default value then use default
+    int def_percent = 100 * default_vol / max_vol;
+    return (def_percent == (int)percent? default_vol : max_vol * percent / 100.);
 }
 
 bool versionSameOrLater(const QString& check, const QString& against)

@@ -36,9 +36,9 @@ void CUserVolumeDlg::DoDataExchange(CDataExchange* pDX)
 void CUserVolumeDlg::UpdateProperties()
 {
     TT_SetUserVolume(ttInst, m_user.nUserID, STREAMTYPE_VOICE,
-                     m_wndVoiceVol.GetPos() * GAIN_FACTOR);
+                     RefVolume(m_wndVoiceVol.GetPos(), SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX));
     TT_SetUserVolume(ttInst, m_user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                     m_wndMediaFileVol.GetPos() * GAIN_FACTOR);
+                     RefVolume(m_wndMediaFileVol.GetPos(), SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX));
     
     TT_SetUserStereo(ttInst, m_user.nUserID, STREAMTYPE_VOICE,
                      m_wndVoiceMuteLeft.GetCheck() != BST_CHECKED,
@@ -67,10 +67,10 @@ BOOL CUserVolumeDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-    m_wndVoiceVol.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
-    m_wndVoiceVol.SetPos(m_user.nVolumeVoice / GAIN_FACTOR);
-    m_wndMediaFileVol.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
-    m_wndMediaFileVol.SetPos(m_user.nVolumeMediaFile / GAIN_FACTOR);
+    m_wndVoiceVol.SetRange(0, 100, TRUE);
+    m_wndVoiceVol.SetPos(100 * m_user.nVolumeVoice / DEFAULT_SOUND_VOLUME_MAX);
+    m_wndMediaFileVol.SetRange(0, 100, TRUE);
+    m_wndMediaFileVol.SetPos(100 * m_user.nVolumeMediaFile / DEFAULT_SOUND_VOLUME_MAX);
 
     m_wndVoiceMuteLeft.SetCheck(!m_user.stereoPlaybackVoice[0]?BST_CHECKED:BST_UNCHECKED);
     m_wndVoiceMuteRight.SetCheck(!m_user.stereoPlaybackVoice[1]?BST_CHECKED:BST_UNCHECKED);
@@ -136,7 +136,7 @@ void CUserVolumeDlg::OnBnClickedCancel()
 
 void CUserVolumeDlg::OnBnClickedButtonDefault()
 {
-    m_wndVoiceVol.SetPos(SOUND_VOLUME_DEFAULT / GAIN_FACTOR);
-    m_wndMediaFileVol.SetPos(SOUND_VOLUME_DEFAULT / GAIN_FACTOR);
+    m_wndVoiceVol.SetPos(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
+    m_wndMediaFileVol.SetPos(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
     UpdateProperties();
 }

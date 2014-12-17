@@ -95,11 +95,9 @@
 
 //Client specific SOUND_VOLUME_MAX (volume slider)
 #define DEFAULT_SOUND_VOLUME_MAX        12000
-#define VOLUME_SINGLE_STEP              25
-#define VOLUME_PAGE_STEP                200
 
 //Client specific gain SOUND_GAIN_MAX (mic slider)
-#define DEFAULT_GAIN_MAX                6000
+#define DEFAULT_SOUND_GAIN_MAX          6000 /*real max is SOUND_GAIN_MAX*/ 
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
@@ -122,7 +120,6 @@
 #define DEFAULT_SOUND_DUPLEXMODE        FALSE
 #define DEFAULT_ECHO_ENABLE             FALSE
 #endif
-
 
 #define DEFAULT_MSEC_PER_PACKET         40
 
@@ -177,6 +174,9 @@
                              USERRIGHT_TRANSMIT_DESKTOPINPUT |      \
                              USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |   \
                              USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO)
+
+// Channel dialog
+#define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE
 
 //whether to enable key-translation
 #define ENABLE_KEY_TRANSLATION 1
@@ -378,6 +378,7 @@ QByteArray generateTTFile(const HostEntry& entry);
 
 void incVolume(int userid, StreamType stream_type);
 void decVolume(int userid, StreamType stream_type);
+int refVolume(double percent, int default_vol, int max_vol);
 
 bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);

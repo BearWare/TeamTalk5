@@ -25,7 +25,7 @@ CChannelDlg::CChannelDlg(CChannelDlg::ChannelDlgType dlgType, CWnd* pParent /*=N
 , m_nMaxUsers(0)
 , m_bSingleTxChannel(FALSE)
 , m_bClassRoom(FALSE)
-, m_bEnableAGC(DEFAULT_AGC_ENABLE)
+, m_bEnableAGC(DEFAULT_CHANNEL_AUDIOCONFIG)
 , m_nGainLevel(DEFAULT_AGC_GAINLEVEL)
 , m_nTxDelay(DEFAULT_MSEC_PER_PACKET)
 , m_bOpRecvOnly(FALSE)

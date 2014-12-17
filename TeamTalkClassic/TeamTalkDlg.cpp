@@ -1702,7 +1702,7 @@ void CTeamTalkDlg::OnUserVideoCaptureFrame(const TTMessage& msg)
 
     mapvideodlg_t::iterator ii = m_videodlgs.find(nUserID);
     if(ii != m_videodlgs.end())
-        ii->second->Invalidate();
+        ii->second->NewVideoFrame();
     else
         OpenVideoSession(nUserID);
 }
@@ -1973,17 +1973,11 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
         break;
     case HOTKEY_VOLUME_PLUS :
         if(msg.bActive)
-        {
-            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() + VOLUME_PAGE_STEP / GAIN_FACTOR);
-            TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
-        }
+            UpdateMasterVolume(m_wndVolSlider.GetPos()+1);
         break;
     case HOTKEY_VOLUME_MINUS :
         if(msg.bActive)
-        {
-            m_wndVolSlider.SetPos(m_wndVolSlider.GetPos() - VOLUME_PAGE_STEP / GAIN_FACTOR);
-            TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
-        }
+            UpdateMasterVolume(m_wndVolSlider.GetPos()-1);
         break;
     case HOTKEY_MUTEALL :
         if(msg.bActive)
@@ -1991,11 +1985,11 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
         break;
     case HOTKEY_VOICEGAIN_PLUS :
         if(msg.bActive)
-            TT_SetSoundInputGainLevel(ttInst, TT_GetSoundInputGainLevel(ttInst) + 100);
+            UpdateGainLevel(m_wndGainSlider.GetPos() + 1);
         break;
     case HOTKEY_VOICEGAIN_MINUS :
         if(msg.bActive)
-            TT_SetSoundInputGainLevel(ttInst, TT_GetSoundInputGainLevel(ttInst) - 100);
+            UpdateGainLevel(m_wndGainSlider.GetPos() - 1);
         break;
     case HOTKEY_MIN_RESTORE :
         if(msg.bActive)
@@ -2145,13 +2139,11 @@ BOOL CTeamTalkDlg::OnInitDialog()
         RunWizard();
     }
 
-    m_wndVolSlider.SetRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX / GAIN_FACTOR, TRUE);
-    m_wndVolSlider.SetPageSize(VOLUME_PAGE_STEP / GAIN_FACTOR);
-    m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(SOUND_VOLUME_DEFAULT) / GAIN_FACTOR);
+    m_wndVolSlider.SetRange(0, 100, TRUE);
+    m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX));
 
-    m_wndGainSlider.SetRange(SOUND_GAIN_MIN/GAIN_FACTOR, DEFAULT_GAIN_MAX/GAIN_FACTOR, TRUE);
-    m_wndGainSlider.SetPageSize(10);
-    m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(SOUND_GAIN_DEFAULT) / GAIN_FACTOR);
+    m_wndGainSlider.SetRange(0, 100, TRUE);
+    m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(100 * SOUND_GAIN_DEFAULT / DEFAULT_SOUND_GAIN_MAX));
 
     m_wndVoiceSlider.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX, TRUE);
     m_wndVUProgress.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX);
@@ -2438,10 +2430,10 @@ void CTeamTalkDlg::OnClose()
     //////////////////////
 
     //save output volume
-    VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos() * GAIN_FACTOR));
+    VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos()));
     VERIFY(m_xmlSettings.SetVoiceActivationLevel(m_wndVoiceSlider.GetPos()));
     VERIFY(m_xmlSettings.SetVoiceActivated(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-    VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos() * GAIN_FACTOR));
+    VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos()));
     VERIFY(m_xmlSettings.SetPushToTalk(m_bHotKey));
 
     //erase tray of minimized
@@ -3634,7 +3626,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice + VOLUME_PAGE_STEP);
+                         user.nVolumeVoice * 0.01);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumevoice(CCmdUI *pCmdUI)
@@ -3652,7 +3644,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice - VOLUME_PAGE_STEP);
+                         user.nVolumeVoice * (-0.01));
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumemediafile(CCmdUI *pCmdUI)
@@ -3670,7 +3662,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile + VOLUME_SINGLE_STEP);
+                         user.nVolumeMediaFile * 1.01);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumemediafile(CCmdUI *pCmdUI)
@@ -3688,7 +3680,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile - VOLUME_SINGLE_STEP);
+                         user.nVolumeMediaFile * (-1.01));
 }
 
 void CTeamTalkDlg::OnUpdateChannelsCreatechannel(CCmdUI *pCmdUI)
@@ -3702,7 +3694,7 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
     ServerProperties prop = {0};
     TT_GetServerProperties(ttInst, &prop);
     dlg.m_nMaxUsers = prop.nMaxUsers;
-    dlg.m_bEnableAGC = DEFAULT_AGC_ENABLE;
+    dlg.m_bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
     dlg.m_nGainLevel = DEFAULT_AGC_GAINLEVEL/1000;
     if(dlg.DoModal() == IDOK)
     {
@@ -4179,8 +4171,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
 void CTeamTalkDlg::OnNMCustomdrawSliderVolume(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-    TT_SetSoundOutputVolume(ttInst, m_wndVolSlider.GetPos() * GAIN_FACTOR);
-    TRACE(_T("New volume %d => %d\n"), m_wndVolSlider.GetPos(), m_wndVolSlider.GetPos() * GAIN_FACTOR);
+    UpdateMasterVolume(m_wndVolSlider.GetPos());
     *pResult = 0;
 }
 
@@ -4532,6 +4523,8 @@ void CTeamTalkDlg::ParseArgs()
                 TT_Firewall_RemoveAppException(szPath);
             }
         }
+        else if(m_cmdArgs.Find(_T("tone"))>0)
+            TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
         else if(arg.Left(_tcslen(TTURL)) == TTURL)
             m_szTTLink = orgArg;
         else
@@ -4699,6 +4692,35 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
     }
 }
 
+void CTeamTalkDlg::UpdateMasterVolume(int nVol)
+{
+    if(m_wndVolSlider.GetPos() != nVol)
+        m_wndVolSlider.SetPos(nVol);
+
+    TT_SetSoundOutputVolume(ttInst, RefVolume(nVol, SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX));
+}
+
+void CTeamTalkDlg::UpdateGainLevel(int nGain)
+{
+    if(m_wndGainSlider.GetPos() != nGain)
+        m_wndGainSlider.SetPos(nGain);
+
+    SpeexDSP spxdsp =  {0};
+    if(TT_GetSoundInputPreprocess(ttInst, &spxdsp) && spxdsp.bEnableAGC)
+    {
+        double percent = nGain;
+        percent /= 100.;
+        spxdsp.nGainLevel = SOUND_GAIN_MAX * percent;
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    }
+    else
+    {
+        int gain = RefVolume(nGain, SOUND_GAIN_DEFAULT, DEFAULT_SOUND_GAIN_MAX);
+        TT_SetSoundInputGainLevel(ttInst, gain);
+    }
+}
+
 void CTeamTalkDlg::UpdateAudioConfig()
 {
     SpeexDSP spxdsp = {0};
@@ -4720,9 +4742,16 @@ void CTeamTalkDlg::UpdateAudioConfig()
     {
         spxdsp.bEnableAGC = chan.audiocfg.bEnableAGC;
         spxdsp.nGainLevel = chan.audiocfg.nGainLevel;
+        TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+    }
+    else
+    {
+        UpdateGainLevel(m_wndGainSlider.GetPos());
     }
 
     TT_SetSoundInputPreprocess(ttInst, &spxdsp);
+
+    m_wndGainSlider.EnableWindow(!chan.audiocfg.bEnableAGC);
 
     TT_Enable3DSoundPositioning(ttInst, m_xmlSettings.GetAutoPositioning());
 }
@@ -4993,18 +5022,6 @@ void CTeamTalkDlg::OnChannelsLeavechannel()
 void CTeamTalkDlg::OnUpdateChannelsStreamMediaFileToChannel(CCmdUI *pCmdUI)
 {
     ClientFlags flags = TT_GetFlags(ttInst);
-    CString szText;
-    if(flags & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO))
-    {
-        szText.LoadString(IDS_STOPSTREAMINGMEDIAFILE);
-        TRANSLATE_ITEM(IDS_STOPSTREAMINGMEDIAFILE, szText);
-    }
-    else
-    {
-        szText.LoadString(IDS_STARTSTREAMMEDIAFILE);
-        TRANSLATE_ITEM(IDS_STARTSTREAMMEDIAFILE, szText);
-    }
-    pCmdUI->SetText(szText);
     pCmdUI->Enable(TT_GetMyChannelID(ttInst)>0);
     BOOL bChecked = flags & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO);
     pCmdUI->SetCheck(bChecked?BST_CHECKED:BST_UNCHECKED);
@@ -5641,8 +5658,7 @@ void CTeamTalkDlg::OnServerServerstatistics()
 void CTeamTalkDlg::OnNMCustomdrawSliderGainlevel(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-    int nGainLevel = m_wndGainSlider.GetPos() * GAIN_FACTOR;
-    TT_SetSoundInputGainLevel(ttInst, nGainLevel);
+    UpdateGainLevel(m_wndGainSlider.GetPos());
     *pResult = 0;
 }
 

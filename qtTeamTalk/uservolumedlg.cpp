@@ -34,12 +34,8 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    ui.voicevolSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX);
-    ui.voicevolSlider->setSingleStep(VOLUME_SINGLE_STEP);
-    ui.voicevolSlider->setPageStep(VOLUME_PAGE_STEP);
-    ui.mfvolSlider->setRange(SOUND_VOLUME_MIN, DEFAULT_SOUND_VOLUME_MAX);
-    ui.mfvolSlider->setSingleStep(VOLUME_SINGLE_STEP);
-    ui.mfvolSlider->setPageStep(VOLUME_PAGE_STEP);
+    ui.voicevolSlider->setRange(0, 100);
+    ui.mfvolSlider->setRange(0, 100);
 
     connect(ui.voicevolSlider, SIGNAL(valueChanged(int)),
             SLOT(slotVolumeChanged(int)));
@@ -55,8 +51,8 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))
         setWindowTitle(windowTitle() + QString(" - ") + _Q(user.szNickname));
-    ui.voicevolSlider->setValue(user.nVolumeVoice);
-    ui.mfvolSlider->setValue(user.nVolumeMediaFile);
+    ui.voicevolSlider->setValue(100 * user.nVolumeVoice / DEFAULT_SOUND_VOLUME_MAX);
+    ui.mfvolSlider->setValue(100 * user.nVolumeMediaFile / DEFAULT_SOUND_VOLUME_MAX);
 
     ui.voiceleftChkBox->setChecked(!user.stereoPlaybackVoice[0]);
     ui.voicerightChkBox->setChecked(!user.stereoPlaybackVoice[1]);
@@ -67,10 +63,17 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
 void UserVolumeDlg::slotVolumeChanged(int /*vol*/)
 {
     BOOL b = TRUE;
+
+    double percent = ui.voicevolSlider->value();
+    percent /= 100.;
+
     b &= TT_SetUserVolume(ttInst, m_userid, STREAMTYPE_VOICE,
-                          ui.voicevolSlider->value());
+                          percent * DEFAULT_SOUND_VOLUME_MAX);
+
+    percent = ui.mfvolSlider->value();
+    percent /= 100.;
     b &= TT_SetUserVolume(ttInst, m_userid, STREAMTYPE_MEDIAFILE_AUDIO,
-                          ui.mfvolSlider->value());
+                          percent * DEFAULT_SOUND_VOLUME_MAX);
 
     if(!b)
         QMessageBox::critical(this, tr("Volume"), 
@@ -91,8 +94,8 @@ void UserVolumeDlg::slotMuteChannel()
 
 void UserVolumeDlg::slotDefaults()
 {
-    ui.voicevolSlider->setValue(SOUND_VOLUME_DEFAULT);
-    ui.mfvolSlider->setValue(SOUND_VOLUME_DEFAULT);
-    slotVolumeChanged(SOUND_VOLUME_DEFAULT);
+    ui.voicevolSlider->setValue(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
+    ui.mfvolSlider->setValue(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
+    slotVolumeChanged(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
 }
 

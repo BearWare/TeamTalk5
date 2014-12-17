@@ -175,6 +175,8 @@ public:
     int GetSoundOutputDevice(SoundDevice* pSoundDev = NULL);
 
     void UpdateAudioStorage(BOOL bEnable);
+    void UpdateMasterVolume(int nVol);
+    void UpdateGainLevel(int nGain);
     void UpdateAudioConfig();
     void UpdateChannelLog();
     HWND GetSharedDesktopWindowHWND();

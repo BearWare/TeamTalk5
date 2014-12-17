@@ -122,7 +122,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         m_channel.nMaxUsers = prop.nMaxUsers;
         m_channel.uChannelType = CHANNEL_DEFAULT;
         //set AGC
-        m_channel.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
+        m_channel.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
         m_channel.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
         break;
     case CHANNEL_UPDATE :

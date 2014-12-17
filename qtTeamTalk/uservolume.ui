@@ -38,7 +38,7 @@
         <item>
          <widget class="QSlider" name="voicevolSlider">
           <property name="maximum">
-           <number>255</number>
+           <number>100</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -93,6 +93,9 @@
         </item>
         <item>
          <widget class="QSlider" name="mfvolSlider">
+          <property name="maximum">
+           <number>100</number>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>

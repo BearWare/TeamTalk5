@@ -43,6 +43,7 @@ typedef std::map< int, messages_t > msgmap_t;
 messages_t GetMessages(int nFromUserID, const messages_t& messages);
 
 BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev);
+int RefVolume(double percent, int nDefVol, int nMaxVol);
 CString GetVersion(const User& user);
 
 BOOL IsMyselfTalking();
@@ -53,18 +54,35 @@ BOOL IsMyselfTalking();
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
-#define GAIN_FACTOR 100
+#ifdef ENABLE_ENCRYPTION
+#define DEFAULT_TEAMTALK_TCPPORT 10443
+#define DEFAULT_TEAMTALK_UDPPORT 10443
+#else
+#define DEFAULT_TEAMTALK_TCPPORT 10333
+#define DEFAULT_TEAMTALK_UDPPORT 10333
+#endif
 
 //Client specific SOUND_VOLUME_MAX (volume slider)
 #define DEFAULT_SOUND_VOLUME_MAX        12000
-#define VOLUME_SINGLE_STEP              25
-#define VOLUME_PAGE_STEP                200
 
 //Client specific gain SOUND_GAIN_MAX (mic slider)
-#define DEFAULT_GAIN_MAX                6000
+#define DEFAULT_SOUND_GAIN_MAX          6000
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
+//Automatic gain control settings
+#define DEFAULT_AGC_ENABLE          TRUE
+#define DEFAULT_AGC_GAINLEVEL       8000
+#define DEFAULT_AGC_INC_MAXDB       12
+#define DEFAULT_AGC_DEC_MAXDB       -40
+#define DEFAULT_AGC_GAINMAXDB       30
+#define DEFAULT_DENOISE_ENABLE      TRUE
+#define DEFAULT_DENOISE_SUPPRESS    -30
+#define DEFAULT_ECHO_ENABLE         FALSE
+#define DEFAULT_ECHO_SUPPRESS       -40
+#define DEFAULT_ECHO_SUPPRESSACTIVE -15
+
+#define DEFAULT_SOUND_DUPLEXMODE        FALSE
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
 #define DEFAULT_MSEC_PER_PACKET         40
 
@@ -103,38 +121,18 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_OPUS_BITRATE        32000
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
 
-//WebM settings
-#define DEFAULT_VIDEOCODEC          WEBM_VP8_CODEC
-#define DEFAULT_WEBM_VP8_BITRATE    256
-
-#ifdef ENABLE_ENCRYPTION
-#define DEFAULT_TEAMTALK_TCPPORT 10443
-#define DEFAULT_TEAMTALK_UDPPORT 10443
-#else
-#define DEFAULT_TEAMTALK_TCPPORT 10333
-#define DEFAULT_TEAMTALK_UDPPORT 10333
-#endif
-
-//Automatic gain control settings
-#define DEFAULT_AGC_ENABLE          TRUE
-#define DEFAULT_AGC_GAINLEVEL       8000
-#define DEFAULT_AGC_INC_MAXDB       12
-#define DEFAULT_AGC_DEC_MAXDB       -40
-#define DEFAULT_AGC_GAINMAXDB       30
-#define DEFAULT_DENOISE_ENABLE      TRUE
-#define DEFAULT_DENOISE_SUPPRESS    -30
-#define DEFAULT_ECHO_ENABLE         FALSE
-#define DEFAULT_ECHO_SUPPRESS       -40
-#define DEFAULT_ECHO_SUPPRESSACTIVE -15
-
-#define DEFAULT_SOUND_DUPLEXMODE        FALSE
-
 //Video settings
 #define DEFAULT_VIDEO_WIDTH             320
 #define DEFAULT_VIDEO_HEIGHT            240
 #define DEFAULT_VIDEO_FPS               10
 #define DEFAULT_VIDEO_FOURCC            FOURCC_RGB32
 
+//WebM settings
+#define DEFAULT_VIDEOCODEC          WEBM_VP8_CODEC
+#define DEFAULT_WEBM_VP8_BITRATE    256
+
+// Channel dialog
+#define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \
