@@ -72,7 +72,7 @@ void StreamMediaFileDlg::slotSelectFile()
     QString fileName = QFileDialog::getOpenFileName(this,
                         tr("Open Media File"),
                         QDir::toNativeSeparators(fileinfo.dir().absolutePath()),
-                        tr("Media files (*.*)"));
+                        tr("Media files %1").arg("(*.*)"));
 
     fileName = QDir::toNativeSeparators(fileName);
     ui.mediafileEdit->setText(fileName);
