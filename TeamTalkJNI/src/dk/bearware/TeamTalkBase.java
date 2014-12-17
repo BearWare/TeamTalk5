@@ -694,4 +694,11 @@ public abstract class TeamTalkBase
         return cancelFileTransfer(ttInst, nTransferID);
     }
     public native String getErrorMessage(int nError);
+    private native boolean DBG_SetSoundInputTone(long lpTTInstance,
+                                             int uStreamTypes,
+                                             int nFrequency);
+    public boolean DBG_SetSoundInputTone(int uStreamTypes,
+                                         int nFrequency) {
+        return DBG_SetSoundInputTone(ttInst, uStreamTypes, nFrequency);
+    }
 }

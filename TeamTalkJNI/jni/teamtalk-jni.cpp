@@ -1569,6 +1569,16 @@ extern "C" {
         return env->NewStringUTF(szError);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1SetSoundInputTone(JNIEnv* env,
+                                                                                    jobject thiz,
+                                                                                    jlong lpTTInstance,
+                                                                                    jint uStreamTypes,
+                                                                                    jint nFrequency)
+    {
+        return TT_DBG_SetSoundInputTone(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                        uStreamTypes, nFrequency);
+    }
+
 //TODO: TT_DesktopInput_KeyTranslate
 //TODO: TT_DesktopInput_Execute
 //TODO: TT_HotKey_*

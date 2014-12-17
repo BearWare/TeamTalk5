@@ -5816,7 +5816,7 @@ extern "C" {
     TEAMTALKDLL_API VOID* TT_DBG_GETDATAPTR(IN TTMessage* pMsg);
 
     TEAMTALKDLL_API BOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
-                                                  StreamTypes uStreamTypes,
+                                                  IN StreamTypes uStreamTypes,
                                                   IN INT32 nFrequency);
 
 #if defined(WIN32) /* Exclude mixer and firewall functions from
