@@ -1191,6 +1191,10 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
        (user.nStatusMode & STATUSMODE_QUESTION))
        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventQuestionMode()));
 
+    //if not in same channel, then ignore
+    if(user.nChannelID != TT_GetMyChannelID(ttInst) && user.nChannelID)
+        return;
+
     CString szNickname = LimitText(user.szNickname);
     CString s;
 
@@ -2123,7 +2127,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
         bRunWizard = TRUE;
     }
 
-    nTextLimit = m_xmlSettings.GetMaxTextLength(TT_STRLEN);
+    nTextLimit = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
 
     //see if wizard should be invoked
     if(!bRunWizard)
@@ -2132,10 +2136,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
     ttInst = TT_InitTeamTalk(m_hWnd, WM_TEAMTALK_CLIENTEVENT);
 
     //Check whether we should run the wizard
-    if(m_xmlSettings.GetFileVersion() <= "3.0" || bRunWizard)
+    if(bRunWizard)
     {
-        /// reset gain
-        m_xmlSettings.SetVoiceGainLevel(SOUND_GAIN_DEFAULT);
         RunWizard();
     }
 
@@ -2948,7 +2950,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
     windowpage.m_bVuMeter = m_xmlSettings.GetVuMeterUpdate();
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
-    windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(TT_STRLEN);
+    windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
 
     ///////////////////////
     // client settings

@@ -66,7 +66,7 @@
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"
 #define SETTINGS_DISPLAY_MAX_STRING                 "display/channel-max-string"
-#define SETTINGS_DISPLAY_MAX_STRING_DEFAULT         TT_STRLEN
+#define SETTINGS_DISPLAY_MAX_STRING_DEFAULT         DEFAULT_MAX_STRING_LENGTH
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"

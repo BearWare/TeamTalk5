@@ -483,6 +483,7 @@ void CSessionTreeCtrl::AddUser(const User& user)
 
         if(user.nUserID == TT_GetMyUserID(ttInst))
         {
+            Select(hChanItem, TVGN_CARET);
             SetItemState(hNewItem, TVIS_BOLD, TVIS_BOLD);
             SetUserTalking(user.nUserID, IsMyselfTalking());
         }
@@ -509,7 +510,7 @@ void CSessionTreeCtrl::UpdateUser(const User& user)
     ASSERT(hUserItem);
     if(hUserItem)
     {
-        SetItemText(hUserItem, GetUserText(user.nUserID));
+        SetItemText(hUserItem, LimitText(GetUserText(user.nUserID)));
         if((user.nStatusMode & STATUSMODE_MASK) == STATUSMODE_AWAY)
             UserItemPlus(hUserItem, UserAway);
         else
@@ -551,7 +552,7 @@ void CSessionTreeCtrl::AddChannel(const Channel& channel)
     {
         HTREEITEM hRoot = InsertItem( _T(""), ROOT_CLOSED, ROOT_CLOSED);
         SetItemData(hRoot, (channel.nChannelID | CHANNEL_ITEMDATA));
-        SetItemText(hRoot, GetChannelText(channel.nChannelID));
+        SetItemText(hRoot, LimitText(GetChannelText(channel.nChannelID)));
         if(channel.bPassword)
             ChannelItemPlus(hRoot, ChannelLocked);
     }

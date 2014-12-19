@@ -30,6 +30,8 @@
 
 class KeyCompDlg : public QDialog
 {
+    Q_OBJECT
+
 public:
     KeyCompDlg(QWidget * parent = 0);
     ~KeyCompDlg();

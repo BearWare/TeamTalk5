@@ -4853,7 +4853,8 @@ void MainWindow::slotUserLeft(int channelid, const User& user)
 void MainWindow::slotUserUpdate(const User& user)
 {
     User oldUser;
-    if(ui.channelsWidget->getUser(user.nUserID, oldUser))
+    if(ui.channelsWidget->getUser(user.nUserID, oldUser) &&
+       m_mychannel.nChannelID != user.nChannelID && user.nChannelID)
     {
         QString nickname = limitText(_Q(user.szNickname));
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
@@ -5000,7 +5001,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     {
         double percent = value;
         percent /= 100.;
-        spxdsp.nGainLevel = SOUND_GAIN_MAX * percent;
+        spxdsp.nGainLevel = (INT32)(SOUND_GAIN_MAX * percent);
         TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
     }

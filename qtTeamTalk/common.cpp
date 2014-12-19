@@ -1288,7 +1288,7 @@ QString getVersion(const User& user)
 
 QString limitText(const QString& text)
 {
-    int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, TT_STRLEN).toInt();
+    int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, DEFAULT_MAX_STRING_LENGTH).toInt();
     if(text.size()>len+3)
         return text.left(len) + "...";
     return text;

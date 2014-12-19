@@ -151,6 +151,8 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
 #define DEFAULT_SENDDESKTOPWINDOW_TIMEOUT 1000
 
+#define DEFAULT_MAX_STRING_LENGTH   50 //real is TT_STRLEN
+
 enum StatusMode
 {
     STATUSMODE_AVAILABLE        = 0x00000000,

@@ -178,6 +178,8 @@
 // Channel dialog
 #define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE
 
+#define DEFAULT_MAX_STRING_LENGTH       50
+
 //whether to enable key-translation
 #define ENABLE_KEY_TRANSLATION 1
 
