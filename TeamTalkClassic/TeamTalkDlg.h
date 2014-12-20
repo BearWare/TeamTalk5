@@ -31,9 +31,11 @@
 #include "gui/MyEdit.h"
 #include "gui/MyTabCtrl.h"
 #include "settings/ClientXML.h"
-#include <Tolk.h>
-
 #include "HttpRequest.h"
+
+#if defined(ENABLE_TOLK)
+#include <Tolk.h>
+#endif
 
 #include <vector>
 #include <map>

@@ -1061,7 +1061,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
                 newchan.audiocodec.speex.nTxIntervalMSec = DEFAULT_SPEEX_DELAY;
                 newchan.audiocodec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
 
-                newchan.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
+                newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
                 newchan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
 
                 newchan.nMaxUsers = srvprop.nMaxUsers;
@@ -1192,7 +1192,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventQuestionMode()));
 
     //if not in same channel, then ignore
-    if(user.nChannelID != TT_GetMyChannelID(ttInst) && user.nChannelID)
+    if(user.nChannelID != TT_GetMyChannelID(ttInst) || !user.nChannelID)
         return;
 
     CString szNickname = LimitText(user.szNickname);

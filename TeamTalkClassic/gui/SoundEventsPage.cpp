@@ -22,8 +22,10 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "SoundEventsPage.h"
-#include <Tolk.h>
 
+#if defined(ENABLE_TOLK)
+#include <Tolk.h>
+#endif
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

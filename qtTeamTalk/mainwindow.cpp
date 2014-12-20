@@ -1395,7 +1395,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
         chan.nMaxUsers = m_srvprop.nMaxUsers;
         initDefaultAudioCodec(chan.audiocodec);
 
-        chan.audiocfg.bEnableAGC = DEFAULT_AGC_ENABLE;
+        chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
         chan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
 
         COPY_TTSTR(chan.szName, name);
@@ -4854,7 +4854,7 @@ void MainWindow::slotUserUpdate(const User& user)
 {
     User oldUser;
     if(ui.channelsWidget->getUser(user.nUserID, oldUser) &&
-       m_mychannel.nChannelID != user.nChannelID && user.nChannelID)
+       m_mychannel.nChannelID == user.nChannelID && user.nChannelID)
     {
         QString nickname = limitText(_Q(user.szNickname));
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
