@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">At&amp;vienoties\tF2</item>
-    <item id="105">Palaist &amp;serveri\tF3</item>
-    <item id="106">Apstādināt &amp;serveri\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Savienot\tF2</item>
     <item id="108">Izveidot kanālu</item>
     <item id="109">Atjaunināt kanālu</item>
@@ -10,13 +10,6 @@
     <item id="111">Atjaunināt esošu kanālu</item>
     <item id="112">Jā</item>
     <item id="113">Nē</item>
-    <item id="114">Vispārēji</item>
-    <item id="115">Papildus</item>
-    <item id="116">Lietotājs</item>
-    <item id="117">Logs</item>
-    <item id="118">Balss kvalitāte</item>
-    <item id="119">Notikumu skaņas</item>
-    <item id="120">Skaņu sistēma</item>
     <item id="122">Izvadierīce atbalsta 3D skaņu</item>
     <item id="123">Izvadierīce neatbalsta 3D skaņu</item>
     <item id="124">Pārbaudīt</item>
@@ -26,15 +19,21 @@
     <item id="129">&amp;Palīdzība</item>
     <item id="130">Jauns segvārds</item>
     <item id="131">Mainīt segvārdu</item>
-    <item id="132">Saīsnes</item>
     <item id="134">Datnes</item>
     <item id="135">Tērzēšana</item>
+    <item id="147"></item>
+    <item id="148"></item>
     <item id="201">Ziņas</item>
     <item id="205">Mainīt stāvokli</item>
     <item id="207">Kanāla informācija</item>
+    <item id="215">Vispārēji</item>
+    <item id="220">Papildus</item>
+    <item id="223">Notikumu skaņas</item>
+    <item id="224">Skaņu sistēma</item>
     <item id="243">Serveru pārzinis</item>
     <item id="247">Kāda ir man IP-adrese?</item>
     <item id="249">Pogu kombinācijas</item>
+    <item id="254">Saīsnes</item>
     <item id="1008">Vienmēr pārsūtīt caur serveri</item>
     <item id="1009">Savienojoties pievienoties galvenajam kanālam</item>
     <item id="1011">Servera opcijas</item>

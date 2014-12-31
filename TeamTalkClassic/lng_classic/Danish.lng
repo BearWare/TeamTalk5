@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Afbryd &amp;forbindelse\tF2</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">Etabler &amp;forbindelse\tF2</item>
     <item id="108">Opret kanal</item>
     <item id="109">Opdater kanal</item>
@@ -8,13 +10,6 @@
     <item id="111">Opdater eksisterende kanal</item>
     <item id="112">Ja</item>
     <item id="113">Nej</item>
-    <item id="114">Generelt</item>
-    <item id="115">Avanceret</item>
-    <item id="116">Klient</item>
-    <item id="117">Vindue</item>
-    <item id="118">Lydkvalitet</item>
-    <item id="119">Lydhændelser</item>
-    <item id="120">Lydsystem</item>
     <item id="122">Afspilningsenhed understøtter 3D-lyd</item>
     <item id="123">Afspilningsenhed understøtter ikke 3D-lyd</item>
     <item id="124">Afprøv valgte</item>
@@ -23,12 +18,10 @@
     <item id="129">&amp;Hjælp</item>
     <item id="130">Nyt brugernavn</item>
     <item id="131">Ændre brugernavn</item>
-    <item id="132">Genveje</item>
     <item id="134">Filer</item>
     <item id="135">Chat</item>
     <item id="140">Serverindstillinger</item>
     <item id="141">Brugerkonti</item>
-    <item id="143">Videooptagelse</item>
     <item id="144">Flyt Bruger Dialog</item>
     <item id="145">Serverstatistik</item>
     <item id="146">Aktive Brugere</item>
@@ -39,11 +32,16 @@
     <item id="201">Beskeder</item>
     <item id="205">Ændre status</item>
     <item id="207">Kanalinformation</item>
+    <item id="215">Generelt</item>
+    <item id="220">Avanceret</item>
+    <item id="223">Lydhændelser</item>
+    <item id="224">Lydsystem</item>
     <item id="227">Brugerinformation</item>
     <item id="243">Serverliste</item>
     <item id="247">Hvad er min IP-adresse?</item>
     <item id="249">Tastekombination</item>
     <item id="251">Positioner deltagere (3D lydkort)</item>
+    <item id="254">Genveje</item>
     <item id="256">Blokerede Brugere</item>
     <item id="1008">Altid send gennem server</item>
     <item id="1009">Indtræd automatisk i rodkanalen ved tilslutning</item>

@@ -1,7 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="102"></item>
     <item id="104">Desli&amp;gar\tF2</item>
-    <item id="105">&amp;Iniciar servidor\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">Conectar ao servidor</item>
     <item id="108">Criar Canal</item>
     <item id="109">Atualizar Canal</item>
@@ -9,26 +11,24 @@
     <item id="111">Atualizar canal existente</item>
     <item id="112">Sim</item>
     <item id="113">Não</item>
-    <item id="114">Geral</item>
-    <item id="115">Avançado</item>
-    <item id="116">Cliente</item>
-    <item id="117">Janela</item>
-    <item id="118">Qualidade da voz</item>
-    <item id="119">Eventos sonoros</item>
-    <item id="120">Sistema de som</item>
     <item id="122">O dispositivo de saída suporta som 3D</item>
     <item id="123">O dispositivo de saída não suporta som 3D</item>
     <item id="124">Teste selecionado</item>
     <item id="125">Parar</item>
     <item id="126">Defeito</item>
-    <item id="127">O som não pode ser configurado enquanto conectado.</item>
     <item id="128">Configurações</item>
     <item id="129">&amp;Ajuda</item>
     <item id="130">Novo Nick</item>
     <item id="131">Alterar Nick</item>
+    <item id="150"></item>
+    <item id="151"></item>
     <item id="201">Mensagens</item>
     <item id="205">Mudar status</item>
     <item id="207">Informação do canal</item>
+    <item id="215">Geral</item>
+    <item id="220">Avançado</item>
+    <item id="223">Eventos sonoros</item>
+    <item id="224">Sistema de som</item>
     <item id="243">Gerenciador de servidores</item>
     <item id="247">Qual é o meu endereço de IP?</item>
     <item id="249">Combinação chave</item>

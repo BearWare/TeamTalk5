@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="102"></item>
     <item id="104">Huỷ kết nối (&amp;c)\tF2</item>
-    <item id="105">Bật làm máy c&amp;hủ\tF3</item>
-    <item id="106">Tắt máy ch&amp;hủ\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">(&amp;C)Kết nối\tF2</item>
     <item id="108">Tạo kênh</item>
     <item id="109">Cập nhật kênh</item>
@@ -10,13 +11,6 @@
     <item id="111">Cập nhật kênh có sẵn</item>
     <item id="112">Có</item>
     <item id="113">Không</item>
-    <item id="114">Chung</item>
-    <item id="115">Cao cấp</item>
-    <item id="116">Máy trạm</item>
-    <item id="117">Cửa sổ</item>
-    <item id="118">Chất lượng âm</item>
-    <item id="119">Tiếng báo sự kiện</item>
-    <item id="120">Hệ thống âm thanh</item>
     <item id="122">Thiết bị ra hỗ trợ âm thanh 3D</item>
     <item id="123">Thiết bị ra không hỗ trợ âm thanh 3D</item>
     <item id="124">Đã chọn thử nghiệm</item>
@@ -26,15 +20,19 @@
     <item id="129">&amp;Trợ giúp</item>
     <item id="130">Tên mới</item>
     <item id="131">Đổi tên</item>
-    <item id="132">Liên kết</item>
     <item id="134">Files</item>
     <item id="135">Trò chuyện</item>
     <item id="201">Tin nhắn</item>
     <item id="205">Thay đổi trạng thái</item>
     <item id="207">Thông tin kênh</item>
+    <item id="215">Chung</item>
+    <item id="220">Cao cấp</item>
+    <item id="223">Tiếng báo sự kiện</item>
+    <item id="224">Hệ thống âm thanh</item>
     <item id="243">Quản lý máy chủ</item>
     <item id="247">Địa chỉ IP của tôi là gì?</item>
     <item id="249">Tổ hợp phím</item>
+    <item id="254">Liên kết</item>
     <item id="1008">Luôn truyền qua server</item>
     <item id="1009">Tự động tham gia vào kênh gốc dựa trên kết nối</item>
     <item id="1011">Thuộc tính máy chủ</item>

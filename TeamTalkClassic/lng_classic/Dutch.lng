@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Dis&amp;Verbinden\F2</item>
-    <item id="105">Start &amp;hosting\tF3</item>
-    <item id="106">Stop &amp;hosting\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Verbinden\tF2</item>
     <item id="108">Creëer kanaal</item>
     <item id="109">Update kanaal</item>
@@ -10,13 +10,6 @@
     <item id="111">wijzig bestaand kanaal</item>
     <item id="112">ja</item>
     <item id="113">nee</item>
-    <item id="114">Algemeen</item>
-    <item id="115">Gevordert</item>
-    <item id="116">client</item>
-    <item id="117">window</item>
-    <item id="118">spraak kwaliteit</item>
-    <item id="119">geluids gebeurtenis</item>
-    <item id="120">geluids systeem</item>
     <item id="122">uitgangs apparaat ondersteund 3d geluid</item>
     <item id="123">uitgangs apparaat ondersteund geen 3d geluid</item>
     <item id="124">test geselecteerde</item>
@@ -29,6 +22,10 @@
     <item id="201">berichten</item>
     <item id="205">verander status</item>
     <item id="207">kanaal informatie</item>
+    <item id="215">Algemeen</item>
+    <item id="220">Gevordert</item>
+    <item id="223">geluids gebeurtenis</item>
+    <item id="224">geluids systeem</item>
     <item id="243">host beheerder</item>
     <item id="247">wat is mijn ip adres</item>
     <item id="249">toetsen combinatie</item>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">(&amp;C)연결 끊기\tF2</item>
-    <item id="105">(&amp;H)서버 생성\tF3</item>
-    <item id="106">(&amp;H)서버 중단\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">(&amp;C)연결\tF2</item>
     <item id="108">채널 생성</item>
     <item id="109">채널 갱신</item>
@@ -10,13 +10,6 @@
     <item id="111">개설된 채널 갱신</item>
     <item id="112">예</item>
     <item id="113">아니오</item>
-    <item id="114">일반</item>
-    <item id="115">고급</item>
-    <item id="116">클라이언트</item>
-    <item id="117">윈도우</item>
-    <item id="118">음질</item>
-    <item id="119">사운드 이벤트</item>
-    <item id="120">사운드 설정</item>
     <item id="122">출력장치가 3D 사운드를 지원함</item>
     <item id="123">출력장치가 3D 사운드를 지원하지 않음</item>
     <item id="124">테스트</item>
@@ -26,15 +19,21 @@
     <item id="129">(&amp;H)도움말</item>
     <item id="130">대화명</item>
     <item id="131">대화명 변경</item>
-    <item id="132">단축키</item>
     <item id="134">파일</item>
     <item id="137">크기</item>
+    <item id="146"></item>
+    <item id="147"></item>
     <item id="201">메시지</item>
     <item id="205">상태 변환</item>
     <item id="207">채널 정보</item>
+    <item id="215">일반</item>
+    <item id="220">고급</item>
+    <item id="223">사운드 이벤트</item>
+    <item id="224">사운드 설정</item>
     <item id="243">서버 관리자</item>
     <item id="247">내 IP 주소는?</item>
     <item id="249">키 조합</item>
+    <item id="254">단축키</item>
     <item id="1008">항상 서버를 통해 보냄</item>
     <item id="1009">접속할때 최상위 채널로 자동 입장</item>
     <item id="1011">서버 권한</item>

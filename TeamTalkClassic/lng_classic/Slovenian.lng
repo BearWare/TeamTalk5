@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Pre&amp;kinit\F2</item>
-    <item id="105">Začni &amp;gostovanje\tF3</item>
-    <item id="106">Prekini &amp;gostovanje\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Poveži\tF2</item>
     <item id="108">Ustvari kanal</item>
     <item id="109">Nadgradi kanal</item>
@@ -10,13 +10,6 @@
     <item id="111">Uredi trenutni kanal</item>
     <item id="112">Da</item>
     <item id="113">Ne</item>
-    <item id="114">Osnovno</item>
-    <item id="115">Napredno</item>
-    <item id="116">Klient</item>
-    <item id="117">Okno</item>
-    <item id="118">Kvaliteta govora</item>
-    <item id="119">Zvokovni dogodki</item>
-    <item id="120">Sistem zvoka</item>
     <item id="122">Izhodna naprava podpira 3D zvok</item>
     <item id="123">Izhodna naprava ne podpira 3D zvoka</item>
     <item id="124">Testiranje</item>
@@ -29,6 +22,11 @@
     <item id="201">Obvestilo</item>
     <item id="205">Spremeni status</item>
     <item id="207">O kanalu</item>
+    <item id="212"></item>
+    <item id="215">Osnovno</item>
+    <item id="220">Napredno</item>
+    <item id="223">Zvokovni dogodki</item>
+    <item id="224">Sistem zvoka</item>
     <item id="243">Nastavitev strežnika</item>
     <item id="247">Moj IP naslov</item>
     <item id="249">Kombinacija tipk</item>

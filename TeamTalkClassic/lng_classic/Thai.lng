@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
-    <item id="105">เริ่ม &amp;แม่ข่าย\tF3</item>
-    <item id="106">หยุด &amp;แม่ข่าย\tF3</item>
+    <item id="104"></item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;ติดต่อ\tF2</item>
     <item id="108">สร้างห้อง</item>
     <item id="109">อัพเดตห้อง</item>
@@ -9,13 +10,6 @@
     <item id="111">อัพเดตห้องที่มีอยู่แล้ว</item>
     <item id="112">ใช่</item>
     <item id="113">ไม่</item>
-    <item id="114">ทั่วไป</item>
-    <item id="115">ระดับสูง</item>
-    <item id="116">ลูกข่าย</item>
-    <item id="117">หน้าต่าง</item>
-    <item id="118">คุณภาพเสียง</item>
-    <item id="119">เสียงเหตุการณ์</item>
-    <item id="120">เสียงระบบ</item>
     <item id="122">อุปกรณ์เสียงรองรับ 3D</item>
     <item id="123">อุปกรณ์เสียงไม่รองรับ 3D</item>
     <item id="124">ทดสอบ</item>
@@ -25,15 +19,19 @@
     <item id="129">&amp;ช่วยเหลือ</item>
     <item id="130">ชื่อเล่น ใหม่</item>
     <item id="131">เปลี่ยนชื่อเล่น</item>
-    <item id="132">ทางลัด</item>
     <item id="134">แฟ้ม</item>
     <item id="135">แชท</item>
     <item id="201">ข้อความ</item>
     <item id="205">เปลี่นยสถานะ</item>
     <item id="207">ข้อมูลห้อง</item>
+    <item id="215">ทั่วไป</item>
+    <item id="220">ระดับสูง</item>
+    <item id="223">เสียงเหตุการณ์</item>
+    <item id="224">เสียงระบบ</item>
     <item id="243">การจัดการแม่ข่าย</item>
     <item id="247">หมายเลขเครื่องของฉันคืออะไร?</item>
     <item id="249">คีย์ รวม</item>
+    <item id="254">ทางลัด</item>
     <item id="1008">ส่งไปยังแม่ข่ายเสมอ</item>
     <item id="1009">ติดต่อห้องหลักเมื่อเชื่อมต่อเรียบร้อย</item>
     <item id="1011">คุณสมบัติของแม่ข่าย</item>

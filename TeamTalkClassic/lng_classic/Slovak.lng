@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
+    <item id="102"></item>
     <item id="104">Od&amp;pojiť\tF2</item>
-    <item id="105">Spustiť &amp;server\tF3</item>
-    <item id="106">Zastaviť &amp;server\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Pripojiť\tF2</item>
     <item id="108">Vytvoriť miestnosť</item>
     <item id="109">Aktualizovať miestnosť</item>
@@ -10,13 +11,6 @@
     <item id="111">Aktualizovať existujúcu miestnosť</item>
     <item id="112">ˇAno</item>
     <item id="113">Nie</item>
-    <item id="114">Všeobecné</item>
-    <item id="115">Pokročilé</item>
-    <item id="116">Klient</item>
-    <item id="117">Okno</item>
-    <item id="118">Kvalita zvuku</item>
-    <item id="119">Zvukové udalosti</item>
-    <item id="120">Zvukový systém</item>
     <item id="122">Výstupné zariadenie podporuje 3D zvuk</item>
     <item id="123">Výstupné zariadenie nepodporuje 3D zvuk</item>
     <item id="124">testovať vybraté</item>
@@ -26,15 +20,20 @@
     <item id="129">&amp;Pomocník</item>
     <item id="130">Nová prezývka</item>
     <item id="131">Zmeniť prezývku</item>
-    <item id="132">Klávesové skratky</item>
     <item id="134">Súbory</item>
     <item id="135">Chat</item>
+    <item id="155"></item>
     <item id="201">Správy</item>
     <item id="205">Zmeniť stav</item>
     <item id="207">Informácie o miestnosti</item>
+    <item id="215">Všeobecné</item>
+    <item id="220">Pokročilé</item>
+    <item id="223">Zvukové udalosti</item>
+    <item id="224">Zvukový systém</item>
     <item id="243">Správca serverov</item>
     <item id="247">Akú mám IP adresu?</item>
     <item id="249">Kombinácia klávesov</item>
+    <item id="254">Klávesové skratky</item>
     <item id="1008">Vždy komunikovať prostredníctvom servera</item>
     <item id="1009">Po pripojení na server automaticky vstúpiť do koreňovej miestnosti</item>
     <item id="1011">Vlastnosti servera</item>

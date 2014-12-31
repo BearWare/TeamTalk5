@@ -1,9 +1,9 @@
-﻿	<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
-    <item id="105">%s vstoupil na kanál</item>
-    <item id="106">%s opustil kanál</item>
+    <item id="105">%s vstupuje na kanál</item>
+    <item id="106">%s opouští kanál</item>
     <item id="107">&amp;Připojit\tF2</item>
     <item id="108">Vytvořit kanál</item>
     <item id="109">Upravit kanál</item>
@@ -11,13 +11,6 @@
     <item id="111">Úprava existujícího kanálu</item>
     <item id="112">Ano</item>
     <item id="113">Ne</item>
-    <item id="114">Obecné</item>
-    <item id="115">Pokročilé</item>
-    <item id="116">Klient</item>
-    <item id="117">Okno</item>
-    <item id="118">Zvuková kvalita</item>
-    <item id="119">Zvukové události</item>
-    <item id="120">Zvukový systém</item>
     <item id="121">Vstoupili jste na kanál %s</item>
     <item id="122">Výstupní zařízení podporuje prostorový zvuk 3D</item>
     <item id="123">Výstupní zařízení nepodporuje prostorový zvuk 3D</item>
@@ -29,7 +22,6 @@
     <item id="129">&amp;Nápověda</item>
     <item id="130">Nová přezdívka</item>
     <item id="131">Změnit přezdívku</item>
-    <item id="132">Klávesové zkratky</item>
     <item id="133">Vstoupili jste na třídní kanál %s</item>
     <item id="134">Soubory</item>
     <item id="135">Chat</item>
@@ -38,7 +30,6 @@
     <item id="139">%s přerušil sdílení obrazovky</item>
     <item id="140">Vlastnosti serveru</item>
     <item id="141">Uživatelské účty</item>
-    <item id="143">Snímání videa</item>
     <item id="144">Přenést uživatele</item>
     <item id="145">Statistiky serveru</item>
     <item id="146">Připojení uživatelé</item>
@@ -50,11 +41,16 @@
     <item id="155">Vytvořit soubor .tt</item>
     <item id="201">Zprávy</item>
     <item id="205">Změnit stav</item>
+    <item id="215">Obecné</item>
+    <item id="220">Pokročilé</item>
+    <item id="223">Zvukové události</item>
+    <item id="224">Zvukový systém</item>
     <item id="227">Informace o uživateli</item>
     <item id="243">Správce serverů</item>
     <item id="247">Jaká je moje IP adresa?</item>
     <item id="249">Kombinace kláves</item>
     <item id="251">Rozmístit uživatele (prostorový zvuk 3D)</item>
+    <item id="254">Klávesové zkratky</item>
     <item id="256">Zakázaní uživatelé</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
@@ -343,7 +339,7 @@
     <item id="1507">Zneužívání serveru</item>
     <item id="1510">Nejvyšší počet uživatelů</item>
     <item id="1511">kB</item>
-    <item id="1512">Privilegovaní uživatelé</item>
+    <item id="1512">Počet přihlášení od spuštění</item>
     <item id="1513">Streamy multimediálních souborů</item>
     <item id="1514">Povolit automatickou kontrolu hlasitosti (úprava hlasitosti mikrofonu)</item>
     <item id="1515">Obnovit zařízení</item>

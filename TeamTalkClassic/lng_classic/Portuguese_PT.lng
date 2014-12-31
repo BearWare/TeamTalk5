@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Desli&amp;gar\tF2</item>
-    <item id="105">&amp;Iniciar servidor\tF3</item>
-    <item id="106">&amp;Parar Servidor\tF3</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Ligar a servidor\tF2</item>
     <item id="108">Criar Canal</item>
     <item id="109">Actualizar canal</item>
@@ -10,13 +10,6 @@
     <item id="111">Actualizar canal existente</item>
     <item id="112">Sim</item>
     <item id="113">Não</item>
-    <item id="114">Geral</item>
-    <item id="115">Avançado</item>
-    <item id="116">Cliente</item>
-    <item id="117">Janela</item>
-    <item id="118">Qualidade da voz</item>
-    <item id="119">Eventos sonoros</item>
-    <item id="120">Sistema de som</item>
     <item id="122">O dispositivo de saída suporta som 3D</item>
     <item id="123">O dispositivo de saída não suporta som 3D</item>
     <item id="124">Teste seleccionado</item>
@@ -26,15 +19,21 @@
     <item id="129">&amp;Ajuda</item>
     <item id="130">Novo pseudónimo</item>
     <item id="131">Alterar pseudónimo</item>
-    <item id="132">Atalhos</item>
     <item id="134">Ficheiros</item>
     <item id="135">Chat</item>
+    <item id="151"></item>
+    <item id="154"></item>
     <item id="201">Mensagens</item>
     <item id="205">Mudar estado</item>
     <item id="207">Informação do canal</item>
+    <item id="215">Geral</item>
+    <item id="220">Avançado</item>
+    <item id="223">Eventos sonoros</item>
+    <item id="224">Sistema de som</item>
     <item id="243">Gestor de servidores</item>
     <item id="247">Qual é o meu endereço IP?</item>
     <item id="249">Combinação chave</item>
+    <item id="254">Atalhos</item>
     <item id="1008">Reencaminhar sempre pelo servidor</item>
     <item id="1009">Ao ligar ir automaticamente para canal principal</item>
     <item id="1011">Propriedades do servidor</item>

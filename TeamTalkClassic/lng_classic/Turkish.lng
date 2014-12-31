@@ -3,7 +3,7 @@
     <item id="102">TeamTalk Kurulum Sihirbazı</item>
     <item id="104">Bağlantıyı&amp;Kes\tF2</item>
     <item id="105">%s Kanal&apos;a Katıldı</item>
-    <item id="106">%S Kanal&apos;ı terketti</item>
+    <item id="106">%s Kanal&apos;ı terketti</item>
     <item id="107">&amp;Bağlan\tF2</item>
     <item id="108">Kanal Oluştur</item>
     <item id="109">Kanal&apos;ı Güncelle</item>
@@ -11,13 +11,6 @@
     <item id="111">Mevcut Kanalı Güncelleme</item>
     <item id="112">Evet</item>
     <item id="113">Hayır</item>
-    <item id="114">Genel</item>
-    <item id="115">Gelişmiş</item>
-    <item id="116">İstemci</item>
-    <item id="117">Pencere</item>
-    <item id="118">Ses Kalitesi</item>
-    <item id="119">Ses Olayları</item>
-    <item id="120">Ses Sistemi</item>
     <item id="121">Kanal&apos;a katıldı %s</item>
     <item id="122">3D Çıkış Aygıdı</item>
     <item id="123">3D Çıkış Aygıdı 3D Sesi Desteklemiyor</item>
@@ -29,7 +22,6 @@
     <item id="129">&amp;Yardım</item>
     <item id="130">Yeni Kullanıcı Adı</item>
     <item id="131">Kullanıcı adını değiştir</item>
-    <item id="132">Kısayollar</item>
     <item id="133">Yeni kanal&apos;a giriş yapıldı, Yayınlar operatör kontrolünde %s</item>
     <item id="134">Dosyalar</item>
     <item id="135">Sohbet</item>
@@ -38,7 +30,6 @@
     <item id="139">%s Masaüstü erişim isteğini iptal etti</item>
     <item id="140">Sunucu Özellikleri</item>
     <item id="141">Kullanıcı Hesapları</item>
-    <item id="143">Video Yakalama</item>
     <item id="144">Kullanıcı Taşıma Penceresi</item>
     <item id="145">Sunucu İstatistikleri</item>
     <item id="146">Çevrimiçi Kullanıcılar</item>
@@ -50,11 +41,17 @@
     <item id="155">.TT Dosyası Oluştur</item>
     <item id="201">Mesaj</item>
     <item id="205">Durum Değiştir</item>
+    <item id="212"></item>
+    <item id="215">Genel</item>
+    <item id="220">Gelişmiş</item>
+    <item id="223">Ses Olayları</item>
+    <item id="224">Ses Sistemi</item>
     <item id="227">Kullanıcı Bilgisi</item>
     <item id="243">Host Yöneticisi</item>
     <item id="247">IP Adresim nedir?</item>
     <item id="249">Tuş Konbinasyonu</item>
     <item id="251">Ses Tercihleri</item>
+    <item id="254">Kısayollar</item>
     <item id="256">Yasaklanan Kullanıcılar</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
     <item id="1011">Host Özellikleri</item>
