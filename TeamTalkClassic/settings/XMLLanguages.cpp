@@ -25,6 +25,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <set>
 using namespace std;
 
 XMLLanguages::XMLLanguages()
@@ -181,19 +182,23 @@ int XMLLanguages::GetPrevItem(int curid)
 
 void XMLLanguages::SortItems()
 {
-    std::vector<int> items;
-    int id = GetFirstItem();
-    while(id != -1)
+    std::set<int> items;
+    TiXmlElement* root = m_xmlDocument.RootElement();
+    if(root)
     {
-        items.push_back(id);
-        id = GetNextItem(id);
+        TiXmlElement* child;
+        for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
+        {
+            if(strcmp(child->Value(), "item") == 0)
+                items.insert(str2i(child->Attribute("id")));
+        }
     }
-    std::sort(items.begin(), items.end());
-    for(size_t i=0;i<items.size();i++)
+
+    for(std::set<int>::const_iterator i=items.begin();i!=items.end();i++)
     {
-        string text = GetItemText(items[i]);
-        RemoveItem(items[i]);
-        AddItem(items[i], text);
+        string text = GetItemText(*i);
+        RemoveItem(*i);
+        AddItem(*i, text);
     }
 }
 
