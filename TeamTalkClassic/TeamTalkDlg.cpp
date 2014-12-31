@@ -2875,42 +2875,41 @@ void CTeamTalkDlg::OnFilePreferences()
     CAdvancedPage advancedpage;
 
     /// translate
-    CString szGeneral, szClient, szShortcuts, szSound, szWindow, szQuality, szEvents, szVideo, szAdvanced;
-    szGeneral.LoadString(IDS_GENERAL);
-    TRANSLATE_ITEM(IDS_GENERAL, szGeneral);
-    szClient.LoadString(IDS_CLIENT);
-    TRANSLATE_ITEM(IDS_CLIENT, szClient);
-    szShortcuts.LoadString(IDS_SHORTCUTS);
-    TRANSLATE_ITEM(IDS_SHORTCUTS, szShortcuts);
-    szSound.LoadString(IDS_SOUNDSYSTEM);
-    TRANSLATE_ITEM(IDS_SOUNDSYSTEM, szSound);
-    szWindow.LoadString(IDS_WINDOW);
-    TRANSLATE_ITEM(IDS_WINDOW, szWindow);
-    szQuality.LoadString(IDS_VOICEQUALITY);
-    TRANSLATE_ITEM(IDS_VOICEQUALITY, szQuality);
-    szEvents.LoadString(IDS_SOUNDEVENTS);
-    TRANSLATE_ITEM(IDS_SOUNDEVENTS, szEvents);
-    szVideo.LoadString(IDS_VIDEOCAPTURE);
-    TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideo);
-    szAdvanced.LoadString(IDS_ADVANCED);
-    TRANSLATE_ITEM(IDS_ADVANCED, szAdvanced);
+    CString szGeneral, szConnection, szShortcuts, szSound, szWindow, szEvents, szVideo, szAdvanced;
+    TRANSLATE_ITEM(IDD_PROPPAGE_GENERALPAGE, szGeneral);
+    TRANSLATE_ITEM(IDD_PROPPAGE_CLIENTPAGE, szConnection);
+    TRANSLATE_ITEM(IDD_PROPPAGE_SHORTCUTS, szShortcuts);
+    TRANSLATE_ITEM(IDD_PROPPAGE_SOUNDSYSPAGE, szSound);
+    TRANSLATE_ITEM(IDD_PROPPAGE_WINDOWPAGE, szWindow);
+    TRANSLATE_ITEM(IDD_PROPPAGE_SOUNDEVENTSPAGE, szEvents);
+    TRANSLATE_ITEM(IDD_PROPPAGE_VIDEOCAPTURE, szVideo);
+    TRANSLATE_ITEM(IDD_PROPPAGE_ADVANCEDPAGE, szAdvanced);
 
-    generalpage.m_psp.dwFlags |= PSP_USETITLE;
     generalpage.m_psp.pszTitle = szGeneral;
-    clientpage.m_psp.dwFlags |= PSP_USETITLE;
-    clientpage.m_psp.pszTitle = szClient;
-    shortcutspage.m_psp.dwFlags |= PSP_USETITLE;
-    shortcutspage.m_psp.pszTitle = szShortcuts;
-    soundpage.m_psp.dwFlags |= PSP_USETITLE;
-    soundpage.m_psp.pszTitle = szSound;
-    windowpage.m_psp.dwFlags |= PSP_USETITLE;
     windowpage.m_psp.pszTitle = szWindow;
-    eventspage.m_psp.dwFlags |= PSP_USETITLE;
+    clientpage.m_psp.pszTitle = szConnection;
+    soundpage.m_psp.pszTitle = szSound;
+    shortcutspage.m_psp.pszTitle = szShortcuts;
     eventspage.m_psp.pszTitle = szEvents;
-    videopage.m_psp.dwFlags |= PSP_USETITLE;
     videopage.m_psp.pszTitle = szVideo;
-    advancedpage.m_psp.dwFlags |= PSP_USETITLE;
     advancedpage.m_psp.pszTitle = szAdvanced;
+
+    if(szGeneral.GetLength())
+        generalpage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szWindow.GetLength())
+        windowpage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szConnection.GetLength())
+        clientpage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szSound.GetLength())
+        soundpage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szShortcuts.GetLength())
+        shortcutspage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szEvents.GetLength())
+        eventspage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szVideo.GetLength())
+        videopage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szAdvanced.GetLength())
+        advancedpage.m_psp.dwFlags |= PSP_USETITLE;
 
     /////////////////////
     // general page

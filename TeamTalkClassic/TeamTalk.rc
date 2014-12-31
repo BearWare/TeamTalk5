@@ -209,7 +209,7 @@ END
 
 IDD_PROPPAGE_CLIENTPAGE DIALOGEX 0, 0, 260, 240
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Client"
+CAPTION "Connection"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Client settings",IDC_STATIC_GRPCLIENT,7,7,246,226
@@ -238,7 +238,7 @@ END
 
 IDD_PROPPAGE_SOUNDEVENTSPAGE DIALOGEX 0, 0, 260, 240
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Events"
+CAPTION "Sound Events"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound events",IDC_STATIC_GRPSNDEVENT,7,7,246,226
@@ -287,7 +287,7 @@ END
 
 IDD_PROPPAGE_SOUNDSYSPAGE DIALOGEX 0, 0, 260, 221
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Sound system"
+CAPTION "Sound System"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound system settings",IDC_STATIC_GRPSOUNDSYSTEM,7,7,246,207
@@ -319,10 +319,10 @@ END
 
 IDD_PROPPAGE_WINDOWPAGE DIALOGEX 0, 0, 260, 240
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Window"
+CAPTION "Display"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Window behavior",IDC_STATIC_GRPWINDOW,7,7,246,226
+    GROUPBOX        "User interface settings",IDC_STATIC_GRPWINDOW,7,7,246,226
     LTEXT           "User interface language",IDC_STATIC_UILANGUAGE,15,23,94,8
     COMBOBOX        IDC_COMBO_LANGUAGE,111,21,130,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Font ",IDC_STATIC_FONT,15,37,53,8
@@ -703,16 +703,16 @@ FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound system settings",IDC_STATIC_GRPSOUNDSYSTEM,0,0,316,212
     LTEXT           "Here you select the sound devices which TeamTalk should use for recording and playing audio. Choosing DirectSound is highly recommended since it provides lower latency than Windows' default sound system. ",IDC_STATIC_SOUNDSYSDESCRIP,14,23,288,29
-    CONTROL         "Windows audio",IDC_RADIO_WINAUDIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,181,58,109,10
     CONTROL         "DirectSound (default)",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,76,58,98,10
-    LTEXT           "Input device",IDC_STATIC_INPUT,37,93,82,8
+    CONTROL         "Windows audio",IDC_RADIO_WINAUDIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,181,58,109,10
+    LTEXT           "Mixer device",IDC_STATIC_MIXERDEVICE,37,78,78,8
     COMBOBOX        IDC_COMBO_MIXER,123,76,110,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Input device",IDC_STATIC_INPUT,37,93,82,8
     COMBOBOX        IDC_COMBO_INPUTDRIVER,123,91,110,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Output device",IDC_STATIC_OUTPUT,37,114,81,8
     COMBOBOX        IDC_COMBO_OUTPUTDRIVER,123,112,110,41,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,129,130,53,14
     LTEXT           "By pressing ""Test selected"" you can test the currently selected devices and hear whether you're able to play the audio recorded by the selected input device.",IDC_STATIC_TESTDESCRIP,14,151,288,20
-    LTEXT           "Mixer device",IDC_STATIC_MIXERDEVICE,37,78,78,8
 END
 
 IDD_WIZARD_COMPLETIONPAGE DIALOGEX 0, 0, 317, 212
@@ -1705,13 +1705,6 @@ STRINGTABLE
 BEGIN
     IDS_YES                 "Yes"
     IDS_NO                  "No"
-    IDS_GENERAL             "General"
-    IDS_ADVANCED            "Advanced"
-    IDS_CLIENT              "Client"
-    IDS_WINDOW              "Window"
-    IDS_VOICEQUALITY        "Voice quality"
-    IDS_SOUNDEVENTS         "Sound events"
-    IDS_SOUNDSYSTEM         "Sound system"
     IDS_CHANNEL_SELF_JOINED "Joined channel %s"
     IDS_SUPPORTS3D          "Output device supports 3D sound"
     IDS_NOSUPPORTS3D        "Output device does not support 3D sound"
@@ -1743,14 +1736,16 @@ BEGIN
     IDS_IDHELP              "&Help"
     IDS_NEWNICKNAME         "New nickname"
     IDS_CHANGENICKNAME      "Change nickname"
-    IDS_SHORTCUTS           "Shortcuts"
     IDS_CLASSROOM_SELF_JOINED "Joined classroom channel %s"
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
     IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_VIDEOCAPTURE        "Video Capture"
+END
+
+STRINGTABLE
+BEGIN
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 

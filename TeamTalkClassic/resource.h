@@ -19,13 +19,6 @@
 #define IDS_UPDEXISTINGCHANNEL          111
 #define IDS_YES                         112
 #define IDS_NO                          113
-#define IDS_GENERAL                     114
-#define IDS_ADVANCED                    115
-#define IDS_CLIENT                      116
-#define IDS_WINDOW                      117
-#define IDS_VOICEQUALITY                118
-#define IDS_SOUNDEVENTS                 119
-#define IDS_SOUNDSYSTEM                 120
 #define IDS_CHANNEL_SELF_JOINED         121
 #define IDS_SUPPORTS3D                  122
 #define IDS_NOSUPPORTS3D                123
@@ -37,7 +30,6 @@
 #define IDS_IDHELP                      129
 #define IDS_NEWNICKNAME                 130
 #define IDS_CHANGENICKNAME              131
-#define IDS_SHORTCUTS                   132
 #define IDS_CLASSROOM_SELF_JOINED       133
 #define IDS_FILES                       134
 #define IDS_CHAT                        135
@@ -46,7 +38,6 @@
 #define IDS_DESKTOPINPUT_RETRACT        139
 #define IDD_DIALOG_SERVERPROPERTIES     140
 #define IDD_DIALOG_USERACCOUNTS         141
-#define IDS_VIDEOCAPTURE                143
 #define IDD_DIALOG_MOVETOCHANNEL        144
 #define IDD_DIALOG_SERVERSTATISTICS     145
 #define IDD_DIALOG_ONLINEUSERS          146
