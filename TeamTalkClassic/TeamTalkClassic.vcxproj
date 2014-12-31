@@ -1077,7 +1077,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 %(Filename)%(Extension) &gt;&gt; hlp\HTM
     <ClInclude Include="gui\AdvancedPage.h" />
     <ClInclude Include="gui\ClientPage.h" />
     <ClInclude Include="gui\GeneralPage.h" />
-    <ClInclude Include="gui\HostingPage.h" />
     <ClInclude Include="gui\MyPropertySheet.h" />
     <ClInclude Include="gui\ShortcutsPage.h" />
     <ClInclude Include="gui\SoundEventsPage.h" />
