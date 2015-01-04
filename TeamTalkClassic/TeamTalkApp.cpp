@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "TeamTalkApp.h"
 #include "TeamTalkDlg.h"
+#include "AppInfo.h"
 
 #include "mdump.h"
 

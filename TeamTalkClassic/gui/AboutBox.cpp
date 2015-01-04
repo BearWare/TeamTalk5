@@ -2,7 +2,7 @@
 #include "Resource.h"
 #include "AboutBox.h"
 
-#include "TeamTalkDlg.h"
+#include "AppInfo.h"
 
 // CAboutBox dialog
 

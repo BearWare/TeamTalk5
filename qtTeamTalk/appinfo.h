@@ -23,7 +23,7 @@
 #define APPINFO_H
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION          "5.0 - BETA3"
+#define APPVERSION          "5.0 - BETA4"
 #define APPVERSION_SHORT    "5.0"
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
 #define APPTRAYICON         QString::fromUtf8(":/images/images/teamtalky.png")

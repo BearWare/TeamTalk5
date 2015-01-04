@@ -851,6 +851,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppInfo.h" />
     <ClInclude Include="gui\GenerateTTFileDlg.h" />
     <ClInclude Include="gui\StreamMediaDlg.h" />
     <ClInclude Include="Helper.h" />

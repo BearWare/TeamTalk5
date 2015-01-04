@@ -64,6 +64,7 @@
 #include "wizard/WizCompletionPage.h"
 
 #include "Helper.h"
+#include "AppInfo.h"
 
 #include <string>
 #include <iterator>

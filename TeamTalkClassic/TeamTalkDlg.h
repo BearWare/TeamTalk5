@@ -46,33 +46,6 @@
 #include "afxwin.h"
 #include <afxpriv.h>
 
-#define APPVERSION              _T("5.0 - BETA3")
-#define APPVERSION_SHORT        _T("5.0")
-
-#ifdef ENABLE_ENCRYPTION
-#define APPTITLE                _T("TeamTalk 5 Classic Professional v. ") APPVERSION
-#define APPNAME                 _T("TeamTalk 5 Classic Professional")
-#define APPTITLE_SHORT          _T("TeamTalk5ClassicPro")
-#define SETTINGS_FILE           "TeamTalk5ClassicPro.xml"
-#else
-#define APPTITLE                _T("TeamTalk 5 Classic v. ") APPVERSION
-#define APPNAME                 _T("TeamTalk 5 Classic")
-#define APPTITLE_SHORT          _T("TeamTalk5Classic")
-#define SETTINGS_FILE           "TeamTalk5Classic.xml"
-#endif
-
-#define MANUALFILE _T("TeamTalk5.chm")
-#define WEBSITE _T("http://www.bearware.dk")
-#define TEAMTALK_INSTALLDIR _T("BearWare.dk")
-#define TTURL _T("tt://")
-#define TT_XML_ROOTNAME "teamtalk"
-#define TTFILE_EXT          ".tt"
-
-#define MP3ENCDLL_FILENAME _T("lame_enc.dll")
-
-#define URL_PUBLICSERVER    _T("http://www.bearware.dk/teamtalk/tt5servers.php?client=") APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
-#define URL_APPUPDATE       _T("http://www.bearware.dk/teamtalk/tt5update.php?client=")  APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
-
 #define WM_TRAY_MSG                 (WM_USER+900)
 #define WM_TEAMTALKDLG_TTFILE       (WM_USER+901)
 #define WM_TEAMTALKDLG_TTLINK       (WM_USER+902)

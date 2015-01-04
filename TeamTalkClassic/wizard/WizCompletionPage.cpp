@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 #include "TeamTalkApp.h"
-#include "TeamTalkDlg.h"
 #include "WizCompletionPage.h"
+#include "AppInfo.h"
 
 
 // CWizCompletionPage dialog

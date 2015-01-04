@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "IpAddressesDlg.h"
-#include "TeamTalkDlg.h"
+#include "AppInfo.h"
 #include <winsock2.h>
 
 #ifdef _DEBUG

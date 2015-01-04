@@ -4,8 +4,9 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "GenerateTTFileDlg.h"
-#include "TeamTalkDlg.h"
 #include "KeyCompDlg.h"
+#include "AppInfo.h"
+
 #include <settings/ClientXML.h>
 
 // CGenerateTTFileDlg dialog

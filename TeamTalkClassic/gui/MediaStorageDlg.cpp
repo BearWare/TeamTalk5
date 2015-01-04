@@ -5,7 +5,7 @@
 #include "../Resource.h"
 #include "MediaStorageDlg.h"
 #include <Helper.h>
-#include <TeamTalkDlg.h>
+#include <AppInfo.h>
 
 // CMediaStorageDlg dialog
 

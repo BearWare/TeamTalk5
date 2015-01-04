@@ -6,6 +6,7 @@
 #include "HostManagerDlg.h"
 #include "TeamTalkDlg.h"
 #include "GenerateTTFileDlg.h"
+#include "AppInfo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
