@@ -41,9 +41,10 @@
     <item id="155">.TT Dosyası Oluştur</item>
     <item id="201">Mesaj</item>
     <item id="205">Durum Değiştir</item>
-    <item id="212"></item>
+    <item id="212">Ekran</item>
     <item id="215">Genel</item>
     <item id="220">Gelişmiş</item>
+    <item id="221">Bağlantı</item>
     <item id="223">Ses Olayları</item>
     <item id="224">Ses Sistemi</item>
     <item id="227">Kullanıcı Bilgisi</item>
@@ -70,7 +71,7 @@
     <item id="1030">&amp;Bağlan</item>
     <item id="1035">Kullanıcı Kimliği</item>
     <item id="1036">Kullanıcı Adı</item>
-    <item id="1042">Bu Setup programı TeamTalk konferans uygulaması kurulumunca size yardım edecektir. Devam etmek için Next, Iptal etmek için Cancel tıklayabilirsiniz</item>
+    <item id="1042">Bu Setup programı TeamTalk konferans uygulaması kurulumunca size yardım edecektir. Devam etmek için Next, Iptal etmek için Cancel tıklayabilirsiniz. </item>
     <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol et</item>
     <item id="1045"></item>
     <item id="1047">Dosya Boyutu</item>
@@ -221,7 +222,7 @@
     <item id="1330">Yasakla</item>
     <item id="1331">Yasağı kaldır</item>
     <item id="1332">Program güncellemelerini denetle</item>
-    <item id="1333">p2p modunu etkinleştir</item>
+    <item id="1333">p2p bağlantı etkinleştir</item>
     <item id="1334">Kamu sunucuları dahil</item>
     <item id="1335">Kullanıcı birden çok kez giriş yapabilir</item>
     <item id="1339">Yayınlar operatör kontrolünde</item>
@@ -422,15 +423,15 @@
     <item id="32898">K&amp;ullanıcı mesajlarını takip et\tCtrl+Shift+1</item>
     <item id="32899">K&amp;anal Mesajlarını takip et\tCtrl+Shift+2</item>
     <item id="32900">Görüntüleri &amp;Takip et\tCtrl+Shift+5</item>
-    <item id="32901">S&amp;es aktarımına izin ver\tCtrl+Alt+Q</item>
-    <item id="32902">V&amp;ideo aktarımına izin ver\TCtrl+Alt+W</item>
+    <item id="32901">S&amp;es iletimine izin ver\tCtrl+Alt+Q</item>
+    <item id="32902">V&amp;ideo iletimine izin ver\TCtrl+Alt+W</item>
     <item id="32903">Sunucu &amp;İstatistikleri\tShift+F9</item>
     <item id="32904">&amp;Çevrimiçi Kullanıcılar\tCtrl+Shift+U</item>
     <item id="32905">&amp;At\tCtrl+K</item>
     <item id="32906">&amp;At ve girişini yasakla\tCtrl+Shift+K</item>
     <item id="32907">&amp;Operatör yetkisi ver\tCtrl+O</item>
     <item id="32908">M&amp;esaj yayımla\tCtrl+Alt+B</item>
-    <item id="32909">Video &amp;Aktarımını etkinleştir\tCtrl+Shift+V</item>
+    <item id="32909">Video &amp;iletimini etkinleştir\tCtrl+Shift+V</item>
     <item id="32914">&amp;Masaüstü\tCtrl+6</item>
     <item id="32915">M&amp;asaüstünü takip et\tCtrl+Shift+6</item>
     <item id="32916">Masaüstü&amp;Paylaşımını Etkinleştir\tCtrl+Shift+D</item>
@@ -447,7 +448,7 @@
     <item id="32933">&amp;Sesi azalt -10</item>
     <item id="32934">Medya Sesimi Artır+10</item>
     <item id="32935">Medya Sesini Azalt -10</item>
-    <item id="32936">Masaüstü aktarımına izin ver</item>
+    <item id="32936">Masaüstü iletimine izin ver</item>
     <item id="32937">Medya yayınına izin ver</item>
     <item id="32938">Medya dosyası yayını</item>
     <item id="32939">Medya yayınını takip et</item>

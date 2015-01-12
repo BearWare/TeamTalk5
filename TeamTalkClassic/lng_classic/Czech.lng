@@ -22,10 +22,10 @@
     <item id="129">&amp;Nápověda</item>
     <item id="130">Nová přezdívka</item>
     <item id="131">Změnit přezdívku</item>
-    <item id="133">Vstoupili jste na třídní kanál %s</item>
+    <item id="133">Vstoupili jste na kontrolovaný kanál %s</item>
     <item id="134">Soubory</item>
     <item id="135">Chat</item>
-    <item id="136">Soubor %s obsahuje informace o nastavení.\r\nChcete tato nastavení použít?</item>
+    <item id="136">Soubor %s obsahuje informace o nastavení klienta %s.\r\nChcete tato nastavení použít?</item>
     <item id="138">%s požaduje sdílení obrazovky</item>
     <item id="139">%s přerušil sdílení obrazovky</item>
     <item id="140">Vlastnosti serveru</item>
@@ -41,8 +41,10 @@
     <item id="155">Vytvořit soubor .tt</item>
     <item id="201">Zprávy</item>
     <item id="205">Změnit stav</item>
+    <item id="212">Zobrazování</item>
     <item id="215">Obecné</item>
     <item id="220">Pokročilé</item>
+    <item id="221">Připojení</item>
     <item id="223">Zvukové události</item>
     <item id="224">Zvukový systém</item>
     <item id="227">Informace o uživateli</item>
@@ -174,7 +176,7 @@
     <item id="1231">&amp;Odeslat</item>
     <item id="1236">Vítejte v průvodci nastavením programu TeamTalk</item>
     <item id="1237">Úvodní nastavení programu TeamTalk dokončeno</item>
-    <item id="1240">Přeložil Roberto Lombino</item>
+    <item id="1240">Přeložil Roberto Lombino (robertolombino@volny.cz)</item>
     <item id="1241">Jazykové rozhraní</item>
     <item id="1243">Zařízení směšovače hlasitosti</item>
     <item id="1245">Použít jiný jazyk instalace</item>
@@ -223,7 +225,7 @@
     <item id="1333">Zapnout režim peer to peer (P2P)</item>
     <item id="1334">Zobrazit veřejné servery</item>
     <item id="1335">Uživatel se může přihlásit víckrát</item>
-    <item id="1339">Třídní kanál (operátor uděluje hlas jednotlivým uživatelům)</item>
+    <item id="1339">Kontrolovaný kanál (operátor uděluje hlas jednotlivým uživatelům)</item>
     <item id="1341">Stejná hlasitost pro všechny uživatele</item>
     <item id="1345">Povolit režim duplex (nezbytné pro odstranění ozvěny)</item>
     <item id="1347">Ignorovat ticho</item>
@@ -263,7 +265,7 @@
     <item id="1406">Omezení zvukového kodeku</item>
     <item id="1407">Omezení šířky pásma serveru</item>
     <item id="1411">Kodek</item>
-    <item id="1412">Nastavení zvuku</item>
+    <item id="1412">Doplňkové nastavení zvuku</item>
     <item id="1413">Úroveň hlasitosti</item>
     <item id="1414">Minimalizovat/zobrazit</item>
     <item id="1415">Momentálně uživatelů na serveru</item>
@@ -406,11 +408,11 @@
     <item id="32869">Uži&amp;vatelské účty\tCtrl+Shift+L</item>
     <item id="32870">&amp;Server</item>
     <item id="32871">&amp;Uložit nastavení\tCtrl+Shift+S</item>
-    <item id="32877">&amp;Fronta pro přenesení\tCtrl+Alt+X</item>
+    <item id="32877">&amp;Uložit pro pozdější přenesení\tCtrl+Alt+X</item>
     <item id="32878">&amp;Přesunout uživatele\tCtrl+Alt+V</item>
     <item id="32882">&amp;Zakázaní uživatelé\tCtrl+Shift+B</item>
     <item id="32885">Vykopnout a &amp;zakázat přístup\tCtrl+Shift+K</item>
-    <item id="32888">Na&amp;hrávat konverzace\tCtrl+Alt+A</item>
+    <item id="32888">Za&amp;znamenávat konverzace\tCtrl+Alt+A</item>
     <item id="32890">&amp;Dialog pro přesunutí uživatele\tCtrl+Alt+M</item>
     <item id="32892">&amp;Soukromé zprávy\tCtrl++</item>
     <item id="32893">Zprávy v &amp;chatu\tCtrl+Ě</item>

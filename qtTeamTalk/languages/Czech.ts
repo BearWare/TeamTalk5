@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ" sourcelanguage="en">
+<TS version="2.0" language="cs_CZ" sourcelanguage="en">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -18,43 +18,43 @@
     <name>AudioStorageDlg</name>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">Uložit Audio na disk</translation>
+        <translation>Uložit Audio na disk</translation>
     </message>
     <message>
         <source>Audio file storage</source>
-        <translation type="vanished">Úložiště zvukového souboru</translation>
+        <translation>Úložiště zvukového souboru</translation>
     </message>
     <message>
         <source>Storage mode</source>
-        <translation type="vanished">Mód</translation>
+        <translation>Mód</translation>
     </message>
     <message>
         <source>Single audio file for all users</source>
-        <translation type="vanished">Jeden soubor pro všechny uživatele</translation>
+        <translation>Jeden soubor pro všechny uživatele</translation>
     </message>
     <message>
         <source>Separate audio file for each user</source>
-        <translation type="vanished">Každý uživatel má vlastní soubor</translation>
+        <translation>Každý uživatel má vlastní soubor</translation>
     </message>
     <message>
         <source>Audio file format</source>
-        <translation type="vanished">Formát souboru</translation>
+        <translation>Formát souboru</translation>
     </message>
     <message>
         <source>Folder for audio files</source>
-        <translation type="vanished">Adresář souboru</translation>
+        <translation>Adresář souboru</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Storage mode not selected</source>
-        <translation type="vanished">Není nastaveno úložiště</translation>
+        <translation>Není nastaveno úložiště</translation>
     </message>
     <message>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Adresář pro uložení audio souboru neexistuje</translation>
+        <translation>Adresář pro uložení audio souboru neexistuje</translation>
     </message>
 </context>
 <context>
@@ -174,20 +174,20 @@
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Permanent channel (stored on server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Trvalý kanál (uložený na servru)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="179"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez přerušení ( ne simultální přednos zvuku)</translation>
     </message>
     <message>
         <source>Static channel (persistent)</source>
-        <translation type="vanished">Stálý kanál (trvalý)</translation>
+        <translation>Stálý kanál (trvalý)</translation>
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
-        <translation type="vanished">Ozvěna kanálu (slyším sám sebe)</translation>
+        <translation>Ozvěna kanálu (slyším sám sebe)</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
@@ -195,7 +195,7 @@
     </message>
     <message>
         <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="vanished">Žádné přerušení (Obousměrný audio přenos vypnut)</translation>
+        <translation>Žádné přerušení (Obousměrný audio přenos vypnut)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="186"/>
@@ -204,11 +204,11 @@
     </message>
     <message>
         <source>Echo video (see own video stream)</source>
-        <translation type="vanished">Zapni video (zobrazí video přenosy)</translation>
+        <translation>Zapni video (zobrazí video přenosy)</translation>
     </message>
     <message>
         <source>Echo desktop (see your shared desktop)</source>
-        <translation type="vanished">Zapni Plochu (zobrazí sdílené Plochy)</translation>
+        <translation>Zapni Plochu (zobrazí sdílené Plochy)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="193"/>
@@ -218,26 +218,26 @@
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez hlasové aktivace (jenom zmáčkni a mluv)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="207"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepovolené nahrávání audia (ukládání na disk není povoleno)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="259"/>
         <location filename="../channel.ui" line="397"/>
         <location filename="../channel.ui" line="583"/>
         <source>Sample rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Samplovací rychlost</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="271"/>
         <location filename="../channel.ui" line="409"/>
         <location filename="../channel.ui" line="595"/>
         <source>Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="343"/>
@@ -255,7 +255,7 @@
     </message>
     <message>
         <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="vanished">CELT 0.5.2 kodek je zastaralý.</translation>
+        <translation>CELT 0.5.2 kodek je zastaralý.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="468"/>
@@ -276,7 +276,7 @@
     <message>
         <location filename="../channel.ui" line="556"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplikace</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="644"/>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../channel.ui" line="656"/>
         <source>Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="729"/>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Šumový filtr</translation>
+        <translation>Šumový filtr</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="34"/>
@@ -333,15 +333,15 @@
     </message>
     <message>
         <source>8 KHz</source>
-        <translation type="vanished">8 KHz</translation>
+        <translation>8 KHz</translation>
     </message>
     <message>
         <source>16 KHz</source>
-        <translation type="vanished">16 KHz</translation>
+        <translation>16 KHz</translation>
     </message>
     <message>
         <source>32 KHz</source>
-        <translation type="vanished">32 KHz</translation>
+        <translation>32 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="293"/>
@@ -351,7 +351,7 @@
     </message>
     <message>
         <source>44.1 KHz</source>
-        <translation type="vanished">44.1 KHz</translation>
+        <translation>44.1 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="617"/>
@@ -381,12 +381,12 @@
     <message>
         <location filename="../channeldlg.cpp" line="78"/>
         <source>VoIP</source>
-        <translation type="unfinished"></translation>
+        <translation>VoIP</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="79"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Hudba</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="118"/>
@@ -446,71 +446,71 @@
     <name>ConnectDlg</name>
     <message>
         <source>Connect to a Server</source>
-        <translation type="vanished">Připojit se k servru</translation>
+        <translation>Připojit se k servru</translation>
     </message>
     <message>
         <source>Server Information</source>
-        <translation type="vanished">Informace o servru</translation>
+        <translation>Informace o servru</translation>
     </message>
     <message>
         <source>Host IP-address</source>
-        <translation type="vanished">Adresa servru</translation>
+        <translation>Adresa servru</translation>
     </message>
     <message>
         <source>E.g. 192.168.1.154</source>
-        <translation type="vanished">Např. 192.168.1.15</translation>
+        <translation>Např. 192.168.1.15</translation>
     </message>
     <message>
         <source>TCP port</source>
-        <translation type="vanished">TCP port</translation>
+        <translation>TCP port</translation>
     </message>
     <message>
         <source>10333</source>
-        <translation type="vanished">10333</translation>
+        <translation>10333</translation>
     </message>
     <message>
         <source>Default: 10333</source>
-        <translation type="vanished">Standardně:10333</translation>
+        <translation>Standardně:10333</translation>
     </message>
     <message>
         <source>UDP port</source>
-        <translation type="vanished">UDP port</translation>
+        <translation>UDP port</translation>
     </message>
     <message>
         <source>Authentication (optional)</source>
-        <translation type="vanished">Autentizace (nepovinná)</translation>
+        <translation>Autentizace (nepovinná)</translation>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Heslo servru</translation>
+        <translation>Heslo servru</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="vanished">Nepovinné</translation>
+        <translation>Nepovinné</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">Přihlášení pomocí uživatelského účtu</translation>
+        <translation>Přihlášení pomocí uživatelského účtu</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="vanished">Uživatelské jméno</translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="vanished">Heslo</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="vanished">Uživatelské jméno a heslo je li potřebné při přihlašování</translation>
+        <translation>Uživatelské jméno a heslo je li potřebné při přihlašování</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">Připojit specifický kanál po autentifikaci (nepovinné)</translation>
+        <translation>Připojit specifický kanál po autentifikaci (nepovinné)</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="vanished">Kanál</translation>
+        <translation>Kanál</translation>
     </message>
 </context>
 <context>
@@ -769,118 +769,118 @@
     <message>
         <location filename="../generatettfile.ui" line="14"/>
         <source>Generate .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>Generuj .tt.soubor</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Oveření (nastavení)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
         <source>Password</source>
-        <translation type="unfinished">Heslo</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="79"/>
         <source>Client settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení uživatele</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepsat předdefinované nastavení</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
         <source>User Settings</source>
-        <translation type="unfinished">Nastavení uživatele</translation>
+        <translation>Nastavení uživatele</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="102"/>
         <source>Nickname</source>
-        <translation type="unfinished">Přezdívka</translation>
+        <translation>Přezdívka</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="123"/>
         <source>Gender</source>
-        <translation type="unfinished">Pohlaví</translation>
+        <translation>Pohlaví</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="158"/>
         <source>Male</source>
-        <translation type="unfinished">Muž</translation>
+        <translation>Muž</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="171"/>
         <source>Female</source>
-        <translation type="unfinished">Žena</translation>
+        <translation>Žena</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="196"/>
         <source>Voice Transmission Mode</source>
-        <translation type="unfinished">Nastavení audio vysílání</translation>
+        <translation>Nastavení audio vysílání</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="211"/>
         <source>Push To Talk</source>
-        <translation type="unfinished">Stiskni a mluv</translation>
+        <translation>Stiskni a mluv</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="221"/>
         <source>&amp;Setup Keys</source>
-        <translation type="unfinished">&amp;Nastevení klávesy</translation>
+        <translation>&amp;Nastevení klávesy</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="228"/>
         <source>Key Combination</source>
-        <translation type="unfinished">Kombinace kláves</translation>
+        <translation>Kombinace kláves</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="251"/>
         <source>Voice activated</source>
-        <translation type="unfinished">Aktivace hlasem</translation>
+        <translation>Aktivace hlasem</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="271"/>
         <source>Video Codec Settings</source>
-        <translation type="unfinished">Nastavení kodeku</translation>
+        <translation>Nastavení kodeku</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="274"/>
         <source>Video Capture Settings</source>
-        <translation type="unfinished">Nastavení videa</translation>
+        <translation>Nastavení video záznamu</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="283"/>
         <source>Video Resolution</source>
-        <translation type="unfinished">Rozlišení</translation>
+        <translation>Video Rozlišení</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="300"/>
         <source>Codec</source>
-        <translation type="unfinished">Kodek</translation>
+        <translation>Kodek</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="323"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="415"/>
         <source>&amp;Save .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ulož .tt Soubor</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="422"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Zavřít</translation>
+        <translation>&amp;Zavřít</translation>
     </message>
 </context>
 <context>
@@ -889,23 +889,23 @@
         <location filename="../generatettfiledlg.cpp" line="64"/>
         <location filename="../generatettfiledlg.cpp" line="75"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakýkoliv</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="166"/>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulož soubor</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="167"/>
         <source>%1 File (*%1)</source>
-        <translation type="unfinished">%1 Soubor (*%1)</translation>
+        <translation>%1 Soubor (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">Nelze uložit soubor</translation>
+        <translation>Nelze uložit soubor</translation>
     </message>
 </context>
 <context>
@@ -955,746 +955,752 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="717"/>
+        <location filename="../mainwindow.cpp" line="729"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>Připojeno k %1 TCP port %2 UDP port%3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="731"/>
-        <location filename="../mainwindow.cpp" line="1519"/>
+        <location filename="../mainwindow.cpp" line="743"/>
+        <location filename="../mainwindow.cpp" line="1522"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Chyba připojení %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="743"/>
+        <location filename="../mainwindow.cpp" line="755"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Odpojeno od %1 TCP port %2 UDP port%3</translation>
     </message>
     <message>
         <source>Established P2P connection to %1</source>
-        <translation type="vanished">Chyba P2P spojení %1</translation>
+        <translation>Chyba P2P spojení %1</translation>
     </message>
     <message>
         <source>Failed to establish P2P connection to %1</source>
-        <translation type="vanished">Chyba připojení P2P %1</translation>
+        <translation>Chyba připojení P2P %1</translation>
     </message>
     <message>
         <source>%1 will be unavailable for audio transmission</source>
-        <translation type="vanished">%1 nedostupný audio přenos</translation>
+        <translation>%1 nedostupný audio přenos</translation>
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
-        <translation type="vanished">%1 nedostupný video přenos</translation>
+        <translation>%1 nedostupný video přenos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="781"/>
+        <location filename="../mainwindow.cpp" line="793"/>
         <source>Logged in</source>
         <translation>Připojen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="786"/>
+        <location filename="../mainwindow.cpp" line="798"/>
         <source>Logged out</source>
         <translation>Odpojen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2165"/>
+        <location filename="../mainwindow.cpp" line="2168"/>
         <source>Joined channel %1</source>
         <translation>Připojen kanál %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="796"/>
+        <location filename="../mainwindow.cpp" line="808"/>
         <source>Kicked by %1</source>
         <translation>Vykopnut %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="799"/>
+        <location filename="../mainwindow.cpp" line="811"/>
         <source>Kicked by unknown user</source>
         <translation>Vykopnut neznámý uživatele</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="vanished">P2P audio Zapnuto!</translation>
+        <translation>P2P audio Zapnuto!</translation>
     </message>
     <message>
         <source>Peer to peer networking for audio disabled!</source>
-        <translation type="vanished">P2P pro Audio zakázáno!</translation>
+        <translation>P2P pro Audio zakázáno!</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="vanished">P2P video zapnuto!</translation>
+        <translation>P2P video zapnuto!</translation>
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
-        <translation type="vanished">P2P pro video zakázáno!</translation>
+        <translation>P2P pro video zakázáno!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4814"/>
+        <location filename="../mainwindow.cpp" line="4828"/>
         <source>%1 joined channel</source>
         <translation>%1 přihlášený kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4830"/>
+        <location filename="../mainwindow.cpp" line="4844"/>
         <source>%1 left channel</source>
         <translation>%1 opustil kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="952"/>
-        <location filename="../mainwindow.cpp" line="3769"/>
+        <location filename="../mainwindow.cpp" line="964"/>
+        <location filename="../mainwindow.cpp" line="3783"/>
         <source>Failed to download file %1</source>
         <translation>Chyba stahování souboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="956"/>
-        <location filename="../mainwindow.cpp" line="4185"/>
+        <location filename="../mainwindow.cpp" line="968"/>
+        <location filename="../mainwindow.cpp" line="4199"/>
         <source>Failed to upload file %1</source>
         <translation>Nelze uložit soubor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="971"/>
-        <location filename="../mainwindow.cpp" line="1465"/>
+        <location filename="../mainwindow.cpp" line="983"/>
+        <location filename="../mainwindow.cpp" line="1477"/>
         <source>Failed to initialize sound input device</source>
         <translation>Nelze iniciovat audio vstup</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="973"/>
-        <location filename="../mainwindow.cpp" line="1470"/>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <location filename="../mainwindow.cpp" line="1482"/>
         <source>Failed to initialize sound output device</source>
         <translation>Nelze iniciovat audio výstup</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="984"/>
+        <location filename="../mainwindow.cpp" line="996"/>
         <source>Internal Error</source>
         <translation>Interní chyba</translation>
     </message>
     <message>
         <source>Error streaming audio file to %1</source>
-        <translation type="vanished">Chyba ukládání audio souboru %1</translation>
+        <translation>Chyba ukládání audio souboru %1</translation>
     </message>
     <message>
         <source>Started streaming audio file to %1</source>
-        <translation type="vanished">Ukládání audia do %1</translation>
+        <translation>Ukládání audia do %1</translation>
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
-        <translation type="vanished">Audio soubor %1 uložen</translation>
+        <translation>Audio soubor %1 uložen</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
-        <translation type="vanished">Nezdařený záznam audio souboru %1</translation>
+        <translation>Nezdařený záznam audio souboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1026"/>
+        <location filename="../mainwindow.cpp" line="1038"/>
         <source>Error streaming media file to channel</source>
         <translation>Chyba při vytváření media souboru na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1030"/>
+        <location filename="../mainwindow.cpp" line="1042"/>
         <source>Started streaming media file to channel</source>
         <translation>Spuštění záznamum media souboru na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1033"/>
+        <location filename="../mainwindow.cpp" line="1045"/>
         <source>Finished streaming media file to channel</source>
         <translation>Dokončen záznam media souboru na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1037"/>
+        <location filename="../mainwindow.cpp" line="1049"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Přerušen záznam media souboru na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1086"/>
-        <location filename="../mainwindow.cpp" line="1118"/>
+        <location filename="../mainwindow.cpp" line="1098"/>
+        <location filename="../mainwindow.cpp" line="1130"/>
         <source>New video session from %1</source>
         <translation>Nová video schůzka pro %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1145"/>
+        <location filename="../mainwindow.cpp" line="1157"/>
         <source>New desktop session from %1</source>
         <translation>Nové sdílení Plochy pro %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1173"/>
+        <location filename="../mainwindow.cpp" line="1185"/>
         <source>Your desktop session was cancelled</source>
         <translation>Tvoje sdílení Plochy je zrušeno</translation>
     </message>
     <message>
         <source>Failed to write audio file for %1</source>
-        <translation type="vanished">Chyba zápisu audio souboru %1</translation>
+        <translation>Chyba zápisu audio souboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1457"/>
+        <location filename="../mainwindow.cpp" line="1469"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>Nepodařilo se inicializovat zvukový duplexní režim</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1481"/>
+        <location filename="../mainwindow.cpp" line="1493"/>
         <source>Switching to default sound devices</source>
         <translation>Přechod na výchozí zvukové zařízení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1485"/>
+        <location filename="../mainwindow.cpp" line="1497"/>
         <source>Unable to get default sound devices</source>
         <translation>Nelze nastavit výchozí zvukové zařízení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1494"/>
+        <location filename="../mainwindow.cpp" line="1506"/>
         <source>Failed to initialize default sound devices</source>
         <translation>Chyba inicializace výchozího zvukového zařízení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1514"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Připojuji k %1 TCP port %2 UDP port%3</translation>
     </message>
     <message>
         <source>Failed to connect to encrypted server</source>
-        <translation type="vanished">Chyba připojení na šifrovaný servr</translation>
+        <translation>Chyba připojení na šifrovaný servr</translation>
     </message>
     <message>
         <source>Failed to connect to server</source>
-        <translation type="vanished">Chyba připojení k servru</translation>
+        <translation>Chyba připojení k servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1557"/>
-        <location filename="../mainwindow.cpp" line="2280"/>
+        <location filename="../mainwindow.cpp" line="1560"/>
+        <location filename="../mainwindow.cpp" line="2283"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1566"/>
+        <location filename="../mainwindow.cpp" line="1569"/>
         <source>This client is not compatible with the server,  so the action cannot be performed.</source>
         <translation>Tato verze není kompatibilní se servrem, akce nebude provedena.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1575"/>
-        <location filename="../mainwindow.cpp" line="1580"/>
-        <location filename="../mainwindow.cpp" line="1609"/>
-        <location filename="../mainwindow.cpp" line="1614"/>
+        <location filename="../mainwindow.cpp" line="1578"/>
+        <location filename="../mainwindow.cpp" line="1583"/>
+        <location filename="../mainwindow.cpp" line="1612"/>
+        <location filename="../mainwindow.cpp" line="1617"/>
         <source>Login error</source>
         <translation>Chyba připojení</translation>
     </message>
     <message>
         <source>Incorrect server password. Try again:</source>
-        <translation type="vanished">Nesprávné heslo servru. Zadej znovu:</translation>
+        <translation>Nesprávné heslo servru. Zadej znovu:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1576"/>
+        <location filename="../mainwindow.cpp" line="1579"/>
         <source>Invalid user account. Type username:</source>
         <translation>Špatné uživatelské jméno:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1581"/>
+        <location filename="../mainwindow.cpp" line="1584"/>
         <source>Invalid user account. Type password:</source>
         <translation>Špatné uživatelské heslo:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1597"/>
+        <location filename="../mainwindow.cpp" line="1600"/>
         <source>Join channel error</source>
         <translation>Chyba přihlášení ke kanálu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1598"/>
+        <location filename="../mainwindow.cpp" line="1601"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>Nezprávné heslo kanálu. Zadej znovu:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1610"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>Banned from server</source>
         <translation>Zablokován na servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1612"/>
+        <location filename="../mainwindow.cpp" line="1615"/>
         <source>Command not authorized</source>
         <translation>Neautorizovaný příklaz</translation>
     </message>
     <message>
         <source>Channel creation not allowed</source>
-        <translation type="vanished">Vytvoření kanálu zakázáno</translation>
+        <translation>Vytvoření kanálu zakázáno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1615"/>
+        <location filename="../mainwindow.cpp" line="1618"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Překročen počet uživatelů na servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1617"/>
+        <location filename="../mainwindow.cpp" line="1620"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Překročen limit disku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1619"/>
+        <location filename="../mainwindow.cpp" line="1622"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Překročen počet uživatelů na kanále</translation>
     </message>
     <message>
         <source>Modifying subscriptions is not allowed</source>
-        <translation type="vanished">Změna nastavení zakázána</translation>
+        <translation>Změna nastavení zakázána</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1621"/>
+        <location filename="../mainwindow.cpp" line="1624"/>
         <source>Incorrect channel operator password</source>
         <translation>Chybné heslo operátora kanálu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1625"/>
+        <location filename="../mainwindow.cpp" line="1628"/>
         <source>Already logged in</source>
         <translation>Již připojen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1627"/>
+        <location filename="../mainwindow.cpp" line="1630"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Nelze provést neboť klient není přihlášen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1630"/>
+        <location filename="../mainwindow.cpp" line="1633"/>
         <source>Cannot join the same channel twice</source>
         <translation>Nelze se přihlásit do kanálu dvakrát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1632"/>
+        <location filename="../mainwindow.cpp" line="1635"/>
         <source>Channel already exists</source>
         <translation>Kanál již existuje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1638"/>
+        <location filename="../mainwindow.cpp" line="1641"/>
         <source>User not found</source>
         <translation>Uživatel nenalezen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1641"/>
+        <location filename="../mainwindow.cpp" line="1644"/>
         <source>Channel not found</source>
         <translation>Kanál nenalezen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1643"/>
+        <location filename="../mainwindow.cpp" line="1646"/>
         <source>Banned user not found</source>
         <translation>Zablokovaný uživatel nenalezen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1645"/>
+        <location filename="../mainwindow.cpp" line="1648"/>
         <source>File transfer not found</source>
         <translation>Chyba přenosu souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1647"/>
+        <location filename="../mainwindow.cpp" line="1650"/>
         <source>User account not found</source>
         <translation>Neexistující účet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1649"/>
+        <location filename="../mainwindow.cpp" line="1652"/>
         <source>File not found</source>
         <translation>Soubor nenalezen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1651"/>
+        <location filename="../mainwindow.cpp" line="1654"/>
         <source>File already exists</source>
         <translation>Soubor již existuje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1653"/>
+        <location filename="../mainwindow.cpp" line="1656"/>
         <source>File sharing is disabled</source>
         <translation>Zdílení souboru vypnuto</translation>
     </message>
     <message>
         <source>Server has active users</source>
-        <translation type="vanished">Na servru jsou aktivní uživatelé</translation>
+        <translation>Na servru jsou aktivní uživatelé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1655"/>
+        <location filename="../mainwindow.cpp" line="1658"/>
         <source>Channel has active users</source>
         <translation>Kanál má aktivní uživatele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1660"/>
+        <location filename="../mainwindow.cpp" line="1663"/>
         <source>Unknown error occured</source>
         <translation>Neznámá chyba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1667"/>
+        <location filename="../mainwindow.cpp" line="1670"/>
         <source>The server reported an error:</source>
         <translation>Neznámá chyba servru:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2135"/>
+        <location filename="../mainwindow.cpp" line="2138"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 žádosti přístupů na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2141"/>
-        <location filename="../mainwindow.cpp" line="3394"/>
+        <location filename="../mainwindow.cpp" line="2144"/>
+        <location filename="../mainwindow.cpp" line="3408"/>
         <source>%1 granted desktop access</source>
         <translation>%1 povolené přístupy na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2147"/>
+        <location filename="../mainwindow.cpp" line="2150"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 nepovolené přístupy na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2691"/>
+        <location filename="../mainwindow.cpp" line="2704"/>
         <source>Failed to stream media file %1</source>
         <translation>Chyba při záznamu media souboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3261"/>
+        <location filename="../mainwindow.cpp" line="3275"/>
         <source>Failed to start desktop sharing</source>
         <translation>Chyba inicializace sdílení pracovní plochy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3784"/>
+        <location filename="../mainwindow.cpp" line="3798"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Opravdu chcete smazat&quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3789"/>
+        <location filename="../mainwindow.cpp" line="3803"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Opravdu chcete smazat %1 soubor(ů)?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4962"/>
+        <location filename="../mainwindow.cpp" line="4977"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4964"/>
+        <location filename="../mainwindow.cpp" line="4979"/>
         <source>Video (%1)</source>
         <translation>Video (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4972"/>
+        <location filename="../mainwindow.cpp" line="4987"/>
         <source>Desktops (%1)</source>
         <translation>Plocha (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1398"/>
+        <location filename="../mainwindow.cpp" line="1410"/>
         <source>Cannot join channel %1</source>
         <translation>Nelze se přihlásit do kanálu %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1937"/>
+        <location filename="../mainwindow.cpp" line="1940"/>
         <source>&amp;Restore</source>
         <translation>&amp;Obnovit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4848"/>
-        <location filename="../mainwindow.cpp" line="4857"/>
-        <location filename="../mainwindow.cpp" line="4866"/>
-        <location filename="../mainwindow.cpp" line="4875"/>
-        <location filename="../mainwindow.cpp" line="4884"/>
-        <location filename="../mainwindow.cpp" line="4893"/>
-        <location filename="../mainwindow.cpp" line="4902"/>
-        <location filename="../mainwindow.cpp" line="4911"/>
-        <location filename="../mainwindow.cpp" line="4920"/>
-        <location filename="../mainwindow.cpp" line="4929"/>
-        <location filename="../mainwindow.cpp" line="4938"/>
+        <location filename="../mainwindow.cpp" line="4863"/>
+        <location filename="../mainwindow.cpp" line="4872"/>
+        <location filename="../mainwindow.cpp" line="4881"/>
+        <location filename="../mainwindow.cpp" line="4890"/>
+        <location filename="../mainwindow.cpp" line="4899"/>
+        <location filename="../mainwindow.cpp" line="4908"/>
+        <location filename="../mainwindow.cpp" line="4917"/>
+        <location filename="../mainwindow.cpp" line="4926"/>
+        <location filename="../mainwindow.cpp" line="4935"/>
+        <location filename="../mainwindow.cpp" line="4944"/>
+        <location filename="../mainwindow.cpp" line="4953"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 změněn popis &quot;%2&quot; na: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4852"/>
-        <location filename="../mainwindow.cpp" line="4861"/>
-        <location filename="../mainwindow.cpp" line="4870"/>
-        <location filename="../mainwindow.cpp" line="4879"/>
-        <location filename="../mainwindow.cpp" line="4888"/>
-        <location filename="../mainwindow.cpp" line="4897"/>
-        <location filename="../mainwindow.cpp" line="4906"/>
-        <location filename="../mainwindow.cpp" line="4915"/>
-        <location filename="../mainwindow.cpp" line="4924"/>
-        <location filename="../mainwindow.cpp" line="4933"/>
-        <location filename="../mainwindow.cpp" line="4942"/>
+        <location filename="../mainwindow.cpp" line="4867"/>
+        <location filename="../mainwindow.cpp" line="4876"/>
+        <location filename="../mainwindow.cpp" line="4885"/>
+        <location filename="../mainwindow.cpp" line="4894"/>
+        <location filename="../mainwindow.cpp" line="4903"/>
+        <location filename="../mainwindow.cpp" line="4912"/>
+        <location filename="../mainwindow.cpp" line="4921"/>
+        <location filename="../mainwindow.cpp" line="4930"/>
+        <location filename="../mainwindow.cpp" line="4939"/>
+        <location filename="../mainwindow.cpp" line="4948"/>
+        <location filename="../mainwindow.cpp" line="4957"/>
         <source>On</source>
         <translation>Zapnuto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4852"/>
-        <location filename="../mainwindow.cpp" line="4861"/>
-        <location filename="../mainwindow.cpp" line="4870"/>
-        <location filename="../mainwindow.cpp" line="4879"/>
-        <location filename="../mainwindow.cpp" line="4888"/>
-        <location filename="../mainwindow.cpp" line="4897"/>
-        <location filename="../mainwindow.cpp" line="4906"/>
-        <location filename="../mainwindow.cpp" line="4915"/>
-        <location filename="../mainwindow.cpp" line="4924"/>
-        <location filename="../mainwindow.cpp" line="4933"/>
-        <location filename="../mainwindow.cpp" line="4942"/>
+        <location filename="../mainwindow.cpp" line="4867"/>
+        <location filename="../mainwindow.cpp" line="4876"/>
+        <location filename="../mainwindow.cpp" line="4885"/>
+        <location filename="../mainwindow.cpp" line="4894"/>
+        <location filename="../mainwindow.cpp" line="4903"/>
+        <location filename="../mainwindow.cpp" line="4912"/>
+        <location filename="../mainwindow.cpp" line="4921"/>
+        <location filename="../mainwindow.cpp" line="4930"/>
+        <location filename="../mainwindow.cpp" line="4939"/>
+        <location filename="../mainwindow.cpp" line="4948"/>
+        <location filename="../mainwindow.cpp" line="4957"/>
         <source>Off</source>
         <translation>Vypnuto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1183"/>
-        <location filename="../mainwindow.cpp" line="1939"/>
+        <location filename="../mainwindow.ui" line="1228"/>
+        <location filename="../mainwindow.cpp" line="1942"/>
         <source>&amp;Exit</source>
         <translation>&amp;Konec</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2230"/>
+        <location filename="../mainwindow.cpp" line="2233"/>
         <source>Files in channel: %1</source>
         <translation>Soubory kanálu %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2826"/>
+        <location filename="../mainwindow.cpp" line="2839"/>
         <source>Enable HotKey</source>
         <translation>Zapni horké klávesy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2827"/>
+        <location filename="../mainwindow.cpp" line="2840"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Nepodařilo se zaregistrovat klávesovou zkratku. Zkuste prosím jiné kombinace kláves.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3129"/>
+        <location filename="../mainwindow.cpp" line="3143"/>
         <source>Specify new nickname</source>
         <translation>Zadej novou přezdívku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3193"/>
-        <location filename="../mainwindow.cpp" line="4408"/>
+        <location filename="../mainwindow.cpp" line="3207"/>
+        <location filename="../mainwindow.cpp" line="4422"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Nastav Video. Nastavení Videa</translation>
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">Otevři soubor WAV</translation>
+        <translation>Otevři soubor WAV</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">WAV soubor (*.wav)</translation>
+        <translation>WAV soubor (*.wav)</translation>
     </message>
     <message>
         <source>Failed to stream file %1</source>
-        <translation type="vanished">Chyba souboru %1</translation>
+        <translation>Chyba souboru %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3627"/>
-        <location filename="../mainwindow.cpp" line="3636"/>
+        <location filename="../mainwindow.cpp" line="3641"/>
+        <location filename="../mainwindow.cpp" line="3650"/>
         <source>Failed to issue command to create channel</source>
         <translation>Nelze vytvořit kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2010"/>
+        <location filename="../mainwindow.cpp" line="2013"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Chcete přidat %1 do pravidel Windows Firewall-u ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="674"/>
-        <location filename="../mainwindow.cpp" line="2018"/>
+        <location filename="../mainwindow.cpp" line="682"/>
+        <location filename="../mainwindow.cpp" line="2021"/>
         <source>Firewall exception</source>
         <translation>Pravidla Firewall-u</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2019"/>
+        <location filename="../mainwindow.cpp" line="2022"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Nelze přidat %1 do pravidel Windows Firewall-u.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="675"/>
+        <location filename="../mainwindow.cpp" line="683"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>Nelze odstranit %1 z pravidel Windows Firewall-u.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="683"/>
+        <location filename="../mainwindow.cpp" line="695"/>
         <source>Startup arguments</source>
         <translation>Startovací argumenty</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="684"/>
+        <location filename="../mainwindow.cpp" line="696"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Argument &quot;%1&quot; nerozpoznán.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="975"/>
+        <location filename="../mainwindow.cpp" line="987"/>
         <source>Failed to initialize audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba inicializace audio kodeku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="978"/>
+        <location filename="../mainwindow.cpp" line="990"/>
         <source>Failed to initialize audio configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při inicializaci audio nastavení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1193"/>
+        <location filename="../mainwindow.cpp" line="1205"/>
         <source>Writing audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulož audio soubor %1 pro %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1198"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba zápisu audio souboru %1 pro %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1203"/>
+        <location filename="../mainwindow.cpp" line="1215"/>
         <source>Finished audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Hotovo audio soubor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1207"/>
+        <location filename="../mainwindow.cpp" line="1219"/>
         <source>Aborted audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Přerušen audio soubor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1569"/>
+        <location filename="../mainwindow.cpp" line="1572"/>
         <source>The username is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno je chybné</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2235"/>
+        <location filename="../mainwindow.cpp" line="2238"/>
         <source>Files (%1)</source>
         <translation>Soubory (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2280"/>
+        <location filename="../mainwindow.cpp" line="2283"/>
         <source>Failed to start recording</source>
         <translation>Chyba při záznamenávání</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2284"/>
+        <location filename="../mainwindow.cpp" line="2287"/>
         <source>Recording to file: %1</source>
         <translation>Zaznamenávám do souboru: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2832"/>
+        <location filename="../mainwindow.cpp" line="2343"/>
+        <source>Microphone gain is controlled by channel</source>
+        <translation>Zesílení mikrofonu je kontrolováno kanálem</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2845"/>
         <source>Push To Talk: </source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskni a mluv:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3203"/>
+        <location filename="../mainwindow.cpp" line="3217"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba konfigurace video kodeku. Zkontroluj nastavení &apos;Nastavení&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3242"/>
+        <location filename="../mainwindow.cpp" line="3256"/>
         <source>Failed to open X11 display.</source>
         <translation>Chyba při otvírání X11.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3650"/>
+        <location filename="../mainwindow.cpp" line="3664"/>
         <source>Failed to issue command to update channel</source>
         <translation>Nelze obnovit kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3663"/>
+        <location filename="../mainwindow.cpp" line="3677"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Opravdu chcete smazat tento kanál &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3669"/>
+        <location filename="../mainwindow.cpp" line="3683"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Nelze smazat kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3690"/>
-        <location filename="../mainwindow.cpp" line="3972"/>
+        <location filename="../mainwindow.cpp" line="3704"/>
+        <location filename="../mainwindow.cpp" line="3986"/>
         <source>Specify password</source>
         <translation>Zadej heslo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3703"/>
+        <location filename="../mainwindow.cpp" line="3717"/>
         <source>Failed to issue command to join channel</source>
         <translation>Nelze se přihlásit do kanálu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3740"/>
+        <location filename="../mainwindow.cpp" line="3754"/>
         <source>Open File</source>
         <translation>Otevři soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3760"/>
+        <location filename="../mainwindow.cpp" line="3774"/>
         <source>Save File</source>
         <translation>Ulož soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3857"/>
+        <location filename="../mainwindow.cpp" line="3871"/>
         <source>Message to broadcast:</source>
         <translation>Zpráva na kanále:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4339"/>
+        <location filename="../mainwindow.cpp" line="4353"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Maximální počet uživatelů, kteří mohou komunikovat je %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4375"/>
+        <location filename="../mainwindow.cpp" line="4389"/>
         <source>You can now transmit audio!</source>
         <translation>Nyní můžete přenášet audio!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4377"/>
+        <location filename="../mainwindow.cpp" line="4391"/>
         <source>You can no longer transmit audio!</source>
         <translation>Nyní nemůžete přenášet audio!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4385"/>
+        <location filename="../mainwindow.cpp" line="4399"/>
         <source>You can now transmit video!</source>
         <translation>Nyní můžete přenášet video !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4387"/>
+        <location filename="../mainwindow.cpp" line="4401"/>
         <source>You can no longer transmit video!</source>
         <translation>Nyní nemůžete přenášet video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4395"/>
+        <location filename="../mainwindow.cpp" line="4409"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Nelze přenášet sdílenou plochu !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4397"/>
+        <location filename="../mainwindow.cpp" line="4411"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Nelze dále přenášet sdílenou plochu !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4407"/>
+        <location filename="../mainwindow.cpp" line="4421"/>
         <source>Start Webcam</source>
         <translation>Spusť webkameru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4430"/>
-        <location filename="../mainwindow.cpp" line="4482"/>
+        <location filename="../mainwindow.cpp" line="4444"/>
+        <location filename="../mainwindow.cpp" line="4496"/>
         <source>Myself</source>
         <translation>Moje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5045"/>
+        <location filename="../mainwindow.cpp" line="5075"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubir %1 obsahuje %2 informace o nastavení.
+Má se toto nastavení aplikovat?</translation>
     </message>
     <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 napiš popis &quot;%2&quot; na vás: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5005"/>
-        <location filename="../mainwindow.cpp" line="5014"/>
-        <location filename="../mainwindow.cpp" line="5024"/>
         <location filename="../mainwindow.cpp" line="5035"/>
+        <location filename="../mainwindow.cpp" line="5044"/>
+        <location filename="../mainwindow.cpp" line="5054"/>
+        <location filename="../mainwindow.cpp" line="5065"/>
         <source>Load File</source>
         <translation>Nahrát soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5006"/>
-        <location filename="../mainwindow.cpp" line="5015"/>
+        <location filename="../mainwindow.cpp" line="5036"/>
+        <location filename="../mainwindow.cpp" line="5045"/>
         <source>Failed to load file %1</source>
         <translation>Nelze stáhnout soubor %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5025"/>
+        <location filename="../mainwindow.cpp" line="5055"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor %1 je nekompatibilní s %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5036"/>
+        <location filename="../mainwindow.cpp" line="5066"/>
         <source>Failed to extract host-information from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba extrakce informací z %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5044"/>
+        <location filename="../mainwindow.cpp" line="5074"/>
         <source>Load %1 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Načíst %1 soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5109"/>
+        <location filename="../mainwindow.cpp" line="5139"/>
         <source>New version available: %1</source>
         <translation>Nová verze dostupná %1</translation>
     </message>
@@ -1705,25 +1711,26 @@ Should these settings be applied?</source>
         <translation>Hlasitost reproduktorů</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="172"/>
-        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../mainwindow.ui" line="166"/>
+        <location filename="../mainwindow.ui" line="188"/>
         <source>Voice level</source>
         <translation>Uroveň hlasu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="213"/>
-        <location filename="../mainwindow.ui" line="238"/>
+        <location filename="../mainwindow.ui" line="207"/>
+        <location filename="../mainwindow.ui" line="232"/>
+        <location filename="../mainwindow.cpp" line="2348"/>
         <source>Microphone gain</source>
         <translation>Citlivost mikrofonu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="257"/>
-        <location filename="../mainwindow.ui" line="282"/>
+        <location filename="../mainwindow.ui" line="245"/>
+        <location filename="../mainwindow.ui" line="270"/>
         <source>Voice activation level</source>
         <translation>Nastavení úrovně aktivace hlasem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="314"/>
+        <location filename="../mainwindow.ui" line="305"/>
         <source>Chat</source>
         <translation>Čet</translation>
     </message>
@@ -1734,534 +1741,534 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="356"/>
-        <location filename="../mainwindow.ui" line="584"/>
-        <location filename="../mainwindow.ui" line="811"/>
+        <location filename="../mainwindow.ui" line="602"/>
+        <location filename="../mainwindow.ui" line="847"/>
         <source>Sen&amp;d</source>
         <translation>O&amp;dešli</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="372"/>
-        <location filename="../mainwindow.ui" line="1456"/>
+        <location filename="../mainwindow.ui" line="1501"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="451"/>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="460"/>
+        <location filename="../mainwindow.ui" line="463"/>
         <source>Add User to Video Grid</source>
         <translation>Přidat uživatelské video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="487"/>
-        <location filename="../mainwindow.ui" line="490"/>
+        <location filename="../mainwindow.ui" line="496"/>
+        <location filename="../mainwindow.ui" line="499"/>
         <source>Remove User From Video Grid</source>
         <translation>Odstraň video uživatele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="418"/>
-        <location filename="../mainwindow.ui" line="421"/>
+        <location filename="../mainwindow.ui" line="427"/>
+        <location filename="../mainwindow.ui" line="430"/>
         <source>Detach User Video</source>
         <translation>Odpojit video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="520"/>
+        <location filename="../mainwindow.ui" line="529"/>
         <source>Start/Stop Webcam</source>
         <translation>Webcam zap/vyp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="600"/>
-        <location filename="../mainwindow.cpp" line="4970"/>
+        <location filename="../mainwindow.ui" line="618"/>
+        <location filename="../mainwindow.cpp" line="4985"/>
         <source>Desktops</source>
         <translation>Sdílená Plocha</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="646"/>
+        <location filename="../mainwindow.ui" line="673"/>
         <source>Detach selected window</source>
         <translation>Odpojit označené okno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="649"/>
-        <location filename="../mainwindow.ui" line="715"/>
-        <location filename="../mainwindow.ui" line="751"/>
+        <location filename="../mainwindow.ui" line="676"/>
+        <location filename="../mainwindow.ui" line="742"/>
+        <location filename="../mainwindow.ui" line="778"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="679"/>
+        <location filename="../mainwindow.ui" line="706"/>
         <source>Put back removed window</source>
         <translation>Vrátit odebrané okono</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="712"/>
+        <location filename="../mainwindow.ui" line="739"/>
         <source>Remove selected window</source>
         <translation>Odstranit označené okno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="748"/>
+        <location filename="../mainwindow.ui" line="775"/>
         <source>Request desktop access</source>
         <translation>Zádosti o přístup na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="827"/>
-        <location filename="../mainwindow.cpp" line="2233"/>
+        <location filename="../mainwindow.ui" line="863"/>
+        <location filename="../mainwindow.cpp" line="2236"/>
         <source>Files</source>
         <translation>Soubory</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="882"/>
-        <location filename="../mainwindow.ui" line="885"/>
+        <location filename="../mainwindow.ui" line="927"/>
+        <location filename="../mainwindow.ui" line="930"/>
         <source>Upload</source>
         <translation>Ulož</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="905"/>
-        <location filename="../mainwindow.ui" line="908"/>
+        <location filename="../mainwindow.ui" line="950"/>
+        <location filename="../mainwindow.ui" line="953"/>
         <source>Download</source>
         <translation>Stáhnout</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="928"/>
-        <location filename="../mainwindow.ui" line="931"/>
+        <location filename="../mainwindow.ui" line="973"/>
+        <location filename="../mainwindow.ui" line="976"/>
         <source>Delete</source>
         <translation>Smaž</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="965"/>
+        <location filename="../mainwindow.ui" line="1010"/>
         <source>C&amp;lient</source>
         <translation>K&amp;lient</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="978"/>
+        <location filename="../mainwindow.ui" line="1023"/>
         <source>&amp;Me</source>
         <translation>&amp;Já</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="990"/>
+        <location filename="../mainwindow.ui" line="1035"/>
         <source>&amp;Users</source>
         <translation>U&amp;živatelé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="994"/>
+        <location filename="../mainwindow.ui" line="1039"/>
         <source>&amp;Subscriptions</source>
         <translation>&amp;Nastavení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1014"/>
+        <location filename="../mainwindow.ui" line="1059"/>
         <source>&amp;Advanced</source>
         <translation>&amp;Rozšířené</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1058"/>
+        <location filename="../mainwindow.ui" line="1103"/>
         <source>&amp;Channels</source>
         <translation>K&amp;anál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1075"/>
+        <location filename="../mainwindow.ui" line="1120"/>
         <source>&amp;Server</source>
         <translation>&amp;Servr</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1090"/>
+        <location filename="../mainwindow.ui" line="1135"/>
         <source>&amp;Help</source>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1152"/>
+        <location filename="../mainwindow.ui" line="1197"/>
         <source>&amp;Server List</source>
         <translation>S&amp;eznam servrů</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1155"/>
-        <location filename="../mainwindow.ui" line="1367"/>
+        <location filename="../mainwindow.ui" line="1200"/>
+        <location filename="../mainwindow.ui" line="1412"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1167"/>
+        <location filename="../mainwindow.ui" line="1212"/>
         <source>&amp;Connect</source>
         <translation>&amp;Připojit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1170"/>
+        <location filename="../mainwindow.ui" line="1215"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1175"/>
+        <location filename="../mainwindow.ui" line="1220"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Nastavení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1178"/>
+        <location filename="../mainwindow.ui" line="1223"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1186"/>
+        <location filename="../mainwindow.ui" line="1231"/>
         <source>Alt+F4</source>
         <translation>Alt+F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1198"/>
+        <location filename="../mainwindow.ui" line="1243"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>Zapnout &amp;Zmáčkni a mluv</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1201"/>
+        <location filename="../mainwindow.ui" line="1246"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1206"/>
+        <location filename="../mainwindow.ui" line="1251"/>
         <source>&amp;About</source>
         <translation>&amp;O programu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1214"/>
+        <location filename="../mainwindow.ui" line="1259"/>
         <source>&amp;Manual</source>
         <translation>&amp;Návod</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1217"/>
+        <location filename="../mainwindow.ui" line="1262"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1222"/>
+        <location filename="../mainwindow.ui" line="1267"/>
         <source>Server &amp;Properties</source>
         <translation>N&amp;astavení servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1225"/>
+        <location filename="../mainwindow.ui" line="1270"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1230"/>
+        <location filename="../mainwindow.ui" line="1275"/>
         <source>&amp;Create Channel</source>
         <translation>&amp;Vytvořit kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1233"/>
+        <location filename="../mainwindow.ui" line="1278"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1238"/>
+        <location filename="../mainwindow.ui" line="1283"/>
         <source>&amp;Update Channel</source>
         <translation>A&amp;ktualizuj kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1241"/>
+        <location filename="../mainwindow.ui" line="1286"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1246"/>
+        <location filename="../mainwindow.ui" line="1291"/>
         <source>&amp;Delete Channel</source>
         <translation>&amp;Smaž kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1249"/>
+        <location filename="../mainwindow.ui" line="1294"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1254"/>
-        <location filename="../mainwindow.cpp" line="4116"/>
+        <location filename="../mainwindow.ui" line="1299"/>
+        <location filename="../mainwindow.cpp" line="4130"/>
         <source>&amp;Join Channel</source>
         <translation>&amp;Spojit kanál</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1257"/>
+        <location filename="../mainwindow.ui" line="1302"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1269"/>
+        <location filename="../mainwindow.ui" line="1314"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>Aktivace &amp;Hlasem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1272"/>
+        <location filename="../mainwindow.ui" line="1317"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1277"/>
+        <location filename="../mainwindow.ui" line="1322"/>
         <source>Change &amp;Nickname</source>
         <translation>&amp;Změň Přezdívku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1280"/>
+        <location filename="../mainwindow.ui" line="1325"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1285"/>
+        <location filename="../mainwindow.ui" line="1330"/>
         <source>Change &amp;Status</source>
         <translation>Změň &amp;stav</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1288"/>
+        <location filename="../mainwindow.ui" line="1333"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1293"/>
+        <location filename="../mainwindow.ui" line="1338"/>
         <source>&amp;View User Information</source>
         <translation>Ukaž &amp;informace o uživateli</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1296"/>
+        <location filename="../mainwindow.ui" line="1341"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1308"/>
+        <location filename="../mainwindow.ui" line="1353"/>
         <source>Mute &amp;All</source>
         <translation>Ticho &amp;všichni</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1311"/>
+        <location filename="../mainwindow.ui" line="1356"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1316"/>
+        <location filename="../mainwindow.ui" line="1361"/>
         <source>Up&amp;load File</source>
         <translation>Ul&amp;ož soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1319"/>
+        <location filename="../mainwindow.ui" line="1364"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1324"/>
+        <location filename="../mainwindow.ui" line="1369"/>
         <source>D&amp;ownload File</source>
         <translation>S&amp;táhnout video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1327"/>
+        <location filename="../mainwindow.ui" line="1372"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1332"/>
+        <location filename="../mainwindow.ui" line="1377"/>
         <source>Dele&amp;te File</source>
         <translation>S&amp;maž soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1335"/>
+        <location filename="../mainwindow.ui" line="1380"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1340"/>
+        <location filename="../mainwindow.ui" line="1385"/>
         <source>&amp;Banned Users</source>
         <translation>Za&amp;blokovaní uživatelé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1348"/>
+        <location filename="../mainwindow.ui" line="1393"/>
         <source>&amp;User Accounts</source>
         <translation>&amp;Uživatelský účet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1380"/>
+        <location filename="../mainwindow.ui" line="1425"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vykopnout a &amp;Zablokovat na servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1415"/>
+        <location filename="../mainwindow.ui" line="1460"/>
         <source>V&amp;oice</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hlas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1418"/>
+        <location filename="../mainwindow.ui" line="1463"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1433"/>
+        <location filename="../mainwindow.ui" line="1478"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1444"/>
+        <location filename="../mainwindow.ui" line="1489"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1459"/>
+        <location filename="../mainwindow.ui" line="1504"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1470"/>
+        <location filename="../mainwindow.ui" line="1515"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1516"/>
+        <location filename="../mainwindow.ui" line="1561"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulož konverzaci na &amp;Disk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1537"/>
+        <location filename="../mainwindow.ui" line="1582"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1548"/>
+        <location filename="../mainwindow.ui" line="1593"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1563"/>
+        <location filename="../mainwindow.ui" line="1608"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1578"/>
+        <location filename="../mainwindow.ui" line="1623"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1872"/>
+        <location filename="../mainwindow.ui" line="1917"/>
         <source>Increase Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvýčit hlasitost media souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1880"/>
+        <location filename="../mainwindow.ui" line="1925"/>
         <source>Lower Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Snížit hlasitost media souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1662"/>
+        <location filename="../mainwindow.ui" line="1707"/>
         <source>&amp;New Client Instance</source>
         <translation>&amp;Nový klient</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1665"/>
+        <location filename="../mainwindow.ui" line="1710"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1673"/>
+        <location filename="../mainwindow.ui" line="1718"/>
         <source>&amp;Online Users</source>
         <translation>&amp;Online uživatelé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1676"/>
+        <location filename="../mainwindow.ui" line="1721"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1864"/>
+        <location filename="../mainwindow.ui" line="1909"/>
         <source>Kick From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vykopnout ze servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1867"/>
+        <location filename="../mainwindow.ui" line="1912"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1875"/>
+        <location filename="../mainwindow.ui" line="1920"/>
         <source>Ctrl+Shift+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Vpravo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1883"/>
+        <location filename="../mainwindow.ui" line="1928"/>
         <source>Ctrl+Shift+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Vlevo</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">Úložiště audia</translation>
+        <translation>Úložiště audia</translation>
     </message>
     <message>
         <source>Start/stop recording audio to files</source>
-        <translation type="vanished">Zapnutí/vypnutí záznamu audia</translation>
+        <translation>Zapnutí/vypnutí záznamu audia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1688"/>
+        <location filename="../mainwindow.ui" line="1733"/>
         <source>Enable Question Mode</source>
         <translation>Mód dotazování</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1691"/>
+        <location filename="../mainwindow.ui" line="1736"/>
         <source>Show blinking icon</source>
         <translation>Ukaž blikající iconu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1703"/>
+        <location filename="../mainwindow.ui" line="1748"/>
         <source>Enable Desktop Sharing</source>
         <translation>Zapni Sdílení Plochy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1706"/>
+        <location filename="../mainwindow.ui" line="1751"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1714"/>
+        <location filename="../mainwindow.ui" line="1759"/>
         <source>Allow Desktop Transmission</source>
         <translation>Povolení Sdílení Plochy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1717"/>
+        <location filename="../mainwindow.ui" line="1762"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1729"/>
+        <location filename="../mainwindow.ui" line="1774"/>
         <source>&amp;Desktop</source>
         <translation>&amp;Plocha</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1732"/>
+        <location filename="../mainwindow.ui" line="1777"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1744"/>
+        <location filename="../mainwindow.ui" line="1789"/>
         <source>Intercept Desktop</source>
         <translation>Zachytit Plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1747"/>
+        <location filename="../mainwindow.ui" line="1792"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1759"/>
+        <location filename="../mainwindow.ui" line="1804"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>Záznam &amp;Media souboru na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1762"/>
+        <location filename="../mainwindow.ui" line="1807"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1774"/>
+        <location filename="../mainwindow.ui" line="1819"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>Příst&amp;up na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1786"/>
+        <location filename="../mainwindow.ui" line="1831"/>
         <source>Allow Desktop Access</source>
         <translation>Povol přístup na plochu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1789"/>
+        <location filename="../mainwindow.ui" line="1834"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1797"/>
+        <location filename="../mainwindow.ui" line="1842"/>
         <source>&amp;Deny</source>
         <translation>&amp;Zakaž</translation>
     </message>
@@ -2270,7 +2277,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Seznam &amp;zakázaných uživatelů</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1343"/>
+        <location filename="../mainwindow.ui" line="1388"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
@@ -2279,291 +2286,291 @@ Should these settings be applied?</source>
         <translation type="obsolete">Seznam &amp;uživatelů</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1351"/>
+        <location filename="../mainwindow.ui" line="1396"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1356"/>
+        <location filename="../mainwindow.ui" line="1401"/>
         <source>&amp;Save Configuration</source>
         <translation>&amp;Ulož nastavení</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1359"/>
+        <location filename="../mainwindow.ui" line="1404"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1364"/>
+        <location filename="../mainwindow.ui" line="1409"/>
         <source>&amp;View Channel Info</source>
         <translation>&amp;Ukaž informace kanálu</translation>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="vanished">Shift+F3</translation>
+        <translation>Shift+F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1372"/>
+        <location filename="../mainwindow.ui" line="1417"/>
         <source>M&amp;essages</source>
         <translation>Z&amp;práva</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1375"/>
+        <location filename="../mainwindow.ui" line="1420"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1031"/>
+        <location filename="../mainwindow.ui" line="1076"/>
         <source>&amp;Mute</source>
         <translation>&amp;Ticho</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1591"/>
+        <location filename="../mainwindow.ui" line="1636"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zesil hlasitost řeči</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1599"/>
+        <location filename="../mainwindow.ui" line="1644"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Z&amp;eslab hlasitost řeči</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1809"/>
+        <location filename="../mainwindow.ui" line="1854"/>
         <source>Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Stream souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1812"/>
+        <location filename="../mainwindow.ui" line="1857"/>
         <source>Ctrl+8</source>
-        <translation type="unfinished">Ctrl+8</translation>
+        <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1824"/>
+        <location filename="../mainwindow.ui" line="1869"/>
         <source>Intercept Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapsat stream do souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1827"/>
+        <location filename="../mainwindow.ui" line="1872"/>
         <source>Ctrl+Shift+8</source>
-        <translation type="unfinished">Ctrl+Shift+8</translation>
+        <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1832"/>
+        <location filename="../mainwindow.ui" line="1877"/>
         <source>Allow Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Povol přenos media souborů</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1835"/>
+        <location filename="../mainwindow.ui" line="1880"/>
         <source>Ctrl+Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1840"/>
+        <location filename="../mainwindow.ui" line="1885"/>
         <source>Mu&amp;te Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Umlče&amp;t</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1843"/>
+        <location filename="../mainwindow.ui" line="1888"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1038"/>
+        <location filename="../mainwindow.ui" line="1083"/>
         <source>&amp;Kick</source>
         <translation>Restrikce: &amp;Vykopnout</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1848"/>
+        <location filename="../mainwindow.ui" line="1893"/>
         <source>Mute Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypnout zvuk media souboru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1851"/>
+        <location filename="../mainwindow.ui" line="1896"/>
         <source>Ctrl+Alt+Μ</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1856"/>
+        <location filename="../mainwindow.ui" line="1901"/>
         <source>Kick From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Vykopnou z kanálu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1859"/>
+        <location filename="../mainwindow.ui" line="1904"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
         <source>Kick and &amp;Ban</source>
-        <translation type="vanished">Vykopnout a &amp;Zakázat</translation>
+        <translation>Vykopnout a &amp;Zakázat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1383"/>
+        <location filename="../mainwindow.ui" line="1428"/>
         <source>Ctrl+Shift+K</source>
         <translation>Ctrl+Shift+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1392"/>
+        <location filename="../mainwindow.ui" line="1437"/>
         <source>&amp;Op</source>
         <translation>&amp;Operátor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1395"/>
+        <location filename="../mainwindow.ui" line="1440"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1400"/>
+        <location filename="../mainwindow.ui" line="1445"/>
         <source>&amp;Volume</source>
         <translation>&amp;Hlasitost</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1403"/>
+        <location filename="../mainwindow.ui" line="1448"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
         <source>&amp;Audio</source>
-        <translation type="vanished">&amp;Audio</translation>
+        <translation>&amp;Audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1430"/>
+        <location filename="../mainwindow.ui" line="1475"/>
         <source>&amp;User Messages</source>
         <translation>&amp;Uživatelská zpráva</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1441"/>
+        <location filename="../mainwindow.ui" line="1486"/>
         <source>&amp;Channel Messages</source>
         <translation>&amp;Zpráva na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1467"/>
+        <location filename="../mainwindow.ui" line="1512"/>
         <source>&amp;Broadcast Messages</source>
         <translation>&amp;Zprávy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1482"/>
+        <location filename="../mainwindow.ui" line="1527"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>Zapni &amp;Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1485"/>
+        <location filename="../mainwindow.ui" line="1530"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1493"/>
+        <location filename="../mainwindow.ui" line="1538"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translation>S&amp;tahuj audio na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1496"/>
+        <location filename="../mainwindow.ui" line="1541"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1501"/>
+        <location filename="../mainwindow.ui" line="1546"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>St&amp;ahuj Audio uživatele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1504"/>
+        <location filename="../mainwindow.ui" line="1549"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
-        <translation type="vanished">Uložit &amp;Audio na disk</translation>
+        <translation>Uložit &amp;Audio na disk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1519"/>
+        <location filename="../mainwindow.ui" line="1564"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Specifikuj audio adresář</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1522"/>
+        <location filename="../mainwindow.ui" line="1567"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1534"/>
+        <location filename="../mainwindow.ui" line="1579"/>
         <source>Intercept User Messages</source>
         <translation>Pozastavit uživateské zprávy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1545"/>
+        <location filename="../mainwindow.ui" line="1590"/>
         <source>Intercept Channel Messages</source>
         <translation>Pozastavit zprávy na kanále</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1560"/>
+        <location filename="../mainwindow.ui" line="1605"/>
         <source>Intercept Audio</source>
         <translation>Pozastavit Audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1575"/>
+        <location filename="../mainwindow.ui" line="1620"/>
         <source>Intercept Video</source>
         <translation>Pozastavit Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1583"/>
+        <location filename="../mainwindow.ui" line="1628"/>
         <source>&amp;Broadcast Message</source>
         <translation>&amp;Zpráva</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1586"/>
+        <location filename="../mainwindow.ui" line="1631"/>
         <source>Ctrl+Alt+B</source>
         <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
-        <translation type="vanished">&amp;Přidej hlasitost (10)</translation>
+        <translation>&amp;Přidej hlasitost (10)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1594"/>
+        <location filename="../mainwindow.ui" line="1639"/>
         <source>Ctrl+Right</source>
         <translation>Ctrl+Vpravo</translation>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
-        <translation type="vanished">&amp;Snížení hlasitosti (-10)</translation>
+        <translation>&amp;Snížení hlasitosti (-10)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1602"/>
+        <location filename="../mainwindow.ui" line="1647"/>
         <source>Ctrl+Left</source>
         <translation>Ctrl+Vlevo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1607"/>
+        <location filename="../mainwindow.ui" line="1652"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Označit uživatele pro přesun</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1635"/>
+        <location filename="../mainwindow.ui" line="1680"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>Povolit přenos H&amp;lasu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1638"/>
+        <location filename="../mainwindow.ui" line="1683"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1646"/>
+        <location filename="../mainwindow.ui" line="1691"/>
         <source>Allow Video Transmission</source>
         <translation>Povolit přenos videa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1649"/>
+        <location filename="../mainwindow.ui" line="1694"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1654"/>
+        <location filename="../mainwindow.ui" line="1699"/>
         <source>Server S&amp;tatistics</source>
         <translation>S&amp;tatistika Servru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1657"/>
+        <location filename="../mainwindow.ui" line="1702"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
@@ -2572,17 +2579,17 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Změna úložiště</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1610"/>
+        <location filename="../mainwindow.ui" line="1655"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1615"/>
+        <location filename="../mainwindow.ui" line="1660"/>
         <source>&amp;Move User(s)</source>
         <translation>&amp;Změnit uživatele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1618"/>
+        <location filename="../mainwindow.ui" line="1663"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
@@ -2592,65 +2599,65 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrát konverzaci na disk</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení konverzace</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation type="unfinished">Mód</translation>
+        <translation>Mód</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="38"/>
         <source>Single audio file for all users</source>
-        <translation type="unfinished">Jeden soubor pro všechny uživatele</translation>
+        <translation>Jeden soubor pro všechny uživatele</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="45"/>
         <source>Separate audio file for each user</source>
-        <translation type="unfinished">Každý uživatel má vlastní soubor</translation>
+        <translation>Každý uživatel má vlastní soubor</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="56"/>
         <source>Audio file format</source>
-        <translation type="unfinished">Formát souboru</translation>
+        <translation>Formát souboru</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="69"/>
         <location filename="../mediastoragedlg.cpp" line="89"/>
         <source>Folder for audio files</source>
-        <translation type="unfinished">Adresář souboru</translation>
+        <translation>Adresář souboru</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="82"/>
         <location filename="../mediastorage.ui" line="113"/>
         <location filename="../mediastorage.ui" line="133"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="94"/>
         <source>Store text message conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení zpráv konverzace</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="100"/>
         <source>Folder for channel log files</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresář pro log kanálu</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="120"/>
         <source>Folder for user-to-user log files</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresář pro log soubory mezi uživately</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="90"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="unfinished">Adresář pro uložení audio souboru neexistuje</translation>
+        <translation>Adresář pro uložení audio souboru neexistuje</translation>
     </message>
 </context>
 <context>
@@ -2693,7 +2700,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream Audio &amp;File to User</source>
-        <translation type="vanished">Stahuj au&amp;dio do souboru uživatele</translation>
+        <translation>Stahuj au&amp;dio do souboru uživatele</translation>
     </message>
 </context>
 <context>
@@ -2870,7 +2877,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1759"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="364"/>
@@ -2955,11 +2962,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="vanished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="vanished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="622"/>
@@ -2973,15 +2980,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="vanished">P2P připojení</translation>
+        <translation>P2P připojení</translation>
     </message>
     <message>
         <source>Peer to peer transmission of audio data</source>
-        <translation type="vanished">Připoj přes P2P audio</translation>
+        <translation>Připoj přes P2P audio</translation>
     </message>
     <message>
         <source>Peer to peer transmission of video data</source>
-        <translation type="vanished">Připoj přes P2P video</translation>
+        <translation>Připoj přes P2P video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="678"/>
@@ -3073,11 +3080,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Enable 3D-sound</source>
-        <translation type="vanished">Zapni 3D zvuk</translation>
+        <translation>Zapni 3D zvuk</translation>
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Šumový filtr</translation>
+        <translation>Šumový filtr</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1034"/>
@@ -3162,22 +3169,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="608"/>
         <source>Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlas</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="653"/>
         <source>Media Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Media soubor</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapni automatické nastavení zesílení(mikrofon se nastavuje automaticky)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraň šum (odstraň šum mikrofonu)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1320"/>
@@ -3293,105 +3300,105 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">Kvalita</translation>
+        <translation>Kvalita</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">Bit Rate</translation>
+        <translation>Bit Rate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="292"/>
+        <location filename="../preferencesdlg.cpp" line="293"/>
         <source>Default Input Device</source>
         <translation>Výchozí vstupní zařízení</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="319"/>
+        <location filename="../preferencesdlg.cpp" line="320"/>
         <source>Default Output Device</source>
         <translation>Výchozí výstupní zařízení</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="379"/>
+        <location filename="../preferencesdlg.cpp" line="380"/>
         <source>Open Wave File</source>
         <translation>Otevři Wave soubor</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="381"/>
+        <location filename="../preferencesdlg.cpp" line="382"/>
         <source>Wave files (*.wav)</source>
         <translation>Wave soubor (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="663"/>
-        <location filename="../preferencesdlg.cpp" line="670"/>
+        <location filename="../preferencesdlg.cpp" line="665"/>
+        <location filename="../preferencesdlg.cpp" line="672"/>
         <source>Windows Firewall</source>
         <translation>Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="664"/>
+        <location filename="../preferencesdlg.cpp" line="666"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Chyba při zadávání %1 do povolených aplikací Windows Firewallu</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="671"/>
+        <location filename="../preferencesdlg.cpp" line="673"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Chyba při odebírání %1 z pravidel Windows Firewall-u</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="725"/>
-        <location filename="../preferencesdlg.cpp" line="744"/>
-        <location filename="../preferencesdlg.cpp" line="758"/>
-        <location filename="../preferencesdlg.cpp" line="1093"/>
+        <location filename="../preferencesdlg.cpp" line="727"/>
+        <location filename="../preferencesdlg.cpp" line="746"/>
+        <location filename="../preferencesdlg.cpp" line="760"/>
+        <location filename="../preferencesdlg.cpp" line="1095"/>
         <source>Sound Initialization</source>
         <translation>Inicializace zvuku</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="726"/>
+        <location filename="../preferencesdlg.cpp" line="728"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>Nepodařilo se inicializovat zvukový duplexní režim</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="745"/>
+        <location filename="../preferencesdlg.cpp" line="747"/>
         <source>Failed to initialize new sound input device</source>
         <translation>Chyba inicializace zvukového vstupu</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="759"/>
+        <location filename="../preferencesdlg.cpp" line="761"/>
         <source>Failed to initialize new sound output device</source>
         <translation>Chyba inicializace zvukového výstupu</translation>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
-        <translation type="vanished">Nepodařilo se odstranit ozvěnu</translation>
+        <translation>Nepodařilo se odstranit ozvěnu</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="912"/>
-        <location filename="../preferencesdlg.cpp" line="924"/>
+        <location filename="../preferencesdlg.cpp" line="914"/>
+        <location filename="../preferencesdlg.cpp" line="926"/>
         <source>Video Device</source>
         <translation>Video zařízení</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="913"/>
-        <location filename="../preferencesdlg.cpp" line="925"/>
+        <location filename="../preferencesdlg.cpp" line="915"/>
+        <location filename="../preferencesdlg.cpp" line="927"/>
         <source>Failed to initialize video device</source>
         <translation>Chyba inicializace videa</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="980"/>
+        <location filename="../preferencesdlg.cpp" line="982"/>
         <source>Max Input Channels %1</source>
         <translation>Max vstupních  kanálů %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="982"/>
-        <location filename="../preferencesdlg.cpp" line="1005"/>
+        <location filename="../preferencesdlg.cpp" line="984"/>
+        <location filename="../preferencesdlg.cpp" line="1007"/>
         <source>Sample Rates:</source>
         <translation>Samplovací rychlost:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1003"/>
+        <location filename="../preferencesdlg.cpp" line="1005"/>
         <source>Max Output Channels %1</source>
         <translation>Max výstupních kanálů %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1045"/>
+        <location filename="../preferencesdlg.cpp" line="1047"/>
         <source>Refresh Sound Devices</source>
         <translation>Aktualizovat zvukové zařízení</translation>
     </message>
@@ -3400,22 +3407,22 @@ Should these settings be applied?</source>
         <translation type="obsolete">Chcete-li aktualizovat zvukové zařízení, musíte se odpojit.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1046"/>
+        <location filename="../preferencesdlg.cpp" line="1048"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nepodařilo se restartovat zvukové zařízení. Prosím, restartujte aplikaci.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1094"/>
+        <location filename="../preferencesdlg.cpp" line="1096"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Chyba inicializace zvukového zařízení</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1476"/>
+        <location filename="../preferencesdlg.cpp" line="1478"/>
         <source>Default Video Capture</source>
         <translation>Obecné video zařízení</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1477"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nelze nalézt nastavení videozařízení</translation>
     </message>
@@ -3423,7 +3430,7 @@ Should these settings be applied?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../common.cpp" line="1298"/>
+        <location filename="../common.cpp" line="1305"/>
         <source>Conference</source>
         <translation>Konference</translation>
     </message>
@@ -3443,7 +3450,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="148"/>
         <source>Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověření</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="237"/>
@@ -3513,11 +3520,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Heslo servru</translation>
+        <translation>Heslo servru</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">Přihlásit se uživatelským účtem</translation>
+        <translation>Přihlásit se uživatelským účtem</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="154"/>
@@ -3581,15 +3588,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Save File</source>
-        <translation type="vanished">Uložit soubor</translation>
+        <translation>Uložit soubor</translation>
     </message>
     <message>
         <source>%1 File (*%1)</source>
-        <translation type="vanished">%1 Soubor (*%1)</translation>
+        <translation>%1 Soubor (*%1)</translation>
     </message>
     <message>
         <source>Unable to save file</source>
-        <translation type="vanished">Nelze uložit soubor</translation>
+        <translation>Nelze uložit soubor</translation>
     </message>
 </context>
 <context>
@@ -3607,7 +3614,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Heslo servru</translation>
+        <translation>Heslo servru</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
@@ -3652,67 +3659,67 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>User Rights</source>
-        <translation type="vanished">Uživatelská práva</translation>
+        <translation>Uživatelská práva</translation>
     </message>
     <message>
         <source>Users can create channels</source>
-        <translation type="vanished">Uživatelé mohou vytvářet kanály</translation>
+        <translation>Uživatelé mohou vytvářet kanály</translation>
     </message>
     <message>
         <source>Users can become channel operators</source>
-        <translation type="vanished">Uživatelé se mohou stát operátorem kanálu</translation>
+        <translation>Uživatelé se mohou stát operátorem kanálu</translation>
     </message>
     <message>
         <source>Users can login without a user account</source>
-        <translation type="vanished">Uživatelé se mohou přihlásit bez uživatelského účtu</translation>
+        <translation>Uživatelé se mohou přihlásit bez uživatelského účtu</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="vanished">Všichni mouhou používat jedno uživatelské konto</translation>
+        <translation>Všichni mouhou používat jedno uživatelské konto</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
-        <translation type="vanished">Uživatelé vidí ostatní na všech kanálech</translation>
+        <translation>Uživatelé vidí ostatní na všech kanálech</translation>
     </message>
     <message>
         <source>Users can broadcast text messages</source>
-        <translation type="vanished">Uživatelé mohou odesílat textové zprávy</translation>
+        <translation>Uživatelé mohou odesílat textové zprávy</translation>
     </message>
     <message>
         <source>Users can issue channel commands</source>
-        <translation type="vanished">Uživatelé mohou používat uživatelské příkazy kanálu</translation>
+        <translation>Uživatelé mohou používat uživatelské příkazy kanálu</translation>
     </message>
     <message>
         <source>Users can modify subscriptions</source>
-        <translation type="vanished">Uživatelé mohou měnit svá nastavení</translation>
+        <translation>Uživatelé mohou měnit svá nastavení</translation>
     </message>
     <message>
         <source>Users can forward/relay audio through server</source>
-        <translation type="vanished">Uživatelé mohou odesílat audio</translation>
+        <translation>Uživatelé mohou odesílat audio</translation>
     </message>
     <message>
         <source>Users can forward/relay video through server</source>
-        <translation type="vanished">Uživatelé mohou odesílat video</translation>
+        <translation>Uživatelé mohou odesílat video</translation>
     </message>
     <message>
         <source>Users can forward/relay desktops through server</source>
-        <translation type="vanished">Uživatelé mohou sdílet Plochu</translation>
+        <translation>Uživatelé mohou sdílet Plochu</translation>
     </message>
     <message>
         <source>Users can forward/relay desktop access through server</source>
-        <translation type="vanished">Uživatelé mohou sdílet přístupy na Plochu </translation>
+        <translation>Uživatelé mohou sdílet přístupy na Plochu </translation>
     </message>
     <message>
         <source>Audio Codec Limitations</source>
-        <translation type="vanished">Limity audio kodeku</translation>
+        <translation>Limity audio kodeku</translation>
     </message>
     <message>
         <source>Max bitrate for audio codecs</source>
-        <translation type="vanished">Max bitrate pro audio kodek</translation>
+        <translation>Max bitrate pro audio kodek</translation>
     </message>
     <message>
         <source>kbps (0 = disabled)</source>
-        <translation type="vanished">kbps (0=vypnuto)</translation>
+        <translation>kbps (0=vypnuto)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="233"/>
@@ -3721,7 +3728,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio TX max</source>
-        <translation type="vanished">Audio TX max</translation>
+        <translation>Audio TX max</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="377"/>
@@ -3761,7 +3768,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="283"/>
         <source>Voice TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio TX max</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="310"/>
@@ -3776,7 +3783,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="347"/>
         <source>Media File TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>Media TX max</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -3819,12 +3826,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>Media RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="186"/>
@@ -3869,12 +3876,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="285"/>
         <source>Users served</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelů připojeno</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="305"/>
         <source>Users peak</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelů maximum</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="342"/>
@@ -3886,31 +3893,31 @@ Should these settings be applied?</source>
     <name>StreamAudioFileDlg</name>
     <message>
         <source>Stream Audio File</source>
-        <translation type="vanished">Zaznamenávej zvuk</translation>
+        <translation>Zaznamenávej zvuk</translation>
     </message>
     <message>
         <source>Audio Stream Properties</source>
-        <translation type="vanished">Nastavení záznamu zvuku</translation>
+        <translation>Nastavení záznamu zvuku</translation>
     </message>
     <message>
         <source>Audio File</source>
-        <translation type="vanished">Audio soubor</translation>
+        <translation>Audio soubor</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>Continuously play audio file</source>
-        <translation type="vanished">Nepřetržitě přehrávej</translation>
+        <translation>Nepřetržitě přehrávej</translation>
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">Otevři Wave soubor</translation>
+        <translation>Otevři Wave soubor</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wave soubor (*.wav)</translation>
+        <translation>Wave soubor (*.wav)</translation>
     </message>
 </context>
 <context>
@@ -3943,11 +3950,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <source>Stream audio</source>
-        <translation type="vanished">Zaznamenej Audio</translation>
+        <translation>Zaznamenej Audio</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="70"/>
@@ -3956,7 +3963,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream video</source>
-        <translation type="vanished">Zaznamenej Video</translation>
+        <translation>Zaznamenej Video</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="88"/>
@@ -3981,11 +3988,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">Kvalita</translation>
+        <translation>Kvalita</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">Bit Rate</translation>
+        <translation>Bit Rate</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="264"/>
@@ -4003,9 +4010,13 @@ Should these settings be applied?</source>
         <translation>Otevři Media soubor</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="75"/>
         <source>Media files (*.*)</source>
         <translation>Media soubor (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../streammediafiledlg.cpp" line="75"/>
+        <source>Media files %1</source>
+        <translation>Media soubor %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="98"/>
@@ -4131,7 +4142,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="187"/>
         <source>Default user</source>
-        <translation type="unfinished"></translation>
+        <translation>Běžný uživatel</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="203"/>
@@ -4167,112 +4178,112 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="273"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">Limity audio kodeku</translation>
+        <translation>Limity audio kodeku</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="279"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">Max bitrate pro audio kodek</translation>
+        <translation>Max bitrate pro audio kodek</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="302"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">kbps (0=vypnuto)</translation>
+        <translation>kbps (0=vypnuto)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
         <source>User Rights</source>
-        <translation type="unfinished">Uživatelská práva</translation>
+        <translation>Uživatelská práva</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="322"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel se může logovat vícekrát</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>User can upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může nahrávat soubory</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel vidí uživatele na kanálech</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="349"/>
         <source>User can download files</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může stahovat soubory</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může vytvářet a měnit kanály</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="363"/>
         <source>User can update server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může měnit nastavení servru</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="376"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může vytvářet dočasné kanály</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="383"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může komunikovat hlasem</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může četovat</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může přenášet video</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="410"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může vykopnout jiného ze servru</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="417"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může přenášet audio soubory (wav,mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="424"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může zablokovat jiného na servru</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="431"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může přenášet video soubory (avi,mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="438"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může přesouvat jiné mezi kanály</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="445"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může sdílet plochu</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="452"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může vytvářet jiné operátory kanálu</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatel může získat přístup ke sdílené ploše</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="484"/>
@@ -4301,12 +4312,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="327"/>
         <source>Add/Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidej/Aktualizuj</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="328"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvořit anonymního uživatele?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="508"/>
@@ -4324,7 +4335,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation type="unfinished">Uživatelské jméno</translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4410,11 +4421,11 @@ Should these settings be applied?</source>
     <name>UserImageWidget</name>
     <message>
         <source>Waiting for video from %1</source>
-        <translation type="vanished">Čekám na video z %1</translation>
+        <translation>Čekám na video z %1</translation>
     </message>
     <message>
         <source>Waiting for local video</source>
-        <translation type="vanished">Čekám na video</translation>
+        <translation>Čekám na video</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="197"/>
@@ -4483,21 +4494,21 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="165"/>
         <source>Voice packet loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Ztracené audio pakety</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="199"/>
         <source>Audio file packets loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio soubor paketů</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
         <source>Video file frame loss</source>
-        <translation type="unfinished"></translation>
+        <translation>Video soubor paketů</translation>
     </message>
     <message>
         <source>P2P connection</source>
-        <translation type="vanished">P2P připojení</translation>
+        <translation>P2P připojení</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="148"/>
@@ -4506,7 +4517,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio packet loss</source>
-        <translation type="vanished">Ztracené audio pakety</translation>
+        <translation>Ztracené audio pakety</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="182"/>
@@ -4546,11 +4557,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="vanished">Ano</translation>
+        <translation>Ano</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="vanished">Ne</translation>
+        <translation>Ne</translation>
     </message>
 </context>
 <context>
@@ -4573,17 +4584,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservideowidget.cpp" line="53"/>
         <source>Waiting for video from %1</source>
-        <translation type="unfinished">Čekám na video z %1</translation>
+        <translation>Čekám na video z %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="57"/>
         <source>Waiting for media file from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Čekám na media soubor z %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="51"/>
         <source>Waiting for local video</source>
-        <translation type="unfinished">Čekám na video</translation>
+        <translation>Čekám na video</translation>
     </message>
 </context>
 <context>
@@ -4592,45 +4603,45 @@ Should these settings be applied?</source>
         <location filename="../uservolume.ui" line="14"/>
         <location filename="../uservolume.ui" line="31"/>
         <location filename="../uservolume.ui" line="87"/>
-        <location filename="../uservolumedlg.cpp" line="76"/>
+        <location filename="../uservolumedlg.cpp" line="79"/>
         <source>Volume</source>
         <translation>Hlasitost</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="23"/>
         <source>Voice Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení hlasu</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="53"/>
-        <location filename="../uservolume.ui" line="106"/>
+        <location filename="../uservolume.ui" line="109"/>
         <source>Stereo Option</source>
         <translation>Nastavení audio kanálů</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="59"/>
-        <location filename="../uservolume.ui" line="112"/>
+        <location filename="../uservolume.ui" line="115"/>
         <source>Mute left</source>
         <translation>Stiš levý</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="66"/>
-        <location filename="../uservolume.ui" line="119"/>
+        <location filename="../uservolume.ui" line="122"/>
         <source>Mute right</source>
         <translation>Stiš pravý</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení media souboru</translation>
     </message>
     <message>
-        <location filename="../uservolume.ui" line="147"/>
+        <location filename="../uservolume.ui" line="150"/>
         <source>&amp;Default</source>
-        <translation type="unfinished">&amp;Základní nastavení</translation>
+        <translation>&amp;Základní nastavení</translation>
     </message>
     <message>
-        <location filename="../uservolumedlg.cpp" line="77"/>
+        <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
         <translation>Nelze změnit hlasitost uživatele</translation>
     </message>
