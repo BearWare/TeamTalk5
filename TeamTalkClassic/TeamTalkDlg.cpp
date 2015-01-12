@@ -1151,6 +1151,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
         {
             CString szMsg, szFormat;
             szFormat.LoadString(IDS_CHANNEL_JOINED);
+            TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
             szMsg.Format(szFormat, LimitText(user.szNickname));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
@@ -1343,6 +1344,7 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
         CString szMsg, szFormat;
         szFormat.LoadString(IDS_CHANNEL_LEFT);
+        TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
         szMsg.Format(szFormat, user.szNickname);
 
         AddStatusText(szMsg);
@@ -1485,11 +1487,13 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     if(chan.uChannelType & CHANNEL_CLASSROOM)
     {
         szFormat.LoadString(IDS_CLASSROOM_SELF_JOINED);
+        TRANSLATE_ITEM(IDS_CLASSROOM_SELF_JOINED, szFormat);
         szMsg.Format(szFormat, LimitText(chan.szName));
     }
     else
     {
         szFormat.LoadString(IDS_CHANNEL_SELF_JOINED);
+        TRANSLATE_ITEM(IDS_CHANNEL_SELF_JOINED, szFormat);
         szMsg.Format(szFormat, LimitText(chan.szName));
     }
 
@@ -1510,6 +1514,7 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
 
     CString szMsg, szFormat;
     szFormat.LoadString(IDS_CHANNEL_SELF_LEFT);
+    TRANSLATE_ITEM(IDS_CHANNEL_SELF_LEFT, szFormat);
     szMsg.Format(szFormat, chan.szName);
 
     AddStatusText(szMsg);

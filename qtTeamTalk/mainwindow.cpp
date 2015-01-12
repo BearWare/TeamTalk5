@@ -4125,7 +4125,7 @@ void MainWindow::slotUpdateUI()
     }
 
     if(user_chanid == mychannel)
-        ui.actionJoinChannel->setText("&Leave Channel");
+        ui.actionJoinChannel->setText(tr("&Leave Channel"));
     else
         ui.actionJoinChannel->setText(tr("&Join Channel"));
 
