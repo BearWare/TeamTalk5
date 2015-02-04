@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="th_TH">
+<TS version="2.0" language="th_TH">
 <context>
     <name>AboutDlg</name>
     <message>
         <location filename="../about.ui" line="14"/>
         <source>About</source>
-        <translation>เกี่ยวกับโปรแกรมทีมท๊อค</translation>
+        <translation>เกี่ยวกับโปรแกรม TeamTalk</translation>
     </message>
     <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
         <translatorcomment>มีข้อ ติ-ชม ในการแปลเป็นภาษาไทยติดต่อได้ที่ hs5drl@gmail.com</translatorcomment>
-        <translation>แปลเป็นภาษาไทยโดย ทีเฮช๑ (HS5DRL/สิทธิศักดิ์)</translation>
+        <translation>แปลเป็นภาษาไทยโดย ทีเฮช๑ (HS5DRL/TH1/สิทธิศักดิ์)</translation>
     </message>
 </context>
 <context>
     <name>AudioStorageDlg</name>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">จัดเก็บเสียงไว้ในฮาร์ดดีสก์</translation>
+        <translation>จัดเก็บเสียงไว้ในฮาร์ดดีสก์</translation>
     </message>
     <message>
         <source>Audio file storage</source>
-        <translation type="vanished">การจัดเก็บไฟล์เสียง</translation>
+        <translation>การจัดเก็บไฟล์เสียง</translation>
     </message>
     <message>
         <source>Storage mode</source>
-        <translation type="vanished">วิธีการจัดเก็บ</translation>
+        <translation>วิธีการจัดเก็บ</translation>
     </message>
     <message>
         <source>Single audio file for all users</source>
-        <translation type="vanished">จัดเก็บเสียงของผู้ใช้ทุกท่านเป็นไฟล์เดียว</translation>
+        <translation>จัดเก็บเสียงของผู้ใช้ทุกท่านเป็นไฟล์เดียว</translation>
     </message>
     <message>
         <source>Separate audio file for each user</source>
-        <translation type="vanished">จัดเก็บไฟล์เสียงแยกแต่ละผู้ใช้งาน</translation>
+        <translation>จัดเก็บไฟล์เสียงแยกแต่ละผู้ใช้งาน</translation>
     </message>
     <message>
         <source>Audio file format</source>
-        <translation type="vanished">รูปแบบของไฟล์เสียง</translation>
+        <translation>รูปแบบของไฟล์เสียง</translation>
     </message>
     <message>
         <source>Folder for audio files</source>
-        <translation type="vanished">โฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
+        <translation>โฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">กดเลือกโฟลเดอร์...</translation>
+        <translation>กดเลือกโฟลเดอร์...</translation>
     </message>
     <message>
         <source>Storage mode not selected</source>
-        <translation type="vanished">วิธีการจัดเก็บไม่ได้เลือกไว้</translation>
+        <translation>วิธีการจัดเก็บไม่ได้เลือกไว้</translation>
     </message>
     <message>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">ไม่มีโฟลเดอร์ที่ใช้จัดเก็บไฟล์เสียง</translation>
+        <translation>ไม่มีโฟลเดอร์ที่ใช้จัดเก็บไฟล์เสียง</translation>
     </message>
 </context>
 <context>
@@ -94,7 +94,7 @@
     <message>
         <location filename="../bannedusers.ui" line="135"/>
         <source>Unbanned Users</source>
-        <translation>ผู้ใช้ได้รับสิทธิใช้งาน</translation>
+        <translation>ผู้ได้รับสิทธิใช้งาน</translation>
     </message>
 </context>
 <context>
@@ -109,7 +109,7 @@
         <location filename="../changestatus.ui" line="31"/>
         <source>Status mode</source>
         <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
-        <translation>กำหนดสถานะภาพปัจจุบัน</translation>
+        <translation>กำหนดสถานะภาพ</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="43"/>
@@ -121,7 +121,7 @@
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
         <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
-        <translation>ไ&amp;ม่พร้อมทำการติดต่อ</translation>
+        <translation>ไ&amp;ม่พร้อมติดต่อ</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
@@ -187,22 +187,22 @@
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Permanent channel (stored on server)</source>
-        <translation type="unfinished"></translation>
+        <translation>สร้างห้องสนทนาถาวร (เก็บไว้ที่เซิฟเวอร์)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="179"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่มีการขัดจังหวะขณะสนทนา (ไม่มีการส่งสัญญาเสียงไปพร้อมๆกัน)</translation>
     </message>
     <message>
         <source>Static channel (persistent)</source>
         <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
-        <translation type="vanished">ทำให้ห้องสนทนาอยู่ถาวร</translation>
+        <translation>ทำให้ห้องสนทนาอยู่ถาวร</translation>
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
         <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
-        <translation type="vanished">ใช้เป็นห้องทดสอบเสียง ฟังเสียงสะท้อนของตนเอง</translation>
+        <translation>ใช้เป็นห้องทดสอบเสียง ฟังเสียงสะท้อนของตนเอง</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
@@ -211,7 +211,7 @@
     </message>
     <message>
         <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="vanished">ไม่มีการขัดจังหวะขณะพูด (สำหรับใช้เชื่อมต่อกับวิทยุสื่อสาร)</translation>
+        <translation>ไม่มีการขัดจังหวะขณะสนทนา (สำหรับใช้เชื่อมต่อกับวิทยุสื่อสาร)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="186"/>
@@ -220,11 +220,11 @@
     </message>
     <message>
         <source>Echo video (see own video stream)</source>
-        <translation type="vanished">แสดงภาพวีดีทัศน์ของผู้ใช้เอง</translation>
+        <translation>แสดงภาพวีดีทัศน์ของผู้ใช้เอง</translation>
     </message>
     <message>
         <source>Echo desktop (see your shared desktop)</source>
-        <translation type="vanished">แสดงภาพหน้าจอ desktop ของผู้ใช้เอง</translation>
+        <translation>แสดงภาพหน้าจอ desktop ของผู้ใช้เอง</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="193"/>
@@ -235,26 +235,26 @@
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่มีการใช้เสียงเปิดไมค์ (กดปุ่มเพื่อคุยเท่านั้น)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="207"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่อนุญาตให้บันทึกเสียง (บันทึกลงดิสไม่ได้)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="259"/>
         <location filename="../channel.ui" line="397"/>
         <location filename="../channel.ui" line="583"/>
         <source>Sample rate</source>
-        <translation type="unfinished"></translation>
+        <translation>อัตราการสุ่มตัวอย่าง</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="271"/>
         <location filename="../channel.ui" line="409"/>
         <location filename="../channel.ui" line="595"/>
         <source>Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="343"/>
@@ -272,7 +272,7 @@
     </message>
     <message>
         <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="vanished">รหัสเสียง CELT 0.5.2 ล้าสมัย.</translation>
+        <translation>รหัสเสียง CELT 0.5.2 ล้าสมัย.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="468"/>
@@ -293,7 +293,7 @@
     <message>
         <location filename="../channel.ui" line="556"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>การใช้งาน</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="644"/>
@@ -303,7 +303,7 @@
     <message>
         <location filename="../channel.ui" line="656"/>
         <source>Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="729"/>
@@ -327,7 +327,7 @@
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">เปิดใช้งานการลดเสียงรบกวน</translation>
+        <translation>เปิดใช้งานการลดเสียงรบกวน</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="34"/>
@@ -352,15 +352,15 @@
     </message>
     <message>
         <source>8 KHz</source>
-        <translation type="vanished">8 KHz</translation>
+        <translation>8 KHz</translation>
     </message>
     <message>
         <source>16 KHz</source>
-        <translation type="vanished">16 KHz</translation>
+        <translation>16 KHz</translation>
     </message>
     <message>
         <source>32 KHz</source>
-        <translation type="vanished">32 KHz</translation>
+        <translation>32 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="293"/>
@@ -371,7 +371,7 @@
     </message>
     <message>
         <source>44.1 KHz</source>
-        <translation type="vanished">44.1 KHz</translation>
+        <translation>44.1 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="617"/>
@@ -405,12 +405,12 @@
     <message>
         <location filename="../channeldlg.cpp" line="78"/>
         <source>VoIP</source>
-        <translation type="unfinished"></translation>
+        <translation>การใช้งานเสียงผ่านอินเตอร์เน็ต (VoIP)</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="79"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>เพลง</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="118"/>
@@ -484,82 +484,82 @@
     <message>
         <source>Connect to a Server</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">เข้าใช้งานเซิฟเวอร์</translation>
+        <translation>เข้าใช้งานเซิฟเวอร์</translation>
     </message>
     <message>
         <source>Server Information</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ข้อมูลเซิฟเวอร์</translation>
+        <translation>ข้อมูลเซิฟเวอร์</translation>
     </message>
     <message>
         <source>Host IP-address</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">หมายเลย IP ของเซิฟเวอร์</translation>
+        <translation>หมายเลย IP ของเซิฟเวอร์</translation>
     </message>
     <message>
         <source>E.g. 192.168.1.154</source>
-        <translation type="vanished">ตัวอย่างเช่น 192.168.1.1</translation>
+        <translation>ตัวอย่างเช่น 192.168.1.1</translation>
     </message>
     <message>
         <source>TCP port</source>
-        <translation type="vanished">TCP port</translation>
+        <translation>TCP port</translation>
     </message>
     <message>
         <source>10333</source>
-        <translation type="vanished">10333</translation>
+        <translation>10333</translation>
     </message>
     <message>
         <source>Default: 10333</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ค่าปกติ: 10333</translation>
+        <translation>ค่าปกติ: 10333</translation>
     </message>
     <message>
         <source>UDP port</source>
-        <translation type="vanished">UDP port</translation>
+        <translation>UDP port</translation>
     </message>
     <message>
         <source>Authentication (optional)</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">สิทธิพิเศษ (ตัวเลือกเสริม)</translation>
+        <translation>สิทธิพิเศษ (ตัวเลือกเสริม)</translation>
     </message>
     <message>
         <source>Server password</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">รหัสผ่านของเซิฟเวอร์</translation>
+        <translation>รหัสผ่านของเซิฟเวอร์</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="vanished">มีหรือไม่ก็ได้</translation>
+        <translation>มีหรือไม่ก็ได้</translation>
     </message>
     <message>
         <source>Login using user account</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">เข้าใช้งานในเซิฟเวอร์ด้วยบัญชีผู้ใช้งานเท่านั้น</translation>
+        <translation>เข้าใช้งานในเซิฟเวอร์ด้วยบัญชีผู้ใช้งานเท่านั้น</translation>
     </message>
     <message>
         <source>Username</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ชื่อผู้ใช้งาน</translation>
+        <translation>ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <source>Password</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">รหัสผ่าน</translation>
+        <translation>รหัสผ่าน</translation>
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ต้องมีชื่อผู้ใช้งานและรหัสผ่านถ้าเซิฟเวอร์ร้องถาม</translation>
+        <translation>ต้องมีชื่อผู้ใช้งานและรหัสผ่านถ้าเซิฟเวอร์ร้องถาม</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">เข้าใช้งานในห้องสนทนาที่กำหนดไว้หลังการ login (ตัวเลือก)</translation>
+        <translation>เข้าใช้งานในห้องสนทนาที่กำหนดไว้หลังการ login (ตัวเลือก)</translation>
     </message>
     <message>
         <source>Channel</source>
         <translatorcomment>การเชื่อมต่อกับเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ห้องสนทนา</translation>
+        <translation>ห้องสนทนา</translation>
     </message>
 </context>
 <context>
@@ -588,12 +588,12 @@
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>เพื่อเป็นการสะดวก เราสามารถกำหนดให้กลุ่มผู้ใช้งานบนเซิฟเวอร์เข้ามาดูหน้าจอ Desktop ได้โดยอัตโนมัติ ไม่จำเป็นต้องกดอนุญาตทุกครั้ง</translation>
+        <translation>เพื่อเป็นการสะดวก เราสามารถกำหนดให้กลุ่มผู้ใช้งานบนเซิฟเวอร์เข้ามาดูหน้าจอ Desktop ได้โดยอัตโนมัติ ไม่จำเป็นต้องกดอนุญาตทุกครั้ง.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>หมายเลขไอพีของ Host</translation>
+        <translation>หมายเลข IP ของ Host</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -603,7 +603,7 @@
     <message>
         <location filename="../desktopaccess.ui" line="115"/>
         <source>Enable desktop access to all users in channel</source>
-        <translation>อนุญาตให้ผู้ใช้งานทุกคนในเซิฟเวอร์เข้าดูหน้าจอ Desktop ได้</translation>
+        <translation>อนุญาตให้ผู้ใช้งานทุกคนในห้องสนทนาดูหน้าจอ Desktop ได้</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="135"/>
@@ -618,7 +618,7 @@
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>อนุญาตให้เข้าดูหน้าจอ Desktop ของผุ้ใช้งานด้วยชื่อผู้ใช้งาน</translation>
+        <translation>อนุญาตให้เข้าดูหน้าจอ Desktop ของผู้ใช้งานด้วยชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
@@ -828,118 +828,118 @@
     <message>
         <location filename="../generatettfile.ui" line="14"/>
         <source>Generate .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>สร้างไฟล์ .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>การพิสูจน์ตัวตน (ไม่ใช้ก็ได้)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation type="unfinished">ชื่อผู้ใช้งาน</translation>
+        <translation>ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
         <source>Password</source>
-        <translation type="unfinished">รหัสผ่าน</translation>
+        <translation>รหัสผ่าน</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="79"/>
         <source>Client settings</source>
-        <translation type="unfinished"></translation>
+        <translation>การตั้งค่าผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation type="unfinished"></translation>
+        <translation>เขียนทับค่าตั้งต้นเดิม</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
         <source>User Settings</source>
-        <translation type="unfinished">กำหนดค่าผู้ใช้งาน</translation>
+        <translation>กำหนดค่าผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="102"/>
         <source>Nickname</source>
-        <translation type="unfinished">ชื่อเล่น</translation>
+        <translation>ชื่อเล่น</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="123"/>
         <source>Gender</source>
-        <translation type="unfinished">เพศ</translation>
+        <translation>เพศ</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="158"/>
         <source>Male</source>
-        <translation type="unfinished">ชาย</translation>
+        <translation>ชาย</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="171"/>
         <source>Female</source>
-        <translation type="unfinished">หญิง</translation>
+        <translation>หญิง</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="196"/>
         <source>Voice Transmission Mode</source>
-        <translation type="unfinished">วิธีการส่งเสียง</translation>
+        <translation>วิธีการพูดผ่านไมค์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="211"/>
         <source>Push To Talk</source>
-        <translation type="unfinished">กดเพื่อพูด</translation>
+        <translation>กดเพื่อพูด</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="221"/>
         <source>&amp;Setup Keys</source>
-        <translation type="unfinished">กำ&amp;หนดปุ่มกดเพื่อพูด</translation>
+        <translation>กำ&amp;หนดปุ่มกดเพื่อพูด</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="228"/>
         <source>Key Combination</source>
-        <translation type="unfinished"></translation>
+        <translation>การใช้ปุ่มร่วมกัน</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="251"/>
         <source>Voice activated</source>
-        <translation type="unfinished">ใช้เสียงเปิดไมค์</translation>
+        <translation>ใช้เสียงเปิดไมค์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="271"/>
         <source>Video Codec Settings</source>
-        <translation type="unfinished">ตั้งค่าการบีบอัดภาพวีดีทัศน์</translation>
+        <translation>ตั้งค่าการบีบอัดภาพวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="274"/>
         <source>Video Capture Settings</source>
-        <translation type="unfinished">ตั้งค่าการจับภาพด้วยวีดีทัศน์</translation>
+        <translation>ตั้งค่าการจับภาพด้วยวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="283"/>
         <source>Video Resolution</source>
-        <translation type="unfinished">ความละเอียดของภาพวีดีทัศน์</translation>
+        <translation>ความละเอียดของภาพวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="300"/>
         <source>Codec</source>
-        <translation type="unfinished">วิธีการบีบอัดภาพวีดีทัศน์</translation>
+        <translation>วิธีการบีบอัดภาพวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="323"/>
         <source>Bitrate</source>
-        <translation type="unfinished">อัตราการส่งถ่ายข้อมูล</translation>
+        <translation>อัตราการส่งถ่ายข้อมูล</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="415"/>
         <source>&amp;Save .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;บันทึกไฟล์ .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="422"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;ปิด</translation>
+        <translation>&amp;ปิด</translation>
     </message>
 </context>
 <context>
@@ -948,23 +948,23 @@
         <location filename="../generatettfiledlg.cpp" line="64"/>
         <location filename="../generatettfiledlg.cpp" line="75"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>อะไรก็ได้</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="166"/>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Save File</source>
-        <translation type="unfinished">บันทึกไฟล์</translation>
+        <translation>บันทึกไฟล์</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="167"/>
         <source>%1 File (*%1)</source>
-        <translation type="unfinished">%1 ไฟล์ (*%1)</translation>
+        <translation>%1 ไฟล์ (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="174"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">ไม่สามารถบันทึกไฟล์ได้</translation>
+        <translation>ไม่สามารถบันทึกไฟล์ได้</translation>
     </message>
 </context>
 <context>
@@ -997,7 +997,7 @@
         <location filename="../keycomp.ui" line="72"/>
         <source>This dialog closes when you have released all keys</source>
         <translatorcomment>การจัดการคีย์</translatorcomment>
-        <translation>หน้าต่างนี้จะถูกปิดทันที่หลังปล่อยปุ่มใดๆ</translation>
+        <translation>หน้าต่างนี้จะถูกปิดทันที่หลังปล่อยปุ่มทั้งหมด</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="52"/>
@@ -1039,22 +1039,22 @@
     <message>
         <source>Established P2P connection to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ทำการเชื่อมต่อแบบ P2P กับ %1</translation>
+        <translation>ทำการเชื่อมต่อแบบ P2P กับ %1</translation>
     </message>
     <message>
         <source>Failed to establish P2P connection to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">การเชื่อมต่อแบบ P2P กับ %1 ล้มเหลว</translation>
+        <translation>การเชื่อมต่อแบบ P2P กับ %1 ล้มเหลว</translation>
     </message>
     <message>
         <source>%1 will be unavailable for audio transmission</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">%1 ไม่พร้อมให้ออกเสียงได้</translation>
+        <translation>%1 ไม่พร้อมให้ออกเสียงได้</translation>
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">%1 ไม่พร้อมให้ส่งภาพวีดีทัศน์ได้ </translation>
+        <translation>%1 ไม่พร้อมให้ส่งภาพวีดีทัศน์ได้ </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
@@ -1089,22 +1089,22 @@
     <message>
         <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ต้องการใช้ Peer to peer networking สำหรับการส่งเสียงในเซิฟเวอร์นี้ ปัจจุบันเปิดการใช้งานนี้!</translation>
+        <translation>ต้องการใช้ Peer to peer networking สำหรับการส่งเสียงในเซิฟเวอร์นี้ ปัจจุบันเปิดการใช้งานนี้!</translation>
     </message>
     <message>
         <source>Peer to peer networking for audio disabled!</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">Peer to peer networking สำหรับการส่งเสียงใช้งานไม่ได้!</translation>
+        <translation>Peer to peer networking สำหรับการส่งเสียงใช้งานไม่ได้!</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ต้องการใช้ Peer to peer networking สำหรับการส่งภาพวีดีทัศน์ในเซิฟเวอร์นี้ ปัจจุบันเปิดการใช้งานอยู่!</translation>
+        <translation>ต้องการใช้ Peer to peer networking สำหรับการส่งภาพวีดีทัศน์ในเซิฟเวอร์นี้ ปัจจุบันเปิดการใช้งานอยู่!</translation>
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">Peer to peer networking สำหรับภาพวีดีทัศน์ใช้งานไม่ได้!</translation>
+        <translation>Peer to peer networking สำหรับภาพวีดีทัศน์ใช้งานไม่ได้!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4828"/>
@@ -1155,22 +1155,22 @@
     <message>
         <source>Error streaming audio file to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">เกิดความผิดพลาดกับการส่งไฟล์เสียงไปยัง %1</translation>
+        <translation>เกิดความผิดพลาดกับการส่งไฟล์เสียงไปยัง %1</translation>
     </message>
     <message>
         <source>Started streaming audio file to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">เริ่มการส่งไฟล์เสียงไปยัง %1</translation>
+        <translation>เริ่มการส่งไฟล์เสียงไปยัง %1</translation>
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">สิ้นสุดการส่งไฟล์เสียงไปยัง %1</translation>
+        <translation>สิ้นสุดการส่งไฟล์เสียงไปยัง %1</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ยกเลิกการส่งไฟล์เสียงไปยัง %1</translation>
+        <translation>ยกเลิกการส่งไฟล์เสียงไปยัง %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1038"/>
@@ -1210,7 +1210,7 @@
     </message>
     <message>
         <source>Failed to write audio file for %1</source>
-        <translation type="vanished">เกิดความผิดพลาดในการเขียนไฟล์เสียงสำหรับ %1</translation>
+        <translation>เกิดความผิดพลาดในการเขียนไฟล์เสียงสำหรับ %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1469"/>
@@ -1240,12 +1240,12 @@
     </message>
     <message>
         <source>Failed to connect to encrypted server</source>
-        <translation type="vanished">ไม่สามารถเชื่อมต่อกับเซิฟเวอร์ชนิดเข้ารหัสได้</translation>
+        <translation>ไม่สามารถเชื่อมต่อกับเซิฟเวอร์ชนิดเข้ารหัสได้</translation>
     </message>
     <message>
         <source>Failed to connect to server</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">การเชื่อมต่อไปยังเซิฟเวอร์ล้มเหลว</translation>
+        <translation>การเชื่อมต่อไปยังเซิฟเวอร์ล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
@@ -1272,7 +1272,7 @@
     <message>
         <source>Incorrect server password. Try again:</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">รหัสผ่านเซิฟเวอร์ไม่ถูกต้อง โปรดลองอีกครั้งหนึ่ง:</translation>
+        <translation>รหัสผ่านเซิฟเวอร์ไม่ถูกต้อง โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1579"/>
@@ -1313,7 +1313,7 @@
     <message>
         <source>Channel creation not allowed</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ไม่อนุญาตให้สร้างห้อง</translation>
+        <translation>ไม่อนุญาตให้สร้างห้อง</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1618"/>
@@ -1336,7 +1336,7 @@
     <message>
         <source>Modifying subscriptions is not allowed</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ไม่อนุญาตให้เปลี่ยนแปลงข้อมูล</translation>
+        <translation>ไม่อนุญาตให้เปลี่ยนแปลงข้อมูล</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1624"/>
@@ -1418,7 +1418,7 @@
     <message>
         <source>Server has active users</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">เซิฟเวอร์มีผู้ใช้งานอยู่</translation>
+        <translation>เซิฟเวอร์มีผู้ใช้งานอยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1658"/>
@@ -1587,17 +1587,17 @@
     <message>
         <source>Open Wave File</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">เปิดไฟล์เสียง</translation>
+        <translation>เปิดไฟล์เสียง</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ไฟล์เสียง (.wav)</translation>
+        <translation>ไฟล์เสียง (.wav)</translation>
     </message>
     <message>
         <source>Failed to stream file %1</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">การส่งไฟล์เสียงล้มเหลว %1</translation>
+        <translation>การส่งไฟล์เสียงล้มเหลว %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3641"/>
@@ -1640,37 +1640,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Failed to initialize audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>การเริ่มรหัสเสียงล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Failed to initialize audio configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>การตั้งค่าเสียงล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Writing audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>กำลังเขียนไฟล์เสียง %1 สำหรับ %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>การเขียนไฟล์เสียง %1 สำหรับ %2 ล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>Finished audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ไฟล์เสียง %1 เสร็จสิ้น</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1219"/>
         <source>Aborted audio file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ยกเลืกไฟล์เสียง %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"/>
         <source>The username is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานไม่ถูกต้อง</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2238"/>
@@ -1690,17 +1690,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2343"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation type="unfinished"></translation>
+        <translation>การขยายสัญญาณไมค์ถูกควบคุมโดยห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2845"/>
         <source>Push To Talk: </source>
-        <translation type="unfinished"></translation>
+        <translation>กดเพื่อคุย:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>การตั้งค่ารหัสวีดีทัศน์ล้มเหลว กรุณาตรวจสอบที่ &apos;กำหนดค่าใช้งาน&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
@@ -1807,7 +1807,7 @@
         <location filename="../mainwindow.cpp" line="5075"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>ไฟล์ %1 ประกอบด้วย %2 ข้อมูลการตั้งค่า การตั้งค่านี้ใช้งานได้ไหม?</translation>
     </message>
     <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
@@ -1832,17 +1832,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5055"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation type="unfinished"></translation>
+        <translation>ไฟล์ %1 เข้ากันไม่ได้กับไฟล์ %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5066"/>
         <source>Failed to extract host-information from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>การดึงข้อมูลจากโฮสท์ %1 ล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5074"/>
         <source>Load %1 File</source>
-        <translation type="unfinished"></translation>
+        <translation>โหลดไฟล์ %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5139"/>
@@ -2264,12 +2264,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1425"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>เตะออก และ &amp;ห้ามเข้าใช้งาน จากเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1460"/>
         <source>V&amp;oice</source>
-        <translation type="unfinished"></translation>
+        <translation>เ&amp;สียง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1463"/>
@@ -2299,7 +2299,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>บันทึกการสนทนาไปยัง &amp;ดิส</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1582"/>
@@ -2324,12 +2324,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1917"/>
         <source>Increase Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>เพิ่มเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1925"/>
         <source>Lower Media File Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>ลดเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1707"/>
@@ -2354,30 +2354,30 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Kick From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>เตะออกจากเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1912"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished"></translation>
+        <translation>กดปุ่ม Ctrl+Alt+K พร้อมกัน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1920"/>
         <source>Ctrl+Shift+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>กดปุ่ม Ctrl+Shift+Right พร้อมกัน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1928"/>
         <source>Ctrl+Shift+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>กดปุ่ม Ctrl+Shift+Left พร้อมกัน</translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">จัดเก็บเสียงลงดิสก์</translation>
+        <translation>จัดเก็บเสียงลงดิสก์</translation>
     </message>
     <message>
         <source>Start/stop recording audio to files</source>
-        <translation type="vanished">เริ่ม/หยุดการบันทึกเสียงลงไฟล์</translation>
+        <translation>เริ่ม/หยุดการบันทึกเสียงลงไฟล์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1733"/>
@@ -2498,7 +2498,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="vanished">Shift+F3</translation>
+        <translation>Shift+F3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1417"/>
@@ -2520,47 +2520,47 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1636"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;เพิ่มความดังเสียง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1644"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ลดความดังเสียง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1854"/>
         <source>Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ส่งข้อมูลไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1857"/>
         <source>Ctrl+8</source>
-        <translation type="unfinished">Ctrl+8</translation>
+        <translation>กดปุ่ม Ctrl+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1869"/>
         <source>Intercept Media File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ขัดขวางการส่งข้อมูลไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1872"/>
         <source>Ctrl+Shift+8</source>
-        <translation type="unfinished">Ctrl+Shift+8</translation>
+        <translation>กดปุ่ม Ctrl+Shift+8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1877"/>
         <source>Allow Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>อนุญาตให้มีการส่งไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1880"/>
         <source>Ctrl+Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>กดปุ่ม Ctrl+Alt+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1885"/>
         <source>Mu&amp;te Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ปิดเสียง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1888"/>
@@ -2576,17 +2576,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1893"/>
         <source>Mute Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>ปิดเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1896"/>
         <source>Ctrl+Alt+Μ</source>
-        <translation type="unfinished"></translation>
+        <translation>กดปุ่ม Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1901"/>
         <source>Kick From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>เตะออกจากห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1904"/>
@@ -2596,7 +2596,7 @@ Should these settings be applied?</source>
     <message>
         <source>Kick and &amp;Ban</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">เชิญผู้ใช้งานออกและ&amp;ระงับการใช้งาน</translation>
+        <translation>เชิญผู้ใช้งานออกและ&amp;ระงับการใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1428"/>
@@ -2628,7 +2628,7 @@ Should these settings be applied?</source>
     <message>
         <source>&amp;Audio</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">ระดับความแ&amp;รงของเสียง</translation>
+        <translation>ระดับความแ&amp;รงของเสียง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1475"/>
@@ -2684,7 +2684,7 @@ Should these settings be applied?</source>
     <message>
         <source>Store &amp;Audio to Disk</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
-        <translation type="vanished">บัน&amp;ทึกเสียงลง hard disk</translation>
+        <translation>บัน&amp;ทึกเสียงลง hard disk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1564"/>
@@ -2734,7 +2734,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
-        <translation type="vanished">เ&amp;ร่งความดังเสียง (+10)</translation>
+        <translation>เ&amp;ร่งความดังเสียง (+10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1639"/>
@@ -2743,7 +2743,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
-        <translation type="vanished">ล&amp;ดความดังเสียง (-10)</translation>
+        <translation>ล&amp;ดความดังเสียง (-10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1647"/>
@@ -2812,65 +2812,65 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>บันทึกบทสนทนาลงดิส</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>จัดเก็บเสียงการสนทนา</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation type="unfinished">วิธีการจัดเก็บ</translation>
+        <translation>วิธีการจัดเก็บ</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="38"/>
         <source>Single audio file for all users</source>
-        <translation type="unfinished">จัดเก็บเสียงของผู้ใช้ทุกท่านเป็นไฟล์เดียว</translation>
+        <translation>จัดเก็บเสียงของผู้ใช้ทุกท่านเป็นไฟล์เดียว</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="45"/>
         <source>Separate audio file for each user</source>
-        <translation type="unfinished">จัดเก็บไฟล์เสียงแยกแต่ละผู้ใช้งาน</translation>
+        <translation>จัดเก็บไฟล์เสียงแยกแต่ละผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="56"/>
         <source>Audio file format</source>
-        <translation type="unfinished">รูปแบบของไฟล์เสียง</translation>
+        <translation>รูปแบบของไฟล์เสียง</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="69"/>
         <location filename="../mediastoragedlg.cpp" line="89"/>
         <source>Folder for audio files</source>
-        <translation type="unfinished">โฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
+        <translation>โฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="82"/>
         <location filename="../mediastorage.ui" line="113"/>
         <location filename="../mediastorage.ui" line="133"/>
         <source>...</source>
-        <translation type="unfinished">กดเลือกโฟลเดอร์...</translation>
+        <translation>กดเลือกโฟลเดอร์...</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="94"/>
         <source>Store text message conversations</source>
-        <translation type="unfinished"></translation>
+        <translation>เก็บข้อความบทสนทนา</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="100"/>
         <source>Folder for channel log files</source>
-        <translation type="unfinished"></translation>
+        <translation>โฟลเดอร์สำหรับไฟล์ประวัติของห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="120"/>
         <source>Folder for user-to-user log files</source>
-        <translation type="unfinished"></translation>
+        <translation>โฟลเดอร์สำหรับไฟล์ประวัติผู้ใช้งานต่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="90"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="unfinished">ไม่มีโฟลเดอร์ที่ใช้จัดเก็บไฟล์เสียง</translation>
+        <translation>ไม่มีโฟลเดอร์ที่ใช้จัดเก็บไฟล์เสียง</translation>
     </message>
 </context>
 <context>
@@ -2913,7 +2913,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream Audio &amp;File to User</source>
-        <translation type="vanished">ส่งไฟล์เสียงไป&amp;ยังผู้ใช้งาน</translation>
+        <translation>ส่งไฟล์เสียงไป&amp;ยังผู้ใช้งาน</translation>
     </message>
 </context>
 <context>
@@ -3002,13 +3002,13 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="189"/>
         <source>Set away status after</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation>กำหนดสถานะเป็นห่างคอมหลัง</translation>
+        <translation>กำหนดสถานะเป็น ห่างคอม หลัง</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation>วินาทีเมื่อหยุดใช้งานคอม (0 หมายถึงปิดใช้งาน)</translation>
+        <translation>วินาที เมื่อหยุดใช้งานคอม (0 หมายถึงปิดใช้งาน)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="231"/>
@@ -3111,7 +3111,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1759"/>
         <source>Bitrate</source>
-        <translation type="unfinished">อัตราการส่งถ่ายข้อมูล</translation>
+        <translation>อัตราการส่งถ่ายข้อมูล</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="364"/>
@@ -3201,11 +3201,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="vanished">ใช้เสียง</translation>
+        <translation>ใช้เสียง</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="vanished">ใช้วีดีทัศน์</translation>
+        <translation>ใช้วีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="622"/>
@@ -3220,16 +3220,16 @@ Should these settings be applied?</source>
     <message>
         <source>Peer to Peer Data Transmission (P2P Networking)</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation type="vanished">การรับส่งข้อมูลแบบ Peer to Peer (P2P networking)</translation>
+        <translation>การรับส่งข้อมูลแบบ Peer to Peer (P2P networking)</translation>
     </message>
     <message>
         <source>Peer to peer transmission of audio data</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation type="vanished">รับส่งข้อมูลเสียง แบบP2P</translation>
+        <translation>รับส่งข้อมูลเสียง แบบP2P</translation>
     </message>
     <message>
         <source>Peer to peer transmission of video data</source>
-        <translation type="vanished">รับส่งข้อมูลวีดีทัศน์ แบบ P2P</translation>
+        <translation>รับส่งข้อมูลวีดีทัศน์ แบบ P2P</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="678"/>
@@ -3327,12 +3327,12 @@ Should these settings be applied?</source>
     <message>
         <source>Enable 3D-sound</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation type="vanished">เปิดใช้งานเสียง 3 D</translation>
+        <translation>เปิดใช้งานเสียง 3 D</translation>
     </message>
     <message>
         <source>Enable denoising</source>
         <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
-        <translation type="vanished">เปิดใช้งานการลดเสียงรบกวน</translation>
+        <translation>เปิดใช้งานการลดเสียงรบกวน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1034"/>
@@ -3426,22 +3426,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="608"/>
         <source>Voice</source>
-        <translation type="unfinished"></translation>
+        <translation>เสียง</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="653"/>
         <source>Media Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation type="unfinished"></translation>
+        <translation>เปิดการควบคุมการขยายเสียงไมค์อัตโนมัติ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>เปิดการลดเสียงรบกวนจากไมค์</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1320"/>
@@ -3557,11 +3557,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">คุณภาพของวีดีทัศน์</translation>
+        <translation>คุณภาพของวีดีทัศน์</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">อัตราการส่งถ่ายข้อมูล Bit Rate</translation>
+        <translation>อัตราการส่งถ่ายข้อมูล Bit Rate</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="293"/>
@@ -3624,7 +3624,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
-        <translation type="vanished">การเปิดใช้งานการตัดเสียงสะท้อนล้มเหลว</translation>
+        <translation>การเปิดใช้งานการตัดเสียงสะท้อนล้มเหลว</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="914"/>
@@ -3709,7 +3709,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="148"/>
         <source>Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>การพิสูจน์ตัวจริง</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="237"/>
@@ -3786,12 +3786,12 @@ Should these settings be applied?</source>
     <message>
         <source>Server password</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">รหัสผ่านของเซิฟเวอร์</translation>
+        <translation>รหัสผ่านของเซิฟเวอร์</translation>
     </message>
     <message>
         <source>Login using user account</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">เข้าใช้งานด้วยบัญชีผู้ใช้งาน</translation>
+        <translation>เข้าใช้งานด้วยบัญชีผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="154"/>
@@ -3866,17 +3866,17 @@ Should these settings be applied?</source>
     <message>
         <source>Save File</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">บันทึกไฟล์</translation>
+        <translation>บันทึกไฟล์</translation>
     </message>
     <message>
         <source>%1 File (*%1)</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">%1 ไฟล์ (*%1)</translation>
+        <translation>%1 ไฟล์ (*%1)</translation>
     </message>
     <message>
         <source>Unable to save file</source>
         <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
-        <translation type="vanished">ไม่สามารถบันทึกไฟล์ได้</translation>
+        <translation>ไม่สามารถบันทึกไฟล์ได้</translation>
     </message>
 </context>
 <context>
@@ -3894,7 +3894,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">รหัสผ่านของเซิฟเวอร์</translation>
+        <translation>รหัสผ่านของเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
@@ -3925,7 +3925,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="174"/>
         <source>User timeout</source>
-        <translation>หมดเวลาการใช้งาน</translation>
+        <translation>ผู้ใช้งานถูกจำกัดเวลาใช้งาน</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="206"/>
@@ -3939,67 +3939,67 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>User Rights</source>
-        <translation type="vanished">สิทธิของผู้ใช้งาน</translation>
+        <translation>สิทธิของผู้ใช้งาน</translation>
     </message>
     <message>
         <source>Users can create channels</source>
-        <translation type="vanished">ผู้ใช้งานสามารถสร้างห้องสนทนาได้</translation>
+        <translation>ผู้ใช้งานสามารถสร้างห้องสนทนาได้</translation>
     </message>
     <message>
         <source>Users can become channel operators</source>
-        <translation type="vanished">ผู้ใช้งานสามารถเปลี่ยนสถานะเป็นผู้ควบคุมได้</translation>
+        <translation>ผู้ใช้งานสามารถเปลี่ยนสถานะเป็นผู้ควบคุมได้</translation>
     </message>
     <message>
         <source>Users can login without a user account</source>
-        <translation type="vanished">ผู้ใช้งานสามารถ login ได้โดยไม่ต้องมีบัญชีผู้ใช้งาน</translation>
+        <translation>ผู้ใช้งานสามารถ login ได้โดยไม่ต้องมีบัญชีผู้ใช้งาน</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="vanished">ผู้ใช้งานหลายคนสามารถใช้บัญชีผู้ใช้งานเดียวกันได้</translation>
+        <translation>ผู้ใช้งานหลายคนสามารถใช้บัญชีผู้ใช้งานเดียวกันได้</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
-        <translation type="vanished">ผู้ใช้งานสามารถเห็นผู้ใช้งานอื่นจากทุกห้องสนทนา</translation>
+        <translation>ผู้ใช้งานสามารถเห็นผู้ใช้งานอื่นจากทุกห้องสนทนา</translation>
     </message>
     <message>
         <source>Users can broadcast text messages</source>
-        <translation type="vanished">ผู้ใช้งานสามารถส่งข้อความประกาศได้</translation>
+        <translation>ผู้ใช้งานสามารถส่งข้อความประกาศได้</translation>
     </message>
     <message>
         <source>Users can issue channel commands</source>
-        <translation type="vanished">ผู้ใช้งานสามารถใช้คำสั่งของห้องสนทนาได้</translation>
+        <translation>ผู้ใช้งานสามารถใช้คำสั่งของห้องสนทนาได้</translation>
     </message>
     <message>
         <source>Users can modify subscriptions</source>
-        <translation type="vanished">ผู้ใช้งานสามารถเปลี่ยนแปลงการสมัครได้</translation>
+        <translation>ผู้ใช้งานสามารถเปลี่ยนแปลงการสมัครได้</translation>
     </message>
     <message>
         <source>Users can forward/relay audio through server</source>
-        <translation type="vanished">ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดเสียงผ่านเซิฟเวอร์ได้</translation>
+        <translation>ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดเสียงผ่านเซิฟเวอร์ได้</translation>
     </message>
     <message>
         <source>Users can forward/relay video through server</source>
-        <translation type="vanished">ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดภาพวีดีทัศน์ผ่านเซิฟเวอร์ได้</translation>
+        <translation>ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดภาพวีดีทัศน์ผ่านเซิฟเวอร์ได้</translation>
     </message>
     <message>
         <source>Users can forward/relay desktops through server</source>
-        <translation type="vanished">ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดหน้าจอ desktop ผ่านทางเซิฟเวอร์ได้</translation>
+        <translation>ผู้ใช้งานสามารถส่งต่อหรือถ่ายทอดหน้าจอ desktop ผ่านทางเซิฟเวอร์ได้</translation>
     </message>
     <message>
         <source>Users can forward/relay desktop access through server</source>
-        <translation type="vanished">ผู้ใช้งานสามารถส่งผ่านการแสดงหน้าจอไปยังเซิฟเวอร์</translation>
+        <translation>ผู้ใช้งานสามารถส่งผ่านการแสดงหน้าจอไปยังเซิฟเวอร์</translation>
     </message>
     <message>
         <source>Audio Codec Limitations</source>
-        <translation type="vanished">ข้อจำกัดของการเข้ารหัสเสียง</translation>
+        <translation>ข้อจำกัดของการเข้ารหัสเสียง</translation>
     </message>
     <message>
         <source>Max bitrate for audio codecs</source>
-        <translation type="vanished">อัตราการส่งถ่ายข้อมูลสูงสุดสำหรับการเข้ารหัสเสียง</translation>
+        <translation>อัตราการส่งถ่ายข้อมูลสูงสุดสำหรับการเข้ารหัสเสียง</translation>
     </message>
     <message>
         <source>kbps (0 = disabled)</source>
-        <translation type="vanished">kbps (0 = ปิดการใช้งาน)</translation>
+        <translation>kbps (0 = ปิดการใช้งาน)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="233"/>
@@ -4008,7 +4008,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio TX max</source>
-        <translation type="vanished">การส่งเสียงสูงสุด</translation>
+        <translation>การส่งเสียงสูงสุด</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="377"/>
@@ -4048,7 +4048,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="283"/>
         <source>Voice TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>การส่งเสียงสูงสุด</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="310"/>
@@ -4063,7 +4063,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="347"/>
         <source>Media File TX max</source>
-        <translation type="unfinished"></translation>
+        <translation>การส่งไฟล์มีเดียสูงสุด</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -4106,12 +4106,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>รับ/ส่ง ไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished"></translation>
+        <translation>รับ/ส่ง ไฟล์</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="186"/>
@@ -4156,12 +4156,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverstats.ui" line="285"/>
         <source>Users served</source>
-        <translation type="unfinished"></translation>
+        <translation>จำนวนผู้ใช้บริการ</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="305"/>
         <source>Users peak</source>
-        <translation type="unfinished"></translation>
+        <translation>จำนวนผู้ใช้งานสูงสุด</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="342"/>
@@ -4173,31 +4173,31 @@ Should these settings be applied?</source>
     <name>StreamAudioFileDlg</name>
     <message>
         <source>Stream Audio File</source>
-        <translation type="vanished">ไฟล์เสียงต่อเนื่อง</translation>
+        <translation>ไฟล์เสียงต่อเนื่อง</translation>
     </message>
     <message>
         <source>Audio Stream Properties</source>
-        <translation type="vanished">คุณสมบัติของการส่งเสียงต่อเนื่อง</translation>
+        <translation>คุณสมบัติของการส่งเสียงต่อเนื่อง</translation>
     </message>
     <message>
         <source>Audio File</source>
-        <translation type="vanished">ไฟล์เสียง</translation>
+        <translation>ไฟล์เสียง</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">กดเลือกโฟลเดอร์...</translation>
+        <translation>กดเลือกโฟลเดอร์...</translation>
     </message>
     <message>
         <source>Continuously play audio file</source>
-        <translation type="vanished">เล่นไฟล์เสียงอย่างต่อเนื่อง</translation>
+        <translation>เล่นไฟล์เสียงอย่างต่อเนื่อง</translation>
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">เปิดไฟล์เสียง</translation>
+        <translation>เปิดไฟล์เสียง</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">ไฟล์เสียง (.wav)</translation>
+        <translation>ไฟล์เสียง (.wav)</translation>
     </message>
 </context>
 <context>
@@ -4215,7 +4215,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>ไฟล์</translation>
+        <translation>มีเดียไฟล์</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="41"/>
@@ -4230,11 +4230,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Bitrate</source>
-        <translation type="unfinished">อัตราการส่งถ่ายข้อมูล</translation>
+        <translation>อัตราการส่งถ่ายข้อมูล</translation>
     </message>
     <message>
         <source>Stream audio</source>
-        <translation type="vanished">ถ่ายทอดเสียง</translation>
+        <translation>ถ่ายทอดเสียง</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="70"/>
@@ -4243,7 +4243,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream video</source>
-        <translation type="vanished">ถ่ายทอดวีดีโอ</translation>
+        <translation>ถ่ายทอดวีดีโอ</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="88"/>
@@ -4253,7 +4253,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="104"/>
         <source>Continuously play media file</source>
-        <translation>เล่นไฟล์ไม่รู้จบ</translation>
+        <translation>เล่นไฟล์อย่างต่อเนื่อง</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="120"/>
@@ -4268,11 +4268,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">คุณภาพ</translation>
+        <translation>คุณภาพ</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">อัตราการส่งถ่ายข้อมูล Bit Rate</translation>
+        <translation>อัตราการส่งถ่ายข้อมูล Bit Rate</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="264"/>
@@ -4291,12 +4291,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Media files (*.*)</source>
-        <translation type="vanished">ไฟล์ (*.*)</translation>
+        <translation>ไฟล์ (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="75"/>
         <source>Media files %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ไฟล์มีเดีย %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="98"/>
@@ -4422,7 +4422,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="187"/>
         <source>Default user</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานปกติ</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="203"/>
@@ -4458,112 +4458,112 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="273"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">ข้อจำกัดของการเข้ารหัสเสียง</translation>
+        <translation>ข้อจำกัดของการเข้ารหัสเสียง</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="279"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">อัตราการส่งถ่ายข้อมูลสูงสุดสำหรับการเข้ารหัสเสียง</translation>
+        <translation>อัตราการส่งถ่ายข้อมูลสูงสุดสำหรับการเข้ารหัสเสียง</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="302"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">kbps (0 = ปิดการใช้งาน)</translation>
+        <translation>kbps (0 = ปิดการใช้งาน)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
         <source>User Rights</source>
-        <translation type="unfinished">สิทธิของผู้ใช้งาน</translation>
+        <translation>สิทธิของผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="322"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถ log in ได้หลายครั้ง</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>User can upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถอัพโหลดไฟล์ได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถเห็นผู้ใช้งานอื่นในทุกห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="349"/>
         <source>User can download files</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถดาวโหลดไฟล์ได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถสร้าง/เปลี่ยนแปลงทุกห้องสนทนาได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="363"/>
         <source>User can update server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถอัพเดทข้อมูลเซิฟเวอร์ได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="376"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถสร้างห้องสนทนาชั่วคราวได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="383"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถส่งข้อมูลเสียงได้ (ไมค์)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถเผยแพร่ข้อความได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถส่งข้อมูลวีดีทัศน์ได้ (webcam)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="410"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถเตะผู้ใช้งานอื่นออกจากเซิฟเวอร์ได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="417"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถส่งไฟล์เสียงได้ (wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="424"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถห้ามผู้ใช้งานอื่นเข้าใช้เซิฟเวอร์ได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="431"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถส่งไฟล์วีดีทัศน์ได้ (avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="438"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถย้ายผู้ใช้งานอื่นข้ามห้องสนทนาได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="445"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถส่งหน้าจอ desktop ให้ชมได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="452"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถกำหนดผู้ใช้งานอื่นเป็นผู้ดูแลห้องได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>ผู้ใช้งานสามารถเข้าถึงหน้าจอ desktop จากระยะไกลได้</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="484"/>
@@ -4592,12 +4592,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="327"/>
         <source>Add/Update</source>
-        <translation type="unfinished"></translation>
+        <translation>เพิ่ม/ปรับปรุงให้ทันสมัย</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="328"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished"></translation>
+        <translation>สร้างบัญชีนิรนามไหม?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="508"/>
@@ -4616,7 +4616,7 @@ Should these settings be applied?</source>
         <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
         <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
-        <translation type="unfinished">ชื่อผู้ใช้งาน</translation>
+        <translation>ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4707,11 +4707,11 @@ Should these settings be applied?</source>
     <name>UserImageWidget</name>
     <message>
         <source>Waiting for video from %1</source>
-        <translation type="vanished">กำลังรอภาพวีดีทัศน์จาก %1</translation>
+        <translation>กำลังรอภาพวีดีทัศน์จาก %1</translation>
     </message>
     <message>
         <source>Waiting for local video</source>
-        <translation type="vanished">กำลังรอภาพวีดีทัศน์จากกล้อง</translation>
+        <translation>กำลังรอภาพวีดีทัศน์จากกล้อง</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="197"/>
@@ -4780,21 +4780,21 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="165"/>
         <source>Voice packet loss</source>
-        <translation type="unfinished"></translation>
+        <translation>สูญเสียกลุ่มข้อมูลเสียง</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="199"/>
         <source>Audio file packets loss</source>
-        <translation type="unfinished"></translation>
+        <translation>สูญเสียกลุ่มข้อมูลไฟล์เสียง</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
         <source>Video file frame loss</source>
-        <translation type="unfinished"></translation>
+        <translation>สูญเสียเฟรมไฟล์วีดีทัศน์</translation>
     </message>
     <message>
         <source>P2P connection</source>
-        <translation type="vanished">P2P connection การส่งเสียงผ่านผู้ใช้งานโดยตรง</translation>
+        <translation>P2P connection การส่งเสียงผ่านผู้ใช้งานโดยตรง</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="148"/>
@@ -4803,7 +4803,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio packet loss</source>
-        <translation type="vanished">กลุ่มข้อมูลเสียงสูญหาย</translation>
+        <translation>กลุ่มข้อมูลเสียงสูญหาย</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="182"/>
@@ -4844,11 +4844,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="vanished">ใช่</translation>
+        <translation>ใช่</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="vanished">ไม่ใช่</translation>
+        <translation>ไม่ใช่</translation>
     </message>
 </context>
 <context>
@@ -4871,17 +4871,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservideowidget.cpp" line="53"/>
         <source>Waiting for video from %1</source>
-        <translation type="unfinished">กำลังรอภาพวีดีทัศน์จาก %1</translation>
+        <translation>กำลังรอภาพวีดีทัศน์จาก %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="57"/>
         <source>Waiting for media file from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>กำลังรอไฟล์มีเดียจาก %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="51"/>
         <source>Waiting for local video</source>
-        <translation type="unfinished">กำลังรอภาพจากวีดีทัศน์</translation>
+        <translation>กำลังรอภาพวีดีทัศน์</translation>
     </message>
 </context>
 <context>
@@ -4897,7 +4897,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservolume.ui" line="23"/>
         <source>Voice Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ตั้งค่าความดังเสียง</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="53"/>
@@ -4920,12 +4920,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ตั้งค่าความดังเสียงไฟล์มีเดีย</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="150"/>
         <source>&amp;Default</source>
-        <translation type="unfinished">&amp;ค่าที่กำหนดไว้แล้ว</translation>
+        <translation>&amp;ค่าที่กำหนดไว้แล้ว</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>

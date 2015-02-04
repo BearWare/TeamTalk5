@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -1592,8 +1592,12 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1896"/>
+        <source>Ctrl+Alt+Μ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Ctrl+Alt+Оњ</source>
-        <translation>Ctrl+Alt+Оњ</translation>
+        <translation type="vanished">Ctrl+Alt+Оњ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1901"/>
@@ -2129,6 +2133,11 @@
         <location filename="../mainwindow.cpp" line="3871"/>
         <source>Message to broadcast:</source>
         <translation>Сообщение для трансляции:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4128"/>
+        <source>&amp;Leave Channel</source>
+        <translation>&amp;Покинуть Канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4353"/>
