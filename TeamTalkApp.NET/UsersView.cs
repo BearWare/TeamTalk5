@@ -83,7 +83,7 @@ namespace TeamTalkApp.NET
             item.SubItems.Add(user.szUsername);
             string chanpath = "";
             if (user.nChannelID > 0)
-                ttclient.GetChannelPath(user.nChannelID, out chanpath);
+                ttclient.GetChannelPath(user.nChannelID, ref chanpath);
             item.SubItems.Add(chanpath);
             item.SubItems.Add(user.szIPAddress);
             item.SubItems.Add(user.szStatusMsg);
@@ -107,7 +107,7 @@ namespace TeamTalkApp.NET
             item.SubItems[1].Text = user.szNickname;
             string chanpath = "";
             if (user.nChannelID > 0)
-                ttclient.GetChannelPath(user.nChannelID, out chanpath);
+                ttclient.GetChannelPath(user.nChannelID, ref chanpath);
             item.SubItems[3].Text = chanpath;
             item.SubItems[4].Text = user.szIPAddress;
             item.SubItems[5].Text = user.szStatusMsg;

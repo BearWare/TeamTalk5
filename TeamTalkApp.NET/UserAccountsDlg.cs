@@ -70,12 +70,12 @@ namespace TeamTalkApp.NET
             Channel[] channels;
             if (ttclient.GetServerChannels(out channels))
             {
-                string channel;
                 foreach (Channel chan in channels)
                 {
+                    string channel = "";
                     //auto-op only works for static channels
                     if (chan.uChannelType.HasFlag(ChannelType.CHANNEL_PERMANENT) &&
-                        ttclient.GetChannelPath(chan.nChannelID, out channel))
+                        ttclient.GetChannelPath(chan.nChannelID, ref channel))
                         availchanListBox.Items.Add(channel);
                 }
             }
@@ -382,8 +382,8 @@ namespace TeamTalkApp.NET
                     bitrateNumericUpDown.Value = acc.nAudioCodecBpsLimit / 1000;
                     foreach (int id in acc.autoOperatorChannels)
                     {
-                        string channel;
-                        if (ttclient.GetChannelPath(id, out channel))
+                        string channel = "";
+                        if (ttclient.GetChannelPath(id, ref channel))
                             selchanListBox.Items.Add(channel);
                     }
 

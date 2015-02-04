@@ -671,7 +671,7 @@ namespace TeamTalkApp.NET
         {
             int channelid = channels.GetSelectedChannel();
             string name = "";
-            ttclient.GetChannelPath(channelid, out name);
+            ttclient.GetChannelPath(channelid, ref name);
             if (MessageBox.Show("Delete channel: " + name, "Delete Channel", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 ttclient.DoRemoveChannel(channelid);
         }

@@ -54,7 +54,7 @@ namespace TeamTalkApp.NET
             if (bActive)
             {
                 string name = "";
-                if (ttclient.HotKey_GetKeyString(nVkCode, out name))
+                if (ttclient.HotKey_GetKeyString(nVkCode, ref name))
                     textBox1.Text += name + " ";
 
                 keys.Add(nVkCode);

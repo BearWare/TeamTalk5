@@ -61,7 +61,7 @@ namespace TeamTalkApp.NET
             if (channelid > 0 && ttclient.GetChannel(channelid, ref chan))
             {
                 string path = "";
-                ttclient.GetChannelPath(channelid, out path);
+                ttclient.GetChannelPath(channelid, ref path);
                 chanpathTextBox.Text = path;
                 channameTextBox.Text = chan.szName;
                 topicTextBox.Text = chan.szTopic;
@@ -133,7 +133,7 @@ namespace TeamTalkApp.NET
             else
             {
                 string path = "";
-                ttclient.GetChannelPath(parentid, out path);
+                ttclient.GetChannelPath(parentid, ref path);
                 chanpathTextBox.Text = path;
                 chan.nParentID = parentid;
             }
@@ -295,7 +295,7 @@ namespace TeamTalkApp.NET
         private void channameTextBox_TextChanged(object sender, EventArgs e)
         {
             string path = "";
-            ttclient.GetChannelPath(chan.nParentID, out path);
+            ttclient.GetChannelPath(chan.nParentID, ref path);
             path += channameTextBox.Text;
             chanpathTextBox.Text = path;
         }

@@ -104,11 +104,11 @@ namespace TeamTalkApp.NET
                 Debug.WriteLine("\tID #" + dev.nDeviceID);
                 Debug.WriteLine("\tUnique ID #" + dev.szDeviceID);
                 Debug.WriteLine("\tWaveDeviceID #" + dev.nWaveDeviceID);
-                string tmp;
-                if (WindowsMixer.GetWaveInName(dev.nWaveDeviceID, out tmp))
+                string tmp = "";
+                if (WindowsMixer.GetWaveInName(dev.nWaveDeviceID, ref tmp))
                     Debug.WriteLine("\tMixer name: " + tmp);
                 for (int i = 0; i < WindowsMixer.GetWaveInControlCount(dev.nWaveDeviceID); i++)
-                    if (WindowsMixer.GetWaveInControlName(dev.nWaveDeviceID, i, out tmp))
+                    if (WindowsMixer.GetWaveInControlName(dev.nWaveDeviceID, i, ref tmp))
                     {
                         Debug.WriteLine("\t\tControl name: " + tmp);
                         Debug.WriteLine("\t\tSelected: " + WindowsMixer.GetWaveInControlSelected(dev.nWaveDeviceID, i));

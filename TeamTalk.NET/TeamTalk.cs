@@ -2422,7 +2422,7 @@ namespace BearWare
          *
          * @param nSource Command ID being processed (returned by
          * TeamTalk.Do* commands)
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #BearWare.TTMessage. Is TRUE if
          * command ID started processing and FALSE if the command has
          * finished processing. */
@@ -2775,7 +2775,7 @@ namespace BearWare
          * @brief Voice activation has triggered transmission.
          *
          * @param nSource 0
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #BearWare.TTMessage. TRUE if voice
          * is being transmitted due to voice level high than
          * activation level.
@@ -2789,7 +2789,7 @@ namespace BearWare
          * @brief A hotkey has been acticated or deactivated.
          *
          * @param nSource The hotkey ID passed to TeamTalk.HotKey_Register().
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #BearWare.TTMessage. TRUE when
          * hotkey is active and FALSE when it becomes inactive.
          *
@@ -2810,7 +2810,7 @@ namespace BearWare
          *
          * @param nSource The virtual key code. Look here for a list of virtual
          * key codes: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #BearWare.TTMessage. TRUE when key
          * is down and FALSE when released.
          * @see TeamTalk.HotKey_InstallTestHook() */
@@ -2896,7 +2896,7 @@ namespace BearWare
         __AUDIOFORMAT             = 26,
         __MEDIAFILEINFO           = 27,
         __CLIENTERRORMSG          = 28,
-        __BOOL                    = 29,
+        __TTBOOL                    = 29,
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,
@@ -2956,7 +2956,7 @@ namespace BearWare
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(UserAccount));
                 case TTType.__BANNEDUSER :
                     return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(BannedUser));
-                case TTType.__BOOL:
+                case TTType.__TTBOOL:
                     return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this)) != 0;
                 case TTType.__INT32:
                     return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
@@ -5735,11 +5735,12 @@ namespace BearWare
          * @param nChannelID The channel's ID.
          * @param szChannelPath Will receive the channel's path.
          * @return Returns TRUE if channel exists. */
-        public bool GetChannelPath(int nChannelID, out string szChannelPath)
+        public bool GetChannelPath(int nChannelID, ref string szChannelPath)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_GetChannelPath(m_ttInst, nChannelID, ptr);
-            szChannelPath = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szChannelPath = Marshal.PtrToStringUni(ptr);
             Marshal.FreeHGlobal(ptr);
             return b;
         }
@@ -6286,11 +6287,12 @@ namespace BearWare
          * @param nVKCode The virtual key code passed in #OnHotKeyTest.
          * @param szKeyName Will receive key description in local language.
          * @see HotKey_InstallTestHook */
-        public bool HotKey_GetKeyString(int nVKCode, out string szKeyName)
+        public bool HotKey_GetKeyString(int nVKCode, ref string szKeyName)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_HotKey_GetKeyString(m_ttInst, nVKCode, ptr);
-            szKeyName = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szKeyName = Marshal.PtrToStringUni(ptr);
             Marshal.FreeHGlobal(ptr);
             return b;
         }
@@ -6846,11 +6848,13 @@ namespace BearWare
          * GetMixerCount() - 1.
          * @param szMixerName The output string receiving the name of the device. */
         public static bool GetMixerName(int nMixerIndex,
-            out string szMixerName)
+                                        ref string szMixerName)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_Mixer_GetMixerName(nMixerIndex, ptr);
-            szMixerName = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szMixerName = Marshal.PtrToStringUni(ptr);
+
             Marshal.FreeHGlobal(ptr);
             return b;
         }
@@ -6862,11 +6866,12 @@ namespace BearWare
          * @param szMixerName The output string receiving the name of the device. 
          * @see TeamTalk.GetSoundDevices() */
         public static bool GetWaveInName(int nWaveDeviceID,
-                                  out string szMixerName)
+                                         ref string szMixerName)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_Mixer_GetWaveInName(nWaveDeviceID, ptr);
-            szMixerName = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szMixerName = Marshal.PtrToStringUni(ptr);
             Marshal.FreeHGlobal(ptr);
             return b;
         }
@@ -6878,11 +6883,13 @@ namespace BearWare
          * @param szMixerName The output string receiving the name of the device. 
          * @see TeamTalk.GetSoundOutputDevices */
         public static bool GetWaveOutName(int nWaveDeviceID,
-                                  out string szMixerName)
+                                          ref string szMixerName)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_Mixer_GetWaveOutName(nWaveDeviceID, ptr);
-            szMixerName = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szMixerName = Marshal.PtrToStringUni(ptr);
+
             Marshal.FreeHGlobal(ptr);
             return b;
         }
@@ -7048,11 +7055,12 @@ namespace BearWare
          * @param szDeviceName The output string of the name of the device.
          * @see WindowsMixer.GetWaveInControlCount */
         public static bool GetWaveInControlName(int nWaveDeviceID, int nControlIndex,
-            out string szDeviceName)
+                                                ref string szDeviceName)
         {
             IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN * 2);
             bool b = TTDLL.TT_Mixer_GetWaveInControlName(nWaveDeviceID, nControlIndex, ptr);
-            szDeviceName = Marshal.PtrToStringUni(ptr);
+            if(b)
+                szDeviceName = Marshal.PtrToStringUni(ptr);
             Marshal.FreeHGlobal(ptr);
             return b;
         }
