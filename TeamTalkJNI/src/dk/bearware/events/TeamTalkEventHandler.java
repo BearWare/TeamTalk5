@@ -334,7 +334,7 @@ public class TeamTalkEventHandler {
             }
             break;
             case ClientEvent.CLIENTEVENT_VOICE_ACTIVATION : {
-                assert (pMsg.ttType == TTType.__BOOL);
+                assert (pMsg.ttType == TTType.__TTBOOL);
 
                 boolean bActive = pMsg.bActive;
 
@@ -343,7 +343,7 @@ public class TeamTalkEventHandler {
             }
             break;
             case ClientEvent.CLIENTEVENT_HOTKEY : {
-                assert (pMsg.ttType == TTType.__BOOL);
+                assert (pMsg.ttType == TTType.__TTBOOL);
 
                 int nHotKeyID = pMsg.nSource;
                 boolean bActive = pMsg.bActive;
@@ -353,7 +353,7 @@ public class TeamTalkEventHandler {
             }
             break;
             case ClientEvent.CLIENTEVENT_HOTKEY_TEST : {
-                assert (pMsg.ttType == TTType.__BOOL);
+                assert (pMsg.ttType == TTType.__TTBOOL);
 
                 int nVkCode = pMsg.nSource;
                 boolean bActive = pMsg.bActive;

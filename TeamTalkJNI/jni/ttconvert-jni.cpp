@@ -409,7 +409,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
         env->SetObjectField(pMsg, fid_ban, newObj);        
     }
     break;
-    case __BOOL :
+    case __TTBOOL :
         env->SetBooleanField(pMsg, fid_act, msg.bActive);
         break;
     case __INT32 :

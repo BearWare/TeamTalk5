@@ -622,8 +622,9 @@ bool MainWindow::parseArgs(const QStringList& args)
         }
         else if(args[i].left(QString(TTLINK_PREFIX).size()).toLower() == TTLINK_PREFIX)
         {
-            //tt://([^\??!/]*)/?\?
-            QRegExp rx(QString("%1([^\\??!/]*)/?\\?").arg(TTLINK_PREFIX));
+            //Slash is removed by Qt 5.3.1 by mistake, therefore /+ for slashes
+            //Bug: https://bugreports.qt.io/browse/QTBUG-39972
+            QRegExp rx(QString("%1/+([^\\??!/]*)/?\\??").arg(TTLINK_PREFIX));
             if(rx.indexIn(args[i])>=0)
             {
                 HostEntry entry;
@@ -1026,7 +1027,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
     break;
     case CLIENTEVENT_VOICE_ACTIVATION :
-        Q_ASSERT(msg.ttType == __BOOL);
+        Q_ASSERT(msg.ttType == __TTBOOL);
         emit(updateMyself());
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
@@ -1245,7 +1246,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
     break;
     case CLIENTEVENT_HOTKEY :
-        Q_ASSERT(msg.ttType == __BOOL);
+        Q_ASSERT(msg.ttType == __TTBOOL);
         hotkeyToggle((HotKeyID)msg.nSource, (bool)msg.bActive);
         break;
     default :
@@ -3973,10 +3974,10 @@ void MainWindow::slotUsersVolume(int userid)
 
 void MainWindow::slotUsersOp(int userid, int chanid)
 {
-    BOOL op = TT_IsChannelOperator(ttInst, userid, chanid);
+    bool op = (bool)TT_IsChannelOperator(ttInst, userid, chanid);
 
-    BOOL me_opadmin = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
-    me_opadmin |= (BOOL)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+    bool me_opadmin = (bool)TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
+    me_opadmin |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) != 0;
     if(me_opadmin) //don't need password in this case
         TT_DoChannelOp(ttInst, userid, chanid, !op);
     else

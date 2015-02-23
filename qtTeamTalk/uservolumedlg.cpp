@@ -62,7 +62,7 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
 
 void UserVolumeDlg::slotVolumeChanged(int /*vol*/)
 {
-    BOOL b = TRUE;
+    TTBOOL b = TRUE;
 
     double percent = ui.voicevolSlider->value();
     percent /= 100.;

@@ -35,6 +35,7 @@ import dk.bearware.DesktopInput;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
@@ -1073,6 +1074,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         
         ttservice = service;
         ttclient = ttservice.getTTInstance();
+        
+        //ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440);
 
         int mychannel = ttclient.getMyChannelID();
         if(curchannel == null && mychannel > 0) {

@@ -61,8 +61,8 @@ extern "C" {
         THROW_NULLEX(env, pMsg, false);
 
         TTMessage msg;
-        BOOL b = TT_GetMessage(reinterpret_cast<TTInstance*>(lpTTInstance),
-                               &msg, &pnWaitMs);
+        TTBOOL b = TT_GetMessage(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                 &msg, &pnWaitMs);
         if(b)
             setTTMessage(env, msg, pMsg);
         return b;

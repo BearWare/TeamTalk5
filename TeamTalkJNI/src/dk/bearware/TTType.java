@@ -51,7 +51,7 @@ public interface TTType {
     public static final int __AUDIOFORMAT        = 26;
     public static final int __MEDIAFILEINFO      = 27;
     public static final int __CLIENTERRORMSG     = 28;
-    public static final int __BOOL               = 29;
+    public static final int __TTBOOL             = 29;
     public static final int __INT32              = 30;
     public static final int __DESKTOPINPUT       = 31;
     public static final int __SPEEXDSP           = 32;

@@ -3633,7 +3633,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice * 0.01);
+                         user.nVolumeVoice + (DEFAULT_SOUND_VOLUME_MAX * 0.01));
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumevoice(CCmdUI *pCmdUI)
@@ -3651,7 +3651,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumevoice()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice * (-0.01));
+                         user.nVolumeVoice - (DEFAULT_SOUND_VOLUME_MAX * 0.01));
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumemediafile(CCmdUI *pCmdUI)
@@ -3669,7 +3669,7 @@ void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile * 1.01);
+                         user.nVolumeMediaFile + (DEFAULT_SOUND_VOLUME_MAX * 0.01));
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumemediafile(CCmdUI *pCmdUI)
@@ -3687,7 +3687,7 @@ void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile * (-1.01));
+                         user.nVolumeMediaFile - (DEFAULT_SOUND_VOLUME_MAX * 0.01));
 }
 
 void CTeamTalkDlg::OnUpdateChannelsCreatechannel(CCmdUI *pCmdUI)

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3708"
+#define TEAMTALK_VERSION "5.0.0.3845"
 
 
 #if defined(WIN32)
@@ -43,12 +43,12 @@ extern "C" {
     /* If you get a compiler error here you probably forgot to include
      * <windows.h> before this file.  */
 
-    /** @brief TeamTalk uses Unicode on Windows (which means that it's
-     * not able to run on Windows 9x/ME). @see TT_STRLEN */
-    typedef WCHAR TTCHAR; 
+    /** @brief TeamTalk uses Unicode on Windows. @see TT_STRLEN */
+    typedef WCHAR TTCHAR;
+    typedef int TTBOOL;
 #else
     typedef char TTCHAR;
-    typedef int BOOL;
+    typedef int TTBOOL;
     typedef unsigned short UINT16;
     typedef int INT32;
     typedef long long INT64;
@@ -259,7 +259,7 @@ extern "C" {
 #endif
         /** @brief Whether the sound device supports 3D-sound
          * effects. */
-        BOOL bSupports3D;
+        TTBOOL bSupports3D;
         /** @brief The maximum number of input channels. */
         INT32 nMaxInputChannels;
         /** @brief The maximum number of output channels. */
@@ -526,7 +526,7 @@ extern "C" {
          * not a key-frame and there has been packet loss or a
          * key-frame has not been acquired prior then the image may
          * look blurred. */
-        BOOL bKeyFrame;
+        TTBOOL bKeyFrame;
         /** @brief A buffer allocated internally by client instance. */
         VOID* frameBuffer;
         /** @brief The size in bytes of the buffer allocate in @a
@@ -720,7 +720,7 @@ extern "C" {
          *
          * @see TT_SetUserPosition
          * @see TT_SetUserStereo */
-        BOOL bStereoPlayback;
+        TTBOOL bStereoPlayback;
     } SpeexCodec;
 
     /** @brief Speex audio codec settings for Variable Bitrate mode
@@ -749,7 +749,7 @@ extern "C" {
         /** @brief Enable/disable discontinuous transmission. When
          * enabled Speex will ignore silence, so the bitrate will
          * become very low. */
-        BOOL bDTX;
+        TTBOOL bDTX;
         /** @brief Milliseconds of audio data before each transmission. Speex
          * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
          * max is 100. */
@@ -759,7 +759,7 @@ extern "C" {
          *
          * @see TT_SetUserPosition
          * @see TT_SetUserStereo */
-        BOOL bStereoPlayback; 
+        TTBOOL bStereoPlayback; 
     } SpeexVBRCodec;
 
 /** @brief The minimum bitrate for Speex codec in 8 KHz mode. Bandmode
@@ -799,18 +799,18 @@ extern "C" {
         INT32 nComplexity;
         /** @brief Forward error correction. 
          * Corrects errors if there's packetloss. */
-        BOOL bFEC;
+        TTBOOL bFEC;
         /** @brief Discontinuous transmission.
          * Enables "null" packets during silence. */
-        BOOL bDTX;
+        TTBOOL bDTX;
         /** @brief Bitrate for encoded audio. Should be between
          * #OPUS_MIN_BITRATE and #OPUS_MAX_BITRATE. */
         INT32 nBitRate;
         /** @brief Enable variable bitrate. */
-        BOOL bVBR;
+        TTBOOL bVBR;
         /** @brief Enable constrained VBR.
          * @c bVBR must be enabled to enable this. */
-        BOOL bVBRConstraint;
+        TTBOOL bVBRConstraint;
         /** @brief Duration of audio before each transmission.
          * OPUS supports 2.5, 5, 10, 20, 40 or 60 ms. */
         INT32 nTxIntervalMSec;
@@ -851,7 +851,7 @@ extern "C" {
         /** @brief Whether to enable AGC with the settings specified
          * @a nGainLevel, @a nMaxIncDBSec, @a nMaxDecDBSec and @a
          * nMaxGainDB. */
-        BOOL bEnableAGC;
+        TTBOOL bEnableAGC;
         /** @brief A value from 0 to 32768. Default is 8000.
          * Value is ignored if @a bEnableAGC is FALSE. */
         INT32 nGainLevel;
@@ -870,7 +870,7 @@ extern "C" {
         INT32 nMaxGainDB;
         /** @brief Whether clients who join the channel should automatically
          * enable denoising. */
-        BOOL bEnableDenoise;
+        TTBOOL bEnableDenoise;
         /** @brief Maximum attenuation of the noise in dB.
          * Negative value! Default value is -30. 
          * Value is ignored if @a bEnableDenoise is FALSE. */
@@ -889,7 +889,7 @@ extern "C" {
          * must be the same sound card since the input and output stream
          * must be completely synchronized. Also it is recommended to also
          * enable denoising and AGC for better echo cancellation. */
-        BOOL bEnableEchoCancellation;
+        TTBOOL bEnableEchoCancellation;
         /** @brief Set maximum attenuation of the residual echo in dB 
          * (negative number). Default is -40.
          * Value is ignored if @a bEnableEchoCancellation is FALSE. */
@@ -968,7 +968,7 @@ extern "C" {
     typedef struct AudioConfig
     {
         /** @brief Users should enable automatic gain control. */
-        BOOL bEnableAGC;
+        TTBOOL bEnableAGC;
         /** @brief Reference gain level to be used by all users. */
         INT32 nGainLevel;
     } AudioConfig;
@@ -1159,7 +1159,7 @@ extern "C" {
          * will start dropping packets. 0 = disabled. */
         INT32 nMaxTotalTxPerSecond;
         /** @brief Whether the server automatically saves changes */
-        BOOL bAutoSave;
+        TTBOOL bAutoSave;
         /** @brief The server's TCP port. */
         INT32 nTcpPort;
         /** @brief The server's UDP port. */
@@ -1543,12 +1543,12 @@ extern "C" {
          * If index 0 is TRUE then left speaker is playing. If index 1 is
          * TRUE then right speaker is playing.
          * @see TT_SetUserStereo */
-        BOOL stereoPlaybackVoice[2];
+        TTBOOL stereoPlaybackVoice[2];
         /** @brief Check what speaker a user is outputting to. 
          * If index 0 is TRUE then left speaker is playing. If index 1 is
          * TRUE then right speaker is playing.
          * @see TT_SetUserStereo */
-        BOOL stereoPlaybackMediaFile[2];
+        TTBOOL stereoPlaybackMediaFile[2];
         /** @brief The size of the buffer (in msec) to hold voice
          * content.
          * @see TT_SetUserAudioStreamBufferSize() */
@@ -1717,7 +1717,7 @@ extern "C" {
         TTCHAR szPassword[TT_STRLEN];
         /** @brief Whether password is required to join channel. Read-only 
          * property. */
-        BOOL bPassword;
+        TTBOOL bPassword;
         /** @brief A bitmask of the type of channel based on #ChannelType. */
         ChannelTypes uChannelType;
         /** @brief User specific data which will be stored on
@@ -1812,7 +1812,7 @@ extern "C" {
         /** @brief The number of bytes transferred so far. */
         INT64 nTransferred;
         /** @brief TRUE if download and FALSE if upload. */
-        BOOL bInbound;
+        TTBOOL bInbound;
     } FileTransfer;
 
 
@@ -2230,7 +2230,7 @@ extern "C" {
          *
          * @param nSource Command ID being processed (returned by
          * TT_Do* commands)
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #TTMessage. Is TRUE if
          * command ID started processing and FALSE if the command has
          * finished processing. */
@@ -2582,7 +2582,7 @@ extern "C" {
          * @brief Voice activation has triggered transmission.
          *
          * @param nSource 0
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #TTMessage. TRUE if voice
          * is being transmitted due to voice level high than
          * activation level.
@@ -2596,7 +2596,7 @@ extern "C" {
          * @brief A hotkey has been acticated or deactivated.
          *
          * @param nSource The hotkey ID passed to TT_HotKey_Register().
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #TTMessage. TRUE when
          * hotkey is active and FALSE when it becomes inactive.
          *
@@ -2617,7 +2617,7 @@ extern "C" {
          *
          * @param nSource The virtual key code. Look here for a list of virtual
          * key codes: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx
-         * @param ttType #__BOOL
+         * @param ttType #__TTBOOL
          * @param bActive Placed in union of #TTMessage. TRUE when key
          * is down and FALSE when released.
          * @see TT_HotKey_InstallTestHook */
@@ -2702,7 +2702,7 @@ extern "C" {
         __AUDIOFORMAT             = 26,
         __MEDIAFILEINFO           = 27,
         __CLIENTERRORMSG          = 28,
-        __BOOL                    = 29,
+        __TTBOOL                    = 29,
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,
@@ -2755,8 +2755,8 @@ extern "C" {
             UserAccount useraccount;
             /** @brief Valid if @c ttType is #__BANNEDUSER. */
             BannedUser banneduser;
-            /** @brief Valid if @c ttType is #__BOOL. */
-            BOOL bActive;
+            /** @brief Valid if @c ttType is #__TTBOOL. */
+            TTBOOL bActive;
             /** @brief Valid if @c ttType is #__INT32. */
             INT32 nBytesRemain;
             /** @brief Valid if @c ttType is #__INT32. */
@@ -2928,7 +2928,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param hWnd The new HWND which should receive event messages. */
-    TEAMTALKDLL_API BOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
                                              IN HWND hWnd);
 #endif
 
@@ -2957,7 +2957,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @see TT_InitTeamTalk */
-    TEAMTALKDLL_API BOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Poll for events in the client instance.
@@ -2970,7 +2970,7 @@ extern "C" {
      * @return Returns TRUE if an event has occured otherwise FALSE.
      * @see TT_InitTeamTalkPolled
      * @see ClientEvent */
-    TEAMTALKDLL_API BOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
                                        OUT TTMessage* pMsg,
                                        IN const INT32* pnWaitMs);
 
@@ -2996,7 +2996,7 @@ extern "C" {
       * @param szRegName The registration name provided by BearWare.dk.
       * @param szRegKey The registration key provided by BearWare.dk.
       * @return True if the provided registration is acceptable. */
-     TEAMTALKDLL_API BOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STRLEN],
+     TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STRLEN],
                                                    IN const TTCHAR szRegKey[TT_STRLEN]);
     /** @} */
 
@@ -3010,13 +3010,13 @@ extern "C" {
      * @param lpnOutputDeviceID The ID of the default output device.
      * @see TT_InitSoundInputDevice
      * @see TT_InitSoundOutputDevice */
-    TEAMTALKDLL_API BOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID, 
                                                    OUT INT32* lpnOutputDeviceID);
     /**
      * @brief Get the default sound devices for the specified sound system.
      *
      * @see TT_GetDefaultSoundDevices() */
-    TEAMTALKDLL_API BOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem, 
+    TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem, 
                                                      OUT INT32* lpnInputDeviceID, 
                                                      OUT INT32* lpnOutputDeviceID);
 
@@ -3033,7 +3033,7 @@ extern "C" {
      * @see TT_GetDefaultSoundDevices
      * @see TT_InitSoundInputDevice
      * @see TT_InitSoundOutputDevice */
-    TEAMTALKDLL_API BOOL TT_GetSoundDevices(IN OUT SoundDevice* lpSoundDevices,
+    TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* lpSoundDevices,
                                             IN OUT INT32* lpnHowMany);
 
 
@@ -3052,7 +3052,7 @@ extern "C" {
      * In order to restart the sound system all sound devices in all
      * client instances must be closed using TT_CloseSoundInputDevice(),
      * TT_CloseSoundoutputDevice() and TT_CloseSoundDuplexDevices(). */
-    TEAMTALKDLL_API BOOL TT_RestartSoundSystem();
+    TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem();
 
     /**
      * @brief Perform a record and playback test of specified sound
@@ -3088,7 +3088,7 @@ extern "C" {
                                                            IN INT32 nOutputDeviceID,
                                                            IN INT32 nSampleRate,
                                                            IN INT32 nChannels,
-                                                           IN BOOL bDuplexMode,
+                                                           IN TTBOOL bDuplexMode,
                                                            IN const SpeexDSP* lpSpeexDSP);
     
     /**
@@ -3101,7 +3101,7 @@ extern "C" {
      * @see TT_InitSoundInputDevice
      * @see TT_InitSoundOutputDevice
      * @see TT_StartSoundLoopbackTest */
-    TEAMTALKDLL_API BOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop);
+    TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop);
 
     /**
      * @brief Initialize the sound input devices (for recording audio).
@@ -3120,7 +3120,7 @@ extern "C" {
      * @see TT_GetSoundDevices
      * @see TT_CloseSoundInputDevice
      * @see TT_GetSoundInputLevel */
-    TEAMTALKDLL_API BOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_InitSoundInputDevice(IN TTInstance* lpTTInstance, 
                                                  IN INT32 nInputDeviceID);
 
     /** 
@@ -3140,7 +3140,7 @@ extern "C" {
      * @see TT_GetDefaultSoundDevices
      * @see TT_GetSoundDevices
      * @see TT_CloseSoundOutputDevice */
-    TEAMTALKDLL_API BOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_InitSoundOutputDevice(IN TTInstance* lpTTInstance, 
                                                   IN INT32 nOutputDeviceID);
 
     /**
@@ -3184,7 +3184,7 @@ extern "C" {
      * @see TT_InitSoundInputDevice()
      * @see TT_InitSoundOutputDevice()
      * @see TT_CloseSoundDuplexDevices() */
-    TEAMTALKDLL_API BOOL TT_InitSoundDuplexDevices(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_InitSoundDuplexDevices(IN TTInstance* lpTTInstance, 
                                                    IN INT32 nInputDeviceID,
                                                    IN INT32 nOutputDeviceID);
 
@@ -3206,7 +3206,7 @@ extern "C" {
      * @return If running in sound duplex mode (#CLIENT_SNDINOUTPUT_DUPLEX)
      * then ensure to disable duplex mode prior to closing the sound device.
      * @see TT_InitSoundInputDevice */
-    TEAMTALKDLL_API BOOL TT_CloseSoundInputDevice(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseSoundInputDevice(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Shutdown the output sound device.
@@ -3226,7 +3226,7 @@ extern "C" {
      * @return If running in sound duplex mode (#CLIENT_SNDINOUTPUT_DUPLEX)
      * then ensure to disable duplex mode prior to closing the sound device.
      * @see TT_InitSoundOutputDevice */
-    TEAMTALKDLL_API BOOL TT_CloseSoundOutputDevice(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseSoundOutputDevice(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Shut down sound devices running in duplex mode.
@@ -3236,7 +3236,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk. */
-    TEAMTALKDLL_API BOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseSoundDuplexDevices(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Get the volume level of the current recorded audio.
@@ -3268,7 +3268,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param nLevel A value from #SOUND_GAIN_MIN to #SOUND_GAIN_MAX.
      * @see TT_GetSoundInputGainLevel */
-    TEAMTALKDLL_API BOOL TT_SetSoundInputGainLevel(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_SetSoundInputGainLevel(IN TTInstance* lpTTInstance, 
                                                    IN INT32 nLevel);
 
     /**
@@ -3297,7 +3297,7 @@ extern "C" {
      * Preferably from the #Channel's @c audiocfg member to ensure common
      * settings for all users.
      * @return TRUE on success, FALSE on failure. */
-    TEAMTALKDLL_API BOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                     const IN SpeexDSP* lpSpeexDSP);
 
     /** 
@@ -3310,7 +3310,7 @@ extern "C" {
      * receive the settings that is currently in effect.
      *
      * @return TRUE on success, FALSE on failure. */
-    TEAMTALKDLL_API BOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetSoundInputPreprocess(IN TTInstance* lpTTInstance,
                                                     OUT SpeexDSP* lpSpeexDSP);
 
     /**
@@ -3322,7 +3322,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param nVolume A value from #SOUND_VOLUME_MIN to  #SOUND_VOLUME_MAX.
      * @see TT_SetUserVolume */
-    TEAMTALKDLL_API BOOL TT_SetSoundOutputVolume(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_SetSoundOutputVolume(IN TTInstance* lpTTInstance, 
                                                  IN INT32 nVolume);
 
     /**
@@ -3344,8 +3344,8 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param bMuteAll Whether to mute or unmute all users.
      * @see CLIENT_SNDOUTPUT_MUTE */
-    TEAMTALKDLL_API BOOL TT_SetSoundOutputMute(IN TTInstance* lpTTInstance, 
-                                               IN BOOL bMuteAll);
+    TEAMTALKDLL_API TTBOOL TT_SetSoundOutputMute(IN TTInstance* lpTTInstance, 
+                                               IN TTBOOL bMuteAll);
 
     /** 
      * @brief Enable automatically position users using 3D-sound.
@@ -3357,8 +3357,8 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param bEnable TRUE to enable, otherwise FALSE.
      * @see TT_SetUserPosition */
-    TEAMTALKDLL_API BOOL TT_Enable3DSoundPositioning(IN TTInstance* lpTTInstance, 
-                                                     IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_Enable3DSoundPositioning(IN TTInstance* lpTTInstance, 
+                                                     IN TTBOOL bEnable);
 
     /** 
      * @brief Automatically position users using 3D-sound.
@@ -3369,7 +3369,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @see TT_SetUserPosition */
-    TEAMTALKDLL_API BOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_AutoPositionUsers(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Enable/disable access to user's raw audio.
@@ -3389,10 +3389,10 @@ extern "C" {
      * @see TT_AcquireUserAudioBlock()
      * @see TT_ReleaseUserAudioBlock()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
-    TEAMTALKDLL_API BOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
                                                   IN INT32 nUserID,
                                                   IN StreamType nStreamType,
-                                                  IN BOOL bEnable);
+                                                  IN TTBOOL bEnable);
     /** @} */
 
     /** @addtogroup transmission
@@ -3412,8 +3412,8 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param bEnable Enable/disable transmission. */
-    TEAMTALKDLL_API BOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
-                                                    IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
+                                                    IN TTBOOL bEnable);
 
     /**
      * @brief Enable voice activation.
@@ -3437,8 +3437,8 @@ extern "C" {
      * @param bEnable TRUE to enable, otherwise FALSE.
      * @see CLIENT_SNDINPUT_VOICEACTIVATION
      * @see TT_SetVoiceActivationStopDelay */
-    TEAMTALKDLL_API BOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance, 
-                                                  IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance, 
+                                                  IN TTBOOL bEnable);
 
     /** 
      * @brief Set voice activation level.
@@ -3452,7 +3452,7 @@ extern "C" {
      * @see TT_EnableVoiceActivation
      * @see TT_GetVoiceActivationLevel
      * @see TT_SetVoiceActivationStopDelay */
-    TEAMTALKDLL_API BOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance, 
                                                     IN INT32 nLevel);
 
     /** 
@@ -3477,7 +3477,7 @@ extern "C" {
      *
      * @see TT_EnableVoiceActivation
      * @see TT_SetVoiceActivationLevel */
-    TEAMTALKDLL_API BOOL TT_SetVoiceActivationStopDelay(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationStopDelay(IN TTInstance* lpTTInstance,
                                                         IN INT32 nDelayMSec);
 
     /**
@@ -3528,7 +3528,7 @@ extern "C" {
      *
      * @see TT_SetUserMediaStorageDir()
      * @see TT_StopRecordingMuxedAudioFile() */
-    TEAMTALKDLL_API BOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
                                                          IN const AudioCodec* lpAudioCodec,
                                                          IN const TTCHAR* szAudioFileName,
                                                          IN AudioFileFormat uAFF);
@@ -3547,7 +3547,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      *
      * @see TT_StartRecordingMuxedAudioFile() */
-    TEAMTALKDLL_API BOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstance);
 
     /** 
      * @brief Start transmitting from video capture device.
@@ -3573,7 +3573,7 @@ extern "C" {
      *
      * @see TT_StartStreamingMediaFileToChannel()
      * @see TT_EnableVoiceTransmission() */
-    TEAMTALKDLL_API BOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInstance,
                                                           IN const VideoCodec* lpVideoCodec);
 
     /**
@@ -3582,7 +3582,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @see TT_StartVideoCaptureTransmission() */
-    TEAMTALKDLL_API BOOL TT_StopVideoCaptureTransmission(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_StopVideoCaptureTransmission(IN TTInstance* lpTTInstance);
 
     /** @} */
 
@@ -3600,7 +3600,7 @@ extern "C" {
      * the call hold the number of devices, otherwise it should hold
      * the size of the @a lpVideoDevices array.
      * @see TT_InitVideoCaptureDevice */
-    TEAMTALKDLL_API BOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVideoDevices,
+    TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVideoDevices,
                                                    IN OUT INT32* lpnHowMany);
 
     /**
@@ -3616,14 +3616,14 @@ extern "C" {
      * i.e. frame-rate, resolution and picture format.
      * @see TT_GetVideoCaptureDevices
      * @see TT_CloseVideoCaptureDevice */
-    TEAMTALKDLL_API BOOL TT_InitVideoCaptureDevice(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_InitVideoCaptureDevice(IN TTInstance* lpTTInstance,
                                                    IN const TTCHAR* szDeviceID,
                                                    IN const VideoFormat* lpVideoFormat);
     /**
      * @brief Close a video capture device.
      *
      * @see TT_InitVideoCaptureDevice */
-    TEAMTALKDLL_API BOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance);
 
 #if defined(WIN32)
     /**
@@ -3641,7 +3641,7 @@ extern "C" {
      *
      * @c src_bmp_width and @c src_bmp_height are extracted internally
      * from the source image. */
-    TEAMTALKDLL_API BOOL TT_PaintVideoFrame(IN HDC hDC,
+    TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
                                             IN INT32 XDest,
                                             IN INT32 YDest,
                                             IN INT32 nDestWidth,
@@ -3679,7 +3679,7 @@ extern "C" {
      * @param nSrcHeight The number of height pixels to read from source bitmap.
      * @param lpVideoFrame Video frame retrieved by TT_AcquireUserVideoCaptureFrame()
      * @see TT_AcquireUserVideoCaptureFrame */
-    TEAMTALKDLL_API BOOL TT_PaintVideoFrameEx(IN HDC hDC,
+    TEAMTALKDLL_API TTBOOL TT_PaintVideoFrameEx(IN HDC hDC,
                                               IN INT32 XDest,
                                               IN INT32 YDest,
                                               IN INT32 nDestWidth,
@@ -3723,7 +3723,7 @@ extern "C" {
      * @param lpVideoFrame Pointer to #VideoFrame which should be deallocated. 
      * @return Returns TRUE If a video frame was successfully deallocated.
      * @see TT_AcquireUserVideoCaptureFrame */
-    TEAMTALKDLL_API BOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstance,
                                                          IN VideoFrame* lpVideoFrame);
     /** @} */
 
@@ -3755,7 +3755,7 @@ extern "C" {
      * here, otherwise NULL.
      *
      * @see TT_StopStreamingMediaFileToChannel() */
-    TEAMTALKDLL_API BOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
                                                              IN const TTCHAR* szMediaFilePath,
                                                              IN const VideoCodec* lpVideoCodec);
     /**
@@ -3765,7 +3765,7 @@ extern "C" {
      * and/or #CLIENT_STREAM_VIDEO.
      *
      * @see TT_StartStreamingMediaFileToChannel() */
-    TEAMTALKDLL_API BOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Get the properties of a media file.
@@ -3774,7 +3774,7 @@ extern "C" {
      * a media file, so the user knows what can be streamed.
      *
      * @see TT_StartStreamingMediaFileToChannel() */
-    TEAMTALKDLL_API BOOL TT_GetMediaFileInfo(IN const TTCHAR* szMediaFilePath,
+    TEAMTALKDLL_API TTBOOL TT_GetMediaFileInfo(IN const TTCHAR* szMediaFilePath,
                                              OUT MediaFileInfo* lpMediaFileInfo);
 
     /** @brief Extract a user's media video frame for display.
@@ -3809,7 +3809,7 @@ extern "C" {
      * @param lpVideoFrame Pointer to #VideoFrame which should be deallocated. 
      * @return Returns TRUE if a video frame was successfully deallocated.
      * @see TT_AcquireUserMediaVideoFrame() */
-    TEAMTALKDLL_API BOOL TT_ReleaseUserMediaVideoFrame(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_ReleaseUserMediaVideoFrame(IN TTInstance* lpTTInstance,
                                                        IN VideoFrame* lpVideoFrame);
     /** @} */
 
@@ -3868,7 +3868,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. */
-    TEAMTALKDLL_API BOOL TT_CloseDesktopWindow(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_CloseDesktopWindow(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Get RGB values of the palette for the bitmap format.
@@ -3901,7 +3901,7 @@ extern "C" {
      * windows. Increment @c nIndex until the function returns
      * FALSE. Use TT_Windows_GetWindow() to get information about each
      * window. */
-    TEAMTALKDLL_API BOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
+    TEAMTALKDLL_API TTBOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
                                                          OUT HWND* lpHWnd);
 
     /**
@@ -3927,7 +3927,7 @@ extern "C" {
 
     /**
      * @brief Get the properties of a window from its window handle (HWND). */
-    TEAMTALKDLL_API BOOL TT_Windows_GetWindow(IN HWND hWnd,
+    TEAMTALKDLL_API TTBOOL TT_Windows_GetWindow(IN HWND hWnd,
                                               OUT ShareWindow* lpShareWindow);
 
     /**
@@ -3962,7 +3962,7 @@ extern "C" {
      *
      * @c src_bmp_width and @c src_bmp_height are extracted internally
      * from the source image. */
-    TEAMTALKDLL_API BOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
                                                IN INT32 nUserID,
                                                IN HDC hDC,
                                                IN INT32 XDest,
@@ -4004,7 +4004,7 @@ extern "C" {
      * @param nSrcHeight The number of height pixels to read from source bitmap.
      * @return TRUE on success. FALSE on error, e.g. if user doesn't exist.
      * @see TT_AcquireUserDesktopWindow() */
-    TEAMTALKDLL_API BOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
                                                  IN INT32 nUserID,
                                                  IN HDC hDC,
                                                  IN INT32 XDest,
@@ -4046,12 +4046,12 @@ extern "C" {
      * nIndex until the function returns FALSE. Use
      * TT_MacOS_GetWindowFromWindowID() to get information about the
      * window, e.g. title, dimensions, etc. */
-    TEAMTALKDLL_API BOOL TT_MacOS_GetWindow(IN INT32 nIndex,
+    TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
                                             OUT ShareWindow* lpShareWindow);
 
     /** @brief Get information about a window by passing its handle
      * (@c CGWindowID). @see TT_MacOS_GetWindow() */
-    TEAMTALKDLL_API BOOL TT_MacOS_GetWindowFromWindowID(IN INT64 nWindowID,
+    TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindowFromWindowID(IN INT64 nWindowID,
                                                         OUT ShareWindow* lpShareWindow);
 
     /**
@@ -4088,7 +4088,7 @@ extern "C" {
      * @param nPosX X coordinate of mouse cursor.
      * @param nPosY Y coordinate of mouse cursor.
      * @see TT_SendDesktopWindow() */
-    TEAMTALKDLL_API BOOL TT_SendDesktopCursorPosition(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SendDesktopCursorPosition(IN TTInstance* lpTTInstance,
                                                       IN UINT16 nPosX,
                                                       IN UINT16 nPosY);
     /** 
@@ -4118,7 +4118,7 @@ extern "C" {
      * @param nDesktopInputCount Must be less or equal to #TT_DESKTOPINPUT_MAX.
      * @return FALSE If user doesn't exist or if desktop input queue is full or
      * if @c nUserID doesn't subscribe to desktop input. */
-    TEAMTALKDLL_API BOOL TT_SendDesktopInput(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SendDesktopInput(IN TTInstance* lpTTInstance,
                                              IN INT32 nUserID,
                                              IN const DesktopInput lpDesktopInputs[TT_DESKTOPINPUT_MAX],
                                              IN INT32 nDesktopInputCount);
@@ -4171,7 +4171,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param lpDesktopWindow Pointer to #DesktopWindow to release.
      * @see TT_AcquireUserDesktopWindow() */
-    TEAMTALKDLL_API BOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance, 
+    TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance, 
                                                      IN DesktopWindow* lpDesktopWindow);
     /** @} */
 
@@ -4206,13 +4206,13 @@ extern "C" {
      * @see CLIENTEVENT_CON_SUCCESS
      * @see CLIENTEVENT_CON_FAILED
      * @see TT_DoLogin */
-    TEAMTALKDLL_API BOOL TT_Connect(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_Connect(IN TTInstance* lpTTInstance,
                                     IN const TTCHAR* szHostAddress, 
                                     IN INT32 nTcpPort, 
                                     IN INT32 nUdpPort, 
                                     IN INT32 nLocalTcpPort, 
                                     IN INT32 nLocalUdpPort,
-                                    IN BOOL bEncrypted);
+                                    IN TTBOOL bEncrypted);
 
     /**
      * @brief Bind to specific IP-address priot to connecting to server.
@@ -4235,14 +4235,14 @@ extern "C" {
      * connection. Encryption is only available in the TeamTalk
      * Professional SDK.
      * @see TT_Connect */
-    TEAMTALKDLL_API BOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
                                       IN const TTCHAR* szHostAddress,
                                       IN INT32 nTcpPort,
                                       IN INT32 nUdpPort,
                                       IN const TTCHAR* szBindIPAddr,
                                       IN INT32 nLocalTcpPort,
                                       IN INT32 nLocalUdpPort,
-                                      IN BOOL bEncrypted);
+                                      IN TTBOOL bEncrypted);
 
     /**
      * @brief Disconnect from the server.
@@ -4254,7 +4254,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. */
-    TEAMTALKDLL_API BOOL TT_Disconnect(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_Disconnect(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Query the maximum size of UDP data packets to the user
@@ -4267,7 +4267,7 @@ extern "C" {
      * #TT_InitTeamTalk. 
      * @param nUserID The ID of the user to query or 0 for querying 
      * server. Currently only @c nUserID = 0 is supported. */
-    TEAMTALKDLL_API BOOL TT_QueryMaxPayload(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_QueryMaxPayload(IN TTInstance* lpTTInstance,
                                             IN INT32 nUserID);
     
     /**
@@ -4275,7 +4275,7 @@ extern "C" {
      * response times.
      *
      * @see ClientStatistics */
-     TEAMTALKDLL_API BOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
+     TEAMTALKDLL_API TTBOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
                                                  OUT ClientStatistics* lpClientStatistics);
     /** @} */
 
@@ -4536,7 +4536,7 @@ extern "C" {
     TEAMTALKDLL_API INT32 TT_DoChannelOp(IN TTInstance* lpTTInstance,
                                          IN INT32 nUserID,
                                          IN INT32 nChannelID,
-                                         IN BOOL bMakeOperator);
+                                         IN TTBOOL bMakeOperator);
 
     /**
      * @brief Make another user operator of a channel using the 
@@ -4563,7 +4563,7 @@ extern "C" {
                                            IN INT32 nUserID,
                                            IN INT32 nChannelID,
                                            IN const TTCHAR* szOpPassword,
-                                           IN BOOL bMakeOperator);
+                                           IN TTBOOL bMakeOperator);
 
     /**
      * @brief Kick user from either channel or server. 
@@ -5124,7 +5124,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param lpServerProperties A struct to hold the server's properties. */
-    TEAMTALKDLL_API BOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
                                                 OUT ServerProperties* lpServerProperties);
 
     /**
@@ -5142,7 +5142,7 @@ extern "C" {
      * @see TT_GetChannelUsers
      * @see TT_GetUser 
      * @see TT_GetServerChannels*/
-    TEAMTALKDLL_API BOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
                                            IN OUT User* lpUsers,
                                            IN OUT INT32* lpnHowMany);
     /** @} */
@@ -5180,7 +5180,7 @@ extern "C" {
      * @param lpChannel A preallocated struct which will receive the 
      * channel's properties.
      * @return FALSE if unable to retrieve channel otherwise TRUE. */
-    TEAMTALKDLL_API BOOL TT_GetChannel(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetChannel(IN TTInstance* lpTTInstance,
                                        IN INT32 nChannelID, 
                                        OUT Channel* lpChannel );
 
@@ -5192,7 +5192,7 @@ extern "C" {
      * @param nChannelID The channel's ID.
      * @param szChannelPath Will receive the channel's path.
      * @return Returns TRUE if channel exists. */
-    TEAMTALKDLL_API BOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
                                            IN INT32 nChannelID, 
                                            OUT TTCHAR szChannelPath[TT_STRLEN]);
 
@@ -5220,7 +5220,7 @@ extern "C" {
      * the channel.
      * @see User 
      * @see TT_GetChannel */
-    TEAMTALKDLL_API BOOL TT_GetChannelUsers(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetChannelUsers(IN TTInstance* lpTTInstance,
                                             IN INT32 nChannelID,
                                             IN OUT User* lpUsers,
                                             IN OUT INT32* lpnHowMany);
@@ -5240,7 +5240,7 @@ extern "C" {
      * of files in the channel. If @a lpRemoteFiles is not NULL then
      * @a lpnHowMany should specify the size of the @a lpRemoteFiles array.
      * @see TT_GetChannelFile */
-    TEAMTALKDLL_API BOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
                                             IN INT32 nChannelID, 
                                             IN OUT RemoteFile* lpRemoteFiles,
                                             IN OUT INT32* lpnHowMany);
@@ -5254,7 +5254,7 @@ extern "C" {
      * @param nFileID The ID of the file.
      * @param lpRemoteFile A preallocated struct which will receive 
      * file information. */
-    TEAMTALKDLL_API BOOL TT_GetChannelFile(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetChannelFile(IN TTInstance* lpTTInstance,
                                            IN INT32 nChannelID, 
                                            IN INT32 nFileID, 
                                            OUT RemoteFile* lpRemoteFile); 
@@ -5267,7 +5267,7 @@ extern "C" {
      * @param nUserID the ID of the user to check.
      * @param nChannelID the ID of the channel to check whether user
      * is operator of. */
-    TEAMTALKDLL_API BOOL TT_IsChannelOperator(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_IsChannelOperator(IN TTInstance* lpTTInstance,
                                               IN INT32 nUserID, 
                                               IN INT32 nChannelID);
 
@@ -5277,7 +5277,7 @@ extern "C" {
      * Use TT_GetChannel() to get more information about each of the
      * channels. 
      * @see TT_GetServerUsers() */
-    TEAMTALKDLL_API BOOL TT_GetServerChannels(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetServerChannels(IN TTInstance* lpTTInstance,
                                               IN OUT Channel* lpChannels,
                                               IN OUT INT32* lpnHowMany);
     /** @} */
@@ -5309,7 +5309,7 @@ extern "C" {
      * the server. Note that the @a szPassword field of #UserAccount
      * will not be set.
      * @see TT_DoLogin */
-    TEAMTALKDLL_API BOOL TT_GetMyUserAccount(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetMyUserAccount(IN TTInstance* lpTTInstance,
                                              OUT UserAccount* lpUserAccount);
 
     /**
@@ -5355,7 +5355,7 @@ extern "C" {
      * @param nUserID The ID of the user to extract.
      * @param lpUser A preallocated #User struct.
      * @see TT_GetUserByUsername */
-    TEAMTALKDLL_API BOOL TT_GetUser(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetUser(IN TTInstance* lpTTInstance,
                                     IN INT32 nUserID, OUT User* lpUser);
     
     /**
@@ -5365,7 +5365,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param nUserID The ID of the user to extract.
      * @param lpUserStatistics A preallocated #UserStatistics struct. */
-    TEAMTALKDLL_API BOOL TT_GetUserStatistics(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetUserStatistics(IN TTInstance* lpTTInstance,
                                               IN INT32 nUserID, 
                                               OUT UserStatistics* lpUserStatistics);
     /**
@@ -5378,7 +5378,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param szUsername The user's username (from #UserAccount).
      * @param lpUser A preallocated #User struct. */
-    TEAMTALKDLL_API BOOL TT_GetUserByUsername(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetUserByUsername(IN TTInstance* lpTTInstance,
                                               IN const TTCHAR* szUsername, 
                                               OUT User* lpUser);
     /** @} */
@@ -5399,7 +5399,7 @@ extern "C" {
      * #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param nVolume Must be between #SOUND_VOLUME_MIN and #SOUND_VOLUME_MAX.
      * @see TT_SetSoundOutputVolume */
-    TEAMTALKDLL_API BOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
                                           IN INT32 nUserID, 
                                           IN StreamType nStreamType,
                                           IN INT32 nVolume);
@@ -5417,10 +5417,10 @@ extern "C" {
      * #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param bMute TRUE will mute, FALSE will unmute.
      * @see TT_SetSoundOutputMute */
-    TEAMTALKDLL_API BOOL TT_SetUserMute(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserMute(IN TTInstance* lpTTInstance,
                                         IN INT32 nUserID,
                                         IN StreamType nStreamType,
-                                        IN BOOL bMute);
+                                        IN TTBOOL bMute);
 
     /**
      * @brief Set the delay of when a user should no longer be considered
@@ -5432,7 +5432,7 @@ extern "C" {
      * delay (due to network interruptions). This delay is by default
      * set to 500 msec but can be changed by calling
      * TT_SetUserStoppedTalkingDelay(). */
-    TEAMTALKDLL_API BOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstance,
                                                         IN INT32 nUserID, 
                                                         IN StreamType nStreamType,
                                                         IN INT32 nDelayMSec);
@@ -5452,7 +5452,7 @@ extern "C" {
      * @param x Distance in meters to user (left/right).
      * @param y Distance in meters to user (back/forward).
      * @param z Distance in meters to user (up/down). */
-    TEAMTALKDLL_API BOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
                                             IN INT32 nUserID, 
                                             IN StreamType nStreamType,
                                             IN float x,
@@ -5471,11 +5471,11 @@ extern "C" {
      * #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE_AUDIO.
      * @param bLeftSpeaker TRUE if user should be played in left speaker.
      * @param bRightSpeaker TRUE if user should be played in right speaker. */
-    TEAMTALKDLL_API BOOL TT_SetUserStereo(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserStereo(IN TTInstance* lpTTInstance,
                                           IN INT32 nUserID, 
                                           IN StreamType nStreamType,
-                                          IN BOOL bLeftSpeaker, 
-                                          IN BOOL bRightSpeaker);
+                                          IN TTBOOL bLeftSpeaker, 
+                                          IN TTBOOL bRightSpeaker);
 
     /**
      * @brief Store user's audio to disk.
@@ -5512,7 +5512,7 @@ extern "C" {
      * @return FALSE if path is invalid, otherwise TRUE.
      * @see User
      * @see CLIENTEVENT_USER_AUDIOFILE */
-    TEAMTALKDLL_API BOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
                                                    IN INT32 nUserID,
                                                    IN const TTCHAR* szFolderPath,
                                                    IN const TTCHAR* szFileNameVars,
@@ -5543,7 +5543,7 @@ extern "C" {
      * msec is a good size for a media buffer. Set the media
      * buffer size to 0 msec to reset the media buffer to its default value.
      */
-    TEAMTALKDLL_API BOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstance,
                                                          IN INT32 nUserID,
                                                          IN StreamTypes uStreamType,
                                                          IN INT32 nMSec);
@@ -5584,7 +5584,7 @@ extern "C" {
      *
      * @see TT_AcquireUserAudioBlock()
      * @see CLIENTEVENT_USER_AUDIOBLOCK */
-    TEAMTALKDLL_API BOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
                                                   IN AudioBlock* lpAudioBlock);
 
     /** @} */
@@ -5602,7 +5602,7 @@ extern "C" {
      * @param lpFileTransfer A preallocated struct which will receive the file 
      * transfer information.
      * @see TT_CancelFileTransfer */
-    TEAMTALKDLL_API BOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
                                                 IN INT32 nTransferID, 
                                                 OUT FileTransfer* lpFileTransfer);
 
@@ -5616,7 +5616,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param nTransferID The ID of the file transfer to investigate. Transfer 
      * ID is passed by #CLIENTEVENT_FILETRANSFER. */
-    TEAMTALKDLL_API BOOL TT_CancelFileTransfer(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_CancelFileTransfer(IN TTInstance* lpTTInstance,
                                                IN INT32 nTransferID);
 
     /** @ingroup errorhandling
@@ -5743,7 +5743,7 @@ extern "C" {
      * @see TT_InitTeamTalk
      * @see TT_HotKey_Unregister
      * @see TT_HotKey_InstallTestHook */
-    TEAMTALKDLL_API BOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
                                             IN INT32 nHotKeyID, 
                                             IN const INT32* lpnVKCodes,
                                             IN INT32 nVKCodeCount);
@@ -5755,7 +5755,7 @@ extern "C" {
      * #TT_InitTeamTalk.
      * @param nHotKeyID is the ID of the hotkey to unregister.
      * @see TT_HotKey_Register */
-    TEAMTALKDLL_API BOOL TT_HotKey_Unregister(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_HotKey_Unregister(IN TTInstance* lpTTInstance,
                                               IN INT32 nHotKeyID);
 
     /**
@@ -5782,7 +5782,7 @@ extern "C" {
      * occurs. Basically it calls PostMessage(hWnd, Msg, VirtualKey-id, Active);
      * @see TT_HotKey_RemoveTestHook
      * @see CLIENTEVENT_HOTKEY_TEST */
-    TEAMTALKDLL_API BOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
                                                    IN HWND hWnd, UINT uMsg);
 
     /**
@@ -5792,7 +5792,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @see TT_HotKey_InstallTestHook */
-    TEAMTALKDLL_API BOOL TT_HotKey_RemoveTestHook(IN TTInstance* lpTTInstance);
+    TEAMTALKDLL_API TTBOOL TT_HotKey_RemoveTestHook(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Get a string description of the virtual-key code.
@@ -5802,7 +5802,7 @@ extern "C" {
      * @param nVKCode The virtual key code passed in #CLIENTEVENT_HOTKEY_TEST.
      * @param szKeyName Will receive key description in local language.
      * @see TT_HotKey_Register */
-    TEAMTALKDLL_API BOOL TT_HotKey_GetKeyString(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_HotKey_GetKeyString(IN TTInstance* lpTTInstance,
                                                 IN INT32 nVKCode,
                                                 OUT TTCHAR szKeyName[TT_STRLEN]);
     /** @} */
@@ -5815,7 +5815,7 @@ extern "C" {
 
     TEAMTALKDLL_API VOID* TT_DBG_GETDATAPTR(IN TTMessage* pMsg);
 
-    TEAMTALKDLL_API BOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
+    TEAMTALKDLL_API TTBOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
                                                   IN StreamTypes uStreamTypes,
                                                   IN INT32 nFrequency);
 
@@ -5866,7 +5866,7 @@ extern "C" {
      * @param nMixerIndex The index of the mixer. Ranging from 0 to 
      * #TT_Mixer_GetMixerCount()-1.
      * @param szMixerName The output string receiving the name of the device. */
-    TEAMTALKDLL_API BOOL TT_Mixer_GetMixerName(IN INT32 nMixerIndex,
+    TEAMTALKDLL_API TTBOOL TT_Mixer_GetMixerName(IN INT32 nMixerIndex,
                                                OUT TTCHAR szMixerName[TT_STRLEN]);
 
     /**
@@ -5876,7 +5876,7 @@ extern "C" {
      * struct.
      * @param szMixerName The output string receiving the name of the device. 
      * @see TT_GetSoundDevices() */
-    TEAMTALKDLL_API BOOL TT_Mixer_GetWaveInName(IN INT32 nWaveDeviceID,
+    TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInName(IN INT32 nWaveDeviceID,
                                                 OUT TTCHAR szMixerName[TT_STRLEN]);
 
     /**
@@ -5886,7 +5886,7 @@ extern "C" {
      * struct.
      * @param szMixerName The output string receiving the name of the device. 
      * @see TT_GetSoundDevices */
-    TEAMTALKDLL_API BOOL TT_Mixer_GetWaveOutName(IN INT32 nWaveDeviceID,
+    TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveOutName(IN INT32 nWaveDeviceID,
                                                  OUT TTCHAR szMixerName[TT_STRLEN]);
 
     /**
@@ -5899,9 +5899,9 @@ extern "C" {
      * @param bMute True if device should be muted, False if it should be
      * unmuted.
      * @see TT_Mixer_GetWaveOutMute */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, 
                                                  IN MixerControl nControl, 
-                                                 IN BOOL bMute);
+                                                 IN TTBOOL bMute);
 
     /**
      * @brief Get the mute state of a Windows Mixer Wave-Out device
@@ -5923,7 +5923,7 @@ extern "C" {
      * struct.
      * @param nControl A mixer control.
      * @param nVolume A value ranging from 0 to 65535. */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, 
                                                    IN MixerControl nControl, 
                                                    IN INT32 nVolume);
 
@@ -5945,7 +5945,7 @@ extern "C" {
      * @param nWaveDeviceID The @a nWaveDeviceID from the #SoundDevice
      * struct.
      * @param nControl A mixer control. */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, 
                                                     IN MixerControl nControl);
 
     /**
@@ -5967,7 +5967,7 @@ extern "C" {
      * struct.
      * @param nControl A mixer control.
      * @param nVolume A value ranging from 0 to 65535. */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, 
                                                   IN MixerControl nControl, 
                                                   IN INT32 nVolume);
 
@@ -5988,8 +5988,8 @@ extern "C" {
      * @param nWaveDeviceID The @a nWaveDeviceID from the #SoundDevice
      * struct.
      * @param bEnable TRUE to enable, FALSE to disable. */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, 
-                                                 IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, 
+                                                 IN TTBOOL bEnable);
     /**
      * @brief See if microphone boost is enabled.
      *
@@ -6004,8 +6004,8 @@ extern "C" {
      * @param nWaveDeviceID The @a nWaveDeviceID from the #SoundDevice
      * struct.
      * @param bEnable TRUE to enable, FALSE to disable. */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, 
-                                                IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, 
+                                                IN TTBOOL bEnable);
 
     /**
      * @brief See if microphone is muted.
@@ -6036,7 +6036,7 @@ extern "C" {
      * #TT_Mixer_GetWaveInControlCount()-1.
      * @param szDeviceName The output string of the name of the device.
      * @see TT_Mixer_GetWaveInControlCount */
-    TEAMTALKDLL_API BOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, 
                                                        IN INT32 nControlIndex, 
                                                        OUT TTCHAR szDeviceName[TT_STRLEN]);
 
@@ -6049,7 +6049,7 @@ extern "C" {
      * @param nControlIndex The index of the device. Randing from 0 to 
      * #TT_Mixer_GetWaveInControlCount()-1.
      * @see TT_Mixer_GetWaveInControlCount */
-    TEAMTALKDLL_API BOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID, 
                                                            IN INT32 nControlIndex);
 
     /**
@@ -6062,7 +6062,7 @@ extern "C" {
      * #TT_Mixer_GetWaveInControlCount()-1.
      * @return TRUE if selected, FALSE if unselected, -1 on error.
      * @see TT_Mixer_GetWaveInControlCount */
-    TEAMTALKDLL_API BOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID, 
+    TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID, 
                                                            IN INT32 nControlIndex);
     /** @} */
 
@@ -6074,7 +6074,7 @@ extern "C" {
      *
      * This function does not invoke UAC on Windows Vista/7.
      * @see TT_Firewall_Enable */
-    TEAMTALKDLL_API BOOL TT_Firewall_IsEnabled();
+    TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled();
     
     /**
      * @brief Enable/disable the Windows Firewall.
@@ -6085,7 +6085,7 @@ extern "C" {
      * to have administrator rights. On Windows Vista/7 UAC is invoked
      * to ask the user for administrator rights.
      * @see TT_Firewall_IsEnabled */
-    TEAMTALKDLL_API BOOL TT_Firewall_Enable(IN BOOL bEnable);
+    TEAMTALKDLL_API TTBOOL TT_Firewall_Enable(IN TTBOOL bEnable);
 
     /**
      * @brief Check if an executable is already in the Windows
@@ -6093,7 +6093,7 @@ extern "C" {
      *
      * This function does not invoke UAC on Windows Vista/7.
      * @see TT_Firewall_AddAppException */
-    TEAMTALKDLL_API BOOL TT_Firewall_AppExceptionExists(IN const TTCHAR* szExecutable);
+    TEAMTALKDLL_API TTBOOL TT_Firewall_AppExceptionExists(IN const TTCHAR* szExecutable);
 
     /**
      * @brief Add an application to the Windows Firewall exception
@@ -6104,7 +6104,7 @@ extern "C" {
      * to ask the user for administrator rights.
      * @see TT_Firewall_AppExceptionExists
      * @see TT_Firewall_RemoveAppException */
-    TEAMTALKDLL_API BOOL TT_Firewall_AddAppException(IN const TTCHAR* szName, 
+    TEAMTALKDLL_API TTBOOL TT_Firewall_AddAppException(IN const TTCHAR* szName, 
                                                      IN const TTCHAR* szExecutable);
 
     /**
@@ -6116,7 +6116,7 @@ extern "C" {
      * to ask the user for administrator rights.
      * @see TT_Firewall_AppExceptionExists
      * @see TT_Firewall_AddAppException */
-    TEAMTALKDLL_API BOOL TT_Firewall_RemoveAppException(IN const TTCHAR* szExecutable);
+    TEAMTALKDLL_API TTBOOL TT_Firewall_RemoveAppException(IN const TTCHAR* szExecutable);
     /** @} */
 
 #endif /** WIN32 */

@@ -245,7 +245,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     
     public static String getCurrentMethod()
     {
-        return "";
+        return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 
     static boolean hasFlag(int flags, int flag) {

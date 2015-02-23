@@ -21,7 +21,7 @@
 
 #pragma once
 
-#define APPVERSION              _T("5.0 - BETA4")
+#define APPVERSION              _T("5.0 - RC1")
 #define APPVERSION_SHORT        _T("5.0")
 
 #ifdef ENABLE_ENCRYPTION
