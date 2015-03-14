@@ -211,7 +211,7 @@
     <item id="1308">Typ uživatele</item>
     <item id="1309">Automaticky uložit změny na serveru</item>
     <item id="1311">Uživatelé mohou vidět uživatele na všech kanálech</item>
-    <item id="1312">Uživatelé mohou posílat textové zprávy</item>
+    <item id="1312">Uživatelé mohou posílat administrátorské zprávy</item>
     <item id="1313">Uživatelé mohou používat příkazy</item>
     <item id="1315">Uživatelé mohou posílat zvuk</item>
     <item id="1316">Upravit uživatelský účet</item>
@@ -317,7 +317,7 @@
     <item id="1478">Umístění souboru</item>
     <item id="1479">Žádost o sdílení obrazovky</item>
     <item id="1480">kB/s (0 = vypnuto)</item>
-    <item id="1481">Výchozí uživatel</item>
+    <item id="1481">Běžný uživatel</item>
     <item id="1482">Uživatel může mít vzdálený přístup ke sdíleným obrazovkám</item>
     <item id="1483">Uživatel může vyhazovat uživatele ze serveru</item>
     <item id="1484">Uživatel může zakazovat uživatelům přístup na server</item>

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.3845"
+#define TEAMTALK_VERSION "5.0.0.3885"
 
 
 #if defined(WIN32)
@@ -39,6 +39,10 @@ extern "C" {
 #endif
 
     /* OS specific types. */
+#if !defined(TEAMTALK_TYPES)
+
+#define TEAMTALK_TYPES 1
+
 #if defined(WIN32)
     /* If you get a compiler error here you probably forgot to include
      * <windows.h> before this file.  */
@@ -169,6 +173,8 @@ extern "C" {
  * #TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN then TT_DesktopInput_Execute()
  * will see the key-code as a middle mouse button click. */
 #define TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN 0x1002
+
+#endif /* TEAMTALK_TYPES */
 
     /** @addtogroup sounddevices
      * @{ */
@@ -2971,8 +2977,8 @@ extern "C" {
      * @see TT_InitTeamTalkPolled
      * @see ClientEvent */
     TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
-                                       OUT TTMessage* pMsg,
-                                       IN const INT32* pnWaitMs);
+                                         OUT TTMessage* pMsg,
+                                         IN const INT32* pnWaitMs);
 
     /**
      * @brief Get a bitmask describing the client's current state.
