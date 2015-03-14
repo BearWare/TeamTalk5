@@ -501,7 +501,8 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void test_14_AudioBlock() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
-            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
+            UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
         TeamTalkBase ttclient = newClientInstance();
@@ -521,11 +522,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue(ttclient.enableVoiceTransmission(true));
 
-        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
+        assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
 
         assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
 
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+        assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
         assertEquals(TTType.__STREAMTYPE, msg.ttType);
         assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
@@ -561,6 +562,69 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("voice ok", n_voice_blocks >= 10);
         assertTrue("media file ok", n_mfa_blocks >= 10);
+
+        assertTrue("stop streaming", ttclient.stopStreamingMediaFileToChannel());
+
+        assertTrue("leave channel", waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
+        
+        // drain audio blocks completely
+        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
+        while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+
+        //now test that mute stereo mode having effect
+        chan.audiocodec = new AudioCodec();
+        chan.audiocodec.nCodec = Codec.SPEEX_CODEC;
+        chan.audiocodec.speex.bStereoPlayback = true;
+
+        // test right channel is mute
+        assertTrue("set right mute", ttclient.setUserStereo(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true, false));
+
+        assertTrue("start tone", ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
+
+        assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        n_voice_blocks = 0;
+        while (n_voice_blocks++ < 10)
+        {
+            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+
+            block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertEquals("stereo", 2, block.nChannels);
+            
+            for(int i=0;i<block.lpRawAudio.length;i+=4) {
+                assertEquals("right channel is mute", 0, block.lpRawAudio[i+2]);
+                assertEquals("right channel is mute", 0, block.lpRawAudio[i+3]);
+            }
+        }
+
+        assertTrue(ttclient.enableVoiceTransmission(false));
+
+        // drain audio blocks completely
+        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
+        while(ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID()) != null);
+
+        // test left channel is mute
+        assertTrue("set left mute", ttclient.setUserStereo(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, false, true));
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+
+        n_voice_blocks = 0;
+        while (n_voice_blocks++ < 10)
+        {
+            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+
+            block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertEquals("stereo", 2, block.nChannels);
+            
+            for(int i=0;i<block.lpRawAudio.length;i+=4) {
+                assertEquals("left channel is mute", 0, block.lpRawAudio[i]);
+                assertEquals("left channel is mute", 0, block.lpRawAudio[i+1]);
+            }
+        }
+
+
     }
 
     public void test_15_ListAccounts() {

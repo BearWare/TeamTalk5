@@ -34,6 +34,15 @@ cleanjava:
 	cd src && find . -name \*.class -exec rm {} \;
 	cd test && find . -name \*.class -exec rm {} \;
 
-junit:  native
-	cd test && javac -cp .:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java
+junitcompile: native
+	cd test && javac -cp .:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+
+junit:  junitcompile
 	cd test && java -cp .:../src:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar org.junit.runner.JUnitCore TeamTalkTestSuite
+
+testcase: junitcompile
+	cd test && java -cp .:../src:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+
+android:
+	cd jni && $(NDK)/ndk-build
+

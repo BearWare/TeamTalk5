@@ -24,9 +24,9 @@ package dk.bearware;
 public class AudioCodec
 {
     public int nCodec;
-    public SpeexCodec speex = new SpeexCodec();
-    public SpeexVBRCodec speex_vbr = new SpeexVBRCodec();
-    public OpusCodec opus = new OpusCodec();
+    public SpeexCodec speex = new SpeexCodec(true);
+    public SpeexVBRCodec speex_vbr = new SpeexVBRCodec(true);
+    public OpusCodec opus = new OpusCodec(true);
     public AudioCodec() {
         nCodec = Codec.NO_CODEC;
     }
