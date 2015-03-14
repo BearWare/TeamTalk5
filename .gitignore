@@ -12,3 +12,5 @@ teamtalkd
 ttserverlog*
 ttenvrc
 Tools
+Examples/TeamTalkServer/*.mpc
+

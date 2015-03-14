@@ -291,7 +291,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamTalk.NET\TeamTalk5.NET.csproj">
+    <ProjectReference Include="..\..\TeamTalk.NET\TeamTalk5.NET.csproj">
       <Project>{BF65BDA9-BA3C-45E2-8A32-FADC20A1FA92}</Project>
       <Name>TeamTalk5.NET</Name>
     </ProjectReference>
