@@ -3,7 +3,8 @@ INCLUDE += -I/usr/lib/jvm/java-7-openjdk/include #Mac OS
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-armhf/include #Raspberry
 INCLUDE += -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers #Mac OS
 
-DLIBS := -L../TeamTalk_DLL -lTeamTalk5
+TT5DLIBS := -L../TeamTalk_DLL -lTeamTalk5
+TT5PRODLIBS := -L../TeamTalk_DLL -lTeamTalk5Pro
 
 JARLIB := #location of 'hamcrest-core' and 'junit'
 
@@ -11,18 +12,23 @@ CPPFLAGS := -fPIC
 ARCH=Linux
 
 ifdef LD_LIBRARY_PATH
-OUTPUTFILE := libTeamTalk5-jni.so
+TT5DLL := libTeamTalk5-jni.so
+TT5PRODLL := libTeamTalk5Pro-jni.so
 else
-OUTPUTFILE := libTeamTalk5-jni.dylib
+TT5DLL := libTeamTalk5-jni.dylib
+TT5PRODLL := libTeamTalk5Pro-jni.dylib
 endif
 
 all: native java
 
 native:
-	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(OUTPUTFILE) -Wno-unused-value
+	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value
+
+nativepro:
+	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 clean: cleanjava
-	cd jni && rm $(OUTPUTFILE)
+	cd jni && rm $(TT5DLL) $(TT5PRODLL)
 
 cleanjava:
 	cd src && find . -name \*.class -exec rm {} \;

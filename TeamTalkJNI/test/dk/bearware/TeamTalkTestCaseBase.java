@@ -14,7 +14,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     static final String IPADDR = "my.server.ip.address";
 
     static final int TCPPORT = 10333, UDPPORT = 10333;
-    static final boolean ENCRYPTED = false;
+    static final boolean PROEDITION = true, ENCRYPTED = false;
 
     static final String UPLOADFILE = "filename.txt";
     static final String DOWNLOADFILE = "filename.txt";
@@ -238,7 +238,12 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     TeamTalkBase newClientInstance()
     {
-        TeamTalkBase ttclient = new TeamTalk5();
+        TeamTalkBase ttclient;
+        if(PROEDITION)
+            ttclient = new TeamTalk5Pro();
+        else
+            ttclient = new TeamTalk5();
+
         ttclients.add(ttclient);
         return ttclient;
     }
