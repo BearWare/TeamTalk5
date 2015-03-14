@@ -166,7 +166,7 @@ public abstract class TeamTalkBase
     private native boolean setVoiceActivationLevel(long lpTTInstance,
                                                    int nLevel);
     public boolean setVoiceActivationLevel(int nLevel)
-        { return setVoiceActivationLevel(nLevel); }
+        { return setVoiceActivationLevel(ttInst, nLevel); }
 
     private native int getVoiceActivationLevel(long lpTTInstance);
     public int getVoiceActivationLevel()
