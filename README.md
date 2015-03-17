@@ -1,6 +1,6 @@
 # TeamTalk 5 SDK
 
-Repository for TeamTalk 5 SDK development.
+Repository for [TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) development.
 
 ## Download TeamTalk 5 SDK
 
