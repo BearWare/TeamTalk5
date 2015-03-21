@@ -14,7 +14,7 @@ TeamTalk 5 SDK to obtain the client and server binaries.
   * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5sdk_v5.0.0.3896_debian7_i386.tar.gz) **rev. 3896**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5sdk_v5.0.0.3896_debian7_x86_64.tar.gz) **rev. 3896**
   * [Raspberry Pi (armhf)](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5sdk_v5.0.0.3896_raspbian_armhf.tar.gz) **rev. 3896**
-  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5sdk_v5.0.0.3896_android_armv7a.tar.gz)  **rev. 3896**
+  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3942/tt5sdk_v5.0.0.3942_android_armv7a.tar.gz)  **rev. 3942**
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5prosdk_v5.0.0.3896_win32.zip)  **rev. 3896**
   * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5prosdk_v5.0.0.3896_win64.zip)  **rev. 3896**
@@ -22,6 +22,7 @@ TeamTalk 5 SDK to obtain the client and server binaries.
   * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5prosdk_v5.0.0.3896_debian7_i386.tar.gz) **rev. 3896**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5prosdk_v5.0.0.3896_debian7_x86_64.tar.gz) **rev. 3896**
   * [Raspberry Pi](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3896/tt5prosdk_v5.0.0.3896_raspbian_armhf.tar.gz) **rev. 3896**
+  * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.3942/tt5sdk_v5.0.0.3942_android_armv7a.tar.gz)  **rev. 3942**
 
 ## TeamTalk 5 Libraries
 Projects wrapping the client DLL file in the TeamTalk SDK.
