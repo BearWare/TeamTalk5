@@ -60,14 +60,24 @@ QT += xml network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
-TRANSLATIONS = languages/Chinese_Simplified.ts languages/Chinese_Traditional.ts \
-               languages/Czech.ts languages/Danish.ts \
-               languages/Dutch.ts languages/English.ts \
-               languages/French.ts languages/German.ts \
-               languages/Hebrew.ts languages/Italian.ts \
-               languages/Polish.ts languages/Portuguese_BR.ts \
-               languages/Portuguese_EU.ts languages/Russian.ts \
-               languages/Slovak.ts languages/Slovenian.ts \
-               languages/Spanish.ts languages/Thai.ts \
+TRANSLATIONS = languages/Bulgarian.ts \
+               languages/Chinese_Simplified.ts \
+               languages/Chinese_Traditional.ts \
+               languages/Czech.ts \
+			   languages/Danish.ts \
+               languages/Dutch.ts \
+			   languages/English.ts \
+               languages/French.ts \
+			   languages/German.ts \
+               languages/Hebrew.ts \
+			   languages/Italian.ts \
+               languages/Polish.ts \
+			   languages/Portuguese_BR.ts \
+               languages/Portuguese_EU.ts \
+			   languages/Russian.ts \
+               languages/Slovak.ts \
+			   languages/Slovenian.ts \
+               languages/Spanish.ts \
+			   languages/Thai.ts \
                languages/Turkish.ts
 
