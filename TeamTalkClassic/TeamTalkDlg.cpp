@@ -2135,6 +2135,15 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     nTextLimit = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
 
+    //setup language
+    CString szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
+    if(!szLanguage.IsEmpty())
+    {
+        Languages::Instance( szLanguage );
+        TRANSLATE(*this, IDD);
+        TranslateMenu();
+    }
+
     //see if wizard should be invoked
     if(!bRunWizard)
         bRunWizard = m_cmdArgs.Find(_T("wizard")) > 0;
@@ -2282,15 +2291,6 @@ BOOL CTeamTalkDlg::OnInitDialog()
             AfxMessageBox(_T("Failed to enable boost bug compensation"));
         else
             m_bBoostBugComp = TRUE;
-    }
-
-    //setup language
-    CString szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
-    if(!szLanguage.IsEmpty())
-    {
-        Languages::Instance( szLanguage );
-        TRANSLATE(*this, IDD);
-        TranslateMenu();
     }
 
     if(m_xmlSettings.GetCheckApplicationUpdates())
