@@ -490,5 +490,9 @@ public:
     afx_msg void OnSubscriptionsMediafilestream();
     afx_msg void OnUpdateSubscriptionsInterceptmediafilestream(CCmdUI *pCmdUI);
     afx_msg void OnSubscriptionsInterceptmediafilestream();
+    afx_msg void OnUpdateUserinfoSpeakuserinfo(CCmdUI *pCmdUI);
+    afx_msg void OnUserinfoSpeakuserinfo();
+    afx_msg void OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI);
+    afx_msg void OnChannelinfoSpeakchannelinfo();
 };
 

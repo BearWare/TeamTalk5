@@ -729,6 +729,10 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_SUBSCRIPTIONS_MEDIAFILESTREAM, &CTeamTalkDlg::OnSubscriptionsMediafilestream)
     ON_UPDATE_COMMAND_UI(ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM, &CTeamTalkDlg::OnUpdateSubscriptionsInterceptmediafilestream)
     ON_COMMAND(ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM, &CTeamTalkDlg::OnSubscriptionsInterceptmediafilestream)
+    ON_UPDATE_COMMAND_UI(ID_USERINFO_SPEAKUSERINFO, &CTeamTalkDlg::OnUpdateUserinfoSpeakuserinfo)
+    ON_COMMAND(ID_USERINFO_SPEAKUSERINFO, &CTeamTalkDlg::OnUserinfoSpeakuserinfo)
+    ON_UPDATE_COMMAND_UI(ID_CHANNELINFO_SPEAKCHANNELINFO, &CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelinfo)
+    ON_COMMAND(ID_CHANNELINFO_SPEAKCHANNELINFO, &CTeamTalkDlg::OnChannelinfoSpeakchannelinfo)
     END_MESSAGE_MAP()
 
 
@@ -4456,8 +4460,9 @@ void CTeamTalkDlg::TranslateMenu()
     CMenu& menu = *GetMenu();
     ASSERT(menu.GetMenuItemCount() == 6);
 
-    CString szFile, szMe, szUsers, szChannels, szServer, szHelp;
-    CString szAdvanced, szMute, szKick, szSubscriptions;
+    CString szFile, szMe, szUsers, szChannels, szServer, szHelp,
+        szAdvanced, szMute, szKick, szSubscriptions, szUserInfo,
+        szChanInfo;
 
     szFile.LoadString(ID_FILE);
     szMe.LoadString(ID_ME);
@@ -4466,10 +4471,12 @@ void CTeamTalkDlg::TranslateMenu()
     szServer.LoadString(ID_SERVER);
     szHelp.LoadString(ID_HELP);
 
+    szUserInfo.LoadString(ID_USERS_USERINFO);
     szAdvanced.LoadString(ID_ADVANCED);
     szMute.LoadString(ID_MUTE);
     szKick.LoadString(ID_KICK);
     szSubscriptions.LoadString(ID_SUBSCRIPTIONS);
+    szChanInfo.LoadString(ID_CHANNELS_CHANNELINFO);
 
     TRANSLATE_ITEM(ID_FILE, szFile);
     TRANSLATE_ITEM(ID_ME, szMe);
@@ -4482,6 +4489,9 @@ void CTeamTalkDlg::TranslateMenu()
     TRANSLATE_ITEM(ID_SUBSCRIPTIONS, szSubscriptions);
     TRANSLATE_ITEM(ID_KICK, szKick);
     TRANSLATE_ITEM(ID_MUTE, szMute);
+    TRANSLATE_ITEM(ID_USERS_USERINFO, szUserInfo);
+
+    TRANSLATE_ITEM(ID_CHANNELS_CHANNELINFO, szChanInfo);
 
     menu.ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szFile);
     menu.ModifyMenu(1, MF_BYPOSITION | MF_STRING, 0, szMe);
@@ -4491,12 +4501,17 @@ void CTeamTalkDlg::TranslateMenu()
     menu.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szHelp);
 
     ASSERT(menu.GetSubMenu(2));
-    CMenu& sub = *menu.GetSubMenu(2);
+    CMenu* sub = menu.GetSubMenu(2);
 
-    sub.ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szMute);
-    sub.ModifyMenu(6, MF_BYPOSITION | MF_STRING, 0, szKick);
-    sub.ModifyMenu(7, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
-    sub.ModifyMenu(8, MF_BYPOSITION | MF_STRING, 0, szAdvanced);
+    sub->ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szUserInfo);
+    sub->ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szMute);
+    sub->ModifyMenu(6, MF_BYPOSITION | MF_STRING, 0, szKick);
+    sub->ModifyMenu(7, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
+    sub->ModifyMenu(8, MF_BYPOSITION | MF_STRING, 0, szAdvanced);
+
+    sub = menu.GetSubMenu(3);
+    sub->ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szChanInfo);
+
     //redraw
     DrawMenuBar();
     m_wndTabCtrl.Translate();
@@ -5880,4 +5895,104 @@ void CTeamTalkDlg::OnUpdateUsersAllowdesktopaccess(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersAllowdesktopaccess()
 {
     OnSubscriptionsDesktopacces();
+}
+
+
+void CTeamTalkDlg::OnUpdateUserinfoSpeakuserinfo(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_bSpeech &&
+        (m_wndTree.GetSelectedUser()>0 || m_wndTree.GetSelectedChannel()>0));
+}
+
+
+void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
+{
+    int nID = m_wndTree.GetSelectedUser();
+    if(nID>0)
+    {
+        User user;
+        if(!m_wndTree.GetUser(nID, user))
+            return;
+
+        CString szVoice, szMute, szMediaFile, szMuteMediaFile,
+            szVideoCapture, szDesktop;
+
+        szVoice.LoadString(IDS_TALKING);
+        szMute.LoadString(IDS_MUTE);
+        szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
+        szMuteMediaFile.LoadString(IDS_MUTE_MEDIAFILE);
+        szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
+        szDesktop.LoadString(IDS_DESKTOP);
+
+        TRANSLATE_ITEM(IDS_TALKING, szVoice);
+        TRANSLATE_ITEM(IDS_MUTE, szMute);
+        TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
+        TRANSLATE_ITEM(IDS_MUTE_MEDIAFILE, szMuteMediaFile);
+        TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
+        TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
+
+        CString szStatus;
+        switch(user.nStatusMode & STATUSMODE_MASK)
+        {
+        case STATUSMODE_AVAILABLE :
+            szStatus.LoadString(IDC_RADIO_ONLINE);
+            TRANSLATE_ITEM(IDC_RADIO_ONLINE, szStatus);
+            break;
+        case STATUSMODE_AWAY :
+            szStatus.LoadString(IDC_RADIO_AWAY);
+            TRANSLATE_ITEM(IDC_RADIO_AWAY, szStatus);
+            break;
+        case STATUSMODE_QUESTION :
+            szStatus.LoadString(IDC_RADIO_QUESTION);
+            TRANSLATE_ITEM(IDC_RADIO_QUESTION, szStatus);
+            break;
+        }
+        if(szStatus.GetLength())
+            AddVoiceMessage(szStatus);
+        if(user.uUserState & USERSTATE_VOICE)
+            AddVoiceMessage(szVoice);
+        if(user.uUserState & USERSTATE_MUTE_VOICE)
+            AddVoiceMessage(szMute);
+        if((user.uUserState & USERSTATE_MEDIAFILE) ||
+           (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE))
+            AddVoiceMessage(szMediaFile);
+        if(user.uUserState & USERSTATE_MUTE_MEDIAFILE)
+            AddVoiceMessage(szMuteMediaFile);
+        if((user.uUserState & USERSTATE_VIDEOCAPTURE) ||
+           (user.nStatusMode & STATUSMODE_VIDEOTX))
+            AddVoiceMessage(szVideoCapture);
+        if((user.uUserState & USERSTATE_DESKTOP) ||
+           (user.nStatusMode & STATUSMODE_DESKTOP))
+            AddVoiceMessage(szDesktop);
+    }
+    else if((nID = m_wndTree.GetSelectedChannel())>0)
+    {
+        Channel chan;
+        if(!m_wndTree.GetChannel(nID, chan))
+            return;
+
+        CString szPasswd, szClassroom;
+        szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
+        szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
+
+        TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
+        TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
+
+        if(chan.uChannelType & CHANNEL_CLASSROOM)
+            AddVoiceMessage(szClassroom);
+        if(chan.bPassword)
+            AddVoiceMessage(szPasswd);
+    }
+}
+
+
+void CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_bSpeech && m_wndTree.GetSelectedChannel()>0);
+}
+
+
+void CTeamTalkDlg::OnChannelinfoSpeakchannelinfo()
+{
+    OnUserinfoSpeakuserinfo();
 }

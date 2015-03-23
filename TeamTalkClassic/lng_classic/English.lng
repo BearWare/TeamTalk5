@@ -11,6 +11,13 @@
     <item id="111">Update existing channel</item>
     <item id="112">Yes</item>
     <item id="113">No</item>
+    <item id="114">Talking</item>
+    <item id="115">Mute</item>
+    <item id="116">Streaming</item>
+    <item id="117">Desktop</item>
+    <item id="118">Webcam</item>
+    <item id="119">Mute media file</item>
+    <item id="120">Password protected</item>
     <item id="121">Joined channel %s</item>
     <item id="122">Output device supports 3D sound</item>
     <item id="123">Output device does not support 3D sound</item>
@@ -22,6 +29,7 @@
     <item id="129">&amp;Help</item>
     <item id="130">New nickname</item>
     <item id="131">Change nickname</item>
+    <item id="132">Classroom</item>
     <item id="133">Joined classroom channel %s</item>
     <item id="134">Files</item>
     <item id="135">Chat</item>
@@ -396,8 +404,8 @@
     <item id="32850">&amp;Me</item>
     <item id="32851">&amp;Advanced</item>
     <item id="32853">&amp;Subscriptions</item>
-    <item id="32854">Mute</item>
-    <item id="32855">Kick</item>
+    <item id="32854">M&amp;ute</item>
+    <item id="32855">K&amp;ick</item>
     <item id="32857">&amp;Upload File\tShift+F5</item>
     <item id="32858">&amp;Download File\tShift+F6</item>
     <item id="32859">Delete &amp;File\tShift+Del</item>
@@ -452,4 +460,8 @@
     <item id="32937">Allow M&amp;edia File Transmission\tCtrl+Alt+R</item>
     <item id="32938">&amp;Media File Stream\tCtrl+8</item>
     <item id="32939">Intercept Medi&amp;a File Stream\tCtrl+Shift+8</item>
+    <item id="32940">User In&amp;fo</item>
+    <item id="32941">&amp;Speak User Info\tCtrl+G</item>
+    <item id="32942">Channel In&amp;fo</item>
+    <item id="32943">&amp;Speak Channel Info\tCtrl+G</item>
 </language>

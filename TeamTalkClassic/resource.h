@@ -19,6 +19,13 @@
 #define IDS_UPDEXISTINGCHANNEL          111
 #define IDS_YES                         112
 #define IDS_NO                          113
+#define IDS_TALKING                     114
+#define IDS_MUTE                        115
+#define IDS_STREAMING_MEDIAFILE         116
+#define IDS_DESKTOP                     117
+#define IDS_VIDEOCAPTURE                118
+#define IDS_MUTE_MEDIAFILE              119
+#define IDS_PASSWORD_PROTECTED          120
 #define IDS_CHANNEL_SELF_JOINED         121
 #define IDS_SUPPORTS3D                  122
 #define IDS_NOSUPPORTS3D                123
@@ -30,6 +37,7 @@
 #define IDS_IDHELP                      129
 #define IDS_NEWNICKNAME                 130
 #define IDS_CHANGENICKNAME              131
+#define IDS_CLASSROOMCHANNEL            132
 #define IDS_CLASSROOM_SELF_JOINED       133
 #define IDS_FILES                       134
 #define IDS_CHAT                        135
@@ -674,6 +682,10 @@
 #define ID_ADVANCED_ALLOWMEDIAFILETRANSMISSION 32937
 #define ID_SUBSCRIPTIONS_MEDIAFILESTREAM 32938
 #define ID_SUBSCRIPTIONS_INTERCEPTMEDIAFILESTREAM 32939
+#define ID_USERS_USERINFO               32940
+#define ID_USERINFO_SPEAKUSERINFO       32941
+#define ID_CHANNELS_CHANNELINFO         32942
+#define ID_CHANNELINFO_SPEAKCHANNELINFO 32943
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
@@ -681,7 +693,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
-#define _APS_NEXT_COMMAND_VALUE         32940
+#define _APS_NEXT_COMMAND_VALUE         32944
 #define _APS_NEXT_CONTROL_VALUE         1536
 #define _APS_NEXT_SYMED_VALUE           156
 #endif
