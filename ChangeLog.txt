@@ -1,0 +1,332 @@
+----------------------------------------------
+                 TeamTalk
+----------------------------------------------
+Version 5.1 (unreleased)
+- Bulgarian language
+- Ctrl+G sends user or channel state to text-to-speech in classic client
+
+Version 5.0, released 2015/03/10
+- WebM video codec replaces Theora
+- OPUS audio codec replaces CELT
+- Separate stream for multimedia files
+- User rights now part of user account (instead of server properties)
+- Audio codec bitrate limit moved to user account
+- Max number of channels 4000
+- Max number of users 1000
+- Removed P2P support
+- Rename channel names
+- No voice activation channel type
+- Added -pid-file option to server
+- Automatic gain control enabled by default
+- Classroom free-for-all stored in server's config file
+- Default server config file now tt5srv.xml and log file tt5srv.log
+- Daemon startup script for Debian Linux
+- Server statistics for "users served", "users peak" and "uptime"
+- Console server included with Windows-distribution
+- Refresh sound devices for Classic client
+- No recording allowed channel type
+- Packetloss statistics in Classic client
+- Option in Classic client to disable VU-meter
+- Classic client now uses default screen-reader text-to-speech
+- AGC, denoise and echo cancellation for stereo codecs
+- Czech language file for Classic client
+
+Version 4.6.3
+- Limit text length in classic client
+- TT-file generator with client setup
+- Push-to-talk key in statusbar
+- Log channel and user text messages to files
+- Store Audio to Disk renamed to Record Conversations
+
+Version 4.6.2
+- Mac OS X 64-bit build with Qt 5.3.1
+
+Version 4.6.1, released 2014/06/19
+- Fixes problem saving settings in General-tab
+- WebCam support in Mac OS X 64-bit
+- Added command line argument -l option to server
+- Log messages for add/delete user account, move user
+
+Version 4.6, released 2014/02/20
+- Control shared desktops remotely (no keyboard support on X11)
+- TeamTalk client for Mac OS X 64-bit (no webcam support)
+- Fixes video and desktop paint issue on Mac OS X
+- Fixes Windows bug where streaming media file ends abruptly
+- Solves issue with unidentified developer on Mac OS X
+- Remembers last download/upload file location
+- https:// link support in Chat-tab
+- Fixes security issue where users could send text messages outside own channel
+- Fixes issue where users could create sub-channels outside parent channel
+- Added "Leave channel" menu item
+
+Version 4.5.2, released 2013/09/18
+- Video text box with user's nickname
+- Limit text strings in channels view
+- Fixed video and desktop dialogs on Mac OS X are not resizeable
+- TeamTalk server for CentOS 5.9
+- Updated language files for Classic/accessible client
+
+Version 4.5, released 2013/08/24
+- Stream media files
+- Max login attempts in Server Properties
+- Max logins per IP-address in Server Properties
+- Ban IP-address without user present
+
+Version 4.4, released 2012/09/26
+- Windows Audio Session support (low latency sound system)
+- Automatic resampling of unsupported sample rates on Linux
+- Operator receive only channel type
+- Security updates
+- Fixed freeze in Online Users dialog
+- Double-click user opens video dialog
+- Enable/disable closed video dialog back to video grid
+
+Version 4.3, released 2012/03/13
+- Desktop sharing
+- Video sessions start faster (no wait for key frames)
+- Sound event for new video and/or desktop session
+- See own video stream
+- Specify default subscriptions in properties
+- Loop audio files played to channel
+- Channel operators in user account properties
+- Free-for-all option in classroom channels
+- User-typing notification in text message dialog
+
+Version 4.2, released 2011/10/04
+- Store conversations to a single file
+- Server-side audio codec bitrate limitation
+- Server can set max throughput
+- Transmission interval (delay between packets)
+- IPv6 support
+- TTS events in class-room channels for accessibility client
+- Windows Firewall exception during install
+- Speex VBR codec
+- CELT 0.11.1 codec (CBR and VBR mode)
+- CELT codec (0.5.2) in TeamTalk 4.1 and earlier is now obsolete
+
+Version 4.1, released 2010/10/31
+- Classroom channel type
+- Server statistics 
+- Subscriptions in accessibility client
+- Czech, French, Hebrew, Italian, Portuguese (EU & BR), Slovak, Slovenian, Spanish and Thai languages
+- Video playback is delayed until first key-frame is received
+- Configurable volume level for all users in a channel
+- Echo cancellation for removing echo from speakers
+- Subscription changes are listed as status messages
+- TeamTalk for Mac OS X
+- TeamTalk 4 PHP Admin
+
+Version 4.0.1, released 2010/01/07
+- Improved file transfer performance
+- German, Portuguese and Russian language
+- tt:// URLs
+- Restrict a user account to one login per account
+- Server stores statistics to log file on shutdown
+- Fixed TCP ping issue causing dropped connections
+- Windows 64-bit versions
+- URL aware chat text
+- Ability to specify server timeout and keep alive interval in accessibility 
+  client
+- Minimize/restore hotkey in accessibility client
+- Support for more video capture resolutions
+- Store audio moved to Users-menu, now applies to all users
+- Video transmission logo also for local user
+
+Version 4.0, released 2009/11/23
+- Video capture
+- User accounts
+- CELT codec
+- Stereo recording/playback
+- Improved P2P
+
+Version 3.6.2
+- Server settings' <server-logging> field replaced by <server-log-maxsize>
+
+Version 3.6.1, released 2009/07/14
+- Chinese Traditional language file
+- Installer now has option only to install client
+- Fixed server bug loading static channels from 3.5 settings file
+- Channels with queued voice transmission
+- Echo channels
+
+Version 3.6.0
+- Slovak language file
+- Changed tab-order in various dialogs
+- Removed FilesList.xml and BanList.xml. Files and bans are now
+  stored in TeamTalkService.xml
+- Fixes download/upload dialog not closing
+- Voice transmission is not triggered if alone in channel
+
+Version 3.5.4, released 2008/12/11
+- Specify channel to join in Host Manager
+- Server shows current throughput with "/stats" channel command
+- First tries to load TeamTalk.xml from current directory and then
+  from %APPDATA%
+- Thai language file
+
+Version 3.5.3, released 2008/08/12
+- Playback improvements
+- Stability fixes in client
+- Vietnamese language file
+
+Version 3.5.2
+- Fixes crash when showing banned users in admin
+- 64-bit versions of executables (client optimized for SSE2
+  instruction set in Windows 64-bit)
+- TeamTalk.xml and TeamTalkAdmin.ini files are now stored in %APPDATA%
+
+Version 3.5.1
+- Fixes server stability issue
+
+Version 3.5
+- Use ALT+Tab to switch between private chat windows
+- Fixed upload of files with non-English characters
+- Version 3.5 is incompatible with Windows9x due to extensive use of Unicode
+- Sorted users and channels
+
+Version 3.4
+- Fixed bug in server when 3.0-3.2 clients left non-static channel
+- Server can now be configured to show users in other channels
+- Channels can now have a limit on the maximum number of users (max is 128)
+- "Message of the Day" can now be configured with variable information
+- Showing IP-address user-information has been disabled
+- Reinitialize sound system while connected
+- Included sounds for events
+- Using new installer for better compatibility with Windows Vista
+- TeamTalk NT Service installs on Windows Vista
+
+Version 3.3.1
+- IP access-list for administrators
+- Limit number of incorrect login attempts
+- Removed complexity slider
+- Automatic reestablishment of lost UDP connection
+- Lower latency for low voice qualities
+- Ability for admin to send user and channel messages
+- Ability for admin to broadcast messages
+
+Version 3.3
+- File transfers
+- Hosting ability removed from main TeamTalk application
+- TeamTalk Admin included in distribution
+- HotKey shortcuts for common features
+- Included server configurator for NT service
+- Max users changable in TeamTalk Admin
+- Auto save option in TeamTalk Admin
+- Become operator in any channel with "/opme" command
+- Ability to set operator password when creating channel
+- Rejoins previous channel if connection is lost
+- Drag and drop users in TeamTalk Admin
+- Software gain for increasing volume for audio receiver
+- Encoder complexity setting to improve voice quality
+
+Version 3.2
+- Forwarding option for server no longer applies
+- Restored compatibility with Windows9x (but still unstable)
+- Server stability issue fixed
+- TeamTalk Admin included in distribution
+
+Version 3.1.1
+- Event for user stopped talking
+- Fixed scroll bug in channel messages when minimized
+- Forward through server is now default
+- Run multiple instances of TeamTalk without conflicting hotkeys.
+- Double-click joins channel (can be disabled)
+- TeamTalk can now be translated to other languages
+- Channel operators can kick users (again)
+- Max users on a server (service only)
+- Bind to only one IP-address (service only)
+
+
+Version 3.1
+- New sound system
+- Shows number of users in channels
+- Auto away when inactive
+- Mouse as hotkey
+- Users remain operators when they return to their channels
+- Speech for events (XP only)
+- Enable/disable auto positioning
+- Improved voice gain
+- Ban users from server (use TeamTalk Admin)
+- Pocket PC now supports events with sounds, vibration and LED blinking
+- Pocket PC now supports push-to-talk
+- Pocket PC now has option to prevent it from going into standby while connected
+- FreeBSD version of TeamTalk daemon
+
+Version 3.0.1
+- Multiline paste in channel window
+- Updated sound system (3.74)
+- Talk icon more stable
+- Reduced lag a bit
+- Direct Sound is now default sound system
+- Hostmanager didn't save password when connecting
+- Optional fixed playback rate (to disable catching-up when recv-buffer
+increases)
+- Selectable speedup delay (catch-up delay)
+- Non-admins can make other users channel operators
+- Short-cuts for all menu items.
+
+Version 3.0
+- Variable packet size
+- MOTD
+- Auto forwarding
+- Complexity for better voice quality
+- More expressive URLs tt://teamtalk.dyndns.dk?hostport=10300&soundport=10301&password=boogieman&channel=/abcd/&cpassword=blah
+- Updated .tt files - easier to join subchannels
+- Away message
+
+Version 2.5.3
+- ACE based TeamTalk service
+
+Version 2.5.2
+- Single forwarding in CServerNode (client version)
+- Sorting of users and channels
+
+Version 2.5.1
+- Always forward through server i preferences
+- Single packet for forwarding through server
+- Packet protocol upgraded to 3
+- Stream protocol upgraded to 2.2
+- Admin connect
+- Admin make static channels
+
+Version 2.4.1
+- Sound system tab -> message when connected
+- NT Service using SocketEngine
+- Linux daemon released
+
+Version 2.4
+- Local user is operator in all channels and can join any channel
+- No sound for sound output
+- 3D sound and positioning
+- Relocated "fwd to all" and "mute all" to User menu-item
+- No push-to-talk enabled
+
+
+Version 2.3.1
+- Windows98 fix for RichEdit
+
+Version 2.3
+- IRC-like chat console
+- Message pop up
+- Window-tab in preferences
+
+
+Version 2.2
+- Server available as NT service
+- Denoiser for outgoing audio
+- Voice level
+
+
+
+
+
+
+
+-----------------------------------------------
+                Tiny TeamTalk
+-----------------------------------------------
+
+Version 1.1
+- Support for Pocket PC 2002
+- Performance improvements
+- Sound test
