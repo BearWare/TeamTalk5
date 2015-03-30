@@ -100,7 +100,8 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         final int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         final TeamTalkBase ttclient = service.getTTInstance();
         adapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant,
-                                         service.getUserTextMsgs(userid));
+                                         service.getUserTextMsgs(userid),
+                                         ttclient.getMyUserID());
         
         ListView lv = (ListView) findViewById(R.id.user_im_listview);
         lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);

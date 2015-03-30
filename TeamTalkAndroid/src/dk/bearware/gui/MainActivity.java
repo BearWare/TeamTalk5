@@ -83,6 +83,7 @@ import android.support.v4.view.ViewPager;
 import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,14 +146,14 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
-    int voiceTransmissionEnabledSound;
-    int voiceTransmissionDisabledSound;
-    int personalMessageSound;
-    int broadcastMessageSound;
-
-    volatile boolean rxtxSoundEnabled;
-    volatile boolean personalMessageSoundEnabled;
-    volatile boolean broadcastMessageSoundEnabled;
+    final int SOUND_VOICETX = 1,
+              SOUND_USERMSG = 2,
+              SOUND_CHANMSG = 3,
+              SOUND_BCASTMSG = 4,
+              SOUND_SERVERLOST = 5,
+              SOUND_FILESUPDATE = 6;
+    
+    SparseIntArray sounds = new SparseIntArray();
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
@@ -320,26 +321,33 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     public void onResume() {
         super.onResume();
 
-        rxtxSoundEnabled = false;
-        personalMessageSoundEnabled = false;
-        broadcastMessageSoundEnabled = false;
         if (audioIcons != null)
             audioIcons.release();
+        sounds.clear();
+
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
+        if (prefs.getBoolean("server_lost_audio_icon", true)) {
+            sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
+        }
         if (prefs.getBoolean("rx_tx_audio_icon", true)) {
-            voiceTransmissionEnabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_on, 1);
-            voiceTransmissionDisabledSound = audioIcons.load(getApplicationContext(), R.raw.voice_tx_off, 1);
-            rxtxSoundEnabled = true;
+            sounds.put(SOUND_VOICETX, audioIcons.load(getApplicationContext(), R.raw.hotkey, 1));
         }
         if (prefs.getBoolean("personal_message_audio_icon", true)) {
-            personalMessageSound = audioIcons.load(getApplicationContext(), R.raw.personal_message, 1);
-            personalMessageSoundEnabled = true;
+            sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), R.raw.user_message, 1));
+        }
+        if (prefs.getBoolean("channel_message_audio_icon", true)) {
+            sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
         }
         if (prefs.getBoolean("broadcast_message_audio_icon", true)) {
-            broadcastMessageSound = audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1);
-            broadcastMessageSoundEnabled = true;
+            sounds.put(SOUND_BCASTMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
         }
+        if (prefs.getBoolean("files_updated_audio_icon", true)) {
+            sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
+        }
+        
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
@@ -1139,6 +1147,9 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
+        if(complete) {
+            activecmds.remove(cmdId);
+        }
     }
 
     @Override
@@ -1287,39 +1298,39 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     public void onCmdUserTextMessage(TextMessage textmessage) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         switch (textmessage.nMsgType) {
-        case TextMsgType.MSGTYPE_CHANNEL:
-        case TextMsgType.MSGTYPE_BROADCAST:
+        case TextMsgType.MSGTYPE_CHANNEL :
+        case TextMsgType.MSGTYPE_BROADCAST :
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
-            if (ttclient.getMyUserID() != textmessage.nFromUserID) {
-                if (broadcastMessageSoundEnabled && (audioIcons != null))
-                    audioIcons.play(broadcastMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
-                if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
-                    User sender = ttservice.getUsers().get(textmessage.nFromUserID);
-                    ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
-                }
-            }
-            break;
-        case TextMsgType.MSGTYPE_USER:
-        case TextMsgType.MSGTYPE_CUSTOM:
-            if (ttclient.getMyUserID() != textmessage.nFromUserID) {
-                if (personalMessageSoundEnabled && (audioIcons != null))
-                    audioIcons.play(personalMessageSound, 1.0f, 1.0f, 0, 0, 1.0f);
+            
+            // audio event
+            if (sounds.get(SOUND_CHANMSG) != 0)
+                audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
+            // TTS event
+            if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
-                String senderName = (sender != null) ? sender.szNickname : "";
-                if (ttsWrapper != null && prefs.getBoolean("personal_message_checkbox", false))
-                    ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
-                Intent action = new Intent(this, TextMessageActivity.class);
-                Notification.Builder notification = new Notification.Builder(this);
-                notification.setSmallIcon(R.drawable.message)
-                    .setContentTitle(getString(R.string.personal_message_notification, senderName))
-                    .setContentText(getString(R.string.personal_message_notification_hint))
-                    .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
-                    .setAutoCancel(true);
-                notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
+                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
             }
             break;
+        case TextMsgType.MSGTYPE_USER :
+            if (sounds.get(SOUND_USERMSG) != 0)
+                audioIcons.play(sounds.get(SOUND_USERMSG), 1.0f, 1.0f, 0, 0, 1.0f);
+            
+            User sender = ttservice.getUsers().get(textmessage.nFromUserID);
+            String senderName = (sender != null) ? sender.szNickname : "";
+            if (ttsWrapper != null && prefs.getBoolean("personal_message_checkbox", false))
+                ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
+            Intent action = new Intent(this, TextMessageActivity.class);
+            Notification.Builder notification = new Notification.Builder(this);
+            notification.setSmallIcon(R.drawable.message)
+                .setContentTitle(getString(R.string.personal_message_notification, senderName))
+                .setContentText(getString(R.string.personal_message_notification_hint))
+                .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                .setAutoCancel(true);
+            notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
+            break;
+        case TextMsgType.MSGTYPE_CUSTOM:
         default:
             break;
         }
@@ -1360,11 +1371,23 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
         filesAdapter.update();
+        
+        if(activecmds.size() == 0) {
+            if(sounds.get(SOUND_FILESUPDATE) != 0) {
+                audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        }
     }
 
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
         filesAdapter.update();
+        
+        if(activecmds.size() == 0) {
+            if(sounds.get(SOUND_FILESUPDATE) != 0) {
+                audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        }
     }
 
     @Override
@@ -1391,6 +1414,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_ERROR,
             getResources().getString(R.string.text_con_lost));
         ttservice.getChatLogTextMsgs().add(msg);
+        
+        if(sounds.get(SOUND_SERVERLOST) != 0) {
+            audioIcons.play(sounds.get(SOUND_SERVERLOST), 1.0f, 1.0f, 0, 0, 1.0f);
+        }
     }
 
     @Override
@@ -1431,16 +1458,15 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onUserAudioBlock(int nUserID, int nStreamType) {
-        // TODO Auto-generated method stub
-        
+       
     }
 
     @Override
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
-        if (rxtxSoundEnabled && audioIcons != null)
-            audioIcons.play(voiceTransmissionEnabled ? voiceTransmissionEnabledSound : voiceTransmissionDisabledSound, 1.0f, 1.0f, 0, 0, 1.0f);
+        if (sounds.get(SOUND_VOICETX) != 0)
+            audioIcons.play(sounds.get(SOUND_VOICETX), 1.0f, 1.0f, 0, 0, 1.0f);
     }
 
 }

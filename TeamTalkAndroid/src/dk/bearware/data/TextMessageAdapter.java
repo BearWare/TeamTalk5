@@ -26,8 +26,11 @@ public class TextMessageAdapter extends BaseAdapter {
     
     int def_bg_color, def_text_color;
 
-    public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant, Vector<MyTextMessage> msgs) {
+    public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant,
+                              Vector<MyTextMessage> msgs, int myuserid) {
         this(context, accessibilityAssistant);
+        setMyUserID(myuserid);
+        
         setTextMessages(msgs);
     }
     
