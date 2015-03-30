@@ -232,11 +232,7 @@ void CChannelDlg::OnNMCustomdrawSliderQuality(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CChannelDlg::OnCbnSelchangeComboAudiochannels()
 {
-    if(m_wndAudioChannels.GetCurSel())
-        MessageBox(_T("Note that Echo Cancellation, Denoising and Audio Configuration currently isn't supported in stereo mode."),
-        _T("Audio channels"), MB_OK);
 }
-
 
 void CChannelDlg::OnEnChangeEditBitrate()
 {

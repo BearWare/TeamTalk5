@@ -23,7 +23,6 @@
 #include "appinfo.h"
 
 #include <QPushButton>
-#include <QMessageBox>
 
 extern TTInstance* ttInst;
 
@@ -369,7 +368,4 @@ void ChannelDlg::slotUpdateChannelPath(const QString& str)
 
 void ChannelDlg::slotAudioChannelChanged(int aud_channels)
 {
-    if(aud_channels+1 == 2)
-        QMessageBox::information(this, tr("Audio channels"),
-        tr("Note that Echo Cancellation, Denoising and Audio Configuration currently isn't supported in stereo mode."));
 }
