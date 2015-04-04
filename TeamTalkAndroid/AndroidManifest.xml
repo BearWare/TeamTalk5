@@ -11,8 +11,9 @@
             android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk"
             android:label="@string/title_activity_server_list"
+            android:launchMode="singleTop"
             >
-            <!--  android:launchMode="singleTop"  -->
+            <!--    -->
              
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -75,14 +75,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             showServer(entry);
         }
         
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
-
         findPreference(ServerEntry.KEY_SERVERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_IPADDR).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
@@ -115,6 +107,14 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             showServer(serverentry);
             serverentry = null;
         }
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -125,12 +125,11 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             if (isFinishing() && ttservice != null)
                 ttservice.resetState();
             ttservice.unregisterCommandListener(this);
-
-            // Unbind from the service
-            if(mConnection.isBound()) {
-                unbindService(mConnection);
-                mConnection.setBound(false);
-            }
+        }
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            unbindService(mConnection);
+            mConnection.setBound(false);
         }
     }
     

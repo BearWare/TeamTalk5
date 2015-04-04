@@ -92,14 +92,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
-
         adapter = new ServerListAdapter(this.getBaseContext());
         setListAdapter(adapter);
 
@@ -119,6 +111,14 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             saveServers();
             serverentry = null;
         }
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -129,12 +129,12 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
             if(isFinishing()) {
                 ttservice.unregisterCommandListener(this);
-                // Unbind from the service
-                if(mConnection.isBound()) {
-                    unbindService(mConnection);
-                    mConnection.setBound(false);
-                }
             }
+        }
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            unbindService(mConnection);
+            mConnection.setBound(false);
         }
     }
 

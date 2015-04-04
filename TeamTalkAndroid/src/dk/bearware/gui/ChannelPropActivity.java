@@ -80,15 +80,7 @@ implements TeamTalkConnectionListener, CommandListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_prop);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);        
     }
 
     @Override
@@ -151,6 +143,14 @@ implements TeamTalkConnectionListener, CommandListener {
     @Override
     protected void onStart() {
         super.onStart();
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -158,13 +158,12 @@ implements TeamTalkConnectionListener, CommandListener {
         super.onStop();
 
         if(ttservice != null) {
-            ttservice.unregisterCommandListener(ChannelPropActivity.this);
-            
-            // Unbind from the service
-            if(mConnection.isBound()) {
-                unbindService(mConnection);
-                mConnection.setBound(false);
-            }
+            ttservice.unregisterCommandListener(ChannelPropActivity.this);            
+        }
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            unbindService(mConnection);
+            mConnection.setBound(false);
         }
     }
 

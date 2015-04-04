@@ -187,15 +187,6 @@ implements TeamTalkConnectionListener,
             setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        Log.d(TAG, "Binding TeamTalk service");
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
-
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
@@ -342,7 +333,15 @@ implements TeamTalkConnectionListener,
 
         if (ttsWrapper == null)
             ttsWrapper = TTSWrapper.getInstance(this);
-
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        Log.d(TAG, "Binding TeamTalk service");
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -411,14 +410,13 @@ implements TeamTalkConnectionListener,
             ttservice.unregisterCommandListener(this);
             ttservice.unregisterUserListener(this);
             filesAdapter.setTeamTalkService(null);
-
-            // Unbind from the service
+        }
+        
+        // Unbind from the service
+        if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
-
-            if(mConnection.isBound()) {
-                unbindService(mConnection);
-                mConnection.setBound(false);
-            }
+            unbindService(mConnection);
+            mConnection.setBound(false);
         }
     }
 
