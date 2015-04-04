@@ -17,6 +17,11 @@
 		android:defaultValue="false"
 		android:title="@string/pref_title_keep_screen_on" />
 
+    <CheckBoxPreference
+		android:key="show_log_messages"
+		android:defaultValue="true"
+		android:title="@string/pref_show_log_messages" />
+
     <PreferenceCategory
         android:key="audio_icons"
         android:title="@string/pref_title_audio_icons">

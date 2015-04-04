@@ -30,6 +30,8 @@
     <string name="text_cmd_leftroot">Left root channel</string>
     <string name="text_cmd_userjoinchan">joined channel</string>
     <string name="text_cmd_userleftchan">left channel</string>
+    <string name="text_cmd_servername">Server name: </string>
+    <string name="text_cmd_servermotd">Message of the day: </string>
     <string name="pref_cat_subscriptions">Subscriptions</string>
     <string name="pref_cat_tts">Configure Text to Speech messages</string>
     <string name="pref_cat_soundtest">Sound Test</string>
@@ -38,6 +40,7 @@
     <string name="pref_default_nickname">Noname</string>
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
+    <string name="pref_show_log_messages">Show log messages in chat history</string>
     <string name="pref_title_audio_icons">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
     <string name="pref_title_personal_message_audio_icon">Private message</string>

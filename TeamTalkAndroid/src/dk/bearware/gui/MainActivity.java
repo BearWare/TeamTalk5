@@ -347,6 +347,8 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         if (prefs.getBoolean("files_updated_audio_icon", true)) {
             sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
         }
+
+        getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
         
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
@@ -1118,10 +1120,10 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                 Toast.LENGTH_LONG).show();
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
-        ServerProperties srvprop = new ServerProperties();
-        if (ttclient.getServerProperties(srvprop)) {
-            ((TextView)findViewById(R.id.server_name)).setText(srvprop.szServerName);
-            ((TextView)findViewById(R.id.server_message)).setText(srvprop.szMOTD);
+        // Add log message with server name and MOTD
+        ServerProperties prop = new ServerProperties();
+        if(ttclient.getServerProperties(prop)) {
+            onCmdServerUpdate(prop);
         }
     }
 
@@ -1253,6 +1255,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             //myself left current channel
             
             Channel chan = ttservice.getChannels().get(channelid);
+/*
             MyTextMessage msg;
             if(chan.nParentID == 0) {
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
@@ -1263,6 +1266,7 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
                     getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
             }
             ttservice.getChatLogTextMsgs().add(msg);
+*/
             textmsgAdapter.notifyDataSetChanged();
             
             setCurrentChannel(null);
@@ -1270,9 +1274,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
             
+/*
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                 user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
             ttservice.getChatLogTextMsgs().add(msg);
+*/            
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
@@ -1365,7 +1371,12 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
-
+        
+        MyTextMessage msg;
+        msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_SERVERPROP,
+                                         serverproperties);
+            
+        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override

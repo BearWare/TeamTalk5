@@ -2,6 +2,7 @@ package dk.bearware.data;
 
 import java.util.Vector;
 
+import dk.bearware.ServerProperties;
 import dk.bearware.TextMsgType;
 import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
@@ -23,6 +24,8 @@ public class TextMessageAdapter extends BaseAdapter {
     private AccessibilityAssistant accessibilityAssistant;
     
     private int myuserid;
+    
+    private boolean show_logs = true;
     
     int def_bg_color, def_text_color;
 
@@ -56,18 +59,41 @@ public class TextMessageAdapter extends BaseAdapter {
         messages = msgs;
     }
     
+    Vector<MyTextMessage> getMessages() {
+        
+        if(show_logs)
+            return messages;
+        
+        Vector<MyTextMessage> result = new Vector<MyTextMessage>();
+        for(MyTextMessage m : messages) {
+            switch(m.nMsgType) {
+                case MyTextMessage.MSGTYPE_LOG_ERROR :
+                case MyTextMessage.MSGTYPE_LOG_INFO :
+                    break;
+                default :
+                    result.add(m);
+                    break;
+            }
+        }
+        return result;
+    }
+    
     public void setMyUserID(int userid) {
         myuserid = userid;
     }
     
+    public void showLogMessages(boolean enable) {
+        show_logs = enable;
+    }
+    
     @Override
     public int getCount() {
-        return messages.size();
+        return getMessages().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return messages.get(position);
+        return getMessages().get(position);
     }
 
     @Override
@@ -79,10 +105,11 @@ public class TextMessageAdapter extends BaseAdapter {
     int self_bg_color = Color.GREEN, self_text_color = Color.WHITE;
     int loginfo_bg_color, loginfo_text_color; //uses default color scheme
     int logerr_bg_color = Color.RED, logerr_text_color = Color.WHITE;
+    int srvinfo_bg_color = Color.DKGRAY, srvinfo_text_color = Color.WHITE;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        MyTextMessage txtmsg = messages.get(position);
+        MyTextMessage txtmsg = getMessages().get(position);
         
         int bg_color = Color.BLACK, text_color = Color.WHITE;
         
@@ -116,10 +143,11 @@ public class TextMessageAdapter extends BaseAdapter {
                 break;
             }
             case MyTextMessage.MSGTYPE_LOG_ERROR :
-            case MyTextMessage.MSGTYPE_LOG_INFO : {
+            case MyTextMessage.MSGTYPE_LOG_INFO :
+            default : {
                 if(convertView == null ||
                    convertView.findViewById(R.id.item_logmsg) == null) {
-                    convertView = inflater.inflate(R.layout.item_logmsg, null);
+                    convertView = inflater.inflate(R.layout.item_textmsg_logmsg, null);
                 }
 
                 switch(txtmsg.nMsgType) {
@@ -137,6 +165,28 @@ public class TextMessageAdapter extends BaseAdapter {
                 TextView logtm = (TextView) convertView.findViewById(R.id.logtime_text);
                 
                 logmsg.setText(txtmsg.szMessage);
+                logtm.setText(txtmsg.time.toString());
+                
+                logmsg.setTextColor(text_color);
+                logtm.setTextColor(text_color);
+                break;
+            }
+            case MyTextMessage.MSGTYPE_SERVERPROP : {
+                if(convertView == null ||
+                   convertView.findViewById(R.id.item_logmsg) == null) {
+                    convertView = inflater.inflate(R.layout.item_textmsg_srvinfo, null);
+                }
+
+                bg_color = srvinfo_bg_color;
+                text_color = srvinfo_text_color;
+
+                TextView logmsg = (TextView) convertView.findViewById(R.id.srvname_text);
+                TextView logmotd = (TextView) convertView.findViewById(R.id.srvmotd_text);
+                TextView logtm = (TextView) convertView.findViewById(R.id.logtime_text);
+                
+                ServerProperties p = (ServerProperties)txtmsg.userData;
+                logmsg.setText(p.szServerName);
+                logmotd.setText(p.szMOTD);
                 logtm.setText(txtmsg.time.toString());
                 
                 logmsg.setTextColor(text_color);
