@@ -46,6 +46,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +75,8 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_UDPPORT).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
+        // PreferenceCategory category = (PreferenceCategory)findPreference("srv_info");
+        // if(category != null)category.removePreference(findPreference(ServerEntry.KEY_ENCRYPTED));
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL).setOnPreferenceChangeListener(this);
