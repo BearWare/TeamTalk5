@@ -40,7 +40,7 @@ public class MyTextMessage extends TextMessage {
         return newmsg;
     }
 
-    public static MyTextMessage createLogMsg(int nMsgType, Object userData) {
+    public static MyTextMessage createUserDefMsg(int nMsgType, Object userData) {
         MyTextMessage newmsg = new MyTextMessage();
         newmsg.nMsgType = nMsgType;
         newmsg.userData = userData;

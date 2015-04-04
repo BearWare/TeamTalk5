@@ -107,7 +107,14 @@ import android.widget.Toast;
 
 public class MainActivity
 extends FragmentActivity
-implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListener, OnMenuItemClickListener, ConnectionListener, CommandListener, UserListener, OnVoiceTransmissionToggleListener {
+implements TeamTalkConnectionListener, 
+        ConnectionListener, 
+        CommandListener, 
+        UserListener, 
+        OnItemClickListener, 
+        OnItemLongClickListener, 
+        OnMenuItemClickListener, 
+        OnVoiceTransmissionToggleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -1119,12 +1126,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             Toast.makeText(this, R.string.err_init_sound_output,
                 Toast.LENGTH_LONG).show();
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
-
-        // Add log message with server name and MOTD
-        ServerProperties prop = new ServerProperties();
-        if(ttclient.getServerProperties(prop)) {
-            onCmdServerUpdate(prop);
-        }
     }
 
     @Override
@@ -1157,10 +1158,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         textmsgAdapter.setMyUserID(my_userid);
-        
-        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-            getResources().getString(R.string.text_cmd_loggedin));
-        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -1203,26 +1200,11 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             //myself joined channel
             
             Channel chan = ttservice.getChannels().get(user.nChannelID); 
-            MyTextMessage msg;
-            if(chan.nParentID == 0) {
-                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    getResources().getString(R.string.text_cmd_joinroot));
-            }
-            else {
-                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    getResources().getString(R.string.text_cmd_joinchan) + " " + chan.szName);
-            }
-            ttservice.getChatLogTextMsgs().add(msg);
-            
-            setCurrentChannel(ttservice.getChannels().get(user.nChannelID));
+            setCurrentChannel(chan);
             filesAdapter.update(curchannel);
         }
         else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             //other user joined current channel
-            
-            MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                user.szNickname + " " + getResources().getString(R.string.text_cmd_userjoinchan));
-            ttservice.getChatLogTextMsgs().add(msg);
         }
         
         if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
@@ -1255,18 +1237,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
             //myself left current channel
             
             Channel chan = ttservice.getChannels().get(channelid);
-/*
-            MyTextMessage msg;
-            if(chan.nParentID == 0) {
-                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    getResources().getString(R.string.text_cmd_leftroot));
-            }
-            else {
-                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
-            }
-            ttservice.getChatLogTextMsgs().add(msg);
-*/
             textmsgAdapter.notifyDataSetChanged();
             
             setCurrentChannel(null);
@@ -1274,11 +1244,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
             
-/*
-            MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
-            ttservice.getChatLogTextMsgs().add(msg);
-*/            
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
@@ -1371,12 +1336,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
-        
-        MyTextMessage msg;
-        msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_SERVERPROP,
-                                         serverproperties);
-            
-        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -1411,9 +1370,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onConnectSuccess() {
-        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-            getResources().getString(R.string.text_con_success));
-        ttservice.getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -1422,10 +1378,6 @@ implements TeamTalkConnectionListener, OnItemClickListener, OnItemLongClickListe
 
     @Override
     public void onConnectionLost() {
-        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_ERROR,
-            getResources().getString(R.string.text_con_lost));
-        ttservice.getChatLogTextMsgs().add(msg);
-        
         if(sounds.get(SOUND_SERVERLOST) != 0) {
             audioIcons.play(sounds.get(SOUND_SERVERLOST), 1.0f, 1.0f, 0, 0, 1.0f);
         }

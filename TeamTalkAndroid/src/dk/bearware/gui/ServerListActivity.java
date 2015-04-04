@@ -51,6 +51,7 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
+import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.ServerEntry;
 
 import android.app.AlertDialog;

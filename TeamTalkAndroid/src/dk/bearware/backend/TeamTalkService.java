@@ -132,7 +132,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     TeamTalkBase ttclient;
     ServerEntry ttserver;
-    Channel curchannel;
+    Channel joinchannel, /* the channel to join after login */
+            curchannel; /* the channel 'ttclient' is currently in */
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     CountDownTimer eventTimer;
     
@@ -149,7 +150,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     
     // set channel which service should join
     public void setJoinChannel(Channel channel) {
-        curchannel = channel;
+        joinchannel = channel;
     }
     
     public void setOnVoiceTransmissionToggleListener(OnVoiceTransmissionToggleListener listener) {
@@ -236,7 +237,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         if(ttclient != null)
             ttclient.disconnect();
         
-        curchannel = null;
+        joinchannel = null;
         channels.clear();
         remoteFiles.clear();
         fileTransfers.clear();
@@ -327,6 +328,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         else {
             activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);
         }
+        
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            getResources().getString(R.string.text_con_success));
+        getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -351,6 +356,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                        Toast.LENGTH_LONG).show();
 
         createReconnectTimer(5000);
+        
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_ERROR,
+            getResources().getString(R.string.text_con_lost));
+        getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -399,22 +408,26 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        if (curchannel == null) {
-            curchannel = new Channel();
+        if (joinchannel == null) {
+            joinchannel = new Channel();
             int rootchanid = ttclient.getRootChannelID();
             int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
-            if (ttclient.getChannel(chanid, curchannel)) {
-                curchannel.szPassword = ttserver.chanpasswd;
+            if (ttclient.getChannel(chanid, joinchannel)) {
+                joinchannel.szPassword = ttserver.chanpasswd;
             }
-            else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, curchannel)) {
-                curchannel = null;
+            else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, joinchannel)) {
+                joinchannel = null;
             }
         }
 
-        if(curchannel != null) {
-            int cmdid = ttclient.doJoinChannel(curchannel);
+        if(joinchannel != null) {
+            int cmdid = ttclient.doJoinChannel(joinchannel);
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
         }
+        
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            getResources().getString(R.string.text_cmd_loggedin));
+        getChatLogTextMsgs().add(msg);
     }
 
     @Override
@@ -471,15 +484,65 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onCmdUserJoinedChannel(User user) {
         users.put(user.nUserID, user);        
-        if (ttserver.rememberLastChannel && (user.nUserID == ttclient.getMyUserID()) && (curchannel != null)) {
-            ttserver.channel = ttclient.getChannelPath(curchannel.nChannelID);
-            ttserver.chanpasswd = curchannel.szPassword;
+        if (ttserver.rememberLastChannel && (user.nUserID == ttclient.getMyUserID()) && (joinchannel != null)) {
+            ttserver.channel = ttclient.getChannelPath(joinchannel.nChannelID);
+            ttserver.chanpasswd = joinchannel.szPassword;
+        }
+        
+        if(user.nUserID == ttclient.getMyUserID()) {
+            //myself joined channel
+            curchannel = getChannels().get(user.nChannelID);
+            
+            MyTextMessage msg;
+            if(curchannel.nParentID == 0) {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_joinroot));
+            }
+            else {
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    getResources().getString(R.string.text_cmd_joinchan) + " " + curchannel.szName);
+            }
+            getChatLogTextMsgs().add(msg);
+        }
+        else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+            //other user joined current channel
+            
+            MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                user.szNickname + " " + getResources().getString(R.string.text_cmd_userjoinchan));
+            getChatLogTextMsgs().add(msg);
         }
     }
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
         users.put(user.nUserID, user);
+        
+        if(curchannel != null && curchannel.nChannelID == channelid) {
+            
+            Channel chan = getChannels().get(channelid);
+            MyTextMessage msg;
+            if(user.nUserID == ttclient.getMyUserID()) {
+                // myself left channel
+                if(chan.nParentID == 0) {
+                    msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                        getResources().getString(R.string.text_cmd_leftroot));
+                }
+                else {
+                    msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                        getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
+                }
+            }
+            else {
+                // other user left current channel
+                msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                    user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
+            }
+            getChatLogTextMsgs().add(msg);
+        }
+        
+        if(user.nUserID == ttclient.getMyUserID()) {
+            curchannel = null;
+        }
     }
 
     @Override
@@ -518,6 +581,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onCmdServerUpdate(ServerProperties serverproperties) {
+        MyTextMessage msg;
+        msg = MyTextMessage.createUserDefMsg(MyTextMessage.MSGTYPE_SERVERPROP,
+                                             serverproperties);
+        getChatLogTextMsgs().add(msg);
     }
 
     @Override
