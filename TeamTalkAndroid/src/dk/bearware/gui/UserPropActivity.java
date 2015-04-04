@@ -56,7 +56,13 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         setContentView(R.layout.activity_user_prop);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -78,17 +84,19 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     @Override
     protected void onStart() {
         super.onStart();
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Unbind from the service
-        unbindService(mConnection);
+        
+        if(ttservice != null) {
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
+        }
     }
 
     TeamTalkService ttservice;
@@ -163,7 +171,5 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        // TODO Auto-generated method stub
-
     }
 }

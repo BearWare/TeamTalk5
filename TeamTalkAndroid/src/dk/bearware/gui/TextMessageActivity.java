@@ -37,7 +37,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
     
     public static final String EXTRA_USERID = "userid";
     
-    TeamTalkConnection mConnection = new TeamTalkConnection(this);
+    TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TextMessageAdapter adapter;
     AccessibilityAssistant accessibilityAssistant;
@@ -50,6 +50,14 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         accessibilityAssistant = new AccessibilityAssistant(this);
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -77,20 +85,22 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     protected void onStart() {
-        super.onStart();
-        
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
+        super.onStart();        
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         
-        // Unbind from the service
-        unbindService(mConnection);
+        if(ttservice != null) {
+            ttservice.unregisterCommandListener(this);
+            
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
+        }
     }
 
     @Override
@@ -144,7 +154,6 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterCommandListener(this);
     }
 
     @Override

@@ -63,6 +63,10 @@ implements TeamTalkConnectionListener, CommandListener {
     public static final int REQUEST_AUDIOCODEC = 1,
                             REQUEST_AUDIOCONFIG = 2;
     
+    TeamTalkConnection mConnection;
+    TeamTalkService ttservice;
+    TeamTalkBase ttclient;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,7 +82,13 @@ implements TeamTalkConnectionListener, CommandListener {
         setContentView(R.layout.activity_channel_prop);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
     }
 
     @Override
@@ -136,25 +146,26 @@ implements TeamTalkConnectionListener, CommandListener {
         super.onResume();
     }
 
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
     Channel channel;
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Unbind from the service
-        unbindService(mConnection);
+
+        if(ttservice != null) {
+            ttservice.unregisterCommandListener(ChannelPropActivity.this);
+            
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
+        }
     }
 
     void exchangeChannel(boolean store) {
@@ -271,8 +282,6 @@ implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        ttservice.unregisterCommandListener(ChannelPropActivity.this);
-        ttservice = null;
     }
 
     int updateCmdId = 0;

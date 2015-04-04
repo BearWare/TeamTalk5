@@ -97,6 +97,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         
         //create timer to process 'mEventHandler'
         createEventTimer();
+        
+        Log.d(TAG, "Created TeamTalk 5 service");
     }
 
     @Override
@@ -128,6 +130,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             ttclient.closeTeamTalk();
 
         super.onDestroy();
+        
+        Log.d(TAG, "Destroyed TeamTalk 5 service");
     }
 
     TeamTalkBase ttclient;
@@ -238,6 +242,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             ttclient.disconnect();
         
         joinchannel = null;
+        curchannel = null;
         channels.clear();
         remoteFiles.clear();
         fileTransfers.clear();

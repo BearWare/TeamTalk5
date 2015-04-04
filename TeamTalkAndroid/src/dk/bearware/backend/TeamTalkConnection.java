@@ -48,4 +48,12 @@ public class TeamTalkConnection implements ServiceConnection {
         
         ttservice = null;
     }
+    
+    boolean bound = false;
+    public void setBound(boolean bound) {
+        this.bound = bound;
+    }
+    public boolean isBound() {
+        return bound;
+    }
 }

@@ -79,6 +79,10 @@ public class ServerListActivity
 extends ListActivity
 implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
 
+    TeamTalkConnection mConnection;
+    TeamTalkService ttservice;
+    TeamTalkBase ttclient;
+    
     private ServerListAdapter adapter;
 
     public static final String TAG = "bearware";
@@ -87,6 +91,14 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
 
         adapter = new ServerListAdapter(this.getBaseContext());
         setListAdapter(adapter);
@@ -99,10 +111,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         super.onResume();
     }
 
-    TeamTalkConnection mConnection = new TeamTalkConnection(this);
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    
     @Override
     protected void onStart() {
         super.onStart();
@@ -111,11 +119,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             saveServers();
             serverentry = null;
         }
-
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override
@@ -123,13 +126,16 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         super.onStop();
 
         if (ttservice != null) {
-            if (isFinishing() && ttservice != null)
-                ttservice.resetState();
-            ttservice.unregisterCommandListener(this);
-        }
 
-        // Unbind from the service
-        unbindService(mConnection);
+            if(isFinishing()) {
+                ttservice.unregisterCommandListener(this);
+                // Unbind from the service
+                if(mConnection.isBound()) {
+                    unbindService(mConnection);
+                    mConnection.setBound(false);
+                }
+            }
+        }
     }
 
     ServerEntry serverentry;
@@ -143,8 +149,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case REQUEST_NEWSERVER : {
-                if (ttservice != null)
-                    ttservice.registerCommandListener(this);
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -157,8 +161,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                 break;
             }
             case REQUEST_EDITSERVER : {
-                if (ttservice != null)
-                    ttservice.registerCommandListener(this);
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -174,8 +176,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                 break;
             }
             case REQUEST_IMPORT_SERVERLIST : {
-                if (ttservice != null)
-                    ttservice.registerCommandListener(this);
                 if(resultCode == RESULT_OK) {
                     String xml = "";
                     try {
@@ -217,8 +217,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         switch(item.getItemId()) {
             case R.id.action_newserverentry :
                 Intent edit = new Intent(this, ServerEntryActivity.class);
-                if (ttservice != null)
-                    ttservice.unregisterCommandListener(this);
                 startActivityForResult(edit, REQUEST_NEWSERVER);
             break;
             case R.id.action_refreshserverlist :
@@ -226,8 +224,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             break;
             case R.id.action_import_serverlist :
                 Intent filepicker = new Intent(this, FilePickerActivity.class);
-                if (ttservice != null)
-                    ttservice.unregisterCommandListener(this);
                 startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
             break;
             case R.id.action_settings : {
@@ -250,8 +246,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
         ServerEntry entry = servers.elementAt(position);
 
-        if (ttservice != null)
-            ttservice.unregisterCommandListener(this);
         startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position),
             REQUEST_EDITSERVER);
     }
@@ -517,7 +511,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        ttservice = null;
     }
 
     @Override

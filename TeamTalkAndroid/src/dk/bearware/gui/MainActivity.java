@@ -187,7 +187,15 @@ implements TeamTalkConnectionListener,
             setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         mConnection = new TeamTalkConnection(this);
+        Log.d(TAG, "Binding TeamTalk service");
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
+
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
@@ -324,6 +332,19 @@ implements TeamTalkConnectionListener,
 
     CountDownTimer stats_timer = null;
     
+    TeamTalkConnection mConnection;
+    TeamTalkService ttservice;
+    TeamTalkBase ttclient;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (ttsWrapper == null)
+            ttsWrapper = TTSWrapper.getInstance(this);
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -362,23 +383,6 @@ implements TeamTalkConnectionListener,
         createStatusTimer();
     }
 
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (ttsWrapper == null)
-            ttsWrapper = TTSWrapper.getInstance(this);
-
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -399,10 +403,29 @@ implements TeamTalkConnectionListener,
                 ttsWrapper = null;
             }
             notificationManager.cancelAll();
+        }
+        
+        if(ttservice != null) {
+            ttservice.setOnVoiceTransmissionToggleListener(null);
+            ttservice.unregisterConnectionListener(this);
+            ttservice.unregisterCommandListener(this);
+            ttservice.unregisterUserListener(this);
+            filesAdapter.setTeamTalkService(null);
 
             // Unbind from the service
-            unbindService(mConnection);
+            Log.d(TAG, "Unbinding TeamTalk service");
+
+            if(mConnection.isBound()) {
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
     @Override
@@ -1116,9 +1139,9 @@ implements TeamTalkConnectionListener,
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
 
-        ttservice.registerConnectionListener(MainActivity.this);
-        ttservice.registerCommandListener(MainActivity.this);
-        ttservice.registerUserListener(MainActivity.this);
+        ttservice.registerConnectionListener(this);
+        ttservice.registerCommandListener(this);
+        ttservice.registerUserListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
 
         if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
@@ -1131,12 +1154,6 @@ implements TeamTalkConnectionListener,
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
         audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
-        ttservice.setOnVoiceTransmissionToggleListener(null);
-        ttservice.unregisterConnectionListener(MainActivity.this);
-        ttservice.unregisterCommandListener(MainActivity.this);
-        ttservice.unregisterUserListener(MainActivity.this);
-        filesAdapter.setTeamTalkService(null);
-        ttservice = null;
     }
 
     @Override
@@ -1283,6 +1300,7 @@ implements TeamTalkConnectionListener,
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
                 ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
             }
+            Log.d(TAG, "Channel message in " + this.hashCode());
             break;
         case TextMsgType.MSGTYPE_USER :
             if (sounds.get(SOUND_USERMSG) != 0)

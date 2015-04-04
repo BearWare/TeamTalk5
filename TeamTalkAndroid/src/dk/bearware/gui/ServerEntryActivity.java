@@ -58,6 +58,11 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     public static final String TAG = "bearware";
 
+    TeamTalkConnection mConnection;
+    TeamTalkService ttservice;
+    TeamTalkBase ttclient;
+    ServerEntry serverentry;
+    
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,14 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             showServer(entry);
         }
         
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
+
         findPreference(ServerEntry.KEY_SERVERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_IPADDR).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
@@ -94,11 +107,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         super.onPause();
     }
     
-    TeamTalkConnection mConnection = new TeamTalkConnection(this);
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    ServerEntry serverentry;
-    
     @Override
     protected void onStart() {
         super.onStart();
@@ -107,11 +115,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             showServer(serverentry);
             serverentry = null;
         }
-
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
     }
 
     @Override
@@ -122,10 +125,13 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             if (isFinishing() && ttservice != null)
                 ttservice.resetState();
             ttservice.unregisterCommandListener(this);
-        }
 
-        // Unbind from the service
-        unbindService(mConnection);
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
+        }
     }
     
     @Override
@@ -172,7 +178,8 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         server.ipaddr = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_IPADDR));
         server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT)));
         server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT)));
-        server.encrypted = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).isChecked();
+        CheckBoxPreference p = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED));
+        server.encrypted = (p != null)? p.isChecked() : false;
         server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME));
         server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD));
         server.rememberLastChannel = ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).isChecked();
@@ -220,7 +227,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        ttservice = null;
     }
 
     @Override
