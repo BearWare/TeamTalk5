@@ -1156,7 +1156,7 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        Utils.notifyError(this, errmsg);
+        // error is notified in service
     }
 
     @Override

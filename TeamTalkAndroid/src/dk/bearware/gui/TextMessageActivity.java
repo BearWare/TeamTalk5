@@ -150,6 +150,18 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         });
         
         service.registerCommandListener(this);
+        
+        updateTitle();
+    }
+    
+    void updateTitle() {
+        String title = getResources().getString(R.string.title_activity_text_message);
+        int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
+        
+        User user = ttservice.getUsers().get(userid);
+        if(user != null) {
+            setTitle(title + " - " + user.szNickname);
+        }
     }
 
     @Override
@@ -194,6 +206,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onCmdUserUpdate(User user) {
+        updateTitle();
     }
 
     @Override

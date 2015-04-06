@@ -373,8 +373,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
+        
+        Utils.notifyError(this, errmsg);
+        
         if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            Utils.notifyError(this, errmsg);
             
             //don't try to reconnect if we get a server login error
             reconnectHandler.removeCallbacks(reconnectTimer);
@@ -479,6 +481,13 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onCmdUserLoggedOut(User user) {
         users.remove(user.nUserID);
+        
+        if(usertxtmsgs.containsKey(user.nUserID)) {
+            MyTextMessage msg;
+            msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+                user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
+            getUserTextMsgs(user.nUserID).add(msg);
+        }
     }
 
     @Override
@@ -540,7 +549,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             else {
                 // other user left current channel
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
+                    user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));                
             }
             getChatLogTextMsgs().add(msg);
         }

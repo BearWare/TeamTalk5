@@ -289,7 +289,6 @@ implements TeamTalkConnectionListener, CommandListener {
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
         if (updateCmdId == cmdId) {
             updateCmdId = 0;
-            Utils.notifyError(this, errmsg);
         }
     }
 
