@@ -84,7 +84,7 @@ void TextMessageDlg::slotNewMessage(const TextMessage& textmsg)
 {
     if(textmsg.nFromUserID == m_userid)
     {
-            newMsg(textmsg, true);
+        newMsg(textmsg, true);
     }
 }
 

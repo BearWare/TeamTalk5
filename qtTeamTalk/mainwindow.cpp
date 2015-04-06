@@ -2112,7 +2112,11 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
         {
             TextMessageDlg* dlg = getTextMessageDlg(textmsg.nFromUserID);
             if(dlg)
+            {
                 dlg->show();
+                dlg->activateWindow();
+                dlg->raise();
+            }
         }
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
@@ -3950,6 +3954,7 @@ void MainWindow::slotUsersMessages(int userid)
     {
         dlg->show();
         dlg->activateWindow();
+        dlg->raise();
     }
 }
 
