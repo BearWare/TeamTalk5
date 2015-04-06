@@ -4,6 +4,7 @@
 Version 5.1 (unreleased)
 - Bulgarian language
 - Ctrl+G sends user or channel state to text-to-speech in classic client
+- Fixed clicking sound when streaming media files
 
 Version 5.0, released 2015/03/10
 - WebM video codec replaces Theora
@@ -31,7 +32,7 @@ Version 5.0, released 2015/03/10
 - AGC, denoise and echo cancellation for stereo codecs
 - Czech language file for Classic client
 
-Version 4.6.3
+Version 4.6.3, released 2014/12/31
 - Limit text length in classic client
 - TT-file generator with client setup
 - Push-to-talk key in statusbar
