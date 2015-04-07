@@ -322,6 +322,7 @@ QStringList getCustomCommand(const TextMessage& msg);
 
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
+void initDefaultVideoFormat(VideoFormat& vidfmt);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
@@ -349,6 +350,9 @@ void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
 
 void deleteHotKeySettings(HotKeyID hotkeyid);
+
+void saveVideoFormat(const VideoFormat& vidfmt);
+bool loadVideoFormat(VideoFormat& vidfmt);
 
 void playSoundEvent(SoundEvent event);
 

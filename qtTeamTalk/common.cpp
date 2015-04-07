@@ -96,6 +96,15 @@ bool getVideoCaptureCodec(VideoCodec& vidcodec)
     return codec != NO_CODEC;
 }
 
+void initDefaultVideoFormat(VideoFormat& vidfmt)
+{
+    vidfmt.nWidth = DEFAULT_VIDEO_WIDTH;
+    vidfmt.nHeight = DEFAULT_VIDEO_HEIGHT;
+    vidfmt.nFPS_Numerator = DEFAULT_VIDEO_FPS;
+    vidfmt.nFPS_Denominator = 1;
+    vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
+}
+
 bool initVideoCaptureFromSettings()
 {
     QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();
@@ -643,6 +652,35 @@ bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
 void deleteHotKeySettings(HotKeyID hotkeyid)
 {
     ttSettings->remove(getHotKeyString(hotkeyid));
+}
+
+void saveVideoFormat(const VideoFormat& vidfmt)
+{
+    QString resolution, fps;
+    resolution = QString("%1x%2").arg(vidfmt.nWidth).arg(vidfmt.nHeight);
+    fps = QString("%1/%2").arg(vidfmt.nFPS_Numerator).arg(vidfmt.nFPS_Denominator);
+
+    ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, resolution);
+    ttSettings->setValue(SETTINGS_VIDCAP_FPS, fps);
+    ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, (int)vidfmt.picFourCC);
+}
+
+bool loadVideoFormat(VideoFormat& vidfmt)
+{
+    QStringList fps_tokens = ttSettings->value(SETTINGS_VIDCAP_FPS, "0/0").toString().split("/");
+    QStringList res_tokens = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION, "0x0").toString().split("x");
+    if(fps_tokens.size() == 2 && res_tokens.size() == 2 &&
+       fps_tokens[0].toInt() && fps_tokens[1].toInt() && 
+       res_tokens[0].toInt() && res_tokens[1].toInt())
+    {
+        vidfmt.nFPS_Numerator = fps_tokens[0].toInt();
+        vidfmt.nFPS_Denominator = fps_tokens[1].toInt();
+        vidfmt.nWidth = res_tokens[0].toInt();
+        vidfmt.nHeight = res_tokens[1].toInt();
+        vidfmt.picFourCC = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, 0).toInt();
+        return true;
+    }
+    return false;
 }
 
 void playSoundEvent(SoundEvent event)

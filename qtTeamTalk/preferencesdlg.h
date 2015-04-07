@@ -67,6 +67,7 @@ private:
 
     QSet<int> m_modtab;
     bool m_video_ready;
+    VideoFormat m_vidfmt;
 
     TTSoundLoop* m_sndloop;
 
@@ -114,7 +115,9 @@ private slots:
     //video tab
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();
+    void slotVideoResolutionChange(int index);
     void slotImageFormatChange(bool checked);
+    void slotCustomImageFormat();
     void slotDefaultVideoSettings();
 
 public slots:

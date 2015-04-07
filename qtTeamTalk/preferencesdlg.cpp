@@ -25,6 +25,7 @@
 #include "appinfo.h"
 #include "videotextdlg.h"
 #include "desktopaccessdlg.h"
+#include "customvideofmtdlg.h"
 #include "settings.h"
 
 #include <QDebug>
@@ -37,6 +38,8 @@ extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
 
+#define CUSTOMVIDEOFORMAT_INDEX -2
+
 PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 , m_uservideo(NULL)
@@ -44,6 +47,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+
+    initDefaultVideoFormat(m_vidfmt);
 
     connect(ui.tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChange(int)));
     connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotSaveChanges()));
@@ -157,6 +162,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
     //video tab
     connect(ui.vidcapdevicesBox, SIGNAL(currentIndexChanged(int)), 
             SLOT(slotVideoCaptureDevChange(int)));
+    connect(ui.captureformatsBox, SIGNAL(currentIndexChanged(int)),
+            SLOT(slotVideoResolutionChange(int)));
     connect(ui.vidtestButton, SIGNAL(clicked()), SLOT(slotTestVideoFormat()));
     connect(ui.vidrgb32RadioButton, SIGNAL(clicked(bool)),
             SLOT(slotImageFormatChange(bool)));
@@ -166,6 +173,7 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotImageFormatChange(bool)));
     connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
             ui.vidcodecStackedWidget, SLOT(setCurrentIndex(int)));
+    connect(ui.vidfmtToolButton, SIGNAL(clicked()), SLOT(slotCustomImageFormat()));
     connect(ui.viddefaultButton, SIGNAL(clicked()),
             SLOT(slotDefaultVideoSettings()));
 
@@ -552,8 +560,10 @@ void PreferencesDlg::slotTabChange(int index)
             ui.viddefaultButton->setEnabled(false);
         }
 
-        FourCC fourcc = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, FOURCC_RGB32).toInt();
-        switch(fourcc)
+        initDefaultVideoFormat(m_vidfmt);
+        loadVideoFormat(m_vidfmt);
+
+        switch(m_vidfmt.picFourCC)
         {
         case FOURCC_I420 :
             ui.vidi420RadioButton->setChecked(true);
@@ -871,31 +881,39 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(VIDCAP_TAB) != m_modtab.end())
     {
-        QString devapi, devid, resolution, fps;
-        FourCC fourcc = FOURCC_NONE;
+        QString devapi, devid;
         int viddev_index = ui.vidcapdevicesBox->currentIndex();
-        int cap_index = ui.captureformatsBox->itemData(ui.captureformatsBox->currentIndex()).toInt();
+        int fmt_itemdata = ui.captureformatsBox->itemData(ui.captureformatsBox->currentIndex()).toInt();
         bool modified = false;
         if( viddev_index >= 0 &&
-            viddev_index < m_videodevices.size() && 
-            cap_index < m_videodevices[viddev_index].nVideoFormatsCount)
+            viddev_index < m_videodevices.size())
         {
             devapi = _Q(m_videodevices[viddev_index].szCaptureAPI);
             devid = _Q(m_videodevices[viddev_index].szDeviceID);
             
-            resolution = QString("%1x%2").arg(m_videodevices[viddev_index].videoFormats[cap_index].nWidth).arg(m_videodevices[viddev_index].videoFormats[cap_index].nHeight);
-            fps = QString("%1/%2").arg(m_videodevices[viddev_index].videoFormats[cap_index].nFPS_Numerator).arg(m_videodevices[viddev_index].videoFormats[cap_index].nFPS_Denominator);
-            fourcc = m_videodevices[viddev_index].videoFormats[cap_index].picFourCC;
+            if(fmt_itemdata == CUSTOMVIDEOFORMAT_INDEX)
+            {
+                if(ui.vidi420RadioButton->isChecked())
+                    m_vidfmt.picFourCC = FOURCC_I420;
+                if(ui.vidyuy2RadioButton->isChecked())
+                    m_vidfmt.picFourCC = FOURCC_YUY2;
+                if(ui.vidrgb32RadioButton->isChecked())
+                    m_vidfmt.picFourCC = FOURCC_RGB32;
+            }
+            else if(fmt_itemdata >= 0 &&
+                    fmt_itemdata < m_videodevices[viddev_index].nVideoFormatsCount)
+            {
+                m_vidfmt = m_videodevices[viddev_index].videoFormats[fmt_itemdata];
+            }
+
+            VideoFormat oldfmt;
+            loadVideoFormat(oldfmt);
 
             modified = ttSettings->value(SETTINGS_VIDCAP_DEVICEID) != devid ||
-                       ttSettings->value(SETTINGS_VIDCAP_RESOLUTION) != resolution ||
-                       ttSettings->value(SETTINGS_VIDCAP_FPS) != fps ||
-                       ttSettings->value(SETTINGS_VIDCAP_FOURCC) != fourcc;
+                       memcmp(&m_vidfmt, &oldfmt, sizeof(oldfmt) != 0);
 
             ttSettings->setValue(SETTINGS_VIDCAP_DEVICEID, devid);
-            ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, resolution);
-            ttSettings->setValue(SETTINGS_VIDCAP_FPS, fps);
-            ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, fourcc);
+            saveVideoFormat(m_vidfmt);
         }
 
         int codec_index = ui.vidcodecBox->currentIndex();
@@ -1348,19 +1366,8 @@ void PreferencesDlg::slotVideoCaptureDevChange(int index)
         return;
 
     ui.captureformatsBox->clear();
-    QStringList fps_tokens = ttSettings->value(SETTINGS_VIDCAP_FPS, "0/0").toString().split("/");
-    QStringList res_tokens = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION, "0x0").toString().split("x");
-    int fps_0 = 0, fps_1 = 0, res_0 = 0, res_1 = 0, fourcc;
-    if(fps_tokens.size() == 2 && res_tokens.size() == 2)
-    {
-        fps_0 = fps_tokens[0].toInt();
-        fps_1 = fps_tokens[1].toInt();
-        res_0 = res_tokens[0].toInt();
-        res_1 = res_tokens[1].toInt();
-    }
-    fourcc = ttSettings->value(SETTINGS_VIDCAP_FOURCC, 0).toInt();
 
-    int cur_index = 0;
+    int cur_index = -1;
     for(int j=0;j<m_videodevices[index].nVideoFormatsCount;j++)
     {
         if(m_videodevices[index].videoFormats[j].nFPS_Denominator == 0)
@@ -1393,20 +1400,31 @@ void PreferencesDlg::slotVideoCaptureDevChange(int index)
         ui.captureformatsBox->addItem(res, j);
 
         if(_Q(m_videodevices[index].szDeviceID) == ttSettings->value(SETTINGS_VIDCAP_DEVICEID) &&
-            m_videodevices[index].videoFormats[j].nFPS_Numerator == fps_0 &&
-            m_videodevices[index].videoFormats[j].nFPS_Denominator == fps_1 &&
-            m_videodevices[index].videoFormats[j].nWidth == res_0 &&
-            m_videodevices[index].videoFormats[j].nHeight == res_1 &&
-            m_videodevices[index].videoFormats[j].picFourCC == fourcc)
+            m_videodevices[index].videoFormats[j].nFPS_Numerator == m_vidfmt.nFPS_Numerator &&
+            m_videodevices[index].videoFormats[j].nFPS_Denominator == m_vidfmt.nFPS_Denominator &&
+            m_videodevices[index].videoFormats[j].nWidth == m_vidfmt.nWidth &&
+            m_videodevices[index].videoFormats[j].nHeight == m_vidfmt.nHeight &&
+            m_videodevices[index].videoFormats[j].picFourCC == m_vidfmt.picFourCC)
         {
             cur_index = j;
         }
     }
+
+    //special case for custom format
+    ui.captureformatsBox->addItem(tr("Custom video format"), CUSTOMVIDEOFORMAT_INDEX);
+    if(_Q(m_videodevices[index].szDeviceID) == ttSettings->value(SETTINGS_VIDCAP_DEVICEID) &&
+        cur_index == -1)
+    {
+        cur_index = CUSTOMVIDEOFORMAT_INDEX;
+    }
+
     cur_index = ui.captureformatsBox->findData(cur_index);
     if(cur_index>=0)
         ui.captureformatsBox->setCurrentIndex(cur_index);
     else
+    {
         ui.captureformatsBox->setCurrentIndex(0);
+    }
 }
 
 void PreferencesDlg::slotTestVideoFormat()
@@ -1414,29 +1432,61 @@ void PreferencesDlg::slotTestVideoFormat()
     if(!ui.captureformatsBox->count())
         return;
     int dev_index = ui.vidcapdevicesBox->currentIndex();
-    int cap_index = ui.captureformatsBox->itemData(ui.captureformatsBox->currentIndex()).toInt();
+    int fmt_itemdata = ui.captureformatsBox->itemData(ui.captureformatsBox->currentIndex()).toInt();
     if(TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY)
         TT_CloseVideoCaptureDevice(ttInst);
 
+    if(fmt_itemdata != CUSTOMVIDEOFORMAT_INDEX)
+        m_vidfmt = m_videodevices[dev_index].videoFormats[fmt_itemdata];
+
     if(TT_InitVideoCaptureDevice(ttInst, m_videodevices[dev_index].szDeviceID, 
-        &m_videodevices[dev_index].videoFormats[cap_index]))
+        &m_vidfmt))
     {
         QSize size;
-        size.setWidth(m_videodevices[dev_index].videoFormats[cap_index].nWidth);
-        size.setHeight(m_videodevices[dev_index].videoFormats[cap_index].nHeight);
+        size.setWidth(m_vidfmt.nWidth);
+        size.setHeight(m_vidfmt.nHeight);
         User user;
         ZERO_STRUCT(user);
         m_uservideo = new UserVideoDlg(0 | VIDEOTYPE_CAPTURE, user, size, this);
         m_uservideo->exec();
     }
+    else
+    {
+        QMessageBox::information(this, ui.vidtestButton->text(),
+                                 tr("Failed to initialize video device"));
+    }
+
     delete m_uservideo;
     m_uservideo = NULL;
     TT_CloseVideoCaptureDevice(ttInst);
 }
 
+void PreferencesDlg::slotVideoResolutionChange(int index)
+{
+    Q_UNUSED(index);
+}
+
 void PreferencesDlg::slotImageFormatChange(bool /*checked*/)
 {
+    if(ui.vidi420RadioButton->isChecked())
+        m_vidfmt.picFourCC = FOURCC_I420;
+    if(ui.vidyuy2RadioButton->isChecked())
+        m_vidfmt.picFourCC = FOURCC_YUY2;
+    if(ui.vidrgb32RadioButton->isChecked())
+        m_vidfmt.picFourCC = FOURCC_RGB32;
+
     slotVideoCaptureDevChange(ui.vidcapdevicesBox->currentIndex());
+}
+
+void PreferencesDlg::slotCustomImageFormat()
+{
+    CustomVideoFmtDlg dlg(this, m_vidfmt);
+    if(dlg.exec())
+    {
+        int i = ui.captureformatsBox->findData(CUSTOMVIDEOFORMAT_INDEX);
+        if(i>=0)
+            ui.captureformatsBox->setCurrentIndex(i);
+    }
 }
 
 void PreferencesDlg::slotNewVideoFrame(int userid, int stream_id)

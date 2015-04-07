@@ -368,4 +368,5 @@ void ChannelDlg::slotUpdateChannelPath(const QString& str)
 
 void ChannelDlg::slotAudioChannelChanged(int aud_channels)
 {
+    Q_UNUSED(aud_channels);
 }

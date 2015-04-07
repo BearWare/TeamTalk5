@@ -1582,45 +1582,52 @@
          <property name="title">
           <string>Video Capture Settings</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_12">
-          <item>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>Video Capture Device</string>
-              </property>
-              <property name="buddy">
-               <cstring>vidcapdevicesBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="vidcapdevicesBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>Video Resolution</string>
-              </property>
-              <property name="buddy">
-               <cstring>captureformatsBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Video Capture Device</string>
+            </property>
+            <property name="buddy">
+             <cstring>vidcapdevicesBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="vidcapdevicesBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Video Resolution</string>
+            </property>
+            <property name="buddy">
+             <cstring>captureformatsBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
              <widget class="QComboBox" name="captureformatsBox"/>
+            </item>
+            <item>
+             <widget class="QToolButton" name="vidfmtToolButton">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
-          <item>
+          <item row="2" column="0" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
              <widget class="QLabel" name="label_31">
@@ -1652,7 +1659,7 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="3" column="0" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
              <spacer name="horizontalSpacer_10">
@@ -1689,7 +1696,7 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="4" column="0" colspan="2">
            <widget class="QGroupBox" name="vidgroupBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1748,7 +1755,16 @@
                </property>
                <widget class="QWidget" name="vp8_page">
                 <layout class="QVBoxLayout" name="verticalLayout_15">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>0</number>
                  </property>
                  <item>
@@ -1824,7 +1840,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item row="5" column="0" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
              <spacer name="horizontalSpacer_14">
@@ -1848,7 +1864,7 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="6" column="1">
            <spacer name="verticalSpacer_5">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -1967,6 +1983,7 @@
   <tabstop>videotxButton</tabstop>
   <tabstop>vidcapdevicesBox</tabstop>
   <tabstop>captureformatsBox</tabstop>
+  <tabstop>vidfmtToolButton</tabstop>
   <tabstop>vidrgb32RadioButton</tabstop>
   <tabstop>vidi420RadioButton</tabstop>
   <tabstop>vidyuy2RadioButton</tabstop>
@@ -1974,7 +1991,6 @@
   <tabstop>vidcodecBox</tabstop>
   <tabstop>vp8bitrateSpinBox</tabstop>
   <tabstop>viddefaultButton</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="resources.qrc"/>

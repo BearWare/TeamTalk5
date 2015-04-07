@@ -9,7 +9,8 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              desktopgridwidget.h userdesktopwidget.h gridwidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
-             desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h
+             desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
+             customvideofmtdlg.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -23,7 +24,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              userdesktopwidget.cpp gridwidget.cpp userimagewidget.cpp \
              userdesktopdlg.cpp desktopsharedlg.cpp sendtextedit.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
-             generatettfiledlg.cpp
+             generatettfiledlg.cpp customvideofmtdlg.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
@@ -31,7 +32,7 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
              filetransfer.ui uservolume.ui changestatus.ui about.ui \
              serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui \
              desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui \
-             generatettfile.ui
+             generatettfile.ui customvideofmt.ui
 
 RESOURCES += resources.qrc
 
@@ -64,20 +65,20 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Chinese_Simplified.ts \
                languages/Chinese_Traditional.ts \
                languages/Czech.ts \
-			   languages/Danish.ts \
+               languages/Danish.ts \
                languages/Dutch.ts \
-			   languages/English.ts \
+               languages/English.ts \
                languages/French.ts \
-			   languages/German.ts \
+               languages/German.ts \
                languages/Hebrew.ts \
-			   languages/Italian.ts \
+               languages/Italian.ts \
                languages/Polish.ts \
-			   languages/Portuguese_BR.ts \
+               languages/Portuguese_BR.ts \
                languages/Portuguese_EU.ts \
-			   languages/Russian.ts \
+               languages/Russian.ts \
                languages/Slovak.ts \
-			   languages/Slovenian.ts \
+               languages/Slovenian.ts \
                languages/Spanish.ts \
-			   languages/Thai.ts \
+               languages/Thai.ts \
                languages/Turkish.ts
 
