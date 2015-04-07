@@ -5,6 +5,8 @@ Version 5.1 (unreleased)
 - Bulgarian language
 - Ctrl+G sends user or channel state to text-to-speech in classic client
 - Fixed clicking sound when streaming media files
+- Default audio codec for server's root channel is now OPUS
+- Custom video format in Qt client
 
 Version 5.0, released 2015/03/10
 - WebM video codec replaces Theora
