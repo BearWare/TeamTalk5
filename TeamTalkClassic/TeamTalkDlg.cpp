@@ -1060,11 +1060,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
                 COPYTTSTR(newchan.szName, STR_UTF8(m_host.szChannel.c_str()));
                 COPYTTSTR(newchan.szPassword, STR_UTF8(m_host.szChPasswd.c_str()));
                 
-                newchan.audiocodec.nCodec = SPEEX_CODEC;
-                newchan.audiocodec.speex.nBandmode = DEFAULT_SPEEX_BANDMODE;
-                newchan.audiocodec.speex.nQuality = DEFAULT_SPEEX_QUALITY;
-                newchan.audiocodec.speex.nTxIntervalMSec = DEFAULT_SPEEX_DELAY;
-                newchan.audiocodec.speex.bStereoPlayback = DEFAULT_SPEEX_SIMSTEREO;
+                InitDefaultAudioCodec(newchan.audiocodec);
 
                 newchan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
                 newchan.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
