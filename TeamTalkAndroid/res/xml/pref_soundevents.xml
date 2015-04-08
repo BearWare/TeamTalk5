@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="server_lost_audio_icon"
+        android:title="@string/pref_title_server_lost_audio_icon"
+        android:summary="@string/pref_summary_server_lost_audio_icon"
+         />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="rx_tx_audio_icon"
+        android:title="@string/pref_title_rx_tx_audio_icon"
+        android:summary="@string/pref_summary_rx_tx_audio_icon"
+		/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="personal_message_audio_icon"
+        android:title="@string/pref_title_personal_message_audio_icon"
+        android:summary="@string/pref_summary_personal_message_audio_icon"
+		/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="channel_message_audio_icon"
+        android:title="@string/pref_title_channel_message_audio_icon"
+        android:summary="@string/pref_summary_channel_message_audio_icon"
+		/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="broadcast_message_audio_icon"
+        android:title="@string/pref_title_broadcast_message_audio_icon"
+        android:summary="@string/pref_summary_broadcast_message_audio_icon"
+		/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="files_updated_audio_icon"
+        android:title="@string/pref_title_files_update_audio_icon"
+        android:summary="@string/pref_summary_files_update_audio_icon"
+		/>
+    
+</PreferenceScreen>

@@ -2,6 +2,7 @@ package dk.bearware.gui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,9 +17,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
+
+import dk.bearware.backend.TeamTalkConnection;
+import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkService;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -29,7 +35,38 @@ import java.util.List;
  * guidelines and the <a href="http://developer.android.com/guide/topics/ui/settings.html">Settings API Guide</a> for
  * more information on developing a Settings UI.
  */
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity implements TeamTalkConnectionListener {
+
+    public static final String TAG = "bearware";
+
+    TeamTalkConnection mConnection;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        
+        // Bind to LocalService
+        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+        mConnection = new TeamTalkConnection(this);
+        Log.d(TAG, "Binding TeamTalk service");
+        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            Log.e(TAG, "Failed to bind to TeamTalk service");
+        else
+            mConnection.setBound(true);
+    }
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+    }
+
     /**
      * Determines whether to always show the simplified settings UI, where settings are presented in a single list. When
      * false, settings are shown as a master/detail two-pane view on tablets. When true, a single pane is shown on
@@ -218,6 +255,15 @@ public class PreferencesActivity extends PreferenceActivity {
     }
     
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class SoundEventsPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_soundevents);
+        }
+    }
+    
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ConnectionPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -242,5 +288,13 @@ public class PreferencesActivity extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_soundsystem);
         }
+    }
+
+    @Override
+    public void onServiceConnected(TeamTalkService service) {
+    }
+
+    @Override
+    public void onServiceDisconnected(TeamTalkService service) {
     }
 }

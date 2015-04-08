@@ -1446,6 +1446,11 @@ implements TeamTalkConnectionListener,
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
         if (sounds.get(SOUND_VOICETX) != 0)
             audioIcons.play(sounds.get(SOUND_VOICETX), 1.0f, 1.0f, 0, 0, 1.0f);
+    
+        boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false);
+        if(mute) {
+            ttclient.setSoundOutputMute(voiceTransmissionEnabled);
+        }
     }
 
 }

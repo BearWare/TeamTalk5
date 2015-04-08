@@ -131,11 +131,14 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                 ttservice.unregisterCommandListener(this);
             }
         }
-        // Unbind from the service
-        if(mConnection.isBound()) {
-            unbindService(mConnection);
-            mConnection.setBound(false);
-        }
+        
+        // Unbind from the service.
+        // We shouldn't do this because someone needs to keep a reference
+        // to the service so it doens't get killed 
+//        if(mConnection.isBound()) {
+//            unbindService(mConnection);
+//            mConnection.setBound(false);
+//        }
     }
 
     ServerEntry serverentry;

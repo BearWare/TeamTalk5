@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
-    <PreferenceCategory
-        android:key="sndtest_def"
-        android:title="@string/pref_cat_soundtest">
-    </PreferenceCategory>
+    <CheckBoxPreference
+		android:key="mute_speakers_on_tx_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_mute_speakers"
+		android:summary="@string/pref_summary_mute_speakers" />
     
 </PreferenceScreen>

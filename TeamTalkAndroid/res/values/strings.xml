@@ -43,11 +43,17 @@
     <string name="pref_show_log_messages">Show log messages in chat history</string>
     <string name="pref_title_audio_icons">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
+    <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
     <string name="pref_title_personal_message_audio_icon">Private message</string>
+    <string name="pref_summary_personal_message_audio_icon">Play sound when private message is received</string>
     <string name="pref_title_channel_message_audio_icon">Channel message</string>
+    <string name="pref_summary_channel_message_audio_icon">Play sound when channel message is received</string>
     <string name="pref_title_broadcast_message_audio_icon">Broadcast message</string>
+    <string name="pref_summary_broadcast_message_audio_icon">Play sound when broadcast message is received</string>
     <string name="pref_title_server_lost_audio_icon">Server connection lost</string>
+    <string name="pref_summary_server_lost_audio_icon">Play sound when connection is dropped</string>
     <string name="pref_title_files_update_audio_icon">File list updated</string>
+    <string name="pref_summary_files_update_audio_icon">Play sound when files are added or removed</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
@@ -75,6 +81,8 @@
     <string name="pref_title_personal_message">Personal messages</string>
     <string name="pref_title_broadcast_message">Broadcast messages</string>
     <string name="pref_summary_message">Announce name of the sender</string>
+    <string name="pref_title_mute_speakers">Mute speakers when pressing TX button</string>
+    <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>
     <string name="text_tts_joined_chan">has joined the channel</string>

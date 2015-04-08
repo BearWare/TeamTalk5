@@ -6,11 +6,14 @@
         android:fragment="dk.bearware.gui.PreferencesActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
     <header
-        android:fragment="dk.bearware.gui.PreferencesActivity$ConnectionPreferenceFragment"
-        android:title="@string/pref_header_connection" />
+        android:fragment="dk.bearware.gui.PreferencesActivity$SoundEventsPreferenceFragment"
+        android:title="@string/pref_title_audio_icons" />
     <header
         android:fragment="dk.bearware.gui.PreferencesActivity$TtsPreferenceFragment"
         android:title="@string/pref_header_tts" />
+    <header
+        android:fragment="dk.bearware.gui.PreferencesActivity$ConnectionPreferenceFragment"
+        android:title="@string/pref_header_connection" />
     <header
         android:fragment="dk.bearware.gui.PreferencesActivity$SoundSystemPreferenceFragment"
         android:title="@string/pref_header_soundsystem" />
