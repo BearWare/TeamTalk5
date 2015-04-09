@@ -39,6 +39,7 @@ UserImageWidget::UserImageWidget(QWidget * parent/* = 0 */,
 , m_border_width(border_width)
 , m_img_offset(QPoint(0,0))
 , m_paint_offset(QPoint(0,0))
+, m_mirrored(false)
 {
     //setAttribute(Qt::WA_OpaquePaintEvent);
 #if defined(Q_OS_WIN32)
@@ -195,12 +196,22 @@ void UserImageWidget::slotContextMenu(const QPoint& /*p*/)
 #ifndef USE_TT_PAINT
     QMenu menu(this);
     QAction* save = menu.addAction(tr("&Save to Image File"));
-    if(menu.exec(QCursor::pos()) == save)
+    QAction* mirror = menu.addAction(tr("&Flip image"));
+    mirror->setCheckable(true);
+    mirror->setChecked(m_mirrored);
+    QAction* result = menu.exec(QCursor::pos());
+    if(result == save)
     {
         QString name = QFileDialog::getSaveFileName(this, tr("Save File"), 
                                                     "", tr("PNG files (*.png)"));
         if(name.size() && !m_image.save(name, "PNG"))
             QMessageBox::critical(this, tr("&Save to Image File"), tr("Failed to save file."));
+    }
+    else if(result == mirror)
+    {
+        m_mirrored = !m_mirrored;
+        m_image = m_image.mirrored(m_mirrored, m_mirrored);
+        update();
     }
 #endif
 }

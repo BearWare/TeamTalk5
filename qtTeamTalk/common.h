@@ -344,6 +344,7 @@ int getSelectedSndOutputDevice();
 QString getHotKeyText(const hotkey_t& hotkey);
 
 bool isComputerIdle(int idle_secs);
+bool isMyselfTalking();
 
 void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 

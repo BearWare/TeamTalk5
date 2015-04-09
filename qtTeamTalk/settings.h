@@ -54,6 +54,9 @@
 #define SETTINGS_DISPLAY_TRAYMINIMIZE               "display/trayminimize"
 #define SETTINGS_DISPLAY_ALWAYSONTOP                "display/alwaysontop"
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
+#define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
+#define SETTINGS_DISPLAY_LASTTALK                   "display/display-last-talk"
+#define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_WINDOWPOS                  "display/windowposition"

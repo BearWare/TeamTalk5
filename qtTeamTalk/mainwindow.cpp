@@ -563,7 +563,10 @@ void MainWindow::loadSettings()
 #endif
 
     //show number of users
-    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, true).toBool());
+    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
+                                                          SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
+    ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
+                                                           SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                             SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
     slotUpdateUI();
@@ -1554,6 +1557,8 @@ void MainWindow::Disconnect()
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
+
+    updateWindowTitle();
 }
 
 void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete cmd_type)
@@ -3111,7 +3116,10 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     }
 
     //show user count property
-    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, true).toBool());
+    ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
+                                                          SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
+    ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
+                                                           SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                             SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
 

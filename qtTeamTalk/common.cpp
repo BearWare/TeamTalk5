@@ -607,6 +607,16 @@ bool isComputerIdle(int idle_secs)
 }
 #endif
 
+bool isMyselfTalking()
+{
+    bool talking = false;
+    ClientFlags flags = TT_GetFlags(ttInst);
+    talking = (flags & CLIENT_TX_VOICE) ||
+              ((flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
+              (flags & CLIENT_SNDINPUT_VOICEACTIVE));
+    return talking;
+}
+
 QString getHotKeyString(HotKeyID keyid)
 {
     switch(keyid)

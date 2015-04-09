@@ -77,6 +77,7 @@ protected:
     int m_border_width;
     QPoint m_img_offset; //top-left corner in 'm_image' where painting should start
     QPoint m_paint_offset; //top-left corner where 'm_image' is painted in the widget
+    bool m_mirrored;
 };
 
 #endif

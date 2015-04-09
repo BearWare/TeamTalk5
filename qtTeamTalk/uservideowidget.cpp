@@ -60,8 +60,12 @@ UserVideoWidget::UserVideoWidget(QWidget * parent, int userid,
 
 #if !defined(USE_TT_PAINT) && !USE_VIDEO_SHAREDMEM_ZEROCOPY
     if(m_video_frame)
+    {
         m_image = QImage(m_video_frame->nWidth, m_video_frame->nHeight,
                          QImage::Format_RGB32);
+        if(m_mirrored)
+            m_image = m_image.mirrored(true, true);
+    }
 #endif
 }
 
@@ -126,6 +130,8 @@ void UserVideoWidget::slotNewVideoFrame(int userid, int /*stream_id*/)
             m_image = QImage(static_cast<uchar*>(m_video_frame->frameBuffer),
                              m_video_frame->nWidth, m_video_frame->nHeight,
                              QImage::Format_RGB32);
+            if(m_mirrored)
+                m_image = m_image.mirrored(true, true);
         }
         else break;
 #else
@@ -142,6 +148,8 @@ void UserVideoWidget::slotNewVideoFrame(int userid, int /*stream_id*/)
             memcpy(m_image.bits(), vid_frame->frameBuffer,
                    vid_frame->nFrameBufferSize);
             releaseVideo(vid_frame);
+            if(m_mirrored)
+                m_image = m_image.mirrored(true, true);
         }
         else break;
 #endif

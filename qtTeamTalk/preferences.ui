@@ -352,6 +352,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="lasttalkChkBox">
+              <property name="text">
+               <string>Show last to talk in yellow</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="msgpopupChkBox">
               <property name="text">
                <string>Popup dialog when receiving text message</string>
@@ -1901,6 +1908,7 @@
   <tabstop>trayChkBox</tabstop>
   <tabstop>alwaysontopChkBox</tabstop>
   <tabstop>usercountChkBox</tabstop>
+  <tabstop>lasttalkChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>
   <tabstop>videodlgChkBox</tabstop>
   <tabstop>returnvidChkBox</tabstop>

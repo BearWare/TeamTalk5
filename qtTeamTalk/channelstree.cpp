@@ -53,6 +53,7 @@ enum
 extern TTInstance* ttInst;
        
 #define COLOR_TALK      QColor(133,229,141)
+#define COLOR_LASTTALK  QColor(255,232,61)
 #define COLOR_LOSSY     QColor(201,2,40)
 
 #define COLOR_TX_VOICE  QColor(130,209,255) // QColor(133,229,141)
@@ -109,6 +110,8 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
 ChannelsTree::ChannelsTree(QWidget* parent)
 : QTreeWidget(parent)
 , m_showusercount(false)
+, m_showlasttalk(false)
+, m_last_talker_id(0)
 , m_strlen(TT_STRLEN)
 , m_desktopaccesTimerId(0)
 , m_ignore_item_changes(false)
@@ -338,6 +341,14 @@ void ChannelsTree::setShowUserCount(bool show)
         updateChannelItem(ite.key());
         ite++;
     }
+}
+
+void ChannelsTree::setShowLastToTalk(bool show)
+{
+    m_showlasttalk = show;
+    QTreeWidgetItem* user_item = getUserItem(m_last_talker_id);
+    if(user_item)
+        slotUpdateTreeWidgetItem(user_item);
 }
 
 void ChannelsTree::updateItemTextLength(int new_length)
@@ -788,12 +799,8 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         if(userid != TT_GetMyUserID(ttInst))
             talking = user.uUserState & USERSTATE_VOICE;
         else
-        {
-            ClientFlags flags = TT_GetFlags(ttInst);
-            talking = (flags & CLIENT_TX_VOICE) ||
-                ((flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
-                 (flags & CLIENT_SNDINPUT_VOICEACTIVE));
-        }
+            talking = isMyselfTalking();
+
         bool video_active = m_videousers.find(userid) != m_videousers.end();
         video_active |= (bool)(user.nStatusMode & STATUSMODE_VIDEOTX);
 
@@ -1026,8 +1033,10 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
         }
 
-        item->setBackground(COLUMN_ITEM, talking ? QBrush(COLOR_TALK) : 
-                            QPalette().brush(QPalette::Base));
+        QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
+        if(!talking && m_showlasttalk && userid == m_last_talker_id)
+            bgColor = QBrush(COLOR_LASTTALK);
+        item->setBackground(COLUMN_ITEM, bgColor);
     }
 
     m_ignore_item_changes = false;
@@ -1234,7 +1243,28 @@ void ChannelsTree::slotUserLeft(int channelid, const User& user)
 
 void ChannelsTree::slotUserStateChange(const User& user)
 {
+    User oldUser;
+    ZERO_STRUCT(oldUser);
+    getUser(user.nUserID, oldUser);
+
+    if((user.uUserState & USERSTATE_VOICE) && user.nUserID != m_last_talker_id)
+    {
+        QTreeWidgetItem* lasttalk_item = getUserItem(m_last_talker_id);
+        m_last_talker_id = 0;
+        if(lasttalk_item)
+            slotUpdateTreeWidgetItem(lasttalk_item);
+    }
+
     m_users.insert(user.nUserID, user);
+    
+    if((oldUser.uUserState & USERSTATE_VOICE) &&
+       (user.uUserState & USERSTATE_VOICE) == 0)
+    {
+        QTreeWidgetItem* lasttalk_item = getUserItem(m_last_talker_id);
+        m_last_talker_id = user.nUserID;
+        if(lasttalk_item)
+            slotUpdateTreeWidgetItem(lasttalk_item);
+    }
 
     QTreeWidgetItem* user_item = getUserItem(user.nUserID);
     if(user_item)
@@ -1260,6 +1290,15 @@ void ChannelsTree::slotUpdateMyself()
     QTreeWidgetItem* user_item = getUserItem(TT_GetMyUserID(ttInst));
     if(user_item)
         slotUpdateTreeWidgetItem(user_item);
+
+    //update last talking
+    if(isMyselfTalking())
+    {
+        user_item = getUserItem(m_last_talker_id);
+        m_last_talker_id = 0;
+        if(user_item)
+            slotUpdateTreeWidgetItem(user_item);
+    }
 }
 
 void ChannelsTree::slotUserVideoFrame(int userid, int stream_id)
