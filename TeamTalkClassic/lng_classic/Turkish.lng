@@ -11,6 +11,13 @@
     <item id="111">Mevcut Kanalı Güncelleme</item>
     <item id="112">Evet</item>
     <item id="113">Hayır</item>
+    <item id="114">konuşuyor</item>
+    <item id="115">sessiz</item>
+    <item id="116">yayın yapıyor</item>
+    <item id="117">masaüstü</item>
+    <item id="118">kamera</item>
+    <item id="119">medya sesini kapat</item>
+    <item id="120">şifre korumalı</item>
     <item id="121">Kanal&apos;a katıldı %s</item>
     <item id="122">3D Çıkış Aygıdı</item>
     <item id="123">3D Çıkış Aygıdı 3D Sesi Desteklemiyor</item>
@@ -22,6 +29,7 @@
     <item id="129">&amp;Yardım</item>
     <item id="130">Yeni Kullanıcı Adı</item>
     <item id="131">Kullanıcı adını değiştir</item>
+    <item id="132">sınıf</item>
     <item id="133">Yeni kanal&apos;a giriş yapıldı, Yayınlar operatör kontrolünde %s</item>
     <item id="134">Dosyalar</item>
     <item id="135">Sohbet</item>
@@ -71,7 +79,7 @@
     <item id="1030">&amp;Bağlan</item>
     <item id="1035">Kullanıcı Kimliği</item>
     <item id="1036">Kullanıcı Adı</item>
-    <item id="1042">Bu Setup programı TeamTalk konferans uygulaması kurulumunca size yardım edecektir. Devam etmek için Next, Iptal etmek için Cancel tıklayabilirsiniz. </item>
+    <item id="1042">Bu Setup programı TeamTalk konferans uygulaması kurulumunca size yardım edecektir. Devam etmek için Next, Iptal etmek için Cancel tıklayabilirsiniz.</item>
     <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol et</item>
     <item id="1045"></item>
     <item id="1047">Dosya Boyutu</item>
@@ -452,4 +460,8 @@
     <item id="32937">Medya yayınına izin ver</item>
     <item id="32938">Medya dosyası yayını</item>
     <item id="32939">Medya yayınını takip et</item>
+    <item id="32940"></item>
+    <item id="32941">kullanıcı bilgisini konuş</item>
+    <item id="32942">&amp;kanal bilgisi</item>
+    <item id="32943">&amp;Kanal bilgisini konuş\tCtrl+G</item>
 </language>

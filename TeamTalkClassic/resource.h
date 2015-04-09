@@ -42,10 +42,12 @@
 #define IDS_FILES                       134
 #define IDS_CHAT                        135
 #define IDS_CLIENTSETTINGS              136
+#define IDS_USER                        137
 #define IDS_DESKTOPINPUT_REQUEST        138
 #define IDS_DESKTOPINPUT_RETRACT        139
 #define IDD_DIALOG_SERVERPROPERTIES     140
 #define IDD_DIALOG_USERACCOUNTS         141
+#define IDS_CHANNEL                     142
 #define IDD_DIALOG_MOVETOCHANNEL        144
 #define IDD_DIALOG_SERVERSTATISTICS     145
 #define IDD_DIALOG_ONLINEUSERS          146

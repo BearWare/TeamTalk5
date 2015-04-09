@@ -34,10 +34,12 @@
     <item id="134">Files</item>
     <item id="135">Chat</item>
     <item id="136">The file %s contains %s setup information.\r\nShould these settings be applied?</item>
+	<item id="137">User</item>
     <item id="138">%s is requesting desktop access</item>
     <item id="139">%s has retracted desktop access</item>
     <item id="140">Server Properties</item>
     <item id="141">User Accounts</item>
+	<item id="142">Channel</item>
     <item id="144">Move User Dialog</item>
     <item id="145">Server Statistics</item>
     <item id="146">Online Users</item>

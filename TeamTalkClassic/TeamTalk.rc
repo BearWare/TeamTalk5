@@ -1764,8 +1764,10 @@ BEGIN
     IDS_FILES               "Files"
     IDS_CHAT                "Chat"
     IDS_CLIENTSETTINGS      "The file %s contains %s setup information.\r\nShould these settings be applied?"
+    IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_CHANNEL             "Channel"
 END
 
 STRINGTABLE
@@ -1788,9 +1790,13 @@ STRINGTABLE
 BEGIN
     ID_ME_ENABLEDESKTOPSHARING "Enable desktop sharing"
     ID_CHANNELS_STREAMMEDIAFILETOCHANNEL "Stream media file to channel"
-    IDC_RADIO_ONLINE "Online"
-    IDC_RADIO_AWAY "Away"
-    IDC_RADIO_QUESTION "Question"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_RADIO_ONLINE        "Online"
+    IDC_RADIO_AWAY          "Away"
+    IDC_RADIO_QUESTION      "Question"
 END
 
 #endif    // Neutral resources

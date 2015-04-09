@@ -5910,9 +5910,10 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(!m_wndTree.GetUser(nID, user))
             return;
 
-        CString szVoice, szMute, szMediaFile, szMuteMediaFile,
+        CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
             szVideoCapture, szDesktop;
 
+        szUser.LoadString(IDS_USER);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);
         szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
@@ -5920,12 +5921,15 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
         szDesktop.LoadString(IDS_DESKTOP);
 
+        TRANSLATE_ITEM(IDS_USER, szUser);
         TRANSLATE_ITEM(IDS_TALKING, szVoice);
         TRANSLATE_ITEM(IDS_MUTE, szMute);
         TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
         TRANSLATE_ITEM(IDS_MUTE_MEDIAFILE, szMuteMediaFile);
         TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
         TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
+
+        AddVoiceMessage(szUser);
 
         CString szStatus;
         switch(user.nStatusMode & STATUSMODE_MASK)
@@ -5967,13 +5971,16 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         if(!m_wndTree.GetChannel(nID, chan))
             return;
 
-        CString szPasswd, szClassroom;
+        CString szChannel, szPasswd, szClassroom;
+        szChannel.LoadString(IDS_CHANNEL);
         szPasswd.LoadString(IDS_PASSWORD_PROTECTED);
         szClassroom.LoadString(IDS_CLASSROOMCHANNEL);
 
+        TRANSLATE_ITEM(IDS_CHANNEL, szChannel);
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
 
+        AddVoiceMessage(szChannel);
         if(chan.uChannelType & CHANNEL_CLASSROOM)
             AddVoiceMessage(szClassroom);
         if(chan.bPassword)
