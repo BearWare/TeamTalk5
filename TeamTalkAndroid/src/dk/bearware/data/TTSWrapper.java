@@ -5,7 +5,7 @@ import java.lang.reflect.Constructor;
 import android.content.Context;
 
 public abstract class TTSWrapper {
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static TTSWrapper getInstance(Context context) {
 		try {
 			@SuppressWarnings("unused")

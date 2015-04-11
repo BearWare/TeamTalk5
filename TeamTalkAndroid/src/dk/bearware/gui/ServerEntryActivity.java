@@ -64,6 +64,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     ServerEntry serverentry;
     
     @SuppressWarnings("deprecation")
+    @Deprecated
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +172,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     }
     
     @SuppressWarnings("deprecation")
+    @Deprecated
     ServerEntry getServerEntry() {
         ServerEntry server = new ServerEntry();
         server.servername = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME));
@@ -188,6 +190,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     }
     
     @SuppressWarnings("deprecation")
+    @Deprecated
     void showServer(ServerEntry entry) {
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), entry.servername, entry.servername);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);
