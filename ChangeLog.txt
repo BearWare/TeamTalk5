@@ -7,6 +7,10 @@ Version 5.1 (unreleased)
 - Fixed clicking sound when streaming media files
 - Default audio codec for server's root channel is now OPUS
 - Custom video format in Qt client
+- Hungarian language file for Qt client
+- Last to talk is shown in yellow in Qt client
+- Flip image menu option in Qt client
+- Changed tab-order in classic client's connect dialog
 
 Version 5.0, released 2015/03/10
 - WebM video codec replaces Theora
