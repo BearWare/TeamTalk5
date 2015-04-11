@@ -196,7 +196,11 @@
     <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
     <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
     <string name="version_update">New TeamTalk version available: %1$s?</string>
-
+    <string name="decvolume">Decrease volume</string>
+	<string name="incvolume">Increase volume</string>
+	<string name="decgain">Decrease microphone gain</string>
+	<string name="incgain">Increase microphone gain</string>
+	
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
     <string name="text_audchan">Audio channels</string>

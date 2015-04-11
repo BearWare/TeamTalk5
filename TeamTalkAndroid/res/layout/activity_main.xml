@@ -30,126 +30,151 @@
 	    
 	</android.support.v4.view.ViewPager>
 	
-	<RelativeLayout 
+	<RelativeLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="0.1"
-	    android:orientation="horizontal">
-	    
+	    android:orientation="horizontal" >
+
 	    <GridLayout
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    
-		    android:columnCount="4"
-		    android:rowCount="3">
+	        android:id="@+id/gridstats"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_gravity="center_vertical"
+	        android:columnCount="2"
+	        android:rowCount="3" >
+
 	        <!-- Row 0 -->
-			<TextView
-			    android:layout_column="0"
-			    android:layout_row="0"
-			    android:text="@string/label_connection"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<TextView
-			    android:id="@+id/connectionstat_textview"
-			    android:layout_column="1"
-			    android:layout_row="0"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text="@string/stat_online"
-			    android:textAppearance="?android:attr/textAppearanceSmall"
-			    android:textStyle="bold" />
-						
-			<TextView
-			    android:layout_column="2"
-			    android:layout_row="0"
-			    android:text="@string/label_voice"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:layout_column="0"
+	            android:layout_row="0"
+	            android:text="@string/label_connection"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<TextView
-			    android:id="@+id/voicestat_textview"
-			    android:layout_column="3"
-			    android:layout_row="0"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text="0/0 KB"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:id="@+id/connectionstat_textview"
+	            android:layout_column="1"
+	            android:layout_row="0"
+	            android:paddingLeft="5dp"
+	            android:paddingRight="5dp"
+	            android:text="@string/stat_online"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:textStyle="bold" />
 
-			<!-- Row 1 -->
-			<TextView
-			    android:layout_column="2"
-			    android:layout_row="1"
-			    android:text="@string/label_desktop"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:layout_column="0"
+	            android:layout_row="1"
+	            android:text="@string/label_ping"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<TextView
-			    android:id="@+id/desktopstat_textview"
-			    android:layout_column="3"
-			    android:layout_row="1"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text="0/0 KB"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
-			
-			<TextView
-			    android:layout_column="0"
-			    android:layout_row="1"
-			    android:text="@string/label_ping"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:id="@+id/pingstat_textview"
+	            android:layout_column="1"
+	            android:layout_row="1"
+	            android:paddingLeft="5dp"
+	            android:paddingRight="5dp"
+	            android:text=""
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<TextView
-			    android:id="@+id/pingstat_textview"
-			    android:layout_column="1"
-			    android:layout_row="1"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text=""
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
-			
-			<!-- Row 2 -->
-			<TextView
-			    android:layout_column="0"
-			    android:layout_row="2"
-			    android:text="@string/label_total"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:layout_column="0"
+	            android:layout_row="2"
+	            android:text="@string/label_total"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-			<TextView
-			    android:id="@+id/totalstat_textview"
-			    android:layout_column="1"
-			    android:layout_row="2"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text=""
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	        <TextView
+	            android:id="@+id/totalstat_textview"
+	            android:layout_column="1"
+	            android:layout_row="2"
+	            android:paddingLeft="5dp"
+	            android:paddingRight="5dp"
+	            android:text=""
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	    </GridLayout>
 
-			<TextView
-			    android:layout_column="2"
-			    android:layout_row="2"
-			    android:text="@string/label_mediafile"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
+	    <LinearLayout
+	        android:id="@+id/volcontrols"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_centerHorizontal="true"
+	        android:orientation="vertical" >
 
-			<TextView
-			    android:id="@+id/mediafilestat_textview"
-			    android:layout_column="3"
-			    android:layout_row="2"
-			    android:paddingLeft="5dp"
-			    android:paddingRight="5dp"
-			    android:text="0/0 KB"
-			    android:textAppearance="?android:attr/textAppearanceSmall" />
-			
-			</GridLayout>
-		
-		<Space
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    />
-		
-        <Button
-            android:id="@+id/transmit_voice"
-            android:layout_alignParentRight="true"
-            android:background="@android:color/holo_red_light"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="@string/button_tx" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/volDec"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="-"
+                    android:contentDescription="@string/decvolume" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/speaker" 
+                    />
+
+                <Button
+                    android:id="@+id/volInc"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="+" 
+                    android:contentDescription="@string/incvolume"/>
+            </LinearLayout>
+	        
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/mikeDec"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="-"
+                    android:contentDescription="@string/decgain"/>
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mike" />
+
+                <Button
+                    android:id="@+id/mikeInc"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="+"
+					android:contentDescription="@string/incgain" />
+            </LinearLayout>
+        </LinearLayout>
+	    
+	    <Button
+	        android:id="@+id/transmit_voice"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:background="@android:color/holo_red_light"
+	        android:text="@string/button_tx" />
+
 	</RelativeLayout>
 	
 </LinearLayout>

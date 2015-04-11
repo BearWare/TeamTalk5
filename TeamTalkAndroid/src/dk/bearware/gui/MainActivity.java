@@ -35,6 +35,7 @@ import dk.bearware.DesktopInput;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
@@ -49,6 +50,7 @@ import dk.bearware.events.UserListener;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
@@ -205,42 +207,8 @@ implements TeamTalkConnectionListener,
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
-        
-        final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setOnTouchListener(new OnTouchListener() {
-            
-            boolean tx_state = false;
-            long tx_down_start = 0;
-            
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                boolean tx = event.getAction() != MotionEvent.ACTION_UP;
-                
-                if(tx != tx_state) {
 
-                    if(!tx) {
-                        if(System.currentTimeMillis() - tx_down_start < 800) {
-                            tx = true;
-                            tx_down_start = 0;
-                        }
-                        else {
-                            tx_down_start = System.currentTimeMillis();
-                        }
-                        
-                        //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
-                    }
-
-                    ttservice.enableVoiceTransmission(tx);
-                    boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
-                    if (ptt_vibrate) {
-                        Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrat.vibrate(50);
-                    }
-                }
-                tx_state = tx;
-                return true;
-            }
-        });
+        setupButtons();
     }
 
     @Override
@@ -389,6 +357,14 @@ implements TeamTalkConnectionListener,
         if(stats_timer != null) {
             stats_timer.cancel();
             stats_timer = null;
+        }
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        if(ttclient != null) {
+            editor.putInt("mastervolume", ttclient.getSoundOutputVolume());
+            editor.putInt("microphonegain", ttclient.getSoundInputGainLevel());
+            editor.commit();
         }
         
         // Cleanup resources
@@ -954,9 +930,6 @@ implements TeamTalkConnectionListener,
         final TextView connection = (TextView) findViewById(R.id.connectionstat_textview);
         final TextView ping = (TextView) findViewById(R.id.pingstat_textview);
         final TextView total = (TextView) findViewById(R.id.totalstat_textview);
-        final TextView voice = (TextView) findViewById(R.id.voicestat_textview);
-        final TextView desktop = (TextView) findViewById(R.id.desktopstat_textview);
-        final TextView mediafile = (TextView) findViewById(R.id.mediafilestat_textview);
         final int defcolor = connection.getTextColors().getDefaultColor();
         
         if(stats_timer == null) {
@@ -1017,12 +990,6 @@ implements TeamTalkConnectionListener,
                     
                     str = String.format("%1$d/%2$d KB", totalrx/ 1024, totaltx / 1024);
                     total.setText(str);
-                    str = String.format("%1$d/%2$d KB", voicerx/ 1024, voicetx / 1024);
-                    voice.setText(str);
-                    str = String.format("%1$d/%2$d KB", deskrx/ 1024, desktx / 1024);
-                    desktop.setText(str);
-                    str = String.format("%1$d/%2$d KB", mfrx/ 1024, mftx / 1024);
-                    mediafile.setText(str);
                     
                     prev_stats = stats;
                 }
@@ -1107,6 +1074,142 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void setupButtons() {
+        
+        final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
+        tx_btn.setOnTouchListener(new OnTouchListener() {
+            
+            boolean tx_state = false;
+            long tx_down_start = 0;
+            
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                boolean tx = event.getAction() != MotionEvent.ACTION_UP;
+                
+                if(tx != tx_state) {
+
+                    if(!tx) {
+                        if(System.currentTimeMillis() - tx_down_start < 800) {
+                            tx = true;
+                            tx_down_start = 0;
+                        }
+                        else {
+                            tx_down_start = System.currentTimeMillis();
+                        }
+                        
+                        //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
+                    }
+
+                    ttservice.enableVoiceTransmission(tx);
+                    boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
+                    if (ptt_vibrate) {
+                        Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrat.vibrate(50);
+                    }
+                }
+                tx_state = tx;
+                return true;
+            }
+        });
+        
+        final Button decVol = (Button) findViewById(R.id.volDec);
+        final Button incVol = (Button) findViewById(R.id.volInc);
+        final Button decMike = (Button) findViewById(R.id.mikeDec);
+        final Button incMike = (Button) findViewById(R.id.mikeInc);
+        
+        OnTouchListener listener = new OnTouchListener() {
+            CountDownTimer timer;
+
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                if(ttclient == null)
+                    return false;
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    adjustVolume(v);
+                    
+                    timer = new CountDownTimer(20, 20) {
+
+                        public boolean done = false;
+                        
+                        @Override
+                        public void onFinish() {
+                            if(!done)
+                                start();
+                        }
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            done = adjustVolume(v);
+                        }
+                    }.start();
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(timer != null)
+                        timer.cancel();
+                }
+                return false;
+            }
+            
+            boolean adjustVolume(View view) {
+                if(view == decVol) {
+                    int v = ttclient.getSoundOutputVolume();
+                    v -= 100;
+                    if(v >= 0) {
+                        ttclient.setSoundOutputVolume(v);
+                        
+                        if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+                else if(view == incVol) {
+                    int v = ttclient.getSoundOutputVolume();
+                    v += 100;
+                    if(v <= TeamTalkConstants.DEFAULT_SOUND_VOLUME_MAX) {
+                        ttclient.setSoundOutputVolume(v);
+Log.d(TAG, "Volume " + v);
+                        if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+                else if(view == decMike) {
+                    int g = ttclient.getSoundInputGainLevel();
+                    g -= 100;
+                    if(g >= 0) {
+                        ttclient.setSoundInputGainLevel(g);
+                        
+                        if(g == SoundLevel.SOUND_GAIN_DEFAULT)
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+                else if(view == incMike) {
+                    int g = ttclient.getSoundInputGainLevel();
+                    g += 100;
+                    if(g <= TeamTalkConstants.DEFAULT_SOUND_GAIN_MAX) {
+                        ttclient.setSoundInputGainLevel(g);
+                        
+Log.d(TAG, "Gain " + g);
+                        if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+                return false;
+            }
+        };
+        decVol.setOnTouchListener(listener);
+        incVol.setOnTouchListener(listener);
+        decMike.setOnTouchListener(listener);
+        incMike.setOnTouchListener(listener);
+    }
+    
     @Override
     public void onServiceConnected(TeamTalkService service) {
         
@@ -1147,6 +1250,10 @@ implements TeamTalkConnectionListener,
             Toast.makeText(this, R.string.err_init_sound_output,
                 Toast.LENGTH_LONG).show();
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        ttclient.setSoundOutputVolume(prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT));
+        ttclient.setSoundInputGainLevel(prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT));
     }
 
     @Override
