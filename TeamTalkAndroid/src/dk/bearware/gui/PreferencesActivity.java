@@ -96,6 +96,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
      * simplified, single-pane UI should be shown.
      */
     @SuppressWarnings("deprecation")
+    @Deprecated
     private void setupSimplePreferencesScreen() {
         if(!isSimplePreferences(this)) {
             return;
