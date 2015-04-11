@@ -232,11 +232,6 @@ implements TeamTalkConnectionListener,
                     }
 
                     ttservice.enableVoiceTransmission(tx);
-                    boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
-                    if (ptt_vibrate) {
-                        Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrat.vibrate(50);
-                    }
                 }
                 tx_state = tx;
                 return true;
@@ -1444,14 +1439,24 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
+        boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
         if (voiceTransmissionEnabled) {
             if (sounds.get(SOUND_VOICETXON) != 0)
                 audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
+            if (ptt_vibrate) {
+                Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrat.vibrate(50);
+            }
         } else {
             if (sounds.get(SOUND_VOICETXOFF) != 0)
                 audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
+            if (ptt_vibrate) {
+                Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                long pattern[] = { 0, 20, 80, 20 };
+                vibrat.vibrate(pattern, -1);
+            }
         }
     
         boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false);
