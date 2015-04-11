@@ -153,12 +153,13 @@ implements TeamTalkConnectionListener,
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
-    final int SOUND_VOICETX = 1,
-              SOUND_USERMSG = 2,
-              SOUND_CHANMSG = 3,
-              SOUND_BCASTMSG = 4,
-              SOUND_SERVERLOST = 5,
-              SOUND_FILESUPDATE = 6;
+    final int SOUND_VOICETXON = 1,
+              SOUND_VOICETXOFF = 2,
+              SOUND_USERMSG = 3,
+              SOUND_CHANMSG = 4,
+              SOUND_BCASTMSG = 5,
+              SOUND_SERVERLOST = 6,
+              SOUND_FILESUPDATE = 7;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -360,7 +361,8 @@ implements TeamTalkConnectionListener,
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
         }
         if (prefs.getBoolean("rx_tx_audio_icon", true)) {
-            sounds.put(SOUND_VOICETX, audioIcons.load(getApplicationContext(), R.raw.hotkey, 1));
+            sounds.put(SOUND_VOICETXON, audioIcons.load(getApplicationContext(), R.raw.on, 1));
+            sounds.put(SOUND_VOICETXOFF, audioIcons.load(getApplicationContext(), R.raw.off, 1));
         }
         if (prefs.getBoolean("personal_message_audio_icon", true)) {
             sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), R.raw.user_message, 1));
@@ -1444,8 +1446,13 @@ implements TeamTalkConnectionListener,
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
-        if (sounds.get(SOUND_VOICETX) != 0)
-            audioIcons.play(sounds.get(SOUND_VOICETX), 1.0f, 1.0f, 0, 0, 1.0f);
+        if (voiceTransmissionEnabled) {
+            if (sounds.get(SOUND_VOICETXON) != 0)
+                audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
+        } else {
+            if (sounds.get(SOUND_VOICETXOFF) != 0)
+                audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
+        }
     
         boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false);
         if(mute) {
