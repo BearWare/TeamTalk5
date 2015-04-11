@@ -187,6 +187,10 @@
     <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
     <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
     <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
+    <string name="decvolume">Уменьшить громкость</string>
+    <string name="incvolume">Увеличить громкость</string>
+    <string name="decgain">Уменьшить чувствительность микрофона</string>
+    <string name="incgain">Увеличить чувствительность микрофона</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
