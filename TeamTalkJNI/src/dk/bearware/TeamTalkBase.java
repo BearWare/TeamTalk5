@@ -31,8 +31,9 @@ public abstract class TeamTalkBase
 
     private native long initTeamTalkPoll();
 
-    public TeamTalkBase() {
-        ttInst = initTeamTalkPoll();
+    protected TeamTalkBase(boolean create_instance) {
+        if(create_instance)
+            ttInst = initTeamTalkPoll();
     }
     
     protected void finalize( ) throws Throwable {

@@ -9,12 +9,10 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
-        
     }
 
     public void test_01_This() {

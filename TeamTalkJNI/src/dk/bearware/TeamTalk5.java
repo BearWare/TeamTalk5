@@ -24,6 +24,15 @@ package dk.bearware;
 public class TeamTalk5 extends TeamTalkBase
 {
     public TeamTalk5() {
+        super(true);
+    }
+
+    private TeamTalk5(boolean create_instance) {
+        super(create_instance);
+    }
+
+    public static void loadLibrary() {
+        new TeamTalk5(false);
     }
 
     static {
