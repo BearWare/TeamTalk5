@@ -86,7 +86,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        
+        // make sure DLL is loaded 
+        TeamTalk5.loadLibrary();
+        
+        TeamTalk5.setLicenseInformation("", "");
+        
         ttclient = new TeamTalk5();
         
         //register self as event handler so 'users' and 'channels' can be updated

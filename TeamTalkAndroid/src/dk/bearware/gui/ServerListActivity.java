@@ -507,7 +507,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         refreshServerList();
         
         TextView tv_version = (TextView)findViewById(R.id.version_textview);
-        tv_version.setText("TeamTalk 5 Alpha1 - v" + TeamTalkBase.getVersion());
+        tv_version.setText("TeamTalk 5 v. " + TeamTalkBase.getVersion() + " - Unreleased");
 
         new VersionCheckAsyncTask().execute();
     }
