@@ -270,6 +270,14 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_connection);
+            
+            // Video is currently not supported on Android
+            PreferenceCategory pc = (PreferenceCategory)findPreference("subscriptions_def");
+            if(pc != null) {
+                Preference p = findPreference("sub_video_checkbox");
+                if(p != null)
+                    pc.removePreference(p);
+            }
         }
     }
 

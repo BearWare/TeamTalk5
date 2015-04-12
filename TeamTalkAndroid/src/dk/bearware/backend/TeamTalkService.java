@@ -525,6 +525,11 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                 user.szNickname + " " + getResources().getString(R.string.text_cmd_userjoinchan));
             getChatLogTextMsgs().add(msg);
         }
+        
+        // Video is currently not supported on Android
+        if((user.uLocalSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) != 0) {
+            ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
+        }
     }
 
     @Override

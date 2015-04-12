@@ -1166,7 +1166,7 @@ implements TeamTalkConnectionListener,
                     v += 100;
                     if(v <= TeamTalkConstants.DEFAULT_SOUND_VOLUME_MAX) {
                         ttclient.setSoundOutputVolume(v);
-Log.d(TAG, "Volume " + v);
+
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1191,7 +1191,6 @@ Log.d(TAG, "Volume " + v);
                     if(g <= TeamTalkConstants.DEFAULT_SOUND_GAIN_MAX) {
                         ttclient.setSoundInputGainLevel(g);
                         
-Log.d(TAG, "Gain " + g);
                         if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
