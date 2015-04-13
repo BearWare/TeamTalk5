@@ -46,6 +46,4 @@ public interface Constants
     public static final int DEFAULT_TCP_PORT_ENCRYPTED = 10443;
     public static final int DEFAULT_UDP_PORT_ENCRYPTED = 10443;
     
-    //SoundLevel.SOUND_VOLUME_MAX
-    public static final int DEFAULT_SOUND_VOLUME_MAX = 12000;
 }
