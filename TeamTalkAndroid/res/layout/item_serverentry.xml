@@ -4,11 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
     
-    <LinearLayout
+    <ImageView
+        android:id="@+id/servericon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:src="@drawable/teamtalk_yellow" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/servericon"
         android:orientation="vertical" >
  
         <TextView

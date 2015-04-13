@@ -50,6 +50,7 @@ import dk.bearware.events.UserListener;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
@@ -101,6 +102,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -858,8 +860,19 @@ implements TeamTalkConnectionListener,
                         convertView.findViewById(R.id.channelname) == null)
                         convertView = inflater.inflate(R.layout.item_channel, null);
 
+                    ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
+                    int icon_resource = R.drawable.channel_orange;
+                    if(channel.bPassword) {
+                    	icon_resource = R.drawable.channel_pink;
+                    	chanicon.setContentDescription(getString(R.string.text_passwdprot));
+                    }
+                    else {
+                    	chanicon.setContentDescription(null);
+                    }
+                    chanicon.setImageResource(icon_resource);
+                    
                     if(channel.nParentID == 0) {
                         // show server name as channel name for root channel
                         ServerProperties srvprop = new ServerProperties();
@@ -893,18 +906,35 @@ implements TeamTalkConnectionListener,
                 if (convertView == null ||
                     convertView.findViewById(R.id.nickname) == null)
                     convertView = inflater.inflate(R.layout.item_user, null);
+                ImageView usericon = (ImageView) convertView.findViewById(R.id.usericon);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
                 final User user = (User) item;
                 nickname.setText(user.szNickname);
                 
-                if((user.uUserState & UserState.USERSTATE_VOICE) != 0) {
-                    convertView.setBackgroundColor(Color.rgb(133, 229, 141));
+                boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0; 
+                boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
+                boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
+                int icon_resource = R.drawable.man_blue;
+                
+                if(talking) {
                     nickname.setContentDescription(getString(R.string.user_state_now_speaking, user.szNickname));
+                    if(female) {
+                    	icon_resource = R.drawable.woman_green;
+                    }
+                    else {
+                    	icon_resource = R.drawable.man_green;
+                    }
                 }
                 else {
-                    convertView.setBackgroundColor(Color.rgb(0, 0, 0));
                     nickname.setContentDescription(null);
+                    if(female) {
+                    	icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
+                    }
+                    else {
+                    	icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
+                    }
                 }
+                usericon.setImageResource(icon_resource);
                 
                 Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
                 OnClickListener listener = new OnClickListener() {
@@ -1222,11 +1252,11 @@ implements TeamTalkConnectionListener,
                     int flags = ttclient.getFlags();
                     if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
                         ttclient.setSoundOutputMute(true);
-                        speakerBtn.setImageResource(R.drawable.muteall);
+                        speakerBtn.setImageResource(R.drawable.mute_blue);
                     }
                     else {
                         ttclient.setSoundOutputMute(false);
-                        speakerBtn.setImageResource(R.drawable.speaker);
+                        speakerBtn.setImageResource(R.drawable.speaker_blue);
                     }
                 }
             }
@@ -1266,7 +1296,7 @@ implements TeamTalkConnectionListener,
         tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
         if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
             ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-            speakerBtn.setImageResource(R.drawable.muteall);
+            speakerBtn.setImageResource(R.drawable.mute_blue);
         }
         
         ttservice.registerConnectionListener(this);

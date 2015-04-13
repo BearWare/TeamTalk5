@@ -15,7 +15,7 @@
         android:id="@+id/channelicon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/channel" />
+        android:src="@drawable/channel_green" />
     
     <TextView
         android:id="@+id/channelname"

@@ -212,6 +212,9 @@
     <string name="text_maxbitrate">Max Bitrate</string>
     <string name="text_txinterval">Transmit interval</string>
     <string name="text_quality">Quality</string>
+    <string name="text_publicserver">Public server</string>
+    <string name="text_localserver">Local server</string>
+    <string name="text_passwdprot">Password protected</string>
     <string name="desktop_image">Desktop image</string>
     <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
     <string name="disconnect_alert">All active transfers will be stopped when leaving the server</string>

@@ -71,6 +71,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -284,15 +285,18 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             if(convertView == null)
                 convertView = inflater.inflate(R.layout.item_serverentry, null);
             
+            ImageView img = (ImageView) convertView.findViewById(R.id.servericon);
             TextView name = (TextView) convertView.findViewById(R.id.server_name);
             TextView address = (TextView) convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
             if (servers.get(position).public_server) {
-                name.setTextColor(Color.parseColor("#85E58D"));
+                img.setImageResource(R.drawable.teamtalk_green);
+                img.setContentDescription(getString(R.string.text_publicserver));
                 name.setContentDescription(getString(R.string.public_server_description, servers.get(position).servername));
             }
             else {
-                name.setTextColor(Color.parseColor("#C8C8C8"));
+                img.setImageResource(R.drawable.teamtalk_yellow);
+                img.setContentDescription(getString(R.string.text_localserver));
                 name.setContentDescription(null);
             }
             address.setText(servers.get(position).ipaddr);
