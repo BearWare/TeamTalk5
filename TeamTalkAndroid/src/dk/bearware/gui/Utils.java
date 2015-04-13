@@ -49,6 +49,7 @@ import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
+import dk.bearware.SoundLevel;
 import dk.bearware.User;
 import dk.bearware.data.ServerEntry;
 
@@ -305,5 +306,47 @@ public class Utils {
         }
         
         return servers;
+    }
+    
+    public static int refVolume(double percent)
+    {
+        // 50 % = SoundLevel.SOUND_VOLUME_DEFAULT
+        
+        //82.832*EXP(0.0508*x) - 50
+        percent = Math.max(0, percent);
+        percent = Math.min(100, percent);
+        
+        double d = 82.832 * Math.exp(0.0508 * percent) - 50;
+        return (int)d;
+    }
+
+    public static int refVolumeToPercent(int volume)
+    {
+        volume = Math.max(volume, SoundLevel.SOUND_VOLUME_MIN);
+        volume = Math.min(volume, SoundLevel.SOUND_VOLUME_MAX);
+
+        double d = (volume + 50) / 82.832;
+        d = Math.log(d) / 0.0508;
+        return (int)(d + .5);
+    }
+
+    public static int refGain(double percent)
+    {
+        // 50 % = SoundLevel.SOUND_GAIN_DEFAULT
+        
+        percent = Math.max(0, percent);
+        percent = Math.min(100, percent);
+
+        return (int)(82.832 * Math.exp(0.0508 * percent) - 50);
+    }
+
+    public static int refGainToPercent(int gain)
+    {
+        gain = Math.max(gain, SoundLevel.SOUND_GAIN_MIN);
+        gain = Math.min(gain, SoundLevel.SOUND_GAIN_MAX);
+
+        double d = (gain + 50) / 82.832;
+        d = Math.log(d) / 0.0508;
+        return (int)(d + .5);
     }
 }

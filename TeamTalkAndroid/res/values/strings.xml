@@ -135,8 +135,10 @@
     <string name="label_voice">Voice:</string>
     <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
+    <string name="label_rxtx">RX/TX:</string>
     <string name="label_total">Total:</string>
     <string name="label_mediafile">Media File:</string>
+    <string name="default_">Default</string>
 
     <string name="server_list_empty">TeamTalk 5 Server List is empty</string>
     <string name="no_nickname">No Nickname</string>
@@ -198,6 +200,8 @@
     <string name="version_update">New TeamTalk version available: %1$s?</string>
     <string name="decvolume">Decrease volume</string>
 	<string name="incvolume">Increase volume</string>
+	<string name="volumebtn">Speaker volume. Click to mute.</string>
+	<string name="gainbtn">Microphone volume. Click to mute.</string>
 	<string name="decgain">Decrease microphone gain</string>
 	<string name="incgain">Increase microphone gain</string>
 	

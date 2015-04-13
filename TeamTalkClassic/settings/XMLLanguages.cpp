@@ -29,7 +29,7 @@
 using namespace std;
 
 XMLLanguages::XMLLanguages()
-: XMLDocument("language")
+: XMLDocument("language", XML_LANGUAGE_VERSION)
 {
 }
 
@@ -43,7 +43,7 @@ TiXmlElement* XMLLanguages::GetRootElement()
     if(!root)
     {
         TiXmlElement newroot("languages");
-        newroot.SetAttribute("version", XML_LANGUAGE_VERSION);
+        newroot.SetAttribute("version", m_xmlversion.c_str());
         m_xmlDocument.InsertEndChild(newroot);
         root = m_xmlDocument.RootElement();
     }

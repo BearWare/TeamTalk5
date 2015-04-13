@@ -1270,10 +1270,12 @@ void setVolume(int userid, int vol_diff, StreamType stream_type)
         switch(stream_type)
         {
         case STREAMTYPE_VOICE :
-            vol = user.nVolumeVoice + vol_diff;
+            vol = refVolumeToPercent(user.nVolumeVoice);
+            vol = refVolume(vol + vol_diff);
             break;
         case STREAMTYPE_MEDIAFILE_AUDIO :
-            vol = user.nVolumeMediaFile + vol_diff;
+            vol = refVolumeToPercent(user.nVolumeMediaFile);
+            vol = refVolume(vol + vol_diff);
             break;
         default :
             Q_ASSERT(0);
@@ -1287,19 +1289,39 @@ void setVolume(int userid, int vol_diff, StreamType stream_type)
 
 void incVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, DEFAULT_SOUND_VOLUME_MAX * 0.01, stream_type);
+    setVolume(userid, 1, stream_type);
 }
 
 void decVolume(int userid, StreamType stream_type)
 {
-    setVolume(userid, -DEFAULT_SOUND_VOLUME_MAX * 0.01, stream_type);
+    setVolume(userid, -1, stream_type);
 }
 
-int refVolume(double percent, int default_vol, int max_vol)
+int refVolume(double percent)
 {
-    // if integer multiplication gives default value then use default
-    int def_percent = 100 * default_vol / max_vol;
-    return (def_percent == (int)percent? default_vol : max_vol * percent / 100.);
+    //82.832*EXP(0.0508*x) - 50 
+    if(percent == 0)
+        return 0;
+    double d = 82.832 * exp(0.0508 * percent) - 50;
+    return d;
+}
+
+int refVolumeToPercent(int volume)
+{
+    if(volume == 0)
+        return 0;
+
+    double d = (volume + 50) / 82.832;
+    d = log(d) / 0.0508;
+    return d + .5;
+}
+
+int refGain(double percent)
+{
+    if(percent == 0)
+        return 0;
+
+    return  82.832 * std::exp(0.0508 * percent) - 50;
 }
 
 bool versionSameOrLater(const QString& check, const QString& against)

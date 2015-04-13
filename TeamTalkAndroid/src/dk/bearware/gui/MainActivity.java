@@ -50,7 +50,6 @@ import dk.bearware.events.UserListener;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
-import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
@@ -101,6 +100,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -1151,8 +1151,9 @@ implements TeamTalkConnectionListener,
             boolean adjustVolume(View view) {
                 if(view == decVol) {
                     int v = ttclient.getSoundOutputVolume();
-                    v -= 100;
-                    if(v >= 0) {
+                    v = Utils.refVolumeToPercent(v);
+                    v = Utils.refVolume(v-1);
+                    if(v >= SoundLevel.SOUND_VOLUME_MIN) {
                         ttclient.setSoundOutputVolume(v);
                         
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
@@ -1163,8 +1164,9 @@ implements TeamTalkConnectionListener,
                 }
                 else if(view == incVol) {
                     int v = ttclient.getSoundOutputVolume();
-                    v += 100;
-                    if(v <= TeamTalkConstants.DEFAULT_SOUND_VOLUME_MAX) {
+                    v = Utils.refVolumeToPercent(v);
+                    v = Utils.refVolume(v+1);
+                    if(v <= SoundLevel.SOUND_VOLUME_MAX) {
                         ttclient.setSoundOutputVolume(v);
 
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
@@ -1175,8 +1177,9 @@ implements TeamTalkConnectionListener,
                 }
                 else if(view == decMike) {
                     int g = ttclient.getSoundInputGainLevel();
-                    g -= 100;
-                    if(g >= 0) {
+                    g = Utils.refGainToPercent(g);
+                    g = Utils.refGain(g-1);
+                    if(g >= SoundLevel.SOUND_GAIN_MIN) {
                         ttclient.setSoundInputGainLevel(g);
                         
                         if(g == SoundLevel.SOUND_GAIN_DEFAULT)
@@ -1187,8 +1190,9 @@ implements TeamTalkConnectionListener,
                 }
                 else if(view == incMike) {
                     int g = ttclient.getSoundInputGainLevel();
-                    g += 100;
-                    if(g <= TeamTalkConstants.DEFAULT_SOUND_GAIN_MAX) {
+                    g = Utils.refGainToPercent(g);
+                    g = Utils.refGain(g+1);
+                    if(g <= SoundLevel.SOUND_GAIN_MAX) {
                         ttclient.setSoundInputGainLevel(g);
                         
                         if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
@@ -1204,6 +1208,30 @@ implements TeamTalkConnectionListener,
         incVol.setOnTouchListener(listener);
         decMike.setOnTouchListener(listener);
         incMike.setOnTouchListener(listener);
+        
+        final ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+        
+        OnClickListener imgbtnListener = new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if(ttclient == null)
+                    return;
+                
+                if(v == speakerBtn) {
+                    int flags = ttclient.getFlags();
+                    if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
+                        ttclient.setSoundOutputMute(true);
+                        speakerBtn.setImageResource(R.drawable.muteall);
+                    }
+                    else {
+                        ttclient.setSoundOutputMute(false);
+                        speakerBtn.setImageResource(R.drawable.speaker);
+                    }
+                }
+            }
+        };
+        speakerBtn.setOnClickListener(imgbtnListener);
     }
     
     @Override
@@ -1214,6 +1242,7 @@ implements TeamTalkConnectionListener,
         
         //ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440);
 
+        int flags = ttclient.getFlags(); 
         int mychannel = ttclient.getMyChannelID();
         if(curchannel == null && mychannel > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychannel));
@@ -1235,21 +1264,30 @@ implements TeamTalkConnectionListener,
 
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
-
+        if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
+            ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+            speakerBtn.setImageResource(R.drawable.muteall);
+        }
+        
         ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
         ttservice.registerUserListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
 
-        if(((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !ttclient.initSoundOutputDevice(0))
-            Toast.makeText(this, R.string.err_init_sound_output,
-                Toast.LENGTH_LONG).show();
+        if(((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
+            !ttclient.initSoundOutputDevice(0)) {
+            Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
+        }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        ttclient.setSoundOutputVolume(prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT));
-        ttclient.setSoundInputGainLevel(prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT));
+        int mastervol = prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT);
+        int gain = prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT);
+        // only set volume and gain if tt-instance hasn't already been configured
+        if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
+            ttclient.setSoundOutputVolume(mastervol);
+        if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
+            ttclient.setSoundInputGainLevel(gain);
     }
 
     @Override

@@ -51,8 +51,8 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))
         setWindowTitle(windowTitle() + QString(" - ") + _Q(user.szNickname));
-    ui.voicevolSlider->setValue(100 * user.nVolumeVoice / DEFAULT_SOUND_VOLUME_MAX);
-    ui.mfvolSlider->setValue(100 * user.nVolumeMediaFile / DEFAULT_SOUND_VOLUME_MAX);
+    ui.voicevolSlider->setValue(refVolumeToPercent(user.nVolumeVoice));
+    ui.mfvolSlider->setValue(refVolumeToPercent(user.nVolumeMediaFile));
 
     ui.voiceleftChkBox->setChecked(!user.stereoPlaybackVoice[0]);
     ui.voicerightChkBox->setChecked(!user.stereoPlaybackVoice[1]);
@@ -65,15 +65,13 @@ void UserVolumeDlg::slotVolumeChanged(int /*vol*/)
     TTBOOL b = TRUE;
 
     double percent = ui.voicevolSlider->value();
-    percent /= 100.;
 
     b &= TT_SetUserVolume(ttInst, m_userid, STREAMTYPE_VOICE,
-                          percent * DEFAULT_SOUND_VOLUME_MAX);
+                          refVolume(percent));
 
     percent = ui.mfvolSlider->value();
-    percent /= 100.;
     b &= TT_SetUserVolume(ttInst, m_userid, STREAMTYPE_MEDIAFILE_AUDIO,
-                          percent * DEFAULT_SOUND_VOLUME_MAX);
+                          refVolume(percent));
 
     if(!b)
         QMessageBox::critical(this, tr("Volume"), 
@@ -94,8 +92,8 @@ void UserVolumeDlg::slotMuteChannel()
 
 void UserVolumeDlg::slotDefaults()
 {
-    ui.voicevolSlider->setValue(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
-    ui.mfvolSlider->setValue(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
-    slotVolumeChanged(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX);
+    ui.voicevolSlider->setValue(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
+    ui.mfvolSlider->setValue(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
+    slotVolumeChanged(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
 }
 

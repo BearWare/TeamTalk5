@@ -495,6 +495,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
+
+    QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
+                                           SETTINGS_GENERAL_VERSION_DEFAULT).toString();
+    if(!versionSameOrLater(iniversion, SETTINGS_VERSION))
+    {
+        // Volume defaults changed in 5.1 format
+        ttSettings->remove(SETTINGS_SOUND_MASTERVOLUME);
+        ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
+
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
     if(!lang.isEmpty())
     {
@@ -2350,14 +2361,15 @@ void MainWindow::updateAudioConfig()
         spxdsp.nGainLevel = m_mychannel.audiocfg.nGainLevel;
         //override preset sound gain
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         ui.micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
     }
     else
     {
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         slotMicrophoneGainChanged(ui.micSlider->value());
         ui.micSlider->setToolTip(tr("Microphone gain"));
     }
-    TT_SetSoundInputPreprocess(ttInst, &spxdsp);
     ui.micSlider->setEnabled(!m_mychannel.audiocfg.bEnableAGC);
 }
 
@@ -5003,7 +5015,9 @@ void MainWindow::slotUpdateDesktopCount(int count)
 
 void MainWindow::slotMasterVolumeChanged(int value)
 {
-    int vol = refVolume(value, SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX);
+    int vol = refVolume(value);
+    qDebug() << "Volume is " << vol << " and percent is " << value;
+    qDebug() << "Percent is " << refVolumeToPercent(vol) << endl;
     TT_SetSoundOutputVolume(ttInst, vol);
 }
 
@@ -5021,7 +5035,8 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     }
     else
     {
-        int gain = refVolume(value, SOUND_GAIN_DEFAULT, DEFAULT_SOUND_GAIN_MAX);
+        int gain = refGain(value);
+        qDebug() << "Gain is " << gain << " and percent is " << value;
         TT_SetSoundInputGainLevel(ttInst, gain);
     }
 }

@@ -93,11 +93,6 @@
 
 #endif
 
-//Client specific SOUND_VOLUME_MAX (volume slider)
-#define DEFAULT_SOUND_VOLUME_MAX        12000
-
-//Client specific gain SOUND_GAIN_MAX (mic slider)
-#define DEFAULT_SOUND_GAIN_MAX          6000 /*real max is SOUND_GAIN_MAX*/ 
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
@@ -385,7 +380,9 @@ QByteArray generateTTFile(const HostEntry& entry);
 
 void incVolume(int userid, StreamType stream_type);
 void decVolume(int userid, StreamType stream_type);
-int refVolume(double percent, int default_vol, int max_vol);
+int refVolume(double percent);
+int refVolumeToPercent(int volume);
+int refGain(double percent);
 
 bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);

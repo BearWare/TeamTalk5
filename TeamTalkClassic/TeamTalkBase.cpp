@@ -183,11 +183,32 @@ BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev)
     return i < devices.size();
 }
 
-int RefVolume(double percent, int nDefVol, int nMaxVol)
+int RefVolume(double percent)
 {
-    // if integer multiplication gives default value then use default
-    int def_percent = 100 * nDefVol / nMaxVol;
-    return (def_percent == (int)percent? nDefVol : nMaxVol * percent / 100.);
+    //82.832*EXP(0.0508*x) - 50 
+    if(percent == 0)
+        return 0;
+
+    double d = 82.832 * exp(0.0508 * percent) - 50;
+    return d;
+}
+
+int RefVolumeToPercent(int volume)
+{
+    if(volume == 0)
+        return 0;
+
+    double d = (volume + 50) / 82.832;
+    d = log(d) / 0.0508;
+    return d + .5;
+}
+
+int RefGain(double percent)
+{
+    if(percent == 0)
+        return 0;
+
+    return 82.832 * std::exp(0.0508 * percent) - 50;
 }
 
 CString GetVersion(const User& user)

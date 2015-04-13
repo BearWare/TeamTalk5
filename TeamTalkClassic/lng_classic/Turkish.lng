@@ -34,10 +34,12 @@
     <item id="134">Dosyalar</item>
     <item id="135">Sohbet</item>
     <item id="136">Bu Dosya %s kullanıcı adı ve şifre %s bilgisi içermektedir. Bu ayarlar Kaydedilsin mi?</item>
+    <item id="137">Kullanıcı</item>
     <item id="138">%s Masaüstü erişim istiyor</item>
     <item id="139">%s Masaüstü erişim isteğini iptal etti</item>
     <item id="140">Sunucu Özellikleri</item>
     <item id="141">Kullanıcı Hesapları</item>
+    <item id="142">Kanal</item>
     <item id="144">Kullanıcı Taşıma Penceresi</item>
     <item id="145">Sunucu İstatistikleri</item>
     <item id="146">Çevrimiçi Kullanıcılar</item>
@@ -460,8 +462,8 @@
     <item id="32937">Medya yayınına izin ver</item>
     <item id="32938">Medya dosyası yayını</item>
     <item id="32939">Medya yayınını takip et</item>
-    <item id="32940"></item>
-    <item id="32941">kullanıcı bilgisini konuş</item>
+    <item id="32940">&amp;Kullanıcı Bilgisi</item>
+    <item id="32941">kullanıcı bilgisini söyle</item>
     <item id="32942">&amp;kanal bilgisi</item>
-    <item id="32943">&amp;Kanal bilgisini konuş\tCtrl+G</item>
+    <item id="32943">&amp;Kanal bilgisini söyle\tCtrl+G</item>
 </language>

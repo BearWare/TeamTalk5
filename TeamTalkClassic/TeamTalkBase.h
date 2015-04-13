@@ -43,7 +43,10 @@ typedef std::map< int, messages_t > msgmap_t;
 messages_t GetMessages(int nFromUserID, const messages_t& messages);
 
 BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev);
-int RefVolume(double percent, int nDefVol, int nMaxVol);
+int RefVolume(double percent);
+int RefVolumeToPercent(int nVolume);
+int RefGain(double percent);
+
 CString GetVersion(const User& user);
 
 BOOL IsMyselfTalking();
@@ -62,25 +65,20 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_TEAMTALK_UDPPORT 10333
 #endif
 
-//Client specific SOUND_VOLUME_MAX (volume slider)
-#define DEFAULT_SOUND_VOLUME_MAX        12000
-
-//Client specific gain SOUND_GAIN_MAX (mic slider)
-#define DEFAULT_SOUND_GAIN_MAX          6000
 //Client spefic VU max SOUND_VU_MAX (voice act slider)
 #define DEFAULT_SOUND_VU_MAX            20
 
 //Automatic gain control settings
-#define DEFAULT_AGC_ENABLE          TRUE
-#define DEFAULT_AGC_GAINLEVEL       8000
-#define DEFAULT_AGC_INC_MAXDB       12
-#define DEFAULT_AGC_DEC_MAXDB       -40
-#define DEFAULT_AGC_GAINMAXDB       30
-#define DEFAULT_DENOISE_ENABLE      TRUE
-#define DEFAULT_DENOISE_SUPPRESS    -30
-#define DEFAULT_ECHO_ENABLE         FALSE
-#define DEFAULT_ECHO_SUPPRESS       -40
-#define DEFAULT_ECHO_SUPPRESSACTIVE -15
+#define DEFAULT_AGC_ENABLE              TRUE
+#define DEFAULT_AGC_GAINLEVEL           8000
+#define DEFAULT_AGC_INC_MAXDB           12
+#define DEFAULT_AGC_DEC_MAXDB           -40
+#define DEFAULT_AGC_GAINMAXDB           30
+#define DEFAULT_DENOISE_ENABLE          TRUE
+#define DEFAULT_DENOISE_SUPPRESS        -30
+#define DEFAULT_ECHO_ENABLE             FALSE
+#define DEFAULT_ECHO_SUPPRESS           -40
+#define DEFAULT_ECHO_SUPPRESSACTIVE     -15
 
 #define DEFAULT_SOUND_DUPLEXMODE        FALSE
 #define DEFAULT_AUDIOCODEC              OPUS_CODEC
@@ -110,16 +108,16 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_SPEEX_VBR_SIMSTEREO     FALSE
 
 //Default OPUS codec settings
-#define DEFAULT_OPUS_SAMPLERATE     48000
-#define DEFAULT_OPUS_CHANNELS       1
-#define DEFAULT_OPUS_APPLICATION    OPUS_APPLICATION_VOIP
-#define DEFAULT_OPUS_COMPLEXITY     10
-#define DEFAULT_OPUS_FEC            TRUE
-#define DEFAULT_OPUS_DTX            FALSE
-#define DEFAULT_OPUS_VBR            TRUE
-#define DEFAULT_OPUS_VBRCONSTRAINT  FALSE
-#define DEFAULT_OPUS_BITRATE        32000
-#define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
+#define DEFAULT_OPUS_SAMPLERATE         48000
+#define DEFAULT_OPUS_CHANNELS           1
+#define DEFAULT_OPUS_APPLICATION        OPUS_APPLICATION_VOIP
+#define DEFAULT_OPUS_COMPLEXITY         10
+#define DEFAULT_OPUS_FEC                TRUE
+#define DEFAULT_OPUS_DTX                FALSE
+#define DEFAULT_OPUS_VBR                TRUE
+#define DEFAULT_OPUS_VBRCONSTRAINT      FALSE
+#define DEFAULT_OPUS_BITRATE            32000
+#define DEFAULT_OPUS_DELAY              DEFAULT_MSEC_PER_PACKET
 
 //Video settings
 #define DEFAULT_VIDEO_WIDTH             320
@@ -128,8 +126,8 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 #define DEFAULT_VIDEO_FOURCC            FOURCC_RGB32
 
 //WebM settings
-#define DEFAULT_VIDEOCODEC          WEBM_VP8_CODEC
-#define DEFAULT_WEBM_VP8_BITRATE    256
+#define DEFAULT_VIDEOCODEC              WEBM_VP8_CODEC
+#define DEFAULT_WEBM_VP8_BITRATE        256
 
 // Channel dialog
 #define DEFAULT_CHANNEL_AUDIOCONFIG     FALSE

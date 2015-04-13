@@ -13,65 +13,121 @@
 
     <TextView
         android:id="@+id/user_nicknamelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center_vertical"
         android:text="@string/pref_title_nickname" />
 
     <TextView
         android:id="@+id/user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_gravity="left|center_vertical" />
+        android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/user_usernamelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_username" />
 
     <TextView
         android:id="@+id/user_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_gravity="left|center_vertical" />
+        android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/user_vol_voicelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
         android:text="@string/user_prop_title_voice_volume" />
 
-    <SeekBar
-        android:id="@+id/user_vol_voiceSeekBar"
+    <LinearLayout
+        android:id="@+id/voicevolLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="1"
-        android:gravity="center"
-        android:layout_gravity="fill_horizontal" />
+        android:layout_gravity="fill_horizontal" >
+
+        <SeekBar
+            android:id="@+id/user_vol_voiceSeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.9"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/defVoiceVolBtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.1"
+            android:text="@string/default_" />
+
+    </LinearLayout>
 
     <Switch
         android:id="@+id/user_mutevoiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_gravity="left"
+        android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_mute_voice" />
 
     <TextView
         android:id="@+id/user_vol_medialabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_media_volume" />
-
-    <SeekBar
-        android:id="@+id/user_vol_mediaSeekBar"
+    
+    <LinearLayout
+        android:id="@+id/mfvolumeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_gravity="fill_horizontal" />
+        android:layout_gravity="fill_horizontal" >
+
+        <SeekBar
+            android:id="@+id/user_vol_mediaSeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.9" />
+
+        <Button
+            android:id="@+id/defMfVolBtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.1"
+            android:text="@string/default_" />
+
+    </LinearLayout>
 
     <Switch
         android:id="@+id/user_mutemediaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_gravity="left"
+        android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_mute_media" />
-    
-    <Space 
+
+    <Space
         android:layout_height="match_parent"
         android:layout_columnSpan="2" />
 

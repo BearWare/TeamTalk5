@@ -24,6 +24,10 @@
 
 #include <QSettings>
 
+#define SETTINGS_VERSION                            "5.1"
+#define SETTINGS_GENERAL_VERSION                    "version"
+#define SETTINGS_GENERAL_VERSION_DEFAULT            "5.0"
+
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           "NoName"
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
@@ -91,10 +95,10 @@
 #define SETTINGS_SOUND_OUTPUTDEVICE                 "soundsystem/outputdeviceid"
 #define SETTINGS_SOUND_OUTPUTDEVICE_UID             "soundsystem/outputdeviceuid"
 #define SETTINGS_SOUND_MASTERVOLUME                 "soundsystem/mastervolume"
-#define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         (100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX)
+#define SETTINGS_SOUND_MASTERVOLUME_DEFAULT         50
 #define SETTINGS_SOUND_MICROPHONEGAIN               "soundsystem/microphonegain"
 #define SETTINGS_SOUND_MICROPHONEGAIN_AGC_DEFAULT   (100 * DEFAULT_AGC_GAINLEVEL / SOUND_GAIN_MAX)
-#define SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT  (100 * SOUND_GAIN_DEFAULT / DEFAULT_SOUND_GAIN_MAX)
+#define SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT  50
 #define SETTINGS_SOUND_VOICEACTIVATIONLEVEL         "soundsystem/voice-activation-level"
 #define SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT 2
 #define SETTINGS_SOUND_ECHOCANCEL                   "soundsystem/echocancellation"

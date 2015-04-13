@@ -35,7 +35,7 @@ namespace teamtalk {
         if(!root)
         {
             TiXmlElement newroot(m_rootname.c_str());
-            newroot.SetAttribute("version", TEAMTALK_XML_VERSION);
+            newroot.SetAttribute("version", m_xmlversion.c_str());
             m_xmlDocument.InsertEndChild(newroot);
             root = m_xmlDocument.RootElement();
         }
@@ -1450,30 +1450,6 @@ namespace teamtalk {
             GetBoolean(*child, "auto-positioning", bEnable);
         }
         return bEnable;
-    }
-
-    bool ClientXML::SetSoftwareGainLevel(int nLevel)
-    {
-        TiXmlElement* pParent = GetSoundSystemElement();
-        if(pParent)
-        {
-            PutInteger(*pParent, "soft-gain-level", nLevel);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int ClientXML::GetSoftwareGainLevel()
-    {
-        TiXmlElement* child = GetSoundSystemElement();
-        if(child)
-        {
-            int nValue = UNDEFINED;
-            GetInteger(*child, "soft-gain-level", nValue);
-            return nValue;
-        }
-        return UNDEFINED;
     }
 
     bool ClientXML::SetAGC(bool bEnable)

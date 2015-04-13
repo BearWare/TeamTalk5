@@ -2113,6 +2113,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     if(FileExists(szXmlFile))
     {
         if(!m_xmlSettings.LoadFile( ansiXml ))
+        {
             if(m_xmlSettings.HasErrors())
             {
                 CString szMsg = _T("Unable to load the settings file:\r\n");
@@ -2124,7 +2125,21 @@ BOOL CTeamTalkDlg::OnInitDialog()
                 }
             }
             else
+            {
                 m_xmlSettings.CreateFile(ansiXml);
+            }
+        }
+        else
+        {
+            string version = m_xmlSettings.GetFileVersion();
+            if(!VersionSameOrLater(STR_UTF8(version), _T( TEAMTALK_XML_VERSION )))
+            {
+                // Volume defaults changed in 5.1 format
+                m_xmlSettings.SetSoundOutputVolume(DEFAULT_SOUND_OUTPUT_VOLUME);
+                m_xmlSettings.SetVoiceGainLevel(DEFAULT_SOUND_GAIN_LEVEL);
+                m_xmlSettings.SetFileVersion(TEAMTALK_XML_VERSION);
+            }
+        }
     }
     else
     {
@@ -2157,10 +2172,10 @@ BOOL CTeamTalkDlg::OnInitDialog()
     }
 
     m_wndVolSlider.SetRange(0, 100, TRUE);
-    m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(100 * SOUND_VOLUME_DEFAULT / DEFAULT_SOUND_VOLUME_MAX));
+    m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(DEFAULT_SOUND_OUTPUT_VOLUME));
 
     m_wndGainSlider.SetRange(0, 100, TRUE);
-    m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(100 * SOUND_GAIN_DEFAULT / DEFAULT_SOUND_GAIN_MAX));
+    m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(DEFAULT_SOUND_GAIN_LEVEL));
 
     m_wndVoiceSlider.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX, TRUE);
     m_wndVUProgress.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX);
@@ -3632,8 +3647,10 @@ void CTeamTalkDlg::OnAdvancedIncvolumevoice()
     int nUserID = m_wndTree.GetSelectedUser();
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
-        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice + (DEFAULT_SOUND_VOLUME_MAX * 0.01));
+    {
+        int v = RefVolumeToPercent(user.nVolumeVoice);
+        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE, RefVolume(v + 1));
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumevoice(CCmdUI *pCmdUI)
@@ -3650,8 +3667,11 @@ void CTeamTalkDlg::OnAdvancedLowervolumevoice()
     int nUserID = m_wndTree.GetSelectedUser();
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
+    {
+        int v = RefVolumeToPercent(user.nVolumeVoice);
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         user.nVolumeVoice - (DEFAULT_SOUND_VOLUME_MAX * 0.01));
+                         RefVolume(v - 1));
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumemediafile(CCmdUI *pCmdUI)
@@ -3668,8 +3688,11 @@ void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
     int nUserID = m_wndTree.GetSelectedUser();
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
+    {
+        int v = RefVolumeToPercent(user.nVolumeMediaFile);
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile + (DEFAULT_SOUND_VOLUME_MAX * 0.01));
+                         RefVolume(v + 1));
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedLowervolumemediafile(CCmdUI *pCmdUI)
@@ -3686,8 +3709,11 @@ void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
     int nUserID = m_wndTree.GetSelectedUser();
     User user;
     if(TT_GetUser(ttInst, nUserID, &user))
+    {
+        int v = RefVolumeToPercent(user.nVolumeMediaFile);
         TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         user.nVolumeMediaFile - (DEFAULT_SOUND_VOLUME_MAX * 0.01));
+                         RefVolume(v - 1));
+    }
 }
 
 void CTeamTalkDlg::OnUpdateChannelsCreatechannel(CCmdUI *pCmdUI)
@@ -4130,7 +4156,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
         {
             CString szResponse = m_pHttpUpdate->GetResponse();
             string xml = STR_UTF8(szResponse, szResponse.GetLength()*4);
-            teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME);
+            teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
                 CString updname = STR_UTF8(xmlDoc.GetValue("teamtalk/name").c_str());
@@ -4714,8 +4740,7 @@ void CTeamTalkDlg::UpdateMasterVolume(int nVol)
 {
     if(m_wndVolSlider.GetPos() != nVol)
         m_wndVolSlider.SetPos(nVol);
-
-    TT_SetSoundOutputVolume(ttInst, RefVolume(nVol, SOUND_VOLUME_DEFAULT, DEFAULT_SOUND_VOLUME_MAX));
+    TT_SetSoundOutputVolume(ttInst, RefVolume(nVol));
 }
 
 void CTeamTalkDlg::UpdateGainLevel(int nGain)
@@ -4734,7 +4759,7 @@ void CTeamTalkDlg::UpdateGainLevel(int nGain)
     }
     else
     {
-        int gain = RefVolume(nGain, SOUND_GAIN_DEFAULT, DEFAULT_SOUND_GAIN_MAX);
+        int gain = RefGain(nGain);
         TT_SetSoundInputGainLevel(ttInst, gain);
     }
 }
@@ -4764,10 +4789,9 @@ void CTeamTalkDlg::UpdateAudioConfig()
     }
     else
     {
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
         UpdateGainLevel(m_wndGainSlider.GetPos());
     }
-
-    TT_SetSoundInputPreprocess(ttInst, &spxdsp);
 
     m_wndGainSlider.EnableWindow(!chan.audiocfg.bEnableAGC);
 
@@ -5005,25 +5029,6 @@ LRESULT CTeamTalkDlg::OnDesktopDlgEnded(WPARAM wParam, LPARAM lParam)
     CloseDesktopSession(wParam);
     return TRUE;
 }
-
-//void CTeamTalkDlg::OnUpdateUsersSoftwaregainAll(CCmdUI *pCmdUI)
-//{
-//    pCmdUI->Enable(TT_GetMyChannelID(ttInst));
-//}
-
-//void CTeamTalkDlg::OnUsersSoftwaregainAll()
-//{
-//    std::vector<int> users;
-//    users_t musers = m_wndTree.GetUsers(TT_GetMyChannelID(ttInst));
-//    users_t::iterator ite;
-//    for(ite=musers.begin();ite!=musers.end();ite++)
-//        users.push_back(ite->first);
-//
-//    CSoftGainDlg dlg(users, this);
-//    dlg.m_nSoftGain = m_xmlSettings.GetSoftwareGainLevel() == UNDEFINED? SOUND_GAIN_DEFAULT : m_xmlSettings.GetSoftwareGainLevel();
-//    dlg.DoModal();
-//    m_xmlSettings.SetSoftwareGainLevel(dlg.m_nSoftGain);
-//}
 
 void CTeamTalkDlg::OnUpdateChannelsLeavechannel(CCmdUI *pCmdUI)
 {

@@ -81,7 +81,7 @@
 	        <TextView
 	            android:layout_column="0"
 	            android:layout_row="2"
-	            android:text="@string/label_total"
+	            android:text="@string/label_rxtx"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
 	        <TextView
@@ -94,18 +94,14 @@
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 	    </GridLayout>
 
-	    <LinearLayout
+	    <GridLayout
 	        android:id="@+id/volcontrols"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_centerHorizontal="true"
-	        android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+	        android:columnCount="3"
+	        android:rowCount="2">
 
                 <Button
                     android:id="@+id/volDec"
@@ -114,15 +110,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="-"
-                    android:contentDescription="@string/decvolume" />
+                    android:contentDescription="@string/decvolume"
+                    android:layout_column="0"
+                    android:layout_row="0" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <ImageButton
+                    android:id="@+id/speakerBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/speaker" 
-                    />
+                    android:src="@drawable/speaker"
+                    android:contentDescription="@string/volumebtn"
+                    android:layout_column="1"
+                    android:layout_row="0" />
 
                 <Button
                     android:id="@+id/volInc"
@@ -131,14 +131,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+" 
-                    android:contentDescription="@string/incvolume"/>
-            </LinearLayout>
+                    android:contentDescription="@string/incvolume"
+                    android:layout_column="2"
+                    android:layout_row="0" />
 	        
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
                 <Button
                     android:id="@+id/mikeDec"
                     style="?android:attr/buttonStyleSmall"
@@ -146,14 +142,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="-"
-                    android:contentDescription="@string/decgain"/>
+                    android:contentDescription="@string/decgain"
+                    android:layout_column="0"
+                    android:layout_row="1" />
 
                 <ImageView
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/mike" />
+                    android:src="@drawable/mike"
+					android:layout_column="1"
+                    android:layout_row="1" />
 
                 <Button
                     android:id="@+id/mikeInc"
@@ -162,9 +162,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+"
-					android:contentDescription="@string/incgain" />
-            </LinearLayout>
-        </LinearLayout>
+					android:contentDescription="@string/incgain"
+					android:layout_column="2"
+                    android:layout_row="1"/>
+        </GridLayout>
 	    
 	    <Button
 	        android:id="@+id/transmit_voice"

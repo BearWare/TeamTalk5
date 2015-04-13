@@ -24,11 +24,18 @@
 
 #include "Settings.h"
 
+#define TEAMTALK_XML_VERSION                        "5.1"
+
+#define TEAMTALK_XML_VERSION_DEFAULT                "5.0"
+
 #define DEFAULT_NICKNAME                            _T("NoName")
 #define DEFAULT_GENDER                              1
 #define DEFAULT_PUSHTOTALK                          false
 #define DEFAULT_VOICEACTIVATED                      true
 #define DEFAULT_VOICEACTIVATE_LEVEL                 2
+
+#define DEFAULT_SOUND_OUTPUT_VOLUME                 50
+#define DEFAULT_SOUND_GAIN_LEVEL                    50
 
 namespace teamtalk {
 
@@ -76,7 +83,7 @@ namespace teamtalk {
     class ClientXML : public XMLDocument
     {
     public:
-        ClientXML(const std::string& rootname) : XMLDocument(rootname){}
+        ClientXML(const std::string& rootname) : XMLDocument(rootname, TEAMTALK_XML_VERSION){}
 
         /******** <main> ********/
         bool SetWindowPlacement(int x, int y, int cx, int cy);
@@ -224,9 +231,6 @@ namespace teamtalk {
 
         bool SetAutoPositioning(bool bEnable);
         bool GetAutoPositioning();
-
-        bool SetSoftwareGainLevel(int nLevel);
-        int GetSoftwareGainLevel();
 
         bool SetAGC(bool bEnable);
         bool GetAGC(bool bDefValue);
@@ -393,7 +397,7 @@ namespace teamtalk {
     {
     public:
        TTFile(const std::string& rootname) : 
-          XMLDocument(rootname) { }
+          XMLDocument(rootname, TEAMTALK_XML_VERSION) { }
 
        void SetHostEntry(const HostEntry& entry);
        bool GetHostEntry(HostEntry& entry, int i);

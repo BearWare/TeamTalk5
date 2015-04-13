@@ -33,10 +33,13 @@ import dk.bearware.backend.TeamTalkService;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -106,27 +109,33 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         TextView nickname = (TextView) findViewById(R.id.user_nickname);
         TextView username = (TextView) findViewById(R.id.user_username);
         final SeekBar voiceVol = (SeekBar) findViewById(R.id.user_vol_voiceSeekBar);
+        final Button defVoiceBtn = (Button) findViewById(R.id.defVoiceVolBtn);
         final Switch voiceMute = (Switch) findViewById(R.id.user_mutevoiceSwitch);
         final SeekBar mediaVol = (SeekBar) findViewById(R.id.user_vol_mediaSeekBar);
+        final Button defMfBtn = (Button) findViewById(R.id.defMfVolBtn);
         final Switch mediaMute = (Switch) findViewById(R.id.user_mutemediaSwitch);
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
-        voiceVol.setMax(Constants.DEFAULT_SOUND_VOLUME_MAX);
-        voiceVol.setProgress(user.nVolumeVoice);
-        mediaVol.setMax(Constants.DEFAULT_SOUND_VOLUME_MAX);
-        mediaVol.setProgress(user.nVolumeMediaFile);
+        voiceVol.setMax(100);
+        voiceVol.setProgress(Utils.refVolumeToPercent(user.nVolumeVoice));
+        mediaVol.setMax(100);
+        mediaVol.setProgress(Utils.refVolumeToPercent(user.nVolumeMediaFile));
         voiceMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_VOICE) != 0);
         mediaMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_MEDIAFILE) != 0);
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser) {
-                    if(seekBar == voiceVol)
-                        ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_VOICE, progress);
-                    else if(seekBar == mediaVol)
-                        ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, progress);
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                boolean fromUser) {
+                if(seekBar == voiceVol) {
+                    ttclient.setUserVolume(user.nUserID,
+                        StreamType.STREAMTYPE_VOICE, Utils.refVolume(progress));
+                }
+                else if(seekBar == mediaVol) {
+                    ttclient.setUserVolume(user.nUserID,
+                        StreamType.STREAMTYPE_MEDIAFILE_AUDIO,
+                        Utils.refVolume(progress));
                 }
             }
 
@@ -140,6 +149,21 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         };
         voiceVol.setOnSeekBarChangeListener(volListener);
         mediaVol.setOnSeekBarChangeListener(volListener);
+        
+        OnClickListener defListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v == defVoiceBtn) {
+                    voiceVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
+                }
+                else if(v == defMfBtn) {
+                    mediaVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
+                }
+            }
+        };
+        
+        defVoiceBtn.setOnClickListener(defListener);
+        defMfBtn.setOnClickListener(defListener);
 
         CompoundButton.OnCheckedChangeListener muteListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
