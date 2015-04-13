@@ -1139,10 +1139,12 @@ implements TeamTalkConnectionListener,
             }
         });
         
-        final Button decVol = (Button) findViewById(R.id.volDec);
-        final Button incVol = (Button) findViewById(R.id.volInc);
-        final Button decMike = (Button) findViewById(R.id.mikeDec);
-        final Button incMike = (Button) findViewById(R.id.mikeInc);
+        final ImageButton decVol = (ImageButton) findViewById(R.id.volDec);
+        final ImageButton incVol = (ImageButton) findViewById(R.id.volInc);
+        final ImageButton decMike = (ImageButton) findViewById(R.id.mikeDec);
+        final ImageButton incMike = (ImageButton) findViewById(R.id.mikeInc);
+        final TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+        final TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         
         OnTouchListener listener = new OnTouchListener() {
             CountDownTimer timer;
@@ -1155,7 +1157,7 @@ implements TeamTalkConnectionListener,
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     adjustVolume(v);
                     
-                    timer = new CountDownTimer(20, 20) {
+                    timer = new CountDownTimer(2000, 20) {
 
                         public boolean done = false;
                         
@@ -1185,7 +1187,7 @@ implements TeamTalkConnectionListener,
                     v = Utils.refVolume(v-1);
                     if(v >= SoundLevel.SOUND_VOLUME_MIN) {
                         ttclient.setSoundOutputVolume(v);
-                        
+                        volLevel.setText(Utils.refVolumeToPercent(v) + "%");
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1198,7 +1200,7 @@ implements TeamTalkConnectionListener,
                     v = Utils.refVolume(v+1);
                     if(v <= SoundLevel.SOUND_VOLUME_MAX) {
                         ttclient.setSoundOutputVolume(v);
-
+                        volLevel.setText(Utils.refVolumeToPercent(v) + "%");
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1211,7 +1213,7 @@ implements TeamTalkConnectionListener,
                     g = Utils.refGain(g-1);
                     if(g >= SoundLevel.SOUND_GAIN_MIN) {
                         ttclient.setSoundInputGainLevel(g);
-                        
+                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                         if(g == SoundLevel.SOUND_GAIN_DEFAULT)
                             return true;
                     }
@@ -1224,7 +1226,7 @@ implements TeamTalkConnectionListener,
                     g = Utils.refGain(g+1);
                     if(g <= SoundLevel.SOUND_GAIN_MAX) {
                         ttclient.setSoundInputGainLevel(g);
-                        
+                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                         if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1318,6 +1320,11 @@ implements TeamTalkConnectionListener,
             ttclient.setSoundOutputVolume(mastervol);
         if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
             ttclient.setSoundInputGainLevel(gain);
+        
+        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+        TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+        mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
+        volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
     }
 
     @Override

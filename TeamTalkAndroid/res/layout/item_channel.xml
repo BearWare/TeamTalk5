@@ -21,6 +21,7 @@
         android:id="@+id/channelname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
         android:singleLine="true"
         android:layout_gravity="center_vertical" />
     
@@ -28,6 +29,7 @@
         android:id="@+id/population"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
         android:singleLine="true"
         android:layout_gravity="center_vertical" />
 

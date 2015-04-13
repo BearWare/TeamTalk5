@@ -98,74 +98,88 @@
 	        android:id="@+id/volcontrols"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_centerVertical="true"
 	        android:layout_centerHorizontal="true"
-	        android:columnCount="3"
-	        android:rowCount="2">
+	        android:layout_centerVertical="true"
+	        android:columnCount="4"
+	        android:rowCount="2" >
 
-                <Button
-                    android:id="@+id/volDec"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="-"
-                    android:contentDescription="@string/decvolume"
-                    android:layout_column="0"
-                    android:layout_row="0" />
+	        <ImageButton
+	            android:id="@+id/volDec"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="0"
+	            android:layout_gravity="center"
+	            android:layout_row="0"
+	            android:contentDescription="@string/decvolume"
+	            android:src="@drawable/minus_blue" />
 
-                <ImageButton
-                    android:id="@+id/speakerBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/speaker_blue"
-                    android:contentDescription="@string/volumebtn"
-                    android:layout_column="1"
-                    android:layout_row="0" />
+	        <ImageButton
+	            android:id="@+id/speakerBtn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="1"
+	            android:layout_gravity="center"
+	            android:layout_row="0"
+	            android:contentDescription="@string/volumebtn"
+	            android:src="@drawable/speaker_blue" />
 
-                <Button
-                    android:id="@+id/volInc"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="+" 
-                    android:contentDescription="@string/incvolume"
-                    android:layout_column="2"
-                    android:layout_row="0" />
-	        
-                <Button
-                    android:id="@+id/mikeDec"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="-"
-                    android:contentDescription="@string/decgain"
-                    android:layout_column="0"
-                    android:layout_row="1" />
+	        <ImageButton
+	            android:id="@+id/volInc"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="2"
+	            android:layout_gravity="center"
+	            android:layout_row="0"
+	            android:contentDescription="@string/incvolume"
+	            android:src="@drawable/plus_blue" />
 
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/microphone"
-					android:layout_column="1"
-                    android:layout_row="1" />
+	        <TextView
+	            android:id="@+id/vollevel_text"
+	            android:layout_column="3"
+	            android:layout_row="0"
+	            android:text=""
+	            android:layout_gravity="center"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                <Button
-                    android:id="@+id/mikeInc"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="+"
-					android:contentDescription="@string/incgain"
-					android:layout_column="2"
-                    android:layout_row="1"/>
-        </GridLayout>
+	        <!-- Row 1 -->
+
+	        <ImageButton
+	            android:id="@+id/mikeDec"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="0"
+	            android:layout_gravity="center"
+	            android:layout_row="1"
+	            android:contentDescription="@string/decgain"
+	            android:src="@drawable/minus_green" />
+
+	        <ImageView
+	            android:id="@+id/imageView1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="1"
+	            android:layout_gravity="center"
+	            android:layout_row="1"
+	            android:src="@drawable/mike_green" />
+
+	        <ImageButton
+	            android:id="@+id/mikeInc"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_column="2"
+	            android:layout_gravity="center"
+	            android:layout_row="1"
+	            android:contentDescription="@string/incgain"
+	            android:src="@drawable/minus_green" />
+
+	        <TextView
+	            android:id="@+id/mikelevel_text"
+	            android:layout_column="3"
+	            android:layout_row="1"
+	            android:text=""
+	            android:layout_gravity="center"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	    </GridLayout>
 	    
 	    <Button
 	        android:id="@+id/transmit_voice"

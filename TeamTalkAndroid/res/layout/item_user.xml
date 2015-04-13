@@ -18,6 +18,7 @@
 	    <TextView
 	        android:id="@+id/nickname"
 	        android:textSize="16sp"
+	        android:paddingLeft="5dp"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:singleLine="true" />
