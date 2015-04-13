@@ -862,6 +862,7 @@ implements TeamTalkConnectionListener,
 
                     ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
+                    TextView topic = (TextView) convertView.findViewById(R.id.chantopic);
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
                     int icon_resource = R.drawable.channel_orange;
                     if(channel.bPassword) {
@@ -883,6 +884,7 @@ implements TeamTalkConnectionListener,
                         assert (channel.szName.length() > 0);
                         name.setText(channel.szName);
                     }
+                    topic.setText(channel.szTopic);
 
                     OnClickListener listener = new OnClickListener() {
                         @Override
@@ -908,8 +910,10 @@ implements TeamTalkConnectionListener,
                     convertView = inflater.inflate(R.layout.item_user, null);
                 ImageView usericon = (ImageView) convertView.findViewById(R.id.usericon);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
+                TextView status = (TextView) convertView.findViewById(R.id.status);
                 final User user = (User) item;
                 nickname.setText(user.szNickname);
+                status.setText(user.szStatusMsg);
                 
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0; 
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
