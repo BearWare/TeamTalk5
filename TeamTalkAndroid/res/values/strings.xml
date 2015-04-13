@@ -41,7 +41,7 @@
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
     <string name="pref_show_log_messages">Show log messages in chat history</string>
-    <string name="pref_title_audio_icons">Sound Events</string>
+    <string name="pref_header_soundevents">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
     <string name="pref_title_personal_message_audio_icon">Private message</string>
