@@ -12,4 +12,17 @@ ttserverlog*
 ttenvrc
 Tools
 Examples/TeamTalkServer/*.mpc
+TeamTalkAndroid/.classpath
+TeamTalkAndroid/.project
+TeamTalkAndroid/.settings
+TeamTalkAndroid/bin
+TeamTalkAndroid/gen
+TeamTalkAndroid/libs/android-support*
+TeamTalkAndroid/libs/gson*
+TeamTalkJNI/.classpath
+TeamTalkJNI/.project
+TeamTalkJNI/.settings
+TeamTalkJNI/bin
+TeamTalkJNI/gen
+TeamTalkJNI/libs/armeabi-v7a/libTeamTalk5*
 
