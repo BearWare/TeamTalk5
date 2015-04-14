@@ -10,6 +10,8 @@ TT5DLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5
 TT5PRODLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5Pro
 
 JARLIB := #location of 'hamcrest-core' and 'junit'
+HAMCRESTCORE_JAR := $(JARLIB)/hamcrest-core-1.3.jar
+JUNIT_JAR := $(JARLIB)/junit-4.11.jar
 
 CPPFLAGS := -fPIC
 ARCH=Linux
@@ -22,7 +24,22 @@ TT5DLL := libTeamTalk5-jni.so
 TT5PRODLL := libTeamTalk5Pro-jni.so
 endif
 
-all: native nativepro java
+help:
+	@echo "Targets:"
+	@echo -e "\tnative"
+	@echo -e "\t\t" "Build JNI DLL for TeamTalk5 DLL"
+	@echo -e "\tnativepro"
+	@echo -e "\t\t" "Build JNI DLL for TeamTalk5Pro DLL"
+	@echo -e "\tjava"
+	@echo -e "\t\t" "Build TeamTalk5.jar. Jva wrapper classes for JNI DLLs"
+	@echo -e "\tclean"
+	@echo -e "\t\t" "Remove all intermediate files"
+	@echo -e "\tcleanjava"
+	@echo -e "\t\t" "Remove all Java generated classes and JAR files"
+	@echo -e "\tjunit"
+	@echo -e "\t\t" "Build and run JUnit test-cases"
+	@echo -e "\ttestcase"
+	@echo -e "\t\t" "Build and run a single test-case in TeamTalkTestCase-class"
 
 native:
 	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value
@@ -42,14 +59,10 @@ cleanjava:
 	cd src && rm -r build
 
 junitcompile: native
-	cd test && javac -cp .:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
 
 junit:  junitcompile
-	cd test && java -cp .:../src:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar org.junit.runner.JUnitCore TeamTalkTestSuite
+	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) org.junit.runner.JUnitCore TeamTalkTestSuite
 
 testcase: junitcompile
-	cd test && java -cp .:../src:$(JARLIB)/hamcrest-core-1.3.jar:$(JARLIB)/junit-4.11.jar SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
-
-android:
-	cd jni && $(NDK)/ndk-build
-
+	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
