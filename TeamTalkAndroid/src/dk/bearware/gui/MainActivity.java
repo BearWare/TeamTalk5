@@ -74,6 +74,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -1151,7 +1152,8 @@ implements TeamTalkConnectionListener,
         final TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         
         OnTouchListener listener = new OnTouchListener() {
-            CountDownTimer timer;
+            Handler handler = new Handler();
+            Runnable runnable;
 
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
@@ -1161,25 +1163,20 @@ implements TeamTalkConnectionListener,
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     adjustVolume(v);
                     
-                    timer = new CountDownTimer(2000, 20) {
+                    runnable = new Runnable() {
 
-                        public boolean done = false;
-                        
                         @Override
-                        public void onFinish() {
+                        public void run() {
+                            boolean done = adjustVolume(v);
                             if(!done)
-                                start();
+                                handler.postDelayed(this, 100);
                         }
-
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            done = adjustVolume(v);
-                        }
-                    }.start();
+                    };
+                    handler.postDelayed(runnable, 100);
                 }
                 else if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(timer != null)
-                        timer.cancel();
+                    if(runnable != null)
+                        handler.removeCallbacks(runnable);
                 }
                 return false;
             }
