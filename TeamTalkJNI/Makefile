@@ -9,9 +9,9 @@ INCLUDE += -I/usr/lib/java/include # Slackware-14.1
 TT5DLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5
 TT5PRODLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5Pro
 
-JARLIB := #location of 'hamcrest-core' and 'junit'
-HAMCRESTCORE_JAR := $(JARLIB)/hamcrest-core-1.3.jar
-JUNIT_JAR := $(JARLIB)/junit-4.11.jar
+#locations of 'hamcrest-core' and 'junit'
+HAMCRESTCORE_JAR := hamcrest-core-1.3.jar
+JUNIT_JAR := junit-4.11.jar
 
 CPPFLAGS := -fPIC
 ARCH=Linux
@@ -48,7 +48,7 @@ nativepro:
 	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 java:
-	cd src && mkdir ./build && javac -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
+	cd src && mkdir ./build && javac -g:vars -parameters -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
 	cd jni && rm $(TT5DLL) $(TT5PRODLL)
