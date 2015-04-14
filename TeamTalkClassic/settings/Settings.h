@@ -59,12 +59,10 @@
 
 namespace teamtalk {
 
-#define TEAMTALK_XML_VERSION "5.0"
-
     class XMLDocument  
     {
     public:
-        XMLDocument(const std::string& rootname);
+        XMLDocument(const std::string& rootname, const std::string& version);
         virtual ~XMLDocument();
 
         virtual bool CreateFile(const std::string& filename);
@@ -98,7 +96,7 @@ namespace teamtalk {
         TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
         TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);
         virtual TiXmlElement* GetRootElement();
-        std::string m_rootname, m_filename;
+        std::string m_rootname, m_filename, m_xmlversion;
     };
 
 }

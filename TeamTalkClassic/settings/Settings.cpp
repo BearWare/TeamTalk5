@@ -20,15 +20,16 @@
  */
 
 #include "Settings.h"
-#include "StringPrintf.h"
-#include "MyStd.h"
+#include <mystd/StringPrintf.h>
+#include <mystd/MyStd.h>
 
 using namespace std;
 
 namespace teamtalk {
 
-    XMLDocument::XMLDocument(const std::string& rootname)
+    XMLDocument::XMLDocument(const std::string& rootname, const std::string& version)
         : m_rootname(rootname)
+        , m_xmlversion(version)
     {
     }
 
@@ -60,7 +61,7 @@ namespace teamtalk {
         m_xmlDocument.Clear();
         string szXml = 
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-            "<" + m_rootname + " version=\"" TEAMTALK_XML_VERSION "\">"
+            "<" + m_rootname + " version=\"" + m_xmlversion + "\">"
             "</" + m_rootname + ">";
 
         m_xmlDocument.Parse(szXml.c_str(), 0, TIXML_ENCODING_UTF8);
