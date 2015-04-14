@@ -22,6 +22,7 @@
 #include "common.h"
 #include "settings.h"
 #include "appinfo.h"
+#include <math.h>
 
 #include <QSound>
 #include <QDateTime>
@@ -1321,7 +1322,7 @@ int refGain(double percent)
     if(percent == 0)
         return 0;
 
-    return  82.832 * std::exp(0.0508 * percent) - 50;
+    return  82.832 * exp(0.0508 * percent) - 50;
 }
 
 bool versionSameOrLater(const QString& check, const QString& against)
