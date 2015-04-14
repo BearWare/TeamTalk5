@@ -110,7 +110,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
         // Add 'soundevents' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_soundevents);
+        fakeHeader.setTitle(R.string.pref_title_audio_icons);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_soundevents);
 
