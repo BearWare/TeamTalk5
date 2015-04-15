@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BearWare.dk")]
-[assembly: AssemblyCopyright("Copyright (c) BearWare.dk 2014")]
+[assembly: AssemblyCopyright("Copyright (c) BearWare.dk 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("5.0.0.3896")]
+[assembly: AssemblyVersion("5.0.0.4081")]
 
