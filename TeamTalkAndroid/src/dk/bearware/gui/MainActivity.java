@@ -869,9 +869,11 @@ implements TeamTalkConnectionListener,
                     if(channel.bPassword) {
                     	icon_resource = R.drawable.channel_pink;
                     	chanicon.setContentDescription(getString(R.string.text_passwdprot));
+                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                     }
                     else {
                     	chanicon.setContentDescription(null);
+                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                     }
                     chanicon.setImageResource(icon_resource);
                     
@@ -940,6 +942,7 @@ implements TeamTalkConnectionListener,
                     }
                 }
                 usericon.setImageResource(icon_resource);
+                usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 
                 Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
                 OnClickListener listener = new OnClickListener() {
