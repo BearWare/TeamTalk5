@@ -292,10 +292,12 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             if (servers.get(position).public_server) {
                 img.setImageResource(R.drawable.teamtalk_green);
                 img.setContentDescription(getString(R.string.text_publicserver));
+                img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
             }
             else {
                 img.setImageResource(R.drawable.teamtalk_yellow);
                 img.setContentDescription(null);
+                img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             address.setText(servers.get(position).ipaddr);
             Button connect = (Button) convertView.findViewById(R.id.server_connect);

@@ -869,9 +869,11 @@ implements TeamTalkConnectionListener,
                     if(channel.bPassword) {
                     	icon_resource = R.drawable.channel_pink;
                     	chanicon.setContentDescription(getString(R.string.text_passwdprot));
+                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                     }
                     else {
                     	chanicon.setContentDescription(null);
+                        chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                     }
                     chanicon.setImageResource(icon_resource);
                     
@@ -940,6 +942,7 @@ implements TeamTalkConnectionListener,
                     }
                 }
                 usericon.setImageResource(icon_resource);
+                usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 
                 Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
                 OnClickListener listener = new OnClickListener() {
@@ -1189,6 +1192,7 @@ implements TeamTalkConnectionListener,
                     if(v >= SoundLevel.SOUND_VOLUME_MIN) {
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1202,6 +1206,7 @@ implements TeamTalkConnectionListener,
                     if(v <= SoundLevel.SOUND_VOLUME_MAX) {
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1215,6 +1220,7 @@ implements TeamTalkConnectionListener,
                     if(g >= SoundLevel.SOUND_GAIN_MIN) {
                         ttclient.setSoundInputGainLevel(g);
                         mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                         if(g == SoundLevel.SOUND_GAIN_DEFAULT)
                             return true;
                     }
@@ -1228,6 +1234,7 @@ implements TeamTalkConnectionListener,
                     if(g <= SoundLevel.SOUND_GAIN_MAX) {
                         ttclient.setSoundInputGainLevel(g);
                         mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                         if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1256,10 +1263,12 @@ implements TeamTalkConnectionListener,
                     if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
                         ttclient.setSoundOutputMute(true);
                         speakerBtn.setImageResource(R.drawable.mute_blue);
+                        speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
                     }
                     else {
                         ttclient.setSoundOutputMute(false);
                         speakerBtn.setImageResource(R.drawable.speaker_blue);
+                        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
                     }
                 }
             }
@@ -1300,6 +1309,7 @@ implements TeamTalkConnectionListener,
         if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
             ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
             speakerBtn.setImageResource(R.drawable.mute_blue);
+            speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
         }
         
         ttservice.registerConnectionListener(this);
@@ -1325,7 +1335,9 @@ implements TeamTalkConnectionListener,
         TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
+        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
+        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
 
     @Override

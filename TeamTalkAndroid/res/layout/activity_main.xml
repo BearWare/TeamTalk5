@@ -120,7 +120,7 @@
 	            android:layout_column="1"
 	            android:layout_gravity="center"
 	            android:layout_row="0"
-	            android:contentDescription="@string/volumebtn"
+	            android:contentDescription="@string/speaker_mute"
 	            android:src="@drawable/speaker_blue" />
 
 	        <ImageButton
