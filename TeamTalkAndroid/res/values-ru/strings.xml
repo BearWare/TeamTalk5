@@ -128,6 +128,7 @@
     <string name="label_ping">Пинг:</string>
     <string name="label_total">Итого:</string>
     <string name="label_mediafile">Медиа:</string>
+    <string name="default_">По умолчанию</string>
 
     <string name="server_list_empty">Список Серверов TeamTalk 5 пуст</string>
     <string name="no_nickname">Нет Клички</string>
@@ -189,6 +190,8 @@
     <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
     <string name="decvolume">Уменьшить громкость</string>
     <string name="incvolume">Увеличить громкость</string>
+    <string name="volumebtn">Громкость звука. Нажмите чтобы выключить.</string>
+    <string name="gainbtn">Усиление микрофона. Нажмите чтобы выключить.</string>
     <string name="decgain">Уменьшить чувствительность микрофона</string>
     <string name="incgain">Увеличить чувствительность микрофона</string>
 
@@ -200,6 +203,8 @@
     <string name="text_txinterval">Интервал передачи</string>
     <string name="text_quality">Качество</string>
     <string name="text_publicserver">Публичный сервер</string>
+    <string name="text_localserver">Локальный сервер</string>
+    <string name="text_passwdprot">Защищен паролем</string>
     <string name="desktop_image">Образ рабочего стола</string>
     <string name="channel_change_alert">При смене канала все текущие закачки будут остановлены</string>
     <string name="disconnect_alert">При уходе с сервера все текущие закачки будут остановлены</string>
