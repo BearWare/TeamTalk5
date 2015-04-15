@@ -1189,6 +1189,7 @@ implements TeamTalkConnectionListener,
                     if(v >= SoundLevel.SOUND_VOLUME_MIN) {
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1202,6 +1203,7 @@ implements TeamTalkConnectionListener,
                     if(v <= SoundLevel.SOUND_VOLUME_MAX) {
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                         if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1215,6 +1217,7 @@ implements TeamTalkConnectionListener,
                     if(g >= SoundLevel.SOUND_GAIN_MIN) {
                         ttclient.setSoundInputGainLevel(g);
                         mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                         if(g == SoundLevel.SOUND_GAIN_DEFAULT)
                             return true;
                     }
@@ -1228,6 +1231,7 @@ implements TeamTalkConnectionListener,
                     if(g <= SoundLevel.SOUND_GAIN_MAX) {
                         ttclient.setSoundInputGainLevel(g);
                         mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
                         if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
                             return true;
                     }
@@ -1328,7 +1332,9 @@ implements TeamTalkConnectionListener,
         TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
+        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
+        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
 
     @Override

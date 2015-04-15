@@ -207,6 +207,9 @@
 	<string name="decgain">Decrease microphone gain</string>
 	<string name="incgain">Increase microphone gain</string>
 	
+    <string name="speaker_volume_description">Speaker volume is %1$s</string>
+    <string name="mic_gain_description">Microphone gain is %1$s</string>
+
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
     <string name="text_audchan">Audio channels</string>

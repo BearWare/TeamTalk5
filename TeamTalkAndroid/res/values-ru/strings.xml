@@ -197,6 +197,9 @@
     <string name="decgain">Уменьшить чувствительность микрофона</string>
     <string name="incgain">Увеличить чувствительность микрофона</string>
 
+    <string name="speaker_volume_description">Громкость звука %1$s</string>
+    <string name="mic_gain_description">Чувствительность микрофона %1$s</string>
+
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
     <string name="text_audchan">Аудио каналы</string>
