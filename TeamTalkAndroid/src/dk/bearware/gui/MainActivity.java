@@ -1256,10 +1256,12 @@ implements TeamTalkConnectionListener,
                     if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
                         ttclient.setSoundOutputMute(true);
                         speakerBtn.setImageResource(R.drawable.mute_blue);
+                        speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
                     }
                     else {
                         ttclient.setSoundOutputMute(false);
                         speakerBtn.setImageResource(R.drawable.speaker_blue);
+                        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
                     }
                 }
             }
@@ -1300,6 +1302,7 @@ implements TeamTalkConnectionListener,
         if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
             ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
             speakerBtn.setImageResource(R.drawable.mute_blue);
+            speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
         }
         
         ttservice.registerConnectionListener(this);

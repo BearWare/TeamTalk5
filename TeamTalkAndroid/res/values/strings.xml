@@ -200,8 +200,10 @@
     <string name="version_update">New TeamTalk version available: %1$s?</string>
     <string name="decvolume">Decrease volume</string>
 	<string name="incvolume">Increase volume</string>
-	<string name="volumebtn">Speaker volume. Click to mute.</string>
-	<string name="gainbtn">Microphone volume. Click to mute.</string>
+	<string name="speaker_mute">Mute speakers</string>
+	<string name="speaker_unmute">Unmute speakers</string>
+	<string name="mic_mute">Mute microphone</string>
+	<string name="mic_unmute">Unmute microphone</string>
 	<string name="decgain">Decrease microphone gain</string>
 	<string name="incgain">Increase microphone gain</string>
 	

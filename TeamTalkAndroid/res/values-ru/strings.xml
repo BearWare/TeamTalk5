@@ -190,8 +190,10 @@
     <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
     <string name="decvolume">Уменьшить громкость</string>
     <string name="incvolume">Увеличить громкость</string>
-    <string name="volumebtn">Громкость звука. Нажмите чтобы выключить.</string>
-    <string name="gainbtn">Усиление микрофона. Нажмите чтобы выключить.</string>
+    <string name="speaker_mute">Выключить звук</string>
+    <string name="speaker_unmute">Включить звук</string>
+    <string name="mic_mute">Выключить микрофон</string>
+    <string name="mic_unmute">Включить микрофон</string>
     <string name="decgain">Уменьшить чувствительность микрофона</string>
     <string name="incgain">Увеличить чувствительность микрофона</string>
 
