@@ -1653,9 +1653,20 @@ implements TeamTalkConnectionListener,
             }
         }
     
-        boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false);
+        boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false)
+            && (voiceTransmissionEnabled != ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0));
         if(mute) {
             ttclient.setSoundOutputMute(voiceTransmissionEnabled);
+
+            ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+            if(voiceTransmissionEnabled) {
+                speakerBtn.setImageResource(R.drawable.mute_blue);
+                speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
+            }
+            else {
+                speakerBtn.setImageResource(R.drawable.speaker_blue);
+                speakerBtn.setContentDescription(getString(R.string.speaker_mute));
+            }
         }
     }
 
