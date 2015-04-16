@@ -36,6 +36,7 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * **TeamTalkJNI**
   * TeamTalk 5 JNI project with Java wrapper classes
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.0.0.4081/docs/Java/)
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
     * Based on Android API Level 16
