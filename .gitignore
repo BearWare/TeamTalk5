@@ -12,6 +12,8 @@ ttenvrc
 Tools
 UnitTest/*.testsettings
 UnitTest/*.vsmdi
+UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace/xcshareddata
+UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace/xcuserdata
 Examples/TeamTalkServer/*.mpc
 TeamTalkAndroid/.classpath
 TeamTalkAndroid/.project
@@ -26,4 +28,3 @@ TeamTalkJNI/.settings
 TeamTalkJNI/bin
 TeamTalkJNI/gen
 TeamTalkJNI/libs/armeabi-v7a/libTeamTalk5*
-
