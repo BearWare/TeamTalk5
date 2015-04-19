@@ -1,6 +1,5 @@
 *.sln
 *.bat
-UnitTest
 libteamtalk
 TeamTalk_DLL
 Copyright.txt
