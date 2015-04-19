@@ -10,6 +10,8 @@ teamtalkd
 ttserverlog*
 ttenvrc
 Tools
+UnitTest/*.testsettings
+UnitTest/*.vsmdi
 Examples/TeamTalkServer/*.mpc
 TeamTalkAndroid/.classpath
 TeamTalkAndroid/.project
