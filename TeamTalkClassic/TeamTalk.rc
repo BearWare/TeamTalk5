@@ -294,25 +294,27 @@ BEGIN
     CONTROL         "Windows Audio Session",IDC_RADIO_WASAPI,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,22,95,10
     CONTROL         "DirectSound",IDC_RADIO_DIRECTSOUND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,110,22,56,10
     CONTROL         "Windows Default",IDC_RADIO_WINAUDIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,171,22,77,10
-    LTEXT           "Input device",IDC_STATIC_INPUT,14,42,75,8
-    COMBOBOX        IDC_COMBO_INPUTDRIVER,98,40,150,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Input sample rates",IDC_STATIC_INPUTPROP,14,57,80,8
-    LTEXT           "",IDC_STATIC_INPUT_SAMPLERATES,98,57,150,8
-    LTEXT           "Output device",IDC_STATIC_OUTPUT,14,75,76,8
-    COMBOBOX        IDC_COMBO_OUTPUTDRIVER,98,73,150,41,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Output sample rates",IDC_STATIC_OUTPUTPROP,14,90,80,8
-    LTEXT           "",IDC_STATIC_OUTPUT_SAMPLERATES,98,90,150,8
-    PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,97,106,65,14
+    LTEXT           "Input device",IDC_STATIC_INPUT,14,39,75,8
+    COMBOBOX        IDC_COMBO_INPUTDRIVER,98,37,150,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Input sample rates",IDC_STATIC_INPUTPROP,14,53,80,8
+    LTEXT           "",IDC_STATIC_INPUT_SAMPLERATES,98,53,150,8
+    LTEXT           "Output device",IDC_STATIC_OUTPUT,14,67,76,8
+    COMBOBOX        IDC_COMBO_OUTPUTDRIVER,98,65,150,41,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output sample rates",IDC_STATIC_OUTPUTPROP,14,81,80,8
+    LTEXT           "",IDC_STATIC_OUTPUT_SAMPLERATES,98,81,150,8
+    PUSHBUTTON      "Test selected",IDC_BUTTON_TEST,97,92,65,14
     CONTROL         "Enable duplex mode (required for echo cancellation)",IDC_CHECK_DUPLEXMODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,124,236,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,108,236,10
     CONTROL         "Enable echo cancellation (remove echo from speakers)",IDC_CHECK_ECHOCANCEL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,138,236,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,122,236,10
     CONTROL         "Enable automatic gain control (microphone level adjusted automatically)",IDC_CHECK_AGC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,152,236,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,136,236,10
     CONTROL         "Enable noise reduction (suppress noise from microphone)",IDC_CHECK_DENOISE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,236,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,150,236,10
     CONTROL         "Auto position users using 3D sound",IDC_CHECK_POSITIONING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,180,236,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,164,236,10
+    LTEXT           "Media file vs. voice volume",IDC_STATIC_MEDIASTREAMVOL,12,180,104,8
+    CONTROL         "",IDC_SLIDER_MEDIASTREAM_VOL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,117,176,131,15
     PUSHBUTTON      "Refresh devices",IDC_BUTTON_REFRESHSND,132,193,60,12
     PUSHBUTTON      "&Default",IDC_BUTTON_DEFAULT,197,193,51,12
 END

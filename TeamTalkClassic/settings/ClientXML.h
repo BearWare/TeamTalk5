@@ -36,6 +36,7 @@
 
 #define DEFAULT_SOUND_OUTPUT_VOLUME                 50
 #define DEFAULT_SOUND_GAIN_LEVEL                    50
+#define DEFAULT_MEDIA_VS_VOICE                      100
 
 namespace teamtalk {
 
@@ -225,6 +226,9 @@ namespace teamtalk {
 
         bool SetSoundOutputVolume(int nVolume);
         int GetSoundOutputVolume(int def_vol);
+
+        bool SetMediaStreamVsVoice(int nPercent);
+        int GetMediaStreamVsVoice(int nDefPercent);
 
         bool SetSoundMixerDevice(int nDevice);
         int GetSoundMixerDevice();

@@ -1429,6 +1429,26 @@ namespace teamtalk {
         return def_vol;
     }
 
+    bool ClientXML::SetMediaStreamVsVoice(int nPercent)
+    {
+        TiXmlElement* pParent = GetSoundSystemElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "media-vs-voice", nPercent);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ClientXML::GetMediaStreamVsVoice(int nDefPercent)
+    {
+        TiXmlElement* child = GetSoundSystemElement();
+        if(child)
+            GetInteger(*child, "media-vs-voice", nDefPercent);
+        return nDefPercent;
+    }
+
     bool ClientXML::SetAutoPositioning(bool bEnable)
     {
         TiXmlElement* pParent = GetSoundSystemElement();

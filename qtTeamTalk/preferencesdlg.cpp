@@ -476,6 +476,8 @@ void PreferencesDlg::slotTabChange(int index)
     break;
     case SOUND_TAB :  //sound system
         initDevices();
+        ui.mediavsvoiceSlider->setValue(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                                        SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt());
         break;
     case SOUNDEVENTS_TAB :  //sound events
         ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER).toString());
@@ -837,6 +839,7 @@ void PreferencesDlg::slotSaveChanges()
 
         ttSettings->setValue(SETTINGS_SOUND_AGC, ui.agcBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked());
+        ttSettings->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME, ui.mediavsvoiceSlider->value());
     }
     if(m_modtab.find(SOUNDEVENTS_TAB) != m_modtab.end())
     {
@@ -1145,6 +1148,7 @@ void PreferencesDlg::slotSoundDefaults()
     ui.echocancelBox->setChecked(DEFAULT_ECHO_ENABLE);
     ui.agcBox->setChecked(DEFAULT_AGC_ENABLE);
     ui.denoisingBox->setChecked(DEFAULT_DENOISE_ENABLE);
+    ui.mediavsvoiceSlider->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);
 }
 
 void PreferencesDlg::slotEventNewUser()

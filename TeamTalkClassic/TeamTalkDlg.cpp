@@ -1175,6 +1175,11 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
         if(szAudioFolder.GetLength())
             TT_SetUserMediaStorageDir(ttInst, user.nUserID, szAudioFolder, NULL, uAFF);
     }
+
+    double d = m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE);
+    d /= 100.;
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
+                     RefVolume(DEFAULT_SOUND_OUTPUT_VOLUME) * d);
 }
 
 void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
@@ -2173,11 +2178,14 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     m_wndVolSlider.SetRange(0, 100, TRUE);
     m_wndVolSlider.SetPos(m_xmlSettings.GetSoundOutputVolume(DEFAULT_SOUND_OUTPUT_VOLUME));
+    m_wndVolSlider.SetPageSize(m_wndVolSlider.GetRangeMax() / 20);
 
     m_wndGainSlider.SetRange(0, 100, TRUE);
     m_wndGainSlider.SetPos(m_xmlSettings.GetVoiceGainLevel(DEFAULT_SOUND_GAIN_LEVEL));
+    m_wndGainSlider.SetPageSize(m_wndGainSlider.GetRangeMax() / 20);
 
     m_wndVoiceSlider.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX, TRUE);
+    m_wndVoiceSlider.SetPageSize(m_wndVoiceSlider.GetRangeMax() / 20);
     m_wndVUProgress.SetRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX);
 
     //set vumeter and voice act-settings
@@ -3001,6 +3009,7 @@ void CTeamTalkDlg::OnFilePreferences()
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
     soundpage.m_bAGC = m_xmlSettings.GetAGC(DEFAULT_AGC_ENABLE);
     soundpage.m_bDenoise = m_xmlSettings.GetDenoise(DEFAULT_DENOISE_ENABLE);
+    soundpage.m_nMediaVsVoice = m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE);
 
     ///////////////////////
     // sound events
@@ -3217,6 +3226,19 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEchoCancel(soundpage.m_bEchoCancel);
         m_xmlSettings.SetAGC(soundpage.m_bAGC);
         m_xmlSettings.SetDenoise(soundpage.m_bDenoise);
+        if(m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE) != soundpage.m_nMediaVsVoice)
+        {
+            m_xmlSettings.SetMediaStreamVsVoice(soundpage.m_nMediaVsVoice);
+            users_t users = m_wndTree.GetUsers(0);
+            users_t::const_iterator i;
+            double mediaVol = soundpage.m_nMediaVsVoice;
+            mediaVol /= 100.0;
+            for(i=users.begin();i!=users.end();i++)
+            {
+                TT_SetUserVolume(ttInst, i->first, STREAMTYPE_MEDIAFILE_AUDIO,
+                                    RefVolume(DEFAULT_SOUND_OUTPUT_VOLUME) * mediaVol);
+            }
+        }
 
         if(bRestart && soundpage.m_nInputDevice != UNDEFINED && soundpage.m_nOutputDevice != UNDEFINED)
         {

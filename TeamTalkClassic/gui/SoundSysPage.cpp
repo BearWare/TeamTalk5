@@ -48,6 +48,7 @@ CSoundSysPage::CSoundSysPage()
 , m_bEchoCancel(DEFAULT_ECHO_ENABLE)
 , m_SndLoopBack(NULL)
 , m_bAGC(DEFAULT_AGC_ENABLE)
+, m_nMediaVsVoice(DEFAULT_MEDIA_VS_VOICE)
 {
     TT_GetDefaultSoundDevices(&m_nInputDevice, &m_nOutputDevice);
 }
@@ -81,6 +82,9 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_AGC, m_bAGC);
     DDX_Control(pDX, IDC_CHECK_AGC, m_wndAGC);
     DDX_Control(pDX, IDC_BUTTON_REFRESHSND, m_wndRefreshDevs);
+    DDX_Slider(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_nMediaVsVoice);
+    DDV_MinMaxInt(pDX, m_nMediaVsVoice, 0, 200);
+    DDX_Control(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_wndMediaVsVoice);
 }
 
 
@@ -112,6 +116,9 @@ BOOL CSoundSysPage::OnInitDialog()
 
     RefreshSoundDevices();
 
+    m_wndMediaVsVoice.SetRange(0, 200, TRUE);
+    m_wndMediaVsVoice.SetPos(m_nMediaVsVoice);
+    
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -415,6 +422,7 @@ void CSoundSysPage::OnBnClickedDefault()
     m_btnDenoiseBtn.SetCheck(DEFAULT_DENOISE_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_btnEchoCancel.SetCheck(DEFAULT_ECHO_ENABLE? BST_CHECKED : BST_UNCHECKED);
     m_wndAGC.SetCheck(DEFAULT_AGC_ENABLE? BST_CHECKED : BST_UNCHECKED);
+    m_wndMediaVsVoice.SetPos(DEFAULT_MEDIA_VS_VOICE);
 }
 
 void CSoundSysPage::OnBnClickedCheckDuplexmode()

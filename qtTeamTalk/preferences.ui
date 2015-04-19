@@ -1021,6 +1021,27 @@
            </widget>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QLabel" name="label_34">
+              <property name="text">
+               <string>Media file vs. voice volume</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="mediavsvoiceSlider">
+              <property name="maximum">
+               <number>200</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
              <spacer name="horizontalSpacer_9">
@@ -1948,6 +1969,7 @@
   <tabstop>echocancelBox</tabstop>
   <tabstop>agcBox</tabstop>
   <tabstop>denoisingBox</tabstop>
+  <tabstop>mediavsvoiceSlider</tabstop>
   <tabstop>snddefaultButton</tabstop>
   <tabstop>newuserEdit</tabstop>
   <tabstop>newuserButton</tabstop>

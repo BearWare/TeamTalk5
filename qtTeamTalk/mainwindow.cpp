@@ -3065,6 +3065,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //see if we need to retranslate
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString();
 
+    int mediavsvoice = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                                         SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt();
+
     //show dialog
     bool b = dlg.exec();
 
@@ -3137,6 +3140,20 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
     if(lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
         ui.retranslateUi(this);
+
+    double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                                 SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
+    if(d != mediavsvoice)
+    {
+        d /= 100.;
+        QVector<int> userids = ui.channelsWidget->getUsers();
+        for(int i=0;i<userids.size();i++)
+        {
+            TT_SetUserVolume(ttInst, userids[i], STREAMTYPE_MEDIAFILE_AUDIO,
+                             (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
+        }
+    }
+
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
     //hotkeys are not registered in PreferencesDlg as on Windows
@@ -4860,6 +4877,11 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
                      SETTINGS_SOUND_SOUNDOUT_MUTE_LEFT_DEFAULT).toBool(),
                      !ttSettings->value(SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT,
                      SETTINGS_SOUND_SOUNDOUT_MUTE_RIGHT_DEFAULT).toBool());
+
+    double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                                 SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble() / 100;
+    TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
+                     (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
 }
 
 void MainWindow::slotUserLeft(int channelid, const User& user)

@@ -102,4 +102,6 @@ public:
     CButton m_wndAGC;
     afx_msg void OnBnClickedButtonRefreshsnd();
     CButton m_wndRefreshDevs;
+    int m_nMediaVsVoice;
+    CSliderCtrl m_wndMediaVsVoice;
 };
