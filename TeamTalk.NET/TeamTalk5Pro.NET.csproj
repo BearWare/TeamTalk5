@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BearWare</RootNamespace>
-    <AssemblyName>TeamTalk4Pro.NET</AssemblyName>
+    <AssemblyName>TeamTalk5Pro.NET</AssemblyName>
     <StartupObject>
     </StartupObject>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
