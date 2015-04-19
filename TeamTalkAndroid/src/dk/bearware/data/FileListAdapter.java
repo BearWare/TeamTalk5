@@ -403,7 +403,7 @@ implements ClientListener, Comparator<RemoteFile> {
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
                         .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0))
                         .setAutoCancel(true);
-                    if (Build.VERSION.SDK_INT >= 17)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                         progressNotification.setShowWhen(false);
                     uploads.put(id, progressNotification);
                 }
