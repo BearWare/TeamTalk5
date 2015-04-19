@@ -11,6 +11,7 @@ Version 5.1 (unreleased)
 - Last to talk is shown in yellow in Qt client
 - Flip image menu option in Qt client
 - Changed tab-order in classic client's connect dialog
+- Option to set media file vs. voice volume in Sound System-tab
 
 Version 5.0, released 2015/03/10
 - WebM video codec replaces Theora
