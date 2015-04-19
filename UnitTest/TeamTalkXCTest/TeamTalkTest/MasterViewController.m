@@ -9,8 +9,6 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-#include "/Users/bdr/projects/TeamTalk5/TeamTalk_DLL/TeamTalk.h"
-
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
