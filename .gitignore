@@ -12,6 +12,7 @@ ttenvrc
 Tools
 UnitTest/*.testsettings
 UnitTest/*.vsmdi
+UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace
 Examples/TeamTalkServer/*.mpc
 TeamTalkAndroid/.classpath
 TeamTalkAndroid/.project
