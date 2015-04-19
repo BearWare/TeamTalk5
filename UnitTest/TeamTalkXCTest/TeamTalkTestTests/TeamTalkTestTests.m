@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#include <TeamTalk.h>
+#include "../TeamTalk_DLL/TeamTalk.h"
 
 @interface TeamTalkTestTests : XCTestCase
 {
