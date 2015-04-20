@@ -169,9 +169,13 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
                         int pos = data.getIntExtra(POSITION_NAME, -1);
-                        if(pos >= 0)
+                        if ((pos >= 0) && (pos < servers.size())) {
                             servers.removeElementAt(pos);
-                        servers.insertElementAt(entry, pos);
+                            servers.insertElementAt(entry, pos);
+                        }
+                        else {
+                            servers.add(entry);
+                        }
                         Collections.sort(servers, this);
                         adapter.notifyDataSetChanged();
                         saveServers();
