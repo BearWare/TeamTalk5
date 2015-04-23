@@ -145,6 +145,9 @@ private:
     typedef QSet<int> video_exclude_user_t;
     video_exclude_user_t m_vid_exclude;
 
+    typedef QMap<int, QString> chanpasswd_t;
+    chanpasswd_t m_channel_passwd;
+
     //audio storage mode
     quint32 m_audiostorage_mode;
 
