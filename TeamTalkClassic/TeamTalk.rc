@@ -570,7 +570,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2002-2014, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
+    LTEXT           "Copyright (c) 2002-2015, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
     LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC,7,88,189,17
     LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC,7,110,189,17
     LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC,7,132,189,17
