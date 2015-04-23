@@ -20,8 +20,8 @@
  */
 
 #include "Settings.h"
-#include <mystd/StringPrintf.h>
-#include <mystd/MyStd.h>
+#include "StringPrintf.h"
+#include "MyStd.h"
 
 using namespace std;
 
