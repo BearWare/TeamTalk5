@@ -196,7 +196,8 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), String.valueOf(entry.tcpport), String.valueOf(entry.tcpport));        
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), String.valueOf(entry.udpport), String.valueOf(entry.udpport));
-        ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED)).setChecked(entry.encrypted);
+        CheckBoxPreference p = (CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED); 
+        if(p != null)p.setChecked(entry.encrypted);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password);
         ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).setChecked(entry.rememberLastChannel);
