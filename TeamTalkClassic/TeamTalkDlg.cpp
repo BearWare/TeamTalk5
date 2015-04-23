@@ -3452,8 +3452,10 @@ void CTeamTalkDlg::OnUpdateMeEnablevoiceactivation(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnMeEnablevoiceactivation()
 {
-    EnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+    BOOL bCurState = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED);
+    EnableVoiceActivation(!bCurState);
     m_xmlSettings.SetVoiceActivated((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+    m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst), IsMyselfTalking());
 }
 
 void CTeamTalkDlg::OnUpdateUsersViewinfo(CCmdUI *pCmdUI)
@@ -3650,9 +3652,11 @@ void CTeamTalkDlg::OnUsersPositionusers()
 
     CPositionUsersDlg dlg(m_wndTree.GetUsers(TT_GetMyChannelID(ttInst)), this);
     dlg.m_bPositionUsers = m_xmlSettings.GetAutoPositioning();
-    dlg.DoModal();
-    m_xmlSettings.SetAutoPositioning(dlg.m_bPositionUsers);
-    TT_Enable3DSoundPositioning(ttInst, dlg.m_bPositionUsers);
+    if(dlg.DoModal())
+    {
+        m_xmlSettings.SetAutoPositioning(dlg.m_bPositionUsers);
+        TT_Enable3DSoundPositioning(ttInst, dlg.m_bPositionUsers);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedIncvolumevoice(CCmdUI *pCmdUI)
@@ -3908,13 +3912,16 @@ void CTeamTalkDlg::OnChannelsJoinchannel()
         if(chan.bPassword)
         {
             CInputDlg dlg(_T("Channel password"), _T("Enter password"), _T(""), this);
-            if(dlg.DoModal()==IDOK)
+            dlg.m_szInput = m_channelPasswords[nChannelID];
+            if(dlg.DoModal() == IDOK)
             {
                 CString password = dlg.GetInputString();
+                m_channelPasswords[nChannelID] = password;
 
                 //store the channel in case the user's connection is dropped
                 m_host.szChannel = STR_UTF8(szChannelPath);
                 m_host.szChPasswd = STR_UTF8(password);
+
                 
                 int nCmdID = TT_DoJoinChannelByID(ttInst, nChannelID, password);
                 m_commands[nCmdID] = CMD_COMPLETE_JOIN;
@@ -5930,6 +5937,8 @@ void CTeamTalkDlg::OnUpdateUserinfoSpeakuserinfo(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
 {
+    CStringList szSpeakList;
+
     int nID = m_wndTree.GetSelectedUser();
     if(nID>0)
     {
@@ -5956,9 +5965,11 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
         TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
 
-        AddVoiceMessage(szUser);
+        szSpeakList.AddTail(szUser);
 
         CString szStatus;
+        if(user.uUserState & USERSTATE_VOICE)
+            szSpeakList.AddTail(szVoice);
         switch(user.nStatusMode & STATUSMODE_MASK)
         {
         case STATUSMODE_AVAILABLE :
@@ -5975,22 +5986,20 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             break;
         }
         if(szStatus.GetLength())
-            AddVoiceMessage(szStatus);
-        if(user.uUserState & USERSTATE_VOICE)
-            AddVoiceMessage(szVoice);
+            szSpeakList.AddTail(szStatus);
         if(user.uUserState & USERSTATE_MUTE_VOICE)
-            AddVoiceMessage(szMute);
+            szSpeakList.AddTail(szMute);
         if((user.uUserState & USERSTATE_MEDIAFILE) ||
            (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE))
-            AddVoiceMessage(szMediaFile);
+            szSpeakList.AddTail(szMediaFile);
         if(user.uUserState & USERSTATE_MUTE_MEDIAFILE)
-            AddVoiceMessage(szMuteMediaFile);
+            szSpeakList.AddTail(szMuteMediaFile);
         if((user.uUserState & USERSTATE_VIDEOCAPTURE) ||
            (user.nStatusMode & STATUSMODE_VIDEOTX))
-            AddVoiceMessage(szVideoCapture);
+            szSpeakList.AddTail(szVideoCapture);
         if((user.uUserState & USERSTATE_DESKTOP) ||
            (user.nStatusMode & STATUSMODE_DESKTOP))
-            AddVoiceMessage(szDesktop);
+            szSpeakList.AddTail(szDesktop);
     }
     else if((nID = m_wndTree.GetSelectedChannel())>0)
     {
@@ -6007,12 +6016,22 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         TRANSLATE_ITEM(IDS_PASSWORD_PROTECTED, szPasswd);
         TRANSLATE_ITEM(IDS_CLASSROOMCHANNEL, szClassroom);
 
-        AddVoiceMessage(szChannel);
+        szSpeakList.AddTail(szChannel);
         if(chan.uChannelType & CHANNEL_CLASSROOM)
-            AddVoiceMessage(szClassroom);
+            szSpeakList.AddTail(szClassroom);
         if(chan.bPassword)
-            AddVoiceMessage(szPasswd);
+            szSpeakList.AddTail(szPasswd);
     }
+
+    CString szSpeak;
+    for(POSITION pos=szSpeakList.GetHeadPosition();pos!=NULL;)
+    {
+        szSpeak += szSpeakList.GetNext(pos);
+        if(pos != NULL)
+            szSpeak += _T(" ");
+    }
+    if(szSpeak.GetLength())
+        AddVoiceMessage(szSpeak);
 }
 
 

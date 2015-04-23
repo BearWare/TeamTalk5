@@ -82,8 +82,8 @@ void CSoundSysPage::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_AGC, m_bAGC);
     DDX_Control(pDX, IDC_CHECK_AGC, m_wndAGC);
     DDX_Control(pDX, IDC_BUTTON_REFRESHSND, m_wndRefreshDevs);
-    DDX_Slider(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_nMediaVsVoice);
     DDV_MinMaxInt(pDX, m_nMediaVsVoice, 0, 200);
+    DDX_Slider(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_nMediaVsVoice);
     DDX_Control(pDX, IDC_SLIDER_MEDIASTREAM_VOL, m_wndMediaVsVoice);
 }
 

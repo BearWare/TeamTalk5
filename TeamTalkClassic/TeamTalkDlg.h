@@ -211,6 +211,9 @@ protected:
     typedef std::map<int, CUserDesktopDlg*> mapdesktopdlg_t;
     mapdesktopdlg_t m_desktopdlgs;
     std::set<int> m_desktopignore;
+    //store used channel passwords
+    typedef std::map<int, CString> chanpasswd_t;
+    chanpasswd_t m_channelPasswords;
 
     std::queue<CString> m_qStatusMsgs;
     UINT m_nStatusTimerID;
