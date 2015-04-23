@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2545A0951AE95E5D00412C17 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2545A0941AE95E5D00412C17 /* AudioToolbox.framework */; };
 		25552E091A5941F8000C897D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E081A5941F8000C897D /* main.m */; };
 		25552E0C1A5941F8000C897D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E0B1A5941F8000C897D /* AppDelegate.m */; };
 		25552E0F1A5941F8000C897D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E0E1A5941F8000C897D /* MasterViewController.m */; };
@@ -20,6 +21,7 @@
 		25552E3A1A59C075000C897D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E391A59C075000C897D /* libz.dylib */; };
 		25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E351A59BADE000C897D /* libstdc++.dylib */; };
 		25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E3C1A59C192000C897D /* libstdc++.6.dylib */; };
+		2585F6B71AE97E2700D7B031 /* libACE_INet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2585F6B61AE97E2700D7B031 /* libACE_INet.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2545A0941AE95E5D00412C17 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		25552E031A5941F8000C897D /* TeamTalkTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamTalkTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25552E071A5941F8000C897D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25552E081A5941F8000C897D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -54,6 +57,7 @@
 		25552E371A59BAF1000C897D /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		25552E391A59C075000C897D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		25552E3C1A59C192000C897D /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		2585F6B61AE97E2700D7B031 /* libACE_INet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE_INet.a; path = ../../../../libraries/ios/i386/ACE/lib/libACE_INet.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,10 +65,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2545A0951AE95E5D00412C17 /* AudioToolbox.framework in Frameworks */,
 				25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */,
 				25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */,
 				25552E3A1A59C075000C897D /* libz.dylib in Frameworks */,
 				25552E341A59BA6F000C897D /* libACE.a in Frameworks */,
+				2585F6B71AE97E2700D7B031 /* libACE_INet.a in Frameworks */,
 				25552E321A59B9F1000C897D /* libTeamTalk5.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,11 +88,13 @@
 		25552DFA1A5941F7000C897D = {
 			isa = PBXGroup;
 			children = (
+				2545A0941AE95E5D00412C17 /* AudioToolbox.framework */,
 				25552E3C1A59C192000C897D /* libstdc++.6.dylib */,
 				25552E391A59C075000C897D /* libz.dylib */,
 				25552E371A59BAF1000C897D /* libc++.dylib */,
 				25552E351A59BADE000C897D /* libstdc++.dylib */,
 				25552E331A59BA6F000C897D /* libACE.a */,
+				2585F6B61AE97E2700D7B031 /* libACE_INet.a */,
 				25552E311A59B9F1000C897D /* libTeamTalk5.a */,
 				25552E051A5941F8000C897D /* TeamTalkTest */,
 				25552E221A5941F8000C897D /* TeamTalkTestTests */,
@@ -387,6 +395,7 @@
 					"$(inherited)",
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
 					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
+					/Users/bdr/libraries/ios/i386/ACE/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -411,6 +420,7 @@
 					"$(inherited)",
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
 					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
+					/Users/bdr/libraries/ios/i386/ACE/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
