@@ -39,8 +39,34 @@
     NSLog(@"This is some TTT messsage %@", str);
 }
 
+- (void)testSoundQuery {
+    
+    SoundDevice devs[10];
+    int how_many = 0;
+    
+    XCTAssert(TT_GetSoundDevices(NULL, &how_many), "Queried sound devices");
+    
+    XCTAssert(TT_GetSoundDevices(devs, &how_many), "Filled devices");
+    
+    XCTAssertGreaterThan(how_many, 0, "Got one or more devices");
+    
+    NSString* str = [[NSString alloc]initWithUTF8String:devs[0].szDeviceName];
+    NSLog(@"Device name is %@", str);
+    
+    TTSoundLoop* sndLoopInst = TT_StartSoundLoopbackTest(devs[0].nDeviceID, devs[0].nDeviceID,
+                                                         devs[0].nDefaultSampleRate,
+                                                         1, FALSE, NULL);
+    XCTAssert(sndLoopInst != NULL, "Start Sound Loop");
+    
+    NSLog(@"Waiting for nothing...");
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, false);
+    NSLog(@"Finished for nothing...");
+    
+    XCTAssert(TT_CloseSoundLoopbackTest(sndLoopInst), "Close sound loop");
+}
+
 - (void)testConnect {
-    TTBOOL b = TT_Connect(ttInst, "tt4eu.bearware.dk", 10335, 10335, 0, 0, FALSE);
+    TTBOOL b = TT_Connect(ttInst, "tt5eu.bearware.dk", 10335, 10335, 0, 0, FALSE);
 
     XCTAssert(b, "Connect to server");
 
