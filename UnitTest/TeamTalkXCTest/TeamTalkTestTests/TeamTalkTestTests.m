@@ -200,6 +200,8 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     //drain message queue
     waitForEvent(ttInst, CLIENTEVENT_NONE, 0, &msg);
 
+    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+    
     XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
 
     cmdid = TT_DoSubscribe(ttInst, myuserid, SUBSCRIBE_VOICE);
