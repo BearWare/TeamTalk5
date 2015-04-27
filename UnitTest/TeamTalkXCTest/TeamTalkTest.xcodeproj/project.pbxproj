@@ -55,15 +55,15 @@
 		25552E241A5941F8000C897D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25552E251A5941F8000C897D /* TeamTalkTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeamTalkTestTests.m; sourceTree = "<group>"; };
 		25552E311A59B9F1000C897D /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = /Users/bdr/projects/TT5_iOS/TeamTalk_DLL/libTeamTalk5.a; sourceTree = "<absolute>"; };
-		25552E331A59BA6F000C897D /* libACE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE.a; path = /Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace/libACE.a; sourceTree = "<absolute>"; };
+		25552E331A59BA6F000C897D /* libACE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE.a; path = ../../../../libraries/ios/x86_64/ACE/lib/libACE.a; sourceTree = "<absolute>"; };
 		25552E351A59BADE000C897D /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		25552E371A59BAF1000C897D /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		25552E391A59C075000C897D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		25552E3C1A59C192000C897D /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
-		2585F6B61AE97E2700D7B031 /* libACE_INet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE_INet.a; path = ../../../../libraries/ios/i386/ACE/lib/libACE_INet.a; sourceTree = "<group>"; };
-		2585F6B81AEE039600D7B031 /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = ../../../../libraries/ios/i386/opus/lib/libopus.a; sourceTree = "<group>"; };
-		2585F6BA1AEE03A900D7B031 /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = ../../../../libraries/ios/i386/speex/lib/libspeex.a; sourceTree = "<group>"; };
-		2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = ../../../../libraries/ios/i386/speex/lib/libspeexdsp.a; sourceTree = "<group>"; };
+		2585F6B61AE97E2700D7B031 /* libACE_INet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE_INet.a; path = ../../../../libraries/ios/x86_64/ACE/lib/libACE_INet.a; sourceTree = "<group>"; };
+		2585F6B81AEE039600D7B031 /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = ../../../../libraries/ios/x86_64/opus/lib/libopus.a; sourceTree = "<group>"; };
+		2585F6BA1AEE03A900D7B031 /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = ../../../../libraries/ios/x86_64/speex/lib/libspeex.a; sourceTree = "<group>"; };
+		2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = ../../../../libraries/ios/x86_64/speex/lib/libspeexdsp.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,10 +406,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
-					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
-					/Users/bdr/libraries/ios/i386/ACE/lib,
-					/Users/bdr/libraries/ios/i386/opus/lib,
-					/Users/bdr/libraries/ios/i386/speex/lib,
+					/Users/bdr/libraries/ios/x86_64/ACE/lib,
+					/Users/bdr/libraries/ios/x86_64/opus/lib,
+					/Users/bdr/libraries/ios/x86_64/speex/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -433,10 +432,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
-					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
-					/Users/bdr/libraries/ios/i386/ACE/lib,
-					/Users/bdr/libraries/ios/i386/opus/lib,
-					/Users/bdr/libraries/ios/i386/speex/lib,
+					/Users/bdr/libraries/ios/x86_64/ACE/lib,
+					/Users/bdr/libraries/ios/x86_64/opus/lib,
+					/Users/bdr/libraries/ios/x86_64/speex/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
