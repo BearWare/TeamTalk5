@@ -22,6 +22,9 @@
 		25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E351A59BADE000C897D /* libstdc++.dylib */; };
 		25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E3C1A59C192000C897D /* libstdc++.6.dylib */; };
 		2585F6B71AE97E2700D7B031 /* libACE_INet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2585F6B61AE97E2700D7B031 /* libACE_INet.a */; };
+		2585F6B91AEE039600D7B031 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2585F6B81AEE039600D7B031 /* libopus.a */; };
+		2585F6BE1AEE1B6100D7B031 /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2585F6BA1AEE03A900D7B031 /* libspeex.a */; };
+		2585F6BF1AEE1BFA00D7B031 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,9 @@
 		25552E391A59C075000C897D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		25552E3C1A59C192000C897D /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		2585F6B61AE97E2700D7B031 /* libACE_INet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libACE_INet.a; path = ../../../../libraries/ios/i386/ACE/lib/libACE_INet.a; sourceTree = "<group>"; };
+		2585F6B81AEE039600D7B031 /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = ../../../../libraries/ios/i386/opus/lib/libopus.a; sourceTree = "<group>"; };
+		2585F6BA1AEE03A900D7B031 /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = ../../../../libraries/ios/i386/speex/lib/libspeex.a; sourceTree = "<group>"; };
+		2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = ../../../../libraries/ios/i386/speex/lib/libspeexdsp.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,12 +71,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2585F6BF1AEE1BFA00D7B031 /* libspeexdsp.a in Frameworks */,
+				2585F6BE1AEE1B6100D7B031 /* libspeex.a in Frameworks */,
 				2545A0951AE95E5D00412C17 /* AudioToolbox.framework in Frameworks */,
 				25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */,
 				25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */,
 				25552E3A1A59C075000C897D /* libz.dylib in Frameworks */,
 				25552E341A59BA6F000C897D /* libACE.a in Frameworks */,
 				2585F6B71AE97E2700D7B031 /* libACE_INet.a in Frameworks */,
+				2585F6B91AEE039600D7B031 /* libopus.a in Frameworks */,
 				25552E321A59B9F1000C897D /* libTeamTalk5.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				2545A0941AE95E5D00412C17 /* AudioToolbox.framework */,
+				2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */,
+				2585F6BA1AEE03A900D7B031 /* libspeex.a */,
+				2585F6B81AEE039600D7B031 /* libopus.a */,
 				25552E3C1A59C192000C897D /* libstdc++.6.dylib */,
 				25552E391A59C075000C897D /* libz.dylib */,
 				25552E371A59BAF1000C897D /* libc++.dylib */,
@@ -396,6 +408,8 @@
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
 					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
 					/Users/bdr/libraries/ios/i386/ACE/lib,
+					/Users/bdr/libraries/ios/i386/opus/lib,
+					/Users/bdr/libraries/ios/i386/speex/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -421,6 +435,8 @@
 					/Users/bdr/projects/TT5_iOS/TeamTalk_DLL,
 					/Users/bdr/libraries/ios/build/ACE_wrappers_sim/ace,
 					/Users/bdr/libraries/ios/i386/ACE/lib,
+					/Users/bdr/libraries/ios/i386/opus/lib,
+					/Users/bdr/libraries/ios/i386/speex/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

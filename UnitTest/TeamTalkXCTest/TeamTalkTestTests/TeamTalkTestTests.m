@@ -94,7 +94,7 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 - (void)testConnect {
     TTInstance* ttInst = [self newClient];
     
-    TTBOOL b = TT_Connect(ttInst, "tt5eu.bearware.dk", 10335, 10335, 0, 0, FALSE);
+    TTBOOL b = TT_Connect(ttInst, IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED);
 
     XCTAssert(b, "Connect to server");
 
@@ -160,6 +160,56 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
     [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
     [self joinRootChannel:ttInst];
+    
+    TTMessage msg;
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 5000, &msg);
+}
+
+- (void)testSpeexChannel {
+
+    TTInstance* ttInst = [self newClient];
+    [self initSound:ttInst];
+    [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
+
+    int myuserid = TT_GetMyUserID(ttInst);
+    
+    Channel chan;
+    chan.nParentID = TT_GetRootChannelID(ttInst);
+    chan.nChannelID = 0;
+    chan.uChannelType = CHANNEL_DEFAULT;
+    chan.nDiskQuota = 0;
+    chan.nMaxUsers = 100;
+    strncpy(chan.szName, "Speex Channel", TT_STRLEN);
+    strncpy(chan.szOpPassword, "", TT_STRLEN);
+    strncpy(chan.szPassword, "", TT_STRLEN);
+    strncpy(chan.szTopic, "This is the topic", TT_STRLEN);
+    
+    memset(&chan.audiocfg, 0, sizeof(chan.audiocfg));
+    chan.audiocodec.nCodec = SPEEX_CODEC;
+    chan.audiocodec.speex.nQuality = 4;
+    chan.audiocodec.speex.nTxIntervalMSec = 40;
+    chan.audiocodec.speex.nBandmode = 1;
+    chan.audiocodec.speex.bStereoPlayback = FALSE;
+    
+    int cmdid = TT_DoJoinChannel(ttInst, &chan);
+    XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT), "Join channel");
+    
+    TTMessage msg;
+    
+    //drain message queue
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 0, &msg);
+
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
+
+    cmdid = TT_DoSubscribe(ttInst, myuserid, SUBSCRIBE_VOICE);
+    XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT));
+    
+    XCTAssert(TT_EnableAudioBlockEvent(ttInst, myuserid, STREAMTYPE_VOICE, TRUE));
+    
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, &msg));
+    
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 5000, &msg);
 }
 
 - (TTInstance*)newClient {
@@ -211,20 +261,9 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 
 bool waitForEvent(TTInstance* ttInst, ClientEvent e, int waittimeout, TTMessage* msg) {
 
-    double tm_out = waittimeout;
-    tm_out /= 1000.0;
-
-    NSDate* now = [NSDate date];
-    NSDate *end = [now dateByAddingTimeInterval:tm_out];
-    do {
-        int wait = 0;
-        TT_GetMessage(ttInst, msg, &wait);
-
-        //we need to run the iOS event loop to process audio and video device
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
-        now = [[NSDate date] laterDate:end];
+    while(TT_GetMessage(ttInst, msg, &waittimeout) && msg->nClientEvent != e) {
+        
     }
-    while(now == end && msg->nClientEvent != e);
 
     return msg->nClientEvent == e;
 }
