@@ -16,6 +16,7 @@
     NSMutableArray* clients;
 }
 - (TTInstance*)newClient;
+- (void)initSound:(TTInstance*)ttInst;
 - (void)connect:(TTInstance*)ttInst
         ipaddr:(const TTCHAR*)ip
         tcpport:(INT32)tcpport
@@ -155,17 +156,21 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 
 - (void)testJoinChannel {
     TTInstance* ttInst = [self newClient];
-    
+    [self initSound:ttInst];
     [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
     [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
     [self joinRootChannel:ttInst];
-    
 }
 
 - (TTInstance*)newClient {
     TTInstance* ttInst = TT_InitTeamTalkPoll();
     [clients addObject:[NSValue valueWithPointer:ttInst]];
     return ttInst;
+}
+
+- (void)initSound:(TTInstance*)ttInst {
+    XCTAssert(TT_InitSoundInputDevice(ttInst, 0), "Init input sound device");
+    XCTAssert(TT_InitSoundOutputDevice(ttInst, 0), "Init output sound device");
 }
 
 - (void)connect:(TTInstance *)ttInst ipaddr:(const TTCHAR *)ip
