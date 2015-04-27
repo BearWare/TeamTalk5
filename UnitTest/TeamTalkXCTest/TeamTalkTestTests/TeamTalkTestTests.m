@@ -13,33 +13,58 @@
 
 @interface TeamTalkTestTests : XCTestCase
 {
-    TTInstance* ttInst;
+    NSMutableArray* clients;
 }
+- (TTInstance*)newClient;
+- (void)connect:(TTInstance*)ttInst
+        ipaddr:(const TTCHAR*)ip
+        tcpport:(INT32)tcpport
+        udpport:(INT32)udpport
+        encrypted:(TTBOOL)encrypted;
+- (void)login:  (TTInstance*)ttInst
+        nickname:(const TTCHAR*)nick
+        username:(const TTCHAR*)usr
+        password:(const TTCHAR*)pw;
+- (void)joinRootChannel:(TTInstance*)ttInst;
 @end
+
+const int DEF_WAIT = 5000;
+const TTCHAR IPADDR[] = "192.168.1.110";
+const INT32 TCPPORT = 10333, UDPPORT = 10333;
+const TTBOOL ENCRYPTED = FALSE;
+const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 
 @implementation TeamTalkTestTests
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    ttInst = TT_InitTeamTalkPoll();
+
+    clients = [[NSMutableArray alloc] init];
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
-    TT_CloseTeamTalk(ttInst);
+    
+    for(id ttInst in clients) {
+        TT_CloseTeamTalk([ttInst pointerValue]);
+    }
+    
+    [clients removeAllObjects];
+    
     [super tearDown];
 }
 
 - (void)testExample {
     // This is an example of a functional test case.
     XCTAssert(YES, @"Pass");
-    
+    [self newClient];
     NSString* str = [[NSString alloc]initWithUTF8String:TT_GetVersion()];
     NSLog(@"This is some TTT messsage %@", str);
+    
 }
 
-- (void)testSoundQuery {
+- (void)testSoundLoop {
     
     SoundDevice devs[10];
     int how_many = 0;
@@ -57,15 +82,17 @@
                                                          devs[0].nDefaultSampleRate,
                                                          1, FALSE, NULL);
     XCTAssert(sndLoopInst != NULL, "Start Sound Loop");
-    
-    NSLog(@"Waiting for nothing...");
+
+    NSLog(@"Run main event loop for 5 seconds to process audio...");
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, false);
-    NSLog(@"Finished for nothing...");
+    NSLog(@"Finished event looping...");
     
     XCTAssert(TT_CloseSoundLoopbackTest(sndLoopInst), "Close sound loop");
 }
 
 - (void)testConnect {
+    TTInstance* ttInst = [self newClient];
+    
     TTBOOL b = TT_Connect(ttInst, "tt5eu.bearware.dk", 10335, 10335, 0, 0, FALSE);
 
     XCTAssert(b, "Connect to server");
@@ -119,10 +146,55 @@
                 XCTAssertEqual(0, msg.bActive, @"Processing completed");
                 break;
             }
+            default : {
+                
+            }
         }
     }
-    
+}
 
+- (void)testJoinChannel {
+    TTInstance* ttInst = [self newClient];
+    
+    [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
+    [self joinRootChannel:ttInst];
+    
+}
+
+- (TTInstance*)newClient {
+    TTInstance* ttInst = TT_InitTeamTalkPoll();
+    [clients addObject:[NSValue valueWithPointer:ttInst]];
+    return ttInst;
+}
+
+- (void)connect:(TTInstance *)ttInst ipaddr:(const TTCHAR *)ip
+        tcpport:(INT32)tcpport udpport:(INT32)udpport encrypted:(TTBOOL)encrypted {
+
+    XCTAssert(TT_Connect(ttInst, ip, tcpport, udpport, 0, 0, encrypted), "Connect to server");
+    
+    TTMessage msg;
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_CON_SUCCESS, DEF_WAIT, &msg), "Wait connect");
+}
+
+- (void)login:(TTInstance*)ttInst
+     nickname:(const TTCHAR*)nick
+     username:(const TTCHAR*)usr
+     password:(const TTCHAR*)pw {
+    
+    TTMessage msg;
+    
+    XCTAssertGreaterThan(TT_DoLogin(ttInst, nick, usr, pw), 0, "do login");
+        
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, &msg), "Wait Login");
+}
+
+- (void)joinRootChannel:(TTInstance*)ttInst {
+    INT32 rootid = TT_GetRootChannelID(ttInst);
+    INT32 cmdid = TT_DoJoinChannelByID(ttInst, rootid, "");
+    XCTAssertGreaterThan(cmdid, 0, "Join root channel command");
+    
+    XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT), "Join root successfull");
 }
 
 - (void)testPerformanceExample {
@@ -134,9 +206,21 @@
 
 bool waitForEvent(TTInstance* ttInst, ClientEvent e, int waittimeout, TTMessage* msg) {
 
-    while (TT_GetMessage(ttInst, msg, &waittimeout) && msg->nClientEvent != e) {
-        
+    double tm_out = waittimeout;
+    tm_out /= 1000.0;
+
+    NSDate* now = [NSDate date];
+    NSDate *end = [now dateByAddingTimeInterval:tm_out];
+    do {
+        int wait = 0;
+        TT_GetMessage(ttInst, msg, &wait);
+
+        //we need to run the iOS event loop to process audio and video device
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+        now = [[NSDate date] laterDate:end];
     }
+    while(now == end && msg->nClientEvent != e);
+
     return msg->nClientEvent == e;
 }
 
@@ -157,4 +241,5 @@ bool waitCmdSuccess(TTInstance* ttInst, int cmdid, int waittimeout) {
     }
     return false;
 }
+
 @end
