@@ -15,10 +15,11 @@
 		25552E171A5941F8000C897D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25552E161A5941F8000C897D /* Images.xcassets */; };
 		25552E1A1A5941F8000C897D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25552E181A5941F8000C897D /* LaunchScreen.xib */; };
 		25552E261A5941F8000C897D /* TeamTalkTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E251A5941F8000C897D /* TeamTalkTestTests.m */; };
-		25552E321A59B9F1000C897D /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E311A59B9F1000C897D /* libTeamTalk5.a */; };
 		25552E3A1A59C075000C897D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E391A59C075000C897D /* libz.dylib */; };
 		25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E351A59BADE000C897D /* libstdc++.dylib */; };
 		25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25552E3C1A59C192000C897D /* libstdc++.6.dylib */; };
+		25C562891AEF393500C5EF29 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C562881AEF393500C5EF29 /* AudioToolbox.framework */; };
+		25C5628B1AEFD9B900C5EF29 /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C5628A1AEFD9B900C5EF29 /* libTeamTalk5.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,11 +48,12 @@
 		25552E1F1A5941F8000C897D /* TeamTalkTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamTalkTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		25552E241A5941F8000C897D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25552E251A5941F8000C897D /* TeamTalkTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeamTalkTestTests.m; sourceTree = "<group>"; };
-		25552E311A59B9F1000C897D /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../../TeamTalk_DLL/lib/ios/libTeamTalk5.a; sourceTree = "<group>"; };
 		25552E351A59BADE000C897D /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		25552E371A59BAF1000C897D /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		25552E391A59C075000C897D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		25552E3C1A59C192000C897D /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		25C562881AEF393500C5EF29 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		25C5628A1AEFD9B900C5EF29 /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../../TeamTalk_DLL/lib/ios/libTeamTalk5.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +61,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C5628B1AEFD9B900C5EF29 /* libTeamTalk5.a in Frameworks */,
+				25C562891AEF393500C5EF29 /* AudioToolbox.framework in Frameworks */,
 				25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */,
 				25552E3B1A59C191000C897D /* libstdc++.dylib in Frameworks */,
 				25552E3A1A59C075000C897D /* libz.dylib in Frameworks */,
-				25552E321A59B9F1000C897D /* libTeamTalk5.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,11 +82,12 @@
 		25552DFA1A5941F7000C897D = {
 			isa = PBXGroup;
 			children = (
+				25C562881AEF393500C5EF29 /* AudioToolbox.framework */,
 				25552E3C1A59C192000C897D /* libstdc++.6.dylib */,
 				25552E391A59C075000C897D /* libz.dylib */,
 				25552E371A59BAF1000C897D /* libc++.dylib */,
 				25552E351A59BADE000C897D /* libstdc++.dylib */,
-				25552E311A59B9F1000C897D /* libTeamTalk5.a */,
+				25C5628A1AEFD9B900C5EF29 /* libTeamTalk5.a */,
 				25552E051A5941F8000C897D /* TeamTalkTest */,
 				25552E221A5941F8000C897D /* TeamTalkTestTests */,
 				25552E041A5941F8000C897D /* Products */,
@@ -377,7 +381,7 @@
 					../../TeamTalk_DLL,
 				);
 				INFOPLIST_FILE = TeamTalkTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -400,7 +404,7 @@
 					../../TeamTalk_DLL,
 				);
 				INFOPLIST_FILE = TeamTalkTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
