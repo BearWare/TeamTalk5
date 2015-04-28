@@ -1619,6 +1619,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 QLineEdit::Password, _Q(m_last_channel.szPassword), &ok);
             if(!ok)
                 return;
+            m_channel_passwd[m_last_channel.nChannelID] = passwd;
             COPY_TTSTR(m_last_channel.szPassword, passwd);
             int cmdid = TT_DoJoinChannel(ttInst, &m_last_channel);
             if(cmdid>0)
@@ -3738,15 +3739,17 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         return;
     }
 
-    QString password;
+    QString password = m_channel_passwd[chan.nChannelID];
     if(chan.bPassword)
     {
         bool ok = false;
         password = QInputDialog::getText(this, MENUTEXT(ui.actionJoinChannel->text()), 
-            tr("Specify password"), QLineEdit::Password, "", &ok);
+            tr("Specify password"), QLineEdit::Password, password, &ok);
         if(!ok)
             return;
     }
+    m_channel_passwd[chan.nChannelID] = password;
+
     int cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, _W(password));
     if(cmdid>0)
     {
