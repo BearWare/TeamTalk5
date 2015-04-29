@@ -22,7 +22,7 @@
         tcpport:(INT32)tcpport
         udpport:(INT32)udpport
         encrypted:(TTBOOL)encrypted;
-- (void)login:  (TTInstance*)ttInst
+- (INT32)login:  (TTInstance*)ttInst
         nickname:(const TTCHAR*)nick
         username:(const TTCHAR*)usr
         password:(const TTCHAR*)pw;
@@ -214,6 +214,48 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     waitForEvent(ttInst, CLIENTEVENT_NONE, 5000, &msg);
 }
 
+- (void)testTextMessage {
+
+    TTInstance* ttInst1 = [self newClient];
+    TTInstance* ttInst2 = [self newClient];
+
+    TTMessage msg;
+
+    int userid1;
+    [self connect:ttInst1 ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    userid1 = [self login:ttInst1 nickname:"testTextMessage" username:"guest" password:"guest"];
+    [self joinRootChannel:ttInst1];
+
+    int userid2;
+    [self connect:ttInst2 ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    userid2 = [self login:ttInst2 nickname:"testTextMessage" username:"guest" password:"guest"];
+    [self joinRootChannel:ttInst2];
+
+    TextMessage txtmsg;
+    txtmsg.nChannelID = 0;
+    txtmsg.nFromUserID = 0;
+    txtmsg.nMsgType = MSGTYPE_USER;
+    txtmsg.nToUserID = userid2;
+    strncpy(txtmsg.szMessage, "Hello World", TT_STRLEN);
+    strncpy(txtmsg.szFromUsername, "", TT_STRLEN);
+    
+    int cmdid = TT_DoTextMessage(ttInst1, &txtmsg);
+    XCTAssertGreaterThan(cmdid, 0, "Sent user2user text message");
+    
+    XCTAssert(waitForEvent(ttInst2, CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, &msg));
+    
+    txtmsg.nChannelID = TT_GetMyChannelID(ttInst1);
+    txtmsg.nFromUserID = 0;
+    txtmsg.nMsgType = MSGTYPE_CHANNEL;
+    cmdid = TT_DoTextMessage(ttInst1, &txtmsg);
+    XCTAssertGreaterThan(cmdid, 0, "Sent user2user text message");
+    
+    XCTAssert(waitForEvent(ttInst1, CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, &msg));
+    XCTAssertEqual(msg.textmessage.nFromUserID, userid1, "Received own channel message");
+    XCTAssert(waitForEvent(ttInst2, CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, &msg));
+    XCTAssertEqual(msg.textmessage.nFromUserID, userid1, "Received userid1 channel message");
+}
+
 - (TTInstance*)newClient {
     TTInstance* ttInst = TT_InitTeamTalkPoll();
     [clients addObject:[NSValue valueWithPointer:ttInst]];
@@ -234,16 +276,21 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     XCTAssert(waitForEvent(ttInst, CLIENTEVENT_CON_SUCCESS, DEF_WAIT, &msg), "Wait connect");
 }
 
-- (void)login:(TTInstance*)ttInst
+- (INT32)login:(TTInstance*)ttInst
      nickname:(const TTCHAR*)nick
      username:(const TTCHAR*)usr
      password:(const TTCHAR*)pw {
     
     TTMessage msg;
     
-    XCTAssertGreaterThan(TT_DoLogin(ttInst, nick, usr, pw), 0, "do login");
+    int cmdid = TT_DoLogin(ttInst, nick, usr, pw);
+    XCTAssertGreaterThan(cmdid, 0, "do login");
         
     XCTAssert(waitForEvent(ttInst, CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, &msg), "Wait Login");
+    int userid = msg.nSource;
+    XCTAssert(waitCmdComplete(ttInst, cmdid, DEF_WAIT), "cmd complete");
+    
+    return userid;
 }
 
 - (void)joinRootChannel:(TTInstance*)ttInst {
