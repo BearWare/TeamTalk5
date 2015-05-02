@@ -59,10 +59,8 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 - (void)testExample {
     // This is an example of a functional test case.
     XCTAssert(YES, @"Pass");
-    [self newClient];
     NSString* str = [[NSString alloc]initWithUTF8String:TT_GetVersion()];
     NSLog(@"This is some TTT messsage %@", str);
-    
 }
 
 - (void)testSoundLoop {
@@ -161,8 +159,13 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
     [self joinRootChannel:ttInst];
     
+    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+    
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
+    
+    
     TTMessage msg;
-    waitForEvent(ttInst, CLIENTEVENT_NONE, 5000, &msg);
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 50000, &msg);
 }
 
 - (void)testSpeexChannel {
@@ -213,6 +216,63 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     
     waitForEvent(ttInst, CLIENTEVENT_NONE, 5000, &msg);
 }
+
+- (void)testOpusChannel {
+    
+    TTInstance* ttInst = [self newClient];
+    [self initSound:ttInst];
+    [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
+    
+    int myuserid = TT_GetMyUserID(ttInst);
+    
+    Channel chan;
+    chan.nParentID = TT_GetRootChannelID(ttInst);
+    chan.nChannelID = 0;
+    chan.uChannelType = CHANNEL_DEFAULT;
+    chan.nDiskQuota = 0;
+    chan.nMaxUsers = 100;
+    strncpy(chan.szName, "Opus Channel", TT_STRLEN);
+    strncpy(chan.szOpPassword, "", TT_STRLEN);
+    strncpy(chan.szPassword, "", TT_STRLEN);
+    strncpy(chan.szTopic, "This is the topic", TT_STRLEN);
+    
+    memset(&chan.audiocfg, 0, sizeof(chan.audiocfg));
+    chan.audiocodec.nCodec = OPUS_CODEC;
+    chan.audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+    chan.audiocodec.opus.nBitRate = 32000;
+    chan.audiocodec.opus.nChannels = 1;
+    chan.audiocodec.opus.nComplexity = 2;
+    chan.audiocodec.opus.nSampleRate = 16000;
+    chan.audiocodec.opus.nTxIntervalMSec = 40;
+    chan.audiocodec.opus.bVBRConstraint = FALSE;
+    chan.audiocodec.opus.bVBR = FALSE;
+    chan.audiocodec.opus.bFEC = TRUE;
+    chan.audiocodec.opus.bDTX = TRUE;
+
+    int cmdid = TT_DoJoinChannel(ttInst, &chan);
+    XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT), "Join channel");
+    
+    TTMessage msg;
+    
+    //drain message queue
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 0, &msg);
+    
+    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+    
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
+    
+    cmdid = TT_DoSubscribe(ttInst, myuserid, SUBSCRIBE_VOICE);
+    XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT));
+    
+    //XCTAssert(TT_EnableAudioBlockEvent(ttInst, myuserid, STREAMTYPE_VOICE, TRUE));
+    
+    //XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, &msg));
+    
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 10000, &msg);
+}
+
+
 
 - (TTInstance*)newClient {
     TTInstance* ttInst = TT_InitTeamTalkPoll();
