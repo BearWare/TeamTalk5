@@ -9,7 +9,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-#include <TeamTalk.h>
+#include "../../../TeamTalk_DLL/TeamTalk.h"
 
 @interface MasterViewController ()
 
@@ -52,6 +52,28 @@
     
     NSString* str = [[NSString alloc]initWithUTF8String:TT_GetVersion()];
     NSLog(@"This is some TTT messsage %@", str);
+    
+    TTInstance* ttInst = TT_InitTeamTalkPoll();
+    TT_InitSoundInputDevice(ttInst, 0);
+    TT_InitSoundOutputDevice(ttInst, 0);
+    TT_GetMyUserID(ttInst);
+    TT_GetMyChannelID(ttInst);
+    TT_GetRootChannelID(ttInst);
+    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+    Channel chan;
+    TT_DoJoinChannel(ttInst, &chan);
+    TT_Connect(ttInst, "foo", 10333, 10333, 0, 0, FALSE);
+    TT_DoSubscribe(ttInst, 0, 0);
+    TT_DoJoinChannelByID(ttInst, 0, "");
+    TT_GetMessage(ttInst, NULL, NULL);
+    TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, NULL);
+    TT_DoLogin(ttInst, "", "", "");
+    TT_EnableAudioBlockEvent(ttInst, 0, 0, FALSE);
+    TT_EnableVoiceTransmission(ttInst, FALSE);
+    TT_CloseSoundLoopbackTest(ttInst);
+    TT_GetSoundDevices(NULL, 0);
+    
+    TT_CloseTeamTalk(ttInst);
     
 }
 
