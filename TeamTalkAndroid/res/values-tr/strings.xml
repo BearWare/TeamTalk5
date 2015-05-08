@@ -5,7 +5,7 @@
     <string name="action_settings">Ayarlar</string>
     <string name="action_exit">Çıkış</string>
     <string name="title_activity_server_entry">TeamTalk 5 Sunucu Özellikleri</string>
-    <string name="title_activity_main">Android İçin TeamTalk 5 Türkçe -  Uğur Gürbüz Tarafından,  MaksatMuhabbet.net adına Çevrilmiştir.</string>
+    <string name="title_activity_main">Android İçin TeamTalk 5 Türkçe</string>
     <string name="title_section_channels">Kanallar</string>
     <string name="title_section_chat">Sohbet</string>
     <string name="title_section_video">Görüntü</string>

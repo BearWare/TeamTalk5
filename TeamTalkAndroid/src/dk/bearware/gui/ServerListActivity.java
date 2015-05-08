@@ -51,6 +51,7 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
+import dk.bearware.data.AppInfo;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.ServerEntry;
 
@@ -60,6 +61,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,7 +89,6 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
     private ServerListAdapter adapter;
 
     public static final String TAG = "bearware";
-    final String APPNAME_SHORT = "TeamTalk5", APPVERSION_SHORT = "5.0", OSTYPE = "Android";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -415,9 +416,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
         @Override
         protected Void doInBackground(Void... params) {
-            final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
-            String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + APPNAME_SHORT + "&version="
-                + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+            String urlToRead = AppInfo.getServerListURL(ServerListActivity.this);
 
             String xml = Utils.getURL(urlToRead);
             if(!xml.isEmpty())
@@ -458,9 +457,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
         @Override
         protected Void doInBackground(Void... params) {
-            final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
-            String urlToRead = "http://www.bearware.dk/teamtalk/tt5update.php?client=" + APPNAME_SHORT + "&version="
-                + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+            String urlToRead = AppInfo.getUpdateURL(ServerListActivity.this);
 
             String xml = Utils.getURL(urlToRead);
             if(!xml.isEmpty()) {
@@ -514,8 +511,10 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         
         refreshServerList();
         
+        String version = AppInfo.getVersion(this);
+                
         TextView tv_version = (TextView)findViewById(R.id.version_textview);
-        tv_version.setText("TeamTalk 5 v. " + TeamTalkBase.getVersion() + " - Unreleased");
+        tv_version.setText("TeamTalk v. " + version + AppInfo.APPVERSION_POSTFIX);
 
         new VersionCheckAsyncTask().execute();
     }
