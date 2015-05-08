@@ -87,6 +87,32 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     NSLog(@"Finished event looping...");
     
     XCTAssert(TT_CloseSoundLoopbackTest(sndLoopInst), "Close sound loop");
+    
+    SpeexDSP spxdsp;
+    spxdsp.bEnableAGC = false;
+    spxdsp.nGainLevel = 8000;
+    spxdsp.nMaxIncDBSec = 12;
+    spxdsp.nMaxDecDBSec = -40;
+    spxdsp.nMaxGainDB = 30;
+    
+    spxdsp.bEnableDenoise = true;
+    spxdsp.nMaxNoiseSuppressDB = -30;
+    
+    spxdsp.bEnableEchoCancellation = false;
+    spxdsp.nEchoSuppress = -40;
+    spxdsp.nEchoSuppressActive = -15;
+    
+    sndLoopInst = TT_StartSoundLoopbackTest(devs[0].nDeviceID, devs[0].nDeviceID,
+                                            devs[0].nDefaultSampleRate,
+                                            1, FALSE, &spxdsp);
+    XCTAssert(sndLoopInst != NULL, "Start Sound Loop SpxDSP");
+    
+    NSLog(@"Run main event loop for 5 seconds to process audio...");
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, false);
+    NSLog(@"Finished event looping...");
+    
+    XCTAssert(TT_CloseSoundLoopbackTest(sndLoopInst), "Close sound loop SpxDsp");
+
 }
 
 - (void)testConnect {
@@ -159,13 +185,13 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     [self login:ttInst nickname:"testJoinChannel" username:"guest" password:"guest"];
     [self joinRootChannel:ttInst];
     
-    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+    XCTAssert(TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440));
     
     XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
     
     
     TTMessage msg;
-    waitForEvent(ttInst, CLIENTEVENT_NONE, 50000, &msg);
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 10000, &msg);
 }
 
 - (void)testSpeexChannel {
