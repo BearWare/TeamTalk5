@@ -7,7 +7,7 @@ INCLUDE += -I/usr/lib/jvm/java-7-openjdk-amd64/include #Debian amd64
 INCLUDE += -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers #Mac OS
 INCLUDE += -I/usr/lib/java/include # Slackware-14.1
 
-TT5LIBS_DBG := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5d
+TT5DLIBS_DBG := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5d
 TT5PRODLIBS_DBG := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5Prod
 
 TT5DLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5
