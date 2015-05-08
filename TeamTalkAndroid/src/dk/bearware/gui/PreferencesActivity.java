@@ -83,6 +83,15 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     }
 
     @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return GeneralPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
+            SoundEventsPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
+            ConnectionPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
+            TtsPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
+            SoundSystemPreferenceFragment.class.getCanonicalName().equals(fragmentName);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();

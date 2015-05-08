@@ -469,6 +469,10 @@ public abstract class TeamTalkBase
     public int doRemoveChannel(int nChannelID) {
         return doRemoveChannel(ttInst, nChannelID);
     }
+    private native int doMoveUser(long lpTTInstance, int nChannelID);
+    public int doMoveUser(int nChannelID) {
+        return doMoveUser(ttInst, nChannelID);
+    }
     private native int doUpdateServer(long lpTTInstance, ServerProperties lpServerProperties);
     public int doUpdateServer(ServerProperties lpServerProperties) {
         return doUpdateServer(ttInst, lpServerProperties);
