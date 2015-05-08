@@ -220,6 +220,7 @@
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>
     <string name="text_passwdprot">Password protected</string>
+    <string name="text_translator">Translated by Bjørn D. Rasmussen</string>
     <string name="desktop_image">Desktop image</string>
     <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
     <string name="disconnect_alert">All active transfers will be stopped when leaving the server</string>
