@@ -148,6 +148,8 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(sndloop != IntPtr.Zero,
                           "Testing duplex with AGC");
 
+            System.Threading.Thread.Sleep(500);
+
             Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC");
 
             spxdsp.bEnableAGC = false;
@@ -158,6 +160,8 @@ namespace TeamTalkTest.NET
             sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with denoise");
+
+            System.Threading.Thread.Sleep(500);
 
             Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with denoise");
 
@@ -171,6 +175,8 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with AEC");
 
+            System.Threading.Thread.Sleep(500);
+
             Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AEC");
 
             spxdsp.bEnableAGC = spxdsp.bEnableDenoise = spxdsp.bEnableEchoCancellation = true;
@@ -179,7 +185,22 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with AGC, AEC, denoise");
 
+            System.Threading.Thread.Sleep(500);
+
             Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
+
+            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, true, spxdsp);
+            Assert.IsTrue(IntPtr.Zero != sndloop,
+                          "Testing duplex with AGC, AEC, denoise in stereo");
+
+            System.Threading.Thread.Sleep(500);
+
+            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
+
+            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, false, spxdsp);
+            Assert.IsTrue(IntPtr.Zero == sndloop,
+                          "Testing AEC without duplex");
+
         }
 
         [TestMethod]
