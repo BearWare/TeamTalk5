@@ -13,6 +13,7 @@ Tools
 UnitTest/*.testsettings
 UnitTest/*.vsmdi
 UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace
+UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/xcuserdata
 Examples/TeamTalkServer/*.mpc
 TeamTalkAndroid/.classpath
 TeamTalkAndroid/.project
