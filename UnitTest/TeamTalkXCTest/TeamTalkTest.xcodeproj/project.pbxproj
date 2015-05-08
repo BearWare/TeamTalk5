@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		251E10A61AFD4F2F00C3EA98 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 251E10A51AFD4F2F00C3EA98 /* AVFoundation.framework */; };
 		25552E091A5941F8000C897D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E081A5941F8000C897D /* main.m */; };
 		25552E0C1A5941F8000C897D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E0B1A5941F8000C897D /* AppDelegate.m */; };
 		25552E0F1A5941F8000C897D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E0E1A5941F8000C897D /* MasterViewController.m */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		251E10A51AFD4F2F00C3EA98 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		25552E031A5941F8000C897D /* TeamTalkTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamTalkTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25552E071A5941F8000C897D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25552E081A5941F8000C897D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				251E10A61AFD4F2F00C3EA98 /* AVFoundation.framework in Frameworks */,
 				25C5628B1AEFD9B900C5EF29 /* libTeamTalk5.a in Frameworks */,
 				25C562891AEF393500C5EF29 /* AudioToolbox.framework in Frameworks */,
 				25552E3D1A59C192000C897D /* libstdc++.6.dylib in Frameworks */,
@@ -82,6 +85,7 @@
 		25552DFA1A5941F7000C897D = {
 			isa = PBXGroup;
 			children = (
+				251E10A51AFD4F2F00C3EA98 /* AVFoundation.framework */,
 				25C562881AEF393500C5EF29 /* AudioToolbox.framework */,
 				25552E3C1A59C192000C897D /* libstdc++.6.dylib */,
 				25552E391A59C075000C897D /* libz.dylib */,

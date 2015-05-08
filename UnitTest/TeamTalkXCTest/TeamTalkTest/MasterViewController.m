@@ -68,6 +68,7 @@
     TT_GetMessage(ttInst, NULL, NULL);
     TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, NULL);
     TT_DoLogin(ttInst, "", "", "");
+    TT_DoTextMessage(ttInst, NULL);
     TT_EnableAudioBlockEvent(ttInst, 0, 0, FALSE);
     TT_EnableVoiceTransmission(ttInst, FALSE);
     TT_CloseSoundLoopbackTest(ttInst);
