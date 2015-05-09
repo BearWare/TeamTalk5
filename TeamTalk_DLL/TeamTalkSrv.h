@@ -444,12 +444,8 @@ extern "C" {
      * SUPPORTED AT THE MOMENT.
      * @endverbatim
      *
-     * @param bSpawnThread If TRUE then a thread will be spawned which
-     * will run the server event. Otherwise call TTS_RunEventLoop() to
-     * manually run the event loop.
-     *
      * @see TTS_StartServer() */
-    TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk(IN TTBOOL bSpawnThread);
+    TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk();
 
     /**
      * @brief Close TeamTalk server instance.

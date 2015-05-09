@@ -96,7 +96,7 @@ int main(int argc, TTCHAR* argv[])
         }
     }
 
-    TTSInstance* ttsInst = TTS_InitTeamTalk(FALSE);
+    TTSInstance* ttsInst = TTS_InitTeamTalk();
 
     TTS_RegisterUserLoginCallback(ttsInst, MyLoginCallback, 0, TRUE);
     
