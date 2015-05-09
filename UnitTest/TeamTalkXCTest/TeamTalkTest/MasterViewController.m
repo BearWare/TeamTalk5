@@ -53,19 +53,22 @@
     NSString* str = [[NSString alloc]initWithUTF8String:TT_GetVersion()];
     NSLog(@"This is some TTT messsage %@", str);
     
+    // TT_* functions will not be linked into the end application unless
+    // they are called in the "main application". In other words the test-framework
+    // cannot reference functions which are not used in the "main application".
+    // Therefore we call all the TT_* functions we need in the test-framework here.
     TTInstance* ttInst = TT_InitTeamTalkPoll();
-    TT_InitSoundInputDevice(ttInst, 0);
-    TT_InitSoundOutputDevice(ttInst, 0);
-    TT_GetMyUserID(ttInst);
-    TT_GetMyChannelID(ttInst);
-    TT_GetRootChannelID(ttInst);
-    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
-    Channel chan;
-    TT_DoJoinChannel(ttInst, &chan);
-    TT_Connect(ttInst, "foo", 10333, 10333, 0, 0, FALSE);
-    TT_DoSubscribe(ttInst, 0, 0);
-    TT_DoJoinChannelByID(ttInst, 0, "");
-    TT_GetMessage(ttInst, NULL, NULL);
+    TT_InitSoundInputDevice(NULL, 0);
+    TT_InitSoundOutputDevice(NULL, 0);
+    TT_GetMyUserID(NULL);
+    TT_GetMyChannelID(NULL);
+    TT_GetRootChannelID(NULL);
+    TT_DBG_SetSoundInputTone(NULL, STREAMTYPE_VOICE, 440);
+    TT_DoJoinChannel(NULL, NULL);
+    TT_Connect(NULL, "foo", 10333, 10333, 0, 0, FALSE);
+    TT_DoSubscribe(NULL, 0, 0);
+    TT_DoJoinChannelByID(NULL, 0, "");
+    TT_GetMessage(NULL, NULL, NULL);
     TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, NULL);
     TT_DoLogin(ttInst, "", "", "");
     TT_DoTextMessage(ttInst, NULL);
@@ -73,6 +76,8 @@
     TT_EnableVoiceTransmission(ttInst, FALSE);
     TT_CloseSoundLoopbackTest(ttInst);
     TT_GetSoundDevices(NULL, 0);
+    TT_DoTextMessage(NULL, NULL);
+    TT_DoLeaveChannel(NULL);
     
     TT_CloseTeamTalk(ttInst);
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		251947A91AFE422B000C1E2E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 251947A81AFE422B000C1E2E /* AVFoundation.framework */; };
 		2545A0951AE95E5D00412C17 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2545A0941AE95E5D00412C17 /* AudioToolbox.framework */; };
 		25552E091A5941F8000C897D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E081A5941F8000C897D /* main.m */; };
 		25552E0C1A5941F8000C897D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25552E0B1A5941F8000C897D /* AppDelegate.m */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		251947A81AFE422B000C1E2E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2545A0941AE95E5D00412C17 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		25552E031A5941F8000C897D /* TeamTalkTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamTalkTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25552E071A5941F8000C897D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				251947A91AFE422B000C1E2E /* AVFoundation.framework in Frameworks */,
 				2585F6BF1AEE1BFA00D7B031 /* libspeexdsp.a in Frameworks */,
 				2585F6BE1AEE1B6100D7B031 /* libspeex.a in Frameworks */,
 				2545A0951AE95E5D00412C17 /* AudioToolbox.framework in Frameworks */,
@@ -97,6 +100,7 @@
 		25552DFA1A5941F7000C897D = {
 			isa = PBXGroup;
 			children = (
+				251947A81AFE422B000C1E2E /* AVFoundation.framework */,
 				2545A0941AE95E5D00412C17 /* AudioToolbox.framework */,
 				2585F6BC1AEE03C300D7B031 /* libspeexdsp.a */,
 				2585F6BA1AEE03A900D7B031 /* libspeex.a */,
