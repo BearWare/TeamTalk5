@@ -1,3 +1,3 @@
-# TeamTalk 5 client application based on [Qt Framework](http://www.qt.io)
+# TeamTalk 5 client application for Android
 
-To try a compiled version of the this application go [here](http://bearware.dk/?page_id=327).
+To try this application go to [Google Play](https://play.google.com/store/apps/details?id=dk.bearware.gui).
