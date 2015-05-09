@@ -54,24 +54,25 @@
     NSLog(@"This is some TTT messsage %@", str);
     
     TTInstance* ttInst = TT_InitTeamTalkPoll();
-    TT_InitSoundInputDevice(ttInst, 0);
-    TT_InitSoundOutputDevice(ttInst, 0);
-    TT_GetMyUserID(ttInst);
-    TT_GetMyChannelID(ttInst);
-    TT_GetRootChannelID(ttInst);
-    TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
-    Channel chan;
-    TT_DoJoinChannel(ttInst, &chan);
-    TT_Connect(ttInst, "foo", 10333, 10333, 0, 0, FALSE);
-    TT_DoSubscribe(ttInst, 0, 0);
-    TT_DoJoinChannelByID(ttInst, 0, "");
-    TT_GetMessage(ttInst, NULL, NULL);
+    TT_InitSoundInputDevice(NULL, 0);
+    TT_InitSoundOutputDevice(NULL, 0);
+    TT_GetMyUserID(NULL);
+    TT_GetMyChannelID(NULL);
+    TT_GetRootChannelID(NULL);
+    TT_DBG_SetSoundInputTone(NULL, STREAMTYPE_VOICE, 440);
+    TT_DoJoinChannel(NULL, NULL);
+    TT_Connect(NULL, "foo", 10333, 10333, 0, 0, FALSE);
+    TT_DoSubscribe(NULL, 0, 0);
+    TT_DoJoinChannelByID(NULL, 0, "");
+    TT_GetMessage(NULL, NULL, NULL);
     TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, NULL);
-    TT_DoLogin(ttInst, "", "", "");
-    TT_EnableAudioBlockEvent(ttInst, 0, 0, FALSE);
-    TT_EnableVoiceTransmission(ttInst, FALSE);
-    TT_CloseSoundLoopbackTest(ttInst);
+    TT_DoLogin(NULL, "", "", "");
+    TT_EnableAudioBlockEvent(NULL, 0, 0, FALSE);
+    TT_EnableVoiceTransmission(NULL, FALSE);
+    TT_CloseSoundLoopbackTest(NULL);
     TT_GetSoundDevices(NULL, 0);
+    TT_DoTextMessage(NULL, NULL);
+    TT_DoLeaveChannel(NULL);
     
     TT_CloseTeamTalk(ttInst);
     

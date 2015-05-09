@@ -27,6 +27,10 @@
         username:(const TTCHAR*)usr
         password:(const TTCHAR*)pw;
 - (void)joinRootChannel:(TTInstance*)ttInst;
+- (void)newChannel:(Channel*)chan
+              parentid:(INT32)pid
+              name:(const TTCHAR*)n;
+
 @end
 
 const int DEF_WAIT = 5000;
@@ -217,7 +221,7 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     memset(&chan.audiocfg, 0, sizeof(chan.audiocfg));
     chan.audiocodec.nCodec = SPEEX_CODEC;
     chan.audiocodec.speex.nQuality = 4;
-    chan.audiocodec.speex.nTxIntervalMSec = 40;
+    chan.audiocodec.speex.nTxIntervalMSec = 80;
     chan.audiocodec.speex.nBandmode = 1;
     chan.audiocodec.speex.bStereoPlayback = FALSE;
     
@@ -298,6 +302,71 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     waitForEvent(ttInst, CLIENTEVENT_NONE, 10000, &msg);
 }
 
+- (void)testStreamReset {
+    TTInstance* ttInst = [self newClient];
+    [self initSound:ttInst];
+    [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    int userid = [self login:ttInst nickname:"testStreamReset" username:"guest" password:"guest"];
+    [self joinRootChannel:ttInst];
+    
+    Channel chan;
+    [self newChannel:&chan parentid:TT_GetRootChannelID(ttInst) name:"TestChannel"];
+    XCTAssertTrue(waitCmdSuccess(ttInst, TT_DoJoinChannel(ttInst, &chan), DEF_WAIT), "Join new channel");
+    
+    XCTAssert(TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440));
+    
+    XCTAssert(waitCmdSuccess(ttInst, TT_DoSubscribe(ttInst, userid, SUBSCRIBE_VOICE), DEF_WAIT), "Subscribe");
+
+    //drain message queue
+    TTMessage msg;
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 1000, &msg);
+    
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
+    
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, &msg), "User state change");
+    XCTAssertEqual(userid, msg.user.nUserID, "Me changed");
+    XCTAssertTrue(msg.user.uUserState & USERSTATE_VOICE, "Voice started");
+    
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 2000, &msg);
+    
+    int cmdid = TT_DoLeaveChannel(ttInst);
+    XCTAssertGreaterThan(cmdid, 0, "Leave channel");
+    //voice stream will be reset
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, &msg), "User state change");
+
+    XCTAssertFalse(msg.user.uUserState & USERSTATE_VOICE, "Voice stopped");
+
+    XCTAssertEqual(userid, msg.user.nUserID, "Me changed");
+
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 2000, &msg);
+
+    [self newChannel:&chan parentid:TT_GetRootChannelID(ttInst) name:"TestChannelFoo"];
+    cmdid = TT_DoJoinChannel(ttInst, &chan);
+    XCTAssertGreaterThan(cmdid, 0, "Join channel");
+    
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, &msg), "User state change");
+    XCTAssertEqual(userid, msg.user.nUserID, "Me changed");
+    XCTAssertTrue(msg.user.uUserState & USERSTATE_VOICE, "Voice started");
+
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, FALSE));
+
+    //voice stream will stop
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, &msg), "User state change");
+    
+    XCTAssertFalse(msg.user.uUserState & USERSTATE_VOICE, "Voice stopped");
+
+    //stream will reset after 30 seconds of no activity
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 35000, &msg);
+    
+    XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE));
+
+    XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, &msg), "User state change");
+    XCTAssertEqual(userid, msg.user.nUserID, "Me changed");
+    XCTAssertTrue(msg.user.uUserState & USERSTATE_VOICE, "Voice started");
+
+    waitForEvent(ttInst, CLIENTEVENT_NONE, 2000, &msg);
+
+}
 
 - (void)testTextMessage {
 
@@ -386,6 +455,36 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     
     XCTAssert(waitCmdSuccess(ttInst, cmdid, DEF_WAIT), "Join root successfull");
 }
+
+- (void)newChannel:(Channel*)chan
+          parentid:(INT32)pid
+              name:(const TTCHAR*)n {
+    
+    chan->nParentID = pid;
+    chan->nChannelID = 0;
+    chan->uChannelType = CHANNEL_DEFAULT;
+    chan->nDiskQuota = 0;
+    chan->nMaxUsers = 100;
+    strncpy(chan->szName, n, TT_STRLEN);
+    strncpy(chan->szOpPassword, "", TT_STRLEN);
+    strncpy(chan->szPassword, "", TT_STRLEN);
+    strncpy(chan->szTopic, "This is the topic", TT_STRLEN);
+    
+    memset(&chan->audiocfg, 0, sizeof(chan->audiocfg));
+    chan->audiocodec.nCodec = OPUS_CODEC;
+    chan->audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
+    chan->audiocodec.opus.nBitRate = 32000;
+    chan->audiocodec.opus.nChannels = 1;
+    chan->audiocodec.opus.nComplexity = 2;
+    chan->audiocodec.opus.nSampleRate = 16000;
+    chan->audiocodec.opus.nTxIntervalMSec = 40;
+    chan->audiocodec.opus.bVBRConstraint = FALSE;
+    chan->audiocodec.opus.bVBR = FALSE;
+    chan->audiocodec.opus.bFEC = TRUE;
+    chan->audiocodec.opus.bDTX = TRUE;
+
+}
+
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.

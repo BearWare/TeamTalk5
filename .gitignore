@@ -2,13 +2,13 @@
 *.bat
 libteamtalk
 TeamTalk_DLL
-Copyright.txt
+./Copyright.txt
 Documentation
-Makefile
-SignExecutables.bat
+./Makefile
+./SignExecutables.bat
 teamtalkd
 ttserverlog*
-ttenvrc
+./ttenvrc
 Tools
 UnitTest/*.testsettings
 UnitTest/*.vsmdi
