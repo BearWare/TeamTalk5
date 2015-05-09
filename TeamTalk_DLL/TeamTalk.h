@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.0.0.4081"
+#define TEAMTALK_VERSION "5.1.0.4163"
 
 
 #if defined(WIN32)
@@ -215,8 +215,20 @@ extern "C" {
          * Check @c supportedSampleRates and @c nDefaultSampleRate of
          * #SoundDevice to see which sample rates are supported. */
         SOUNDSYSTEM_WASAPI = 5,
-        /** @brief Android sound API. */
-        SOUNDSYSTEM_OPENSLES_ANDROID = 7
+        /** @brief Android sound API.
+         *
+         * The OpenSL ES sound API requires Android 4.1 or later.
+         *
+         * Duplex mode is not supported by OpenSL ES @see
+         * TT_InitSoundDuplexDevices() */
+        SOUNDSYSTEM_OPENSLES_ANDROID = 7,
+        /** @brief iOS sound API.
+         *
+         * Add libraries AVFoundation.framework and
+         * AudioToolbox.framework.
+         *
+         * Duplex mode is not supported by AudioUnit iOS sound API. */
+        SOUNDSYSTEM_AUDIOUNIT = 8
     } SoundSystem;
 
     /** 
@@ -856,7 +868,10 @@ extern "C" {
     {
         /** @brief Whether to enable AGC with the settings specified
          * @a nGainLevel, @a nMaxIncDBSec, @a nMaxDecDBSec and @a
-         * nMaxGainDB. */
+         * nMaxGainDB.
+         * 
+         * Note that AGC is not supported on ARM processors (fixed
+         * point builds). */
         TTBOOL bEnableAGC;
         /** @brief A value from 0 to 32768. Default is 8000.
          * Value is ignored if @a bEnableAGC is FALSE. */
