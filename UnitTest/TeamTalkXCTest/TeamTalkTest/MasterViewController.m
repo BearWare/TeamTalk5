@@ -53,6 +53,10 @@
     NSString* str = [[NSString alloc]initWithUTF8String:TT_GetVersion()];
     NSLog(@"This is some TTT messsage %@", str);
     
+    // TT_* functions will not be linked into the end application unless
+    // they are called in the "main application". In other words the test-framework
+    // cannot reference functions which are not used in the "main application".
+    // Therefore we call all the TT_* functions we need in the test-framework here.
     TTInstance* ttInst = TT_InitTeamTalkPoll();
     TT_InitSoundInputDevice(NULL, 0);
     TT_InitSoundOutputDevice(NULL, 0);
