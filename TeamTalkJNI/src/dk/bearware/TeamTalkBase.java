@@ -388,8 +388,10 @@ public abstract class TeamTalkBase
     public int doLogin(String szNickname, 
                        String szUsername,
                        String szPassword) {
-        return doLogin(ttInst, szNickname,
-                       szUsername, szPassword);
+        return (szNickname != null && szUsername != null && szPassword != null) ?
+            doLogin(ttInst, szNickname,
+                    szUsername, szPassword) :
+            -1;
     }
     private native int doLogout(long lpTTInstance);
     public int doLogout() { return doLogout(ttInst); }
