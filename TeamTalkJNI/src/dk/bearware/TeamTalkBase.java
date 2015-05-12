@@ -337,8 +337,10 @@ public abstract class TeamTalkBase
                            int nLocalTcpPort, 
                            int nLocalUdpPort,
                            boolean bEncrypted) {
-        return connect(ttInst, szHostAddress, nTcpPort, nUdpPort, 
-                       nLocalTcpPort, nLocalUdpPort, bEncrypted);
+        return (szHostAddress != null) ?
+            connect(ttInst, szHostAddress, nTcpPort, nUdpPort, 
+                    nLocalTcpPort, nLocalUdpPort, bEncrypted) :
+            false;
     }
     
     private native boolean connectEx(long lpTTInstance,
