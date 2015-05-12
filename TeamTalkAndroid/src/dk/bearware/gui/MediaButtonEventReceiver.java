@@ -12,26 +12,29 @@ public class MediaButtonEventReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
-            TeamTalkService ttService = ((TeamTalkService.LocalBinder)peekService(context, new Intent(context, TeamTalkService.class))).getService();
+            TeamTalkService.LocalBinder serviceBinder = (TeamTalkService.LocalBinder)peekService(context, new Intent(context, TeamTalkService.class));
+            TeamTalkService ttService = (serviceBinder != null) ? serviceBinder.getService() : null;
             KeyEvent keyEvent = (KeyEvent)intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
-            int keyAction = keyEvent.getAction();
-            int keyCode = keyEvent.getKeyCode();
-            switch (keyCode) {
-            case KeyEvent.KEYCODE_MEDIA_PLAY:
-            case KeyEvent.KEYCODE_MEDIA_PAUSE:
-            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-            case KeyEvent.KEYCODE_HEADSETHOOK:
-                switch (keyAction) {
-                case KeyEvent.ACTION_UP:
-                    ttService.enableVoiceTransmission(!ttService.isVoiceTransmissionEnabled());
+            if (ttService != null && keyEvent != null) {
+                int keyAction = keyEvent.getAction();
+                int keyCode = keyEvent.getKeyCode();
+                switch (keyCode) {
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                case KeyEvent.KEYCODE_HEADSETHOOK:
+                    switch (keyAction) {
+                    case KeyEvent.ACTION_UP:
+                        ttService.enableVoiceTransmission(!ttService.isVoiceTransmissionEnabled());
+                        break;
+                    default:
+                        break;
+                    }
+                    abortBroadcast();
                     break;
                 default:
                     break;
                 }
-                abortBroadcast();
-                break;
-            default:
-                break;
             }
         }
     }
