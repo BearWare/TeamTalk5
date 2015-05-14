@@ -19,7 +19,7 @@ TeamTalk 5 SDK to obtain the client and server binaries.
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_win32.zip)  **rev. 4163**
   * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_win64.zip)  **rev. 4163**
-  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_debian7_i386.tar.gz) **rev. 4163**
+  * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_macos_x86_64.tar.gz) **rev. 4163**
   * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_debian7_i386.tar.gz) **rev. 4163**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_debian7_x86_64.tar.gz) **rev. 4163**
   * [Raspberry Pi](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4163/tt5prosdk_v5.1.0.4163_raspbian_armhf.tar.gz) **rev. 4163**
