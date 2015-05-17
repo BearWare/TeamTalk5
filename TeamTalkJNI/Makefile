@@ -18,7 +18,6 @@ HAMCRESTCORE_JAR := hamcrest-core-1.3.jar
 JUNIT_JAR := junit-4.11.jar
 
 CPPFLAGS := -fPIC
-ARCH=Linux
 
 ifdef DYLD_LIBRARY_PATH
 TT5DLL := $(PWD)/libs/libTeamTalk5-jni.dylib

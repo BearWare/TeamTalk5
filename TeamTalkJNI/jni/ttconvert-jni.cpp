@@ -1235,7 +1235,7 @@ void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame)
    env->SetIntField(lpVideoFrame, fid_w, vidframe.nWidth);
    env->SetIntField(lpVideoFrame, fid_h, vidframe.nHeight);
    env->SetIntField(lpVideoFrame, fid_sid, vidframe.nStreamID);
-   env->SetIntField(lpVideoFrame, fid_kfrm, vidframe.bKeyFrame);
+   env->SetBooleanField(lpVideoFrame, fid_kfrm, vidframe.bKeyFrame);
    env->SetObjectField(lpVideoFrame, fid_frmbuf, buf);
 }
 
@@ -1257,7 +1257,7 @@ void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock)
     assert(fid_sn);
     assert(fid_si);
 
-    int size = audblock.nSamples * sizeof(short);
+    int size = audblock.nSamples * sizeof(short) * audblock.nChannels;
     jbyteArray buf = env->NewByteArray(size);
     jbyte* bufptr = env->GetByteArrayElements(buf, 0);
     if(!bufptr)

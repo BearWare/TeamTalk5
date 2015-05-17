@@ -2,8 +2,17 @@ package dk.bearware;
 
 import junit.framework.TestCase;
 import java.util.Vector;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import dk.bearware.*;
+import dk.bearware.AudioBlock;
+import dk.bearware.AudioFileFormat;
+import dk.bearware.Channel;
+import dk.bearware.Codec;
+import dk.bearware.SpeexConstants;
+import dk.bearware.SpeexDSP;
+import dk.bearware.StreamType;
+import dk.bearware.TeamTalkBase;
 
 public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
@@ -776,5 +785,81 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LEFT, DEF_WAIT, msg));
         assertEquals("message queue lives again", ttclient.getMyUserID(), msg.user.nUserID);
         
+    }
+    
+    public void test_20_WaveFile() throws IOException {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
+            UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        initSound(ttclient);
+        //disable AGC
+        assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        int WRITE_BYTES = 512000, v, CHANNELS = 2, SAMPLERATE = 16000;
+
+        Channel chan = buildDefaultChannel(ttclient, "Speex", Codec.SPEEX_CODEC);
+        chan.audiocodec.speex.nBandmode = SpeexConstants.SPEEX_BANDMODE_WIDE; //16000
+        chan.audiocodec.speex.bStereoPlayback = true;
+//        Channel chan = buildDefaultChannel(ttclient, "OPUS", Codec.OPUS_CODEC);
+//        chan.audiocodec.opus.nChannels = CHANNELS;
+//        chan.audiocodec.opus.nSampleRate = SAMPLERATE;
+
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+
+//        assertTrue(ttclient.setUserMediaStorageDir(ttclient.getMyUserID(), "", "", AudioFileFormat.AFF_WAVE_FORMAT));
+        
+        assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
+        assertTrue(ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
+        assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+
+        FileOutputStream fs = new FileOutputStream("MyWaveFile.wav");
+
+        fs.write(new String("RIFF").getBytes());
+        v = WRITE_BYTES + 36 - 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 36 - 8
+        fs.write(new String("WAVEfmt ").getBytes());
+        fs.write(new byte[] {0x10, 0x0, 0x0, 0x0}); //hdr size
+        fs.write(new byte[] {0x1, 0x0}); //type
+        fs.write(new byte[] {(byte)CHANNELS, 0x0}); //channels
+        v = SAMPLERATE;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //sample rate
+        v = (SAMPLERATE * 16 * CHANNELS) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //bytes/sec
+        v = (16 * CHANNELS) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF)}); //block align
+        fs.write(new byte[] {0x10, 0x0}); //bit depth
+        fs.write(new String("data").getBytes());
+        v = WRITE_BYTES - 44;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
+
+        while(WRITE_BYTES > 0) {
+            assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+
+            AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
+            assertTrue(block.nSamples > 0);
+            assertEquals(CHANNELS, block.nChannels);
+            assertEquals(SAMPLERATE, block.nSampleRate);
+            
+            if(block.lpRawAudio.length <= WRITE_BYTES)
+                fs.write(block.lpRawAudio);
+            else
+                fs.write(block.lpRawAudio, 0, WRITE_BYTES);
+            
+            WRITE_BYTES -= block.lpRawAudio.length;
+        }
+        fs.close();
     }
 }

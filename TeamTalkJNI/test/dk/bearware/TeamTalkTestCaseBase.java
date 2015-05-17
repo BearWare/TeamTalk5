@@ -4,8 +4,6 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-import dk.bearware.*;
-
 public class TeamTalkTestCaseBase extends TestCase {
 
     static final boolean DEBUG_OUTPUT = false;
@@ -215,24 +213,37 @@ public class TeamTalkTestCaseBase extends TestCase {
         return false;
     }
 
-    protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name)
-    {
+    protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name) {
+        return buildDefaultChannel(ttclient, name, Codec.OPUS_CODEC);
+    }
+    
+    protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name, int codec) {
         Channel chan = new Channel();
         chan.nParentID = ttclient.getRootChannelID();
         chan.szName = name;
         chan.szTopic = "a topic";
         chan.nMaxUsers = 128;
-        chan.audiocodec.nCodec = Codec.OPUS_CODEC;
-        chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
-        chan.audiocodec.opus.nChannels = 1;
-        chan.audiocodec.opus.nBitRate = 64000;
-        chan.audiocodec.opus.nComplexity = 5;
-        chan.audiocodec.opus.nTxIntervalMSec = 20;
-        chan.audiocodec.opus.nSampleRate = 48000;
-        chan.audiocodec.opus.bDTX = true;
-        chan.audiocodec.opus.bFEC = true;
-        chan.audiocodec.opus.bVBR = true;
-        chan.audiocodec.opus.bVBRConstraint = false;
+        chan.audiocodec.nCodec = codec;
+        switch(codec) {
+            case Codec.OPUS_CODEC :
+                chan.audiocodec.opus.nApplication = OpusConstants.OPUS_APPLICATION_AUDIO;
+                chan.audiocodec.opus.nChannels = 1;
+                chan.audiocodec.opus.nBitRate = 64000;
+                chan.audiocodec.opus.nComplexity = 5;
+                chan.audiocodec.opus.nTxIntervalMSec = 20;
+                chan.audiocodec.opus.nSampleRate = 48000;
+                chan.audiocodec.opus.bDTX = true;
+                chan.audiocodec.opus.bFEC = true;
+                chan.audiocodec.opus.bVBR = true;
+                chan.audiocodec.opus.bVBRConstraint = false;
+                break;
+            case Codec.SPEEX_CODEC :
+                chan.audiocodec.speex = new SpeexCodec(true);
+                break;
+            case Codec.SPEEX_VBR_CODEC :
+                chan.audiocodec.speex_vbr = new SpeexVBRCodec(true);
+                break;
+        }
         return chan;
     }
 
