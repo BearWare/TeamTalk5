@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TeamTalk 5</string>
-    <string name="title_activity_server_list">TeamTalk 5  Türkçe</string>
+    <string name="title_activity_server_list">TeamTalk 5 Türkçe</string>
     <string name="action_settings">Ayarlar</string>
     <string name="action_exit">Çıkış</string>
     <string name="title_activity_server_entry">TeamTalk 5 Sunucu Özellikleri</string>
-    <string name="title_activity_main">Android İçin TeamTalk 5 Türkçe</string>
+    <string name="title_activity_main">Android İçin TeamTalk 5 Türkçe - Uğur Gürbüz Tarafından, MaksatMuhabbet.net adına Çevrilmiştir.U</string>
     <string name="title_section_channels">Kanallar</string>
     <string name="title_section_chat">Sohbet</string>
     <string name="title_section_video">Görüntü</string>
@@ -42,7 +42,7 @@
     <string name="pref_show_log_messages">Sohbet Geçmişindeki Mesaj Kayıtlarını Göster</string>
     <string name="pref_title_audio_icons">Ses Olayları</string>
     <string name="pref_title_rx_tx_audio_icon">Ses iletimi Geçişi</string>
-    <string name="pref_summary_rx_tx_audio_icon">Bas Konuş  Düğmesine basıldığında ses çal</string>
+    <string name="pref_summary_rx_tx_audio_icon">Bas Konuş Düğmesine basıldığında ses çal</string>
     <string name="pref_title_personal_message_audio_icon">Özel Mesaj</string>
     <string name="pref_summary_personal_message_audio_icon">Özel Mesaj Alındığında Ses Çal</string>
     <string name="pref_title_channel_message_audio_icon">Kanal Mesajı</string>
@@ -80,14 +80,14 @@
     <string name="pref_title_personal_message">Kişi Mesajları</string>
     <string name="pref_title_broadcast_message">Yayın Mesajları</string>
     <string name="pref_summary_message">Gönderici adının bildirimi</string>
-    <string name="pref_title_mute_speakers">Bas Konuş düğmesine basıldığında hoperleri sustur</string>
-    <string name="pref_summary_mute_speakers">Hoperlörden yankıyı önlemek için bunu etkinleştirin</string>
-    <string name="text_tts_loggedin">Geldi</string>
-    <string name="text_tts_loggedout">Gitti</string>
+    <string name="pref_title_mute_speakers">Bas Konuş düğmesine basıldığında hoparlörü sustur</string>
+    <string name="pref_summary_mute_speakers">Hoparlörden yankıyı önlemek için bunu etkinleştirin</string>
+    <string name="text_tts_loggedin">Sunucuya Geldi</string>
+    <string name="text_tts_loggedout">Sunucudan Gitti</string>
     <string name="text_tts_joined_chan">Geldi</string>
     <string name="text_tts_left_chan">Gitti</string>
-    <string name="text_tts_personal_message">%1$s kişisinden  kullanıcı mesajı </string>
-    <string name="text_tts_broadcast_message">%1$s kişisinden  yayın mesajı </string>
+    <string name="text_tts_personal_message">%1$s kişisinden kullanıcı mesajı</string>
+    <string name="text_tts_broadcast_message">%1$s kişisinden yayın mesajı</string>
     <string name="pref_header_soundsystem">Ses Sistemi</string>
     <string name="title_activity_audio_codec">Ses Bileşeni</string>
     <string name="title_activity_filepicker">Dosya Seçimi</string>
@@ -108,12 +108,12 @@
     <string name="channel_prop_title_topic">Konu</string>
     <string name="channel_prop_title_password">Şifre</string>
     <string name="channel_prop_title_op_password">Moderatör Şifresi</string>
-    <string name="channel_prop_title_maxusers">Maks Kullanıcılar</string>
+    <string name="channel_prop_title_maxusers">Azami Kullanıcılar</string>
     <string name="channel_prop_title_diskquota">Disk Kotası (KBytes)</string>
     <string name="channel_prop_title_permanent">Kalıcı Kanal</string>
     <string name="channel_prop_title_nointerrupt">Kesinti yok</string>
     <string name="channel_prop_title_classroom">Sınıf</string>
-    <string name="channel_prop_title_oprecvonly">Yanlızca oparetörden gelenleri  kabulet</string>
+    <string name="channel_prop_title_oprecvonly">Yanlızca oparetörden gelenleri kabulet</string>
     <string name="channel_prop_title_novoiceact">Ses etkinleştirme yok</string>
     <string name="channel_prop_title_noaudiorecord">Ses kaydı yok</string>
     <string name="user_prop_title_username">Kullanıcı Adı</string>
@@ -128,11 +128,11 @@
     <string name="label_voice">Ses:</string>
     <string name="label_desktop">Masa üstü:</string>
     <string name="label_ping">Sorgu:</string>
-    <string name="label_rxtx">BasKonuş Aktarımı:</string>
+    <string name="label_rxtx">RX/TX:</string>
     <string name="label_total">Toplam:</string>
     <string name="label_mediafile">Medya Dosyası:</string>
     <string name="default_">varsayılan</string>
-    <string name="server_list_empty">TeamTalk 5  Sunucu Listesi boş</string>
+    <string name="server_list_empty">TeamTalk 5 Sunucu Listesi boş</string>
     <string name="no_nickname">Takma ad yok</string>
     <string name="message_text">Mesaj yazma</string>
     <string name="time_date">Tarih Zaman</string>
@@ -168,21 +168,21 @@
     <string name="button_download">İndir</string>
     <string name="download_succeeded" formatted="false">%1$s dosyası %2$s konumuna başarıyla indirildi ve kaydedildi</string>
     <string name="download_failed">%1$s dosyası indirilirken bir hata oldu</string>
-    <string name="upload_succeeded">%1$s  dosyası başarıyla karşıya yüklendi</string>
+    <string name="upload_succeeded">%1$s dosyası başarıyla karşıya yüklendi</string>
     <string name="upload_failed">%1$s dosyası karşıya yüklenirken bir hata oldu</string>
-    <string name="alert_file_override"> %1$s  dosyası  zaten mevcut, Yoksayılsın mı?</string>
-    <string name="err_file_delete">%1$s  dosyası silinemedi</string>
+    <string name="alert_file_override">%1$s dosyası zaten mevcut, Yoksayılsın mı?</string>
+    <string name="err_file_delete">%1$s dosyası silinemedi</string>
     <string name="err_channel_remove">%1$s kanalı silinemedi</string>
-    <string name="err_download_path">%1$s  indirme konumu geçersiz</string>
+    <string name="err_download_path">%1$s indirme konumu geçersiz</string>
     <string name="download_progress">%1$d%% indirildi</string>
     <string name="upload_progress_title">%1$s yükleniyor</string>
-    <string name="upload_progress">%1$d%%,  İptal için tıklayın.</string>
+    <string name="upload_progress">%1$d%%, İptal için tıklayın.</string>
     <string name="upload_started">Yükleme başlatıldı</string>
     <string name="transfer_stopped">Aktarım durdu</string>
     <string name="complete">Tamamlandı</string>
-    <string name="remote_file_exists">%1$s  dosyası sunucu üzerindeki bu kanalda zaten mevcut.</string>
-    <string name="remote_file_remove_confirmation">%1$s  dosyasını  sunucudan gerçekten kaldırmak istiyor musunuz?</string>
-    <string name="server_remove_confirmation">%1$s  öğesini sunucu listesinden kaldırmak istediğinize emin misiniz?</string>
+    <string name="remote_file_exists">%1$s dosyası sunucu üzerindeki bu kanalda zaten mevcut.</string>
+    <string name="remote_file_remove_confirmation">%1$s dosyasını sunucudan gerçekten kaldırmak istiyor musunuz?</string>
+    <string name="server_remove_confirmation">%1$s öğesini sunucu listesinden kaldırmak istediğinize emin misiniz?</string>
     <string name="channel_remove_confirmation">%1$s kanalını kaldırmak istediğinize emin misiniz?</string>
     <string name="version_update">Yeni bir TeamTalk sürümü Mevcut: %1$s?</string>
     <string name="decvolume">Sesi Azalt</string>
@@ -214,18 +214,18 @@
     <string name="err_invalid_account">Geçersiz hesap</string>
     <string name="err_max_server_users_exceeded">Kullanıcı sayısı Sunucu üzerinde çok fazla</string>
     <string name="err_max_channel_users_exceeded">Kullanıcı sayısı bu kanalda çok fazla</string>
-    <string name="err_server_banned">Sizin İP adresiniz  yasaklanmış</string>
+    <string name="err_server_banned">Sizin İP adresiniz yasaklanmış</string>
     <string name="err_not_authorized">Yetkili Değil</string>
     <string name="err_max_diskusage_exceeded">Yetersiz disk alanı</string>
     <string name="err_incorrect_op_password">Moderatör şifresi geçersiz</string>
     <string name="err_max_logins_per_ipaddress_exceeded">Bu İP adresinden çok fazla bağlantı mevcut</string>
     <string name="err_max_channels_exceeded">Çok Fazla Kanal</string>
-    <string name="err_channel_already_exists">Bu kanal zaten  Var</string>
+    <string name="err_channel_already_exists">Bu kanal zaten Var</string>
     <string name="err_user_not_found">Kullanıcı bulunamadı</string>
     <string name="err_openfile_failed">Sunucu dosyayı açamadı</string>
     <string name="err_filesharing_disabled">Sunucu dosya transferine izin vermiyor</string>
     <string name="err_channel_has_users">Kanal boş değil</string>
     <string name="personal_message_notification">%1$s kullanıcısından yeni mesaj</string>
     <string name="personal_message_notification_hint">Okumak yada cevaplamak için tıklayın</string>
-    <string name="user_state_now_speaking">Şuanda %1$s   konuşuyor</string>
+    <string name="user_state_now_speaking">Şuanda %1$s konuşuyor</string>
 </resources>
