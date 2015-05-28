@@ -63,8 +63,8 @@ implements UserListener
     }
     
     public void clearTeamTalkService(TeamTalkService service) {
-    	super.clearTeamTalkService(service);
-    	service.unregisterUserListener(this);
+        super.clearTeamTalkService(service);
+        service.unregisterUserListener(this);
     }
     
     public Bitmap extractUserBitmap(int userid, Bitmap prev_bmp) {

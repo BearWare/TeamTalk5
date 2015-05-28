@@ -888,12 +888,12 @@ implements TeamTalkConnectionListener,
                     Button join = (Button) convertView.findViewById(R.id.join_btn);
                     int icon_resource = R.drawable.channel_orange;
                     if(channel.bPassword) {
-                    	icon_resource = R.drawable.channel_pink;
-                    	chanicon.setContentDescription(getString(R.string.text_passwdprot));
+                        icon_resource = R.drawable.channel_pink;
+                        chanicon.setContentDescription(getString(R.string.text_passwdprot));
                         chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                     }
                     else {
-                    	chanicon.setContentDescription(null);
+                        chanicon.setContentDescription(null);
                         chanicon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                     }
                     chanicon.setImageResource(icon_resource);
@@ -947,19 +947,19 @@ implements TeamTalkConnectionListener,
                 if(talking) {
                     nickname.setContentDescription(getString(R.string.user_state_now_speaking, user.szNickname));
                     if(female) {
-                    	icon_resource = R.drawable.woman_green;
+                        icon_resource = R.drawable.woman_green;
                     }
                     else {
-                    	icon_resource = R.drawable.man_green;
+                        icon_resource = R.drawable.man_green;
                     }
                 }
                 else {
                     nickname.setContentDescription(null);
                     if(female) {
-                    	icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
+                        icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
                     }
                     else {
-                    	icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
+                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
                     }
                 }
                 usericon.setImageResource(icon_resource);

@@ -56,19 +56,19 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
     }
 
     public void setTeamTalkService(TeamTalkService service) {
-    	display_users.clear();
-    	bitmap_users.clear();
-    	ttservice = service;
+        display_users.clear();
+        bitmap_users.clear();
+        ttservice = service;
     }
 
     public void clearTeamTalkService(TeamTalkService service) {
-    	display_users.clear();
-    	bitmap_users.clear();
-    	
-    	synchronized (updatequeue) {
-    		updatequeue.clear();
-    		updatequeue.notify();
-    	}
+        display_users.clear();
+        bitmap_users.clear();
+        
+        synchronized (updatequeue) {
+            updatequeue.clear();
+            updatequeue.notify();
+        }
     }
 
     public void updateUserStreamState(User user, int uUserState) {

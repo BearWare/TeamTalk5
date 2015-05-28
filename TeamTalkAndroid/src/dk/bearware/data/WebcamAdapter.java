@@ -49,20 +49,20 @@ public class WebcamAdapter extends ImageAdapter implements UserListener {
     }
     
     public void setTeamTalkService(TeamTalkService service) {
-    	super.setTeamTalkService(service);
+        super.setTeamTalkService(service);
 
-    	service.registerUserListener(this);
+        service.registerUserListener(this);
 
-    	Vector<User> vecusers = Utils.getUsers(service.getUsers());
-    	for(User user : vecusers) {
-    		if((user.uUserState & UserState.USERSTATE_VIDEOCAPTURE) == UserState.USERSTATE_VIDEOCAPTURE)
-    			display_users.put(user.nUserID, user);
-    	}
+        Vector<User> vecusers = Utils.getUsers(service.getUsers());
+        for(User user : vecusers) {
+            if((user.uUserState & UserState.USERSTATE_VIDEOCAPTURE) == UserState.USERSTATE_VIDEOCAPTURE)
+                display_users.put(user.nUserID, user);
+        }
     }
 
     public void clearTeamTalkService(TeamTalkService service) {
-    	super.clearTeamTalkService(service);
-    	service.unregisterUserListener(this);
+        super.clearTeamTalkService(service);
+        service.unregisterUserListener(this);
     }
 
     @Override
