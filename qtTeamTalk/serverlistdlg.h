@@ -41,14 +41,16 @@ private:
 
     bool getHostEntry(HostEntry& entry);
     void showHost(const HostEntry& entry);
+    void clearServer();
 
 private slots:
     void slotShowHost(int index);
     void slotShowServer(int index);
     void slotAddUpdServer();
     void slotDeleteServer();
-    void slotClearServer();
+    void slotClearServerClicked();
     void slotConnect();
+    void slotServerSelected(QListWidgetItem * item);
     void slotDoubleClicked(QListWidgetItem*);
     void slotFreeServers(bool checked);
     void slotFreeServerRequest(QNetworkReply* reply);

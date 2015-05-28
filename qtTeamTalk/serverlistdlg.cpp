@@ -53,7 +53,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.connectButton, SIGNAL(clicked()),
             SLOT(slotConnect()));
     connect(ui.clearButton, SIGNAL(clicked()),
-            SLOT(slotClearServer()));
+            SLOT(slotClearServerClicked()));
+//    connect(ui.listWidget, SIGNAL(itemChanged(QListWidgetItem*)),
+//            SLOT(slotServerSelected(QListWidgetItem*)));
     connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             SLOT(slotDoubleClicked(QListWidgetItem*)));
     connect(ui.freeserverChkBox, SIGNAL(clicked(bool)),
@@ -72,7 +74,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)),
             SLOT(slotGenerateEntryName(const QString&)));
 
-    slotClearServer();
+    clearServer();
 
     HostEntry host;
     int index = 0;
@@ -87,7 +89,13 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     showServers();
 }
 
-void ServerListDlg::slotClearServer()
+void ServerListDlg::slotClearServerClicked()
+{
+    clearServer();
+    ui.hostaddrBox->setFocus();
+}
+
+void ServerListDlg::clearServer()
 {
     ui.nameEdit->setText("");
     ui.hostaddrBox->lineEdit()->setText("");
@@ -100,7 +108,6 @@ void ServerListDlg::slotClearServer()
     ui.chanpasswdEdit->setText("");
 
     ui.clearButton->setEnabled(false);
-    ui.hostaddrBox->setFocus();
 }
 
 void ServerListDlg::slotShowHost(int index)
@@ -146,7 +153,7 @@ void ServerListDlg::showServers()
 
 void ServerListDlg::slotShowServer(int index)
 {
-    slotClearServer();
+    clearServer();
     if(index >= 0 && index < m_servers.size())
     {
         showHost(m_servers[index]);
@@ -176,7 +183,7 @@ void ServerListDlg::slotDeleteServer()
     if(item)
     {
         deleteServerEntry(item->text());
-        slotClearServer();
+        clearServer();
         showServers();
         ui.delButton->setEnabled(false);
     }
@@ -214,6 +221,11 @@ void ServerListDlg::slotConnect()
         addLatestHost(entry);
         this->accept();
     }
+}
+
+void ServerListDlg::slotServerSelected(QListWidgetItem * item)
+{
+    qDebug() << "Activated";
 }
 
 void ServerListDlg::slotDoubleClicked(QListWidgetItem*)

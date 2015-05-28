@@ -5041,8 +5041,8 @@ void MainWindow::slotUpdateDesktopCount(int count)
 void MainWindow::slotMasterVolumeChanged(int value)
 {
     int vol = refVolume(value);
-    qDebug() << "Volume is " << vol << " and percent is " << value;
-    qDebug() << "Percent is " << refVolumeToPercent(vol) << endl;
+//    qDebug() << "Volume is " << vol << " and percent is " << value;
+//    qDebug() << "Percent is " << refVolumeToPercent(vol) << endl;
     TT_SetSoundOutputVolume(ttInst, vol);
 }
 
@@ -5061,7 +5061,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     else
     {
         int gain = refGain(value);
-        qDebug() << "Gain is " << gain << " and percent is " << value;
+//        qDebug() << "Gain is " << gain << " and percent is " << value;
         TT_SetSoundInputGainLevel(ttInst, gain);
     }
 }
