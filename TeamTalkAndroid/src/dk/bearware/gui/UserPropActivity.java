@@ -21,7 +21,6 @@
 
 package dk.bearware.gui;
 
-import dk.bearware.Constants;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;

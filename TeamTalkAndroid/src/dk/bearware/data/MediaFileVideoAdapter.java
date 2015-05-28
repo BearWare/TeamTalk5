@@ -24,7 +24,6 @@ package dk.bearware.data;
 import java.nio.ByteBuffer;
 import java.util.Vector;
 
-import dk.bearware.BitmapFormat;
 import dk.bearware.DesktopInput;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.User;

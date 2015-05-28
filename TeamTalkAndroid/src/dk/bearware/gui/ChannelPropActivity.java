@@ -21,12 +21,10 @@
 
 package dk.bearware.gui;
 
-import dk.bearware.AudioCodec;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ChannelType;
 import dk.bearware.ClientErrorMsg;
-import dk.bearware.Codec;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;

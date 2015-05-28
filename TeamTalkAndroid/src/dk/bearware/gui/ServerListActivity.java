@@ -52,7 +52,6 @@ import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.CommandListener;
 import dk.bearware.data.AppInfo;
-import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.ServerEntry;
 
 import android.app.AlertDialog;
@@ -61,8 +60,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;

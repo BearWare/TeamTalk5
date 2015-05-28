@@ -34,7 +34,6 @@ import dk.bearware.events.UserListener;
 import dk.bearware.gui.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 
 public class WebcamAdapter extends ImageAdapter implements UserListener {

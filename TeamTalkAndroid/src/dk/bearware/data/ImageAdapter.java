@@ -24,7 +24,6 @@ package dk.bearware.data;
 import java.util.LinkedList;
 
 import dk.bearware.User;
-import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
