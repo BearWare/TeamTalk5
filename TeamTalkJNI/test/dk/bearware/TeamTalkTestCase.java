@@ -8,10 +8,12 @@ import java.io.IOException;
 import dk.bearware.AudioBlock;
 import dk.bearware.AudioFileFormat;
 import dk.bearware.Channel;
+import dk.bearware.ClientEvent;
 import dk.bearware.Codec;
 import dk.bearware.SpeexConstants;
 import dk.bearware.SpeexDSP;
 import dk.bearware.StreamType;
+import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
 
 public class TeamTalkTestCase extends TeamTalkTestCaseBase {
@@ -862,4 +864,33 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
         fs.close();
     }
+    
+    public void test_21_VidcapTest() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+     
+        int frames = 0;
+        while(frames < 10) {
+            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
+            long start = System.currentTimeMillis();
+            VideoFrame frm = ttclient.acquireUserVideoCaptureFrame(msg.nSource);
+            if(frm != null) {
+                System.out.println("bearware: Frame "+ frm.nWidth +"x"+ frm.nHeight + " get time " + (System.currentTimeMillis() - start));
+                frames++;
+            }
+            else {
+                System.out.println("bearware: No frame built" + (System.currentTimeMillis() - start));
+            }
+        }
+    }
+        
 }
