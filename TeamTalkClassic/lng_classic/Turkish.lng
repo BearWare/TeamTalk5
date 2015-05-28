@@ -2,8 +2,8 @@
 <language version="1.0">
     <item id="102">TeamTalk Kurulum Sihirbazı</item>
     <item id="104">Bağlantıyı&amp;Kes\tF2</item>
-    <item id="105">%s Kanal&apos;a Katıldı</item>
-    <item id="106">%s Kanal&apos;ı terketti</item>
+    <item id="105">%s geldi</item>
+    <item id="106">%s gitti</item>
     <item id="107">&amp;Bağlan\tF2</item>
     <item id="108">Kanal Oluştur</item>
     <item id="109">Kanal&apos;ı Güncelle</item>
@@ -369,6 +369,7 @@
     <item id="1531">.TT dosyasını kaydet</item>
     <item id="1534">Maksimum metin uzunluğu</item>
     <item id="1535">Video yakalama ayarları</item>
+    <item id="1537">medya ses düzeyi</item>
     <item id="32791">IP adresim&amp;Nedir?</item>
     <item id="32798">&amp;Operatör yetkisi ver\tCtrl+o</item>
     <item id="32801">&amp;Kanal Mesajlarını gör\TF10</item>
