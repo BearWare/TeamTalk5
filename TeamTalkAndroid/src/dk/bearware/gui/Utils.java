@@ -55,7 +55,13 @@ import dk.bearware.data.ServerEntry;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.widget.Toast;
@@ -100,9 +106,12 @@ public class Utils {
             textpref.setSummary(summary);
     }
 
-    public static String getEditTextPreference(Preference preference) {
+    public static String getEditTextPreference(Preference preference, String def_value) {
         EditTextPreference textpref = (EditTextPreference) preference;
-        return textpref.getText();
+        String s = textpref.getText(); 
+        if(s == null)
+            return def_value;
+        return s;
     }
     
     public static Intent putServerEntry(Intent intent, ServerEntry entry) {
@@ -348,5 +357,32 @@ public class Utils {
         double d = (gain + 50) / 82.832;
         d = Math.log(d) / 0.0508;
         return (int)(d + .5);
+    }
+    
+    public static Bitmap drawTextToBitmap(Context gContext, int width, int height, String gText) {
+        Resources resources = gContext.getResources();
+        float scale = resources.getDisplayMetrics().density;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.rgb(61, 61, 61));
+        // text size in pixels
+        paint.setTextSize((int) (14 * scale));
+        // text shadow
+        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = (bitmap.getWidth() - bounds.width())/2;
+        int y = (bitmap.getHeight() + bounds.height())/2;
+
+        canvas.drawText(gText, x, y, paint);
+
+        return bitmap;
     }
 }

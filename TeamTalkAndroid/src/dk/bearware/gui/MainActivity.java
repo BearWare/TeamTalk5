@@ -54,10 +54,12 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
+import dk.bearware.data.MediaFileVideoAdapter;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
+import dk.bearware.data.WebcamAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -149,6 +151,8 @@ implements TeamTalkConnectionListener,
     FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
     DesktopAdapter desktopAdapter;
+    WebcamAdapter webcamAdapter;
+    MediaFileVideoAdapter videofileAdapter;
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
@@ -183,6 +187,14 @@ implements TeamTalkConnectionListener,
     public DesktopAdapter getDesktopAdapter() {
         return desktopAdapter;
     }
+    
+    public WebcamAdapter getWebcamAdapter() {
+        return webcamAdapter;
+    }
+
+    public MediaFileVideoAdapter getVideoFileAdapter() {
+        return videofileAdapter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +214,8 @@ implements TeamTalkConnectionListener,
         filesAdapter = new FileListAdapter(this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
         desktopAdapter = new DesktopAdapter(this.getBaseContext());
+        webcamAdapter = new WebcamAdapter(this.getBaseContext());
+        videofileAdapter = new MediaFileVideoAdapter(this.getBaseContext());
         
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
@@ -391,6 +405,9 @@ implements TeamTalkConnectionListener,
             ttservice.unregisterCommandListener(this);
             ttservice.unregisterUserListener(this);
             filesAdapter.setTeamTalkService(null);
+            desktopAdapter.clearTeamTalkService(ttservice);
+            webcamAdapter.clearTeamTalkService(ttservice);
+            videofileAdapter.clearTeamTalkService(ttservice);
         }
         
         // Unbind from the service
@@ -703,8 +720,12 @@ implements TeamTalkConnectionListener,
             View rootView = inflater.inflate(R.layout.fragment_main_desktop, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.DESKTOP_PAGE);
 
-            ExpandableListView exview = (ExpandableListView) rootView.findViewById(R.id.desktop_elist_view);
-            exview.setAdapter(mainActivity.getDesktopAdapter());
+            ExpandableListView deskview = (ExpandableListView) rootView.findViewById(R.id.desktop_elist_view);
+            deskview.setAdapter(mainActivity.getDesktopAdapter());
+            ExpandableListView webcamview = (ExpandableListView) rootView.findViewById(R.id.webcam_elist_view);
+            webcamview.setAdapter(mainActivity.getWebcamAdapter());
+            ExpandableListView videoview = (ExpandableListView) rootView.findViewById(R.id.videofile_elist_view);
+            videoview.setAdapter(mainActivity.getVideoFileAdapter());
             return rootView;
         }
     }
@@ -1300,6 +1321,12 @@ implements TeamTalkConnectionListener,
         
         desktopAdapter.setTeamTalkService(service);
         desktopAdapter.notifyDataSetChanged();
+
+        webcamAdapter.setTeamTalkService(service);
+        webcamAdapter.notifyDataSetChanged();
+        
+        videofileAdapter.setTeamTalkService(service);
+        videofileAdapter.notifyDataSetChanged();
         
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);

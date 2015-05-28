@@ -175,17 +175,17 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     @Deprecated
     ServerEntry getServerEntry() {
         ServerEntry server = new ServerEntry();
-        server.servername = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME));
-        server.ipaddr = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_IPADDR));
-        server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT)));
-        server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT)));
+        server.servername = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), "");
+        server.ipaddr = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), "" );
+        server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), "10333"));
+        server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), "10333"));
         CheckBoxPreference p = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED));
         server.encrypted = (p != null)? p.isChecked() : false;
-        server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME));
-        server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD));
+        server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), "");
+        server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "");
         server.rememberLastChannel = ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).isChecked();
-        server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL));
-        server.chanpasswd = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD));
+        server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), "");
+        server.chanpasswd = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), "");
         return server;
     }
     

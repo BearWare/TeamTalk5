@@ -7,7 +7,19 @@
     <ExpandableListView
         android:id="@+id/desktop_elist_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
+    </ExpandableListView>
+    
+    <ExpandableListView
+        android:id="@+id/videofile_elist_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ExpandableListView>
+
+    <ExpandableListView
+        android:id="@+id/webcam_elist_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
     </ExpandableListView>
 	    
 </LinearLayout>
