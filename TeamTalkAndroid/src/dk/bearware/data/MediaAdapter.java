@@ -48,7 +48,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ImageAdapter
+public class MediaAdapter
 extends BaseExpandableListAdapter
 implements UserListener {
 	
@@ -67,7 +67,7 @@ implements UserListener {
     SparseArray<User> display_users = new SparseArray<User>();
     SparseArray<Bitmap> media_sessions = new SparseArray<Bitmap>();
 
-    public ImageAdapter(Context context) {
+    public MediaAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -137,9 +137,8 @@ implements UserListener {
     public View getChildView(int groupPosition, int childPosition,
             boolean isLastChild, View convertView, ViewGroup parent) {
     	int userid = (int) getGroupId(groupPosition);
-        User user = (User) getChild(groupPosition, childPosition);
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.item_desktop, null);
+            convertView = inflater.inflate(R.layout.item_media, null);
 
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
@@ -255,7 +254,7 @@ implements UserListener {
             if (media_sessions.indexOfKey(userid) >= 0)
             	media_sessions.put(userid, bmp);
 
-            ImageAdapter.this.notifyDataSetChanged();
+            MediaAdapter.this.notifyDataSetChanged();
         }
 
         @Override

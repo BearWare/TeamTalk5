@@ -38,7 +38,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 
 public class DesktopAdapter
-extends ImageAdapter
+extends MediaAdapter
 implements UserListener
 {
     public static final String TAG = "bearware";

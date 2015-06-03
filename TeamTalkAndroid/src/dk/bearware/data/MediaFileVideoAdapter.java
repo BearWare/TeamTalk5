@@ -36,7 +36,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-public class MediaFileVideoAdapter extends ImageAdapter 
+public class MediaFileVideoAdapter extends MediaAdapter 
 implements UserListener {
 
     public static final String TAG = "bearware";

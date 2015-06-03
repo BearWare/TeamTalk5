@@ -36,7 +36,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 
-public class WebcamAdapter extends ImageAdapter implements UserListener {
+public class WebcamAdapter extends MediaAdapter implements UserListener {
 
     public static final String TAG = "bearware";
 

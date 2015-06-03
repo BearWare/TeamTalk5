@@ -53,7 +53,7 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
-import dk.bearware.data.ImageAdapter;
+import dk.bearware.data.MediaAdapter;
 import dk.bearware.data.MediaFileVideoAdapter;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
@@ -149,7 +149,7 @@ implements TeamTalkConnectionListener,
     ChannelListAdapter channelsAdapter;
     FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
-    ImageAdapter mediaAdapter;
+    MediaAdapter mediaAdapter;
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
@@ -181,7 +181,7 @@ implements TeamTalkConnectionListener,
         return textmsgAdapter;
     }
     
-    public ImageAdapter getMediaAdapter() {
+    public MediaAdapter getMediaAdapter() {
         return mediaAdapter;
     }
 
@@ -202,7 +202,7 @@ implements TeamTalkConnectionListener,
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
-        mediaAdapter = new ImageAdapter(this.getBaseContext());
+        mediaAdapter = new MediaAdapter(this.getBaseContext());
         
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
@@ -702,7 +702,7 @@ implements TeamTalkConnectionListener,
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main_desktop, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_main_media, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.DESKTOP_PAGE);
 
             ExpandableListView mediaview = (ExpandableListView) rootView.findViewById(R.id.media_elist_view);
