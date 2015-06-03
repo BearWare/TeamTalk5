@@ -88,14 +88,14 @@ public class WebcamAdapter extends ImageAdapter implements UserListener {
 
     @Override
     public void onUserStateChange(User user) {
-        this.updateUserStreamState(user, UserState.USERSTATE_VIDEOCAPTURE);
+//        this.updateUserStreamState(user, UserState.USERSTATE_VIDEOCAPTURE);
     }
 
     @Override
     public void onUserVideoCapture(int nUserID, int nStreamID) {
 //        Log.d(TAG, "New webcam frame from #" + nUserID + " stream " + nStreamID + " " + Integer.toHexString(this.hashCode()));
         // only update if user is expanded (bitmap is being displayed)
-        if (bitmap_users.indexOfKey(nUserID) >= 0)
+        if (media_sessions.indexOfKey(nUserID) >= 0)
             updateUserBitmap(nUserID);
     }
 

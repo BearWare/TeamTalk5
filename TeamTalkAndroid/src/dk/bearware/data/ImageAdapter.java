@@ -21,10 +21,19 @@
 
 package dk.bearware.data;
 
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
+import java.util.Vector;
 
+import dk.bearware.BitmapFormat;
+import dk.bearware.DesktopInput;
+import dk.bearware.DesktopWindow;
+import dk.bearware.MediaFileInfo;
 import dk.bearware.User;
+import dk.bearware.UserState;
+import dk.bearware.VideoFrame;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.UserListener;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 import android.content.Context;
@@ -39,15 +48,24 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public abstract class ImageAdapter extends BaseExpandableListAdapter {
+public class ImageAdapter
+extends BaseExpandableListAdapter
+implements UserListener {
+	
     public static final String TAG = "bearware";
 
     private LayoutInflater inflater;
 
     TeamTalkService ttservice;
     Context context;
+    static final int DESKTOP_SESSION   	= 0x00001000,
+    				 WEBCAM_SESSION    	= 0x00002000,
+    				 MEDIAFILE_SESSION 	= 0x00004000,
+    				 
+    				 USERID_MASK 		= 0xFFF;
+    
     SparseArray<User> display_users = new SparseArray<User>();
-    SparseArray<Bitmap> bitmap_users = new SparseArray<Bitmap>();
+    SparseArray<Bitmap> media_sessions = new SparseArray<Bitmap>();
 
     public ImageAdapter(Context context) {
         this.context = context;
@@ -56,13 +74,25 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
 
     public void setTeamTalkService(TeamTalkService service) {
         display_users.clear();
-        bitmap_users.clear();
+        media_sessions.clear();
         ttservice = service;
+        
+        service.registerUserListener(this);
+        
+        Vector<User> vecusers = Utils.getUsers(ttservice.getUsers());
+        for(User user : vecusers) {
+            if((user.uUserState & UserState.USERSTATE_DESKTOP) == UserState.USERSTATE_DESKTOP)
+                display_users.put(user.nUserID | DESKTOP_SESSION, user);
+            if((user.uUserState & UserState.USERSTATE_MEDIAFILE_VIDEO) == UserState.USERSTATE_MEDIAFILE_VIDEO)
+                display_users.put(user.nUserID | MEDIAFILE_SESSION, user);
+            if((user.uUserState & UserState.USERSTATE_VIDEOCAPTURE) == UserState.USERSTATE_VIDEOCAPTURE)
+                display_users.put(user.nUserID | WEBCAM_SESSION, user);
+        }
     }
 
     public void clearTeamTalkService(TeamTalkService service) {
         display_users.clear();
-        bitmap_users.clear();
+        media_sessions.clear();
         
         synchronized (updatequeue) {
             updatequeue.clear();
@@ -70,25 +100,10 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    public void updateUserStreamState(User user, int uUserState) {
-        if (display_users.get(user.nUserID) != null
-                && (user.uUserState & uUserState) == 0) {
-            display_users.delete(user.nUserID);
-            bitmap_users.delete(user.nUserID);
-
-            notifyDataSetChanged();
-        } else if (display_users.get(user.nUserID) == null
-                && (user.uUserState & uUserState) == uUserState) {
-            display_users.put(user.nUserID, user);
-
-            notifyDataSetChanged();
-        }
-    }
-
     @Override
     public void onGroupCollapsed(int groupPosition) {
         int userid = (int) getGroupId(groupPosition);
-        bitmap_users.delete(userid);
+        media_sessions.delete(userid);
 
         synchronized (updatequeue) {
             updatequeue.removeFirstOccurrence(userid);
@@ -103,7 +118,7 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
         String text = context.getResources()
                 .getString(R.string.text_waitstream);
         Bitmap bmp = Utils.drawTextToBitmap(context, 100, 20, text);
-        bitmap_users.put(userid, bmp);
+        media_sessions.put(userid, bmp);
         updateUserBitmap(userid);
         super.onGroupExpanded(groupPosition);
     }
@@ -121,11 +136,12 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition,
             boolean isLastChild, View convertView, ViewGroup parent) {
+    	int userid = (int) getGroupId(groupPosition);
         User user = (User) getChild(groupPosition, childPosition);
         if (convertView == null)
             convertView = inflater.inflate(R.layout.item_desktop, null);
 
-        Bitmap bmp = bitmap_users.get(user.nUserID);
+        Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
             ImageView desktop = (ImageView) convertView
                     .findViewById(R.id.user_desktop_image);
@@ -158,6 +174,7 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
         User user = (User) getGroup(groupPosition);
+        int userid = (int) getGroupId(groupPosition);
 
         if (convertView == null)
             convertView = inflater.inflate(R.layout.item_desktop_user, null);
@@ -168,7 +185,7 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.desktopinfo_textview);
         nickname.setText(user.szNickname);
 
-        Bitmap bmp = bitmap_users.get(user.nUserID);
+        Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
             wndinfo.setText(String.format("%1$dx%2$d %3$d-bit", bmp.getWidth(),
                     bmp.getHeight(),
@@ -220,7 +237,7 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            ready_users = bitmap_users.clone();
+            ready_users = media_sessions.clone();
         }
 
         @Override
@@ -235,8 +252,8 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
             }
 
             // only place new bitmap if user is being displayed
-            if (bitmap_users.indexOfKey(userid) >= 0)
-                bitmap_users.put(userid, bmp);
+            if (media_sessions.indexOfKey(userid) >= 0)
+            	media_sessions.put(userid, bmp);
 
             ImageAdapter.this.notifyDataSetChanged();
         }
@@ -292,6 +309,156 @@ public abstract class ImageAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    public abstract Bitmap extractUserBitmap(int userid, Bitmap prev_bmp);
+    public Bitmap extractUserBitmap(int userid, Bitmap prev_bmp) {
+    	
+    	switch(userid & ~USERID_MASK) {
+    	case DESKTOP_SESSION : {
+    		userid &= USERID_MASK;
+    		
+    		DesktopWindow wnd = ttservice.getTTInstance().acquireUserDesktopWindowEx(userid,
+    				BitmapFormat.BMP_RGB32);
+    		// TODO: only RGB32 support for now 
+    		if(wnd == null || wnd.bmpFormat != BitmapFormat.BMP_RGB32)
+    			return null;
+
+    		if(prev_bmp != null) {
+    			// create new bitmap if size 
+    			if(prev_bmp.getWidth() != wnd.nWidth || prev_bmp.getHeight() != wnd.nHeight)
+    				prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+    		}
+    		else {
+    			prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+    		}
+
+    		prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
+
+    		return prev_bmp;
+    	}
+    	case MEDIAFILE_SESSION : {
+    		userid &= USERID_MASK;
+    		
+            VideoFrame wnd = ttservice.getTTInstance().acquireUserMediaVideoFrame(userid);
+            
+            if(wnd == null) {
+                return null;
+            }
+            
+            if(prev_bmp != null) {
+                // create new bitmap if size 
+                if(prev_bmp.getWidth() != wnd.nWidth || prev_bmp.getHeight() != wnd.nHeight)
+                    prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            }
+            else {
+                prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            }
+            
+            prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
+            
+            return prev_bmp;
+    	}
+    	case WEBCAM_SESSION : {
+    		userid &= USERID_MASK;
+    		
+            VideoFrame wnd = ttservice.getTTInstance().acquireUserVideoCaptureFrame(userid);
+            
+            if(wnd == null) {
+                return null;
+            }
+            
+            if(prev_bmp != null) {
+                // create new bitmap if size 
+                if(prev_bmp.getWidth() != wnd.nWidth || prev_bmp.getHeight() != wnd.nHeight)
+                    prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            }
+            else {
+                prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            }
+            
+            prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
+            
+            return prev_bmp;
+    	}
+    	default : {
+    		Log.e(TAG, "Unknown media session");
+    		return null;
+    	}
+    	}
+    }
+    
+	@Override
+	public void onUserStateChange(User user) {
+		int ms_size = media_sessions.size();
+		int du_size = display_users.size();
+		
+		//desktop session
+		int userid = user.nUserID | DESKTOP_SESSION;
+		if((user.uUserState & UserState.USERSTATE_DESKTOP) == 0) {
+			display_users.remove(userid);
+			media_sessions.remove(userid);
+		}
+		else if(display_users.get(userid) == null) {
+			display_users.put(userid, user);
+		}
+		
+		//media file session
+		userid = user.nUserID | MEDIAFILE_SESSION;
+		if((user.uUserState & UserState.USERSTATE_MEDIAFILE_VIDEO) == 0) {
+			display_users.remove(userid);
+			media_sessions.remove(userid);
+		}
+		else if(display_users.get(userid) == null) {
+			display_users.put(userid, user);
+		}
+		
+		//vidcap session
+		userid = user.nUserID | WEBCAM_SESSION;
+		if((user.uUserState & UserState.USERSTATE_VIDEOCAPTURE) == 0) {
+			display_users.remove(userid);
+			media_sessions.remove(userid);
+		}
+		else if(display_users.get(userid) == null) {
+			display_users.put(userid, user);
+		}
+		
+		
+		if(ms_size != media_sessions.size() || du_size != display_users.size())
+			notifyDataSetChanged();
+	}
+
+	@Override
+	public void onUserVideoCapture(int nUserID, int nStreamID) {
+        //only update if user is expanded (bitmap is being displayed)
+		int session_id = nUserID | WEBCAM_SESSION;
+        if(media_sessions.indexOfKey(session_id) >= 0)
+            updateUserBitmap(session_id);
+	}
+
+	@Override
+	public void onUserMediaFileVideo(int nUserID, int nStreamID) {
+        //only update if user is expanded (bitmap is being displayed)
+		int session_id = nUserID | MEDIAFILE_SESSION;
+        if(media_sessions.indexOfKey(session_id) >= 0)
+            updateUserBitmap(session_id);
+	}
+
+	@Override
+	public void onUserDesktopWindow(int nUserID, int nStreamID) {
+        //only update if user is expanded (bitmap is being displayed)
+		int session_id = nUserID | DESKTOP_SESSION;
+        if(media_sessions.indexOfKey(session_id) >= 0)
+            updateUserBitmap(session_id);
+	}
+
+	@Override
+	public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
+	}
+
+	@Override
+	public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
+	}
+
+	@Override
+	public void onUserAudioBlock(int nUserID, int nStreamType) {
+	}
 
 }

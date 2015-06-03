@@ -53,6 +53,7 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
+import dk.bearware.data.ImageAdapter;
 import dk.bearware.data.MediaFileVideoAdapter;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
@@ -148,9 +149,7 @@ implements TeamTalkConnectionListener,
     ChannelListAdapter channelsAdapter;
     FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
-    DesktopAdapter desktopAdapter;
-    WebcamAdapter webcamAdapter;
-    MediaFileVideoAdapter videofileAdapter;
+    ImageAdapter mediaAdapter;
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
@@ -182,16 +181,8 @@ implements TeamTalkConnectionListener,
         return textmsgAdapter;
     }
     
-    public DesktopAdapter getDesktopAdapter() {
-        return desktopAdapter;
-    }
-    
-    public WebcamAdapter getWebcamAdapter() {
-        return webcamAdapter;
-    }
-
-    public MediaFileVideoAdapter getVideoFileAdapter() {
-        return videofileAdapter;
+    public ImageAdapter getMediaAdapter() {
+        return mediaAdapter;
     }
 
     @Override
@@ -211,9 +202,7 @@ implements TeamTalkConnectionListener,
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
-        desktopAdapter = new DesktopAdapter(this.getBaseContext());
-        webcamAdapter = new WebcamAdapter(this.getBaseContext());
-        videofileAdapter = new MediaFileVideoAdapter(this.getBaseContext());
+        mediaAdapter = new ImageAdapter(this.getBaseContext());
         
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
@@ -403,9 +392,7 @@ implements TeamTalkConnectionListener,
             ttservice.unregisterCommandListener(this);
             ttservice.unregisterUserListener(this);
             filesAdapter.setTeamTalkService(null);
-            desktopAdapter.clearTeamTalkService(ttservice);
-            webcamAdapter.clearTeamTalkService(ttservice);
-            videofileAdapter.clearTeamTalkService(ttservice);
+            mediaAdapter.clearTeamTalkService(ttservice);
         }
         
         // Unbind from the service
@@ -718,12 +705,8 @@ implements TeamTalkConnectionListener,
             View rootView = inflater.inflate(R.layout.fragment_main_desktop, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.DESKTOP_PAGE);
 
-            ExpandableListView deskview = (ExpandableListView) rootView.findViewById(R.id.desktop_elist_view);
-            deskview.setAdapter(mainActivity.getDesktopAdapter());
-            ExpandableListView webcamview = (ExpandableListView) rootView.findViewById(R.id.webcam_elist_view);
-            webcamview.setAdapter(mainActivity.getWebcamAdapter());
-            ExpandableListView videoview = (ExpandableListView) rootView.findViewById(R.id.videofile_elist_view);
-            videoview.setAdapter(mainActivity.getVideoFileAdapter());
+            ExpandableListView mediaview = (ExpandableListView) rootView.findViewById(R.id.media_elist_view);
+            mediaview.setAdapter(mainActivity.getMediaAdapter());
             return rootView;
         }
     }
@@ -1317,14 +1300,8 @@ implements TeamTalkConnectionListener,
         textmsgAdapter.setMyUserID(ttclient.getMyUserID());
         textmsgAdapter.notifyDataSetChanged();
         
-        desktopAdapter.setTeamTalkService(service);
-        desktopAdapter.notifyDataSetChanged();
-
-        webcamAdapter.setTeamTalkService(service);
-        webcamAdapter.notifyDataSetChanged();
-        
-        videofileAdapter.setTeamTalkService(service);
-        videofileAdapter.notifyDataSetChanged();
+        mediaAdapter.setTeamTalkService(service);
+        mediaAdapter.notifyDataSetChanged();
         
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);

@@ -86,7 +86,7 @@ implements UserListener {
 
     @Override
     public void onUserStateChange(User user) {
-        this.updateUserStreamState(user, UserState.USERSTATE_MEDIAFILE_VIDEO);
+//    	this.updateUserStreamState(user, UserState.USERSTATE_MEDIAFILE_VIDEO);
         if((user.uUserState & UserState.USERSTATE_MEDIAFILE_VIDEO) == UserState.USERSTATE_MEDIAFILE_VIDEO)
             Log.d(TAG, "#" + user.nUserID + " video active");
         else
@@ -100,7 +100,7 @@ implements UserListener {
     @Override
     public void onUserMediaFileVideo(int nUserID, int nStreamID) {
         //only update if user is expanded (bitmap is being displayed)
-        if(bitmap_users.indexOfKey(nUserID) >= 0)
+        if(media_sessions.indexOfKey(nUserID) >= 0)
             updateUserBitmap(nUserID);
         
         Log.d(TAG, "#" + nUserID + " video stream " + nStreamID);

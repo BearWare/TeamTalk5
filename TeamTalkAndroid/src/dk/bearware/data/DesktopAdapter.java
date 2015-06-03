@@ -91,7 +91,7 @@ implements UserListener
     @Override
     public void onUserStateChange(User user) {
         
-        this.updateUserStreamState(user, UserState.USERSTATE_DESKTOP);
+//        this.updateUserStreamState(user, UserState.USERSTATE_DESKTOP);
     }
 
     @Override
@@ -105,7 +105,7 @@ implements UserListener
     @Override
     public void onUserDesktopWindow(int nUserID, int nStreamID) {
         //only update if user is expanded (bitmap is being displayed)
-        if(bitmap_users.indexOfKey(nUserID) >= 0)
+        if(media_sessions.indexOfKey(nUserID) >= 0)
             updateUserBitmap(nUserID);
     }
     
