@@ -117,7 +117,7 @@ implements UserListener {
         // Bitmap bmp = extractUserBitmap(userid, bitmap_users.get(userid));
         String text = context.getResources()
                 .getString(R.string.text_waitstream);
-        Bitmap bmp = Utils.drawTextToBitmap(context, 100, 20, text);
+        Bitmap bmp = Utils.drawTextToBitmap(context, 300, 20, text);
         media_sessions.put(userid, bmp);
         updateUserBitmap(userid);
         super.onGroupExpanded(groupPosition);
@@ -176,13 +176,31 @@ implements UserListener {
         int userid = (int) getGroupId(groupPosition);
 
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.item_desktop_user, null);
+            convertView = inflater.inflate(R.layout.item_media_user, null);
 
         TextView nickname = (TextView) convertView
-                .findViewById(R.id.desktop_nickname_textview);
+                .findViewById(R.id.media_nickname_textview);
         TextView wndinfo = (TextView) convertView
-                .findViewById(R.id.desktopinfo_textview);
+                .findViewById(R.id.mediainfo_textview);
         nickname.setText(user.szNickname);
+        ImageView img = (ImageView) convertView.findViewById(R.id.mediaicon);
+        int img_resource;
+        switch(userid & ~USERID_MASK) {
+        default :
+        case DESKTOP_SESSION :
+        	img_resource = R.drawable.board_blue;
+        	img.setContentDescription(context.getString(R.string.text_desktop_session));
+        	break;
+        case WEBCAM_SESSION :
+        	img_resource = R.drawable.webcam_pink;
+        	img.setContentDescription(context.getString(R.string.text_webcam_session));
+        	break;
+        case MEDIAFILE_SESSION :
+        	img_resource = R.drawable.camera_blue;
+        	img.setContentDescription(context.getString(R.string.text_mediafile_session));
+        	break;
+        }
+        img.setImageResource(img_resource);
 
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
@@ -190,7 +208,8 @@ implements UserListener {
                     bmp.getHeight(),
                     (bmp.getConfig() == Bitmap.Config.ARGB_8888) ? 32 : 0));
         } else {
-            wndinfo.setText("");
+            if(img_resource == R.drawable.webcam_pink)
+            	Log.d(TAG, "Media session is null");
         }
 
         return convertView;
@@ -247,13 +266,15 @@ implements UserListener {
             Bitmap bmp;
             synchronized (ready_users) {
                 bmp = ready_users.get(userid);
-                ready_users.remove(userid);
             }
 
             // only place new bitmap if user is being displayed
             if (media_sessions.indexOfKey(userid) >= 0)
             	media_sessions.put(userid, bmp);
-
+            
+            //update currently active sessions (get rid of obsolete sessions)
+            ready_users = media_sessions.clone();
+            
             MediaAdapter.this.notifyDataSetChanged();
         }
 
@@ -414,6 +435,7 @@ implements UserListener {
 		if((user.uUserState & UserState.USERSTATE_VIDEOCAPTURE) == 0) {
 			display_users.remove(userid);
 			media_sessions.remove(userid);
+			Log.d(TAG, "Remove webcam session #" + user.nUserID);
 		}
 		else if(display_users.get(userid) == null) {
 			display_users.put(userid, user);

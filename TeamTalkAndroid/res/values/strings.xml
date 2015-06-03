@@ -9,8 +9,7 @@
     <string name="title_activity_main">TeamTalk 5 for Android</string>
     <string name="title_section_channels">Channels</string>
     <string name="title_section_chat">Chat</string>
-    <string name="title_section_video">Video</string>
-    <string name="title_section_desktop">Desktops</string>
+    <string name="title_section_media">Media Streams</string>
     <string name="title_section_files">Files</string>
     <string name="title_activity_channel_prop">Channel Properties</string>
     <string name="title_activity_user_prop">User Properties</string>
@@ -247,5 +246,8 @@
     <string name="personal_message_notification_hint">Click to read and answer</string>
     <string name="user_state_now_speaking">%1$s now speaking</string>
     <string name="text_waitstream">Waiting for video stream</string>
+    <string name="text_desktop_session">Desktop session</string>
+    <string name="text_webcam_session">Webcam session</string>
+    <string name="text_mediafile_session">Media file session</string>
 
 </resources>

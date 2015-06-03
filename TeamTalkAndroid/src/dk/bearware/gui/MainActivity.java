@@ -428,7 +428,7 @@ implements TeamTalkConnectionListener,
     ChannelsSectionFragment channelsFragment;
     ChatSectionFragment chatFragment;
     VidcapSectionFragment vidcapFragment;
-    DesktopSectionFragment desktopFragment;
+    MediaSectionFragment mediaFragment;
     FilesSectionFragment filesFragment;
 
     /**
@@ -438,8 +438,7 @@ implements TeamTalkConnectionListener,
         
         public static final int CHANNELS_PAGE   = 0,
                                 CHAT_PAGE       = 1,
-//                                VIDCAP_PAGE   = 2,
-                                DESKTOP_PAGE    = 2,
+                                MEDIA_PAGE      = 2,
                                 FILES_PAGE      = 3,
                                 
                                 PAGE_COUNT      = 4;
@@ -463,13 +462,9 @@ implements TeamTalkConnectionListener,
                     chatFragment = new ChatSectionFragment();
                     return chatFragment;
                 }
-//                case VIDCAP_PAGE : {
-//                    vidcapFragment = new VidcapSectionFragment();
-//                    return vidcapFragment;
-//                }
-                case DESKTOP_PAGE : {
-                    desktopFragment = new DesktopSectionFragment();
-                    return desktopFragment;
+                case MEDIA_PAGE : {
+                    mediaFragment = new MediaSectionFragment();
+                    return mediaFragment;
                 }
                 case FILES_PAGE : {
                     filesFragment = new FilesSectionFragment();
@@ -491,10 +486,8 @@ implements TeamTalkConnectionListener,
                     return getString(R.string.title_section_channels).toUpperCase(l);
                 case CHAT_PAGE :
                     return getString(R.string.title_section_chat).toUpperCase(l);
-//                case VIDCAP_PAGE :
-//                    return getString(R.string.title_section_video).toUpperCase(l);
-                case DESKTOP_PAGE :
-                    return getString(R.string.title_section_desktop).toUpperCase(l);
+                case MEDIA_PAGE :
+                    return getString(R.string.title_section_media).toUpperCase(l);
                 case FILES_PAGE :
                     return getString(R.string.title_section_files).toUpperCase(l);
             }
@@ -687,10 +680,10 @@ implements TeamTalkConnectionListener,
         }
     }
 
-    public static class DesktopSectionFragment extends Fragment {
+    public static class MediaSectionFragment extends Fragment {
         MainActivity mainActivity;
 
-        public DesktopSectionFragment() {
+        public MediaSectionFragment() {
         }
 
         @Override
@@ -703,7 +696,7 @@ implements TeamTalkConnectionListener,
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_media, container, false);
-            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.DESKTOP_PAGE);
+            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.MEDIA_PAGE);
 
             ExpandableListView mediaview = (ExpandableListView) rootView.findViewById(R.id.media_elist_view);
             mediaview.setAdapter(mainActivity.getMediaAdapter());
