@@ -19,6 +19,7 @@ Accessible client:
 - Denoise and Automatic Gain Control now active when doing sound device test
 Android client:
 - Fixed sampling rate limited to 16 KHz
+- Video capture and media file playback
 Server:
 - Default audio codec for server's root channel is now OPUS
 
