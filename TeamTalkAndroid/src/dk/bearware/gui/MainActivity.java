@@ -51,15 +51,11 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
-import dk.bearware.data.DesktopAdapter;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MediaAdapter;
-import dk.bearware.data.MediaFileVideoAdapter;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
-import dk.bearware.data.WebcamAdapter;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
