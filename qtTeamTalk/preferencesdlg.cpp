@@ -288,6 +288,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
         ui.coreaudioButton->setChecked(true);break;
     case SOUNDSYSTEM_NONE :
     case SOUNDSYSTEM_OPENSLES_ANDROID :
+    case SOUNDSYSTEM_AUDIOUNIT :
         break;
     }
 
@@ -917,7 +918,7 @@ void PreferencesDlg::slotSaveChanges()
             loadVideoFormat(oldfmt);
 
             modified = ttSettings->value(SETTINGS_VIDCAP_DEVICEID) != devid ||
-                       memcmp(&m_vidfmt, &oldfmt, sizeof(oldfmt) != 0);
+                       memcmp(&m_vidfmt, &oldfmt, sizeof(oldfmt)) != 0;
 
             ttSettings->setValue(SETTINGS_VIDCAP_DEVICEID, devid);
             saveVideoFormat(m_vidfmt);
