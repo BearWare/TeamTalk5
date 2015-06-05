@@ -170,7 +170,7 @@
 	            android:layout_gravity="center"
 	            android:layout_row="1"
 	            android:contentDescription="@string/incgain"
-	            android:src="@drawable/minus_green" />
+	            android:src="@drawable/plus_green" />
 
 	        <TextView
 	            android:id="@+id/mikelevel_text"
