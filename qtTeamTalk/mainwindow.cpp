@@ -5173,6 +5173,11 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
                                      m_host.vidcodec.webm_vp8.nRcTargetBitrate);
                 TT_CloseVideoCaptureDevice(ttInst);
             break;
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+        case NO_CODEC :
+            break;
         }
     }
 

@@ -225,6 +225,7 @@ void ServerListDlg::slotConnect()
 
 void ServerListDlg::slotServerSelected(QListWidgetItem * item)
 {
+    Q_UNUSED(item);
     qDebug() << "Activated";
 }
 

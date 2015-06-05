@@ -79,7 +79,8 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
 
 void GenerateTTFileDlg::loadVideoFormats()
 {
-    VideoFormat fmt = {0};
+    VideoFormat fmt;
+    ZERO_STRUCT(fmt);
     m_vidcap_fmts.push_back(fmt);
 
     fmt.picFourCC = FOURCC_RGB32;
@@ -156,6 +157,12 @@ void GenerateTTFileDlg::slotSaveTTFile()
         {
         case WEBM_VP8_CODEC :
             m_hostentry.vidcodec.webm_vp8.nRcTargetBitrate = ui.vidbitrateSpinBox->value();
+            break;
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+        case NO_CODEC :
+            break;
         }
         m_hostentry.capformat = m_vidcap_fmts[ui.captureformatsBox->currentIndex()];
     }

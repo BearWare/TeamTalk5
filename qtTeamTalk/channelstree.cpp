@@ -758,7 +758,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                     item->setData(COLUMN_DESKTOP, Qt::CheckStateRole, QVariant());
                 if(!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
                     item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
-            }
+            }            
         }
         else
         {

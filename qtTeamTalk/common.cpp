@@ -91,6 +91,9 @@ bool getVideoCaptureCodec(VideoCodec& vidcodec)
         vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
                                                                SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT).toInt();
         break;
+    case SPEEX_CODEC :
+    case SPEEX_VBR_CODEC :
+    case OPUS_CODEC :
     case NO_CODEC :
         break;
     }
@@ -988,6 +991,9 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
                 if(!vid.isNull())
                     entry.vidcodec.webm_vp8.nRcTargetBitrate = vid.text().toInt();
                 break;
+            case SPEEX_CODEC :
+            case SPEEX_VBR_CODEC :
+            case OPUS_CODEC :
             case NO_CODEC :
                 break;
             }
@@ -1248,8 +1254,11 @@ QByteArray generateTTFile(const HostEntry& entry)
             newElement.appendChild(doc.createTextNode(QString::number(entry.vidcodec.webm_vp8.nRcTargetBitrate)));
             vidcodec.appendChild(newElement);
             break;
-            case NO_CODEC :
-                break;
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+        case NO_CODEC :
+            break;
         }
         client.appendChild(vidcodec);
     }
