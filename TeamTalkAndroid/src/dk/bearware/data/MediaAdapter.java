@@ -208,8 +208,6 @@ implements UserListener {
                     bmp.getHeight(),
                     (bmp.getConfig() == Bitmap.Config.ARGB_8888) ? 32 : 0));
         } else {
-            if(img_resource == R.drawable.webcam_pink)
-            	Log.d(TAG, "Media session is null");
         }
 
         return convertView;
