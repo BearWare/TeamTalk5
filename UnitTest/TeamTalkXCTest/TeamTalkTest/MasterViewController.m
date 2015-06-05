@@ -78,6 +78,8 @@
     TT_GetSoundDevices(NULL, 0);
     TT_DoTextMessage(NULL, NULL);
     TT_DoLeaveChannel(NULL);
+    TT_AcquireUserVideoCaptureFrame(NULL, 0);
+    TT_ReleaseUserVideoCaptureFrame(NULL, NULL);
     
     TT_CloseTeamTalk(ttInst);
     

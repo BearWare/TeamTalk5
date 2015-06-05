@@ -34,9 +34,9 @@
 @end
 
 const int DEF_WAIT = 5000;
-const TTCHAR IPADDR[] = "192.168.1.110";
+const TTCHAR IPADDR[] = "localhost";
 const INT32 TCPPORT = 10333, UDPPORT = 10333;
-const TTBOOL ENCRYPTED = FALSE;
+const TTBOOL ENCRYPTED = TRUE;
 const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
 
 @implementation TeamTalkTestTests
@@ -408,6 +408,28 @@ const TTCHAR ADMIN_USERNAME[] = "admin", ADMIN_PASSWORD[] = "admin";
     XCTAssertEqual(msg.textmessage.nFromUserID, userid1, "Received own channel message");
     XCTAssert(waitForEvent(ttInst2, CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, &msg));
     XCTAssertEqual(msg.textmessage.nFromUserID, userid1, "Received userid1 channel message");
+}
+
+- (void)testVideoCapturePlayback {
+    TTInstance* ttInst = [self newClient];
+    [self connect:ttInst ipaddr:IPADDR tcpport:TCPPORT udpport:UDPPORT encrypted:ENCRYPTED];
+    [self login:ttInst nickname:"testVideoCapturePlayback" username:"guest" password:"guest"];
+    [self joinRootChannel:ttInst];
+    
+    TTMessage msg;
+
+    VideoFrame* frm = nil;
+    int retries = 100;
+    while(retries--) {
+        XCTAssert(waitForEvent(ttInst, CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, &msg), "Wait for video capture frame");
+        frm = TT_AcquireUserVideoCaptureFrame(ttInst, msg.nSource);
+        if(frm != nil) {
+            NSLog(@"Bitmap image is %dx%d %d", frm->nWidth, frm->nHeight, frm->nFrameBufferSize);
+            break;
+        }
+        TT_ReleaseUserVideoCaptureFrame(ttInst, frm);
+    }
+    XCTAssertTrue(frm != nil, "Video frame is valid");
 }
 
 
