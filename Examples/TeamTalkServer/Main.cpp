@@ -31,12 +31,16 @@ string get_str(const string& input);
 int get_int(int value);
 
 
-INT32 MyLoginCallback(IN TTSInstance* lpTTSInstance, VOID* lpUserData,
-                      IN const User* lpUser, IN OUT UserAccount* lpUserAccount)
+void MyLoginCallback(IN TTSInstance* lpTTSInstance, IN VOID* lpUserData,
+                     OUT ClientErrorMsg* lpClientErrorMsg,
+                     IN const User* lpUser, IN OUT UserAccount* lpUserAccount)
 {
     // User is trying to log onto our server. Now check username/password.
     cout << "Authenticating username \"" << lpUserAccount->szUsername << "\" "
          << "and password \"" << lpUserAccount->szPassword << "\" ..." << endl;
+
+    // we allow the user to log in by returning CMDERR_SUCCESS to the server API.
+    lpClientErrorMsg->nErrorNo = CMDERR_SUCCESS;
 
     lpUserAccount->uUserType = USERTYPE_ADMIN;
     //set user rights
@@ -48,8 +52,6 @@ INT32 MyLoginCallback(IN TTSInstance* lpTTSInstance, VOID* lpUserData,
     note.copy(lpUserAccount->szNote, TT_STRLEN);
 
     cout << "User #" << lpUser->nUserID << " username " << lpUserAccount->szUsername << " authenticated." << endl;
-
-    return CMDERR_SUCCESS;
 }
 
 void LogUserConnected(IN TTSInstance* lpTTSInstance, IN VOID* lpUserData,
