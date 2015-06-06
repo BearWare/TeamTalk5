@@ -604,7 +604,6 @@ namespace TeamTalkTest.NET
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
             TeamTalk ttclient = NewClientInstance();
 
-            InitSound(ttclient);
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
             JoinRoot(ttclient);
@@ -707,7 +706,6 @@ namespace TeamTalkTest.NET
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
             TeamTalk ttclient = NewClientInstance();
 
-            InitSound(ttclient);
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
             JoinRoot(ttclient);
