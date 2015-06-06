@@ -35,15 +35,16 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
      * @param lpUser The user properties gathered so far.
      * @param lpUserAccount The user account information which should
-     * be set for this user.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if user should be allowed to log on. */
-    typedef INT32 UserLoginCallback(IN TTSInstance* lpTTSInstance, 
-                                    IN VOID* lpUserData,
-                                    IN const User* lpUser, 
-                                    IN OUT UserAccount* lpUserAccount);
+     * be set for this user. */
+    typedef void UserLoginCallback(IN TTSInstance* lpTTSInstance, 
+                                   IN VOID* lpUserData,
+                                   OUT ClientErrorMsg* lpClientErrorMsg,
+                                   IN const User* lpUser, 
+                                   IN OUT UserAccount* lpUserAccount);
     /**
      * @brief Callback when a user is requesting to create a new user
      * account.
@@ -54,14 +55,15 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
      * @param lpUser The user's properties.
-     * @param lpUserAccount The properties of the user account to be created.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if successful. */
-    typedef INT32 UserCreateUserAccountCallback(IN TTSInstance* lpTTSInstance, 
-                                                IN VOID* lpUserData,
-                                                IN const User* lpUser, 
-                                                OUT UserAccount* lpUserAccount);
+     * @param lpUserAccount The properties of the user account to be created. */
+    typedef void UserCreateUserAccountCallback(IN TTSInstance* lpTTSInstance, 
+                                               IN VOID* lpUserData,
+                                               OUT ClientErrorMsg* lpClientErrorMsg,
+                                               IN const User* lpUser, 
+                                               OUT UserAccount* lpUserAccount);
     /**
      * @brief Callback when a user is requesting to delete a user
      * account.
@@ -72,13 +74,14 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
-     * @param lpUser The properties of the user requesting.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if successful. */
-    typedef INT32 UserDeleteUserAccountCallback(IN TTSInstance* lpTTSInstance, 
-                                                IN VOID* lpUserData,
-                                                IN const User* lpUser, 
-                                                IN const TTCHAR* szUsername);
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
+     * @param lpUser The properties of the user requesting. */
+    typedef void UserDeleteUserAccountCallback(IN TTSInstance* lpTTSInstance, 
+                                               IN VOID* lpUserData,
+                                               OUT ClientErrorMsg* lpClientErrorMsg,
+                                               IN const User* lpUser, 
+                                               IN const TTCHAR* szUsername);
     /**
      * @brief Callback when a user is requesting to ban a user.
      *
@@ -88,14 +91,15 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
      * @param lpBanner The properties of the user requesting the ban.
-     * @param lpBanee The properties of the user who should be banned.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if successful. */
-    typedef INT32 UserAddServerBanCallback(IN TTSInstance* lpTTSInstance, 
-                                           IN VOID* lpUserData,
-                                           IN const User* lpBanner, 
-                                           IN const User* lpBanee);
+     * @param lpBanee The properties of the user who should be banned. */
+    typedef void UserAddServerBanCallback(IN TTSInstance* lpTTSInstance, 
+                                          IN VOID* lpUserData,
+                                          OUT ClientErrorMsg* lpClientErrorMsg,
+                                          IN const User* lpBanner, 
+                                          IN const User* lpBanee);
     /**
      * @brief Callback when a user is requesting to ban an IP-address.
      *
@@ -105,14 +109,15 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
      * @param lpBanner The properties of the user requesting the ban.
-     * @param szIPAddress The IP-address to be banned.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if successful. */
-    typedef INT32 UserAddServerBanIPAddressCallback(IN TTSInstance* lpTTSInstance, 
-                                                    IN VOID* lpUserData,
-                                                    IN const User* lpBanner, 
-                                                    IN const TTCHAR* szIPAddress);
+     * @param szIPAddress The IP-address to be banned. */
+    typedef void UserAddServerBanIPAddressCallback(IN TTSInstance* lpTTSInstance, 
+                                                   IN VOID* lpUserData,
+                                                   OUT ClientErrorMsg* lpClientErrorMsg,
+                                                   IN const User* lpBanner, 
+                                                   IN const TTCHAR* szIPAddress);
     /**
      * @brief Callback when a user is requesting to remove a ban.
      *
@@ -122,14 +127,15 @@ extern "C" {
      *
      * @param lpTTSInstance The server instance where the event is occurring.
      * @param lpUserData The user data supplied to register-callback function.
+     * @param lpClientErrorMsg Error message which should be sent back to
+     * user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.
      * @param lpUser The properties of the user doing the request.
-     * @param szIPAddress The IP-address to be unbanned.
-     * @return Error code which should be sent back to
-     * user. #CMDERR_SUCCESS if successful. */
-    typedef INT32 UserDeleteServerBanCallback(IN TTSInstance* lpTTSInstance, 
-                                              IN VOID* lpUserData,
-                                              IN const User* lpUser, 
-                                              IN const TTCHAR* szIPAddress);
+     * @param szIPAddress The IP-address to be unbanned. */
+    typedef void UserDeleteServerBanCallback(IN TTSInstance* lpTTSInstance, 
+                                             IN VOID* lpUserData,
+                                             OUT ClientErrorMsg* lpClientErrorMsg,
+                                             IN const User* lpUser, 
+                                             IN const TTCHAR* szIPAddress);
 
     /** @} */
 
