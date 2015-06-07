@@ -42,7 +42,9 @@ import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
@@ -90,7 +92,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         // make sure DLL is loaded 
         TeamTalk5.loadLibrary();
         
-        TeamTalk5.setLicenseInformation("", "");
+        TeamTalk5.setLicenseInformation(License.REGISTRATION_NAME, License.REGISTRATION_KEY);
         
         ttclient = new TeamTalk5();
         
@@ -328,7 +330,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         assert (ttserver != null);
         
         String def_nick = getResources().getString(R.string.pref_default_nickname);
-        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("nickname_text", def_nick);
+        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
 
         int loginCmdId = ttclient.doLogin(nickname, ttserver.username, ttserver.password);
         if(loginCmdId<0) {
@@ -461,19 +463,19 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int def_unsub = Subscription.SUBSCRIBE_NONE;
-        if(!pref.getBoolean("sub_txtmsg_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_TEXTMESSAGE, true))
             def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
-        if(!pref.getBoolean("sub_chanmsg_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_CHANMESSAGE, true))
             def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
-        if(!pref.getBoolean("sub_bcastmsg_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_BCAST_MESSAGES, true))
             def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
-        if(!pref.getBoolean("sub_voice_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_VOICE, true))
             def_unsub |= Subscription.SUBSCRIBE_VOICE;
-        if(!pref.getBoolean("sub_video_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_VIDCAP, true))
             def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
-        if(!pref.getBoolean("sub_desktop_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_DESKTOP, true))
             def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
-        if(!pref.getBoolean("sub_mediafile_checkbox", true))
+        if(!pref.getBoolean(Preferences.PREF_SUB_MEDIAFILE, true))
             def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
 
         if((user.uLocalSubscriptions & def_unsub) != 0) {
