@@ -24,6 +24,7 @@ package dk.bearware.gui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -43,9 +44,12 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import dk.bearware.TeamTalkBase;
+import dk.bearware.User;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.data.Preferences;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -61,7 +65,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     public static final String TAG = "bearware";
 
     TeamTalkConnection mConnection;
-
+    TeamTalkService ttservice;
+    
     @Override
     protected void onStart() {
         super.onStart();
@@ -80,11 +85,27 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     protected void onStop() {
         super.onStop();
         
+        updateSettings();
+        
         // Unbind from the service
         if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
             unbindService(mConnection);
             mConnection.setBound(false);
+        }
+    }
+    
+    void updateSettings() {
+    	if(ttservice == null)
+    		return;
+    				
+        String def_nick = getResources().getString(R.string.pref_default_nickname);
+        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+
+        TeamTalkBase ttinst = ttservice.getTTInstance();
+        User myself = ttservice.getUsers().get(ttinst.getMyUserID());
+        if(myself != null && !nickname.equals(myself.szNickname)) {
+        	ttinst.doChangeNickname(nickname);
         }
     }
 
@@ -165,7 +186,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("nickname_text"));
+        bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
     }
 
     /** {@inheritDoc} */
@@ -287,7 +308,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("nickname_text"));
+            bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
         }
     }
     
@@ -329,6 +350,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
+    	this.ttservice = service;
     }
 
     @Override

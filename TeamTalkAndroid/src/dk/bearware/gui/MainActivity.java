@@ -839,14 +839,12 @@ implements TeamTalkConnectionListener,
                 final Channel channel = (Channel) item;
 
                 if ((curchannel != null) && (curchannel.nParentID > 0) && (position == 0)) {
-                    assert (curchannel.nParentID == ((Channel) getItem(position)).nChannelID);
                     // show parent channel shortcut
                     if (convertView == null ||
                         convertView.findViewById(R.id.parentname) == null)
                         convertView = inflater.inflate(R.layout.item_channel_back, null);
                 }
                 else {
-                    assert (channel.nChannelID > 0);
 
                     if (convertView == null ||
                         convertView.findViewById(R.id.channelname) == null)
@@ -875,7 +873,6 @@ implements TeamTalkConnectionListener,
                         name.setText(srvprop.szServerName);
                     }
                     else {
-                        assert (channel.szName.length() > 0);
                         name.setText(channel.szName);
                     }
                     topic.setText(channel.szTopic);
