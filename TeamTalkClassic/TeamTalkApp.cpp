@@ -175,7 +175,7 @@ BOOL CTeamTalkApp::InitInstance()
         SetCurrentDirectory(path.Left(path.ReverseFind('\\')+1));
 
     /* Set license information before creating the first client instance */
-    TT_SetLicenseInformation(_T(""), _T(""));
+    TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY);
 
     // check whether an existing instance of TT is running an whether
     // this instance has been passed a .tt file

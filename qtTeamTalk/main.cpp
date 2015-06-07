@@ -26,6 +26,7 @@
 #include <QUrl>
 
 #include "mainwindow.h"
+#include "license.h"
 
 TTInstance* ttInst = NULL;
 
@@ -247,7 +248,7 @@ int main(int argc, char *argv[])
     MainWindow window;
 
     /* Set license information before creating the first client instance */
-    TT_SetLicenseInformation(_W(QString("")), _W(QString("")));
+    TT_SetLicenseInformation(_W(QString(REGISTRATION_NAME)), _W(QString(REGISTRATION_KEY)));
 
 #if defined(Q_OS_WIN32) && USE_POLL == 0
     HWND hWnd = reinterpret_cast<HWND>(window.winId());
