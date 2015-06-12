@@ -2038,11 +2038,27 @@ BOOL CTeamTalkDlg::OnToolTipText(UINT, NMHDR* pNMHDR, LRESULT* pResult)
         nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    if (nID != 0) // will be zero on a separator
+    switch(nID)
     {
+    case 0 : // will be zero on a separator
+        break;
+    case IDC_SLIDER_GAINLEVEL :
+        strPromptText = _T("Microphone gain");
+        break;
+    case IDC_SLIDER_VOLUME :
+        strPromptText = _T("Master volume");
+        break;
+    case IDC_PROGRESS_VOICEACT :
+        strPromptText = _T("Current voice level");
+        break;
+    case IDC_SLIDER_VOICEACT :
+        strPromptText = _T("Voice activation level");
+        break;
+    default :
         AfxLoadString(nID, szFullText);
         AfxExtractSubString(strTipText, szFullText, 1, '\n');
         AfxExtractSubString(strPromptText, szFullText, 0, '\n');
+        break;
     }
 
 #if defined(UNICODE) || defined(_UNICODE)
@@ -5985,6 +6001,7 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             TRANSLATE_ITEM(IDC_RADIO_QUESTION, szStatus);
             break;
         }
+        szStatus = StripAmpersand(szStatus);
         if(szStatus.GetLength())
             szSpeakList.AddTail(szStatus);
         if(user.uUserState & USERSTATE_MUTE_VOICE)

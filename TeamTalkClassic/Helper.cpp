@@ -281,6 +281,13 @@ CString LimitText(const CString& szName)
     return szName.Left(nTextLimit) + _T("...");
 }
 
+CString StripAmpersand(const CString& szText)
+{
+    CString szResult = szText;
+    szResult.Replace(_T("&"), _T(""));
+    return szResult;
+}
+
 CString GetLogTimeStamp()
 {
     CTime tm = CTime::GetCurrentTime();

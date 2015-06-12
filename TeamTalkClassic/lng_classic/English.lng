@@ -178,7 +178,7 @@
     <item id="1212">No font selected</item>
     <item id="1213">Here you select the sound devices which TeamTalk should use for recording and playing audio. Choosing DirectSound is highly recommended since it provides lower latency than Windows&apos; default sound system.</item>
     <item id="1215">By pressing &quot;Test selected&quot; you can test the currently selected devices and hear whether you&apos;re able to play the audio recorded by the selected input device.</item>
-    <item id="1217">Users can create channels</item>
+    <item id="1217">User can create temporary channels</item>
     <item id="1218">User can create/modify all channels</item>
     <item id="1221">Always on top</item>
     <item id="1225">&amp;Default</item>
@@ -220,9 +220,8 @@
     <item id="1304">Permanent channel (stored on server)</item>
     <item id="1308">User type</item>
     <item id="1309">Auto save server changes</item>
-    <item id="1311">Users can see users in all channels</item>
-    <item id="1312">Users can broadcast text messages</item>
-    <item id="1313">Users can issue channel commands</item>
+    <item id="1311">User can see users in all channels</item>
+    <item id="1312">User can broadcast text messages</item>
     <item id="1315">User can transmit voice data (microphone)</item>
     <item id="1316">Modify User Account</item>
     <item id="1317">User can transmit video files (avi, mp4 files)</item>

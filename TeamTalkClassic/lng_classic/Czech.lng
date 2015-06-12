@@ -11,6 +11,13 @@
     <item id="111">Úprava existujícího kanálu</item>
     <item id="112">Ano</item>
     <item id="113">Ne</item>
+    <item id="114">Mluví</item>
+    <item id="115">Nemluví</item>
+    <item id="116">Posílá stream</item>
+    <item id="117">Sdílí obrazovku</item>
+    <item id="118">Webová kamera</item>
+    <item id="119">Stišit multimediální soubor</item>
+    <item id="120">Chráněn heslem</item>
     <item id="121">Vstoupili jste na kanál %s</item>
     <item id="122">Výstupní zařízení podporuje prostorový zvuk 3D</item>
     <item id="123">Výstupní zařízení nepodporuje prostorový zvuk 3D</item>
@@ -22,14 +29,17 @@
     <item id="129">&amp;Nápověda</item>
     <item id="130">Nová přezdívka</item>
     <item id="131">Změnit přezdívku</item>
+    <item id="132">Kontrolovaný kanál</item>
     <item id="133">Vstoupili jste na kontrolovaný kanál %s</item>
     <item id="134">Soubory</item>
     <item id="135">Chat</item>
     <item id="136">Soubor %s obsahuje informace o nastavení klienta %s.\r\nChcete tato nastavení použít?</item>
+    <item id="137">Uživatel</item>
     <item id="138">%s požaduje sdílení obrazovky</item>
     <item id="139">%s přerušil sdílení obrazovky</item>
     <item id="140">Vlastnosti serveru</item>
     <item id="141">Uživatelské účty</item>
+    <item id="142">Kanál</item>
     <item id="144">Přenést uživatele</item>
     <item id="145">Statistiky serveru</item>
     <item id="146">Připojení uživatelé</item>
@@ -359,6 +369,7 @@
     <item id="1531">&amp;Uložit soubor .tt</item>
     <item id="1534">Maximální délka textu</item>
     <item id="1535">Nastavení videa</item>
+    <item id="1537">Poměr hlasitosti zvuku a multimediálního souboru</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>
@@ -452,4 +463,8 @@
     <item id="32937">Povolit vysílání multim&amp;ediálních souborů\tCtrl+Alt+R</item>
     <item id="32938">Stream &amp;multimediálních souborů\tCtrl+Á</item>
     <item id="32939">Odposloucháv&amp;at stream multimediálních souborů\tCtrl+Shift+Á</item>
+    <item id="32940">In&amp;formace o uživateli</item>
+    <item id="32941">Přečíst informace o uživateli &amp;hlasem\tCtrl+G</item>
+    <item id="32942">In&amp;formace o kanálu</item>
+    <item id="32943">Přečíst informace o kanálu &amp;hlasem\tCtrl+G</item>
 </language>

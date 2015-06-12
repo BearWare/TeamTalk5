@@ -179,8 +179,8 @@
     <item id="1212">Keine Schriftart gewählt</item>
     <item id="1213">Wähle hier die Audiogeräte,, die TeamTalk zum Aufnehmen und Wiedergeben von Sounds verwenden soll. DirectSound ist die empfohlene Einstellung, da hierbei eine geringere Verzögerung als bei Windows-Audio erreicht wird.</item>
     <item id="1215">Mit Klick auf &quot;Klangtest&quot; kannst du die gewählten Geräte testen und hören, ob das Aufnahmegerät die Sprache auf dem Wiedergabegerät ausgibt.</item>
-    <item id="1217">Benutzer dürfen Räume erstellen</item>
-    <item id="1218">Benutzer kann alle Räume erstellen/ändern</item>
+    <item id="1217">Kann Räume erstellen</item>
+    <item id="1218">Kann alle Räume erstellen/bearbeiten</item>
     <item id="1221">immer im Vordergrund</item>
     <item id="1225">&amp;Standard</item>
     <item id="1230">Rauminformationen</item>
@@ -221,12 +221,12 @@
     <item id="1304">Permanenter Raum (auf Server gespeichert)</item>
     <item id="1308">Typ</item>
     <item id="1309">Änderungen automatisch speichern</item>
-    <item id="1311">Benutzer dürfen andere Benutzer in allen Räumen sehen</item>
-    <item id="1312">Benutzer dürfen Textnachrichten schreiben</item>
-    <item id="1313">Benutzer dürfen Raumbefehle ausführen</item>
-    <item id="1315">Benutzer kann Sprachdaten senden (Mikrofon)</item>
+    <item id="1311">Kann andere Benutzer in allen Räumen sehen</item>
+    <item id="1312">Kann Textnachrichten schreiben</item>
+    <item id="1313">Kann Raumbefehle ausführen</item>
+    <item id="1315">Kann Sprachdaten senden (Mikrofon)</item>
     <item id="1316">Benutzeraccount ändern</item>
-    <item id="1317">Benutzer kann Videos senden (avi, mp4)</item>
+    <item id="1317">Kann Videos senden (avi, mp4)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;hinzufügen</item>
     <item id="1325">&amp;löschen</item>
@@ -235,7 +235,7 @@
     <item id="1332">Auf Programmupdates prüfen</item>
     <item id="1333">P2P-Modus einschalten</item>
     <item id="1334">Öffentliche Server einschließen</item>
-    <item id="1335">Benutzer kann sich mehrfach anmelden</item>
+    <item id="1335">Kann sich mehrfach anmelden</item>
     <item id="1339">Klassenraum (Operator kontrolliert Übertragungen)</item>
     <item id="1341">Feste Lautstärke für alle Benutzer</item>
     <item id="1345">Duplexmodus (für Echounterdrückung notwendig)</item>
@@ -303,7 +303,7 @@
     <item id="1436">KBytes</item>
     <item id="1437">Entfernen</item>
     <item id="1438">Max. Desktop-TX</item>
-    <item id="1440">Benutzer kann Desktopsitzungen starten</item>
+    <item id="1440">Kann Desktopsitzungen starten</item>
     <item id="1441">MOTD-Variablen anzeigen</item>
     <item id="1443">Bemerkung</item>
     <item id="1445">Eingangsraum</item>
@@ -370,6 +370,7 @@
     <item id="1531">.tt-Datei &amp;speichern</item>
     <item id="1534">Maximale Textlänge</item>
     <item id="1535">Video-Einstellungen</item>
+    <item id="1537">Lautstärke Medien zu Sprache</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>

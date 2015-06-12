@@ -857,6 +857,7 @@
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="Languages.h" />
+    <ClInclude Include="License.h" />
     <ClInclude Include="mdump.h" />
     <ClInclude Include="settings\ClientXML.h" />
     <ClInclude Include="settings\CPrintfArg.h" />
