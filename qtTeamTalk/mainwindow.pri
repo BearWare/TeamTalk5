@@ -10,7 +10,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
-             customvideofmtdlg.h
+             customvideofmtdlg.h license.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
