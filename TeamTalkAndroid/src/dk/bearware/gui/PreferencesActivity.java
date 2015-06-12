@@ -126,11 +126,11 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        return GeneralPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
-            SoundEventsPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
-            ConnectionPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
-            TtsPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
-            SoundSystemPreferenceFragment.class.getCanonicalName().equals(fragmentName);
+        return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
+            SoundEventsPreferenceFragment.class.getName().equals(fragmentName) ||
+            ConnectionPreferenceFragment.class.getName().equals(fragmentName) ||
+            TtsPreferenceFragment.class.getName().equals(fragmentName) ||
+            SoundSystemPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @Override
@@ -157,10 +157,13 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         // use the older PreferenceActivity APIs.
 
         // Add 'general' preferences.
+        PreferenceCategory fakeHeader = new PreferenceCategory(this);
+        fakeHeader.setTitle(R.string.pref_header_general);
+        //getPreferenceScreen().addPreference(fakeHeader); //not allowed
         addPreferencesFromResource(R.xml.pref_general);
 
         // Add 'soundevents' preferences, and a corresponding header.
-        PreferenceCategory fakeHeader = new PreferenceCategory(this);
+        fakeHeader = new PreferenceCategory(this);
         fakeHeader.setTitle(R.string.pref_title_audio_icons);
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_soundevents);
