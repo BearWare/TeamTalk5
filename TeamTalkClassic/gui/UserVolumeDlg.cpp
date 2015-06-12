@@ -68,11 +68,11 @@ BOOL CUserVolumeDlg::OnInitDialog()
     TRANSLATE(*this, IDD);
 
     m_wndVoiceVol.SetRange(0, 100, TRUE);
-    m_wndVoiceVol.SetPos(RefVolumeToPercent(SOUND_VOLUME_DEFAULT));
+    m_wndVoiceVol.SetPos(RefVolumeToPercent(m_user.nVolumeVoice));
     m_wndVoiceVol.SetPageSize(m_wndVoiceVol.GetRangeMax() / 20);
 
     m_wndMediaFileVol.SetRange(0, 100, TRUE);
-    m_wndMediaFileVol.SetPos(RefVolumeToPercent(SOUND_VOLUME_DEFAULT));
+    m_wndMediaFileVol.SetPos(RefVolumeToPercent(m_user.nVolumeMediaFile));
     m_wndMediaFileVol.SetPageSize(m_wndMediaFileVol.GetRangeMax() / 20);
 
     m_wndVoiceMuteLeft.SetCheck(!m_user.stereoPlaybackVoice[0]?BST_CHECKED:BST_UNCHECKED);
