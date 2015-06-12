@@ -23,6 +23,7 @@
 #include "TeamTalkApp.h"
 #include "TeamTalkDlg.h"
 #include "AppInfo.h"
+#include "License.h"
 
 #include "mdump.h"
 
