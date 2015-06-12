@@ -126,6 +126,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
+    	// getCanonicalName() returns a string with '$' separator instead of '.'
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
             SoundEventsPreferenceFragment.class.getName().equals(fragmentName) ||
             ConnectionPreferenceFragment.class.getName().equals(fragmentName) ||
