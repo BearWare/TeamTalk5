@@ -66,6 +66,8 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
     * Follow the instructions [here](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/Java/examples.html#teamtalkandroid)
     * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the following files to *TeamTalkAndroid/libs* directory:
+    * android-support-v4.jar
+      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
     * android-support-v13.jar
       * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v13
     * gson-2.2.4.jar
