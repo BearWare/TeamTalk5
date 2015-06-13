@@ -8,8 +8,6 @@
     <string name="title_activity_main">Android İçin TeamTalk 5 Türkçe - Uğur Gürbüz Tarafından, MaksatMuhabbet.net adına Çevrilmiştir.U</string>
     <string name="title_section_channels">Kanallar</string>
     <string name="title_section_chat">Sohbet</string>
-    <string name="title_section_video">Görüntü</string>
-    <string name="title_section_desktop">Masaüstü</string>
     <string name="title_section_files">Dosyalar</string>
     <string name="title_activity_channel_prop">Kanal Özellikleri</string>
     <string name="title_activity_user_prop">Kullanıcı Özellikleri</string>

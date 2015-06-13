@@ -9,8 +9,6 @@
     <string name="title_activity_main">TeamTalk 5 dla Android</string>
     <string name="title_section_channels">Kanały</string>
     <string name="title_section_chat">Czat</string>
-    <string name="title_section_video">Video</string>
-    <string name="title_section_desktop">Pulpity</string>
     <string name="title_section_files">Pliki</string>
     <string name="title_activity_channel_prop">Właściwości kanału</string>
     <string name="title_activity_user_prop">Właściwości użytkownika</string>

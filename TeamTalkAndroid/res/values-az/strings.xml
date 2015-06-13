@@ -8,8 +8,6 @@
     <string name="title_activity_main">Android TeamTalk 5 Revan Abbasov Tarafından Azerbaycan Diline çevrilmiştir</string>
     <string name="title_section_channels">Kanallar</string>
     <string name="title_section_chat">söhbet</string>
-    <string name="title_section_video">Görüntü</string>
-    <string name="title_section_desktop">Masaüstü</string>
     <string name="title_section_files">Dosyalar</string>
     <string name="title_activity_channel_prop">Kanal Funksiyaları</string>
     <string name="title_activity_user_prop">istifadeçi Funksiyaları</string>
