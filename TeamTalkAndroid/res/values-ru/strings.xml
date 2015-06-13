@@ -7,8 +7,7 @@
     <string name="title_activity_server_entry">Свойства Сервера TeamTalk 5</string>
     <string name="title_section_channels">Каналы</string>
     <string name="title_section_chat">Сообщения</string>
-    <string name="title_section_video">Видео</string>
-    <string name="title_section_desktop">Рабочие Столы</string>
+    <string name="title_section_media">Медиатрансляции</string>
     <string name="title_section_files">Файлы</string>
     <string name="title_activity_channel_prop">Свойства Канала</string>
     <string name="title_activity_user_prop">Свойства Пользователя</string>
@@ -235,5 +234,9 @@
     <string name="personal_message_notification">Новое сообщение от пользователя %1$s</string>
     <string name="personal_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
     <string name="user_state_now_speaking">%1$s сейчас говорит</string>
+    <string name="text_waitstream">Ожидание видеотрансляции</string>
+    <string name="text_desktop_session">Сессия рабочего стола</string>
+    <string name="text_webcam_session">Сессия вебкамеры</string>
+    <string name="text_mediafile_session">Сессия трансляции медиафайла</string>
 
 </resources>
