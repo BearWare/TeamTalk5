@@ -18,8 +18,9 @@ Accessible client:
 - Option to set media file vs. voice volume in Sound System-tab
 - Denoise and Automatic Gain Control now active when doing sound device test
 Android client:
-- Fixed sampling rate limited to 16 KHz
+- Fixed sampling rate limited to 16 KHz mono
 - Video capture and media file playback
+- Fixed crash in settings on some Android devices
 Server:
 - Default audio codec for server's root channel is now OPUS
 
