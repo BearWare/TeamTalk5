@@ -294,7 +294,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void test_10_VideoCaptureDevs() {
         TeamTalkBase ttclient = newClientInstance();
         Vector<VideoCaptureDevice> devs = new Vector<VideoCaptureDevice>();
-        assertTrue(TeamTalk5.getVideoCaptureDevices(devs));
+        assertTrue(ttclient.getVideoCaptureDevices(devs));
         for(int i=0;i<devs.size();i++) {
             assertTrue(!devs.get(i).szDeviceID.isEmpty());
             assertTrue(!devs.get(i).szDeviceName.isEmpty());
@@ -348,7 +348,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         Vector<VideoCaptureDevice> devs = new Vector<VideoCaptureDevice>();
-        assertTrue(TeamTalk5.getVideoCaptureDevices(devs));
+        assertTrue(ttclient.getVideoCaptureDevices(devs));
 
         VideoCaptureDevice dev = devs.get(0);
         VideoFormat fmt = new VideoFormat();
@@ -443,7 +443,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         MediaFileInfo mfi = new MediaFileInfo();
-        assertTrue(TeamTalk5.getMediaFileInfo(MEDIAFILE, mfi));
+        assertTrue(ttclient.getMediaFileInfo(MEDIAFILE, mfi));
         
         VideoCodec vidcodec = new VideoCodec();
         vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
@@ -864,7 +864,8 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
         fs.close();
     }
-    
+
+    // test-case requires a user who is transmitting video capture to root channel
     public void test_21_VidcapTest() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;

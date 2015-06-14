@@ -32,6 +32,8 @@ public class TeamTalkTestCaseBase extends TestCase {
             ttclient.disconnect();
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
+            ttclient.closeVideoCaptureDevice();
+            ttclient.stopStreamingMediaFileToChannel();
         }
         ttclients.clear();
     }
