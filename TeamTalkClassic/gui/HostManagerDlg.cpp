@@ -75,6 +75,7 @@ void CHostManagerDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_ENCRYPTED, m_bEncrypted);
     DDX_Control(pDX, IDC_COMBO_HOSTADDRESS, m_wndHostAddress);
     DDX_CBString(pDX, IDC_COMBO_HOSTADDRESS, m_szHostAddress);
+    DDX_Control(pDX, IDC_BUTTON_IMPORTTTILE, m_wndImportBtn);
 }
 
 
@@ -92,6 +93,7 @@ BEGIN_MESSAGE_MAP(CHostManagerDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_GENTT, &CHostManagerDlg::OnBnClickedButtonGentt)
     ON_BN_CLICKED(IDC_BUTTON_DELENTRY, &CHostManagerDlg::OnBnClickedButtonDelentry)
     ON_CBN_SELCHANGE(IDC_COMBO_HOSTADDRESS, &CHostManagerDlg::OnCbnSelchangeComboHostaddress)
+    ON_BN_CLICKED(IDC_BUTTON_IMPORTTTILE, &CHostManagerDlg::OnBnClickedButtonImportttile)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -455,5 +457,35 @@ void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
         m_wndPassword.SetWindowText(STR_UTF8(m_vecHosts[index].szPassword.c_str()));
         m_wndChannel.SetWindowText(STR_UTF8(m_vecHosts[index].szChannel.c_str()));
         m_wndChPasswd.SetWindowText(STR_UTF8(m_vecHosts[index].szChPasswd.c_str()));
+    }
+}
+
+
+void CHostManagerDlg::OnBnClickedButtonImportttile()
+{
+    CString filetypes = _T("Host files (*") _T(TTFILE_EXT) _T(")|*") _T(TTFILE_EXT) _T("|All files (*.*)|*.*|");
+    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY,filetypes, this);
+    if(dlg.DoModal() == IDOK)
+    {
+        HostEntry tthost;
+
+        TTFile tt(TT_XML_ROOTNAME);
+        if(tt.LoadFile(STR_LOCAL( dlg.GetPathName() )) && 
+            VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T("5.0")) &&
+            !tt.HasErrors() && tt.GetHostEntry(tthost, 0))
+        {
+            m_pSettings->AddHostManagerEntry(tthost);
+            int i = m_wndHosts.AddString(STR_UTF8( tthost.szEntryName.c_str()));
+            m_wndHosts.SetCurSel(i);
+            OnSelchangeListHosts();
+        }
+        else
+        {
+            CString s, szCaption;
+            s.Format(_T("The file %s\r\ndoes not contain a valid %s host entry.\r\n")
+                _T("Error message: %s"), dlg.GetPathName(), APPNAME, STR_UTF8(tt.GetError().c_str()));
+            m_wndImportBtn.GetWindowText(szCaption);
+            MessageBox(s, StripAmpersand(szCaption), MB_ICONERROR);
+        }
     }
 }

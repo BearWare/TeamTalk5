@@ -1,29 +1,44 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.2 (unreleased)
+Default Qt client:
+- Added -cfg command line argument for new/existing ini-file
+Accessible client:
+- Added -cfg command line argument for new/existing ini-file
+- Added Import .tt File button in Host Manager
+
 Version 5.1 (unreleased)
 General:
 - Fixed clicking sound when streaming media files
 Default Qt client:
-- Custom video format in Qt client
-- Hungarian language file for Qt client
-- Last to talk is shown in yellow in Qt client
+- Custom video capture format (Video-tab)
+- Last to talk is shown in yellow
 - Flip image menu option in Qt client (right-click image)
-- Bulgarian language
 - Option to set media file vs. voice volume in Sound System-tab
 - Denoise and Automatic Gain Control now active when doing sound device test
+- Fixed text message window appearing in background on Mac OS X
+- Volume and gain level has new min/max values (0-100%)
+- Remembers channel passwords when joining same channel again
+- Bulgarian language
+- Hungarian language
 Accessible client:
 - Ctrl+G sends user or channel state to text-to-speech in classic client
 - Changed tab-order in classic client's connect dialog
 - Option to set media file vs. voice volume in Sound System-tab
 - Denoise and Automatic Gain Control now active when doing sound device test
+- Volume and gain level has new min/max values (0-100%)
+- Remembers channel passwords when joining same channel again
+- Croatian language
 Android client:
 - Fixed sampling rate limited to 16 KHz mono
 - Video capture and media file playback
 - Fixed crash in settings on some Android devices
+- Microphone and master volume gain
 Server:
 - Default audio codec for server's root channel is now OPUS
-
+- CentOS 5/6 i386 executable
+- CentOS 7 x86_64 executable
 
 Version 5.0, released 2015/03/10
 - WebM video codec replaces Theora

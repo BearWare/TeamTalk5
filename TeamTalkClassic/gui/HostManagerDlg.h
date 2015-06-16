@@ -91,6 +91,8 @@ public:
     afx_msg void OnBnClickedButtonDelentry();
     CComboBox m_wndHostAddress;
     afx_msg void OnCbnSelchangeComboHostaddress();
+    afx_msg void OnBnClickedButtonImportttile();
+    CButton m_wndImportBtn;
 };
 
 //{{AFX_INSERT_LOCATION}}
