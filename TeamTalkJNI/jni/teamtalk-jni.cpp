@@ -19,13 +19,14 @@
  *
  */
 
-#include <string.h>
-#include <TeamTalk.h>
 #include "ttconvert-jni.h"
 #include "teamtalk-jni.h"
+
+#include <string.h>
 #include <assert.h>
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 #include <jni.h>
@@ -35,8 +36,8 @@ extern "C" {
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkBase_getVersion(JNIEnv* env,
                                                                        jclass)
     {
-        const char* ttv = TT_GetVersion();
-        return env->NewStringUTF(ttv);
+        const TTCHAR* ttv = TT_GetVersion();
+        return NEW_JSTRING(env, ttv);
     }
 
     JNIEXPORT jlong JNICALL Java_dk_bearware_TeamTalkBase_initTeamTalkPoll(JNIEnv* env,
@@ -60,9 +61,10 @@ extern "C" {
     {
         THROW_NULLEX(env, pMsg, false);
 
+        INT32 _pnWaitMs = pnWaitMs;
         TTMessage msg;
         TTBOOL b = TT_GetMessage(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                 &msg, &pnWaitMs);
+                                 &msg, &_pnWaitMs);
         if(b)
             setTTMessage(env, msg, pMsg);
         return b;
@@ -138,7 +140,7 @@ extern "C" {
             return true;
         }
 
-        jsize arr_size = env->GetArrayLength(lpSoundDevices);
+        INT32 arr_size = (INT32)env->GetArrayLength(lpSoundDevices);
         std::vector<SoundDevice> devs((size_t)arr_size);
         if(arr_size && !TT_GetSoundDevices(&devs[0], &arr_size))
             return false;
@@ -440,7 +442,7 @@ extern "C" {
             return true;
         }
 
-        jsize arr_size = env->GetArrayLength(lpVideoDevices);
+        INT32 arr_size = env->GetArrayLength(lpVideoDevices);
         std::vector<VideoCaptureDevice> devs((size_t)arr_size);
         if(arr_size && !TT_GetVideoCaptureDevices(&devs[0], &arr_size))
             return false;
@@ -609,7 +611,7 @@ extern "C" {
                                                                                        jint nPosY)
     {
         return TT_SendDesktopCursorPosition(reinterpret_cast<TTInstance*>(lpTTInstance),
-                                            nPosX, nPosY);
+                                            (UINT16)nPosX, (UINT16)nPosY);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_sendDesktopInput(JNIEnv* env,
@@ -1090,7 +1092,7 @@ extern "C" {
     {
         THROW_NULLEX(env, lpnHowMany, false);
 
-        int n_users = 0;
+        INT32 n_users = 0;
         if(!lpUsers)
         {
             if(TT_GetServerUsers(reinterpret_cast<TTInstance*>(lpTTInstance),
@@ -1109,10 +1111,10 @@ extern "C" {
            TT_GetServerUsers(reinterpret_cast<TTInstance*>(lpTTInstance), &users[0],
                              &n_users))
         {
-            n_users = std::min(n_users, getIntPtr(env, lpnHowMany));
+            n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
 
-            for(size_t i=0;i<n_users;i++)
+            for(size_t i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1161,10 +1163,10 @@ extern "C" {
                                                                            jlong lpTTInstance,
                                                                            jint nChannelID)
     {
-        TTCHAR channel[TT_STRLEN] = "";
+        TTCHAR channel[TT_STRLEN] = {0};
         TT_GetChannelPath(reinterpret_cast<TTInstance*>(lpTTInstance),
                           nChannelID, channel);
-        return env->NewStringUTF(channel);
+        return NEW_JSTRING(env, channel);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getChannelIDFromPath(JNIEnv* env,
@@ -1188,7 +1190,7 @@ extern "C" {
     {
         THROW_NULLEX(env, lpnHowMany, false);
 
-        int n_users = 0;
+        INT32 n_users = 0;
         if(!lpUsers)
         {
             if(TT_GetChannelUsers(reinterpret_cast<TTInstance*>(lpTTInstance), 
@@ -1207,9 +1209,9 @@ extern "C" {
            TT_GetChannelUsers(reinterpret_cast<TTInstance*>(lpTTInstance), 
                               nChannelID, &users[0], &n_users))
         {
-            n_users = std::min(n_users, getIntPtr(env, lpnHowMany));
+            n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
-            for(size_t i=0;i<n_users;i++)
+            for(size_t i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1231,7 +1233,7 @@ extern "C" {
     {
         THROW_NULLEX(env, lpnHowMany, false);
 
-        int n_files = 0;
+        INT32 n_files = 0;
         if(!lpRemoteFiles)
         {
             if(TT_GetChannelFiles(reinterpret_cast<TTInstance*>(lpTTInstance), 
@@ -1250,12 +1252,12 @@ extern "C" {
            TT_GetChannelFiles(reinterpret_cast<TTInstance*>(lpTTInstance), 
                               nChannelID, &files[0], &n_files))
         {
-            n_files = std::min(n_files, getIntPtr(env, lpnHowMany));
+            n_files = std::min(n_files, (INT32)getIntPtr(env, lpnHowMany));
             if(n_files>0)
             {
                 std::vector<jobject> jfiles(n_files);
                 jclass cls = env->FindClass("dk/bearware/RemoteFile");
-                for(size_t i=0;i<n_files;i++)
+                for(size_t i=0;i<(size_t)n_files;i++)
                 {
                     jobject file_obj = newObject(env, cls);
                     setRemoteFile(env, files[i], file_obj);
@@ -1324,10 +1326,10 @@ extern "C" {
            TT_GetServerChannels(reinterpret_cast<TTInstance*>(lpTTInstance), &channels[0],
                                 &n_channels))
         {
-            n_channels = std::min(n_channels, getIntPtr(env, lpnHowMany));
+            n_channels = std::min(n_channels, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_channels);
             jclass cls = env->FindClass("dk/bearware/Channel");
-            for(size_t i=0;i<n_channels;i++)
+            for(size_t i=0;i<(size_t)n_channels;i++)
             {
                 jobject chan_obj = newObject(env, cls);
                 setChannel(env, channels[i], chan_obj, N2J);
@@ -1564,9 +1566,9 @@ extern "C" {
                                                                             jobject thiz,
                                                                             jint nError)
     {
-        TTCHAR szError[TT_STRLEN] = "";
+        TTCHAR szError[TT_STRLEN] = {0};
         TT_GetErrorMessage(nError, szError);
-        return env->NewStringUTF(szError);
+        return NEW_JSTRING(env, szError);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1SetSoundInputTone(JNIEnv* env,

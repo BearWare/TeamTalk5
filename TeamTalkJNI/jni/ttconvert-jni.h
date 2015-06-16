@@ -22,11 +22,27 @@
 #ifndef TTCONVERT_JNI_H
 #define TTCONVERT_JNI_H
 
+#if defined(WIN32)
+#define NOMINMAX 1
+#include <Windows.h>
+#endif
+
 #include <jni.h>
 #include <TeamTalk.h>
 
-#define TT_STRCPY(dst, src) do { strncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
 #define ZERO_STRUCT(s) memset(&s, 0, sizeof(s))
+
+#if defined(WIN32)
+#define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), TT_STRLEN))
+#define TT_STRCPY(dst, src) do { wcsncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
+const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N);
+#else
+#define NEW_JSTRING(env, str) (env->NewStringUTF(str))
+#define TT_STRCPY(dst, src) do { strncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
+#define TO_JINT_ARRAY(ttint32, jints, N) (jints)
+#endif
+
+const INT32* TO_INT32_ARRAY(const jint* jints, INT32* ttints, jsize N);
 
 #define THROW_NULLEX(env, param, ret)                       do {        \
     if(param == 0) {                                                    \
@@ -40,7 +56,7 @@ class ttstr
 {
     JNIEnv* env;
     jstring js;
-    const char* str;
+    const TTCHAR* str;
     ttstr(const ttstr&);
     const ttstr& operator = (const ttstr&);
 
@@ -49,17 +65,28 @@ public:
         : env(e)
         , js(s)
         {
+#if defined(WIN32)
+            if(s)
+                str = reinterpret_cast<const TTCHAR*>(env->GetStringChars(s, 0));
+            else str = L"";
+#else
             if(s)
                 str = env->GetStringUTFChars(s, 0);
             else str = "";
+#endif
         }
     
     ~ttstr()
         {
+#if defined(WIN32)
+            if(js)
+                env->ReleaseStringChars(js, reinterpret_cast<const jchar*>(str));
+#else
             if(js)
                 env->ReleaseStringUTFChars(js, str);
+#endif
         }
-    operator const char*() { return str; }
+    operator const TTCHAR*() { return str; }
 };
 
 enum JConvert

@@ -26,6 +26,20 @@
 #include <string>
 using namespace std;
 
+#if defined(WIN32)
+const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N)
+{
+    for(int ii=0;ii<N;ii++)jints[ii] = (jint)ttints[ii];
+    return jints;
+}
+#endif
+
+const INT32* TO_INT32_ARRAY(const jint* jints, INT32* ttints, jsize N)
+{
+    for(int ii=0;ii<N;ii++)ttints[ii] = (INT32)jints[ii];
+    return ttints;
+}
+
 jobject newObject(JNIEnv* env, jclass cls_obj)
 {
     jmethodID midInit = env->GetMethodID(cls_obj, "<init>", "()V");
@@ -62,15 +76,16 @@ jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev)
         
     env->SetIntField(newObj, fid_devid, dev.nDeviceID);
     env->SetIntField(newObj, fid_sndsys, dev.nSoundSystem);
-    env->SetObjectField(newObj, fid_devname, env->NewStringUTF(dev.szDeviceName));
-    env->SetObjectField(newObj, fid_devstr, env->NewStringUTF(dev.szDeviceID));
+    env->SetObjectField(newObj, fid_devname, NEW_JSTRING(env, dev.szDeviceName));
+    env->SetObjectField(newObj, fid_devstr, NEW_JSTRING(env, dev.szDeviceID));
     env->SetIntField(newObj, fid_inchan, dev.nMaxInputChannels);
     env->SetIntField(newObj, fid_outchan, dev.nMaxOutputChannels);
     jintArray arr_insr = env->NewIntArray(TT_SAMPLERATES_MAX);
-    env->SetIntArrayRegion(arr_insr, 0, TT_SAMPLERATES_MAX, dev.inputSampleRates);
+    jint tmp[TT_SAMPLERATES_MAX];
+    env->SetIntArrayRegion(arr_insr, 0, TT_SAMPLERATES_MAX, TO_JINT_ARRAY(dev.inputSampleRates, tmp, TT_SAMPLERATES_MAX));
     env->SetObjectField(newObj, fid_insr, arr_insr);
     jintArray arr_outsr = env->NewIntArray(TT_SAMPLERATES_MAX);
-    env->SetIntArrayRegion(arr_outsr, 0, TT_SAMPLERATES_MAX, dev.outputSampleRates);
+    env->SetIntArrayRegion(arr_outsr, 0, TT_SAMPLERATES_MAX, TO_JINT_ARRAY(dev.outputSampleRates, tmp, TT_SAMPLERATES_MAX));
     env->SetObjectField(newObj, fid_outsr, arr_outsr);
     env->SetIntField(newObj, fid_defsr, dev.nDefaultSampleRate);        
 
@@ -93,9 +108,9 @@ jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev)
     assert(fid_api);
     assert(fid_fmts);
 
-    env->SetObjectField(newObj, fid_devid, env->NewStringUTF(dev.szDeviceID));
-    env->SetObjectField(newObj, fid_name, env->NewStringUTF(dev.szDeviceName));
-    env->SetObjectField(newObj, fid_api, env->NewStringUTF(dev.szCaptureAPI));
+    env->SetObjectField(newObj, fid_devid, NEW_JSTRING(env, dev.szDeviceID));
+    env->SetObjectField(newObj, fid_name, NEW_JSTRING(env, dev.szDeviceName));
+    env->SetObjectField(newObj, fid_api, NEW_JSTRING(env, dev.szCaptureAPI));
     jclass cls_vidfmt = env->FindClass("dk/bearware/VideoFormat");
     jobjectArray buf = env->NewObjectArray(dev.nVideoFormatsCount, cls_vidfmt, NULL);
     env->SetObjectField(newObj, fid_fmts, buf);
@@ -145,14 +160,14 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
     {
         env->SetIntField(lpChannel, fid_parentid, chan.nParentID);
         env->SetIntField(lpChannel, fid_chanid, chan.nChannelID);
-        env->SetObjectField(lpChannel, fid_name, env->NewStringUTF(chan.szName));
-        env->SetObjectField(lpChannel, fid_topic, env->NewStringUTF(chan.szTopic));
-        env->SetObjectField(lpChannel, fid_passwd, env->NewStringUTF(chan.szPassword));
+        env->SetObjectField(lpChannel, fid_name, NEW_JSTRING(env, chan.szName));
+        env->SetObjectField(lpChannel, fid_topic, NEW_JSTRING(env, chan.szTopic));
+        env->SetObjectField(lpChannel, fid_passwd, NEW_JSTRING(env, chan.szPassword));
         env->SetBooleanField(lpChannel, fid_prot, chan.bPassword);
         env->SetIntField(lpChannel, fid_chantype, chan.uChannelType);
         env->SetIntField(lpChannel, fid_userdata, chan.nUserData);
         env->SetLongField(lpChannel, fid_quota, chan.nDiskQuota);
-        env->SetObjectField(lpChannel, fid_oppasswd, env->NewStringUTF(chan.szOpPassword));
+        env->SetObjectField(lpChannel, fid_oppasswd, NEW_JSTRING(env, chan.szOpPassword));
         env->SetIntField(lpChannel, fid_maxusers, chan.nMaxUsers);
 
         jclass cls_codec = env->FindClass("dk/bearware/AudioCodec");
@@ -229,18 +244,18 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_vbuf);
     
     env->SetIntField(lpUser, fid_userid, user.nUserID);
-    env->SetObjectField(lpUser, fid_username, env->NewStringUTF(user.szUsername));
+    env->SetObjectField(lpUser, fid_username, NEW_JSTRING(env, user.szUsername));
     env->SetIntField(lpUser, fid_userdata, user.nUserData);
-    env->SetObjectField(lpUser, fid_ipaddr, env->NewStringUTF(user.szIPAddress));
+    env->SetObjectField(lpUser, fid_ipaddr, NEW_JSTRING(env, user.szIPAddress));
     env->SetIntField(lpUser, fid_version, user.uVersion);
     env->SetIntField(lpUser, fid_chanid, user.nChannelID);
     env->SetIntField(lpUser, fid_lsub, user.uLocalSubscriptions);
     env->SetIntField(lpUser, fid_psub, user.uPeerSubscriptions);
-    env->SetObjectField(lpUser, fid_nickname, env->NewStringUTF(user.szNickname));
+    env->SetObjectField(lpUser, fid_nickname, NEW_JSTRING(env, user.szNickname));
     env->SetIntField(lpUser, fid_stmode, user.nStatusMode);
-    env->SetObjectField(lpUser, fid_stmsg, env->NewStringUTF(user.szStatusMsg));
+    env->SetObjectField(lpUser, fid_stmsg, NEW_JSTRING(env, user.szStatusMsg));
     env->SetIntField(lpUser, fid_state, user.uUserState);
-    env->SetObjectField(lpUser, fid_folder, env->NewStringUTF(user.szMediaStorageDir));
+    env->SetObjectField(lpUser, fid_folder, NEW_JSTRING(env, user.szMediaStorageDir));
     env->SetIntField(lpUser, fid_volvoice, user.nVolumeVoice);
     env->SetIntField(lpUser, fid_volmf, user.nVolumeMediaFile);
     env->SetIntField(lpUser, fid_stopvoice, user.nStoppedDelayVoice);
@@ -743,9 +758,9 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
 
     if(conv == N2J)
     {
-        env->SetObjectField(lpServerProperties, fid_name, env->NewStringUTF(srvprop.szServerName));
-        env->SetObjectField(lpServerProperties, fid_motd, env->NewStringUTF(srvprop.szMOTD));
-        env->SetObjectField(lpServerProperties, fid_motdraw, env->NewStringUTF(srvprop.szMOTDRaw));
+        env->SetObjectField(lpServerProperties, fid_name, NEW_JSTRING(env, srvprop.szServerName));
+        env->SetObjectField(lpServerProperties, fid_motd, NEW_JSTRING(env, srvprop.szMOTD));
+        env->SetObjectField(lpServerProperties, fid_motdraw, NEW_JSTRING(env, srvprop.szMOTDRaw));
         env->SetIntField(lpServerProperties, fid_maxusers, srvprop.nMaxUsers);
         env->SetIntField(lpServerProperties, fid_maxattempts, srvprop.nMaxLoginAttempts);
         env->SetIntField(lpServerProperties, fid_iplogins, srvprop.nMaxLoginsPerIPAddress);
@@ -758,8 +773,8 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         env->SetIntField(lpServerProperties, fid_tcp, srvprop.nTcpPort);
         env->SetIntField(lpServerProperties, fid_udp, srvprop.nUdpPort);
         env->SetIntField(lpServerProperties, fid_tmout, srvprop.nUserTimeout);
-        env->SetObjectField(lpServerProperties, fid_srvver, env->NewStringUTF(srvprop.szServerVersion));
-        env->SetObjectField(lpServerProperties, fid_srvprot, env->NewStringUTF(srvprop.szServerProtocolVersion));
+        env->SetObjectField(lpServerProperties, fid_srvver, NEW_JSTRING(env, srvprop.szServerVersion));
+        env->SetObjectField(lpServerProperties, fid_srvprot, NEW_JSTRING(env, srvprop.szServerProtocolVersion));
     }
     else
     {
@@ -862,10 +877,10 @@ void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConve
     {
         env->SetIntField(lpTextMessage, fid_type, msg.nMsgType);
         env->SetIntField(lpTextMessage, fid_fromid, msg.nFromUserID);
-        env->SetObjectField(lpTextMessage, fid_username, env->NewStringUTF(msg.szFromUsername));
+        env->SetObjectField(lpTextMessage, fid_username, NEW_JSTRING(env, msg.szFromUsername));
         env->SetIntField(lpTextMessage, fid_toid, msg.nToUserID);
         env->SetIntField(lpTextMessage, fid_chanid, msg.nChannelID);
-        env->SetObjectField(lpTextMessage, fid_msg, env->NewStringUTF(msg.szMessage));
+        env->SetObjectField(lpTextMessage, fid_msg, NEW_JSTRING(env, msg.szMessage));
     }
     else
     {
@@ -906,15 +921,16 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
 
     if(conv == N2J)
     {
-        env->SetObjectField(lpAccount, fid_user, env->NewStringUTF(account.szUsername));
-        env->SetObjectField(lpAccount, fid_passwd, env->NewStringUTF(account.szPassword));
+        env->SetObjectField(lpAccount, fid_user, NEW_JSTRING(env, account.szUsername));
+        env->SetObjectField(lpAccount, fid_passwd, NEW_JSTRING(env, account.szPassword));
         env->SetIntField(lpAccount, fid_type, account.uUserType);
         env->SetIntField(lpAccount, fid_ur, account.uUserRights);
         env->SetIntField(lpAccount, fid_data, account.nUserData);
-        env->SetObjectField(lpAccount, fid_note, env->NewStringUTF(account.szNote));
-        env->SetObjectField(lpAccount, fid_initchan, env->NewStringUTF(account.szInitChannel));
+        env->SetObjectField(lpAccount, fid_note, NEW_JSTRING(env, account.szNote));
+        env->SetObjectField(lpAccount, fid_initchan, NEW_JSTRING(env, account.szInitChannel));
         jintArray intArr = env->NewIntArray(TT_CHANNELS_OPERATOR_MAX);
-        env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, account.autoOperatorChannels);
+        jint tmp[TT_CHANNELS_OPERATOR_MAX];
+        env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
     }
@@ -929,7 +945,9 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         TT_STRCPY(account.szNote, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_note)));
         TT_STRCPY(account.szInitChannel, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_initchan)));
         jintArray intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
-        env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, account.autoOperatorChannels);
+        jint tmp[TT_CHANNELS_OPERATOR_MAX];
+        env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
+        TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);
     }
 }
@@ -1011,9 +1029,9 @@ void setRemoteFile(JNIEnv* env, const RemoteFile& fileinfo, jobject lpRemoteFile
 
     env->SetIntField(lpRemoteFile, fid_id, fileinfo.nFileID);
     env->SetIntField(lpRemoteFile, fid_cid, fileinfo.nChannelID);
-    env->SetObjectField(lpRemoteFile, fid_name, env->NewStringUTF(fileinfo.szFileName));
+    env->SetObjectField(lpRemoteFile, fid_name, NEW_JSTRING(env, fileinfo.szFileName));
     env->SetLongField(lpRemoteFile, fid_size, fileinfo.nFileSize);
-    env->SetObjectField(lpRemoteFile, fid_user, env->NewStringUTF(fileinfo.szUsername));
+    env->SetObjectField(lpRemoteFile, fid_user, NEW_JSTRING(env, fileinfo.szUsername));
 }
 
 void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics)
@@ -1086,8 +1104,8 @@ void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTran
     env->SetIntField(lpFileTransfer, fid_status, filetx.nStatus);
     env->SetIntField(lpFileTransfer, fid_txid, filetx.nTransferID);
     env->SetIntField(lpFileTransfer, fid_chanid, filetx.nChannelID);
-    env->SetObjectField(lpFileTransfer, fid_filepath, env->NewStringUTF(filetx.szLocalFilePath));
-    env->SetObjectField(lpFileTransfer, fid_rempath, env->NewStringUTF(filetx.szRemoteFileName));
+    env->SetObjectField(lpFileTransfer, fid_filepath, NEW_JSTRING(env, filetx.szLocalFilePath));
+    env->SetObjectField(lpFileTransfer, fid_rempath, NEW_JSTRING(env, filetx.szRemoteFileName));
     env->SetLongField(lpFileTransfer, fid_size, filetx.nFileSize);
     env->SetLongField(lpFileTransfer, fid_txed, filetx.nTransferred);
     env->SetBooleanField(lpFileTransfer, fid_inbound, filetx.bInbound);
@@ -1109,11 +1127,11 @@ void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser)
    assert(fid_nick);
    assert(fid_username);
 
-   env->SetObjectField(lpBannedUser, fid_ipaddr, env->NewStringUTF(banned.szIPAddress));
-   env->SetObjectField(lpBannedUser, fid_chan, env->NewStringUTF(banned.szChannelPath));
-   env->SetObjectField(lpBannedUser, fid_time, env->NewStringUTF(banned.szBanTime));
-   env->SetObjectField(lpBannedUser, fid_nick, env->NewStringUTF(banned.szNickname));
-   env->SetObjectField(lpBannedUser, fid_username, env->NewStringUTF(banned.szUsername));
+   env->SetObjectField(lpBannedUser, fid_ipaddr, NEW_JSTRING(env, banned.szIPAddress));
+   env->SetObjectField(lpBannedUser, fid_chan, NEW_JSTRING(env, banned.szChannelPath));
+   env->SetObjectField(lpBannedUser, fid_time, NEW_JSTRING(env, banned.szBanTime));
+   env->SetObjectField(lpBannedUser, fid_nick, NEW_JSTRING(env, banned.szNickname));
+   env->SetObjectField(lpBannedUser, fid_username, NEW_JSTRING(env, banned.szUsername));
 }
 
 void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClientErrorMsg)
@@ -1127,7 +1145,7 @@ void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClien
    assert(fid_msg);
 
    env->SetIntField(lpClientErrorMsg, fid_err, cemsg.nErrorNo);
-   env->SetObjectField(lpClientErrorMsg, fid_msg, env->NewStringUTF(cemsg.szErrorMsg));
+   env->SetObjectField(lpClientErrorMsg, fid_msg, NEW_JSTRING(env, cemsg.szErrorMsg));
 }
 
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv)
@@ -1154,8 +1172,8 @@ void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, J
    else
    {
        ZERO_STRUCT(input);
-       input.uMousePosX = env->GetIntField(lpDesktopInput, fid_x);
-       input.uMousePosY = env->GetIntField(lpDesktopInput, fid_y);
+       input.uMousePosX = (UINT16)env->GetIntField(lpDesktopInput, fid_x);
+       input.uMousePosY = (UINT16)env->GetIntField(lpDesktopInput, fid_y);
        input.uKeyCode = env->GetIntField(lpDesktopInput, fid_keycode);
        input.uKeyState = env->GetIntField(lpDesktopInput, fid_keystate);
    }
@@ -1290,7 +1308,7 @@ void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo)
    assert(fid_dur);
 
    env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
-   env->SetObjectField(lpMediaFileInfo, fid_fname, env->NewStringUTF(mfi.szFileName));
+   env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
    
    jclass cls_audfmt = env->FindClass("dk/bearware/AudioFormat");
    jclass cls_vidfmt = env->FindClass("dk/bearware/VideoFormat");
