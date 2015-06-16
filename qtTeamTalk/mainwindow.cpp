@@ -83,7 +83,7 @@ QTranslator* ttTranslator = NULL;
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(const QString& cfgfile)
 : m_sysicon(NULL)
 , m_sysmenu(NULL)
 , m_current_cmdid(0)
@@ -130,13 +130,21 @@ MainWindow::MainWindow()
     QApplication::setApplicationName(APPNAME_SHORT);
     
     //figure out where to load settings from
-    QString inifile = QString(APPINIFILE);
     QString inipath = QApplication::applicationDirPath();
-    inipath += "/" + inifile;
+    inipath += "/" + QString(APPINIFILE);
+    //test if cfg is provided by user
+    if(cfgfile.size())
+    {
+        inipath = QDir::fromNativeSeparators(cfgfile);
+        if(!QFile::exists(inipath))
+            QFile(inipath).open(QIODevice::WriteOnly);
+    }
+
     if(QFile::exists(inipath)) //first try same dir as executable
         ttSettings = new QSettings(inipath, QSettings::IniFormat, this);
     else
     {
+        //load from system default user settings
         ttSettings = new QSettings(QSettings::IniFormat, 
                                    QSettings::UserScope,
                                    QApplication::organizationName(),
@@ -704,6 +712,10 @@ bool MainWindow::parseArgs(const QStringList& args)
         else if(args[i] == "-tone")
         {
             TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
+        }
+        else if(args[i] == "-cfg")
+        {
+            i++; // skip filename
         }
         else
         {

@@ -2118,8 +2118,20 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_wndTree.Initialize();
 
     BOOL bRunWizard = FALSE;
-    //load xml settings
+
     CString szXmlFile = _T( SETTINGS_FILE );
+    //check if user wants to use a custom config
+    POSITION pos = m_cmdArgs.Find(_T("cfg"));
+    if(pos != NULL && m_cmdArgs.GetNext(pos) && pos != NULL)
+    {
+        szXmlFile = m_cmdArgs.GetAt(pos);
+        if(!FileExists(szXmlFile))
+        {
+            ClientXML f(TT_XML_ROOTNAME);
+            f.CreateFile(STR_LOCAL(szXmlFile));
+        }
+    }
+    //load xml settings
     if(!FileExists(szXmlFile))
     {
         TCHAR buff[MAX_PATH];
@@ -3626,9 +3638,20 @@ void CTeamTalkDlg::OnUsersOp()
     int nUserID = m_wndTree.GetSelectedUser();
     if(nUserID>0)
     {
-        int nChannelID = TT_GetMyChannelID(ttInst);
-        TT_DoChannelOp(ttInst, nUserID, nChannelID, 
-            !TT_IsChannelOperator(ttInst, nUserID, nChannelID));
+        int nChannelID = m_wndTree.GetSelectedChannel(true);
+        BOOL bNewState = !TT_IsChannelOperator(ttInst, nUserID, nChannelID);
+        if(TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE)
+        {
+            TT_DoChannelOp(ttInst, nUserID, nChannelID, bNewState);
+        }
+        else
+        {
+            CString szTitle = _T("Operator password");
+            TRANSLATE_ITEM(IDC_STATIC_OPPASSWD, szTitle);
+            CInputDlg dlg(szTitle, _T("Enter password"), _T(""), this);
+            if(dlg.DoModal() == IDOK)
+                TT_DoChannelOpEx(ttInst, nUserID, nChannelID, dlg.m_szInput, bNewState);
+        }
     }
 }
 
@@ -4316,7 +4339,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 
     TTFile tt(TT_XML_ROOTNAME);
     if(tt.LoadFile(STR_LOCAL( m_szTTLink )) && 
-       VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T(TEAMTALK_XML_VERSION)) &&
+       VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T("5.0")) &&
        !tt.HasErrors() && tt.GetHostEntry(tthost, 0))
     {
         m_host = tthost;
@@ -4392,7 +4415,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
         m_xmlSettings.RemoveLatestHostEntry(m_host);
         m_xmlSettings.AddLatestHostEntry(m_host);
     }
-    else if(!VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T(TEAMTALK_XML_VERSION)))
+    else if(!VersionSameOrLater(STR_UTF8(tt.GetFileVersion()), _T("5.0")))
     {
         CString szError;
         szError.Format(_T("The file \"%s\" is incompatible with %s"), m_szTTLink, APPTITLE);
@@ -4616,6 +4639,11 @@ void CTeamTalkDlg::ParseArgs()
             TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_VOICE, 440);
         else if(arg.Left(_tcslen(TTURL)) == TTURL)
             m_szTTLink = orgArg;
+        else if(arg == _T("cfg"))
+        {
+            if(pos != NULL)
+                m_cmdArgs.GetNext(pos); //skip next
+        }
         else
             m_szTTLink = orgArg;
     }

@@ -84,7 +84,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    MainWindow();
+    MainWindow(const QString& cfgfile);
     ~MainWindow();
 
     void loadSettings();

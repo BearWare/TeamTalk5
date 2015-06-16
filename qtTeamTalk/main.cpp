@@ -245,7 +245,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 #endif
 
-    MainWindow window;
+    QString cfgfile;
+    int idx = QApplication::arguments().indexOf("-cfg");
+    if(idx >= 0 && ++idx < QApplication::arguments().size())
+        cfgfile = QApplication::arguments()[idx];
+
+    MainWindow window(cfgfile);
 
     /* Set license information before creating the first client instance */
     TT_SetLicenseInformation(_W(QString(REGISTRATION_NAME)), _W(QString(REGISTRATION_KEY)));
