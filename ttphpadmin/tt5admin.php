@@ -389,9 +389,16 @@ while(TRUE)
         $username = get_userparam("Type username for account: ");
         $password = get_userparam("Type password for account: ");
         $usertype = get_userinput("User type (1=default, 2=admin): ");
+        //assign user rights if default user
+        $userrights = UserRight::USERRIGHT_NONE;
+        if($usertype == 1)
+        {
+            if(get_userparam("Should user be able to see all other users? (y/n)? ") == 'y')
+                $userrights |= UserRight::USERRIGHT_MULTI_LOGIN;
+        }
         $note = get_userinput("Note: ");
         $initchan = get_userinput("Initial channel: ");
-        $cmd = "newaccount username=\"$username\" password=\"$password\" usertype=$usertype note=\"$note\" channel=\"$initchan\" id=$cmdid\r\n";
+        $cmd = "newaccount username=\"$username\" password=\"$password\" usertype=$usertype note=\"$note\" channel=\"$initchan\" userrights=$userrights id=$cmdid\r\n";
         fwrite($socket, $cmd);
         if(!process_reply_cmd($cmdid))
         {
@@ -845,5 +852,29 @@ function getchannelpath($id)
 
     return $path;
 }
+
+class UserRight
+{
+    const USERRIGHT_NONE                      = 0x00000000; 
+    const USERRIGHT_MULTI_LOGIN               = 0x00000001;
+    const USERRIGHT_VIEW_ALL_USERS            = 0x00000002;
+    const USERRIGHT_CREATE_TEMPORARY_CHANNEL  = 0x00000004;
+    const USERRIGHT_MODIFY_CHANNELS           = 0x00000008;
+    const USERRIGHT_TEXTMESSAGE_BROADCAST     = 0x00000010;
+    const USERRIGHT_KICK_USERS                = 0x00000020;
+    const USERRIGHT_BAN_USERS                 = 0x00000040;
+    const USERRIGHT_MOVE_USERS                = 0x00000080;
+    const USERRIGHT_OPERATOR_ENABLE           = 0x00000100;
+    const USERRIGHT_UPLOAD_FILES              = 0x00000200;
+    const USERRIGHT_DOWNLOAD_FILES            = 0x00000400;
+    const USERRIGHT_UPDATE_SERVERPROPERTIES   = 0x00000800;
+    const USERRIGHT_TRANSMIT_VOICE            = 0x00001000; 
+    const USERRIGHT_TRANSMIT_VIDEOCAPTURE     = 0x00002000;
+    const USERRIGHT_TRANSMIT_DESKTOP          = 0x00004000;
+    const USERRIGHT_TRANSMIT_DESKTOPINPUT     = 0x00008000;
+    const USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO  = 0x00010000;
+    const USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO  = 0x00020000;
+};
+
 
 ?>
