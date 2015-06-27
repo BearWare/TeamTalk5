@@ -50,6 +50,24 @@ void CUserVideoDlg::NewVideoFrame()
     m_nDeadCounter = 0;
 }
 
+void CUserVideoDlg::ResizeWindow(const VideoFrame& frm)
+{
+    CRect rWnd, rClient;
+    GetWindowRect(rWnd);
+    GetClientRect(rClient);
+
+    int nDiffW = frm.nWidth - rClient.Width();
+    int nDiffH = frm.nHeight - rClient.Height();
+    rWnd.right += nDiffW;
+    rWnd.bottom += nDiffH;
+        
+    MoveWindow(rWnd);
+
+    GetClientRect(rClient);
+    ASSERT(rClient.Width() == frm.nWidth);
+    ASSERT(rClient.Height() == frm.nHeight);
+}
+
 void CUserVideoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -68,6 +86,8 @@ BOOL CUserVideoDlg::OnEraseBkgnd(CDC* pDC)
 {
     CRect rect;
     GetClientRect(rect);
+
+    BOOL bInitialFrame = m_VideoFrame == NULL;
 
     VideoFrame* pTmpFrame = NULL;
     switch(m_nUserID & VIDEOTYPE_MASK)
@@ -90,9 +110,16 @@ BOOL CUserVideoDlg::OnEraseBkgnd(CDC* pDC)
         break;
     }
 
+
+
     if(m_VideoFrame)
+    {
+        if(bInitialFrame)
+            ResizeWindow(*m_VideoFrame);
+
         TT_PaintVideoFrame(pDC->m_hDC, rect.left, rect.top, rect.Width(),
                            rect.Height(), m_VideoFrame);
+    }
     //while(TT_PaintVideoFrameEx(ttInst, m_nUserID, pDC->m_hDC, rect.left, 
     //                           rect.top, rect.Width(), rect.Height(),
     //                           150, 100, 100, 100));
@@ -157,20 +184,7 @@ BOOL CUserVideoDlg::OnInitDialog()
 
     if(m_VideoFrame && m_VideoFrame->nWidth && m_VideoFrame->nHeight)
     {
-        CRect rWnd, rClient;
-        GetWindowRect(rWnd);
-        GetClientRect(rClient);
-
-        int nDiffW = m_VideoFrame->nWidth - rClient.Width();
-        int nDiffH = m_VideoFrame->nHeight - rClient.Height();
-        rWnd.right += nDiffW;
-        rWnd.bottom += nDiffH;
-        
-        MoveWindow(rWnd);
-
-        GetClientRect(rClient);
-        ASSERT(rClient.Width() == m_VideoFrame->nWidth);
-        ASSERT(rClient.Height() == m_VideoFrame->nHeight);
+        ResizeWindow(*m_VideoFrame);
     }
 
     SetTimer(VIDEODLG_LIVENESS_TIMERID, 1000, NULL);

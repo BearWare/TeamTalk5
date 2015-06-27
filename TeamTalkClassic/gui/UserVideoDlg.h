@@ -42,16 +42,17 @@ protected:
     int m_nTimedUpdateMSec;
     int m_nDeadCounter;
     VideoFrame* m_VideoFrame;
+
 public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnClose();
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
+    virtual BOOL OnInitDialog();
+
+    void ResizeWindow(const VideoFrame& frm);
+
 protected:
     virtual void OnOK();
     virtual void OnCancel();
-public:
-    afx_msg void OnTimer(UINT_PTR nIDEvent);
-    virtual BOOL OnInitDialog();
-protected:
     virtual void PostNcDestroy();
-public:
-    afx_msg void OnClose();
 };
