@@ -1520,7 +1520,7 @@ namespace BearWare
          * flag changes the event ::CLIENTEVENT_USER_STATECHANGE is
          * posted.  @see TeamTalk.StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE                             = USERSTATE_MEDIAFILE_AUDIO |
-                                                          USERSTATE_MEDIAFILE_AUDIO
+                                                          USERSTATE_MEDIAFILE_VIDEO
     }
 
     /**

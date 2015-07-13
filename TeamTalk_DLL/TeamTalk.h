@@ -1452,7 +1452,7 @@ extern "C" {
          * flag changes the event #CLIENTEVENT_USER_STATECHANGE is
          * posted.  @see TT_StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE             = USERSTATE_MEDIAFILE_AUDIO |
-                                          USERSTATE_MEDIAFILE_AUDIO
+                                          USERSTATE_MEDIAFILE_VIDEO
     } UserState;
 
     /** @brief A bitmask based on #UserState indicating a #User's current
