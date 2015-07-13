@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
@@ -430,9 +430,9 @@
     <item id="32894">&amp;Administrátorské zprávy\tCtrl+Š</item>
     <item id="32895">&amp;Zvuk\tCtrl+Č</item>
     <item id="32896">&amp;Video\tCtrl+Ř</item>
-    <item id="32897">Odposlo&amp;uchávat zvuk\tCtrl+Č</item>
-    <item id="32898">Odposlouchávat soukro&amp;mé zprávy\tCtrl+Shift++</item>
-    <item id="32899">Odposlouchávat zprávy v c&amp;hatu\tCtrl+Shift+Ě</item>
+    <item id="32897">Odposlo&amp;uchávat zvuk\tCtrl+Shift+Č</item>
+    <item id="32898">Sledovat soukro&amp;mé zprávy\tCtrl+Shift++</item>
+    <item id="32899">Sledovat zprávy v c&amp;hatu\tCtrl+Shift+Ě</item>
     <item id="32900">Sledovat v&amp;ideo\tCtrl+Shift+Ř</item>
     <item id="32901">Udělit &amp;hlas\tCtrl+Q</item>
     <item id="32902">Povo&amp;lit posílání videa\tCtrl+W</item>
