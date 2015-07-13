@@ -865,8 +865,98 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         fs.close();
     }
 
+    public void test_21_RecordPlayback() throws IOException {
+        
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
+            UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        IntPtr indev = new IntPtr(), outdev = new IntPtr();
+        assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
+        
+        assertTrue("init input dev (we skip output device for now)", ttclient.initSoundInputDevice(indev.value));
+
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        int WRITE_BYTES = 256000, v, CHANNELS = 1, SAMPLERATE = 16000;
+
+        Channel chan = buildDefaultChannel(ttclient, "Speex", Codec.SPEEX_CODEC);
+        chan.audiocodec.speex.nBandmode = SpeexConstants.SPEEX_BANDMODE_WIDE; //16000
+
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+
+//        assertTrue(ttclient.setUserMediaStorageDir(ttclient.getMyUserID(), "", "", AudioFileFormat.AFF_WAVE_FORMAT));
+        
+        assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
+
+        assertTrue("pass 0 user id as MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
+
+        FileOutputStream fs = new FileOutputStream("MyWaveFile.wav");
+
+        fs.write(new String("RIFF").getBytes());
+        v = WRITE_BYTES + 36 - 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 36 - 8
+        fs.write(new String("WAVEfmt ").getBytes());
+        fs.write(new byte[] {0x10, 0x0, 0x0, 0x0}); //hdr size
+        fs.write(new byte[] {0x1, 0x0}); //type
+        fs.write(new byte[] {(byte)CHANNELS, 0x0}); //channels
+        v = SAMPLERATE;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //sample rate
+        v = (SAMPLERATE * 16 * CHANNELS) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //bytes/sec
+        v = (16 * CHANNELS) / 8;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF)}); //block align
+        fs.write(new byte[] {0x10, 0x0}); //bit depth
+        fs.write(new String("data").getBytes());
+        v = WRITE_BYTES - 44;
+        fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
+
+        while(WRITE_BYTES > 0) {
+            assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+
+            AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, 0);
+            assertTrue("audio block is valid", block != null);
+            assertTrue(block.nSamples > 0);
+            assertEquals(CHANNELS, block.nChannels);
+            assertEquals(SAMPLERATE, block.nSampleRate);
+            
+            if(block.lpRawAudio.length <= WRITE_BYTES)
+                fs.write(block.lpRawAudio);
+            else
+                fs.write(block.lpRawAudio, 0, WRITE_BYTES);
+            
+            WRITE_BYTES -= block.lpRawAudio.length;
+        }
+        fs.close();
+
+        assertTrue("disable callback for MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, false));
+
+        assertTrue("disable voice now that we have the wav-file", ttclient.enableVoiceTransmission(false));
+
+        assertTrue("init output dev, so we can hear recorded wavfile", ttclient.initSoundOutputDevice(outdev.value));
+
+        assertTrue(ttclient.startStreamingMediaFileToChannel("MyWaveFile.wav", new VideoCodec()));
+
+        assertTrue("get initial streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Stream started", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        
+        assertTrue("wait for finish streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
+    }
+
     // test-case requires a user who is transmitting video capture to root channel
-    public void test_21_VidcapTest() {
+    public void test_22_VidcapTest() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
