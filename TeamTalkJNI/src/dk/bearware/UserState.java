@@ -31,6 +31,6 @@ public interface UserState {
     public static final int USERSTATE_MEDIAFILE_AUDIO       = 0x00000020;
     public static final int USERSTATE_MEDIAFILE_VIDEO       = 0x00000040;
     public static final int USERSTATE_MEDIAFILE             = USERSTATE_MEDIAFILE_AUDIO |
-        USERSTATE_MEDIAFILE_AUDIO;
+                                                              USERSTATE_MEDIAFILE_VIDEO;
 
 }
