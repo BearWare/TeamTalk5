@@ -1,0 +1,434 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
+		254B7A4F1B98BAA300BE0DEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4E1B98BAA300BE0DEF /* ViewController.swift */; };
+		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
+		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
+		254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */; };
+		254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */; };
+		254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */; };
+		254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6E1B98C89600BE0DEF /* AppInfo.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		254B7A5D1B98BAA400BE0DEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 254B7A3F1B98BAA300BE0DEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 254B7A461B98BAA300BE0DEF;
+			remoteInfo = iTeamTalk;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		254B7A4E1B98BAA300BE0DEF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		254B7A511B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		254B7A531B98BAA300BE0DEF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		254B7A561B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTeamTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		254B7A611B98BAA400BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkTests.swift; sourceTree = "<group>"; };
+		254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTableCell.swift; sourceTree = "<group>"; };
+		254B7A6E1B98C89600BE0DEF /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		254B7A441B98BAA300BE0DEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		254B7A591B98BAA400BE0DEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		254B7A3E1B98BAA300BE0DEF = {
+			isa = PBXGroup;
+			children = (
+				254B7A491B98BAA300BE0DEF /* iTeamTalk */,
+				254B7A5F1B98BAA400BE0DEF /* iTeamTalkTests */,
+				254B7A481B98BAA300BE0DEF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		254B7A481B98BAA300BE0DEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				254B7A471B98BAA300BE0DEF /* iTeamTalk.app */,
+				254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		254B7A491B98BAA300BE0DEF /* iTeamTalk */ = {
+			isa = PBXGroup;
+			children = (
+				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
+				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
+				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
+				254B7A4E1B98BAA300BE0DEF /* ViewController.swift */,
+				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
+				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
+				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
+				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
+			);
+			path = iTeamTalk;
+			sourceTree = "<group>";
+		};
+		254B7A4A1B98BAA300BE0DEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				254B7A4B1B98BAA300BE0DEF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		254B7A5F1B98BAA400BE0DEF /* iTeamTalkTests */ = {
+			isa = PBXGroup;
+			children = (
+				254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */,
+				254B7A601B98BAA400BE0DEF /* Supporting Files */,
+			);
+			path = iTeamTalkTests;
+			sourceTree = "<group>";
+		};
+		254B7A601B98BAA400BE0DEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				254B7A611B98BAA400BE0DEF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		254B7A461B98BAA300BE0DEF /* iTeamTalk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 254B7A661B98BAA400BE0DEF /* Build configuration list for PBXNativeTarget "iTeamTalk" */;
+			buildPhases = (
+				254B7A431B98BAA300BE0DEF /* Sources */,
+				254B7A441B98BAA300BE0DEF /* Frameworks */,
+				254B7A451B98BAA300BE0DEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTeamTalk;
+			productName = iTeamTalk;
+			productReference = 254B7A471B98BAA300BE0DEF /* iTeamTalk.app */;
+			productType = "com.apple.product-type.application";
+		};
+		254B7A5B1B98BAA400BE0DEF /* iTeamTalkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 254B7A691B98BAA400BE0DEF /* Build configuration list for PBXNativeTarget "iTeamTalkTests" */;
+			buildPhases = (
+				254B7A581B98BAA400BE0DEF /* Sources */,
+				254B7A591B98BAA400BE0DEF /* Frameworks */,
+				254B7A5A1B98BAA400BE0DEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				254B7A5E1B98BAA400BE0DEF /* PBXTargetDependency */,
+			);
+			name = iTeamTalkTests;
+			productName = iTeamTalkTests;
+			productReference = 254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		254B7A3F1B98BAA300BE0DEF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = BearWare.dk;
+				TargetAttributes = {
+					254B7A461B98BAA300BE0DEF = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					254B7A5B1B98BAA400BE0DEF = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 254B7A461B98BAA300BE0DEF;
+					};
+				};
+			};
+			buildConfigurationList = 254B7A421B98BAA300BE0DEF /* Build configuration list for PBXProject "iTeamTalk" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 254B7A3E1B98BAA300BE0DEF;
+			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				254B7A461B98BAA300BE0DEF /* iTeamTalk */,
+				254B7A5B1B98BAA400BE0DEF /* iTeamTalkTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		254B7A451B98BAA300BE0DEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
+				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
+				254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		254B7A5A1B98BAA400BE0DEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		254B7A431B98BAA300BE0DEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				254B7A4F1B98BAA300BE0DEF /* ViewController.swift in Sources */,
+				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
+				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
+				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		254B7A581B98BAA400BE0DEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		254B7A5E1B98BAA400BE0DEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 254B7A461B98BAA300BE0DEF /* iTeamTalk */;
+			targetProxy = 254B7A5D1B98BAA400BE0DEF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		254B7A501B98BAA300BE0DEF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				254B7A511B98BAA300BE0DEF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				254B7A561B98BAA300BE0DEF /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		254B7A641B98BAA400BE0DEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		254B7A651B98BAA400BE0DEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		254B7A671B98BAA400BE0DEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iTeamTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		254B7A681B98BAA400BE0DEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iTeamTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		254B7A6A1B98BAA400BE0DEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iTeamTalkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTeamTalk.app/iTeamTalk";
+			};
+			name = Debug;
+		};
+		254B7A6B1B98BAA400BE0DEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iTeamTalkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTeamTalk.app/iTeamTalk";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		254B7A421B98BAA300BE0DEF /* Build configuration list for PBXProject "iTeamTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				254B7A641B98BAA400BE0DEF /* Debug */,
+				254B7A651B98BAA400BE0DEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		254B7A661B98BAA400BE0DEF /* Build configuration list for PBXNativeTarget "iTeamTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				254B7A671B98BAA400BE0DEF /* Debug */,
+				254B7A681B98BAA400BE0DEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		254B7A691B98BAA400BE0DEF /* Build configuration list for PBXNativeTarget "iTeamTalkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				254B7A6A1B98BAA400BE0DEF /* Debug */,
+				254B7A6B1B98BAA400BE0DEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 254B7A3F1B98BAA300BE0DEF /* Project object */;
+}
