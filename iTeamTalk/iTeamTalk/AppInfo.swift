@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 BearWare.dk. All rights reserved.
 //
 
+
 class AppInfo {
 
     static let TEAMTALK_VERSION = "5.1"

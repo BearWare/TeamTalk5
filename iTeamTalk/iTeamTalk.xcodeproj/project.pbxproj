@@ -15,6 +15,13 @@
 		254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */; };
 		254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */; };
 		254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6E1B98C89600BE0DEF /* AppInfo.swift */; };
+		254B7A721B99E67400BE0DEF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A701B99E67400BE0DEF /* AudioToolbox.framework */; };
+		254B7A731B99E67400BE0DEF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A711B99E67400BE0DEF /* AVFoundation.framework */; };
+		254B7A761B99E68800BE0DEF /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */; };
+		254B7A771B99E68800BE0DEF /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A751B99E68800BE0DEF /* libstdc++.dylib */; };
+		254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A781B99E69200BE0DEF /* libz.dylib */; };
+		254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */; };
+		254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +47,14 @@
 		254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkTests.swift; sourceTree = "<group>"; };
 		254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTableCell.swift; sourceTree = "<group>"; };
 		254B7A6E1B98C89600BE0DEF /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		254B7A701B99E67400BE0DEF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		254B7A711B99E67400BE0DEF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		254B7A751B99E68800BE0DEF /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		254B7A781B99E69200BE0DEF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../TeamTalk_DLL/lib/ios/libTeamTalk5.a; sourceTree = "<group>"; };
+		254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iTeamTalk-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +62,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */,
+				254B7A721B99E67400BE0DEF /* AudioToolbox.framework in Frameworks */,
+				254B7A731B99E67400BE0DEF /* AVFoundation.framework in Frameworks */,
+				254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */,
+				254B7A761B99E68800BE0DEF /* libstdc++.6.dylib in Frameworks */,
+				254B7A771B99E68800BE0DEF /* libstdc++.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +84,12 @@
 		254B7A3E1B98BAA300BE0DEF = {
 			isa = PBXGroup;
 			children = (
+				254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */,
+				254B7A781B99E69200BE0DEF /* libz.dylib */,
+				254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */,
+				254B7A751B99E68800BE0DEF /* libstdc++.dylib */,
+				254B7A701B99E67400BE0DEF /* AudioToolbox.framework */,
+				254B7A711B99E67400BE0DEF /* AVFoundation.framework */,
 				254B7A491B98BAA300BE0DEF /* iTeamTalk */,
 				254B7A5F1B98BAA400BE0DEF /* iTeamTalkTests */,
 				254B7A481B98BAA300BE0DEF /* Products */,
@@ -88,6 +115,8 @@
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
+				254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */,
+				254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */,
 				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
 			);
 			path = iTeamTalk;
@@ -222,6 +251,7 @@
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
+				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,9 +380,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bdr/projects/TeamTalk5_iOS/TeamTalk_DLL/lib/ios,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -360,9 +397,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bdr/projects/TeamTalk5_iOS/TeamTalk_DLL/lib/ios,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk-Bridging-Header.h";
 			};
 			name = Release;
 		};

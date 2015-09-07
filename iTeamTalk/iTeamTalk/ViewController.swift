@@ -19,13 +19,14 @@ class ViewController: UIViewController,
         // Do any additional setup after loading the view, typically from a nib.
         
         serverTableView.dataSource = self
-
-        appnameLabel.text = AppInfo.APPTITLE
-
+        let version = String.fromCString(TT_GetVersion())!
+        appnameLabel.text = AppInfo.APPTITLE + " " + version
+        
         // get xml-list of public server
         var parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER))!
         parser.delegate = self
         parser.parse()
+        
     }
 
     override func didReceiveMemoryWarning() {
