@@ -34,6 +34,9 @@
                                                     <state key="normal" title="Connect">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="connectToServer:" destination="BYZ-38-t0r" eventType="touchDown" id="IfG-Tw-f3d"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4dR-RS-48U">
                                                     <rect key="frame" x="57" y="0.0" width="192" height="21"/>

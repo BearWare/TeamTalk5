@@ -3,3 +3,7 @@
 //
 
 #import "../TeamTalk_DLL/TeamTalk.h"
+
+Channel* getChannel(TTMessage* m);
+ServerProperties* getServerProperties(TTMessage* m);
+UserAccount* getUserAccount(TTMessage* m);

@@ -7,3 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#include "iTeamTalk-Bridging-Header.h"
+
+Channel* getChannel(TTMessage* m) {
+    return &m->channel;
+}
+
+ServerProperties* getServerProperties(TTMessage* m) {
+    return &m->serverproperties;
+}
+
+UserAccount* getUserAccount(TTMessage* m) {
+    return &m->useraccount;
+}
+
