@@ -49,7 +49,7 @@
                                 <rect key="frame" x="16" y="231" width="156" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UDP Port" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="alM-cZ-2Dn">
                                 <rect key="frame" x="16" y="269" width="73" height="21"/>
@@ -62,7 +62,7 @@
                                 <rect key="frame" x="16" y="298" width="156" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9qP-am-HVi">
                                 <rect key="frame" x="16" y="354" width="79" height="21"/>
@@ -93,7 +93,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Server Entry" id="Me4-OJ-iZH"/>
+                    <navigationItem key="navigationItem" title="Server Entry" id="Me4-OJ-iZH">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="BLM-fs-qcG"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="QNX-QL-hiu">
+                            <connections>
+                                <segue destination="Dad-6w-4nM" kind="unwind" unwindAction="saveServerDetail:" id="Zst-Rb-KA2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ipaddr" destination="iKt-7I-Wnp" id="Zg4-cV-GKC"/>
                         <outlet property="password" destination="q3y-22-mV8" id="uoj-Xm-dLy"/>
@@ -104,6 +111,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQn-3b-EwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Dad-6w-4nM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="647" y="368"/>
         </scene>
@@ -158,7 +166,7 @@
                                     <outlet property="iconImageView" destination="AZy-QQ-HZI" id="2fc-Sw-6rQ"/>
                                     <outlet property="ipaddrLabel" destination="WCf-u5-KkQ" id="UCZ-iO-fuH"/>
                                     <outlet property="nameLabel" destination="0QA-gn-V1p" id="bib-t5-mhJ"/>
-                                    <segue destination="EDn-nP-gFj" kind="push" identifier="Show ServerDetail" id="x0N-oQ-CJk"/>
+                                    <segue destination="EDn-nP-gFj" kind="push" identifier="Show Server" id="x0N-oQ-CJk"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -167,7 +175,13 @@
                             <outlet property="delegate" destination="P1g-bS-PT1" id="uaf-e8-Hmv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Server List" id="pQJ-c1-GEL" userLabel="Root View Controller"/>
+                    <navigationItem key="navigationItem" title="Server List" id="pQJ-c1-GEL" userLabel="Root View Controller">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qY8-NR-YVU">
+                            <connections>
+                                <segue destination="EDn-nP-gFj" kind="push" identifier="New Server" id="MXJ-jt-JpB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WhE-le-P48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -195,4 +209,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="MXJ-jt-JpB"/>
+    </inferredMetricsTieBreakers>
 </document>

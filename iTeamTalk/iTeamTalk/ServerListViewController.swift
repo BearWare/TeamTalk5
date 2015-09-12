@@ -73,13 +73,45 @@ NSXMLParserDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "Show ServerDetail" {
+        if segue.identifier == "Show Server" {
             let index = self.tableView.indexPathForSelectedRow()
             currentServer = servers[index!.item]
             let serverDetail = segue.destinationViewController as! ServerDetailViewController
             serverDetail.server = currentServer
         }
+        else if segue.identifier == "New Server" {
+            
+        }
     }
+    
+    @IBAction func saveServerDetail(segue:UIStoryboardSegue) {
+        let vc = segue.sourceViewController as! ServerDetailViewController
+        
+        vc.saveServerDetail()
+        let name = vc.server.name
+        
+        if let found = find(servers.map({$0.name}), name) {
+            servers[found] = vc.server
+        }
+        else {
+            servers.append(vc.server)
+        }
+        
+        self.currentServer = vc.server
+        
+        self.tableView.reloadData()
+    }
+    
+//    override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue {
+//        
+//        if identifier == "Show Server" {
+//            let x = identifier
+//            
+//
+//        }
+//        
+//        return self.storyboard
+//    }
     
     @IBAction func connectToServer(sender: UIButton) {
         TT_Disconnect(ttInst)

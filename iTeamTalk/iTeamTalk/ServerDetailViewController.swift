@@ -29,4 +29,18 @@ class ServerDetailViewController : UIViewController {
         username.text = server.username
         password.text = server.password
     }
+    
+    func saveServerDetail() {
+        server.name = serverName.text
+        server.ipaddr = ipaddr.text
+        if let n = tcpport.text.toInt() {
+            server.tcpport = n
+        }
+        if let n = udpport.text.toInt() {
+            server.udpport = n
+        }
+        server.username = username.text
+        server.password = password.text
+    }
+    
 }
