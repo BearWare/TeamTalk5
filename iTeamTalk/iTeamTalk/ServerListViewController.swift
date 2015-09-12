@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ServerListViewController.swift
 //  iTeamTalk
 //
 //  Created by Bjoern Rasmussen on 3-09-15.
@@ -8,11 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController,
-    UITableViewDataSource, NSXMLParserDelegate {
 
-    @IBOutlet weak var serverTableView: UITableView!
-    @IBOutlet weak var appnameLabel: UILabel!
+// Properties of a TeamTalk server to connect to
+struct Server {
+    var name = ""
+    var ipaddr = ""
+    var tcpport = 10333
+    var udpport = 10333
+    var username = ""
+    var password = ""
+    var channel = ""
+    var chanpasswd = ""
+}
+
+class ServerListViewController: UITableViewController,
+NSXMLParserDelegate {
+    
     var timer = NSTimer()
     var ttInst = UnsafeMutablePointer<Void>()
     
@@ -20,13 +31,12 @@ class ViewController: UIViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        serverTableView.dataSource = self
         let version = String.fromCString(TT_GetVersion())!
-        appnameLabel.text = AppInfo.APPTITLE + " " + version
+//        appnameLabel.text = AppInfo.APPTITLE + " " + version
         
         // Our one and only TT client instance
         ttInst = TT_InitTeamTalkPoll()
-
+        
         // get xml-list of public server
         var parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER))!
         parser.delegate = self
@@ -34,21 +44,21 @@ class ViewController: UIViewController,
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return servers.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellIdentifier = "ServerTableCell"
         
@@ -61,11 +71,17 @@ class ViewController: UIViewController,
         
         return cell
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "Show ServerDetail" {
+            let index = self.tableView.indexPathForSelectedRow()
+            currentServer = servers[index!.item]
+            let serverDetail = segue.destinationViewController as! ServerDetailViewController
+            serverDetail.server = currentServer
+        }
+    }
+    
     @IBAction func connectToServer(sender: UIButton) {
-
-//        var v = self.storyboard?.instantiateViewControllerWithIdentifier("ServerEntry") as! ServerViewController
-//        self.presentViewController(v, animated: true, completion: nil)
         TT_Disconnect(ttInst)
         
         currentServer = servers[sender.tag]
@@ -73,18 +89,6 @@ class ViewController: UIViewController,
         if TT_Connect(ttInst, currentServer.ipaddr, INT32(currentServer.tcpport), INT32(currentServer.udpport), 0, 0, 0) != 0 {
             println("Failed to connect")
         }
-    }
-
-    // Properties of a TeamTalk server to connect to
-    struct Server {
-        var name = ""
-        var ipaddr = ""
-        var tcpport = 10333
-        var udpport = 10333
-        var username = ""
-        var password = ""
-        var channel = ""
-        var chanpasswd = ""
     }
     
     var servers = [Server]()
@@ -95,11 +99,11 @@ class ViewController: UIViewController,
     func parser(parser: NSXMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [NSObject : AnyObject]) {
-        
-        self.elementStack.append(elementName)
-        if elementName == "host" {
-            currentServer = Server()
-        }
+            
+            self.elementStack.append(elementName)
+            if elementName == "host" {
+                currentServer = Server()
+            }
     }
     
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
@@ -139,7 +143,7 @@ class ViewController: UIViewController,
                 servers.append(currentServer)
             }
     }
-
+    
     func timerEvent() {
         
         var m = TTMessage()

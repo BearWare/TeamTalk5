@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
-		254B7A4F1B98BAA300BE0DEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4E1B98BAA300BE0DEF /* ViewController.swift */; };
 		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
 		254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */; };
@@ -22,6 +21,8 @@
 		254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A781B99E69200BE0DEF /* libz.dylib */; };
 		254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */; };
 		254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */; };
+		254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */; };
+		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +39,6 @@
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		254B7A4E1B98BAA300BE0DEF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		254B7A511B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		254B7A531B98BAA300BE0DEF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254B7A561B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -55,6 +55,8 @@
 		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../TeamTalk_DLL/lib/ios/libTeamTalk5.a; sourceTree = "<group>"; };
 		254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iTeamTalk-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
+		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
+		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +113,8 @@
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
-				254B7A4E1B98BAA300BE0DEF /* ViewController.swift */,
+				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
+				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
@@ -247,9 +250,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				254B7A4F1B98BAA300BE0DEF /* ViewController.swift in Sources */,
+				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
+				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
 				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,
 			);
