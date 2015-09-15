@@ -12,7 +12,8 @@ class ChannelListViewController : UITableViewController {
 
     var timer = NSTimer()
     var ttInst = UnsafeMutablePointer<Void>()
-    var channels = [Channel]()
+    var channels = [INT32 : Channel]()
+    var curchannel = Channel()
     var server = Server()
     var currentCmdId : INT32 = 0
     
@@ -92,7 +93,13 @@ class ChannelListViewController : UITableViewController {
                 
             case CLIENTEVENT_CMD_CHANNEL_NEW.value :
                 var channel = getChannel(&m).memory
-                channels.append(channel)
+                
+                //show sub channels of root as default
+                if channel.nParentID == 0 {
+                    curchannel = channel
+                }
+                
+                channels[channel.nChannelID] = channel
             default :
                 println("Unhandled message \(m.nClientEvent.value)")
             }
@@ -104,16 +111,19 @@ class ChannelListViewController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return channels.count
+        let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
+        println("There's \(subchans.array.count) sub channels")
+        return subchans.array.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         
         let cellIdentifier = "ChannelTableCell"
-        
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
         
-        var channel = channels[indexPath.item]
+        var channel = subchans.array[indexPath.item]
         let name = String.fromCString(&channel.szName.0)
         cell.channame.text = name
         
