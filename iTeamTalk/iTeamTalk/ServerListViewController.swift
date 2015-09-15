@@ -24,9 +24,6 @@ struct Server {
 class ServerListViewController: UITableViewController,
 NSXMLParserDelegate {
     
-    var timer = NSTimer()
-    var ttInst = UnsafeMutablePointer<Void>()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -34,15 +31,10 @@ NSXMLParserDelegate {
         let version = String.fromCString(TT_GetVersion())!
 //        appnameLabel.text = AppInfo.APPTITLE + " " + version
         
-        // Our one and only TT client instance
-        ttInst = TT_InitTeamTalkPoll()
-        
         // get xml-list of public server
         var parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER))!
         parser.delegate = self
         parser.parse()
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,6 +74,12 @@ NSXMLParserDelegate {
         else if segue.identifier == "New Server" {
             
         }
+        else if segue.identifier == "Show ChannelList" {
+            let navCtrl = segue.destinationViewController as! UINavigationController
+            let channellist = navCtrl.viewControllers[0] as! ChannelListViewController
+            
+            channellist.connectToServer(currentServer)
+        }
     }
     
     @IBAction func saveServerDetail(segue:UIStoryboardSegue) {
@@ -102,25 +100,8 @@ NSXMLParserDelegate {
         self.tableView.reloadData()
     }
     
-//    override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue {
-//        
-//        if identifier == "Show Server" {
-//            let x = identifier
-//            
-//
-//        }
-//        
-//        return self.storyboard
-//    }
-    
     @IBAction func connectToServer(sender: UIButton) {
-        TT_Disconnect(ttInst)
-        
         currentServer = servers[sender.tag]
-        
-        if TT_Connect(ttInst, currentServer.ipaddr, INT32(currentServer.tcpport), INT32(currentServer.udpport), 0, 0, 0) != 0 {
-            println("Failed to connect")
-        }
     }
     
     var servers = [Server]()
@@ -174,37 +155,6 @@ NSXMLParserDelegate {
             if elementName == "host" {
                 servers.append(currentServer)
             }
-    }
-    
-    func timerEvent() {
-        
-        var m = TTMessage()
-        var n : INT32 = 0
-        if TT_GetMessage(ttInst, &m, &n) != 0 {
-            
-            switch(m.nClientEvent.value) {
-            case CLIENTEVENT_CON_SUCCESS.value :
-                println("We're connected")
-                TT_DoLogin(ttInst, "iOS client", currentServer.username, currentServer.password)
-                
-            case CLIENTEVENT_CON_FAILED.value :
-                println("Connect failed")
-                
-            case CLIENTEVENT_CON_LOST.value :
-                println("connection lost")
-                
-            case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.value :
-                let u = getUserAccount(&m).memory
-                println("User account, type: \(u.uUserType)")
-                
-            case CLIENTEVENT_CMD_SERVER_UPDATE.value :
-                var srv = getServerProperties(&m).memory
-                let name = String.fromCString(&srv.szServerName.0)!
-                println("Server update: " + name)
-            default :
-                println("Unhandled message \(m.nClientEvent.value)")
-            }
-        }
     }
 }
 

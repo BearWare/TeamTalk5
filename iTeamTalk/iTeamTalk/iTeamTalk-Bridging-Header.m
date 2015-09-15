@@ -22,3 +22,6 @@ UserAccount* getUserAccount(TTMessage* m) {
     return &m->useraccount;
 }
 
+bool getBoolean(TTMessage* m) {
+    return m->bActive;
+}

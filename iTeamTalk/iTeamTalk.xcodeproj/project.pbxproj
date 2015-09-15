@@ -23,6 +23,8 @@
 		254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */; };
 		254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */; };
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
+		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
+		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
 		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
 		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
+		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
+		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
+				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
+				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
@@ -252,9 +258,11 @@
 			files = (
 				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
+				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
+				25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */,
 				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +474,7 @@
 				254B7A681B98BAA400BE0DEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		254B7A691B98BAA400BE0DEF /* Build configuration list for PBXNativeTarget "iTeamTalkTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +483,7 @@
 				254B7A6B1B98BAA400BE0DEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
