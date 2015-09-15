@@ -10,11 +10,19 @@ import UIKit
 
 class ChannelListViewController : UITableViewController {
 
+    // timer for polling TeamTalk client events
     var timer = NSTimer()
+    // our one and only TeamTalk client instance
     var ttInst = UnsafeMutablePointer<Void>()
-    var channels = [INT32 : Channel]()
-    var curchannel = Channel()
+    // ip-addr and login information for current server
     var server = Server()
+    // all channels on server
+    var channels = [INT32 : Channel]()
+    // the channel being displayed (not nescessarily the same channel as we're in)
+    var curchannel = Channel()
+    // all users on server
+    var users = [INT32 : User]()
+    // the command ID which is currently processing
     var currentCmdId : INT32 = 0
     
     override func viewDidLoad() {
@@ -100,6 +108,51 @@ class ChannelListViewController : UITableViewController {
                 }
                 
                 channels[channel.nChannelID] = channel
+                
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+
+            case CLIENTEVENT_CMD_CHANNEL_UPDATE.value :
+                var channel = getChannel(&m).memory
+                channels[channel.nChannelID] = channel
+
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+
+            case CLIENTEVENT_CMD_CHANNEL_REMOVE.value :
+                let channel = getChannel(&m).memory
+                channels.removeValueForKey(channel.nChannelID)
+
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+
+            case CLIENTEVENT_CMD_USER_JOINED.value :
+                var user = getUser(&m).memory
+                users[user.nUserID] = user
+
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+
+            case CLIENTEVENT_CMD_USER_UPDATE.value :
+                var user = getUser(&m).memory
+                users[user.nUserID] = user
+
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+
+            case CLIENTEVENT_CMD_USER_LEFT.value :
+                let user = getUser(&m).memory
+                users.removeValueForKey(user.nUserID)
+                
+                if currentCmdId == 0 {
+                    self.tableView.reloadData()
+                }
+                
             default :
                 println("Unhandled message \(m.nClientEvent.value)")
             }
@@ -112,22 +165,39 @@ class ChannelListViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
-        println("There's \(subchans.array.count) sub channels")
-        return subchans.array.count
+        let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
+
+        return subchans.array.count + chanusers.array.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
-        
-        let cellIdentifier = "ChannelTableCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
-        
-        var channel = subchans.array[indexPath.item]
-        let name = String.fromCString(&channel.szName.0)
-        cell.channame.text = name
-        
-        return cell
+        let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
+
+        // display users first
+        if indexPath.item < chanusers.array.count {
+
+            let cellIdentifier = "UserTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
+            
+            var user = chanusers.array[indexPath.item]
+            let nickname = String.fromCString(&user.szNickname.0)
+            cell.nicknameLabel.text = nickname
+            
+            return cell
+        }
+        else {
+
+            let cellIdentifier = "ChannelTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
+            
+            var channel = subchans.array[indexPath.item - chanusers.array.count]
+            let name = String.fromCString(&channel.szName.0)
+            cell.channame.text = name
+            
+            return cell
+        }
     }
 
     func commandComplete(cmdid : INT32) {

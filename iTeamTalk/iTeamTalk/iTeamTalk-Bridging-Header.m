@@ -14,6 +14,10 @@ Channel* getChannel(TTMessage* m) {
     return &m->channel;
 }
 
+User* getUser(TTMessage* m) {
+    return &m->user;
+}
+
 ServerProperties* getServerProperties(TTMessage* m) {
     return &m->serverproperties;
 }
