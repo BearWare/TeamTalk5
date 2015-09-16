@@ -11,4 +11,6 @@ import UIKit
 class ChannelTableCell : UITableViewCell {
     
     @IBOutlet weak var channame: UILabel!
+    @IBOutlet weak var chanimage: UIImageView!
+    @IBOutlet weak var chantopicLabel: UILabel!
 }

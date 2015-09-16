@@ -183,7 +183,16 @@ class ChannelListViewController : UITableViewController {
             
             var user = chanusers.array[indexPath.item]
             let nickname = String.fromCString(&user.szNickname.0)
+            let statusmsg = String.fromCString(&user.szStatusMsg.0)
             cell.nicknameLabel.text = nickname
+            cell.statusmsgLabel.text = statusmsg
+            
+            if (user.uUserState & USERSTATE_VOICE.value) != 0 {
+                cell.userImage.image = UIImage(named: "man_green.png")
+            }
+            else {
+                cell.userImage.image = UIImage(named: "man_blue.png")
+            }
             
             return cell
         }
@@ -194,7 +203,15 @@ class ChannelListViewController : UITableViewController {
             
             var channel = subchans.array[indexPath.item - chanusers.array.count]
             let name = String.fromCString(&channel.szName.0)
+            let topic = String.fromCString(&channel.szTopic.0)
             cell.channame.text = name
+            cell.chantopicLabel.text = topic
+            if channel.bPassword != 0 {
+                cell.chanimage.image = UIImage(named: "channel_pink.png")
+            }
+            else {
+                cell.chanimage.image = UIImage(named: "channel_orange.png")
+            }
             
             return cell
         }
