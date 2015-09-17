@@ -25,6 +25,8 @@ class ChannelListViewController : UITableViewController {
     // the command ID which is currently processing
     var currentCmdId : INT32 = 0
     
+    @IBOutlet weak var navtitle: UINavigationItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +53,31 @@ class ChannelListViewController : UITableViewController {
 
     func connectToServer(server: Server) {
         self.server = server
+    }
+    
+    @IBAction func joinChannel(sender: UIButton) {
+        
+        if let chan = channels[INT32(sender.tag)] {
+            let cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, "")
+            activeCommands[cmdid] = .JoinCmd
+        }
+    }
+    
+    @IBAction func saveChannel(segue:UIStoryboardSegue) {
+        let vc = segue.sourceViewController as! ChannelDetailViewController
+        
+        vc.saveChannelDetail()
+
+        if vc.channel.nChannelID != 0 {
+            // update existing
+        }
+        else {
+            // create new channel
+            vc.channel.nParentID = curchannel.nChannelID
+            
+            let cmdid = TT_DoJoinChannel(ttInst, &vc.channel)
+            activeCommands[cmdid] = .JoinCmd
+        }
     }
     
     enum Command {
@@ -112,6 +139,8 @@ class ChannelListViewController : UITableViewController {
                 if currentCmdId == 0 {
                     self.tableView.reloadData()
                 }
+                
+                updateTitle()
 
             case CLIENTEVENT_CMD_CHANNEL_UPDATE.value :
                 var channel = getChannel(&m).memory
@@ -133,10 +162,16 @@ class ChannelListViewController : UITableViewController {
                 var user = getUser(&m).memory
                 users[user.nUserID] = user
 
+                // we joined a new channel so update table view
+                if user.nUserID == TT_GetMyUserID(ttInst) {
+                    curchannel = channels[user.nChannelID]!
+                    updateTitle()
+                }
+                
                 if currentCmdId == 0 {
                     self.tableView.reloadData()
                 }
-
+                
             case CLIENTEVENT_CMD_USER_UPDATE.value :
                 var user = getUser(&m).memory
                 users[user.nUserID] = user
@@ -144,7 +179,7 @@ class ChannelListViewController : UITableViewController {
                 if currentCmdId == 0 {
                     self.tableView.reloadData()
                 }
-
+                
             case CLIENTEVENT_CMD_USER_LEFT.value :
                 let user = getUser(&m).memory
                 users.removeValueForKey(user.nUserID)
@@ -180,7 +215,6 @@ class ChannelListViewController : UITableViewController {
 
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
-            
             var user = chanusers.array[indexPath.item]
             let nickname = String.fromCString(&user.szNickname.0)
             let statusmsg = String.fromCString(&user.szStatusMsg.0)
@@ -193,7 +227,9 @@ class ChannelListViewController : UITableViewController {
             else {
                 cell.userImage.image = UIImage(named: "man_blue.png")
             }
-            
+
+            cell.tag = Int(user.nUserID)
+
             return cell
         }
         else {
@@ -206,6 +242,7 @@ class ChannelListViewController : UITableViewController {
             let topic = String.fromCString(&channel.szTopic.0)
             cell.channame.text = name
             cell.chantopicLabel.text = topic
+            
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
             }
@@ -213,16 +250,65 @@ class ChannelListViewController : UITableViewController {
                 cell.chanimage.image = UIImage(named: "channel_orange.png")
             }
             
+            cell.editBtn.tag = Int(channel.nChannelID)
+            cell.joinBtn.tag = Int(channel.nChannelID)
+            cell.tag = Int(channel.nChannelID)
+            
             return cell
+        }
+    }
+    
+    func updateTitle() {
+        let user = users[TT_GetMyUserID(ttInst)]
+        
+        if curchannel.nParentID == 0 {
+            
+            var srvprop = ServerProperties()
+            if TT_GetServerProperties(ttInst, &srvprop) != 0 {
+                navtitle.title = String.fromCString(&srvprop.szServerName.0)
+            }
+
+        }
+        else {
+            navtitle.title = String.fromCString(&curchannel.szName.0)
         }
     }
 
     func commandComplete(cmdid : INT32) {
 
-        if activeCommands[cmdid] == .LoginCmd {
+        switch activeCommands[cmdid]! {
+        case .LoginCmd :
             self.tableView.reloadData()
+        case .JoinCmd :
+            self.tableView.reloadData()
+        default :
+            println("Unknown command \(cmdid)")
         }
 
         activeCommands.removeValueForKey(cmdid)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "Show User" {
+            let index = self.tableView.indexPathForSelectedRow()
+            let cell = self.tableView.cellForRowAtIndexPath(index!)
+            var user = users[INT32(cell!.tag)]
+
+            let userDetail = segue.destinationViewController as! UserDetailViewController
+            userDetail.user = user!
+        }
+        else if segue.identifier == "New Channel" {
+            
+        }
+        else if segue.identifier == "Edit Channel" {
+            let index = self.tableView.indexPathForSelectedRow()
+            let cell = self.tableView.cellForRowAtIndexPath(index!)
+
+            var channel = channels[INT32(cell!.tag)]
+            
+            let chanDetail = segue.destinationViewController as! ChannelDetailViewController
+            chanDetail.channel = channel!
+        }
     }
 }

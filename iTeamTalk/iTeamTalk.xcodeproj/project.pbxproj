@@ -10,6 +10,7 @@
 		2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */; };
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB701BA9F43A00EF9A17 /* AudioCodecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6F1BA9F43A00EF9A17 /* AudioCodecViewController.swift */; };
+		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
 		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
@@ -44,6 +45,7 @@
 		2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB6F1BA9F43A00EF9A17 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
+		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
 				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
+				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
@@ -267,6 +270,7 @@
 			files = (
 				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
+				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				2516CB701BA9F43A00EF9A17 /* AudioCodecViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */,

@@ -82,9 +82,7 @@ NSXMLParserDelegate {
             
         }
         else if segue.identifier == "Show ChannelList" {
-            let navCtrl = segue.destinationViewController as! UINavigationController
-            let channellist = navCtrl.viewControllers[0] as! ChannelListViewController
-            
+            let channellist = segue.destinationViewController as! ChannelListViewController
             channellist.connectToServer(currentServer)
         }
     }

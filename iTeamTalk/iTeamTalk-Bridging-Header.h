@@ -9,3 +9,5 @@ User* getUser(TTMessage* m);
 ServerProperties* getServerProperties(TTMessage* m);
 UserAccount* getUserAccount(TTMessage* m);
 bool getBoolean(TTMessage* m);
+
+void toTTString(const char* str, TTCHAR* buf);

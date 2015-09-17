@@ -29,3 +29,9 @@ UserAccount* getUserAccount(TTMessage* m) {
 bool getBoolean(TTMessage* m) {
     return m->bActive;
 }
+
+void toTTString(const char* str, TTCHAR* buf) {
+    if(str) {
+        strncpy(buf, str, TT_STRLEN);
+    }
+}

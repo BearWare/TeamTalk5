@@ -150,7 +150,7 @@
                                             </state>
                                             <connections>
                                                 <action selector="connectToServer:" destination="P1g-bS-PT1" eventType="touchDown" id="gSW-Ip-QlI"/>
-                                                <segue destination="KES-RU-PUC" kind="modal" identifier="Show ChannelList" id="4qO-rx-bRF"/>
+                                                <segue destination="cGq-IQ-jIp" kind="push" identifier="Show ChannelList" id="mVj-S3-PfF"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0QA-gn-V1p">
@@ -188,6 +188,88 @@
             </objects>
             <point key="canvasLocation" x="238" y="368"/>
         </scene>
+        <!--User Properties-->
+        <scene sceneID="jFP-Du-g11">
+            <objects>
+                <viewController storyboardIdentifier="UserDetail" id="wfd-hi-eX5" customClass="UserDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ofQ-zc-evi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AjR-0m-ib9">
+                                <rect key="frame" x="16" y="69" width="79" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="IlX-IL-3FW">
+                                <rect key="frame" x="16" y="98" width="125" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="hQN-Qx-Vrk">
+                                <rect key="frame" x="168" y="132" width="138" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voice Volume" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ont-hp-MZ3">
+                                <rect key="frame" x="16" y="136" width="103" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="mAf-WP-mWh">
+                                <rect key="frame" x="255" y="170" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mute Voice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bNY-Ur-im8">
+                                <rect key="frame" x="16" y="175" width="86" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="pNZ-FL-PLq">
+                                <rect key="frame" x="168" y="209" width="138" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Media File Volume" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kgO-1c-c2l">
+                                <rect key="frame" x="16" y="213" width="141" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="IzJ-vQ-mBz">
+                                <rect key="frame" x="255" y="247" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mute Media File" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oZq-fm-phv">
+                                <rect key="frame" x="16" y="252" width="123" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="User Properties" id="N1w-a6-R3D"/>
+                    <connections>
+                        <outlet property="mediafilevolume" destination="pNZ-FL-PLq" id="oIb-1a-w1k"/>
+                        <outlet property="mutemediafile" destination="IzJ-vQ-mBz" id="u0n-U2-Xwq"/>
+                        <outlet property="mutevoice" destination="mAf-WP-mWh" id="3eK-Tb-L2G"/>
+                        <outlet property="navtitle" destination="N1w-a6-R3D" id="cUG-UI-8xF"/>
+                        <outlet property="username" destination="IlX-IL-3FW" id="PcH-Ey-v6V"/>
+                        <outlet property="voicevolume" destination="hQN-Qx-Vrk" id="LOe-2X-DfE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tpk-Ka-fCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="66" y="1815"/>
+        </scene>
         <!--Channel List-->
         <scene sceneID="3f6-mj-pa0">
             <objects>
@@ -209,32 +291,54 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fu9-tA-eYj">
-                                            <rect key="frame" x="61" y="0.0" width="188" height="21"/>
+                                            <rect key="frame" x="61" y="0.0" width="175" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w6E-jf-09e">
-                                            <rect key="frame" x="61" y="22" width="188" height="21"/>
+                                            <rect key="frame" x="61" y="22" width="175" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39M-xf-cB5">
+                                            <rect key="frame" x="282" y="7" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Join">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="joinChannel:" destination="cGq-IQ-jIp" eventType="touchDown" id="rDX-Qf-0NN"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JzB-tm-tld">
+                                            <rect key="frame" x="244" y="7" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Edit">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <segue destination="PhY-ED-cqF" kind="push" identifier="Edit Channel" id="zTi-Lt-yqR"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="chanimage" destination="BAg-4r-6NZ" id="5ku-9N-KIr"/>
                                     <outlet property="channame" destination="Fu9-tA-eYj" id="QdR-PC-Vse"/>
                                     <outlet property="chantopicLabel" destination="w6E-jf-09e" id="gJi-OR-Ask"/>
+                                    <outlet property="editBtn" destination="JzB-tm-tld" id="j8S-RF-pb4"/>
+                                    <outlet property="joinBtn" destination="39M-xf-cB5" id="rbK-Pd-u6c"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="72V-GT-Org">
@@ -242,14 +346,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Uc0-gP-wr1">
-                                            <rect key="frame" x="61" y="22" width="189" height="21"/>
+                                            <rect key="frame" x="61" y="22" width="175" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ALe-1e-Au1">
-                                            <rect key="frame" x="61" y="0.0" width="189" height="21"/>
+                                            <rect key="frame" x="61" y="0.0" width="175" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -261,6 +365,7 @@
                                     <outlet property="nicknameLabel" destination="ALe-1e-Au1" id="Mnf-dX-kA7"/>
                                     <outlet property="statusmsgLabel" destination="Uc0-gP-wr1" id="jMR-zv-EcI"/>
                                     <outlet property="userImage" destination="72V-GT-Org" id="IgX-Ht-m0x"/>
+                                    <segue destination="wfd-hi-eX5" kind="push" identifier="Show User" id="D6H-9Y-ioc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -272,14 +377,17 @@
                     <navigationItem key="navigationItem" title="Channel List" id="ZbO-IV-ah3">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="a3S-6I-7kJ">
                             <connections>
-                                <segue destination="PhY-ED-cqF" kind="push" id="IcY-Cr-jdn"/>
+                                <segue destination="PhY-ED-cqF" kind="push" identifier="New Channel" id="IcY-Cr-jdn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="navtitle" destination="ZbO-IV-ah3" id="NrF-TL-iik"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2KU-kI-Tgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="471" y="1044"/>
+            <point key="canvasLocation" x="66" y="1112"/>
         </scene>
         <!--Edit Channel-->
         <scene sceneID="MNq-qd-bZ1">
@@ -385,9 +493,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Channel" id="bee-sO-qqT"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Edit Channel" id="bee-sO-qqT">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="MOz-5b-nTM">
+                            <connections>
+                                <segue destination="6Mk-v2-lBH" kind="unwind" unwindAction="saveChannel:" id="F9U-1Y-8ZT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="name" destination="8xq-hR-pyy" id="fou-Zd-bkZ"/>
+                        <outlet property="navitem" destination="bee-sO-qqT" id="NiT-MZ-qhu"/>
                         <outlet property="noaudiorecording" destination="xQO-bO-oB6" id="h9M-Aj-qiS"/>
                         <outlet property="nointerruptions" destination="E4g-0G-BSI" id="XZg-h2-Hdx"/>
                         <outlet property="novoiceactivation" destination="rBf-Xf-MEM" id="HrH-Gj-vCR"/>
@@ -397,8 +514,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7q-AK-0Vn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="6Mk-v2-lBH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="852" y="1044"/>
+            <point key="canvasLocation" x="459" y="1112"/>
         </scene>
         <!--Setup Audio Codec-->
         <scene sceneID="UNO-Bh-Kam">
@@ -413,24 +531,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4dX-ox-v8o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="1759"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="oM1-8I-9Da">
-            <objects>
-                <navigationController id="KES-RU-PUC" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="TJj-Ua-fpS"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="akr-gp-VV9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="cGq-IQ-jIp" kind="relationship" relationship="rootViewController" id="oF1-Sm-CJI"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mhz-ec-hxE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="81" y="1044"/>
+            <point key="canvasLocation" x="857" y="1112"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Cv5-YA-G2I">
@@ -456,5 +557,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="MXJ-jt-JpB"/>
+        <segue reference="zTi-Lt-yqR"/>
     </inferredMetricsTieBreakers>
 </document>

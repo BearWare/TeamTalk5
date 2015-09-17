@@ -13,4 +13,6 @@ class ChannelTableCell : UITableViewCell {
     @IBOutlet weak var channame: UILabel!
     @IBOutlet weak var chanimage: UIImageView!
     @IBOutlet weak var chantopicLabel: UILabel!
+    @IBOutlet weak var joinBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
 }
