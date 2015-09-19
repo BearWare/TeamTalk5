@@ -122,17 +122,17 @@
 		254B7A491B98BAA300BE0DEF /* iTeamTalk */ = {
 			isa = PBXGroup;
 			children = (
+				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
 				2516CB6F1BA9F43A00EF9A17 /* AudioCodecViewController.swift */,
-				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
+				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
+				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
+				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
+				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */,
-				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
-				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
-				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
-				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,

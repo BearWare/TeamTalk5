@@ -24,6 +24,8 @@ class ChannelListViewController : UITableViewController {
     var users = [INT32 : User]()
     // the command ID which is currently processing
     var currentCmdId : INT32 = 0
+    // 
+    var srvprop = ServerProperties()
     
     @IBOutlet weak var navtitle: UINavigationItem!
     
@@ -117,6 +119,9 @@ class ChannelListViewController : UITableViewController {
                     
                     commandComplete(m.nSource)
                 }
+            case CLIENTEVENT_CMD_SERVER_UPDATE.value :
+                srvprop = getServerProperties(&m).memory
+
             case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.value :
                 let u = getUserAccount(&m).memory
                 println("User account, type: \(u.uUserType)")
@@ -131,7 +136,7 @@ class ChannelListViewController : UITableViewController {
                 
                 //show sub channels of root as default
                 if channel.nParentID == 0 {
-                    curchannel = channel
+                    //curchannel = channel
                 }
                 
                 channels[channel.nChannelID] = channel
@@ -202,6 +207,9 @@ class ChannelListViewController : UITableViewController {
         let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
 
+        if curchannel.nParentID != 0 {
+            return subchans.array.count + chanusers.array.count + 1
+        }
         return subchans.array.count + chanusers.array.count
     }
     
@@ -210,12 +218,68 @@ class ChannelListViewController : UITableViewController {
         let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
 
-        // display users first
-        if indexPath.item < chanusers.array.count {
+        var chan_count = (curchannel.nParentID != 0 ? subchans.array.count + 1 : subchans.array.count)
+        
+        // display channels first
+        if indexPath.item < chan_count {
 
+            let cellIdentifier = "ChannelTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
+            
+            var channel = Channel()
+            
+            if indexPath.item == 0 && curchannel.nParentID != 0 {
+                // display previous channel if not in root channel
+                channel = channels[curchannel.nParentID]!
+                cell.channame.text = "Back"
+                
+                cell.chanimage.image = UIImage(named: "back_orange.png")
+            }
+            else if curchannel.nChannelID == 0 {
+                // display only the root channel
+                channel = subchans.array[indexPath.item]
+                cell.channame.text = String.fromCString(&srvprop.szServerName.0)
+                
+                if channel.bPassword != 0 {
+                    cell.chanimage.image = UIImage(named: "channel_pink.png")
+                }
+                else {
+                    cell.chanimage.image = UIImage(named: "channel_orange.png")
+                }
+            }
+            else  {
+                // display sub channels
+                if curchannel.nParentID != 0 {
+                    // root channel doesn't display access to parent
+                    channel = subchans.array[indexPath.item - 1]
+                }
+                else {
+                    channel = subchans.array[indexPath.item]
+                }
+                cell.channame.text = String.fromCString(&channel.szName.0)
+                
+                if channel.bPassword != 0 {
+                    cell.chanimage.image = UIImage(named: "channel_pink.png")
+                }
+                else {
+                    cell.chanimage.image = UIImage(named: "channel_orange.png")
+                }
+
+            }
+            
+            let topic = String.fromCString(&channel.szTopic.0)
+            cell.chantopicLabel.text = topic
+            
+            cell.editBtn.tag = Int(channel.nChannelID)
+            cell.joinBtn.tag = Int(channel.nChannelID)
+            cell.tag = Int(channel.nChannelID)
+            
+            return cell
+        }
+        else {
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
-            var user = chanusers.array[indexPath.item]
+            var user = chanusers.array[indexPath.item - chan_count]
             let nickname = String.fromCString(&user.szNickname.0)
             let statusmsg = String.fromCString(&user.szStatusMsg.0)
             cell.nicknameLabel.text = nickname
@@ -227,34 +291,20 @@ class ChannelListViewController : UITableViewController {
             else {
                 cell.userImage.image = UIImage(named: "man_blue.png")
             }
-
+            
+            cell.messageBtn.tag = Int(user.nUserID)
             cell.tag = Int(user.nUserID)
-
+            
             return cell
         }
-        else {
-
-            let cellIdentifier = "ChannelTableCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
-            
-            var channel = subchans.array[indexPath.item - chanusers.array.count]
-            let name = String.fromCString(&channel.szName.0)
-            let topic = String.fromCString(&channel.szTopic.0)
-            cell.channame.text = name
-            cell.chantopicLabel.text = topic
-            
-            if channel.bPassword != 0 {
-                cell.chanimage.image = UIImage(named: "channel_pink.png")
-            }
-            else {
-                cell.chanimage.image = UIImage(named: "channel_orange.png")
-            }
-            
-            cell.editBtn.tag = Int(channel.nChannelID)
-            cell.joinBtn.tag = Int(channel.nChannelID)
-            cell.tag = Int(channel.nChannelID)
-            
-            return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+        if cell is ChannelTableCell {
+            curchannel = channels[INT32(cell!.tag)]!
+            tableView.reloadData()
+            updateTitle()
         }
     }
     
@@ -302,10 +352,10 @@ class ChannelListViewController : UITableViewController {
             
         }
         else if segue.identifier == "Edit Channel" {
-            let index = self.tableView.indexPathForSelectedRow()
-            let cell = self.tableView.cellForRowAtIndexPath(index!)
+            
+            let btn = sender as! UIButton
 
-            var channel = channels[INT32(cell!.tag)]
+            var channel = channels[INT32(btn.tag)]
             
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
             chanDetail.channel = channel!

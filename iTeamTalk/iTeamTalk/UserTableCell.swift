@@ -13,4 +13,5 @@ class UserTableCell : UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var statusmsgLabel: UILabel!
+    @IBOutlet weak var messageBtn: UIButton!
 }
