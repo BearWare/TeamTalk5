@@ -29,6 +29,7 @@
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
+		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
 		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
+		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
 				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
+				25DD929E1BB2FA0E00779988 /* Common.swift */,
 				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
@@ -270,6 +273,7 @@
 			files = (
 				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
+				25DD929F1BB2FA0E00779988 /* Common.swift in Sources */,
 				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				2516CB701BA9F43A00EF9A17 /* AudioCodecViewController.swift in Sources */,

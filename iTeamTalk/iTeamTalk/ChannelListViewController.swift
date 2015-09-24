@@ -24,8 +24,10 @@ class ChannelListViewController : UITableViewController {
     var users = [INT32 : User]()
     // the command ID which is currently processing
     var currentCmdId : INT32 = 0
-    // 
+    // properties of connected server
     var srvprop = ServerProperties()
+    // local instance's user account
+    var myuseraccount = UserAccount()
     
     @IBOutlet weak var navtitle: UINavigationItem!
     
@@ -123,13 +125,7 @@ class ChannelListViewController : UITableViewController {
                 srvprop = getServerProperties(&m).memory
 
             case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.value :
-                let u = getUserAccount(&m).memory
-                println("User account, type: \(u.uUserType)")
-                
-            case CLIENTEVENT_CMD_SERVER_UPDATE.value :
-                var srv = getServerProperties(&m).memory
-                let name = String.fromCString(&srv.szServerName.0)!
-                println("Server update: " + name)
+                myuseraccount = getUserAccount(&m).memory
                 
             case CLIENTEVENT_CMD_CHANNEL_NEW.value :
                 var channel = getChannel(&m).memory
@@ -163,10 +159,18 @@ class ChannelListViewController : UITableViewController {
                     self.tableView.reloadData()
                 }
 
+            case CLIENTEVENT_CMD_USER_LOGGEDIN.value :
+                var user = getUser(&m).memory
+                users[user.nUserID] = user
+                
+            case CLIENTEVENT_CMD_USER_LOGGEDOUT.value :
+                var user = getUser(&m).memory
+                users.removeValueForKey(user.nUserID)
+                
             case CLIENTEVENT_CMD_USER_JOINED.value :
                 var user = getUser(&m).memory
                 users[user.nUserID] = user
-
+                
                 // we joined a new channel so update table view
                 if user.nUserID == TT_GetMyUserID(ttInst) {
                     curchannel = channels[user.nChannelID]!
@@ -176,18 +180,23 @@ class ChannelListViewController : UITableViewController {
                 if currentCmdId == 0 {
                     self.tableView.reloadData()
                 }
-                
             case CLIENTEVENT_CMD_USER_UPDATE.value :
                 var user = getUser(&m).memory
                 users[user.nUserID] = user
 
-                if currentCmdId == 0 {
+                if currentCmdId == 0 && user.nChannelID > 0 {
                     self.tableView.reloadData()
                 }
                 
             case CLIENTEVENT_CMD_USER_LEFT.value :
-                let user = getUser(&m).memory
-                users.removeValueForKey(user.nUserID)
+                var user = getUser(&m).memory
+                
+                if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.value == 0 {
+                    users.removeValueForKey(user.nUserID)
+                }
+                else {
+                    users[user.nUserID] = user
+                }
                 
                 if currentCmdId == 0 {
                     self.tableView.reloadData()
@@ -327,10 +336,21 @@ class ChannelListViewController : UITableViewController {
     func commandComplete(cmdid : INT32) {
 
         switch activeCommands[cmdid]! {
+            
         case .LoginCmd :
             self.tableView.reloadData()
+            
         case .JoinCmd :
             self.tableView.reloadData()
+            
+            let flags = TT_GetFlags(ttInst)
+            if flags & CLIENT_SNDINPUT_READY.value == 0 {
+                TT_InitSoundInputDevice(ttInst, 0)
+            }
+            if flags & CLIENT_SNDOUTPUT_READY.value == 0 {
+                TT_InitSoundOutputDevice(ttInst, 0)
+            }
+            
         default :
             println("Unknown command \(cmdid)")
         }
@@ -343,10 +363,10 @@ class ChannelListViewController : UITableViewController {
         if segue.identifier == "Show User" {
             let index = self.tableView.indexPathForSelectedRow()
             let cell = self.tableView.cellForRowAtIndexPath(index!)
-            var user = users[INT32(cell!.tag)]
 
             let userDetail = segue.destinationViewController as! UserDetailViewController
-            userDetail.user = user!
+            userDetail.userid = INT32(cell!.tag)
+            userDetail.ttInst = self.ttInst
         }
         else if segue.identifier == "New Channel" {
             
