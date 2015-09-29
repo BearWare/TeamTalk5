@@ -30,7 +30,7 @@ class ChannelListViewController : UITableViewController {
     var myuseraccount = UserAccount()
     
     @IBOutlet weak var navtitle: UINavigationItem!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +47,16 @@ class ChannelListViewController : UITableViewController {
 //            let topItem = self.navigationController?.navigationBar.topItem
 //            topItem?.title = "Connecting"
 //            self.navigationController?.navigationBar.pushNavigationItem(topItem!, animated: false)
+        }
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if isMovingFromParentViewController() {
+            timer.invalidate()
+            TT_CloseTeamTalk(ttInst)
         }
     }
     
