@@ -4772,6 +4772,12 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
         ite++;
     }
 
+    //Also include 'self'
+    if(bEnable && (uStorageMode & AUDIOSTORAGE_SEPARATEFILES))
+        TT_SetUserMediaStorageDir(ttInst, AUDIOSTORAGE_LOCAL_USERID, szAudioFolder, NULL, aff);
+    else
+        TT_SetUserMediaStorageDir(ttInst, AUDIOSTORAGE_LOCAL_USERID, _T(""), NULL, aff);
+
     TT_StopRecordingMuxedAudioFile(ttInst);
     if(bEnable && (uStorageMode & AUDIOSTORAGE_SINGLEFILE))
     {

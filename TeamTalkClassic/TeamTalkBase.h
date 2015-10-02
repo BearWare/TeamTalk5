@@ -151,6 +151,9 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
 #define DEFAULT_MAX_STRING_LENGTH   50 //real is TT_STRLEN
 
+//user ID to pass to store local user's voice stream
+#define AUDIOSTORAGE_LOCAL_USERID 0
+
 enum StatusMode
 {
     STATUSMODE_AVAILABLE        = 0x00000000,
