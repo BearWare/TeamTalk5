@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.1.0.4290"
+#define TEAMTALK_VERSION "5.1.1.4315"
 
 
 #if defined(WIN32)
@@ -803,8 +803,8 @@ extern "C" {
      * about the OPUS codec check out http://www.opus-codec.org */
     typedef struct OpusCodec
     {
-        /** @brief The sample rate to use. Sample rate must be in the
-         * range 8000 - 48000 Hz. */
+        /** @brief The sample rate to use. Sample rate must be
+         * 8000, 12000, 16000, 24000 or 48000 Hz. */
         INT32 nSampleRate;
         /** @brief Mono = 1 or stereo = 2. */
         INT32 nChannels;
