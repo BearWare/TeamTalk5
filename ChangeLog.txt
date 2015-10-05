@@ -1,14 +1,20 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.2 (unreleased)
+Version 5.1.1, released 2015/10/02
 Default Qt client:
 - Added -cfg command line argument for new/existing ini-file
+- Record own voice stream when using separate media files (user-id 0)
 Accessible client:
 - Added -cfg command line argument for new/existing ini-file
 - Added Import .tt File button in Host Manager
+- Record own voice stream when using separate media files (user-id 0)
+- Fixed issue where video resolution couldn't be changed
+- Fixed issue where operator password caused error message
+Server:
+- Fixed issue where files were not put in correct channel
 
-Version 5.1 (unreleased)
+Version 5.1, released 2015/06/15
 General:
 - Fixed clicking sound when streaming media files
 Default Qt client:

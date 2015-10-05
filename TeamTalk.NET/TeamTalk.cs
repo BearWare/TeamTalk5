@@ -763,8 +763,8 @@ namespace BearWare
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct OpusCodec
     {
-        /** @brief The sample rate to use. Sample rate must be in the
-         * range 8000 - 48000 Hz. */
+        /** @brief The sample rate to use. Sample rate must be
+         * 8000, 12000, 16000, 24000 or 48000 Hz. */
         public int nSampleRate;
         /** @brief Mono = 1 or stereo = 2. */
         public int nChannels;

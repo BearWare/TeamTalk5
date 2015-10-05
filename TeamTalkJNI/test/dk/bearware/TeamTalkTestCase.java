@@ -477,18 +477,33 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_13_MediaStorage() {
-        TeamTalkBase ttclient = newClientInstance();
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
-        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE;
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
         
         TTMessage msg = new TTMessage();
 
-        initSound(ttclient);
-        connect(ttclient);
-        login(ttclient, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(ttclient);
+        int freq = 300;
+        TeamTalkBase ttclient;
+        Vector<TeamTalkBase> clients = new Vector<TeamTalkBase>();
+        for(int i=0;i<4;i++) {
+            ttclient = newClientInstance();
+            initSound(ttclient);
+            assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+
+            connect(ttclient);
+            login(ttclient, "ttclient" + (i), USERNAME, PASSWORD);
+            joinRoot(ttclient);
+
+            ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
+            clients.add(ttclient);
+
+            freq += 150;
+        }
+
+        ttclient = clients.get(0);
 
         Channel chan = new Channel();
         ttclient.getChannel(ttclient.getMyChannelID(), chan);
@@ -497,15 +512,173 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
-        ttclient.enableVoiceTransmission(true);
+        assertTrue(ttclient.enableVoiceTransmission(true));
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
 
         assertTrue(ttclient.stopRecordingMuxedAudioFile());
 
-        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 0));
+        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
+
+        ttclient.enableVoiceTransmission(false);
+
+        chan = buildDefaultChannel(ttclient, "Some channel", Codec.SPEEX_CODEC);
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 50);
+
+        for(int i=1;i<clients.size();i++) {
+            assertTrue(waitCmdSuccess(clients.get(i), clients.get(i).doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+        }
+
+        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE, AudioFileFormat.AFF_WAVE_FORMAT));
+
+
+        ttclient.enableVoiceTransmission(true);
+
+        TeamTalkBase ttclient1 = clients.get(1);
+        TeamTalkBase ttclient2 = clients.get(2);
+        TeamTalkBase ttclient3 = clients.get(3);
+
+        for(int i=0;i<5;i++) {
+
+            ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300);
+            assertTrue(ttclient1.enableVoiceTransmission(true));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+            ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 450);
+            assertTrue(ttclient2.enableVoiceTransmission(true));
+            waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 5000);
+            ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            ttclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
+            assertTrue(ttclient3.enableVoiceTransmission(true));
+            waitForEvent(ttclient3, ClientEvent.CLIENTEVENT_NONE, 10000);
+            ttclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            assertTrue(ttclient1.enableVoiceTransmission(false));
+            assertTrue(ttclient2.enableVoiceTransmission(false));
+            assertTrue(ttclient3.enableVoiceTransmission(false));
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 45000);
+        }
+
+        for(int i=0;i<5;i++) {
+
+            ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300);
+            assertTrue(ttclient1.enableVoiceTransmission(true));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 2000);
+            ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 450);
+            assertTrue(ttclient2.enableVoiceTransmission(true));
+            waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 2000);
+            ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            ttclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
+            assertTrue(ttclient3.enableVoiceTransmission(true));
+            waitForEvent(ttclient3, ClientEvent.CLIENTEVENT_NONE, 2000);
+            ttclient3.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 0);
+
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+            //assertTrue(ttclient1.enableVoiceTransmission(false));
+            assertTrue(ttclient2.enableVoiceTransmission(false));
+            assertTrue(ttclient3.enableVoiceTransmission(false));
+            waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+        }
+
+        assertTrue(ttclient.stopRecordingMuxedAudioFile());
 
     }
+
+    public void test_13_SelfMediaStorage() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        int freq = 300;
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        initSound(ttclient);
+        assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(ttclient.getMyChannelID(), chan);
+        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE, AudioFileFormat.AFF_WAVE_FORMAT));
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+
+        assertTrue(ttclient.stopRecordingMuxedAudioFile());
+
+        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
+
+        ttclient.enableVoiceTransmission(false);
+    }
+
+    public void test_13_SelfEchoMediaStorage() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        int freq = 300;
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        initSound(ttclient);
+        assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(ttclient.getMyChannelID(), chan);
+        assertTrue(ttclient.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE, AudioFileFormat.AFF_WAVE_FORMAT));
+
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
+                                                                 Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+        assertTrue(ttclient.enableVoiceTransmission(true));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue(ttclient.stopRecordingMuxedAudioFile());
+
+        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 100));
+
+        ttclient.enableVoiceTransmission(false);
+    }
+
 
     public void test_14_AudioBlock() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
@@ -983,5 +1156,4 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
         }
     }
-        
 }

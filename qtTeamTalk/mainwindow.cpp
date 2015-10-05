@@ -2336,7 +2336,9 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
             users.resize(userCount);
             TT_GetServerUsers(ttInst, &users[0], &userCount);
         }
-        for(int i=0;i<userCount;i++)
+        User u; u.nUserID = AUDIOSTORAGE_LOCAL_USERID;
+        users.push_back(u); //also store local user's voice stream
+        for(int i=0;i<users.size();i++)
         {
             if(enable)
                 TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), NULL, aff);

@@ -52,11 +52,18 @@
     <item id="155">Utwórz plik ustawień .tt</item>
     <item id="201">Wiadomości</item>
     <item id="205">Zmień status</item>
+    <item id="212">Wyświetlanie</item>
+    <item id="215">Ogólne</item>
+    <item id="220">Zaawansowane</item>
+    <item id="221">Połączenie</item>
+    <item id="223">Dźwięki zdarzeń</item>
+    <item id="224">Dźwięk</item>
     <item id="227">Informacje o użytkowniku</item>
     <item id="243">Menedżer serwerów</item>
     <item id="247">Jaki jest mój adres IP?</item>
     <item id="249">Skrót klawiszowy</item>
     <item id="251">Rozlokowywanie użytkowników w przestrzeni</item>
+    <item id="254">Skróty</item>
     <item id="256">Zbanowani użytkownicy</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
     <item id="1011">Właściwości serwera</item>
@@ -90,6 +97,7 @@
     <item id="1060">Minimalizuj do zasobnika systemowego</item>
     <item id="1061">Temat</item>
     <item id="1063">Hasło</item>
+    <item id="1065">WASapi</item>
     <item id="1067">Maksymalna liczba sesji na adres IP</item>
     <item id="1071">Opcjonalnie</item>
     <item id="1073">Hasło</item>
@@ -133,7 +141,7 @@
     <item id="1157">Ustawienia użytkownika</item>
     <item id="1158">Tryb transmisji mowy</item>
     <item id="1160">sek. nieaktywności (0=wyłączono)</item>
-    <item id="1162">Ustaw "zaraz wracam" po</item>
+    <item id="1162">Ustaw &quot;zaraz wracam&quot; po</item>
     <item id="1163">Nazwa serwera</item>
     <item id="1164">&amp;Usuń</item>
     <item id="1165">Hasło serwera</item>
@@ -164,7 +172,7 @@
     <item id="1199">Zachowanie okna</item>
     <item id="1200">Czcionka</item>
     <item id="1201">Twoja wiadomość</item>
-    <item id="1202">Wciśnij przycisk "zakończ" aby rozpocząć używanie TeamTalk.</item>
+    <item id="1202">Wciśnij przycisk &quot;zakończ&quot; aby rozpocząć używanie TeamTalk.</item>
     <item id="1203">Tu wpisz swój pseudonim (nick) którego zamierzasz używać łącząc się z serwerem</item>
     <item id="1208">Podręczne okienko przy przychodzącej wiadomości</item>
     <item id="1209">Teamtalk obsługuje dwa sposoby transmisji audio do innych; poprzez wciśnięcie skrótu klawiszowego (Push-to-talk) lub w sposób ciągły, za pomocą aktywacji głosem</item>
@@ -363,6 +371,7 @@
     <item id="1531">&amp;Zapisz plik .tt</item>
     <item id="1534">Maksymalna długość bloku tekstu</item>
     <item id="1535">Ustawienia przechwytywania wideo</item>
+    <item id="1538">&amp;Importuj plik .tt </item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>
@@ -449,20 +458,11 @@
     <item id="32930">&amp;Z kanału\tCtrl+K</item>
     <item id="32931">Z serwera\tCtrl+Alt+K</item>
     <item id="32932">&amp;Zwiększ głośność audio (+10)\tCtrl+Alt+Right</item>
-    <item id="32933">&amp;Zmniejsz głośność audio  (-10)\tCtrl+Alt+Left</item>
-    <item id="32934">Zwiększ głośność multimediów  (+10)\tCtrl+Shift+Right</item>
-    <item id="32935">Zmniejsz głośność multimediów  (-10)\tCtrl+Shift+Left</item>
+    <item id="32933">&amp;Zmniejsz głośność audio (-10)\tCtrl+Alt+Left</item>
+    <item id="32934">Zwiększ głośność multimediów (+10)\tCtrl+Shift+Right</item>
+    <item id="32935">Zmniejsz głośność multimediów (-10)\tCtrl+Shift+Left</item>
     <item id="32936">Zezwól na transmisję obrazów pulpitu\tCtrl+Alt+E</item>
     <item id="32937">Zezwól na transmisję multimediów\tCtrl+Alt+R</item>
     <item id="32938">&amp;Pliki multimedialne\tCtrl+8</item>
     <item id="32939">Przechwyć pliki multimedialne\tCtrl+Shift+8</item>
-    <item id="1065">WASapi</item>
-<item id="32822">&amp;Zakończ\tAlt-F4</item>
-<item id="212">Wyświetlanie</item>
-    <item id="215">Ogólne</item>
-    <item id="220">Zaawansowane</item>
-    <item id="221">Połączenie</item>
-    <item id="223">Dźwięki zdarzeń</item>
-    <item id="224">Dźwięk</item>
-<item id="254">Skróty</item>
-            </language>
+</language>

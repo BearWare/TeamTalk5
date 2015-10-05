@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
@@ -370,6 +370,7 @@
     <item id="1534">Maximální délka textu</item>
     <item id="1535">Nastavení videa</item>
     <item id="1537">Poměr hlasitosti zvuku a multimediálního souboru</item>
+    <item id="1538">&amp;Importovat soubor .tt</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>

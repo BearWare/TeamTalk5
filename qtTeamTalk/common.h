@@ -178,6 +178,9 @@
 //whether to enable key-translation
 #define ENABLE_KEY_TRANSLATION 1
 
+//user ID to pass to store local user's voice stream
+#define AUDIOSTORAGE_LOCAL_USERID 0
+
 #ifdef Q_OS_WIN32
 #define WM_TEAMALK_CLIENTEVENT     (WM_APP + 1)
 #define WM_TEAMTALK_HOTKEYEVENT     (WM_APP + 2)
