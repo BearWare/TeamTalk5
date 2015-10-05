@@ -30,6 +30,33 @@ bool getBoolean(TTMessage* m) {
     return m->bActive;
 }
 
+SpeexCodec* getSpeexCodec(AudioCodec* a) {
+    return &a->speex;
+}
+
+SpeexVBRCodec* getSpeexVBRCodec(AudioCodec* a) {
+    return &a->speex_vbr;
+}
+
+OpusCodec* getOpusCodec(AudioCodec* a) {
+    return &a->opus;
+}
+
+void setOpusCodec(AudioCodec* a, OpusCodec* o) {
+    a->nCodec = OPUS_CODEC;
+    a->opus = *o;
+}
+
+void setSpeexCodec(AudioCodec* a, SpeexCodec* s) {
+    a->nCodec = SPEEX_CODEC;
+    a->speex = *s;
+}
+
+void setSpeexVBRCodec(AudioCodec* a, SpeexVBRCodec* s) {
+    a->nCodec = SPEEX_VBR_CODEC;
+    a->speex_vbr = *s;
+}
+
 void toTTString(const char* str, TTCHAR* buf) {
     if(str) {
         strncpy(buf, str, TT_STRLEN);

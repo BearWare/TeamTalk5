@@ -36,6 +36,71 @@ class ChannelDetailViewController : UIViewController {
             navitem.title = name.text
         }
     }
+
+    @IBAction func saveNoAudioCodec(segue:UIStoryboardSegue) {
+        channel.audiocodec.nCodec = NO_CODEC
+    }
+
+    @IBAction func saveOpusCodec(segue:UIStoryboardSegue) {
+        
+        if segue.sourceViewController is OpusCodecDetailViewController {
+            let vc = segue.sourceViewController as! OpusCodecDetailViewController
+            vc.saveOPUSCodec()
+            setOpusCodec(&channel.audiocodec, &vc.codec)
+        }
+    }
+    
+    @IBAction func saveSpeexCodec(segue:UIStoryboardSegue) {
+        
+        if segue.sourceViewController is SpeexCodecDetailViewController {
+            let vc = segue.sourceViewController as! SpeexCodecDetailViewController
+            vc.saveSpeexCodec()
+            setSpeexCodec(&channel.audiocodec, &vc.codec)
+        }
+    }
+
+    @IBAction func saveSpeexVBRCodec(segue:UIStoryboardSegue) {
+        
+        if segue.sourceViewController is SpeexVBRCodecDetailViewController {
+            let vc = segue.sourceViewController as! SpeexVBRCodecDetailViewController
+            vc.saveSpeexCodec()
+            setSpeexVBRCodec(&channel.audiocodec, &vc.codec)
+        }
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "Setup Audio Codec" {
+            
+            let vc = segue.destinationViewController as! UITabBarController
+            
+            switch channel.audiocodec.nCodec.value {
+            case NO_CODEC.value :
+                if channel.nChannelID == 0 {
+                    // we're creating a new channel (set Opus as default)
+                    vc.selectedIndex = 1
+                }
+                else {
+                    vc.selectedIndex = 0
+                }
+            case SPEEX_CODEC.value :
+                let spxview = vc.viewControllers![2] as! SpeexCodecDetailViewController
+                spxview.codec = getSpeexCodec(&channel.audiocodec).memory
+                vc.selectedIndex = 2
+            case SPEEX_VBR_CODEC.value :
+                let spxview = vc.viewControllers![3] as! SpeexVBRCodecDetailViewController
+                spxview.codec = getSpeexVBRCodec(&channel.audiocodec).memory
+                vc.selectedIndex = 3
+            case OPUS_CODEC.value :
+                let opusview = vc.viewControllers![1] as! OpusCodecDetailViewController
+                opusview.codec = getOpusCodec(&channel.audiocodec).memory
+                fallthrough
+            default :
+                vc.selectedIndex = 1
+            }
+            
+        }
+    }
     
     func saveChannelDetail() {
         toTTString(name.text!, &channel.szName.0)
