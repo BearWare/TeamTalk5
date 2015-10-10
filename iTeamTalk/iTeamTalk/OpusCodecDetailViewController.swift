@@ -32,6 +32,8 @@ class OpusCodecDetailViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.navigationItem.title = "OPUS"
+        
         if let i = find(applications, codec.nApplication) {
             applicationSegCtrl.selectedSegmentIndex = i
         }

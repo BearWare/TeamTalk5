@@ -10,6 +10,9 @@ import UIKit
 
 class ChannelDetailViewController : UIViewController {
 
+    //shared TTInstance between all view controllers
+    var ttInst = UnsafeMutablePointer<Void>()
+
     var channel = Channel()
     
     @IBOutlet weak var navitem: UINavigationItem!
@@ -20,7 +23,9 @@ class ChannelDetailViewController : UIViewController {
     @IBOutlet weak var nointerruptions: UISwitch!
     @IBOutlet weak var novoiceactivation: UISwitch!
     @IBOutlet weak var noaudiorecording: UISwitch!
-
+    @IBOutlet weak var createBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +40,33 @@ class ChannelDetailViewController : UIViewController {
         if !name.text.isEmpty {
             navitem.title = name.text
         }
+        
+        if channel.nChannelID == 0 {
+            createBtn.setTitle("Create Channel", forState: .Normal)
+            navitem.title = "Create Channel"
+            deleteBtn.hidden = true
+        }
+        else {
+            createBtn.setTitle("Update Channel", forState: .Normal)
+        }
+    }
+    
+    @IBAction func createChannel(sender: UIButton) {
+        saveChannelDetail()
+        
+        //TODO: UIAlertView on failure
+        
+        if channel.nChannelID != 0 {
+            let cmdid = TT_DoJoinChannel(ttInst, &channel)
+        }
+        else {
+            let cmdid = TT_DoUpdateChannel(ttInst, &channel)
+        }
+    }
+    
+    @IBAction func deleteChannel(sender: UIButton) {
+        //TODO: UIAlertView on failure
+        let cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
     }
 
     @IBAction func saveNoAudioCodec(segue:UIStoryboardSegue) {

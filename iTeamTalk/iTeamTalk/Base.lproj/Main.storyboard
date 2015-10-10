@@ -118,7 +118,7 @@
         <!--No Audio-->
         <scene sceneID="9Gu-PH-JET">
             <objects>
-                <viewController id="xpG-s7-yiv" sceneMemberID="viewController">
+                <viewController id="xpG-s7-yiv" customClass="NoAudioCodecDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GPP-bz-NZ1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -148,7 +148,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Or3-3s-3Po" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Vds-XY-kJD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="989" y="669"/>
+            <point key="canvasLocation" x="114" y="2573"/>
         </scene>
         <!--Server List-->
         <scene sceneID="D9B-Wh-gUF">
@@ -167,7 +167,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WCf-u5-KkQ">
-                                            <rect key="frame" x="56" y="20" width="161" height="21"/>
+                                            <rect key="frame" x="56" y="19.999999911283656" width="161" height="21"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -192,7 +192,7 @@
                                             </state>
                                             <connections>
                                                 <action selector="connectToServer:" destination="P1g-bS-PT1" eventType="touchDown" id="gSW-Ip-QlI"/>
-                                                <segue destination="cGq-IQ-jIp" kind="push" identifier="Show ChannelList" id="mVj-S3-PfF"/>
+                                                <segue destination="07s-AR-tvQ" kind="push" identifier="Show ChannelList" id="k1y-JH-Jxd"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -316,7 +316,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tpk-Ka-fCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-63" y="1820"/>
+            <point key="canvasLocation" x="-593" y="1764"/>
         </scene>
         <!--Text Message-->
         <scene sceneID="pGq-No-kgc">
@@ -338,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Llx-2B-q0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="452" y="1815"/>
+            <point key="canvasLocation" x="-988" y="1747"/>
         </scene>
         <!--Speex-->
         <scene sceneID="KfM-5x-kJM">
@@ -421,7 +421,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYv-ys-wfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="RTq-3E-ar3" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1398" y="669"/>
+            <point key="canvasLocation" x="821" y="2573"/>
         </scene>
         <!--Speex VBR-->
         <scene sceneID="Boy-fb-KCA">
@@ -541,7 +541,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="boa-Kd-LJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4jM-Ut-hPc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="989" y="1316"/>
+            <point key="canvasLocation" x="1162" y="2564"/>
         </scene>
         <!--OPUS-->
         <scene sceneID="fiF-OP-PTg">
@@ -680,13 +680,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zOo-dL-Fwx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yYS-Pd-Ijc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1398" y="1316"/>
+            <point key="canvasLocation" x="465" y="2573"/>
         </scene>
         <!--Setup Audio Codec-->
         <scene sceneID="hYk-PZ-MBW">
             <objects>
-                <tabBarController id="TIf-Ll-Wki" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Setup Audio Codec" id="nHJ-Oc-HZh"/>
+                <tabBarController title="Setup Audio Codec" id="TIf-Ll-Wki" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="nHJ-Oc-HZh"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="7vC-Ws-mcd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -702,143 +702,191 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cvq-Y3-hbJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="576" y="1001"/>
+            <point key="canvasLocation" x="250" y="1747"/>
         </scene>
-        <!--Channel List-->
-        <scene sceneID="3f6-mj-pa0">
+        <!--Desktops-->
+        <scene sceneID="9aO-yC-f19">
             <objects>
-                <tableViewController storyboardIdentifier="ChannelList" id="cGq-IQ-jIp" customClass="ChannelListViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ms3-6t-RuQ">
+                <viewController id="UTQ-Pd-wWz" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PhZ-jU-oT2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hqu-CX-Vn4" id="t0N-0P-UyI">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BAg-4r-6NZ">
-                                            <rect key="frame" x="8" y="0.0" width="45" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fu9-tA-eYj">
-                                            <rect key="frame" x="61" y="0.0" width="175" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w6E-jf-09e">
-                                            <rect key="frame" x="61" y="22" width="175" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39M-xf-cB5">
-                                            <rect key="frame" x="277" y="0.0" width="43" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                            <state key="normal" title="Join">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="joinChannel:" destination="cGq-IQ-jIp" eventType="touchDown" id="rDX-Qf-0NN"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JzB-tm-tld">
-                                            <rect key="frame" x="235" y="0.0" width="43" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                            <state key="normal" title="Edit">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="PhY-ED-cqF" kind="push" identifier="Edit Channel" id="zTi-Lt-yqR"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </tableViewCellContentView>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Desktops" id="ZFj-Rn-XZn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U2A-aE-XtG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="555" y="984"/>
+        </scene>
+        <!--Channels-->
+        <scene sceneID="adC-xy-Py5">
+            <objects>
+                <viewController id="VdD-YH-wjI" customClass="ChannelListViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HBM-YG-egd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="RGN-tN-yKO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hqu-CX-Vn4" id="t0N-0P-UyI">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BAg-4r-6NZ">
+                                                    <rect key="frame" x="8" y="0.0" width="45" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fu9-tA-eYj">
+                                                    <rect key="frame" x="61" y="0.0" width="175" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w6E-jf-09e">
+                                                    <rect key="frame" x="61" y="22" width="175" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39M-xf-cB5">
+                                                    <rect key="frame" x="277" y="0.0" width="43" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Join">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="joinChannel:" destination="VdD-YH-wjI" eventType="touchDown" id="ife-Bq-vgV"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JzB-tm-tld">
+                                                    <rect key="frame" x="235" y="0.0" width="43" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Edit">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="PhY-ED-cqF" kind="push" identifier="Edit Channel" id="INN-J6-CZq"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chanimage" destination="BAg-4r-6NZ" id="5ku-9N-KIr"/>
+                                            <outlet property="channame" destination="Fu9-tA-eYj" id="QdR-PC-Vse"/>
+                                            <outlet property="chantopicLabel" destination="w6E-jf-09e" id="gJi-OR-Ask"/>
+                                            <outlet property="editBtn" destination="JzB-tm-tld" id="j8S-RF-pb4"/>
+                                            <outlet property="joinBtn" destination="39M-xf-cB5" id="rbK-Pd-u6c"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="72V-GT-Org">
+                                                    <rect key="frame" x="8" y="0.0" width="45" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Uc0-gP-wr1">
+                                                    <rect key="frame" x="61" y="22" width="175" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ALe-1e-Au1">
+                                                    <rect key="frame" x="61" y="0.0" width="175" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4RU-K7-Yga">
+                                                    <rect key="frame" x="243" y="0.0" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Button" image="message_blue">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="7aU-AH-t35" kind="push" id="3hO-gV-WPR"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageBtn" destination="4RU-K7-Yga" id="cGr-ko-HT5"/>
+                                            <outlet property="nicknameLabel" destination="ALe-1e-Au1" id="Mnf-dX-kA7"/>
+                                            <outlet property="statusmsgLabel" destination="Uc0-gP-wr1" id="jMR-zv-EcI"/>
+                                            <outlet property="userImage" destination="72V-GT-Org" id="IgX-Ht-m0x"/>
+                                            <segue destination="wfd-hi-eX5" kind="push" identifier="Show User" id="D6H-9Y-ioc"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V6G-Gm-l2U">
+                                <rect key="frame" x="255" y="468" width="65" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Button"/>
                                 <connections>
-                                    <outlet property="chanimage" destination="BAg-4r-6NZ" id="5ku-9N-KIr"/>
-                                    <outlet property="channame" destination="Fu9-tA-eYj" id="QdR-PC-Vse"/>
-                                    <outlet property="chantopicLabel" destination="w6E-jf-09e" id="gJi-OR-Ask"/>
-                                    <outlet property="editBtn" destination="JzB-tm-tld" id="j8S-RF-pb4"/>
-                                    <outlet property="joinBtn" destination="39M-xf-cB5" id="rbK-Pd-u6c"/>
+                                    <action selector="txDisable:" destination="VdD-YH-wjI" eventType="touchCancel" id="JNF-EC-ci9"/>
+                                    <action selector="txEnable:" destination="VdD-YH-wjI" eventType="touchDown" id="nzg-6s-5Yu"/>
                                 </connections>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="72V-GT-Org">
-                                            <rect key="frame" x="8" y="0.0" width="45" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Uc0-gP-wr1">
-                                            <rect key="frame" x="61" y="22" width="175" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ALe-1e-Au1">
-                                            <rect key="frame" x="61" y="0.0" width="175" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4RU-K7-Yga">
-                                            <rect key="frame" x="243" y="0.0" width="44" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                            <state key="normal" title="Button" image="message_blue">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="7aU-AH-t35" kind="push" id="3hO-gV-WPR"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="messageBtn" destination="4RU-K7-Yga" id="cGr-ko-HT5"/>
-                                    <outlet property="nicknameLabel" destination="ALe-1e-Au1" id="Mnf-dX-kA7"/>
-                                    <outlet property="statusmsgLabel" destination="Uc0-gP-wr1" id="jMR-zv-EcI"/>
-                                    <outlet property="userImage" destination="72V-GT-Org" id="IgX-Ht-m0x"/>
-                                    <segue destination="wfd-hi-eX5" kind="push" identifier="Show User" id="D6H-9Y-ioc"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="cGq-IQ-jIp" id="gEF-6h-omY"/>
-                            <outlet property="delegate" destination="cGq-IQ-jIp" id="R1D-hz-W4g"/>
-                        </connections>
-                    </tableView>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Channels" id="aX2-rZ-yEl"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Channel List" id="ZbO-IV-ah3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="a3S-6I-7kJ">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="RGN-tN-yKO" id="HUY-MT-Id4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8If-87-PAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-308" y="984"/>
+        </scene>
+        <!--Main Tab Controller-->
+        <scene sceneID="nMB-QH-G9E">
+            <objects>
+                <tabBarController id="07s-AR-tvQ" customClass="MainTabBarController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Main Tab Controller" id="dcU-Nq-ioW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="0yL-f2-wpC">
                             <connections>
-                                <segue destination="PhY-ED-cqF" kind="push" identifier="New Channel" id="IcY-Cr-jdn"/>
+                                <segue destination="PhY-ED-cqF" kind="push" identifier="New Channel" id="ROh-EA-fdo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="9lE-cb-pBk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
                     <connections>
-                        <outlet property="navtitle" destination="ZbO-IV-ah3" id="NrF-TL-iik"/>
+                        <segue destination="VdD-YH-wjI" kind="relationship" relationship="viewControllers" id="aZh-vF-HgL"/>
+                        <segue destination="UTQ-Pd-wWz" kind="relationship" relationship="viewControllers" id="KOl-m3-aKT"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2KU-kI-Tgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jq9-SM-k9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-226" y="1001"/>
+            <point key="canvasLocation" x="105" y="984"/>
         </scene>
-        <!--Edit Channel-->
+        <!--Channel Detail-->
         <scene sceneID="MNq-qd-bZ1">
             <objects>
-                <viewController storyboardIdentifier="EditChannel" id="PhY-ED-cqF" customClass="ChannelDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditChannel" title="Channel Detail" id="PhY-ED-cqF" customClass="ChannelDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YBB-6P-wGg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -936,18 +984,34 @@
                                     <segue destination="TIf-Ll-Wki" kind="push" identifier="Setup Audio Codec" id="d0q-ra-4Mm"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SPq-ns-vDX">
+                                <rect key="frame" x="86" y="482" width="149" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Delete Channel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteChannel:" destination="PhY-ED-cqF" eventType="touchUpInside" id="ED5-hp-Qb0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3wZ-hW-eul">
+                                <rect key="frame" x="86" y="444" width="149" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Create Channel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createChannel:" destination="PhY-ED-cqF" eventType="touchUpInside" id="Dt7-CG-elz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Edit Channel" id="bee-sO-qqT">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="MOz-5b-nTM">
-                            <connections>
-                                <segue destination="6Mk-v2-lBH" kind="unwind" unwindAction="saveChannel:" id="F9U-1Y-8ZT"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="bee-sO-qqT"/>
                     <connections>
+                        <outlet property="createBtn" destination="3wZ-hW-eul" id="KiO-w5-FdF"/>
+                        <outlet property="deleteBtn" destination="SPq-ns-vDX" id="RP8-JU-cZQ"/>
                         <outlet property="name" destination="8xq-hR-pyy" id="fou-Zd-bkZ"/>
                         <outlet property="navitem" destination="bee-sO-qqT" id="NiT-MZ-qhu"/>
                         <outlet property="noaudiorecording" destination="xQO-bO-oB6" id="h9M-Aj-qiS"/>
@@ -959,9 +1023,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7q-AK-0Vn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="6Mk-v2-lBH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="176" y="1001"/>
+            <point key="canvasLocation" x="-184" y="1747"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Cv5-YA-G2I">
@@ -990,7 +1053,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zTi-Lt-yqR"/>
+        <segue reference="INN-J6-CZq"/>
         <segue reference="x0N-oQ-CJk"/>
     </inferredMetricsTieBreakers>
 </document>

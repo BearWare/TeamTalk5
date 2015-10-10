@@ -29,6 +29,8 @@ class SpeexVBRCodecDetailViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.navigationItem.title = "Speex VBR"
+        
         sampleratesSegCtrl.selectedSegmentIndex = Int(codec.nBandmode)
         
         qualitySlider.minimumValue = 0

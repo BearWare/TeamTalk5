@@ -82,8 +82,8 @@ NSXMLParserDelegate {
             
         }
         else if segue.identifier == "Show ChannelList" {
-            let channellist = segue.destinationViewController as! ChannelListViewController
-            channellist.connectToServer(currentServer)
+            let vc = segue.destinationViewController as! MainTabBarController
+            vc.connectToServer(currentServer)
         }
     }
     
