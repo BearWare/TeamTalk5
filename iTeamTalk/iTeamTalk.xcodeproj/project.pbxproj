@@ -12,6 +12,7 @@
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
 		253713381BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713371BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift */; };
+		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
 		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
@@ -52,6 +53,7 @@
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713371BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAudioCodecDetailViewController.swift; sourceTree = "<group>"; };
+		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
+				253713391BC97D1200A7ADB3 /* Settings.bundle */,
 				254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */,
 				254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */,
 				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
@@ -263,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */,
 				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
 				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
 				254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */,

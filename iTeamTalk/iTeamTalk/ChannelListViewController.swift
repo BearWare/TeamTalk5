@@ -192,6 +192,16 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         case .LoginCmd :
             self.tableView.reloadData()
             
+            let flags = TT_GetFlags(ttInst)
+            
+            if (flags & CLIENT_AUTHORIZED.value) != 0 && NSUserDefaults.standardUserDefaults().boolForKey("joinroot_preference") {
+                
+                let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
+                if cmdid > 0 {
+                    activeCommands[cmdid] = .JoinCmd
+                }
+            }
+            
         case .JoinCmd :
             self.tableView.reloadData()
             

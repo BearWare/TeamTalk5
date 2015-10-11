@@ -13,9 +13,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        // Default values are not set in Settings bundle, so we need to load them manually
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.synchronize()
+        
+        var bundleDefaults = [NSObject : AnyObject]()
+        
+        if let settingsBundle = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle") {
+            
+            let settings = NSDictionary(contentsOfFile: settingsBundle.stringByAppendingPathComponent("Root.plist"))
+            let preferences = settings!.objectForKey("PreferenceSpecifiers") as! NSArray
+
+            for prefSpecification in preferences {
+                if let key: AnyObject = prefSpecification.objectForKey("Key") {
+                    if defaults.objectForKey(key as! String) == nil {
+                        let defValue: AnyObject? = prefSpecification.objectForKey("DefaultValue")
+                        bundleDefaults[key as! String] = defValue
+//                        println("Pref: " + (key as! String) + "=" + defValue)
+                    }
+                }
+                
+            }
+        }
+
+        if !bundleDefaults.isEmpty {
+            defaults.registerDefaults(bundleDefaults)
+            defaults.synchronize()
+        }
+        
         return true
     }
 

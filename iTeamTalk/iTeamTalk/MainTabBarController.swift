@@ -68,7 +68,12 @@ class MainTabBarController : UITabBarController {
                 
             case CLIENTEVENT_CON_SUCCESS.value :
                 println("We're connected")
-                let cmdid = TT_DoLogin(ttInst, "iOS client", server.username, server.password)
+                var nickname = NSUserDefaults.standardUserDefaults().stringForKey("nickname_preference")
+                if nickname == nil {
+                    nickname = ""
+                }
+                
+                let cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
                 if cmdid > 0 {
                     channelsTab.activeCommands[cmdid] = .LoginCmd
                 }
