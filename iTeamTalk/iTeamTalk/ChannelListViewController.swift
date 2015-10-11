@@ -79,6 +79,8 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
 
         var chan_count = (curchannel.nParentID != 0 ? subchans.array.count + 1 : subchans.array.count)
         
+        //println("row = \(indexPath.item) cur channel = \(curchannel.nChannelID) subs = \(subchans.array.count) users = \(chanusers.array.count)")
+        
         // display channels first
         if indexPath.item < chan_count {
 
@@ -252,10 +254,6 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         }
     }
     
-    func createChannel() {
-        
-    }
-    
     func handleTTMessage(var m: TTMessage) {
         switch(m.nClientEvent.value) {
 
@@ -283,18 +281,16 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         case CLIENTEVENT_CMD_CHANNEL_NEW.value :
             var channel = getChannel(&m).memory
             
-            //show sub channels of root as default
-            if channel.nParentID == 0 {
-                //curchannel = channel
-            }
-            
             channels[channel.nChannelID] = channel
+            
+            // initial title will be server name
+            if channel.nParentID == 0 {
+                updateTitle()
+            }
             
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
-            
-            updateTitle()
             
         case CLIENTEVENT_CMD_CHANNEL_UPDATE.value :
             var channel = getChannel(&m).memory
@@ -337,7 +333,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             var user = getUser(&m).memory
             users[user.nUserID] = user
             
-            if currentCmdId == 0 && user.nChannelID > 0 {
+            if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
             
