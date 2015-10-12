@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 func refVolume(percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
@@ -26,6 +27,19 @@ func refVolumeToPercent(volume: Int) -> Int {
     let d = (Double(volume) + 50.0) / 82.832
     let d1 = (log(d) / 0.0508) + 0.5
     return Int(d1)
+}
+
+func newTableCell(label: String, initial: String) -> (UITableViewCell, UITextField) {
+    let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+    cell.selectionStyle = .None
+    cell.textLabel?.text = label
+    let textfield = UITextField(frame: CGRectMake(150, 7, 150, 30))
+    textfield.text = initial
+    textfield.placeholder = "Type text here"
+    textfield.borderStyle = .Line
+    cell.accessoryView = textfield
+    
+    return (cell, textfield)
 }
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
