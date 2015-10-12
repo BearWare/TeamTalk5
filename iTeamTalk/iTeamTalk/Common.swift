@@ -42,6 +42,31 @@ func newTableCell(label: String, initial: String) -> (UITableViewCell, UITextFie
     return (cell, textfield)
 }
 
+func newTableCell(label: String, min: Float, max: Float, initial: Float) -> (UITableViewCell, UISlider) {
+    let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+    cell.selectionStyle = .None
+    cell.textLabel?.text = label
+    let sliderfield = UISlider(frame: CGRectMake(150, 7, 150, 31))
+    sliderfield.minimumValue = min
+    sliderfield.maximumValue = max
+    sliderfield.value = initial
+    cell.accessoryView = sliderfield
+    
+    return (cell, sliderfield)
+}
+
+func newTableCell(label: String, initial: Bool) -> (UITableViewCell, UISwitch) {
+    let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+    cell.selectionStyle = .None
+    cell.textLabel?.text = label
+    let switchfield = UISwitch(frame: CGRectZero)
+    switchfield.on = initial
+    cell.accessoryView = switchfield
+    
+    return (cell, switchfield)
+}
+
+
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 
 //Default OPUS codec settings
