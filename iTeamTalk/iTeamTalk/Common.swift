@@ -66,6 +66,17 @@ func newTableCell(label: String, initial: Bool) -> (UITableViewCell, UISwitch) {
     return (cell, switchfield)
 }
 
+func newTableCellBtn(label: String, btntext: String) -> (UITableViewCell, UIButton) {
+    let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+    cell.selectionStyle = .None
+    cell.textLabel?.text = label
+    let buttonfield = UIButton(frame: CGRectMake(150, 7, 150, 31))
+    buttonfield.setTitle(btntext, forState: .Normal)
+    cell.accessoryView = buttonfield
+    
+    return (cell, buttonfield)
+}
+
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 

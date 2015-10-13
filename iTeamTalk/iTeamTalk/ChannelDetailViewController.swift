@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChannelDetailViewController : UIViewController {
+class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -16,29 +16,88 @@ class ChannelDetailViewController : UIViewController {
     var channel = Channel()
     
     @IBOutlet weak var navitem: UINavigationItem!
-    @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var topic: UITextField!
-    @IBOutlet weak var permanentchannel: UISwitch!
-    @IBOutlet weak var nointerruptions: UISwitch!
-    @IBOutlet weak var novoiceactivation: UISwitch!
-    @IBOutlet weak var noaudiorecording: UISwitch!
+    
+    var namefield: UITextField?
+    var passwdfield: UITextField?
+    var topicfield: UITextField?
+    var permanentswitch: UISwitch?
+    var nointerruptionsswitch: UISwitch?
+    var novoiceactivationswitch: UISwitch?
+    var noaudiorecordingswitch: UISwitch?
+    
     @IBOutlet weak var createBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var items = [UITableViewCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.text = String.fromCString(&channel.szName.0)
-        password.text = String.fromCString(&channel.szPassword.0)
-        topic.text = String.fromCString(&channel.szTopic.0)
-        permanentchannel.on = (channel.uChannelType & CHANNEL_PERMANENT.value) != 0
-        nointerruptions.on = (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.value) != 0
-        novoiceactivation.on = (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.value) != 0
-        noaudiorecording.on = (channel.uChannelType & CHANNEL_NO_RECORDING.value) != 0
+        let (namecell, namefield) = newTableCell("Name", String.fromCString(&channel.szName.0)!)
+        self.namefield = namefield
+        items.append(namecell)
         
-        if !name.text.isEmpty {
-            navitem.title = name.text
+        let (passwdcell, passwdfield) = newTableCell("Password", String.fromCString(&channel.szPassword.0)!)
+        self.passwdfield = passwdfield
+        items.append(passwdcell)
+        
+        let (topiccell, topicfield) = newTableCell("Topic", String.fromCString(&channel.szTopic.0)!)
+        self.topicfield = topicfield
+        items.append(topiccell)
+        
+        let codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell") as! UITableViewCell
+        codeccell.selectionStyle = .None
+        codeccell.textLabel!.text = "Audio Codec"
+        var codecdetail = ""
+        switch channel.audiocodec.nCodec.value {
+        case OPUS_CODEC.value :
+            let opus = getOpusCodec(&channel.audiocodec).memory
+            let chans = (opus.nChannels>1 ? "Stereo" : "Mono" )
+            codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz " + chans
+        case SPEEX_CODEC.value :
+            let speex = getSpeexCodec(&channel.audiocodec).memory
+            var sr = ""
+            switch speex.nBandmode {
+            case 2 :
+                sr = "32 KHz"
+            case 1 :
+                sr = "16 KHz"
+            case 0 :
+                fallthrough
+            default :
+                sr = "8 KHz"
+            }
+            codecdetail = "Speex " + sr
+        case SPEEX_VBR_CODEC.value :
+            codecdetail = "Speex VBR"
+        case NO_CODEC.value :
+            fallthrough
+        default :
+            codecdetail = "No Audio"
+        }
+        codeccell.detailTextLabel?.text = codecdetail
+        items.append(codeccell)
+        
+        let (permanentcell, permanentswitch) = newTableCell("Permanent Channel", (channel.uChannelType & CHANNEL_PERMANENT.value) != 0)
+        self.permanentswitch = permanentswitch
+        items.append(permanentcell)
+        
+        let (nointerruptcell, nointerruptionsswitch) = newTableCell("No Interruptions", (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.value) != 0)
+        self.nointerruptionsswitch = nointerruptionsswitch
+        items.append(nointerruptcell)
+        
+        let (novoiceactcell, novoiceactivationswitch) = newTableCell("No Voice Activation", (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.value) != 0)
+        self.novoiceactivationswitch = novoiceactivationswitch
+        items.append(novoiceactcell)
+        
+        let (noaudiorecordcell, noaudiorecordingswitch) = newTableCell("No Audio Recording", (channel.uChannelType & CHANNEL_NO_RECORDING.value) != 0)
+        self.noaudiorecordingswitch = noaudiorecordingswitch
+        items.append(noaudiorecordcell)
+        
+        if !namefield.text.isEmpty {
+            navitem.title = namefield.text
         }
         
         if channel.nChannelID == 0 {
@@ -49,6 +108,9 @@ class ChannelDetailViewController : UIViewController {
         else {
             createBtn.setTitle("Update Channel", forState: .Normal)
         }
+        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     @IBAction func createChannel(sender: UIButton) {
@@ -135,21 +197,38 @@ class ChannelDetailViewController : UIViewController {
     }
     
     func saveChannelDetail() {
-        toTTString(name.text!, &channel.szName.0)
-        toTTString(password.text!, &channel.szPassword.0)
-        toTTString(topic.text!, &channel.szTopic.0)
-        if permanentchannel.on {
+        toTTString(namefield!.text, &channel.szName.0)
+        toTTString(passwdfield!.text, &channel.szPassword.0)
+        toTTString(topicfield!.text, &channel.szTopic.0)
+        if permanentswitch!.on {
             channel.uChannelType |= CHANNEL_PERMANENT.value
         }
-        if nointerruptions.on {
+        if nointerruptionsswitch!.on {
             channel.uChannelType |= CHANNEL_SOLO_TRANSMIT.value
         }
-        if novoiceactivation.on {
+        if novoiceactivationswitch!.on {
             channel.uChannelType |= CHANNEL_NO_VOICEACTIVATION.value
         }
-        if noaudiorecording.on {
+        if noaudiorecordingswitch!.on {
             channel.uChannelType |= CHANNEL_NO_RECORDING.value
         }
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return items.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        return items[indexPath.row]
     }
     
 }
