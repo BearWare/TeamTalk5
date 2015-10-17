@@ -20,6 +20,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     var namefield: UITextField?
     var passwdfield: UITextField?
     var topicfield: UITextField?
+    var codeccell : UITableViewCell?
     var permanentswitch: UISwitch?
     var nointerruptionsswitch: UISwitch?
     var novoiceactivationswitch: UISwitch?
@@ -35,21 +36,64 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let (namecell, namefield) = newTableCell("Name", String.fromCString(&channel.szName.0)!)
-        self.namefield = namefield
+        let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        namefield = newTableCellTextField(namecell, "Name", String.fromCString(&channel.szName.0)!)
         items.append(namecell)
         
-        let (passwdcell, passwdfield) = newTableCell("Password", String.fromCString(&channel.szPassword.0)!)
-        self.passwdfield = passwdfield
+        let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        passwdfield = newTableCellTextField(passwdcell, "Password", String.fromCString(&channel.szPassword.0)!)
         items.append(passwdcell)
         
-        let (topiccell, topicfield) = newTableCell("Topic", String.fromCString(&channel.szTopic.0)!)
-        self.topicfield = topicfield
+        let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        topicfield = newTableCellTextField(topiccell, "Topic", String.fromCString(&channel.szTopic.0)!)
         items.append(topiccell)
         
-        let codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell") as! UITableViewCell
-        codeccell.selectionStyle = .None
-        codeccell.textLabel!.text = "Audio Codec"
+        codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell") as? UITableViewCell
+        codeccell!.selectionStyle = .None
+        codeccell!.textLabel!.text = "Audio Codec"
+        showCodecDetail()
+        items.append(codeccell!)
+        
+        let permanentcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        permanentswitch = newTableCellSwitch(permanentcell, "Permanent Channel", (channel.uChannelType & CHANNEL_PERMANENT.value) != 0)
+        items.append(permanentcell)
+        
+        let nointerruptcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        nointerruptionsswitch = newTableCellSwitch(nointerruptcell, "No Interruptions", (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.value) != 0)
+        items.append(nointerruptcell)
+        
+        let novoiceactcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        novoiceactivationswitch = newTableCellSwitch(novoiceactcell, "No Voice Activation", (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.value) != 0)
+        items.append(novoiceactcell)
+        
+        let noaudiorecordcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, "No Audio Recording", (channel.uChannelType & CHANNEL_NO_RECORDING.value) != 0)
+        items.append(noaudiorecordcell)
+        
+        let blankcell = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
+        items.append(blankcell)
+        
+        let deletechan = tableView.dequeueReusableCellWithIdentifier("Delete Channel") as! UITableViewCell
+        items.append(deletechan)
+        
+        if !namefield!.text.isEmpty {
+            navitem.title = namefield!.text
+        }
+        
+        if channel.nChannelID == 0 {
+            createBtn.setTitle("Create Channel", forState: .Normal)
+            navitem.title = "Create Channel"
+            deleteBtn.hidden = true
+        }
+        else {
+            createBtn.setTitle("Update Channel", forState: .Normal)
+        }
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    
+    func showCodecDetail() {
         var codecdetail = ""
         switch channel.audiocodec.nCodec.value {
         case OPUS_CODEC.value :
@@ -77,40 +121,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         default :
             codecdetail = "No Audio"
         }
-        codeccell.detailTextLabel?.text = codecdetail
-        items.append(codeccell)
-        
-        let (permanentcell, permanentswitch) = newTableCell("Permanent Channel", (channel.uChannelType & CHANNEL_PERMANENT.value) != 0)
-        self.permanentswitch = permanentswitch
-        items.append(permanentcell)
-        
-        let (nointerruptcell, nointerruptionsswitch) = newTableCell("No Interruptions", (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.value) != 0)
-        self.nointerruptionsswitch = nointerruptionsswitch
-        items.append(nointerruptcell)
-        
-        let (novoiceactcell, novoiceactivationswitch) = newTableCell("No Voice Activation", (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.value) != 0)
-        self.novoiceactivationswitch = novoiceactivationswitch
-        items.append(novoiceactcell)
-        
-        let (noaudiorecordcell, noaudiorecordingswitch) = newTableCell("No Audio Recording", (channel.uChannelType & CHANNEL_NO_RECORDING.value) != 0)
-        self.noaudiorecordingswitch = noaudiorecordingswitch
-        items.append(noaudiorecordcell)
-        
-        if !namefield.text.isEmpty {
-            navitem.title = namefield.text
-        }
-        
-        if channel.nChannelID == 0 {
-            createBtn.setTitle("Create Channel", forState: .Normal)
-            navitem.title = "Create Channel"
-            deleteBtn.hidden = true
-        }
-        else {
-            createBtn.setTitle("Update Channel", forState: .Normal)
-        }
-        
-        tableView.dataSource = self
-        tableView.delegate = self
+        codeccell!.detailTextLabel?.text = codecdetail
     }
     
     @IBAction func createChannel(sender: UIButton) {
@@ -126,39 +137,43 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         }
     }
     
-    @IBAction func deleteChannel(sender: UIButton) {
+    @IBAction func deleteChannelPressed(sender: UIButton) {
         //TODO: UIAlertView on failure
         let cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
     }
-
+    
     @IBAction func saveNoAudioCodec(segue:UIStoryboardSegue) {
         channel.audiocodec.nCodec = NO_CODEC
+        showCodecDetail()
     }
 
     @IBAction func saveOpusCodec(segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is OpusCodecDetailViewController {
-            let vc = segue.sourceViewController as! OpusCodecDetailViewController
+        if segue.sourceViewController is AudioCodecViewController {
+            let vc = segue.sourceViewController as! AudioCodecViewController
             vc.saveOPUSCodec()
-            setOpusCodec(&channel.audiocodec, &vc.codec)
+            setOpusCodec(&channel.audiocodec, &vc.opuscodec)
+            showCodecDetail()
         }
     }
     
     @IBAction func saveSpeexCodec(segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is SpeexCodecDetailViewController {
-            let vc = segue.sourceViewController as! SpeexCodecDetailViewController
+        if segue.sourceViewController is AudioCodecViewController {
+            let vc = segue.sourceViewController as! AudioCodecViewController
             vc.saveSpeexCodec()
-            setSpeexCodec(&channel.audiocodec, &vc.codec)
+            setSpeexCodec(&channel.audiocodec, &vc.speexcodec)
+            showCodecDetail()
         }
     }
 
     @IBAction func saveSpeexVBRCodec(segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is SpeexVBRCodecDetailViewController {
-            let vc = segue.sourceViewController as! SpeexVBRCodecDetailViewController
-            vc.saveSpeexCodec()
-            setSpeexVBRCodec(&channel.audiocodec, &vc.codec)
+        if segue.sourceViewController is AudioCodecViewController {
+            let vc = segue.sourceViewController as! AudioCodecViewController
+            vc.saveSpeexVBRCodec()
+            setSpeexVBRCodec(&channel.audiocodec, &vc.speexvbrcodec)
+            showCodecDetail()
         }
     }
 
@@ -166,31 +181,26 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         
         if segue.identifier == "Setup Audio Codec" {
             
-            let vc = segue.destinationViewController as! UITabBarController
+            let vc = segue.destinationViewController as! AudioCodecViewController
+
+            vc.audiocodec = channel.audiocodec
             
             switch channel.audiocodec.nCodec.value {
+            case SPEEX_CODEC.value :
+                vc.speexcodec = getSpeexCodec(&channel.audiocodec).memory
+            case SPEEX_VBR_CODEC.value :
+                vc.speexvbrcodec = getSpeexVBRCodec(&channel.audiocodec).memory
+            case OPUS_CODEC.value :
+                vc.opuscodec = getOpusCodec(&channel.audiocodec).memory
             case NO_CODEC.value :
                 if channel.nChannelID == 0 {
-                    // we're creating a new channel (set Opus as default)
-                    vc.selectedIndex = 1
+                    vc.audiocodec.nCodec = OPUS_CODEC
                 }
                 else {
-                    vc.selectedIndex = 0
+                    vc.audiocodec.nCodec = vc.audiocodec.nCodec
                 }
-            case SPEEX_CODEC.value :
-                let spxview = vc.viewControllers![2] as! SpeexCodecDetailViewController
-                spxview.codec = getSpeexCodec(&channel.audiocodec).memory
-                vc.selectedIndex = 2
-            case SPEEX_VBR_CODEC.value :
-                let spxview = vc.viewControllers![3] as! SpeexVBRCodecDetailViewController
-                spxview.codec = getSpeexVBRCodec(&channel.audiocodec).memory
-                vc.selectedIndex = 3
-            case OPUS_CODEC.value :
-                let opusview = vc.viewControllers![1] as! OpusCodecDetailViewController
-                opusview.codec = getOpusCodec(&channel.audiocodec).memory
-                fallthrough
             default :
-                vc.selectedIndex = 1
+                vc.audiocodec.nCodec = NO_CODEC
             }
             
         }

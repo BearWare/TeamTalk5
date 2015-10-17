@@ -29,37 +29,37 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
         
         // ServerList Entry section
-        let (namecell, namefield) = newTableCell("Name", server.name)
-        self.namefield = namefield
+        let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        namefield = newTableCellTextField(namecell, "Name", server.name)
         nameItems.append(namecell)
 
         // Connection section
-        let (ipaddrcell, ipaddrfield) = newTableCell("IP-address", server.ipaddr)
-        self.ipaddrfield = ipaddrfield
+        let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        ipaddrfield = newTableCellTextField(ipaddrcell, "IP-address", server.ipaddr)
         conItems.append(ipaddrcell)
 
-        let (tcpportcell, tcpportfield) = newTableCell("TCP Port", String(server.tcpport))
-        tcpportfield.keyboardType = .NumberPad
-        self.tcpportfield = tcpportfield
+        let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        tcpportfield = newTableCellTextField(tcpportcell, "TCP Port", String(server.tcpport))
+        tcpportfield!.keyboardType = .NumberPad
         conItems.append(tcpportcell)
 
-        let (udpportcell, udpportfield) = newTableCell("UDP Port", String(server.udpport))
-        udpportfield.keyboardType = .NumberPad
-        self.udpportfield = udpportfield
+        let udpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        udpportfield = newTableCellTextField(udpportcell, "UDP Port", String(server.udpport))
+        udpportfield!.keyboardType = .NumberPad
         conItems.append(udpportcell)
 
         // Authentication section
-        let (usernamecell, usernamefield) = newTableCell("Username", server.username)
-        usernamefield.autocorrectionType = .No
-        usernamefield.autocapitalizationType = .None
-        self.usernamefield = usernamefield
+        let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        usernamefield = newTableCellTextField(usernamecell, "Username", server.username)
+        usernamefield!.autocorrectionType = .No
+        usernamefield!.autocapitalizationType = .None
         authItems.append(usernamecell)
         
-        let (passwdcell, passwdfield) = newTableCell("Password", server.password)
-        passwdfield.autocorrectionType = .No
-        passwdfield.autocapitalizationType = .None
-        passwdfield.secureTextEntry = true
-        self.passwdfield = passwdfield
+        let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        passwdfield = newTableCellTextField(passwdcell, "Password", server.password)
+        passwdfield!.autocorrectionType = .No
+        passwdfield!.autocapitalizationType = .None
+        passwdfield!.secureTextEntry = true
         authItems.append(passwdcell)
         
         tableView.dataSource = self

@@ -11,9 +11,9 @@
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
-		253713381BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713371BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift */; };
 		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
 		2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */; };
+		2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
 		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
@@ -33,9 +33,6 @@
 		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
 		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
-		25DD92A11BBDAC9F00779988 /* OpusCodecDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD92A01BBDAC9F00779988 /* OpusCodecDetailViewController.swift */; };
-		25DD92A31BC1703500779988 /* SpeexCodecDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD92A21BC1703500779988 /* SpeexCodecDetailViewController.swift */; };
-		25DD92A51BC2F4E700779988 /* SpeexVBRCodecDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD92A41BC2F4E700779988 /* SpeexVBRCodecDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,9 +50,9 @@
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		253713371BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoAudioCodecDetailViewController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
+		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,9 +77,6 @@
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
 		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		25DD92A01BBDAC9F00779988 /* OpusCodecDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpusCodecDetailViewController.swift; sourceTree = "<group>"; };
-		25DD92A21BC1703500779988 /* SpeexCodecDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeexCodecDetailViewController.swift; sourceTree = "<group>"; };
-		25DD92A41BC2F4E700779988 /* SpeexVBRCodecDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeexVBRCodecDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,15 +132,12 @@
 			children = (
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
+				2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */,
 				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
 				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
 				25DD929E1BB2FA0E00779988 /* Common.swift */,
 				253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */,
-				253713371BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift */,
-				25DD92A01BBDAC9F00779988 /* OpusCodecDetailViewController.swift */,
-				25DD92A21BC1703500779988 /* SpeexCodecDetailViewController.swift */,
-				25DD92A41BC2F4E700779988 /* SpeexVBRCodecDetailViewController.swift */,
 				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
@@ -291,20 +282,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
-				25DD92A51BC2F4E700779988 /* SpeexVBRCodecDetailViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
 				25DD929F1BB2FA0E00779988 /* Common.swift in Sources */,
 				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
-				25DD92A31BC1703500779988 /* SpeexCodecDetailViewController.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
-				253713381BC9791D00A7ADB3 /* NoAudioCodecDetailViewController.swift in Sources */,
+				2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */,
 				2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */,
-				25DD92A11BBDAC9F00779988 /* OpusCodecDetailViewController.swift in Sources */,
 				25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */,
 				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,
 				253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */,

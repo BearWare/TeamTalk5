@@ -174,11 +174,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         var title = ""
         if curchannel.nParentID == 0 {
             
-            var srvprop = ServerProperties()
-            if TT_GetServerProperties(ttInst, &srvprop) != 0 {
-                title = String.fromCString(&srvprop.szServerName.0)!
-            }
-
+            title = String.fromCString(&srvprop.szServerName.0)!
         }
         else {
             title = String.fromCString(&curchannel.szName.0)!
@@ -189,7 +185,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
 
     func commandComplete(cmdid : INT32) {
 
-        switch activeCommands[cmdid]! {
+        let cmd = activeCommands[cmdid]
+        
+        if cmd == nil {
+            return
+        }
+        
+        switch cmd! {
             
         case .LoginCmd :
             self.tableView.reloadData()
@@ -234,6 +236,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         }
         else if segue.identifier == "New Channel" {
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
+            chanDetail.ttInst = ttInst
             chanDetail.channel.nParentID = curchannel.nChannelID
             
             if chanDetail.channel.nParentID == 0 {
@@ -250,6 +253,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             var channel = channels[INT32(btn.tag)]
             
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
+            chanDetail.ttInst = ttInst
             chanDetail.channel = channel!
         }
     }

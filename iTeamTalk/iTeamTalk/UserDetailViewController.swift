@@ -31,28 +31,29 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         TT_GetUser(ttInst, userid, &user)
         navtitle.title = String.fromCString(&user.szNickname.0)
         
-        let (usernamecell, usernamefield) = newTableCell("Username", String.fromCString(&user.szUsername.0)!)
-        self.usernamefield = usernamefield
+        let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        usernamefield = newTableCellTextField(usernamecell, "Username", String.fromCString(&user.szUsername.0)!)
         items.append(usernamecell)
         
-        let (voicevolcell, voiceslider) = newTableCell("Voice Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeVoice))))
-        voiceslider.addTarget(self, action: "voiceVolumeChanged:", forControlEvents: .ValueChanged)
-        self.voiceslider = voiceslider
+        let voicevolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        voiceslider = newTableCellSlider(voicevolcell, "Voice Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeVoice))))
+        voiceslider!.addTarget(self, action: "voiceVolumeChanged:", forControlEvents: .ValueChanged)
         items.append(voicevolcell)
         
-        let (voicemutecell, voiceswitch) = newTableCell("Mute Voice", (user.uUserState & USERSTATE_MUTE_VOICE.value) != 0)
-        voiceswitch.addTarget(self, action: "muteVoice:", forControlEvents: .ValueChanged)
-        self.voiceswitch = voiceswitch
-        items.append(voicemutecell)
         
-        let (mediavolcell, mediaslider) = newTableCell("Media File Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
-        mediaslider.addTarget(self, action: "mediaVolumeChanged:", forControlEvents: .ValueChanged)
-        self.mediaslider = mediaslider
+        let voicemutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        voiceswitch = newTableCellSwitch(voicemutecell, "Mute Voice", (user.uUserState & USERSTATE_MUTE_VOICE.value) != 0)
+        voiceswitch!.addTarget(self, action: "muteVoice:", forControlEvents: .ValueChanged)
+        items.append(voicemutecell)
+
+        let mediavolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        mediaslider = newTableCellSlider(mediavolcell, "Media File Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
+        mediaslider!.addTarget(self, action: "mediaVolumeChanged:", forControlEvents: .ValueChanged)
         items.append(mediavolcell)
         
-        let (mediamutecell, mediaswitch) = newTableCell("Mute Media File", (user.uUserState & USERSTATE_MUTE_MEDIAFILE.value) != 0)
-        mediaswitch.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
-        self.mediaswitch = mediaswitch
+        let mediamutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        mediaswitch = newTableCellSwitch(mediamutecell, "Mute Media File", (user.uUserState & USERSTATE_MUTE_MEDIAFILE.value) != 0)
+        mediaswitch!.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
         items.append(mediamutecell)
         
         tableView.dataSource = self
