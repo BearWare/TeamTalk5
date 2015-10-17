@@ -29,50 +29,53 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var tableView: UITableView!
     
-    var items = [UITableViewCell]()
+    var chan_items = [UITableViewCell]()
+    var cmd_items = [UITableViewCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         namefield = newTableCellTextField(namecell, "Name", String.fromCString(&channel.szName.0)!)
-        items.append(namecell)
+        chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, "Password", String.fromCString(&channel.szPassword.0)!)
-        items.append(passwdcell)
+        chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         topicfield = newTableCellTextField(topiccell, "Topic", String.fromCString(&channel.szTopic.0)!)
-        items.append(topiccell)
+        chan_items.append(topiccell)
         
         codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell") as? UITableViewCell
         codeccell!.selectionStyle = .None
         codeccell!.textLabel!.text = "Audio Codec"
         showCodecDetail()
-        items.append(codeccell!)
+        chan_items.append(codeccell!)
         
         let permanentcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         permanentswitch = newTableCellSwitch(permanentcell, "Permanent Channel", (channel.uChannelType & CHANNEL_PERMANENT.value) != 0)
-        items.append(permanentcell)
+        chan_items.append(permanentcell)
         
         let nointerruptcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         nointerruptionsswitch = newTableCellSwitch(nointerruptcell, "No Interruptions", (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.value) != 0)
-        items.append(nointerruptcell)
+        chan_items.append(nointerruptcell)
         
         let novoiceactcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         novoiceactivationswitch = newTableCellSwitch(novoiceactcell, "No Voice Activation", (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.value) != 0)
-        items.append(novoiceactcell)
+        chan_items.append(novoiceactcell)
         
         let noaudiorecordcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, "No Audio Recording", (channel.uChannelType & CHANNEL_NO_RECORDING.value) != 0)
-        items.append(noaudiorecordcell)
+        chan_items.append(noaudiorecordcell)
         
-        let blankcell = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
-        items.append(blankcell)
-        
-        let deletechan = tableView.dequeueReusableCellWithIdentifier("Delete Channel") as! UITableViewCell
-        items.append(deletechan)
+        if channel.nChannelID != 0 {
+            let joinchan = tableView.dequeueReusableCellWithIdentifier("Join Channel") as! UITableViewCell
+            cmd_items.append(joinchan)
+            
+            let deletechan = tableView.dequeueReusableCellWithIdentifier("Delete Channel") as! UITableViewCell
+            cmd_items.append(deletechan)
+        }
         
         if !namefield!.text.isEmpty {
             navitem.title = namefield!.text
@@ -94,29 +97,32 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         case OPUS_CODEC.value :
             let opus = getOpusCodec(&channel.audiocodec).memory
             let chans = (opus.nChannels>1 ? "Stereo" : "Mono" )
-            codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz " + chans
+            codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz \(opus.nBitRate / 1000) KB/s " + chans
         case SPEEX_CODEC.value :
             let speex = getSpeexCodec(&channel.audiocodec).memory
-            var sr = ""
-            switch speex.nBandmode {
-            case 2 :
-                sr = "32 KHz"
-            case 1 :
-                sr = "16 KHz"
-            case 0 :
-                fallthrough
-            default :
-                sr = "8 KHz"
-            }
-            codecdetail = "Speex " + sr
+            codecdetail = "Speex " + getBandmodeString(speex.nBandmode)
         case SPEEX_VBR_CODEC.value :
-            codecdetail = "Speex VBR"
+            let speexvbr = getSpeexVBRCodec(&channel.audiocodec).memory
+            codecdetail = "Speex VBR " + getBandmodeString(speexvbr.nBandmode)
         case NO_CODEC.value :
             fallthrough
         default :
             codecdetail = "No Audio"
         }
         codeccell!.detailTextLabel?.text = codecdetail
+    }
+    
+    func getBandmodeString(bandmode : INT32) -> String {
+        switch bandmode {
+        case 2 :
+            return "32 KHz"
+        case 1 :
+            return "16 KHz"
+        case 0 :
+            fallthrough
+        default :
+            return "8 KHz"
+        }
     }
     
     @IBAction func createChannel(sender: UIBarButtonItem) {
@@ -131,6 +137,12 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
             let cmdid = TT_DoUpdateChannel(ttInst, &channel)
         }
     }
+    
+    @IBAction func joinChannelPressed(sender: UIButton) {
+        
+        let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+    }
+    
     
     @IBAction func deleteChannelPressed(sender: UIButton) {
         //TODO: UIAlertView on failure
@@ -220,20 +232,40 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
-    //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0 :
+            return "Channel Properties"
+        case 1 :
+            return "Commands"
+        default :
+            return nil
+        }
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return items.count
+        switch section {
+        case 0 :
+            return chan_items.count
+        case 1 :
+            return cmd_items.count
+        default :
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        return items[indexPath.row]
+        switch indexPath.section {
+        case 0 :
+            return chan_items[indexPath.row]
+        case 1 :
+            return cmd_items[indexPath.row]
+        default :
+            return UITableViewCell()
+        }
     }
     
 }
