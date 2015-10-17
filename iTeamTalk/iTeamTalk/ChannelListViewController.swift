@@ -88,18 +88,30 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
             
             var channel = Channel()
+            var textcolor : UIColor? = nil
+            var name : String?, topic : String?
             
             if indexPath.item == 0 && curchannel.nParentID != 0 {
                 // display previous channel if not in root channel
                 channel = channels[curchannel.nParentID]!
-                cell.channame.text = "Back"
                 
+                if channel.nParentID == 0 {
+                    name = String.fromCString(&srvprop.szServerName.0)!
+                }
+                else {
+                    name = String.fromCString(&channel.szName.0)
+                    topic = String.fromCString(&channel.szTopic.0)
+                }
+                
+                textcolor = UIColor.grayColor()
                 cell.chanimage.image = UIImage(named: "back_orange.png")
             }
             else if curchannel.nChannelID == 0 {
                 // display only the root channel
                 channel = subchans.array[indexPath.item]
-                cell.channame.text = String.fromCString(&srvprop.szServerName.0)
+                
+                name = String.fromCString(&srvprop.szServerName.0)
+                topic = String.fromCString(&channel.szTopic.0)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -117,7 +129,9 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 else {
                     channel = subchans.array[indexPath.item]
                 }
-                cell.channame.text = String.fromCString(&channel.szName.0)
+                
+                name = String.fromCString(&channel.szName.0)
+                topic = String.fromCString(&channel.szTopic.0)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -127,8 +141,11 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 }
 
             }
-            
-            let topic = String.fromCString(&channel.szTopic.0)
+
+            cell.channame.textColor = textcolor
+            cell.chantopicLabel.textColor = textcolor
+
+            cell.channame.text = name
             cell.chantopicLabel.text = topic
             
             cell.editBtn.tag = Int(channel.nChannelID)
