@@ -59,21 +59,43 @@ class AudioCodecViewController : UITableViewController {
     var spxvbr_txintervalStepper: UIStepper?
     var spxvbr_txintervalCell: UITableViewCell?
     
-    
-    let SECTION_OPUS = 0, SECTION_SPEEX = 1,
-        SECTION_SPEEXVBR = 2, SECTION_NOAUDIO = 3,
-        SECTION_COUNT = 4
-    
     let opus_applications: [Int32] = [OPUS_APPLICATION_VOIP, OPUS_APPLICATION_AUDIO]
     let opus_samplerates: [Int32] = [8000, 12000, 16000, 24000, 48000]
+    
+    var sections = [Int : Codec]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-            setupOpus()
-            setupSpeex()
-            setupSpeexVBR()
-            setupNoAudio()
+        switch audiocodec.nCodec.value {
+        case OPUS_CODEC.value :
+            sections[0] = OPUS_CODEC
+            sections[1] = SPEEX_CODEC
+            sections[2] = SPEEX_VBR_CODEC
+            sections[3] = NO_CODEC
+        case SPEEX_CODEC.value :
+            sections[1] = OPUS_CODEC
+            sections[0] = SPEEX_CODEC
+            sections[2] = SPEEX_VBR_CODEC
+            sections[3] = NO_CODEC
+        case SPEEX_VBR_CODEC.value :
+            sections[1] = OPUS_CODEC
+            sections[2] = SPEEX_CODEC
+            sections[0] = SPEEX_VBR_CODEC
+            sections[3] = NO_CODEC
+        case NO_CODEC.value :
+            fallthrough
+        default :
+            sections[1] = OPUS_CODEC
+            sections[2] = SPEEX_CODEC
+            sections[3] = SPEEX_VBR_CODEC
+            sections[0] = NO_CODEC
+        }
+        
+        setupOpus()
+        setupSpeex()
+        setupSpeexVBR()
+        setupNoAudio()
     }
     
     func setupNoAudio() {
@@ -250,24 +272,24 @@ class AudioCodecViewController : UITableViewController {
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return SECTION_COUNT
+        return sections.count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var title = ""
         var active = false
         
-        switch section {
-        case SECTION_OPUS :
+        switch sections[section]!.value {
+        case OPUS_CODEC.value :
             title = "OPUS Codec"
             active = audiocodec.nCodec.value == OPUS_CODEC.value
-        case SECTION_SPEEX :
+        case SPEEX_CODEC.value :
             title = "Speex Codec"
             active = audiocodec.nCodec.value == SPEEX_CODEC.value
-        case SECTION_SPEEXVBR :
+        case SPEEX_VBR_CODEC.value :
             title = "Speex Variable Bitrate Codec"
             active = audiocodec.nCodec.value == SPEEX_VBR_CODEC.value
-        case SECTION_NOAUDIO :
+        case NO_CODEC.value :
             title = "No Audio"
             active = audiocodec.nCodec.value == NO_CODEC.value
         default :
@@ -282,14 +304,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case SECTION_OPUS :
+        switch sections[section]!.value {
+        case OPUS_CODEC.value :
             return opus_items.count
-        case SECTION_SPEEX :
+        case SPEEX_CODEC.value :
             return speex_items.count
-        case SECTION_SPEEXVBR :
+        case SPEEX_VBR_CODEC.value :
             return speexvbr_items.count
-        case SECTION_NOAUDIO :
+        case NO_CODEC.value :
             return noaudio_items.count
         default :
             return 0
@@ -298,14 +320,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
-        case SECTION_OPUS :
+        switch sections[indexPath.section]!.value {
+        case OPUS_CODEC.value :
             return opus_items[indexPath.row]
-        case SECTION_SPEEX :
+        case SPEEX_CODEC.value :
             return speex_items[indexPath.row]
-        case SECTION_SPEEXVBR :
+        case SPEEX_VBR_CODEC.value :
             return speexvbr_items[indexPath.row]
-        case SECTION_NOAUDIO :
+        case NO_CODEC.value :
             return noaudio_items[indexPath.row]
         default :
             return UITableViewCell()

@@ -30,6 +30,10 @@ bool getBoolean(TTMessage* m) {
     return m->bActive;
 }
 
+ClientErrorMsg* getClientErrorMsg(TTMessage* m){
+    return &m->clienterrormsg;
+}
+
 SpeexCodec* getSpeexCodec(AudioCodec* a) {
     return &a->speex;
 }

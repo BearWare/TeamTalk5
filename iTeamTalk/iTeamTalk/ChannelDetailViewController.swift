@@ -16,6 +16,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     var channel = Channel()
     
     @IBOutlet weak var navitem: UINavigationItem!
+    @IBOutlet weak var doneBtn: UIBarButtonItem!
     
     var namefield: UITextField?
     var passwdfield: UITextField?
@@ -25,9 +26,6 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     var nointerruptionsswitch: UISwitch?
     var novoiceactivationswitch: UISwitch?
     var noaudiorecordingswitch: UISwitch?
-    
-    @IBOutlet weak var createBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -81,12 +79,9 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         }
         
         if channel.nChannelID == 0 {
-            createBtn.setTitle("Create Channel", forState: .Normal)
             navitem.title = "Create Channel"
-            deleteBtn.hidden = true
         }
         else {
-            createBtn.setTitle("Update Channel", forState: .Normal)
         }
         
         tableView.dataSource = self
@@ -124,12 +119,12 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         codeccell!.detailTextLabel?.text = codecdetail
     }
     
-    @IBAction func createChannel(sender: UIButton) {
+    @IBAction func createChannel(sender: UIBarButtonItem) {
         saveChannelDetail()
         
         //TODO: UIAlertView on failure
         
-        if channel.nChannelID != 0 {
+        if channel.nChannelID == 0 {
             let cmdid = TT_DoJoinChannel(ttInst, &channel)
         }
         else {

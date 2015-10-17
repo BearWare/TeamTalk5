@@ -83,7 +83,9 @@ class MainTabBarController : UITabBarController {
                 
             case CLIENTEVENT_CON_LOST.value :
                 println("connection lost")
-                
+            case CLIENTEVENT_CMD_ERROR.value :
+                var errmsg = getClientErrorMsg(&m).memory
+                println(String.fromCString(&errmsg.szErrorMsg.0))
             default :
                 break
             }
