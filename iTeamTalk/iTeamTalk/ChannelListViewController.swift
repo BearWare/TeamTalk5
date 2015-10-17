@@ -24,15 +24,25 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     var srvprop = ServerProperties()
     // local instance's user account
     var myuseraccount = UserAccount()
-    
+    // double tab is lock TX
+    @IBOutlet var tabGesture: UITapGestureRecognizer!
+    // long press is TX
+    @IBOutlet var pressGesture: UILongPressGestureRecognizer!
+    //list of channels and users
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var txButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
+    
+        tabGesture.numberOfTapsRequired = 2
         
+        pressGesture.minimumPressDuration = 0.1
+        
+        updateTX()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -233,14 +243,6 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         activeCommands.removeValueForKey(cmdid)
     }
     
-    @IBAction func txEnable(sender: UIButton) {
-        println("down")
-    }
-    
-    @IBAction func txDisable(sender: UIButton) {
-        println("up")
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "Show User" {
@@ -273,6 +275,49 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             chanDetail.ttInst = ttInst
             chanDetail.channel = channel!
         }
+    }
+
+    func updateTX() {
+        let flags = TT_GetFlags(ttInst)
+        
+        switch flags & CLIENT_TX_VOICE.value {
+        case CLIENT_TX_VOICE.value :
+            txButton.backgroundColor = UIColor.redColor()
+        default :
+            txButton.backgroundColor = UIColor.greenColor()
+        }
+    }
+    
+    @IBAction func longPressGesture(sender: UILongPressGestureRecognizer) {
+        
+        let p = sender.locationInView(txButton)
+        
+        switch sender.state {
+        case .Began :
+            if txButton.pointInside(p, withEvent: nil) {
+                TT_EnableVoiceTransmission(ttInst, 1)
+                updateTX()
+            }
+        case .Ended :
+            TT_EnableVoiceTransmission(ttInst, 0)
+            updateTX()
+        default :
+            break
+        }
+    }
+    
+    @IBAction func tabGesture(sender: UITapGestureRecognizer) {
+        
+        let flags = TT_GetFlags(ttInst)
+        
+        switch flags & CLIENT_TX_VOICE.value {
+        case CLIENT_TX_VOICE.value :
+            TT_EnableVoiceTransmission(ttInst, 0)
+        default :
+            TT_EnableVoiceTransmission(ttInst, 1)
+        }
+        
+        updateTX()
     }
     
     func handleTTMessage(var m: TTMessage) {

@@ -54,7 +54,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WCf-u5-KkQ">
-                                            <rect key="frame" x="56" y="19.999999954586933" width="161" height="21"/>
+                                            <rect key="frame" x="56" y="19.9999999069586" width="161" height="21"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -310,7 +310,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hqu-CX-Vn4" id="t0N-0P-UyI">
@@ -365,7 +365,7 @@
                                             <outlet property="joinBtn" destination="39M-xf-cB5" id="rbK-Pd-u6c"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
@@ -413,25 +413,42 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V6G-Gm-l2U">
-                                <rect key="frame" x="255" y="468" width="65" height="51"/>
+                                <rect key="frame" x="255" y="459" width="65" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="txDisable:" destination="VdD-YH-wjI" eventType="touchCancel" id="JNF-EC-ci9"/>
-                                    <action selector="txEnable:" destination="VdD-YH-wjI" eventType="touchDown" id="nzg-6s-5Yu"/>
-                                </connections>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="TX">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="n9i-t4-M5B" appends="YES" id="ouO-DK-guM"/>
+                            <outletCollection property="gestureRecognizers" destination="obt-zM-iG9" appends="YES" id="6Nr-d3-Z9K"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Channels" id="aX2-rZ-yEl"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="pressGesture" destination="obt-zM-iG9" id="Ruw-Ds-yxS"/>
+                        <outlet property="tabGesture" destination="n9i-t4-M5B" id="r7x-AZ-ZKz"/>
                         <outlet property="tableView" destination="RGN-tN-yKO" id="HUY-MT-Id4"/>
+                        <outlet property="txButton" destination="V6G-Gm-l2U" id="jvz-rG-nvI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8If-87-PAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="n9i-t4-M5B">
+                    <connections>
+                        <action selector="tabGesture:" destination="VdD-YH-wjI" id="QM7-xu-9tY"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="obt-zM-iG9">
+                    <connections>
+                        <action selector="longPressGesture:" destination="VdD-YH-wjI" id="dkP-WE-pDa"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-308" y="984"/>
         </scene>
