@@ -77,6 +77,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
         server.username = usernamefield!.text
         server.password = passwdfield!.text
+        server.publicserver = false
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

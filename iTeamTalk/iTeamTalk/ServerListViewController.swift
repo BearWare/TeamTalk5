@@ -19,7 +19,7 @@ struct Server {
     var password = ""
     var channel = ""
     var chanpasswd = ""
-    var freeserver = false
+    var publicserver = false
 }
 
 class ServerListViewController: UITableViewController,
@@ -61,7 +61,7 @@ NSXMLParserDelegate {
         cell.connectBtn.tag = indexPath.item
         cell.nameLabel.text = server.name
         cell.ipaddrLabel.text = server.ipaddr
-        if server.freeserver {
+        if server.publicserver {
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
         }
         else {
@@ -158,7 +158,7 @@ NSXMLParserDelegate {
             
             self.elementStack.removeLast()
             if elementName == "host" {
-                currentServer.freeserver = true
+                currentServer.publicserver = true
                 servers.append(currentServer)
             }
     }

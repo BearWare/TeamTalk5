@@ -229,6 +229,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         if noaudiorecordingswitch!.on {
             channel.uChannelType |= CHANNEL_NO_RECORDING.value
         }
+        
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

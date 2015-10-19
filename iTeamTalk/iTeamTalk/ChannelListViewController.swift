@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChannelListViewController : UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class ChannelListViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent  {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -35,6 +35,8 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        addToTTMessages(self)
+        
         tableView.dataSource = self
         tableView.delegate = self
     
@@ -43,6 +45,10 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         pressGesture.minimumPressDuration = 0.1
         
         updateTX()
+    }
+    
+    deinit {
+        println("Destroyed chan list ctrl")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -416,6 +422,11 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
+            
+        case CLIENTEVENT_USER_STATECHANGE.value :
+            var user = getUser(&m).memory
+            users[user.nUserID] = user
+            self.tableView.reloadData()
             
         default :
             println("Unhandled message \(m.nClientEvent.value)")

@@ -100,6 +100,30 @@ func newTableCellStepper(cell: UITableViewCell, label: String,
     return stepper
 }
 
+protocol TeamTalkEvent : class {
+    func handleTTMessage(var m: TTMessage)
+}
+
+var ttMessageHandlers = [TeamTalkEvent]()
+
+func addToTTMessages(p: TeamTalkEvent) {
+    for m in ttMessageHandlers {
+        assert(m !== p)
+    }
+    ttMessageHandlers.append(p)
+}
+
+func removeFromTTMessages(p: TeamTalkEvent) {
+
+    for var i = 0; i < ttMessageHandlers.count; {
+        if ttMessageHandlers[i] === p {
+            ttMessageHandlers.removeAtIndex(i)
+        }
+        else {
+            ++i
+        }
+    }
+}
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 

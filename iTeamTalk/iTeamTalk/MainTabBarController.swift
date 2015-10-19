@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTabBarController : UITabBarController {
+class MainTabBarController : UITabBarController, TeamTalkEvent {
 
     // timer for polling TeamTalk client events
     var timer = NSTimer()
@@ -20,8 +20,22 @@ class MainTabBarController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let img = UIImage(named: "channel_pink.png")
+//        let tabImgSize = CGSize(width: 30, height: 30)
+//        UIGraphicsBeginImageContextWithOptions(tabImgSize, false, 0.0)
+//        img?.drawInRect(CGRectMake(0,0,tabImgSize.width, tabImgSize.height))
+//        let newImg = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        let tab0 = self.tabBar.items?.first
+//        
+//        tab0?.setBackgroundImage(newImg, forState: .Normal)
+//        tab0?.setBackgroundImage(newImg, forState: .Selected)
+        
         // Our one and only TT client instance
         ttInst = TT_InitTeamTalkPoll()
+        
+        addToTTMessages(self)
         
         let channelsTab = viewControllers?[0] as! ChannelListViewController
         channelsTab.ttInst = self.ttInst
@@ -43,7 +57,11 @@ class MainTabBarController : UITabBarController {
             
         }
     }
-
+    
+    deinit {
+        println("Destroyed tab ctrl")
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -51,6 +69,10 @@ class MainTabBarController : UITabBarController {
             timer.invalidate()
             TT_CloseTeamTalk(ttInst)
             println("Destroying TT instance")
+
+            removeFromTTMessages(self)
+            
+            ttMessageHandlers.removeAll(keepCapacity: false)
         }
     }
     
@@ -58,39 +80,46 @@ class MainTabBarController : UITabBarController {
         self.server = server
     }
     
+    // run the TeamTalk event loop
     func timerEvent() {
-        let channelsTab = viewControllers?[0] as! ChannelListViewController
         var m = TTMessage()
         var n : INT32 = 0
         while TT_GetMessage(ttInst, &m, &n) != 0 {
+
+            for tt in ttMessageHandlers {
+                tt.handleTTMessage(m)
+            }
+        }
+    }
+    
+    func handleTTMessage(var m: TTMessage) {
+        
+        let channelsTab = viewControllers?[0] as! ChannelListViewController
+
+        switch(m.nClientEvent.value) {
             
-            switch(m.nClientEvent.value) {
-                
-            case CLIENTEVENT_CON_SUCCESS.value :
-                println("We're connected")
-                var nickname = NSUserDefaults.standardUserDefaults().stringForKey("nickname_preference")
-                if nickname == nil {
-                    nickname = ""
-                }
-                
-                let cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
-                if cmdid > 0 {
-                    channelsTab.activeCommands[cmdid] = .LoginCmd
-                }
-                
-            case CLIENTEVENT_CON_FAILED.value :
-                println("Connect failed")
-                
-            case CLIENTEVENT_CON_LOST.value :
-                println("connection lost")
-            case CLIENTEVENT_CMD_ERROR.value :
-                var errmsg = getClientErrorMsg(&m).memory
-                println(String.fromCString(&errmsg.szErrorMsg.0))
-            default :
-                break
+        case CLIENTEVENT_CON_SUCCESS.value :
+            println("We're connected")
+            var nickname = NSUserDefaults.standardUserDefaults().stringForKey("nickname_preference")
+            if nickname == nil {
+                nickname = ""
             }
             
-            channelsTab.handleTTMessage(m)
+            let cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
+            if cmdid > 0 {
+                channelsTab.activeCommands[cmdid] = .LoginCmd
+            }
+            
+        case CLIENTEVENT_CON_FAILED.value :
+            println("Connect failed")
+            
+        case CLIENTEVENT_CON_LOST.value :
+            println("connection lost")
+        case CLIENTEVENT_CMD_ERROR.value :
+            var errmsg = getClientErrorMsg(&m).memory
+            println(String.fromCString(&errmsg.szErrorMsg.0))
+        default :
+            break
         }
     }
     
