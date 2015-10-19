@@ -108,7 +108,9 @@ var ttMessageHandlers = [TeamTalkEvent]()
 
 func addToTTMessages(p: TeamTalkEvent) {
     for m in ttMessageHandlers {
-        assert(m !== p)
+        if m === p {
+            return
+        }
     }
     ttMessageHandlers.append(p)
 }
@@ -123,6 +125,12 @@ func removeFromTTMessages(p: TeamTalkEvent) {
             ++i
         }
     }
+}
+
+func isClosing(vc: UIViewController) -> Bool {
+    let s : NSArray = vc.navigationController!.viewControllers
+    
+    return s.indexOfObject(vc) == NSNotFound
 }
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40

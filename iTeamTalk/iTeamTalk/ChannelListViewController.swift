@@ -51,6 +51,12 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         println("Destroyed chan list ctrl")
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
     }

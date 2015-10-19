@@ -8,12 +8,14 @@
 
 import UIKit
 
-class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
 
     var channel = Channel()
+    
+    var cmdid : INT32 = 0
     
     @IBOutlet weak var navitem: UINavigationItem!
     @IBOutlet weak var doneBtn: UIBarButtonItem!
@@ -87,8 +89,19 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         else {
         }
         
+        addToTTMessages(self)
+        
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isClosing(self) {
+            removeFromTTMessages(self)
+        }
+        
     }
     
     func showCodecDetail() {
@@ -131,10 +144,11 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         //TODO: UIAlertView on failure
         
         if channel.nChannelID == 0 {
-            let cmdid = TT_DoJoinChannel(ttInst, &channel)
+            cmdid = TT_DoJoinChannel(ttInst, &channel)
+            
         }
         else {
-            let cmdid = TT_DoUpdateChannel(ttInst, &channel)
+            cmdid = TT_DoUpdateChannel(ttInst, &channel)
         }
     }
     
@@ -143,10 +157,35 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
     }
     
-    
     @IBAction func deleteChannelPressed(sender: UIButton) {
         //TODO: UIAlertView on failure
-        let cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
+        cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
+    }
+    
+    func handleTTMessage(var m: TTMessage) {
+        
+        switch m.nClientEvent.value {
+            
+        case CLIENTEVENT_CMD_SUCCESS.value :
+            if m.nSource == cmdid {
+                let vc = self.navigationController?.viewControllers[1] as! UIViewController
+                self.navigationController?.popToViewController(vc, animated: true)
+            }
+        case CLIENTEVENT_CMD_ERROR.value :
+            if m.nSource == cmdid {
+                var errmsg = getClientErrorMsg(&m).memory
+                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                var alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        case CLIENTEVENT_CMD_PROCESSING.value :
+            if !getBoolean(&m) && cmdid == m.nSource {
+                cmdid = 0
+            }
+            
+        default : break
+        }
     }
     
     @IBAction func saveNoAudioCodec(segue:UIStoryboardSegue) {
@@ -268,5 +307,4 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
             return UITableViewCell()
         }
     }
-    
 }

@@ -58,8 +58,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         }
     }
     
-    deinit {
-        println("Destroyed tab ctrl")
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -71,7 +72,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             println("Destroying TT instance")
 
             removeFromTTMessages(self)
-            
+            assert(ttMessageHandlers.isEmpty)
             ttMessageHandlers.removeAll(keepCapacity: false)
         }
     }
