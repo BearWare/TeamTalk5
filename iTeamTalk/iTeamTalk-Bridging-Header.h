@@ -10,6 +10,7 @@ ServerProperties* getServerProperties(TTMessage* m);
 UserAccount* getUserAccount(TTMessage* m);
 bool getBoolean(TTMessage* m);
 ClientErrorMsg* getClientErrorMsg(TTMessage* m);
+TextMessage* getTextMessage(TTMessage* m);
 SpeexCodec* getSpeexCodec(AudioCodec* a);
 SpeexVBRCodec* getSpeexVBRCodec(AudioCodec* a);
 OpusCodec* getOpusCodec(AudioCodec* a);

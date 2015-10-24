@@ -40,9 +40,9 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.delegate = self
     
-        tabGesture.numberOfTapsRequired = 2
-        
-        pressGesture.minimumPressDuration = 0.1
+//        tabGesture.numberOfTapsRequired = 2
+//        
+//        pressGesture.minimumPressDuration = 0.1
         
         updateTX()
     }
@@ -59,6 +59,10 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        if isClosing(self) {
+            removeFromTTMessages(self)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -286,6 +290,14 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
             chanDetail.ttInst = ttInst
             chanDetail.channel = channel!
+        }
+        else if segue.identifier == "New TextMessage" {
+
+            let btn = sender as! UIButton
+            
+            let txtmsgView = segue.destinationViewController as! TextMessageViewController
+            txtmsgView.ttInst = self.ttInst
+            txtmsgView.userid = btn.tag
         }
     }
 

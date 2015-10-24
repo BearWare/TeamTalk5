@@ -34,6 +34,10 @@ ClientErrorMsg* getClientErrorMsg(TTMessage* m){
     return &m->clienterrormsg;
 }
 
+TextMessage* getTextMessage(TTMessage* m) {
+    return &m->textmessage;
+}
+
 SpeexCodec* getSpeexCodec(AudioCodec* a) {
     return &a->speex;
 }

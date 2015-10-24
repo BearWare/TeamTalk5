@@ -128,9 +128,19 @@ func removeFromTTMessages(p: TeamTalkEvent) {
 }
 
 func isClosing(vc: UIViewController) -> Bool {
-    let s : NSArray = vc.navigationController!.viewControllers
     
-    return s.indexOfObject(vc) == NSNotFound
+    var tmp_vc = vc
+    
+    if let tc = vc.tabBarController {
+        tmp_vc = tc
+    }
+    
+    if let nc = vc.navigationController {
+        let s : NSArray = vc.navigationController!.viewControllers
+        
+        return s.indexOfObject(tmp_vc) == NSNotFound
+    }
+    return true
 }
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
