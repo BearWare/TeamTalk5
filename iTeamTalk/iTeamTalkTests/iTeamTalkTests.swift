@@ -8,8 +8,15 @@
 
 import UIKit
 import XCTest
+import iTeamTalk
 
 class iTeamTalkTests: XCTestCase {
+    
+    func newClient() -> UnsafeMutablePointer<Void> {
+        let ttInst = TT_InitTeamTalkPoll()
+        
+        return ttInst
+    }
     
     override func setUp() {
         super.setUp()
@@ -24,6 +31,9 @@ class iTeamTalkTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         XCTAssert(true, "Pass")
+        
+        let ttInst = newClient()
+        XCTAssert(TT_CloseTeamTalk(ttInst) != 0, "Closed TT instance")
     }
     
     func testPerformanceExample() {
