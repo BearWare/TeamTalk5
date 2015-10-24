@@ -8,9 +8,8 @@
 
 import UIKit
 
-
 // Properties of a TeamTalk server to connect to
-struct Server {
+class Server : NSObject {
     var name = ""
     var ipaddr = ""
     var tcpport = 10333
@@ -20,6 +19,32 @@ struct Server {
     var channel = ""
     var chanpasswd = ""
     var publicserver = false
+    
+    override init() {
+        
+    }
+    
+    init(coder dec: NSCoder!) {
+        name = dec.decodeObjectForKey("name") as! String
+        ipaddr = dec.decodeObjectForKey("ipaddr") as! String
+        tcpport = dec.decodeIntegerForKey("tcpport")
+        udpport = dec.decodeIntegerForKey("udpport")
+        username = dec.decodeObjectForKey("username") as! String
+        password = dec.decodeObjectForKey("password") as! String
+        channel = dec.decodeObjectForKey("channel") as! String
+        chanpasswd = dec.decodeObjectForKey("chanpasswd") as! String
+    }
+    
+    func encodeWithCoder(enc: NSCoder!) {
+        enc.encodeObject(name, forKey: "name")
+        enc.encodeObject(ipaddr, forKey: "ipaddr")
+        enc.encodeInteger(tcpport, forKey: "tcpport")
+        enc.encodeInteger(udpport, forKey: "udpport")
+        enc.encodeObject(username, forKey: "username")
+        enc.encodeObject(password, forKey: "password")
+        enc.encodeObject(channel, forKey: "channel")
+        enc.encodeObject(chanpasswd, forKey: "chanpasswd")
+    }
 }
 
 class ServerListViewController: UITableViewController,
@@ -28,6 +53,18 @@ NSXMLParserDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if let stored = defaults.arrayForKey("ServerList") {
+            for e in stored {
+                let data = e as! NSData
+                
+                let server = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Server
+                
+                servers.append(server)
+            }
+        }
         
         let version = String.fromCString(TT_GetVersion())!
 //        appnameLabel.text = AppInfo.APPTITLE + " " + version
@@ -41,6 +78,19 @@ NSXMLParserDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func saveServerList() {
+        //Store local servers
+        let localservers = servers.filter({$0.publicserver == false})
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var s_array = [NSData]()
+        for s in localservers {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(s)
+            s_array.append(data)
+        }
+        defaults.setObject(s_array, forKey: "ServerList")
+        defaults.synchronize()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -87,6 +137,19 @@ NSXMLParserDelegate {
         }
     }
     
+    @IBAction func deleteServerDetail(segue:UIStoryboardSegue) {
+        let vc = segue.sourceViewController as! ServerDetailViewController
+        
+        vc.saveServerDetail()
+        let name = vc.namefield?.text
+        
+        servers = servers.filter({$0.name != name})
+        
+        saveServerList()
+        
+        self.tableView.reloadData()
+    }
+    
     @IBAction func saveServerDetail(segue:UIStoryboardSegue) {
         let vc = segue.sourceViewController as! ServerDetailViewController
         
@@ -103,6 +166,8 @@ NSXMLParserDelegate {
         self.currentServer = vc.server
         
         self.tableView.reloadData()
+        
+        saveServerList()
     }
     
     @IBAction func connectToServer(sender: UIButton) {

@@ -108,7 +108,6 @@
 		254B7A3E1B98BAA300BE0DEF = {
 			isa = PBXGroup;
 			children = (
-				254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */,
 				254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */,
 				254B7A781B99E69200BE0DEF /* libz.dylib */,
 				254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */,
@@ -153,6 +152,7 @@
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
 				253713391BC97D1200A7ADB3 /* Settings.bundle */,
 				254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */,
+				254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */,
 				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
 			);
 			path = iTeamTalk;

@@ -15,6 +15,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     var nameItems = [UITableViewCell]()
     var conItems = [UITableViewCell]()
     var authItems = [UITableViewCell]()
+    var actionItems = [UITableViewCell]()
     
     var namefield : UITextField?
     var ipaddrfield : UITextField?
@@ -62,6 +63,9 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         passwdfield!.secureTextEntry = true
         authItems.append(passwdcell)
         
+        let deletecell = tableView.dequeueReusableCellWithIdentifier("Delete Server") as! UITableViewCell
+        actionItems.append(deletecell)
+        
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -81,7 +85,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -92,6 +96,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
             return "Connection"
         case 2 :
             return "Authentication"
+        case 3 :
+            return "Actions"
         default :
             return nil
         }
@@ -106,6 +112,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
             return conItems.count
         case 2 :
             return authItems.count
+        case 3 :
+            return actionItems.count
         default :
             return 0
         }
@@ -120,6 +128,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
             return conItems[indexPath.row]
         case 2 :
             return authItems[indexPath.row]
+        case 3 :
+            return actionItems[indexPath.row]
         default :
             break
         }
