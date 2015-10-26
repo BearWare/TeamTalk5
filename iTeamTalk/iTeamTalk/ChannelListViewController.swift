@@ -328,6 +328,8 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         default :
             break
         }
+        
+        TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_NONE.value, 0)
     }
     
     @IBAction func tabGesture(sender: UITapGestureRecognizer) {

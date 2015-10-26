@@ -46,34 +46,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.synchronize()
         }
 
-        var s = Server();
-        
-        s.name = "Foo"
-        
-        let data = NSKeyedArchiver.archivedDataWithRootObject(s)
-        
-//        let s_arr = NSMutableArray()
-//        s_arr.addObject(data)
-        
-        var s_arr = [NSData]()
-        s_arr.append(data)
-        
-        defaults.setObject(s_arr, forKey: "ServerTest")
-        
-        //defaults.synchronize()
-        //let foo  = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Server
-        
-        if let s_a = defaults.arrayForKey("ServerTest") {
-            let vv = s_a[0] as! NSData
-            
-            let foo = NSKeyedUnarchiver.unarchiveObjectWithData(vv) as! Server
-            let x = 3
-            
-            let y = x+0
-        }
-        
+//        var s = Server();
+//        
+//        s.name = "Foo"
+//        
+//        let data = NSKeyedArchiver.archivedDataWithRootObject(s)
+//        
+////        let s_arr = NSMutableArray()
+////        s_arr.addObject(data)
+//        
+//        var s_arr = [NSData]()
+//        s_arr.append(data)
+//        
+//        defaults.setObject(s_arr, forKey: "ServerTest")
+//        
+//        //defaults.synchronize()
+//        //let foo  = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Server
+//        
+//        if let s_a = defaults.arrayForKey("ServerTest") {
+//            let vv = s_a[0] as! NSData
+//            
+//            let foo = NSKeyedUnarchiver.unarchiveObjectWithData(vv) as! Server
+//            let x = 3
+//            
+//            let y = x+0
+//        }
 
-        
         return true
     }
 

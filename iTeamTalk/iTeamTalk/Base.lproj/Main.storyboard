@@ -256,7 +256,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Use No Audio" id="oV1-Pw-Cmb">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oV1-Pw-Cmb" id="3wd-XS-2sO">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -276,7 +276,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Use OPUS" id="Vjd-Fw-gXc">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vjd-Fw-gXc" id="KVS-dh-Vkb">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -296,7 +296,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Use Speex" id="aRX-lN-jbH">
-                                <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aRX-lN-jbH" id="Qu8-kQ-QRi">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -316,7 +316,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Use Speex VBR" id="z8Q-Fh-h03">
-                                <rect key="frame" x="0.0" y="154" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="218" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z8Q-Fh-h03" id="HND-T1-c7c">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -336,7 +336,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Small Blank" rowHeight="20" id="96I-PH-EXk">
-                                <rect key="frame" x="0.0" y="198" width="320" height="20"/>
+                                <rect key="frame" x="0.0" y="262" width="320" height="20"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="96I-PH-EXk" id="okU-AQ-rY4">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="19"/>
@@ -345,7 +345,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Blank" id="A5p-MT-JaU">
-                                <rect key="frame" x="0.0" y="218" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="282" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A5p-MT-JaU" id="hbW-T3-WhV">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -507,32 +507,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="n9i-t4-M5B" appends="YES" id="ouO-DK-guM"/>
-                            <outletCollection property="gestureRecognizers" destination="obt-zM-iG9" appends="YES" id="6Nr-d3-Z9K"/>
-                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Channels" id="aX2-rZ-yEl"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="pressGesture" destination="obt-zM-iG9" id="Ruw-Ds-yxS"/>
-                        <outlet property="tabGesture" destination="n9i-t4-M5B" id="r7x-AZ-ZKz"/>
                         <outlet property="tableView" destination="RGN-tN-yKO" id="HUY-MT-Id4"/>
                         <outlet property="txButton" destination="V6G-Gm-l2U" id="jvz-rG-nvI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8If-87-PAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="n9i-t4-M5B">
-                    <connections>
-                        <action selector="tabGesture:" destination="VdD-YH-wjI" id="QM7-xu-9tY"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="obt-zM-iG9">
-                    <connections>
-                        <action selector="longPressGesture:" destination="VdD-YH-wjI" id="dkP-WE-pDa"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-308" y="984"/>
         </scene>
@@ -576,7 +560,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Setup Codec Cell" textLabel="kRp-LE-RFh" detailTextLabel="nVj-7w-Sta" style="IBUITableViewCellStyleSubtitle" id="QzR-ru-4bT">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QzR-ru-4bT" id="str-7c-RHz">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -601,7 +585,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Delete Channel" id="Ln4-Wo-IiU">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ln4-Wo-IiU" id="QUb-LS-zQ2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -622,7 +606,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Blank" id="nO2-b1-1ud">
-                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nO2-b1-1ud" id="9Un-iW-vBa">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -631,7 +615,7 @@
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Join Channel" id="9np-wg-5dl">
-                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="218" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9np-wg-5dl" id="SMf-kD-MEb">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
