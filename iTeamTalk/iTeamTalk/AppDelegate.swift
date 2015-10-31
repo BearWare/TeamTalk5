@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-
+        
         // Default values are not set in Settings bundle, so we need to load them manually
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.synchronize()
@@ -71,7 +71,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            
 //            let y = x+0
 //        }
-
+        
+        // fix linker problems unit-tests
+        if TT_SetLicenseInformation("", "") == 1 {
+            TT_CloseSoundOutputDevice(nil)
+            let inst = TT_StartSoundLoopbackTest(0, 0, 48000, 1, 0, nil)
+            TT_CloseSoundLoopbackTest(inst)
+            TT_CloseSoundInputDevice(nil)
+            TT_GetSoundDevices(nil, nil)
+            TT_DoLeaveChannel(nil)
+        }
+        
         return true
     }
 
