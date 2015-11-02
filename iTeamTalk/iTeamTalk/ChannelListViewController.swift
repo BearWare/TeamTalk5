@@ -256,9 +256,6 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             
         case .JoinCmd :
             self.tableView.reloadData()
-            
-        default :
-            print("Unknown command \(cmdid)")
         }
 
         activeCommands.removeValueForKey(cmdid)

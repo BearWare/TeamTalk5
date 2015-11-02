@@ -66,7 +66,7 @@ NSXMLParserDelegate {
             }
         }
         
-        let version = String.fromCString(TT_GetVersion())!
+//        let version = String.fromCString(TT_GetVersion())!
 //        appnameLabel.text = AppInfo.APPTITLE + " " + version
         
         // get xml-list of public server

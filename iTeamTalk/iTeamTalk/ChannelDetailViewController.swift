@@ -154,7 +154,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     
     @IBAction func joinChannelPressed(sender: UIButton) {
         
-        let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+        cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
     }
     
     @IBAction func deleteChannelPressed(sender: UIButton) {
