@@ -44,57 +44,57 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         navtitle.title = String.fromCString(&user.szNickname.0)
         
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, "Username", String.fromCString(&user.szUsername.0)!)
+        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: String.fromCString(&user.szUsername.0)!)
         general_items.append(usernamecell)
         
         let voicevolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        voiceslider = newTableCellSlider(voicevolcell, "Voice Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeVoice))))
+        voiceslider = newTableCellSlider(voicevolcell, label: "Voice Volume", min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeVoice))))
         voiceslider!.addTarget(self, action: "voiceVolumeChanged:", forControlEvents: .ValueChanged)
         volume_items.append(voicevolcell)
         
         
         let voicemutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        voiceswitch = newTableCellSwitch(voicemutecell, "Mute Voice", (user.uUserState & USERSTATE_MUTE_VOICE.value) != 0)
+        voiceswitch = newTableCellSwitch(voicemutecell, label: "Mute Voice", initial: (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) != 0)
         voiceswitch!.addTarget(self, action: "muteVoice:", forControlEvents: .ValueChanged)
         volume_items.append(voicemutecell)
 
         let mediavolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        mediaslider = newTableCellSlider(mediavolcell, "Media File Volume", 0, 100, Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
+        mediaslider = newTableCellSlider(mediavolcell, label: "Media File Volume", min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
         mediaslider!.addTarget(self, action: "mediaVolumeChanged:", forControlEvents: .ValueChanged)
         volume_items.append(mediavolcell)
         
         let mediamutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        mediaswitch = newTableCellSwitch(mediamutecell, "Mute Media File", (user.uUserState & USERSTATE_MUTE_MEDIAFILE.value) != 0)
+        mediaswitch = newTableCellSwitch(mediamutecell, label: "Mute Media File", initial: (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) != 0)
         mediaswitch!.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
         volume_items.append(mediamutecell)
         
         let subusermsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subusermsgswitch = newTableCellSwitch(subusermsgcell, "User Messages", (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.value) != 0)
+        subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.rawValue) != 0)
         subusermsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subusermsgcell)
         
         let subchanmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subchanmsgswitch = newTableCellSwitch(subchanmsgcell, "Channel Messages", (user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG.value) != 0)
+        subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: "Channel Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
         subchanmsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subchanmsgcell)
         
         let subvoicecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subvoiceswitch = newTableCellSwitch(subvoicecell, "Voice", (user.uLocalSubscriptions & SUBSCRIBE_VOICE.value) != 0)
+        subvoiceswitch = newTableCellSwitch(subvoicecell, label: "Voice", initial: (user.uLocalSubscriptions & SUBSCRIBE_VOICE.rawValue) != 0)
         subvoiceswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subvoicecell)
         
         let subwebcamcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subwebcamswitch = newTableCellSwitch(subwebcamcell, "WebCam", (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE.value) != 0)
+        subwebcamswitch = newTableCellSwitch(subwebcamcell, label: "WebCam", initial: (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
         subwebcamswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subwebcamcell)
         
         let submediafilecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        submediafileswitch = newTableCellSwitch(submediafilecell, "Media File", (user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE.value) != 0)
+        submediafileswitch = newTableCellSwitch(submediafilecell, label: "Media File", initial: (user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
         submediafileswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(submediafilecell)
         
         let subdesktopcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subdesktopswitch = newTableCellSwitch(subdesktopcell, "Desktop", (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP.value) != 0)
+        subdesktopswitch = newTableCellSwitch(subdesktopcell, label: "Desktop", initial: (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP.rawValue) != 0)
         subdesktopswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
         
@@ -120,21 +120,21 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
     }
     
     func subscriptionChanged(sender: UISwitch) {
-        var sub : UINT32 = SUBSCRIBE_NONE.value
+        var sub : UINT32 = SUBSCRIBE_NONE.rawValue
         
         switch sender {
         case subusermsgswitch! :
-            sub = SUBSCRIBE_USER_MSG.value
+            sub = SUBSCRIBE_USER_MSG.rawValue
         case subchanmsgswitch! :
-            sub = SUBSCRIBE_CHANNEL_MSG.value
+            sub = SUBSCRIBE_CHANNEL_MSG.rawValue
         case subvoiceswitch! :
-            sub = SUBSCRIBE_VOICE.value
+            sub = SUBSCRIBE_VOICE.rawValue
         case subwebcamswitch! :
-            sub = SUBSCRIBE_VIDEOCAPTURE.value
+            sub = SUBSCRIBE_VIDEOCAPTURE.rawValue
         case submediafileswitch! :
-            sub = SUBSCRIBE_MEDIAFILE.value
+            sub = SUBSCRIBE_MEDIAFILE.rawValue
         case subdesktopswitch! :
-            sub = SUBSCRIBE_DESKTOP.value
+            sub = SUBSCRIBE_DESKTOP.rawValue
         default :
             break
         }

@@ -41,17 +41,17 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         channelsTab.ttInst = self.ttInst
         
         let flags = TT_GetFlags(ttInst)
-        if flags & CLIENT_SNDINPUT_READY.value == 0 {
+        if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
             TT_InitSoundInputDevice(ttInst, 0)
         }
-        if flags & CLIENT_SNDOUTPUT_READY.value == 0 {
+        if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
             TT_InitSoundOutputDevice(ttInst, 0)
         }
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
         
         if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, 0) == 0 {
-            println("Failed to connect")
+            print("Failed to connect")
         }
         else {
             
@@ -69,7 +69,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         if self.isMovingFromParentViewController() {
             timer.invalidate()
             TT_CloseTeamTalk(ttInst)
-            println("Destroying TT instance")
+            print("Destroying TT instance")
 
             removeFromTTMessages(self)
             assert(ttMessageHandlers.isEmpty)
@@ -97,10 +97,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         let channelsTab = viewControllers?[0] as! ChannelListViewController
 
-        switch(m.nClientEvent.value) {
+        switch(m.nClientEvent.rawValue) {
             
-        case CLIENTEVENT_CON_SUCCESS.value :
-            println("We're connected")
+        case CLIENTEVENT_CON_SUCCESS.rawValue :
+            print("We're connected")
             var nickname = NSUserDefaults.standardUserDefaults().stringForKey("nickname_preference")
             if nickname == nil {
                 nickname = ""
@@ -111,14 +111,14 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
                 channelsTab.activeCommands[cmdid] = .LoginCmd
             }
             
-        case CLIENTEVENT_CON_FAILED.value :
-            println("Connect failed")
+        case CLIENTEVENT_CON_FAILED.rawValue :
+            print("Connect failed")
             
-        case CLIENTEVENT_CON_LOST.value :
-            println("connection lost")
-        case CLIENTEVENT_CMD_ERROR.value :
+        case CLIENTEVENT_CON_LOST.rawValue :
+            print("connection lost")
+        case CLIENTEVENT_CMD_ERROR.rawValue :
             var errmsg = getClientErrorMsg(&m).memory
-            println(String.fromCString(&errmsg.szErrorMsg.0))
+            print(String.fromCString(&errmsg.szErrorMsg.0))
         default :
             break
         }

@@ -20,12 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.synchronize()
         
-        var bundleDefaults = [NSObject : AnyObject]()
+        var bundleDefaults = [String : AnyObject]()
         
         
         if let settingsBundle = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle") {
             
-            let path = settingsBundle.stringByAppendingPathComponent("Root.plist")
+            let path = (settingsBundle as NSString).stringByAppendingPathComponent("Root.plist")
             let settings = NSDictionary(contentsOfFile: path)
             let preferences = settings!.objectForKey("PreferenceSpecifiers") as! NSArray
 
@@ -80,6 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TT_CloseSoundInputDevice(nil)
             TT_GetSoundDevices(nil, nil)
             TT_DoLeaveChannel(nil)
+            TT_GetRootChannelID(nil)
         }
         
         return true

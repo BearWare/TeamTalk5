@@ -94,7 +94,7 @@ func newTableCellStepper(cell: UITableViewCell, label: String,
     stepper.maximumValue = max
     stepper.stepValue = step
     
-    stepper.value = within(min, max, initial)
+    stepper.value = within(min, max_v: max, value: initial)
     cell.accessoryView = stepper
     
     return stepper
@@ -136,7 +136,7 @@ func isClosing(vc: UIViewController) -> Bool {
     }
     
     if let nc = vc.navigationController {
-        let s : NSArray = vc.navigationController!.viewControllers
+        let s : NSArray = nc.viewControllers
         
         return s.indexOfObject(tmp_vc) == NSNotFound
     }

@@ -77,7 +77,7 @@ class iTeamTalkTests: XCTestCase {
 
         var devs : [SoundDevice] = []
         
-        for d in 1...n {
+        for _ in 1...n {
             let dev = SoundDevice()
             devs.append(dev)
         }
@@ -86,7 +86,7 @@ class iTeamTalkTests: XCTestCase {
         
         for d in devs {
             //to get name for 'd' it has to be mutable
-            println("Sound device #\(d.nDeviceID), input channels=\(d.nMaxInputChannels) output channels=\(d.nMaxOutputChannels)")
+            print("Sound device #\(d.nDeviceID), input channels=\(d.nMaxInputChannels) output channels=\(d.nMaxOutputChannels)")
         }
         
         let ttInst = newClient()
@@ -97,8 +97,8 @@ class iTeamTalkTests: XCTestCase {
         login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
         joinRootChannel(ttInst)
         
-        XCTAssert(TT_DBG_SetSoundInputTone(ttInst, UInt32(STREAMTYPE_VOICE.value), 500) != 0, "Set tone")
-        let cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE.value)
+        XCTAssert(TT_DBG_SetSoundInputTone(ttInst, UInt32(STREAMTYPE_VOICE.rawValue), 500) != 0, "Set tone")
+        let cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE.rawValue)
         XCTAssert(waitCmdComplete(ttInst, cmdid: cmdid, waittimeout: DEF_WAIT), "hear myself")
         
         XCTAssert(TT_EnableVoiceTransmission(ttInst, 1) != 0, "Enable voice tx")
@@ -135,8 +135,8 @@ class iTeamTalkTests: XCTestCase {
         joinRootChannel(src1)
         joinRootChannel(src2)
         
-        XCTAssert(TT_DBG_SetSoundInputTone(src1, UInt32(STREAMTYPE_VOICE.value), 300) != 0, "Set tone src1")
-        XCTAssert(TT_DBG_SetSoundInputTone(src2, UInt32(STREAMTYPE_VOICE.value), 800) != 0, "Set tone src2")
+        XCTAssert(TT_DBG_SetSoundInputTone(src1, UInt32(STREAMTYPE_VOICE.rawValue), 300) != 0, "Set tone src1")
+        XCTAssert(TT_DBG_SetSoundInputTone(src2, UInt32(STREAMTYPE_VOICE.rawValue), 800) != 0, "Set tone src2")
         
         XCTAssert(TT_EnableVoiceTransmission(src1, 1) != 0, "Enable voice tx src1")
         XCTAssert(TT_EnableVoiceTransmission(src2, 1) != 0, "Enable voice tx src2")
@@ -156,8 +156,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) != 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) != 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) != 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) != 0), "src2 tx")
 
         let cmdid = TT_DoLeaveChannel(player)
         waitCmdSuccess(player, cmdid: cmdid, waittimeout: 2000)
@@ -166,8 +166,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) == 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) == 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) == 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) == 0), "src2 tx")
         
         joinRootChannel(player)
 
@@ -177,8 +177,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) != 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) != 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) != 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) != 0), "src2 tx")
 
         XCTAssert(TT_EnableVoiceTransmission(src1, 0) != 0, "Disable voice tx src1")
         XCTAssert(TT_EnableVoiceTransmission(src2, 0) != 0, "Disable voice tx src2")
@@ -189,8 +189,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) == 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) == 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) == 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) == 0), "src2 tx")
 
         //stream players will reset after 30 seconds
         waitForEvent(player, e: CLIENTEVENT_NONE, waittimeout: 35000, msg: &msg)
@@ -199,8 +199,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) == 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) == 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) == 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) == 0), "src2 tx")
 
         XCTAssert(TT_EnableVoiceTransmission(src1, 1) != 0, "Disable voice tx src1")
         XCTAssert(TT_EnableVoiceTransmission(src2, 1) != 0, "Disable voice tx src2")
@@ -211,8 +211,8 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src1), &user1) != 0, "get src1 user")
         XCTAssert(TT_GetUser(player, TT_GetMyUserID(src2), &user2) != 0, "get src2 user")
         
-        XCTAssert(((user1.uUserState & USERSTATE_VOICE.value) != 0), "src1 tx")
-        XCTAssert(((user2.uUserState & USERSTATE_VOICE.value) != 0), "src2 tx")
+        XCTAssert(((user1.uUserState & USERSTATE_VOICE.rawValue) != 0), "src1 tx")
+        XCTAssert(((user2.uUserState & USERSTATE_VOICE.rawValue) != 0), "src2 tx")
 
         XCTAssert(TT_CloseSoundOutputDevice(player) != 0, "Close sound output")
     }
@@ -258,11 +258,11 @@ class iTeamTalkTests: XCTestCase {
         
         var tmout = waittimeout
         
-        while TT_GetMessage(ttInst, &msg, &tmout) != 0 && msg.nClientEvent.value != e.value {
+        while TT_GetMessage(ttInst, &msg, &tmout) != 0 && msg.nClientEvent.rawValue != e.rawValue {
             
         }
         
-        return msg.nClientEvent.value == e.value
+        return msg.nClientEvent.rawValue == e.rawValue
     }
     
     func waitCmdComplete(ttInst: UnsafeMutablePointer<Void>, cmdid: INT32, waittimeout: INT32) -> Bool {

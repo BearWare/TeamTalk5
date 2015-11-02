@@ -67,23 +67,23 @@ class AudioCodecViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        switch audiocodec.nCodec.value {
-        case OPUS_CODEC.value :
+        switch audiocodec.nCodec.rawValue {
+        case OPUS_CODEC.rawValue :
             sections[0] = OPUS_CODEC
             sections[1] = SPEEX_CODEC
             sections[2] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case SPEEX_CODEC.value :
+        case SPEEX_CODEC.rawValue :
             sections[1] = OPUS_CODEC
             sections[0] = SPEEX_CODEC
             sections[2] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case SPEEX_VBR_CODEC.value :
+        case SPEEX_VBR_CODEC.rawValue :
             sections[1] = OPUS_CODEC
             sections[2] = SPEEX_CODEC
             sections[0] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case NO_CODEC.value :
+        case NO_CODEC.rawValue :
             fallthrough
         default :
             sections[1] = OPUS_CODEC
@@ -99,53 +99,53 @@ class AudioCodecViewController : UITableViewController {
     }
     
     func setupNoAudio() {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Use No Audio") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Use No Audio")!
         noaudio_items.append(cell)
         
-        let blank = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
+        let blank = tableView.dequeueReusableCellWithIdentifier("Blank")!
         noaudio_items.append(blank)
     }
     
     func setupOpus() {
 
         let opus_appcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        opus_appSegCtrl = newTableCellSegCtrl(opus_appcell, "Application", ["VoIP", "Music"])
+        opus_appSegCtrl = newTableCellSegCtrl(opus_appcell, label: "Application", values: ["VoIP", "Music"])
         opus_items.append(opus_appcell)
         
         let opus_srcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        opus_srSegCtrl = newTableCellSegCtrl(opus_srcell, "Sample Rate", ["8 KHz", "12 KHz", "16 KHz", "24 KHz", "48 KHz"])
+        opus_srSegCtrl = newTableCellSegCtrl(opus_srcell, label: "Sample Rate", values: ["8 KHz", "12 KHz", "16 KHz", "24 KHz", "48 KHz"])
         opus_items.append(opus_srcell)
         
         let opus_chanscell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        opus_chansSegCtrl = newTableCellSegCtrl(opus_chanscell, "Audio Channels", ["Mono", "Stereo"])
+        opus_chansSegCtrl = newTableCellSegCtrl(opus_chanscell, label: "Audio Channels", values: ["Mono", "Stereo"])
         opus_items.append(opus_chanscell)
         
-        let bitrate = within(OPUS_MIN_BITRATE, OPUS_MAX_BITRATE, opuscodec.nBitRate)
+        let bitrate = within(OPUS_MIN_BITRATE, max_v: OPUS_MAX_BITRATE, value: opuscodec.nBitRate)
         opus_bitrateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        opus_bitrateSlider = newTableCellSlider(opus_bitrateCell!, "Bitrate", Float(OPUS_MIN_BITRATE) / 1000.0, Float(OPUS_MAX_BITRATE) / 1000.0, Float(bitrate) / 1000)
+        opus_bitrateSlider = newTableCellSlider(opus_bitrateCell!, label: "Bitrate", min: Float(OPUS_MIN_BITRATE) / 1000.0, max: Float(OPUS_MAX_BITRATE) / 1000.0, initial: Float(bitrate) / 1000)
         opus_bitrateSlider?.addTarget(self, action: "opus_bitrateChanged:", forControlEvents: .ValueChanged)
         opus_items.append(opus_bitrateCell!)
         
         let opus_dtxcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        opus_dtxSwitch = newTableCellSwitch(opus_dtxcell, "DTX", opuscodec.bDTX != 0)
+        opus_dtxSwitch = newTableCellSwitch(opus_dtxcell, label: "DTX", initial: opuscodec.bDTX != 0)
         opus_items.append(opus_dtxcell)
         
         opus_txintervalCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        opus_txintervalStepper = newTableCellStepper(opus_txintervalCell!, "Transmit Interval", 20, 60, 20, Double(opuscodec.nTxIntervalMSec))
+        opus_txintervalStepper = newTableCellStepper(opus_txintervalCell!, label: "Transmit Interval", min: 20, max: 60, step: 20, initial: Double(opuscodec.nTxIntervalMSec))
         opus_txintervalStepper?.addTarget(self, action: "opus_txintervalChanged:", forControlEvents: .ValueChanged)
         opus_items.append(opus_txintervalCell!)
 
-        let opus_savecell = tableView.dequeueReusableCellWithIdentifier("Use OPUS") as! UITableViewCell
+        let opus_savecell = tableView.dequeueReusableCellWithIdentifier("Use OPUS")!
         opus_items.append(opus_savecell)
         
-        if let i = find(opus_applications, opuscodec.nApplication) {
+        if let i = opus_applications.indexOf(opuscodec.nApplication) {
             opus_appSegCtrl!.selectedSegmentIndex = i
         }
         else {
             opus_appSegCtrl!.selectedSegmentIndex = 0
         }
         
-        if let i = find(opus_samplerates, opuscodec.nSampleRate) {
+        if let i = opus_samplerates.indexOf(opuscodec.nSampleRate) {
             opus_srSegCtrl!.selectedSegmentIndex = i
         }
         else {
@@ -165,7 +165,7 @@ class AudioCodecViewController : UITableViewController {
         
         opus_txintervalChanged(opus_txintervalStepper!)
 
-        let blank = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
+        let blank = tableView.dequeueReusableCellWithIdentifier("Blank")!
         opus_items.append(blank)
     }
     
@@ -189,24 +189,24 @@ class AudioCodecViewController : UITableViewController {
     func setupSpeex() {
         
         let srcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        spx_srSegCtrl = newTableCellSegCtrl(srcell, "Sample Rate", ["8 KHz", "16 KHz", "32 KHz"])
+        spx_srSegCtrl = newTableCellSegCtrl(srcell, label: "Sample Rate", values: ["8 KHz", "16 KHz", "32 KHz"])
         spx_srSegCtrl!.selectedSegmentIndex = Int(speexcodec.nBandmode)
         speex_items.append(srcell)
         
         let qcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        spx_qualitySlider = newTableCellSlider(qcell, "Quality", 0, 10, Float(speexcodec.nQuality))
+        spx_qualitySlider = newTableCellSlider(qcell, label: "Quality", min: 0, max: 10, initial: Float(speexcodec.nQuality))
         speex_items.append(qcell)
         
         spx_txintervalCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        spx_txintervalStepper = newTableCellStepper(spx_txintervalCell!, "Transmit Interval", 20, 100, 20, Double(speexcodec.nTxIntervalMSec))
+        spx_txintervalStepper = newTableCellStepper(spx_txintervalCell!, label: "Transmit Interval", min: 20, max: 100, step: 20, initial: Double(speexcodec.nTxIntervalMSec))
         speex_txintervalChanged(spx_txintervalStepper!)
         spx_txintervalStepper?.addTarget(self, action: "speex_txintervalChanged:", forControlEvents: .ValueChanged)
         speex_items.append(spx_txintervalCell!)
         
-        let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex") as! UITableViewCell
+        let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex")!
         speex_items.append(savebtn)
 
-        let blank = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
+        let blank = tableView.dequeueReusableCellWithIdentifier("Blank")!
         speex_items.append(blank)
 
     }
@@ -223,35 +223,35 @@ class AudioCodecViewController : UITableViewController {
     
     func setupSpeexVBR() {
         let srcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        spxvbr_srSegCtrl = newTableCellSegCtrl(srcell, "Sample Rate", ["8 KHz", "16 KHz", "32 KHz"])
+        spxvbr_srSegCtrl = newTableCellSegCtrl(srcell, label: "Sample Rate", values: ["8 KHz", "16 KHz", "32 KHz"])
         spxvbr_srSegCtrl!.selectedSegmentIndex = Int(speexvbrcodec.nBandmode)
         speexvbr_items.append(srcell)
         
         let qcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        spxvbr_qualitySlider = newTableCellSlider(qcell, "Quality", 0, 10, Float(speexvbrcodec.nQuality))
+        spxvbr_qualitySlider = newTableCellSlider(qcell, label: "Quality", min: 0, max: 10, initial: Float(speexvbrcodec.nQuality))
         speexvbr_items.append(qcell)
         
         spxvbr_bitrateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        spxvbr_bitrateSlider = newTableCellSlider(spxvbr_bitrateCell!, "Bitrate", 0, Float(SPEEX_UWB_MAX_BITRATE) / 1000.0,
-                                                  within(0, Float(SPEEX_UWB_MAX_BITRATE), Float(speexvbrcodec.nMaxBitRate) / 1000))
+        spxvbr_bitrateSlider = newTableCellSlider(spxvbr_bitrateCell!, label: "Bitrate", min: 0, max: Float(SPEEX_UWB_MAX_BITRATE) / 1000.0,
+                                                  initial: within(0, max_v: Float(SPEEX_UWB_MAX_BITRATE), value: Float(speexvbrcodec.nMaxBitRate) / 1000))
         speexvbr_bitrateChanged(spxvbr_bitrateSlider!)
         spxvbr_bitrateSlider?.addTarget(self, action: "speexvbr_bitrateChanged:", forControlEvents: .ValueChanged)
         speexvbr_items.append(spxvbr_bitrateCell!)
         
         let dtxcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        spxvbr_dtxSwitch = newTableCellSwitch(dtxcell, "DTX", speexvbrcodec.bDTX != 0)
+        spxvbr_dtxSwitch = newTableCellSwitch(dtxcell, label: "DTX", initial: speexvbrcodec.bDTX != 0)
         speexvbr_items.append(dtxcell)
         
         spxvbr_txintervalCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        spxvbr_txintervalStepper = newTableCellStepper(spxvbr_txintervalCell!, "Transmit Interval", 20, 100, 20, Double(speexvbrcodec.nTxIntervalMSec))
+        spxvbr_txintervalStepper = newTableCellStepper(spxvbr_txintervalCell!, label: "Transmit Interval", min: 20, max: 100, step: 20, initial: Double(speexvbrcodec.nTxIntervalMSec))
         speexvbr_txintervalChanged(spxvbr_txintervalStepper!)
         spxvbr_txintervalStepper?.addTarget(self, action: "speexvbr_txintervalChanged:", forControlEvents: .ValueChanged)
         speexvbr_items.append(spxvbr_txintervalCell!)
         
-        let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex VBR") as! UITableViewCell
+        let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex VBR")!
         speexvbr_items.append(savebtn)
         
-        let blank = tableView.dequeueReusableCellWithIdentifier("Blank") as! UITableViewCell
+        let blank = tableView.dequeueReusableCellWithIdentifier("Blank")!
         speexvbr_items.append(blank)
     }
 
@@ -279,19 +279,19 @@ class AudioCodecViewController : UITableViewController {
         var title = ""
         var active = false
         
-        switch sections[section]!.value {
-        case OPUS_CODEC.value :
+        switch sections[section]!.rawValue {
+        case OPUS_CODEC.rawValue :
             title = "OPUS Codec"
-            active = audiocodec.nCodec.value == OPUS_CODEC.value
-        case SPEEX_CODEC.value :
+            active = audiocodec.nCodec.rawValue == OPUS_CODEC.rawValue
+        case SPEEX_CODEC.rawValue :
             title = "Speex Codec"
-            active = audiocodec.nCodec.value == SPEEX_CODEC.value
-        case SPEEX_VBR_CODEC.value :
+            active = audiocodec.nCodec.rawValue == SPEEX_CODEC.rawValue
+        case SPEEX_VBR_CODEC.rawValue :
             title = "Speex Variable Bitrate Codec"
-            active = audiocodec.nCodec.value == SPEEX_VBR_CODEC.value
-        case NO_CODEC.value :
+            active = audiocodec.nCodec.rawValue == SPEEX_VBR_CODEC.rawValue
+        case NO_CODEC.rawValue :
             title = "No Audio"
-            active = audiocodec.nCodec.value == NO_CODEC.value
+            active = audiocodec.nCodec.rawValue == NO_CODEC.rawValue
         default :
             return nil
         }
@@ -304,14 +304,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch sections[section]!.value {
-        case OPUS_CODEC.value :
+        switch sections[section]!.rawValue {
+        case OPUS_CODEC.rawValue :
             return opus_items.count
-        case SPEEX_CODEC.value :
+        case SPEEX_CODEC.rawValue :
             return speex_items.count
-        case SPEEX_VBR_CODEC.value :
+        case SPEEX_VBR_CODEC.rawValue :
             return speexvbr_items.count
-        case NO_CODEC.value :
+        case NO_CODEC.rawValue :
             return noaudio_items.count
         default :
             return 0
@@ -320,14 +320,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        switch sections[indexPath.section]!.value {
-        case OPUS_CODEC.value :
+        switch sections[indexPath.section]!.rawValue {
+        case OPUS_CODEC.rawValue :
             return opus_items[indexPath.row]
-        case SPEEX_CODEC.value :
+        case SPEEX_CODEC.rawValue :
             return speex_items[indexPath.row]
-        case SPEEX_VBR_CODEC.value :
+        case SPEEX_VBR_CODEC.rawValue :
             return speexvbr_items[indexPath.row]
-        case NO_CODEC.value :
+        case NO_CODEC.rawValue :
             return noaudio_items[indexPath.row]
         default :
             return UITableViewCell()

@@ -48,7 +48,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     deinit {
-        println("Destroyed chan list ctrl")
+        print("Destroyed chan list ctrl")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -84,31 +84,37 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     
     var activeCommands = [INT32: Command]()
     
+    func getDisplayItems() -> ([Channel], [User]) {
+        let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
+        let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
+        
+        return (subchans, chanusers)
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
-        let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
-
+        
+        let (subchans, chanusers) = getDisplayItems()
+        
         if curchannel.nParentID != 0 {
-            return subchans.array.count + chanusers.array.count + 1 //+1 for 'Back' to parent channel
+            return subchans.count + chanusers.count + 1 //+1 for 'Back' to parent channel
         }
-        return subchans.array.count + chanusers.array.count
+        return subchans.count + chanusers.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let subchans = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
-        let chanusers = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
+        let (subchans, chanusers) = getDisplayItems()
 
-        var chan_count = (curchannel.nParentID != 0 ? subchans.array.count + 1 : subchans.array.count)
+        let chan_count = (curchannel.nParentID != 0 ? subchans.count + 1 : subchans.count)
         
-        //println("row = \(indexPath.item) cur channel = \(curchannel.nChannelID) subs = \(subchans.array.count) users = \(chanusers.array.count)")
+        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
         
         // display channels first
-        if indexPath.item < chan_count {
+        if indexPath.row < chan_count {
 
             let cellIdentifier = "ChannelTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
@@ -117,7 +123,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             var textcolor : UIColor? = nil
             var name : String?, topic : String?
             
-            if indexPath.item == 0 && curchannel.nParentID != 0 {
+            if indexPath.row == 0 && curchannel.nParentID != 0 {
                 // display previous channel if not in root channel
                 channel = channels[curchannel.nParentID]!
                 
@@ -134,7 +140,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             }
             else if curchannel.nChannelID == 0 {
                 // display only the root channel
-                channel = subchans.array[indexPath.item]
+                channel = subchans[indexPath.row]
                 
                 name = String.fromCString(&srvprop.szServerName.0)
                 topic = String.fromCString(&channel.szTopic.0)
@@ -150,10 +156,10 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 // display sub channels
                 if curchannel.nParentID != 0 {
                     // root channel doesn't display access to parent
-                    channel = subchans.array[indexPath.item - 1]
+                    channel = subchans[indexPath.row - 1]
                 }
                 else {
-                    channel = subchans.array[indexPath.item]
+                    channel = subchans[indexPath.row]
                 }
                 
                 name = String.fromCString(&channel.szName.0)
@@ -183,13 +189,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         else {
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
-            var user = chanusers.array[indexPath.item - chan_count]
+            var user = chanusers[indexPath.row - chan_count]
             let nickname = String.fromCString(&user.szNickname.0)
             let statusmsg = String.fromCString(&user.szStatusMsg.0)
             cell.nicknameLabel.text = nickname
             cell.statusmsgLabel.text = statusmsg
             
-            if (user.uUserState & USERSTATE_VOICE.value) != 0 {
+            if (user.uUserState & USERSTATE_VOICE.rawValue) != 0 {
                 cell.userImage.image = UIImage(named: "man_green.png")
             }
             else {
@@ -213,7 +219,6 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func updateTitle() {
-        let user = users[TT_GetMyUserID(ttInst)]
         var title = ""
         if curchannel.nParentID == 0 {
             
@@ -241,7 +246,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             
             let flags = TT_GetFlags(ttInst)
             
-            if (flags & CLIENT_AUTHORIZED.value) != 0 && NSUserDefaults.standardUserDefaults().boolForKey("joinroot_preference") {
+            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 && NSUserDefaults.standardUserDefaults().boolForKey("joinroot_preference") {
                 
                 let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
                 if cmdid > 0 {
@@ -253,7 +258,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             self.tableView.reloadData()
             
         default :
-            println("Unknown command \(cmdid)")
+            print("Unknown command \(cmdid)")
         }
 
         activeCommands.removeValueForKey(cmdid)
@@ -262,7 +267,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "Show User" {
-            let index = self.tableView.indexPathForSelectedRow()
+            let index = self.tableView.indexPathForSelectedRow
             let cell = self.tableView.cellForRowAtIndexPath(index!)
 
             let userDetail = segue.destinationViewController as! UserDetailViewController
@@ -276,7 +281,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             
             if chanDetail.channel.nParentID == 0 {
                 let subchans = channels.values.filter({$0.nParentID == 0})
-                if let root = subchans.array.first {
+                if let root = subchans.first {
                     chanDetail.channel.nParentID = root.nChannelID
                 }
             }
@@ -285,7 +290,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             
             let btn = sender as! UIButton
 
-            var channel = channels[INT32(btn.tag)]
+            let channel = channels[INT32(btn.tag)]
             
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
             chanDetail.ttInst = ttInst
@@ -304,8 +309,8 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     func updateTX() {
         let flags = TT_GetFlags(ttInst)
         
-        switch flags & CLIENT_TX_VOICE.value {
-        case CLIENT_TX_VOICE.value :
+        switch flags & CLIENT_TX_VOICE.rawValue {
+        case CLIENT_TX_VOICE.rawValue :
             txButton.backgroundColor = UIColor.redColor()
         default :
             txButton.backgroundColor = UIColor.greenColor()
@@ -329,15 +334,15 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             break
         }
         
-        TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_NONE.value, 0)
+        TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_NONE.rawValue, 0)
     }
     
     @IBAction func tabGesture(sender: UITapGestureRecognizer) {
         
         let flags = TT_GetFlags(ttInst)
         
-        switch flags & CLIENT_TX_VOICE.value {
-        case CLIENT_TX_VOICE.value :
+        switch flags & CLIENT_TX_VOICE.rawValue {
+        case CLIENT_TX_VOICE.rawValue :
             TT_EnableVoiceTransmission(ttInst, 0)
         default :
             TT_EnableVoiceTransmission(ttInst, 1)
@@ -347,13 +352,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func handleTTMessage(var m: TTMessage) {
-        switch(m.nClientEvent.value) {
+        switch(m.nClientEvent.rawValue) {
 
-        case CLIENTEVENT_CON_LOST.value :
+        case CLIENTEVENT_CON_LOST.rawValue :
             //TODO: reset channel lists?
             break
             
-        case CLIENTEVENT_CMD_PROCESSING.value :
+        case CLIENTEVENT_CMD_PROCESSING.rawValue :
             if getBoolean(&m) {
                 // command active
                 self.currentCmdId = m.nSource
@@ -364,14 +369,14 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 
                 commandComplete(m.nSource)
             }
-        case CLIENTEVENT_CMD_SERVER_UPDATE.value :
+        case CLIENTEVENT_CMD_SERVER_UPDATE.rawValue :
             srvprop = getServerProperties(&m).memory
             
-        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.value :
+        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.rawValue :
             myuseraccount = getUserAccount(&m).memory
             
-        case CLIENTEVENT_CMD_CHANNEL_NEW.value :
-            var channel = getChannel(&m).memory
+        case CLIENTEVENT_CMD_CHANNEL_NEW.rawValue :
+            let channel = getChannel(&m).memory
             
             channels[channel.nChannelID] = channel
             
@@ -384,15 +389,15 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_CHANNEL_UPDATE.value :
-            var channel = getChannel(&m).memory
+        case CLIENTEVENT_CMD_CHANNEL_UPDATE.rawValue :
+            let channel = getChannel(&m).memory
             channels[channel.nChannelID] = channel
             
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_CHANNEL_REMOVE.value :
+        case CLIENTEVENT_CMD_CHANNEL_REMOVE.rawValue :
             let channel = getChannel(&m).memory
             channels.removeValueForKey(channel.nChannelID)
             
@@ -400,16 +405,16 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_USER_LOGGEDIN.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_CMD_USER_LOGGEDIN.rawValue :
+            let user = getUser(&m).memory
             users[user.nUserID] = user
             
-        case CLIENTEVENT_CMD_USER_LOGGEDOUT.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_CMD_USER_LOGGEDOUT.rawValue :
+            let user = getUser(&m).memory
             users.removeValueForKey(user.nUserID)
             
-        case CLIENTEVENT_CMD_USER_JOINED.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_CMD_USER_JOINED.rawValue :
+            let user = getUser(&m).memory
             users[user.nUserID] = user
             
             // we joined a new channel so update table view
@@ -421,18 +426,18 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
-        case CLIENTEVENT_CMD_USER_UPDATE.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_CMD_USER_UPDATE.rawValue :
+            let user = getUser(&m).memory
             users[user.nUserID] = user
             
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_USER_LEFT.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_CMD_USER_LEFT.rawValue :
+            let user = getUser(&m).memory
             
-            if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.value == 0 {
+            if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
                 users.removeValueForKey(user.nUserID)
             }
             else {
@@ -443,13 +448,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_USER_STATECHANGE.value :
-            var user = getUser(&m).memory
+        case CLIENTEVENT_USER_STATECHANGE.rawValue :
+            let user = getUser(&m).memory
             users[user.nUserID] = user
             self.tableView.reloadData()
             
         default :
-            println("Unhandled message \(m.nClientEvent.value)")
+            print("Unhandled message \(m.nClientEvent.rawValue)")
         }
 
     }

@@ -31,39 +31,39 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         
         // ServerList Entry section
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, "Name", server.name)
+        namefield = newTableCellTextField(namecell, label: "Name", initial: server.name)
         nameItems.append(namecell)
 
         // Connection section
         let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        ipaddrfield = newTableCellTextField(ipaddrcell, "IP-address", server.ipaddr)
+        ipaddrfield = newTableCellTextField(ipaddrcell, label: "IP-address", initial: server.ipaddr)
         conItems.append(ipaddrcell)
 
         let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        tcpportfield = newTableCellTextField(tcpportcell, "TCP Port", String(server.tcpport))
+        tcpportfield = newTableCellTextField(tcpportcell, label: "TCP Port", initial: String(server.tcpport))
         tcpportfield!.keyboardType = .NumberPad
         conItems.append(tcpportcell)
 
         let udpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        udpportfield = newTableCellTextField(udpportcell, "UDP Port", String(server.udpport))
+        udpportfield = newTableCellTextField(udpportcell, label: "UDP Port", initial: String(server.udpport))
         udpportfield!.keyboardType = .NumberPad
         conItems.append(udpportcell)
 
         // Authentication section
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, "Username", server.username)
+        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: server.username)
         usernamefield!.autocorrectionType = .No
         usernamefield!.autocapitalizationType = .None
         authItems.append(usernamecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, "Password", server.password)
+        passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: server.password)
         passwdfield!.autocorrectionType = .No
         passwdfield!.autocapitalizationType = .None
         passwdfield!.secureTextEntry = true
         authItems.append(passwdcell)
         
-        let deletecell = tableView.dequeueReusableCellWithIdentifier("Delete Server") as! UITableViewCell
+        let deletecell = tableView.dequeueReusableCellWithIdentifier("Delete Server")!
         actionItems.append(deletecell)
         
         tableView.dataSource = self
@@ -71,16 +71,16 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     func saveServerDetail() {
-        server.name = namefield!.text
-        server.ipaddr = ipaddrfield!.text
-        if let n = tcpportfield!.text.toInt() {
+        server.name = namefield!.text!
+        server.ipaddr = ipaddrfield!.text!
+        if let n = Int(tcpportfield!.text!) {
             server.tcpport = n
         }
-        if let n = udpportfield!.text.toInt() {
+        if let n = Int(udpportfield!.text!) {
             server.udpport = n
         }
-        server.username = usernamefield!.text
-        server.password = passwdfield!.text
+        server.username = usernamefield!.text!
+        server.password = passwdfield!.text!
         server.publicserver = false
     }
     

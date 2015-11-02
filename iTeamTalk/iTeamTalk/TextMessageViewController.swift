@@ -46,10 +46,10 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func keyboardAppeared(notify: NSNotification) {
-        println("Keyboard appeared")
+        print("Keyboard appeared")
         
         if let userInfo = notify.userInfo {
-            if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height {
+            if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size.height {
                 
                 let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0)
                 
@@ -67,7 +67,7 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func keyboardDisappered(notify: NSNotification) {
-        println("Keyboard disappered")
+        print("Keyboard disappered")
 
         scrollView.contentInset = UIEdgeInsetsZero
         scrollView.scrollIndicatorInsets = UIEdgeInsetsZero
@@ -112,11 +112,11 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     
     func handleTTMessage(var m: TTMessage) {
         
-        switch m.nClientEvent.value {
-        case CLIENTEVENT_CMD_USER_TEXTMSG.value :
+        switch m.nClientEvent.rawValue {
+        case CLIENTEVENT_CMD_USER_TEXTMSG.rawValue :
             
             var txtmsg = getTextMessage(&m).memory
-            if txtmsg.nMsgType.value == MSGTYPE_USER.value {
+            if txtmsg.nMsgType.rawValue == MSGTYPE_USER.rawValue {
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                 let cell = tableView.dequeueReusableCellWithIdentifier("Text Msg Cell") as! TextMsgTableCell

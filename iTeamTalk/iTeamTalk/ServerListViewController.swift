@@ -70,7 +70,7 @@ NSXMLParserDelegate {
 //        appnameLabel.text = AppInfo.APPTITLE + " " + version
         
         // get xml-list of public server
-        var parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER))!
+        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER)!)!
         parser.delegate = self
         parser.parse()
     }
@@ -123,7 +123,7 @@ NSXMLParserDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "Show Server" {
-            let index = self.tableView.indexPathForSelectedRow()
+            let index = self.tableView.indexPathForSelectedRow
             currentServer = servers[index!.item]
             let serverDetail = segue.destinationViewController as! ServerDetailViewController
             serverDetail.server = currentServer
@@ -156,7 +156,7 @@ NSXMLParserDelegate {
         vc.saveServerDetail()
         let name = vc.server.name
         
-        if let found = find(servers.map({$0.name}), name) {
+        if let found = servers.map({$0.name}).indexOf(name) {
             servers[found] = vc.server
         }
         else {
@@ -181,7 +181,7 @@ NSXMLParserDelegate {
     
     func parser(parser: NSXMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
-        attributes attributeDict: [NSObject : AnyObject]) {
+        attributes attributeDict: [String : String]) {
             
             self.elementStack.append(elementName)
             if elementName == "host" {
@@ -189,32 +189,30 @@ NSXMLParserDelegate {
             }
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        
-        if string == nil { return }
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
         
         switch elementStack.last! {
         case "name" :
-            currentServer.name = string!
+            currentServer.name = string
         case "address" :
-            currentServer.ipaddr = string!
+            currentServer.ipaddr = string
         case "tcpport" :
-            let v : String = string!
-            currentServer.tcpport = v.toInt()!
+            let v : String = string
+            currentServer.tcpport = Int(v)!
         case "udpport" :
-            let v : String = string!
-            currentServer.udpport = v.toInt()!
+            let v : String = string
+            currentServer.udpport = Int(v)!
         case "username" :
-            currentServer.username = string!
+            currentServer.username = string
         case "password" :
-            if find(elementStack, "auth") != nil {
-                currentServer.password = string!
+            if elementStack.indexOf("auth") != nil {
+                currentServer.password = string
             }
-            else if find(elementStack, "join") != nil {
-                currentServer.chanpasswd = string!
+            else if elementStack.indexOf("join") != nil {
+                currentServer.chanpasswd = string
             }
         default :
-            println("Unknown tag " + self.elementStack.last!)
+            print("Unknown tag " + self.elementStack.last!)
         }
     }
     
