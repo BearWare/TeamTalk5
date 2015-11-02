@@ -349,13 +349,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func handleTTMessage(var m: TTMessage) {
-        switch(m.nClientEvent.rawValue) {
+        switch(m.nClientEvent) {
 
-        case CLIENTEVENT_CON_LOST.rawValue :
+        case CLIENTEVENT_CON_LOST :
             //TODO: reset channel lists?
             break
             
-        case CLIENTEVENT_CMD_PROCESSING.rawValue :
+        case CLIENTEVENT_CMD_PROCESSING :
             if getBoolean(&m) {
                 // command active
                 self.currentCmdId = m.nSource
@@ -366,13 +366,13 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 
                 commandComplete(m.nSource)
             }
-        case CLIENTEVENT_CMD_SERVER_UPDATE.rawValue :
+        case CLIENTEVENT_CMD_SERVER_UPDATE :
             srvprop = getServerProperties(&m).memory
             
-        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN.rawValue :
+        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
             myuseraccount = getUserAccount(&m).memory
             
-        case CLIENTEVENT_CMD_CHANNEL_NEW.rawValue :
+        case CLIENTEVENT_CMD_CHANNEL_NEW :
             let channel = getChannel(&m).memory
             
             channels[channel.nChannelID] = channel
@@ -386,7 +386,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_CHANNEL_UPDATE.rawValue :
+        case CLIENTEVENT_CMD_CHANNEL_UPDATE :
             let channel = getChannel(&m).memory
             channels[channel.nChannelID] = channel
             
@@ -394,7 +394,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_CHANNEL_REMOVE.rawValue :
+        case CLIENTEVENT_CMD_CHANNEL_REMOVE :
             let channel = getChannel(&m).memory
             channels.removeValueForKey(channel.nChannelID)
             
@@ -402,15 +402,15 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_USER_LOGGEDIN.rawValue :
+        case CLIENTEVENT_CMD_USER_LOGGEDIN :
             let user = getUser(&m).memory
             users[user.nUserID] = user
             
-        case CLIENTEVENT_CMD_USER_LOGGEDOUT.rawValue :
+        case CLIENTEVENT_CMD_USER_LOGGEDOUT :
             let user = getUser(&m).memory
             users.removeValueForKey(user.nUserID)
             
-        case CLIENTEVENT_CMD_USER_JOINED.rawValue :
+        case CLIENTEVENT_CMD_USER_JOINED :
             let user = getUser(&m).memory
             users[user.nUserID] = user
             
@@ -423,7 +423,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
-        case CLIENTEVENT_CMD_USER_UPDATE.rawValue :
+        case CLIENTEVENT_CMD_USER_UPDATE :
             let user = getUser(&m).memory
             users[user.nUserID] = user
             
@@ -431,7 +431,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_CMD_USER_LEFT.rawValue :
+        case CLIENTEVENT_CMD_USER_LEFT :
             let user = getUser(&m).memory
             
             if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
@@ -445,7 +445,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_USER_STATECHANGE.rawValue :
+        case CLIENTEVENT_USER_STATECHANGE :
             let user = getUser(&m).memory
             users[user.nUserID] = user
             self.tableView.reloadData()

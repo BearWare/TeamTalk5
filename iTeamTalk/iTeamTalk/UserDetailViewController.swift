@@ -120,30 +120,30 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
     }
     
     func subscriptionChanged(sender: UISwitch) {
-        var sub : UINT32 = SUBSCRIBE_NONE.rawValue
+        var sub = SUBSCRIBE_NONE
         
         switch sender {
         case subusermsgswitch! :
-            sub = SUBSCRIBE_USER_MSG.rawValue
+            sub = SUBSCRIBE_USER_MSG
         case subchanmsgswitch! :
-            sub = SUBSCRIBE_CHANNEL_MSG.rawValue
+            sub = SUBSCRIBE_CHANNEL_MSG
         case subvoiceswitch! :
-            sub = SUBSCRIBE_VOICE.rawValue
+            sub = SUBSCRIBE_VOICE
         case subwebcamswitch! :
-            sub = SUBSCRIBE_VIDEOCAPTURE.rawValue
+            sub = SUBSCRIBE_VIDEOCAPTURE
         case submediafileswitch! :
-            sub = SUBSCRIBE_MEDIAFILE.rawValue
+            sub = SUBSCRIBE_MEDIAFILE
         case subdesktopswitch! :
-            sub = SUBSCRIBE_DESKTOP.rawValue
+            sub = SUBSCRIBE_DESKTOP
         default :
             break
         }
         
         if sender.on {
-            TT_DoSubscribe(ttInst, userid, sub)
+            TT_DoSubscribe(ttInst, userid, sub.rawValue)
         }
         else {
-            TT_DoUnsubscribe(ttInst, userid, sub)
+            TT_DoUnsubscribe(ttInst, userid, sub.rawValue)
         }
     }
     

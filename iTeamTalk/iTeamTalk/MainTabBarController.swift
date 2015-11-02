@@ -97,9 +97,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         let channelsTab = viewControllers?[0] as! ChannelListViewController
 
-        switch(m.nClientEvent.rawValue) {
+        switch(m.nClientEvent) {
             
-        case CLIENTEVENT_CON_SUCCESS.rawValue :
+        case CLIENTEVENT_CON_SUCCESS :
             print("We're connected")
             var nickname = NSUserDefaults.standardUserDefaults().stringForKey("nickname_preference")
             if nickname == nil {
@@ -111,12 +111,12 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
                 channelsTab.activeCommands[cmdid] = .LoginCmd
             }
             
-        case CLIENTEVENT_CON_FAILED.rawValue :
+        case CLIENTEVENT_CON_FAILED :
             print("Connect failed")
             
-        case CLIENTEVENT_CON_LOST.rawValue :
+        case CLIENTEVENT_CON_LOST :
             print("connection lost")
-        case CLIENTEVENT_CMD_ERROR.rawValue :
+        case CLIENTEVENT_CMD_ERROR :
             var errmsg = getClientErrorMsg(&m).memory
             print(String.fromCString(&errmsg.szErrorMsg.0))
         default :

@@ -112,8 +112,8 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     
     func handleTTMessage(var m: TTMessage) {
         
-        switch m.nClientEvent.rawValue {
-        case CLIENTEVENT_CMD_USER_TEXTMSG.rawValue :
+        switch m.nClientEvent {
+        case CLIENTEVENT_CMD_USER_TEXTMSG :
             
             var txtmsg = getTextMessage(&m).memory
             if txtmsg.nMsgType.rawValue == MSGTYPE_USER.rawValue {

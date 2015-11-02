@@ -106,18 +106,18 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     
     func showCodecDetail() {
         var codecdetail = ""
-        switch channel.audiocodec.nCodec.rawValue {
-        case OPUS_CODEC.rawValue :
+        switch channel.audiocodec.nCodec {
+        case OPUS_CODEC :
             let opus = getOpusCodec(&channel.audiocodec).memory
             let chans = (opus.nChannels>1 ? "Stereo" : "Mono" )
             codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz \(opus.nBitRate / 1000) KB/s " + chans
-        case SPEEX_CODEC.rawValue :
+        case SPEEX_CODEC :
             let speex = getSpeexCodec(&channel.audiocodec).memory
             codecdetail = "Speex " + getBandmodeString(speex.nBandmode)
-        case SPEEX_VBR_CODEC.rawValue :
+        case SPEEX_VBR_CODEC :
             let speexvbr = getSpeexVBRCodec(&channel.audiocodec).memory
             codecdetail = "Speex VBR " + getBandmodeString(speexvbr.nBandmode)
-        case NO_CODEC.rawValue :
+        case NO_CODEC :
             fallthrough
         default :
             codecdetail = "No Audio"
@@ -164,15 +164,15 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     
     func handleTTMessage(var m: TTMessage) {
         
-        switch m.nClientEvent.rawValue {
+        switch m.nClientEvent {
             
-        case CLIENTEVENT_CMD_SUCCESS.rawValue :
+        case CLIENTEVENT_CMD_SUCCESS :
             if m.nSource == cmdid {
                 let vc = self.navigationController?.viewControllers[1]
                 
                 self.navigationController?.popToViewController(vc!, animated: true)
             }
-        case CLIENTEVENT_CMD_ERROR.rawValue :
+        case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
                 var errmsg = getClientErrorMsg(&m).memory
                 let s = String.fromCString(&errmsg.szErrorMsg.0)
@@ -180,7 +180,7 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-        case CLIENTEVENT_CMD_PROCESSING.rawValue :
+        case CLIENTEVENT_CMD_PROCESSING :
             if !getBoolean(&m) && cmdid == m.nSource {
                 cmdid = 0
             }
@@ -232,14 +232,14 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
 
             vc.audiocodec = channel.audiocodec
             
-            switch channel.audiocodec.nCodec.rawValue {
-            case SPEEX_CODEC.rawValue :
+            switch channel.audiocodec.nCodec {
+            case SPEEX_CODEC :
                 vc.speexcodec = getSpeexCodec(&channel.audiocodec).memory
-            case SPEEX_VBR_CODEC.rawValue :
+            case SPEEX_VBR_CODEC :
                 vc.speexvbrcodec = getSpeexVBRCodec(&channel.audiocodec).memory
-            case OPUS_CODEC.rawValue :
+            case OPUS_CODEC :
                 vc.opuscodec = getOpusCodec(&channel.audiocodec).memory
-            case NO_CODEC.rawValue :
+            case NO_CODEC :
                 if channel.nChannelID == 0 {
                     vc.audiocodec.nCodec = OPUS_CODEC
                 }

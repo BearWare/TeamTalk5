@@ -67,23 +67,23 @@ class AudioCodecViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        switch audiocodec.nCodec.rawValue {
-        case OPUS_CODEC.rawValue :
+        switch audiocodec.nCodec {
+        case OPUS_CODEC :
             sections[0] = OPUS_CODEC
             sections[1] = SPEEX_CODEC
             sections[2] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case SPEEX_CODEC.rawValue :
+        case SPEEX_CODEC :
             sections[1] = OPUS_CODEC
             sections[0] = SPEEX_CODEC
             sections[2] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case SPEEX_VBR_CODEC.rawValue :
+        case SPEEX_VBR_CODEC :
             sections[1] = OPUS_CODEC
             sections[2] = SPEEX_CODEC
             sections[0] = SPEEX_VBR_CODEC
             sections[3] = NO_CODEC
-        case NO_CODEC.rawValue :
+        case NO_CODEC :
             fallthrough
         default :
             sections[1] = OPUS_CODEC
@@ -279,19 +279,19 @@ class AudioCodecViewController : UITableViewController {
         var title = ""
         var active = false
         
-        switch sections[section]!.rawValue {
-        case OPUS_CODEC.rawValue :
+        switch sections[section]! {
+        case OPUS_CODEC :
             title = "OPUS Codec"
-            active = audiocodec.nCodec.rawValue == OPUS_CODEC.rawValue
-        case SPEEX_CODEC.rawValue :
+            active = audiocodec.nCodec == OPUS_CODEC
+        case SPEEX_CODEC :
             title = "Speex Codec"
-            active = audiocodec.nCodec.rawValue == SPEEX_CODEC.rawValue
-        case SPEEX_VBR_CODEC.rawValue :
+            active = audiocodec.nCodec == SPEEX_CODEC
+        case SPEEX_VBR_CODEC :
             title = "Speex Variable Bitrate Codec"
-            active = audiocodec.nCodec.rawValue == SPEEX_VBR_CODEC.rawValue
-        case NO_CODEC.rawValue :
+            active = audiocodec.nCodec == SPEEX_VBR_CODEC
+        case NO_CODEC :
             title = "No Audio"
-            active = audiocodec.nCodec.rawValue == NO_CODEC.rawValue
+            active = audiocodec.nCodec == NO_CODEC
         default :
             return nil
         }
@@ -304,14 +304,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch sections[section]!.rawValue {
-        case OPUS_CODEC.rawValue :
+        switch sections[section]! {
+        case OPUS_CODEC :
             return opus_items.count
-        case SPEEX_CODEC.rawValue :
+        case SPEEX_CODEC :
             return speex_items.count
-        case SPEEX_VBR_CODEC.rawValue :
+        case SPEEX_VBR_CODEC :
             return speexvbr_items.count
-        case NO_CODEC.rawValue :
+        case NO_CODEC :
             return noaudio_items.count
         default :
             return 0
@@ -320,14 +320,14 @@ class AudioCodecViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        switch sections[indexPath.section]!.rawValue {
-        case OPUS_CODEC.rawValue :
+        switch sections[indexPath.section]! {
+        case OPUS_CODEC :
             return opus_items[indexPath.row]
-        case SPEEX_CODEC.rawValue :
+        case SPEEX_CODEC :
             return speex_items[indexPath.row]
-        case SPEEX_VBR_CODEC.rawValue :
+        case SPEEX_VBR_CODEC :
             return speexvbr_items[indexPath.row]
-        case NO_CODEC.rawValue :
+        case NO_CODEC :
             return noaudio_items[indexPath.row]
         default :
             return UITableViewCell()
