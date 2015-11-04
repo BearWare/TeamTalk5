@@ -111,7 +111,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
 
         let chan_count = (curchannel.nParentID != 0 ? subchans.count + 1 : subchans.count)
         
-        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+        //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
         
         // display channels first
         if indexPath.row < chan_count {
@@ -246,7 +246,7 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             
             let flags = TT_GetFlags(ttInst)
             
-            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 && NSUserDefaults.standardUserDefaults().boolForKey("joinroot_preference") {
+            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 && NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
                 
                 let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
                 if cmdid > 0 {

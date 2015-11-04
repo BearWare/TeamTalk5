@@ -20,7 +20,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Delete Server" id="ffZ-a8-SYd">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ffZ-a8-SYd" id="UDD-w0-nJz">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -77,7 +77,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ServerTableCell" id="mZh-SD-U6V" customClass="ServerTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mZh-SD-U6V" id="mv6-3o-p9I">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -423,47 +423,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2A-aE-XtG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="299" y="1892"/>
+            <point key="canvasLocation" x="223" y="1892"/>
         </scene>
-        <!--Chat-->
-        <scene sceneID="FCS-X1-4tt">
+        <!--Preferences-->
+        <scene sceneID="eI5-1N-Xu7">
             <objects>
-                <viewController id="Xf9-hW-cDE" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TF2-lR-LQC">
+                <viewController title="Preferences" id="NA0-UK-wve" customClass="PreferencesViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wva-bC-BOU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dpO-y0-xY1">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="462"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="cnZ-gI-mn8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Type here" id="14S-an-C8p">
-                                <rect key="frame" x="0.0" y="465" width="261" height="52"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fqK-pW-jTV">
-                                <rect key="frame" x="261" y="465" width="59" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <state key="normal" title="Send">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Chat" id="481-ed-TQB"/>
+                    <tabBarItem key="tabBarItem" title="Preferences" id="vIN-Uc-3Ms"/>
+                    <connections>
+                        <outlet property="tableView" destination="cnZ-gI-mn8" id="yoV-H2-ztJ"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sBV-fZ-JX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DLV-XU-1xQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-72" y="1892"/>
+            <point key="canvasLocation" x="560" y="1892"/>
         </scene>
         <!--Channels-->
         <scene sceneID="adC-xy-Py5">
@@ -480,7 +467,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hqu-CX-Vn4" id="t0N-0P-UyI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -542,7 +529,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -620,6 +607,47 @@
             </objects>
             <point key="canvasLocation" x="-454" y="1892"/>
         </scene>
+        <!--Chat Channel-->
+        <scene sceneID="VKx-Z9-0Fs">
+            <objects>
+                <viewController title="Chat Channel" id="gA8-TJ-0RU" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vGn-Fx-3jn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Knz-Mo-INT">
+                                <rect key="frame" x="0.0" y="63" width="320" height="454"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c0D-72-zmN">
+                                        <rect key="frame" x="153" y="83" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dwc-SF-hzm">
+                                        <rect key="frame" x="139" y="395" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                            </scrollView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Chat" id="j1c-gJ-hO8"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SJM-R2-yub" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-116" y="1892"/>
+        </scene>
         <!--Main Tab Controller-->
         <scene sceneID="nMB-QH-G9E">
             <objects>
@@ -640,8 +668,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="VdD-YH-wjI" kind="relationship" relationship="viewControllers" id="aZh-vF-HgL"/>
-                        <segue destination="Xf9-hW-cDE" kind="relationship" relationship="viewControllers" id="IY2-KL-psQ"/>
                         <segue destination="UTQ-Pd-wWz" kind="relationship" relationship="viewControllers" id="KOl-m3-aKT"/>
+                        <segue destination="gA8-TJ-0RU" kind="relationship" relationship="viewControllers" id="J9Y-Q8-CoD"/>
+                        <segue destination="NA0-UK-wve" kind="relationship" relationship="viewControllers" id="6dZ-v0-zGz"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jq9-SM-k9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -663,7 +692,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Setup Codec Cell" textLabel="kRp-LE-RFh" detailTextLabel="nVj-7w-Sta" style="IBUITableViewCellStyleSubtitle" id="QzR-ru-4bT">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QzR-ru-4bT" id="str-7c-RHz">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -694,7 +723,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Delete Channel" id="Ln4-Wo-IiU">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ln4-Wo-IiU" id="QUb-LS-zQ2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -718,7 +747,7 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Blank" id="nO2-b1-1ud">
-                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nO2-b1-1ud" id="9Un-iW-vBa">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -729,7 +758,7 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Join Channel" id="9np-wg-5dl">
-                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="218" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9np-wg-5dl" id="SMf-kD-MEb">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>

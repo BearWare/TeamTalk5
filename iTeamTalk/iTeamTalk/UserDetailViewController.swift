@@ -19,6 +19,7 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
     
     var subusermsgswitch: UISwitch?
     var subchanmsgswitch: UISwitch?
+    var subbcastmsgswitch: UISwitch?
     var subvoiceswitch: UISwitch?
     var subwebcamswitch: UISwitch?
     var submediafileswitch: UISwitch?
@@ -68,6 +69,7 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         mediaswitch!.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
         volume_items.append(mediamutecell)
         
+        
         let subusermsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.rawValue) != 0)
         subusermsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
@@ -77,7 +79,12 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: "Channel Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
         subchanmsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subchanmsgcell)
-        
+
+        let subbcastmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: "Broadcast Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
+        subbcastmsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
+        subscription_items.append(subbcastmsgcell)
+
         let subvoicecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         subvoiceswitch = newTableCellSwitch(subvoicecell, label: "Voice", initial: (user.uLocalSubscriptions & SUBSCRIBE_VOICE.rawValue) != 0)
         subvoiceswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
@@ -127,6 +134,8 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
             sub = SUBSCRIBE_USER_MSG
         case subchanmsgswitch! :
             sub = SUBSCRIBE_CHANNEL_MSG
+        case subbcastmsgswitch! :
+            sub = SUBSCRIBE_BROADCAST_MSG
         case subvoiceswitch! :
             sub = SUBSCRIBE_VOICE
         case subwebcamswitch! :

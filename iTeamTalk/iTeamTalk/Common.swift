@@ -29,6 +29,72 @@ func refVolumeToPercent(volume: Int) -> Int {
     return Int(d1)
 }
 
+func getDefaultSubscriptions() -> Subscriptions {
+    
+    let settings = NSUserDefaults.standardUserDefaults()
+    
+    var sub_usermsg = DEFAULT_SUBSCRIPTION_USERMSG
+    if settings.objectForKey(PREF_SUB_USERMSG) != nil {
+        sub_usermsg = settings.boolForKey(PREF_SUB_USERMSG)
+    }
+    var sub_chanmsg = DEFAULT_SUBSCRIPTION_CHANMSG
+    if settings.objectForKey(PREF_SUB_CHANMSG) != nil {
+        sub_chanmsg = settings.boolForKey(PREF_SUB_CHANMSG)
+    }
+    var sub_bcastmsg = DEFAULT_SUBSCRIPTION_BCASTMSG
+    if settings.objectForKey(PREF_SUB_BROADCAST) != nil {
+        sub_bcastmsg = settings.boolForKey(PREF_SUB_BROADCAST)
+    }
+    var sub_voice = DEFAULT_SUBSCRIPTION_VOICE
+    if settings.objectForKey(PREF_SUB_VOICE) != nil {
+        sub_voice = settings.boolForKey(PREF_SUB_VOICE)
+    }
+    var sub_vidcap = DEFAULT_SUBSCRIPTION_VIDEOCAP
+    if settings.objectForKey(PREF_SUB_VIDEOCAP) != nil {
+        sub_vidcap = settings.boolForKey(PREF_SUB_VIDEOCAP)
+    }
+    var sub_mediafile = DEFAULT_SUBSCRIPTION_MEDIAFILE
+    if settings.objectForKey(PREF_SUB_MEDIAFILE) != nil {
+        sub_mediafile = settings.boolForKey(PREF_SUB_MEDIAFILE)
+    }
+    var sub_desktop = DEFAULT_SUBSCRIPTION_DESKTOP
+    if settings.objectForKey(PREF_SUB_DESKTOP) != nil {
+        sub_desktop = settings.boolForKey(PREF_SUB_DESKTOP)
+    }
+    var sub_deskinput = DEFAULT_SUBSCRIPTION_DESKTOPINPUT
+    if settings.objectForKey(PREF_SUB_DESKTOPINPUT) != nil {
+        sub_deskinput = settings.boolForKey(PREF_SUB_DESKTOPINPUT)
+    }
+    
+    var subs : Subscriptions = SUBSCRIBE_CUSTOM_MSG.rawValue
+    if sub_usermsg {
+        subs |= SUBSCRIBE_USER_MSG.rawValue
+    }
+    if sub_chanmsg {
+        subs |= SUBSCRIBE_CHANNEL_MSG.rawValue
+    }
+    if sub_bcastmsg {
+        subs |= SUBSCRIBE_BROADCAST_MSG.rawValue
+    }
+    if sub_voice {
+        subs |= SUBSCRIBE_VOICE.rawValue
+    }
+    if sub_vidcap {
+        subs |= SUBSCRIBE_VIDEOCAPTURE.rawValue
+    }
+    if sub_mediafile {
+        subs |= SUBSCRIBE_MEDIAFILE.rawValue
+    }
+    if sub_desktop {
+        subs |= SUBSCRIBE_DESKTOP.rawValue
+    }
+    if sub_deskinput {
+        subs |= SUBSCRIBE_DESKTOPINPUT.rawValue
+    }
+    
+    return subs
+}
+
 func newTableCellTextField(cell: UITableViewCell, label: String, initial: String) -> UITextField {
     cell.selectionStyle = .None
     cell.textLabel?.text = label
@@ -171,6 +237,15 @@ let DEFAULT_SPEEX_VBR_MAXBITRATE : INT32 = 0
 let DEFAULT_SPEEX_VBR_DTX : TTBOOL = 1
 let DEFAULT_SPEEX_VBR_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
 let DEFAULT_SPEEX_VBR_SIMSTEREO : TTBOOL = 0
+
+let DEFAULT_SUBSCRIPTION_USERMSG = true
+let DEFAULT_SUBSCRIPTION_CHANMSG = true
+let DEFAULT_SUBSCRIPTION_BCASTMSG = true
+let DEFAULT_SUBSCRIPTION_VOICE = true
+let DEFAULT_SUBSCRIPTION_VIDEOCAP = false
+let DEFAULT_SUBSCRIPTION_MEDIAFILE = true
+let DEFAULT_SUBSCRIPTION_DESKTOP = false
+let DEFAULT_SUBSCRIPTION_DESKTOPINPUT = false
 
 func within<T : Comparable>(min_v: T, max_v: T, value: T) -> T {
     if value < min_v {

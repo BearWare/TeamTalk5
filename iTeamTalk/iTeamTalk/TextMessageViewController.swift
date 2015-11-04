@@ -74,6 +74,11 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
 
     }
     
+    @IBAction func sendMessage(sender: UIButton) {
+        
+    }
+    
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
