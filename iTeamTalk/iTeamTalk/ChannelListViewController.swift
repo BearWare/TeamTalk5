@@ -60,9 +60,6 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if isClosing(self) {
-            removeFromTTMessages(self)
-        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -95,15 +95,6 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         tableView.delegate = self
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if isClosing(self) {
-            removeFromTTMessages(self)
-        }
-        
-    }
-    
     func showCodecDetail() {
         var codecdetail = ""
         switch channel.audiocodec.nCodec {

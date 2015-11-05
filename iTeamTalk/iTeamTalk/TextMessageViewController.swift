@@ -36,15 +36,6 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
         addToTTMessages(self)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-
-        if isClosing(self) {
-            removeFromTTMessages(self)
-        }
-
-        super.viewWillDisappear(animated)
-    }
-    
     func keyboardAppeared(notify: NSNotification) {
         print("Keyboard appeared")
         

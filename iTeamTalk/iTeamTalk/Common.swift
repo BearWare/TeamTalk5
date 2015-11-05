@@ -170,18 +170,29 @@ protocol TeamTalkEvent : class {
     func handleTTMessage(var m: TTMessage)
 }
 
-var ttMessageHandlers = [TeamTalkEvent]()
+class TeamTalkEventHandler {
+    weak var value : TeamTalkEvent?
+    init (value: TeamTalkEvent) {
+        self.value = value
+    }
+}
+
+var ttMessageHandlers = [TeamTalkEventHandler]()
 
 func addToTTMessages(p: TeamTalkEvent) {
+    
     for m in ttMessageHandlers {
-        if m === p {
+        if m.value === p {
             return
         }
     }
-    ttMessageHandlers.append(p)
+    
+    let new = TeamTalkEventHandler(value: p)
+    
+    ttMessageHandlers.append(new)
 }
 
-func removeFromTTMessages(p: TeamTalkEvent) {
+func removeFromTTMessages(p: TeamTalkEventHandler) {
 
     for var i = 0; i < ttMessageHandlers.count; {
         if ttMessageHandlers[i] === p {
@@ -191,22 +202,6 @@ func removeFromTTMessages(p: TeamTalkEvent) {
             ++i
         }
     }
-}
-
-func isClosing(vc: UIViewController) -> Bool {
-    
-    var tmp_vc = vc
-    
-    if let tc = vc.tabBarController {
-        tmp_vc = tc
-    }
-    
-    if let nc = vc.navigationController {
-        let s : NSArray = nc.viewControllers
-        
-        return s.indexOfObject(tmp_vc) == NSNotFound
-    }
-    return true
 }
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40

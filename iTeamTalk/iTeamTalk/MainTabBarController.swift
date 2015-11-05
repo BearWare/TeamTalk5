@@ -84,8 +84,6 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_CloseTeamTalk(ttInst)
             print("Destroying TT instance")
 
-            removeFromTTMessages(self)
-            assert(ttMessageHandlers.isEmpty)
             ttMessageHandlers.removeAll(keepCapacity: false)
         }
     }
@@ -101,7 +99,12 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         while TT_GetMessage(ttInst, &m, &n) != 0 {
 
             for tt in ttMessageHandlers {
-                tt.handleTTMessage(m)
+                if tt.value == nil {
+                    removeFromTTMessages(tt)
+                }
+                else {
+                    tt.value!.handleTTMessage(m)
+                }
             }
         }
     }
