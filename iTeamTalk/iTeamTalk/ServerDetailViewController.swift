@@ -63,6 +63,9 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         passwdfield!.secureTextEntry = true
         authItems.append(passwdcell)
         
+        let connectcell = tableView.dequeueReusableCellWithIdentifier("Connect Server")!
+        actionItems.append(connectcell)
+        
         let deletecell = tableView.dequeueReusableCellWithIdentifier("Delete Server")!
         actionItems.append(deletecell)
         
@@ -137,4 +140,13 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         return UITableViewCell()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "Connect From ServerDetail" {
+            
+            saveServerDetail()
+            
+            let vc = segue.destinationViewController as! MainTabBarController
+            vc.connectToServer(server)
+        }
+    }
 }

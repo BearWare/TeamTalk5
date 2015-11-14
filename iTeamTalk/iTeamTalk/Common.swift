@@ -102,7 +102,7 @@ func newTableCellTextField(cell: UITableViewCell, label: String, initial: String
     let textfield = UITextField(frame: CGRectMake(150, 7, 150, 30))
     textfield.text = initial
     textfield.placeholder = "Type text here"
-    textfield.borderStyle = .Line
+    //textfield.borderStyle = .Line
     cell.accessoryView = textfield
     
     return textfield
