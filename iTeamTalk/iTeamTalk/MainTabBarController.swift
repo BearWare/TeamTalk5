@@ -132,6 +132,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             
         case CLIENTEVENT_CON_LOST :
             print("connection lost")
+            playSound(.SRV_LOST)
             
         case CLIENTEVENT_CMD_ERROR :
             var errmsg = getClientErrorMsg(&m).memory
@@ -144,6 +145,15 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
                 TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subs)
             }
         
+        case CLIENTEVENT_CMD_USER_TEXTMSG :
+            
+            switch getTextMessage(&m).memory.nMsgType {
+            case MSGTYPE_CHANNEL :
+                playSound(.CHAN_MSG)
+            case MSGTYPE_USER :
+                playSound(.USER_MSG)
+            default : break
+            }
         default :
             break
         }

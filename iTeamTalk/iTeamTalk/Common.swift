@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 BearWare.dk. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Foundation
+import AVFoundation
 
 func refVolume(percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
@@ -203,6 +204,72 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
         }
     }
 }
+
+enum Sounds : Int {
+    case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
+         USER_MSG = 4, SRV_LOST = 5
+}
+
+var player : AVAudioPlayer?
+
+func getSoundFile(s: Sounds) -> String? {
+    
+    let settings = NSUserDefaults.standardUserDefaults()
+    
+    switch s {
+    case .TX_ON:
+        if settings.objectForKey(PREF_SNDEVENT_VOICETX) == nil ||
+           settings.boolForKey(PREF_SNDEVENT_VOICETX) {
+            return "on"
+        }
+    case .TX_OFF:
+        if settings.objectForKey(PREF_SNDEVENT_VOICETX) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_VOICETX) {
+                return "off"
+        }
+    case .CHAN_MSG:
+        if settings.objectForKey(PREF_SNDEVENT_CHANMSG) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_CHANMSG) {
+                return "channel_message"
+        }
+    case .USER_MSG:
+        if settings.objectForKey(PREF_SNDEVENT_USERMSG) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_USERMSG) {
+                return "user_message"
+        }
+    case .SRV_LOST:
+        if settings.objectForKey(PREF_SNDEVENT_SERVERLOST) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_SERVERLOST) {
+                return "serverlost"
+        }
+    }
+
+    return nil
+}
+
+func playSound(s: Sounds) {
+    
+    let filename = getSoundFile(s)
+    
+    if filename == nil {
+        return
+    }
+    
+    if let resPath = NSBundle.mainBundle().pathForResource(filename, ofType: "mp3") {
+        
+        let url = NSURL(fileURLWithPath: resPath)
+        
+        do {
+            player = try AVAudioPlayer(contentsOfURL: url)
+            player!.prepareToPlay()
+            player!.play()
+        }
+        catch {
+            print("Failed to play")
+        }
+    }
+}
+
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 

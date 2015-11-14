@@ -11,6 +11,11 @@ import UIKit
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
+let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
+let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
+let PREF_SNDEVENT_CHANMSG = "snd_chanmsg_preference"
+let PREF_SNDEVENT_USERMSG = "snd_usermsg_preference"
+
 let PREF_SUB_USERMSG = "sub_usertextmsg_preference"
 let PREF_SUB_CHANMSG = "sub_chantextmsg_preference"
 let PREF_SUB_BROADCAST = "sub_broadcastmsg_preference"
@@ -35,10 +40,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var microphonecell : UITableViewCell?
     
     var general_items = [UITableViewCell]()
+    var soundevents_items = [UITableViewCell]()
     var sound_items  = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
     
-    let SECTION_GENERAL = 0, SECTION_SOUND = 1, SECTION_SUBSCRIPTIONS = 2
+    let SECTION_GENERAL = 0, SECTION_SOUNDEVENTS = 1, SECTION_SOUND = 2, SECTION_SUBSCRIPTIONS = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,16 +54,52 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let settings = NSUserDefaults.standardUserDefaults()
         
-        
         var nickname = settings.stringForKey(PREF_NICKNAME)
         if nickname == nil {
             nickname = "Noname"
         }
         
+        // general items
+        
         let nicknamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         nicknamefield = newTableCellTextField(nicknamecell, label: "Nickname", initial: nickname!)
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
         general_items.append(nicknamecell)
+        
+        // sound events
+        
+        let srvlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let srvlostswitch = newTableCellSwitch(srvlostcell, label: "Server Connection Lost", initial: getSoundFile(.SRV_LOST) != nil)
+        srvlostcell.detailTextLabel!.text = "Play sound when connection is dropped"
+        srvlostswitch.tag = Sounds.SRV_LOST.rawValue
+        srvlostswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(srvlostswitch)
+        soundevents_items.append(srvlostcell)
+        
+        let voicetxcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let voicetxswitch = newTableCellSwitch(voicetxcell, label: "Voice Transmission Toggled", initial: getSoundFile(.TX_ON) != nil)
+        voicetxcell.detailTextLabel!.text = "Play sound when voice transmission is toggled"
+        voicetxswitch.tag = Sounds.TX_ON.rawValue
+        voicetxswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(voicetxswitch)
+        soundevents_items.append(voicetxcell)
+
+        let usermsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let usermsgswitch = newTableCellSwitch(usermsgcell, label: "Private Text Message", initial: getSoundFile(.USER_MSG) != nil)
+        usermsgcell.detailTextLabel!.text = "Play sound when private text message is received"
+        usermsgswitch.tag = Sounds.USER_MSG.rawValue
+        usermsgswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(usermsgswitch)
+        soundevents_items.append(usermsgcell)
+        
+        let chanmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let chanmsgswitch = newTableCellSwitch(chanmsgcell, label: "Channel Text Message", initial: getSoundFile(.CHAN_MSG) != nil)
+        chanmsgcell.detailTextLabel!.text = "Play sound when channel text message is received"
+        chanmsgswitch.tag = Sounds.CHAN_MSG.rawValue
+        chanmsgswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(chanmsgswitch)
+        soundevents_items.append(chanmsgcell)
+
         
         // sound preferences
         
@@ -125,6 +167,25 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
     }
     
+    func soundeventChanged(sender: UISwitch) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        switch sender.tag {
+        case Sounds.TX_ON.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_VOICETX)
+        case Sounds.SRV_LOST.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_SERVERLOST)
+        case Sounds.CHAN_MSG.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_CHANMSG)
+        case Sounds.USER_MSG.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_USERMSG)
+        default :
+            assert(false)
+            break
+        }
+    }
+    
     func subscriptionChanged(sender: UISwitch) {
         
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -145,6 +206,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         case SUBSCRIBE_DESKTOP.rawValue :
             defaults.setBool(sender.on, forKey: PREF_SUB_DESKTOP)
         default :
+            assert(false)
             break
         }
     }
@@ -189,13 +251,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
             return "General"
+        case SECTION_SOUNDEVENTS :
+            return "Sound Events"
         case SECTION_SOUND :
             return "Sound"
         case SECTION_SUBSCRIPTIONS :
@@ -209,6 +273,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         switch section {
         case SECTION_GENERAL :
             return general_items.count
+        case SECTION_SOUNDEVENTS :
+            return soundevents_items.count
         case SECTION_SOUND :
             return sound_items.count
         case SECTION_SUBSCRIPTIONS :
@@ -223,6 +289,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         switch indexPath.section {
         case SECTION_GENERAL :
             return general_items[indexPath.row]
+        case SECTION_SOUNDEVENTS:
+            return soundevents_items[indexPath.row]
         case SECTION_SOUND :
             return sound_items[indexPath.row]
         case SECTION_SUBSCRIPTIONS :

@@ -27,11 +27,11 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     // double tab is lock TX
     @IBOutlet var tabGesture: UITapGestureRecognizer!
     // long press is TX
-    @IBOutlet var pressGesture: UILongPressGestureRecognizer!
+    //@IBOutlet var pressGesture: UILongPressGestureRecognizer!
     //list of channels and users
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var txButton: UIButton!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -300,6 +300,24 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
         }
     }
 
+    @IBAction func txBtnDown(sender: UIButton) {
+        TT_EnableVoiceTransmission(ttInst, 1)
+        playSound(.TX_ON)
+        updateTX()
+    }
+    
+    @IBAction func txBtnUpInside(sender: UIButton) {
+        TT_EnableVoiceTransmission(ttInst, 0)
+        playSound(.TX_OFF)
+        updateTX()
+    }
+    
+    @IBAction func txBtnUpOutside(sender: UIButton) {
+        TT_EnableVoiceTransmission(ttInst, 0)
+        playSound(.TX_OFF)
+        updateTX()
+    }
+    
     func updateTX() {
         let flags = TT_GetFlags(ttInst)
         
