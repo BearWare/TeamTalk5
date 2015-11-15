@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ServerDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ServerDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     var server = Server()
 
@@ -32,32 +32,38 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         // ServerList Entry section
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         namefield = newTableCellTextField(namecell, label: "Name", initial: server.name)
+        namefield!.delegate = self
         nameItems.append(namecell)
 
         // Connection section
         let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         ipaddrfield = newTableCellTextField(ipaddrcell, label: "IP-address", initial: server.ipaddr)
+        ipaddrfield!.delegate = self
         conItems.append(ipaddrcell)
 
         let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         tcpportfield = newTableCellTextField(tcpportcell, label: "TCP Port", initial: String(server.tcpport))
+        tcpportfield!.delegate = self
         tcpportfield!.keyboardType = .NumberPad
         conItems.append(tcpportcell)
 
         let udpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         udpportfield = newTableCellTextField(udpportcell, label: "UDP Port", initial: String(server.udpport))
+        udpportfield!.delegate = self
         udpportfield!.keyboardType = .NumberPad
         conItems.append(udpportcell)
 
         // Authentication section
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: server.username)
+        usernamefield!.delegate = self
         usernamefield!.autocorrectionType = .No
         usernamefield!.autocapitalizationType = .None
         authItems.append(usernamecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: server.password)
+        passwdfield!.delegate = self
         passwdfield!.autocorrectionType = .No
         passwdfield!.autocapitalizationType = .None
         passwdfield!.secureTextEntry = true
@@ -85,6 +91,20 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         server.username = usernamefield!.text!
         server.password = passwdfield!.text!
         server.publicserver = false
+    }
+    
+    func textFieldDidBeginEditing(textfield: UITextField) {
+        let cell = textfield.superview as! UITableViewCell
+        tableView.scrollToRowAtIndexPath(tableView.indexPathForCell(cell)!, atScrollPosition: .Top, animated: true)
+    }
+    
+    //    func textFieldShouldEndEditing(textfield: UITextField) -> Bool {
+    //        return true
+    //    }
+    
+    func textFieldShouldReturn(textfield: UITextField) -> Bool {
+        textfield.resignFirstResponder()
+        return false
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

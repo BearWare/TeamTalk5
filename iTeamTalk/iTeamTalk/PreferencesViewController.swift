@@ -261,7 +261,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         case SECTION_SOUNDEVENTS :
             return "Sound Events"
         case SECTION_SOUND :
-            return "Sound"
+            return "Sound System"
         case SECTION_SUBSCRIPTIONS :
             return "Default Subscriptions"
         default :

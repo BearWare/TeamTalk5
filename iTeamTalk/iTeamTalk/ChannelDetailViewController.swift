@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent {
+class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent, UITextFieldDelegate {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -39,14 +39,17 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         namefield = newTableCellTextField(namecell, label: "Name", initial: String.fromCString(&channel.szName.0)!)
+        namefield?.delegate = self
         chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: String.fromCString(&channel.szPassword.0)!)
+        passwdfield?.delegate = self
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         topicfield = newTableCellTextField(topiccell, label: "Topic", initial: String.fromCString(&channel.szTopic.0)!)
+        topicfield?.delegate = self
         chan_items.append(topiccell)
         
         codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell")!
@@ -95,6 +98,20 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
         tableView.delegate = self
     }
     
+    func textFieldDidBeginEditing(textfield: UITextField) {
+        let cell = textfield.superview as! UITableViewCell
+        tableView.scrollToRowAtIndexPath(tableView.indexPathForCell(cell)!, atScrollPosition: .Top, animated: true)
+    }
+    
+//    func textFieldShouldEndEditing(textfield: UITextField) -> Bool {
+//        return true
+//    }
+    
+    func textFieldShouldReturn(textfield: UITextField) -> Bool {
+        textfield.resignFirstResponder()
+        return false
+    }
+
     func showCodecDetail() {
         var codecdetail = ""
         switch channel.audiocodec.nCodec {
