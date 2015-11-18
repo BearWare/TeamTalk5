@@ -5513,7 +5513,7 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param nUserID The ID of the #User which should store audio to
-     * disk.
+     * disk. Pass 0 to store local instance's media stream.
      * @param szFolderPath The path on disk to where files should be
      * stored.  This value will be stored in @a szMediaStorageDir of
      * #User.  
@@ -5534,10 +5534,10 @@ extern "C" {
      * @see User
      * @see CLIENTEVENT_USER_AUDIOFILE */
     TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
-                                                   IN INT32 nUserID,
-                                                   IN const TTCHAR* szFolderPath,
-                                                   IN const TTCHAR* szFileNameVars,
-                                                   IN AudioFileFormat uAFF);
+                                                     IN INT32 nUserID,
+                                                     IN const TTCHAR* szFolderPath,
+                                                     IN const TTCHAR* szFileNameVars,
+                                                     IN AudioFileFormat uAFF);
     /**
      * @brief Change the amount of media data which can be buffered
      * in the user's playback queue.
