@@ -6043,7 +6043,7 @@ namespace BearWare
          * out the section @ref spying.
          *
          * @param nUserID The ID of the #BearWare.User which should
-         * store audio to disk.
+         * store audio to disk. Pass 0 to store local instance's media stream.
          * @param szFolderPath The path on disk to where files should be stored.
          * This value will be stored in @a szMediaStorageDir of #BearWare.User.
          * @param szFileNameVars The file name used for audio files

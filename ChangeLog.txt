@@ -1,6 +1,10 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.x unreleased
+Accessible client:
+- Portuguese_BR updated
+
 Version 5.1.1, released 2015/10/02
 Default Qt client:
 - Added -cfg command line argument for new/existing ini-file
