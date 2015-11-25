@@ -47,12 +47,6 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        print("view size W \(self.view.frame.width) \(self.view.frame.height)")
-        print("Table height \(self.tableView.frame.height)")
-        print("View bounds W \(self.view.bounds.width) \(self.view.bounds.height)")
-        let h = CGRectGetHeight(self.view.bounds)
-        print("View height \(h)")
     }
     
     func keyboardWillShow(notify: NSNotification) {

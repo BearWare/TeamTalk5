@@ -27,6 +27,7 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
+let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -44,7 +45,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var sound_items  = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
     
-    let SECTION_GENERAL = 0, SECTION_SOUNDEVENTS = 1, SECTION_SOUND = 2, SECTION_SUBSCRIPTIONS = 3
+    let SECTION_GENERAL = 0, SECTION_SOUND = 1, SECTION_SOUNDEVENTS = 2, SECTION_SUBSCRIPTIONS = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +66,34 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         nicknamefield = newTableCellTextField(nicknamecell, label: "Nickname", initial: nickname!)
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
         general_items.append(nicknamecell)
+
         
+        // sound preferences
+        
+        mastervolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let vol = Int(TT_GetSoundOutputVolume(ttInst))
+        let percent = refVolumeToPercent(vol)
+        let mastervolstepper = newTableCellStepper(mastervolcell!, label: "Master Volume", min: 0, max: 100, step: 1, initial: Double(percent))
+        mastervolstepper.addTarget(self, action: "masterVolumeChanged:", forControlEvents: .ValueChanged)
+        masterVolumeChanged(mastervolstepper)
+        sound_items.append(mastervolcell!)
+        
+        let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let speakerswitch = newTableCellSwitch(speakercell, label: "Speaker output",
+            initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
+        speakercell.detailTextLabel!.text = "Use iPhone's speaker instead of earpiece"
+        speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
+        sound_items.append(speakercell)
+        
+        microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
+        let input_pct = refVolumeToPercent(inputvol)
+        let microphoneslider = newTableCellSlider(microphonecell!, label: "Microphone Gain", min: 0, max: 100, initial: Float(input_pct))
+        microphoneslider.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
+        microphoneGainChanged(microphoneslider)
+        sound_items.append(microphonecell!)
+        
+
         // sound events
         
         let srvlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
@@ -100,25 +128,6 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         soundeventChanged(chanmsgswitch)
         soundevents_items.append(chanmsgcell)
 
-        
-        // sound preferences
-        
-        mastervolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let vol = Int(TT_GetSoundOutputVolume(ttInst))
-        let percent = refVolumeToPercent(vol)
-        let mastervolstepper = newTableCellStepper(mastervolcell!, label: "Master Volume", min: 0, max: 100, step: 1, initial: Double(percent))
-        mastervolstepper.addTarget(self, action: "masterVolumeChanged:", forControlEvents: .ValueChanged)
-        masterVolumeChanged(mastervolstepper)
-        sound_items.append(mastervolcell!)
-        
-        microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
-        let input_pct = refVolumeToPercent(inputvol)
-        let microphoneslider = newTableCellSlider(microphonecell!, label: "Microphone Gain", min: 0, max: 100, initial: Float(input_pct))
-        microphoneslider.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
-        microphoneGainChanged(microphoneslider)
-        sound_items.append(microphonecell!)
-        
         // subscription items
         
         let subs = getDefaultSubscriptions()
@@ -231,6 +240,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(Int(sender.value), forKey: PREF_MASTER_VOLUME)
+    }
+    
+    func speakeroutputChanged(sender: UISwitch) {
+        TT_CloseSoundOutputDevice(ttInst)
+        
+        if sender.on {
+            TT_InitSoundOutputDevice(ttInst, 1)
+        }
+        else {
+            TT_InitSoundOutputDevice(ttInst, 0)
+        }
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
     }
     
     func microphoneGainChanged(sender: UISlider) {

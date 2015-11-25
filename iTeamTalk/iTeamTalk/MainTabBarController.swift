@@ -43,16 +43,20 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         channelsTab.ttInst = self.ttInst
         chatTab.ttInst = self.ttInst
         prefTab.ttInst = self.ttInst
-        
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+
         let flags = TT_GetFlags(ttInst)
         if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
             TT_InitSoundInputDevice(ttInst, 0)
         }
+        
+        let sndoutid : INT32 = (defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)) ? 1 : 0
+        
         if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-            TT_InitSoundOutputDevice(ttInst, 0)
+            TT_InitSoundOutputDevice(ttInst, sndoutid)
         }
         
-        let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.objectForKey(PREF_MASTER_VOLUME) != nil {
             let vol = defaults.integerForKey(PREF_MASTER_VOLUME)
             TT_SetSoundOutputVolume(ttInst, INT32(refVolume(Double(vol))))
