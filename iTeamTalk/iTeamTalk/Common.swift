@@ -205,6 +205,17 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
     }
 }
 
+struct MyTextMessage {
+    var nickname : String
+    var message : String
+
+    init(var m : TextMessage, nickname: String) {
+        message = String.fromCString(&m.szMessage.0)!
+        self.nickname = nickname
+    }
+    
+}
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5
