@@ -131,10 +131,12 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     func handleTTMessage(var m: TTMessage) {
         
         switch m.nClientEvent {
+            
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             
             let txtmsg = getTextMessage(&m).memory
-            if txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == INT32(userid) {
+            
+            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == INT32(userid)) || txtmsg.nMsgType == MSGTYPE_CHANNEL {
                 
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)

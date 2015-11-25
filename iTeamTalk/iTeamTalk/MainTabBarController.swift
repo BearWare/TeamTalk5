@@ -38,7 +38,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         addToTTMessages(self)
         
         let channelsTab = viewControllers?[0] as! ChannelListViewController
-        let chatTab = viewControllers?[2] as! ChannelChatViewController
+        let chatTab = viewControllers?[2] as! TextMessageViewController
         let prefTab = viewControllers?[3] as! PreferencesViewController
         channelsTab.ttInst = self.ttInst
         chatTab.ttInst = self.ttInst

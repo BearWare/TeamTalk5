@@ -270,6 +270,9 @@
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendTextMessage:" destination="7aU-AH-t35" eventType="touchUpInside" id="fIy-sL-iI0"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -639,7 +642,7 @@
         <!--Chat Channel-->
         <scene sceneID="VKx-Z9-0Fs">
             <objects>
-                <viewController title="Chat Channel" id="gA8-TJ-0RU" customClass="ChannelChatViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Chat Channel" id="gA8-TJ-0RU" customClass="TextMessageViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vGn-Fx-3jn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
