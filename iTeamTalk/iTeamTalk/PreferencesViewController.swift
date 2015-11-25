@@ -29,7 +29,7 @@ let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 
-class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
    
@@ -65,6 +65,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         let nicknamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         nicknamefield = newTableCellTextField(nicknamecell, label: "Nickname", initial: nickname!)
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
+        nicknamefield?.delegate = self
         general_items.append(nicknamecell)
 
         
@@ -174,6 +175,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         subdesktopswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
         
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
     
     func soundeventChanged(sender: UISwitch) {
