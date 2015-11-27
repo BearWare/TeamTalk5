@@ -74,7 +74,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         mastervolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let vol = Int(TT_GetSoundOutputVolume(ttInst))
         let percent = refVolumeToPercent(vol)
-        let mastervolstepper = newTableCellStepper(mastervolcell!, label: "Master Volume", min: 0, max: 100, step: 1, initial: Double(percent))
+        let mastervolstepper = newTableCellStepper(mastervolcell!, label: "Master Volume", min: 0, max: 100, step: 5, initial: Double(percent))
         mastervolstepper.addTarget(self, action: "masterVolumeChanged:", forControlEvents: .ValueChanged)
         masterVolumeChanged(mastervolstepper)
         sound_items.append(mastervolcell!)
@@ -89,9 +89,9 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
         let input_pct = refVolumeToPercent(inputvol)
-        let microphoneslider = newTableCellSlider(microphonecell!, label: "Microphone Gain", min: 0, max: 100, initial: Float(input_pct))
-        microphoneslider.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
-        microphoneGainChanged(microphoneslider)
+        let microphonestepper = newTableCellStepper(microphonecell!, label: "Microphone Gain", min: 0, max: 100, step: 5, initial: Double(input_pct))
+        microphonestepper.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
+        microphoneGainChanged(microphonestepper)
         sound_items.append(microphonecell!)
         
 
@@ -262,7 +262,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
     }
     
-    func microphoneGainChanged(sender: UISlider) {
+    func microphoneGainChanged(sender: UIStepper) {
         let vol_pct = round(sender.value)
         let vol = refVolume(Double(vol_pct))
         TT_SetSoundInputGainLevel(ttInst, INT32(vol))
