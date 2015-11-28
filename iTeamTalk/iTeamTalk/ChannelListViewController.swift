@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChannelListViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent  {
+class ChannelListViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, TeamTalkEvent  {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -70,9 +70,24 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     @IBAction func joinChannel(sender: UIButton) {
         
         if let chan = channels[INT32(sender.tag)] {
-            let cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, "")
-            activeCommands[cmdid] = .JoinCmd
+            
+            if chan.bPassword != 0 {
+                let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+                alert.alertViewStyle = .SecureTextInput
+                alert.tag = sender.tag
+                alert.show()
+            }
+            else {
+                let cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, "")
+                activeCommands[cmdid] = .JoinCmd
+            }
         }
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        let passwd = (alertView.textFieldAtIndex(0)?.text)!
+        let cmdid = TT_DoJoinChannelByID(ttInst, INT32(alertView.tag), passwd)
+        activeCommands[cmdid] = .JoinCmd
     }
     
     enum Command {

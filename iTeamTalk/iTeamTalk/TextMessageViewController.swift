@@ -38,6 +38,15 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
         
         addToTTMessages(self)
         
+        let swipe = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
+        swipe.direction = .Down
+        self.view.addGestureRecognizer(swipe)
+    }
+    
+    func dismissKeyboard() {
+        if msgTextView.isFirstResponder() {
+           msgTextView.resignFirstResponder()
+        }
     }
     
     func resetText() {

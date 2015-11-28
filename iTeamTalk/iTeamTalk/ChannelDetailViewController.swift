@@ -8,7 +8,10 @@
 
 import UIKit
 
-class ChannelDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent, UITextFieldDelegate {
+class ChannelDetailViewController :
+    UIViewController, UITableViewDataSource,
+    UITableViewDelegate, TeamTalkEvent,
+    UITextFieldDelegate, UIAlertViewDelegate {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -149,8 +152,6 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     @IBAction func createChannel(sender: UIBarButtonItem) {
         saveChannelDetail()
         
-        //TODO: UIAlertView on failure
-        
         if channel.nChannelID == 0 {
             cmdid = TT_DoJoinChannel(ttInst, &channel)
             
@@ -162,8 +163,22 @@ class ChannelDetailViewController : UIViewController, UITableViewDataSource, UIT
     
     @IBAction func joinChannelPressed(sender: UIButton) {
         
-        cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+        if channel.bPassword != 0 {
+            let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+            alert.alertViewStyle = .SecureTextInput
+            alert.show()
+        }
+        else {
+            cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+        }
     }
+    
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        let passwd = (alertView.textFieldAtIndex(0)?.text)!
+        cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, passwd)
+    }
+
     
     @IBAction func deleteChannelPressed(sender: UIButton) {
         //TODO: UIAlertView on failure
