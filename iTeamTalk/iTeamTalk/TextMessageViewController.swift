@@ -8,7 +8,10 @@
 
 import UIKit
 
-class TextMessageViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, TeamTalkEvent, UITextViewDelegate {
+class TextMessageViewController :
+    UIViewController, UITableViewDataSource,
+    UITableViewDelegate, TeamTalkEvent,
+    UITextViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var msgTextView: UITextView!
@@ -17,6 +20,8 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
     var userid = 0
+    
+    var delegate : MyTextMessageDelegate?
 
     let initial_text = "Type text here"
 
@@ -103,10 +108,26 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
     
     @IBAction func sendTextMessage(sender: UIButton) {
         var msg = TextMessage()
+        msg.nFromUserID = TT_GetMyUserID(ttInst)
+
+        if userid == 0 {
+            msg.nMsgType = MSGTYPE_CHANNEL
+            msg.nChannelID = TT_GetMyChannelID(ttInst)
+        }
+        else {
+            msg.nMsgType = MSGTYPE_USER
+            msg.nToUserID = INT32(userid)
+        }
         
-        msg.nChannelID = TT_GetMyChannelID(ttInst)
-        msg.nMsgType = MSGTYPE_CHANNEL
         toTTString(msgTextView.text, &msg.szMessage.0)
+        
+        if delegate != nil {
+            var user = User()
+            TT_GetUser(ttInst, msg.nFromUserID, &user)
+            let name = String.fromCString(&user.szNickname.0)!
+            let mymsg = MyTextMessage(m: msg, nickname: name)
+            delegate!.appendTextMessage(INT32(userid), txtmsg: mymsg)
+        }
         
         let cmdid = TT_DoTextMessage(ttInst, &msg)
         
@@ -146,6 +167,10 @@ class TextMessageViewController : UIViewController, UITableViewDataSource, UITab
                 
                 let mymsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!)
                 messages.append(mymsg)
+                
+                if messages.count > MAX_TEXTMESSAGES {
+                    messages.removeFirst()
+                }
                 
                 tableView.reloadData()
                 

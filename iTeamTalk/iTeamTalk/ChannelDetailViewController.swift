@@ -181,7 +181,6 @@ class ChannelDetailViewController :
 
     
     @IBAction func deleteChannelPressed(sender: UIButton) {
-        //TODO: UIAlertView on failure
         cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
     }
     

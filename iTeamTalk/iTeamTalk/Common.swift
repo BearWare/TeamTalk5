@@ -208,12 +208,18 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
 struct MyTextMessage {
     var nickname : String
     var message : String
+    var date = NSDate()
+    var unread : Bool
 
     init(var m : TextMessage, nickname: String) {
         message = String.fromCString(&m.szMessage.0)!
         self.nickname = nickname
+        unread = false
     }
-    
+}
+
+protocol MyTextMessageDelegate {
+    func appendTextMessage(userid: INT32, txtmsg: MyTextMessage)
 }
 
 enum Sounds : Int {
@@ -281,6 +287,7 @@ func playSound(s: Sounds) {
     }
 }
 
+let MAX_TEXTMESSAGES = 100
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 

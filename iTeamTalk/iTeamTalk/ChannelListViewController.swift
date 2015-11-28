@@ -8,7 +8,10 @@
 
 import UIKit
 
-class ChannelListViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, TeamTalkEvent  {
+class ChannelListViewController :
+    UIViewController, UITableViewDataSource,
+    UITableViewDelegate, UIAlertViewDelegate,
+    MyTextMessageDelegate, TeamTalkEvent  {
 
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
@@ -26,6 +29,8 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     var myuseraccount = UserAccount()
     // double tab is lock TX
     @IBOutlet var tabGesture: UITapGestureRecognizer!
+    // user to user text messages
+    var textmessages = [INT32 : [MyTextMessage] ]()
     // long press is TX
     //@IBOutlet var pressGesture: UILongPressGestureRecognizer!
     //list of channels and users
@@ -95,6 +100,18 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     var activeCommands = [INT32: Command]()
+    
+    func appendTextMessage(userid: INT32, txtmsg: MyTextMessage) {
+        
+        if textmessages[userid] == nil {
+            textmessages[userid] = [MyTextMessage]()
+        }
+        textmessages[userid]?.append(txtmsg)
+        
+        if textmessages[userid]?.count > MAX_TEXTMESSAGES {
+            textmessages[userid]?.removeFirst()
+        }
+    }
     
     func getDisplayItems() -> ([Channel], [User]) {
         let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
@@ -312,6 +329,10 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             let txtmsgView = segue.destinationViewController as! TextMessageViewController
             txtmsgView.ttInst = self.ttInst
             txtmsgView.userid = btn.tag
+            txtmsgView.delegate = self
+            if (self.textmessages[INT32(btn.tag)] != nil) {
+                txtmsgView.messages = self.textmessages[INT32(btn.tag)]!
+            }
         }
     }
 
@@ -480,6 +501,15 @@ class ChannelListViewController : UIViewController, UITableViewDataSource, UITab
             users[user.nUserID] = user
             self.tableView.reloadData()
             
+        case CLIENTEVENT_CMD_USER_TEXTMSG :
+            let txtmsg = getTextMessage(&m).memory
+
+            if txtmsg.nMsgType == MSGTYPE_USER {
+                if var user = users[txtmsg.nFromUserID] {
+                    let newmsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!)
+                    appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
+                }
+            }
         default :
             print("Unhandled message \(m.nClientEvent.rawValue)")
         }
