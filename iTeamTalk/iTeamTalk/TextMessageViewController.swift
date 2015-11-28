@@ -102,14 +102,19 @@ class TextMessageViewController :
                 tableView.frame = newTableFrame
                 msgTextView.frame = newTextViewFrame
                 sendButton.frame = newSendBtnFrame
+                
+                let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
+                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
             }
         }
     }
     
     @IBAction func sendTextMessage(sender: UIButton) {
+        
         var msg = TextMessage()
         msg.nFromUserID = TT_GetMyUserID(ttInst)
-
+        toTTString(msgTextView.text, &msg.szMessage.0)
+        
         if userid == 0 {
             msg.nMsgType = MSGTYPE_CHANNEL
             msg.nChannelID = TT_GetMyChannelID(ttInst)
@@ -117,16 +122,17 @@ class TextMessageViewController :
         else {
             msg.nMsgType = MSGTYPE_USER
             msg.nToUserID = INT32(userid)
-        }
-        
-        toTTString(msgTextView.text, &msg.szMessage.0)
-        
-        if delegate != nil {
+            
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = String.fromCString(&user.szNickname.0)!
             let mymsg = MyTextMessage(m: msg, nickname: name)
-            delegate!.appendTextMessage(INT32(userid), txtmsg: mymsg)
+            
+            messages.append(mymsg)
+            tableView.reloadData()
+            if delegate != nil {
+                delegate!.appendTextMessage(INT32(userid), txtmsg: mymsg)
+            }
         }
         
         let cmdid = TT_DoTextMessage(ttInst, &msg)
@@ -173,10 +179,9 @@ class TextMessageViewController :
                 }
                 
                 tableView.reloadData()
-                
-                let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
-                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: true)
-                
+                let rows = tableView.numberOfRowsInSection(0)
+                let ip = NSIndexPath(forRow: rows - 1, inSection: 0)
+                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
                 print("Scrolled to row \(ip.row)")
             }
         default : break
