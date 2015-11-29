@@ -205,16 +205,44 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
     }
 }
 
+enum MsgType {
+    case IM, LOGMSG
+}
+
 struct MyTextMessage {
-    var nickname : String
+    var nickname = ""
     var message : String
     var date = NSDate()
-    var unread : Bool
-
+    var msgtype : MsgType
+    
     init(var m : TextMessage, nickname: String) {
         message = String.fromCString(&m.szMessage.0)!
         self.nickname = nickname
-        unread = false
+        msgtype = .IM
+    }
+    
+    init(logmsg: String) {
+        message = logmsg
+        msgtype = .LOGMSG
+    }
+    
+    func drawCell(cell: TextMsgTableCell) {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale.currentLocale()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let time = dateFormatter.stringFromDate(date)
+        
+        switch msgtype {
+        case .IM :
+            cell.authorLabel.text = "\(nickname), \(time)"
+        case .LOGMSG :
+            cell.backgroundColor = UIColor.lightGrayColor()
+            cell.authorLabel.text = "\(time)"
+        }
+        cell.messageTextView.text = message
+        cell.messageTextView.textContainerInset = UIEdgeInsetsZero
+        //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
     }
 }
 

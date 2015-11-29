@@ -75,12 +75,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // fix linker problems unit-tests
         if TT_SetLicenseInformation("", "") == 1 {
             TT_CloseSoundOutputDevice(nil)
-            let inst = TT_StartSoundLoopbackTest(0, 0, 48000, 1, 0, nil)
-            TT_CloseSoundLoopbackTest(inst)
+            TT_StartSoundLoopbackTest(0, 0, 0, 0, 0, nil)
+            TT_CloseSoundLoopbackTest(nil)
             TT_CloseSoundInputDevice(nil)
             TT_GetSoundDevices(nil, nil)
             TT_DoLeaveChannel(nil)
             TT_GetRootChannelID(nil)
+            TT_DBG_SetSoundInputTone(nil, 0, 0)
         }
         
         return true

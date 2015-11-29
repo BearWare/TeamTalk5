@@ -27,12 +27,8 @@ class ChannelListViewController :
     var srvprop = ServerProperties()
     // local instance's user account
     var myuseraccount = UserAccount()
-    // double tab is lock TX
-    @IBOutlet var tabGesture: UITapGestureRecognizer!
     // user to user text messages
     var textmessages = [INT32 : [MyTextMessage] ]()
-    // long press is TX
-    //@IBOutlet var pressGesture: UILongPressGestureRecognizer!
     //list of channels and users
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var txButton: UIButton!
@@ -40,15 +36,9 @@ class ChannelListViewController :
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addToTTMessages(self)
-        
         tableView.dataSource = self
         tableView.delegate = self
     
-//        tabGesture.numberOfTapsRequired = 2
-//        
-//        pressGesture.minimumPressDuration = 0.1
-        
         updateTX()
     }
     
@@ -365,41 +355,8 @@ class ChannelListViewController :
         }
     }
     
-    @IBAction func longPressGesture(sender: UILongPressGestureRecognizer) {
-        
-        let p = sender.locationInView(txButton)
-        
-        switch sender.state {
-        case .Began :
-            if txButton.pointInside(p, withEvent: nil) {
-                TT_EnableVoiceTransmission(ttInst, 1)
-                updateTX()
-            }
-        case .Ended :
-            TT_EnableVoiceTransmission(ttInst, 0)
-            updateTX()
-        default :
-            break
-        }
-        
-        TT_DBG_SetSoundInputTone(ttInst, STREAMTYPE_NONE.rawValue, 0)
-    }
-    
-    @IBAction func tabGesture(sender: UITapGestureRecognizer) {
-        
-        let flags = TT_GetFlags(ttInst)
-        
-        switch flags & CLIENT_TX_VOICE.rawValue {
-        case CLIENT_TX_VOICE.rawValue :
-            TT_EnableVoiceTransmission(ttInst, 0)
-        default :
-            TT_EnableVoiceTransmission(ttInst, 1)
-        }
-        
-        updateTX()
-    }
-    
     func handleTTMessage(var m: TTMessage) {
+        
         switch(m.nClientEvent) {
 
         case CLIENTEVENT_CON_LOST :

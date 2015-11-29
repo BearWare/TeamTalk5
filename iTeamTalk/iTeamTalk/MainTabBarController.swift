@@ -43,6 +43,8 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         channelsTab.ttInst = self.ttInst
         chatTab.ttInst = self.ttInst
         prefTab.ttInst = self.ttInst
+        addToTTMessages(channelsTab)
+        addToTTMessages(chatTab)
 
         let defaults = NSUserDefaults.standardUserDefaults()
 
@@ -166,7 +168,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let channelsTab = viewControllers?[0] as! ChannelListViewController
-        channelsTab.prepareForSegue(segue, sender: sender)
+//        let channelsTab = viewControllers?[0] as! ChannelListViewController
+//        channelsTab.prepareForSegue(segue, sender: sender)
+        
+        for v in viewControllers! {
+            v.prepareForSegue(segue, sender: sender)
+        }
     }
 }

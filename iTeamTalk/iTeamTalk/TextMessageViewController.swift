@@ -41,8 +41,6 @@ class TextMessageViewController :
         
         msgTextView.delegate = self
         
-        addToTTMessages(self)
-        
         let swipe = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
         swipe.direction = .Down
         self.view.addGestureRecognizer(swipe)
@@ -57,6 +55,16 @@ class TextMessageViewController :
     func resetText() {
         msgTextView.text = initial_text
         msgTextView.textColor = UIColor.lightGrayColor()
+    }
+    
+    func scrollToBottom() {
+        
+        tableView.reloadData()
+        
+        if tableView.numberOfRowsInSection(0) > 0 {
+            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
+            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -103,8 +111,7 @@ class TextMessageViewController :
                 msgTextView.frame = newTextViewFrame
                 sendButton.frame = newSendBtnFrame
                 
-                let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
-                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
+                scrollToBottom()
             }
         }
     }
@@ -129,10 +136,11 @@ class TextMessageViewController :
             let mymsg = MyTextMessage(m: msg, nickname: name)
             
             messages.append(mymsg)
-            tableView.reloadData()
+
             if delegate != nil {
                 delegate!.appendTextMessage(INT32(userid), txtmsg: mymsg)
             }
+            scrollToBottom()
         }
         
         let cmdid = TT_DoTextMessage(ttInst, &msg)
@@ -159,7 +167,7 @@ class TextMessageViewController :
     }
     
     func handleTTMessage(var m: TTMessage) {
-        
+
         switch m.nClientEvent {
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :
@@ -178,11 +186,59 @@ class TextMessageViewController :
                     messages.removeFirst()
                 }
                 
-                tableView.reloadData()
-                let rows = tableView.numberOfRowsInSection(0)
-                let ip = NSIndexPath(forRow: rows - 1, inSection: 0)
-                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
-                print("Scrolled to row \(ip.row)")
+                if tableView != nil {
+                    scrollToBottom()
+                }
+            }
+        case CLIENTEVENT_CMD_USER_LOGGEDIN :
+            
+            let user = getUser(&m).memory
+            if TT_GetMyUserID(ttInst) == user.nUserID {
+                let logmsg = MyTextMessage(logmsg: "Logged on to server")
+                messages.append(logmsg)
+                
+                if tableView != nil {
+                    scrollToBottom()
+                }
+            }
+        case CLIENTEVENT_CMD_USER_JOINED :
+            
+            var user = getUser(&m).memory
+            if TT_GetMyChannelID(ttInst) == user.nChannelID {
+                var logmsg : MyTextMessage?
+                if TT_GetMyUserID(ttInst) == user.nUserID {
+                    var channel = Channel()
+                    TT_GetChannel(ttInst, user.nChannelID, &channel)
+                    var channame : String
+                    if channel.nParentID == 0 {
+                        channame = "root channel"
+                    }
+                    else {
+                        channame = String.fromCString(&channel.szName.0)!
+                    }
+                    logmsg = MyTextMessage(logmsg: "Joined \(channame)")
+                }
+                else {
+                    let nickname = String.fromCString(&user.szNickname.0)!
+                    logmsg = MyTextMessage(logmsg: "\(nickname) joined channel")
+                }
+                messages.append(logmsg!)
+                
+                if tableView != nil {
+                    scrollToBottom()
+                }
+            }
+        case CLIENTEVENT_CMD_USER_LEFT :
+            
+            var user = getUser(&m).memory
+            if TT_GetMyChannelID(ttInst) == m.nSource {
+                let nickname = String.fromCString(&user.szNickname.0)!
+                let logmsg = MyTextMessage(logmsg: "\(nickname) left channel")
+                messages.append(logmsg)
+                
+                if tableView != nil {
+                    scrollToBottom()
+                }
             }
         default : break
         }
@@ -199,16 +255,8 @@ class TextMessageViewController :
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Text Msg Cell") as! TextMsgTableCell
         let txtmsg = messages[indexPath.row]
-        let currentDate = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale.currentLocale()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        let time = dateFormatter.stringFromDate(currentDate)
         
-        cell.authorLabel.text = "\(txtmsg.nickname), \(time)"
-        cell.messageTextView.text = txtmsg.message
-        cell.messageTextView.textContainerInset = UIEdgeInsetsZero
-        //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
+        txtmsg.drawCell(cell)
         
         return cell
     }
