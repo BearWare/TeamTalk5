@@ -29,9 +29,12 @@ class ChannelListViewController :
     var myuseraccount = UserAccount()
     // user to user text messages
     var textmessages = [INT32 : [MyTextMessage] ]()
-    //list of channels and users
+    // list of channels and users
     @IBOutlet weak var tableView: UITableView!
+    // PTT button
     @IBOutlet weak var txButton: UIButton!
+    // timeout for PTT lock
+    var pttLockTimeout = NSDate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -325,6 +328,12 @@ class ChannelListViewController :
             }
         }
     }
+    
+    @IBAction func closeTextMessages(segue:UIStoryboardSegue) {
+        
+        print("Closed messages")
+        
+    }
 
     @IBAction func txBtnDown(sender: UIButton) {
         TT_EnableVoiceTransmission(ttInst, 1)
@@ -332,16 +341,29 @@ class ChannelListViewController :
         updateTX()
     }
     
-    @IBAction func txBtnUpInside(sender: UIButton) {
-        TT_EnableVoiceTransmission(ttInst, 0)
-        playSound(.TX_OFF)
+    func txBtnUp() {
+        
+        let now = NSDate()
+        
+        if pttLockTimeout.earlierDate(now) == now {
+            TT_EnableVoiceTransmission(ttInst, 1)
+            playSound(.TX_ON)
+        }
+        else {
+            TT_EnableVoiceTransmission(ttInst, 0)
+            playSound(.TX_OFF)
+        }
         updateTX()
+        // PTT lock is 0.5 sec
+        pttLockTimeout = now.dateByAddingTimeInterval(0.5)
+    }
+    
+    @IBAction func txBtnUpInside(sender: UIButton) {
+        txBtnUp()
     }
     
     @IBAction func txBtnUpOutside(sender: UIButton) {
-        TT_EnableVoiceTransmission(ttInst, 0)
-        playSound(.TX_OFF)
-        updateTX()
+        txBtnUp()
     }
     
     func updateTX() {
