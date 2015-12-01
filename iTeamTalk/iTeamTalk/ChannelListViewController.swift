@@ -29,6 +29,9 @@ class ChannelListViewController :
     var myuseraccount = UserAccount()
     // user to user text messages
     var textmessages = [INT32 : [MyTextMessage] ]()
+    // messages received but no read (blinking)
+    var unreadmessages = Set<INT32>()
+    var unreadTimer : NSTimer?
     // list of channels and users
     @IBOutlet weak var tableView: UITableView!
     // PTT button
@@ -377,6 +380,32 @@ class ChannelListViewController :
         }
     }
     
+    func timerUnread() {
+        if unreadmessages.isEmpty {
+            unreadTimer?.invalidate()
+        }
+        else {
+            let cells = tableView.visibleCells
+            for c in cells {
+                if c.reuseIdentifier == "UserTableCell"  {
+                    let cell = c as! UserTableCell
+                    if unreadmessages.contains(INT32(c.tag)) {
+                        let time = Int(NSDate().timeIntervalSince1970)
+                        if time % 2 == 0 {
+                            cell.messageBtn.setImage(UIImage(named: "message_red"), forState: .Normal)
+                        }
+                        else {
+                            cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
+                        }
+                    }
+                    else {
+                        cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
+                    }
+                }
+            }
+        }
+    }
+    
     func handleTTMessage(var m: TTMessage) {
         
         switch(m.nClientEvent) {
@@ -487,6 +516,11 @@ class ChannelListViewController :
                 if var user = users[txtmsg.nFromUserID] {
                     let newmsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
+                    
+                    if unreadmessages.count == 0 {
+                        unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerUnread", userInfo: nil, repeats: true)
+                    }
+                    unreadmessages.insert(txtmsg.nFromUserID)
                 }
             }
         default :
