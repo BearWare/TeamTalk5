@@ -53,7 +53,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_InitSoundInputDevice(ttInst, 0)
         }
         
-        let sndoutid : INT32 = (defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)) ? 1 : 0
+        let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
+        let sndoutid : INT32 = (speaker_output) ? 1 : 0
+        enableSpeakerOutput(speaker_output)
         
         if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
             TT_InitSoundOutputDevice(ttInst, sndoutid)

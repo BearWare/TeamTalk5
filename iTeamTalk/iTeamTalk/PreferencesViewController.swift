@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
@@ -260,6 +261,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
+        
+        enableSpeakerOutput(sender.on)
     }
     
     func microphoneGainChanged(sender: UIStepper) {

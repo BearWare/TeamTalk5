@@ -292,6 +292,19 @@ func getSoundFile(s: Sounds) -> String? {
     return nil
 }
 
+func enableSpeakerOutput(on: Bool) {
+    let session = AVAudioSession.sharedInstance()
+    
+    do {
+        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        try session.overrideOutputAudioPort( ( on ? AVAudioSessionPortOverride.Speaker : AVAudioSessionPortOverride.None ) )
+        try session.setActive(true)
+    }
+    catch {
+        print("Failed")
+    }
+}
+
 func playSound(s: Sounds) {
     
     let filename = getSoundFile(s)
