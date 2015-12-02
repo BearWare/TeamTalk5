@@ -19,7 +19,7 @@ class TextMessageViewController :
     
     //shared TTInstance between all view controllers
     var ttInst = UnsafeMutablePointer<Void>()
-    var userid = 0
+    var userid : INT32 = 0
     
     var delegate : MyTextMessageDelegate?
 
@@ -45,6 +45,15 @@ class TextMessageViewController :
         swipe.direction = .Down
         self.view.addGestureRecognizer(swipe)
     }
+
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if self.isMovingFromParentViewController() {
+            unreadmessages.remove(userid)
+        }
+    }
+
     
     func dismissKeyboard() {
         if msgTextView.isFirstResponder() {
@@ -128,7 +137,7 @@ class TextMessageViewController :
         }
         else {
             msg.nMsgType = MSGTYPE_USER
-            msg.nToUserID = INT32(userid)
+            msg.nToUserID = userid
             
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
@@ -138,7 +147,7 @@ class TextMessageViewController :
             messages.append(mymsg)
 
             if delegate != nil {
-                delegate!.appendTextMessage(INT32(userid), txtmsg: mymsg)
+                delegate!.appendTextMessage(userid, txtmsg: mymsg)
             }
             scrollToBottom()
         }
@@ -174,7 +183,7 @@ class TextMessageViewController :
             
             let txtmsg = getTextMessage(&m).memory
             
-            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == INT32(userid)) || txtmsg.nMsgType == MSGTYPE_CHANNEL {
+            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid) || txtmsg.nMsgType == MSGTYPE_CHANNEL {
                 
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)

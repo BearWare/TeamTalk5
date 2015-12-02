@@ -94,7 +94,8 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_CloseTeamTalk(ttInst)
             print("Destroying TT instance")
 
-            ttMessageHandlers.removeAll(keepCapacity: false)
+            ttMessageHandlers.removeAll()
+            unreadmessages.removeAll()
         }
     }
     

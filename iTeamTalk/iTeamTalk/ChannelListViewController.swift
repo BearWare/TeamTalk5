@@ -29,8 +29,7 @@ class ChannelListViewController :
     var myuseraccount = UserAccount()
     // user to user text messages
     var textmessages = [INT32 : [MyTextMessage] ]()
-    // messages received but no read (blinking)
-    var unreadmessages = Set<INT32>()
+    // timer for blinking unread messages
     var unreadTimer : NSTimer?
     // list of channels and users
     @IBOutlet weak var tableView: UITableView!
@@ -324,7 +323,7 @@ class ChannelListViewController :
             
             let txtmsgView = segue.destinationViewController as! TextMessageViewController
             txtmsgView.ttInst = self.ttInst
-            txtmsgView.userid = btn.tag
+            txtmsgView.userid = INT32(btn.tag)
             txtmsgView.delegate = self
             if (self.textmessages[INT32(btn.tag)] != nil) {
                 txtmsgView.messages = self.textmessages[INT32(btn.tag)]!
@@ -381,28 +380,26 @@ class ChannelListViewController :
     }
     
     func timerUnread() {
-        if unreadmessages.isEmpty {
-            unreadTimer?.invalidate()
-        }
-        else {
-            let cells = tableView.visibleCells
-            for c in cells {
-                if c.reuseIdentifier == "UserTableCell"  {
-                    let cell = c as! UserTableCell
-                    if unreadmessages.contains(INT32(c.tag)) {
-                        let time = Int(NSDate().timeIntervalSince1970)
-                        if time % 2 == 0 {
-                            cell.messageBtn.setImage(UIImage(named: "message_red"), forState: .Normal)
-                        }
-                        else {
-                            cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
-                        }
+        let cells = tableView.visibleCells
+        for c in cells {
+            if c.reuseIdentifier == "UserTableCell"  {
+                let cell = c as! UserTableCell
+                if unreadmessages.contains(INT32(c.tag)) {
+                    let time = Int(NSDate().timeIntervalSince1970)
+                    if time % 2 == 0 {
+                        cell.messageBtn.setImage(UIImage(named: "message_red"), forState: .Normal)
                     }
                     else {
                         cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
                     }
                 }
+                else {
+                    cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
+                }
             }
+        }
+        if unreadmessages.isEmpty {
+            unreadTimer?.invalidate()
         }
     }
     

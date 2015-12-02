@@ -250,6 +250,9 @@ protocol MyTextMessageDelegate {
     func appendTextMessage(userid: INT32, txtmsg: MyTextMessage)
 }
 
+// messages received but no read (blinking)
+var unreadmessages = Set<INT32>()
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5
