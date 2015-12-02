@@ -71,8 +71,16 @@ class TextMessageViewController :
         tableView.reloadData()
         
         if tableView.numberOfRowsInSection(0) > 0 {
-            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
-            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: false)
+//            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
+//            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: true)
+            let frame = tableView.frame
+            let content = tableView.contentSize
+            print("Scrolled to bottom \(content.width) x \(content.height)")
+//            tableView.setContentOffset(CGPointMake(0, rect.height - frame.height), animated: true)
+            if content.height > frame.height {
+                let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
+                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Bottom, animated: true)
+            }
         }
     }
     
