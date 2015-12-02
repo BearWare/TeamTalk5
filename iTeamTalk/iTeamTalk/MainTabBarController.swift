@@ -66,6 +66,14 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_SetSoundOutputVolume(ttInst, INT32(refVolume(Double(vol))))
         }
         
+        if defaults.objectForKey(PREF_VOICEACTIVATION) != nil {
+            let voiceact = defaults.integerForKey(PREF_VOICEACTIVATION)
+            if voiceact != VOICEACT_DISABLED {
+                TT_EnableVoiceActivation(ttInst, 1)
+                TT_SetVoiceActivationLevel(ttInst, INT32(voiceact))
+            }
+        }
+        
         if defaults.objectForKey(PREF_MICROPHONE_GAIN) != nil {
             let vol = defaults.integerForKey(PREF_MICROPHONE_GAIN)
             TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))

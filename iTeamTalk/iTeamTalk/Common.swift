@@ -332,6 +332,9 @@ func playSound(s: Sounds) {
 }
 
 let MAX_TEXTMESSAGES = 100
+let DEFAULT_SOUND_VU_MAX = 20 // real max is SOUND_VU_MAX
+let VOICEACT_DISABLED : Int = DEFAULT_SOUND_VU_MAX + 1
+
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 

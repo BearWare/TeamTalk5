@@ -29,6 +29,7 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
+let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
@@ -39,8 +40,9 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var ttInst = UnsafeMutablePointer<Void>()
     
     var mastervolcell : UITableViewCell?
+    var voiceactcell : UITableViewCell?
     var microphonecell : UITableViewCell?
-    
+
     var general_items = [UITableViewCell]()
     var soundevents_items = [UITableViewCell]()
     var sound_items  = [UITableViewCell]()
@@ -86,6 +88,18 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         speakercell.detailTextLabel!.text = "Use iPhone's speaker instead of earpiece"
         speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
         sound_items.append(speakercell)
+
+        // use SOUND_VU_MAX + 1 as voice activation disabled
+        var voiceact = VOICEACT_DISABLED
+        if settings.objectForKey(PREF_VOICEACTIVATION) != nil {
+            voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
+        }
+        voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let voiceactstepper = newTableCellStepper(voiceactcell!, label: "Voice Activation Level",
+            min: Double(SOUND_VU_MIN.rawValue), max: Double(VOICEACT_DISABLED), step: 1, initial: Double(voiceact))
+        voiceactstepper.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
+        voiceactlevelChanged(voiceactstepper)
+        sound_items.append(voiceactcell!)
         
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
@@ -134,44 +148,51 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let subs = getDefaultSubscriptions()
 
-        let subusermsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subusermsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (subs & SUBSCRIBE_USER_MSG.rawValue) != 0)
+        subusermsgcell.detailTextLabel!.text = "Receive text messages by default"
         subusermsgswitch.tag = Int(SUBSCRIBE_USER_MSG.rawValue)
         subusermsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subusermsgcell)
         
-        let subchanmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subchanmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: "Channel Messages", initial: (subs & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
+        subchanmsgcell.detailTextLabel!.text = "Receive channel messages by default"
         subchanmsgswitch.tag = Int(SUBSCRIBE_CHANNEL_MSG.rawValue)
         subchanmsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subchanmsgcell)
         
-        let subbcastmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subbcastmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: "Broadcast Messages", initial: (subs & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
+        subbcastmsgcell.detailTextLabel!.text = "Receive broadcast messages by default"
         subbcastmsgswitch.tag = Int(SUBSCRIBE_BROADCAST_MSG.rawValue)
         subbcastmsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subbcastmsgcell)
 
-        let subvoicecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subvoicecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subvoiceswitch = newTableCellSwitch(subvoicecell, label: "Voice", initial: (subs & SUBSCRIBE_VOICE.rawValue) != 0)
+        subvoicecell.detailTextLabel!.text = "Receive voice streams by default"
         subvoiceswitch.tag = Int(SUBSCRIBE_VOICE.rawValue)
         subvoiceswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subvoicecell)
         
-        let subwebcamcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subwebcamcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subwebcamswitch = newTableCellSwitch(subwebcamcell, label: "WebCam", initial: (subs & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
+        subwebcamcell.detailTextLabel!.text = "Receive webcam streams by default"
         subwebcamswitch.tag = Int(SUBSCRIBE_VIDEOCAPTURE.rawValue)
         subwebcamswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subwebcamcell)
         
-        let submediafilecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let submediafilecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let submediafileswitch = newTableCellSwitch(submediafilecell, label: "Media File", initial: (subs & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
+        submediafilecell.detailTextLabel?.text = "Receive media file streams by default"
         submediafileswitch.tag = Int(SUBSCRIBE_MEDIAFILE.rawValue)
         submediafileswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(submediafilecell)
         
-        let subdesktopcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let subdesktopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let subdesktopswitch = newTableCellSwitch(subdesktopcell, label: "Desktop", initial: (subs & SUBSCRIBE_DESKTOP.rawValue) != 0)
+        subdesktopcell.detailTextLabel!.text = "Receive desktop sessions by default"
         subdesktopswitch.tag = Int(SUBSCRIBE_DESKTOP.rawValue)
         subdesktopswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
@@ -263,6 +284,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
         
         enableSpeakerOutput(sender.on)
+    }
+    
+    func voiceactlevelChanged(sender: UIStepper) {
+        if Int(sender.value) == VOICEACT_DISABLED {
+            TT_EnableVoiceActivation(ttInst, 0)
+            voiceactcell?.detailTextLabel?.text = "Voice Activation Level: Disabled"
+        }
+        else {
+            TT_EnableVoiceActivation(ttInst, 0)
+            TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
+            voiceactcell?.detailTextLabel?.text = "Voice Activation Level: \(Int(sender.value)), Recommended: 2"
+        }
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(Int(sender.value), forKey: PREF_VOICEACTIVATION)
     }
     
     func microphoneGainChanged(sender: UIStepper) {
