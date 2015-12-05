@@ -292,7 +292,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             voiceactcell?.detailTextLabel?.text = "Voice Activation Level: Disabled"
         }
         else {
-            TT_EnableVoiceActivation(ttInst, 0)
+            TT_EnableVoiceActivation(ttInst, 1)
             TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
             voiceactcell?.detailTextLabel?.text = "Voice Activation Level: \(Int(sender.value)), Recommended: 2"
         }

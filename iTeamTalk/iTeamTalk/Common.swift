@@ -253,6 +253,23 @@ protocol MyTextMessageDelegate {
 // messages received but no read (blinking)
 var unreadmessages = Set<INT32>()
 
+func isTransmitting(ttInst: UnsafeMutablePointer<Void>, stream: StreamType) -> Bool {
+    let flags = TT_GetFlags(ttInst)
+    
+    switch stream {
+    case STREAMTYPE_VOICE:
+        if flags & CLIENT_TX_VOICE.rawValue != 0 {
+            return true
+        }
+        if flags & CLIENT_SNDINPUT_VOICEACTIVATED.rawValue != 0 &&
+            flags & CLIENT_SNDINPUT_VOICEACTIVE.rawValue != 0 {
+                return true
+        }
+    default : break
+    }
+    return false
+}
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5

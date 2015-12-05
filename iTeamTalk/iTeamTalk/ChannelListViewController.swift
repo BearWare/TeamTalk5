@@ -219,7 +219,9 @@ class ChannelListViewController :
             cell.nicknameLabel.text = nickname
             cell.statusmsgLabel.text = statusmsg
             
-            if (user.uUserState & USERSTATE_VOICE.rawValue) != 0 {
+            if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
+               (TT_GetMyUserID(ttInst) == user.nUserID &&
+                isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
                 cell.userImage.image = UIImage(named: "man_green.png")
             }
             else {
@@ -245,7 +247,6 @@ class ChannelListViewController :
     func updateTitle() {
         var title = ""
         if curchannel.nParentID == 0 {
-            
             title = String.fromCString(&srvprop.szServerName.0)!
         }
         else {
@@ -377,6 +378,8 @@ class ChannelListViewController :
         default :
             txButton.backgroundColor = UIColor.greenColor()
         }
+        
+        tableView.reloadData()
     }
     
     func timerUnread() {
@@ -501,11 +504,6 @@ class ChannelListViewController :
                 self.tableView.reloadData()
             }
             
-        case CLIENTEVENT_USER_STATECHANGE :
-            let user = getUser(&m).memory
-            users[user.nUserID] = user
-            self.tableView.reloadData()
-            
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             let txtmsg = getTextMessage(&m).memory
 
@@ -520,6 +518,16 @@ class ChannelListViewController :
                     unreadmessages.insert(txtmsg.nFromUserID)
                 }
             }
+
+        case CLIENTEVENT_USER_STATECHANGE :
+            let user = getUser(&m).memory
+            users[user.nUserID] = user
+            self.tableView.reloadData()
+        
+        case CLIENTEVENT_VOICE_ACTIVATION :
+            
+            tableView.reloadData()
+
         default :
             print("Unhandled message \(m.nClientEvent.rawValue)")
         }
