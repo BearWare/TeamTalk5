@@ -70,3 +70,7 @@ void toTTString(const char* str, TTCHAR* buf) {
         strncpy(buf, str, TT_STRLEN);
     }
 }
+
+const char* fromTTString(const TTCHAR* buf) {
+    return buf;
+}

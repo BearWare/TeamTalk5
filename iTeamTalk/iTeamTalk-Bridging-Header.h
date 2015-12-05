@@ -20,3 +20,4 @@ void setSpeexVBRCodec(AudioCodec* a, SpeexVBRCodec* s);
 
 
 void toTTString(const char* str, TTCHAR* buf);
+const char* fromTTString(const TTCHAR* buf);
