@@ -476,7 +476,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/bdr/projects/TeamTalk5_iOS/TeamTalk_DLL/lib/ios,
+					../TeamTalk_DLL/lib/ios,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,7 +497,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/bdr/projects/TeamTalk5_iOS/TeamTalk_DLL/lib/ios,
+					../TeamTalk_DLL/lib/ios,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
