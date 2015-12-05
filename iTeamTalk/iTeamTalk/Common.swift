@@ -270,6 +270,17 @@ func isTransmitting(ttInst: UnsafeMutablePointer<Void>, stream: StreamType) -> B
     return false
 }
 
+func limitText(s: String) -> String {
+    
+    let settings = NSUserDefaults.standardUserDefaults()
+    let length = settings.objectForKey(PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integerForKey(PREF_DISPLAY_LIMITTEXT)
+    
+    if s.characters.count > length {
+        return s.substringWithRange(Range<String.Index>(start: s.startIndex, end: s.startIndex.advancedBy(length)))
+    }
+    return s
+}
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5
@@ -351,6 +362,9 @@ func playSound(s: Sounds) {
 let MAX_TEXTMESSAGES = 100
 let DEFAULT_SOUND_VU_MAX = 20 // real max is SOUND_VU_MAX
 let VOICEACT_DISABLED : Int = DEFAULT_SOUND_VU_MAX + 1
+
+let DEFAULT_POPUP_TEXTMESSAGE = true
+let DEFAULT_LIMIT_TEXT = 25
 
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40

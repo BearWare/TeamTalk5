@@ -201,7 +201,7 @@ class ChannelListViewController :
             cell.channame.textColor = textcolor
             cell.chantopicLabel.textColor = textcolor
 
-            cell.channame.text = name
+            cell.channame.text = limitText(name!)
             cell.chantopicLabel.text = topic
             
             cell.editBtn.tag = Int(channel.nChannelID)
@@ -216,7 +216,8 @@ class ChannelListViewController :
             var user = chanusers[indexPath.row - chan_count]
             let nickname = String.fromCString(&user.szNickname.0)
             let statusmsg = String.fromCString(&user.szStatusMsg.0)
-            cell.nicknameLabel.text = nickname
+            
+            cell.nicknameLabel.text = limitText(nickname!)
             cell.statusmsgLabel.text = statusmsg
             
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
@@ -323,12 +324,16 @@ class ChannelListViewController :
             let btn = sender as! UIButton
             
             let txtmsgView = segue.destinationViewController as! TextMessageViewController
-            txtmsgView.ttInst = self.ttInst
-            txtmsgView.userid = INT32(btn.tag)
-            txtmsgView.delegate = self
-            if (self.textmessages[INT32(btn.tag)] != nil) {
-                txtmsgView.messages = self.textmessages[INT32(btn.tag)]!
-            }
+            openTextMessages(txtmsgView, userid: INT32(btn.tag))
+        }
+    }
+    
+    func openTextMessages(sender: TextMessageViewController, userid: INT32) {
+        sender.ttInst = self.ttInst
+        sender.userid = userid
+        sender.delegate = self
+        if (self.textmessages[userid] != nil) {
+            sender.messages = self.textmessages[userid]!
         }
     }
     
@@ -516,6 +521,13 @@ class ChannelListViewController :
                         unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerUnread", userInfo: nil, repeats: true)
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)
+                }
+                
+                let settings = NSUserDefaults.standardUserDefaults()
+                if settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG) {
+                    let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
+                    openTextMessages(vc, userid: txtmsg.nFromUserID)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
 

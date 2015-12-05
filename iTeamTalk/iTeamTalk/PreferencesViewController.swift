@@ -12,6 +12,14 @@ import AVFoundation
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
+let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
+let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
+
+let PREF_MASTER_VOLUME = "mastervolume_preference"
+let PREF_MICROPHONE_GAIN = "microphonegain_preference"
+let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
+let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
+
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
 let PREF_SNDEVENT_CHANMSG = "snd_chanmsg_preference"
@@ -26,11 +34,6 @@ let PREF_SUB_MEDIAFILE = "sub_mediafile_preference"
 let PREF_SUB_DESKTOP = "sub_desktop_preference"
 let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 
-let PREF_MASTER_VOLUME = "mastervolume_preference"
-let PREF_MICROPHONE_GAIN = "microphonegain_preference"
-let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
-let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
-
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -39,16 +42,22 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     
     var ttInst = UnsafeMutablePointer<Void>()
     
+    var limittextcell : UITableViewCell?
     var mastervolcell : UITableViewCell?
     var voiceactcell : UITableViewCell?
     var microphonecell : UITableViewCell?
 
     var general_items = [UITableViewCell]()
+    var display_items = [UITableViewCell]()
     var soundevents_items = [UITableViewCell]()
     var sound_items  = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
     
-    let SECTION_GENERAL = 0, SECTION_SOUND = 1, SECTION_SOUNDEVENTS = 2, SECTION_SUBSCRIPTIONS = 3
+    let SECTION_GENERAL = 0,
+        SECTION_DISPLAY = 1,
+        SECTION_SOUND = 2,
+        SECTION_SOUNDEVENTS = 3,
+        SECTION_SUBSCRIPTIONS = 4
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +79,22 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
-
+        
+        // display items
+        
+        let txtmsgpopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let txtmsgpopup = settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG)
+        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: "Show text messages instantly", initial: txtmsgpopup)
+        txtmsgpopcell.detailTextLabel!.text = "Pop up text message automatically when new messages is received"
+        txtmsgswitch.addTarget(self, action: "showtextmessagesChanged:", forControlEvents: .ValueChanged)
+        display_items.append(txtmsgpopcell)
+        
+        limittextcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let limittext = settings.objectForKey(PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integerForKey(PREF_DISPLAY_LIMITTEXT)
+        let limittextstepper = newTableCellStepper(limittextcell!, label: "Maximum Text Length", min: 1, max: Double(TT_STRLEN-1), step: 1, initial: Double(limittext))
+        limittextChanged(limittextstepper)
+        limittextstepper.addTarget(self, action: "limittextChanged:", forControlEvents: .ValueChanged)
+        display_items.append(limittextcell!)
         
         // sound preferences
         
@@ -83,7 +107,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         sound_items.append(mastervolcell!)
         
         let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: "Speaker output",
+        let speakerswitch = newTableCellSwitch(speakercell, label: "Speaker Output",
             initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
         speakercell.detailTextLabel!.text = "Use iPhone's speaker instead of earpiece"
         speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
@@ -270,6 +294,17 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         defaults.setInteger(Int(sender.value), forKey: PREF_MASTER_VOLUME)
     }
     
+    func showtextmessagesChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_DISPLAY_POPUPTXTMSG)
+    }
+    
+    func limittextChanged(sender: UIStepper) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
+        limittextcell!.detailTextLabel!.text = "Limit length of names in channel list: \(Int(sender.value))"
+    }
+    
     func speakeroutputChanged(sender: UISwitch) {
         TT_CloseSoundOutputDevice(ttInst)
         
@@ -325,6 +360,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         switch section {
         case SECTION_GENERAL :
             return "General"
+        case SECTION_DISPLAY :
+            return "Display"
         case SECTION_SOUNDEVENTS :
             return "Sound Events"
         case SECTION_SOUND :
@@ -340,6 +377,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         switch section {
         case SECTION_GENERAL :
             return general_items.count
+        case SECTION_DISPLAY :
+            return display_items.count
         case SECTION_SOUNDEVENTS :
             return soundevents_items.count
         case SECTION_SOUND :
@@ -356,6 +395,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         switch indexPath.section {
         case SECTION_GENERAL :
             return general_items[indexPath.row]
+        case SECTION_DISPLAY :
+            return display_items[indexPath.row]
         case SECTION_SOUNDEVENTS:
             return soundevents_items[indexPath.row]
         case SECTION_SOUND :

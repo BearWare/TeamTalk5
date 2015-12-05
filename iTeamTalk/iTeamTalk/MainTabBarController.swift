@@ -89,18 +89,12 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-    }
-    
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if self.isMovingFromParentViewController() {
             timer.invalidate()
             TT_CloseTeamTalk(ttInst)
-            print("Destroying TT instance")
 
             ttMessageHandlers.removeAll()
             unreadmessages.removeAll()
