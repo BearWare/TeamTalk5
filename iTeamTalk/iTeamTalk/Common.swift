@@ -235,7 +235,8 @@ struct MyTextMessage {
         
         switch msgtype {
         case .IM :
-            cell.authorLabel.text = "\(nickname), \(time)"
+            let source = limitText(nickname)
+            cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = nil
         case .LOGMSG :
             cell.backgroundColor = UIColor.lightGrayColor()
