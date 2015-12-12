@@ -57,7 +57,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         SECTION_DISPLAY = 1,
         SECTION_SOUND = 2,
         SECTION_SOUNDEVENTS = 3,
-        SECTION_SUBSCRIPTIONS = 4
+        SECTION_SUBSCRIPTIONS = 4,
+        SECTIONS_COUNT = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         let txtmsgpopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let txtmsgpopup = settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG)
         let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: "Show text messages instantly", initial: txtmsgpopup)
-        txtmsgpopcell.detailTextLabel!.text = "Pop up text message automatically when new messages is received"
+        txtmsgpopcell.detailTextLabel!.text = "Pop up text message when new messages are received"
         txtmsgswitch.addTarget(self, action: "showtextmessagesChanged:", forControlEvents: .ValueChanged)
         display_items.append(txtmsgpopcell)
         
@@ -302,7 +303,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     func limittextChanged(sender: UIStepper) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
-        limittextcell!.detailTextLabel!.text = "Limit length of names in channel list: \(Int(sender.value))"
+        limittextcell!.detailTextLabel!.text = "Limit length of names in channel list to \(Int(sender.value)) characters"
     }
     
     func speakeroutputChanged(sender: UISwitch) {
@@ -353,7 +354,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return SECTIONS_COUNT
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
