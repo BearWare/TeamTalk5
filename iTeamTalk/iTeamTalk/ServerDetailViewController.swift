@@ -77,7 +77,44 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        let def = NSNotificationCenter.defaultCenter()
+        def.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        def.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
+    
+    func keyboardWillShow(notify: NSNotification) {
+        moveForKeyboard(notify, up: true)
+    }
+    
+    func keyboardWillHide(notify: NSNotification) {
+        moveForKeyboard(notify, up: false)
+    }
+
+    func moveForKeyboard(notify: NSNotification, up: Bool) {
+        if let userInfo = notify.userInfo {
+            if let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue {
+                
+                let selfFrame = self.view.frame
+                var newTableFrame = tableView.frame
+                
+                if up {
+                    newTableFrame.size.height = selfFrame.height - keyboardFrame.height
+                }
+                else {
+                    var tabBarHeight : CGFloat = 0.0
+                    if self.tabBarController != nil {
+                        tabBarHeight = (self.tabBarController?.tabBar.frame.size.height)!
+                    }
+                    
+                    newTableFrame.size.height = selfFrame.height - tabBarHeight
+                }
+                
+                tableView.frame = newTableFrame
+            }
+        }
+    }
+
     
     func saveServerDetail() {
         server.name = namefield!.text!
