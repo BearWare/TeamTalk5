@@ -417,6 +417,12 @@ class ChannelListViewController :
 
         case CLIENTEVENT_CON_LOST :
             //TODO: reset channel lists?
+            
+            channels.removeAll()
+            users.removeAll()
+            curchannel = Channel()
+            
+            tableView.reloadData()
             break
             
         case CLIENTEVENT_CMD_PROCESSING :

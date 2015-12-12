@@ -166,7 +166,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
             saveServerDetail()
             
             let vc = segue.destinationViewController as! MainTabBarController
-            vc.connectToServer(server)
+            vc.setTeamTalkServer(server)
         }
     }
 }

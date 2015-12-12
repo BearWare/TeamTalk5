@@ -107,8 +107,8 @@ NSXMLParserDelegate {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ServerTableCell
         
-        let server = servers[indexPath.item]
-        cell.connectBtn.tag = indexPath.item
+        let server = servers[indexPath.row]
+        cell.connectBtn.tag = indexPath.row
         cell.nameLabel.text = server.name
         cell.ipaddrLabel.text = server.ipaddr
         if server.publicserver {
@@ -124,7 +124,7 @@ NSXMLParserDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "Show Server" {
             let index = self.tableView.indexPathForSelectedRow
-            currentServer = servers[index!.item]
+            currentServer = servers[index!.row]
             let serverDetail = segue.destinationViewController as! ServerDetailViewController
             serverDetail.server = currentServer
         }
@@ -133,7 +133,7 @@ NSXMLParserDelegate {
         }
         else if segue.identifier == "Show ChannelList" {
             let vc = segue.destinationViewController as! MainTabBarController
-            vc.connectToServer(currentServer)
+            vc.setTeamTalkServer(currentServer)
         }
     }
     
@@ -165,9 +165,9 @@ NSXMLParserDelegate {
         
         self.currentServer = vc.server
         
-        self.tableView.reloadData()
-        
         saveServerList()
+        
+        self.tableView.reloadData()
     }
     
     @IBAction func connectToServer(sender: UIButton) {

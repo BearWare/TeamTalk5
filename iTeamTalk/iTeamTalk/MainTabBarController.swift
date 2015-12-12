@@ -10,12 +10,16 @@ import UIKit
 
 class MainTabBarController : UITabBarController, TeamTalkEvent {
 
-    // timer for polling TeamTalk client events
-    var timer = NSTimer()
     // our one and only TeamTalk client instance
     var ttInst = UnsafeMutablePointer<Void>()
+    // timer for polling TeamTalk client events
+    var polltimer : NSTimer?
+    // reconnect timer
+    var reconnecttimer : NSTimer?
     // ip-addr and login information for current server
     var server = Server()
+    // active command
+    var cmdid : INT32 = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,21 +83,17 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))
         }
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
+        polltimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
         
-        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, 0) == 0 {
-            print("Failed to connect")
-        }
-        else {
-            
-        }
+        connectToServer()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if self.isMovingFromParentViewController() {
-            timer.invalidate()
+            polltimer?.invalidate()
+            reconnecttimer?.invalidate()
             TT_CloseTeamTalk(ttInst)
 
             ttMessageHandlers.removeAll()
@@ -101,8 +101,20 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         }
     }
     
-    func connectToServer(server: Server) {
+    func setTeamTalkServer(server: Server) {
         self.server = server
+    }
+    
+    func startReconnectTimer() {
+        reconnecttimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "connectToServer", userInfo: nil, repeats: false)
+    }
+    
+    func connectToServer() {
+        
+        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, 0) == 0 {
+            TT_Disconnect(ttInst)
+            startReconnectTimer()
+        }
     }
     
     // run the TeamTalk event loop
@@ -130,26 +142,43 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             
         case CLIENTEVENT_CON_SUCCESS :
             print("We're connected")
+            
             var nickname = NSUserDefaults.standardUserDefaults().stringForKey(PREF_NICKNAME)
             if nickname == nil {
                 nickname = ""
             }
             
-            let cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
+            cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
             if cmdid > 0 {
                 channelsTab.activeCommands[cmdid] = .LoginCmd
             }
             
+            reconnecttimer?.invalidate()
+            
         case CLIENTEVENT_CON_FAILED :
             print("Connect failed")
             
+            TT_Disconnect(ttInst)
+            startReconnectTimer()
+            
         case CLIENTEVENT_CON_LOST :
             print("connection lost")
+            
+            TT_Disconnect(ttInst)
             playSound(.SRV_LOST)
+            
+            startReconnectTimer()
             
         case CLIENTEVENT_CMD_ERROR :
             var errmsg = getClientErrorMsg(&m).memory
             print(String.fromCString(&errmsg.szErrorMsg.0))
+            
+            if m.nSource == cmdid {
+                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
             let subs = getDefaultSubscriptions()
