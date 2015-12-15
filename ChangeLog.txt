@@ -2,6 +2,8 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.x unreleased
+Default Qt client:
+- Option to enable/disable VU-meter updates
 Accessible client:
 - Portuguese_BR updated
 
