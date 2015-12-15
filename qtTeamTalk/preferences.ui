@@ -345,6 +345,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="vumeterChkBox">
+              <property name="text">
+               <string>Enable VU-meter updates</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="usercountChkBox">
               <property name="text">
                <string>Show number of users in channel</string>
@@ -1928,6 +1935,7 @@
   <tabstop>startminimizedChkBox</tabstop>
   <tabstop>trayChkBox</tabstop>
   <tabstop>alwaysontopChkBox</tabstop>
+  <tabstop>vumeterChkBox</tabstop>
   <tabstop>usercountChkBox</tabstop>
   <tabstop>lasttalkChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>

@@ -57,6 +57,8 @@
 #define SETTINGS_DISPLAY_VIDEOTEXT_SHOW             "display/videotext-pane-show"
 #define SETTINGS_DISPLAY_TRAYMINIMIZE               "display/trayminimize"
 #define SETTINGS_DISPLAY_ALWAYSONTOP                "display/alwaysontop"
+#define SETTINGS_DISPLAY_VU_METER_UPDATES           "display/vumeter-updates"
+#define SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT   true
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
 #define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
 #define SETTINGS_DISPLAY_LASTTALK                   "display/display-last-talk"

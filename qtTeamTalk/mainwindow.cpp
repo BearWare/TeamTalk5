@@ -483,8 +483,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
-    m_timers.insert(startTimer(50), TIMER_UI_UPDATE);
-
 
 #if !defined(Q_OS_WIN32) || USE_POLL
     //Windows uses its HWND for message handling, other platforms must
@@ -550,6 +548,18 @@ void MainWindow::loadSettings()
                               SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT).toInt();
     ui.voiceactSlider->setValue(value);
     slotVoiceActivationLevelChanged(value); //force update on equal
+
+    // setup VU-meter updates
+    if(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
+                         SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
+    {
+        m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
+        ui.voiceactBar->setVisible(true);
+    }
+    else
+    {
+        ui.voiceactBar->setVisible(false);
+    }
 
     //default voice gain level depends on whether AGC or normal gain
     //is enabled
@@ -1868,18 +1878,25 @@ void MainWindow::timerEvent(QTimerEvent *event)
             }
         }
         break;
-    case TIMER_UI_UPDATE :
+    case TIMER_VUMETER_UPDATE :
     {
         if(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY)
         {
             int voicelevel = TT_GetSoundInputLevel(ttInst);
             if(ui.voiceactBar->value() != voicelevel)
+            {
                 ui.voiceactBar->setValue(voicelevel);
+            }
         }
-    
+        break;
+    }
+    case TIMER_SEND_DESKTOPCURSOR :
+    {
         if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) &&
            ttSettings->value(SETTINGS_DESKTOPSHARE_CURSOR, false).toBool())
+        {
             sendDesktopCursor();
+        }
         break;
     }
     case TIMER_RECONNECT :
@@ -2509,7 +2526,10 @@ void MainWindow::restartSendDesktopWindowTimer()
     killLocalTimer(TIMER_SEND_DESKTOPWINDOW);
     int upd_interval = ttSettings->value(SETTINGS_DESKTOPSHARE_INTERVAL).toInt();
     if(upd_interval>0)
+    {
         m_timers.insert(startTimer(upd_interval), TIMER_SEND_DESKTOPWINDOW);
+        m_timers.insert(startTimer(50), TIMER_SEND_DESKTOPCURSOR);
+    }
 }
 
 QRect MainWindow::getSharedWindowRect()
@@ -3145,6 +3165,22 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         show(); //for some reason this has to be called, otherwise the window disappears
     }
 
+    // check vu-meter setting
+    if(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
+                         SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
+    {
+        if(!timerExists(TIMER_VUMETER_UPDATE))
+        {
+            m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
+            ui.voiceactBar->setVisible(true);
+        }
+    }
+    else if(timerExists(TIMER_VUMETER_UPDATE))
+    {
+        killLocalTimer(TIMER_VUMETER_UPDATE);
+        ui.voiceactBar->setVisible(false);
+    }
+
     //show user count property
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
@@ -3346,6 +3382,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     else
     {
         killLocalTimer(TIMER_SEND_DESKTOPWINDOW);
+        killLocalTimer(TIMER_SEND_DESKTOPCURSOR);
         TT_CloseDesktopWindow(ttInst);
 
 #if defined(Q_OS_LINUX)
