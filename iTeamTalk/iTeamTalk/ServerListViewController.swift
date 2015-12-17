@@ -50,6 +50,9 @@ class Server : NSObject {
 class ServerListViewController: UITableViewController,
 NSXMLParserDelegate {
     
+    var currentServer = Server()
+    var servers = [Server]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -66,13 +69,33 @@ NSXMLParserDelegate {
             }
         }
         
-//        let version = String.fromCString(TT_GetVersion())!
-//        appnameLabel.text = AppInfo.APPTITLE + " " + version
+        NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "downloadServerList", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
+    }
+    
+    func checkAppUpdate() {
         
-        // get xml-list of public server
-        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER)!)!
-        parser.delegate = self
+        // check for new version
+        let updateparser = AppUpdateParser()
+        
+        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_APPUPDATE)!)!
+        parser.delegate = updateparser
         parser.parse()
+    }
+    
+    func downloadServerList() {
+
+        // get xml-list of public server
+        let serverparser = ServerParser()
+        
+        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_FREESERVER)!)!
+        parser.delegate = serverparser
+        parser.parse()
+
+        for s in serverparser.servers {
+            servers.append(s)
+        }
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -173,17 +196,45 @@ NSXMLParserDelegate {
     @IBAction func connectToServer(sender: UIButton) {
         currentServer = servers[sender.tag]
     }
-    
-    var servers = [Server]()
-    
-    var currentServer = Server()
-    var elementStack = [String]()
+
+}
+
+class AppUpdateParser : NSObject, NSXMLParserDelegate {
+
+    var update = ""
+    var updatefound = false
     
     func parser(parser: NSXMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
             
-            self.elementStack.append(elementName)
+            if elementName == "name" {
+                updatefound = true
+            }
+    }
+
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
+        update = string
+    }
+
+    func parser(parser: NSXMLParser, didEndElement elementName: String,
+        namespaceURI: String?, qualifiedName qName: String?) {
+            
+    }
+
+}
+
+class ServerParser : NSObject, NSXMLParserDelegate {
+    
+    var currentServer = Server()
+    var elementStack = [String]()
+    var servers = [Server]()
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String,
+        namespaceURI: String?, qualifiedName qName: String?,
+        attributes attributeDict: [String : String]) {
+            
+            elementStack.append(elementName)
             if elementName == "host" {
                 currentServer = Server()
             }
@@ -225,5 +276,5 @@ NSXMLParserDelegate {
                 servers.append(currentServer)
             }
     }
+    
 }
-

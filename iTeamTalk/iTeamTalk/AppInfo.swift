@@ -10,11 +10,11 @@
 class AppInfo {
 
     static let TEAMTALK_VERSION = "5.1"
-    static let APPNAME = "TeamTalk"
+    static let APPNAME = "iTeamTalk"
     static let APPVERSION_SHORT = "5.1"
     static let APPVERSION = "5.1 - Unreleased"
-    static let APPTITLE = "TeamTalk v. " + APPVERSION
-    static let APPNAME_SHORT = "TeamTalk5"
+    static let APPTITLE = "iTeamTalk v. " + APPVERSION
+    static let APPNAME_SHORT = "iTeamTalk5"
     static let OSTYPE = "iOS"
 
     static let URL_FREESERVER  =
