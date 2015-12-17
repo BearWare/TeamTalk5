@@ -30,3 +30,5 @@ TeamTalkJNI/gen
 TeamTalkJNI/libs/armeabi-v7a/libTeamTalk5*
 TeamTalkJNI/*.mpc
 iTeamTalk/iTeamTalk.xcodeproj/xcuserdata
+iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcshareddata
+iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcuserdata
