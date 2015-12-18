@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        TT_SetLicenseInformation("", "")
+        
         // Default values are not set in Settings bundle, so we need to load them manually
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.synchronize()
@@ -46,34 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.synchronize()
         }
 
-//        var s = Server();
-//        
-//        s.name = "Foo"
-//        
-//        let data = NSKeyedArchiver.archivedDataWithRootObject(s)
-//        
-////        let s_arr = NSMutableArray()
-////        s_arr.addObject(data)
-//        
-//        var s_arr = [NSData]()
-//        s_arr.append(data)
-//        
-//        defaults.setObject(s_arr, forKey: "ServerTest")
-//        
-//        //defaults.synchronize()
-//        //let foo  = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Server
-//        
-//        if let s_a = defaults.arrayForKey("ServerTest") {
-//            let vv = s_a[0] as! NSData
-//            
-//            let foo = NSKeyedUnarchiver.unarchiveObjectWithData(vv) as! Server
-//            let x = 3
-//            
-//            let y = x+0
-//        }
-        
         // fix linker problems unit-tests
-        if TT_SetLicenseInformation("", "") == 1 {
+        if TT_GetRootChannelID(nil) == 1 {
             TT_CloseSoundOutputDevice(nil)
             TT_StartSoundLoopbackTest(0, 0, 0, 0, 0, nil)
             TT_CloseSoundLoopbackTest(nil)

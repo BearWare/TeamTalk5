@@ -141,7 +141,6 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         switch(m.nClientEvent) {
             
         case CLIENTEVENT_CON_SUCCESS :
-            print("We're connected")
             
             var nickname = NSUserDefaults.standardUserDefaults().stringForKey(PREF_NICKNAME)
             if nickname == nil {
@@ -156,13 +155,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             reconnecttimer?.invalidate()
             
         case CLIENTEVENT_CON_FAILED :
-            print("Connect failed")
             
             TT_Disconnect(ttInst)
             startReconnectTimer()
             
         case CLIENTEVENT_CON_LOST :
-            print("connection lost")
             
             TT_Disconnect(ttInst)
             playSound(.SRV_LOST)

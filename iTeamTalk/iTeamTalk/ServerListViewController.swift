@@ -19,6 +19,7 @@ class Server : NSObject {
     var channel = ""
     var chanpasswd = ""
     var publicserver = false
+    var encrypted = false
     
     override init() {
         
@@ -262,6 +263,10 @@ class ServerParser : NSObject, NSXMLParserDelegate {
             else if elementStack.indexOf("join") != nil {
                 currentServer.chanpasswd = string
             }
+        case "channel" :
+            currentServer.channel = string
+        case "encrypted" :
+            currentServer.encrypted = string == "true"
         default :
             print("Unknown tag " + self.elementStack.last!)
         }

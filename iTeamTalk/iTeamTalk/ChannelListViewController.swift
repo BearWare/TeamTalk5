@@ -547,7 +547,8 @@ class ChannelListViewController :
             tableView.reloadData()
 
         default :
-            print("Unhandled message \(m.nClientEvent.rawValue)")
+            //print("Unhandled message \(m.nClientEvent.rawValue)")
+            break
         }
 
     }
