@@ -526,7 +526,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4RU-K7-Yga">
                                                     <rect key="frame" x="243" y="0.0" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                                    <state key="normal" title="Button" image="message_blue">
+                                                    <state key="normal" title="Message user" image="message_blue">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
