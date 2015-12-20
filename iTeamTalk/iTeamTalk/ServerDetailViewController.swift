@@ -39,6 +39,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         ipaddrfield = newTableCellTextField(ipaddrcell, label: "IP-address", initial: server.ipaddr)
         ipaddrfield!.delegate = self
+        ipaddrfield!.keyboardType = .URL
         conItems.append(ipaddrcell)
 
         let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
