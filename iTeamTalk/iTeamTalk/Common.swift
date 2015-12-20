@@ -206,7 +206,9 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
 }
 
 enum MsgType {
-    case IM, LOGMSG
+    case IM
+    case IM_MYSELF
+    case LOGMSG
 }
 
 struct MyTextMessage {
@@ -215,10 +217,10 @@ struct MyTextMessage {
     var date = NSDate()
     var msgtype : MsgType
     
-    init(var m : TextMessage, nickname: String) {
+    init(var m : TextMessage, nickname: String, myself: Bool) {
         message = String.fromCString(&m.szMessage.0)!
         self.nickname = nickname
-        msgtype = .IM
+        msgtype = myself ? .IM_MYSELF : .IM
     }
     
     init(logmsg: String) {
@@ -238,8 +240,14 @@ struct MyTextMessage {
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = nil
+            
+        case .IM_MYSELF :
+            let source = limitText(nickname)
+            cell.authorLabel.text = "\(source), \(time)"
+            cell.backgroundColor = UIColor(red: 0.54, green: 0.82, blue: 0.94, alpha: 1.0)
+
         case .LOGMSG :
-            cell.backgroundColor = UIColor.lightGrayColor()
+            cell.backgroundColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
             cell.authorLabel.text = "\(time)"
         }
         cell.messageTextView.text = message

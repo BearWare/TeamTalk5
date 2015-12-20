@@ -149,7 +149,7 @@ class TextMessageViewController :
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = String.fromCString(&user.szNickname.0)!
-            let mymsg = MyTextMessage(m: msg, nickname: name)
+            let mymsg = MyTextMessage(m: msg, nickname: name, myself: true)
             
             messages.append(mymsg)
 
@@ -195,7 +195,8 @@ class TextMessageViewController :
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                 
-                let mymsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!)
+                let mymsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!,
+                    myself: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID)
                 messages.append(mymsg)
                 
                 if messages.count > MAX_TEXTMESSAGES {

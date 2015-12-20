@@ -520,7 +520,8 @@ class ChannelListViewController :
 
             if txtmsg.nMsgType == MSGTYPE_USER {
                 if var user = users[txtmsg.nFromUserID] {
-                    let newmsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!)
+                    let newmsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!,
+                    myself: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
