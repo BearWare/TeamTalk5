@@ -193,7 +193,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Indent cell" id="Wve-Fa-orE">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wve-Fa-orE" id="4hv-Ve-qzP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -201,7 +201,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Text Msg Cell" rowHeight="43" id="TmP-Cz-PNj" customClass="TextMsgTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="320" height="43"/>
+                                        <rect key="frame" x="0.0" y="136" width="320" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TmP-Cz-PNj" id="V5L-hD-btC">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
@@ -605,7 +605,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Some text" id="9GN-82-2nL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="24"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -628,7 +628,7 @@
                                 </prototypes>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="fJY-Ea-OeN">
-                                <rect key="frame" x="0.0" y="478" width="270" height="41"/>
+                                <rect key="frame" x="0.0" y="479" width="270" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

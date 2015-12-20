@@ -66,21 +66,20 @@ class TextMessageViewController :
         msgTextView.textColor = UIColor.lightGrayColor()
     }
     
-    func scrollToBottom() {
+    func updateTableView() {
         
         tableView.reloadData()
         
         if tableView.numberOfRowsInSection(0) > 0 {
 //            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
 //            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: true)
-            let frame = tableView.frame
-            let content = tableView.contentSize
-            print("Scrolled to bottom \(content.width) x \(content.height)")
+//            let frame = tableView.frame
+//            let content = tableView.contentSize
 //            tableView.setContentOffset(CGPointMake(0, rect.height - frame.height), animated: true)
-            if content.height > frame.height {
+//            if content.height > frame.height {
                 let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
                 tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Bottom, animated: true)
-            }
+//            }
         }
     }
     
@@ -128,7 +127,7 @@ class TextMessageViewController :
                 msgTextView.frame = newTextViewFrame
                 sendButton.frame = newSendBtnFrame
                 
-                scrollToBottom()
+                updateTableView()
             }
         }
     }
@@ -157,7 +156,7 @@ class TextMessageViewController :
             if delegate != nil {
                 delegate!.appendTextMessage(userid, txtmsg: mymsg)
             }
-            scrollToBottom()
+            updateTableView()
         }
         
         let cmdid = TT_DoTextMessage(ttInst, &msg)
@@ -204,7 +203,7 @@ class TextMessageViewController :
                 }
                 
                 if tableView != nil {
-                    scrollToBottom()
+                    updateTableView()
                 }
             }
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
@@ -215,7 +214,7 @@ class TextMessageViewController :
                 messages.append(logmsg)
                 
                 if tableView != nil {
-                    scrollToBottom()
+                    updateTableView()
                 }
             }
         case CLIENTEVENT_CMD_USER_JOINED :
@@ -242,7 +241,7 @@ class TextMessageViewController :
                 messages.append(logmsg!)
                 
                 if tableView != nil {
-                    scrollToBottom()
+                    updateTableView()
                 }
             }
         case CLIENTEVENT_CMD_USER_LEFT :
@@ -254,7 +253,7 @@ class TextMessageViewController :
                 messages.append(logmsg)
                 
                 if tableView != nil {
-                    scrollToBottom()
+                    updateTableView()
                 }
             }
         default : break
@@ -274,6 +273,8 @@ class TextMessageViewController :
         let txtmsg = messages[indexPath.row]
         
         txtmsg.drawCell(cell)
+        
+        //print("Cell height \(cell.frame.height) txt view height \(cell.messageTextView.frame.height)")
         
         return cell
     }

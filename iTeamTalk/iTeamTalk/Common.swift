@@ -243,7 +243,7 @@ struct MyTextMessage {
             cell.authorLabel.text = "\(time)"
         }
         cell.messageTextView.text = message
-        cell.messageTextView.textContainerInset = UIEdgeInsetsZero
+        //cell.messageTextView.textContainerInset = UIEdgeInsetsZero
         //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
     }
 }
