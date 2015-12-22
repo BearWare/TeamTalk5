@@ -8,7 +8,8 @@
 
 import UIKit
 
-class UserDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class UserDetailViewController : UIViewController,
+    UITableViewDataSource, UITableViewDelegate, TeamTalkEvent {
     
     @IBOutlet weak var navtitle: UINavigationItem!
     var usernamefield: UITextField?
@@ -27,12 +28,17 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
 
     
     var ttInst = UnsafeMutablePointer<Void>()
-    var userid : INT32 = 0
+    var userid : INT32 = 0, kick_cmdid : INT32 = 0, kickban_cmdid : INT32 = 0
     
-    let SECTION_GENERAL = 0, SECTION_VOLUME = 1, SECTION_SUBSCRIPTIONS = 2
+    let SECTION_GENERAL = 0,
+        SECTION_VOLUME = 1,
+        SECTION_SUBSCRIPTIONS = 2,
+        SECTION_ACTIONS = 3,
+        SECTION_COUNT = 4
     
     @IBOutlet weak var tableView: UITableView!
     var general_items = [UITableViewCell]()
+    var action_items = [UITableViewCell]()
     var volume_items = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
     
@@ -44,15 +50,18 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         TT_GetUser(ttInst, userid, &user)
         navtitle.title = String.fromCString(&user.szNickname.0)
         
+        addToTTMessages(self)
+        
+        // general items
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: String.fromCString(&user.szUsername.0)!)
         general_items.append(usernamecell)
         
+        // volume items
         let voicevolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         voiceslider = newTableCellSlider(voicevolcell, label: "Voice Volume", min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeVoice))))
         voiceslider!.addTarget(self, action: "voiceVolumeChanged:", forControlEvents: .ValueChanged)
         volume_items.append(voicevolcell)
-        
         
         let voicemutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         voiceswitch = newTableCellSwitch(voicemutecell, label: "Mute Voice", initial: (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) != 0)
@@ -69,7 +78,7 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         mediaswitch!.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
         volume_items.append(mediamutecell)
         
-        
+        // subscription items
         let subusermsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.rawValue) != 0)
         subusermsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
@@ -104,6 +113,16 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         subdesktopswitch = newTableCellSwitch(subdesktopcell, label: "Desktop", initial: (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP.rawValue) != 0)
         subdesktopswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
+
+        // action items
+        let kickusercell = tableView.dequeueReusableCellWithIdentifier("kickcell")
+        action_items.append(kickusercell!)
+        
+        let kickbancell = tableView.dequeueReusableCellWithIdentifier("kickbancell")
+        action_items.append(kickbancell!)
+
+        //        let sendmsgcell = tableView.dequeueReusableCellWithIdentifier("sendmessagecell")
+        //        action_items.append(sendmsgcell!)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -156,14 +175,30 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         }
     }
     
+    @IBAction func kickandbanUser(sender: UIButton) {
+        var user = User()
+        TT_GetUser(ttInst, userid, &user)
+        
+        kickban_cmdid = TT_DoKickUser(ttInst, userid, 0)
+    }
+    
+    @IBAction func kickUser(sender: UIButton) {
+        var user = User()
+        TT_GetUser(ttInst, userid, &user)
+        
+        kick_cmdid = TT_DoKickUser(ttInst, userid, user.nChannelID)
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return SECTION_COUNT
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
             return "General"
+        case SECTION_ACTIONS :
+            return "Actions"
         case SECTION_VOLUME :
             return "Volume Controls"
         case SECTION_SUBSCRIPTIONS :
@@ -177,6 +212,8 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         switch section {
         case SECTION_GENERAL :
             return general_items.count
+        case SECTION_ACTIONS :
+            return action_items.count
         case SECTION_VOLUME :
             return volume_items.count
         case SECTION_SUBSCRIPTIONS :
@@ -189,6 +226,8 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         switch indexPath.section {
         case SECTION_GENERAL :
             return general_items[indexPath.row]
+        case SECTION_ACTIONS :
+            return action_items[indexPath.row]
         case SECTION_VOLUME :
             return volume_items[indexPath.row]
         case SECTION_SUBSCRIPTIONS :
@@ -197,5 +236,28 @@ class UserDetailViewController : UIViewController, UITableViewDataSource, UITabl
         }
     }
 
+    func handleTTMessage(var m: TTMessage) {
+        
+        switch m.nClientEvent {
+            
+        case CLIENTEVENT_CMD_SUCCESS :
+            
+            if m.nSource == kickban_cmdid {
+                TT_DoBanUser(ttInst, userid, 0)
+            }
+            
+        case CLIENTEVENT_CMD_ERROR :
+            
+            if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
+                var errmsg = getClientErrorMsg(&m).memory
+                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        default :
+            break
+        }
+    }
     
 }

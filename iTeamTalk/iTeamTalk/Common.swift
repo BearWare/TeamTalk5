@@ -133,7 +133,7 @@ func newTableCellSwitch(cell: UITableViewCell, label: String, initial: Bool) -> 
 func newTableCellBtn(cell: UITableViewCell, label: String, btntext: String) -> UIButton {
     cell.selectionStyle = .None
     cell.textLabel?.text = label
-    let buttonfield = UIButton(frame: CGRectMake(150, 7, 150, 31))
+    let buttonfield = UIButton(frame: CGRectMake(40, 0, 150, 31))
     buttonfield.setTitle(btntext, forState: .Normal)
     cell.accessoryView = buttonfield
     

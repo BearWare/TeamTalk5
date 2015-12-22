@@ -328,6 +328,16 @@ class ChannelListViewController :
         }
     }
     
+    @IBAction func openTextMessages(segue:UIStoryboardSegue) {
+
+        let src_vc = segue.sourceViewController as! UserDetailViewController
+        
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
+        openTextMessages(vc, userid: src_vc.userid)
+        self.navigationController?.pushViewController(vc, animated: true)
+
+    }
+
     func openTextMessages(sender: TextMessageViewController, userid: INT32) {
         sender.ttInst = self.ttInst
         sender.userid = userid
