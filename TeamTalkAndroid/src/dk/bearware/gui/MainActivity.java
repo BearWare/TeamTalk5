@@ -1312,6 +1312,13 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        if (prefs.getBoolean("voice_activation", true)) {
+            ttservice.enableVoiceActivation(true);
+            ttclient.setVoiceActivationLevel(5);
+		} else {
+ttservice.enableVoiceActivation(false);
+		}
         int mastervol = prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT);
         // only set volume and gain if tt-instance hasn't already been configured
