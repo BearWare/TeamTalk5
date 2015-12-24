@@ -24,6 +24,8 @@ let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
 let PREF_SNDEVENT_CHANMSG = "snd_chanmsg_preference"
 let PREF_SNDEVENT_USERMSG = "snd_usermsg_preference"
+let PREF_SNDEVENT_JOINEDCHAN = "snd_joinedchan_preference"
+let PREF_SNDEVENT_LEFTCHAN = "snd_leftchan_preference"
 
 let PREF_SUB_USERMSG = "sub_usertextmsg_preference"
 let PREF_SUB_CHANMSG = "sub_chantextmsg_preference"
@@ -168,6 +170,22 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         chanmsgswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(chanmsgswitch)
         soundevents_items.append(chanmsgcell)
+        
+        let joinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let joinedchanswitch = newTableCellSwitch(joinedchancell, label: "User Joins Channel", initial: getSoundFile(.JOINED_CHAN) != nil)
+        joinedchancell.detailTextLabel!.text = "Play sound when a user joins the channel"
+        joinedchanswitch.tag = Sounds.JOINED_CHAN.rawValue
+        joinedchanswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(joinedchanswitch)
+        soundevents_items.append(joinedchancell)
+        
+        let leftchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let leftchanswitch = newTableCellSwitch(leftchancell, label: "User Leaves Channel", initial: getSoundFile(.LEFT_CHAN) != nil)
+        leftchancell.detailTextLabel!.text = "Play sound when a user leaves the channel"
+        leftchanswitch.tag = Sounds.LEFT_CHAN.rawValue
+        leftchanswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
+        soundeventChanged(leftchanswitch)
+        soundevents_items.append(leftchancell)
 
         // subscription items
         
@@ -240,7 +258,12 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             defaults.setBool(sender.on, forKey: PREF_SNDEVENT_SERVERLOST)
         case Sounds.CHAN_MSG.rawValue :
             defaults.setBool(sender.on, forKey: PREF_SNDEVENT_CHANMSG)
-        case Sounds.USER_MSG.rawValue :
+        case Sounds.JOINED_CHAN.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_JOINEDCHAN)
+
+        case Sounds.LEFT_CHAN.rawValue :
+            defaults.setBool(sender.on, forKey: PREF_SNDEVENT_LEFTCHAN)
+case Sounds.USER_MSG.rawValue :
             defaults.setBool(sender.on, forKey: PREF_SNDEVENT_USERMSG)
         default :
             assert(false)

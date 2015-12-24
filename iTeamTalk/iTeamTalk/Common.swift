@@ -293,7 +293,7 @@ func limitText(s: String) -> String {
 
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
-         USER_MSG = 4, SRV_LOST = 5
+         USER_MSG = 4, SRV_LOST = 5, JOINED_CHAN = 6, LEFT_CHAN = 7
 }
 
 var player : AVAudioPlayer?
@@ -328,7 +328,17 @@ func getSoundFile(s: Sounds) -> String? {
             settings.boolForKey(PREF_SNDEVENT_SERVERLOST) {
                 return "serverlost"
         }
-    }
+    case .JOINED_CHAN:
+        if settings.objectForKey(PREF_SNDEVENT_JOINEDCHAN) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_JOINEDCHAN) {
+                return "newuser"
+        }
+    case .LEFT_CHAN:
+        if settings.objectForKey(PREF_SNDEVENT_LEFTCHAN) == nil ||
+            settings.boolForKey(PREF_SNDEVENT_LEFTCHAN) {
+                return "removeuser"
+        }
+	    }
 
     return nil
 }
