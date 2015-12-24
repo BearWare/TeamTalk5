@@ -499,7 +499,9 @@ class ChannelListViewController :
                 curchannel = channels[user.nChannelID]!
                 updateTitle()
             }
-            
+            if user.nChannelID == curchannel.nChannelID {
+                playSound(.JOINED_CHAN)
+            }
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
@@ -513,7 +515,7 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_USER_LEFT :
             let user = getUser(&m).memory
-            
+            users[user.nUserID] = user
             if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
                 users.removeValueForKey(user.nUserID)
             }
