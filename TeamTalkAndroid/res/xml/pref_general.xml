@@ -13,6 +13,11 @@
 		android:defaultValue="true"
 		android:title="@string/pref_title_vibrate" />
 
+    <SwitchPreference
+		android:key="voice_activation"
+		android:defaultValue="true"
+		android:title="@string/pref_title_voice_act" />
+
     <CheckBoxPreference
 		android:key="keep_screen_on_checkbox"
 		android:defaultValue="false"

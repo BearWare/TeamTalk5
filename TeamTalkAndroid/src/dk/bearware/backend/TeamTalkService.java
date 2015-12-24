@@ -182,6 +182,16 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         return false;
     }
 
+    public boolean enableVoiceActivation(boolean enable) {
+        if (enable)
+            return (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0)) && ttclient.enableVoiceActivation(true);
+        else if (ttclient.enableVoiceActivation(false)) {
+            ttclient.closeSoundInputDevice();
+            return true;
+        }
+        return false;
+    }
+
     public boolean reconnect() {
         if(ttserver == null || ttclient == null)
             return false;
