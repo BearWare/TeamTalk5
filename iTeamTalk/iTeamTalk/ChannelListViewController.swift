@@ -522,6 +522,10 @@ class ChannelListViewController :
             else {
                 users[user.nUserID] = user
             }
+    
+            if m.nSource == curchannel.nChannelID {
+                playSound(.LEFT_CHAN)
+            }
             
             if currentCmdId == 0 {
                 self.tableView.reloadData()
