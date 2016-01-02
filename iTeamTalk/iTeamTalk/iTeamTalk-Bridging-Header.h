@@ -8,7 +8,7 @@ Channel* getChannel(TTMessage* m);
 User* getUser(TTMessage* m);
 ServerProperties* getServerProperties(TTMessage* m);
 UserAccount* getUserAccount(TTMessage* m);
-bool getBoolean(TTMessage* m);
+TTBOOL getTTBOOL(TTMessage* m);
 ClientErrorMsg* getClientErrorMsg(TTMessage* m);
 TextMessage* getTextMessage(TTMessage* m);
 SpeexCodec* getSpeexCodec(AudioCodec* a);

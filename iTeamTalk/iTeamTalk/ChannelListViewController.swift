@@ -436,7 +436,7 @@ class ChannelListViewController :
             break
             
         case CLIENTEVENT_CMD_PROCESSING :
-            if getBoolean(&m) {
+            if getTTBOOL(&m) != 0 {
                 // command active
                 self.currentCmdId = m.nSource
             }

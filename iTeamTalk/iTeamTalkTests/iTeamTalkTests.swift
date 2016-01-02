@@ -269,7 +269,7 @@ class iTeamTalkTests: XCTestCase {
         
         var msg = TTMessage()
         while waitForEvent(ttInst, e: CLIENTEVENT_CMD_PROCESSING, waittimeout: waittimeout, msg: &msg)  {
-            if msg.nSource == cmdid && !getBoolean(&msg) {
+            if msg.nSource == cmdid && getTTBOOL(&msg) == 0 {
                 return true
             }
         }

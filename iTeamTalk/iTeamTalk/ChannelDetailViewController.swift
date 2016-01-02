@@ -203,7 +203,7 @@ class ChannelDetailViewController :
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         case CLIENTEVENT_CMD_PROCESSING :
-            if !getBoolean(&m) && cmdid == m.nSource {
+            if getTTBOOL(&m) == 0 && cmdid == m.nSource {
                 cmdid = 0
             }
             
