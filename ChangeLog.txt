@@ -6,6 +6,7 @@ Default Qt client:
 - Option to enable/disable VU-meter updates
 Accessible client:
 - Portuguese_BR updated
+- Names for main window controls (translatable)
 
 Version 5.1.1, released 2015/10/02
 Default Qt client:

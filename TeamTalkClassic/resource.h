@@ -48,6 +48,7 @@
 #define IDD_DIALOG_SERVERPROPERTIES     140
 #define IDD_DIALOG_USERACCOUNTS         141
 #define IDS_CHANNEL                     142
+#define IDS_VOICELEVEL                  143
 #define IDD_DIALOG_MOVETOCHANNEL        144
 #define IDD_DIALOG_SERVERSTATISTICS     145
 #define IDD_DIALOG_ONLINEUSERS          146
@@ -58,6 +59,9 @@
 #define IDD_DIALOG_STREAMMEDIA          151
 #define IDS_PUSHTOTALK                  154
 #define IDD_DIALOG_GENERATETTFILE       155
+#define IDS_MASTERVOL                   156
+#define IDS_MICGAIN                     157
+#define IDS_VOICEACTLEVEL               158
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
@@ -700,6 +704,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32944
 #define _APS_NEXT_CONTROL_VALUE         1539
-#define _APS_NEXT_SYMED_VALUE           156
+#define _APS_NEXT_SYMED_VALUE           159
 #endif
 #endif

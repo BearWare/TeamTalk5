@@ -2043,16 +2043,20 @@ BOOL CTeamTalkDlg::OnToolTipText(UINT, NMHDR* pNMHDR, LRESULT* pResult)
     case 0 : // will be zero on a separator
         break;
     case IDC_SLIDER_GAINLEVEL :
-        strPromptText = _T("Microphone gain");
+        strPromptText.LoadString(IDS_MICGAIN);
+        TRANSLATE_ITEM(IDS_MICGAIN,strPromptText);
         break;
     case IDC_SLIDER_VOLUME :
-        strPromptText = _T("Master volume");
+        strPromptText.LoadString(IDS_MASTERVOL);
+        TRANSLATE_ITEM(IDS_MASTERVOL,strPromptText);
         break;
     case IDC_PROGRESS_VOICEACT :
-        strPromptText = _T("Current voice level");
+        strPromptText.LoadString(IDS_VOICELEVEL);
+        TRANSLATE_ITEM(IDS_VOICELEVEL,strPromptText);
         break;
     case IDC_SLIDER_VOICEACT :
-        strPromptText = _T("Voice activation level");
+        strPromptText.LoadString(IDS_VOICEACTLEVEL);
+        TRANSLATE_ITEM(IDS_VOICEACTLEVEL,strPromptText);
         break;
     default :
         AfxLoadString(nID, szFullText);
@@ -2370,6 +2374,20 @@ BOOL CTeamTalkDlg::OnInitDialog()
         Connect( STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort,
                  m_host.nUdpPort, m_host.bEncrypted);
     }
+
+    CString szCtrlName;
+    szCtrlName.LoadString(IDS_MASTERVOL);
+    TRANSLATE_ITEM(IDS_MASTERVOL, szCtrlName);
+    m_wndVolSlider.SetWindowText(szCtrlName);
+    szCtrlName.LoadString(IDS_MICGAIN);
+    TRANSLATE_ITEM(IDS_MICGAIN, szCtrlName);
+    m_wndGainSlider.SetWindowText(szCtrlName);
+    szCtrlName.LoadString(IDS_VOICELEVEL);
+    TRANSLATE_ITEM(IDS_VOICELEVEL, szCtrlName);
+    m_wndVUProgress.SetWindowText(szCtrlName);
+    szCtrlName.LoadString(IDS_VOICEACTLEVEL);
+    TRANSLATE_ITEM(IDS_VOICEACTLEVEL, szCtrlName);
+    m_wndVoiceSlider.SetWindowText(szCtrlName);
 
     return TRUE;  // return TRUE  unless you set the focus to a control
 }
