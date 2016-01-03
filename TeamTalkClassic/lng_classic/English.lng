@@ -40,6 +40,7 @@
     <item id="140">Server Properties</item>
     <item id="141">User Accounts</item>
     <item id="142">Channel</item>
+    <item id="143">Current voice level</item>
     <item id="144">Move User Dialog</item>
     <item id="145">Server Statistics</item>
     <item id="146">Online Users</item>
@@ -49,6 +50,9 @@
     <item id="151">Stream Media File to Channel</item>
     <item id="154">Push To Talk: %s</item>
     <item id="155">Generate .tt File</item>
+    <item id="156">Master volume</item>
+    <item id="157">Microphone gain</item>
+    <item id="158">Voice activation level</item>
     <item id="201">Messages</item>
     <item id="205">Change status</item>
     <item id="212">Display</item>

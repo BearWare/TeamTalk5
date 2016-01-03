@@ -1770,11 +1770,15 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_MASTERVOL           "Master Volume"
+    IDS_MICGAIN             "Microphone gain"
     IDS_CHANNEL             "Channel"
+    IDS_VOICELEVEL          "Voice Level"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_VOICEACTLEVEL       "Voice Activation Level"
     IDS_PUSHTOTALK          "Push To Talk: %s"
 END
 
