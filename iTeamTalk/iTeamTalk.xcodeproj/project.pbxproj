@@ -267,6 +267,11 @@
 					254B7A461B98BAA300BE0DEF = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = QF4DLGWC27;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					254B7A5B1B98BAA400BE0DEF = {
 						CreatedOnToolsVersion = 6.4;
