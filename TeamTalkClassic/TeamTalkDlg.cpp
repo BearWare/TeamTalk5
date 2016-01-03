@@ -4158,10 +4158,9 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             DWORD dwDelay = m_xmlSettings.GetInactivityDelay() * 1000;
             if(m_wndTree.GetUser(nUserID, user) && dwDelay > 0)
             {
-                BOOL bAlreadyAway = user.nStatusMode == STATUSMODE_AWAY;
-                if( (::GetTickCount() - GetLastInput()) >= dwDelay  )
+                if((::GetTickCount() - GetLastInput()) >= dwDelay)
                 {
-                    if(!m_bIdledOut && !bAlreadyAway)
+                    if((user.nStatusMode & STATUSMODE_MASK) != STATUSMODE_AWAY)
                     {
                         TT_DoChangeStatus(ttInst, STATUSMODE_AWAY, _T("Away"));
                         if(m_xmlSettings.GetDisableVadOnIdle() && m_xmlSettings.GetVoiceActivated())

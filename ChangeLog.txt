@@ -7,6 +7,7 @@ Default Qt client:
 Accessible client:
 - Portuguese_BR updated
 - Names for main window controls (translatable)
+- Fixed issue where away-status was not set after reconnect
 
 Version 5.1.1, released 2015/10/02
 Default Qt client:
