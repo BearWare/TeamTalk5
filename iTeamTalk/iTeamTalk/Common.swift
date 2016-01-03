@@ -222,6 +222,7 @@ enum MsgType {
     case IM
     case IM_MYSELF
     case LOGMSG
+    case BCAST
 }
 
 struct MyTextMessage {
@@ -230,16 +231,17 @@ struct MyTextMessage {
     var date = NSDate()
     var msgtype : MsgType
     
-    init(m: TextMessage, nickname: String, myself: Bool) {
+    init(m: TextMessage, nickname: String, msgtype: MsgType) {
         message = fromTTString(m.szMessage)
         self.nickname = nickname
-        msgtype = myself ? .IM_MYSELF : .IM
+        self.msgtype = msgtype
     }
     
     init(logmsg: String) {
         message = logmsg
         msgtype = .LOGMSG
     }
+
     
     func drawCell(cell: TextMsgTableCell) {
         
@@ -252,13 +254,18 @@ struct MyTextMessage {
         case .IM :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
-            cell.backgroundColor = nil
+            cell.backgroundColor = UIColor(red: 1.0, green:0.627, blue:0.882, alpha: 1.0)
             
         case .IM_MYSELF :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 0.54, green: 0.82, blue: 0.94, alpha: 1.0)
-
+            
+        case .BCAST :
+            let source = limitText(nickname)
+            cell.authorLabel.text = "\(source), \(time)"
+            cell.backgroundColor = UIColor(red: 0.831, green: 0.376, blue: 1.0, alpha:1.0)
+            
         case .LOGMSG :
             cell.backgroundColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
             cell.authorLabel.text = "\(time)"

@@ -162,7 +162,7 @@ class TextMessageViewController :
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = fromTTString(user.szNickname)
-            let mymsg = MyTextMessage(m: msg, nickname: name, myself: true)
+            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .IM_MYSELF)
             
             messages.append(mymsg)
 
@@ -203,13 +203,28 @@ class TextMessageViewController :
             
             let txtmsg = getTextMessage(&m).memory
             
-            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid) || txtmsg.nMsgType == MSGTYPE_CHANNEL {
+            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid) ||
+                txtmsg.nMsgType == MSGTYPE_CHANNEL ||
+                txtmsg.nMsgType == MSGTYPE_BROADCAST {
                 
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                 
+                var msgtype = MsgType.IM
+                
+                switch txtmsg.nMsgType {
+                case MSGTYPE_USER :
+                    fallthrough
+                case MSGTYPE_CHANNEL :
+                    msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM
+                case MSGTYPE_BROADCAST :
+                    msgtype = .BCAST
+                default :
+                    break
+                }
+                
                 let mymsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
-                    myself: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID)
+                    msgtype: msgtype)
                 messages.append(mymsg)
                 
                 if messages.count > MAX_TEXTMESSAGES {
