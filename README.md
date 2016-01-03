@@ -60,10 +60,14 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#
   * Requires **TeamTalk.NET** project for DLL dependency
+* **iTeamTalk** (dependency: **TeamTalk_DLL**)
+  * TeamTalk 5 iOS client application written in Swift
+  * Requires **TeamTalk_DLL** project for bridging header
+  * Open project in Xcode
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
   * Import project in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-    * Follow the instructions [here](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/Java/examples.html#teamtalkandroid)
+    * Follow the instructions [here](http://www.bearware.dk/teamtalksdk/v5.1b/docs/Java/examples.html#teamtalkandroid)
     * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the following files to *TeamTalkAndroid/libs* directory:
     * android-support-v4.jar
