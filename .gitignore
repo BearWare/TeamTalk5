@@ -1,7 +1,9 @@
 *.sln
 *.bat
 libteamtalk
-TeamTalk_DLL
+TeamTalk_DLL/lib/ios/*.a
+TeamTalk_DLL/lib/win32/*.lib
+TeamTalk_DLL/lib/x64/*.lib
 Copyright.txt
 Documentation
 Makefile
