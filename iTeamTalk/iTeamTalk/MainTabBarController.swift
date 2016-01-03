@@ -167,11 +167,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             startReconnectTimer()
             
         case CLIENTEVENT_CMD_ERROR :
-            var errmsg = getClientErrorMsg(&m).memory
-            print(String.fromCString(&errmsg.szErrorMsg.0))
+            let errmsg = getClientErrorMsg(&m).memory
+            print(fromTTString(errmsg.szErrorMsg))
             
             if m.nSource == cmdid {
-                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                let s = fromTTString(errmsg.szErrorMsg)
                 let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)

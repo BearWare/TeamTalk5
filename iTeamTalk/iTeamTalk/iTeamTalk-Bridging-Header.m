@@ -65,12 +65,8 @@ void setSpeexVBRCodec(AudioCodec* a, SpeexVBRCodec* s) {
     a->speex_vbr = *s;
 }
 
-void toTTString(const char* str, TTCHAR* buf) {
-    if(str) {
-        strncpy(buf, str, TT_STRLEN);
-    }
+void convertTuple(const char* str, StringWrap* wrap) {
+    strncpy(wrap->buf, str, TT_STRLEN);
 }
 
-const char* fromTTString(const TTCHAR* buf) {
-    return buf;
-}
+

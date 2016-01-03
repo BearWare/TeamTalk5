@@ -41,17 +41,17 @@ class ChannelDetailViewController :
         super.viewDidLoad()
         
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: "Name", initial: String.fromCString(&channel.szName.0)!)
+        namefield = newTableCellTextField(namecell, label: "Name", initial: fromTTString(channel.szName))
         namefield?.delegate = self
         chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: String.fromCString(&channel.szPassword.0)!)
+        passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: fromTTString(channel.szPassword))
         passwdfield?.delegate = self
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        topicfield = newTableCellTextField(topiccell, label: "Topic", initial: String.fromCString(&channel.szTopic.0)!)
+        topicfield = newTableCellTextField(topiccell, label: "Topic", initial: fromTTString(channel.szTopic))
         topicfield?.delegate = self
         chan_items.append(topiccell)
         
@@ -196,8 +196,8 @@ class ChannelDetailViewController :
             }
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                var errmsg = getClientErrorMsg(&m).memory
-                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                let errmsg = getClientErrorMsg(&m).memory
+                let s = fromTTString(errmsg.szErrorMsg)
                 let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
@@ -276,9 +276,9 @@ class ChannelDetailViewController :
     }
     
     func saveChannelDetail() {
-        toTTString(namefield!.text!, &channel.szName.0)
-        toTTString(passwdfield!.text!, &channel.szPassword.0)
-        toTTString(topicfield!.text!, &channel.szTopic.0)
+        toTTString(namefield!.text!, dst: &channel.szName)
+        toTTString(passwdfield!.text!, dst: &channel.szPassword)
+        toTTString(topicfield!.text!, dst: &channel.szTopic)
         if permanentswitch!.on {
             channel.uChannelType |= CHANNEL_PERMANENT.rawValue
         }

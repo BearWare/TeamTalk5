@@ -48,13 +48,13 @@ class UserDetailViewController : UIViewController,
         var user = User()
         
         TT_GetUser(ttInst, userid, &user)
-        navtitle.title = String.fromCString(&user.szNickname.0)
+        navtitle.title = fromTTString(user.szNickname)
         
         addToTTMessages(self)
         
         // general items
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: String.fromCString(&user.szUsername.0)!)
+        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: fromTTString(user.szUsername))
         general_items.append(usernamecell)
         
         // volume items
@@ -249,8 +249,8 @@ class UserDetailViewController : UIViewController,
         case CLIENTEVENT_CMD_ERROR :
             
             if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
-                var errmsg = getClientErrorMsg(&m).memory
-                let s = String.fromCString(&errmsg.szErrorMsg.0)
+                let errmsg = getClientErrorMsg(&m).memory
+                let s = fromTTString(errmsg.szErrorMsg)
                 let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)

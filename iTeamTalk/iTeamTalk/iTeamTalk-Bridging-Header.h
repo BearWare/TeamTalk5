@@ -18,6 +18,9 @@ void setOpusCodec(AudioCodec* a, OpusCodec* o);
 void setSpeexCodec(AudioCodec* a, SpeexCodec* s);
 void setSpeexVBRCodec(AudioCodec* a, SpeexVBRCodec* s);
 
+typedef struct StringWrap {
+    TTCHAR buf[TT_STRLEN];
+} StringWrap;
 
-void toTTString(const char* str, TTCHAR* buf);
-const char* fromTTString(const TTCHAR* buf);
+void convertTuple(const char* str, StringWrap* wrap);
+

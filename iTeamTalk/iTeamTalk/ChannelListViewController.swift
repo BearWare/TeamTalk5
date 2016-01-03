@@ -152,11 +152,11 @@ class ChannelListViewController :
                 channel = channels[curchannel.nParentID]!
                 
                 if channel.nParentID == 0 {
-                    name = String.fromCString(&srvprop.szServerName.0)!
+                    name = fromTTString(srvprop.szServerName)
                 }
                 else {
-                    name = String.fromCString(&channel.szName.0)
-                    topic = String.fromCString(&channel.szTopic.0)
+                    name = fromTTString(channel.szName)
+                    topic = fromTTString(channel.szTopic)
                 }
                 
                 textcolor = UIColor.grayColor()
@@ -166,8 +166,8 @@ class ChannelListViewController :
                 // display only the root channel
                 channel = subchans[indexPath.row]
                 
-                name = String.fromCString(&srvprop.szServerName.0)
-                topic = String.fromCString(&channel.szTopic.0)
+                name = fromTTString(srvprop.szServerName)
+                topic = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -186,8 +186,8 @@ class ChannelListViewController :
                     channel = subchans[indexPath.row]
                 }
                 
-                name = String.fromCString(&channel.szName.0)
-                topic = String.fromCString(&channel.szTopic.0)
+                name = fromTTString(channel.szName)
+                topic = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -213,11 +213,11 @@ class ChannelListViewController :
         else {
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
-            var user = chanusers[indexPath.row - chan_count]
-            let nickname = String.fromCString(&user.szNickname.0)
-            let statusmsg = String.fromCString(&user.szStatusMsg.0)
+            let user = chanusers[indexPath.row - chan_count]
+            let nickname = fromTTString(user.szNickname)
+            let statusmsg = fromTTString(user.szStatusMsg)
             
-            cell.nicknameLabel.text = limitText(nickname!)
+            cell.nicknameLabel.text = limitText(nickname)
             cell.statusmsgLabel.text = statusmsg
             
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
@@ -248,10 +248,10 @@ class ChannelListViewController :
     func updateTitle() {
         var title = ""
         if curchannel.nParentID == 0 {
-            title = String.fromCString(&srvprop.szServerName.0)!
+            title = fromTTString(srvprop.szServerName)
         }
         else {
-            title = String.fromCString(&curchannel.szName.0)!
+            title = fromTTString(curchannel.szName)
         }
         
         self.tabBarController?.navigationItem.title = title
@@ -535,8 +535,8 @@ class ChannelListViewController :
             let txtmsg = getTextMessage(&m).memory
 
             if txtmsg.nMsgType == MSGTYPE_USER {
-                if var user = users[txtmsg.nFromUserID] {
-                    let newmsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!,
+                if let user = users[txtmsg.nFromUserID] {
+                    let newmsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
                     myself: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     

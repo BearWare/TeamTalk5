@@ -136,7 +136,7 @@ class TextMessageViewController :
         
         var msg = TextMessage()
         msg.nFromUserID = TT_GetMyUserID(ttInst)
-        toTTString(msgTextView.text, &msg.szMessage.0)
+        toTTString(msgTextView.text, dst: &msg.szMessage)
         
         if userid == 0 {
             msg.nMsgType = MSGTYPE_CHANNEL
@@ -148,7 +148,7 @@ class TextMessageViewController :
             
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
-            let name = String.fromCString(&user.szNickname.0)!
+            let name = fromTTString(user.szNickname)
             let mymsg = MyTextMessage(m: msg, nickname: name, myself: true)
             
             messages.append(mymsg)
@@ -195,7 +195,7 @@ class TextMessageViewController :
                 var user = User()
                 TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                 
-                let mymsg = MyTextMessage(m: txtmsg, nickname: String.fromCString(&user.szNickname.0)!,
+                let mymsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
                     myself: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID)
                 messages.append(mymsg)
                 
@@ -220,7 +220,7 @@ class TextMessageViewController :
             }
         case CLIENTEVENT_CMD_USER_JOINED :
             
-            var user = getUser(&m).memory
+            let user = getUser(&m).memory
             if TT_GetMyChannelID(ttInst) == user.nChannelID {
                 var logmsg : MyTextMessage?
                 if TT_GetMyUserID(ttInst) == user.nUserID {
@@ -231,12 +231,12 @@ class TextMessageViewController :
                         channame = "root channel"
                     }
                     else {
-                        channame = String.fromCString(&channel.szName.0)!
+                        channame = fromTTString(channel.szName)
                     }
                     logmsg = MyTextMessage(logmsg: "Joined \(channame)")
                 }
                 else {
-                    let nickname = String.fromCString(&user.szNickname.0)!
+                    let nickname = fromTTString(user.szNickname)
                     logmsg = MyTextMessage(logmsg: "\(nickname) joined channel")
                 }
                 messages.append(logmsg!)
@@ -247,9 +247,9 @@ class TextMessageViewController :
             }
         case CLIENTEVENT_CMD_USER_LEFT :
             
-            var user = getUser(&m).memory
+            let user = getUser(&m).memory
             if TT_GetMyChannelID(ttInst) == m.nSource {
-                let nickname = String.fromCString(&user.szNickname.0)!
+                let nickname = fromTTString(user.szNickname)
                 let logmsg = MyTextMessage(logmsg: "\(nickname) left channel")
                 messages.append(logmsg)
                 
