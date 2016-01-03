@@ -27,7 +27,6 @@
 #include <tchar.h>        //Used for ANSI/Unicode compatibility
 #include <map>            //Used internally by the class
 #include <uxtheme.h>    //Used to access the UxTheme library
-#include <tmschema.h>    //Definitions used by some of the UxTheme library functions
 
 class CRichEditThemed
 {
