@@ -312,11 +312,23 @@ class ChannelListViewController :
             
             let flags = TT_GetFlags(ttInst)
             
-            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 && NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
+            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 {
                 
-                let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
-                if cmdid > 0 {
-                    activeCommands[cmdid] = .JoinCmd
+                // if we were previously in a channel then rejoin
+                if mychannel.nChannelID > 0 {
+                    let passwd = chanpasswds[mychannel.nChannelID] != nil ? chanpasswds[mychannel.nChannelID] : ""
+                    
+                    let cmdid = TT_DoJoinChannelByID(ttInst, mychannel.nChannelID, passwd!)
+                    if cmdid > 0 {
+                        activeCommands[cmdid] = .JoinCmd
+                    }
+                }
+                else if NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
+                    
+                    let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
+                    if cmdid > 0 {
+                        activeCommands[cmdid] = .JoinCmd
+                    }
                 }
             }
             
@@ -466,11 +478,11 @@ class ChannelListViewController :
         switch(m.nClientEvent) {
 
         case CLIENTEVENT_CON_LOST :
-            //TODO: reset channel lists?
             
             channels.removeAll()
             users.removeAll()
             curchannel = Channel()
+            activeCommands.removeAll()
             
             tableView.reloadData()
             break
