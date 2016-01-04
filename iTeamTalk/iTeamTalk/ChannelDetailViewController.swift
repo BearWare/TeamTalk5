@@ -61,6 +61,9 @@ class ChannelDetailViewController :
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: fromTTString(channel.szPassword))
         passwdfield?.delegate = self
+        passwdfield?.autocorrectionType = .No
+        passwdfield?.spellCheckingType = .No
+        passwdfield?.autocapitalizationType = .None
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)

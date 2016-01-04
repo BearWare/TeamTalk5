@@ -50,9 +50,12 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
 
         // Connection section
         let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        ipaddrfield = newTableCellTextField(ipaddrcell, label: "IP-address", initial: server.ipaddr)
+        ipaddrfield = newTableCellTextField(ipaddrcell, label: "Host address", initial: server.ipaddr)
         ipaddrfield!.delegate = self
         ipaddrfield!.keyboardType = .URL
+        ipaddrfield!.spellCheckingType = .No
+        ipaddrfield!.autocorrectionType = .No
+        ipaddrfield!.autocapitalizationType = .None
         conItems.append(ipaddrcell)
 
         let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
@@ -72,6 +75,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: server.username)
         usernamefield!.delegate = self
         usernamefield!.autocorrectionType = .No
+        usernamefield!.spellCheckingType = .No
         usernamefield!.autocapitalizationType = .None
         authItems.append(usernamecell)
         
@@ -79,6 +83,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: server.password)
         passwdfield!.delegate = self
         passwdfield!.autocorrectionType = .No
+        passwdfield!.spellCheckingType = .No
         passwdfield!.autocapitalizationType = .None
         passwdfield!.secureTextEntry = true
         authItems.append(passwdcell)
