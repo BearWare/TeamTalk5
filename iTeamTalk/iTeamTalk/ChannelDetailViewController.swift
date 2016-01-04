@@ -215,7 +215,7 @@ class ChannelDetailViewController :
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
                 let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         case CLIENTEVENT_CMD_PROCESSING :

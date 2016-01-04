@@ -486,6 +486,14 @@ class ChannelListViewController :
                 
                 commandComplete(m.nSource)
             }
+        case CLIENTEVENT_CMD_ERROR :
+            if activeCommands[m.nSource] != nil {
+                let errmsg = getClientErrorMsg(&m).memory
+                let s = fromTTString(errmsg.szErrorMsg)
+                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         case CLIENTEVENT_CMD_SERVER_UPDATE :
             srvprop = getServerProperties(&m).memory
             
