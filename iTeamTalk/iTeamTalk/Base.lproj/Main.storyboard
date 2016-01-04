@@ -534,18 +534,8 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39M-xf-cB5">
-                                                    <rect key="frame" x="277" y="0.0" width="43" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                                    <state key="normal" title="Join">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="joinChannel:" destination="VdD-YH-wjI" eventType="touchDown" id="ife-Bq-vgV"/>
-                                                    </connections>
-                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JzB-tm-tld">
-                                                    <rect key="frame" x="235" y="0.0" width="43" height="44"/>
+                                                    <rect key="frame" x="235" y="0.0" width="85" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                                     <state key="normal" title="Edit">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -561,7 +551,6 @@
                                             <outlet property="channame" destination="Fu9-tA-eYj" id="QdR-PC-Vse"/>
                                             <outlet property="chantopicLabel" destination="w6E-jf-09e" id="gJi-OR-Ask"/>
                                             <outlet property="editBtn" destination="JzB-tm-tld" id="j8S-RF-pb4"/>
-                                            <outlet property="joinBtn" destination="39M-xf-cB5" id="rbK-Pd-u6c"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">

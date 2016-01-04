@@ -30,6 +30,8 @@ class ChannelListViewController :
     var ttInst = UnsafeMutablePointer<Void>()
     // all channels on server
     var channels = [INT32 : Channel]()
+    // channel passwords
+    var chanpasswds = [INT32 : String]()
     // the channel being displayed (not nescessarily the same channel as we're in)
     var curchannel = Channel()
     // joined channel
@@ -85,10 +87,13 @@ class ChannelListViewController :
     @IBAction func joinChannel(sender: UIButton) {
         
         if curchannel.bPassword != 0 {
-            let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
-            alert.alertViewStyle = .SecureTextInput
-            alert.tag = Int(curchannel.nChannelID)
-            alert.show()
+            let alertView = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+            alertView.alertViewStyle = .SecureTextInput
+            alertView.tag = Int(curchannel.nChannelID)
+            if let passwd = chanpasswds[curchannel.nChannelID] {
+                alertView.textFieldAtIndex(0)?.text = passwd
+            }
+            alertView.show()
         }
         else {
             let cmdid = TT_DoJoinChannelByID(ttInst, curchannel.nChannelID, "")
@@ -98,6 +103,7 @@ class ChannelListViewController :
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         let passwd = (alertView.textFieldAtIndex(0)?.text)!
+        chanpasswds[INT32(alertView.tag)] = passwd
         let cmdid = TT_DoJoinChannelByID(ttInst, INT32(alertView.tag), passwd)
         activeCommands[cmdid] = .JoinCmd
     }
@@ -264,7 +270,6 @@ class ChannelListViewController :
             cell.chantopicLabel.text = topic
             
             cell.editBtn.tag = Int(channel.nChannelID)
-            cell.joinBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
             
             return cell
