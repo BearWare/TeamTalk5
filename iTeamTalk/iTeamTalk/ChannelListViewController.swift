@@ -32,6 +32,8 @@ class ChannelListViewController :
     var channels = [INT32 : Channel]()
     // the channel being displayed (not nescessarily the same channel as we're in)
     var curchannel = Channel()
+    // joined channel
+    var mychannel = Channel()
     // all users on server
     var users = [INT32 : User]()
     // the command ID which is currently processing
@@ -82,18 +84,15 @@ class ChannelListViewController :
     
     @IBAction func joinChannel(sender: UIButton) {
         
-        if let chan = channels[INT32(sender.tag)] {
-            
-            if chan.bPassword != 0 {
-                let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
-                alert.alertViewStyle = .SecureTextInput
-                alert.tag = sender.tag
-                alert.show()
-            }
-            else {
-                let cmdid = TT_DoJoinChannelByID(ttInst, chan.nChannelID, "")
-                activeCommands[cmdid] = .JoinCmd
-            }
+        if curchannel.bPassword != 0 {
+            let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+            alert.alertViewStyle = .SecureTextInput
+            alert.tag = Int(curchannel.nChannelID)
+            alert.show()
+        }
+        else {
+            let cmdid = TT_DoJoinChannelByID(ttInst, curchannel.nChannelID, "")
+            activeCommands[cmdid] = .JoinCmd
         }
     }
     
@@ -136,22 +135,69 @@ class ChannelListViewController :
         
         let (subchans, chanusers) = getDisplayItems()
         
-        if curchannel.nParentID != 0 {
-            return subchans.count + chanusers.count + 1 //+1 for 'Back' to parent channel
+        var n_items = subchans.count + chanusers.count
+        
+        if curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0 {
+            n_items += 1 // +1 for 'Join this channel'
         }
-        return subchans.count + chanusers.count
+        
+        if curchannel.nParentID != 0 {
+            n_items += 1 //+1 for 'Back' to parent channel
+        }
+        return n_items
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let (subchans, chanusers) = getDisplayItems()
 
-        let chan_count = (curchannel.nParentID != 0 ? subchans.count + 1 : subchans.count)
-        
         //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+
+        let button_index = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0 ? 0 : -1
         
-        // display channels first
-        if indexPath.row < chan_count {
+        // current index for users
+        var user_index = indexPath.row
+        if button_index >= 0 {
+            user_index -= 1
+        }
+        
+        // current index for channels
+        var chan_index = indexPath.row - chanusers.count
+        if button_index >= 0 {
+            chan_index -= 1
+        }
+
+        if button_index == indexPath.row {
+            let cellIdentifier = "JoinChannelCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+            return cell
+        }
+        else if user_index < chanusers.count {
+            
+            let cellIdentifier = "UserTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
+            let user = chanusers[user_index]
+            let nickname = fromTTString(user.szNickname)
+            let statusmsg = fromTTString(user.szStatusMsg)
+            
+            cell.nicknameLabel.text = limitText(nickname)
+            cell.statusmsgLabel.text = statusmsg
+            
+            if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
+                (TT_GetMyUserID(ttInst) == user.nUserID &&
+                    isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
+                        cell.userImage.image = UIImage(named: "man_green.png")
+            }
+            else {
+                cell.userImage.image = UIImage(named: "man_blue.png")
+            }
+            
+            cell.messageBtn.tag = Int(user.nUserID)
+            cell.tag = Int(user.nUserID)
+            
+            return cell
+        }
+        else {
 
             let cellIdentifier = "ChannelTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
@@ -160,7 +206,7 @@ class ChannelListViewController :
             var textcolor : UIColor? = nil
             var name : String?, topic : String?
             
-            if indexPath.row == 0 && curchannel.nParentID != 0 {
+            if chan_index == 0 && curchannel.nParentID != 0 {
                 // display previous channel if not in root channel
                 channel = channels[curchannel.nParentID]!
                 
@@ -177,7 +223,7 @@ class ChannelListViewController :
             }
             else if curchannel.nChannelID == 0 {
                 // display only the root channel
-                channel = subchans[indexPath.row]
+                channel = subchans[chan_index]
                 
                 name = fromTTString(srvprop.szServerName)
                 topic = fromTTString(channel.szTopic)
@@ -193,10 +239,10 @@ class ChannelListViewController :
                 // display sub channels
                 if curchannel.nParentID != 0 {
                     // root channel doesn't display access to parent
-                    channel = subchans[indexPath.row - 1]
+                    channel = subchans[chan_index - 1]
                 }
                 else {
-                    channel = subchans[indexPath.row]
+                    channel = subchans[chan_index]
                 }
                 
                 name = fromTTString(channel.szName)
@@ -220,30 +266,6 @@ class ChannelListViewController :
             cell.editBtn.tag = Int(channel.nChannelID)
             cell.joinBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
-            
-            return cell
-        }
-        else {
-            let cellIdentifier = "UserTableCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
-            let user = chanusers[indexPath.row - chan_count]
-            let nickname = fromTTString(user.szNickname)
-            let statusmsg = fromTTString(user.szStatusMsg)
-            
-            cell.nicknameLabel.text = limitText(nickname)
-            cell.statusmsgLabel.text = statusmsg
-            
-            if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
-               (TT_GetMyUserID(ttInst) == user.nUserID &&
-                isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
-                cell.userImage.image = UIImage(named: "man_green.png")
-            }
-            else {
-                cell.userImage.image = UIImage(named: "man_blue.png")
-            }
-            
-            cell.messageBtn.tag = Int(user.nUserID)
-            cell.tag = Int(user.nUserID)
             
             return cell
         }
@@ -510,6 +532,7 @@ class ChannelListViewController :
             // we joined a new channel so update table view
             if user.nUserID == TT_GetMyUserID(ttInst) {
                 curchannel = channels[user.nChannelID]!
+                mychannel = channels[user.nChannelID]!
                 updateTitle()
             }
             if user.nChannelID == curchannel.nChannelID {
@@ -529,6 +552,7 @@ class ChannelListViewController :
         case CLIENTEVENT_CMD_USER_LEFT :
             let user = getUser(&m).memory
             users[user.nUserID] = user
+            
             if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
                 users.removeValueForKey(user.nUserID)
             }
@@ -536,6 +560,10 @@ class ChannelListViewController :
                 users[user.nUserID] = user
             }
     
+            if user.nUserID == TT_GetMyUserID(ttInst) {
+                mychannel = Channel()
+            }
+            
             if m.nSource == curchannel.nChannelID {
                 playSound(.LEFT_CHAN)
             }
