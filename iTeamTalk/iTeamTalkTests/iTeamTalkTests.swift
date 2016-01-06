@@ -9,6 +9,7 @@
 import UIKit
 import XCTest
 import iTeamTalk
+import AVFoundation
 
 class iTeamTalkTests: XCTestCase {
     
@@ -60,9 +61,11 @@ class iTeamTalkTests: XCTestCase {
     func testLoopback() {
         let ttInst = newClient()
         var msg = TTMessage()
-        
+
         let inst1 = TT_StartSoundLoopbackTest(0, 1, 48000, 1, 0, nil)
         let inst2 = TT_StartSoundLoopbackTest(0, 1, 48000, 1, 0, nil)
+
+        print("Sound loop is active now")
         
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
         
@@ -285,6 +288,131 @@ class iTeamTalkTests: XCTestCase {
             }
         }
         return false
+    }
+    
+    func testAudioInputs() {
+        let session = AVAudioSession.sharedInstance()
+        
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord/*, withOptions: AVAudioSessionCategoryOptions.AllowBluetooth*/)
+            
+//            try session.setMode(AVAudioSessionModeVoiceChat)
+            
+            //session.setActive(true, withOptions: AllowBluetooth)
+//            try session.overrideOutputAudioPort( ( on ? AVAudioSessionPortOverride.Speaker : AVAudioSessionPortOverride.None ) )
+            
+            if let def_input = session.preferredInput {
+                print("Preferred input is: " + def_input.portName)
+            }
+            
+            let inputs = session.availableInputs
+            
+            for a in inputs! {
+                print("--- An input ---")
+                print("PortName: " + a.portName)
+                print("UID: " + a.UID)
+                print("PortType: " + a.portType)
+                
+                // only input
+                if a.portType == AVAudioSessionPortLineIn {
+                    print("This is line in")
+                }
+                if a.portType == AVAudioSessionPortBuiltInMic {
+                    print("This is build in mic")
+                }
+                if a.portType == AVAudioSessionPortHeadsetMic {
+                    print("This is headset mic")
+                }
+                
+                // input and output
+                if a.portType == AVAudioSessionPortBluetoothHFP {
+                    print("Bluetooth input")
+                }
+                if a.portType == AVAudioSessionPortUSBAudio {
+                    print("USB audio input")
+                }
+                
+                if a.portType == AVAudioSessionPortHeadphones {
+                    print("This is headphones")
+                }
+                
+                //data sources
+                let datasources = a.dataSources!
+                
+                for d in datasources {
+                    print("Data source ID: \(d.dataSourceID)")
+                    print("Data source name: " + d.dataSourceName)
+                }
+                
+                if let pref_ds = a.preferredDataSource {
+                    print("Preferred data source is " + pref_ds.dataSourceName)
+                }
+                
+                if let sel_ds = a.selectedDataSource {
+                    print("Selected data source is " + sel_ds.dataSourceName)
+                }
+            }
+            
+            
+            print("------- Outputs -------");
+
+            let outputs = session.currentRoute.outputs
+            for a in outputs {
+                print("--- An output ---")
+                print("PortName: " + a.portName)
+                print("UID: " + a.UID)
+                print("PortType: " + a.portType)
+                
+                if a.portType == AVAudioSessionPortLineOut {
+                    print("This is line out")
+                }
+                if a.portType == AVAudioSessionPortHeadphones {
+                    print("This is headphones")
+                }
+                if a.portType == AVAudioSessionPortBluetoothA2DP {
+                    print("This is Bluetooth A2DP")
+                }
+                if a.portType == AVAudioSessionPortBuiltInReceiver {
+                    print("This is BuiltInReceiver")
+                }
+                if a.portType == AVAudioSessionPortBuiltInSpeaker {
+                    print("This is Speaker")
+                }
+                if a.portType == AVAudioSessionPortHDMI {
+                    print("This is HDMI")
+                }
+                if a.portType == AVAudioSessionPortAirPlay {
+                    print("This is AirPlay")
+                }
+                if a.portType == AVAudioSessionPortBluetoothLE {
+                    print("This is Bluetooth LE")
+                }
+
+                if let datasources = a.dataSources {
+                    for d in datasources {
+                        print("Data source ID: \(d.dataSourceID)")
+                        print("Data source name: " + d.dataSourceName)
+                    }
+                }
+                
+                if let sel_ds = session.outputDataSource {
+                    print("Selected data source is " + sel_ds.dataSourceName)
+                }
+
+            }
+            
+
+            
+//            let outputs = session.avail
+            
+            try session.setActive(true)
+            
+            
+            //print(session.currentRoute)
+        }
+        catch {
+            XCTAssert(false, "Failed")
+        }
     }
     
 }
