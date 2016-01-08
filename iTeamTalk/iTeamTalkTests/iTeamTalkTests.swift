@@ -220,6 +220,40 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_CloseSoundOutputDevice(player) != 0, "Close sound output")
     }
     
+    func testHearMyself() {
+        
+        do {
+            let ttInst = newClient()
+            
+            initSound(ttInst)
+            
+            connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
+            login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
+            joinRootChannel(ttInst)
+            
+            XCTAssert(TT_DBG_SetSoundInputTone(ttInst, UInt32(STREAMTYPE_VOICE.rawValue), 800) != 0, "Set tone src1")
+            
+            XCTAssert(TT_EnableVoiceTransmission(ttInst, 1) != 0, "Enable voice tx src1")
+            
+            waitCmdSuccess(ttInst, cmdid: TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE.rawValue), waittimeout: 5000)
+            
+            print("Waiting 5 sec")
+            
+            var msg = TTMessage()
+            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+                
+            let session = AVAudioSession.sharedInstance()
+            print("Switching to speaker")
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        
+            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+
+        }
+        catch {
+            XCTAssert(false, "Failed")
+        }
+    }
+    
     
     func initSound(ttInst: UnsafeMutablePointer<Void>) {
         XCTAssert(TT_InitSoundInputDevice(ttInst, 0) != 0, "Init input sound device");
@@ -406,7 +440,24 @@ class iTeamTalkTests: XCTestCase {
 //            let outputs = session.avail
             
             try session.setActive(true)
+
+            let ttInst = newClient()
+            var msg = TTMessage()
             
+            let inst1 = TT_StartSoundLoopbackTest(0, 0, 48000, 1, 0, nil)
+            
+            print("Sound loop is active now")
+            
+            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+
+            print("Switching to speaker")
+            
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+
+            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+            
+            TT_CloseSoundLoopbackTest(inst1)
+
             
             //print(session.currentRoute)
         }
