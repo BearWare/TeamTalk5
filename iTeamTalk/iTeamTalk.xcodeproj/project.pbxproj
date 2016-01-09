@@ -64,6 +64,9 @@
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
 		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
+		254057741C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/Main.strings"; sourceTree = "<group>"; };
+		254057751C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		254057761C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -295,6 +298,7 @@
 				en,
 				Base,
 				"da-DK",
+				"hu-HU",
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -386,6 +390,7 @@
 				254B7A511B98BAA300BE0DEF /* Base */,
 				25658E841C402C2A00D62F82 /* en */,
 				25658E851C402CAE00D62F82 /* da-DK */,
+				254057741C418BC50090C769 /* hu-HU */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -395,6 +400,7 @@
 			children = (
 				254B7A561B98BAA300BE0DEF /* Base */,
 				25658E861C402CAE00D62F82 /* da-DK */,
+				254057751C418BC50090C769 /* hu-HU */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -405,6 +411,7 @@
 				259B12F81C4182E7008A355E /* Base */,
 				259B12FA1C4182FE008A355E /* en */,
 				259B12FB1C418309008A355E /* da-DK */,
+				254057761C418BC50090C769 /* hu-HU */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
