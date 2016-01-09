@@ -93,6 +93,9 @@
 		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 		254C08491C345E3700C98566 /* newuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = newuser.mp3; sourceTree = "<group>"; };
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
+		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		256328181C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25658E841C402C2A00D62F82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		25658E851C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Main.strings"; sourceTree = "<group>"; };
 		25658E861C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 				"da-DK",
 				"hu-HU",
 				tr,
+				ru,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -396,6 +400,7 @@
 				25658E851C402CAE00D62F82 /* da-DK */,
 				254057741C418BC50090C769 /* hu-HU */,
 				254057771C418D190090C769 /* tr */,
+				256328171C41A9F20055373F /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				25658E861C402CAE00D62F82 /* da-DK */,
 				254057751C418BC50090C769 /* hu-HU */,
 				254057781C418D190090C769 /* tr */,
+				256328181C41A9F20055373F /* ru */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -419,6 +425,7 @@
 				259B12FB1C418309008A355E /* da-DK */,
 				254057761C418BC50090C769 /* hu-HU */,
 				254057791C418D190090C769 /* tr */,
+				256328191C41A9F20055373F /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
