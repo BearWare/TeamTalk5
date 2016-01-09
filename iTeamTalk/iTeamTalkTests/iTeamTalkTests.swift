@@ -13,6 +13,7 @@ import AVFoundation
 
 class iTeamTalkTests: XCTestCase {
     
+    let TRUE : TTBOOL = 1, FALSE : TTBOOL = 0
     let DEF_WAIT : INT32 = 5000
     let IPADDR = "tt5eu.bearware.dk"
     let TCPPORT : INT32 = 10335, UDPPORT : INT32 = 10335
@@ -233,14 +234,16 @@ class iTeamTalkTests: XCTestCase {
             
             XCTAssert(TT_DBG_SetSoundInputTone(ttInst, UInt32(STREAMTYPE_VOICE.rawValue), 800) != 0, "Set tone src1")
             
-            XCTAssert(TT_EnableVoiceTransmission(ttInst, 1) != 0, "Enable voice tx src1")
+            XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE) != 0, "Enable voice tx src1")
             
             waitCmdSuccess(ttInst, cmdid: TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE.rawValue), waittimeout: 5000)
             
             print("Waiting 5 sec")
             
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "audioRouteChangeListenerCallback:", name: AVAudioSessionRouteChangeNotification, object: nil)
+            
             var msg = TTMessage()
-            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+            waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 20000, msg: &msg)
                 
             let session = AVAudioSession.sharedInstance()
             print("Switching to speaker")
@@ -251,6 +254,43 @@ class iTeamTalkTests: XCTestCase {
         }
         catch {
             XCTAssert(false, "Failed")
+        }
+    }
+    
+    func audioRouteChangeListenerCallback(notification: NSNotification) {
+        print("Route changed")
+    }
+    
+    func testProximitySensor() {
+        let ttInst = newClient()
+        
+        initSound(ttInst)
+        
+        let device = UIDevice.currentDevice()
+        device.proximityMonitoringEnabled = true
+
+        XCTAssert(device.proximityMonitoringEnabled, "Proximity sensor ok")
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+
+        
+        connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
+        login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
+        joinRootChannel(ttInst)
+        
+        var msg = TTMessage()
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 10000, msg: &msg)
+
+    }
+    
+    func proximityChanged(notification: NSNotification) {
+        let device = notification.object as! UIDevice
+        
+        if device.proximityState {
+            print("Proximity state 1")
+        }
+        else {
+            print("Proximity state 0")
         }
     }
     

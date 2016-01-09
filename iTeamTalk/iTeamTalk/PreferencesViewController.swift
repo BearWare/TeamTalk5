@@ -25,6 +25,7 @@ import AVFoundation
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
+let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
 
@@ -97,6 +98,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         general_items.append(nicknamecell)
         
         // display items
+
+        let proximitycell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let proximity = settings.objectForKey(PREF_DISPLAY_PROXIMITY) != nil && settings.boolForKey(PREF_DISPLAY_PROXIMITY)
+        let proximitywitch = newTableCellSwitch(proximitycell, label: NSLocalizedString("Proximity sensor", comment: "preferences"), initial: proximity)
+        proximitycell.detailTextLabel!.text = NSLocalizedString("Turn off screen when holding phone near ear", comment: "preferences")
+        proximitywitch.addTarget(self, action: "proximityChanged:", forControlEvents: .ValueChanged)
+        display_items.append(proximitycell)
         
         let txtmsgpopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let txtmsgpopup = settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG)
@@ -336,7 +344,15 @@ case Sounds.USER_MSG.rawValue :
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_DISPLAY_POPUPTXTMSG)
     }
-    
+
+    func proximityChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_DISPLAY_PROXIMITY)
+        
+        let device = UIDevice.currentDevice()
+        device.proximityMonitoringEnabled = sender.on
+    }
+
     func limittextChanged(sender: UIStepper) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)

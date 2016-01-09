@@ -98,7 +98,22 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         polltimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
         
+        let device = UIDevice.currentDevice()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+
         connectToServer()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        let proximity = defaults.objectForKey(PREF_DISPLAY_PROXIMITY) != nil && defaults.boolForKey(PREF_DISPLAY_PROXIMITY)
+        if proximity {
+            let device = UIDevice.currentDevice()
+            device.proximityMonitoringEnabled = true
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -112,6 +127,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             ttMessageHandlers.removeAll()
             unreadmessages.removeAll()
         }
+        
+        let device = UIDevice.currentDevice()
+        device.proximityMonitoringEnabled = false
     }
     
     func setTeamTalkServer(server: Server) {
@@ -124,7 +142,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     
     func connectToServer() {
         
-        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, 0) == 0 {
+        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, FALSE) == 0 {
             TT_Disconnect(ttInst)
             startReconnectTimer()
         }
@@ -134,7 +152,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     func timerEvent() {
         var m = TTMessage()
         var n : INT32 = 0
-        while TT_GetMessage(ttInst, &m, &n) != 0 {
+        while TT_GetMessage(ttInst, &m, &n) != FALSE {
 
             for tt in ttMessageHandlers {
                 if tt.value == nil {
@@ -144,6 +162,17 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
                     tt.value!.handleTTMessage(m)
                 }
             }
+        }
+    }
+    
+    func proximityChanged(notification: NSNotification) {
+        let device = notification.object as! UIDevice
+        
+        if device.proximityState {
+//            print("Proximity state 1")
+        }
+        else {
+//            print("Proximity state 0")
         }
     }
     
