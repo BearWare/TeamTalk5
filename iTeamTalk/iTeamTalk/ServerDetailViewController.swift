@@ -44,13 +44,13 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         
         // ServerList Entry section
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: "Name", initial: server.name)
+        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "server entry"), initial: server.name)
         namefield!.delegate = self
         nameItems.append(namecell)
 
         // Connection section
         let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        ipaddrfield = newTableCellTextField(ipaddrcell, label: "Host address", initial: server.ipaddr)
+        ipaddrfield = newTableCellTextField(ipaddrcell, label: NSLocalizedString("Host address", comment: "server entry"), initial: server.ipaddr)
         ipaddrfield!.delegate = self
         ipaddrfield!.keyboardType = .URL
         ipaddrfield!.spellCheckingType = .No
@@ -59,20 +59,20 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         conItems.append(ipaddrcell)
 
         let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        tcpportfield = newTableCellTextField(tcpportcell, label: "TCP Port", initial: String(server.tcpport))
+        tcpportfield = newTableCellTextField(tcpportcell, label: NSLocalizedString("TCP Port", comment: "server entry"), initial: String(server.tcpport))
         tcpportfield!.delegate = self
         tcpportfield!.keyboardType = .NumberPad
         conItems.append(tcpportcell)
 
         let udpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        udpportfield = newTableCellTextField(udpportcell, label: "UDP Port", initial: String(server.udpport))
+        udpportfield = newTableCellTextField(udpportcell, label: NSLocalizedString("UDP Port", comment: "server entry"), initial: String(server.udpport))
         udpportfield!.delegate = self
         udpportfield!.keyboardType = .NumberPad
         conItems.append(udpportcell)
 
         // Authentication section
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: server.username)
+        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: server.username)
         usernamefield!.delegate = self
         usernamefield!.autocorrectionType = .No
         usernamefield!.spellCheckingType = .No
@@ -80,7 +80,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         authItems.append(usernamecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: server.password)
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: server.password)
         passwdfield!.delegate = self
         passwdfield!.autocorrectionType = .No
         passwdfield!.spellCheckingType = .No
@@ -170,13 +170,13 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
-            return "Server List Entry"
+            return NSLocalizedString("Server List Entry", comment: "server entry")
         case 1 :
-            return "Connection"
+            return NSLocalizedString("Connection", comment: "server entry")
         case 2 :
-            return "Authentication"
+            return NSLocalizedString("Authentication", comment: "server entry")
         case 3 :
-            return "Actions"
+            return NSLocalizedString("Actions", comment: "server entry")
         default :
             return nil
         }

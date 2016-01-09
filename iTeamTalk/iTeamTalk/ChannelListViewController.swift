@@ -87,7 +87,7 @@ class ChannelListViewController :
     @IBAction func joinChannel(sender: UIButton) {
         
         if curchannel.bPassword != 0 {
-            let alertView = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+            let alertView = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alertView.alertViewStyle = .SecureTextInput
             alertView.tag = Int(curchannel.nChannelID)
             if let passwd = chanpasswds[curchannel.nChannelID] {
@@ -502,8 +502,8 @@ class ChannelListViewController :
             if activeCommands[m.nSource] != nil {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         case CLIENTEVENT_CMD_SERVER_UPDATE :

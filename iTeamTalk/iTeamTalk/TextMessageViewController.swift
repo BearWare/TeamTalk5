@@ -239,7 +239,7 @@ class TextMessageViewController :
             
             let user = getUser(&m).memory
             if TT_GetMyUserID(ttInst) == user.nUserID {
-                let logmsg = MyTextMessage(logmsg: "Logged on to server")
+                let logmsg = MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry"))
                 messages.append(logmsg)
                 
                 if tableView != nil {
@@ -256,7 +256,7 @@ class TextMessageViewController :
                     TT_GetChannel(ttInst, user.nChannelID, &channel)
                     var channame : String
                     if channel.nParentID == 0 {
-                        channame = "root channel"
+                        channame = NSLocalizedString("root channel", comment: "log entry")
                     }
                     else {
                         channame = fromTTString(channel.szName)

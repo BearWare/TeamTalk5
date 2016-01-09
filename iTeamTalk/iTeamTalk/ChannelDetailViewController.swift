@@ -54,12 +54,12 @@ class ChannelDetailViewController :
         super.viewDidLoad()
         
         let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: "Name", initial: fromTTString(channel.szName))
+        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: fromTTString(channel.szName))
         namefield?.delegate = self
         chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: "Password", initial: fromTTString(channel.szPassword))
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: fromTTString(channel.szPassword))
         passwdfield?.delegate = self
         passwdfield?.autocorrectionType = .No
         passwdfield?.spellCheckingType = .No
@@ -67,30 +67,30 @@ class ChannelDetailViewController :
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        topicfield = newTableCellTextField(topiccell, label: "Topic", initial: fromTTString(channel.szTopic))
+        topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: fromTTString(channel.szTopic))
         topicfield?.delegate = self
         chan_items.append(topiccell)
         
         codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell")!
         codeccell!.selectionStyle = .None
-        codeccell!.textLabel!.text = "Audio Codec"
+        codeccell!.textLabel!.text = NSLocalizedString("Audio Codec", comment: "create channel")
         showCodecDetail()
         chan_items.append(codeccell!)
         
         let permanentcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        permanentswitch = newTableCellSwitch(permanentcell, label: "Permanent Channel", initial: (channel.uChannelType & CHANNEL_PERMANENT.rawValue) != 0)
+        permanentswitch = newTableCellSwitch(permanentcell, label: NSLocalizedString("Permanent Channel", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_PERMANENT.rawValue) != 0)
         chan_items.append(permanentcell)
         
         let nointerruptcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        nointerruptionsswitch = newTableCellSwitch(nointerruptcell, label: "No Interruptions", initial: (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.rawValue) != 0)
+        nointerruptionsswitch = newTableCellSwitch(nointerruptcell, label: NSLocalizedString("No Interruptions", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.rawValue) != 0)
         chan_items.append(nointerruptcell)
         
         let novoiceactcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        novoiceactivationswitch = newTableCellSwitch(novoiceactcell, label: "No Voice Activation", initial: (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.rawValue) != 0)
+        novoiceactivationswitch = newTableCellSwitch(novoiceactcell, label: NSLocalizedString("No Voice Activation", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.rawValue) != 0)
         chan_items.append(novoiceactcell)
         
         let noaudiorecordcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, label: "No Audio Recording", initial: (channel.uChannelType & CHANNEL_NO_RECORDING.rawValue) != 0)
+        noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, label: NSLocalizedString("No Audio Recording", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_NO_RECORDING.rawValue) != 0)
         chan_items.append(noaudiorecordcell)
         
         if channel.nChannelID != 0 {
@@ -106,7 +106,7 @@ class ChannelDetailViewController :
         }
         
         if channel.nChannelID == 0 {
-            navitem.title = "Create Channel"
+            navitem.title = NSLocalizedString("Create Channel", comment: "View Title")
         }
         else {
         }
@@ -180,7 +180,7 @@ class ChannelDetailViewController :
     @IBAction func joinChannelPressed(sender: UIButton) {
         
         if channel.bPassword != 0 {
-            let alert = UIAlertView(title: "Enter Password", message: "Password", delegate: self, cancelButtonTitle: "Join")
+            let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alert.alertViewStyle = .SecureTextInput
             alert.show()
         }
@@ -214,8 +214,8 @@ class ChannelDetailViewController :
             if m.nSource == cmdid {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         case CLIENTEVENT_CMD_PROCESSING :

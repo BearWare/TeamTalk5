@@ -67,63 +67,63 @@ class UserDetailViewController : UIViewController,
         
         // general items
         let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: "Username", initial: fromTTString(user.szUsername))
+        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "user detail"), initial: fromTTString(user.szUsername))
         general_items.append(usernamecell)
         
         // volume items
         let voicevolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        voiceslider = newTableCellSlider(voicevolcell, label: "Voice Volume", min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeVoice))))
+        voiceslider = newTableCellSlider(voicevolcell, label: NSLocalizedString("Voice Volume", comment: "user detail"), min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeVoice))))
         voiceslider!.addTarget(self, action: "voiceVolumeChanged:", forControlEvents: .ValueChanged)
         volume_items.append(voicevolcell)
         
         let voicemutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        voiceswitch = newTableCellSwitch(voicemutecell, label: "Mute Voice", initial: (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) != 0)
+        voiceswitch = newTableCellSwitch(voicemutecell, label: NSLocalizedString("Mute Voice", comment: "user detail"), initial: (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) != 0)
         voiceswitch!.addTarget(self, action: "muteVoice:", forControlEvents: .ValueChanged)
         volume_items.append(voicemutecell)
 
         let mediavolcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        mediaslider = newTableCellSlider(mediavolcell, label: "Media File Volume", min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
+        mediaslider = newTableCellSlider(mediavolcell, label: NSLocalizedString("Media File Volume", comment: "user detail"), min: 0, max: 100, initial: Float(refVolumeToPercent(Int(user.nVolumeMediaFile))))
         mediaslider!.addTarget(self, action: "mediaVolumeChanged:", forControlEvents: .ValueChanged)
         volume_items.append(mediavolcell)
         
         let mediamutecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        mediaswitch = newTableCellSwitch(mediamutecell, label: "Mute Media File", initial: (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) != 0)
+        mediaswitch = newTableCellSwitch(mediamutecell, label: NSLocalizedString("Mute Media File", comment: "user detail"), initial: (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) != 0)
         mediaswitch!.addTarget(self, action: "muteMediaStream:", forControlEvents: .ValueChanged)
         volume_items.append(mediamutecell)
         
         // subscription items
         let subusermsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.rawValue) != 0)
+        subusermsgswitch = newTableCellSwitch(subusermsgcell, label: NSLocalizedString("User Messages", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_USER_MSG.rawValue) != 0)
         subusermsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subusermsgcell)
         
         let subchanmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: "Channel Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
+        subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: NSLocalizedString("Channel Messages", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
         subchanmsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subchanmsgcell)
 
         let subbcastmsgcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: "Broadcast Messages", initial: (user.uLocalSubscriptions & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
+        subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: NSLocalizedString("Broadcast Messages", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
         subbcastmsgswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subbcastmsgcell)
 
         let subvoicecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subvoiceswitch = newTableCellSwitch(subvoicecell, label: "Voice", initial: (user.uLocalSubscriptions & SUBSCRIBE_VOICE.rawValue) != 0)
+        subvoiceswitch = newTableCellSwitch(subvoicecell, label: NSLocalizedString("Voice", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_VOICE.rawValue) != 0)
         subvoiceswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subvoicecell)
         
         let subwebcamcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subwebcamswitch = newTableCellSwitch(subwebcamcell, label: "WebCam", initial: (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
+        subwebcamswitch = newTableCellSwitch(subwebcamcell, label: NSLocalizedString("WebCam", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
         subwebcamswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subwebcamcell)
         
         let submediafilecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        submediafileswitch = newTableCellSwitch(submediafilecell, label: "Media File", initial: (user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
+        submediafileswitch = newTableCellSwitch(submediafilecell, label: NSLocalizedString("Media File", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
         submediafileswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(submediafilecell)
         
         let subdesktopcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        subdesktopswitch = newTableCellSwitch(subdesktopcell, label: "Desktop", initial: (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP.rawValue) != 0)
+        subdesktopswitch = newTableCellSwitch(subdesktopcell, label: NSLocalizedString("Desktop", comment: "user detail"), initial: (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP.rawValue) != 0)
         subdesktopswitch!.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
 
@@ -209,13 +209,13 @@ class UserDetailViewController : UIViewController,
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
-            return "General"
+            return NSLocalizedString("General", comment: "user detail")
         case SECTION_ACTIONS :
-            return "Actions"
+            return NSLocalizedString("Actions", comment: "user detail")
         case SECTION_VOLUME :
-            return "Volume Controls"
+            return NSLocalizedString("Volume Controls", comment: "user detail")
         case SECTION_SUBSCRIPTIONS :
-            return "Subscriptions"
+            return NSLocalizedString("Subscriptions", comment: "user detail")
         default :
             return nil
         }
@@ -264,8 +264,8 @@ class UserDetailViewController : UIViewController,
             if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: "Error", message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "user detail"), style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         default :

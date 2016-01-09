@@ -361,7 +361,7 @@ case Sounds.USER_MSG.rawValue :
     func voiceactlevelChanged(sender: UIStepper) {
         if Int(sender.value) == VOICEACT_DISABLED {
             TT_EnableVoiceActivation(ttInst, 0)
-            voiceactcell?.detailTextLabel?.text = "Voice Activation Level: Disabled"
+            voiceactcell?.detailTextLabel?.text = NSLocalizedString("Voice Activation Level: Disabled", comment: "preferences")
         }
         else {
             TT_EnableVoiceActivation(ttInst, 1)
@@ -396,15 +396,15 @@ case Sounds.USER_MSG.rawValue :
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
-            return "General"
+            return NSLocalizedString("General", comment: "preferences")
         case SECTION_DISPLAY :
-            return "Display"
+            return NSLocalizedString("Display", comment: "preferences")
         case SECTION_SOUNDEVENTS :
-            return "Sound Events"
+            return NSLocalizedString("Sound Events", comment: "preferences")
         case SECTION_SOUND :
-            return "Sound System"
+            return NSLocalizedString("Sound System", comment: "preferences")
         case SECTION_SUBSCRIPTIONS :
-            return "Default Subscriptions"
+            return NSLocalizedString("Default Subscriptions", comment: "preferences")
         default :
             return nil
         }

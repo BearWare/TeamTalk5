@@ -114,7 +114,7 @@ func newTableCellTextField(cell: UITableViewCell, label: String, initial: String
     cell.textLabel?.text = label
     let textfield = UITextField(frame: CGRectMake(150, 7, 150, 30))
     textfield.text = initial
-    textfield.placeholder = "Type text here"
+    textfield.placeholder = NSLocalizedString("Type text here", comment: "text field hint")
     //textfield.borderStyle = .Line
     cell.accessoryView = textfield
     
