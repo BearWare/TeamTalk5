@@ -368,7 +368,7 @@ case Sounds.USER_MSG.rawValue :
         else {
             TT_EnableVoiceActivation(ttInst, 1)
             TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
-            let txt = String(format: NSLocalizedString("Voice Activation Level: %d, Recommended: %d", comment: "preferences"), Int(sender.value), DEFAULT_VOICEACT)
+            let txt = String(format: NSLocalizedString("Voice Activation Level: %d. Recommended: %d", comment: "preferences"), Int(sender.value), DEFAULT_VOICEACT)
             voiceactcell?.detailTextLabel?.text = txt
         }
         let defaults = NSUserDefaults.standardUserDefaults()
