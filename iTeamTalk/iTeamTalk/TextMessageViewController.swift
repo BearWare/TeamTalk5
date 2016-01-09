@@ -261,11 +261,13 @@ class TextMessageViewController :
                     else {
                         channame = fromTTString(channel.szName)
                     }
-                    logmsg = MyTextMessage(logmsg: "Joined \(channame)")
+                    let txt = String(format: NSLocalizedString("Joined %@", comment: "log entry"), channame)
+                    logmsg = MyTextMessage(logmsg: txt)
                 }
                 else {
                     let nickname = fromTTString(user.szNickname)
-                    logmsg = MyTextMessage(logmsg: "\(nickname) joined channel")
+                    let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), nickname)
+                    logmsg = MyTextMessage(logmsg: txt)
                 }
                 messages.append(logmsg!)
                 
@@ -278,7 +280,8 @@ class TextMessageViewController :
             let user = getUser(&m).memory
             if TT_GetMyChannelID(ttInst) == m.nSource {
                 let nickname = fromTTString(user.szNickname)
-                let logmsg = MyTextMessage(logmsg: "\(nickname) left channel")
+                let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), nickname)
+                let logmsg = MyTextMessage(logmsg: txt)
                 messages.append(logmsg)
                 
                 if tableView != nil {

@@ -91,7 +91,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         // general items
         
         let nicknamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-        nicknamefield = newTableCellTextField(nicknamecell, label: "Nickname", initial: nickname!)
+        nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname", comment: "preferences"), initial: nickname!)
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
@@ -100,14 +100,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let txtmsgpopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let txtmsgpopup = settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG)
-        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: "Show text messages instantly", initial: txtmsgpopup)
-        txtmsgpopcell.detailTextLabel!.text = "Pop up text message when new messages are received"
+        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: NSLocalizedString("Show text messages instantly", comment: "preferences"), initial: txtmsgpopup)
+        txtmsgpopcell.detailTextLabel!.text = NSLocalizedString("Pop up text message when new messages are received", comment: "preferences")
         txtmsgswitch.addTarget(self, action: "showtextmessagesChanged:", forControlEvents: .ValueChanged)
         display_items.append(txtmsgpopcell)
         
         limittextcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let limittext = settings.objectForKey(PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integerForKey(PREF_DISPLAY_LIMITTEXT)
-        let limittextstepper = newTableCellStepper(limittextcell!, label: "Maximum Text Length", min: 1, max: Double(TT_STRLEN-1), step: 1, initial: Double(limittext))
+        let limittextstepper = newTableCellStepper(limittextcell!, label: NSLocalizedString("Maximum Text Length", comment: "preferences"), min: 1, max: Double(TT_STRLEN-1), step: 1, initial: Double(limittext))
         limittextChanged(limittextstepper)
         limittextstepper.addTarget(self, action: "limittextChanged:", forControlEvents: .ValueChanged)
         display_items.append(limittextcell!)
@@ -117,15 +117,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         mastervolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let vol = Int(TT_GetSoundOutputVolume(ttInst))
         let percent = refVolumeToPercent(vol)
-        let mastervolstepper = newTableCellStepper(mastervolcell!, label: "Master Volume", min: 0, max: 100, step: 5, initial: Double(percent))
+        let mastervolstepper = newTableCellStepper(mastervolcell!, label: NSLocalizedString("Master Volume", comment: "preferences"), min: 0, max: 100, step: 5, initial: Double(percent))
         mastervolstepper.addTarget(self, action: "masterVolumeChanged:", forControlEvents: .ValueChanged)
         masterVolumeChanged(mastervolstepper)
         sound_items.append(mastervolcell!)
         
         let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: "Speaker Output",
+        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
             initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
-        speakercell.detailTextLabel!.text = "Use iPhone's speaker instead of earpiece"
+        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
         speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
         sound_items.append(speakercell)
 
@@ -135,7 +135,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
         }
         voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let voiceactstepper = newTableCellStepper(voiceactcell!, label: "Voice Activation Level",
+        let voiceactstepper = newTableCellStepper(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
             min: Double(SOUND_VU_MIN.rawValue), max: Double(VOICEACT_DISABLED), step: 1, initial: Double(voiceact))
         voiceactstepper.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
         voiceactlevelChanged(voiceactstepper)
@@ -144,7 +144,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
         let input_pct = refVolumeToPercent(inputvol)
-        let microphonestepper = newTableCellStepper(microphonecell!, label: "Microphone Gain", min: 0, max: 100, step: 5, initial: Double(input_pct))
+        let microphonestepper = newTableCellStepper(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0, max: 100, step: 5, initial: Double(input_pct))
         microphonestepper.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
         microphoneGainChanged(microphonestepper)
         sound_items.append(microphonecell!)
@@ -153,48 +153,48 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         // sound events
         
         let srvlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let srvlostswitch = newTableCellSwitch(srvlostcell, label: "Server Connection Lost", initial: getSoundFile(.SRV_LOST) != nil)
-        srvlostcell.detailTextLabel!.text = "Play sound when connection is dropped"
+        let srvlostswitch = newTableCellSwitch(srvlostcell, label: NSLocalizedString("Server Connection Lost", comment: "preferences"), initial: getSoundFile(.SRV_LOST) != nil)
+        srvlostcell.detailTextLabel!.text = NSLocalizedString("Play sound when connection is dropped", comment: "preferences")
         srvlostswitch.tag = Sounds.SRV_LOST.rawValue
         srvlostswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(srvlostswitch)
         soundevents_items.append(srvlostcell)
         
         let voicetxcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let voicetxswitch = newTableCellSwitch(voicetxcell, label: "Voice Transmission Toggled", initial: getSoundFile(.TX_ON) != nil)
-        voicetxcell.detailTextLabel!.text = "Play sound when voice transmission is toggled"
+        let voicetxswitch = newTableCellSwitch(voicetxcell, label: NSLocalizedString("Voice Transmission Toggled", comment: "preferences"), initial: getSoundFile(.TX_ON) != nil)
+        voicetxcell.detailTextLabel!.text = NSLocalizedString("Play sound when voice transmission is toggled", comment: "preferences")
         voicetxswitch.tag = Sounds.TX_ON.rawValue
         voicetxswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(voicetxswitch)
         soundevents_items.append(voicetxcell)
 
         let usermsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let usermsgswitch = newTableCellSwitch(usermsgcell, label: "Private Text Message", initial: getSoundFile(.USER_MSG) != nil)
-        usermsgcell.detailTextLabel!.text = "Play sound when private text message is received"
+        let usermsgswitch = newTableCellSwitch(usermsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: getSoundFile(.USER_MSG) != nil)
+        usermsgcell.detailTextLabel!.text = NSLocalizedString("Play sound when private text message is received", comment: "preferences")
         usermsgswitch.tag = Sounds.USER_MSG.rawValue
         usermsgswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(usermsgswitch)
         soundevents_items.append(usermsgcell)
         
         let chanmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let chanmsgswitch = newTableCellSwitch(chanmsgcell, label: "Channel Text Message", initial: getSoundFile(.CHAN_MSG) != nil)
-        chanmsgcell.detailTextLabel!.text = "Play sound when channel text message is received"
+        let chanmsgswitch = newTableCellSwitch(chanmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: getSoundFile(.CHAN_MSG) != nil)
+        chanmsgcell.detailTextLabel!.text = NSLocalizedString("Play sound when channel text message is received", comment: "preferences")
         chanmsgswitch.tag = Sounds.CHAN_MSG.rawValue
         chanmsgswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(chanmsgswitch)
         soundevents_items.append(chanmsgcell)
         
         let joinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let joinedchanswitch = newTableCellSwitch(joinedchancell, label: "User Joins Channel", initial: getSoundFile(.JOINED_CHAN) != nil)
-        joinedchancell.detailTextLabel!.text = "Play sound when a user joins the channel"
+        let joinedchanswitch = newTableCellSwitch(joinedchancell, label: NSLocalizedString("User Joins Channel", comment: "preferences"), initial: getSoundFile(.JOINED_CHAN) != nil)
+        joinedchancell.detailTextLabel!.text = NSLocalizedString("Play sound when a user joins the channel", comment: "preferences")
         joinedchanswitch.tag = Sounds.JOINED_CHAN.rawValue
         joinedchanswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(joinedchanswitch)
         soundevents_items.append(joinedchancell)
         
         let leftchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let leftchanswitch = newTableCellSwitch(leftchancell, label: "User Leaves Channel", initial: getSoundFile(.LEFT_CHAN) != nil)
-        leftchancell.detailTextLabel!.text = "Play sound when a user leaves the channel"
+        let leftchanswitch = newTableCellSwitch(leftchancell, label: NSLocalizedString("User Leaves Channel", comment: "preferences"), initial: getSoundFile(.LEFT_CHAN) != nil)
+        leftchancell.detailTextLabel!.text = NSLocalizedString("Play sound when a user leaves the channel", comment: "preferences")
         leftchanswitch.tag = Sounds.LEFT_CHAN.rawValue
         leftchanswitch.addTarget(self, action: "soundeventChanged:", forControlEvents: .ValueChanged)
         soundeventChanged(leftchanswitch)
@@ -205,50 +205,50 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         let subs = getDefaultSubscriptions()
 
         let subusermsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subusermsgswitch = newTableCellSwitch(subusermsgcell, label: "User Messages", initial: (subs & SUBSCRIBE_USER_MSG.rawValue) != 0)
-        subusermsgcell.detailTextLabel!.text = "Receive text messages by default"
+        let subusermsgswitch = newTableCellSwitch(subusermsgcell, label: NSLocalizedString("User Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_USER_MSG.rawValue) != 0)
+        subusermsgcell.detailTextLabel!.text = NSLocalizedString("Receive text messages by default", comment: "preferences")
         subusermsgswitch.tag = Int(SUBSCRIBE_USER_MSG.rawValue)
         subusermsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subusermsgcell)
         
         let subchanmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: "Channel Messages", initial: (subs & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
-        subchanmsgcell.detailTextLabel!.text = "Receive channel messages by default"
+        let subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: NSLocalizedString("Channel Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
+        subchanmsgcell.detailTextLabel!.text = NSLocalizedString("Receive channel messages by default", comment: "preferences")
         subchanmsgswitch.tag = Int(SUBSCRIBE_CHANNEL_MSG.rawValue)
         subchanmsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subchanmsgcell)
         
         let subbcastmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: "Broadcast Messages", initial: (subs & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
-        subbcastmsgcell.detailTextLabel!.text = "Receive broadcast messages by default"
+        let subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: NSLocalizedString("Broadcast Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
+        subbcastmsgcell.detailTextLabel!.text = NSLocalizedString("Receive broadcast messages by default", comment: "preferences")
         subbcastmsgswitch.tag = Int(SUBSCRIBE_BROADCAST_MSG.rawValue)
         subbcastmsgswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subbcastmsgcell)
 
         let subvoicecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subvoiceswitch = newTableCellSwitch(subvoicecell, label: "Voice", initial: (subs & SUBSCRIBE_VOICE.rawValue) != 0)
-        subvoicecell.detailTextLabel!.text = "Receive voice streams by default"
+        let subvoiceswitch = newTableCellSwitch(subvoicecell, label: NSLocalizedString("Voice", comment: "preferences"), initial: (subs & SUBSCRIBE_VOICE.rawValue) != 0)
+        subvoicecell.detailTextLabel!.text = NSLocalizedString("Receive voice streams by default", comment: "preferences")
         subvoiceswitch.tag = Int(SUBSCRIBE_VOICE.rawValue)
         subvoiceswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subvoicecell)
         
         let subwebcamcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subwebcamswitch = newTableCellSwitch(subwebcamcell, label: "WebCam", initial: (subs & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
-        subwebcamcell.detailTextLabel!.text = "Receive webcam streams by default"
+        let subwebcamswitch = newTableCellSwitch(subwebcamcell, label: NSLocalizedString("WebCam", comment: "preferences"), initial: (subs & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
+        subwebcamcell.detailTextLabel!.text = NSLocalizedString("Receive webcam streams by default", comment: "preferences")
         subwebcamswitch.tag = Int(SUBSCRIBE_VIDEOCAPTURE.rawValue)
         subwebcamswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subwebcamcell)
         
         let submediafilecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let submediafileswitch = newTableCellSwitch(submediafilecell, label: "Media File", initial: (subs & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
-        submediafilecell.detailTextLabel?.text = "Receive media file streams by default"
+        let submediafileswitch = newTableCellSwitch(submediafilecell, label: NSLocalizedString("Media File", comment: "preferences"), initial: (subs & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
+        submediafilecell.detailTextLabel?.text = NSLocalizedString("Receive media file streams by default", comment: "preferences")
         submediafileswitch.tag = Int(SUBSCRIBE_MEDIAFILE.rawValue)
         submediafileswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(submediafilecell)
         
         let subdesktopcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let subdesktopswitch = newTableCellSwitch(subdesktopcell, label: "Desktop", initial: (subs & SUBSCRIBE_DESKTOP.rawValue) != 0)
-        subdesktopcell.detailTextLabel!.text = "Receive desktop sessions by default"
+        let subdesktopswitch = newTableCellSwitch(subdesktopcell, label: NSLocalizedString("Desktop", comment: "preferences"), initial: (subs & SUBSCRIBE_DESKTOP.rawValue) != 0)
+        subdesktopcell.detailTextLabel!.text = NSLocalizedString("Receive desktop sessions by default", comment: "preferences")
         subdesktopswitch.tag = Int(SUBSCRIBE_DESKTOP.rawValue)
         subdesktopswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
@@ -321,7 +321,8 @@ case Sounds.USER_MSG.rawValue :
         TT_SetSoundOutputVolume(ttInst, INT32(vol))
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            mastervolcell!.detailTextLabel!.text = "\(sender.value) % - Default"
+            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), sender.value)
+            mastervolcell!.detailTextLabel!.text = txt
         }
         else {
             mastervolcell!.detailTextLabel!.text = "\(sender.value) %"
@@ -339,7 +340,8 @@ case Sounds.USER_MSG.rawValue :
     func limittextChanged(sender: UIStepper) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
-        limittextcell!.detailTextLabel!.text = "Limit length of names in channel list to \(Int(sender.value)) characters"
+        let txt = String(format: NSLocalizedString("Limit length of names in channel list to %d characters", comment: "preferences"), Int(sender.value))
+        limittextcell!.detailTextLabel!.text = txt
     }
     
     func speakeroutputChanged(sender: UISwitch) {
@@ -366,7 +368,8 @@ case Sounds.USER_MSG.rawValue :
         else {
             TT_EnableVoiceActivation(ttInst, 1)
             TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
-            voiceactcell?.detailTextLabel?.text = "Voice Activation Level: \(Int(sender.value)), Recommended: 2"
+            let txt = String(format: NSLocalizedString("Voice Activation Level: %d, Recommended: %d", comment: "preferences"), Int(sender.value), DEFAULT_VOICEACT)
+            voiceactcell?.detailTextLabel?.text = txt
         }
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(Int(sender.value), forKey: PREF_VOICEACTIVATION)
@@ -378,7 +381,8 @@ case Sounds.USER_MSG.rawValue :
         TT_SetSoundInputGainLevel(ttInst, INT32(vol))
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            microphonecell!.detailTextLabel!.text = "\(vol_pct) % - Default"
+            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), vol_pct)
+            microphonecell!.detailTextLabel!.text = txt
         }
         else {
             microphonecell!.detailTextLabel!.text = "\(vol_pct) %"

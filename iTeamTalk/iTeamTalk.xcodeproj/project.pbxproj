@@ -33,6 +33,7 @@
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
+		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
 		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
 		25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA20691BE933310089AD54 /* PreferencesViewController.swift */; };
@@ -89,6 +90,9 @@
 		25658E841C402C2A00D62F82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		25658E851C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Main.strings"; sourceTree = "<group>"; };
 		25658E861C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		259B12FB1C418309008A355E /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
 		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		25AA20691BE933310089AD54 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 		254B7A491B98BAA300BE0DEF /* iTeamTalk */ = {
 			isa = PBXGroup;
 			children = (
+				259B12F71C4182E7008A355E /* Localizable.strings */,
 				25E4DC2C1BF7291000EC5A8C /* Sounds */,
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
@@ -289,6 +294,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"da-DK",
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -307,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25E4DC321BF7360D00EC5A8C /* channel_message.mp3 in Resources */,
+				259B12F91C4182E7008A355E /* Localizable.strings in Resources */,
 				2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */,
 				25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */,
 				25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */,
@@ -390,6 +397,16 @@
 				25658E861C402CAE00D62F82 /* da-DK */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		259B12F71C4182E7008A355E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				259B12F81C4182E7008A355E /* Base */,
+				259B12FA1C4182FE008A355E /* en */,
+				259B12FB1C418309008A355E /* da-DK */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
