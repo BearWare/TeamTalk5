@@ -361,14 +361,6 @@ case Sounds.USER_MSG.rawValue :
     }
     
     func speakeroutputChanged(sender: UISwitch) {
-        TT_CloseSoundOutputDevice(ttInst)
-        
-        if sender.on {
-            TT_InitSoundOutputDevice(ttInst, 1)
-        }
-        else {
-            TT_InitSoundOutputDevice(ttInst, 0)
-        }
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)

@@ -20,6 +20,7 @@
 */
 
 import UIKit
+import AVFoundation
 
 class MainTabBarController : UITabBarController, TeamTalkEvent {
 
@@ -63,20 +64,17 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         addToTTMessages(channelsTab)
         addToTTMessages(chatTab)
 
-        let defaults = NSUserDefaults.standardUserDefaults()
-
         let flags = TT_GetFlags(ttInst)
         if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
             TT_InitSoundInputDevice(ttInst, 0)
         }
-        
-        let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
-        let sndoutid : INT32 = (speaker_output) ? 1 : 0
-        enableSpeakerOutput(speaker_output)
-        
         if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-            TT_InitSoundOutputDevice(ttInst, sndoutid)
+            TT_InitSoundOutputDevice(ttInst, 0)
         }
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
+        enableSpeakerOutput(speaker_output)
         
         if defaults.objectForKey(PREF_MASTER_VOLUME) != nil {
             let vol = defaults.integerForKey(PREF_MASTER_VOLUME)
@@ -100,7 +98,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         let device = UIDevice.currentDevice()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+
+        center.addObserver(self, selector: "audioRouteChange:", name: AVAudioSessionRouteChangeNotification, object: nil)
 
         connectToServer()
     }
@@ -173,6 +174,34 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         }
         else {
 //            print("Proximity state 0")
+        }
+    }
+    
+    func audioRouteChange(notification: NSNotification) {
+        
+        if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
+            
+            switch reason as! UInt {
+            case AVAudioSessionRouteChangeReason.Unknown.rawValue :
+                break
+            case AVAudioSessionRouteChangeReason.NewDeviceAvailable.rawValue :
+                break
+            case AVAudioSessionRouteChangeReason.OldDeviceUnavailable.rawValue:
+                let defaults = NSUserDefaults.standardUserDefaults()
+                let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
+                enableSpeakerOutput(speaker_output)
+            case AVAudioSessionRouteChangeReason.CategoryChange.rawValue:
+                break
+            case AVAudioSessionRouteChangeReason.Override.rawValue :
+                break
+            case AVAudioSessionRouteChangeReason.RouteConfigurationChange.rawValue :
+                break
+            case AVAudioSessionRouteChangeReason.WakeFromSleep.rawValue:
+                break
+            case AVAudioSessionRouteChangeReason.NoSuitableRouteForCategory.rawValue:
+                break
+            default : break
+            }
         }
     }
     
