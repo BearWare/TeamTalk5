@@ -363,7 +363,11 @@ func getSoundFile(s: Sounds) -> String? {
     return nil
 }
 
-func enableSpeakerOutput(on: Bool) {
+func setupSpeakerOutput() {
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let on = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
+
     let session = AVAudioSession.sharedInstance()
     
     do {

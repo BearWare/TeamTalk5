@@ -72,10 +72,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_InitSoundOutputDevice(ttInst, 0)
         }
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
-        enableSpeakerOutput(speaker_output)
+        setupSpeakerOutput()
         
+        let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.objectForKey(PREF_MASTER_VOLUME) != nil {
             let vol = defaults.integerForKey(PREF_MASTER_VOLUME)
             TT_SetSoundOutputVolume(ttInst, INT32(refVolume(Double(vol))))
@@ -84,7 +83,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         if defaults.objectForKey(PREF_VOICEACTIVATION) != nil {
             let voiceact = defaults.integerForKey(PREF_VOICEACTIVATION)
             if voiceact != VOICEACT_DISABLED {
-                TT_EnableVoiceActivation(ttInst, 1)
+                TT_EnableVoiceActivation(ttInst, TRUE)
                 TT_SetVoiceActivationLevel(ttInst, INT32(voiceact))
             }
         }
@@ -187,9 +186,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             case AVAudioSessionRouteChangeReason.NewDeviceAvailable.rawValue :
                 break
             case AVAudioSessionRouteChangeReason.OldDeviceUnavailable.rawValue:
-                let defaults = NSUserDefaults.standardUserDefaults()
-                let speaker_output = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
-                enableSpeakerOutput(speaker_output)
+                setupSpeakerOutput()
             case AVAudioSessionRouteChangeReason.CategoryChange.rawValue:
                 break
             case AVAudioSessionRouteChangeReason.Override.rawValue :
