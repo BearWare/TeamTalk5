@@ -177,7 +177,8 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     func audioRouteChange(notification: NSNotification) {
-        
+        let session = AVAudioSession.sharedInstance()
+        print("Audio route: " + session.currentRoute.debugDescription)
         if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
             
             switch reason as! UInt {
@@ -188,10 +189,15 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             case AVAudioSessionRouteChangeReason.OldDeviceUnavailable.rawValue:
                 setupSpeakerOutput()
             case AVAudioSessionRouteChangeReason.CategoryChange.rawValue:
+                let session = AVAudioSession.sharedInstance()
+                print("New category: " + session.category)
                 break
             case AVAudioSessionRouteChangeReason.Override.rawValue :
+                let session = AVAudioSession.sharedInstance()
+                print("New route: " + session.currentRoute.description)
                 break
             case AVAudioSessionRouteChangeReason.RouteConfigurationChange.rawValue :
+                print("New route config change" )
                 break
             case AVAudioSessionRouteChangeReason.WakeFromSleep.rawValue:
                 break

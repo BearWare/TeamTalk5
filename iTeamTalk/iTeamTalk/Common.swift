@@ -368,16 +368,33 @@ func setupSpeakerOutput() {
     let defaults = NSUserDefaults.standardUserDefaults()
     let on = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
 
+    if on {
+        enableSpeakerOutput(on)
+    }
+}
+
+func enableSpeakerOutput(on: Bool) {
+    
     let session = AVAudioSession.sharedInstance()
     
     do {
-        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        try session.overrideOutputAudioPort( ( on ? AVAudioSessionPortOverride.Speaker : AVAudioSessionPortOverride.None ) )
-        try session.setActive(true)
+        print("preset" + session.mode)
+        if on {
+            try session.setMode(AVAudioSessionModeVideoChat)
+        }
+        else {
+            try session.setMode(AVAudioSessionModeDefault)
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+        }
+//        try session.setActive(true)
+        print("post set"  + session.mode)
+        
     }
     catch {
         print("Failed")
     }
+    
 }
 
 func playSound(s: Sounds) {

@@ -365,7 +365,7 @@ case Sounds.USER_MSG.rawValue :
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
         
-        setupSpeakerOutput()
+        enableSpeakerOutput(sender.on)
     }
     
     func voiceactlevelChanged(sender: UIStepper) {
