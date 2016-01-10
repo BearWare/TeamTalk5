@@ -35,6 +35,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     // active command
     var cmdid : INT32 = 0
 
+// tts initialization
+    let synth = AVSpeechSynthesizer()
+    var myUtterance = AVSpeechUtterance(string: "")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -237,7 +241,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             
             TT_Disconnect(ttInst)
             playSound(.SRV_LOST)
-            
+            if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_CONLOST) {
+                myUtterance = AVSpeechUtterance(string: "connection lost")
+                synth.speakUtterance(myUtterance)
+            }
+
             startReconnectTimer()
             
         case CLIENTEVENT_CMD_ERROR :

@@ -20,6 +20,7 @@
 */
 
 import UIKit
+import AVFoundation
 
 class ChannelListViewController :
     UIViewController, UITableViewDataSource,
@@ -54,6 +55,9 @@ class ChannelListViewController :
     @IBOutlet weak var txButton: UIButton!
     // timeout for PTT lock
     var pttLockTimeout = NSDate()
+
+    let synth = AVSpeechSynthesizer()
+    var myUtterance = AVSpeechUtterance(string: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -562,6 +566,10 @@ class ChannelListViewController :
             }
             if user.nChannelID == curchannel.nChannelID {
                 playSound(.JOINED_CHAN)
+                if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + "has joinned the channel")
+                    synth.speakUtterance(myUtterance)
+                }
             }
             if currentCmdId == 0 {
                 self.tableView.reloadData()
@@ -591,6 +599,10 @@ class ChannelListViewController :
             
             if m.nSource == curchannel.nChannelID {
                 playSound(.LEFT_CHAN)
+                if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_LEFTCHAN) {
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + "has left the channel")
+                    synth.speakUtterance(myUtterance)
+                }
             }
             
             if currentCmdId == 0 {

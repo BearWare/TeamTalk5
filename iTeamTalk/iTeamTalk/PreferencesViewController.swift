@@ -50,6 +50,10 @@ let PREF_SUB_MEDIAFILE = "sub_mediafile_preference"
 let PREF_SUB_DESKTOP = "sub_desktop_preference"
 let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 
+let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
+let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
+let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
+
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -68,13 +72,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var soundevents_items = [UITableViewCell]()
     var sound_items  = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
+    var ttsevents_items = [UITableViewCell]()
     
     let SECTION_GENERAL = 0,
         SECTION_DISPLAY = 1,
         SECTION_SOUND = 2,
         SECTION_SOUNDEVENTS = 3,
         SECTION_SUBSCRIPTIONS = 4,
-        SECTIONS_COUNT = 5
+        SECTION_TTSEVENTS = 5,
+        SECTIONS_COUNT = 6
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -261,6 +267,30 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         subdesktopswitch.addTarget(self, action: "subscriptionChanged:", forControlEvents: .ValueChanged)
         subscription_items.append(subdesktopcell)
         
+        
+        // text to speech events
+
+        let ttsjoinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttsjoinedchan = settings.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_JOINEDCHAN)
+        let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joines channel", comment: "preferences"), initial: ttsjoinedchan)
+        ttsjoinedchancell.detailTextLabel!.text = NSLocalizedString("Announces user joining channel", comment: "preferences")
+        ttsjoinedchanswitch.addTarget(self, action: "ttsjoinedchanChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttsjoinedchancell)
+        
+        let ttsleftchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttsleftchan = settings.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_LEFTCHAN)
+        let ttsleftchanswitch = newTableCellSwitch(ttsleftchancell, label: NSLocalizedString("User leaves channel", comment: "preferences"), initial: ttsleftchan)
+        ttsleftchancell.detailTextLabel!.text = NSLocalizedString("Announces user leaving channel", comment: "preferences")
+        ttsleftchanswitch.addTarget(self, action: "ttsleftchanChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttsleftchancell)
+
+        let ttsconlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttsconlost = settings.objectForKey(PREF_TTSEVENT_CONLOST) == nil || settings.boolForKey(PREF_TTSEVENT_CONLOST)
+        let ttsconlostswitch = newTableCellSwitch(ttsconlostcell, label: NSLocalizedString("Connection lost", comment: "preferences"), initial: ttsleftchan)
+        ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announces losing connection", comment: "preferences")
+        ttsconlostswitch.addTarget(self, action: "ttsconlostChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttsconlostcell)
+
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -345,6 +375,21 @@ case Sounds.USER_MSG.rawValue :
         defaults.setBool(sender.on, forKey: PREF_DISPLAY_POPUPTXTMSG)
     }
 
+    func ttsjoinedchanChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_JOINEDCHAN)
+    }
+
+    func ttsleftchanChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_LEFTCHAN)
+    }
+
+    func ttsconlostChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_CONLOST)
+    }
+
     func proximityChanged(sender: UISwitch) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_DISPLAY_PROXIMITY)
@@ -417,6 +462,8 @@ case Sounds.USER_MSG.rawValue :
             return NSLocalizedString("Sound System", comment: "preferences")
         case SECTION_SUBSCRIPTIONS :
             return NSLocalizedString("Default Subscriptions", comment: "preferences")
+        case SECTION_TTSEVENTS :
+            return NSLocalizedString("Text To Speech Events", comment: "preferences")
         default :
             return nil
         }
@@ -434,6 +481,8 @@ case Sounds.USER_MSG.rawValue :
             return sound_items.count
         case SECTION_SUBSCRIPTIONS :
             return subscription_items.count
+        case SECTION_TTSEVENTS :
+            return ttsevents_items.count
         default :
             return 0
         }
@@ -452,6 +501,8 @@ case Sounds.USER_MSG.rawValue :
             return sound_items[indexPath.row]
         case SECTION_SUBSCRIPTIONS :
             return subscription_items[indexPath.row]
+        case SECTION_TTSEVENTS:
+            return ttsevents_items[indexPath.row]
         default :
             return UITableViewCell()
         }
