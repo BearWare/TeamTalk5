@@ -567,7 +567,7 @@ class ChannelListViewController :
             if user.nChannelID == curchannel.nChannelID {
                 playSound(.JOINED_CHAN)
                 if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + "has joinned the channel")
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + NSLocalizedString(" has joinned the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
@@ -600,7 +600,7 @@ class ChannelListViewController :
             if m.nSource == curchannel.nChannelID {
                 playSound(.LEFT_CHAN)
                 if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_LEFTCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + "has left the channel")
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + NSLocalizedString(" has left the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
