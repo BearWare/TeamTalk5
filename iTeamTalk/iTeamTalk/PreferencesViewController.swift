@@ -129,7 +129,10 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         // sound preferences
         
         mastervolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let vol = Int(TT_GetSoundOutputVolume(ttInst))
+        var vol = Int(SOUND_VOLUME_DEFAULT.rawValue)
+        if ttInst != nil {
+            vol = Int(TT_GetSoundOutputVolume(ttInst))
+        }
         let percent = refVolumeToPercent(vol)
         let mastervolstepper = newTableCellStepper(mastervolcell!, label: NSLocalizedString("Master Volume", comment: "preferences"), min: 0, max: 100, step: 5, initial: Double(percent))
         mastervolstepper.addTarget(self, action: "masterVolumeChanged:", forControlEvents: .ValueChanged)
@@ -156,7 +159,10 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         sound_items.append(voiceactcell!)
         
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
+        var inputvol = Int(SOUND_GAIN_DEFAULT.rawValue)
+        if ttInst != nil {
+            inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
+        }
         let input_pct = refVolumeToPercent(inputvol)
         let microphonestepper = newTableCellStepper(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0, max: 100, step: 5, initial: Double(input_pct))
         microphonestepper.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
@@ -348,7 +354,9 @@ case Sounds.USER_MSG.rawValue :
     }
     
     func nicknameChanged(sender: UITextField) {
-        TT_DoChangeNickname(ttInst, sender.text!)
+        if ttInst != nil {
+            TT_DoChangeNickname(ttInst, sender.text!)
+        }
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setValue(sender.text!, forKey: PREF_NICKNAME)
@@ -356,10 +364,12 @@ case Sounds.USER_MSG.rawValue :
     
     func masterVolumeChanged(sender: UIStepper) {
         let vol = refVolume(sender.value)
-        TT_SetSoundOutputVolume(ttInst, INT32(vol))
+        if ttInst != nil {
+            TT_SetSoundOutputVolume(ttInst, INT32(vol))
+        }
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), sender.value)
+            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), Int(sender.value))
             mastervolcell!.detailTextLabel!.text = txt
         }
         else {
@@ -415,12 +425,16 @@ case Sounds.USER_MSG.rawValue :
     
     func voiceactlevelChanged(sender: UIStepper) {
         if Int(sender.value) == VOICEACT_DISABLED {
-            TT_EnableVoiceActivation(ttInst, 0)
+            if ttInst != nil {
+                TT_EnableVoiceActivation(ttInst, FALSE)
+            }
             voiceactcell?.detailTextLabel?.text = NSLocalizedString("Voice Activation Level: Disabled", comment: "preferences")
         }
         else {
-            TT_EnableVoiceActivation(ttInst, 1)
-            TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
+            if ttInst != nil {
+                TT_EnableVoiceActivation(ttInst, TRUE)
+                TT_SetVoiceActivationLevel(ttInst, INT32(sender.value))
+            }
             let txt = String(format: NSLocalizedString("Voice Activation Level: %d. Recommended: %d", comment: "preferences"), Int(sender.value), DEFAULT_VOICEACT)
             voiceactcell?.detailTextLabel?.text = txt
         }
@@ -431,10 +445,12 @@ case Sounds.USER_MSG.rawValue :
     func microphoneGainChanged(sender: UIStepper) {
         let vol_pct = round(sender.value)
         let vol = refVolume(Double(vol_pct))
-        TT_SetSoundInputGainLevel(ttInst, INT32(vol))
+        if ttInst != nil {
+            TT_SetSoundInputGainLevel(ttInst, INT32(vol))
+        }
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), vol_pct)
+            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), Int(vol_pct))
             microphonecell!.detailTextLabel!.text = txt
         }
         else {

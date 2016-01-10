@@ -142,6 +142,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Server List" id="pQJ-c1-GEL" userLabel="Root View Controller">
+                        <barButtonItem key="leftBarButtonItem" image="setup" id="rL3-kb-XCA">
+                            <connections>
+                                <segue destination="NA0-UK-wve" kind="push" id="7vJ-1u-pQB"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qY8-NR-YVU">
                             <connections>
                                 <segue destination="EDn-nP-gFj" kind="push" identifier="New Server" id="MXJ-jt-JpB"/>
@@ -473,6 +478,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Preferences" image="setup" id="vIN-Uc-3Ms"/>
+                    <navigationItem key="navigationItem" id="b2T-NC-LX3"/>
                     <connections>
                         <outlet property="tableView" destination="cnZ-gI-mn8" id="yoV-H2-ztJ"/>
                     </connections>
@@ -884,8 +890,9 @@
         <image name="setup" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MXJ-jt-JpB"/>
         <segue reference="k1y-JH-Jxd"/>
+        <segue reference="7vJ-1u-pQB"/>
+        <segue reference="MXJ-jt-JpB"/>
         <segue reference="INN-J6-CZq"/>
     </inferredMetricsTieBreakers>
 </document>
