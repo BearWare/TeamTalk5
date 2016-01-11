@@ -241,8 +241,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             
             TT_Disconnect(ttInst)
             playSound(.SRV_LOST)
-            if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_CONLOST) {
-                myUtterance = AVSpeechUtterance(string: NSLocalizedString("connection lost", comment: "tts event"))
+            
+            let defaults = NSUserDefaults.standardUserDefaults()
+            
+            if defaults.objectForKey(PREF_TTSEVENT_CONLOST) == nil || defaults.boolForKey(PREF_TTSEVENT_CONLOST) {
+                myUtterance = AVSpeechUtterance(string: NSLocalizedString("Connection lost", comment: "tts event"))
                 synth.speakUtterance(myUtterance)
             }
 

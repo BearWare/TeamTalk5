@@ -78,8 +78,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         SECTION_DISPLAY = 1,
         SECTION_SOUND = 2,
         SECTION_SOUNDEVENTS = 3,
-        SECTION_SUBSCRIPTIONS = 4,
-        SECTION_TTSEVENTS = 5,
+        SECTION_TTSEVENTS = 4,
+        SECTION_SUBSCRIPTIONS = 5,
         SECTIONS_COUNT = 6
     
     override func viewDidLoad() {
@@ -278,22 +278,22 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
 
         let ttsjoinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsjoinedchan = settings.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_JOINEDCHAN)
-        let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joines channel", comment: "preferences"), initial: ttsjoinedchan)
-        ttsjoinedchancell.detailTextLabel!.text = NSLocalizedString("Announces user joining channel", comment: "preferences")
+        let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joins channel", comment: "preferences"), initial: ttsjoinedchan)
+        ttsjoinedchancell.detailTextLabel!.text = NSLocalizedString("Announce user joining channel", comment: "preferences")
         ttsjoinedchanswitch.addTarget(self, action: "ttsjoinedchanChanged:", forControlEvents: .ValueChanged)
         ttsevents_items.append(ttsjoinedchancell)
         
         let ttsleftchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsleftchan = settings.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_LEFTCHAN)
         let ttsleftchanswitch = newTableCellSwitch(ttsleftchancell, label: NSLocalizedString("User leaves channel", comment: "preferences"), initial: ttsleftchan)
-        ttsleftchancell.detailTextLabel!.text = NSLocalizedString("Announces user leaving channel", comment: "preferences")
+        ttsleftchancell.detailTextLabel!.text = NSLocalizedString("Announce user leaving channel", comment: "preferences")
         ttsleftchanswitch.addTarget(self, action: "ttsleftchanChanged:", forControlEvents: .ValueChanged)
         ttsevents_items.append(ttsleftchancell)
 
         let ttsconlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsconlost = settings.objectForKey(PREF_TTSEVENT_CONLOST) == nil || settings.boolForKey(PREF_TTSEVENT_CONLOST)
-        let ttsconlostswitch = newTableCellSwitch(ttsconlostcell, label: NSLocalizedString("Connection lost", comment: "preferences"), initial: ttsleftchan)
-        ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announces losing connection", comment: "preferences")
+        let ttsconlostswitch = newTableCellSwitch(ttsconlostcell, label: NSLocalizedString("Connection lost", comment: "preferences"), initial: ttsconlost)
+        ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announce lost server connection", comment: "preferences")
         ttsconlostswitch.addTarget(self, action: "ttsconlostChanged:", forControlEvents: .ValueChanged)
         ttsevents_items.append(ttsconlostcell)
 

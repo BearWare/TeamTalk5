@@ -564,10 +564,12 @@ class ChannelListViewController :
                 mychannel = channels[user.nChannelID]!
                 updateTitle()
             }
-            if user.nChannelID == curchannel.nChannelID {
+            if user.nChannelID == mychannel.nChannelID {
                 playSound(.JOINED_CHAN)
-                if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + NSLocalizedString(" has joinned the channel", comment: "TTS EVENT"))
+                let defaults = NSUserDefaults.standardUserDefaults()
+                
+                if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
@@ -597,10 +599,11 @@ class ChannelListViewController :
                 mychannel = Channel()
             }
             
-            if m.nSource == curchannel.nChannelID {
+            if m.nSource == mychannel.nChannelID {
                 playSound(.LEFT_CHAN)
-                if NSUserDefaults.standardUserDefaults().boolForKey(PREF_TTSEVENT_LEFTCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + NSLocalizedString(" has left the channel", comment: "TTS EVENT"))
+                let defaults = NSUserDefaults.standardUserDefaults()
+                if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
+                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
