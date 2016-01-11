@@ -614,7 +614,7 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             let txtmsg = getTextMessage(&m).memory
-
+            
             if txtmsg.nMsgType == MSGTYPE_USER {
                 if let user = users[txtmsg.nFromUserID] {
                     let newmsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
@@ -627,11 +627,20 @@ class ChannelListViewController :
                     unreadmessages.insert(txtmsg.nFromUserID)
                 }
                 
+                //ignore incoming message if text message view controller is already open
+                if self.navigationController?.topViewController is TextMessageViewController {
+                    let vc = self.navigationController?.topViewController as! TextMessageViewController
+                    if vc.userid == txtmsg.nFromUserID {
+                        break
+                    }
+                }
+                
                 let settings = NSUserDefaults.standardUserDefaults()
                 if settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG) {
                     let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
+                    addToTTMessages(vc)
                 }
             }
 
