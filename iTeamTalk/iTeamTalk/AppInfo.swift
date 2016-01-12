@@ -22,7 +22,6 @@
 
 class AppInfo {
 
-    static let TEAMTALK_VERSION = "5.1"
     static let APPNAME = "iTeamTalk"
     static let APPVERSION_SHORT = "5.1"
     static let APPVERSION = "5.1 - Unreleased"
