@@ -8,7 +8,7 @@
 "3NI-HT-A3N.normalTitle" = "Отправить";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "Написать сообщение";
+"4RU-K7-Yga.normalTitle" = "Сообщение";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -92,7 +92,7 @@
 "cGm-Jp-0zI.normalTitle" = "Использовать Кодек Speex";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "Подключиться к каналу";
+"ch0-Xf-hyX.normalTitle" = "Присоединиться к каналу";
 
 /* Class = "UINavigationItem"; title = "Main Tab Controller"; ObjectID = "dcU-Nq-ioW"; */
 "dcU-Nq-ioW.title" = "Главная Вкладка";
@@ -110,7 +110,7 @@
 "kRp-LE-RFh.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
-"l6D-Hs-MdG.normalTitle" = "Подключился К Каналу";
+"l6D-Hs-MdG.normalTitle" = "Присоединиться К Каналу";
 
 /* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
 "m1N-Js-NXn.normalTitle" = "Удалить Сервер";
