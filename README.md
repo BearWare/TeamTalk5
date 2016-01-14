@@ -1,11 +1,11 @@
-# TeamTalk 5 SDK
+# TeamTalk 5
 
-Repository for [TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) development.
+Repository for TeamTalk 5 development.
 
 ## Download TeamTalk 5 SDK
 
 To build the TeamTalk client projects you must first download the
-TeamTalk 5 SDK to obtain the client and server binaries.
+[TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) to obtain the client and server binaries.
 
 * TeamTalk 5 SDK Standard Edition - **Beta** releases
   * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5sdk_v5.1.0.4236_win32.zip) **rev. 4236**
