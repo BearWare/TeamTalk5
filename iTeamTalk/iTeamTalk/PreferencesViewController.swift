@@ -164,7 +164,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
         }
         let input_pct = refVolumeToPercent(inputvol)
-        let microphonestepper = newTableCellStepper(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0, max: 100, step: 5, initial: Double(input_pct))
+        let microphonestepper = newTableCellStepper(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0.0, max: 1.0, step: 0.1, initial: 0.0)
         microphonestepper.addTarget(self, action: "microphoneGainChanged:", forControlEvents: .ValueChanged)
         microphoneGainChanged(microphonestepper)
         sound_items.append(microphonecell!)
@@ -443,22 +443,37 @@ case Sounds.USER_MSG.rawValue :
     }
     
     func microphoneGainChanged(sender: UIStepper) {
-        let vol_pct = round(sender.value)
-        let vol = refVolume(Double(vol_pct))
-        if ttInst != nil {
-            TT_SetSoundInputGainLevel(ttInst, INT32(vol))
+        
+        do {
+            let session = AVAudioSession.sharedInstance()
+            if session.inputGainSettable {
+            try session.setInputGain(Float(sender.value))
+            }
+            else {
+                print("cannot set input gain")
+            }
+            print("now it's \(sender.value)")
+        }
+        catch {
+            print("Set gain error")
         }
         
-        if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), Int(vol_pct))
-            microphonecell!.detailTextLabel!.text = txt
-        }
-        else {
-            microphonecell!.detailTextLabel!.text = "\(vol_pct) %"
-        }
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(Int(vol_pct), forKey: PREF_MICROPHONE_GAIN)
+//        let vol_pct = round(sender.value)
+//        let vol = refVolume(Double(vol_pct))
+//        if ttInst != nil {
+//            TT_SetSoundInputGainLevel(ttInst, INT32(vol))
+//        }
+//        
+//        if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
+//            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), Int(vol_pct))
+//            microphonecell!.detailTextLabel!.text = txt
+//        }
+//        else {
+//            microphonecell!.detailTextLabel!.text = "\(vol_pct) %"
+//        }
+//        
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        defaults.setInteger(Int(vol_pct), forKey: PREF_MICROPHONE_GAIN)
         
     }
     
