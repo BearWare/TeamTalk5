@@ -292,6 +292,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         }
     }
     
+    @IBAction func disconnectButtonPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 //        let channelsTab = viewControllers?[0] as! ChannelListViewController
 //        channelsTab.prepareForSegue(segue, sender: sender)
