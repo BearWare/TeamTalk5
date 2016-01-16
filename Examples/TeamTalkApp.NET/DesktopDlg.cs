@@ -115,12 +115,17 @@ namespace TeamTalkApp.NET
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            deskwnd = ttclient.AcquireUserDesktopWindow(userid);
-            if (deskwnd.nSessionID <= 0)
+            DesktopWindow tmp_wnd = ttclient.AcquireUserDesktopWindow(userid);
+            if (tmp_wnd.nSessionID <= 0)
             {
+                ttclient.ReleaseUserDesktopWindow(deskwnd);
                 this.Close();
                 return;
             }
+
+            ttclient.ReleaseUserDesktopWindow(deskwnd);
+
+            deskwnd = tmp_wnd;
 
             if (ClientSize.Height != deskwnd.nHeight || ClientSize.Width != deskwnd.nWidth)
             {
