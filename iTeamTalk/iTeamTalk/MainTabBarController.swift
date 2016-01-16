@@ -38,6 +38,8 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
 // tts initialization
     let synth = AVSpeechSynthesizer()
     var myUtterance = AVSpeechUtterance(string: "")
+    
+    let CHANNELTAB = 0, TEXTMSGTAB = 1, PREFTAB = 2
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,9 +61,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         addToTTMessages(self)
         
-        let channelsTab = viewControllers?[0] as! ChannelListViewController
-        let chatTab = viewControllers?[1] as! TextMessageViewController
-        let prefTab = viewControllers?[2] as! PreferencesViewController
+        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
+        let chatTab = viewControllers?[TEXTMSGTAB] as! TextMessageViewController
+        let prefTab = viewControllers?[PREFTAB] as! PreferencesViewController
         channelsTab.ttInst = self.ttInst
         chatTab.ttInst = self.ttInst
         prefTab.ttInst = self.ttInst
@@ -154,10 +156,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         let rc = event!.subtype
         switch rc {
         case .RemoteControlTogglePlayPause:
-            let channelsTab = viewControllers?[0] as! ChannelListViewController
+            let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.txBtnUp()
         case .RemoteControlNextTrack:
-            let channelsTab = viewControllers?[0] as! ChannelListViewController
+            let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.txBtnUp()
             channelsTab.txBtnUp()
         default:
@@ -243,7 +245,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     
     func handleTTMessage(var m: TTMessage) {
         
-        let channelsTab = viewControllers?[0] as! ChannelListViewController
+        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
 
         switch(m.nClientEvent) {
             
@@ -317,7 +319,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        let channelsTab = viewControllers?[0] as! ChannelListViewController
+//        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
 //        channelsTab.prepareForSegue(segue, sender: sender)
         
         for v in viewControllers! {
