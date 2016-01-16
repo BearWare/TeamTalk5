@@ -68,10 +68,6 @@ class ChannelListViewController :
         updateTX()
     }
     
-    deinit {
-        print("Destroyed chan list ctrl")
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         

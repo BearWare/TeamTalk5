@@ -108,7 +108,14 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
 
         connectToServer()
     }
-
+    
+    deinit {
+        print("Destroyed main view controller")
+        if ttInst != nil {
+            TT_CloseTeamTalk(ttInst)
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -127,6 +134,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             polltimer?.invalidate()
             reconnecttimer?.invalidate()
             TT_CloseTeamTalk(ttInst)
+            ttInst = nil
 
             ttMessageHandlers.removeAll()
             unreadmessages.removeAll()
