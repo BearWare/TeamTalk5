@@ -569,7 +569,8 @@ class ChannelListViewController :
                 let defaults = NSUserDefaults.standardUserDefaults()
                 
                 if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
+                    let nickname = limitText(fromTTString(user.szNickname))
+                    myUtterance = AVSpeechUtterance(string: nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
@@ -603,7 +604,8 @@ class ChannelListViewController :
                 playSound(.LEFT_CHAN)
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
-                    myUtterance = AVSpeechUtterance(string: fromTTString(user.szNickname) + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
+                    let nickname = limitText(fromTTString(user.szNickname))
+                    myUtterance = AVSpeechUtterance(string: nickname + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }
             }
