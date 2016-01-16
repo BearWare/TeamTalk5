@@ -560,7 +560,7 @@ class ChannelListViewController :
                 mychannel = channels[user.nChannelID]!
                 updateTitle()
             }
-            if user.nChannelID == mychannel.nChannelID {
+            if user.nChannelID == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.JOINED_CHAN)
                 let defaults = NSUserDefaults.standardUserDefaults()
                 
@@ -596,7 +596,7 @@ class ChannelListViewController :
                 mychannel = Channel()
             }
             
-            if m.nSource == mychannel.nChannelID {
+            if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.LEFT_CHAN)
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
