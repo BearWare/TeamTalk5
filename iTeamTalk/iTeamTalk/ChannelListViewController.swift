@@ -196,6 +196,7 @@ class ChannelListViewController :
             cell.nicknameLabel.text = limitText(nickname)
             cell.statusmsgLabel.text = statusmsg
             
+            cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
                 (TT_GetMyUserID(ttInst) == user.nUserID &&
                     isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
@@ -222,6 +223,8 @@ class ChannelListViewController :
             var textcolor : UIColor? = nil
             var title : String?, subtitle : String?
             
+            cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
+
             if chan_index == 0 && curchannel.nParentID != 0 {
                 // display previous channel if not in root channel
                 channel = channels[curchannel.nParentID]!
@@ -236,7 +239,7 @@ class ChannelListViewController :
                 
                 textcolor = UIColor.grayColor()
                 cell.chanimage.image = UIImage(named: "back_orange.png")
-                cell.chanimage.accessibilityLabel = NSLocalizedString("Return to previous channel", comment: "channel list")
+                cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
             }
             else if curchannel.nChannelID == 0 {
                 // display only the root channel
@@ -264,7 +267,8 @@ class ChannelListViewController :
                     channel = subchans[chan_index]
                 }
                 
-                title = fromTTString(channel.szName) + " (\(getUsersCount(channel.nChannelID)))"
+                let user_count = getUsersCount(channel.nChannelID)
+                title = fromTTString(channel.szName) + " (\(user_count))"
                 subtitle = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {
@@ -276,6 +280,8 @@ class ChannelListViewController :
                     cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
                 }
 
+                cell.chanimage.accessibilityLabel =
+                    String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)
             }
 
             cell.channame.textColor = textcolor
