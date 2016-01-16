@@ -19,7 +19,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Delete Server" id="ffZ-a8-SYd">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ffZ-a8-SYd" id="UDD-w0-nJz">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -40,7 +40,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Connect Server" id="HCU-Q2-Cyd">
-                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HCU-Q2-Cyd" id="chO-lU-TOp">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -895,9 +895,9 @@
         <image name="setup" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ROh-EA-fdo"/>
         <segue reference="k1y-JH-Jxd"/>
         <segue reference="MXJ-jt-JpB"/>
-        <segue reference="ROh-EA-fdo"/>
         <segue reference="6dZ-v0-zGz"/>
     </inferredMetricsTieBreakers>
 </document>
