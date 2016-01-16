@@ -378,7 +378,7 @@ func enableSpeakerOutput(on: Bool) {
     let session = AVAudioSession.sharedInstance()
     
     do {
-        print("preset" + session.mode)
+        print("preset: " + session.mode)
         if on {
             try session.setMode(AVAudioSessionModeVideoChat)
         }
@@ -388,8 +388,7 @@ func enableSpeakerOutput(on: Bool) {
 //            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.None)
         }
 //        try session.setActive(true)
-        print("post set"  + session.mode)
-        
+        print("post set: "  + session.mode)
     }
     catch {
         print("Failed")

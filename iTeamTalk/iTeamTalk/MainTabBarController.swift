@@ -126,6 +126,9 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             let device = UIDevice.currentDevice()
             device.proximityMonitoringEnabled = true
         }
+        
+        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -143,6 +146,23 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         
         let device = UIDevice.currentDevice()
         device.proximityMonitoringEnabled = false
+        
+        UIApplication.sharedApplication().endReceivingRemoteControlEvents()
+    }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent?) { // *
+        let rc = event!.subtype
+        switch rc {
+        case .RemoteControlTogglePlayPause:
+            let channelsTab = viewControllers?[0] as! ChannelListViewController
+            channelsTab.txBtnUp()
+        case .RemoteControlNextTrack:
+            let channelsTab = viewControllers?[0] as! ChannelListViewController
+            channelsTab.txBtnUp()
+            channelsTab.txBtnUp()
+        default:
+            break
+        }
     }
     
     func setTeamTalkServer(server: Server) {
