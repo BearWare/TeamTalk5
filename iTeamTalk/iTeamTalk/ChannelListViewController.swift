@@ -126,6 +126,13 @@ class ChannelListViewController :
         }
     }
     
+    func getUsersCount(chanid: INT32) -> Int {
+        
+        let chanusers : [User] = users.values.filter({$0.nChannelID == chanid})
+        
+        return chanusers.count
+    }
+    
     func getDisplayItems() -> ([Channel], [User]) {
         let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
@@ -251,7 +258,7 @@ class ChannelListViewController :
                     channel = subchans[chan_index]
                 }
                 
-                title = fromTTString(channel.szName)
+                title = fromTTString(channel.szName) + " (\(getUsersCount(channel.nChannelID)))"
                 subtitle = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {

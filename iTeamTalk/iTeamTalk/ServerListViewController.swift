@@ -94,9 +94,8 @@ NSXMLParserDelegate {
         if defaults.objectForKey(PREF_DISPLAY_PUBSERVERS) == nil || defaults.boolForKey(PREF_DISPLAY_PUBSERVERS) {
             NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "downloadServerList", userInfo: nil, repeats: false)
         }
-        else {
-            tableView.reloadData()
-        }
+
+        tableView.reloadData()
     }
     
     func checkAppUpdate() {
