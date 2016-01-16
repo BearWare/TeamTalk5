@@ -271,6 +271,9 @@ struct MyTextMessage {
             cell.authorLabel.text = "\(time)"
         }
         cell.messageTextView.text = message
+
+        cell.accessibilityHint = cell.authorLabel.text
+        cell.accessibilityLabel = message
         //cell.messageTextView.textContainerInset = UIEdgeInsetsZero
         //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
     }

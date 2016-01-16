@@ -161,9 +161,11 @@ NSXMLParserDelegate {
         cell.ipaddrLabel.text = server.ipaddr
         if server.publicserver {
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
+            cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
         }
         else {
             cell.iconImageView.image = UIImage(named: "teamtalk_yellow.png")
+            cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
         }
         
         return cell

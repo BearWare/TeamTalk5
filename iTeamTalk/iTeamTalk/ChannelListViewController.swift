@@ -199,10 +199,13 @@ class ChannelListViewController :
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
                 (TT_GetMyUserID(ttInst) == user.nUserID &&
                     isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
-                        cell.userImage.image = UIImage(named: "man_green.png")
+                        
+                cell.userImage.image = UIImage(named: "man_green.png")
+                cell.userImage.accessibilityHint = NSLocalizedString("Talking", comment: "channel list")
             }
             else {
                 cell.userImage.image = UIImage(named: "man_blue.png")
+                cell.userImage.accessibilityHint = NSLocalizedString("Silent", comment: "channel list")
             }
             
             cell.messageBtn.tag = Int(user.nUserID)
@@ -233,6 +236,7 @@ class ChannelListViewController :
                 
                 textcolor = UIColor.grayColor()
                 cell.chanimage.image = UIImage(named: "back_orange.png")
+                cell.chanimage.accessibilityLabel = NSLocalizedString("Return to previous channel", comment: "channel list")
             }
             else if curchannel.nChannelID == 0 {
                 // display only the root channel
@@ -243,9 +247,11 @@ class ChannelListViewController :
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
+                    cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
                 }
                 else {
                     cell.chanimage.image = UIImage(named: "channel_orange.png")
+                    cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
                 }
             }
             else  {
@@ -263,9 +269,11 @@ class ChannelListViewController :
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
+                    cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
                 }
                 else {
                     cell.chanimage.image = UIImage(named: "channel_orange.png")
+                    cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
                 }
 
             }
