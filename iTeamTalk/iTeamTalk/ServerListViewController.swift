@@ -71,6 +71,14 @@ NSXMLParserDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        servers.removeAll()
+        
         let defaults = NSUserDefaults.standardUserDefaults()
         
         if let stored = defaults.arrayForKey("ServerList") {
@@ -83,8 +91,12 @@ NSXMLParserDelegate {
             }
         }
         
-        NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "downloadServerList", userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
+        if defaults.objectForKey(PREF_DISPLAY_PUBSERVERS) == nil || defaults.boolForKey(PREF_DISPLAY_PUBSERVERS) {
+            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "downloadServerList", userInfo: nil, repeats: false)
+        }
+        else {
+            tableView.reloadData()
+        }
     }
     
     func checkAppUpdate() {

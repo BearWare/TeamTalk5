@@ -117,6 +117,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         let defaults = NSUserDefaults.standardUserDefaults()
         

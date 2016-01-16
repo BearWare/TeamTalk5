@@ -28,6 +28,7 @@ let PREF_JOINROOTCHANNEL = "joinroot_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
+let PREF_DISPLAY_PUBSERVERS = "display_publicservers_preference"
 
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
@@ -128,6 +129,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         limittextChanged(limittextstepper)
         limittextstepper.addTarget(self, action: "limittextChanged:", forControlEvents: .ValueChanged)
         display_items.append(limittextcell!)
+        
+        let pubservercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let pubsrv = settings.objectForKey(PREF_DISPLAY_PUBSERVERS) == nil || settings.boolForKey(PREF_DISPLAY_PUBSERVERS)
+        let pubserverswitch = newTableCellSwitch(pubservercell, label: NSLocalizedString("Show Public Servers", comment: "preferences"), initial: pubsrv)
+        pubservercell.detailTextLabel!.text = NSLocalizedString("Show public servers in server list", comment: "preferences")
+        pubserverswitch.addTarget(self, action: "showpublicserversChanged:", forControlEvents: .ValueChanged)
+        display_items.append(pubservercell)
+
         
         // sound preferences
         
@@ -434,6 +443,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         defaults.setInteger(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
         let txt = String(format: NSLocalizedString("Limit length of names in channel list to %d characters", comment: "preferences"), Int(sender.value))
         limittextcell!.detailTextLabel!.text = txt
+    }
+    
+    func showpublicserversChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_DISPLAY_PUBSERVERS)
     }
     
     func speakeroutputChanged(sender: UISwitch) {

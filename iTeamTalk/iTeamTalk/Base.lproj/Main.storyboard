@@ -501,7 +501,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hqu-CX-Vn4" id="t0N-0P-UyI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -548,7 +548,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserTableCell" id="Byv-ux-6qI" customClass="UserTableCell" customModule="iTeamTalk" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -593,7 +593,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="JoinChannelCell" id="KgG-0q-yOG">
-                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KgG-0q-yOG" id="MQe-kv-Cdm">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -728,8 +728,8 @@
         <!--Main Tab Controller-->
         <scene sceneID="nMB-QH-G9E">
             <objects>
-                <tabBarController id="07s-AR-tvQ" customClass="MainTabBarController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Main Tab Controller" id="dcU-Nq-ioW">
+                <tabBarController title="Main Tab Controller" id="07s-AR-tvQ" customClass="MainTabBarController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Connecting to Server" id="dcU-Nq-ioW">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="0yL-f2-wpC">
                             <connections>
                                 <segue destination="PhY-ED-cqF" kind="push" identifier="New Channel" id="ROh-EA-fdo"/>
@@ -891,8 +891,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="k1y-JH-Jxd"/>
-        <segue reference="7vJ-1u-pQB"/>
         <segue reference="MXJ-jt-JpB"/>
-        <segue reference="INN-J6-CZq"/>
+        <segue reference="ROh-EA-fdo"/>
+        <segue reference="6dZ-v0-zGz"/>
     </inferredMetricsTieBreakers>
 </document>
