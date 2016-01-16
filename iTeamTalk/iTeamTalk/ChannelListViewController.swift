@@ -214,18 +214,18 @@ class ChannelListViewController :
             
             var channel = Channel()
             var textcolor : UIColor? = nil
-            var name : String?, topic : String?
+            var title : String?, subtitle : String?
             
             if chan_index == 0 && curchannel.nParentID != 0 {
                 // display previous channel if not in root channel
                 channel = channels[curchannel.nParentID]!
                 
+                title = NSLocalizedString("Parent channel", comment: "channel list")
                 if channel.nParentID == 0 {
-                    name = fromTTString(srvprop.szServerName)
+                    subtitle = fromTTString(srvprop.szServerName)
                 }
                 else {
-                    name = fromTTString(channel.szName)
-                    topic = fromTTString(channel.szTopic)
+                    subtitle = fromTTString(channel.szName)
                 }
                 
                 textcolor = UIColor.grayColor()
@@ -235,8 +235,8 @@ class ChannelListViewController :
                 // display only the root channel
                 channel = subchans[chan_index]
                 
-                name = fromTTString(srvprop.szServerName)
-                topic = fromTTString(channel.szTopic)
+                title = fromTTString(srvprop.szServerName)
+                subtitle = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -255,8 +255,8 @@ class ChannelListViewController :
                     channel = subchans[chan_index]
                 }
                 
-                name = fromTTString(channel.szName)
-                topic = fromTTString(channel.szTopic)
+                title = fromTTString(channel.szName)
+                subtitle = fromTTString(channel.szTopic)
                 
                 if channel.bPassword != 0 {
                     cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -270,8 +270,8 @@ class ChannelListViewController :
             cell.channame.textColor = textcolor
             cell.chantopicLabel.textColor = textcolor
 
-            cell.channame.text = limitText(name!)
-            cell.chantopicLabel.text = topic
+            cell.channame.text = limitText(title!)
+            cell.chantopicLabel.text = subtitle
             
             cell.editBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
