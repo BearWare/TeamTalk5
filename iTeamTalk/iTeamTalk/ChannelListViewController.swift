@@ -330,7 +330,8 @@ class ChannelListViewController :
                         activeCommands[cmdid] = .JoinCmd
                     }
                 }
-                else if NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
+                else if NSUserDefaults.standardUserDefaults().objectForKey(PREF_JOINROOTCHANNEL) == nil ||
+                    NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
                     
                     let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
                     if cmdid > 0 {
