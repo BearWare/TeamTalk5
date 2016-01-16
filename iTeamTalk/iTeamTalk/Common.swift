@@ -428,6 +428,8 @@ let DEFAULT_VOICEACT = 2
 let DEFAULT_POPUP_TEXTMESSAGE = true
 let DEFAULT_LIMIT_TEXT = 25
 
+let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
+
 let TRUE : TTBOOL = 1
 let FALSE : TTBOOL = 0
 

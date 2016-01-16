@@ -230,7 +230,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             
             var nickname = NSUserDefaults.standardUserDefaults().stringForKey(PREF_NICKNAME)
             if nickname == nil {
-                nickname = ""
+                nickname = DEFAULT_NICKNAME
             }
             
             cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)

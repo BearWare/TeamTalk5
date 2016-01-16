@@ -72,6 +72,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var soundevents_items = [UITableViewCell]()
     var sound_items  = [UITableViewCell]()
     var subscription_items = [UITableViewCell]()
+    var connection_items = [UITableViewCell]()
     var ttsevents_items = [UITableViewCell]()
     
     let SECTION_GENERAL = 0,
@@ -79,8 +80,9 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         SECTION_SOUND = 2,
         SECTION_SOUNDEVENTS = 3,
         SECTION_TTSEVENTS = 4,
-        SECTION_SUBSCRIPTIONS = 5,
-        SECTIONS_COUNT = 6
+        SECTION_CONNECTION = 5,
+        SECTION_SUBSCRIPTIONS = 6,
+        SECTIONS_COUNT = 7
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,13 +94,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         var nickname = settings.stringForKey(PREF_NICKNAME)
         if nickname == nil {
-            nickname = "Noname"
+            nickname = DEFAULT_NICKNAME
         }
         
         // general items
         
-        let nicknamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let nicknamecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname", comment: "preferences"), initial: nickname!)
+        nicknamecell.detailTextLabel!.text = NSLocalizedString("Name displayed in channel list", comment: "preferences")
         nicknamefield?.addTarget(self, action: "nicknameChanged:", forControlEvents: .EditingDidEnd)
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
@@ -228,6 +231,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         soundeventChanged(leftchanswitch)
         soundevents_items.append(leftchancell)
 
+        // connection items
+        
+        let joinroot = settings.objectForKey(PREF_JOINROOTCHANNEL) == nil || settings.boolForKey(PREF_JOINROOTCHANNEL)
+        let joinrootcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let joinrootswitch = newTableCellSwitch(joinrootcell, label: NSLocalizedString("Join Root Channel", comment: "preferences"), initial: joinroot)
+        joinrootcell.detailTextLabel!.text = NSLocalizedString("Join root channel after login", comment: "preferences")
+        joinrootswitch.addTarget(self, action: "joinrootChanged:", forControlEvents: .ValueChanged)
+        connection_items.append(joinrootcell)
+        
         // subscription items
         
         let subs = getDefaultSubscriptions()
@@ -473,6 +485,12 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
     }
     
+    func joinrootChanged(sender: UISwitch) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_JOINROOTCHANNEL)
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return SECTIONS_COUNT
     }
@@ -487,6 +505,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             return NSLocalizedString("Sound Events", comment: "preferences")
         case SECTION_SOUND :
             return NSLocalizedString("Sound System", comment: "preferences")
+        case SECTION_CONNECTION :
+            return NSLocalizedString("Connection", comment: "preferences")
         case SECTION_SUBSCRIPTIONS :
             return NSLocalizedString("Default Subscriptions", comment: "preferences")
         case SECTION_TTSEVENTS :
@@ -506,6 +526,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             return soundevents_items.count
         case SECTION_SOUND :
             return sound_items.count
+        case SECTION_CONNECTION :
+            return connection_items.count
         case SECTION_SUBSCRIPTIONS :
             return subscription_items.count
         case SECTION_TTSEVENTS :
@@ -526,6 +548,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             return soundevents_items[indexPath.row]
         case SECTION_SOUND :
             return sound_items[indexPath.row]
+        case SECTION_CONNECTION :
+            return connection_items[indexPath.row]
         case SECTION_SUBSCRIPTIONS :
             return subscription_items[indexPath.row]
         case SECTION_TTSEVENTS:
