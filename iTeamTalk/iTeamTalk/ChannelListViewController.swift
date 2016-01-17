@@ -56,9 +56,6 @@ class ChannelListViewController :
     // timeout for PTT lock
     var pttLockTimeout = NSDate()
 
-    let synth = AVSpeechSynthesizer()
-    var myUtterance = AVSpeechUtterance(string: "")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

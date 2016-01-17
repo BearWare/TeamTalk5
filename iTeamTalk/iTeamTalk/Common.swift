@@ -430,6 +430,12 @@ let DEFAULT_VOICEACT = 2
 let DEFAULT_POPUP_TEXTMESSAGE = true
 let DEFAULT_LIMIT_TEXT = 25
 
+// initialize TTS values globally
+let synth = AVSpeechSynthesizer()
+var myUtterance = AVSpeechUtterance(string: "")
+let DEFAULT_TTS_RATE : Float = 0.5
+let DEFAULT_TTS_VOL : Float = 0.5
+
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 
 let TRUE : TTBOOL = 1

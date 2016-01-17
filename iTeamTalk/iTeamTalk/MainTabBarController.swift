@@ -35,10 +35,6 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     // active command
     var cmdid : INT32 = 0
 
-// tts initialization
-    let synth = AVSpeechSynthesizer()
-    var myUtterance = AVSpeechUtterance(string: "")
-    
     let CHANNELTAB = 0, TEXTMSGTAB = 1, PREFTAB = 2
 
     override func viewDidLoad() {
