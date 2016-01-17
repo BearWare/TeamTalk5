@@ -65,10 +65,8 @@
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
 		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
 		254057741C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/Main.strings"; sourceTree = "<group>"; };
-		254057751C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		254057761C418BC50090C769 /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		254057771C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
-		254057781C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		254057791C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,11 +92,9 @@
 		254C08491C345E3700C98566 /* newuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = newuser.mp3; sourceTree = "<group>"; };
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
-		256328181C41A9F20055373F /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25658E841C402C2A00D62F82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		25658E851C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Main.strings"; sourceTree = "<group>"; };
-		25658E861C402CAE00D62F82 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FB1C418309008A355E /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -107,10 +103,8 @@
 		25AA20691BE933310089AD54 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		25AA206D1BEBCA0A0089AD54 /* off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = off.mp3; sourceTree = "<group>"; };
 		25AB78D31C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		25AB78D41C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25AB78D51C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
-		25AB78D71C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		25E4DC2D1BF7347200EC5A8C /* on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = on.mp3; sourceTree = "<group>"; };
@@ -419,12 +413,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				254B7A561B98BAA300BE0DEF /* Base */,
-				25658E861C402CAE00D62F82 /* da-DK */,
-				254057751C418BC50090C769 /* hu-HU */,
-				254057781C418D190090C769 /* tr */,
-				256328181C41A9F20055373F /* ru */,
-				25AB78D41C4831460073E6B8 /* de */,
-				25AB78D71C494DD50073E6B8 /* es */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
