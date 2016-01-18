@@ -107,6 +107,8 @@
 		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		25E379A51C4D560B0039DA6D /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Main.strings; sourceTree = "<group>"; };
+		25E379A61C4D560B0039DA6D /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25E4DC2D1BF7347200EC5A8C /* on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = on.mp3; sourceTree = "<group>"; };
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
 		25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = serverlost.mp3; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				ru,
 				de,
 				es,
+				et,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -405,6 +408,7 @@
 				256328171C41A9F20055373F /* ru */,
 				25AB78D31C4831460073E6B8 /* de */,
 				25AB78D61C494DD50073E6B8 /* es */,
+				25E379A51C4D560B0039DA6D /* et */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -428,6 +432,7 @@
 				256328191C41A9F20055373F /* ru */,
 				25AB78D51C4831460073E6B8 /* de */,
 				25AB78D81C494DD50073E6B8 /* es */,
+				25E379A61C4D560B0039DA6D /* et */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
