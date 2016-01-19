@@ -55,8 +55,8 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
-let PREF_TTSEVENT_RATE = ""
-let PREF_TTSEVENT_VOL = ""
+let PREF_TTSEVENT_RATE = "tts_rate_preference"
+let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
 
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
@@ -326,7 +326,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         if settings.valueForKey(PREF_TTSEVENT_RATE) != nil {
             ttsrate = settings.floatForKey(PREF_TTSEVENT_RATE)
         }
-let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("TTS Rate", comment: "preferences"),
+        let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("TTS Rate", comment: "preferences"),
             min: 0, max: 1, initial: Float(ttsrate))
         ttsrateslider.addTarget(self, action: "ttsrateChanged:", forControlEvents: .ValueChanged)
         ttsrateChanged(ttsrateslider)
@@ -547,8 +547,7 @@ let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("T
         defaults.setFloat(Float(sender.value), forKey: PREF_TTSEVENT_RATE)
         let txt = String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
         ttsratecell!.detailTextLabel!.text = txt
-            }
-
+    }
     
     func ttsvolChanged(sender: UISlider) {
         let defaults = NSUserDefaults.standardUserDefaults()

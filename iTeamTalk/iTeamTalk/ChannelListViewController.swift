@@ -585,9 +585,7 @@ class ChannelListViewController :
                 
                 if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
                     let nickname = limitText(fromTTString(user.szNickname))
-                    myUtterance.rate = ttsrate
-                    myUtterance = AVSpeechUtterance(string: nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
-                    synth.speakUtterance(myUtterance)
+                    newUtterance(nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                 }
             }
             if currentCmdId == 0 {
@@ -621,8 +619,7 @@ class ChannelListViewController :
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
                     let nickname = limitText(fromTTString(user.szNickname))
-                    myUtterance = AVSpeechUtterance(string: nickname + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
-                    synth.speakUtterance(myUtterance)
+                    newUtterance(nickname + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                 }
             }
             
