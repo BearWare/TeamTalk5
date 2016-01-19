@@ -34,6 +34,7 @@ let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
+let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
@@ -155,25 +156,16 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         masterVolumeChanged(mastervolslider)
         sound_items.append(mastervolcell!)
         
-        let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
-            initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
-        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
-        speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
-        sound_items.append(speakercell)
-
-        // use SOUND_VU_MAX + 1 as voice activation disabled
-        var voiceact = VOICEACT_DISABLED
-        if settings.objectForKey(PREF_VOICEACTIVATION) != nil {
-            voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
+        let mfvolumecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var mfvol = DEFAULT_MEDIAFILE_VOLUME
+        if settings.valueForKey(PREF_MEDIAFILE_VOLUME) != nil {
+            mfvol = settings.floatForKey(PREF_MEDIAFILE_VOLUME)
         }
-        voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let voiceactslider = newTableCellSlider(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
-            min: 0, max: 1, initial: Float(voiceact) / Float(VOICEACT_DISABLED))
-        voiceactslider.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
-        voiceactlevelChanged(voiceactslider)
-        sound_items.append(voiceactcell!)
-        
+        let mfvolumeslider = newTableCellSlider(mfvolumecell, label: NSLocalizedString("Media File Volume", comment: "preferences"), min: 0, max: 1, initial: mfvol)
+        mfvolumeslider.addTarget(self, action: "mediafileVolumeChanged:", forControlEvents: .ValueChanged)
+        mfvolumecell.detailTextLabel?.text = NSLocalizedString("Media file vs. voice volume (requires reconnect)", comment: "preferences")
+        sound_items.append(mfvolumecell)
+
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         var inputvol = Int(SOUND_GAIN_DEFAULT.rawValue)
         if ttInst != nil {
@@ -189,7 +181,26 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         microphoneGainChanged(microphoneslider)
         sound_items.append(microphonecell!)
         
+        // use SOUND_VU_MAX + 1 as voice activation disabled
+        var voiceact = VOICEACT_DISABLED
+        if settings.objectForKey(PREF_VOICEACTIVATION) != nil {
+            voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
+        }
+        voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let voiceactslider = newTableCellSlider(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
+            min: 0, max: 1, initial: Float(voiceact) / Float(VOICEACT_DISABLED))
+        voiceactslider.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
+        voiceactlevelChanged(voiceactslider)
+        sound_items.append(voiceactcell!)
+        
+        let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
+            initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
+        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
+        speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
+        sound_items.append(speakercell)
 
+        
         // sound events
         
         let srvlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
@@ -496,7 +507,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(vol_pct, forKey: PREF_MICROPHONE_GAIN)
-        
+    }
+
+    func mediafileVolumeChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
     }
     
     func joinrootChanged(sender: UISwitch) {

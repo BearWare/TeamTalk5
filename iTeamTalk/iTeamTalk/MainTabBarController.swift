@@ -295,7 +295,15 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             if TT_GetMyUserID(ttInst) != user.nUserID && user.uLocalSubscriptions != subs {
                 TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subs)
             }
-        
+            
+        case CLIENTEVENT_CMD_USER_JOINED :
+            let defaults = NSUserDefaults.standardUserDefaults()
+            if let mfvol = defaults.valueForKey(PREF_MEDIAFILE_VOLUME) {
+                let user = getUser(&m).memory
+                let vol = Float(SOUND_VOLUME_DEFAULT.rawValue) * mfvol.floatValue!
+                TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
+            }
+            
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             
             switch getTextMessage(&m).memory.nMsgType {
