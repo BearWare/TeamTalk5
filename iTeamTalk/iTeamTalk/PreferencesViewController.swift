@@ -55,6 +55,8 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
+let PREF_TTSEVENT_RATE = ""
+
 
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
@@ -68,6 +70,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var mastervolcell : UITableViewCell?
     var voiceactcell : UITableViewCell?
     var microphonecell : UITableViewCell?
+    var ttsratecell : UITableViewCell?
 
     var general_items = [UITableViewCell]()
     var display_items = [UITableViewCell]()
@@ -316,6 +319,17 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         // text to speech events
 
+        ttsratecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var ttsrate = DEFAULT_TTS_RATE
+        if settings.valueForKey(PREF_TTSEVENT_RATE) != nil {
+            ttsrate = settings.floatForKey(PREF_TTSEVENT_RATE)
+        }
+let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("TTS Rate", comment: "preferences"),
+            min: 0, max: 1, initial: Float(ttsrate))
+        ttsrateslider.addTarget(self, action: "ttsrateChanged:", forControlEvents: .ValueChanged)
+        ttsrateChanged(ttsrateslider)
+        ttsevents_items.append(ttsratecell!)
+
         let ttsjoinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsjoinedchan = settings.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_JOINEDCHAN)
         let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joins channel", comment: "preferences"), initial: ttsjoinedchan)
@@ -513,6 +527,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setFloat(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
     }
+    
+    func ttsrateChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(Float(sender.value), forKey: PREF_TTSEVENT_RATE)
+        let txt = String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
+        ttsratecell!.detailTextLabel!.text = txt
+            }
+
     
     func joinrootChanged(sender: UISwitch) {
         

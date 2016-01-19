@@ -585,6 +585,7 @@ class ChannelListViewController :
                 
                 if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
                     let nickname = limitText(fromTTString(user.szNickname))
+                    myUtterance.rate = ttsrate
                     myUtterance = AVSpeechUtterance(string: nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                     synth.speakUtterance(myUtterance)
                 }

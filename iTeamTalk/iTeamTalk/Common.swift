@@ -435,6 +435,12 @@ let synth = AVSpeechSynthesizer()
 var myUtterance = AVSpeechUtterance(string: "")
 let DEFAULT_TTS_RATE : Float = 0.5
 let DEFAULT_TTS_VOL : Float = 0.5
+var ttsrate: Float!
+func loadTTSSettings()
+{
+    let settings = NSUserDefaults.standardUserDefaults() as NSUserDefaults!
+    ttsrate = settings.valueForKey("PREF_TTSEVENT_RATE") as! Float
+}
 
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 
