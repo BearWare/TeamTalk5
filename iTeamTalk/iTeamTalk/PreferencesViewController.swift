@@ -322,12 +322,12 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         // text to speech events
 
         ttsratecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        var ttsrate = DEFAULT_TTS_RATE
+        var ttsrate = AVSpeechUtteranceDefaultSpeechRate
         if settings.valueForKey(PREF_TTSEVENT_RATE) != nil {
             ttsrate = settings.floatForKey(PREF_TTSEVENT_RATE)
         }
-        let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("TTS Rate", comment: "preferences"),
-            min: 0, max: 1, initial: Float(ttsrate))
+        let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("Speech Rate", comment: "preferences"),
+            min: AVSpeechUtteranceMinimumSpeechRate, max: AVSpeechUtteranceMaximumSpeechRate, initial: Float(ttsrate))
         ttsrateslider.addTarget(self, action: "ttsrateChanged:", forControlEvents: .ValueChanged)
         ttsrateChanged(ttsrateslider)
         ttsevents_items.append(ttsratecell!)
@@ -337,7 +337,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         if settings.valueForKey(PREF_TTSEVENT_VOL) != nil {
             ttsvol = settings.floatForKey(PREF_TTSEVENT_VOL)
         }
-        let ttsvolslider = newTableCellSlider(ttsvolcell!, label: NSLocalizedString("TTS Volume", comment: "preferences"),
+        let ttsvolslider = newTableCellSlider(ttsvolcell!, label: NSLocalizedString("Speech Volume", comment: "preferences"),
             min: 0, max: 1, initial: Float(ttsvol))
         ttsvolslider.addTarget(self, action: "ttsvolChanged:", forControlEvents: .ValueChanged)
         ttsvolChanged(ttsvolslider)
