@@ -434,7 +434,6 @@ let DEFAULT_LIMIT_TEXT = 25
 let synth = AVSpeechSynthesizer()
 var myUtterance = AVSpeechUtterance(string: "")
 
-let DEFAULT_TTS_RATE : Float = 0.5
 let DEFAULT_TTS_VOL : Float = 0.5
 
 func newUtterance(utterance: String) {
