@@ -56,6 +56,7 @@ let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
 let PREF_TTSEVENT_RATE = ""
+let PREF_TTSEVENT_VOL = ""
 
 
 class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
@@ -71,6 +72,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     var voiceactcell : UITableViewCell?
     var microphonecell : UITableViewCell?
     var ttsratecell : UITableViewCell?
+    var ttsvolcell : UITableViewCell?
 
     var general_items = [UITableViewCell]()
     var display_items = [UITableViewCell]()
@@ -329,6 +331,18 @@ let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("T
         ttsrateslider.addTarget(self, action: "ttsrateChanged:", forControlEvents: .ValueChanged)
         ttsrateChanged(ttsrateslider)
         ttsevents_items.append(ttsratecell!)
+        
+        ttsvolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var ttsvol = DEFAULT_TTS_VOL
+        if settings.valueForKey(PREF_TTSEVENT_VOL) != nil {
+            ttsvol = settings.floatForKey(PREF_TTSEVENT_VOL)
+        }
+        let ttsvolslider = newTableCellSlider(ttsvolcell!, label: NSLocalizedString("TTS Volume", comment: "preferences"),
+            min: 0, max: 1, initial: Float(ttsvol))
+        ttsvolslider.addTarget(self, action: "ttsvolChanged:", forControlEvents: .ValueChanged)
+        ttsvolChanged(ttsvolslider)
+        ttsevents_items.append(ttsvolcell!)
+
 
         let ttsjoinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsjoinedchan = settings.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_JOINEDCHAN)
@@ -535,6 +549,13 @@ let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("T
         ttsratecell!.detailTextLabel!.text = txt
             }
 
+    
+    func ttsvolChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(Float(sender.value), forKey: PREF_TTSEVENT_VOL)
+        let txt = String(format: NSLocalizedString("The volume of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
+        ttsvolcell!.detailTextLabel!.text = txt
+    }
     
     func joinrootChanged(sender: UISwitch) {
         
