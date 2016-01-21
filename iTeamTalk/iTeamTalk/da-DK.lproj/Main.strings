@@ -30,7 +30,7 @@
 "BLM-fs-qcG.title" = "Tilbage";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Private tekstbeskeder";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Besked til bruger";
@@ -57,7 +57,7 @@
 "NA0-UK-wve.title" = "Indstillinger";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Connect button";
+"PaV-2Q-pt4.accessibilityLabel" = "Knap til opret forbindelse";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Forbind";
@@ -72,7 +72,7 @@
 "Uc0-gP-wr1.text" = "Blank";
 
 /* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityHint" = "Double tap and hold to transmit. Tripple tap to toggle.";
+"V6G-Gm-l2U.accessibilityHint" = "Tryk to gange og hold nede for at transmittere. Tryk tre gange for at låse transmission.";
 
 /* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.accessibilityLabel" = "Transmitter";
@@ -93,7 +93,7 @@
 "WcB-pN-blB.text" = "Blank";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
-"Y9o-rs-HCe.title" = "Disconnect";
+"Y9o-rs-HCe.title" = "Afbryd";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Skriveborde";
