@@ -61,6 +61,8 @@
 #define SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT   true
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
 #define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
+#define SETTINGS_DISPLAY_SHOWUSERNAME               "display/showusername"
+#define SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT       false
 #define SETTINGS_DISPLAY_LASTTALK                   "display/display-last-talk"
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"

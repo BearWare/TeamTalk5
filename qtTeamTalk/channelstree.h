@@ -65,6 +65,7 @@ public:
     void setUserMessaged(int userid, bool messaged);
     void setUserDesktopAccess(int userid, bool enable);
     void setShowUserCount(bool show);
+    void setShowUsername(bool show);
     void setShowLastToTalk(bool show);
     void updateItemTextLength(int new_length);
 
@@ -92,6 +93,7 @@ private:
     channels_t m_channels;
     users_t m_users; //contains all users (also those not in channels)
     bool m_showusercount;
+    bool m_showusername;
     bool m_showlasttalk;
     int m_last_talker_id;
     int m_strlen;
