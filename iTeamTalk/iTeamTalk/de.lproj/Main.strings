@@ -1,6 +1,6 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Main Tab Controller";
+"07s-AR-tvQ.title" = "Hauptregisterkartensteuerung";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Textnachricht";
@@ -15,7 +15,7 @@
 "4RU-K7-Yga.accessibilityHint" = "Send private text message";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+"4RU-K7-Yga.accessibilityLabel" = "Textnachricht";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Nachricht an Benutzer";
@@ -30,7 +30,7 @@
 "BLM-fs-qcG.title" = "Zurück";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Private Textnachricht";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Nachricht an Benutzer";
@@ -57,7 +57,7 @@
 "NA0-UK-wve.title" = "Voreinstellungen";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Connect button";
+"PaV-2Q-pt4.accessibilityLabel" = "Verbinden-Taste";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Verbinden";
@@ -93,7 +93,7 @@
 "WcB-pN-blB.text" = "Leer";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
-"Y9o-rs-HCe.title" = "Disconnect";
+"Y9o-rs-HCe.title" = "Trennen";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Desktops";
@@ -111,7 +111,7 @@
 "cGm-Jp-0zI.normalTitle" = "Benutze Speex-Codec";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "Diesem Raum betreten";
+"ch0-Xf-hyX.normalTitle" = "Diesen Raum betreten";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
 "dcU-Nq-ioW.title" = "Hauptregisterkartensteuerung";
@@ -120,7 +120,7 @@
 "gA8-TJ-0RU.title" = "Raumchat";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Doppelklick zum Ausklappen der Raumoptionen.";
+"hqu-CX-Vn4.accessibilityHint" = "Doppeltipp zum Ausklappen der Raumoptionen.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "Nachrichten";
@@ -141,7 +141,7 @@
 "pQJ-c1-GEL.title" = "Serverliste";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = "Ohne Audio";
+"rNU-2J-hMO.normalTitle" = "Kein Audio";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
 "vC1-lW-BtX.normalTitle" = "Raum löschen";
