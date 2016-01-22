@@ -631,6 +631,8 @@ class ChannelListViewController :
             let txtmsg = getTextMessage(&m).memory
             
             if txtmsg.nMsgType == MSGTYPE_USER {
+                
+                let settings = NSUserDefaults.standardUserDefaults()
                 if let user = users[txtmsg.nFromUserID] {
                     let newmsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
                         msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM)
@@ -639,7 +641,7 @@ class ChannelListViewController :
                     if unreadmessages.count == 0 {
                         unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerUnread", userInfo: nil, repeats: true)
                     }
-                    unreadmessages.insert(txtmsg.nFromUserID)
+                    unreadmessages.insert(txtmsg.nFromUserID)                    
                 }
                 
                 //ignore incoming message if text message view controller is already open
@@ -650,12 +652,14 @@ class ChannelListViewController :
                     }
                 }
                 
-                let settings = NSUserDefaults.standardUserDefaults()
                 if settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG) {
                     let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
                     addToTTMessages(vc)
+                    if vc.messages.count > 0 {
+                        speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
+                    }
                 }
             }
 

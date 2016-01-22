@@ -55,6 +55,8 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
+let PREF_TTSEVENT_TEXTMSG = "tts_usertxtmsg_preference"
+let PREF_TTSEVENT_CHANTEXTMSG = "tts_chantxtmsg_preference"
 let PREF_TTSEVENT_RATE = "tts_rate_preference"
 let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
@@ -364,6 +366,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announce lost server connection", comment: "preferences")
         ttsconlostswitch.addTarget(self, action: "ttsconlostChanged:", forControlEvents: .ValueChanged)
         ttsevents_items.append(ttsconlostcell)
+        
+        let ttstxtmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttstxtmsg = settings.objectForKey(PREF_TTSEVENT_TEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_TEXTMSG)
+        let ttstxtmsgswitch = newTableCellSwitch(ttstxtmsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: ttstxtmsg)
+        ttstxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
+        ttstxtmsgswitch.addTarget(self, action: "ttsprivtxtmsgChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttstxtmsgcell)
+
+        let ttschantxtmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttschantxtmsg = settings.objectForKey(PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_CHANTEXTMSG)
+        let ttschantxtmsgswitch = newTableCellSwitch(ttschantxtmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: ttschantxtmsg)
+        ttschantxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
+        ttschantxtmsgswitch.addTarget(self, action: "ttschantxtmsgChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttschantxtmsgcell)
 
     }
     
@@ -467,6 +483,16 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     func ttsconlostChanged(sender: UISwitch) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_TTSEVENT_CONLOST)
+    }
+    
+    func ttsprivtxtmsgChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_TEXTMSG)
+    }
+
+    func ttschantxtmsgChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_CHANTEXTMSG)
     }
 
     func proximityChanged(sender: UISwitch) {

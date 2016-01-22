@@ -448,6 +448,24 @@ func newUtterance(utterance: String) {
     synth.speakUtterance(myUtterance)
 }
 
+func speakTextMessage(msgtype: TextMsgType, mymsg: MyTextMessage) {
+    
+    let settings = NSUserDefaults.standardUserDefaults()
+    let tts_priv = settings.objectForKey(PREF_TTSEVENT_TEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_TEXTMSG) && msgtype == MSGTYPE_USER
+    let tts_chan = settings.objectForKey(PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
+    
+    if tts_priv {
+        let ttsmsg = String(format: NSLocalizedString("Private text message from %@. %@", comment: "TTS EVENT"),
+            limitText(mymsg.nickname), mymsg.message)
+        newUtterance(ttsmsg)
+    }
+    if tts_chan {
+        let ttsmsg = String(format: NSLocalizedString("Channel message from %@. %@", comment: "TTS EVENT"),
+            limitText(mymsg.nickname), mymsg.message)
+        newUtterance(ttsmsg)
+    }
+}
+
 
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 
