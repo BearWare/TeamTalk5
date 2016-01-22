@@ -1,0 +1,156 @@
+
+/* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
+"07s-AR-tvQ.title" = "Main Tab Controller";
+
+/* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
+"0EG-eF-WzS.title" = "Text Message";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
+"0QA-gn-V1p.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
+"3NI-HT-A3N.normalTitle" = "Send";
+
+/* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+
+/* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.normalTitle" = "Message user";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
+"9GN-82-2nL.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
+"ALe-1e-Au1.text" = "Blank";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
+"BLM-fs-qcG.title" = "Back";
+
+/* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.normalTitle" = "Message user";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
+"Fu9-tA-eYj.text" = "Blank";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
+"JW6-jf-mbs.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
+"JzB-tm-tld.normalTitle" = "Edit";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
+"LPL-JY-xBM.normalTitle" = "Send";
+
+/* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
+"Me4-OJ-iZH.title" = "Server Entry";
+
+/* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
+"N1w-a6-R3D.title" = "User Properties";
+
+/* Class = "UIViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
+"NA0-UK-wve.title" = "Preferences";
+
+/* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.accessibilityLabel" = "Connect button";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.normalTitle" = "Connect";
+
+/* Class = "UIViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
+"PhY-ED-cqF.title" = "Channel Detail";
+
+/* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
+"Rrg-2O-NzF.normalTitle" = "Use OPUS Codec";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
+"Uc0-gP-wr1.text" = "Blank";
+
+/* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.accessibilityHint" = "Double tap and hold to transmit. Tripple tap to toggle.";
+
+/* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.accessibilityLabel" = "Transmit";
+
+/* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.normalTitle" = "TX";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
+"WCf-u5-KkQ.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
+"WFB-kl-uoS.normalTitle" = "Kick User";
+
+/* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
+"WRa-tI-lpY.normalTitle" = "Kick and Ban User";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
+"WcB-pN-blB.text" = "Blank";
+
+/* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
+"Y9o-rs-HCe.title" = "Disconnect";
+
+/* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
+"ZFj-Rn-XZn.title" = "Desktops";
+
+/* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
+"aX2-rZ-yEl.title" = "Channels";
+
+/* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
+"b6N-H7-SIe.normalTitle" = "Use Speex VBR Codec";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
+"bDf-Jp-1l5.normalTitle" = "Connect";
+
+/* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
+"cGm-Jp-0zI.normalTitle" = "Use Speex Codec";
+
+/* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
+"ch0-Xf-hyX.normalTitle" = "Join this channel";
+
+/* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
+"dcU-Nq-ioW.title" = "Connecting to Server";
+
+/* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
+"gA8-TJ-0RU.title" = "Chat Channel";
+
+/* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
+"hqu-CX-Vn4.accessibilityHint" = "Double tap to expand options for this channel.";
+
+/* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
+"j1c-gJ-hO8.title" = "Messages";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
+"kRp-LE-RFh.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
+"l6D-Hs-MdG.normalTitle" = "Join Channel";
+
+/* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
+"m1N-Js-NXn.normalTitle" = "Delete Server";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
+"nVj-7w-Sta.text" = "Blank";
+
+/* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
+"pQJ-c1-GEL.title" = "Server List";
+
+/* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
+"rNU-2J-hMO.normalTitle" = "Use No Audio";
+
+/* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
+"vC1-lW-BtX.normalTitle" = "Delete Channel";
+
+/* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
+"vIN-Uc-3Ms.title" = "Preferences";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
+"w6E-jf-09e.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
+"ydT-LM-DrB.text" = "Blank";
