@@ -1604,7 +1604,19 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 }
             }
             else
+            {
                 m_wndTree.SetUserMessage(textmsg.nFromUserID, TRUE);
+            }
+        }
+
+        User user;
+        if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
+        {
+            CString szName = LimitText(user.szNickname);
+            CString szFmt, szMsg;
+            szFmt.LoadString(IDS_USERTEXTMSG);
+            szMsg.Format(szFmt, szName, textmsg.szMessage);
+            AddVoiceMessage(szMsg);
         }
     }
     break;
@@ -1614,7 +1626,8 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         //add message to channel console
         if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
         {
-            CString szLine = m_tabChat.m_wndRichEdit.AddMessage(LimitText(user.szNickname),
+            CString szName = LimitText(user.szNickname);
+            CString szLine = m_tabChat.m_wndRichEdit.AddMessage(szName,
                                                                 textmsg.szMessage);
 
             if(!m_bTwoPanes)
@@ -1624,6 +1637,10 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             if(m_wndTree.GetChannel(textmsg.nChannelID, chan))
                 WriteLogMsg(m_logChan, szLine);
             
+            CString szFmt, szMsg;
+            szFmt.LoadString(IDS_CHANTEXTMSG);
+            szMsg.Format(szFmt, szName, textmsg.szMessage);
+            AddVoiceMessage(szMsg);
         }
 
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelMsg()));
@@ -2314,6 +2331,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     //show user count in treectrl
     m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
+
+    //show username instead of nickname
+    m_wndTree.ShowUsername(m_xmlSettings.GetShowUsernames());
 
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
@@ -3025,6 +3045,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bVuMeter = m_xmlSettings.GetVuMeterUpdate();
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
     windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
+    windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
 
     ///////////////////////
     // client settings
@@ -3197,6 +3218,8 @@ void CTeamTalkDlg::OnFilePreferences()
         }
         m_xmlSettings.SetShowUserCount(windowpage.m_bShowUserCount);
         m_wndTree.ShowUserCount(windowpage.m_bShowUserCount);
+        m_xmlSettings.SetShowUsernames(windowpage.m_bShowUsername);
+        m_wndTree.ShowUsername(windowpage.m_bShowUsername);
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);
