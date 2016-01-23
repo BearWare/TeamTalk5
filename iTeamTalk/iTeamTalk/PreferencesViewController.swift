@@ -25,6 +25,7 @@ import AVFoundation
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
+let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
@@ -147,6 +148,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         pubserverswitch.addTarget(self, action: "showpublicserversChanged:", forControlEvents: .ValueChanged)
         display_items.append(pubservercell)
 
+        let showusernamecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let showusername = settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME)
+        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show username", comment: "preferences"), initial: showusername)
+        showusernamecell.detailTextLabel!.text = NSLocalizedString("Show username instead of nickname", comment: "preferences")
+        showusernameswitch.addTarget(self, action: "showusernameChanged:", forControlEvents: .ValueChanged)
+        display_items.append(showusernamecell)
+        
         
         // sound preferences
         
@@ -515,6 +523,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
     func showpublicserversChanged(sender: UISwitch) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_DISPLAY_PUBSERVERS)
+    }
+
+    func showusernameChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_DISPLAY_SHOWUSERNAME)
     }
     
     func speakeroutputChanged(sender: UISwitch) {

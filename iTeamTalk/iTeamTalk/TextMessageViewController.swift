@@ -158,7 +158,7 @@ class TextMessageViewController :
             
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
-            let name = fromTTString(user.szNickname)
+            let name = getDisplayName(user)
             let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .IM_MYSELF)
             
             messages.append(mymsg)
@@ -220,7 +220,8 @@ class TextMessageViewController :
                         break
                     }
                     
-                    let mymsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
+                    let name = getDisplayName(user)
+                    let mymsg = MyTextMessage(m: txtmsg, nickname: name,
                         msgtype: msgtype)
                     messages.append(mymsg)
                     
@@ -264,8 +265,8 @@ class TextMessageViewController :
                     logmsg = MyTextMessage(logmsg: txt)
                 }
                 else {
-                    let nickname = fromTTString(user.szNickname)
-                    let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), nickname)
+                    let name = getDisplayName(user)
+                    let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), name)
                     logmsg = MyTextMessage(logmsg: txt)
                 }
                 messages.append(logmsg!)
@@ -278,8 +279,8 @@ class TextMessageViewController :
             
             let user = getUser(&m).memory
             if TT_GetMyChannelID(ttInst) == m.nSource {
-                let nickname = fromTTString(user.szNickname)
-                let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), nickname)
+                let name = getDisplayName(user)
+                let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
                 let logmsg = MyTextMessage(logmsg: txt)
                 messages.append(logmsg)
                 

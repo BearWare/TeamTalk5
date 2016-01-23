@@ -187,10 +187,10 @@ class ChannelListViewController :
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
             let user = chanusers[user_index]
-            let nickname = fromTTString(user.szNickname)
+            let name = getDisplayName(user)
             let statusmsg = fromTTString(user.szStatusMsg)
             
-            cell.nicknameLabel.text = limitText(nickname)
+            cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
             
             cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
@@ -584,8 +584,8 @@ class ChannelListViewController :
                 let defaults = NSUserDefaults.standardUserDefaults()
                 
                 if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
-                    let nickname = limitText(fromTTString(user.szNickname))
-                    newUtterance(nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
+                    let name = getDisplayName(user)
+                    newUtterance(name + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                 }
             }
             if currentCmdId == 0 {
@@ -618,8 +618,8 @@ class ChannelListViewController :
                 playSound(.LEFT_CHAN)
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
-                    let nickname = limitText(fromTTString(user.szNickname))
-                    newUtterance(nickname + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
+                    let name = getDisplayName(user)
+                    newUtterance(name + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                 }
             }
             
@@ -634,7 +634,8 @@ class ChannelListViewController :
                 
                 let settings = NSUserDefaults.standardUserDefaults()
                 if let user = users[txtmsg.nFromUserID] {
-                    let newmsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
+                    let name = getDisplayName(user)
+                    let newmsg = MyTextMessage(m: txtmsg, nickname: name,
                         msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     

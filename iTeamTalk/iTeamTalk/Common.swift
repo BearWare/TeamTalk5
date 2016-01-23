@@ -314,6 +314,14 @@ func limitText(s: String) -> String {
     return s
 }
 
+func getDisplayName(user: User) -> String {
+    let settings = NSUserDefaults.standardUserDefaults()
+    if settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME) {
+        return limitText(fromTTString(user.szUsername))
+    }
+    return limitText(fromTTString(user.szNickname))
+}
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5, JOINED_CHAN = 6, LEFT_CHAN = 7
