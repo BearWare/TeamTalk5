@@ -61,13 +61,15 @@ let PREF_TTSEVENT_RATE = "tts_rate_preference"
 let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
 
-class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class PreferencesViewController : UIViewController, UITableViewDataSource,
+    UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
     
     @IBOutlet weak var tableView: UITableView!
    
     var nicknamefield : UITextField?
     
     var ttInst = UnsafeMutablePointer<Void>()
+    var users = Set<INT32>()
     
     var limittextcell : UITableViewCell?
     var mastervolcell : UITableViewCell?
@@ -566,6 +568,12 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     func mediafileVolumeChanged(sender: UISlider) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setFloat(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
+        
+        let vol = refVolume(100.0 * Double(sender.value))
+        for u in users {
+            TT_SetUserVolume(ttInst, u, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
+        }
+        
     }
     
     func ttsrateChanged(sender: UISlider) {
@@ -653,6 +661,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             return ttsevents_items[indexPath.row]
         default :
             return UITableViewCell()
+        }
+    }
+    
+    func handleTTMessage(var m: TTMessage) {
+        
+        switch m.nClientEvent {
+            
+        case CLIENTEVENT_CMD_USER_JOINED :
+            let user = getUser(&m).memory
+            users.insert(user.nUserID)
+        case CLIENTEVENT_CMD_USER_LEFT :
+            let user = getUser(&m).memory
+            users.remove(user.nUserID)
+        default : break
         }
     }
 }

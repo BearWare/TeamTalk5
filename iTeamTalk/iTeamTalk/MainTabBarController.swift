@@ -65,6 +65,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         prefTab.ttInst = self.ttInst
         addToTTMessages(channelsTab)
         addToTTMessages(chatTab)
+        addToTTMessages(prefTab)
 
         let flags = TT_GetFlags(ttInst)
         if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
@@ -299,7 +300,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             let defaults = NSUserDefaults.standardUserDefaults()
             if let mfvol = defaults.valueForKey(PREF_MEDIAFILE_VOLUME) {
                 let user = getUser(&m).memory
-                let vol = Float(SOUND_VOLUME_DEFAULT.rawValue) * mfvol.floatValue!
+                let vol = refVolume(100.0 * Double(mfvol.floatValue!))
                 TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
             }
             
