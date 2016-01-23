@@ -158,11 +158,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         switch rc {
         case .RemoteControlTogglePlayPause:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-            channelsTab.txBtnUp()
+            channelsTab.enableVoiceTx(false)
         case .RemoteControlNextTrack:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-            channelsTab.txBtnUp()
-            channelsTab.txBtnUp()
+            channelsTab.enableVoiceTx(true)
         default:
             break
         }

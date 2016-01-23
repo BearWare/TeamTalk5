@@ -24,6 +24,7 @@ import AVFoundation
 
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
+let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
 
 let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
@@ -118,6 +119,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
         
+        let pttlock = settings.objectForKey(PREF_GENERAL_PTTLOCK) != nil && settings.boolForKey(PREF_GENERAL_PTTLOCK)
+        let pttlockcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let pttlockswitch = newTableCellSwitch(pttlockcell, label: NSLocalizedString("Push to Talk lock", comment: "preferences"), initial: pttlock)
+        pttlockcell.detailTextLabel!.text = NSLocalizedString("Double tap to lock TX button", comment: "preferences")
+        pttlockswitch.addTarget(self, action: "pttlockChanged:", forControlEvents: .ValueChanged)
+        general_items.append(pttlockcell)
+        
         // display items
 
         let proximitycell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
@@ -150,8 +158,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
 
         let showusernamecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let showusername = settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME)
-        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show username", comment: "preferences"), initial: showusername)
-        showusernamecell.detailTextLabel!.text = NSLocalizedString("Show username instead of nickname", comment: "preferences")
+        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show usernames", comment: "preferences"), initial: showusername)
+        showusernamecell.detailTextLabel!.text = NSLocalizedString("Show usernames instead of nicknames", comment: "preferences")
         showusernameswitch.addTarget(self, action: "showusernameChanged:", forControlEvents: .ValueChanged)
         display_items.append(showusernamecell)
         
@@ -454,6 +462,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setValue(sender.text!, forKey: PREF_NICKNAME)
+    }
+    
+    func pttlockChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_GENERAL_PTTLOCK)
     }
     
     func masterVolumeChanged(sender: UISlider) {

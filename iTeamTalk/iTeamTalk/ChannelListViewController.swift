@@ -278,7 +278,7 @@ class ChannelListViewController :
                 }
 
                 cell.chanimage.accessibilityLabel =
-                    String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)
+                    String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)             
             }
 
             cell.channame.textColor = textcolor
@@ -423,28 +423,44 @@ class ChannelListViewController :
         print("Closed messages")
         
     }
-
+    
     @IBAction func txBtnDown(sender: UIButton) {
-        TT_EnableVoiceTransmission(ttInst, 1)
-        playSound(.TX_ON)
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let pttlock = defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
+        if pttlock {
+            enableVoiceTx(true)
+        }
+        else {
+            enableVoiceTx(!isTransmitting(ttInst, stream: STREAMTYPE_VOICE))
+        }
+    }
+    
+    func enableVoiceTx(enable: Bool) {
+
+        TT_EnableVoiceTransmission(ttInst, enable ? TRUE : FALSE)
+        playSound(enable ? .TX_ON : .TX_OFF)
         updateTX()
+
     }
     
     func txBtnUp() {
         
-        let now = NSDate()
-        
-        if pttLockTimeout.earlierDate(now) == now {
-            TT_EnableVoiceTransmission(ttInst, 1)
-            playSound(.TX_ON)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let pttlock = defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
+        if pttlock {
+            
+            let now = NSDate()
+            
+            if pttLockTimeout.earlierDate(now) == now {
+                enableVoiceTx(true)
+            }
+            else {
+                enableVoiceTx(false)
+            }
+            // PTT lock is 0.5 sec
+            pttLockTimeout = now.dateByAddingTimeInterval(0.5)
         }
-        else {
-            TT_EnableVoiceTransmission(ttInst, 0)
-            playSound(.TX_OFF)
-        }
-        updateTX()
-        // PTT lock is 0.5 sec
-        pttLockTimeout = now.dateByAddingTimeInterval(0.5)
     }
     
     @IBAction func txBtnUpInside(sender: UIButton) {
