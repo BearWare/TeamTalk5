@@ -359,6 +359,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="showusernameChkBox">
+              <property name="text">
+               <string>Show username instead of nickname</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="lasttalkChkBox">
               <property name="text">
                <string>Show last to talk in yellow</string>
@@ -1937,6 +1944,7 @@
   <tabstop>alwaysontopChkBox</tabstop>
   <tabstop>vumeterChkBox</tabstop>
   <tabstop>usercountChkBox</tabstop>
+  <tabstop>showusernameChkBox</tabstop>
   <tabstop>lasttalkChkBox</tabstop>
   <tabstop>msgpopupChkBox</tabstop>
   <tabstop>videodlgChkBox</tabstop>

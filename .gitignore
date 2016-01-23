@@ -34,3 +34,4 @@ TeamTalkJNI/*.mpc
 iTeamTalk/iTeamTalk.xcodeproj/xcuserdata
 iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcshareddata
 iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcuserdata
+TeamTalk_DLL/*.m*

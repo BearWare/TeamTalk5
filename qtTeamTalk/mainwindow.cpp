@@ -594,6 +594,8 @@ void MainWindow::loadSettings()
     //show number of users
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
+    ui.channelsWidget->setShowUsername(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
+                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
     ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
@@ -3184,6 +3186,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //show user count property
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
+    ui.channelsWidget->setShowUsername(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
+                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
     ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,

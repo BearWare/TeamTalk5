@@ -25,6 +25,7 @@ import AVFoundation
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 
+let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
@@ -34,6 +35,7 @@ let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
+let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
@@ -54,19 +56,28 @@ let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
+let PREF_TTSEVENT_TEXTMSG = "tts_usertxtmsg_preference"
+let PREF_TTSEVENT_CHANTEXTMSG = "tts_chantxtmsg_preference"
+let PREF_TTSEVENT_RATE = "tts_rate_preference"
+let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
-class PreferencesViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+
+class PreferencesViewController : UIViewController, UITableViewDataSource,
+    UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
     
     @IBOutlet weak var tableView: UITableView!
    
     var nicknamefield : UITextField?
     
     var ttInst = UnsafeMutablePointer<Void>()
+    var users = Set<INT32>()
     
     var limittextcell : UITableViewCell?
     var mastervolcell : UITableViewCell?
     var voiceactcell : UITableViewCell?
     var microphonecell : UITableViewCell?
+    var ttsratecell : UITableViewCell?
+    var ttsvolcell : UITableViewCell?
 
     var general_items = [UITableViewCell]()
     var display_items = [UITableViewCell]()
@@ -137,6 +148,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         pubserverswitch.addTarget(self, action: "showpublicserversChanged:", forControlEvents: .ValueChanged)
         display_items.append(pubservercell)
 
+        let showusernamecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let showusername = settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME)
+        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show username", comment: "preferences"), initial: showusername)
+        showusernamecell.detailTextLabel!.text = NSLocalizedString("Show username instead of nickname", comment: "preferences")
+        showusernameswitch.addTarget(self, action: "showusernameChanged:", forControlEvents: .ValueChanged)
+        display_items.append(showusernamecell)
+        
         
         // sound preferences
         
@@ -155,25 +173,16 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         masterVolumeChanged(mastervolslider)
         sound_items.append(mastervolcell!)
         
-        let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
-            initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
-        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
-        speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
-        sound_items.append(speakercell)
-
-        // use SOUND_VU_MAX + 1 as voice activation disabled
-        var voiceact = VOICEACT_DISABLED
-        if settings.objectForKey(PREF_VOICEACTIVATION) != nil {
-            voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
+        let mfvolumecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var mfvol = DEFAULT_MEDIAFILE_VOLUME
+        if settings.valueForKey(PREF_MEDIAFILE_VOLUME) != nil {
+            mfvol = settings.floatForKey(PREF_MEDIAFILE_VOLUME)
         }
-        voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        let voiceactslider = newTableCellSlider(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
-            min: 0, max: 1, initial: Float(voiceact) / Float(VOICEACT_DISABLED))
-        voiceactslider.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
-        voiceactlevelChanged(voiceactslider)
-        sound_items.append(voiceactcell!)
-        
+        let mfvolumeslider = newTableCellSlider(mfvolumecell, label: NSLocalizedString("Media File Volume", comment: "preferences"), min: 0, max: 1, initial: mfvol)
+        mfvolumeslider.addTarget(self, action: "mediafileVolumeChanged:", forControlEvents: .ValueChanged)
+        mfvolumecell.detailTextLabel?.text = NSLocalizedString("Media file vs. voice volume (requires reconnect)", comment: "preferences")
+        sound_items.append(mfvolumecell)
+
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         var inputvol = Int(SOUND_GAIN_DEFAULT.rawValue)
         if ttInst != nil {
@@ -189,7 +198,26 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         microphoneGainChanged(microphoneslider)
         sound_items.append(microphonecell!)
         
+        // use SOUND_VU_MAX + 1 as voice activation disabled
+        var voiceact = VOICEACT_DISABLED
+        if settings.objectForKey(PREF_VOICEACTIVATION) != nil {
+            voiceact = settings.integerForKey(PREF_VOICEACTIVATION)
+        }
+        voiceactcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let voiceactslider = newTableCellSlider(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
+            min: 0, max: 1, initial: Float(voiceact) / Float(VOICEACT_DISABLED))
+        voiceactslider.addTarget(self, action: "voiceactlevelChanged:", forControlEvents: .ValueChanged)
+        voiceactlevelChanged(voiceactslider)
+        sound_items.append(voiceactcell!)
+        
+        let speakercell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
+            initial: settings.objectForKey(PREF_SPEAKER_OUTPUT) != nil && settings.boolForKey(PREF_SPEAKER_OUTPUT))
+        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
+        speakerswitch.addTarget(self, action: "speakeroutputChanged:", forControlEvents: .ValueChanged)
+        sound_items.append(speakercell)
 
+        
         // sound events
         
         let srvlostcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
@@ -305,6 +333,29 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         // text to speech events
 
+        ttsratecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var ttsrate = AVSpeechUtteranceDefaultSpeechRate
+        if settings.valueForKey(PREF_TTSEVENT_RATE) != nil {
+            ttsrate = settings.floatForKey(PREF_TTSEVENT_RATE)
+        }
+        let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("Speech Rate", comment: "preferences"),
+            min: AVSpeechUtteranceMinimumSpeechRate, max: AVSpeechUtteranceMaximumSpeechRate, initial: Float(ttsrate))
+        ttsrateslider.addTarget(self, action: "ttsrateChanged:", forControlEvents: .ValueChanged)
+        ttsrateChanged(ttsrateslider)
+        ttsevents_items.append(ttsratecell!)
+        
+        ttsvolcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        var ttsvol = DEFAULT_TTS_VOL
+        if settings.valueForKey(PREF_TTSEVENT_VOL) != nil {
+            ttsvol = settings.floatForKey(PREF_TTSEVENT_VOL)
+        }
+        let ttsvolslider = newTableCellSlider(ttsvolcell!, label: NSLocalizedString("Speech Volume", comment: "preferences"),
+            min: 0, max: 1, initial: Float(ttsvol))
+        ttsvolslider.addTarget(self, action: "ttsvolChanged:", forControlEvents: .ValueChanged)
+        ttsvolChanged(ttsvolslider)
+        ttsevents_items.append(ttsvolcell!)
+
+
         let ttsjoinedchancell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let ttsjoinedchan = settings.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || settings.boolForKey(PREF_TTSEVENT_JOINEDCHAN)
         let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joins channel", comment: "preferences"), initial: ttsjoinedchan)
@@ -325,6 +376,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announce lost server connection", comment: "preferences")
         ttsconlostswitch.addTarget(self, action: "ttsconlostChanged:", forControlEvents: .ValueChanged)
         ttsevents_items.append(ttsconlostcell)
+        
+        let ttstxtmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttstxtmsg = settings.objectForKey(PREF_TTSEVENT_TEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_TEXTMSG)
+        let ttstxtmsgswitch = newTableCellSwitch(ttstxtmsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: ttstxtmsg)
+        ttstxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
+        ttstxtmsgswitch.addTarget(self, action: "ttsprivtxtmsgChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttstxtmsgcell)
+
+        let ttschantxtmsgcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let ttschantxtmsg = settings.objectForKey(PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_CHANTEXTMSG)
+        let ttschantxtmsgswitch = newTableCellSwitch(ttschantxtmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: ttschantxtmsg)
+        ttschantxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
+        ttschantxtmsgswitch.addTarget(self, action: "ttschantxtmsgChanged:", forControlEvents: .ValueChanged)
+        ttsevents_items.append(ttschantxtmsgcell)
 
     }
     
@@ -429,6 +494,16 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_TTSEVENT_CONLOST)
     }
+    
+    func ttsprivtxtmsgChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_TEXTMSG)
+    }
+
+    func ttschantxtmsgChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_TTSEVENT_CHANTEXTMSG)
+    }
 
     func proximityChanged(sender: UISwitch) {
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -448,6 +523,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
     func showpublicserversChanged(sender: UISwitch) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_DISPLAY_PUBSERVERS)
+    }
+
+    func showusernameChanged(sender: UISwitch) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_DISPLAY_SHOWUSERNAME)
     }
     
     func speakeroutputChanged(sender: UISwitch) {
@@ -496,7 +576,31 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
         
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(vol_pct, forKey: PREF_MICROPHONE_GAIN)
+    }
+
+    func mediafileVolumeChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
         
+        let vol = refVolume(100.0 * Double(sender.value))
+        for u in users {
+            TT_SetUserVolume(ttInst, u, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
+        }
+        
+    }
+    
+    func ttsrateChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(Float(sender.value), forKey: PREF_TTSEVENT_RATE)
+        let txt = String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
+        ttsratecell!.detailTextLabel!.text = txt
+    }
+    
+    func ttsvolChanged(sender: UISlider) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(Float(sender.value), forKey: PREF_TTSEVENT_VOL)
+        let txt = String(format: NSLocalizedString("The volume of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
+        ttsvolcell!.detailTextLabel!.text = txt
     }
     
     func joinrootChanged(sender: UISwitch) {
@@ -570,6 +674,20 @@ class PreferencesViewController : UIViewController, UITableViewDataSource, UITab
             return ttsevents_items[indexPath.row]
         default :
             return UITableViewCell()
+        }
+    }
+    
+    func handleTTMessage(var m: TTMessage) {
+        
+        switch m.nClientEvent {
+            
+        case CLIENTEVENT_CMD_USER_JOINED :
+            let user = getUser(&m).memory
+            users.insert(user.nUserID)
+        case CLIENTEVENT_CMD_USER_LEFT :
+            let user = getUser(&m).memory
+            users.remove(user.nUserID)
+        default : break
         }
     }
 }

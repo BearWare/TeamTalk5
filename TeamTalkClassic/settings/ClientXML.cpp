@@ -1040,6 +1040,27 @@ namespace teamtalk {
         return bEnabled;
     }
 
+    bool ClientXML::SetShowUsernames(bool bEnable)
+    {
+        TiXmlElement* pParent = GetWindowElement();
+        if(pParent)
+        {
+            PutBoolean(*pParent, "show-usernames", bEnable);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ClientXML::GetShowUsernames()
+    {
+        bool bEnabled = false;
+        TiXmlElement* child = GetWindowElement();
+        if(child)
+            GetBoolean(*child, "show-usernames", bEnabled);
+
+        return bEnabled;
+    }
     bool ClientXML::SetMaxTextLength(int nLength)
     {
         TiXmlElement* pParent = GetWindowElement();

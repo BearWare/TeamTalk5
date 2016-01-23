@@ -61,7 +61,7 @@ class UserDetailViewController : UIViewController,
         var user = User()
         
         TT_GetUser(ttInst, userid, &user)
-        navtitle.title = fromTTString(user.szNickname)
+        navtitle.title = getDisplayName(user)
         
         addToTTMessages(self)
         

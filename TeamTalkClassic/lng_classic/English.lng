@@ -53,6 +53,8 @@
     <item id="156">Master volume</item>
     <item id="157">Microphone gain</item>
     <item id="158">Voice activation level</item>
+    <item id="159">Channel message from %s. %s.</item>
+    <item id="160">Text message from %s. %s.</item>
     <item id="201">Messages</item>
     <item id="205">Change status</item>
     <item id="212">Display</item>
@@ -374,6 +376,7 @@
     <item id="1535">Video Capture Settings</item>
     <item id="1537">Media file vs. voice volume</item>
     <item id="1538">&amp;Import .tt File</item>
+    <item id="1539">Show username instead of nickname</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>

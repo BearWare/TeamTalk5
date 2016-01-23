@@ -333,21 +333,23 @@ BEGIN
     CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,51,117,16
     CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,114,16
-    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,73,117,16
+    CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,72,117,16
     CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,73,114,16
-    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,95,117,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
+    CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,93,117,16
     CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,95,114,16
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,117,117,16
-    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,117,114,16
-    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,139,112,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
+    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
+    CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,135,112,10
     CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,139,114,10
-    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,15,158,77,8
-    EDITTEXT        IDC_EDIT_LIMITTEXT,95,155,35,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,119,155,11,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,135,114,10
+    CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,150,110,16
+    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,150,77,8
+    EDITTEXT        IDC_EDIT_LIMITTEXT,208,147,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,147,11,14
 END
 
 IDD_TAB_CHAT DIALOGEX 0, 0, 176, 142
@@ -1770,16 +1772,17 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_MASTERVOL           "Master Volume"
-    IDS_MICGAIN             "Microphone gain"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_VOICEACTLEVEL       "Voice Activation Level"
     IDS_PUSHTOTALK          "Push To Talk: %s"
+    IDS_MASTERVOL           "Master Volume"
+    IDS_MICGAIN             "Microphone gain"
+    IDS_VOICEACTLEVEL       "Voice Activation Level"
+    IDS_CHANTEXTMSG         "Channel message from %s. %s."
 END
 
 STRINGTABLE
@@ -1804,6 +1807,11 @@ BEGIN
     IDC_RADIO_ONLINE        "Online"
     IDC_RADIO_AWAY          "Away"
     IDC_RADIO_QUESTION      "Question"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_USERTEXTMSG         "Text message from %s. %s."
 END
 
 #endif    // Neutral resources

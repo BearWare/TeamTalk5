@@ -54,9 +54,6 @@ class TextMessageViewController :
         
         msgTextView.delegate = self
         
-        let swipe = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
-        swipe.direction = .Down
-        self.view.addGestureRecognizer(swipe)
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -161,7 +158,7 @@ class TextMessageViewController :
             
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
-            let name = fromTTString(user.szNickname)
+            let name = getDisplayName(user)
             let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .IM_MYSELF)
             
             messages.append(mymsg)
@@ -203,37 +200,40 @@ class TextMessageViewController :
             
             let txtmsg = getTextMessage(&m).memory
             
-            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid) ||
-                txtmsg.nMsgType == MSGTYPE_CHANNEL ||
-                txtmsg.nMsgType == MSGTYPE_BROADCAST {
-                
-                var user = User()
-                TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
-                
-                var msgtype = MsgType.IM
-                
-                switch txtmsg.nMsgType {
-                case MSGTYPE_USER :
-                    fallthrough
-                case MSGTYPE_CHANNEL :
-                    msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM
-                case MSGTYPE_BROADCAST :
-                    msgtype = .BCAST
-                default :
-                    break
-                }
-                
-                let mymsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
-                    msgtype: msgtype)
-                messages.append(mymsg)
-                
-                if messages.count > MAX_TEXTMESSAGES {
-                    messages.removeFirst()
-                }
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid /* private message to this view controller */) ||
+                (txtmsg.nMsgType == MSGTYPE_CHANNEL && userid == 0 /* channel message to tab-bar chat */) ||
+                (txtmsg.nMsgType == MSGTYPE_BROADCAST && userid == 0 /* broadcast to tab-bar chat */) {
+                    
+                    var user = User()
+                    TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
+                    
+                    var msgtype = MsgType.IM
+                    
+                    switch txtmsg.nMsgType {
+                    case MSGTYPE_USER :
+                        fallthrough
+                    case MSGTYPE_CHANNEL :
+                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM
+                    case MSGTYPE_BROADCAST :
+                        msgtype = .BCAST
+                    default :
+                        break
+                    }
+                    
+                    let name = getDisplayName(user)
+                    let mymsg = MyTextMessage(m: txtmsg, nickname: name,
+                        msgtype: msgtype)
+                    messages.append(mymsg)
+                    
+                    if messages.count > MAX_TEXTMESSAGES {
+                        messages.removeFirst()
+                    }
+                    
+                    if tableView != nil {
+                        updateTableView()
+                    }
+                    
+                    speakTextMessage(txtmsg.nMsgType, mymsg: mymsg)
             }
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
             
@@ -265,8 +265,8 @@ class TextMessageViewController :
                     logmsg = MyTextMessage(logmsg: txt)
                 }
                 else {
-                    let nickname = fromTTString(user.szNickname)
-                    let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), nickname)
+                    let name = getDisplayName(user)
+                    let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), name)
                     logmsg = MyTextMessage(logmsg: txt)
                 }
                 messages.append(logmsg!)
@@ -279,8 +279,8 @@ class TextMessageViewController :
             
             let user = getUser(&m).memory
             if TT_GetMyChannelID(ttInst) == m.nSource {
-                let nickname = fromTTString(user.szNickname)
-                let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), nickname)
+                let name = getDisplayName(user)
+                let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
                 let logmsg = MyTextMessage(logmsg: txt)
                 messages.append(logmsg)
                 

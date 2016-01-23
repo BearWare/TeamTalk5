@@ -63,4 +63,5 @@ public:
     BOOL m_bVuMeter;
     int m_nTextLen;
     CSpinButtonCtrl m_wndSpinTextLen;
+    BOOL m_bShowUsername;
 };

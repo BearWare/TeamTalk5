@@ -173,6 +173,9 @@ namespace teamtalk {
         bool SetCheckApplicationUpdates(bool bEnable);
         bool GetCheckApplicationUpdates();
 
+        bool SetShowUsernames(bool bEnable);
+        bool GetShowUsernames();
+
         bool SetMaxTextLength(int nLength);
         int GetMaxTextLength(int nDefault);
 

@@ -187,10 +187,10 @@ class ChannelListViewController :
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
             let user = chanusers[user_index]
-            let nickname = fromTTString(user.szNickname)
+            let name = getDisplayName(user)
             let statusmsg = fromTTString(user.szStatusMsg)
             
-            cell.nicknameLabel.text = limitText(nickname)
+            cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
             
             cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
@@ -584,9 +584,8 @@ class ChannelListViewController :
                 let defaults = NSUserDefaults.standardUserDefaults()
                 
                 if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
-                    let nickname = limitText(fromTTString(user.szNickname))
-                    myUtterance = AVSpeechUtterance(string: nickname + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
-                    synth.speakUtterance(myUtterance)
+                    let name = getDisplayName(user)
+                    newUtterance(name + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                 }
             }
             if currentCmdId == 0 {
@@ -619,9 +618,8 @@ class ChannelListViewController :
                 playSound(.LEFT_CHAN)
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
-                    let nickname = limitText(fromTTString(user.szNickname))
-                    myUtterance = AVSpeechUtterance(string: nickname + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
-                    synth.speakUtterance(myUtterance)
+                    let name = getDisplayName(user)
+                    newUtterance(name + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                 }
             }
             
@@ -633,15 +631,18 @@ class ChannelListViewController :
             let txtmsg = getTextMessage(&m).memory
             
             if txtmsg.nMsgType == MSGTYPE_USER {
+                
+                let settings = NSUserDefaults.standardUserDefaults()
                 if let user = users[txtmsg.nFromUserID] {
-                    let newmsg = MyTextMessage(m: txtmsg, nickname: fromTTString(user.szNickname),
+                    let name = getDisplayName(user)
+                    let newmsg = MyTextMessage(m: txtmsg, nickname: name,
                         msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
                         unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerUnread", userInfo: nil, repeats: true)
                     }
-                    unreadmessages.insert(txtmsg.nFromUserID)
+                    unreadmessages.insert(txtmsg.nFromUserID)                    
                 }
                 
                 //ignore incoming message if text message view controller is already open
@@ -652,12 +653,14 @@ class ChannelListViewController :
                     }
                 }
                 
-                let settings = NSUserDefaults.standardUserDefaults()
                 if settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG) {
                     let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
                     addToTTMessages(vc)
+                    if vc.messages.count > 0 {
+                        speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
+                    }
                 }
             }
 

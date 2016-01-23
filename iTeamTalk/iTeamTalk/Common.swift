@@ -314,6 +314,14 @@ func limitText(s: String) -> String {
     return s
 }
 
+func getDisplayName(user: User) -> String {
+    let settings = NSUserDefaults.standardUserDefaults()
+    if settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME) {
+        return limitText(fromTTString(user.szUsername))
+    }
+    return limitText(fromTTString(user.szNickname))
+}
+
 enum Sounds : Int {
     case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
          USER_MSG = 4, SRV_LOST = 5, JOINED_CHAN = 6, LEFT_CHAN = 7
@@ -426,15 +434,46 @@ let MAX_TEXTMESSAGES = 100
 let DEFAULT_SOUND_VU_MAX = 20 // real max is SOUND_VU_MAX
 let VOICEACT_DISABLED : Int = DEFAULT_SOUND_VU_MAX + 1
 let DEFAULT_VOICEACT = 2
-
+let DEFAULT_MEDIAFILE_VOLUME : Float = 1.0
 let DEFAULT_POPUP_TEXTMESSAGE = true
 let DEFAULT_LIMIT_TEXT = 25
 
 // initialize TTS values globally
 let synth = AVSpeechSynthesizer()
 var myUtterance = AVSpeechUtterance(string: "")
-let DEFAULT_TTS_RATE : Float = 0.5
+
 let DEFAULT_TTS_VOL : Float = 0.5
+
+func newUtterance(utterance: String) {
+    let settings = NSUserDefaults.standardUserDefaults()
+    myUtterance = AVSpeechUtterance(string: utterance)
+    if let rate = settings.valueForKey(PREF_TTSEVENT_RATE) {
+        myUtterance.rate = rate.floatValue!
+    }
+    if let vol = settings.valueForKey(PREF_TTSEVENT_VOL) {
+        myUtterance.volume = vol.floatValue!
+    }
+    synth.speakUtterance(myUtterance)
+}
+
+func speakTextMessage(msgtype: TextMsgType, mymsg: MyTextMessage) {
+    
+    let settings = NSUserDefaults.standardUserDefaults()
+    let tts_priv = settings.objectForKey(PREF_TTSEVENT_TEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_TEXTMSG) && msgtype == MSGTYPE_USER
+    let tts_chan = settings.objectForKey(PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
+    
+    if tts_priv {
+        let ttsmsg = String(format: NSLocalizedString("Private text message from %@. %@", comment: "TTS EVENT"),
+            limitText(mymsg.nickname), mymsg.message)
+        newUtterance(ttsmsg)
+    }
+    if tts_chan {
+        let ttsmsg = String(format: NSLocalizedString("Channel message from %@. %@", comment: "TTS EVENT"),
+            limitText(mymsg.nickname), mymsg.message)
+        newUtterance(ttsmsg)
+    }
+}
+
 
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 
