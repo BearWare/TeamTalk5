@@ -54,9 +54,6 @@ class TextMessageViewController :
         
         msgTextView.delegate = self
         
-        let swipe = UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
-        swipe.direction = .Down
-        self.view.addGestureRecognizer(swipe)
     }
 
     override func viewDidDisappear(animated: Bool) {
