@@ -12,10 +12,10 @@
 "3NI-HT-A3N.normalTitle" = "Отправить";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+"4RU-K7-Yga.accessibilityHint" = "Отправить приватное текстовое сообщение";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+"4RU-K7-Yga.accessibilityLabel" = "Текст Сообщения";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Сообщение";
@@ -30,7 +30,7 @@
 "BLM-fs-qcG.title" = "Назад";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Текст приватного текстового сообщения";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Сообщение";
@@ -57,7 +57,7 @@
 "NA0-UK-wve.title" = "Параметры";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Connect button";
+"PaV-2Q-pt4.accessibilityLabel" = "Кнопка подключиться";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Подключиться";
@@ -93,7 +93,7 @@
 "WcB-pN-blB.text" = "Blank";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
-"Y9o-rs-HCe.title" = "Disconnect";
+"Y9o-rs-HCe.title" = "Отключиться";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Рабочие столы";
@@ -114,7 +114,7 @@
 "ch0-Xf-hyX.normalTitle" = "Присоединиться к каналу";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
-"dcU-Nq-ioW.title" = "Главная Вкладка";
+"dcU-Nq-ioW.title" = "Подключение к Серверу";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "Чат Канала";
