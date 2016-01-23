@@ -50,11 +50,11 @@ UserVideoWidget::UserVideoWidget(QWidget * parent, int userid,
         if((userid & VIDEOTYPE_USERMASK) == 0)
             m_textmsg = tr("Waiting for local video");
         else
-            m_textmsg = tr("Waiting for video from %1").arg(_Q(user.szNickname));
+            m_textmsg = tr("Waiting for video from %1").arg(getDisplayName(user));
     }
 
     if(userid & VIDEOTYPE_MEDIAFILE)
-        m_textmsg = tr("Waiting for media file from %1").arg(_Q(user.szNickname));
+        m_textmsg = tr("Waiting for media file from %1").arg(getDisplayName(user));
 
     m_video_frame = acquireVideo();
 
@@ -174,7 +174,7 @@ void UserVideoWidget::slotUpdateVideoTextBox()
     {
         User user;
         if(TT_GetUser(ttInst, m_userid & VIDEOTYPE_USERMASK, &user))
-            m_nickname = _Q(user.szNickname);
+            m_nickname = getDisplayName(user);
     }
 
     m_vidtext = ttSettings->value(SETTINGS_DISPLAY_VIDEOTEXT,

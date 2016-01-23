@@ -143,7 +143,6 @@ public:
 
     BOOL IsShowingUserCount();
     void ShowUserCount(BOOL bShow);
-    void ShowUsername(BOOL bUsername);
 
     // Generated message map functions
 protected:
@@ -165,7 +164,6 @@ protected:
     users_t m_users;
     msgmap_t m_messages;
     BOOL m_bShowUserCount;
-    BOOL m_bShowUsername;
     int m_nMyChannel;
 
     //drag/drop stuff

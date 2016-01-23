@@ -390,6 +390,7 @@ int refGain(double percent);
 bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);
 QString limitText(const QString& text);
+QString getDisplayName(const User& user);
 
 QString getDateTimeStamp();
 QString generateAudioStorageFilename(AudioFileFormat aff);

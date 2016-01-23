@@ -164,7 +164,7 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
             TT_GetChannelPath(ttInst, user.nChannelID, szChannel);
             szText = szUserID;
             szText += _T("\t");
-            szText += user.szNickname;
+            szText += GetDisplayName(user);
             szText += _T("\t");
             szText += user.szStatusMsg;
             szText += _T("\t");

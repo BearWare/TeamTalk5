@@ -67,7 +67,6 @@ MyCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 CSessionTreeCtrl::CSessionTreeCtrl()
 : m_nMyChannel(0)
 , m_bShowUserCount(FALSE)
-, m_bShowUsername(FALSE)
 , m_hItemDrag(NULL)
 , m_hItemDrop(NULL)
 , m_pDragImage(NULL)
@@ -826,16 +825,6 @@ void CSessionTreeCtrl::ShowUserCount(BOOL bShow)
     }
 }
 
-void CSessionTreeCtrl::ShowUsername(BOOL bUsername)
-{
-    m_bShowUsername = bUsername;
-    for(users_t::iterator i=m_users.begin();i!=m_users.end();++i)
-    {
-        UpdateUser(i->second);
-    }
-}
-
-
 BOOL CSessionTreeCtrl::GetChannel(int nChannelID, Channel& outChan)
 {
     Channel chan = {0};
@@ -941,10 +930,7 @@ CString CSessionTreeCtrl::GetUserText(int nUserID)
     if(ite != m_users.end())
     {
         User user = ite->second;
-        if(m_bShowUsername)
-            szText = user.szUsername;
-        else
-            szText = user.szNickname;
+        szText = GetDisplayName(user);
 
         if(_tcslen(user.szStatusMsg)>0)
         {
@@ -953,7 +939,7 @@ CString CSessionTreeCtrl::GetUserText(int nUserID)
                 szText = szText + _T("  (") + szMsg + _T(")");
         }
     }
-    return szText;
+    return LimitText(szText);
 }
 
 CString CSessionTreeCtrl::GetChannelText(int nChannelID)

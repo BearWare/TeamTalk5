@@ -73,6 +73,7 @@ void PlayWaveFile(LPCTSTR szFilePath);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
 void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *pCmdUI);
+CString GetDisplayName(const User& user);
 
 CString GetLogTimeStamp();
 CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName);

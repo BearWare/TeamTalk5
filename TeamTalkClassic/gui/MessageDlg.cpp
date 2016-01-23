@@ -34,7 +34,7 @@ CMessageDlg::CMessageDlg(CWnd* pParent, const User& myself, const User& user,
     memset(&m_lf, 0, sizeof(LOGFONT));
 
     if(szLogFolder && _tcslen(szLogFolder))
-        OpenLogFile(m_logFile, szLogFolder, user.szNickname);
+        OpenLogFile(m_logFile, szLogFolder, GetDisplayName(user));
 }
 
 
@@ -84,7 +84,7 @@ BOOL CMessageDlg::OnInitDialog()
 
         CString s;
         GetWindowText(s);
-        SetWindowText(s + _T(" - ") + CString(m_user.szNickname));
+        SetWindowText(s + _T(" - ") + GetDisplayName(m_user));
     }
 
     m_richHistory.LimitText(MAX_HISTORY_LENGTH);
@@ -211,10 +211,10 @@ void CMessageDlg::AppendMessage(const TextMessage& msg, BOOL bStore/* = TRUE*/)
 
     CString name;
     if(msg.nFromUserID == m_myself.nUserID)
-        name.Format(_T("%s:"), m_myself.szNickname);
+        name.Format(_T("%s:"), GetDisplayName(m_myself));
     else
     {
-        name.Format(_T("%s:"), m_user.szNickname);
+        name.Format(_T("%s:"), GetDisplayName(m_user));
     }
 
     if(m_bShowTimeStamp)

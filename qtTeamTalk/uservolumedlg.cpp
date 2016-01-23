@@ -50,7 +50,7 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
 
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))
-        setWindowTitle(windowTitle() + QString(" - ") + _Q(user.szNickname));
+        setWindowTitle(windowTitle() + QString(" - ") + getDisplayName(user));
     ui.voicevolSlider->setValue(refVolumeToPercent(user.nVolumeVoice));
     ui.mfvolSlider->setValue(refVolumeToPercent(user.nVolumeMediaFile));
 

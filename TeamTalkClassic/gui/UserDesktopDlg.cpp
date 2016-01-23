@@ -160,7 +160,7 @@ BOOL CUserDesktopDlg::OnInitDialog()
     {
         User user = {0};
         TT_GetUser(ttInst, m_nUserID, &user);
-        SetWindowText(CString(_T("Desktop - ")) + user.szNickname);
+        SetWindowText(CString(_T("Desktop - ")) + GetDisplayName(user));
     }
 
     ResizeToDesktopWindow();

@@ -200,22 +200,22 @@ QString ChatTextEdit::addTextMessage(const TextMessage& msg)
     switch(msg.nMsgType)
     {
     case MSGTYPE_USER :
-        line += QString("<%1> %2").arg(_Q(user.szNickname)).arg(_Q(msg.szMessage));
+        line += QString("<%1> %2").arg(getDisplayName(user)).arg(_Q(msg.szMessage));
         break;
     case MSGTYPE_CHANNEL :
         if(msg.nChannelID != TT_GetMyChannelID(ttInst))
         {
             TTCHAR chpath[TT_STRLEN] = {0};
             TT_GetChannelPath(ttInst, msg.nChannelID, chpath);
-            line += QString("<%1->%2> %3").arg(_Q(user.szNickname))
+            line += QString("<%1->%2> %3").arg(getDisplayName(user))
                            .arg(_Q(chpath)).arg(_Q(msg.szMessage));
         }
         else
-            line += QString("<%1> %2").arg(_Q(user.szNickname))
+            line += QString("<%1> %2").arg(getDisplayName(user))
                            .arg(_Q(msg.szMessage));
         break;
     case MSGTYPE_BROADCAST :
-        line += QString("<%1->BROADCAST> %2").arg(_Q(user.szNickname))
+        line += QString("<%1->BROADCAST> %2").arg(getDisplayName(user))
                        .arg(_Q(msg.szMessage));
         break;
     case MSGTYPE_CUSTOM : break;

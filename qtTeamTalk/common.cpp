@@ -1374,6 +1374,16 @@ QString limitText(const QString& text)
     return text;
 }
 
+QString getDisplayName(const User& user)
+{
+    if(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
+                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool())
+    {
+        return limitText(_Q(user.szUsername));
+    }
+    return limitText(_Q(user.szNickname));
+}
+
 QString getDateTimeStamp()
 {
     return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");

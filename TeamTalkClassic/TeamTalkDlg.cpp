@@ -76,6 +76,7 @@ TTInstance* ttInst = NULL;
 
 //Limit text lengths for nickname, etc.
 extern int nTextLimit;
+extern BOOL bShowUsernames;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1152,7 +1153,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
             CString szMsg, szFormat;
             szFormat.LoadString(IDS_CHANNEL_JOINED);
             TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
-            szMsg.Format(szFormat, LimitText(user.szNickname));
+            szMsg.Format(szFormat, GetDisplayName(user));
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
 
@@ -1202,65 +1203,65 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     if(user.nChannelID != TT_GetMyChannelID(ttInst) || !user.nChannelID)
         return;
 
-    CString szNickname = LimitText(user.szNickname);
+    CString szName = GetDisplayName(user);
     CString s;
 
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
     {
         s.Format(_T("%s changed subscription \"User Messages\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
     {
         s.Format(_T("%s changed subscription \"Channel Messages\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
     {
         s.Format(_T("%s changed subscription \"Broadcast Messages\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
     {
         s.Format(_T("%s changed subscription \"Voice\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VOICE));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VOICE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
     {
         s.Format(_T("%s changed subscription \"Video\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
     {
         s.Format(_T("%s changed subscription \"Desktop\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
         (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
     {
         s.Format(_T("%s changed subscription \"Desktop Access\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT));
         AddStatusText(s);
         if(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
-            s.Format(_T("%s has granted desktop access"), szNickname);
+            s.Format(_T("%s has granted desktop access"), szName);
             AddVoiceMessage(s);
         }
         else
         {
-            s.Format(_T("%s has retracted desktop access"), szNickname);
+            s.Format(_T("%s has retracted desktop access"), szName);
             AddVoiceMessage(s);
         }
     }
@@ -1268,8 +1269,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
     {
         s.Format(_T("%s changed subscription \"Media File Stream\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE));
+            szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE));
         AddStatusText(s);
     }
     if((oldUser.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
@@ -1277,12 +1277,12 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     {
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
-            s.Format(_T("%s now has desktop access"), szNickname);
+            s.Format(_T("%s now has desktop access"), szName);
             AddVoiceMessage(s);
         }
         else
         {
-            s.Format(_T("%s no longer has desktop access"), szNickname);
+            s.Format(_T("%s no longer has desktop access"), szName);
             AddVoiceMessage(s);
         }
     }
@@ -1290,43 +1290,42 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG))
     {
         s.Format(_T("%s changed subscription \"Intercept User Messages\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
     {
         s.Format(_T("%s changed subscription \"Intercept Channel Messages\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
     {
         s.Format(_T("%s changed subscription \"Intercept Voice\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
     {
         s.Format(_T("%s changed subscription \"Intercept Video\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
     {
         s.Format(_T("%s changed subscription \"Intercept Desktop\" to: %d"),
-                 szNickname, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP));
+                 szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP));
         AddStatusText(s);
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
         (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
     {
         s.Format(_T("%s changed subscription \"Intercept Media File Stream\" to: %d"),
-            user.szNickname, 
-            (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE));
+            szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE));
         AddStatusText(s);
     }
 }
@@ -1350,7 +1349,7 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         CString szMsg, szFormat;
         szFormat.LoadString(IDS_CHANNEL_LEFT);
         TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
-        szMsg.Format(szFormat, user.szNickname);
+        szMsg.Format(szFormat, GetDisplayName(user));
 
         AddStatusText(szMsg);
         AddVoiceMessage(szMsg);
@@ -1391,20 +1390,20 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     CString szMsg, szFormat;
     for(ii=oldTransmit.begin();ii!=oldTransmit.end();ii++)
     {
-        CString szNickname;
+        CString szName;
         int userid = ii->first;
         if(userid == TT_CLASSROOM_FREEFORALL)
-            szNickname = _T("Everyone");
+            szName = _T("Everyone");
         else if(!m_wndTree.GetUser(userid, user))
             continue;
         else
-            szNickname = user.szNickname;
+            szName = GetDisplayName(user);
 
         if((ii->second & STREAMTYPE_VOICE) &&
            ((newTransmit[userid] & STREAMTYPE_VOICE) == 0))
         {
             szMsg.Format(_T("%s can no longer transmit voice!"),
-                         LimitText(szNickname));
+                         szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1412,7 +1411,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
            ((newTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0))
         {
             szMsg.Format(_T("%s can no longer transmit video input!"),
-                         LimitText(szNickname));
+                         szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1420,14 +1419,14 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             ((newTransmit[userid] & STREAMTYPE_DESKTOP) == 0))
         {
             szMsg.Format(_T("%s can no longer transmit shared desktops!"),
-                         LimitText(szNickname));
+                         szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
            ((newTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0))
         {
-            szMsg.Format(_T("%s can no longer transmit media files!"), szNickname);
+            szMsg.Format(_T("%s can no longer transmit media files!"), szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1435,40 +1434,40 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
 
     for(ii=newTransmit.begin();ii!=newTransmit.end();ii++)
     {
-        CString szNickname;
+        CString szName;
         int userid = ii->first;
         if(userid == TT_CLASSROOM_FREEFORALL)
-            szNickname = _T("Everyone");
+            szName = _T("Everyone");
         else if(!m_wndTree.GetUser(userid, user))
             continue;
         else
-            szNickname = user.szNickname;
+            szName = GetDisplayName(user);
 
         if((ii->second & STREAMTYPE_VOICE) &&
            ((oldTransmit[userid] & STREAMTYPE_VOICE) == 0 ))
         {
-            szMsg.Format(_T("%s can now transmit voice!"), LimitText(szNickname));
+            szMsg.Format(_T("%s can now transmit voice!"), szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
            ((oldTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0 ))
         {
-            szMsg.Format(_T("%s can now transmit video input!"), szNickname);
+            szMsg.Format(_T("%s can now transmit video input!"), szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_DESKTOP) &&
             ((oldTransmit[userid] & STREAMTYPE_DESKTOP) == 0 ))
         {
-            szMsg.Format(_T("%s can now transmit shared desktops!"), szNickname);
+            szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
         if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
            ((oldTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0 ))
         {
-            szMsg.Format(_T("%s can now transmit media files!"), szNickname);
+            szMsg.Format(_T("%s can now transmit media files!"), szName);
             AddStatusText(szMsg);
             AddVoiceMessage(szMsg);
         }
@@ -1612,7 +1611,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         User user;
         if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
         {
-            CString szName = LimitText(user.szNickname);
+            CString szName = GetDisplayName(user);
             CString szFmt, szMsg;
             szFmt.LoadString(IDS_USERTEXTMSG);
             szMsg.Format(szFmt, szName, textmsg.szMessage);
@@ -1626,7 +1625,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         //add message to channel console
         if(TT_GetUser(ttInst, textmsg.nFromUserID, &user))
         {
-            CString szName = LimitText(user.szNickname);
+            CString szName = GetDisplayName(user);
             CString szLine = m_tabChat.m_wndRichEdit.AddMessage(szName,
                                                                 textmsg.szMessage);
 
@@ -1668,7 +1667,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             {
                 szFormat.LoadString(IDS_DESKTOPINPUT_REQUEST);
                 TRANSLATE_ITEM(IDS_DESKTOPINPUT_REQUEST, szFormat);
-                szText.Format(szFormat, LimitText(user.szNickname));
+                szText.Format(szFormat, GetDisplayName(user));
                 AddVoiceMessage(szText);
                 PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq()));
             }
@@ -1677,7 +1676,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 szFormat.LoadString(IDS_DESKTOPINPUT_RETRACT);
                 TRANSLATE_ITEM(IDS_DESKTOPINPUT_RETRACT, szFormat);
                 SubscribeCommon(textmsg.nFromUserID, SUBSCRIBE_DESKTOPINPUT, FALSE);
-                szText.Format(szFormat, user.szNickname);
+                szText.Format(szFormat, GetDisplayName(user));
             }
             AddStatusText(szText);
         }
@@ -1848,7 +1847,7 @@ void CTeamTalkDlg::OnUserAudioFile(const TTMessage& msg)
     {
         CString szMsg;
         szMsg.Format(_T("Failed to write audio file for %s"),
-                     LimitText(user.szNickname));
+                     GetDisplayName(user));
         AddStatusText(szMsg);
     }
 }
@@ -2333,7 +2332,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
 
     //show username instead of nickname
-    m_wndTree.ShowUsername(m_xmlSettings.GetShowUsernames());
+    bShowUsernames = m_xmlSettings.GetShowUsernames();
 
     //timestamp on messages?
     m_tabChat.m_wndRichEdit.m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
@@ -3219,7 +3218,6 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetShowUserCount(windowpage.m_bShowUserCount);
         m_wndTree.ShowUserCount(windowpage.m_bShowUserCount);
         m_xmlSettings.SetShowUsernames(windowpage.m_bShowUsername);
-        m_wndTree.ShowUsername(windowpage.m_bShowUsername);
         m_xmlSettings.SetJoinDoubleClick(windowpage.m_bDBClickJoin);
         m_xmlSettings.SetQuitClearChannels(windowpage.m_bQuitClearChannels);
         m_xmlSettings.SetMessageTimeStamp(windowpage.m_bTimeStamp);
@@ -3243,9 +3241,11 @@ void CTeamTalkDlg::OnFilePreferences()
 
         m_xmlSettings.SetCheckApplicationUpdates(windowpage.m_bCheckUpdates);
         m_xmlSettings.SetMaxTextLength(windowpage.m_nTextLen);
-        if(nTextLimit != windowpage.m_nTextLen)
+        if(nTextLimit != windowpage.m_nTextLen || bShowUsernames != windowpage.m_bShowUsername)
         {
             nTextLimit = windowpage.m_nTextLen;
+            bShowUsernames = windowpage.m_bShowUsername;
+
             users_t users = m_wndTree.GetUsers(0);
             channels_t chans = m_wndTree.GetChannels();
             for(users_t::const_iterator i=users.begin();i!=users.end();i++)
@@ -3543,7 +3543,7 @@ void CTeamTalkDlg::OnUsersViewinfo()
     {
         CUserInfoDlg dlg;
         dlg.m_nUserID = user.nUserID;
-        dlg.m_szNick = user.szNickname;
+        dlg.m_szNick = GetDisplayName(user);
 
         TT_GetUser(ttInst, nUserID, &user);
 

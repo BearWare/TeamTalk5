@@ -77,7 +77,7 @@ TextMessageDlg::~TextMessageDlg()
 void TextMessageDlg::slotUpdateUser(const User& user)
 {
     if(user.nUserID == m_userid)
-        this->setWindowTitle(tr("Messages") + " - " + _Q(user.szNickname));
+        this->setWindowTitle(tr("Messages") + " - " + getDisplayName(user));
 }
 
 void TextMessageDlg::slotNewMessage(const TextMessage& textmsg)
@@ -179,7 +179,7 @@ void TextMessageDlg::newMsg(const TextMessage& msg, bool store)
             if(TT_GetUser(ttInst, m_userid, &user))
             {
                 if(!m_logFile.isOpen())
-                    openLogFile(m_logFile, folder, _Q(user.szNickname));
+                    openLogFile(m_logFile, folder, getDisplayName(user));
             }
             writeLogEntry(m_logFile, line);
         }

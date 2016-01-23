@@ -74,5 +74,5 @@ void UserDesktopDlg::slotUserUpdate(const User& user)
     if(user.nUserID == 0)
         setWindowTitle(tr("Desktop") + QString(" - ") + tr("Myself"));
     else
-        setWindowTitle(tr("Desktop") + QString(" - ") + _Q(user.szNickname));
+        setWindowTitle(tr("Desktop") + QString(" - ") + getDisplayName(user));
 }
