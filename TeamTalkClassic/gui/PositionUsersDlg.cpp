@@ -68,7 +68,7 @@ BOOL CPositionUsersDlg::OnInitDialog()
             rect.right = rect.left + 35;
             rect.top = 20;
             rect.bottom = rect.top + 20;
-            pBtn->Create( ite->second.szNickname, WS_CHILD|WS_VISIBLE|WS_TABSTOP, rect, this, 9001+i);  // give a unique ID (not strictly necessary)
+            pBtn->Create(GetDisplayName(ite->second), WS_CHILD|WS_VISIBLE|WS_TABSTOP, rect, this, 9001+i);  // give a unique ID (not strictly necessary)
             i++;
             pBtn->m_nBtnID = ite->second.nUserID;
             pBtn->SetFont(GetFont());

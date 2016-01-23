@@ -111,7 +111,6 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
 ChannelsTree::ChannelsTree(QWidget* parent)
 : QTreeWidget(parent)
 , m_showusercount(SETTINGS_DISPLAY_USERSCOUNT_DEFAULT)
-, m_showusername(SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT)
 , m_showlasttalk(SETTINGS_DISPLAY_LASTTALK_DEFAULT)
 , m_last_talker_id(0)
 , m_strlen(SETTINGS_DISPLAY_MAX_STRING_DEFAULT)
@@ -345,9 +344,8 @@ void ChannelsTree::setShowUserCount(bool show)
     }
 }
 
-void ChannelsTree::setShowUsername(bool show)
+void ChannelsTree::setShowUsername()
 {
-    m_showusername = show;
     users_t::const_iterator i = m_users.begin();
     while(i != m_users.end())
     {
@@ -892,7 +890,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         }
 
         QString itemtext;
-        QString name = m_showusername? _Q(user.szUsername) : _Q(user.szNickname);
+        QString name = getDisplayName(user);
         if(_Q(user.szStatusMsg).size())
             itemtext = name + QString(" - ") + _Q(user.szStatusMsg);
         else
@@ -1203,13 +1201,13 @@ void ChannelsTree::slotUserUpdate(const User& user)
     QTreeWidgetItem* item = getUserItem(user.nUserID);
     if(item)
     {
-        QString name = m_showusername? _Q(user.szUsername) : _Q(user.szNickname);
+        QString name = getDisplayName(user);
         //only update with nickname is changed
         if(item->data(COLUMN_ITEM, Qt::DisplayRole).toString() != name)
         {
             QTreeWidgetItem* parent = item->parent();
             parent->removeChild(item);
-            parent->insertChild(getUserIndex(parent, _Q(user.szNickname)), item);
+            parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
         }
         //clear blinking request user (if enabled)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
@@ -1226,7 +1224,7 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
     QTreeWidgetItem* parent = getChannelItem(channelid), *item;
     Q_ASSERT(parent);
 
-    int i = getUserIndex(parent, _Q(user.szNickname));
+    int i = getUserIndex(parent, getDisplayName(user));
     if(i == 0)
         item = new QTreeWidgetItem(parent, parent, USER_TYPE);
     else

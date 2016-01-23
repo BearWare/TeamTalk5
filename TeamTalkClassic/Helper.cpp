@@ -273,6 +273,7 @@ void PlayWaveFile(LPCTSTR szFilePath)
 }
 
 int nTextLimit = TT_STRLEN;
+BOOL bShowUsernames = FALSE;
 
 CString LimitText(const CString& szName)
 {
@@ -361,4 +362,11 @@ void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *p
         pCmdUI->Enable(FALSE);
     }
     pCmdUI->SetCheck(b);
+}
+
+CString GetDisplayName(const User& user)
+{
+    if(bShowUsernames)
+        return LimitText(user.szUsername);
+    return LimitText(user.szNickname);
 }

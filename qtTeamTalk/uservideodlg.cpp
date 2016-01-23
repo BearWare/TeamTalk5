@@ -91,7 +91,7 @@ void UserVideoDlg::slotUserUpdate(const User& user)
     if(user.nUserID == 0)
         setWindowTitle(tr("Video") + QString(" - ") + tr("Myself"));
     else
-        setWindowTitle(tr("Video") + QString(" - ") + _Q(user.szNickname));
+        setWindowTitle(tr("Video") + QString(" - ") + getDisplayName(user));
 }
 
 void UserVideoDlg::slotNewVideoFrame(int userid, int /*streamid*/)

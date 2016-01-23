@@ -594,8 +594,7 @@ void MainWindow::loadSettings()
     //show number of users
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
-    ui.channelsWidget->setShowUsername(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
-                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
+    ui.channelsWidget->setShowUsername();
     ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
@@ -845,7 +844,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         if(msg.ttType == __USER)
             addStatusMsg(tr("Kicked by %1")
-                         .arg(limitText(_Q(msg.user.szNickname))));
+                         .arg(getDisplayName(msg.user)));
         else
             addStatusMsg(tr("Kicked by unknown user"));
 
@@ -1135,7 +1134,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
                 addStatusMsg(tr("New video session from %1")
-                             .arg(limitText(_Q(user.szNickname))));
+                             .arg(getDisplayName(user)));
 
             update_ui = true;
         }
@@ -1167,7 +1166,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             User user;
             if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
                 addStatusMsg(tr("New video session from %1")
-                .arg(_Q(user.szNickname)));
+                .arg(getDisplayName(user)));
 
             update_ui = true;
         }
@@ -1194,7 +1193,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
                 User user;
                 if(ui.channelsWidget->getUser(msg.nSource, user))
                     addStatusMsg(tr("New desktop session from %1")
-                    .arg(limitText(_Q(user.szNickname))));
+                    .arg(getDisplayName(user)));
             }
 
             update_ui = true;
@@ -1243,12 +1242,12 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         case MFS_STARTED :
             addStatusMsg(tr("Writing audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
-                         .arg(_Q(user.szNickname)));
+                         .arg(getDisplayName(user)));
             break;
         case MFS_ERROR :
             addStatusMsg(tr("Failed to write audio file %1 for %2")
                          .arg(_Q(msg.mediafileinfo.szFileName))
-                         .arg(limitText(_Q(user.szNickname))));
+                         .arg(getDisplayName(user)));
             break;
         case MFS_FINISHED :
             addStatusMsg(tr("Finished audio file %1")
@@ -2189,19 +2188,19 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
             if(cmd[1] == "1")
             {
                 addStatusMsg(QString(tr("%1 is requesting desktop access")
-                             .arg(limitText(_Q(user.szNickname)))));
+                             .arg(getDisplayName(user))));
                 playSoundEvent(SOUNDEVENT_DESKTOPACCESS);
                 if(hasDesktopAccess(m_desktopaccess_entries, user))
                 {
                     subscribeCommon(true, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
                     addStatusMsg(QString(tr("%1 granted desktop access")
-                                 .arg(limitText(_Q(user.szNickname)))));
+                                 .arg(getDisplayName(user))));
                 }
             }
             else
             {
                 addStatusMsg(QString(tr("%1 retracted desktop access")
-                             .arg(limitText(_Q(user.szNickname)))));
+                             .arg(getDisplayName(user))));
                 subscribeCommon(false, SUBSCRIBE_DESKTOPINPUT, user.nUserID);
             }
         }
@@ -3186,8 +3185,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //show user count property
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
-    ui.channelsWidget->setShowUsername(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
-                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
+    ui.channelsWidget->setShowUsername();
     ui.channelsWidget->setShowLastToTalk(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
                                                            SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
     ui.channelsWidget->updateItemTextLength(ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
@@ -3504,7 +3502,7 @@ void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
     User user;
     if(ui.channelsWidget->getUser(userid, user))
         addStatusMsg(QString(tr("%1 granted desktop access")
-                        .arg(limitText(_Q(user.szNickname)))));
+                        .arg(getDisplayName(user))));
 }
 
 void MainWindow::slotUsersSubscriptionsMediaFile(bool checked /*=false*/)
@@ -4563,7 +4561,7 @@ void MainWindow::slotAddUserVideo()
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
            (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
-           menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
+           menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 
     if(menu.isEmpty())return;
@@ -4603,7 +4601,7 @@ void MainWindow::slotRemoveUserVideo()
         for(int i=0;i<users.size();i++)
         {
             if(TT_GetUser(ttInst, users[i], &user))
-                menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
+                menu.addAction(getDisplayName(user))->setData(users[i]);
         }
 
         if(menu.isEmpty())
@@ -4772,7 +4770,7 @@ void MainWindow::slotAddUserDesktop()
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
            (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == 0)
-           menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
+           menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 
     if(menu.isEmpty())
@@ -4801,7 +4799,7 @@ void MainWindow::slotRemoveUserDesktop()
         for(int i=0;i<users.size();i++)
         {
             if(TT_GetUser(ttInst, users[i], &user))
-                menu.addAction(limitText(_Q(user.szNickname)))->setData(users[i]);
+                menu.addAction(getDisplayName(user))->setData(users[i]);
         }
 
         if(menu.isEmpty())
@@ -4926,7 +4924,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_NEWUSER);
-        addStatusMsg(tr("%1 joined channel").arg(_Q(user.szNickname)));
+        addStatusMsg(tr("%1 joined channel").arg(getDisplayName(user)));
     }
 
     //set use to mute if enabled
@@ -4947,7 +4945,7 @@ void MainWindow::slotUserLeft(int channelid, const User& user)
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_REMOVEUSER);
-        addStatusMsg(tr("%1 left channel").arg(_Q(user.szNickname)));
+        addStatusMsg(tr("%1 left channel").arg(getDisplayName(user)));
     }
 
     //we cannot get user from channels-widget since user has left channel
@@ -4962,7 +4960,7 @@ void MainWindow::slotUserUpdate(const User& user)
     if(ui.channelsWidget->getUser(user.nUserID, oldUser) &&
        m_mychannel.nChannelID == user.nChannelID && user.nChannelID)
     {
-        QString nickname = limitText(_Q(user.szNickname));
+        QString nickname = getDisplayName(user);
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_USER_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_USER_MSG))
         {

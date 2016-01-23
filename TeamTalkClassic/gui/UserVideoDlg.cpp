@@ -169,7 +169,7 @@ BOOL CUserVideoDlg::OnInitDialog()
     {
         User user = {0};
         TT_GetUser(ttInst, (m_nUserID & VIDEOTYPE_USERMASK), &user);
-        SetWindowText(CString(_T("Video - ")) + user.szNickname);
+        SetWindowText(CString(_T("Video - ")) + GetDisplayName(user));
     }
 
     switch(m_nUserID & VIDEOTYPE_MASK)

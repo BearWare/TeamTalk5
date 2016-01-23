@@ -85,7 +85,7 @@ void UserDesktopWidget::setUserID(int userid)
 {
     UserImageWidget::setUserID(userid);
     TT_GetUser(ttInst, userid, &m_user);
-    m_nickname = _Q(m_user.szNickname);
+    m_nickname = getDisplayName(m_user);
 }
 
 void UserDesktopWidget::timerEvent(QTimerEvent* e)
@@ -223,7 +223,7 @@ void UserDesktopWidget::slotDesktopCursorUpdate(int src_userid,
 void UserDesktopWidget::slotUserUpdated(const User& user)
 {
     if(user.nUserID == m_userid)
-        m_nickname = _Q(m_user.szNickname);
+        m_nickname = getDisplayName(m_user);
 }
 
 void UserDesktopWidget::slotContextMenu(const QPoint& p)
