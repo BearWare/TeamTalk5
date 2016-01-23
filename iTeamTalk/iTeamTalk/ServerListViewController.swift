@@ -66,12 +66,13 @@ NSXMLParserDelegate {
     
     var currentServer = Server()
     var servers = [Server]()
+    
+    var nextappupdate = NSDate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -96,16 +97,22 @@ NSXMLParserDelegate {
         }
 
         tableView.reloadData()
+        
+        if nextappupdate.earlierDate(NSDate()) == nextappupdate {
+            NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
+        }
     }
     
     func checkAppUpdate() {
-        
+
         // check for new version
         let updateparser = AppUpdateParser()
         
         let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.URL_APPUPDATE)!)!
         parser.delegate = updateparser
         parser.parse()
+        
+        nextappupdate = nextappupdate.dateByAddingTimeInterval(60 * 60 * 24)
     }
     
     func downloadServerList() {
