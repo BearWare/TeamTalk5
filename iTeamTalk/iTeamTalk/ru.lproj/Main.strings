@@ -18,7 +18,7 @@
 "4RU-K7-Yga.accessibilityLabel" = "Текст Сообщения";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "Сообщение";
+"4RU-K7-Yga.normalTitle" = "Сообщение пользователя";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
