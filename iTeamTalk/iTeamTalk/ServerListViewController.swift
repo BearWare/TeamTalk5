@@ -73,6 +73,12 @@ NSXMLParserDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        if let addbtn = self.navigationItem.rightBarButtonItem {
+            addbtn.accessibilityHint = NSLocalizedString("Add new server entry", comment: "serverlist")
+        }
+        if let setupbtn = self.navigationItem.leftBarButtonItem {
+            setupbtn.accessibilityHint = NSLocalizedString("Access preferences", comment: "serverlist")
+        }
     }
     
     override func viewDidAppear(animated: Bool) {

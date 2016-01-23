@@ -40,6 +40,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let addbtn = self.navigationItem.rightBarButtonItem {
+            addbtn.accessibilityHint = NSLocalizedString("Create new channel", comment: "main-tab")
+        }
+
 //        let img = UIImage(named: "channel_pink.png")
 //        let tabImgSize = CGSize(width: 30, height: 30)
 //        UIGraphicsBeginImageContextWithOptions(tabImgSize, false, 0.0)
