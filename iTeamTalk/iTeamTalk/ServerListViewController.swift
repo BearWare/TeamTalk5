@@ -79,6 +79,7 @@ class ServerListViewController : UITableViewController,
             addbtn.accessibilityHint = NSLocalizedString("Add new server entry", comment: "serverlist")
         }
         if let setupbtn = self.navigationItem.leftBarButtonItem {
+            setupbtn.accessibilityLabel = NSLocalizedString("Preferences", comment: "serverlist")
             setupbtn.accessibilityHint = NSLocalizedString("Access preferences", comment: "serverlist")
         }
     }
