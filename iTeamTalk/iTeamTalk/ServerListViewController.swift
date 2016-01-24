@@ -68,8 +68,6 @@ class ServerListViewController : UITableViewController,
     var currentServer = Server()
     // list of available servers
     var servers = [Server]()
-    // accessible action -> server index
-    var accessible_actions = [UIAccessibilityCustomAction : Int]()
     
     var nextappupdate = NSDate()
 
@@ -106,7 +104,7 @@ class ServerListViewController : UITableViewController,
             NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "downloadServerList", userInfo: nil, repeats: false)
         }
 
-        resetTableView()
+        tableView.reloadData()
         
         if nextappupdate.earlierDate(NSDate()) == nextappupdate {
             NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "checkAppUpdate", userInfo: nil, repeats: false)
@@ -137,7 +135,7 @@ class ServerListViewController : UITableViewController,
         for s in serverparser.servers {
             servers.append(s)
         }
-        resetTableView()
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -156,11 +154,6 @@ class ServerListViewController : UITableViewController,
         }
         defaults.setObject(s_array, forKey: "ServerList")
         defaults.synchronize()
-    }
-    
-    func resetTableView() {
-        accessible_actions.removeAll()
-        tableView.reloadData()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -190,21 +183,17 @@ class ServerListViewController : UITableViewController,
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
         }
         
-        let action_connect = UIAccessibilityCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: "connectServer:")
-        let action_delete = UIAccessibilityCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: "deleteServer:")
+        let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: "connectServer:", tag: indexPath.row)
+        let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: "deleteServer:", tag: indexPath.row)
         cell.accessibilityCustomActions = [action_connect, action_delete]
-        // TODO: isn't there a way to associate an accessible action with a table row?!?
-        accessible_actions[action_connect] = indexPath.row
-        accessible_actions[action_delete] = indexPath.row
         
         return cell
     }
 
     func connectServer(action: UIAccessibilityCustomAction) -> Bool {
         
-        if let row = accessible_actions[action] {
-            currentServer = servers[row]
-            
+        if let ac = action as? MyCustomAction {
+            currentServer = servers[ac.tag]
             performSegueWithIdentifier("Show ChannelList", sender: self)
         }
         return true
@@ -212,10 +201,10 @@ class ServerListViewController : UITableViewController,
     
     func deleteServer(action: UIAccessibilityCustomAction) -> Bool {
         
-        if let row = accessible_actions[action] {
-            servers.removeAtIndex(row)
+        if let ac = action as? MyCustomAction {
+            servers.removeAtIndex(ac.tag)
             saveServerList()
-            resetTableView()
+            tableView.reloadData()
         }
         return true
     }
@@ -246,7 +235,7 @@ class ServerListViewController : UITableViewController,
         
         saveServerList()
         
-        resetTableView()
+        tableView.reloadData()
     }
     
     @IBAction func saveServerDetail(segue:UIStoryboardSegue) {
@@ -266,7 +255,7 @@ class ServerListViewController : UITableViewController,
         
         saveServerList()
         
-        resetTableView()
+        tableView.reloadData()
     }
     
     @IBAction func connectToServer(sender: UIButton) {

@@ -474,6 +474,15 @@ func speakTextMessage(msgtype: TextMsgType, mymsg: MyTextMessage) {
     }
 }
 
+class MyCustomAction : UIAccessibilityCustomAction {
+    
+    var tag = 0
+    
+    init(name: String, target: AnyObject?, selector: Selector, tag: Int) {
+        super.init(name: name, target: target, selector: selector)
+        self.tag = tag
+    }
+}
 
 let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
 
