@@ -303,6 +303,11 @@ func isTransmitting(ttInst: UnsafeMutablePointer<Void>, stream: StreamType) -> B
     return false
 }
 
+func hasPTTLock() -> Bool {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    return defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
+}
+
 func limitText(s: String) -> String {
     
     let settings = NSUserDefaults.standardUserDefaults()

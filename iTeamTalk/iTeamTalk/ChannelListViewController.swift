@@ -69,6 +69,7 @@ class ChannelListViewController :
         super.viewDidAppear(animated)
         
         tableView.reloadData()
+        updateTX()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -426,9 +427,7 @@ class ChannelListViewController :
     
     @IBAction func txBtnDown(sender: UIButton) {
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let pttlock = defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
-        if pttlock {
+        if hasPTTLock() {
             enableVoiceTx(true)
         }
         else {
@@ -446,9 +445,7 @@ class ChannelListViewController :
     
     func txBtnUp() {
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let pttlock = defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
-        if pttlock {
+        if hasPTTLock() {
             
             let now = NSDate()
             
@@ -472,16 +469,27 @@ class ChannelListViewController :
     }
     
     func updateTX() {
+        
         let flags = TT_GetFlags(ttInst)
         
         switch flags & CLIENT_TX_VOICE.rawValue {
         case CLIENT_TX_VOICE.rawValue :
             txButton.backgroundColor = UIColor.redColor()
+            txButton.accessibilityLabel = NSLocalizedString("Stop transmit", comment: "channel list")
         default :
             txButton.backgroundColor = UIColor.greenColor()
+            txButton.accessibilityLabel = NSLocalizedString("Transmit", comment: "channel list")
+        }
+        
+        if hasPTTLock() {
+            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Tripple tap to toggle.", comment: "channel list")
+        }
+        else {
+            txButton.accessibilityHint = NSLocalizedString("Toggle to enable transmission", comment: "channel list")
         }
         
         tableView.reloadData()
+        
     }
     
     func timerUnread() {
