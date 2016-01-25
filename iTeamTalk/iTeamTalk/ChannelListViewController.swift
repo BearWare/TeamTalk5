@@ -39,6 +39,8 @@ class ChannelListViewController :
     var mychannel = Channel()
     // all users on server
     var users = [INT32 : User]()
+    // the ID of the command for which we're expecting a result
+    var cmdid : INT32 = 0
     // the command ID which is currently processing
     var currentCmdId : INT32 = 0
     // properties of connected server
@@ -83,20 +85,24 @@ class ChannelListViewController :
     }
     
     @IBAction func joinChannel(sender: UIButton) {
-        
-        if curchannel.bPassword != 0 {
+        joinNewChannel(curchannel)
+    }
+    
+    func joinNewChannel(channel: Channel) {
+        if channel.bPassword != 0 {
             let alertView = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alertView.alertViewStyle = .SecureTextInput
-            alertView.tag = Int(curchannel.nChannelID)
-            if let passwd = chanpasswds[curchannel.nChannelID] {
+            alertView.tag = Int(channel.nChannelID)
+            if let passwd = chanpasswds[channel.nChannelID] {
                 alertView.textFieldAtIndex(0)?.text = passwd
             }
             alertView.show()
         }
         else {
-            let cmdid = TT_DoJoinChannelByID(ttInst, curchannel.nChannelID, "")
+            let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
             activeCommands[cmdid] = .JoinCmd
         }
+        
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
@@ -210,6 +216,17 @@ class ChannelListViewController :
             cell.messageBtn.tag = Int(user.nUserID)
             cell.tag = Int(user.nUserID)
             
+            let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: "messageUser:", tag: cell.tag)
+            let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: "muteUser:", tag: cell.tag)
+            let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: "kickUser:", tag: cell.tag)
+            
+            if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
+                cell.accessibilityCustomActions = [ action_msg, action_mute, action_kick ]
+            }
+            else {
+                cell.accessibilityCustomActions = [ action_msg, action_mute ]
+            }
+            
             return cell
         }
         else {
@@ -224,7 +241,9 @@ class ChannelListViewController :
             cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
 
             if chan_index == 0 && curchannel.nParentID != 0 {
+                
                 // display previous channel if not in root channel
+                
                 channel = channels[curchannel.nParentID]!
                 
                 title = NSLocalizedString("Parent channel", comment: "channel list")
@@ -240,7 +259,9 @@ class ChannelListViewController :
                 cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
             }
             else if curchannel.nChannelID == 0 {
+                
                 // display only the root channel
+                
                 channel = subchans[chan_index]
                 
                 title = fromTTString(srvprop.szServerName)
@@ -256,7 +277,9 @@ class ChannelListViewController :
                 }
             }
             else  {
+                
                 // display sub channels
+                
                 if curchannel.nParentID != 0 {
                     // root channel doesn't display access to parent
                     channel = subchans[chan_index - 1]
@@ -291,6 +314,14 @@ class ChannelListViewController :
             cell.editBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
             
+            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
+                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
+            }
+            
+            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
+            
+            cell.accessibilityCustomActions = [ action_join ]
+            
             return cell
         }
     }
@@ -315,7 +346,47 @@ class ChannelListViewController :
         
         self.tabBarController?.navigationItem.title = title
     }
+    
+    func messageUser(action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            performSegueWithIdentifier("New TextMessage", sender: ac)
+        }
+        return true
+    }
 
+    func muteUser(action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            let userid = INT32(ac.tag)
+            if let user = users[userid] {
+                TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
+                    (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == 0 ? TRUE : FALSE )
+                TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
+                    (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == 0 ? TRUE : FALSE )
+                // tell TeamTalk event loop to send us an updated User-struct
+                TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
+            }
+
+        }
+        return true
+    }
+    
+    func kickUser(action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            
+            cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+        }
+        return true
+    }
+
+    func joinThisChannel(action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            if let channel = channels[INT32(ac.tag)] {
+                joinNewChannel(channel)
+            }
+        }
+        return true
+    }
+    
     func commandComplete(cmdid : INT32) {
 
         let cmd = activeCommands[cmdid]
@@ -393,10 +464,16 @@ class ChannelListViewController :
         }
         else if segue.identifier == "New TextMessage" {
 
-            let btn = sender as! UIButton
+            var userid : INT32 = -1
+            if let btn = sender as? UIButton {
+                userid = INT32(btn.tag)
+            }
+            if let action = sender as? MyCustomAction {
+                userid = INT32(action.tag)
+            }
             
             let txtmsgView = segue.destinationViewController as! TextMessageViewController
-            openTextMessages(txtmsgView, userid: INT32(btn.tag))
+            openTextMessages(txtmsgView, userid: userid)
         }
     }
     
@@ -414,6 +491,7 @@ class ChannelListViewController :
         sender.ttInst = self.ttInst
         sender.userid = userid
         sender.delegate = self
+        addToTTMessages(sender)
         if (self.textmessages[userid] != nil) {
             sender.messages = self.textmessages[userid]!
         }
@@ -554,6 +632,10 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
             myuseraccount = getUserAccount(&m).memory
+            if (myuseraccount.uUserType & USERTYPE_ADMIN.rawValue) != 0 {
+                // an admin user type can do everything
+                myuseraccount.uUserRights = 0xFFFFFFFF
+            }
             
         case CLIENTEVENT_CMD_CHANNEL_NEW :
             let channel = getChannel(&m).memory
@@ -681,11 +763,19 @@ class ChannelListViewController :
                     let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
-                    addToTTMessages(vc)
                     if vc.messages.count > 0 {
                         speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
                     }
                 }
+            }
+            
+        case CLIENTEVENT_CMD_ERROR :
+            if m.nSource == cmdid {
+                let errmsg = getClientErrorMsg(&m).memory
+                let s = fromTTString(errmsg.szErrorMsg)
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
 
         case CLIENTEVENT_USER_STATECHANGE :

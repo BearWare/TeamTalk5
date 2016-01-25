@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.1.2.4358"
+#define TEAMTALK_VERSION "5.1.2.4388"
 
 
 #if defined(WIN32)
@@ -227,7 +227,10 @@ extern "C" {
          * Add libraries AVFoundation.framework and
          * AudioToolbox.framework.
          *
-         * Duplex mode is not supported by AudioUnit iOS sound API. */
+         * Duplex mode is not supported by AudioUnit iOS sound API. 
+         *
+         * Use audio session mode AVAudioSessionModeVideoChat to
+         * remove echo from speakers. */
         SOUNDSYSTEM_AUDIOUNIT = 8
     } SoundSystem;
 
@@ -2984,6 +2987,7 @@ extern "C" {
      * @brief Poll for events in the client instance.
      * 
      * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
      * @param pMsg Pointer to a TTMessage instance which will hold the 
      * event that has occured.
      * @param pnWaitMs The amount of time to wait for the event. If NULL or -1
@@ -2994,6 +2998,38 @@ extern "C" {
     TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
                                          OUT TTMessage* pMsg,
                                          IN const INT32* pnWaitMs);
+
+    /**
+     * @brief Cause client instance event thread to schedule an update
+     * event.
+     *
+     * Normally all events of type #TTMessage received from
+     * TT_GetMessage() are due to a state change in the client
+     * instance. The state change (#ClientEvent) is submitted by the
+     * client instance's internal thread. In some cases it's, however,
+     * convenient to make the internal thread submit the latest
+     * properties of an object. One example is after having changed
+     * the volume of a #User. Then your local copy of #User will no
+     * longer contain the latest @c nVolumeVoice.
+     *
+     * Calling TT_PumpMessage() will make the client instance's
+     * internal thread queue an update of #User so the latest
+     * properties of the user can be retrieved from TT_GetMessage().
+     * It's also possible to simply use TT_GetUser() but the problem
+     * with this approach is that this call is from a separate thread
+     * and therefore doesn't take the event queue into account.
+     * 
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nEvent The event which should be queued. Currently only
+     * #CLIENTEVENT_USER_STATECHANGE is supported.
+     * @param nIdentifier The ID of the object to retrieve. Currently
+     * only nUserID is supported.
+     *
+     * @return Returns TRUE if the event has been scheduled. */
+    TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
+                                          ClientEvent nEvent,
+                                          INT32 nIdentifier);
 
     /**
      * @brief Get a bitmask describing the client's current state.
@@ -3344,7 +3380,7 @@ extern "C" {
      * @param nVolume A value from #SOUND_VOLUME_MIN to  #SOUND_VOLUME_MAX.
      * @see TT_SetUserVolume */
     TEAMTALKDLL_API TTBOOL TT_SetSoundOutputVolume(IN TTInstance* lpTTInstance, 
-                                                 IN INT32 nVolume);
+                                                   IN INT32 nVolume);
 
     /**
      * @brief Get master volume.
@@ -3379,7 +3415,7 @@ extern "C" {
      * @param bEnable TRUE to enable, otherwise FALSE.
      * @see TT_SetUserPosition */
     TEAMTALKDLL_API TTBOOL TT_Enable3DSoundPositioning(IN TTInstance* lpTTInstance, 
-                                                     IN TTBOOL bEnable);
+                                                       IN TTBOOL bEnable);
 
     /** 
      * @brief Automatically position users using 3D-sound.
@@ -5421,9 +5457,9 @@ extern "C" {
      * @param nVolume Must be between #SOUND_VOLUME_MIN and #SOUND_VOLUME_MAX.
      * @see TT_SetSoundOutputVolume */
     TEAMTALKDLL_API TTBOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
-                                          IN INT32 nUserID, 
-                                          IN StreamType nStreamType,
-                                          IN INT32 nVolume);
+                                            IN INT32 nUserID, 
+                                            IN StreamType nStreamType,
+                                            IN INT32 nVolume);
 
     /**
      * @brief Mute a user.

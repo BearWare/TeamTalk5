@@ -364,6 +364,19 @@ class iTeamTalkTests: XCTestCase {
         }
     }
     
+    func testPumpMessage() {
+
+        let ttInst = newClient()
+        connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
+        login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
+        joinRootChannel(ttInst)
+        let myid = TT_GetMyUserID(ttInst)
+        var m = TTMessage()
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 500, msg: &m)
+        XCTAssert(TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, myid) == TRUE, "Pump message")
+        XCTAssert(waitForEvent(ttInst, e: CLIENTEVENT_USER_STATECHANGE, waittimeout: 500, msg: &m), "Got Pump message")
+    }
+    
     func testHearMyself() {
         
         do {
