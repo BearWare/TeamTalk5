@@ -71,12 +71,6 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
 
-/* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityHint" = "Double tap and hold to transmit. Tripple tap to toggle.";
-
-/* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityLabel" = "Transmit";
-
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "TX";
 
