@@ -1,6 +1,6 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Main Tab Controller";
+"07s-AR-tvQ.title" = "Подключение к Серверу";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Текстовое Сообщение";
@@ -70,12 +70,6 @@
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
-
-/* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityHint" = "Дважды нажмите и удерживайте для передачи. Трижды нажмите, чтобы зафиксировать.";
-
-/* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityLabel" = "Говорить";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "Говорить";

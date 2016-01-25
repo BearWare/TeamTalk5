@@ -1,6 +1,6 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Main Tab Controller";
+"07s-AR-tvQ.title" = "Forbinder til server";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Tekst Besked";
@@ -15,7 +15,7 @@
 "4RU-K7-Yga.accessibilityHint" = "Send private text message";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+"4RU-K7-Yga.accessibilityLabel" = "Tekst Besked";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Besked til bruger";
@@ -70,12 +70,6 @@
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
-
-/* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityHint" = "Tryk to gange og hold nede for at transmittere. Tryk tre gange for at låse transmission.";
-
-/* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityLabel" = "Transmitter";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "Transmitter";
