@@ -313,14 +313,18 @@ class ChannelListViewController :
             
             cell.editBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
-            
+
+            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
+            var action_edit : MyCustomAction?
             if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
                 cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
+                action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+            }
+            else {
+                action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
             }
             
-            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
-            
-            cell.accessibilityCustomActions = [ action_join ]
+            cell.accessibilityCustomActions = [ action_join, action_edit! ]
             
             return cell
         }
@@ -386,7 +390,14 @@ class ChannelListViewController :
         }
         return true
     }
-    
+
+    func editChannel(action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            performSegueWithIdentifier("Edit Channel", sender: ac)
+        }
+        return true
+    }
+
     func commandComplete(cmdid : INT32) {
 
         let cmd = activeCommands[cmdid]
@@ -454,9 +465,16 @@ class ChannelListViewController :
         }
         else if segue.identifier == "Edit Channel" {
             
-            let btn = sender as! UIButton
+            var chanid : INT32 = 0
+            
+            if let btn = sender as? UIButton {
+                chanid = INT32(btn.tag)
+            }
+            if let ac = sender as? MyCustomAction {
+                chanid = INT32(ac.tag)
+            }
 
-            let channel = channels[INT32(btn.tag)]
+            let channel = channels[chanid]
             
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
             chanDetail.ttInst = ttInst
