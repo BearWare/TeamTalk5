@@ -12,7 +12,7 @@
 "3NI-HT-A3N.normalTitle" = "Senden";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+"4RU-K7-Yga.accessibilityHint" = "Private Textnachricht senden";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityLabel" = "Textnachricht";
