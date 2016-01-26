@@ -150,7 +150,8 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
                     return;
                 
                 User myself = ttservice.getUsers().get(ttclient.getMyUserID());
-                MyTextMessage textmsg = new MyTextMessage(myself == null? "" : myself.szNickname);
+                String name = Utils.getDisplayName(getBaseContext(), myself);
+                MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
                 textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
                 textmsg.nChannelID = 0;
                 textmsg.nFromUserID = ttclient.getMyUserID();
@@ -181,7 +182,8 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
         
         User user = ttservice.getUsers().get(userid);
         if(user != null) {
-            setTitle(title + " - " + user.szNickname);
+            String name = Utils.getDisplayName(getBaseContext(), user);
+            setTitle(title + " - " + name);
         }
     }
 

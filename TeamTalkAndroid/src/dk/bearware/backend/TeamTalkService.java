@@ -501,8 +501,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         
         if(usertxtmsgs.containsKey(user.nUserID)) {
             MyTextMessage msg;
+            String name = Utils.getDisplayName(getBaseContext(), user);
             msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));
+                name + " " + getResources().getString(R.string.text_cmd_userleftchan));
             getUserTextMsgs(user.nUserID).add(msg);
         }
     }
@@ -538,8 +539,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             //other user joined current channel
             
+            String name = Utils.getDisplayName(getBaseContext(), user);
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                user.szNickname + " " + getResources().getString(R.string.text_cmd_userjoinchan));
+                name + " " + getResources().getString(R.string.text_cmd_userjoinchan));
             getChatLogTextMsgs().add(msg);
         }
     }
@@ -565,8 +567,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             }
             else {
                 // other user left current channel
+                String name = Utils.getDisplayName(getBaseContext(), user);
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    user.szNickname + " " + getResources().getString(R.string.text_cmd_userleftchan));                
+                    name + " " + getResources().getString(R.string.text_cmd_userleftchan));                
             }
             getChatLogTextMsgs().add(msg);
         }
@@ -581,7 +584,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
         User user = getUsers().get(textmessage.nFromUserID);
         MyTextMessage newmsg = new MyTextMessage(textmessage, 
-                                                 user == null? "" : user.szNickname);
+                                                 user == null? "" : Utils.getDisplayName(getBaseContext(), user));
 
         switch(textmessage.nMsgType) {
             case TextMsgType.MSGTYPE_USER : {

@@ -104,7 +104,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
         TeamTalkBase ttinst = ttservice.getTTInstance();
         User myself = ttservice.getUsers().get(ttinst.getMyUserID());
-        if(myself != null && !nickname.equals(myself.szNickname)) {
+        String name = Utils.getDisplayName(getBaseContext(), myself);
+        if(myself != null && !nickname.equals(name)) {
         	ttinst.doChangeNickname(nickname);
         }
     }

@@ -764,7 +764,10 @@ implements TeamTalkConnectionListener,
                         else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
                                  ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
                             return 1;
-                        return u1.szNickname.compareToIgnoreCase(u2.szNickname);
+                        
+                        String name1 = Utils.getDisplayName(getBaseContext(), u1);
+                        String name2 = Utils.getDisplayName(getBaseContext(), u2);
+                        return name1.compareToIgnoreCase(name2);
                     }
                 });
 
@@ -903,7 +906,8 @@ implements TeamTalkConnectionListener,
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
                 TextView status = (TextView) convertView.findViewById(R.id.status);
                 final User user = (User) item;
-                nickname.setText(user.szNickname);
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                nickname.setText(name);
                 status.setText(user.szStatusMsg);
                 
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0; 
@@ -912,7 +916,8 @@ implements TeamTalkConnectionListener,
                 int icon_resource = R.drawable.man_blue;
                 
                 if(talking) {
-                    nickname.setContentDescription(getString(R.string.user_state_now_speaking, user.szNickname));
+                    String name1 = Utils.getDisplayName(getBaseContext(), user);
+                    nickname.setContentDescription(getString(R.string.user_state_now_speaking, name1));
                     if(female) {
                         icon_resource = R.drawable.woman_green;
                     }
@@ -1375,14 +1380,18 @@ ttservice.enableVoiceActivation(false);
 
     @Override
     public void onCmdUserLoggedIn(User user) {
-        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false))
-            ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedin));
+        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
+            String name = Utils.getDisplayName(getBaseContext(), user);
+            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
+        }
     }
 
     @Override
     public void onCmdUserLoggedOut(User user) {
-        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false))
-            ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_loggedout));
+        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
+            String name = Utils.getDisplayName(getBaseContext(), user);
+            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
+        }
     }
 
     @Override
@@ -1415,8 +1424,10 @@ ttservice.enableVoiceActivation(false);
                 accessibilityAssistant.lockEvents();
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
-                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false))
-                    ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_joined_chan));
+                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
+                    String name = Utils.getDisplayName(getBaseContext(), user);
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                }
                 accessibilityAssistant.unlockEvents();
             }
             else {
@@ -1455,8 +1466,10 @@ ttservice.enableVoiceActivation(false);
             
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
-            if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false))
-                ttsWrapper.speak(user.szNickname + " " + getResources().getString(R.string.text_tts_left_chan));
+            if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+            }
             accessibilityAssistant.unlockEvents();
         }
         else if (isVisibleChannel(channelid)) {
@@ -1482,7 +1495,8 @@ ttservice.enableVoiceActivation(false);
             // TTS event
             if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
-                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? sender.szNickname : ""));
+                String name = Utils.getDisplayName(getBaseContext(), sender);
+                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : ""));
             }
             Log.d(TAG, "Channel message in " + this.hashCode());
             break;
@@ -1491,7 +1505,8 @@ ttservice.enableVoiceActivation(false);
                 audioIcons.play(sounds.get(SOUND_USERMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             
             User sender = ttservice.getUsers().get(textmessage.nFromUserID);
-            String senderName = (sender != null) ? sender.szNickname : "";
+            String name = Utils.getDisplayName(getBaseContext(), sender);
+            String senderName = (sender != null) ? name : "";
             if (ttsWrapper != null && prefs.getBoolean("personal_message_checkbox", false))
                 ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
             Intent action = new Intent(this, TextMessageActivity.class);

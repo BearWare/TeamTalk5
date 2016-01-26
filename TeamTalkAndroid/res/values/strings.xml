@@ -83,6 +83,8 @@
     <string name="pref_summary_message">Announce name of the sender</string>
     <string name="pref_title_mute_speakers">Mute speakers when pressing TX button</string>
     <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
+    <string name="pref_title_show_usernames">Show usernames</string>
+    <string name="pref_summary_show_usernames">Show usernames instead of nicknames</string>
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>
     <string name="text_tts_joined_chan">has joined the channel</string>

@@ -50,10 +50,12 @@ import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
 import dk.bearware.User;
+import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -62,6 +64,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class Utils {
@@ -382,5 +385,13 @@ public class Utils {
         canvas.drawText(gText, x, y, paint);
 
         return bitmap;
+    }
+    
+    public static String getDisplayName(Context context, User user) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context); 
+        if(pref.getBoolean(Preferences.PREF_GENERAL_SHOWUSERNAMES, false)) {
+            return user.szUsername;
+        }
+        return user.szNickname;
     }
 }

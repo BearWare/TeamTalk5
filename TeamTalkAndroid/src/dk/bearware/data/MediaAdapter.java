@@ -182,7 +182,8 @@ implements UserListener {
                 .findViewById(R.id.media_nickname_textview);
         TextView wndinfo = (TextView) convertView
                 .findViewById(R.id.mediainfo_textview);
-        nickname.setText(user.szNickname);
+        String name = Utils.getDisplayName(context, user);
+        nickname.setText(name);
         ImageView img = (ImageView) convertView.findViewById(R.id.mediaicon);
         int img_resource;
         switch(userid & ~USERID_MASK) {
