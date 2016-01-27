@@ -54,6 +54,8 @@ let PREF_SUB_MEDIAFILE = "sub_mediafile_preference"
 let PREF_SUB_DESKTOP = "sub_desktop_preference"
 let PREF_SUB_DESKTOPINPUT = "sub_desktopinput_preference"
 
+let PREF_TTSEVENT_VOICEID = "tts_voiceid_preference"
+let PREF_TTSEVENT_VOICELANG = "tts_voicelang_preference"
 let PREF_TTSEVENT_JOINEDCHAN = "tts_joinedchan_preference"
 let PREF_TTSEVENT_LEFTCHAN = "tts_leftchan_preference"
 let PREF_TTSEVENT_CONLOST = "tts_conlost_preference"
@@ -340,6 +342,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         
         
         // text to speech events
+        
+        let ttsvoicecell = tableView.dequeueReusableCellWithIdentifier("Speech Cell")
+        ttsvoicecell?.textLabel?.text = NSLocalizedString("Speech", comment: "preferences")
+        ttsvoicecell?.detailTextLabel!.text = NSLocalizedString("Select the text-to-speech voice to use", comment: "preferences")
+        ttsevents_items.append(ttsvoicecell!)
 
         ttsratecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         var ttsrate = AVSpeechUtteranceDefaultSpeechRate
@@ -621,6 +628,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(sender.on, forKey: PREF_JOINROOTCHANNEL)
     }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "Select Voice" {
+        }
+    }
+
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return SECTIONS_COUNT

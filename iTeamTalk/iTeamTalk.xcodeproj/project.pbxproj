@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */; };
 		2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */; };
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
@@ -61,6 +62,7 @@
 		2501A9BB1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9BD1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2501A9BF1C56CF8E00C729B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechListViewController.swift; sourceTree = "<group>"; };
 		2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
+				2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */,
 				2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */,
 				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
@@ -372,6 +375,7 @@
 				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */,
+				2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */,
@@ -489,7 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -530,7 +534,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

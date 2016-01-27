@@ -458,6 +458,17 @@ func newUtterance(utterance: String) {
     if let vol = settings.valueForKey(PREF_TTSEVENT_VOL) {
         myUtterance.volume = vol.floatValue!
     }
+    if let voice = settings.stringForKey(PREF_TTSEVENT_VOICEID) {
+        if #available(iOS 9.0, *) {
+            myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    else if let lang = settings.stringForKey(PREF_TTSEVENT_VOICELANG) {
+        myUtterance.voice = AVSpeechSynthesisVoice(language: lang)
+    }
+    
     synth.speakUtterance(myUtterance)
 }
 
