@@ -57,7 +57,7 @@
 "NA0-UK-wve.title" = "Voreinstellungen";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Verbinden-Taste";
+"PaV-2Q-pt4.accessibilityLabel" = "Verbinden";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Verbinden";
