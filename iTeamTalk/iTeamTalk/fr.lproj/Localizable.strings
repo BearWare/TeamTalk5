@@ -63,7 +63,7 @@
 "Authentication" = "Authentification";
 
 /* codec detail */
-"Bitrate" = "Bitrate";
+"Bitrate" = "Débit";
 
 /* preferences
    user detail */
@@ -77,7 +77,7 @@
 
 /* preferences
    user detail */
-"Channel Messages" = "Messages canal";
+"Channel Messages" = "Messages Canal";
 
 /* preferences */
 "Channel Text Message" = "Message texte canal";
@@ -174,7 +174,7 @@
 "Logged on to server" = "Connecté au serveur";
 
 /* preferences */
-"Master Volume" = "Volume Master";
+"Master Volume" = "Volume Maître";
 
 /* preferences */
 "Maximum Text Length" = "Longueur de texte maximum";
@@ -266,10 +266,10 @@
 "Play sound when a user leaves the channel" = "Jouer son quand un utilisateur quitte le canal";
 
 /* preferences */
-"Play sound when channel text message is received" = "Jouer son quand le message texte du canal est reçu";
+"Play sound when channel text message is received" = "Jouer son quand message texte du canal est reçu";
 
 /* preferences */
-"Play sound when connection is dropped" = "Jouer son quand la connexion est perdue";
+"Play sound when connection is dropped" = "Jouer son quand connexion est perdue";
 
 /* preferences */
 "Play sound when private text message is received" = "Jouer son quand message texte privé est reçu";
@@ -311,10 +311,10 @@
 "Receive channel messages by default" = "Recevoir messages canaux par défaut";
 
 /* preferences */
-"Receive desktop sessions by default" = "Recevoir sessions bureaux par défaut";
+"Receive desktop sessions by default" = "Recevoir sessions bureau par défaut";
 
 /* preferences */
-"Receive media file streams by default" = "Recevoir flux de fichier média par défaut";
+"Receive media file streams by default" = "Recevoir flux fichier média par défaut";
 
 /* preferences */
 "Receive text messages by default" = "Reecevoir messages texte par défaut";
@@ -323,7 +323,7 @@
 "Receive voice streams by default" = "Recevoir flux voix par défaut";
 
 /* preferences */
-"Receive webcam streams by default" = "Receive webcam streams by default";
+"Receive webcam streams by default" = "Recevoir flux webcam par défaut";
 
 /* channel list */
 "Return to previous channel" = "Retourner au canal précédent";
