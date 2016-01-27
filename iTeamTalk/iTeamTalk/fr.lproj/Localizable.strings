@@ -275,7 +275,7 @@
 "Play sound when private text message is received" = "Jouer son quand message texte privé est reçu";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "Jouer son quand transmission de la voix est enclenchée";
+"Play sound when voice transmission is toggled" = "Jouer son quand transmission voix est enclenchée";
 
 /* preferences */
 "Pop up text message when new messages are received" = "Afficher brièvement message texte quand nouveaux messages sont reçus";
