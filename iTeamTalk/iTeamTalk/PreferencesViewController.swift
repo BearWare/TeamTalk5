@@ -432,7 +432,6 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         case Sounds.USER_MSG.rawValue :
             defaults.setBool(sender.on, forKey: PREF_SNDEVENT_USERMSG)
         default :
-            assert(false)
             break
         }
     }
@@ -457,7 +456,6 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         case SUBSCRIBE_DESKTOP.rawValue :
             defaults.setBool(sender.on, forKey: PREF_SUB_DESKTOP)
         default :
-            assert(false)
             break
         }
     }
