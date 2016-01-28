@@ -57,7 +57,7 @@
 "NA0-UK-wve.title" = "Параметры";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Кнопка подключиться";
+"PaV-2Q-pt4.accessibilityLabel" = "Подключиться кнопка";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Подключиться";
@@ -114,7 +114,7 @@
 "gA8-TJ-0RU.title" = "Чат Канала";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Дважды нажмите, чтобы развернуть параметры для этого канала.";
+"hqu-CX-Vn4.accessibilityHint" = "Дважды нажмите, чтобы развернуть опции для этого канала.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "Сообщения";
