@@ -190,7 +190,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         }
         let mfvolumeslider = newTableCellSlider(mfvolumecell, label: NSLocalizedString("Media File Volume", comment: "preferences"), min: 0, max: 1, initial: mfvol)
         mfvolumeslider.addTarget(self, action: "mediafileVolumeChanged:", forControlEvents: .ValueChanged)
-        mfvolumecell.detailTextLabel?.text = NSLocalizedString("Media file vs. voice volume (requires reconnect)", comment: "preferences")
+        mfvolumecell.detailTextLabel?.text = NSLocalizedString("Media file vs. voice volume", comment: "preferences")
         sound_items.append(mfvolumecell)
 
         microphonecell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
