@@ -35,6 +35,7 @@ import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalk5;
 import dk.bearware.TeamTalkBase;
@@ -544,6 +545,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                 name + " " + getResources().getString(R.string.text_cmd_userjoinchan));
             getChatLogTextMsgs().add(msg);
         }
+        
+        // set media file volume
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int mf_volume = pref.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
+        mf_volume = Utils.refVolume(mf_volume);
+        ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
     }
 
     @Override

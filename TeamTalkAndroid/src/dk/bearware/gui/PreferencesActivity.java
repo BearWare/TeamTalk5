@@ -44,6 +44,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.backend.TeamTalkConnection;
@@ -100,13 +102,19 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     		return;
     				
         String def_nick = getResources().getString(R.string.pref_default_nickname);
-        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); 
+        String nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
 
         TeamTalkBase ttinst = ttservice.getTTInstance();
         User myself = ttservice.getUsers().get(ttinst.getMyUserID());
-        String name = Utils.getDisplayName(getBaseContext(), myself);
-        if(myself != null && !nickname.equals(name)) {
+        if(myself != null && !nickname.equals(myself.szNickname)) {
         	ttinst.doChangeNickname(nickname);
+        }
+        
+        int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
+        mf_volume = Utils.refVolume(mf_volume);
+        for(User u: ttservice.getUsers().values()) {
+            ttinst.setUserVolume(u.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
         }
     }
 
