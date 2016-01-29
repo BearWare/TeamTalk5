@@ -1,4 +1,4 @@
-﻿
+
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "main tab bar controller";
 
@@ -20,11 +20,17 @@
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Wyślij wiadomość";
 
+/* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
+"79c-sV-yxb.title" = "Text-to-Speech Voice";
+
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
 "ALe-1e-Au1.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "Blank";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
 "BLM-fs-qcG.title" = "Wróć";
@@ -34,6 +40,9 @@
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Wyślij wiadomość";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
+"EHj-xt-HhD.text" = "Blank";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
@@ -71,14 +80,11 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
 
-/* Class = "UIButton"; accessibilityHint = "Double tap and hold to transmit. Tripple tap to toggle."; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityHint" = "Stuknij dwukrotnie i przytrzymaj, aby nadawać. Stuknij trzykrotnie, aby włączyć, stuknij dwukrotnie, aby wyłączyć.";
-
-/* Class = "UIButton"; accessibilityLabel = "Transmit"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.accessibilityLabel" = "Transmisja";
-
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "TX";
+
+/* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
+"VWP-v4-bY8.title" = "Select Voice";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "Blank";
@@ -89,6 +95,9 @@
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
 "WRa-tI-lpY.normalTitle" = "Wykop i Zbanuj";
 
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "Blank";
+
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Blank";
 
@@ -97,6 +106,9 @@
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Pulpity";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
+"ZSZ-bY-VqA.text" = "Blank";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
 "aX2-rZ-yEl.title" = "Kanały";
