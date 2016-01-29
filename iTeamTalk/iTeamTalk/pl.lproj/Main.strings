@@ -1,6 +1,6 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "main tab bar controller";
+"07s-AR-tvQ.title" = "sterowanie głównym paskiem zakładek";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Wyślij";
@@ -12,16 +12,16 @@
 "3NI-HT-A3N.normalTitle" = "Wyślij";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+"4RU-K7-Yga.accessibilityHint" = "Wyślij wiadomość prywatną";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+"4RU-K7-Yga.accessibilityLabel" = "Wiadomości";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Wyślij wiadomość";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "Głos syntezatora";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -36,7 +36,7 @@
 "BLM-fs-qcG.title" = "Wróć";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Wiadomości prywatne";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Wyślij wiadomość";
@@ -66,7 +66,7 @@
 "NA0-UK-wve.title" = "Ustawienia";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "przycisk Połącz";
+"PaV-2Q-pt4.accessibilityLabel" = "Połącz";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Połącz";
@@ -84,7 +84,7 @@
 "V6G-Gm-l2U.normalTitle" = "TX";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Select Voice";
+"VWP-v4-bY8.title" = "Wybierz Głos";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "Blank";
