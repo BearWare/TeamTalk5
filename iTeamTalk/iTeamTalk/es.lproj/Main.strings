@@ -1,18 +1,18 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Controlador de la pestaÃ±a principal";
+"07s-AR-tvQ.title" = "Página principal";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Mensaje de Texto";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
-"0QA-gn-V1p.text" = "Blank";
+"0QA-gn-V1p.text" = "En blanco";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Enviar";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+"4RU-K7-Yga.accessibilityHint" = "Enviar mensaje de texto privado";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityLabel" = "Mensaje de Texto";
@@ -24,19 +24,19 @@
 "79c-sV-yxb.title" = "Text-to-Speech Voice";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
-"9GN-82-2nL.text" = "Blank";
+"9GN-82-2nL.text" = "En blanco";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
-"ALe-1e-Au1.text" = "Blank";
+"ALe-1e-Au1.text" = "En blanco";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
 "B8t-mo-k8g.text" = "Blank";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
-"BLM-fs-qcG.title" = "AtrÃ¡s";
+"BLM-fs-qcG.title" = "Atrás";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Mensaje de texto privado";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Enviar mensaje a usuario";
@@ -45,10 +45,10 @@
 "EHj-xt-HhD.text" = "Blank";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
-"Fu9-tA-eYj.text" = "Blank";
+"Fu9-tA-eYj.text" = "En blanco";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
-"JW6-jf-mbs.text" = "Blank";
+"JW6-jf-mbs.text" = "En blanco";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
 "JzB-tm-tld.normalTitle" = "Editar";
@@ -66,7 +66,7 @@
 "NA0-UK-wve.title" = "Preferencias";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Conectar";
+"PaV-2Q-pt4.accessibilityLabel" = "Conectar botón";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Conectar";
@@ -75,10 +75,10 @@
 "PhY-ED-cqF.title" = "Detalles del canal";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
-"Rrg-2O-NzF.normalTitle" = "Usar cÃ³dec OPUS";
+"Rrg-2O-NzF.normalTitle" = "Usar códec OPUS";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
-"Uc0-gP-wr1.text" = "Blank";
+"Uc0-gP-wr1.text" = "En blanco";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "Transmitir";
@@ -87,7 +87,7 @@
 "VWP-v4-bY8.title" = "Select Voice";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
-"WCf-u5-KkQ.text" = "Blank";
+"WCf-u5-KkQ.text" = "En blanco";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
 "WFB-kl-uoS.normalTitle" = "Expulsar usuario";
@@ -99,10 +99,10 @@
 "Wbh-f7-64c.text" = "Blank";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
-"WcB-pN-blB.text" = "Blank";
+"WcB-pN-blB.text" = "En blanco";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
-"Y9o-rs-HCe.title" = "Disconnect";
+"Y9o-rs-HCe.title" = "Desconectar";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
 "ZFj-Rn-XZn.title" = "Escritorios";
@@ -138,7 +138,7 @@
 "j1c-gJ-hO8.title" = "Mensajes";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
-"kRp-LE-RFh.text" = "Blank";
+"kRp-LE-RFh.text" = "En blanco";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "Unirse al canal";
@@ -147,7 +147,7 @@
 "m1N-Js-NXn.normalTitle" = "Eliminar servidor";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
-"nVj-7w-Sta.text" = "Blank";
+"nVj-7w-Sta.text" = "En blanco";
 
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
 "pQJ-c1-GEL.title" = "Lista de servidores";
@@ -162,7 +162,7 @@
 "vIN-Uc-3Ms.title" = "Preferencias";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
-"w6E-jf-09e.text" = "Blank";
+"w6E-jf-09e.text" = "En blanco";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
-"ydT-LM-DrB.text" = "Blank";
+"ydT-LM-DrB.text" = "En blanco";
