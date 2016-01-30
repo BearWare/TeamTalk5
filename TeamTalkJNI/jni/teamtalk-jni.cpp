@@ -70,6 +70,16 @@ extern "C" {
         return b;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_pumpMessage(JNIEnv* env,
+                                                                         jobject thiz,
+                                                                         jlong lpTTInstance,
+                                                                         jint nClientEvent,
+                                                                         jint nIdentifier)
+    {
+        return TT_PumpMessage(reinterpret_cast<TTInstance*>(lpTTInstance),
+                              (ClientEvent)nClientEvent, nIdentifier);
+    }
+
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getFlags(JNIEnv* env,
                                                                   jobject thiz,
                                                                   jlong lpTTInstance)

@@ -53,6 +53,14 @@ public abstract class TeamTalkBase
         return getMessage(ttInst, pMsg, pnWaitMs);
     }
 
+    private native boolean pumpMessage(long lpTTInstance,
+                                       int nClientEvent,
+                                       int nIdentifier);
+
+    public boolean pumpMessage(int nClientEvent, int nIdentifier) {
+        return pumpMessage(ttInst, nClientEvent, nIdentifier);
+    }
+
     private native int getFlags(long lpTTInstance);
     public int getFlags() { return getFlags(ttInst); }
 

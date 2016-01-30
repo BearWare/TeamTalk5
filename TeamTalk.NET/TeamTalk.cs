@@ -74,7 +74,17 @@ namespace BearWare
          * #BearWare.SoundDevice to see which sample rates are supported. */
         SOUNDSYSTEM_WASAPI = 5,
         /** @brief Android sound API. */
-        SOUNDSYSTEM_OPENSLES_ANDROID = 7
+        SOUNDSYSTEM_OPENSLES_ANDROID = 7,
+        /** @brief iOS sound API.
+         *
+         * Add libraries AVFoundation.framework and
+         * AudioToolbox.framework.
+         *
+         * Duplex mode is not supported by AudioUnit iOS sound API. 
+         *
+         * Use audio session mode AVAudioSessionModeVideoChat to
+         * remove echo from speakers. */
+        SOUNDSYSTEM_AUDIOUNIT = 8
     }
 
     /**
@@ -3305,6 +3315,39 @@ namespace BearWare
         }
 
         /**
+         * @brief Cause client instance event thread to schedule an update
+         * event.
+         *
+         * Normally all events of type #TTMessage received from
+         * GetMessage() are due to a state change in the client
+         * instance. The state change (#ClientEvent) is submitted by the
+         * client instance's internal thread. In some cases it's, however,
+         * convenient to make the internal thread submit the latest
+         * properties of an object. One example is after having changed
+         * the volume of a #BearWare.User. Then your local copy of #BearWare.User will no
+         * longer contain the latest @c nVolumeVoice.
+         *
+         * Calling PumpMessage() will make the client instance's
+         * internal thread queue an update of #BearWare.User so the latest
+         * properties of the user can be retrieved from GetMessage().
+         *
+         * It's also possible to simply use GetUser() but the problem
+         * with this approach is that this call is from a separate thread
+         * and therefore doesn't take the event queue into account.
+         * 
+         * @param nClientEvent The event which should be queued. Currently 
+         * only ::CLIENTEVENT_USER_STATECHANGE is supported.
+         * @param nIdentifier The ID of the object to retrieve. Currently
+         * only nUserID is supported.
+         *
+         * @return Returns true if the event has been scheduled. */
+        public bool PumpMessage(ClientEvent nClientEvent,
+                                int nIdentifier)
+        {
+            return TTDLL.TT_PumpMessage(m_ttInst, nClientEvent, nIdentifier);
+        }
+
+        /**
          * @brief Get a bitmask describing the client's current state.
          *
          * Checks whether the client is connecting, connected, authorized,
@@ -6031,7 +6074,7 @@ namespace BearWare
             return TTDLL.TT_SetUserStereo(m_ttInst, nUserID, nStreamType, bLeftSpeaker, bRightSpeaker);
         }
         /**
-         * @brief Store audio conversations to disk.
+         * @brief Store user's audio to disk.
          * 
          * Set the path of where to store audio from a channel to disk. To
          * store in MP3 format instead of .wav format ensure that the LAME

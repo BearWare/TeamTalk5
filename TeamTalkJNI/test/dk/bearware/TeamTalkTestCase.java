@@ -60,7 +60,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     
     public void test_04_Auth() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
-        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE;
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
@@ -75,6 +75,16 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitCmdSuccess(ttclient, ttclient.doLogout(), DEF_WAIT));
 
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue(ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID()));
+
+        TTMessage msg = new TTMessage();
+
+        assertTrue("Wait for state change", 
+                   waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE,
+                                DEF_WAIT, msg));
+
+        
     }
     
     public void test_05_Channels() {
