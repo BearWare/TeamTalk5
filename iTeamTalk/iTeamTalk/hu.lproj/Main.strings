@@ -1,0 +1,168 @@
+
+/* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
+"07s-AR-tvQ.title" = "Fő Fül Kontroller";
+
+/* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
+"0EG-eF-WzS.title" = "szöveg üzenet";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
+"0QA-gn-V1p.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
+"3NI-HT-A3N.normalTitle" = "küldés";
+
+/* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityHint" = "Személyes üzenet küldése";
+
+/* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityLabel" = "szöveg üzenet";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.normalTitle" = "üzenet küldése";
+
+/* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
+"79c-sV-yxb.title" = "A Hangmotor Hangja";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
+"9GN-82-2nL.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
+"ALe-1e-Au1.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "Blank";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
+"BLM-fs-qcG.title" = "Vissza";
+
+/* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.accessibilityLabel" = "Személyes üzenet";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.normalTitle" = "üzenet küldése";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
+"EHj-xt-HhD.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
+"Fu9-tA-eYj.text" = "Blank";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
+"JW6-jf-mbs.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
+"JzB-tm-tld.normalTitle" = "Szerkesztés";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
+"LPL-JY-xBM.normalTitle" = "küldés";
+
+/* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
+"Me4-OJ-iZH.title" = "Szerver beírás";
+
+/* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
+"N1w-a6-R3D.title" = "a felhasználó tulajdonságai";
+
+/* Class = "UIViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
+"NA0-UK-wve.title" = "beállítások";
+
+/* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.accessibilityLabel" = "Csatlakozás";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.normalTitle" = "csatlakozás";
+
+/* Class = "UIViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
+"PhY-ED-cqF.title" = "e csatornáról ";
+
+/* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
+"Rrg-2O-NzF.normalTitle" = "OPUS kodek használata";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
+"Uc0-gP-wr1.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.normalTitle" = "hang";
+
+/* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
+"VWP-v4-bY8.title" = "Válasszon egy hangot";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
+"WCf-u5-KkQ.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
+"WFB-kl-uoS.normalTitle" = "felhasználó kirugása";
+
+/* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
+"WRa-tI-lpY.normalTitle" = "felhasználó kirugása és kitiltása";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
+"WcB-pN-blB.text" = "Blank";
+
+/* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
+"Y9o-rs-HCe.title" = "Kapcsolat Bontása";
+
+/* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
+"ZFj-Rn-XZn.title" = "Asztalok";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
+"ZSZ-bY-VqA.text" = "Blank";
+
+/* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
+"aX2-rZ-yEl.title" = "csatornák";
+
+/* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
+"b6N-H7-SIe.normalTitle" = "A Speex VBR kodek használata";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
+"bDf-Jp-1l5.normalTitle" = "csatlakozás";
+
+/* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
+"cGm-Jp-0zI.normalTitle" = "A Speex kodek használata";
+
+/* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
+"ch0-Xf-hyX.normalTitle" = "belépés a csatornába";
+
+/* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
+"dcU-Nq-ioW.title" = "Fő Fül Kontroller";
+
+/* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
+"gA8-TJ-0RU.title" = "Chat Csatorna";
+
+/* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
+"hqu-CX-Vn4.accessibilityHint" = " Koppintson duplán további lehetőségekhez.";
+
+/* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
+"j1c-gJ-hO8.title" = "Üzenetek";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
+"kRp-LE-RFh.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
+"l6D-Hs-MdG.normalTitle" = "Belépés a csatornába";
+
+/* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
+"m1N-Js-NXn.normalTitle" = "Szerver törlése";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
+"nVj-7w-Sta.text" = "Blank";
+
+/* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
+"pQJ-c1-GEL.title" = "Szerver Lista";
+
+/* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
+"rNU-2J-hMO.normalTitle" = "Audió nélküli használat";
+
+/* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
+"vC1-lW-BtX.normalTitle" = "Csatorna törlése";
+
+/* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
+"vIN-Uc-3Ms.title" = "Beállítások";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
+"w6E-jf-09e.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
+"ydT-LM-DrB.text" = "Blank";
