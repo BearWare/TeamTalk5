@@ -21,7 +21,7 @@
 "4RU-K7-Yga.normalTitle" = "Besked til bruger";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "Tekst-til-Tale Stemme";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
