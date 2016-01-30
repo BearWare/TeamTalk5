@@ -135,7 +135,7 @@
 "hqu-CX-Vn4.accessibilityHint" = "Taper deux fois pour étendre les options pour ce canal.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
-"j1c-gJ-hO8.title" = "Messages";
+"j1c-gJ-hO8.title" = "Messagerie texte";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
 "kRp-LE-RFh.text" = "Vide";

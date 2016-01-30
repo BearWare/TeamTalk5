@@ -30,7 +30,7 @@
 "ALe-1e-Au1.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "Blank";
+"B8t-mo-k8g.text" = "Boş";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
 "BLM-fs-qcG.title" = "Geri";
@@ -42,7 +42,7 @@
 "DHN-DJ-cUp.normalTitle" = "İleti";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
-"EHj-xt-HhD.text" = "Blank";
+"EHj-xt-HhD.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Boş";
@@ -96,7 +96,7 @@
 "WRa-tI-lpY.normalTitle" = "Kullanıcıyı Uzaklaştır ve Engelle";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Blank";
+"Wbh-f7-64c.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Boş";
@@ -108,7 +108,7 @@
 "ZFj-Rn-XZn.title" = "Masaüstü";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
-"ZSZ-bY-VqA.text" = "Blank";
+"ZSZ-bY-VqA.text" = "Boş";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
 "aX2-rZ-yEl.title" = "Kanallar";
