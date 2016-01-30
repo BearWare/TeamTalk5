@@ -7,4 +7,10 @@
 		android:title="@string/pref_title_mute_speakers"
 		android:summary="@string/pref_summary_mute_speakers" />
     
+	<dk.bearware.gui.SeekBarPreference
+	    android:key="mediafilevolume_seekbar"
+	    android:defaultValue="100"
+	    android:title="@string/pref_title_mediafile_volume"
+	    android:summary="@string/pref_summary_mediafile_volume" />
+
 </PreferenceScreen>

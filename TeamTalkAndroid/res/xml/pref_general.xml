@@ -21,7 +21,7 @@
 
     <SwitchPreference
 		android:key="voice_activation"
-		android:defaultValue="true"
+		android:defaultValue="false"
 		android:title="@string/pref_title_voice_act" />
 
     <CheckBoxPreference

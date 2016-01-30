@@ -188,7 +188,7 @@
 "Media File Volume" = "Medienlautstärke";
 
 /* preferences */
-"Media file vs. voice volume (requires reconnect)" = "Lautstärke Medien zu Sprache (neuerlicher Verbindungsaufbau notwendig)";
+"Media file vs. voice volume" = "Lautstärke Medien zu Sprache";
 
 /* preferences */
 "Microphone Gain" = "Mikrofonpegel";
@@ -334,6 +334,9 @@
 /* codec detail */
 "Sample Rate" = "Sampling-Rate";
 
+/* preferences */
+"Select the text-to-speech voice to use" = "Wähle die zu verwendende Stimme";
+
 /* channel list */
 "Send private message" = "Private Nachricht senden";
 
@@ -369,6 +372,9 @@
 
 /* preferences */
 "Speaker Output" = "Lautsprecherwiedergabe";
+
+/* preferences */
+"Speech" = "Sprachausgabe";
 
 /* preferences */
 "Speech Rate" = "Sprechgeschwindigkeit";
@@ -413,7 +419,7 @@
 "Topic" = "Thema";
 
 /* channel list */
-"Transmit" = "Übertragen";
+"Transmit" = "Sprechen";
 
 /* codec detail */
 "Transmit Interval" = "Übertragungsintervall";
@@ -487,4 +493,7 @@
 /* preferences
    user detail */
 "WebCam" = "WebCam";
+
+/* speech */
+"You have selected %@" = "Du hast %@ gewählt";
 

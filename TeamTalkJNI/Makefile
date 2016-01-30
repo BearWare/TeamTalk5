@@ -43,6 +43,7 @@ help:
 	@echo -e "\t\t" "Build and run JUnit test-cases"
 	@echo -e "\ttestcase"
 	@echo -e "\t\t" "Build and run a single test-case in TeamTalkTestCase-class"
+	@echo -e "\tE.g make TARGET=test_04_Auth"
 
 native:
 	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value

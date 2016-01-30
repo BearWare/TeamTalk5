@@ -84,6 +84,10 @@ namespace c_tt
                                                ref BearWare.TTMessage pMsg,
                                                ref int pnWaitMs);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_PumpMessage(IntPtr lpTTInstance,
+                                                 BearWare.ClientEvent nClientEvent,
+                                                 int nIdentifier);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientFlag TT_GetFlags(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_SetLicenseInformation([MarshalAs(UnmanagedType.LPWStr)] string szRegName,

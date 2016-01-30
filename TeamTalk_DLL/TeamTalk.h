@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.1.2.4388"
+#define TEAMTALK_VERSION "5.1.2.4392"
 
 
 #if defined(WIN32)
@@ -3015,20 +3015,21 @@ extern "C" {
      * Calling TT_PumpMessage() will make the client instance's
      * internal thread queue an update of #User so the latest
      * properties of the user can be retrieved from TT_GetMessage().
+     *
      * It's also possible to simply use TT_GetUser() but the problem
      * with this approach is that this call is from a separate thread
      * and therefore doesn't take the event queue into account.
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nEvent The event which should be queued. Currently only
-     * #CLIENTEVENT_USER_STATECHANGE is supported.
+     * @param nClientEvent The event which should be queued. Currently 
+     * only #CLIENTEVENT_USER_STATECHANGE is supported.
      * @param nIdentifier The ID of the object to retrieve. Currently
      * only nUserID is supported.
      *
      * @return Returns TRUE if the event has been scheduled. */
     TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
-                                          ClientEvent nEvent,
+                                          ClientEvent nClientEvent,
                                           INT32 nIdentifier);
 
     /**

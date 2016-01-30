@@ -61,11 +61,11 @@
 		2501A9BA1C52A35A00C729B3 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2501A9BB1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9BD1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2501A9BF1C56CF8E00C729B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechListViewController.swift; sourceTree = "<group>"; };
 		2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
 		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
+		251B42671C5BC1C8009650EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -420,7 +420,7 @@
 				25E379A51C4D560B0039DA6D /* et */,
 				2501A9B81C52A35900C729B3 /* fr */,
 				2501A9BB1C52A36800C729B3 /* pl */,
-				2501A9BF1C56CF8E00C729B3 /* en */,
+				251B42671C5BC1C8009650EA /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
