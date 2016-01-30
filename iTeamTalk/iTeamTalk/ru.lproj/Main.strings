@@ -15,13 +15,13 @@
 "4RU-K7-Yga.accessibilityHint" = "Отправить приватное текстовое сообщение";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Текст Сообщения";
+"4RU-K7-Yga.accessibilityLabel" = "Текстовое Сообщение";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Сообщение пользователя";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "Голос Текст в Речь";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -84,7 +84,7 @@
 "V6G-Gm-l2U.normalTitle" = "Говорить";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Select Voice";
+"VWP-v4-bY8.title" = "Выбрать Голос";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "Blank";
