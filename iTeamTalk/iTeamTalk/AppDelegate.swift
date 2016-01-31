@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        TT_SetLicenseInformation("", "")
+        TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY)
         
         // Default values are not set in Settings bundle, so we need to load them manually
         let defaults = NSUserDefaults.standardUserDefaults()
