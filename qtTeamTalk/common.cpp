@@ -27,6 +27,7 @@
 #include <QSound>
 #include <QDateTime>
 #include <QDialog>
+#include <QStack>
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
@@ -754,6 +755,7 @@ void addLatestHost(const HostEntry& host)
     while(getLatestHost(index, tmp))
     {
         hosts.push_back(tmp);
+        tmp = HostEntry();
         index++;
     }
     for(int i=0;i<hosts.size();)
@@ -787,6 +789,38 @@ void addLatestHost(const HostEntry& host)
     }
 }
 
+void deleteLatestHost(int index)
+{
+    QStack<HostEntry> hosts;
+    HostEntry tmp;
+    int i = 0;
+    while(getLatestHost(i, tmp))
+    {
+        hosts.push(tmp);
+        i++;
+        tmp = HostEntry();
+    }
+    
+    for(int i=0;i<hosts.size();i++)
+    {
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_HOSTADDR).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_TCPPORT).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_UDPPORT).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_USERNAME).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_PASSWORD).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_CHANNEL).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_CHANNELPASSWD).arg(i));
+    }
+
+    hosts.removeAt(index);
+
+    while(!hosts.isEmpty())
+    {
+        addLatestHost(hosts.pop());
+    }
+}
+
 bool getLatestHost(int index, HostEntry& host)
 {
     host.ipaddr = ttSettings->value(QString(SETTINGS_LATESTHOST_HOSTADDR).arg(index)).toString();
@@ -812,6 +846,7 @@ void addServerEntry(const HostEntry& host)
     while(getServerEntry(index, tmp))
     {
         hosts.push_back(tmp);
+        tmp = HostEntry();
         index++;
     }
     hosts.append(host);
@@ -870,6 +905,7 @@ void deleteServerEntry(const QString& name)
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_CHANNEL).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_CHANNELPASSWD).arg(index));
         index++;
+        tmp = HostEntry();
     }
 
     for(int i=0;i<hosts.size();i++)

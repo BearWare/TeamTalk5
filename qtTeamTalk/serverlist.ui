@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>653</width>
-    <height>570</height>
+    <width>659</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,14 +121,36 @@
            </widget>
           </item>
           <item row="0" column="1" colspan="2">
-           <widget class="QComboBox" name="hostaddrBox">
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-            <property name="duplicatesEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QComboBox" name="hostaddrBox">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="duplicatesEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="deleteBtn">
+              <property name="toolTip">
+               <string>Remove entry</string>
+              </property>
+              <property name="accessibleName">
+               <string>Remove entry</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/delete.png</normalon>
+               </iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="3" column="1" colspan="2">
            <widget class="QCheckBox" name="cryptChkBox">
@@ -354,6 +376,7 @@
  </widget>
  <tabstops>
   <tabstop>hostaddrBox</tabstop>
+  <tabstop>deleteBtn</tabstop>
   <tabstop>tcpportEdit</tabstop>
   <tabstop>udpportEdit</tabstop>
   <tabstop>cryptChkBox</tabstop>

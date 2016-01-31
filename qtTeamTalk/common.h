@@ -374,6 +374,7 @@ bool loadVideoFormat(VideoFormat& vidfmt);
 void playSoundEvent(SoundEvent event);
 
 void addLatestHost(const HostEntry& host);
+void deleteLatestHost(int index);
 bool getLatestHost(int index, HostEntry& host);
 
 //server entries in settings file

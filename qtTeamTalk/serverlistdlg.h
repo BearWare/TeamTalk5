@@ -36,6 +36,7 @@ public:
 private:
     Ui::ServerListDlg ui;
     void showServers();
+    void showLatestHosts();
     QVector<HostEntry> m_servers, m_freeservers;
     QNetworkAccessManager* m_http_manager;
 
@@ -55,6 +56,7 @@ private slots:
     void slotFreeServers(bool checked);
     void slotFreeServerRequest(QNetworkReply* reply);
     void slotGenerateFile();
+    void slotDeleteLatestHost();
 
     void slotSaveEntryChanged(const QString& text);
     void slotGenerateEntryName(const QString&);

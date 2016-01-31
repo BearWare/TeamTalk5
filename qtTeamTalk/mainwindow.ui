@@ -48,6 +48,9 @@
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
+          <property name="accessibleName">
+           <string>Channel list</string>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -152,6 +155,9 @@
             <property name="toolTip">
              <string>Master volume</string>
             </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
             <property name="maximum">
              <number>100</number>
             </property>
@@ -230,6 +236,9 @@
             </property>
             <property name="toolTip">
              <string>Microphone gain</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
             </property>
             <property name="maximum">
              <number>100</number>
@@ -321,6 +330,9 @@
           <widget class="ChatTextEdit" name="chatEdit">
            <property name="mouseTracking">
             <bool>false</bool>
+           </property>
+           <property name="accessibleName">
+            <string>Channel messages and event log</string>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>

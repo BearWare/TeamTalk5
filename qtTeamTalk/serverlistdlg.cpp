@@ -69,6 +69,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.hostaddrBox, SIGNAL(editTextChanged(const QString&)),
             SLOT(slotGenerateEntryName(const QString&)));
+    connect(ui.deleteBtn, SIGNAL(clicked()),
+            SLOT(slotDeleteLatestHost()));
     connect(ui.tcpportEdit, SIGNAL(textChanged(const QString&)),
             SLOT(slotGenerateEntryName(const QString&)));
     connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)),
@@ -76,17 +78,24 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     clearServer();
 
-    HostEntry host;
-    int index = 0;
-    while(getLatestHost(index++, host))
-        ui.hostaddrBox->addItem(host.ipaddr);
-    slotShowHost(0);
+    showLatestHosts();
 
     if(ttSettings->value(SETTINGS_DISPLAY_FREESERVERS, true).toBool())
         ui.freeserverChkBox->setChecked(true);
 
     ui.delButton->setEnabled(false);
     showServers();
+}
+
+void ServerListDlg::showLatestHosts()
+{
+    ui.hostaddrBox->clear();
+
+    HostEntry host;
+    int index = 0;
+    while(getLatestHost(index++, host))
+        ui.hostaddrBox->addItem(host.ipaddr);
+    slotShowHost(0);
 }
 
 void ServerListDlg::slotClearServerClicked()
@@ -142,8 +151,10 @@ void ServerListDlg::showServers()
     int index = 0;
     HostEntry entry;
     while(getServerEntry(index++, entry))
+    {
         m_servers.push_back(entry);
-
+        entry = HostEntry();
+    }
     for(int i=0;i<m_servers.size();i++)
         ui.listWidget->addItem(m_servers[i].name);
 
@@ -293,6 +304,13 @@ void ServerListDlg::slotGenerateFile()
 
     GenerateTTFileDlg dlg(entry, this);
     dlg.exec();
+}
+
+void ServerListDlg::slotDeleteLatestHost()
+{
+    int i = ui.hostaddrBox->currentIndex();
+    deleteLatestHost(i);
+    showLatestHosts();
 }
 
 void ServerListDlg::slotSaveEntryChanged(const QString& text)
