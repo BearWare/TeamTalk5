@@ -1,6 +1,6 @@
 
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Controlleur menu principal";
+"07s-AR-tvQ.title" = "Contrôl menu principal";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
 "0EG-eF-WzS.title" = "Message Texte";
@@ -21,7 +21,7 @@
 "4RU-K7-Yga.normalTitle" = "Message utilisateur";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "La voix pour texte en parole";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Vide";
@@ -30,7 +30,7 @@
 "ALe-1e-Au1.text" = "Vide";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "Blank";
+"B8t-mo-k8g.text" = "Vide";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
 "BLM-fs-qcG.title" = "Retour";
@@ -42,7 +42,7 @@
 "DHN-DJ-cUp.normalTitle" = "Message utilisateur";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
-"EHj-xt-HhD.text" = "Blank";
+"EHj-xt-HhD.text" = "Vide";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Vide";
@@ -108,7 +108,7 @@
 "ZFj-Rn-XZn.title" = "Bureaux";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
-"ZSZ-bY-VqA.text" = "Blank";
+"ZSZ-bY-VqA.text" = "Vide";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
 "aX2-rZ-yEl.title" = "Canaux";
