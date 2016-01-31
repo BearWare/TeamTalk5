@@ -1,5 +1,12 @@
 # TeamTalk C-API header files
 
-TeamTalk.h contains the API for creating a TeamTalk client application.
+Copy TeamTalk.h (and TeamTalkSrv.h in TeamTalk 5 Professional SDK) to
+this directory. The header files are located in the Library/C-API
+folder of the TeamTalk 5 SDK.
 
-TeamTalkSrv.h contains the API for creating a TeamTalk server application. The TeamTalk server API requires [TeamTalk 5 Professional Edition](http://bearware.dk/?page_id=419).
+TeamTalk.h contains the API for creating a TeamTalk client
+application.
+
+TeamTalkSrv.h contains the API for creating a TeamTalk server
+application. The TeamTalk server API is only available in [TeamTalk 5
+Professional Edition](http://bearware.dk/?page_id=419).
