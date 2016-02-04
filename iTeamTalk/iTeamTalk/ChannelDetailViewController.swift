@@ -136,7 +136,7 @@ class ChannelDetailViewController :
         switch channel.audiocodec.nCodec {
         case OPUS_CODEC :
             let opus = getOpusCodec(&channel.audiocodec).memory
-            let chans = (opus.nChannels>1 ? "Stereo" : "Mono" )
+            let chans = (opus.nChannels>1 ? NSLocalizedString("Stereo", comment: "create channel") : NSLocalizedString("Mono", comment: "create channel") )
             codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz \(opus.nBitRate / 1000) KB/s " + chans
         case SPEEX_CODEC :
             let speex = getSpeexCodec(&channel.audiocodec).memory
@@ -147,7 +147,7 @@ class ChannelDetailViewController :
         case NO_CODEC :
             fallthrough
         default :
-            codecdetail = "No Audio"
+            codecdetail = NSLocalizedString("No Audio", comment: "create channel")
         }
         codeccell!.detailTextLabel?.text = codecdetail
     }
@@ -155,13 +155,13 @@ class ChannelDetailViewController :
     func getBandmodeString(bandmode : INT32) -> String {
         switch bandmode {
         case 2 :
-            return "32 KHz"
+            return NSLocalizedString("32 KHz", comment: "create channel")
         case 1 :
-            return "16 KHz"
+            return NSLocalizedString("16 KHz", comment: "create channel")
         case 0 :
             fallthrough
         default :
-            return "8 KHz"
+            return NSLocalizedString("8 KHz", comment: "create channel")
         }
     }
     
@@ -317,9 +317,9 @@ class ChannelDetailViewController :
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
-            return "Channel Properties"
+            return NSLocalizedString("Channel Properties", comment: "create channel")
         case 1 :
-            return "Commands"
+            return NSLocalizedString("Commands", comment: "create channel")
         default :
             return nil
         }

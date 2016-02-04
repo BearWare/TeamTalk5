@@ -54,7 +54,7 @@
 "JzB-tm-tld.normalTitle" = "Rediger";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
-"LPL-JY-xBM.normalTitle" = "Tekst Besked";
+"LPL-JY-xBM.normalTitle" = "Tekstbesked";
 
 /* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
 "Me4-OJ-iZH.title" = "Serverindstillinger";
@@ -84,7 +84,7 @@
 "V6G-Gm-l2U.normalTitle" = "Transmitter";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Select Voice";
+"VWP-v4-bY8.title" = "Vælg Stemme";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "Blank";
