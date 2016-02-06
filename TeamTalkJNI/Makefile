@@ -14,8 +14,8 @@ TT5DLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5
 TT5PRODLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5Pro
 
 #locations of 'hamcrest-core' and 'junit'
-HAMCRESTCORE_JAR := hamcrest-core-1.3.jar
-JUNIT_JAR := junit-4.11.jar
+HAMCRESTCORE_JAR ?= hamcrest-core-1.3.jar
+JUNIT_JAR ?= junit-4.11.jar
 
 CPPFLAGS := -fPIC
 
@@ -61,12 +61,12 @@ java:
 	cd src && mkdir ./build && javac -g:vars -parameters -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
-	cd jni && rm $(TT5DLL) $(TT5PRODLL)
+	cd jni && rm -f $(TT5DLL) $(TT5PRODLL)
 
 cleanjava:
 	cd src && find . -name \*.class -exec rm {} \;
 	cd test && find . -name \*.class -exec rm {} \;
-	cd src && rm -r build
+	cd src && rm -rf build
 
 junitcompile: native
 	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
