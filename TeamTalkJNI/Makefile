@@ -46,13 +46,13 @@ help:
 	@echo -e "\tE.g make TARGET=test_04_Auth"
 
 native:
-	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value
+	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value
 
 nativepro:
-	cd jni && g++ $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
+	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 java:
-	cd src && mkdir ./build && javac -g:vars -parameters -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
+	cd src && javac -g:vars -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
 	cd jni && rm -f $(TT5DLL) $(TT5PRODLL)
@@ -62,11 +62,17 @@ cleanjava:
 	cd test && find . -name \*.class -exec rm {} \;
 	cd src && rm -rf build
 
-junitcompile: native
+junitcompile: java
 	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+
+junitsrvcompile: java
+	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
 
 junit:  junitcompile
 	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) org.junit.runner.JUnitCore TeamTalkTestSuite
+
+junitsrv:  junitsrvcompile
+	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase: junitcompile
 	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)

@@ -6,13 +6,14 @@ import junit.framework.TestCase;
 
 public class TeamTalkTestCaseBase extends TestCase {
 
+    static final boolean PROEDITION = false, ENCRYPTED = false;
     static final boolean DEBUG_OUTPUT = false;
     static final int DEF_WAIT = 15000;
-    static final String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
-    static final String IPADDR = "my.server.ip.address";
 
-    static final int TCPPORT = 10333, UDPPORT = 10333;
-    static final boolean PROEDITION = false, ENCRYPTED = false;
+    static String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
+    static String IPADDR = "my.server.ip.address";
+
+    static int TCPPORT = 10333, UDPPORT = 10333;
 
     static final String UPLOADFILE = "filename.txt";
     static final String DOWNLOADFILE = "filename.txt";

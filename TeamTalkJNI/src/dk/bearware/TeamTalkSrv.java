@@ -38,16 +38,49 @@ public class TeamTalkSrv {
     public TeamTalkSrv(ServerCallback callback) {
         serverCallback = callback;
         ttsInst = initTeamTalk();
+        registerServerCallback(callback);
+    }
+
+    native void registerServerCallback(long lpTTSInstance, ServerCallback callback);
+    private void registerServerCallback(ServerCallback callback) {
+        registerServerCallback(ttsInst, callback);
     }
 
     private native long initTeamTalk();
-    private native void closeTeamTalk();
-    public native boolean setEncryptionContext(String szCertificateFile, String szPrivateKeyFile);
-    public native boolean runEventLoop(int pnWaitMs);
-    public native int updateServer(ServerProperties lpServerProperties);
-    public native int makeChannel(Channel lpChannel);
-    public native int updateChannel(Channel lpChannel);
-    public native int removeChannel(int nChannelID);
-    public native int moveUser(int nUserID, Channel lpChannel);
-    public native boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
+    native void closeTeamTalk(long lpTTSInstance);
+    private void closeTeamTalk() {
+        closeTeamTalk(ttsInst);
+    }
+    native boolean setEncryptionContext(long lpTTSInstance, String szCertificateFile, String szPrivateKeyFile);
+    public boolean setEncryptionContext(String szCertificateFile, String szPrivateKeyFile) {
+        return setEncryptionContext(ttsInst, szCertificateFile, szPrivateKeyFile);
+    }
+    native boolean runEventLoop(long lpTTSInstance, int pnWaitMs);
+    public boolean runEventLoop(int pnWaitMs) {
+        return runEventLoop(ttsInst, pnWaitMs);
+    }
+    native int updateServer(long lpTTSInstance, ServerProperties lpServerProperties);
+    public int updateServer(ServerProperties lpServerProperties) {
+        return updateServer(ttsInst, lpServerProperties);
+    }
+    native int makeChannel(long lpTTSInstance, Channel lpChannel);
+    public int makeChannel(Channel lpChannel) {
+        return makeChannel(ttsInst, lpChannel);
+    }
+    native int updateChannel(long lpTTSInstance, Channel lpChannel);
+    public int updateChannel(Channel lpChannel) {
+        return updateChannel(ttsInst, lpChannel);
+    }
+    native int removeChannel(long lpTTSInstance, int nChannelID);
+    public int removeChannel(int nChannelID) {
+        return removeChannel(ttsInst, nChannelID);
+    }
+    native int moveUser(long lpTTSInstance, int nUserID, Channel lpChannel);
+    public int moveUser(int nUserID, Channel lpChannel) {
+        return moveUser(ttsInst, nUserID, lpChannel);
+    }
+    native boolean startServer(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
+    public boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted) {
+        return startServer(ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
+    }
 }

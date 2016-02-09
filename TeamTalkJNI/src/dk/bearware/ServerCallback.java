@@ -21,7 +21,7 @@
 
 package dk.bearware;
 
-public abstract class ServerCallback {
+public class ServerCallback {
     
     public void userLogin(ClientErrorMsg lpClientErrorMsg,
                           User lpUser, UserAccount lpUserAccount) {

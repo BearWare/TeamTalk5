@@ -340,7 +340,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     {
         jclass cls_obj = env->FindClass("dk/bearware/ClientErrorMsg");
         jobject newObj = newObject(env, cls_obj);
-        setClientErrorMsg(env, msg.clienterrormsg, newObj);
+        setClientErrorMsg(env, msg.clienterrormsg, newObj, N2J);
         env->SetObjectField(pMsg, fid_cemsg, newObj);
     }
     break;
@@ -1134,7 +1134,7 @@ void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser)
    env->SetObjectField(lpBannedUser, fid_username, NEW_JSTRING(env, banned.szUsername));
 }
 
-void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClientErrorMsg)
+void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientErrorMsg, JConvert conv)
 {
    jclass cls_msg = env->GetObjectClass(lpClientErrorMsg);
 
@@ -1144,8 +1144,17 @@ void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClien
    assert(fid_err);
    assert(fid_msg);
 
-   env->SetIntField(lpClientErrorMsg, fid_err, cemsg.nErrorNo);
-   env->SetObjectField(lpClientErrorMsg, fid_msg, NEW_JSTRING(env, cemsg.szErrorMsg));
+   if(conv == N2J)
+   {
+       env->SetIntField(lpClientErrorMsg, fid_err, cemsg.nErrorNo);
+       env->SetObjectField(lpClientErrorMsg, fid_msg, NEW_JSTRING(env, cemsg.szErrorMsg));
+   }
+   else
+   {
+       ZERO_STRUCT(cemsg);
+       cemsg.nErrorNo = env->GetIntField(lpClientErrorMsg, fid_err);
+       TT_STRCPY(cemsg.szErrorMsg, ttstr(env, (jstring)env->GetObjectField(lpClientErrorMsg, fid_msg)));
+   }
 }
 
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv)

@@ -115,7 +115,7 @@ void setRemoteFile(JNIEnv* env, const RemoteFile& fileinfo, jobject lpRemoteFile
 void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics);
 void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTransfer);
 void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser);
-void setClientErrorMsg(JNIEnv* env, const ClientErrorMsg& cemsg, jobject lpClientErrorMsg);
+void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientErrorMsg, JConvert conv);
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv);
 void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWindow, JConvert conv);
 void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame);

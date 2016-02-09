@@ -7,6 +7,8 @@ TeamTalk_DLL/lib/x64/*.lib
 TeamTalk_DLL/*.m*
 TeamTalk_DLL/TeamTalk.h
 TeamTalk_DLL/TeamTalkSrv.h
+TeamTalk_DLL/*.so
+TeamTalk_DLL/*.dylib
 Copyright.txt
 Documentation
 Makefile
