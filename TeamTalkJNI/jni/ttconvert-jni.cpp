@@ -202,6 +202,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     jfieldID fid_userid = env->GetFieldID(cls_user, "nUserID", "I");
     jfieldID fid_username = env->GetFieldID(cls_user, "szUsername", "Ljava/lang/String;");
     jfieldID fid_userdata = env->GetFieldID(cls_user, "nUserData", "I");
+    jfieldID fid_usertype = env->GetFieldID(cls_user, "uUserType", "I");
     jfieldID fid_ipaddr = env->GetFieldID(cls_user, "szIPAddress", "Ljava/lang/String;");
     jfieldID fid_version = env->GetFieldID(cls_user, "uVersion", "I");
     jfieldID fid_chanid = env->GetFieldID(cls_user, "nChannelID", "I");
@@ -224,6 +225,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_userid);
     assert(fid_username);
     assert(fid_userdata);
+    assert(fid_usertype);
     assert(fid_ipaddr);
     assert(fid_version);
     assert(fid_chanid);
@@ -246,6 +248,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     env->SetIntField(lpUser, fid_userid, user.nUserID);
     env->SetObjectField(lpUser, fid_username, NEW_JSTRING(env, user.szUsername));
     env->SetIntField(lpUser, fid_userdata, user.nUserData);
+    env->SetIntField(lpUser, fid_usertype, user.uUserType);
     env->SetObjectField(lpUser, fid_ipaddr, NEW_JSTRING(env, user.szIPAddress));
     env->SetIntField(lpUser, fid_version, user.uVersion);
     env->SetIntField(lpUser, fid_chanid, user.nChannelID);

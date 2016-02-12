@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class TeamTalkTestCaseBase extends TestCase {
 
-    static final boolean PROEDITION = false, ENCRYPTED = false;
+    static boolean PROEDITION = false, ENCRYPTED = false;
     static final boolean DEBUG_OUTPUT = false;
     static final int DEF_WAIT = 15000;
 

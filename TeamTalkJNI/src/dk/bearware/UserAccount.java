@@ -32,4 +32,17 @@ public class UserAccount
     public String szInitChannel = "";
     public int[] autoOperatorChannels = new int[Constants.TT_CHANNELS_OPERATOR_MAX];
     public int nAudioCodecBpsLimit;
+
+    public void copy(UserAccount u)
+    {
+        szUsername = u.szUsername;
+        szPassword = u.szPassword;
+        uUserType = u.uUserType;
+        uUserRights = u.uUserRights;
+        nUserData = u.nUserData;
+        szNote = u.szNote;
+        szInitChannel = u.szInitChannel;
+        autoOperatorChannels = u.autoOperatorChannels.clone();
+        nAudioCodecBpsLimit = u.nAudioCodecBpsLimit;
+    }
 }

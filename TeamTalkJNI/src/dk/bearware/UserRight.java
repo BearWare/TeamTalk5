@@ -42,4 +42,7 @@ public interface UserRight
     public static final int USERRIGHT_TRANSMIT_DESKTOPINPUT       = 0x00008000;
     public static final int USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO    = 0x00010000;
     public static final int USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO    = 0x00020000;
+
+    public static final int USERRIGHT_ALL                         = 0xFFFFFFFF;
+    
 }

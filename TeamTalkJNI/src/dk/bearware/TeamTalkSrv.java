@@ -21,7 +21,7 @@
 
 package dk.bearware;
 
-public class TeamTalkSrv {
+public class TeamTalkSrv implements AutoCloseable {
     
     static {
         System.loadLibrary("TeamTalk5Pro-jni");
@@ -33,6 +33,10 @@ public class TeamTalkSrv {
 
     protected void finalize( ) throws Throwable {
         closeTeamTalk();
+    }
+
+    public void close() {
+        closeTeamTalk();        
     }
 
     public TeamTalkSrv(ServerCallback callback) {
@@ -82,5 +86,9 @@ public class TeamTalkSrv {
     native boolean startServer(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
     public boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted) {
         return startServer(ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
+    }
+    native boolean stopServer(long lpTTSInstance);
+    public boolean stopServer() {
+        return stopServer(ttsInst);
     }
 }

@@ -1,22 +1,52 @@
 package dk.bearware;
 
 import junit.framework.TestCase;
+import java.util.Vector;
 
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
+
+    Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
     protected void setUp() throws Exception {
         super.setUp();
 
+        PROEDITION = true;
+
         IPADDR = "192.168.1.110";
         TCPPORT = 12000;
         UDPPORT = 12000;
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = ADMIN_USERNAME;
+        useraccount.szPassword = ADMIN_PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_ADMIN;
+        useraccount.szNote = "An example administrator user account with all user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_ALL;
+        
+        useraccounts.add(useraccount);
+
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
+
+        for(TeamTalkSrv s : servers) {
+            s.stopServer();
+        }
+        servers.clear();
     }
 
-    boolean login_complete = false;
+    Vector<UserAccount> useraccounts = new Vector<UserAccount>();
+
+    Vector<String> banned_ipaddr = new Vector<String>();
+
+    UserAccount getUserAccount(String username) {
+        for(UserAccount u : useraccounts) {
+            if(u.szUsername.equals(username))
+                return u;
+        }
+        return null;
+    }
 
     ServerCallback cb = new ServerCallback() {
 
@@ -27,23 +57,326 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                            lpUserAccount.szPassword);
                 System.out.println(str);
 
-                //just accept user
-                lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                for(UserAccount u : useraccounts) {
+                    // validate user account
+                    if(u.szUsername.equals(lpUserAccount.szUsername) &&
+                       u.szPassword.equals(lpUserAccount.szPassword)) {
+                        // manually copy every field
+                        lpUserAccount.copy(u);
+                        lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                        return;
+                    }
+                }
 
-                //setup UserAccount, i.e. user-type and user-rights, and return it to TeamTalk server
-                lpUserAccount.uUserType = UserType.USERTYPE_DEFAULT;
-                lpUserAccount.szNote = "Hello there";
-                lpUserAccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
-                    UserRight.USERRIGHT_TRANSMIT_VOICE;
-
-                login_complete = true;
+                // login rejected
+                lpClientErrorMsg.nErrorNo = ClientError.CMDERR_INVALID_ACCOUNT;
+                lpClientErrorMsg.szErrorMsg = "Invalid username or password";
             }
+
+            public void userCreateUserAccount(ClientErrorMsg lpClientErrorMsg,
+                                              User lpUser, UserAccount lpUserAccount) {
+
+                String str = String.format("User %s is creating useraccount %s",
+                                           lpUser.szUsername, lpUserAccount.szUsername);
+                System.out.println(str);
+
+                switch(lpUser.uUserType) {
+                case UserType.USERTYPE_ADMIN :
+                    useraccounts.add(lpUserAccount);
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                    break;
+                case UserType.USERTYPE_DEFAULT :
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_NOT_AUTHORIZED;
+                    lpClientErrorMsg.szErrorMsg = "Hell no!";
+                    break;
+                default :
+                    assertTrue("User type not set", false);
+                    break;
+                }
+
+            }
+
+            public void userDeleteUserAccount(ClientErrorMsg lpClientErrorMsg,
+                                              User lpUser, String szUsername) {
+
+                String str = String.format("User %s is deleting useraccount %s",
+                                           lpUser.szUsername, szUsername);
+                System.out.println(str);
+
+                switch(lpUser.uUserType) {
+                case UserType.USERTYPE_ADMIN :
+                    UserAccount ua = null;
+                    for(UserAccount u : useraccounts) {
+                        if(u.szUsername.equals(szUsername))
+                            ua = u;
+                    }
+                    useraccounts.remove(ua);
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                    break;
+                case UserType.USERTYPE_DEFAULT :
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_NOT_AUTHORIZED;
+                    lpClientErrorMsg.szErrorMsg = "Hell no!";
+                    break;
+                default :
+                    assertTrue("User type not set", false);
+                    break;
+                }
+            }
+
+            public void userAddServerBan(ClientErrorMsg lpClientErrorMsg,
+                                         User lpBanner, User lpBanee) {
+
+                UserAccount ua = getUserAccount(lpBanner.szUsername);
+
+                if((ua.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0) {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                    banned_ipaddr.add(lpBanee.szIPAddress);
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_NOT_AUTHORIZED;
+                    lpClientErrorMsg.szErrorMsg = "Hell no!";
+                }
+            }
+    
+            public void userAddServerBanIPAddress(ClientErrorMsg lpClientErrorMsg,
+                                                  User lpBanner, String szIPAddress) {
+
+                UserAccount ua = getUserAccount(lpBanner.szUsername);
+
+                if((ua.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0) {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                    banned_ipaddr.add(szIPAddress);
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_NOT_AUTHORIZED;
+                    lpClientErrorMsg.szErrorMsg = "Hell no!";
+                }
+            }
+
+            public void userDeleteServerBan(ClientErrorMsg lpClientErrorMsg,
+                                            User lpUser, String szIPAddress) {
+                
+                UserAccount ua = getUserAccount(lpUser.szUsername);
+
+                if((ua.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0) {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                    banned_ipaddr.remove(szIPAddress);
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_NOT_AUTHORIZED;
+                    lpClientErrorMsg.szErrorMsg = "Hell no!";
+                }
+            }
+
             
         };
 
-    public void test_01_This() {
+    public void test_01_UserLogin() {
 
-        TeamTalkSrv srv = new TeamTalkSrv(cb);
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+
+        assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+        while(server.runEventLoop(0));
+
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+
+        int cmdid = client1.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        assertTrue("Login client", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        //check that the client gets back the same user account we created in the server
+        assertTrue("wait login", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
+        assertEquals("Account identity", useraccount.szUsername, msg.useraccount.szUsername);
+        assertEquals("Account type", useraccount.uUserType, msg.useraccount.uUserType);
+        assertEquals("Account rights", useraccount.uUserRights, msg.useraccount.uUserRights);
+        assertEquals("Account note", useraccount.szNote, msg.useraccount.szNote);
+
+        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertEquals("Login success", cmdid, msg.nSource);
+    }
+
+    public void test_02_CreateAccount() {
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+
+        assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+        while(server.runEventLoop(0));
+
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+
+        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        assertTrue("Login client", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        cmdid = client1.doNewUserAccount(useraccount);
+        assertTrue("New account cmd", cmdid > 0);
+
+        int n_accounts = useraccounts.size();
+
+        while(server.runEventLoop(100));
+
+        assertEquals("One more account", useraccounts.size(), n_accounts + 1);
+
+        waitCmdSuccess(client1, cmdid, 1000);
+
+        UserAccount srv_ua = getUserAccount(useraccount.szUsername);
+        assertEquals("Account identity", srv_ua.szUsername, useraccount.szUsername);
+        assertEquals("Account type", srv_ua.uUserType, useraccount.uUserType);
+        assertEquals("Account rights", srv_ua.uUserRights, useraccount.uUserRights);
+        assertEquals("Account note", srv_ua.szNote, useraccount.szNote);
+    }
+
+    public void test_03_DeleteAccount() {
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+        while(server.runEventLoop(0));
+
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+
+        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        assertTrue("Login client1", cmdid > 0);
+
+        cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        assertTrue("Login client2", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        int n_accounts = useraccounts.size();
+        cmdid = client1.doDeleteUserAccount(ADMIN_USERNAME);
+
+        while(server.runEventLoop(100));
+
+        assertEquals("One less account", useraccounts.size(), n_accounts - 1);
+
+        waitCmdSuccess(client1, cmdid, 1000);
+
+        cmdid = client2.doDeleteUserAccount(ADMIN_USERNAME);
+
+        while(server.runEventLoop(100));
+
+        waitCmdError(client2, cmdid, 1000);
+        
+    }
+
+    public void test_04_banUser() {
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+        while(server.runEventLoop(0));
+
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+
+        int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
+        assertTrue("Login client1", cmdid > 0);
+
+        cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
+        assertTrue("Login client2", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        int n_banned = banned_ipaddr.size();
+        cmdid = client1.doBanUser(client2.getMyUserID(), 0);
+
+        while(server.runEventLoop(100));
+
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
+
+        cmdid = client1.doUnBanUser(banned_ipaddr.get(0), 0);
+
+        while(server.runEventLoop(100));
+
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        assertEquals("Banned user", n_banned, banned_ipaddr.size());
+
+        cmdid = client1.doBanIPAddress("11.22.33.44", 0);
+
+        while(server.runEventLoop(100));
+
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
+        
+    }
+
+    public TeamTalkSrv newServerInstance() {
+
+        TeamTalkSrv server = new TeamTalkSrv(cb);
 
         Channel chan = new Channel();
         chan.nChannelID = 1;
@@ -52,15 +385,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec = new AudioCodec(true);
         chan.audiocfg = new AudioConfig(true);
 
-        assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, srv.makeChannel(chan));
+        assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
-        assertTrue("Start server", srv.startServer(IPADDR, TCPPORT, UDPPORT, false));
-        
-        while(!login_complete) {
-            if(srv.runEventLoop(1000))
-                System.out.println("Event");
-            else
-                System.out.println("No Event");
-        }
+        assertTrue("Start server", server.startServer(IPADDR, TCPPORT, UDPPORT, ENCRYPTED));
+
+        servers.add(server);
+
+        return server;
     }
 }

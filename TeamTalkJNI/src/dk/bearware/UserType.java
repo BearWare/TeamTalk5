@@ -23,7 +23,7 @@ package dk.bearware;
 
 public class UserType {
 
-    public static int USERTYPE_NONE    = 0x00;
-    public static int USERTYPE_DEFAULT = 0x01;
-    public static int USERTYPE_ADMIN   = 0x02;
+    public static final int USERTYPE_NONE    = 0x00;
+    public static final int USERTYPE_DEFAULT = 0x01;
+    public static final int USERTYPE_ADMIN   = 0x02;
 }
