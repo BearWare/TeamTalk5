@@ -402,7 +402,7 @@ extern "C" {
 
         jclass cls = env->FindClass("dk/bearware/ServerLogger");
         assert(cls);
-        jmethodID method = env->GetMethodID(cls, "userLeft", 
+        jmethodID method = env->GetMethodID(cls, "userLeftChannel", 
                                             "(Ldk/bearware/User;Ldk/bearware/Channel;)V");
         assert(method);
 
@@ -495,7 +495,6 @@ extern "C" {
         JNIEnv* env = envs[lpTTSInstance];
 
         jobject user_obj = newUser(env, lpUser);
-        assert(user_obj);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
 
