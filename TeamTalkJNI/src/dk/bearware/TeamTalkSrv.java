@@ -30,6 +30,7 @@ public class TeamTalkSrv implements AutoCloseable {
     long ttsInst = 0;
 
     ServerCallback serverCallback;
+    ServerLogger serverLogger;
 
     protected void finalize( ) throws Throwable {
         closeTeamTalk();
@@ -45,9 +46,22 @@ public class TeamTalkSrv implements AutoCloseable {
         registerServerCallback(callback);
     }
 
+    public TeamTalkSrv(ServerCallback callback, ServerLogger logger) {
+        serverCallback = callback;
+        serverLogger = logger;
+        ttsInst = initTeamTalk();
+        registerServerCallback(callback);
+        registerServerLogger(logger);
+    }
+
     native void registerServerCallback(long lpTTSInstance, ServerCallback callback);
     private void registerServerCallback(ServerCallback callback) {
         registerServerCallback(ttsInst, callback);
+    }
+
+    native void registerServerLogger(long lpTTSInstance, ServerLogger logger);
+    private void registerServerLogger(ServerLogger logger) {
+        registerServerLogger(ttsInst, logger);
     }
 
     private native long initTeamTalk();

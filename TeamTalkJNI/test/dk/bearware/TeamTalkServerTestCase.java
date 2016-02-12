@@ -12,7 +12,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         PROEDITION = true;
 
-        IPADDR = "192.168.1.110";
+        IPADDR = "127.0.0.1";
         TCPPORT = 12000;
         UDPPORT = 12000;
 
@@ -48,7 +48,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         return null;
     }
 
-    ServerCallback cb = new ServerCallback() {
+    ServerCallback cmdcallback = new ServerCallback() {
 
             public void userLogin(ClientErrorMsg lpClientErrorMsg,
                                   User lpUser, UserAccount lpUserAccount) {
@@ -169,6 +169,135 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             }
 
             
+        };
+
+    ServerLogger logger = new ServerLogger() {
+            
+            public void userConnected(User lpUser) {
+                String str = String.format("User with IP-address %s connected",
+                                           lpUser.szIPAddress);
+                System.out.println(str);
+            }
+    
+            public void userLoggedIn(User lpUser) {
+                String str = String.format("User %s logged in with nickname %s",
+                                           lpUser.szUsername, lpUser.szNickname);
+                System.out.println(str);
+            }
+
+            public void userLoggedOut(User lpUser) {
+                String str = String.format("User %s logged out",
+                                           lpUser.szUsername);
+                System.out.println(str);
+            }
+
+            public void userDisconnected(User lpUser) {
+                String str = String.format("User %s disconnected",
+                                           lpUser.szUsername);
+                System.out.println(str);
+            }
+
+            public void userTimedout(User lpUser) {
+                String str = String.format("User %s timed out",
+                                           lpUser.szUsername);
+                System.out.println(str);
+            }
+
+            public void userKicked(User lpKicker, User lpKickee, Channel lpChannel) {
+                String str = String.format("User %s kicked by %s",
+                                           lpKicker.szUsername, lpKickee.szUsername);
+                System.out.println(str);
+            }
+
+            public void userBanned(User lpBanner, User lpBanee, Channel lpChannel) {
+                String str = String.format("User %s banned by %s",
+                                           lpBanner.szUsername, lpBanee.szUsername);
+                System.out.println(str);
+            }
+    
+            public void userUnbanned(User lpUnbanner, String szIPAddress) {
+                String str = String.format("User %s unbanned IP-address %s",
+                                           lpUnbanner.szUsername, szIPAddress);
+                System.out.println(str);
+            }
+
+            public void userUpdated(User lpUser) {
+                String str = String.format("User %s updated properties",
+                                           lpUser.szUsername);
+                System.out.println(str);
+            }
+
+            public void userJoinedChannel(User lpUser, Channel lpChannel) {
+                String str = String.format("User %s join channel #%d",
+                                           lpUser.szUsername, lpChannel.nChannelID);
+                System.out.println(str);
+            }
+    
+            public void userLeftChannel(User lpUser, Channel lpChannel) {
+                String str = String.format("User %s left channel #%d",
+                                           lpUser.szUsername, lpChannel.nChannelID);
+                System.out.println(str);
+            }
+
+            public void userMoved(User lpMover, User lpMovee) {
+                String str = String.format("User %s moved %s to channel #%d",
+                                           lpMover.szUsername, lpMovee.szUsername,
+                                           lpMovee.nChannelID);
+                System.out.println(str);
+            }
+
+            public void userTextMessage(User lpUser, TextMessage lpTextMessage) {
+                String str = String.format("User %s sent text message",
+                                           lpUser.szUsername);
+                System.out.println(str);
+            }
+
+            public void channelCreated(Channel lpChannel, User lpUser) {
+                String str = String.format("Channel #%d created",
+                                           lpChannel.nChannelID);
+                System.out.println(str);
+            }
+
+            public void channelUpdated(Channel lpChannel, User lpUser) {
+                String str = String.format("Channel #%d updated",
+                                           lpChannel.nChannelID);
+                System.out.println(str);
+            }
+    
+            public void channelRemoved(Channel lpChannel, User lpUser) {
+                String str = String.format("Channel #%d removed",
+                                           lpChannel.nChannelID);
+                System.out.println(str);
+            }
+
+            public void fileUploaded(RemoteFile lpRemoteFile, User lpUser) {
+                String str = String.format("File %s uploaded to channel #%d",
+                                           lpRemoteFile.szFileName, lpRemoteFile.nChannelID);
+                System.out.println(str);
+            }
+
+            public void fileDownloaded(RemoteFile lpRemoteFile, User lpUser) {
+                String str = String.format("File %s downloaded to channel #%d",
+                                           lpRemoteFile.szFileName, lpRemoteFile.nChannelID);
+                System.out.println(str);
+            }
+
+            public void fileDelete(RemoteFile lpRemoteFile, User lpUser) {
+                String str = String.format("File %s deleted from channel #%d",
+                                           lpRemoteFile.szFileName, lpRemoteFile.nChannelID);
+                System.out.println(str);
+            }
+
+            public void serverUpdated(ServerProperties lpServerProperties, User lpUser) {
+                String str = String.format("Server properties updated, name is now %s",
+                                           lpServerProperties.szServerName);
+                System.out.println(str);
+            }
+
+            public void serverSavedConfig(User lpUser) {
+                String str = String.format("Server settings saved");
+                System.out.println(str);
+            }
         };
 
     public void test_01_UserLogin() {
@@ -376,7 +505,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public TeamTalkSrv newServerInstance() {
 
-        TeamTalkSrv server = new TeamTalkSrv(cb);
+        TeamTalkSrv server = new TeamTalkSrv(cmdcallback, logger);
 
         Channel chan = new Channel();
         chan.nChannelID = 1;

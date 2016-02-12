@@ -124,6 +124,92 @@ jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev)
     return newObj;
 }
 
+jobject newChannel(JNIEnv* env, const Channel* lpChannel) {
+    jclass cls = env->FindClass("dk/bearware/Channel");
+    assert(cls);
+    jobject channel_obj = NULL;
+    if(lpChannel) {
+        channel_obj = newObject(env, cls);
+        assert(channel_obj);
+        setChannel(env, const_cast<Channel&>(*lpChannel), channel_obj, N2J);
+    }
+    return channel_obj;
+}
+
+jobject newUser(JNIEnv* env, const User* lpUser) {
+    jclass cls = env->FindClass("dk/bearware/User");
+    assert(cls);
+    jobject user_obj = NULL;
+    if(lpUser) {
+        user_obj = newObject(env, cls);
+        assert(user_obj);
+        setUser(env, const_cast<User&>(*lpUser), user_obj);
+    }
+    return user_obj;
+}
+
+jobject newClientErrorMsg(JNIEnv* env, const ClientErrorMsg* lpClientErrorMsg) {
+
+    jclass cls = env->FindClass("dk/bearware/ClientErrorMsg");
+    jobject errmsg_obj = NULL;
+
+    if(lpClientErrorMsg) {
+        errmsg_obj = newObject(env, cls);
+        assert(errmsg_obj);
+        setClientErrorMsg(env, const_cast<ClientErrorMsg&>(*lpClientErrorMsg), errmsg_obj, N2J);
+    }
+    return errmsg_obj;
+}
+
+jobject newUserAccount(JNIEnv* env, const UserAccount* lpUserAccount) {
+    jclass cls = env->FindClass("dk/bearware/UserAccount");
+    jobject ua_obj = NULL;
+
+    if(lpUserAccount) {
+        ua_obj = newObject(env, cls);
+        assert(ua_obj);
+        setUserAccount(env, const_cast<UserAccount&>(*lpUserAccount), ua_obj, N2J);
+    }
+    return ua_obj;
+}
+
+jobject newTextMessage(JNIEnv* env, const TextMessage* lpTextMessage) {
+    jclass cls = env->FindClass("dk/bearware/TextMessage");
+    jobject tm_obj = NULL;
+
+    if(lpTextMessage) {
+        tm_obj = newObject(env, cls);
+        assert(tm_obj);
+        setTextMessage(env, const_cast<TextMessage&>(*lpTextMessage), tm_obj, N2J);
+    }
+    return tm_obj;
+}
+
+jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile) {
+    jclass cls = env->FindClass("dk/bearware/RemoteFile");
+    jobject rf_obj = NULL;
+
+    if(lpRemoteFile) {
+        rf_obj = newObject(env, cls);
+        assert(rf_obj);
+        setRemoteFile(env, const_cast<RemoteFile&>(*lpRemoteFile), rf_obj);
+    }
+    return rf_obj;
+
+}
+
+jobject newServerProperties(JNIEnv* env, const ServerProperties* lpServerProperties) {
+    jclass cls = env->FindClass("dk/bearware/ServerProperties");
+    jobject sp_obj = NULL;
+
+    if(lpServerProperties) {
+        sp_obj = newObject(env, cls);
+        assert(sp_obj);
+        setServerProperties(env, const_cast<ServerProperties&>(*lpServerProperties), sp_obj, N2J);
+    }
+    return sp_obj;
+}
+
 void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
 {
     jclass cls_chan = env->GetObjectClass(lpChannel);

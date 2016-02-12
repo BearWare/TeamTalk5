@@ -98,6 +98,13 @@ enum JConvert
 jobject newObject(JNIEnv* env, jclass cls_obj);
 jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev);
 jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev);
+jobject newChannel(JNIEnv* env, const Channel* lpChannel);
+jobject newUser(JNIEnv* env, const User* lpUser);
+jobject newClientErrorMsg(JNIEnv* env, const ClientErrorMsg* lpClientErrorMsg);
+jobject newUserAccount(JNIEnv* env, const UserAccount* lpUserAccount);
+jobject newTextMessage(JNIEnv* env, const TextMessage* lpTextMessage);
+jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile);
+jobject newServerProperties(JNIEnv* env, const ServerProperties* lpServerProperties);
 void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv);
 void setUser(JNIEnv* env, const User& user, jobject lpUser);
 void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg);
