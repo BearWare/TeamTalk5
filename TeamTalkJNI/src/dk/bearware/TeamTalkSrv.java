@@ -77,6 +77,10 @@ public class TeamTalkSrv implements AutoCloseable {
     public boolean runEventLoop(int pnWaitMs) {
         return runEventLoop(ttsInst, pnWaitMs);
     }
+    native int setChannelFilesRoot(long lpTTSInstance, String szFilesRoot, long nMaxDiskUsage, long nDefaultChannelQuota);
+    public int setChannelFilesRoot(String szFilesRoot, long nMaxDiskUsage, long nDefaultChannelQuota) {
+        return setChannelFilesRoot(ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
+    }
     native int updateServer(long lpTTSInstance, ServerProperties lpServerProperties);
     public int updateServer(ServerProperties lpServerProperties) {
         return updateServer(ttsInst, lpServerProperties);
@@ -92,6 +96,15 @@ public class TeamTalkSrv implements AutoCloseable {
     native int removeChannel(long lpTTSInstance, int nChannelID);
     public int removeChannel(int nChannelID) {
         return removeChannel(ttsInst, nChannelID);
+    }
+    native int addFileToChannel(long lpTTSInstance, String szLocalFilePath,
+                                RemoteFile lpRemoteFile);
+    public int addFileToChannel(String szLocalFilePath, RemoteFile lpRemoteFile) {
+        return addFileToChannel(ttsInst, szLocalFilePath, lpRemoteFile);
+    }
+    native int removeFileFromChannel(long lpTTSInstance, RemoteFile lpRemoteFile);
+    public int removeFileFromChannel(RemoteFile lpRemoteFile) {
+        return removeFileFromChannel(ttsInst, lpRemoteFile);
     }
     native int moveUser(long lpTTSInstance, int nUserID, Channel lpChannel);
     public int moveUser(int nUserID, Channel lpChannel) {

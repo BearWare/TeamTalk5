@@ -701,7 +701,17 @@ extern "C" {
 
         envs[reinterpret_cast<TTSInstance*>(lpTTSInstance)] = env;
 
-        return TTS_RunEventLoop(reinterpret_cast<TTSInstance*>(lpTTSInstance), &pnWaitMs);
+        INT32 _pnWaitMs = pnWaitMs;
+
+        return TTS_RunEventLoop(reinterpret_cast<TTSInstance*>(lpTTSInstance), &_pnWaitMs);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_setChannelFilesRoot
+    (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szFilesRoot,
+     jlong nMaxDiskUsage, jlong nDefaultChannelQuota) {
+
+        return TTS_SetChannelFilesRoot(reinterpret_cast<TTSInstance*>(lpTTSInstance),
+                                       ttstr(env, szFilesRoot), nMaxDiskUsage, nDefaultChannelQuota);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_updateServer
@@ -733,6 +743,25 @@ extern "C" {
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_removeChannel
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jint nChannelID) {
         return TTS_RemoveChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), nChannelID);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_addFileToChannel
+        (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szLocalFilePath, jobject lpRemoteFile) {
+        RemoteFile rmfile;
+        setRemoteFile(env, rmfile, lpRemoteFile, J2N);
+
+        return TTS_AddFileToChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+                                    ttstr(env, szLocalFilePath), &rmfile);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_removeFileFromChannel
+        (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jobject lpRemoteFile) {
+
+        RemoteFile rmfile;
+        setRemoteFile(env, rmfile, lpRemoteFile, J2N);
+
+        return TTS_RemoveFileFromChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+                                         &rmfile);
     }
     
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_moveUser

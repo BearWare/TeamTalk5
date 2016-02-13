@@ -192,7 +192,7 @@ jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile) {
     if(lpRemoteFile) {
         rf_obj = newObject(env, cls);
         assert(rf_obj);
-        setRemoteFile(env, const_cast<RemoteFile&>(*lpRemoteFile), rf_obj);
+        setRemoteFile(env, const_cast<RemoteFile&>(*lpRemoteFile), rf_obj, N2J);
     }
     return rf_obj;
 
@@ -461,7 +461,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     {
         jclass cls_obj = env->FindClass("dk/bearware/RemoteFile");
         jobject newObj = newObject(env, cls_obj);
-        setRemoteFile(env, msg.remotefile, newObj);
+        setRemoteFile(env, msg.remotefile, newObj, N2J);
         env->SetObjectField(pMsg, fid_rfile, newObj);
     }
     break;
@@ -1018,7 +1018,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetObjectField(lpAccount, fid_note, NEW_JSTRING(env, account.szNote));
         env->SetObjectField(lpAccount, fid_initchan, NEW_JSTRING(env, account.szInitChannel));
         jintArray intArr = env->NewIntArray(TT_CHANNELS_OPERATOR_MAX);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX];
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
@@ -1034,7 +1034,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         TT_STRCPY(account.szNote, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_note)));
         TT_STRCPY(account.szInitChannel, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_initchan)));
         jintArray intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX];
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);
@@ -1100,7 +1100,7 @@ void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerS
     }
 }
 
-void setRemoteFile(JNIEnv* env, const RemoteFile& fileinfo, jobject lpRemoteFile)
+void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JConvert conv)
 {
     jclass cls_finfo = env->GetObjectClass(lpRemoteFile);
     
@@ -1116,11 +1116,21 @@ void setRemoteFile(JNIEnv* env, const RemoteFile& fileinfo, jobject lpRemoteFile
     assert(fid_size);
     assert(fid_user);
 
-    env->SetIntField(lpRemoteFile, fid_id, fileinfo.nFileID);
-    env->SetIntField(lpRemoteFile, fid_cid, fileinfo.nChannelID);
-    env->SetObjectField(lpRemoteFile, fid_name, NEW_JSTRING(env, fileinfo.szFileName));
-    env->SetLongField(lpRemoteFile, fid_size, fileinfo.nFileSize);
-    env->SetObjectField(lpRemoteFile, fid_user, NEW_JSTRING(env, fileinfo.szUsername));
+    if(conv == N2J) {
+        env->SetIntField(lpRemoteFile, fid_id, fileinfo.nFileID);
+        env->SetIntField(lpRemoteFile, fid_cid, fileinfo.nChannelID);
+        env->SetObjectField(lpRemoteFile, fid_name, NEW_JSTRING(env, fileinfo.szFileName));
+        env->SetLongField(lpRemoteFile, fid_size, fileinfo.nFileSize);
+        env->SetObjectField(lpRemoteFile, fid_user, NEW_JSTRING(env, fileinfo.szUsername));
+    }
+    else {
+        ZERO_STRUCT(fileinfo);
+        fileinfo.nFileID = env->GetIntField(lpRemoteFile, fid_id);
+        fileinfo.nChannelID = env->GetIntField(lpRemoteFile, fid_cid);
+        TT_STRCPY(fileinfo.szFileName, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_name)));
+        fileinfo.nFileSize = env->GetLongField(lpRemoteFile, fid_size);
+        TT_STRCPY(fileinfo.szUsername, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_user)));
+    }
 }
 
 void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics)

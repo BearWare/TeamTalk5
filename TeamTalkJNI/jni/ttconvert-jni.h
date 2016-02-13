@@ -118,7 +118,7 @@ void setClientStatistics(JNIEnv* env, const ClientStatistics& stats, jobject lpS
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
 void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConvert conv);
 void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerStatistics, JConvert conv);
-void setRemoteFile(JNIEnv* env, const RemoteFile& fileinfo, jobject lpRemoteFile);
+void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JConvert conv);
 void setUserStatistics(JNIEnv* env, const UserStatistics& stats, jobject lpUserStatistics);
 void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTransfer);
 void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser);

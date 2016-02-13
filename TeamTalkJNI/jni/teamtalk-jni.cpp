@@ -1270,7 +1270,7 @@ extern "C" {
                 for(size_t i=0;i<(size_t)n_files;i++)
                 {
                     jobject file_obj = newObject(env, cls);
-                    setRemoteFile(env, files[i], file_obj);
+                    setRemoteFile(env, files[i], file_obj, N2J);
                     env->SetObjectArrayElement(lpRemoteFiles, i, file_obj);
                 }
             }
@@ -1293,7 +1293,7 @@ extern "C" {
         if(TT_GetChannelFile(reinterpret_cast<TTInstance*>(lpTTInstance), 
                              nChannelID, nFileID, &finfo))
         {
-            setRemoteFile(env, finfo, lpRemoteFile);
+            setRemoteFile(env, finfo, lpRemoteFile, N2J);
             return true;
         }
         return false;
