@@ -7,14 +7,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
+    String FILESTORAGE_FOLDER = "/tmp";
+    long MAX_DISKUSAGE = 1000000000, DEFAULT_CHANNEL_QUOTA = 10000000;
+
     protected void setUp() throws Exception {
         super.setUp();
 
         PROEDITION = true;
 
-        IPADDR = "127.0.0.1";
-        TCPPORT = 12000;
-        UDPPORT = 12000;
+        // IPADDR = "127.0.0.1";
+        // TCPPORT = 12000;
+        // UDPPORT = 12000;
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = ADMIN_USERNAME;
@@ -82,7 +85,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
                 switch(lpUser.uUserType) {
                 case UserType.USERTYPE_ADMIN :
+                    
+                    // remove existing user account
+                    UserAccount ua = null;
+                    for(UserAccount u : useraccounts) {
+                        if(u.szUsername.equals(lpUserAccount.szUsername))
+                            ua = u;
+                    }
+                    useraccounts.remove(ua);
+
+                    // add user account to list
                     useraccounts.add(lpUserAccount);
+
                     lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
                     break;
                 case UserType.USERTYPE_DEFAULT :
@@ -205,7 +219,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
             public void userKicked(User lpKicker, User lpKickee, Channel lpChannel) {
                 String str = String.format("User %s kicked by %s",
-                                           lpKicker.szUsername, lpKickee.szUsername);
+                                           lpKicker != null? lpKicker.szUsername : "unknown", lpKickee.szUsername);
                 System.out.println(str);
             }
 
@@ -503,9 +517,21 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         
     }
 
+    public void _test_05_runServer() {
+
+        TeamTalkSrv server = newServerInstance();
+
+        System.out.println("Running TeamTalk server forever");
+        while(server.runEventLoop(-1));
+
+    }
+
     public TeamTalkSrv newServerInstance() {
 
         TeamTalkSrv server = new TeamTalkSrv(cmdcallback, logger);
+
+        assertEquals("File storage", ClientError.CMDERR_SUCCESS,
+                     server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
 
         Channel chan = new Channel();
         chan.nChannelID = 1;
