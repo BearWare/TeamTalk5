@@ -3318,8 +3318,7 @@ namespace BearWare
          * @brief Cause client instance event thread to schedule an update
          * event.
          *
-         * Normally all events of type #TTMessage received from
-         * GetMessage() are due to a state change in the client
+         * Normally all events are due to a state change in the client
          * instance. The state change (#ClientEvent) is submitted by the
          * client instance's internal thread. In some cases it's, however,
          * convenient to make the internal thread submit the latest
