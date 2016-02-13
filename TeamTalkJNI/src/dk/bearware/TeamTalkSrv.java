@@ -21,12 +21,8 @@
 
 package dk.bearware;
 
-public class TeamTalkSrv implements AutoCloseable {
+public abstract class TeamTalkSrv implements AutoCloseable {
     
-    static {
-        System.loadLibrary("TeamTalk5Pro-jni");
-    }
-
     long ttsInst = 0;
 
     ServerCallback serverCallback;
@@ -40,13 +36,13 @@ public class TeamTalkSrv implements AutoCloseable {
         closeTeamTalk();        
     }
 
-    public TeamTalkSrv(ServerCallback callback) {
+    protected TeamTalkSrv(ServerCallback callback) {
         serverCallback = callback;
         ttsInst = initTeamTalk();
         registerServerCallback(callback);
     }
 
-    public TeamTalkSrv(ServerCallback callback, ServerLogger logger) {
+    protected TeamTalkSrv(ServerCallback callback, ServerLogger logger) {
         serverCallback = callback;
         serverLogger = logger;
         ttsInst = initTeamTalk();
