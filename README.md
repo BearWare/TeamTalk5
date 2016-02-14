@@ -17,8 +17,8 @@ To build the TeamTalk client or server projects you must first download the
   * [Android arm-v7](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4223/tt5sdk_v5.1.0.4223_android_armv7a.tar.gz)  **rev. 4223**
   * [iOS 7.0+ universal](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4407/tt5sdk_v5.1.2.4407_ios_universal.tar.gz)  **rev. 4407**
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5prosdk_v5.1.0.4236_win32.zip)  **rev. 4236**
-  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5prosdk_v5.1.0.4236_win64.zip)  **rev. 4236**
+  * [Windows 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/tt5prosdk_v5.1.2.4435_win32.zip)  **rev. 4435**
+  * [Windows 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/tt5prosdk_v5.1.2.4435_win64.zip)  **rev. 4435**
   * [Mac 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5prosdk_v5.1.0.4236_macos_x86_64.tar.gz) **rev. 4236**
   * [Debian 7 32-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5prosdk_v5.1.0.4236_debian7_i386.tar.gz) **rev. 4236**
   * [Debian 7 64-bit](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/tt5prosdk_v5.1.0.4236_debian7_x86_64.tar.gz) **rev. 4236**
