@@ -4,7 +4,7 @@ Repository for TeamTalk 5 development.
 
 ## Download TeamTalk 5 SDK
 
-To build the TeamTalk client projects you must first download the
+To build the TeamTalk client or server projects you must first download the
 [TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) to obtain the client and server binaries.
 
 * TeamTalk 5 SDK Standard Edition - **Beta** releases
@@ -79,3 +79,12 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Requires **TeamTalkJNI** project as library dependency
 * **ttphpadmin**
   * Console PHP-script for administrating a TeamTalk 5 server.
+
+## TeamTalk 5 Servers
+Sample applications for writing a TeamTalk 5 server are located in the Examples folder.
+* **TeamTalkServer**
+  * TeamTalk 5 server application written in C++
+  * Requires **TeamTalk_DLL** project for DLL dependency
+* **jTeamTalkServer**
+  * TeamTalk 5 server application written in Java
+  * Requires **TeamTalk_DLL** and **TeamTalkJNI** for DLL dependencies
