@@ -13,7 +13,6 @@ Library dependencies:
     * TeamTalk 5 Professional Edition  
 * **TeamTalkJNI**
   * TeamTalk5.jar
-    * 
   * libTeamTalk5-jni.so
     * TeamTalk 5 Standard Edition
   * libTeamTalk5Pro-jni.so
