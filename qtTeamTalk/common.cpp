@@ -801,7 +801,7 @@ void deleteLatestHost(int index)
         tmp = HostEntry();
     }
     
-    for(int i=0;i<hosts.size();i++)
+    for(i=0;i<hosts.size();i++)
     {
         ttSettings->remove(QString(SETTINGS_LATESTHOST_HOSTADDR).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_TCPPORT).arg(i));
@@ -813,11 +813,14 @@ void deleteLatestHost(int index)
         ttSettings->remove(QString(SETTINGS_LATESTHOST_CHANNELPASSWD).arg(i));
     }
 
-    hosts.removeAt(index);
-
+    i=0;
     while(!hosts.isEmpty())
     {
-        addLatestHost(hosts.pop());
+        if(i != index)
+            addLatestHost(hosts.pop());
+        else
+            hosts.pop();
+        i++;
     }
 }
 
