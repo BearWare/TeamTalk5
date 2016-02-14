@@ -81,7 +81,7 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Console PHP-script for administrating a TeamTalk 5 server.
 
 ## TeamTalk 5 Servers
-Sample applications for writing a TeamTalk 5 server are located in the Examples folder.
+Sample applications for writing a TeamTalk 5 server are located in the Examples folder. Building a TeamTalk 5 server requires TeamTalk 5 Professional Edition.
 * **TeamTalkServer**
   * TeamTalk 5 server application written in C++
   * Requires **TeamTalk_DLL** project for DLL dependency
