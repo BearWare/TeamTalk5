@@ -31,15 +31,15 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalk_DLL**
   * TeamTalk 5 C-API DLL project 
   * C-API header files for TeamTalk 5 DLL
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/C-API/)
-    * iOS introduction [here](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/C-API/ttlib.html#ttdllios)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/docs/C-API/)
+    * iOS introduction [here](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/docs/C-API/ttlib.html#ttdllios)
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/NET/)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * **TeamTalkJNI**
   * TeamTalk 5 JNI project with Java wrapper classes
-    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.0.4236/docs/Java/)
+    * Preliminary API [Documentation](http://bearware.dk/test/TeamTalk5SDK/v5.1.2.4435/docs/Java/)
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
     * Based on Android API Level 16
