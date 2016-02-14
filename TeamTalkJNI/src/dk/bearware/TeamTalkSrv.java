@@ -36,6 +36,11 @@ public abstract class TeamTalkSrv implements AutoCloseable {
         closeTeamTalk();        
     }
 
+    public static native String getVersion();
+
+    public static native boolean setLicenseInformation(String szRegName,
+                                                       String szRegKey);
+
     protected TeamTalkSrv(ServerCallback callback) {
         serverCallback = callback;
         ttsInst = initTeamTalk();

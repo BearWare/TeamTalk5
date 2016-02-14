@@ -612,6 +612,22 @@ extern "C" {
         env->CallObjectMethod(cb_obj, method, user_obj);
     }
 
+    JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkSrv_getVersion(JNIEnv* env,
+                                                                      jclass)
+    {
+        const TTCHAR* ttv = TT_GetVersion();
+        return NEW_JSTRING(env, ttv);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_setLicenseInformation(JNIEnv* env,
+                                                                                   jclass,
+                                                                                   jstring szRegName,
+                                                                                   jstring szRegKey)
+    {
+        THROW_NULLEX(env, szRegName, false);
+        THROW_NULLEX(env, szRegKey, false);
+        return TT_SetLicenseInformation(ttstr(env, szRegName), ttstr(env, szRegKey));
+    }
 
     JNIEXPORT jlong JNICALL Java_dk_bearware_TeamTalkSrv_initTeamTalk
     (JNIEnv *env, jobject thiz) {

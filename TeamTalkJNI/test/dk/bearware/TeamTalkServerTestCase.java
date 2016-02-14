@@ -529,7 +529,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance() {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
-
+        
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
 

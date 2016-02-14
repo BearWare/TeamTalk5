@@ -303,6 +303,8 @@ public class TeamTalkServer {
         
         // Instantiate server
         TeamTalk5Srv server = new TeamTalk5Srv(cmdcallback, logger);
+        TeamTalk5Srv.setLicenseInformation("", "");
+        
         if(server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA) != ClientError.CMDERR_SUCCESS) {
             System.out.println("Failed to setup file sharing");
         }
@@ -333,6 +335,7 @@ public class TeamTalkServer {
             System.out.println("Failed to start server");
         }
 
+        System.out.println("Started TeamTalk Server v." + TeamTalk5Srv.getVersion());
         //run server forever
         while(server.runEventLoop(-1));
     }
