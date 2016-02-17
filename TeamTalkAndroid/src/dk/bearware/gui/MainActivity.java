@@ -32,6 +32,7 @@ import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
 import dk.bearware.DesktopInput;
+import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
@@ -42,6 +43,7 @@ import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserState;
+import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.UserListener;
@@ -113,6 +115,7 @@ implements TeamTalkConnectionListener,
         ConnectionListener, 
         CommandListener, 
         UserListener, 
+        ClientListener,
         OnItemClickListener, 
         OnItemLongClickListener, 
         OnMenuItemClickListener, 
@@ -387,6 +390,7 @@ implements TeamTalkConnectionListener,
             ttservice.unregisterConnectionListener(this);
             ttservice.unregisterCommandListener(this);
             ttservice.unregisterUserListener(this);
+            ttservice.unregisterClientListener(this);
             filesAdapter.setTeamTalkService(null);
             mediaAdapter.clearTeamTalkService(ttservice);
         }
@@ -910,10 +914,14 @@ implements TeamTalkConnectionListener,
                 nickname.setText(name);
                 status.setText(user.szStatusMsg);
                 
-                boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0; 
+                boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
                 int icon_resource = R.drawable.man_blue;
+                
+                if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
+                    talking = ttservice.isVoiceTransmitting();
+                }
                 
                 if(talking) {
                     String name1 = Utils.getDisplayName(getBaseContext(), user);
@@ -1308,6 +1316,7 @@ implements TeamTalkConnectionListener,
         ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
         ttservice.registerUserListener(this);
+        ttservice.registerClientListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
 
         if(((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
@@ -1321,9 +1330,9 @@ implements TeamTalkConnectionListener,
         if (prefs.getBoolean("voice_activation", true)) {
             ttservice.enableVoiceActivation(true);
             ttclient.setVoiceActivationLevel(5);
-		} else {
-ttservice.enableVoiceActivation(false);
-		}
+        } else {
+            ttservice.enableVoiceActivation(false);
+        }
         int mastervol = prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT);
         // only set volume and gain if tt-instance hasn't already been configured
@@ -1678,6 +1687,43 @@ ttservice.enableVoiceActivation(false);
                 speakerBtn.setContentDescription(getString(R.string.speaker_mute));
             }
         }
+    }
+
+    @Override
+    public void onInternalError(ClientErrorMsg clienterrormsg) {
+    }
+
+    @Override
+    public void onVoiceActivation(boolean bVoiceActive) {
+        
+        if(ttservice != null && curchannel != null) {
+            int chanid = ttservice.getTTInstance().getMyChannelID();
+            if (curchannel.nChannelID == chanid) {
+                accessibilityAssistant.lockEvents();
+                channelsAdapter.notifyDataSetChanged();
+                accessibilityAssistant.unlockEvents();
+            }
+        }
+    }
+
+    @Override
+    public void onHotKeyToggle(int nHotKeyID, boolean bActive) {
+    }
+
+    @Override
+    public void onHotKeyTest(int nVkCode, boolean bActive) {
+    }
+
+    @Override
+    public void onFileTransfer(FileTransfer filetransfer) {
+    }
+
+    @Override
+    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining) {
+    }
+
+    @Override
+    public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
     }
 
 }

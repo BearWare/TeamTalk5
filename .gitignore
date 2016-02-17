@@ -35,6 +35,8 @@ TeamTalkJNI/.settings
 TeamTalkJNI/bin
 TeamTalkJNI/gen
 TeamTalkJNI/libs/armeabi-v7a/libTeamTalk5*
+TeamTalkJNI/libs/*.so
+TeamTalkJNI/libs/*.dylib
 TeamTalkJNI/*.mpc
 iTeamTalk/iTeamTalk.xcodeproj/xcuserdata
 iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcshareddata
@@ -45,4 +47,6 @@ TeamTalkAndroid/src/dk/bearware/data/License.java
 TeamTalkClassic/License.h
 TeamTalkJNI/src/dk/bearware/*.class
 TeamTalkJNI/test/dk/bearware/*.class
+TeamTalkJNI/test/dk/bearware/events/*.class
 TeamTalkJNI/test/*.class
+TAGS

@@ -172,6 +172,14 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public boolean isVoiceTransmissionEnabled() {
         return (ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) != 0;
     }
+    
+    public boolean isVoiceTransmitting() {
+        boolean tx = isVoiceTransmissionEnabled();
+        tx |= (ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED) != 0 &&
+              (ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE) != 0;
+        
+        return tx;
+    }
 
     public boolean enableVoiceTransmission(boolean enable) {
         if (enable)
