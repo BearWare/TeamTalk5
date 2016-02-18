@@ -21,7 +21,7 @@
 
 package dk.bearware;
 
-public abstract class TeamTalkSrv implements AutoCloseable {
+public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
     
     long ttsInst = 0;
 
