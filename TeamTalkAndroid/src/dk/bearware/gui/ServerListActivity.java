@@ -616,6 +616,9 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             return 1;
         else if (s2.public_server && !s1.public_server)
             return -1;
-        return s1.servername.compareToIgnoreCase(s2.servername);
+        if(!s1.public_server && !s2.public_server)
+            return s1.servername.compareToIgnoreCase(s2.servername);
+        // order of public servers are determined by xml-reply
+        return 0;
     }
 }
