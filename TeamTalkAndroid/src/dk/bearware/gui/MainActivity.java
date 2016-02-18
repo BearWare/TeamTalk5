@@ -1652,7 +1652,8 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
-        boolean ptt_vibrate = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("vibrate_checkbox", true);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true);
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
         if (voiceTransmissionEnabled) {
@@ -1672,7 +1673,7 @@ implements TeamTalkConnectionListener,
             }
         }
     
-        boolean mute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("mute_speakers_on_tx_checkbox", false)
+        boolean mute = pref.getBoolean("mute_speakers_on_tx_checkbox", false)
             && (voiceTransmissionEnabled != ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0));
         if(mute) {
             ttclient.setSoundOutputMute(voiceTransmissionEnabled);
@@ -1687,6 +1688,10 @@ implements TeamTalkConnectionListener,
                 speakerBtn.setContentDescription(getString(R.string.speaker_mute));
             }
         }
+        // update self user icon
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
