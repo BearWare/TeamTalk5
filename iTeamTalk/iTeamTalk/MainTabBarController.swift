@@ -177,7 +177,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     
     func connectToServer() {
         
-        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, FALSE) == 0 {
+        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == 0 {
             TT_Disconnect(ttInst)
             startReconnectTimer()
         }
