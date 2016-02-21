@@ -792,7 +792,7 @@ extern "C" {
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, jint nTcpPort, jint nUdpPort, jboolean bEncrypted) {
         return TTS_StartServer(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
                                ttstr(env, szBindIPAddr), 
-                               nTcpPort, nUdpPort, bEncrypted);
+                               UINT16(nTcpPort), UINT16(nUdpPort), bEncrypted);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_stopServer
