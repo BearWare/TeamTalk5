@@ -5,10 +5,13 @@ TeamTalk_DLL/lib/ios/*.a
 TeamTalk_DLL/lib/win32/*.lib
 TeamTalk_DLL/lib/x64/*.lib
 TeamTalk_DLL/*.m*
-TeamTalk_DLL/TeamTalk.h
-TeamTalk_DLL/TeamTalkSrv.h
 TeamTalk_DLL/*.so
 TeamTalk_DLL/*.dylib
+TeamTalk_DLL/*.h
+TeamTalk_DLL/*.cpp
+TeamTalk_DLL/*.rc
+TeamTalk_DLL/*.def
+TeamTalk_DLL/*.sh
 Copyright.txt
 Documentation
 Makefile
