@@ -14,7 +14,7 @@ TeamTalk_DLL/*.def
 TeamTalk_DLL/*.sh
 Copyright.txt
 Documentation
-Makefile
+./Makefile
 SignExecutables.bat
 teamtalkd
 ttenvrc
