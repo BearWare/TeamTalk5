@@ -5,8 +5,8 @@ unix:TARGET = teamtalk5
 mac:TARGET = TeamTalk5
 
 win32 {
-    LIBS += ../TeamTalk_DLL/TeamTalk5.lib
+    LIBS += $${TEAMTALK_LIB}/TeamTalk5.lib
 }
 unix {
-    LIBS += -L../TeamTalk_DLL -lTeamTalk5
+    LIBS += -L$${TEAMTALK_LIB} -lTeamTalk5
 }

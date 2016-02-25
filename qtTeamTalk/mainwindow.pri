@@ -1,3 +1,6 @@
+TEAMTALK_LIB = ../TeamTalk_DLL
+TEAMTALK_INCLUDE = $${TEAMTALK_LIB}
+
 HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              channelstree.h channeldlg.h userinfodlg.h bannedusersdlg.h \
              useraccountsdlg.h videogridwidget.h uservideodlg.h \
@@ -55,7 +58,7 @@ sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS *.pro
 sources.path = .
 INSTALLS += target sources
 
-INCLUDEPATH += ../TeamTalk_DLL
+INCLUDEPATH += $${TEAMTALK_INCLUDE}
 
 QT += xml network
 
