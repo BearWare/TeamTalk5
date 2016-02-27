@@ -52,7 +52,7 @@ nativepro:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 java:
-	cd src && javac -g:vars -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ./TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
+	cd src && javac -g:vars -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ../../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
 	cd jni && rm -f $(TT5DLL) $(TT5PRODLL)

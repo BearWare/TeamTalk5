@@ -1,5 +1,5 @@
 
-TEAMTALKLIB=../../../TeamTalkJNI/src/build/TeamTalk5.jar
+TEAMTALKLIB=../../../TeamTalkJNI/libs/TeamTalk5.jar
 
 help:
 	@echo "Targets:"

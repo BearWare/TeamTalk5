@@ -14,4 +14,4 @@ Edit TeamTalk5JNI.vcxproj or TeamTalk5ProJNI.vcxproj in a text editor and replac
 ```c:\Program Files (x86)\Java\jdk1.8.0_45```.
 
 The project files contains both win32 and x64 configuration. Remember
-to have the TeamTalk 5 import library in ../TeamTalk_DLL/lib/$(PlatformName)
+to have the TeamTalk 5 import library in ../TeamTalk_DLL
