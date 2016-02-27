@@ -1,8 +1,9 @@
-# TeamTalk C-API header files
+# TeamTalk C-API header files and libraries
 
 Copy TeamTalk.h (and TeamTalkSrv.h in TeamTalk 5 Professional SDK) to
-this directory. The header files are located in the Library/C-API
-folder of the TeamTalk 5 SDK.
+this directory along with the libraries. The files are located in the
+`Library/TeamTalk_DLL` folder of the [TeamTalk 5
+SDK](http://bearware.dk/?page_id=419).
 
 TeamTalk.h contains the API for creating a TeamTalk client
 application.
