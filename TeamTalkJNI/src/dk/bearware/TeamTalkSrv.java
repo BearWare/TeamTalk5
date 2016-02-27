@@ -41,6 +41,9 @@ public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
     public static native boolean setLicenseInformation(String szRegName,
                                                        String szRegKey);
 
+    protected TeamTalkSrv() {
+    }
+
     protected TeamTalkSrv(ServerCallback callback) {
         serverCallback = callback;
         ttsInst = initTeamTalk();

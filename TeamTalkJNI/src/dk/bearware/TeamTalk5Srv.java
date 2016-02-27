@@ -27,6 +27,15 @@ public class TeamTalk5Srv extends TeamTalkSrv {
         System.loadLibrary("TeamTalk5Pro-jni");
     }
 
+    // Ensure shared library is loaded
+    public static void loadLibrary() {
+        new TeamTalk5Srv();
+    }
+
+    private TeamTalk5Srv() {
+        super();
+    }
+
     public TeamTalk5Srv(ServerCallback callback) {
         super(callback);
     }

@@ -1,0 +1,31 @@
+project(tt5server) : vc_warnings {
+  
+  exename   = tt5prosrv
+
+  includes += ../../TeamTalk_DLL 
+  
+specific(vc8,vc10,vc11,vc12) {
+  libpaths += ../../TeamTalk_DLL/lib/$(PlatformName)
+  libs += TeamTalk5Pro
+  
+  intermediate_dir = $(PlatformName)/$(Configuration)
+  exeout = $(PlatformName)/$(Configuration)
+  unicode = 1
+}
+
+specific(make,gnuace) {
+  libpaths += ../../TeamTalk_DLL
+  libs += TeamTalk5Pro
+}
+
+Header_Files {
+}
+
+Source_Files {
+  Main.cpp
+}
+
+Resource_Files {
+}
+}
+

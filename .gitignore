@@ -14,17 +14,15 @@ TeamTalk_DLL/*.def
 TeamTalk_DLL/*.sh
 Copyright.txt
 Documentation
-Makefile
+./Makefile
 SignExecutables.bat
 teamtalkd
-ttserverlog*
 ttenvrc
 Tools
 UnitTest/*.testsettings
 UnitTest/*.vsmdi
 UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace
 UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/xcuserdata
-Examples/TeamTalkServer/*.mpc
 TeamTalkAndroid/.classpath
 TeamTalkAndroid/.project
 TeamTalkAndroid/.settings
@@ -40,7 +38,6 @@ TeamTalkJNI/gen
 TeamTalkJNI/libs/armeabi-v7a/libTeamTalk5*
 TeamTalkJNI/libs/*.so
 TeamTalkJNI/libs/*.dylib
-TeamTalkJNI/*.mpc
 iTeamTalk/iTeamTalk.xcodeproj/xcuserdata
 iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcshareddata
 iTeamTalk/iTeamTalk.xcodeproj/project.xcworkspace/xcuserdata
