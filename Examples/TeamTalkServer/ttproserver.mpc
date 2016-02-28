@@ -1,4 +1,4 @@
-project(tt5server) : vc_warnings {
+project(TeamTalk5ProServer) : vc_warnings {
   
   exename   = tt5prosrv
 
