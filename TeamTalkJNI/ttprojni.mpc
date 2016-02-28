@@ -8,7 +8,7 @@ specific(vc8,vc10,vc11,vc12) {
   includes += $(JDK_ROOT)/include
   includes += $(JDK_ROOT)/include/win32
   libpaths += ../TeamTalk_DLL
-  libs += TeamTalk5Pro
+  lit_libs += TeamTalk5Pro
   dllout = libs
   libout = libs
 }
