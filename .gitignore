@@ -1,9 +1,8 @@
 *.sln
 *.bat
 libteamtalk
-TeamTalk_DLL/lib/ios/*.a
-TeamTalk_DLL/lib/win32/*.lib
-TeamTalk_DLL/lib/x64/*.lib
+TeamTalk_DLL/*.lib
+TeamTalk_DLL/*.a
 TeamTalk_DLL/*.m*
 TeamTalk_DLL/*.so
 TeamTalk_DLL/*.dylib
