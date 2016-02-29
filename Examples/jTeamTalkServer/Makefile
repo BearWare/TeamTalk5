@@ -4,9 +4,9 @@ TEAMTALKLIB=../../../TeamTalkJNI/libs/TeamTalk5.jar
 help:
 	@echo "Targets:"
 	@echo "  all"
-	@echo "    - Build Java TeamTalk server"
+	@echo "    - Build TeamTalk Java server"
 	@echo "  run"
-	@echo "    - Run Java TeamTalk server"
+	@echo "    - Run TeamTalk Java server"
 	@echo "  clean"
 	@echo "    - Clean build"
 	@echo ""

@@ -34,7 +34,7 @@ help:
 	@echo -e "\tnativepro"
 	@echo -e "\t\t" "Build JNI DLL for TeamTalk5Pro DLL"
 	@echo -e "\tjava"
-	@echo -e "\t\t" "Build TeamTalk5.jar. Jva wrapper classes for JNI DLLs"
+	@echo -e "\t\t" "Build TeamTalk5.jar. Java wrapper classes for JNI DLLs"
 	@echo -e "\tclean"
 	@echo -e "\t\t" "Remove all intermediate files"
 	@echo -e "\tcleanjava"

@@ -3,8 +3,8 @@ TEAMTALK_INCLUDE=$(TEAMTALK_LIB)
 
 help:
 	@echo "Targets:"
-	@echo "\tpro"
-	@echo "\t\t" "Build server for TeamTalk5Pro DLL"
+	@echo "\tall"
+	@echo "\t\t" "Build server for TeamTalk 5 SDK Professional Edition (libTeamTalk5Pro.so)"
 
-pro:
+all:
 	g++ Main.cpp -I$(TEAMTALK_INCLUDE) -L$(TEAMTALK_LIB) -lTeamTalk5Pro -o ttproserver
