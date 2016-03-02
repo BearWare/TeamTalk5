@@ -72,6 +72,8 @@
 		251B426A1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Main.strings; sourceTree = "<group>"; };
 		251B426B1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
+		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				pl,
 				hu,
 				da,
+				nl,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -425,6 +428,7 @@
 				251B42671C5BC1C8009650EA /* en */,
 				251B42681C5D4723009650EA /* hu */,
 				251B426A1C5D4A31009650EA /* da */,
+				252BDD5F1C85F90600102B5E /* nl */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -451,6 +455,7 @@
 				2501A9BD1C52A36800C729B3 /* pl */,
 				251B42691C5D4723009650EA /* hu */,
 				251B426B1C5D4A31009650EA /* da */,
+				252BDD611C85F90600102B5E /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
