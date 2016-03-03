@@ -206,9 +206,7 @@ class ChannelDetailViewController :
             
         case CLIENTEVENT_CMD_SUCCESS :
             if m.nSource == cmdid {
-                let vc = self.navigationController?.viewControllers[1]
-                
-                self.navigationController?.popToViewController(vc!, animated: true)
+                self.navigationController?.popViewControllerAnimated(true)
             }
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
