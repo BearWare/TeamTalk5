@@ -490,6 +490,7 @@ func speakTextMessage(msgtype: TextMsgType, mymsg: MyTextMessage) {
     }
 }
 
+@available(iOS 8.0, *)
 class MyCustomAction : UIAccessibilityCustomAction {
     
     var tag = 0

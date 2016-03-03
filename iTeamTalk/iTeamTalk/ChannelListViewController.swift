@@ -216,15 +216,19 @@ class ChannelListViewController :
             cell.messageBtn.tag = Int(user.nUserID)
             cell.tag = Int(user.nUserID)
             
-            let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: "messageUser:", tag: cell.tag)
-            let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: "muteUser:", tag: cell.tag)
-            let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: "kickUser:", tag: cell.tag)
-            
-            if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
-                cell.accessibilityCustomActions = [ action_msg, action_mute, action_kick ]
-            }
-            else {
-                cell.accessibilityCustomActions = [ action_msg, action_mute ]
+            if #available(iOS 8.0, *) {
+                let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: "messageUser:", tag: cell.tag)
+                let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: "muteUser:", tag: cell.tag)
+                let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: "kickUser:", tag: cell.tag)
+                
+                if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
+                    cell.accessibilityCustomActions = [ action_msg, action_mute, action_kick ]
+                }
+                else {
+                    cell.accessibilityCustomActions = [ action_msg, action_mute ]
+                }
+            } else {
+                // Fallback on earlier versions
             }
             
             return cell
@@ -314,18 +318,21 @@ class ChannelListViewController :
             cell.editBtn.tag = Int(channel.nChannelID)
             cell.tag = Int(channel.nChannelID)
 
-            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
-            var action_edit : MyCustomAction?
-            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
-                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
-                action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+            if #available(iOS 8.0, *) {
+                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
+                var action_edit : MyCustomAction?
+                if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
+                    cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
+                    action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+                }
+                else {
+                    action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+                }
+                
+                cell.accessibilityCustomActions = [ action_join, action_edit! ]
+            } else {
+                // Fallback on earlier versions
             }
-            else {
-                action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
-            }
-            
-            cell.accessibilityCustomActions = [ action_join, action_edit! ]
-            
             return cell
         }
     }
@@ -351,6 +358,7 @@ class ChannelListViewController :
         self.tabBarController?.navigationItem.title = title
     }
     
+    @available(iOS 8.0, *)
     func messageUser(action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             performSegueWithIdentifier("New TextMessage", sender: ac)
@@ -358,7 +366,8 @@ class ChannelListViewController :
         return true
     }
 
-    func muteUser(action: UIAccessibilityCustomAction) -> Bool {
+ @available(iOS 8.0, *)
+       func muteUser(action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             let userid = INT32(ac.tag)
             if let user = users[userid] {
@@ -374,6 +383,7 @@ class ChannelListViewController :
         return true
     }
     
+    @available(iOS 8.0, *)
     func kickUser(action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             
@@ -382,6 +392,7 @@ class ChannelListViewController :
         return true
     }
 
+    @available(iOS 8.0, *)
     func joinThisChannel(action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             if let channel = channels[INT32(ac.tag)] {
@@ -391,6 +402,7 @@ class ChannelListViewController :
         return true
     }
 
+    @available(iOS 8.0, *)
     func editChannel(action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             performSegueWithIdentifier("Edit Channel", sender: ac)
@@ -470,8 +482,12 @@ class ChannelListViewController :
             if let btn = sender as? UIButton {
                 chanid = INT32(btn.tag)
             }
-            if let ac = sender as? MyCustomAction {
-                chanid = INT32(ac.tag)
+            if #available(iOS 8.0, *) {
+                if let ac = sender as? MyCustomAction {
+                    chanid = INT32(ac.tag)
+                }
+            } else {
+                // Fallback on earlier versions
             }
 
             let channel = channels[chanid]
@@ -486,8 +502,12 @@ class ChannelListViewController :
             if let btn = sender as? UIButton {
                 userid = INT32(btn.tag)
             }
-            if let action = sender as? MyCustomAction {
-                userid = INT32(action.tag)
+            if #available(iOS 8.0, *) {
+                if let action = sender as? MyCustomAction {
+                    userid = INT32(action.tag)
+                }
+            } else {
+                // Fallback on earlier versions
             }
             
             let txtmsgView = segue.destinationViewController as! TextMessageViewController
@@ -641,9 +661,13 @@ class ChannelListViewController :
             if activeCommands[m.nSource] != nil {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         case CLIENTEVENT_CMD_SERVER_UPDATE :
             srvprop = getServerProperties(&m).memory
@@ -791,9 +815,13 @@ class ChannelListViewController :
             if m.nSource == cmdid {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
 
         case CLIENTEVENT_USER_STATECHANGE :

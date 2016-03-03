@@ -184,13 +184,18 @@ class ServerListViewController : UITableViewController,
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
         }
         
-        let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: "connectServer:", tag: indexPath.row)
-        let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: "deleteServer:", tag: indexPath.row)
-        cell.accessibilityCustomActions = [action_connect, action_delete]
+        if #available(iOS 8.0, *) {
+            let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: "connectServer:", tag: indexPath.row)
+            let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: "deleteServer:", tag: indexPath.row)
+            cell.accessibilityCustomActions = [action_connect, action_delete]
+        } else {
+            // Fallback on earlier versions
+        }
         
         return cell
     }
 
+    @available(iOS 8.0, *)
     func connectServer(action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
@@ -200,6 +205,7 @@ class ServerListViewController : UITableViewController,
         return true
     }
     
+    @available(iOS 8.0, *)
     func deleteServer(action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {

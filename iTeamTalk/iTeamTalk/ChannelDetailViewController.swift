@@ -214,9 +214,14 @@ class ChannelDetailViewController :
             if m.nSource == cmdid {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         case CLIENTEVENT_CMD_PROCESSING :
             if getTTBOOL(&m) == 0 && cmdid == m.nSource {

@@ -264,9 +264,14 @@ class UserDetailViewController : UIViewController,
             if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
                 let errmsg = getClientErrorMsg(&m).memory
                 let s = fromTTString(errmsg.szErrorMsg)
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "user detail"), style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if #available(iOS 8.0, *) {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "user detail"), style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         default :
             break
