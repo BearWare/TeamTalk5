@@ -508,6 +508,8 @@ let FALSE : TTBOOL = 0
 
 let DEFAULT_MSEC_PER_PACKET : INT32 = 40
 
+let DEFAULT_AUDIOCODEC = OPUS_CODEC
+
 //Default OPUS codec settings
 let DEFAULT_OPUS_SAMPLERATE : INT32 = 48000
 let DEFAULT_OPUS_CHANNELS : INT32 = 1
@@ -534,6 +536,49 @@ let DEFAULT_SPEEX_VBR_MAXBITRATE : INT32 = 0
 let DEFAULT_SPEEX_VBR_DTX : TTBOOL = 1
 let DEFAULT_SPEEX_VBR_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
 let DEFAULT_SPEEX_VBR_SIMSTEREO : TTBOOL = 0
+
+func newAudioCodec(codec: Codec) -> AudioCodec {
+    var audiocodec = AudioCodec()
+    
+    switch codec {
+    case OPUS_CODEC :
+        var opus = newOpusCodec()
+        setOpusCodec(&audiocodec, &opus)
+    case SPEEX_CODEC :
+        var speex = newSpeexCodec()
+        setSpeexCodec(&audiocodec, &speex)
+    case SPEEX_VBR_CODEC :
+        var speexvbr = newSpeexVBRCodec()
+        setSpeexVBRCodec(&audiocodec, &speexvbr)
+    case NO_CODEC :
+        fallthrough
+    default :
+        break
+    }
+    return audiocodec
+}
+func newOpusCodec() -> OpusCodec {
+    return OpusCodec(nSampleRate: DEFAULT_OPUS_SAMPLERATE,
+        nChannels: DEFAULT_OPUS_CHANNELS, nApplication: DEFAULT_OPUS_APPLICATION,
+        nComplexity: DEFAULT_OPUS_COMPLEXITY, bFEC: DEFAULT_OPUS_FEC,
+        bDTX: DEFAULT_OPUS_DTX, nBitRate: DEFAULT_OPUS_BITRATE,
+        bVBR: DEFAULT_OPUS_VBR, bVBRConstraint: DEFAULT_OPUS_VBRCONSTRAINT,
+        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET)
+}
+
+func newSpeexCodec() -> SpeexCodec {
+    return SpeexCodec(nBandmode: DEFAULT_SPEEX_BANDMODE, nQuality: DEFAULT_SPEEX_QUALITY, nTxIntervalMSec: DEFAULT_SPEEX_DELAY, bStereoPlayback: DEFAULT_SPEEX_SIMSTEREO)
+}
+
+func newSpeexVBRCodec() -> SpeexVBRCodec {
+    return SpeexVBRCodec(nBandmode: DEFAULT_SPEEX_VBR_BANDMODE,
+        nQuality: DEFAULT_SPEEX_VBR_QUALITY,
+        nBitRate: DEFAULT_SPEEX_VBR_BITRATE,
+        nMaxBitRate: DEFAULT_SPEEX_VBR_MAXBITRATE,
+        bDTX: DEFAULT_SPEEX_VBR_DTX,
+        nTxIntervalMSec: DEFAULT_SPEEX_VBR_DELAY,
+        bStereoPlayback: DEFAULT_SPEEX_VBR_SIMSTEREO)
+}
 
 let DEFAULT_SUBSCRIPTION_USERMSG = true
 let DEFAULT_SUBSCRIPTION_CHANMSG = true

@@ -23,24 +23,11 @@ import UIKit
 
 class AudioCodecViewController : UITableViewController {
     
-    var audiocodec = AudioCodec()
+    var audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
 
-    var opuscodec = OpusCodec(nSampleRate: DEFAULT_OPUS_SAMPLERATE,
-        nChannels: DEFAULT_OPUS_CHANNELS, nApplication: DEFAULT_OPUS_APPLICATION,
-        nComplexity: DEFAULT_OPUS_COMPLEXITY, bFEC: DEFAULT_OPUS_FEC,
-        bDTX: DEFAULT_OPUS_DTX, nBitRate: DEFAULT_OPUS_BITRATE,
-        bVBR: DEFAULT_OPUS_VBR, bVBRConstraint: DEFAULT_OPUS_VBRCONSTRAINT,
-        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET)
-    
-    var speexcodec = SpeexCodec(nBandmode: DEFAULT_SPEEX_BANDMODE, nQuality: DEFAULT_SPEEX_QUALITY, nTxIntervalMSec: DEFAULT_SPEEX_DELAY, bStereoPlayback: DEFAULT_SPEEX_SIMSTEREO)
-    
-    var speexvbrcodec = SpeexVBRCodec(nBandmode: DEFAULT_SPEEX_VBR_BANDMODE,
-        nQuality: DEFAULT_SPEEX_VBR_QUALITY,
-        nBitRate: DEFAULT_SPEEX_VBR_BITRATE,
-        nMaxBitRate: DEFAULT_SPEEX_VBR_MAXBITRATE,
-        bDTX: DEFAULT_SPEEX_VBR_DTX,
-        nTxIntervalMSec: DEFAULT_SPEEX_VBR_DELAY,
-        bStereoPlayback: DEFAULT_SPEEX_VBR_SIMSTEREO)
+    var opuscodec = newOpusCodec()
+    var speexcodec = newSpeexCodec()
+    var speexvbrcodec = newSpeexVBRCodec()
     
     var opus_items = [UITableViewCell]()
     var speex_items = [UITableViewCell]()
