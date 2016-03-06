@@ -12,6 +12,7 @@
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251F61351BD68F6700617C43 /* TextMsgTableCell.swift */; };
+		253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 253343BE1C8C85CF00B43A9A /* Splash-568h.png */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
 		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
 		2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */; };
@@ -74,6 +75,7 @@
 		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
 		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		253343BE1C8C85CF00B43A9A /* Splash-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-568h.png"; path = "iTeamTalk/Splash-568h.png"; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		254B7A3E1B98BAA300BE0DEF = {
 			isa = PBXGroup;
 			children = (
+				253343BE1C8C85CF00B43A9A /* Splash-568h.png */,
 				254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */,
 				254B7A781B99E69200BE0DEF /* libz.dylib */,
 				254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */,
@@ -341,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */,
 				25E4DC321BF7360D00EC5A8C /* channel_message.mp3 in Resources */,
 				259B12F91C4182E7008A355E /* Localizable.strings in Resources */,
 				2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */,
