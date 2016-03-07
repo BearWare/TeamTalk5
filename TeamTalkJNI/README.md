@@ -5,7 +5,7 @@ classes in src sub-directory.
 
 ## Makefile build procedure ##
 
-Just type ```make``` and you'll see the different build options.
+Type ```make``` and you'll see the different build options.
 
 ## Visual Studio build procedure
 
