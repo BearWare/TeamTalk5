@@ -15,6 +15,11 @@ Android client:
 - Voice activation
 - Show username instead of nickname
 iOS client:
+- Fixed crash issue when creating channel and VoiceOver active
+- Default audio codec settings when creating new channel
+
+Version 5.1.2, released 2016/02/18
+iOS client:
 - Initial release
 
 Version 5.1.1, released 2015/10/02
