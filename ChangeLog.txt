@@ -5,6 +5,7 @@ Version 5.x unreleased
 Default Qt client:
 - Option to enable/disable VU-meter updates
 - Show username instead of nickname in channel list
+- See which client application is being used
 Accessible Windows client:
 - Portuguese_BR updated
 - Chinese Simplified updated
