@@ -350,6 +350,27 @@ public abstract class TeamTalkBase
                     nLocalTcpPort, nLocalUdpPort, bEncrypted) :
             false;
     }
+
+    private native boolean connectSysID(long lpTTInstance,
+                                   String szHostAddress,
+                                   int nTcpPort, 
+                                   int nUdpPort, 
+                                   int nLocalTcpPort, 
+                                   int nLocalUdpPort,
+                                   boolean bEncrypted,
+                                   String szSystemID);
+    public boolean connectSysID(String szHostAddress,
+                                int nTcpPort, 
+                                int nUdpPort, 
+                                int nLocalTcpPort, 
+                                int nLocalUdpPort,
+                                boolean bEncrypted,
+                                String szSystemID) {
+        return (szHostAddress != null && szSystemID != null) ?
+            connectSysID(ttInst, szHostAddress, nTcpPort, nUdpPort, 
+                         nLocalTcpPort, nLocalUdpPort, bEncrypted, szSystemID) :
+            false;
+    }
     
     private native boolean connectEx(long lpTTInstance,
                                      String szHostAddress,
@@ -401,6 +422,20 @@ public abstract class TeamTalkBase
                     szUsername, szPassword) :
             -1;
     }
+
+    private native int doLoginEx(long lpTTInstance,
+                                 String szNickname, 
+                                 String szUsername,
+                                 String szPassword,
+                                 String szClientName);
+    public int doLoginEx(String szNickname, 
+                         String szUsername,
+                         String szPassword,
+                         String szClientName) {
+        return (szNickname != null && szUsername != null && szPassword != null && szClientName != null) ?
+            doLoginEx(ttInst, szNickname, szUsername, szPassword, szClientName) : -1;
+    }
+
     private native int doLogout(long lpTTInstance);
     public int doLogout() { return doLogout(ttInst); }
 

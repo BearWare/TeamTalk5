@@ -692,6 +692,26 @@ extern "C" {
                           nLocalTcpPort, nLocalUdpPort, bEncrypted);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connectSysID(JNIEnv* env,
+                                                                          jobject thiz,
+                                                                          jlong lpTTInstance,
+                                                                          jstring szHostAddress,
+                                                                          jint nTcpPort, 
+                                                                          jint nUdpPort, 
+                                                                          jint nLocalTcpPort, 
+                                                                          jint nLocalUdpPort,
+                                                                          jboolean bEncrypted,
+                                                                          jstring szSystemID)
+    {
+        THROW_NULLEX(env, szHostAddress, false);
+        THROW_NULLEX(env, szSystemID, false);
+
+        return TT_ConnectSysID(reinterpret_cast<TTInstance*>(lpTTInstance),
+                               ttstr(env,szHostAddress), nTcpPort, nUdpPort, 
+                               nLocalTcpPort, nLocalUdpPort, bEncrypted, 
+                               ttstr(env, szSystemID));
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connectEx(JNIEnv* env,
                                                                        jobject thiz,
                                                                        jlong lpTTInstance,
@@ -766,6 +786,24 @@ extern "C" {
         return TT_DoLogin(reinterpret_cast<TTInstance*>(lpTTInstance), 
                           ttstr(env, szNickname), ttstr(env, szUsername), 
                           ttstr(env, szPassword));
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLoginEx(JNIEnv* env,
+                                                                   jobject thiz,
+                                                                   jlong lpTTInstance,
+                                                                   jstring szNickname, 
+                                                                   jstring szUsername,
+                                                                   jstring szPassword,
+                                                                   jstring szClientName)
+    {
+        THROW_NULLEX(env, szNickname, -1);
+        THROW_NULLEX(env, szUsername, -1);
+        THROW_NULLEX(env, szPassword, -1);
+        THROW_NULLEX(env, szClientName, -1);
+
+        return TT_DoLoginEx(reinterpret_cast<TTInstance*>(lpTTInstance), 
+                            ttstr(env, szNickname), ttstr(env, szUsername), 
+                            ttstr(env, szPassword), ttstr(env, szClientName));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLogout(JNIEnv* env,

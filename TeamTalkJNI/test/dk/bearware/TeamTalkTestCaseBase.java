@@ -11,9 +11,11 @@ public class TeamTalkTestCaseBase extends TestCase {
     static final int DEF_WAIT = 15000;
 
     static String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
-    static String IPADDR = "my.server.ip.address";
+    static String IPADDR = "127.0.0.1";
 
     static int TCPPORT = 10333, UDPPORT = 10333;
+
+    static String SYSTEMID = "teamtalk";
 
     static final String UPLOADFILE = "filename.txt";
     static final String DOWNLOADFILE = "filename.txt";
@@ -78,9 +80,20 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
     }
 
-    protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd)
+    protected static void connect(TeamTalkBase ttclient, String systemID)
     {
-        int cmdid = ttclient.doLogin(nick, username, passwd);
+        assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
+
+        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+    }
+
+    protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd) {
+        login(ttclient, nick, username, passwd, "");
+    }
+
+    protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd, String clientname)
+    {
+        int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
         assertTrue("do login", cmdid > 0);
 
         TTMessage msg = new TTMessage();

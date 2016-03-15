@@ -55,9 +55,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
             public void userLogin(ClientErrorMsg lpClientErrorMsg,
                                   User lpUser, UserAccount lpUserAccount) {
-                String str = String.format("Login attempt from IP %s, username=%s, password=%s",
-                                           lpUser.szIPAddress, lpUserAccount.szUsername, 
-                                           lpUserAccount.szPassword);
+                String str = String.format("Login attempt from IP %s, username=%s, password=%s, nickname=%s, clientname=%s",
+                                           lpUser.szIPAddress, lpUserAccount.szUsername,
+                                           lpUserAccount.szPassword, lpUser.szNickname, lpUser.szClientName);
                 System.out.println(str);
 
                 for(UserAccount u : useraccounts) {
@@ -517,7 +517,50 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         
     }
 
-    public void _test_05_runServer() {
+    public void test_05_systemID() {
+        TeamTalkSrv server = newServerInstance("foobar");
+
+        while(server.runEventLoop(100));
+
+        TeamTalkBase client = newClientInstance();
+        assertTrue("Connect", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, "foobar"));
+
+        while(server.runEventLoop(100));
+
+        waitForEvent(client, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+
+        int cmdid = client.doLoginEx(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
+        assertTrue("Login client", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait success", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+
+        while(server.runEventLoop(100));
+
+        User user = new User();
+        assertTrue("Get user", client.getUser(client.getMyUserID(), user));
+
+        assertEquals("clientname set", "myclientname", user.szClientName);
+
+    }
+
+    public void test_06_wrongSystemID() {
+        TeamTalkSrv server = newServerInstance("foobar");
+
+        while(server.runEventLoop(100));
+
+        TeamTalkBase client = newClientInstance();
+        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+        while(server.runEventLoop(100));
+
+        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000);
+
+    }
+
+    public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
 
@@ -527,6 +570,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public TeamTalkSrv newServerInstance() {
+        return newServerInstance("");
+    }
+
+    public TeamTalkSrv newServerInstance(String systemid) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         
@@ -542,7 +589,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
-        assertTrue("Start server", server.startServer(IPADDR, TCPPORT, UDPPORT, ENCRYPTED));
+        if(systemid.isEmpty())
+            assertTrue("Start server", server.startServer(IPADDR, TCPPORT, UDPPORT, ENCRYPTED));
+        else
+            assertTrue("Start server", server.startServerSysID(IPADDR, TCPPORT, UDPPORT, ENCRYPTED, systemid));
 
         servers.add(server);
 

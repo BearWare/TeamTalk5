@@ -307,6 +307,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     jfieldID fid_pbmf = env->GetFieldID(cls_user, "stereoPlaybackMediaFile", "[Z");
     jfieldID fid_mfbuf = env->GetFieldID(cls_user, "nBufferMSecMediaFile", "I");
     jfieldID fid_vbuf = env->GetFieldID(cls_user, "nBufferMSecVoice", "I");
+    jfieldID fid_cltname = env->GetFieldID(cls_user, "szClientName", "Ljava/lang/String;");
 
     assert(fid_userid);
     assert(fid_username);
@@ -330,6 +331,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     assert(fid_pbmf);
     assert(fid_mfbuf);
     assert(fid_vbuf);
+    assert(fid_cltname);
     
     env->SetIntField(lpUser, fid_userid, user.nUserID);
     env->SetObjectField(lpUser, fid_username, NEW_JSTRING(env, user.szUsername));
@@ -362,6 +364,7 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser)
     env->SetObjectField(lpUser, fid_pbmf, boolArray);
     env->SetIntField(lpUser, fid_mfbuf, user.nBufferMSecMediaFile);
     env->SetIntField(lpUser, fid_vbuf, user.nBufferMSecVoice);
+    env->SetObjectField(lpUser, fid_cltname, NEW_JSTRING(env, user.szClientName));
 }
 
 void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)

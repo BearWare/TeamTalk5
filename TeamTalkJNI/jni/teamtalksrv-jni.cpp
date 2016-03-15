@@ -789,10 +789,20 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_startServer
-    (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, jint nTcpPort, jint nUdpPort, jboolean bEncrypted) {
+    (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, 
+     jint nTcpPort, jint nUdpPort, jboolean bEncrypted) {
         return TTS_StartServer(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
                                ttstr(env, szBindIPAddr), 
                                UINT16(nTcpPort), UINT16(nUdpPort), bEncrypted);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_startServerSysID
+    (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, 
+     jint nTcpPort, jint nUdpPort, jboolean bEncrypted, jstring szSystemID) {
+        return TTS_StartServerSysID(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+                                    ttstr(env, szBindIPAddr), 
+                                    UINT16(nTcpPort), UINT16(nUdpPort), bEncrypted,
+                                    ttstr(env, szSystemID));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_stopServer
