@@ -11,20 +11,20 @@ TT5DLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5
 TT5PRODLIBS := -L$(TEAMTALK_ROOT)/TeamTalk_DLL -lTeamTalk5Pro
 
 #locations of 'hamcrest-core' and 'junit'
-HAMCRESTCORE_JAR ?= hamcrest-core-1.3.jar
-JUNIT_JAR ?= junit-4.11.jar
+HAMCRESTCORE_JAR ?= $(PWD)/hamcrest-core-1.3.jar
+JUNIT_JAR ?= $(PWD)/junit-4.11.jar
 
 CPPFLAGS := -fPIC
 
-OS=$(shell uname)
-
-ifeq ($(OS),Darwin)
+ifeq ($(shell uname),Darwin)
 SHARED_EXT := dylib
 LIBPATHNAME=DYLD_LIBRARY_PATH
 else
 SHARED_EXT := so
 LIBPATHNAME=LD_LIBRARY_PATH
 endif
+
+CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar:$(CLASSPATH)
 
 TT5DLL := $(PWD)/libs/libTeamTalk5-jni.$(SHARED_EXT)
 TT5PRODLL := $(PWD)/libs/libTeamTalk5Pro-jni.$(SHARED_EXT)
@@ -78,16 +78,16 @@ cleanjava:
 	cd src && rm -rf build
 
 junitcompile: java
-	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+	cd test && javac -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
 
 junitsrvcompile: java
-	cd test && javac -cp .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
+	cd test && javac -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
 
 junit:  junitcompile
-	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) org.junit.runner.JUnitCore TeamTalkTestSuite
+	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkTestSuite
 
 junitsrv:  junitsrvcompile
-	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) org.junit.runner.JUnitCore TeamTalkServerTestSuite
+	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase: junitcompile
-	cd test && java -cp .:../src:$(HAMCRESTCORE_JAR):$(JUNIT_JAR) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+	cd test && java -cp "$(CLASSPATH)" SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
