@@ -17,6 +17,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     static String SYSTEMID = "teamtalk";
 
+    static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     static final String UPLOADFILE = "filename.txt";
     static final String DOWNLOADFILE = "filename.txt";
     static final String MUXEDMEDIAFILE = "muxwavefile.wav";

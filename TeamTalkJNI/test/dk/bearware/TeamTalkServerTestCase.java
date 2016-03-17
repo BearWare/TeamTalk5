@@ -7,7 +7,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
-    String FILESTORAGE_FOLDER = "/tmp";
+    String FILESTORAGE_FOLDER = "./";
     long MAX_DISKUSAGE = 1000000000, DEFAULT_CHANNEL_QUOTA = 10000000;
 
     protected void setUp() throws Exception {
@@ -576,7 +576,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance(String systemid) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
-        
+        if(ENCRYPTED)
+            assertTrue("Set context", server.setEncryptionContext(CRYPTO_CERT_FILE, CRYPTO_KEY_FILE));
+
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
 

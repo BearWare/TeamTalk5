@@ -24,7 +24,7 @@ SHARED_EXT := so
 LIBPATHNAME=LD_LIBRARY_PATH
 endif
 
-CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar:$(CLASSPATH)
+CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar
 
 TT5DLL := $(PWD)/libs/libTeamTalk5-jni.$(SHARED_EXT)
 TT5PRODLL := $(PWD)/libs/libTeamTalk5Pro-jni.$(SHARED_EXT)
