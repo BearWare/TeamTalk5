@@ -870,10 +870,10 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
         KillTimer(m_nReconnectTimerID);
     m_nReconnectTimerID = 0;
 
-    int cmd = TT_DoLogin(ttInst, 
+    int cmd = TT_DoLoginEx(ttInst, 
         STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()), 
         STR_UTF8(m_host.szUsername.c_str()), 
-        STR_UTF8(m_host.szPassword.c_str()));
+        STR_UTF8(m_host.szPassword.c_str()), APPTITLE_SHORT);
 
     m_commands[cmd] = CMD_COMPLETE_LOGIN;
 
@@ -1614,6 +1614,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             CString szName = GetDisplayName(user);
             CString szFmt, szMsg;
             szFmt.LoadString(IDS_USERTEXTMSG);
+            TRANSLATE_ITEM(IDS_USERTEXTMSG, szFmt);
             szMsg.Format(szFmt, szName, textmsg.szMessage);
             AddVoiceMessage(szMsg);
         }
@@ -1638,6 +1639,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             
             CString szFmt, szMsg;
             szFmt.LoadString(IDS_CHANTEXTMSG);
+            TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
             szMsg.Format(szFmt, szName, textmsg.szMessage);
             AddVoiceMessage(szMsg);
         }
@@ -4386,6 +4388,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkFile(WPARAM wParam, LPARAM lParam)
 
         CString szFormat, szText;
         szFormat.LoadString(IDS_CLIENTSETTINGS);
+        TRANSLATE_ITEM(IDS_CLIENTSETTINGS, szFormat);
         szText.Format(szFormat, m_szTTLink, APPTITLE_SHORT);
         if(tt.HasClientSetup() && MessageBox(szText, _T("Load ") _T(TTFILE_EXT) _T(" File"), MB_YESNO) == IDYES)
         {
