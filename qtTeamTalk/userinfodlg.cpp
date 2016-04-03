@@ -70,7 +70,8 @@ void UserInfoDlg::updateUser()
         ui.statusmsg->setText(_Q(user.szStatusMsg));
     if(ui.username->text() != _Q(user.szUsername))
         ui.username->setText(_Q(user.szUsername));
-
+    if(ui.clientname->text() != _Q(user.szClientName))
+        ui.clientname->setText(_Q(user.szClientName));
     switch(user.uUserType)
     {
     case USERTYPE_ADMIN :

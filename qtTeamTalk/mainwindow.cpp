@@ -759,8 +759,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
 
-        int cmdid = TT_DoLogin(ttInst, _W(nick), _W(m_host.username),
-                               _W(m_host.password));
+        int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
+                                 _W(m_host.password), _W(QString(APPNAME_SHORT)));
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
@@ -1627,9 +1627,10 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 return;
             
             addLatestHost(m_host);
-            int cmdid = TT_DoLogin(ttInst,
-                                   _W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()),
-                                   _W(m_host.username), _W(m_host.password));
+            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+            int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
+                                     _W(m_host.username), _W(m_host.password), 
+                                     _W(QString(APPNAME_SHORT)));
             if(cmdid>0)
                 m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);            
             return;

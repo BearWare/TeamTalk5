@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>267</width>
-    <height>372</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +24,9 @@
     <widget class="QLabel" name="label">
      <property name="text">
       <string>User ID</string>
+     </property>
+     <property name="buddy">
+      <cstring>userid</cstring>
      </property>
     </widget>
    </item>
@@ -42,6 +45,9 @@
      <property name="text">
       <string>Nickname</string>
      </property>
+     <property name="buddy">
+      <cstring>nickname</cstring>
+     </property>
     </widget>
    </item>
    <item row="1" column="1">
@@ -59,6 +65,9 @@
      <property name="text">
       <string>Username</string>
      </property>
+     <property name="buddy">
+      <cstring>username</cstring>
+     </property>
     </widget>
    </item>
    <item row="2" column="1">
@@ -71,14 +80,17 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Status mode</string>
      </property>
+     <property name="buddy">
+      <cstring>statusmode</cstring>
+     </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <widget class="QLineEdit" name="statusmode">
      <property name="text">
       <string/>
@@ -88,14 +100,17 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="label_9">
      <property name="text">
       <string>Status message</string>
      </property>
+     <property name="buddy">
+      <cstring>statusmsg</cstring>
+     </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QLineEdit" name="statusmsg">
      <property name="text">
       <string/>
@@ -105,7 +120,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_15">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -113,9 +128,12 @@
      <property name="text">
       <string>User type</string>
      </property>
+     <property name="buddy">
+      <cstring>usertype</cstring>
+     </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="1">
     <widget class="QLineEdit" name="usertype">
      <property name="text">
       <string/>
@@ -125,14 +143,17 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_8">
      <property name="text">
       <string>IP-address</string>
      </property>
+     <property name="buddy">
+      <cstring>ipaddr</cstring>
+     </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="7" column="1">
     <widget class="QLineEdit" name="ipaddr">
      <property name="text">
       <string/>
@@ -142,14 +163,17 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Version</string>
      </property>
+     <property name="buddy">
+      <cstring>version</cstring>
+     </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="8" column="1">
     <widget class="QLineEdit" name="version">
      <property name="text">
       <string/>
@@ -159,14 +183,17 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="label_13">
      <property name="text">
       <string>Voice packet loss</string>
      </property>
+     <property name="buddy">
+      <cstring>voicepacketloss</cstring>
+     </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
     <widget class="QLineEdit" name="voicepacketloss">
      <property name="text">
       <string/>
@@ -176,14 +203,17 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Video frame loss</string>
      </property>
+     <property name="buddy">
+      <cstring>vidpacketloss</cstring>
+     </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QLineEdit" name="vidpacketloss">
      <property name="text">
       <string/>
@@ -193,28 +223,66 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Audio file packets loss</string>
      </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QLineEdit" name="mediaaudpacketloss"/>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="label_10">
-     <property name="text">
-      <string>Video file frame loss</string>
+     <property name="buddy">
+      <cstring>mediaaudpacketloss</cstring>
      </property>
     </widget>
    </item>
    <item row="11" column="1">
+    <widget class="QLineEdit" name="mediaaudpacketloss"/>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Video file frame loss</string>
+     </property>
+     <property name="buddy">
+      <cstring>mediavidpacketloss</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
     <widget class="QLineEdit" name="mediavidpacketloss"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Client name</string>
+     </property>
+     <property name="buddy">
+      <cstring>clientname</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="clientname">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>userid</tabstop>
+  <tabstop>nickname</tabstop>
+  <tabstop>username</tabstop>
+  <tabstop>clientname</tabstop>
+  <tabstop>statusmode</tabstop>
+  <tabstop>statusmsg</tabstop>
+  <tabstop>usertype</tabstop>
+  <tabstop>ipaddr</tabstop>
+  <tabstop>version</tabstop>
+  <tabstop>voicepacketloss</tabstop>
+  <tabstop>vidpacketloss</tabstop>
+  <tabstop>mediaaudpacketloss</tabstop>
+  <tabstop>mediavidpacketloss</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
