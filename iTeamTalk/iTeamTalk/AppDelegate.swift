@@ -37,7 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var bundleDefaults = [String : AnyObject]()
         
-        
         if let settingsBundle = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle") {
             
             let path = (settingsBundle as NSString).stringByAppendingPathComponent("Root.plist")

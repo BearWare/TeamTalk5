@@ -19,23 +19,52 @@
 *
 */
 
+import UIKit
 
 class AppInfo {
 
-    static let APPNAME = "iTeamTalk"
-    static let APPVERSION_SHORT = "5.1"
-    static let APPVERSION = "5.1 - Unreleased"
-    static let APPTITLE = "iTeamTalk v. " + APPVERSION
-    static let APPNAME_SHORT = "iTeamTalk5"
     static let OSTYPE = "iOS"
 
-    static let URL_FREESERVER  =
-        "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + APPNAME_SHORT +
-        "&version=" + APPVERSION_SHORT +
-        "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
+    enum BundleInfo {
+        case NAME, VERSION_NO
+    }
     
-    static let URL_APPUPDATE =
-        "http://www.bearware.dk/teamtalk/tt5update.php?client=" + APPNAME_SHORT +
-        "&version=" + APPVERSION_SHORT + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
+    static func getBundleInfo(b: BundleInfo) -> String {
+        let bundle = NSBundle.mainBundle()
+        let dict = bundle.infoDictionary
+
+        switch b {
+        case .NAME :
+            if let info = dict?["CFBundleName"] {
+                return info as! String
+            }
+            return "Unknown"
+        case .VERSION_NO :
+            if let info = dict?["CFBundleShortVersionString"] {
+                return info as! String
+            }
+            return "0.1"
+        }
+    }
+    
+    static func getAppName() -> String {
+        return getBundleInfo(.NAME)
+    }
+    static func getAppVersion() -> String {
+        return getBundleInfo(.VERSION_NO)
+    }
+    
+    static func getServersURL() -> String {
+        return "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + getAppName() +
+            "&version=" + getAppVersion() +
+            "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
+
+    }
+
+    static func getUpdateURL() -> String {
+        return "http://www.bearware.dk/teamtalk/tt5update.php?client=" + getAppName() +
+            "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
+
+    }
 
 }
