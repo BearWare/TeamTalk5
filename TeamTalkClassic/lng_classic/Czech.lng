@@ -40,6 +40,7 @@
     <item id="140">Vlastnosti serveru</item>
     <item id="141">Uživatelské účty</item>
     <item id="142">Kanál</item>
+    <item id="143">Současná úroveň hlasitosti</item>
     <item id="144">Přenést uživatele</item>
     <item id="145">Statistiky serveru</item>
     <item id="146">Připojení uživatelé</item>
@@ -49,6 +50,11 @@
     <item id="151">Streamovat multimediální soubor na kanál</item>
     <item id="154">Stiskni a mluv: %s</item>
     <item id="155">Vytvořit soubor .tt</item>
+    <item id="156">Hlavní hlasitost</item>
+    <item id="157">Hlasitost mikrofonu</item>
+    <item id="158">Úroveň hlasové aktivace</item>
+    <item id="159">Zpráva v chatu od uživatele %s. %s.</item>
+    <item id="160">Soukromá zpráva od uživatele %s. %s.</item>
     <item id="201">Zprávy</item>
     <item id="205">Změnit stav</item>
     <item id="212">Zobrazení</item>
@@ -371,6 +377,7 @@
     <item id="1535">Nastavení videa</item>
     <item id="1537">Poměr hlasitosti zvuku a multimediálního souboru</item>
     <item id="1538">&amp;Importovat soubor .tt</item>
+    <item id="1539">Zobrazovat uživatelské jméno místo přezdívky</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>

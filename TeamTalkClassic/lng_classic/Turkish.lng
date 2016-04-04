@@ -40,6 +40,7 @@
     <item id="140">Sunucu Özellikleri</item>
     <item id="141">Kullanıcı Hesapları</item>
     <item id="142">Kanal</item>
+    <item id="143">Geçerli ses seviyesi</item>
     <item id="144">Kullanıcı Taşıma Penceresi</item>
     <item id="145">Sunucu İstatistikleri</item>
     <item id="146">Çevrimiçi Kullanıcılar</item>
@@ -49,6 +50,11 @@
     <item id="151">Medya Dosyası Yayınla</item>
     <item id="154">Bas Konuş: %s</item>
     <item id="155">.TT Dosyası Oluştur</item>
+    <item id="156">ana ses düzeyi</item>
+    <item id="157">Mikrofon artırma</item>
+    <item id="158">Mikrofon etkinleştirme seviyesi</item>
+    <item id="159">Kanal mesajı %s. %s.</item>
+    <item id="160">Metin mesajı %s. %s.</item>
     <item id="201">Mesaj</item>
     <item id="205">Durum Değiştir</item>
     <item id="212">Ekran</item>
@@ -370,6 +376,8 @@
     <item id="1534">Maksimum metin uzunluğu</item>
     <item id="1535">Video yakalama ayarları</item>
     <item id="1537">medya ses düzeyi</item>
+    <item id="1538">Dosyadan aktar</item>
+    <item id="1539">isim yerine kullanıcı adını göster</item>
     <item id="32791">IP adresim&amp;Nedir?</item>
     <item id="32798">&amp;Operatör yetkisi ver\tCtrl+o</item>
     <item id="32801">&amp;Kanal Mesajlarını gör\TF10</item>
