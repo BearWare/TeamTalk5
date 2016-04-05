@@ -25,7 +25,7 @@ import AVFoundation
 class MainTabBarController : UITabBarController, TeamTalkEvent {
 
     // our one and only TeamTalk client instance
-    var ttInst = UnsafeMutablePointer<Void>()
+    var ttInst : UnsafeMutablePointer<Void> = nil
     // timer for polling TeamTalk client events
     var polltimer : NSTimer?
     // reconnect timer
@@ -100,14 +100,14 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))
         }
         
-        polltimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerEvent", userInfo: nil, repeats: true)
+        polltimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(MainTabBarController.timerEvent), userInfo: nil, repeats: true)
         
         let device = UIDevice.currentDevice()
         
         let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+        center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: UIDeviceProximityStateDidChangeNotification, object: device)
 
-        center.addObserver(self, selector: "audioRouteChange:", name: AVAudioSessionRouteChangeNotification, object: nil)
+        center.addObserver(self, selector: #selector(MainTabBarController.audioRouteChange(_:)), name: AVAudioSessionRouteChangeNotification, object: nil)
 
         connectToServer()
     }
@@ -172,7 +172,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     func startReconnectTimer() {
-        reconnecttimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "connectToServer", userInfo: nil, repeats: false)
+        reconnecttimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(MainTabBarController.connectToServer), userInfo: nil, repeats: false)
     }
     
     func connectToServer() {

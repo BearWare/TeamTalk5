@@ -28,7 +28,7 @@ class ChannelListViewController :
     MyTextMessageDelegate, TeamTalkEvent  {
 
     //shared TTInstance between all view controllers
-    var ttInst = UnsafeMutablePointer<Void>()
+    var ttInst : UnsafeMutablePointer<Void> = nil
     // all channels on server
     var channels = [INT32 : Channel]()
     // channel passwords
@@ -217,9 +217,9 @@ class ChannelListViewController :
             cell.tag = Int(user.nUserID)
             
             if #available(iOS 8.0, *) {
-                let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: "messageUser:", tag: cell.tag)
-                let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: "muteUser:", tag: cell.tag)
-                let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: "kickUser:", tag: cell.tag)
+                let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.messageUser(_:)), tag: cell.tag)
+                let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.muteUser(_:)), tag: cell.tag)
+                let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
                 
                 if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
                     cell.accessibilityCustomActions = [ action_msg, action_mute, action_kick ]
@@ -319,14 +319,14 @@ class ChannelListViewController :
             cell.tag = Int(channel.nChannelID)
 
             if #available(iOS 8.0, *) {
-                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: "joinThisChannel:", tag: cell.tag)
+                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
                 var action_edit : MyCustomAction?
                 if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
                     cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
-                    action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+                    action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
                 }
                 else {
-                    action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: "editChannel:", tag: cell.tag)
+                    action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
                 }
                 
                 cell.accessibilityCustomActions = [ action_join, action_edit! ]
@@ -788,7 +788,7 @@ class ChannelListViewController :
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
-                        unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerUnread", userInfo: nil, repeats: true)
+                        unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ChannelListViewController.timerUnread), userInfo: nil, repeats: true)
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)                    
                 }

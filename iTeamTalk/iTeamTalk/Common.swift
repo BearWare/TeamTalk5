@@ -213,7 +213,7 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
             ttMessageHandlers.removeAtIndex(i)
         }
         else {
-            ++i
+            i += 1
         }
     }
 }

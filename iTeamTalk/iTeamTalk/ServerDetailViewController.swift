@@ -98,8 +98,9 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         tableView.delegate = self
         
         let def = NSNotificationCenter.defaultCenter()
-        def.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        def.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func keyboardWillShow(notify: NSNotification) {

@@ -31,7 +31,7 @@ class TextMessageViewController :
     @IBOutlet weak var sendButton: UIButton!
     
     //shared TTInstance between all view controllers
-    var ttInst = UnsafeMutablePointer<Void>()
+    var ttInst : UnsafeMutablePointer<Void> = nil
     var userid : INT32 = 0
     
     var delegate : MyTextMessageDelegate?
@@ -44,8 +44,8 @@ class TextMessageViewController :
         super.viewDidLoad()
         
         let def = NSNotificationCenter.defaultCenter()
-        def.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        def.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         resetText()
         

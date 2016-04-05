@@ -27,7 +27,7 @@ class ChannelDetailViewController :
     UITextFieldDelegate, UIAlertViewDelegate {
 
     //shared TTInstance between all view controllers
-    var ttInst = UnsafeMutablePointer<Void>()
+    var ttInst : UnsafeMutablePointer<Void> = nil
 
     var channel = Channel()
     

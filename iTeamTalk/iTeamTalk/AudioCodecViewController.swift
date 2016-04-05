@@ -132,7 +132,7 @@ class AudioCodecViewController : UITableViewController {
         let bitrate = within(OPUS_MIN_BITRATE, max_v: OPUS_MAX_BITRATE, value: opuscodec.nBitRate)
         opus_bitrateCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         opus_bitrateSlider = newTableCellSlider(opus_bitrateCell!, label: NSLocalizedString("Bitrate", comment:"codec detail"), min: Float(OPUS_MIN_BITRATE) / 1000.0, max: Float(OPUS_MAX_BITRATE) / 1000.0, initial: Float(bitrate) / 1000)
-        opus_bitrateSlider?.addTarget(self, action: "opus_bitrateChanged:", forControlEvents: .ValueChanged)
+        opus_bitrateSlider?.addTarget(self, action: #selector(AudioCodecViewController.opus_bitrateChanged(_:)), forControlEvents: .ValueChanged)
         opus_items.append(opus_bitrateCell!)
         
         let opus_dtxcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
@@ -141,7 +141,7 @@ class AudioCodecViewController : UITableViewController {
         
         opus_txintervalCell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         opus_txintervalStepper = newTableCellStepper(opus_txintervalCell!, label: NSLocalizedString("Transmit Interval", comment:"codec detail"), min: 20, max: 60, step: 20, initial: Double(opuscodec.nTxIntervalMSec))
-        opus_txintervalStepper?.addTarget(self, action: "opus_txintervalChanged:", forControlEvents: .ValueChanged)
+        opus_txintervalStepper?.addTarget(self, action: #selector(AudioCodecViewController.opus_txintervalChanged(_:)), forControlEvents: .ValueChanged)
         opus_items.append(opus_txintervalCell!)
 
         let opus_savecell = tableView.dequeueReusableCellWithIdentifier("Use OPUS")!
@@ -215,7 +215,7 @@ class AudioCodecViewController : UITableViewController {
             label: NSLocalizedString("Transmit Interval", comment:"codec detail"),
             min: 20, max: 100, step: 20, initial: Double(speexcodec.nTxIntervalMSec))
         speex_txintervalChanged(spx_txintervalStepper!)
-        spx_txintervalStepper?.addTarget(self, action: "speex_txintervalChanged:", forControlEvents: .ValueChanged)
+        spx_txintervalStepper?.addTarget(self, action: #selector(AudioCodecViewController.speex_txintervalChanged(_:)), forControlEvents: .ValueChanged)
         speex_items.append(spx_txintervalCell!)
         
         let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex")!
@@ -251,7 +251,7 @@ class AudioCodecViewController : UITableViewController {
             label: NSLocalizedString("Bitrate", comment:"codec detail"), min: 0, max: Float(SPEEX_UWB_MAX_BITRATE) / 1000.0,
             initial: within(0, max_v: Float(SPEEX_UWB_MAX_BITRATE), value: Float(speexvbrcodec.nMaxBitRate) / 1000))
         speexvbr_bitrateChanged(spxvbr_bitrateSlider!)
-        spxvbr_bitrateSlider?.addTarget(self, action: "speexvbr_bitrateChanged:", forControlEvents: .ValueChanged)
+        spxvbr_bitrateSlider?.addTarget(self, action: #selector(AudioCodecViewController.speexvbr_bitrateChanged(_:)), forControlEvents: .ValueChanged)
         speexvbr_items.append(spxvbr_bitrateCell!)
         
         let dtxcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
@@ -262,7 +262,7 @@ class AudioCodecViewController : UITableViewController {
         spxvbr_txintervalStepper = newTableCellStepper(spxvbr_txintervalCell!,
             label: NSLocalizedString("Transmit Interval", comment:"codec detail"), min: 20, max: 100, step: 20, initial: Double(speexvbrcodec.nTxIntervalMSec))
         speexvbr_txintervalChanged(spxvbr_txintervalStepper!)
-        spxvbr_txintervalStepper?.addTarget(self, action: "speexvbr_txintervalChanged:", forControlEvents: .ValueChanged)
+        spxvbr_txintervalStepper?.addTarget(self, action: #selector(AudioCodecViewController.speexvbr_txintervalChanged(_:)), forControlEvents: .ValueChanged)
         speexvbr_items.append(spxvbr_txintervalCell!)
         
         let savebtn = tableView.dequeueReusableCellWithIdentifier("Use Speex VBR")!
