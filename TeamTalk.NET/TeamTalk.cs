@@ -2939,7 +2939,7 @@ namespace BearWare
         public TTType ttType;
         /** @brief Reserved. To preserve alignment. */
         public uint uReserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5224)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6248)]
         public byte[] data;
         //UnionData data;
         
