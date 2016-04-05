@@ -1662,6 +1662,11 @@ namespace BearWare
          * content.
          * @see TeamTalk.SetUserAudioStreamBufferSize() */
         public int nBufferMSecMediaFile;
+        /** @brief The name of the client application which the user
+         * is using. This is the value passed as @c szClientName in
+         * TT_DoLoginEx() */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
+        public string szClientName;
     }
 
     /**
@@ -4821,6 +4826,7 @@ namespace BearWare
          * @param bEncrypted Whether the server requires an encrypted 
          * connection. Encryption is only available in the TeamTalk
          * Professional SDK.
+         * @return Returns TRUE if connection process was initiated.
          * @see OnConnectionSuccess
          * @see OnConnectionFailed
          * @see TeamTalk.DoLogin */
@@ -4833,6 +4839,41 @@ namespace BearWare
         {
             return TTDLL.TT_Connect(m_ttInst, szHostAddress, nTcpPort, nUdpPort, 
                                     nLocalTcpPort, nLocalUdpPort, bEncrypted);
+        }
+
+        /**
+         * @brief Same as Connect() but the option of providing a
+         * unique system-ID.
+         *
+         * The system-ID is set in the TeamTalk server API using
+         * TTS_StartServerSysID(). If a client tries to connect with a
+         * different system-ID that client will receive the error
+         * #CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
+         *
+         * @param szHostAddress The IP-address or hostname of the server.
+         * @param nTcpPort The host port of the server (TCP).
+         * @param nUdpPort The audio/video port of the server (UDP).
+         * @param nLocalTcpPort The local TCP port which should be used. 
+         * Setting it to 0 makes OS select a port number (recommended).
+         * @param nLocalUdpPort The local UDP port which should be used. 
+         * Setting it to 0 makes OS select a port number (recommended).
+         * @param bEncrypted Whether the server requires an encrypted 
+         * connection. Encryption is only available in the TeamTalk
+         * Professional SDK.
+         * @param szSystemID The identification of the conferencing system.
+         * The default value is "teamtalk". See TT_StartServerSysID()
+         * @return Returns TRUE if connection process was initiated. */
+        public bool ConnectSysID(string szHostAddress,
+                                 int nTcpPort,
+                                 int nUdpPort,
+                                 int nLocalTcpPort,
+                                 int nLocalUdpPort,
+                                 bool bEncrypted,
+                                 string szSystemID)
+        {
+            return TTDLL.TT_ConnectSysID(m_ttInst, szHostAddress, 
+                                         nTcpPort, nUdpPort, nLocalTcpPort, 
+                                         nLocalUdpPort, bEncrypted, szSystemID);
         }
 
         /**
@@ -4919,10 +4960,26 @@ namespace BearWare
          * ::CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
          * command. -1 is returned in case of error.
          */
-         public int DoPing()
-         {
-             return TTDLL.TT_DoPing(m_ttInst);
-         }
+        public int DoPing()
+        {
+            return TTDLL.TT_DoPing(m_ttInst);
+        }
+
+        /** @brief Same as DologinEx() but without the option to
+         * specify @c szClientName. Kept for backwards compatibility.
+         *
+         * @param szNickname The nickname to use.
+         * @param szUsername The username of the #UserAccount set up on the 
+         * server.
+         * @param szPassword The password of the user account on the server. Leave 
+         * blank if no account is needed on the server.
+         * @return Returns command ID which will be passed in 
+         * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
+         * command. -1 is returned in case of error. */
+        public int DoLogin(string szNickname, string szUsername, string szPassword)
+        {
+            return TTDLL.TT_DoLogin(m_ttInst, szNickname, szUsername, szPassword);
+        }
 
         /**
          * @brief Logon to a server.
@@ -4945,15 +5002,18 @@ namespace BearWare
          * server.
          * @param szPassword The password of the user account on the server. Leave 
          * blank if no account is needed on the server.
+         * @param szClientName The name of the client application used. This is an 
+         * optional value and can be kept blank.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
          * @see TeamTalk.DoJoinChannel
          * @see OnCmdMyselfLoggedIn
          * @see OnCmdError */
-        public int DoLogin(string szNickname, string szUsername, string szPassword)
+        public int DoLoginEx(string szNickname, string szUsername, string szPassword,
+                             string szClientName)
         {
-            return TTDLL.TT_DoLogin(m_ttInst, szNickname, szUsername, szPassword);
+            return TTDLL.TT_DoLoginEx(m_ttInst, szNickname, szUsername, szPassword, szClientName);
         }
         /**
          * @brief Logout of the server.

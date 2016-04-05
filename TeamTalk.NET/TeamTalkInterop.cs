@@ -303,6 +303,15 @@ namespace c_tt
                                              int nLocalUdpPort,
                                              bool bEncrypted);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_ConnectSysID(IntPtr lpTTInstance,
+                                                  [MarshalAs(UnmanagedType.LPWStr)] string szHostAddress,
+                                                  int nTcpPort,
+                                                  int nUdpPort,
+                                                  int nLocalTcpPort,
+                                                  int nLocalUdpPort,
+                                                  bool bEncrypted,
+                                                  [MarshalAs(UnmanagedType.LPWStr)] string szSystemID);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_ConnectEx(IntPtr lpTTInstance,
                                                [MarshalAs(UnmanagedType.LPWStr)] string szHostAddress,
                                                int nTcpPort,
@@ -325,6 +334,12 @@ namespace c_tt
                                          [MarshalAs(UnmanagedType.LPWStr)] string szNickname,
                                          [MarshalAs(UnmanagedType.LPWStr)] string szUsername,
                                          [MarshalAs(UnmanagedType.LPWStr)] string szPassword);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int TT_DoLoginEx(IntPtr lpTTInstance,
+                                         [MarshalAs(UnmanagedType.LPWStr)] string szNickname,
+                                         [MarshalAs(UnmanagedType.LPWStr)] string szUsername,
+                                         [MarshalAs(UnmanagedType.LPWStr)] string szPassword,
+                                         [MarshalAs(UnmanagedType.LPWStr)] string szClientName);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoLogout(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
