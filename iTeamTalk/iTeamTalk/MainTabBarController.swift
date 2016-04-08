@@ -256,7 +256,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
                 nickname = DEFAULT_NICKNAME
             }
             
-            cmdid = TT_DoLogin(ttInst, nickname!, server.username, server.password)
+            cmdid = TT_DoLoginEx(ttInst, nickname!, server.username, server.password, AppInfo.getAppName())
             if cmdid > 0 {
                 channelsTab.activeCommands[cmdid] = .LoginCmd
             }
