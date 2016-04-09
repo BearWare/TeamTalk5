@@ -598,7 +598,7 @@ class ChannelListViewController :
         }
         
         if hasPTTLock() {
-            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Tripple tap to toggle.", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
         }
         else {
             txButton.accessibilityHint = NSLocalizedString("Toggle to enable transmission", comment: "channel list")
