@@ -128,6 +128,7 @@
     
 
     <string name="user_prop_title_username">Username</string>
+    <string name="user_prop_title_clientname">Client Name</string>
     <string name="user_prop_title_voice_volume">Voice Volume</string>
     <string name="user_prop_title_mute_voice">Mute Voice</string>
     <string name="user_prop_title_media_volume">Media File Volume</string>

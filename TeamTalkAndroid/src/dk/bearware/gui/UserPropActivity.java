@@ -107,6 +107,7 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     void showUser() {
         TextView nickname = (TextView) findViewById(R.id.user_nickname);
         TextView username = (TextView) findViewById(R.id.user_username);
+        TextView clientname = (TextView) findViewById(R.id.user_clientname);
         final SeekBar voiceVol = (SeekBar) findViewById(R.id.user_vol_voiceSeekBar);
         final Button defVoiceBtn = (Button) findViewById(R.id.defVoiceVolBtn);
         final Switch voiceMute = (Switch) findViewById(R.id.user_mutevoiceSwitch);
@@ -116,6 +117,7 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
+        clientname.setText(user.szClientName);
         voiceVol.setMax(100);
         voiceVol.setProgress(Utils.refVolumeToPercent(user.nVolumeVoice));
         mediaVol.setMax(100);

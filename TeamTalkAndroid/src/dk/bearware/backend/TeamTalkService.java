@@ -43,6 +43,7 @@ import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.Preferences;
@@ -351,7 +352,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         String def_nick = getResources().getString(R.string.pref_default_nickname);
         String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
 
-        int loginCmdId = ttclient.doLogin(nickname, ttserver.username, ttserver.password);
+        int loginCmdId = ttclient.doLoginEx(nickname, ttserver.username, ttserver.password, AppInfo.APPNAME_SHORT);
         if(loginCmdId<0) {
             Toast.makeText(this, getResources().getString(R.string.text_cmderr_login),
                            Toast.LENGTH_LONG).show();
