@@ -121,6 +121,7 @@
   <string name="channel_prop_title_novoiceact">Ses Etkinleştirme Devre Dışı</string>
   <string name="channel_prop_title_noaudiorecord">Ses Kaydetmeyi Engelle</string>
   <string name="user_prop_title_username">Kullanıcı Adı</string>
+  <string name="user_prop_title_clientname">İstemci Adı</string>
   <string name="user_prop_title_voice_volume">Ses Düzeyi</string>
   <string name="user_prop_title_mute_voice">Sesi Kapat</string>
   <string name="user_prop_title_media_volume">Ortam Dosyasının Sesi</string>
