@@ -79,6 +79,10 @@
     <string name="pref_summary_message">Объявлять имя отправителя</string>
     <string name="pref_title_mute_speakers">Выключать звук при передаче голоса</string>
     <string name="pref_summary_mute_speakers">Следует разрешить для избежания эхо-эффекта</string>
+    <string name="pref_title_show_usernames">Показывать имена пользователей</string>
+    <string name="pref_summary_show_usernames">Показывать имена пользователей вместо кличек</string>
+    <string name="pref_title_mediafile_volume">Громкость медиафайлов</string>
+    <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
     <string name="text_tts_loggedin">вошел</string>
     <string name="text_tts_loggedout">ушел</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
@@ -114,6 +118,7 @@
     <string name="channel_prop_title_noaudiorecord">Запрет Аудиозаписи</string>
 
     <string name="user_prop_title_username">Имя Пользователя</string>
+    <string name="user_prop_title_clientname">Имя клиента</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
