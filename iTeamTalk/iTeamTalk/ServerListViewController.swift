@@ -110,6 +110,7 @@ class ServerListViewController : UITableViewController,
         if nextappupdate.earlierDate(NSDate()) == nextappupdate {
             NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(ServerListViewController.checkAppUpdate), userInfo: nil, repeats: false)
         }
+        
     }
     
     func checkAppUpdate() {
@@ -269,6 +270,23 @@ class ServerListViewController : UITableViewController,
         currentServer = servers[sender.tag]
     }
 
+    func openUrl(url: NSURL) {
+        
+        // get server from either .tt file or tt-URL
+        let serverparser = ServerParser()
+        
+        let parser = NSXMLParser(contentsOfURL: url)!
+        parser.delegate = serverparser
+        parser.parse()
+        
+        for s in serverparser.servers {
+            currentServer = s
+        }
+        
+        if !currentServer.ipaddr.isEmpty {
+            performSegueWithIdentifier("Show ChannelList", sender: self)
+        }
+    }
 }
 
 class AppUpdateParser : NSObject, NSXMLParserDelegate {
@@ -315,6 +333,9 @@ class ServerParser : NSObject, NSXMLParserDelegate {
     func parser(parser: NSXMLParser, foundCharacters string: String) {
         
         switch elementStack.last! {
+        case "teamtalk" : break
+        case "host" : break
+            
         case "name" :
             currentServer.name = string
         case "address" :
@@ -325,6 +346,12 @@ class ServerParser : NSObject, NSXMLParserDelegate {
         case "udpport" :
             let v : String = string
             currentServer.udpport = Int(v)!
+        case "encrypted" :
+            currentServer.encrypted = string == "true"
+            
+        case "auth" : break
+        case "join" : break
+            
         case "username" :
             currentServer.username = string
         case "password" :
@@ -336,8 +363,6 @@ class ServerParser : NSObject, NSXMLParserDelegate {
             }
         case "channel" :
             currentServer.channel = string
-        case "encrypted" :
-            currentServer.encrypted = string == "true"
         default :
             print("Unknown tag " + self.elementStack.last!)
         }

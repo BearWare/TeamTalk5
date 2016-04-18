@@ -35,6 +35,8 @@
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
+		258089B41CC2DD380015B315 /* TeamTalk_22x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 258089B21CC2DD380015B315 /* TeamTalk_22x29.png */; };
+		258089B51CC2DD380015B315 /* TeamTalk_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 258089B31CC2DD380015B315 /* TeamTalk_64x64.png */; };
 		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
 		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
@@ -107,6 +109,8 @@
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		258089B21CC2DD380015B315 /* TeamTalk_22x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TeamTalk_22x29.png; path = iTeamTalk/TeamTalk_22x29.png; sourceTree = "<group>"; };
+		258089B31CC2DD380015B315 /* TeamTalk_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TeamTalk_64x64.png; path = iTeamTalk/TeamTalk_64x64.png; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 		254B7A3E1B98BAA300BE0DEF = {
 			isa = PBXGroup;
 			children = (
+				258089B21CC2DD380015B315 /* TeamTalk_22x29.png */,
+				258089B31CC2DD380015B315 /* TeamTalk_64x64.png */,
 				253343BE1C8C85CF00B43A9A /* Splash-568h.png */,
 				254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */,
 				254B7A781B99E69200BE0DEF /* libz.dylib */,
@@ -353,7 +359,9 @@
 				254C084B1C345E3700C98566 /* newuser.mp3 in Resources */,
 				254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */,
 				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
+				258089B51CC2DD380015B315 /* TeamTalk_64x64.png in Resources */,
 				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
+				258089B41CC2DD380015B315 /* TeamTalk_22x29.png in Resources */,
 				25E4DC331BF7360D00EC5A8C /* serverlost.mp3 in Resources */,
 				254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */,
 				25E4DC2E1BF7347200EC5A8C /* on.mp3 in Resources */,
