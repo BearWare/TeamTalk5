@@ -111,10 +111,6 @@
 			<string>TeamTalk Host Settings</string>
 			<key>UTTypeIdentifier</key>
 			<string>dk.bearware.teamtalkhost</string>
-			<key>UTTypeSize320IconFile</key>
-			<string>TeamTalk_64x64</string>
-			<key>UTTypeSize64IconFile</key>
-			<string>TeamTalk_22x29</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
