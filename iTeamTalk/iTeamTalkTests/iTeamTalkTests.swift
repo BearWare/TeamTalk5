@@ -10,6 +10,7 @@ import UIKit
 import XCTest
 import iTeamTalk
 import AVFoundation
+import Foundation
 
 class iTeamTalkTests: XCTestCase {
     
@@ -396,7 +397,7 @@ class iTeamTalkTests: XCTestCase {
             
             print("Waiting 5 sec")
             
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "audioRouteChangeListenerCallback:", name: AVAudioSessionRouteChangeNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(iTeamTalkTests.audioRouteChangeListenerCallback(_:)), name: AVAudioSessionRouteChangeNotification, object: nil)
             
             var msg = TTMessage()
             waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 20000, msg: &msg)
@@ -427,7 +428,7 @@ class iTeamTalkTests: XCTestCase {
 
         XCTAssert(device.proximityMonitoringEnabled, "Proximity sensor ok")
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityChanged:", name: UIDeviceProximityStateDidChangeNotification, object: device)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(iTeamTalkTests.proximityChanged(_:)), name: UIDeviceProximityStateDidChangeNotification, object: device)
 
         
         connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
