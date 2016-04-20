@@ -23,8 +23,13 @@ import UIKit
 
 class AppInfo {
 
+    static let TTLINK_PREFIX = "tt://"
+
     static let OSTYPE = "iOS"
 
+    static let DEFAULT_TCPPORT = 10333
+    static let DEFAULT_UDPPORT = 10333
+    
     enum BundleInfo {
         case NAME, VERSION_NO
     }
@@ -66,5 +71,4 @@ class AppInfo {
             "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
 
     }
-
 }

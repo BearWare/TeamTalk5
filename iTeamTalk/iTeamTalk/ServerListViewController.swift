@@ -25,8 +25,8 @@ import UIKit
 class Server : NSObject {
     var name = ""
     var ipaddr = ""
-    var tcpport = 10333
-    var udpport = 10333
+    var tcpport = AppInfo.DEFAULT_TCPPORT
+    var udpport = AppInfo.DEFAULT_UDPPORT
     var username = ""
     var password = ""
     var channel = ""
@@ -272,15 +272,86 @@ class ServerListViewController : UITableViewController,
 
     func openUrl(url: NSURL) {
         
-        // get server from either .tt file or tt-URL
-        let serverparser = ServerParser()
-        
-        let parser = NSXMLParser(contentsOfURL: url)!
-        parser.delegate = serverparser
-        parser.parse()
-        
-        for s in serverparser.servers {
-            currentServer = s
+        if url.fileURL {
+            // get server from either .tt file or tt-URL
+            let serverparser = ServerParser()
+            
+            let parser = NSXMLParser(contentsOfURL: url)!
+            parser.delegate = serverparser
+            parser.parse()
+            
+            for s in serverparser.servers {
+                currentServer = s
+            }
+        }
+        else {
+            do {
+                // assume TT url
+                let url_str = url.absoluteString
+                let ns_str = url_str as NSString
+                let url_range = NSMakeRange(0, url_str.characters.count)
+
+                // ip-addr
+                let host = AppInfo.TTLINK_PREFIX + "([^\\??!/]*)/?\\??"
+                let host_regex = try NSRegularExpression(pattern: host, options: .CaseInsensitive)
+                let host_matches = host_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = host_matches.first {
+                    currentServer.ipaddr = ns_str.substringWithRange(m.rangeAtIndex(1))
+                }
+                
+                //tcp port
+                let tcpport = "[&|\\?]tcpport=(\\d+)"
+                let tcpport_regex = try NSRegularExpression(pattern: tcpport, options: .CaseInsensitive)
+                let tcpport_matches = tcpport_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = tcpport_matches.first {
+                    let s = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.tcpport = Int(s)!
+                }
+                
+                // udp port
+                let udpport = "[&|\\?]udpport=(\\d+)"
+                let udpport_regex = try NSRegularExpression(pattern: udpport, options: .CaseInsensitive)
+                let udpport_matches = udpport_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = udpport_matches.first {
+                    let s = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.udpport = Int(s)!
+                }
+
+                // username
+                let username = "[&|\\?]username=([^&]*)"
+                let username_regex = try NSRegularExpression(pattern: username, options: .CaseInsensitive)
+                let username_matches = username_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = username_matches.first {
+                    currentServer.username = ns_str.substringWithRange(m.rangeAtIndex(1))
+                }
+                
+                // password
+                let password = "[&|\\?]password=([^&]*)"
+                let password_regex = try NSRegularExpression(pattern: password, options: .CaseInsensitive)
+                let password_matches = password_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = password_matches.first {
+                    currentServer.password = ns_str.substringWithRange(m.rangeAtIndex(1))
+                }
+                
+                // channel
+                let channel = "[&|\\?]channel=([^&]*)"
+                let channel_regex = try NSRegularExpression(pattern: channel, options: .CaseInsensitive)
+                let channel_matches = channel_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = channel_matches.first {
+                    currentServer.channel = ns_str.substringWithRange(m.rangeAtIndex(1))
+                }
+                
+                // channel password
+                let chpasswd = "[&|\\?]chanpasswd=([^&]*)"
+                let chpasswd_regex = try NSRegularExpression(pattern: chpasswd, options: .CaseInsensitive)
+                let chpasswd_matches = chpasswd_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                if let m = chpasswd_matches.first {
+                    currentServer.chanpasswd = ns_str.substringWithRange(m.rangeAtIndex(1))
+                }
+            }
+            catch {
+                
+            }
         }
         
         if !currentServer.ipaddr.isEmpty {

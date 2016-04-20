@@ -70,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TT_DoLeaveChannel(nil)
             TT_GetRootChannelID(nil)
             TT_DBG_SetSoundInputTone(nil, 0, 0)
+            TT_DoLogin(nil, "", "", "")
         }
         
         return true
