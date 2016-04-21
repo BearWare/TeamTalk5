@@ -20,7 +20,11 @@ Android client:
 - Green icon for "self" when talking
 iOS client:
 - Fixed crash issue when creating channel and VoiceOver active
+- Fixed audio stream not resuming after phone call
+- Fixed disconnect issue after long phone call
 - Default audio codec settings when creating new channel
+- iOS 7.0 support (iPhone 4)
+- tt:// URL and .tt file support
 
 Version 5.1.2, released 2016/02/18
 iOS client:
