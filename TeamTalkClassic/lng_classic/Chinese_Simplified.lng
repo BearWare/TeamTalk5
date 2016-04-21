@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="102">TeamTalk设置向导</item>
-    <item id="104">连接\tF2</item>
+    <item id="102">TeamTalk 设置 向导</item>
+    <item id="104">Dis&amp;连接\tF2</item>
     <item id="105">%s 加入频道</item>
     <item id="106">%s 左 通道</item>
-    <item id="107">连接\tF2</item>
+    <item id="107">&amp;连接\tF2</item>
     <item id="108">创建频道</item>
     <item id="109">更新频道</item>
     <item id="110">创建新频道</item>
@@ -25,8 +25,8 @@
     <item id="125">停止</item>
     <item id="126">默认</item>
     <item id="127">左 通道%s</item>
-    <item id="128">参首选项</item>
-    <item id="129">帮助</item>
+    <item id="128">>参数选项</item>
+    <item id="129">幫助(&amp;H)</item>
     <item id="130">新昵称</item>
     <item id="131">修改昵称</item>
     <item id="132">教室</item>
@@ -69,7 +69,7 @@
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
     <item id="1017">音量</item>
-    <item id="1018">默认: 10333</item>
+    <item id="1018">默认:10333</item>
     <item id="1019">屏蔽此消息</item>
     <item id="1020">显示频道用户人数</item>
     <item id="1021">自动使用 3D 声音定位用户所在位置</item>
@@ -78,7 +78,7 @@
     <item id="1024">启动快速入门指南，了解如何设置服务器，并学会如何连接到该服务器</item>
     <item id="1025">默认: 10333</item>
     <item id="1028">音量</item>
-    <item id="1030">连接</item>
+    <item id="1030">&amp;连接</item>
     <item id="1035">用户ID</item>
     <item id="1036">昵称</item>
         <item id="1042">此向导将一步一步的带您完成 TeamTalk 会议程序的安装过程，点击“下一步”按钮开始逐步完成此向导，如果您点击“取消”按钮，您将不得不手动设置 TeamTalk。</item>
@@ -202,7 +202,7 @@
     <item id="1268">提高语音增益</item>
     <item id="1270">注册按键</item>
     <item id="1272">注册按键</item>
-    <item id="1276">注册热键</item>
+    <item id="1276">注册按键</item>
     <item id="1277">放低声音增益</item>
     <item id="1278">键盘快捷键</item>
     <item id="1279">文件已更新</item>
@@ -358,7 +358,7 @@
     <item id="1519">媒体文件音频丢包</item>
     <item id="1520">启用VU表更新</item>
     <item id="1523">存储短信对话</item>
-    <item id="1524">文件夹通道日志文件</item>
+    <item id="1524">文件夹频道日志文件</item>
     <item id="1525">文件夹的用户到用户的日志和文件</item>
     <item id="1526">客户端设置</item>
     <item id="1527">覆盖客户的预定义设置</item>
@@ -370,8 +370,15 @@
     <item id="1535">视频捕捉设置</item>
     <item id="1537">媒体文件与语音音量</item>
     <item id="1538">打开.tt文件</item>
+    <item id="1539">频道ID代替频道昵称</item>
+    <item id="1540">详细信息</item>
+    <item id="1550">扬声器输出</item>
+    <item id="1551">扬声器输入</item>
+    <item id="1552">麦克风激活</item>
+    <item id="1553">频道信息查看</item>
+    <item id="1554">频道消息发送</item>
     <item id="32791">你的IP地址?</item>
-    <item id="32798">&amp;Op\tCtrl+O</item>
+    <item id="32798">设置维操作员\tCtrl+O</item>
     <item id="32801">查看频道消息(w)\tF10</item>
     <item id="32805">启用文本到语音的活动\tCtrl+Alt+S</item>
     <item id="32814">运行设置向导</item>
@@ -389,7 +396,7 @@
     <item id="32829">恢复</item>
     <item id="32830">修改昵称\tF5</item>
     <item id="32831">查看频道信息\tF3</item>
-    <item id="32833">量\tCtrl+U</item>
+    <item id="32833">音量\tCtrl+U</item>
     <item id="32835">查看用户信息\tCtrl+I</item>
     <item id="32837">创建频道\tF7</item>
     <item id="32838">加入频道\tCtrl+J</item>
@@ -401,10 +408,11 @@
     <item id="32844">全选</item>
     <item id="32845">解开</item>
     <item id="32846">黏贴</item>
-    <item id="32847">所有频道子菜单</item>
-    <item id="32848">所有用户</item>
-    <item id="32849">操作c</item>
-    <item id="32850">我</item>
+    <item id="32847">所有頻道(&amp;C)</item>
+
+    <item id="32848">所有用戶(&amp;U)</item>
+    <item id="32849">操作(&amp;M)</item>
+    <item id="32850">本地(&amp;M)</item>
     <item id="32851">高级</item>
     <item id="32853">订阅</item>
     <item id="32854">中号</item>
@@ -417,9 +425,9 @@
     <item id="32867">更新频道/tShift+F7</item>
     <item id="32868">服务器属性\tF9</item>
     <item id="32869">用户账号\tCtrl+Shift+L</item>
-    <item id="32870">服务器</item>
+    <item id="32870">服务器(&amp;S)</item>
     <item id="32871">ave配置\tCtrl+Shift+S</item>
-    <item id="32877">商店移动\tCtrl+Alt+X</item>
+    <item id="32877">商店 移动\tCtrl+Alt+X</item>
     <item id="32878">移动用户\tCtrl+Alt+V</item>
     <item id="32882">禁止用户\tCtrl+Shift+B</item>
     <item id="32885">踢出和禁止\tCtrl+Shift+K</item>
@@ -431,10 +439,10 @@
     <item id="32895">音色\tCtrl+4</item>
     <item id="32896">视频\tCtrl+5</item>
     <item id="32897">拦截 语音\tCtrl+Shift+4</item>
-    <item id="32898">拦截 用户 信息\tCtrl+Shift+1</item>
+    <item id="32898">拦截用户信息\tCtrl+Shift+1</item>
     <item id="32899">拦截频道信息\tCtrl+Shift+2</item>
     <item id="32900">拦截 视频\tCtrl+Shift+5</item>
-    <item id="32901">允许语音传输 \tCtrl+Alt+Q</item>
+    <item id="32901">允许语音传输\tCtrl+Alt+Q</item>
     <item id="32902">允许视频传输\tCtrl+Alt+W</item>
     <item id="32903">服务器统计\tShift+F9</item>
     <item id="32904">在线用户\tCtrl+Shift+U</item>
