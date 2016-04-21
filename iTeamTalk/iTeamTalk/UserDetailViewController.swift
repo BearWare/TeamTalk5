@@ -40,7 +40,6 @@ class UserDetailViewController : UIViewController,
     var subdesktopswitch: UISwitch?
 
     
-    var ttInst : UnsafeMutablePointer<Void> = nil
     var userid : INT32 = 0, kick_cmdid : INT32 = 0, kickban_cmdid : INT32 = 0
     
     let SECTION_GENERAL = 0,

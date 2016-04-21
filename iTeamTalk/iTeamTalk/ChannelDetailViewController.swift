@@ -26,9 +26,6 @@ class ChannelDetailViewController :
     UITableViewDelegate, TeamTalkEvent,
     UITextFieldDelegate, UIAlertViewDelegate {
 
-    //shared TTInstance between all view controllers
-    var ttInst : UnsafeMutablePointer<Void> = nil
-
     var channel = Channel()
     
     var cmdid : INT32 = 0

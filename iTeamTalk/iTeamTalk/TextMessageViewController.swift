@@ -30,8 +30,6 @@ class TextMessageViewController :
     @IBOutlet weak var msgTextView: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     
-    //shared TTInstance between all view controllers
-    var ttInst : UnsafeMutablePointer<Void> = nil
     var userid : INT32 = 0
     
     var delegate : MyTextMessageDelegate?

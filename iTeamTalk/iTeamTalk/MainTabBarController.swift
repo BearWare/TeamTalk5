@@ -24,8 +24,6 @@ import AVFoundation
 
 class MainTabBarController : UITabBarController, TeamTalkEvent {
 
-    // our one and only TeamTalk client instance
-    var ttInst : UnsafeMutablePointer<Void> = nil
     // timer for polling TeamTalk client events
     var polltimer : NSTimer?
     // reconnect timer
@@ -64,22 +62,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
         let chatTab = viewControllers?[TEXTMSGTAB] as! TextMessageViewController
         let prefTab = viewControllers?[PREFTAB] as! PreferencesViewController
-        channelsTab.ttInst = self.ttInst
-        chatTab.ttInst = self.ttInst
-        prefTab.ttInst = self.ttInst
         addToTTMessages(channelsTab)
         addToTTMessages(chatTab)
         addToTTMessages(prefTab)
 
-        let flags = TT_GetFlags(ttInst)
-        if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
-            TT_InitSoundInputDevice(ttInst, 0)
-        }
-        if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-            TT_InitSoundOutputDevice(ttInst, 0)
-        }
-        
-        setupSpeakerOutput()
+        setupSoundDevices()
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.objectForKey(PREF_MASTER_VOLUME) != nil {
@@ -107,8 +94,11 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: UIDeviceProximityStateDidChangeNotification, object: device)
 
+        // detect device changes, e.g. headset plugged in
         center.addObserver(self, selector: #selector(MainTabBarController.audioRouteChange(_:)), name: AVAudioSessionRouteChangeNotification, object: nil)
-
+        
+        center.addObserver(self, selector: #selector(MainTabBarController.audioInterruption(_:)), name: AVAudioSessionInterruptionNotification, object: nil)
+        
         connectToServer()
     }
     
@@ -116,6 +106,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
         // print("Destroyed main view controller")
         if ttInst != nil {
             TT_CloseTeamTalk(ttInst)
+            ttInst = nil
         }
     }
     
@@ -177,7 +168,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     
     func connectToServer() {
         
-        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == 0 {
+        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == FALSE {
             TT_Disconnect(ttInst)
             startReconnectTimer()
         }
@@ -212,33 +203,76 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     func audioRouteChange(notification: NSNotification) {
-        // let session = AVAudioSession.sharedInstance()
-        // print("Audio route: " + session.currentRoute.debugDescription)
+//        let session = AVAudioSession.sharedInstance()
+//        print("Audio route: " + session.currentRoute.debugDescription)
         if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
             
             switch reason as! UInt {
             case AVAudioSessionRouteChangeReason.Unknown.rawValue :
+                //print("ChangeReason Unknown")
                 break
             case AVAudioSessionRouteChangeReason.NewDeviceAvailable.rawValue :
+                //print("ChangeReason NewDeviceAvailable")
                 break
             case AVAudioSessionRouteChangeReason.OldDeviceUnavailable.rawValue:
+//                print("ChangeReason Unknown")
                 setupSpeakerOutput()
             case AVAudioSessionRouteChangeReason.CategoryChange.rawValue:
-                // let session = AVAudioSession.sharedInstance()
-                // print("New category: " + session.category)
+//                let session = AVAudioSession.sharedInstance()
+//                print("ChangeReason CategoryChange, new category: " + session.category)
                 break
             case AVAudioSessionRouteChangeReason.Override.rawValue :
-                // let session = AVAudioSession.sharedInstance()
-                // print("New route: " + session.currentRoute.description)
+//                let session = AVAudioSession.sharedInstance()
+//                print("ChangeReason Override, new route: " + session.currentRoute.description)
                 break
             case AVAudioSessionRouteChangeReason.RouteConfigurationChange.rawValue :
-                //print("New route config change" )
+//                print("ChangeReason RouteConfigurationChange")
                 break
             case AVAudioSessionRouteChangeReason.WakeFromSleep.rawValue:
+//                print("ChangeReason WakeFromSleep")
                 break
             case AVAudioSessionRouteChangeReason.NoSuitableRouteForCategory.rawValue:
+//                print("ChangeReason NoSuitableRouteForCategory")
                 break
-            default : break
+            default :
+//                print("ChangeReason Default")
+                break
+            }
+        }
+    }
+
+    func audioInterruption(notification: NSNotification) {
+        
+        // Phone call active/inactive
+        if let reason = notification.userInfo![AVAudioSessionInterruptionTypeKey] {
+            
+            switch reason as! UInt {
+            case AVAudioSessionInterruptionType.Began.rawValue :
+                //print("Audio interruption begin")
+                break
+            case AVAudioSessionInterruptionType.Ended.rawValue :
+                //print("Audio interruption ended")
+                break
+            default :
+                break
+            }
+        }
+        
+        if let reason = notification.userInfo![AVAudioSessionInterruptionOptionKey] {
+            
+            // when phone call is complete we restart the sound devices
+            switch reason as! UInt {
+            case AVAudioSessionInterruptionOptions.ShouldResume.rawValue :
+                //print("Audio session can now resume")
+                
+                TT_CloseSoundInputDevice(ttInst)
+                TT_CloseSoundOutputDevice(ttInst)
+                
+                setupSoundDevices()
+                
+                break
+            default :
+                break
             }
         }
     }

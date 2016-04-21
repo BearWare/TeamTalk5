@@ -191,6 +191,9 @@ class TeamTalkEventHandler {
     }
 }
 
+//shared TTInstance between all view controllers
+var ttInst : UnsafeMutablePointer<Void> = nil
+
 var ttMessageHandlers = [TeamTalkEventHandler]()
 
 func addToTTMessages(p: TeamTalkEvent) {
@@ -377,6 +380,19 @@ func getSoundFile(s: Sounds) -> String? {
 	    }
 
     return nil
+}
+
+func setupSoundDevices() {
+    
+    let flags = TT_GetFlags(ttInst)
+    if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
+        TT_InitSoundInputDevice(ttInst, 0)
+    }
+    if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
+        TT_InitSoundOutputDevice(ttInst, 0)
+    }
+    
+    setupSpeakerOutput()
 }
 
 func setupSpeakerOutput() {

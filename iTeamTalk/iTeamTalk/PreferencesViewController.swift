@@ -72,7 +72,6 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
    
     var nicknamefield : UITextField?
     
-    var ttInst : UnsafeMutablePointer<Void> = nil
     var users = Set<INT32>()
     
     var limittextcell : UITableViewCell?

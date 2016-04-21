@@ -27,8 +27,6 @@ class ChannelListViewController :
     UITableViewDelegate, UIAlertViewDelegate,
     MyTextMessageDelegate, TeamTalkEvent  {
 
-    //shared TTInstance between all view controllers
-    var ttInst : UnsafeMutablePointer<Void> = nil
     // all channels on server
     var channels = [INT32 : Channel]()
     // channel passwords
@@ -461,11 +459,9 @@ class ChannelListViewController :
 
             let userDetail = segue.destinationViewController as! UserDetailViewController
             userDetail.userid = INT32(cell!.tag)
-            userDetail.ttInst = self.ttInst
         }
         else if segue.identifier == "New Channel" {
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
-            chanDetail.ttInst = ttInst
             chanDetail.channel.nParentID = curchannel.nChannelID
             
             if chanDetail.channel.nParentID == 0 {
@@ -493,7 +489,6 @@ class ChannelListViewController :
             let channel = channels[chanid]
             
             let chanDetail = segue.destinationViewController as! ChannelDetailViewController
-            chanDetail.ttInst = ttInst
             chanDetail.channel = channel!
         }
         else if segue.identifier == "New TextMessage" {
@@ -526,7 +521,6 @@ class ChannelListViewController :
     }
 
     func openTextMessages(sender: TextMessageViewController, userid: INT32) {
-        sender.ttInst = self.ttInst
         sender.userid = userid
         sender.delegate = self
         addToTTMessages(sender)
