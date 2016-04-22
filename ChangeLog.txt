@@ -12,6 +12,7 @@ Accessible Windows client:
 - Fixed issue where away-status was not set after reconnect
 - Show username instead of nickname in channel list
 - TTS for private and channel text messages
+- See which client application is being used
 Android client:
 - Voice activation
 - Show username instead of nickname
