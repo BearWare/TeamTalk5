@@ -20,8 +20,6 @@
  */
 
 #include "stdafx.h"
-#include "Helper.h"
-
 #include <queue>
 #include <Mmsystem.h>
 
@@ -369,4 +367,19 @@ CString GetDisplayName(const User& user)
     if(bShowUsernames)
         return LimitText(user.szUsername);
     return LimitText(user.szNickname);
+}
+
+void SetAccessibleName(CWnd& wnd, LPCTSTR szHint)
+{
+    //// COM is assumed to be initialized...
+    //IAccPropServices* pAccPropServices = NULL;
+    //HRESULT hr = CoCreateInstance(CLSID_AccPropServices,
+    //    NULL, CLSCTX_SERVER, IID_IAccPropServices, 
+    //    (void**)&pAccPropServices);
+
+    //if (SUCCEEDED(hr))
+    //{
+    //    hr = pAccPropServices->SetHwndPropStr(wnd, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_NAME, szHint);
+    //    pAccPropServices->Release();
+    //}
 }

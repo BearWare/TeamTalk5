@@ -72,12 +72,12 @@
  * https://github.com/BearWare/TeamTalk5
  *
  * Once downloaded copy TeamTalk.h from the downloaded TeamTalk 5 SDK
- * folder "Library/C-API/TeamTalk_DLL" to the folder
+ * folder "Library/TeamTalk_DLL" to the folder
  * "../../TeamTalk_DLL"
  *
  * Also copy libTeamTalk5.a or libTeamTalk5Pro.a from the downloaded
- * TeamTalk 5 SDK folder "Library/C-API/TeamTalk_DLL" to the folder
- * ../../TeamTalk_DLL/lib/win32 or ../../TeamTalk_DLL/lib/x64
+ * TeamTalk 5 SDK folder "Library/TeamTalk_DLL" to the folder
+ * ../../TeamTalk_DLL or ../../TeamTalk_DLL
  */
 
 

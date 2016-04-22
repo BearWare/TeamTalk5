@@ -601,6 +601,8 @@
 #define IDC_STATIC_MEDIASTREAMVOL       1537
 #define IDC_BUTTON_IMPORTTTILE          1538
 #define IDC_CHECK_SHOWUSERNAME          1539
+#define IDC_STATIC_CLIENTNAME           1540
+#define IDC_STATIC_SCLIENTNAME          1541
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -706,7 +708,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32944
-#define _APS_NEXT_CONTROL_VALUE         1540
+#define _APS_NEXT_CONTROL_VALUE         1542
 #define _APS_NEXT_SYMED_VALUE           161
 #endif
 #endif

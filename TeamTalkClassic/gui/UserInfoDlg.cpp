@@ -25,6 +25,7 @@ CUserInfoDlg::CUserInfoDlg(CWnd* pParent /*=NULL*/)
     , m_szIPAddr(_T(""))
     , m_szMFVideoLoss(_T(""))
     , m_szMFAudioLoss(_T(""))
+    , m_szClientName(_T(""))
 {
 }
 
@@ -47,6 +48,7 @@ void CUserInfoDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_VOICELOSS, m_wndVoiceLoss);
     DDX_Control(pDX, IDC_STATIC_MFAUDIOLOSS, m_wndMFAudioLoss);
     DDX_Control(pDX, IDC_STATIC_MFVIDEOLOSS, m_wndMFVideoLoss);
+    DDX_Text(pDX, IDC_STATIC_SCLIENTNAME, m_szClientName);
 }
 
 

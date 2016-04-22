@@ -2400,6 +2400,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     szCtrlName.LoadString(IDS_MASTERVOL);
     TRANSLATE_ITEM(IDS_MASTERVOL, szCtrlName);
     m_wndVolSlider.SetWindowText(szCtrlName);
+    SetAccessibleName(m_wndVolSlider, szCtrlName);
     szCtrlName.LoadString(IDS_MICGAIN);
     TRANSLATE_ITEM(IDS_MICGAIN, szCtrlName);
     m_wndGainSlider.SetWindowText(szCtrlName);
@@ -3553,6 +3554,7 @@ void CTeamTalkDlg::OnUsersViewinfo()
         dlg.m_szUserType = (user.uUserType & USERTYPE_ADMIN)? _T("Admin"): _T("Default");
         if(TT_GetMyUserRights(ttInst) & USERRIGHT_BAN_USERS)
             dlg.m_szIPAddr = user.szIPAddress;
+        dlg.m_szClientName = user.szClientName;
         dlg.m_szVersion = GetVersion(user);
 
         dlg.DoModal();

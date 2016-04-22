@@ -38,4 +38,5 @@ public:
     CStatic m_wndMFAudioLoss;
     CStatic m_wndMFVideoLoss;
     afx_msg void OnTimer(UINT_PTR nIDEvent);
+    CString m_szClientName;
 };

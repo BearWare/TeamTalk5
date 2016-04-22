@@ -81,5 +81,5 @@ CString TrimForPath(LPCTSTR szPath);
 BOOL OpenLogFile(CFile& file, LPCTSTR szFolder, LPCTSTR szName, CString& szLogFileName = CString());
 void CloseLogFile(CFile& file);
 void WriteLogMsg(CFile& file, LPCTSTR szMsg);
-
+void SetAccessibleName(CWnd& wnd, LPCTSTR szHint);
 #endif
