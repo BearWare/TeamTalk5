@@ -578,6 +578,9 @@
     <ClInclude Include="License.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\bitmap1.bmp">
@@ -634,10 +637,5 @@
     </CustomBuildStep>
     <CustomBuildStep Include="res\TeamTalk.manifest" />
     <CustomBuildStep Include="res\TeamTalk_amd64.manifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
