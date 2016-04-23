@@ -14,3 +14,5 @@ Either build using the instructions on the [Tolk](https://github.com/dkager/tolk
 use a forked version [here](https://github.com/bear101/tolk). If using the forked version
 then start a Visual Studio console window and run the build_tolk_x86.bat and build_tolk_x64.bat
 files.
+Once Tolk is built then replace $(TOLK) in the TeamTalkClassic.vcxproj file with the path on 
+your local disk.
