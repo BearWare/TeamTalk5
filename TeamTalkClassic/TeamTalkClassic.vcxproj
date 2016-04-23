@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-SSL|Win32">
@@ -191,7 +191,7 @@
     </PreLinkEvent>
     <Link>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\TeamTalk_DLL\lib\$(Platform);$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\TeamTalk_DLL;$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -269,7 +269,7 @@
     <Link>
       <AdditionalOptions>/nod:kernel32.lib /nod:advapi32.lib /nod:user32.lib /nod:gdi32.lib /nod:shell32.lib /nod:comdlg32.lib /nod:version.lib /nod:mpr.lib /nod:rasapi32.lib /nod:winmm.lib /nod:winspool.lib /nod:vfw32.lib /nod:secur32.lib /nod:oleacc.lib /nod:oledlg.lib /nod:sensapi.lib %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\TeamTalk_DLL\lib\$(Platform);$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\TeamTalk_DLL;$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -352,7 +352,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5pro.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\TeamTalk_DLL\lib\$(Platform);$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\TeamTalk_DLL;$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -425,7 +425,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5pro.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\TeamTalk_DLL\lib\$(Platform);$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\TeamTalk_DLL;$(TOLK)\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -507,11 +507,6 @@
       </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeaderOutputFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
-      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="settings\CPrintfArg.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">NotUsing</PrecompiledHeader>
@@ -526,9 +521,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -558,9 +550,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -590,9 +579,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -622,9 +608,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -726,7 +709,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -735,8 +717,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -758,7 +738,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -767,8 +746,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -790,7 +767,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -799,8 +775,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -822,7 +796,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -831,8 +804,6 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release-SSL|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">StdAfx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-SSL|x64'">NotUsing</PrecompiledHeader>
@@ -865,7 +836,6 @@
     <ClInclude Include="settings\Settings.h" />
     <ClInclude Include="settings\StringPrintf.h" />
     <ClInclude Include="settings\XMLLanguages.h" />
-    <ClInclude Include="speech\Tolk.h" />
     <ClInclude Include="xml\tinystr.h" />
     <ClInclude Include="xml\tinyxml.h" />
     <CustomBuild Include="Resource.h">

@@ -569,9 +569,6 @@
     <ClInclude Include="settings\CPrintfArg.h">
       <Filter>Header Files\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="speech\Tolk.h">
-      <Filter>Header Files\Speech</Filter>
-    </ClInclude>
     <ClInclude Include="gui\GenerateTTFileDlg.h">
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
