@@ -202,6 +202,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
         {
             m_hostentry.vidcodec.nCodec = WEBM_VP8_CODEC;
             m_hostentry.vidcodec.webm_vp8.nRcTargetBitrate = GetWindowNumber(m_wndVidBitrate);
+            m_hostentry.vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
         }
     }
     else

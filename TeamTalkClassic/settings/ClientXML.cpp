@@ -2696,6 +2696,7 @@ namespace teamtalk {
                         {
                         case WEBM_VP8_CODEC :
                             GetInteger(*vidcodec, "webm-vp8-bitrate", entry.vidcodec.webm_vp8.nRcTargetBitrate);
+                            entry.vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
                             break;
                         }
                     }

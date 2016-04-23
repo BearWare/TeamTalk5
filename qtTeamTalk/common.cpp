@@ -91,6 +91,7 @@ bool getVideoCaptureCodec(VideoCodec& vidcodec)
     case WEBM_VP8_CODEC :
         vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
                                                                SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT).toInt();
+        vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
         break;
     case SPEEX_CODEC :
     case SPEEX_VBR_CODEC :
@@ -1028,7 +1029,10 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             case WEBM_VP8_CODEC :
                 vid = tmp.firstChildElement("webm-vp8-bitrate");
                 if(!vid.isNull())
+                {
                     entry.vidcodec.webm_vp8.nRcTargetBitrate = vid.text().toInt();
+                    entry.vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+                }
                 break;
             case SPEEX_CODEC :
             case SPEEX_VBR_CODEC :

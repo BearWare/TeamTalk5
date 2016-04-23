@@ -172,8 +172,9 @@
 #define DEFAULT_VIDEO_FOURCC    FOURCC_RGB32
 
 //Default video codec settings
-#define DEFAULT_VIDEO_CODEC     WEBM_VP8_CODEC
-#define DEFAULT_WEBMVP8_BITRATE 256
+#define DEFAULT_VIDEO_CODEC         WEBM_VP8_CODEC
+#define DEFAULT_WEBMVP8_DEADLINE    WEBM_VPX_DL_REALTIME
+#define DEFAULT_WEBMVP8_BITRATE     256
 
 //Default user right for default user-type
 #define USERRIGHT_DEFAULT   (USERRIGHT_MULTI_LOGIN |                \

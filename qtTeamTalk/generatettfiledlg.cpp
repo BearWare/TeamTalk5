@@ -157,6 +157,7 @@ void GenerateTTFileDlg::slotSaveTTFile()
         {
         case WEBM_VP8_CODEC :
             m_hostentry.vidcodec.webm_vp8.nRcTargetBitrate = ui.vidbitrateSpinBox->value();
+            m_hostentry.vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
             break;
         case SPEEX_CODEC :
         case SPEEX_VBR_CODEC :

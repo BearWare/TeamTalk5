@@ -2750,6 +2750,7 @@ void MainWindow::startStreamMediaFile()
     {
     case WEBM_VP8_CODEC :
         vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE).toInt();
+        vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
         break;
     default :
         break;

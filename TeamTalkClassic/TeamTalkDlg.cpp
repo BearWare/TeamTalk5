@@ -5191,6 +5191,7 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
             ZERO_STRUCT(vidCodec);
             vidCodec.nCodec = WEBM_VP8_CODEC;
             vidCodec.webm_vp8.nRcTargetBitrate = dlg.m_nVidCodecBitrate;
+            vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
             lpVideoCodec = &vidCodec;
     
             if(!TT_StartStreamingMediaFileToChannel(ttInst, dlg.m_szFilename,
@@ -5901,6 +5902,7 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
     {
     case WEBM_VP8_CODEC :
         codec.webm_vp8.nRcTargetBitrate = m_xmlSettings.GetVideoCodecBitrate(DEFAULT_WEBM_VP8_BITRATE);
+        codec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
         break;
     }
 

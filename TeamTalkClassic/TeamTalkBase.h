@@ -127,6 +127,7 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
 //WebM settings
 #define DEFAULT_VIDEOCODEC              WEBM_VP8_CODEC
+#define DEFAULT_WEBMVP8_DEADLINE        WEBM_VPX_DL_REALTIME
 #define DEFAULT_WEBM_VP8_BITRATE        256
 
 // Channel dialog
