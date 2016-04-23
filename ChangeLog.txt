@@ -6,6 +6,8 @@ Default Qt client:
 - Option to enable/disable VU-meter updates
 - Show username instead of nickname in channel list
 - See which client application is being used
+- Fixed bug where video encoder was always set to 256 kbit/sec
+- Significant improvement in video encoder speed
 Accessible Windows client:
 - Portuguese_BR, Chinese Simplified, Turkish, Czech, Korean updated
 - Names for main window controls (translatable)
@@ -13,6 +15,8 @@ Accessible Windows client:
 - Show username instead of nickname in channel list
 - TTS for private and channel text messages
 - See which client application is being used
+- Fixed bug where video encoder was always set to 256 kbit/sec
+- Significant improvement in video encoder speed
 Android client:
 - Voice activation
 - Show username instead of nickname
@@ -23,7 +27,7 @@ iOS client:
 - Fixed crash issue when creating channel and VoiceOver active
 - Fixed audio stream not resuming after phone call
 - Fixed disconnect issue after long phone call
-- Default audio codec settings when creating new channel
+- Default to OPUS audio codec when creating new channel
 - iOS 7.0 support (iPhone 4)
 - tt:// URL and .tt file support
 
