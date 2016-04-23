@@ -41,6 +41,7 @@ RESOURCES += resources.qrc
 
 win32 {
       DEFINES += _CRT_SECURE_NO_WARNINGS
+      RC_FILE = mainwindow.rc
 }
 
 x11 {
@@ -48,6 +49,8 @@ x11 {
 }
 
 mac {
+    CONFIG += accessibility
+    QTPLUGIN += qtaccessiblewidgets
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
 }
