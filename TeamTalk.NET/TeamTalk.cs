@@ -969,13 +969,41 @@ namespace BearWare
      * @see VideoCodec
      * @see TeamTalk.InitVideoCaptureDevice
      * @see TeamTalk.StartStreamingMediaFileToChannel() */
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct WebMVP8Codec
     {
-        /** @brief Target bitrate in kbits/sec.
-         * Same as 'rc_target_bitrate' in 'vpx_codec_enc_cfg_t'.
-         * http://www.webmproject.org/docs/vp8-sdk/ */
+        /** @brief Same as @c rc_target_bitrate */
+        [FieldOffset(0)]
         public int nRcTargetBitrate;
+        /** @brief Target bitrate in kbits/sec. This value must be
+         * greater than 0. 
+         *
+         * Same as 'rc_target_bitrate' in 'vpx_codec_enc_cfg_t'.
+         * http://www.webmproject.org/docs/webm-sdk/ */
+        [FieldOffset(0)]
+        public int rc_target_bitrate;
+        /** @brief Time that should be spent on encoding a frame.
+         *
+         * Same as 'deadline' parameter in 'vpx_codec_encode()'.
+         * http://www.webmproject.org/docs/webm-sdk/
+         * 
+         * Supported values are VPX_DL_REALTIME = 1, VPX_DL_GOOD_QUALITY = 1000000,
+         * and VPX_DL_BEST_QUALITY = 0. */
+        [FieldOffset(4)]
+        public uint nEncodeDeadline;
+    }
+
+    public struct WebMVP8CodecConstants
+    {
+        /** @brief @c nEncodeDeadline value for fastest encoding.
+         * @see WebMVP8Codec */
+        public const int WEBM_VPX_DL_REALTIME = 1;
+        /** @brief @c nEncodeDeadline value for good encoding.
+         * @see WebMVP8Codec */
+        public const int WEBM_VPX_DL_GOOD_QUALITY = 1000000;
+        /** @brief @c nEncodeDeadline value for best encoding.
+         * @see WebMVP8Codec */
+        public const int WEBM_VPX_DL_BEST_QUALITY = 0;
     }
 
     /**
