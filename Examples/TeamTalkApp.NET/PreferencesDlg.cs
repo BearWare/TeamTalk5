@@ -67,7 +67,7 @@ namespace TeamTalkApp.NET
             UpdateSoundSystem(null, null);
 
             vidcodecComboBox.SelectedIndex = 0;
-            this.vidbitrateNumericUpDown.Value = settings.codec.webm_vp8.nRcTargetBitrate / 1024;
+            this.vidbitrateNumericUpDown.Value = settings.codec.webm_vp8.nRcTargetBitrate;
             UpdateVideoCaptureDevices();
 
             fwCheckBox.Checked = WindowsFirewall.AppExceptionExists(Application.ExecutablePath);
@@ -267,9 +267,10 @@ namespace TeamTalkApp.NET
             //Video-tab
             if (viddevComboBox.Items.Count > 0)
             {
-                VideoCodec codec;
+                VideoCodec codec = new VideoCodec();
                 codec.nCodec = Codec.WEBM_VP8_CODEC;
-                codec.webm_vp8.nRcTargetBitrate = (int)vidbitrateNumericUpDown.Value * 1024;
+                codec.webm_vp8.nRcTargetBitrate = (int)vidbitrateNumericUpDown.Value;
+                codec.webm_vp8.nEncodeDeadline = WebMVP8CodecConstants.WEBM_VPX_DL_REALTIME;
 
                 VideoFormat capformat = videodevs[viddevComboBox.SelectedIndex].videoFormats[formatComboBox.SelectedIndex];
 
@@ -280,7 +281,7 @@ namespace TeamTalkApp.NET
                     ttclient.CloseVideoCaptureDevice();
 
                 settings.codec.nCodec = Codec.WEBM_VP8_CODEC;
-                settings.codec.webm_vp8.nRcTargetBitrate = (int)vidbitrateNumericUpDown.Value * 1024;
+                settings.codec.webm_vp8.nRcTargetBitrate = (int)vidbitrateNumericUpDown.Value;
 
                 settings.videoid = videodevs[viddevComboBox.SelectedIndex].szDeviceID;
                 settings.capformat = capformat;

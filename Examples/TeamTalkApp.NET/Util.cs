@@ -61,7 +61,8 @@ namespace TeamTalkApp.NET
         public Settings()
         {
             codec.nCodec = Codec.WEBM_VP8_CODEC;
-            codec.webm_vp8.nRcTargetBitrate = 0; //VBR
+            codec.webm_vp8.nRcTargetBitrate = 256;
+            codec.webm_vp8.nEncodeDeadline = WebMVP8CodecConstants.WEBM_VPX_DL_REALTIME;
 
             server.ipaddr = "localhost";
             server.tcpport = TeamTalk.DEFAULT_TCPPORT;

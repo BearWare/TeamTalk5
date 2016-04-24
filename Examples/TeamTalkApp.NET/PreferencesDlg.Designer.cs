@@ -43,7 +43,6 @@ namespace TeamTalkApp.NET
             this.sndoutputComboBox = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.vidbitrateNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.vidcodecComboBox = new System.Windows.Forms.ComboBox();
@@ -233,7 +232,6 @@ namespace TeamTalkApp.NET
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.vidbitrateNumericUpDown);
             this.groupBox3.Controls.Add(this.vidcodecComboBox);
@@ -245,23 +243,14 @@ namespace TeamTalkApp.NET
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Video Codec";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(245, 59);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(47, 13);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "0 = VBR";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(11, 59);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(90, 13);
             this.label7.TabIndex = 5;
-            this.label7.Text = "Bit Rate (KBits)";
+            this.label7.Text = "Bitrate (kbits/sec)";
             // 
             // vidbitrateNumericUpDown
             // 
@@ -274,6 +263,11 @@ namespace TeamTalkApp.NET
             this.vidbitrateNumericUpDown.Name = "vidbitrateNumericUpDown";
             this.vidbitrateNumericUpDown.Size = new System.Drawing.Size(120, 20);
             this.vidbitrateNumericUpDown.TabIndex = 4;
+            this.vidbitrateNumericUpDown.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
             // 
             // vidcodecComboBox
             // 
@@ -463,7 +457,6 @@ namespace TeamTalkApp.NET
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown vidbitrateNumericUpDown;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox echocancelCheckBox;
         private System.Windows.Forms.CheckBox duplexCheckBox;
         private System.Windows.Forms.TabPage tabPage4;
