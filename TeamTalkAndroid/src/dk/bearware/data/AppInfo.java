@@ -30,7 +30,7 @@ public class AppInfo {
     public static final String TAG = "bearware";
 
     public static final String APPNAME_SHORT = "TeamTalk5Droid";
-    public static final String APPVERSION_POSTFIX = " - Unreleased";
+    public static final String APPVERSION_POSTFIX = "";
     public static final String OSTYPE = "Android";
 
     public static String getVersion(Context context) {
