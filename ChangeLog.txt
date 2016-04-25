@@ -259,7 +259,7 @@ Version 3.5
 - Version 3.5 is incompatible with Windows9x due to extensive use of Unicode
 - Sorted users and channels
 
-Version 3.4
+Version 3.4, released 2008/01/12
 - Fixed bug in server when 3.0-3.2 clients left non-static channel
 - Server can now be configured to show users in other channels
 - Channels can now have a limit on the maximum number of users (max is 128)
@@ -270,7 +270,7 @@ Version 3.4
 - Using new installer for better compatibility with Windows Vista
 - TeamTalk NT Service installs on Windows Vista
 
-Version 3.3.1
+Version 3.3.1, released 2007/09/28
 - IP access-list for administrators
 - Limit number of incorrect login attempts
 - Removed complexity slider
@@ -279,7 +279,7 @@ Version 3.3.1
 - Ability for admin to send user and channel messages
 - Ability for admin to broadcast messages
 
-Version 3.3
+Version 3.3, released 2007/04/09
 - File transfers
 - Hosting ability removed from main TeamTalk application
 - TeamTalk Admin included in distribution
@@ -294,13 +294,13 @@ Version 3.3
 - Software gain for increasing volume for audio receiver
 - Encoder complexity setting to improve voice quality
 
-Version 3.2
+Version 3.2, released 2006/09/04
 - Forwarding option for server no longer applies
 - Restored compatibility with Windows9x (but still unstable)
 - Server stability issue fixed
 - TeamTalk Admin included in distribution
 
-Version 3.1.1
+Version 3.1.1, released 2005/11/21
 - Event for user stopped talking
 - Fixed scroll bug in channel messages when minimized
 - Forward through server is now default
@@ -312,7 +312,7 @@ Version 3.1.1
 - Bind to only one IP-address (service only)
 
 
-Version 3.1
+Version 3.1, released 2005/05/30
 - New sound system
 - Shows number of users in channels
 - Auto away when inactive
@@ -327,7 +327,7 @@ Version 3.1
 - Pocket PC now has option to prevent it from going into standby while connected
 - FreeBSD version of TeamTalk daemon
 
-Version 3.0.1
+Version 3.0.1, 
 - Multiline paste in channel window
 - Updated sound system (3.74)
 - Talk icon more stable
@@ -340,7 +340,7 @@ increases)
 - Non-admins can make other users channel operators
 - Short-cuts for all menu items.
 
-Version 3.0
+Version 3.0, released 2005/01/30
 - Variable packet size
 - MOTD
 - Auto forwarding
@@ -349,10 +349,14 @@ Version 3.0
 - Updated .tt files - easier to join subchannels
 - Away message
 
-Version 2.5.3
+Version 2.5.3, released 2004/12/05
+- Forwarding option in preferences.
+- User interface updated.
+- Sorting of users and channels.
+- Single packet forwarding for low bandwidth users.
 - ACE based TeamTalk service
 
-Version 2.5.2
+Version 2.5.2, released 2004/12/04
 - Single forwarding in CServerNode (client version)
 - Sorting of users and channels
 
@@ -364,7 +368,7 @@ Version 2.5.1
 - Admin connect
 - Admin make static channels
 
-Version 2.4.1
+Version 2.4.1, released 2004/10/03
 - Sound system tab -> message when connected
 - NT Service using SocketEngine
 - Linux daemon released
@@ -376,8 +380,7 @@ Version 2.4
 - Relocated "fwd to all" and "mute all" to User menu-item
 - No push-to-talk enabled
 
-
-Version 2.3.1
+Version 2.3.1, released 2004/08/08
 - Windows98 fix for RichEdit
 
 Version 2.3
@@ -385,13 +388,30 @@ Version 2.3
 - Message pop up
 - Window-tab in preferences
 
-
-Version 2.2
+Version 2.2, released 2004/04/06
 - Server available as NT service
 - Denoiser for outgoing audio
 - Voice level
 
+Version 2.01, released 2003/12/08
+- Host on startup
+- HotKey event sound
+- Connect stability bug fixed
+- HotKey bug fix in Win2K/XP
 
+Version 2.0, released 2003/10/23
+- Now supports 32 KHz audio
+- Create channels with passwords
+
+Version 1.02, released 2003/05/25
+- Fxied multiple inputs caused failure to init sound system.
+
+Version 1.01, released 2003/05/21
+- Fixed no mike input with multiple sound cards
+- Fixed Windows error sound when pressing virtual keys
+
+Version 1.0, released 2003/04/06
+- Initial TeamTalk version with both client and server in one application
 
 
 
