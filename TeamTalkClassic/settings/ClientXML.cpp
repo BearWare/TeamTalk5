@@ -1010,7 +1010,7 @@ namespace teamtalk {
 
     bool ClientXML::GetVuMeterUpdate()
     {
-        bool bEnabled = true;
+        bool bEnabled = false;
         TiXmlElement* child = GetWindowElement();
         if(child)
             GetBoolean(*child, "update-vu-meter", bEnabled);
