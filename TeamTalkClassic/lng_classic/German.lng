@@ -40,6 +40,7 @@
     <item id="140">Servereigenschaften</item>
     <item id="141">benutzeraccounts</item>
     <item id="142">Raum</item>
+    <item id="143">Derzeitiger Sprachpegel</item>
     <item id="144">Benutzer-verschieben-Dialog</item>
     <item id="145">Serverstatistiken</item>
     <item id="146">Benutzer online</item>
@@ -49,6 +50,11 @@
     <item id="151">Mediendatei in Raum streamen</item>
     <item id="154">Push-To-Talk: %s</item>
     <item id="155">.tt-Datei erstellen</item>
+    <item id="156">Hauptlautstärke</item>
+    <item id="157">Mikrofonpegel</item>
+    <item id="158">Sprachaktivierungspegel</item>
+    <item id="159">Raumnachricht von %s. %s.</item>
+    <item id="160">Textnachricht von %s. %s.</item>
     <item id="201">Nachrichten</item>
     <item id="205">Status ändern</item>
     <item id="212">Anzeige</item>
@@ -371,6 +377,9 @@
     <item id="1534">Maximale Textlänge</item>
     <item id="1535">Video-Einstellungen</item>
     <item id="1537">Lautstärke Medien zu Sprache</item>
+    <item id="1538">.tt-Datei &amp;importieren</item>
+    <item id="1539">Zeige Benutzername anstelle des Nicknamens</item>
+    <item id="1540">Client-Name</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
