@@ -27,7 +27,10 @@ public class Preferences {
 			PREF_GENERAL_NICKNAME = "nickname_text",
 			PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox";
 	public static final String
-	        PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar";
+	        PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
+	        PREF_SOUNDSYSTEM_VOICEACTIVATION = "voice_activation",
+	        PREF_SOUNDSYSTEM_MASTERVOLUME = "mastervolume",
+	        PREF_SOUNDSYSTEM_MICROPHONEGAIN = "microphonegain";
 	public static final String //duplicates of pref_connection.xml (isn't there an easier way to do this??) 
 			PREF_SUB_TEXTMESSAGE = "sub_txtmsg_checkbox",
 			PREF_SUB_CHANMESSAGE = "sub_chanmsg_checkbox",

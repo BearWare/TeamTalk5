@@ -55,6 +55,7 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MediaAdapter;
+import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
@@ -367,8 +368,8 @@ implements TeamTalkConnectionListener,
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor editor = prefs.edit();
         if(ttclient != null) {
-            editor.putInt("mastervolume", ttclient.getSoundOutputVolume());
-            editor.putInt("microphonegain", ttclient.getSoundInputGainLevel());
+            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
+            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
             editor.commit();
         }
         
@@ -1327,14 +1328,14 @@ implements TeamTalkConnectionListener,
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        if (prefs.getBoolean("voice_activation", true)) {
+        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
             ttservice.enableVoiceActivation(true);
             ttclient.setVoiceActivationLevel(5);
         } else {
             ttservice.enableVoiceActivation(false);
         }
-        int mastervol = prefs.getInt("mastervolume", SoundLevel.SOUND_VOLUME_DEFAULT);
-        int gain = prefs.getInt("microphonegain", SoundLevel.SOUND_GAIN_DEFAULT);
+        int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+        int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
         // only set volume and gain if tt-instance hasn't already been configured
         if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
             ttclient.setSoundOutputVolume(mastervol);
