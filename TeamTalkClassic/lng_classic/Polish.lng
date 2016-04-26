@@ -4,6 +4,8 @@
     <item id="104">Roz&amp;łącz\tF2</item>
     <item id="105">Dołącza się %s</item>
     <item id="106">Odchodzi %s</item>
+    <item id="1">Potwierdź</item>
+    <item id="2">Poniechaj</item>
     <item id="107">&amp;Połącz\tF2</item>
     <item id="108">Utwórz kanał</item>
     <item id="109">Uaktualnij kanał</item>
@@ -11,13 +13,13 @@
     <item id="111">Odśwież istniejący kanał</item>
     <item id="112">Tak</item>
     <item id="113">Nie</item>
-    <item id="114">Ogólne</item>
-    <item id="115">Zaawansowane</item>
-    <item id="116">Połączenie</item>
-    <item id="117">Wyświetlanie</item>
-    <item id="118">Jakość</item>
-    <item id="119">Dźwięki</item>
-    <item id="120">Dźwięk</item>
+    <item id="114">Aktywny</item>
+    <item id="115">Wycisz</item>
+    <item id="116">Strumieniowanie</item>
+    <item id="117">Sesje pulpitu zdalnego</item>
+    <item id="118">Kamera webowa</item>
+    <item id="119">Wycisz multimedia</item>
+    <item id="120">Chroniony hasłem</item>
     <item id="121">Dołączono do kanału %s</item>
     <item id="122">Urządzenie wyjścia wspiera dźwięk 3D</item>
     <item id="123">Urządzenie wyjścia nie obsługuje dźwięku 3D</item>
@@ -51,6 +53,10 @@
     <item id="155">Utwórz plik ustawień .tt</item>
     <item id="201">Wiadomości</item>
     <item id="205">Zmień status</item>
+       <item id="207">Informacje o kanale</item>
+
+    <item id="209">O Programie</item>
+    
     <item id="212">Wyświetlanie</item>
     <item id="215">Ogólne</item>
     <item id="220">Zaawansowane</item>
@@ -111,6 +117,9 @@
     <item id="1085">Serwery</item>
     <item id="1088">Właściwości serwera</item>
     <item id="1092">Nazwa wpisu</item>
+    <item id="1093">Statyczny tekst</item>
+
+<item id="1094">...</item>
     <item id="1095">Domyślnie: 0 (UDP)</item>
     <item id="1098">Domyślnie: 10333</item>
     <item id="1101">Domyślnie: 10333</item>
@@ -370,7 +379,7 @@
     <item id="1531">&amp;Zapisz plik .tt</item>
     <item id="1534">Maksymalna długość bloku tekstu</item>
     <item id="1535">Ustawienia przechwytywania wideo</item>
-    <item id="1538">&amp;Importuj plik .tt </item>
+    <item id="1538">&amp;Importuj plik .tt</item>
     <item id="32791">Jaki jest mój &amp;adres IP?</item>
     <item id="32798">&amp;Nadaj uprawnienia operatoraOp\tCtrl+O</item>
     <item id="32801">Pokaż wiadomości kanału\tF10</item>
@@ -389,9 +398,9 @@
     <item id="32828">&amp;Wykop\tCtrl+K</item>
     <item id="32829">przywróć</item>
     <item id="32830">Zmień &amp;Nick\tF5</item>
-    <item id="32831">&amp;Pokaż informacje o kanale\tF3</item>
+    <item id="32831">&amp;Wyświetl\tF3</item>
     <item id="32833">&amp;Głośność\tCtrl+U</item>
-    <item id="32835">&amp;Pokaż informacje o użytkowniku\tCtrl+I</item>
+    <item id="32835">&amp;Wyświetl\tCtrl+I</item>
     <item id="32837">&amp;Utwórz kanał\tF7</item>
     <item id="32838">&amp;Dołącz do kanału\tCtrl+J</item>
     <item id="32839">&amp;Wiadomości\tCtrl+E</item>
@@ -464,4 +473,19 @@
     <item id="32937">Zezwól na transmisję multimediów\tCtrl+Alt+R</item>
     <item id="32938">&amp;Pliki multimedialne\tCtrl+8</item>
     <item id="32939">Przechwyć pliki multimedialne\tCtrl+Shift+8</item>
+    <item id="143">Obecna głośność audio</item>
+    <item id="156">Głośność główna</item>
+    <item id="157">Głośność mikrofonu</item>
+    <item id="158">Próg zadziałania aktywacji głosem</item>
+    <item id="159">%s pisze: %s.</item>
+    <item id="160">Wiadomość prywatna od %s. %s.</item>
+    <item id="1539">Pokazuj nazwę użytkownika zamiast pseudonimu</item>
+    <item id="1537">Głośność multimediów względem audio</item>
+    <item id="142">Kanał</item>
+    <item id="137">Użytkownik</item>
+    <item id="32942">In&amp;formacje o kanale</item>
+    <item id="32943">&amp;Powiedz\tCtrl+G</item>
+    <item id="32941">&amp;Powiedz\tCtrl+G</item>
+    <item id="32940">In&amp;formacje o użytkowniku</item>
+    <item id="1014">Widok ogólny</item>
 </language>
