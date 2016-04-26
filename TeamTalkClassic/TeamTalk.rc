@@ -1406,8 +1406,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,1,3,4542
- PRODUCTVERSION 5,1,3,4542
+ FILEVERSION 5,1,3,4564
+ PRODUCTVERSION 5,1,3,4564
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1424,12 +1424,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 1, 3, 4542"
+            VALUE "FileVersion", "5, 1, 3, 4564"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 1, 3, 4542"
+            VALUE "ProductVersion", "5, 1, 3, 4564"
         END
     END
     BLOCK "VarFileInfo"
