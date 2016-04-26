@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk Kurulum Sihirbazı</item>
-    <item id="104">Bağlantıyı&amp;Kes\tF2</item>
+    <item id="104">Bağlantıyı&amp; Kes\tF2</item>
     <item id="105">%s geldi</item>
     <item id="106">%s gitti</item>
     <item id="107">&amp;Bağlan\tF2</item>
@@ -50,8 +50,8 @@
     <item id="151">Medya Dosyası Yayınla</item>
     <item id="154">Bas Konuş: %s</item>
     <item id="155">.TT Dosyası Oluştur</item>
-    <item id="156">ana ses düzeyi</item>
-    <item id="157">Mikrofon artırma</item>
+    <item id="156">Hoparlör düzeyi</item>
+    <item id="157">Mikrofon düzeyi</item>
     <item id="158">Mikrofon etkinleştirme seviyesi</item>
     <item id="159">Kanal mesajı %s. %s.</item>
     <item id="160">Metin mesajı %s. %s.</item>
@@ -235,7 +235,7 @@
     <item id="1323">Yönetici</item>
     <item id="1324">&amp;Ekle</item>
     <item id="1325">&amp;Sil</item>
-    <item id="1330">Yasakla</item>
+    <item id="1330">Yasaklanmış</item>
     <item id="1331">Yasağı kaldır</item>
     <item id="1332">Program güncellemelerini denetle</item>
     <item id="1333">p2p bağlantı etkinleştir</item>
@@ -252,7 +252,7 @@
     <item id="1362">Aktarım aralığı</item>
     <item id="1363"></item>
     <item id="1364">Tüm kullanıcıların seslerini tek bir dosyada topla</item>
-    <item id="1365">Tüm kullanıcıların seslerini ayrı ayrı kaydet</item>
+    <item id="1365">Tüm kullanıcıların seslerini ayrı dosyalarda kaydet</item>
     <item id="1369">Video yakalama aygıdı</item>
     <item id="1374">Seçili ayarları test et</item>
     <item id="1379">Masaüstünü paylaş</item>
@@ -304,7 +304,7 @@
     <item id="1432"></item>
     <item id="1433"></item>
     <item id="1434"></item>
-    <item id="1435">Medya dosyası aktarımı</item>
+    <item id="1435">Medya yayını</item>
     <item id="1436"></item>
     <item id="1437">Kaldır</item>
     <item id="1438">Masaüstü Toplam Aktarım</item>
@@ -353,7 +353,7 @@
     <item id="1498">Sağ Sessiz</item>
     <item id="1503">Masaüstü aktarımı</item>
     <item id="1504">Dosya aktarımı</item>
-    <item id="1506">Medya dosyası aktarımı</item>
+    <item id="1506">Medya dosyası</item>
     <item id="1507">Sunucu kötüye kullanımı</item>
     <item id="1510">Kullanıcı Zirvesi</item>
     <item id="1511"></item>
@@ -378,6 +378,7 @@
     <item id="1537">medya ses düzeyi</item>
     <item id="1538">Dosyadan aktar</item>
     <item id="1539">isim yerine kullanıcı adını göster</item>
+    <item id="1540">istemci adı</item>
     <item id="32791">IP adresim&amp;Nedir?</item>
     <item id="32798">&amp;Operatör yetkisi ver\tCtrl+o</item>
     <item id="32801">&amp;Kanal Mesajlarını gör\TF10</item>
@@ -465,7 +466,7 @@
     <item id="32931">&amp;Sunucu&apos;dan at\tCtrl+Alt+K</item>
     <item id="32932">Sesi artır %10</item>
     <item id="32933">&amp;Sesi azalt -10</item>
-    <item id="32934">Medya Sesimi Artır+10</item>
+    <item id="32934">Medya Sesini Artır+10</item>
     <item id="32935">Medya Sesini Azalt -10</item>
     <item id="32936">Masaüstü iletimine izin ver</item>
     <item id="32937">Medya yayınına izin ver</item>
