@@ -20,7 +20,6 @@
  */
 
 #include "stdafx.h"
-#include <queue>
 #include <Mmsystem.h>
 
 extern TTInstance* ttInst;
@@ -369,17 +368,24 @@ CString GetDisplayName(const User& user)
     return LimitText(user.szNickname);
 }
 
+// The horror... initguid.h must be included before oleacc.h but oleacc.h is included
+// by afxwin.h which has to be the first include file in a MFC project...
+#undef INITGUID
+#include <InitGuid.h>
+DEFINE_GUID(CLSID_AccPropServices,   0xb5f8350b, 0x0548, 0x48b1, 0xa6, 0xee, 0x88, 0xbd, 0x00, 0xb4, 0xa5, 0xe7);
+DEFINE_GUID( PROPID_ACC_NAME             , 0x608d3df8, 0x8128, 0x4aa7, 0xa4, 0x28, 0xf5, 0x5e, 0x49, 0x26, 0x72, 0x91);
+
 void SetAccessibleName(CWnd& wnd, LPCTSTR szHint)
 {
-    //// COM is assumed to be initialized...
-    //IAccPropServices* pAccPropServices = NULL;
-    //HRESULT hr = CoCreateInstance(CLSID_AccPropServices,
-    //    NULL, CLSCTX_SERVER, IID_IAccPropServices, 
-    //    (void**)&pAccPropServices);
+    // COM is assumed to be initialized...
+    IAccPropServices* pAccPropServices = NULL;
+    HRESULT hr = CoCreateInstance(CLSID_AccPropServices,
+        NULL, CLSCTX_SERVER, IID_IAccPropServices, 
+        (void**)&pAccPropServices);
 
-    //if (SUCCEEDED(hr))
-    //{
-    //    hr = pAccPropServices->SetHwndPropStr(wnd, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_NAME, szHint);
-    //    pAccPropServices->Release();
-    //}
+    if (SUCCEEDED(hr))
+    {
+        hr = pAccPropServices->SetHwndPropStr(wnd, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_NAME, szHint);
+        pAccPropServices->Release();
+    }
 }

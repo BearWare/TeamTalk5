@@ -2399,17 +2399,16 @@ BOOL CTeamTalkDlg::OnInitDialog()
     CString szCtrlName;
     szCtrlName.LoadString(IDS_MASTERVOL);
     TRANSLATE_ITEM(IDS_MASTERVOL, szCtrlName);
-    m_wndVolSlider.SetWindowText(szCtrlName);
     SetAccessibleName(m_wndVolSlider, szCtrlName);
     szCtrlName.LoadString(IDS_MICGAIN);
     TRANSLATE_ITEM(IDS_MICGAIN, szCtrlName);
-    m_wndGainSlider.SetWindowText(szCtrlName);
+    SetAccessibleName(m_wndGainSlider, szCtrlName);
     szCtrlName.LoadString(IDS_VOICELEVEL);
     TRANSLATE_ITEM(IDS_VOICELEVEL, szCtrlName);
-    m_wndVUProgress.SetWindowText(szCtrlName);
+    SetAccessibleName(m_wndVUProgress, szCtrlName);
     szCtrlName.LoadString(IDS_VOICEACTLEVEL);
     TRANSLATE_ITEM(IDS_VOICEACTLEVEL, szCtrlName);
-    m_wndVoiceSlider.SetWindowText(szCtrlName);
+    SetAccessibleName(m_wndVoiceSlider, szCtrlName);
 
     return TRUE;  // return TRUE  unless you set the focus to a control
 }

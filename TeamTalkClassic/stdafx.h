@@ -61,8 +61,6 @@
 
 #include <afxmt.h>
 
-
-
 /*
  * The TeamTalk header and library files are located in 
  * the TeamTalk 5 SDK.
@@ -72,18 +70,9 @@
  * https://github.com/BearWare/TeamTalk5
  *
  * Once downloaded copy TeamTalk.h from the downloaded TeamTalk 5 SDK
- * folder "Library/TeamTalk_DLL" to the folder
- * "../../TeamTalk_DLL"
- *
- * Also copy libTeamTalk5.a or libTeamTalk5Pro.a from the downloaded
- * TeamTalk 5 SDK folder "Library/TeamTalk_DLL" to the folder
- * ../../TeamTalk_DLL or ../../TeamTalk_DLL
- */
-
+ * folder "Library/TeamTalk_DLL" to the folder "../TeamTalk_DLL" */
 
 #include "../TeamTalk_DLL/TeamTalk.h"
-
-
 
 #include "TeamTalkBase.h"
 
