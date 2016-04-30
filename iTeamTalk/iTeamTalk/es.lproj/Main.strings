@@ -21,7 +21,7 @@
 "4RU-K7-Yga.normalTitle" = "mensaje a  usuario";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "Voz del sintetizador";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "En blanco";
@@ -84,7 +84,7 @@
 "V6G-Gm-l2U.normalTitle" = "Transmitir";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Select Voice";
+"VWP-v4-bY8.title" = "Selecciona la voz";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
 "WCf-u5-KkQ.text" = "En blanco";
@@ -114,7 +114,7 @@
 "aX2-rZ-yEl.title" = "Canales";
 
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
-"b6N-H7-SIe.normalTitle" = "Utilizar cÃ³dec Speex VBR";
+"b6N-H7-SIe.normalTitle" = "Utilizar códec Speex VBR";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Conectar";
