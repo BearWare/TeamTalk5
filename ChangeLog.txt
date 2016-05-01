@@ -1,7 +1,9 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.x unreleased
+Version 5.x, unreleased
+
+Version 5.1.3, released 2016/05/01
 Default Qt client:
 - Option to enable/disable VU-meter updates
 - Show username instead of nickname in channel list
@@ -30,6 +32,8 @@ iOS client:
 - Default to OPUS audio codec when creating new channel
 - iOS 7.0 support (iPhone 4)
 - tt:// URL and .tt file support
+Server:
+- systemd configuration file thanks to Leonard de Ruijter
 
 Version 5.1.2, released 2016/02/18
 iOS client:
