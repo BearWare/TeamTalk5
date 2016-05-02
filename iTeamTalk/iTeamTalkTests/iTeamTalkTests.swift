@@ -75,6 +75,7 @@ class iTeamTalkTests: XCTestCase {
         TT_CloseSoundLoopbackTest(inst1)
     }
     
+    // test is invalid. Sound device 1 no longer exists.
     func testSpeaker() {
         
         var n : INT32 = 0
@@ -148,7 +149,7 @@ class iTeamTalkTests: XCTestCase {
 
         let player = newClient()
         
-        XCTAssert(TT_InitSoundOutputDevice(player, 1) != 0, "init sound player")
+        XCTAssert(TT_InitSoundOutputDevice(player, 0) != 0, "init sound player")
         connect(player, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
         login(player, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
         joinRootChannel(player)
@@ -376,6 +377,26 @@ class iTeamTalkTests: XCTestCase {
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 500, msg: &m)
         XCTAssert(TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, myid) == TRUE, "Pump message")
         XCTAssert(waitForEvent(ttInst, e: CLIENTEVENT_USER_STATECHANGE, waittimeout: 500, msg: &m), "Got Pump message")
+    }
+
+    func testRestartSoundSystem() {
+        let ttInst = newClient()
+        initSound(ttInst)
+        XCTAssertTrue(TT_RestartSoundSystem() == TRUE, "Restart sound where there are no active clients")
+        connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
+        login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
+        joinRootChannel(ttInst)
+        XCTAssertTrue(TT_RestartSoundSystem() == FALSE, "Cannot restart sound where there are active clients")
+        TT_CloseTeamTalk(ttInst)
+        
+        let ttInst2 = newClient()
+        initSound(ttInst2)
+        connect(ttInst2, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
+        login(ttInst2, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
+        joinRootChannel(ttInst2)
+        TT_CloseSoundInputDevice(ttInst2)
+        TT_CloseSoundOutputDevice(ttInst2)
+        XCTAssertTrue(TT_RestartSoundSystem() == TRUE, "Restart sound where there are no active clients")
     }
     
     func testHearMyself() {
