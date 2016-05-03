@@ -106,8 +106,11 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
+    <string name="action_ban">Ban</string>
     <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
+    <string name="action_kick">Kick</string>
+    <string name="action_move">Move</string>
     <string name="action_upload">Upload File</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>

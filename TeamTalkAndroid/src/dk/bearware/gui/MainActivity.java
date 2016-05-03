@@ -42,6 +42,7 @@ import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.UserRight;
 import dk.bearware.UserState;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
@@ -1065,10 +1066,27 @@ implements TeamTalkConnectionListener,
     }
 
     Channel selectedChannel;
+    User selectedUser;
 
     @Override
     public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
         Object item = channelsAdapter.getItem(position);
+        if (item instanceof User) {
+            selectedUser = (User) item;
+            UserAccount myuseraccount = new UserAccount();
+            ttclient.getMyUserAccount(myuseraccount);
+            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
+            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) !=0;
+            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
+            PopupMenu userActions = new PopupMenu(this, v);
+            userActions.setOnMenuItemClickListener(this);
+            userActions.inflate(R.menu.user_actions);
+            userActions.getMenu().findItem(R.id.action_kick).setEnabled(kickRight).setVisible(kickRight);
+            userActions.getMenu().findItem(R.id.action_ban).setEnabled(banRight).setVisible(banRight);
+            userActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
+            userActions.show();
+            return true;
+        }
         if (item instanceof Channel) {
             selectedChannel = (Channel) item;
             if ((curchannel != null) && (curchannel.nParentID != selectedChannel.nChannelID)) {
@@ -1087,8 +1105,14 @@ implements TeamTalkConnectionListener,
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
+        case R.id.action_ban:
+            ttclient.doBanUser(selectedUser.nUserID, 0);
+            break;
         case R.id.action_edit:
             editChannelProperties(selectedChannel);
+            break;
+        case R.id.action_kick:
+            ttclient.doKickUser(selectedUser.nUserID, 0);
             break;
         case R.id.action_remove: {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
