@@ -12,7 +12,7 @@
   <string name="title_section_files">Dosyalar</string>
   <string name="title_activity_channel_prop">Kanal Özellikleri</string>
   <string name="title_activity_user_prop">Kullanıcı Özellikleri</string>
-  <string name="title_activity_text_message">İleti</string>
+  <string name="title_activity_text_message">İletişim</string>
   <string name="title_activity_preferences">Ayarlar</string>
   <string name="action_createchannel">Oluştur</string>
   <string name="action_updatechannel">Güncelle</string>
@@ -103,8 +103,11 @@
   <string name="button_tx">Konuş</string>
   <string name="button_remove">Kaldır</string>
   <string name="button_edit">Düzenle</string>
+  <string name="action_ban">Engelle</string>
   <string name="action_edit">Kanalı Düzenle</string>
   <string name="action_join">Katıl</string>
+  <string name="action_kick">Uzaklaştır</string>
+  <string name="action_move">Taşı</string>
   <string name="action_upload">Dosya Yükle</string>
   <string name="button_msg">İleti</string>
   <string name="button_send">Gönder</string>
