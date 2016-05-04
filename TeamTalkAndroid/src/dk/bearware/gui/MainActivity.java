@@ -21,9 +21,12 @@
 
 package dk.bearware.gui;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.List;
 import java.util.Vector;
 
 import dk.bearware.BannedUser;
@@ -1067,6 +1070,7 @@ implements TeamTalkConnectionListener,
 
     Channel selectedChannel;
     User selectedUser;
+    List<Integer> userIDS = new ArrayList<Integer>();
 
     @Override
     public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
@@ -1083,7 +1087,7 @@ implements TeamTalkConnectionListener,
             userActions.inflate(R.menu.user_actions);
             userActions.getMenu().findItem(R.id.action_kick).setEnabled(kickRight).setVisible(kickRight);
             userActions.getMenu().findItem(R.id.action_ban).setEnabled(banRight).setVisible(banRight);
-            userActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
+            userActions.getMenu().findItem(R.id.action_select).setEnabled(moveRight).setVisible(moveRight);
             userActions.show();
             return true;
         }
@@ -1113,6 +1117,16 @@ implements TeamTalkConnectionListener,
             break;
         case R.id.action_kick:
             ttclient.doKickUser(selectedUser.nUserID, 0);
+            break;
+        case R.id.action_move:
+            Iterator<Integer> userIDSIterator = userIDS.iterator(); 
+            while (userIDSIterator.hasNext()) {
+                ttclient.doMoveUser(userIDSIterator.next(), selectedChannel.nChannelID);
+            }
+            userIDS.clear();
+            break;
+        case R.id.action_select:
+            userIDS.add(selectedUser.nUserID);
             break;
         case R.id.action_remove: {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);

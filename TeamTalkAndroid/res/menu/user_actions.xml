@@ -9,7 +9,7 @@
         android:title="@string/action_ban"/>
 
     <item
-        android:id="@+id/action_move"
-        android:title="@string/action_move"/>
+        android:id="@+id/action_select"
+        android:title="@string/action_select"/>
 
 </menu>

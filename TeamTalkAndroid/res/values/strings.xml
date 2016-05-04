@@ -110,7 +110,8 @@
     <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
     <string name="action_kick">Kick</string>
-    <string name="action_move">Move</string>
+    <string name="action_move">Move Here</string>
+    <string name="action_select">Select For Move</string>
     <string name="action_upload">Upload File</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>

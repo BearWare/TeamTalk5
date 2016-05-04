@@ -5,6 +5,10 @@
         android:title="@string/action_edit"/>
 
     <item
+        android:id="@+id/action_move"
+        android:title="@string/action_move"/>
+
+    <item
         android:id="@+id/action_remove"
         android:title="@string/button_remove"/>
 
