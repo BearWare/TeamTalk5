@@ -13,19 +13,22 @@
 /* codec detail */
 "12 KHz" = "12 KHZ";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "16 KHz" = "16 KHZ";
 
 /* codec detail */
 "24 KHz" = "24 KHZ";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "32 KHz" = "32 KHZ";
 
 /* codec detail */
 "48 KHz" = "48 KHZ";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "8 KHz" = "8 KHZ";
 
 /* serverlist */
@@ -79,11 +82,17 @@
    user detail */
 "Channel Messages" = "Raumnachrichten";
 
+/* create channel */
+"Channel Properties" = "Channel Properties";
+
 /* preferences */
 "Channel Text Message" = "Raum-Textnachricht";
 
 /* channel list */
 "Channel. %d users" = "Raum. %d Benutzer";
+
+/* create channel */
+"Commands" = "Commands";
 
 /* serverlist */
 "Connect to server" = "Zum Server verbinden";
@@ -116,7 +125,7 @@
 "Display" = "Anzeige";
 
 /* channel list */
-"Double tap and hold to transmit. Tripple tap to toggle." = "Doppeltipp und halten um zu sprechen, dreimal tippen zum Umschalten.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
 
 /* preferences */
 "Double tap to lock TX button" = "Doppeltipp zum Sperren des Sprechen-Schalters";
@@ -193,7 +202,8 @@
 /* preferences */
 "Microphone Gain" = "Mikrofonpegel";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "Mono" = "Mono";
 
 /* codec detail */
@@ -218,7 +228,8 @@
 /* preferences */
 "Nickname" = "Nickname";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "No Audio" = "Kein Audio";
 
 /* create channel */
@@ -388,7 +399,8 @@
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Speex-Codec (variable Bitrate)";
 
-/* codec detail */
+/* codec detail
+   create channel */
 "Stereo" = "Stereo";
 
 /* channel list */
@@ -485,7 +497,7 @@
 "Voice Volume" = "Sprachlautstärke";
 
 /* codec detail */
-"VoIP" = "VoIP";
+"VoIP" = "Sprachausgabe";
 
 /* user detail */
 "Volume Controls" = "Lautstärkekontrollen";
