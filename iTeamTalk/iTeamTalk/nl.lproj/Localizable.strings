@@ -425,7 +425,7 @@
 "The volume of the speaking voice is %.1f" = "Het volume van de sprekende stem is %.1f";
 
 /* channel list */
-"Toggle to enable transmission" = "Schakelen om uitzenden in te schakelen";
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
 /* create channel */
 "Topic" = "Onderwerp";

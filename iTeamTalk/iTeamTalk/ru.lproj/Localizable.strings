@@ -425,7 +425,7 @@
 "The volume of the speaking voice is %.1f" = "Громкость речи голоса %.1f";
 
 /* channel list */
-"Toggle to enable transmission" = "Нажмите для включения передачи";
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
 /* create channel */
 "Topic" = "Тема";

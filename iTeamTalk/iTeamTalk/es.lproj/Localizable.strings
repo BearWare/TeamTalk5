@@ -425,7 +425,7 @@
 "The volume of the speaking voice is %.1f" = "El volumen de la voz es  %.1f";
 
 /* channel list */
-"Toggle to enable transmission" = "Pulsa para activar la transmisión";
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
 /* create channel */
 "Topic" = "Tema";

@@ -425,7 +425,7 @@
 "The volume of the speaking voice is %.1f" = "Głośność syntezy to %.1f";
 
 /* channel list */
-"Toggle to enable transmission" = "Stuknij by wyłączyć nadawanie";
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
 /* create channel */
 "Topic" = "Temat";
