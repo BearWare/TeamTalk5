@@ -34,7 +34,7 @@ class TextMessageViewController :
     
     var delegate : MyTextMessageDelegate?
 
-    let initial_text = "Type text here"
+    let initial_text = NSLocalizedString("Type text here", comment: "text message")
 
     var messages : [MyTextMessage] = []
     
@@ -52,6 +52,7 @@ class TextMessageViewController :
         
         msgTextView.delegate = self
         
+        msgTextView.accessibilityHint = NSLocalizedString("Send empty message to close keyboard", comment: "text message")
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -141,6 +142,11 @@ class TextMessageViewController :
     }
     
     @IBAction func sendTextMessage(sender: UIButton) {
+        
+        if msgTextView.text.isEmpty {
+            msgTextView.resignFirstResponder()
+            return
+        }
         
         var msg = TextMessage()
         msg.nFromUserID = TT_GetMyUserID(ttInst)
