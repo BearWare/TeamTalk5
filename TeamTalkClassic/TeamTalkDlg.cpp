@@ -3658,8 +3658,11 @@ void CTeamTalkDlg::OnUpdateUsersKickchannel(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnUsersKickFromChannel()
 {
-    TT_DoKickUser(ttInst, m_wndTree.GetSelectedUser(),
-                  m_wndTree.GetSelectedChannel(TRUE));
+    std::vector<User> users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
+    {
+        TT_DoKickUser(ttInst, i->nUserID, i->nChannelID);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersKickfromserver(CCmdUI *pCmdUI)
@@ -3669,7 +3672,11 @@ void CTeamTalkDlg::OnUpdateUsersKickfromserver(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnUsersKickfromserver()
 {
-    TT_DoKickUser(ttInst, m_wndTree.GetSelectedUser(), 0);
+    std::vector<User> users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
+    {
+        TT_DoKickUser(ttInst, i->nUserID, 0);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersOp(CCmdUI *pCmdUI)
@@ -3679,14 +3686,14 @@ void CTeamTalkDlg::OnUpdateUsersOp(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnUsersOp()
 {
-    int nUserID = m_wndTree.GetSelectedUser();
-    if(nUserID>0)
+    std::vector<User> users = m_wndTree.GetSelectedUsers();
+
+    for(auto i=users.begin();i!=users.end();++i)
     {
-        int nChannelID = m_wndTree.GetSelectedChannel(true);
-        BOOL bNewState = !TT_IsChannelOperator(ttInst, nUserID, nChannelID);
+        BOOL bNewState = !TT_IsChannelOperator(ttInst, i->nUserID, i->nChannelID);
         if(TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE)
         {
-            TT_DoChannelOp(ttInst, nUserID, nChannelID, bNewState);
+            TT_DoChannelOp(ttInst, i->nUserID, i->nChannelID, bNewState);
         }
         else
         {
@@ -3694,7 +3701,7 @@ void CTeamTalkDlg::OnUsersOp()
             TRANSLATE_ITEM(IDC_STATIC_OPPASSWD, szTitle);
             CInputDlg dlg(szTitle, _T("Enter password"), _T(""), this);
             if(dlg.DoModal() == IDOK)
-                TT_DoChannelOpEx(ttInst, nUserID, nChannelID, dlg.m_szInput, bNewState);
+                TT_DoChannelOpEx(ttInst, i->nUserID, i->nChannelID, dlg.m_szInput, bNewState);
         }
     }
 }
@@ -3753,12 +3760,15 @@ void CTeamTalkDlg::OnUpdateAdvancedIncvolumevoice(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnAdvancedIncvolumevoice()
 {
-    int nUserID = m_wndTree.GetSelectedUser();
-    User user;
-    if(TT_GetUser(ttInst, nUserID, &user))
+    auto users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
     {
-        int v = RefVolumeToPercent(user.nVolumeVoice);
-        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE, RefVolume(v + 1));
+        User user;
+        if(TT_GetUser(ttInst, i->nUserID, &user))
+        {
+            int v = RefVolumeToPercent(user.nVolumeVoice);
+            TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_VOICE, RefVolume(v + 1));
+        }
     }
 }
 
@@ -3773,13 +3783,16 @@ void CTeamTalkDlg::OnUpdateAdvancedLowervolumevoice(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnAdvancedLowervolumevoice()
 {
-    int nUserID = m_wndTree.GetSelectedUser();
-    User user;
-    if(TT_GetUser(ttInst, nUserID, &user))
+    auto users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
     {
-        int v = RefVolumeToPercent(user.nVolumeVoice);
-        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_VOICE,
-                         RefVolume(v - 1));
+        User user;
+        if(TT_GetUser(ttInst, i->nUserID, &user))
+        {
+            int v = RefVolumeToPercent(user.nVolumeVoice);
+            TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_VOICE,
+                RefVolume(v - 1));
+        }
     }
 }
 
@@ -3794,13 +3807,16 @@ void CTeamTalkDlg::OnUpdateAdvancedIncvolumemediafile(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnAdvancedIncvolumemediafile()
 {
-    int nUserID = m_wndTree.GetSelectedUser();
-    User user;
-    if(TT_GetUser(ttInst, nUserID, &user))
+    auto users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
     {
-        int v = RefVolumeToPercent(user.nVolumeMediaFile);
-        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         RefVolume(v + 1));
+        User user;
+        if(TT_GetUser(ttInst, i->nUserID, &user))
+        {
+            int v = RefVolumeToPercent(user.nVolumeMediaFile);
+            TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
+                RefVolume(v + 1));
+        }
     }
 }
 
@@ -3815,13 +3831,16 @@ void CTeamTalkDlg::OnUpdateAdvancedLowervolumemediafile(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnAdvancedLowervolumemediafile()
 {
-    int nUserID = m_wndTree.GetSelectedUser();
-    User user;
-    if(TT_GetUser(ttInst, nUserID, &user))
+    auto users = m_wndTree.GetSelectedUsers();
+    for(auto i=users.begin();i!=users.end();++i)
     {
-        int v = RefVolumeToPercent(user.nVolumeMediaFile);
-        TT_SetUserVolume(ttInst, nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
-                         RefVolume(v - 1));
+        User user;
+        if(TT_GetUser(ttInst, i->nUserID, &user))
+        {
+            int v = RefVolumeToPercent(user.nVolumeMediaFile);
+            TT_SetUserVolume(ttInst, i->nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
+                RefVolume(v - 1));
+        }
     }
 }
 
