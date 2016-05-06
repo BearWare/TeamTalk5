@@ -107,7 +107,8 @@
   <string name="action_edit">Kanalı Düzenle</string>
   <string name="action_join">Katıl</string>
   <string name="action_kick">Uzaklaştır</string>
-  <string name="action_move">Taşı</string>
+  <string name="action_move">Buraya Taşı</string>
+  <string name="action_select">Taşımak için Seçin</string>
   <string name="action_upload">Dosya Yükle</string>
   <string name="button_msg">İleti</string>
   <string name="button_send">Gönder</string>
