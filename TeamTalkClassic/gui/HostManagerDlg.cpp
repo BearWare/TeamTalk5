@@ -109,22 +109,7 @@ BOOL CHostManagerDlg::OnInitDialog()
     m_wndEncrypted.ShowWindow(SW_HIDE);
 #endif
 
-    for(int i=0;i<m_pSettings->GetHostManagerEntryCount();i++)
-    {
-        HostEntry entry;
-        m_pSettings->GetHostManagerEntry(i, entry);
-        m_wndHosts.AddString( STR_UTF8( entry.szEntryName.c_str() ));
-    }
-    
     m_wndDelete.EnableWindow(FALSE);
-    if(m_wndHosts.GetCount()>0)
-    {
-        m_wndHosts.SetCurSel(0);
-        OnSelchangeListHosts();
-    }
-    else
-        if(m_wndHosts.GetCount()==0)
-            OnButtonNew();
 
     if(m_bPubServers)
         ShowPublicServers();
@@ -138,6 +123,17 @@ BOOL CHostManagerDlg::OnInitDialog()
 void CHostManagerDlg::DisplayHosts()
 {
     m_wndHostAddress.ResetContent();
+    m_wndHosts.ResetContent();
+
+    for(int i=0;i<m_pSettings->GetHostManagerEntryCount();i++)
+    {
+        HostEntry entry;
+        m_pSettings->GetHostManagerEntry(i, entry);
+        m_wndHosts.AddString( STR_UTF8( entry.szEntryName.c_str() ));
+    }
+    
+    if(m_wndHosts.GetCount()==0)
+        OnButtonNew();
 
     for(int i=0;i<m_vecHosts.size();i++)
         m_wndHostAddress.AddString( STR_UTF8(m_vecHosts[i].szAddress.c_str()));
@@ -428,7 +424,6 @@ void CHostManagerDlg::OnBnClickedButtonGentt()
     dlg.DoModal();
 }
 
-
 void CHostManagerDlg::OnBnClickedButtonDelentry()
 {
     int index = m_wndHostAddress.GetCurSel();
@@ -441,7 +436,6 @@ void CHostManagerDlg::OnBnClickedButtonDelentry()
     }
     DisplayHosts();
 }
-
 
 void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
 {
@@ -459,7 +453,6 @@ void CHostManagerDlg::OnCbnSelchangeComboHostaddress()
         m_wndChPasswd.SetWindowText(STR_UTF8(m_vecHosts[index].szChPasswd.c_str()));
     }
 }
-
 
 void CHostManagerDlg::OnBnClickedButtonImportttile()
 {
