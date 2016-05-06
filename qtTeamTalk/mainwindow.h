@@ -158,6 +158,8 @@ private:
 
     //current host
     HostEntry m_host;
+    //client instance's user account
+    UserAccount m_myuseraccount;
     //ping and tx/rx information
     ClientStatistics m_clientstats;
     //last channel that were joined by the client

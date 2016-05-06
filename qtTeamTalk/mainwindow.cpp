@@ -90,6 +90,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_audiostorage_mode(AUDIOSTORAGE_NONE)
 , m_idled_out(false)
 , m_statusmode(STATUSMODE_AVAILABLE)
+, m_myuseraccount()
 , m_clientstats()
 , m_last_channel()
 , m_srvprop()
@@ -829,7 +830,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
         addStatusMsg(tr("Logged in"));
-
+        //store user account settings
+        m_myuseraccount = msg.useraccount;
         update_ui = true;
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
@@ -2077,21 +2079,27 @@ void MainWindow::firewallInstall()
 
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
-    if(userid == 0)
-        userid = ui.channelsWidget->selectedUser();
-    if(!userid)return;
+    QVector<int> userids;
 
-    if(checked)
-    {
-        int cmdid = TT_DoSubscribe(ttInst, userid, subs);
-        if(cmdid>0)
-            m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
-    }
+    if(userid == 0)
+        userids = ui.channelsWidget->selectedUsers();
     else
+        userids.push_back(userid);
+
+    foreach(userid, userids)
     {
-        int cmdid = TT_DoUnsubscribe(ttInst, userid, subs);
-        if(cmdid>0)
-            m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+        if(checked)
+        {
+            int cmdid = TT_DoSubscribe(ttInst, userid, subs);
+            if(cmdid>0)
+                m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
+        }
+        else
+        {
+            int cmdid = TT_DoUnsubscribe(ttInst, userid, subs);
+            if(cmdid>0)
+                m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+        }
     }
 }
 
@@ -3414,12 +3422,14 @@ void MainWindow::slotUsersMessages(bool /*checked =false */)
 
 void MainWindow::slotUsersMuteVoice(bool checked /*=false */)
 {
-    slotUsersMuteVoice(ui.channelsWidget->selectedUser(), checked);
+    foreach(int userid, ui.channelsWidget->selectedUsers())
+        slotUsersMuteVoice(userid, checked);
 }
 
 void MainWindow::slotUsersMuteMediaFile(bool checked /*=false */)
 {
-    slotUsersMuteMediaFile(ui.channelsWidget->selectedUser(), checked);
+    foreach(int userid, ui.channelsWidget->selectedUsers())
+        slotUsersMuteMediaFile(userid, checked);
 }
 
 void MainWindow::slotUsersVolume(bool /*checked =false */)
@@ -3435,29 +3445,26 @@ void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
 
 void MainWindow::slotUsersOp(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int chanid = ui.channelsWidget->selectedChannel(true);
-    slotUsersOp(userid, chanid);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+        slotUsersOp(u.nUserID, u.nChannelID);
 }
 
 void MainWindow::slotUsersKickFromChannel(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int chanid = ui.channelsWidget->selectedChannel(true);
-    slotUsersKick(userid, chanid);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+        slotUsersKick(u.nUserID, u.nChannelID);
 }
 
 void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    slotUsersKick(userid, 0);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+        slotUsersKick(u.nUserID, 0);
 }
 
 void MainWindow::slotUsersKickBan(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int chanid = ui.channelsWidget->selectedChannel(true);
-    slotUsersKickBan(userid, chanid);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())    
+        slotUsersKickBan(u.nUserID, u.nChannelID);
 }
 
 void MainWindow::slotUsersSubscriptionsUserMsg(bool checked /*=false */)
@@ -3500,9 +3507,7 @@ void MainWindow::slotUsersSubscriptionsDesktop(bool checked /*=false */)
 void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
 {
     subscribeCommon(checked, SUBSCRIBE_DESKTOPINPUT);
-    int userid = ui.channelsWidget->selectedUser();
-    User user;
-    if(ui.channelsWidget->getUser(userid, user))
+    foreach(User user, ui.channelsWidget->getSelectedUsers())
         addStatusMsg(QString(tr("%1 granted desktop access")
                         .arg(getDisplayName(user))));
 }
@@ -4056,13 +4061,13 @@ void MainWindow::slotUsersMessages(int userid)
 void MainWindow::slotUsersMuteVoice(int userid, bool mute)
 {
     TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE, mute);
-    slotUpdateUI();
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid);
 }
 
 void MainWindow::slotUsersMuteMediaFile(int userid, bool mute)
 {
     TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, mute);
-    slotUpdateUI();
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid);
 }
 
 void MainWindow::slotUsersVolume(int userid)
@@ -4185,10 +4190,10 @@ void MainWindow::slotUpdateUI()
     ui.actionMuteVoice->setEnabled(userid>0);
     ui.actionMuteMediaFile->setEnabled(userid>0);
     ui.actionVolume->setEnabled(userid>0);
-    ui.actionOp->setEnabled(userid>0);     
+    ui.actionOp->setEnabled(userid>0);
     ui.actionKickFromChannel->setEnabled(userid>0);
-    ui.actionKickFromServer->setEnabled(userid>0);
-    ui.actionKickBan->setEnabled(userid>0);
+    ui.actionKickFromServer->setEnabled(userid>0 && (m_myuseraccount.uUserRights & USERRIGHT_KICK_USERS));
+    ui.actionKickBan->setEnabled(userid>0 && (m_myuseraccount.uUserRights & USERRIGHT_BAN_USERS));
     ui.actionDesktopAccessAllow->setEnabled(userid>0);
 
     ui.actionUserMessages->setEnabled(userid>0);

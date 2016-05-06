@@ -204,6 +204,18 @@ QVector<int> ChannelsTree::selectedUsers() const
     return users;
 }
 
+QVector<User> ChannelsTree::getSelectedUsers() const
+{
+    QVector<User> users;
+    foreach(int userid, selectedUsers())
+    {
+        User u;
+        if(getUser(userid, u))
+            users.push_back(u);
+    }
+    return users;
+}
+
 bool ChannelsTree::getUser(int userid, User& user) const
 {
     users_t::const_iterator ite = m_users.find(userid);
