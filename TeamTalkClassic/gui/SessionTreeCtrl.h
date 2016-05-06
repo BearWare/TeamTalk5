@@ -102,46 +102,47 @@ public:
     // Implementation
 public:
     virtual ~CSessionTreeCtrl();
-    virtual void Initialize();
+    void Initialize();
 
-    virtual void ClearChannels();
+    void ClearChannels();
 
-    virtual void UpdServerName(const ServerProperties& prop);
+    void UpdServerName(const ServerProperties& prop);
 
-    virtual int GetMyChannelID();
-    virtual HTREEITEM GetUserItem(int nUserID);
-    virtual HTREEITEM GetChannelItem(int nChannelID);
+    int GetMyChannelID() const;
+    HTREEITEM GetUserItem(int nUserID) const;
+    HTREEITEM GetChannelItem(int nChannelID) const;
 
-    virtual void AddUser(const User& user);
-    virtual void UpdateUser(const User& user);
-    virtual void RemoveUser(const User& user);
-    virtual void AddChannel(const Channel& chan);
-    virtual void UpdateChannel(const Channel& chan);
-    virtual void RemoveChannel(const Channel& chan);
+    void AddUser(const User& user);
+    void UpdateUser(const User& user);
+    void RemoveUser(const User& user);
+    void AddChannel(const Channel& chan);
+    void UpdateChannel(const Channel& chan);
+    void RemoveChannel(const Channel& chan);
 
     void AddUserMessage(int nUserID, const TextMessage& msg);
     BOOL GetLastUserMessage(int nUserID, TextMessage& msg) const;
     void SetUserMessages(int nUserID, const messages_t& msgs);
-    messages_t GetUserMessages(int nUserID);
+    messages_t GetUserMessages(int nUserID) const;
 
-    virtual void SetUserTalking(int nUserID, BOOL bTalking);
-    virtual void SetUserMessage(int nUserID, BOOL bMessaged);
-    virtual void SetChannelMessage(int nChannelID, BOOL bMessaged);
+    void SetUserTalking(int nUserID, BOOL bTalking);
+    void SetUserMessage(int nUserID, BOOL bMessaged);
+    void SetChannelMessage(int nChannelID, BOOL bMessaged);
 
-    virtual int GetSelectedChannel(bool bIncludeUserChan = false);
-    virtual int GetSelectedUser();
+    int GetSelectedChannel(bool bIncludeUserChan = false) const;
+    int GetSelectedUser() const;
+    std::vector<User> GetSelectedUsers() const;
 
-    BOOL GetChannel(int nChannelID, Channel& outChan);
-    BOOL GetUser(int nUserID, User& outUser);
+    BOOL GetChannel(int nChannelID, Channel& outChan) const;
+    BOOL GetUser(int nUserID, User& outUser) const;
 
     const channels_t& GetChannels();
-    users_t GetUsers(int nChannelID); //nChannelID = 0 -> all users
-    users_t GetOperators(int nChannelID);
+    users_t GetUsers(int nChannelID) const; //nChannelID = 0 -> all users
+    users_t GetOperators(int nChannelID) const;
 
-    virtual void ExpandAll();
-    virtual void CollapseAll();
+    void ExpandAll();
+    void CollapseAll();
 
-    BOOL IsShowingUserCount();
+    BOOL IsShowingUserCount() const;
     void ShowUserCount(BOOL bShow);
 
     // Generated message map functions
@@ -156,7 +157,7 @@ protected:
     void ChannelItemPlus(HTREEITEM hItem, ChannelStates plusState);
     void ChannelItemMinus(HTREEITEM hItem, ChannelStates minusState);
 
-    BOOL IsUserOperator(int nUserID, int nChannelID);
+    BOOL IsUserOperator(int nUserID, int nChannelID) const;
 
     CImageList m_ImageList;
     CBitmap m_bmp;
@@ -171,20 +172,20 @@ protected:
     BOOL        m_bLDragging;
     HTREEITEM m_hItemDrop, m_hItemDrag;
 
-    BOOL IsUser(int nImageIndex);
-    BOOL IsUserTalking(int nImageIndex);
-    BOOL IsUserAway(int nImageIndex);
-    BOOL IsUserMessaged(int nImageIndex);
-    BOOL IsUserOperator(int nImageIndex);
-    BOOL IsChannel(int nImageIndex);
-    BOOL IsChannelOpened(int nImageIndex);
-    BOOL IsChannelLocked(int nImageIndex);
-    BOOL IsChannelMessaged(int nImageIndex);
+    BOOL IsUser(int nImageIndex) const;
+    BOOL IsUserTalking(int nImageIndex) const;
+    BOOL IsUserAway(int nImageIndex) const;
+    BOOL IsUserMessaged(int nImageIndex) const;
+    BOOL IsUserOperator(int nImageIndex) const;
+    BOOL IsChannel(int nImageIndex) const;
+    BOOL IsChannelOpened(int nImageIndex) const;
+    BOOL IsChannelLocked(int nImageIndex) const;
+    BOOL IsChannelMessaged(int nImageIndex) const;
 
-    virtual void UpdMyChannel(int nChannelID);
+    void UpdMyChannel(int nChannelID);
 
-    CString GetUserText(int nUserID);
-    CString GetChannelText(int nChannelID);
+    CString GetUserText(int nUserID) const;
+    CString GetChannelText(int nChannelID) const;
 
     void CollapseChannel(HTREEITEM hItem);
     void ExpandChannel(HTREEITEM hItem);
