@@ -66,46 +66,58 @@ void InitDefaultAudioCodec(AudioCodec& audiocodec)
 
 channels_t GetSubChannels(int nChannelID, const channels_t& channels)
 {
-  channels_t subchannels;
-  channels_t::const_iterator ite;
-  for(ite = channels.begin(); ite != channels.end(); ite++)
-  {
-    if(ite->second.nParentID == nChannelID)
-      subchannels[ite->first] = ite->second;
-  }
-  return subchannels;
+    channels_t subchannels;
+    channels_t::const_iterator ite;
+    for(ite = channels.begin(); ite != channels.end(); ite++)
+    {
+        if(ite->second.nParentID == nChannelID)
+            subchannels[ite->first] = ite->second;
+    }
+    return subchannels;
+}
+
+channels_t GetParentChannels(int nChannelID, const channels_t& channels)
+{
+    channels_t parents;
+    auto i=channels.find(nChannelID);
+    while(i != channels.end() && i->second.nParentID>0)
+    {
+        parents[i->second.nParentID] = channels.find(i->second.nParentID)->second;
+        i = channels.find(i->second.nParentID);
+    }
+    return parents;
 }
 
 int GetRootChannelID(const channels_t& channels)
 {
-  channels_t::const_iterator ite;
-  for(ite = channels.begin(); ite != channels.end(); ite++)
-  {
-    if(ite->second.nParentID == 0)
-      return ite->second.nChannelID;
-  }
-  return 0;
+    channels_t::const_iterator ite;
+    for(ite = channels.begin(); ite != channels.end(); ite++)
+    {
+        if(ite->second.nParentID == 0)
+            return ite->second.nChannelID;
+    }
+    return 0;
 }
 
 int GetMaxChannelID(const channels_t& channels)
 {
-  int ret = 0;
-  channels_t::const_iterator ite;
-  for(ite=channels.begin();ite!=channels.end();ite++)
-    ret = max(ite->first, ret);
-  return ret;
+    int ret = 0;
+    channels_t::const_iterator ite;
+    for(ite=channels.begin();ite!=channels.end();ite++)
+        ret = max(ite->first, ret);
+    return ret;
 }
 
 users_t GetChannelUsers(int nChannelID, const users_t& users)
 {
-  users_t result;
-  users_t::const_iterator ite;
-  for(ite=users.begin();ite!=users.end();ite++)
-  {
-    if(ite->second.nChannelID == nChannelID)
-      result.insert(*ite);
-  }
-  return result;
+    users_t result;
+    users_t::const_iterator ite;
+    for(ite=users.begin();ite!=users.end();ite++)
+    {
+        if(ite->second.nChannelID == nChannelID)
+            result.insert(*ite);
+    }
+    return result;
 }
 
 transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmitUsers)

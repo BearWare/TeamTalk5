@@ -5174,8 +5174,7 @@ LRESULT CTeamTalkDlg::OnDesktopDlgEnded(WPARAM wParam, LPARAM lParam)
 
 void CTeamTalkDlg::OnUpdateChannelsLeavechannel(CCmdUI *pCmdUI)
 {
-    int nChannelID = m_wndTree.GetSelectedChannel();
-    pCmdUI->Enable(nChannelID>0 && TT_GetMyChannelID(ttInst) == nChannelID);
+    pCmdUI->Enable(TT_GetMyChannelID(ttInst)>0);
 }
 
 void CTeamTalkDlg::OnChannelsLeavechannel()

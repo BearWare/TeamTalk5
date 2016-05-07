@@ -158,6 +158,7 @@ protected:
     void ChannelItemMinus(HTREEITEM hItem, ChannelStates minusState);
 
     BOOL IsUserOperator(int nUserID, int nChannelID) const;
+    void UpdateParentChannels(int nChannelID);
 
     CImageList m_ImageList;
     CBitmap m_bmp;
@@ -187,15 +188,13 @@ protected:
     CString GetUserText(int nUserID) const;
     CString GetChannelText(int nChannelID) const;
 
-    void CollapseChannel(HTREEITEM hItem);
-    void ExpandChannel(HTREEITEM hItem);
-
     void SortItem(HTREEITEM hParentItem);
 public:
     afx_msg void OnTvnItemexpanded(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+//    afx_msg void OnTvnSingleExpand(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 /////////////////////////////////////////////////////////////////////////////
