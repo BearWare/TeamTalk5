@@ -345,7 +345,6 @@ bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
 bool isValid(const VideoFormat& fmt);
 
-
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs, SoundDevice& dev);
 

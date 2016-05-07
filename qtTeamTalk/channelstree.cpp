@@ -94,6 +94,43 @@ bool userCanMediaFileTx(int userid, const Channel& chan)
     return userCanTx(userid, STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, chan.transmitUsers);
 }
 
+channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive /*= false*/)
+{
+    channels_t subchannels;
+    for(auto ite = channels.begin(); ite != channels.end(); ++ite)
+    {
+        if(ite.value().nParentID == channelid)
+        {
+            subchannels[ite.key()] = ite.value();
+            if(recursive)
+                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+        }
+    }
+    return subchannels;
+}
+
+channels_t getParentChannels(int channelid, const channels_t& channels)
+{
+    channels_t parents;
+    while(channels[channelid].nParentID>0)
+    {
+        parents[channels[channelid].nParentID] = channels[channelid];
+        channelid = channels[channelid].nParentID;
+    }
+    return parents;
+}
+
+users_t getChannelUsers(int channelid, const users_t& users)
+{
+    users_t result;
+    for(auto ite=users.begin();ite!=users.end();ite++)
+    {
+        if(ite.value().nChannelID == channelid)
+            result.insert(ite.key(), ite.value());
+    }
+    return result;
+}
+
 bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
                   int max_userids = TT_TRANSMITUSERS_MAX)
 {
@@ -252,6 +289,17 @@ QVector<int> ChannelsTree::getUsers() const
     for(ite = m_users.begin();ite!=m_users.end();ite++)
         result.push_back(ite->nUserID);
     return result;
+}
+
+users_t ChannelsTree::getUsers(int channelid) const
+{
+    users_t users;
+    for(auto i=m_users.begin();i!=m_users.end();++i)
+    {
+        if(channelid == 0 || i.value().nChannelID == channelid)
+            users[i.key()] = i.value();
+    }
+    return users;
 }
 
 void ChannelsTree::getClassRoomUsers(int channelid,
@@ -718,13 +766,12 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if(m_showusercount)
         {
-            users_t::const_iterator ite = m_users.begin();
-            int count = 0;
-            while(ite != m_users.end())
+            int count = getChannelUsers(channelid, m_users).size();
+            if(!item->isExpanded())
             {
-                if(ite->nChannelID == channelid)
-                    count++;
-                ite++;
+                channels_t subs = getSubChannels(channelid, m_channels, true);
+                for(auto i=subs.begin();i!=subs.end();++i)
+                    count += getChannelUsers(i.key(), m_users).size();
             }
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
@@ -1253,7 +1300,11 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
     if(user.nUserID == TT_GetMyUserID(ttInst))
         scrollToItem(item);
 
+    // update user count on parent channels
     updateChannelItem(user.nChannelID);
+    channels_t parents = getParentChannels(channelid, m_channels);
+    for(auto i=parents.begin();i!=parents.end();++i)
+        updateChannelItem(i.key());
 }
 
 void ChannelsTree::slotUserLeft(int channelid, const User& user)
@@ -1265,7 +1316,12 @@ void ChannelsTree::slotUserLeft(int channelid, const User& user)
     m_desktopaccess_users.remove(user.nUserID);
     delete getUserItem(user.nUserID);
     m_users.insert(user.nUserID, user);
+
+    // update user count on parent channels
     updateChannelItem(channelid);
+    channels_t parents = getParentChannels(channelid, m_channels);
+    for(auto i=parents.begin();i!=parents.end();++i)
+        updateChannelItem(i.key());
 }
 
 void ChannelsTree::slotUserStateChange(const User& user)

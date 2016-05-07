@@ -30,11 +30,16 @@
 #include "common.h"
 
 typedef QVector<int> userids_t;
+typedef QMap<int, Channel> channels_t;
+typedef QMap<int, User> users_t;
 
 bool userCanVoiceTx(int userid, const Channel& chan);
 bool userCanVideoTx(int userid, const Channel& chan);
 bool userCanDesktopTx(int userid, const Channel& chan);
 bool userCanMediaFileTx(int userid, const Channel& chan);
+channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive = false);
+channels_t getParentChannels(int channelid, const channels_t& channels);
+users_t getChannelUsers(int channelid, const users_t& users);
 
 class ChannelsTree : public QTreeWidget
 {
@@ -57,6 +62,7 @@ public:
 
     QVector<int> getUsersInChannel(int channelid) const;
     QVector<int> getUsers() const;
+    users_t getUsers(int channelid) const;
 
     void getClassRoomUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
 
@@ -87,8 +93,6 @@ protected:
     void dragMoveEvent(QDragMoveEvent * event);
 
 private:
-    typedef QMap<int, Channel> channels_t;
-    typedef QMap<int, User> users_t;
     typedef QMap<int, UserStatistics> statistics_t;
     typedef QSet<int> uservideo_t;
     channels_t m_channels;
