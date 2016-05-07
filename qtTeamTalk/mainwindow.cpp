@@ -1929,13 +1929,10 @@ void MainWindow::timerEvent(QTimerEvent *event)
     case TIMER_SEND_DESKTOPWINDOW :
         if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
         {
-            //TODO: Only if there's users subscribing?
-
             //only update desktop if there's users in the channel
             //(save bandwidth)
-            int user_cnt = 0;
-            if(TT_GetChannelUsers(ttInst, TT_GetMyChannelID(ttInst),
-                                  NULL, &user_cnt) && (user_cnt > 1))
+            users_t users = ui.channelsWidget->getUsers(m_mychannel.nChannelID);
+            if(users.size() > 1 || (users.begin()->uPeerSubscriptions & SUBSCRIBE_DESKTOP))
                 sendDesktopWindow();
         }
         else
