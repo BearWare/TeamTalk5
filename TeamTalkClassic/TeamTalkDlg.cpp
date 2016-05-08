@@ -4957,6 +4957,7 @@ void CTeamTalkDlg::UpdateAudioConfig()
         spxdsp.bEnableAGC = chan.audiocfg.bEnableAGC;
         spxdsp.nGainLevel = chan.audiocfg.nGainLevel;
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
+        TT_SetSoundInputPreprocess(ttInst, &spxdsp);
     }
     else
     {
