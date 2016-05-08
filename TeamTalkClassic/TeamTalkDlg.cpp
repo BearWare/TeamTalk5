@@ -3071,7 +3071,9 @@ void CTeamTalkDlg::OnFilePreferences()
     // sound output page
     ///////////////////
     soundpage.m_nOutputDevice = m_xmlSettings.GetSoundOutputDevice(UNDEFINED);
+    soundpage.m_szOutputDeviceID = STR_UTF8(m_xmlSettings.GetSoundOutputDevice());
     soundpage.m_nInputDevice = m_xmlSettings.GetSoundInputDevice(UNDEFINED);
+    soundpage.m_szInputDeviceID = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
     soundpage.m_bPositioning = m_xmlSettings.GetAutoPositioning();
     soundpage.m_bDuplexMode = m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE);
     soundpage.m_bEchoCancel = m_xmlSettings.GetEchoCancel(DEFAULT_ECHO_ENABLE);
@@ -3291,7 +3293,9 @@ void CTeamTalkDlg::OnFilePreferences()
         bRestart = bRestart && (TT_GetFlags(ttInst) & CLIENT_CONNECTION);
 
         m_xmlSettings.SetSoundOutputDevice(soundpage.m_nOutputDevice);
+        m_xmlSettings.SetSoundOutputDevice(STR_UTF8(soundpage.m_szOutputDeviceID));
         m_xmlSettings.SetSoundInputDevice(soundpage.m_nInputDevice);
+        m_xmlSettings.SetSoundInputDevice(STR_UTF8(soundpage.m_szInputDeviceID));
         m_xmlSettings.SetAutoPositioning(soundpage.m_bPositioning);
         m_xmlSettings.SetDuplexMode(soundpage.m_bDuplexMode);
         m_xmlSettings.SetEchoCancel(soundpage.m_bEchoCancel);
@@ -4803,8 +4807,12 @@ int CTeamTalkDlg::GetSoundInputDevice(SoundDevice* pSoundDev/* = NULL*/)
     int nInputDevice = m_xmlSettings.GetSoundInputDevice(-1);
     if(nInputDevice == -1)
         TT_GetDefaultSoundDevices(&nInputDevice, NULL);
-    if(pSoundDev)
-        GetSoundDevice(nInputDevice, *pSoundDev);
+    CString szInputDevice = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
+    SoundDevice dev;
+    if(!pSoundDev)
+        pSoundDev = &dev;
+    if(GetSoundDevice(nInputDevice, szInputDevice, *pSoundDev))
+        return pSoundDev->nDeviceID;
     return nInputDevice;
 }
 
@@ -4813,9 +4821,12 @@ int CTeamTalkDlg::GetSoundOutputDevice(SoundDevice* pSoundDev/* = NULL*/)
     int nOutputDevice = m_xmlSettings.GetSoundOutputDevice(-1);
     if(nOutputDevice == -1)
         TT_GetDefaultSoundDevices(NULL, &nOutputDevice);
-
-    if(pSoundDev)
-        GetSoundDevice(nOutputDevice, *pSoundDev);
+    CString szOutputDevice = STR_UTF8(m_xmlSettings.GetSoundOutputDevice());
+    SoundDevice dev;
+    if(!pSoundDev)
+        pSoundDev = &dev;
+    if(GetSoundDevice(nOutputDevice, szOutputDevice, *pSoundDev))
+        return pSoundDev->nDeviceID;
     return nOutputDevice;
 }
 

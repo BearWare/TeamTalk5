@@ -224,8 +224,14 @@ namespace teamtalk {
         bool SetSoundInputDevice(int nDevice);
         int GetSoundInputDevice(int nDefDeviceId);
 
+        bool SetSoundInputDevice(const std::string& devid);
+        std::string GetSoundInputDevice();
+
         bool SetSoundOutputDevice(int nDevice);
         int GetSoundOutputDevice(int nDefDeviceId);
+
+        bool SetSoundOutputDevice(const std::string& devid);
+        std::string GetSoundOutputDevice();
 
         bool SetSoundOutputVolume(int nVolume);
         int GetSoundOutputVolume(int def_vol);

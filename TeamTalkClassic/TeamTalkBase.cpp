@@ -173,26 +173,36 @@ messages_t GetMessages(int nFromUserID, const messages_t& messages)
     return result;
 }
 
-BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev)
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev)
 {
     int count = 25;
     std::vector<SoundDevice> devices(count);
     TT_GetSoundDevices(&devices[0], &count);
     if(count == 25)
     {
+        TT_GetSoundDevices(NULL, &count);
         devices.resize(count);
         TT_GetSoundDevices(&devices[0], &count);
     }
+    devices.resize(count);
     size_t i;
+    for(i=0;i<devices.size() && szDeviceID.GetLength();i++)
+    {
+        if(devices[i].szDeviceID == szDeviceID)
+        {
+            dev = devices[i];
+            return true;
+        }
+    }
     for(i=0;i<devices.size();i++)
     {
         if(devices[i].nDeviceID == nSoundDeviceID)
         {
             dev = devices[i];
-            break;
+            return true;
         }
     }
-    return i < devices.size();
+    return false;
 }
 
 int RefVolume(double percent)

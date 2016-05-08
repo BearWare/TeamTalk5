@@ -1386,6 +1386,27 @@ namespace teamtalk {
         return nDefDeviceId;
     }
 
+    bool ClientXML::SetSoundInputDevice(const std::string& devid)
+    {
+        TiXmlElement* pParent = GetSoundSystemElement();
+        if(pParent)
+        {
+            PutString(*pParent, "input-device-id", devid);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetSoundInputDevice()
+    {
+        std::string devid;
+        TiXmlElement* child = GetSoundSystemElement();
+        if(child)
+            GetString(*child, "input-device-id", devid);
+        return devid;
+    }
+
     bool ClientXML::SetSoundOutputDevice(int nDevice)
     {
         TiXmlElement* pParent = GetSoundSystemElement();
@@ -1404,6 +1425,27 @@ namespace teamtalk {
         if(child)
             GetInteger(*child, "output-driver", nDefDeviceId);
         return nDefDeviceId;
+    }
+
+    bool ClientXML::SetSoundOutputDevice(const std::string& devid)
+    {
+        TiXmlElement* pParent = GetSoundSystemElement();
+        if(pParent)
+        {
+            PutString(*pParent, "output-device-id", devid);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetSoundOutputDevice()
+    {
+        std::string devid;
+        TiXmlElement* child = GetSoundSystemElement();
+        if(child)
+            GetString(*child, "output-device-id", devid);
+        return devid;
     }
 
     bool ClientXML::SetSoundMixerDevice(int nDevice)

@@ -152,7 +152,16 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     }
 
     bool bFound = false;
-    for(int i=0;i<m_OutputDriversCombo.GetCount();i++)
+    for(int i=0;i<m_OutputDriversCombo.GetCount() && m_szOutputDeviceID.GetLength() && !bFound;++i)
+    {
+        if(m_szOutputDeviceID == m_SoundDevices[m_OutputDriversCombo.GetItemData(i)].szDeviceID)
+        {
+            m_OutputDriversCombo.SetCurSel(i);
+            bFound = true;
+        }
+    }
+
+    for(int i=0;i<m_OutputDriversCombo.GetCount() && !bFound;i++)
     {
         if(m_OutputDriversCombo.GetItemData(i) == m_nOutputDevice)
         {
@@ -181,13 +190,21 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     }
 
     bFound = false;
-    for(int i=0;i<m_InputDriversCombo.GetCount();i++)
+    for(int i=0;i<m_InputDriversCombo.GetCount() && m_szInputDeviceID.GetLength() && !bFound;++i)
+    {
+        if(m_szInputDeviceID == m_SoundDevices[m_InputDriversCombo.GetItemData(i)].szDeviceID)
+        {
+            m_InputDriversCombo.SetCurSel(i);
+            bFound = true;
+        }
+    }
+
+    for(int i=0;i<m_InputDriversCombo.GetCount() && !bFound;i++)
     {
         if(m_InputDriversCombo.GetItemData(i) == m_nInputDevice)
         {
             m_InputDriversCombo.SetCurSel(i);
             bFound = true;
-            break;
         }
     }
     if(!bFound && m_InputDriversCombo.GetCount())
@@ -207,12 +224,14 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
 void CSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
     m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
+    m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
     UpdateSoundControls();
 }
 
 void CSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
     m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
+    m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
     UpdateSoundControls();
 }
 
@@ -264,6 +283,9 @@ BOOL CSoundSysPage::OnKillActive()
 {
     if(m_bTesting)
         StopTest();
+
+    TRACE(_T("Input device ID: %s\n"), m_szInputDeviceID);
+    TRACE(_T("Output device ID: %s\n"), m_szOutputDeviceID);
 
     return CPropertyPage::OnKillActive();
 }

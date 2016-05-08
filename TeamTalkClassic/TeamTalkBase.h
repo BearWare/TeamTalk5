@@ -43,7 +43,7 @@ typedef std::vector< TextMessage > messages_t;
 typedef std::map< int, messages_t > msgmap_t;
 messages_t GetMessages(int nFromUserID, const messages_t& messages);
 
-BOOL GetSoundDevice(int nSoundDeviceID, SoundDevice& dev);
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev);
 int RefVolume(double percent);
 int RefVolumeToPercent(int nVolume);
 int RefGain(double percent);
