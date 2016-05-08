@@ -592,6 +592,9 @@ void MainWindow::loadSettings()
     }
 #endif
 
+    if(ttSettings->value(SETTINGS_VIDCAP_ENABLE, SETTINGS_VIDCAP_ENABLE_DEFAULT).toBool())
+        slotMeEnableVideoTransmission();
+
     //show number of users
     ui.channelsWidget->setShowUserCount(ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT,
                                                           SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
@@ -3322,8 +3325,11 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
 
             m_statusmode |= STATUSMODE_VIDEOTX;
             if(flags & CLIENT_AUTHORIZED)
+            {
                 TT_DoChangeStatus(ttInst, m_statusmode, 
                 _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
+            }
+            ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
         }
     }
     else
@@ -3332,14 +3338,17 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         TT_CloseVideoCaptureDevice(ttInst);
         m_statusmode &= ~STATUSMODE_VIDEOTX;
         if(flags & CLIENT_AUTHORIZED)
+        {
             TT_DoChangeStatus(ttInst, m_statusmode, 
             _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
+        }
 
         //remove local from video grid
         if(ui.videogridWidget->userExists(0))
             ui.videogridWidget->removeUser(0 /* local video*/);
-    }
 
+        ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+    }
 
     slotUpdateUI();
     slotUpdateVideoTabUI();

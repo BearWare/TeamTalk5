@@ -153,6 +153,8 @@
 #define SETTINGS_VIDCAP_CODEC_DEFAULT               DEFAULT_VIDEO_CODEC
 #define SETTINGS_VIDCAP_WEBMVP8_BITRATE             "videocapture/codec/webmvp8-bitrate"
 #define SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT     DEFAULT_WEBMVP8_BITRATE
+#define SETTINGS_VIDCAP_ENABLE                      "videocapture/enable"
+#define SETTINGS_VIDCAP_ENABLE_DEFAULT              false
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
