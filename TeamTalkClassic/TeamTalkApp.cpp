@@ -170,10 +170,7 @@ BOOL CTeamTalkApp::InitInstance()
     if(!AfxInitRichEdit2( ))
         AfxMessageBox(_T("Failed to initialize RichEdit component"));
 
-    //change to working folder
-    CString path;
-    if(GetModuleFileName(NULL, path.GetBufferSetLength(MAX_PATH), MAX_PATH)>0)
-        SetCurrentDirectory(path.Left(path.ReverseFind('\\')+1));
+    SetCurrentDirectory(GetExecutableFolder());
 
     /* Set license information before creating the first client instance */
     TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY);

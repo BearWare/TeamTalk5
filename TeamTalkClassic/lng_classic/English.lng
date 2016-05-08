@@ -48,6 +48,8 @@
     <item id="148">Video Capture</item>
     <item id="150">Desktop Sharing</item>
     <item id="151">Stream Media File to Channel</item>
+    <item id="152">Are you sure you want to delete your existing settings?</item>
+    <item id="153">Please restart the application.</item>
     <item id="154">Push To Talk: %s</item>
     <item id="155">Generate .tt File</item>
     <item id="156">Master volume</item>
@@ -475,4 +477,5 @@
     <item id="32941">&amp;Speak User Info\tCtrl+G</item>
     <item id="32942">Channel In&amp;fo</item>
     <item id="32943">&amp;Speak Channel Info\tCtrl+G</item>
+    <item id="32944">R&amp;eset Preferences to Default</item>
 </language>

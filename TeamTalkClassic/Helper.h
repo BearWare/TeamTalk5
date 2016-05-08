@@ -37,6 +37,7 @@ typedef struct
 BOOL ConvertFont( const Font font, LOGFONT& destination);
 
 BOOL FileExists(LPCTSTR szFileName);
+CString GetExecutableFolder();
 
 BOOL VersionSameOrLater(const CString& szCheck, const CString& szAgainst);
 

@@ -84,6 +84,7 @@ extern BOOL bShowUsernames;
 static char THIS_FILE[] = __FILE__;
 #endif
 
+#define MENUTEXT(str) (str.Replace(_T("&"), _T("")))
 // CTeamTalkDlg dialog
 
 IMPLEMENT_DYNAMIC(CTeamTalkDlg, CDialogExx);
@@ -116,6 +117,7 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_bSendDesktopOnCompletion(FALSE)
 , m_hShareWnd(NULL)
 , m_nCurrentCmdID(0)
+, m_bResetSettings(FALSE)
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     m_host.nTcpPort = DEFAULT_TEAMTALK_TCPPORT;
@@ -734,6 +736,7 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_USERINFO_SPEAKUSERINFO, &CTeamTalkDlg::OnUserinfoSpeakuserinfo)
     ON_UPDATE_COMMAND_UI(ID_CHANNELINFO_SPEAKCHANNELINFO, &CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelinfo)
     ON_COMMAND(ID_CHANNELINFO_SPEAKCHANNELINFO, &CTeamTalkDlg::OnChannelinfoSpeakchannelinfo)
+    ON_COMMAND(ID_HELP_RESETPREFERENCESTODEFAULT, &CTeamTalkDlg::OnHelpResetpreferencestodefault)
     END_MESSAGE_MAP()
 
 
@@ -2544,7 +2547,7 @@ void CTeamTalkDlg::OnClose()
         m_pTray = NULL;
         ShowWindow(SW_SHOW);
     }
-
+    
     //store window position
     if(m_bMinimized)
         VERIFY(m_xmlSettings.SetWindowPlacement(m_rectLast.left, m_rectLast.top, m_rectLast.Width(), m_rectLast.Height()));
@@ -2569,6 +2572,18 @@ void CTeamTalkDlg::OnClose()
     }
 #endif
     m_xmlSettings.SaveFile();
+
+    if(m_bResetSettings)
+    {
+        CString szCfgPath = STR_UTF8(m_xmlSettings.GetFileName());
+        CString szDefPath = GetExecutableFolder() + _T("\\") + _T( SETTINGS_DEFAULT_FILE );
+        if(!CopyFile(szDefPath, szCfgPath, FALSE))
+        {
+            CString szMsg;
+            szMsg.Format(_T("Failed to copy %s to %s"), szDefPath, szCfgPath);
+            MessageBox(szMsg, _T("Reset Settings"));
+        }
+    }
 
     CDialog::OnCancel();
 }
@@ -6176,4 +6191,26 @@ void CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnChannelinfoSpeakchannelinfo()
 {
     OnUserinfoSpeakuserinfo();
+}
+
+
+void CTeamTalkDlg::OnHelpResetpreferencestodefault()
+{
+    CString szTitle, szMsg;
+    szMsg.LoadString(IDS_RESETPREFERENCES);
+    TRANSLATE_ITEM(IDS_RESETPREFERENCES, szMsg);
+
+    szTitle = _T("Reset Preferences");
+    TRANSLATE_ITEM(ID_HELP_RESETPREFERENCESTODEFAULT, szTitle);
+    MENUTEXT(szTitle);
+
+    if(MessageBox(szMsg, szTitle, MB_YESNO) == IDYES)
+    {
+        m_bResetSettings = TRUE;
+        OnClose();
+
+        szMsg.LoadString(IDS_RESTARTAPPLICATION);
+        TRANSLATE_ITEM(IDS_RESETPREFERENCES, szMsg);
+        MessageBox(szMsg, szTitle, MB_OK);
+    }
 }

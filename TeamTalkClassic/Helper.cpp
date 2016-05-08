@@ -66,6 +66,14 @@ BOOL FileExists(LPCTSTR szFileName)
     }
 }
 
+CString GetExecutableFolder()
+{
+    // get folder of executing file
+    CString path;
+    GetModuleFileName(NULL, path.GetBufferSetLength(MAX_PATH), MAX_PATH);
+    return path.Left(path.ReverseFind('\\')+1);
+}
+
 BOOL VersionSameOrLater(const CString& szCheck, const CString& szAgainst)
 {
     if(szCheck == szAgainst) return true;

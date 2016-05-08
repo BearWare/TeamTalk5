@@ -57,6 +57,8 @@
 #define IDD_DIALOG_USERDESKTOP          149
 #define IDD_DIALOG_DESKTOPSHARE         150
 #define IDD_DIALOG_STREAMMEDIA          151
+#define IDS_RESETPREFERENCES            152
+#define IDS_RESTARTAPPLICATION          153
 #define IDS_PUSHTOTALK                  154
 #define IDD_DIALOG_GENERATETTFILE       155
 #define IDS_MASTERVOL                   156
@@ -700,6 +702,7 @@
 #define ID_USERINFO_SPEAKUSERINFO       32941
 #define ID_CHANNELS_CHANNELINFO         32942
 #define ID_CHANNELINFO_SPEAKCHANNELINFO 32943
+#define ID_HELP_RESETPREFERENCESTODEFAULT 32944
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
@@ -707,7 +710,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
-#define _APS_NEXT_COMMAND_VALUE         32944
+#define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1542
 #define _APS_NEXT_SYMED_VALUE           161
 #endif

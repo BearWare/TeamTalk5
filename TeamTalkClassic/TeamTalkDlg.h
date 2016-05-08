@@ -240,6 +240,7 @@ protected:
     int m_nCurrentCmdID;
 
     teamtalk::ClientXML m_xmlSettings;
+    BOOL m_bResetSettings;
 
     std::vector<UserAccount> m_useraccounts;
     std::vector<BannedUser> m_bannedusers;
@@ -497,5 +498,6 @@ public:
     afx_msg void OnUserinfoSpeakuserinfo();
     afx_msg void OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI);
     afx_msg void OnChannelinfoSpeakchannelinfo();
+    afx_msg void OnHelpResetpreferencestodefault();
 };
 

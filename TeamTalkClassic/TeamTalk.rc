@@ -1566,6 +1566,7 @@ BEGIN
     BEGIN
         MENUITEM "&Manual\tF1",                 ID_HELP_MANUAL, INACTIVE
         MENUITEM "&Run Wizard",                 ID_HELP_RUNWIZARD
+        MENUITEM "R&eset Preferences to Default", ID_HELP_RESETPREFERENCESTODEFAULT
         MENUITEM "What is my &IP-address?",     ID_HELP_WHATISMYIP
         MENUITEM SEPARATOR
         MENUITEM "BearWare.dk &Website",        ID_HELP_WEBSITE
@@ -1774,6 +1775,8 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_RESETPREFERENCES    "Are you sure you want to delete your existing settings?"
+    IDS_RESTARTAPPLICATION  "Please restart the application."
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
