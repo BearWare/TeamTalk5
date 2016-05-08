@@ -200,9 +200,11 @@ void CVideoCapturePage::OnCbnSelchangeComboViddev()
         int iCap = m_wndVidRes.AddString(szCapFormat);
         m_wndVidRes.SetItemData(iCap, i);
         if(m_nVidDev == iDev && i == m_nCapFormatIndex)
-            m_wndVidRes.SetCurSel(i);
+        {
+            m_wndVidRes.SetCurSel(iCap);
+        }
     }
-    if(m_wndVidRes.GetCurSel()<0)
+    if(m_wndVidRes.GetCurSel() == CB_ERR)
         m_wndVidRes.SetCurSel(0);
 
     m_wndRgb32.EnableWindow(bRgb32);
