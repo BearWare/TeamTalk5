@@ -366,6 +366,9 @@ namespace teamtalk {
 
         bool SetVideoCodecBitrate(int bitrate);
         int GetVideoCodecBitrate(int nDefBitrate);
+
+        bool SetVideoCaptureEnabled(bool enabled);
+        bool GetVideoCaptureEnabled(bool def_value);
         /********* </videocapture> *********/
 
         /********* <latesthosts> ********/

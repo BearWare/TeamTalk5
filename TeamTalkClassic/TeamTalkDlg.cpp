@@ -2379,6 +2379,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //register hotkeys
     UpdateHotKeys();
 
+    if(m_xmlSettings.GetVideoCaptureEnabled(false))
+        OnMeEnablevideotransmission();
+
     //parse command line arguments
     ParseArgs();
 
@@ -5872,6 +5875,7 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
 
         m_nStatusMode &= ~STATUSMODE_VIDEOTX;
         TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+        m_xmlSettings.SetVideoCaptureEnabled(false);
         return;
     }
 
@@ -5951,6 +5955,8 @@ void CTeamTalkDlg::OnMeEnablevideotransmission()
 
     m_nStatusMode |= STATUSMODE_VIDEOTX;
     TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
+
+    m_xmlSettings.SetVideoCaptureEnabled(true);
 }
 
 void CTeamTalkDlg::OnUpdateMeEnabledesktopsharing(CCmdUI *pCmdUI)

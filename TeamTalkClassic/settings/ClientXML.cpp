@@ -2429,6 +2429,26 @@ namespace teamtalk {
         return nDefBitrate;
     }
 
+    bool ClientXML::SetVideoCaptureEnabled(bool enabled)
+    {
+        TiXmlElement* pParent = GetVideoElement();
+        if(pParent)
+        {
+            PutBoolean(*pParent, "video-capture-enabled", enabled);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ClientXML::GetVideoCaptureEnabled(bool def_value)
+    {
+        TiXmlElement* child = GetVideoElement();
+        if(child)
+            GetBoolean(*child, "video-capture-enabled", def_value);
+        return def_value;
+    }
+
     /********* </videocapture> *********/
 
 
