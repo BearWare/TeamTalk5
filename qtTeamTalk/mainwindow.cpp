@@ -431,6 +431,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* Begin - Help menu */
     connect(ui.actionManual, SIGNAL(triggered(bool)),
             SLOT(slotHelpManual(bool)));
+    connect(ui.actionResetPreferencesToDefault, SIGNAL(triggered(bool)),
+            SLOT(slotHelpResetPreferences(bool)));
     connect(ui.actionVisitBearWare, SIGNAL(triggered(bool)),
             SLOT(slotHelpVisitBearWare(bool)));
     connect(ui.actionAbout, SIGNAL(triggered(bool)),
@@ -4015,6 +4017,42 @@ void MainWindow::slotServerServerStatistics(bool /*checked=false*/)
                 m_serverstatsdlg, SLOT(slotUpdateStats(const ServerStatistics&)));
         m_serverstatsdlg->setAttribute(Qt::WA_DeleteOnClose);
         m_serverstatsdlg->show();
+    }
+}
+
+void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
+{
+    if (QMessageBox::question(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+        tr("Are you sure you want to delete your existing settings?"),
+        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    {
+        QString cfgpath = ttSettings->fileName();
+        QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+
+        if(!QFile::exists(defpath))
+        {
+            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            tr("Cannot find %1").arg(QDir::toNativeSeparators(defpath)));
+            return;
+        }
+
+        if(!QFile::remove(cfgpath))
+        {
+            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            tr("Cannot remove %1").arg(QDir::toNativeSeparators(cfgpath)));
+            return;
+        }
+
+        if(!QFile::copy(defpath, cfgpath))
+        {
+            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            tr("Failed to copy %1 to %2").arg(QDir::toNativeSeparators(defpath)).arg(QDir::toNativeSeparators(cfgpath)));
+        }
+        else
+        {
+            slotClientNewInstance();
+            slotClientExit();
+        }
     }
 }
 

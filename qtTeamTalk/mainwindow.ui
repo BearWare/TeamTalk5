@@ -1014,7 +1014,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1147,6 +1147,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionManual"/>
+    <addaction name="actionResetPreferencesToDefault"/>
     <addaction name="actionVisitBearWare"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
@@ -1938,6 +1939,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Left</string>
+   </property>
+  </action>
+  <action name="actionResetPreferencesToDefault">
+   <property name="text">
+    <string>R&amp;eset Preferences to Default</string>
    </property>
   </action>
  </widget>

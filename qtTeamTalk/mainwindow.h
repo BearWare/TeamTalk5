@@ -331,6 +331,7 @@ private slots:
     void slotServerServerStatistics(bool checked=false);
 
     void slotHelpManual(bool checked=false);
+    void slotHelpResetPreferences(bool checked=false);
     void slotHelpVisitBearWare(bool checked=false);
     void slotHelpAbout(bool checked=false);
     /* menu items end */
