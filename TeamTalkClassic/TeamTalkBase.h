@@ -182,6 +182,74 @@ enum AudioStorageMode
     AUDIOSTORAGE_SEPARATEFILES      = 0x2
 };
 
+enum
+{
+    TTS_USER_LOGGEDIN                               = 0x00000001,
+    TTS_USER_LOGGEDOUT                              = 0x00000002,
+    TTS_USER_JOINED                                 = 0x00000004,
+    TTS_USER_LEFT                                   = 0x00000008,
+    TTS_USER_TEXTMSG_PRIVATE                        = 0x00000010,
+    TTS_USER_TEXTMSG_CHANNEL                        = 0x00000020,
+    TTS_USER_TEXTMSG_BROADCAST                      = 0x00000040,
+
+    TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = 0x00000100,
+    TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = 0x00000200,
+    TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = 0x00000400,
+    TTS_SUBSCRIPTIONS_VOICE                         = 0x00000800,
+    TTS_SUBSCRIPTIONS_VIDEO                         = 0x00001000,
+    TTS_SUBSCRIPTIONS_DESKTOP                       = 0x00002000,
+    TTS_SUBSCRIPTIONS_DESKTOPINPUT                  = 0x00004000,
+    TTS_SUBSCRIPTIONS_MEDIAFILE                     = 0x00008000,
+
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = 0x00010000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = 0x00020000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               = 0x00040000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               = 0x00080000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = 0x00100000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        = 0x00200000,
+    TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = 0x00400000,
+
+    TTS_CLASSROOM_VOICE_TX                          = 0x01000000,
+    TTS_CLASSROOM_VIDEO_TX                          = 0x02000000,
+    TTS_CLASSROOM_DESKTOP_TX                        = 0x04000000,
+    TTS_CLASSROOM_MEDIAFILE_TX                      = 0x08000000,
+
+    TTS_USER_ALL              = TTS_USER_LOGGEDIN                               |
+                                TTS_USER_LOGGEDOUT                              |
+                                TTS_USER_JOINED                                 |
+                                TTS_USER_LEFT                                   |
+                                TTS_USER_TEXTMSG_PRIVATE                        |
+                                TTS_USER_TEXTMSG_CHANNEL                        |
+                                TTS_USER_TEXTMSG_BROADCAST,
+
+
+    TTS_SUBSCRIPTIONS_ALL     = TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE               |
+                                TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL               |
+                                TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST             |
+                                TTS_SUBSCRIPTIONS_VOICE                         |
+                                TTS_SUBSCRIPTIONS_VIDEO                         |
+                                TTS_SUBSCRIPTIONS_DESKTOP                       |
+                                TTS_SUBSCRIPTIONS_DESKTOPINPUT                  |
+                                TTS_SUBSCRIPTIONS_MEDIAFILE                     |
+
+                                TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     | 
+                                TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     |
+                                TTS_SUBSCRIPTIONS_INTERCEPT_VOICE               |
+                                TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO               |
+                                TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP             |
+                                TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOPINPUT        |
+                                TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE,
+
+    TTS_CLASSROOM_ALL         = TTS_CLASSROOM_VOICE_TX                          |
+                                TTS_CLASSROOM_VIDEO_TX                          |
+                                TTS_CLASSROOM_DESKTOP_TX                        |
+                                TTS_CLASSROOM_MEDIAFILE_TX,
+
+    TTS_ALL                   = TTS_USER_ALL | TTS_SUBSCRIPTIONS_ALL | TTS_CLASSROOM_ALL
+};
+
+typedef __int64 TTSEvents;
+
 //internal TeamTalk 5 commands. Use with TT_DoTextMessage() and 
 //message type MSGTYPE_CUSTOM
 #define TT_INTCMD_TYPING_TEXT         _T("typing")

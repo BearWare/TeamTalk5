@@ -42,6 +42,7 @@
 #include "gui/VideoCapturePage.h"
 #include "gui/AdvancedPage.h"
 #include "gui/ShortcutsPage.h"
+#include "gui/TextToSpeechPage.h"
 #include "gui/MyPropertySheet.h"
 #include "gui/KeyCompDlg.h"
 #include "gui/FileTransferDlg.h"
@@ -1158,7 +1159,8 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
             TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
             szMsg.Format(szFormat, GetDisplayName(user));
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
+                AddVoiceMessage(szMsg);
 
             //don't play sound when I join
             if(user.nUserID != TT_GetMyUserID(ttInst))
@@ -1260,12 +1262,14 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         if(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
             s.Format(_T("%s has granted desktop access"), szName);
-            AddVoiceMessage(s);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                AddVoiceMessage(s);
         }
         else
         {
             s.Format(_T("%s has retracted desktop access"), szName);
-            AddVoiceMessage(s);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                AddVoiceMessage(s);
         }
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) !=
@@ -1281,12 +1285,14 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
         {
             s.Format(_T("%s now has desktop access"), szName);
-            AddVoiceMessage(s);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                AddVoiceMessage(s);
         }
         else
         {
             s.Format(_T("%s no longer has desktop access"), szName);
-            AddVoiceMessage(s);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                AddVoiceMessage(s);
         }
     }
     if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
@@ -1355,7 +1361,8 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         szMsg.Format(szFormat, GetDisplayName(user));
 
         AddStatusText(szMsg);
-        AddVoiceMessage(szMsg);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
+            AddVoiceMessage(szMsg);
     }
 }
 
@@ -1408,7 +1415,8 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             szMsg.Format(_T("%s can no longer transmit voice!"),
                          szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
            ((newTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0))
@@ -1416,7 +1424,8 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             szMsg.Format(_T("%s can no longer transmit video input!"),
                          szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_DESKTOP) &&
             ((newTransmit[userid] & STREAMTYPE_DESKTOP) == 0))
@@ -1424,14 +1433,16 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             szMsg.Format(_T("%s can no longer transmit shared desktops!"),
                          szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
            ((newTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0))
         {
             szMsg.Format(_T("%s can no longer transmit media files!"), szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_MEDIAFILE_TX)
+                AddVoiceMessage(szMsg);
         }
     }
 
@@ -1451,28 +1462,32 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         {
             szMsg.Format(_T("%s can now transmit voice!"), szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
            ((oldTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0 ))
         {
             szMsg.Format(_T("%s can now transmit video input!"), szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & STREAMTYPE_DESKTOP) &&
             ((oldTransmit[userid] & STREAMTYPE_DESKTOP) == 0 ))
         {
             szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
+                AddVoiceMessage(szMsg);
         }
         if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
            ((oldTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0 ))
         {
             szMsg.Format(_T("%s can now transmit media files!"), szName);
             AddStatusText(szMsg);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_MEDIAFILE_TX)
+                AddVoiceMessage(szMsg);
         }
     }
 }
@@ -1505,7 +1520,8 @@ void CTeamTalkDlg::OnChannelJoined(const Channel& chan)
     }
 
     AddStatusText(szMsg);
-    AddVoiceMessage(szMsg);
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
+        AddVoiceMessage(szMsg);
 
     UpdateChannelLog();
 
@@ -1525,7 +1541,8 @@ void CTeamTalkDlg::OnChannelLeft(const Channel& chan)
     szMsg.Format(szFormat, chan.szName);
 
     AddStatusText(szMsg);
-    AddVoiceMessage(szMsg);
+    if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
+        AddVoiceMessage(szMsg);
 }
 
 void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
@@ -1619,7 +1636,8 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             szFmt.LoadString(IDS_USERTEXTMSG);
             TRANSLATE_ITEM(IDS_USERTEXTMSG, szFmt);
             szMsg.Format(szFmt, szName, textmsg.szMessage);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_TEXTMSG_PRIVATE)
+                AddVoiceMessage(szMsg);
         }
     }
     break;
@@ -1644,16 +1662,30 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
             szFmt.LoadString(IDS_CHANTEXTMSG);
             TRANSLATE_ITEM(IDS_CHANTEXTMSG, szFmt);
             szMsg.Format(szFmt, szName, textmsg.szMessage);
-            AddVoiceMessage(szMsg);
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_TEXTMSG_CHANNEL)
+                AddVoiceMessage(szMsg);
         }
 
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelMsg()));
     }
     break;
     case MSGTYPE_BROADCAST :
-    m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg.szMessage);
+    {
+        User user;
+        if(!TT_GetUser(ttInst, textmsg.nFromUserID, &user))
+            break;
+        CString szName = GetDisplayName(user);
+        m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg.szMessage);
 
-    PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewMessage()));
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewMessage()));
+
+        CString szFmt, szMsg;
+        szFmt.LoadString(IDS_BCASTTEXTMSG);
+        TRANSLATE_ITEM(IDS_BCASTTEXTMSG, szFmt);
+        szMsg.Format(szFmt, szName, textmsg.szMessage);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_TEXTMSG_BROADCAST)
+            AddVoiceMessage(szMsg);
+    }
     break;
     case MSGTYPE_CUSTOM :
     {
@@ -1673,7 +1705,8 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 szFormat.LoadString(IDS_DESKTOPINPUT_REQUEST);
                 TRANSLATE_ITEM(IDS_DESKTOPINPUT_REQUEST, szFormat);
                 szText.Format(szFormat, GetDisplayName(user));
-                AddVoiceMessage(szText);
+                if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                    AddVoiceMessage(szText);
                 PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq()));
             }
             else
@@ -2983,19 +3016,21 @@ void CTeamTalkDlg::OnFilePreferences()
     CClientPage clientpage;
     CShortcutsPage shortcutspage;
     CSoundSysPage soundpage;
+    CTextToSpeechPage ttspage;
     CWindowPage windowpage;
     CSoundEventsPage eventspage;
     CVideoCapturePage videopage;
     CAdvancedPage advancedpage;
 
     /// translate
-    CString szGeneral, szConnection, szShortcuts, szSound, szWindow, szEvents, szVideo, szAdvanced;
+    CString szGeneral, szConnection, szShortcuts, szSound, szWindow, szEvents, szTTS, szVideo, szAdvanced;
     TRANSLATE_ITEM(IDD_PROPPAGE_GENERALPAGE, szGeneral);
     TRANSLATE_ITEM(IDD_PROPPAGE_CLIENTPAGE, szConnection);
     TRANSLATE_ITEM(IDD_PROPPAGE_SHORTCUTS, szShortcuts);
     TRANSLATE_ITEM(IDD_PROPPAGE_SOUNDSYSPAGE, szSound);
     TRANSLATE_ITEM(IDD_PROPPAGE_WINDOWPAGE, szWindow);
     TRANSLATE_ITEM(IDD_PROPPAGE_SOUNDEVENTSPAGE, szEvents);
+    TRANSLATE_ITEM(IDD_PROPPAGE_TEXTTOSPEECHPAGE, szTTS);
     TRANSLATE_ITEM(IDD_PROPPAGE_VIDEOCAPTURE, szVideo);
     TRANSLATE_ITEM(IDD_PROPPAGE_ADVANCEDPAGE, szAdvanced);
 
@@ -3005,6 +3040,7 @@ void CTeamTalkDlg::OnFilePreferences()
     soundpage.m_psp.pszTitle = szSound;
     shortcutspage.m_psp.pszTitle = szShortcuts;
     eventspage.m_psp.pszTitle = szEvents;
+    ttspage.m_psp.pszTitle = szTTS;
     videopage.m_psp.pszTitle = szVideo;
     advancedpage.m_psp.pszTitle = szAdvanced;
 
@@ -3020,6 +3056,8 @@ void CTeamTalkDlg::OnFilePreferences()
         shortcutspage.m_psp.dwFlags |= PSP_USETITLE;
     if(szEvents.GetLength())
         eventspage.m_psp.dwFlags |= PSP_USETITLE;
+    if(szTTS.GetLength())
+        ttspage.m_psp.dwFlags |= PSP_USETITLE;
     if(szVideo.GetLength())
         videopage.m_psp.dwFlags |= PSP_USETITLE;
     if(szAdvanced.GetLength())
@@ -3118,6 +3156,11 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_bSpeech = m_xmlSettings.GetEventSpeechEvents();
 
     ////////////////////////
+    // Text to Speech
+    ////////////////////////
+    ttspage.m_uTTSEvents = m_xmlSettings.GetEventTTSEvents();
+
+    ////////////////////////
     // ShortCuts
     ////////////////////////
     m_xmlSettings.GetHotKeyVoiceAct(shortcutspage.m_hkVoiceAct);
@@ -3149,6 +3192,7 @@ void CTeamTalkDlg::OnFilePreferences()
     sheet.AddPage(&clientpage);
     sheet.AddPage(&soundpage);
     sheet.AddPage(&eventspage);
+    sheet.AddPage(&ttspage);
     sheet.AddPage(&shortcutspage);
     sheet.AddPage(&videopage);
     sheet.AddPage(&advancedpage);
@@ -3379,6 +3423,11 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8( eventspage.m_szDesktopAccessReq.GetBuffer()));
         m_xmlSettings.SetEventSpeechEvents(eventspage.m_bSpeech);
         EnableSpeech(eventspage.m_bSpeech);
+
+        ///////////////////////////////////////
+        // write settings for Text to speech
+        ///////////////////////////////////////
+        m_xmlSettings.SetEventTTSEvents(ttspage.m_uTTSEvents);
 
         ///////////////////////////////////////
         // write settings for shortcuts

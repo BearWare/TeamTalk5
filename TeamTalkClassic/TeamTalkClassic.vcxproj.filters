@@ -309,6 +309,9 @@
     <ClCompile Include="gui\GenerateTTFileDlg.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="gui\TextToSpeechPage.cpp">
+      <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.h">
@@ -580,6 +583,9 @@
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\TextToSpeechPage.h">
+      <Filter>Header Files\Property pages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

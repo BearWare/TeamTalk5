@@ -315,6 +315,9 @@ namespace teamtalk {
 
         bool SetEventFlashOnMsg(int nIndex);
         int GetEventFlashOnMsg();
+
+        bool SetEventTTSEvents(TTSEvents uEvents);
+        TTSEvents GetEventTTSEvents();
         /********* </events> ************/
 
         /********* <advanced> ***********/

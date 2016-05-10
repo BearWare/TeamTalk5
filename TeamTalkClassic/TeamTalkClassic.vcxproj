@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-SSL|Win32">
@@ -482,6 +482,7 @@
   <ItemGroup>
     <ClCompile Include="gui\GenerateTTFileDlg.cpp" />
     <ClCompile Include="gui\StreamMediaDlg.cpp" />
+    <ClCompile Include="gui\TextToSpeechPage.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="Languages.cpp" />
@@ -825,6 +826,7 @@
     <ClInclude Include="AppInfo.h" />
     <ClInclude Include="gui\GenerateTTFileDlg.h" />
     <ClInclude Include="gui\StreamMediaDlg.h" />
+    <ClInclude Include="gui\TextToSpeechPage.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="Languages.h" />

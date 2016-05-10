@@ -57,6 +57,8 @@
     <item id="158">Voice activation level</item>
     <item id="159">Channel message from %s. %s.</item>
     <item id="160">Text message from %s. %s.</item>
+    <item id="160">Text-To-Speech</item>
+    <item id="161">Broadcast message from %s. %s.</item>
     <item id="201">Messages</item>
     <item id="205">Change status</item>
     <item id="212">Display</item>

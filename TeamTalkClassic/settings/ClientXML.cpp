@@ -2048,6 +2048,28 @@ namespace teamtalk {
         return ret;
     }
 
+    bool ClientXML::SetEventTTSEvents(TTSEvents uEvents)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "text-to-speech-events", uEvents);
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    TTSEvents ClientXML::GetEventTTSEvents()
+    {
+        TTSEvents ret = TTS_ALL;
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetInteger(*child, "text-to-speech-events", ret);
+
+        return ret;
+    }
+
     bool ClientXML::SetEventFlashOnMsg(int nIndex)
     {
         TiXmlElement* pParent = GetEventsElement();

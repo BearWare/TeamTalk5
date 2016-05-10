@@ -944,6 +944,15 @@ BEGIN
     PUSHBUTTON      "&Close",IDCANCEL,216,240,50,14
 END
 
+IDD_PROPPAGE_TEXTTOSPEECHPAGE DIALOGEX 0, 0, 260, 240
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text-To-Speech"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_TREE_TTS,"SysTreeView32",TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,10,17,240,209
+    GROUPBOX        "Enable/disable text to speech events",IDC_STATIC,7,7,246,226
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1282,6 +1291,17 @@ BEGIN
         VERTGUIDE, 175
         TOPMARGIN, 7
         BOTTOMMARGIN, 254
+    END
+
+    IDD_PROPPAGE_TEXTTOSPEECHPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 253
+        VERTGUIDE, 10
+        VERTGUIDE, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 233
+        HORZGUIDE, 226
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1775,14 +1795,15 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_RESETPREFERENCES    "Are you sure you want to delete your existing settings?"
-    IDS_RESTARTAPPLICATION  "Please restart the application."
+    IDS_BCASTTEXTMSG        "Broadcast message from %s. %s."
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_RESETPREFERENCES    "Are you sure you want to delete your existing settings?"
+    IDS_RESTARTAPPLICATION  "Please restart the application."
     IDS_PUSHTOTALK          "Push To Talk: %s"
     IDS_MASTERVOL           "Master Volume"
     IDS_MICGAIN             "Microphone gain"

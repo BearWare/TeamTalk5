@@ -66,6 +66,8 @@
 #define IDS_VOICEACTLEVEL               158
 #define IDS_CHANTEXTMSG                 159
 #define IDS_USERTEXTMSG                 160
+#define IDD_PROPPAGE_TEXTTOSPEECHPAGE   161
+#define IDS_BCASTTEXTMSG                162
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
@@ -605,6 +607,7 @@
 #define IDC_CHECK_SHOWUSERNAME          1539
 #define IDC_STATIC_CLIENTNAME           1540
 #define IDC_STATIC_SCLIENTNAME          1541
+#define IDC_TREE_TTS                    1543
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -711,7 +714,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32945
-#define _APS_NEXT_CONTROL_VALUE         1542
-#define _APS_NEXT_SYMED_VALUE           161
+#define _APS_NEXT_CONTROL_VALUE         1544
+#define _APS_NEXT_SYMED_VALUE           163
 #endif
 #endif
