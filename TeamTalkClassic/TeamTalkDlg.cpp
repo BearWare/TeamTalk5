@@ -2623,7 +2623,7 @@ void CTeamTalkDlg::OnClose()
 
 void CTeamTalkDlg::OnOK() 
 {
-    if(TT_GetMyChannelID(ttInst)>0)
+    if(GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst)>0) 
     {
         CString s;
         m_tabChat.m_wndChanMessage.GetWindowText(s);
@@ -2638,6 +2638,19 @@ void CTeamTalkDlg::OnOK()
             COPYTTSTR(msg.szMessage, s);
             TT_DoTextMessage( ttInst, &msg );
             m_tabChat.m_wndChanMessage.AddLastMessage(s);
+        }
+    }
+    else if (GetFocus() == &m_wndTree)
+    {
+        int nUserID = m_wndTree.GetSelectedUser();
+        if(nUserID)
+        {
+            OnUsersMessages();
+        }
+        int nChannelID = m_wndTree.GetSelectedChannel(false);
+        if (nChannelID)
+        {
+            OnChannelsJoinchannel();
         }
     }
     //    if (CanExit())
