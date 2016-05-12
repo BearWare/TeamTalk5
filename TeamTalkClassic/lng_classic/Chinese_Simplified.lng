@@ -406,7 +406,7 @@
     <item id="32844">全选</item>
     <item id="32845">解开</item>
     <item id="32846">黏贴</item>
-    <item id="32847">&amp;所有頻道(&amp;M)</item>
+    <item id="32847">所有頻道(&amp;M)</item>
     <item id="32848">所有用戶(&amp;U)</item>
     <item id="32849">操作(&amp;M)</item>
     <item id="32850">本地(&amp;M)</item>
@@ -422,7 +422,7 @@
     <item id="32867">&amp;更新频道/tShift+F7</item>
     <item id="32868">服务器&amp;属性\tF9</item>
     <item id="32869">&amp;用户账号\tCtrl+Shift+L</item>
-    <item id="32870">&amp;服务器(&amp;S)</item>
+    <item id="32870">服务器(&amp;S)</item>
     <item id="32871">&amp;ave配置\tCtrl+Shift+S</item>
     <item id="32877">&amp;商店 移动\tCtrl+Alt+X</item>
     <item id="32878">&amp;移动用户\tCtrl+Alt+V</item>
