@@ -97,8 +97,12 @@
     <string name="button_tx">Речь</string>
     <string name="button_remove">Удалить</string>
     <string name="button_edit">Редактировать</string>
+    <string name="action_ban">Запретить</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_kick">Выгнать</string>
+    <string name="action_move">Переместить Сюда</string>
+    <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_upload">Выложить Файл</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
