@@ -37,6 +37,7 @@ let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
+let PREF_HEADSET_TXTOGGLE = "headset_tx_preferences"
 let PREF_VOICEPROCESSINGIO = "voiceprocessing_preference"
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
@@ -226,6 +227,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
         speakerswitch.addTarget(self, action: #selector(PreferencesViewController.speakeroutputChanged(_:)), forControlEvents: .ValueChanged)
         sound_items.append(speakercell)
+        
+        let headsettxcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
+            initial: settings.objectForKey(PREF_HEADSET_TXTOGGLE) == nil || settings.boolForKey(PREF_HEADSET_TXTOGGLE))
+        headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
+        headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), forControlEvents: .ValueChanged)
+        sound_items.append(headsettxcell)
+        
+        
 
         let voice_prepcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
@@ -562,6 +572,19 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.setBool(sender.on, forKey: PREF_SPEAKER_OUTPUT)
         
         enableSpeakerOutput(sender.on)
+    }
+
+    func headsetTxToggleChanged(sender: UISwitch) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_HEADSET_TXTOGGLE)
+        
+        if sender.on {
+            UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+        }
+        else {
+            UIApplication.sharedApplication().endReceivingRemoteControlEvents()
+        }
     }
 
     func voicepreprocessingChanged(sender: UISwitch) {

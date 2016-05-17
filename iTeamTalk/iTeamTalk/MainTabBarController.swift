@@ -121,7 +121,10 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
             device.proximityMonitoringEnabled = true
         }
         
-        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+        // headset can toggle tx
+        if defaults.objectForKey(PREF_HEADSET_TXTOGGLE) == nil || defaults.boolForKey(PREF_HEADSET_TXTOGGLE) {
+            UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+        }
 
     }
     
