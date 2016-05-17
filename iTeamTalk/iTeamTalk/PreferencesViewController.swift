@@ -37,6 +37,7 @@ let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
+let PREF_VOICEPROCESSINGIO = "voiceprocessing_preference"
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
@@ -226,6 +227,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         speakerswitch.addTarget(self, action: #selector(PreferencesViewController.speakeroutputChanged(_:)), forControlEvents: .ValueChanged)
         sound_items.append(speakercell)
 
+        let voice_prepcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
+            initial: settings.objectForKey(PREF_VOICEPROCESSINGIO) == nil || settings.boolForKey(PREF_VOICEPROCESSINGIO))
+        voice_prepcell.detailTextLabel!.text = NSLocalizedString("Use echo cancellation and automatic gain control",
+                                                                 comment: "preferences")
+        voiceprepswitch.addTarget(self, action: #selector(PreferencesViewController.voicepreprocessingChanged(_:)), forControlEvents: .ValueChanged)
+        sound_items.append(voice_prepcell)
+        
         
         // sound events
         
@@ -554,7 +563,17 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         
         enableSpeakerOutput(sender.on)
     }
-    
+
+    func voicepreprocessingChanged(sender: UISwitch) {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setBool(sender.on, forKey: PREF_VOICEPROCESSINGIO)
+        
+        TT_CloseSoundInputDevice(ttInst)
+        TT_CloseSoundOutputDevice(ttInst)
+        setupSoundDevices()
+    }
+
     func voiceactlevelChanged(sender: UISlider) {
         let level = Int(sender.value * Float(VOICEACT_DISABLED))
         

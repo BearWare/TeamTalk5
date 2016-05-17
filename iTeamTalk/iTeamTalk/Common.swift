@@ -384,12 +384,15 @@ func getSoundFile(s: Sounds) -> String? {
 
 func setupSoundDevices() {
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let on = defaults.objectForKey(PREF_VOICEPROCESSINGIO) == nil || defaults.boolForKey(PREF_VOICEPROCESSINGIO)
+    
     let flags = TT_GetFlags(ttInst)
     if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
-        TT_InitSoundInputDevice(ttInst, 0)
+        TT_InitSoundInputDevice(ttInst, on ? 1 : 0)
     }
     if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-        TT_InitSoundOutputDevice(ttInst, 0)
+        TT_InitSoundOutputDevice(ttInst, on ? 1 : 0)
     }
     
     setupSpeakerOutput()
