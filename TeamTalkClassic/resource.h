@@ -70,6 +70,35 @@
 #define IDS_BCASTTEXTMSG                162
 #define IDS_USERLOGIN                   163
 #define IDS_USERLOGOUT                  164
+#define IDS_PROPPAGE_USEREVENTS                  165
+#define IDS_PROPPAGE_USERLOGIN                  166
+#define IDS_PROPPAGE_USERLOGOUT                  167
+#define IDS_PROPPAGE_USERJOINED                  168
+#define IDS_PROPPAGE_USERLEFT                  169
+#define IDS_PROPPAGE_TXTMSG_PRIV                  170
+#define IDS_PROPPAGE_TXTMSG_CHAN                  171
+#define IDS_PROPPAGE_TXTMSG_BCAST                  172
+#define IDS_PROPPAGE_SUB_CHANGE                  173
+#define IDS_PROPPAGE_SUB_TXTMSG_PRIV                  174
+#define IDS_PROPPAGE_SUB_TXTMSG_CHAN                  175
+#define IDS_PROPPAGE_SUB_TXTMSG_BCAST                  176
+#define IDS_PROPPAGE_SUB_VOICE                  177
+#define IDS_PROPPAGE_SUB_VIDEO                  178
+#define IDS_PROPPAGE_SUB_DESKTOP                  179
+#define IDS_PROPPAGE_SUB_DESKTOPINPUT                  180
+#define IDS_PROPPAGE_SUB_MEDIAFILE                  181
+#define IDS_PROPPAGE_SUBINT_TXTMSG_PRIV                  182
+#define IDS_PROPPAGE_SUBINT_TXTMSG_CHAN                  183
+#define IDS_PROPPAGE_SUBINT_VOICE                  184
+#define IDS_PROPPAGE_SUBINT_VIDEO                  185
+#define IDS_PROPPAGE_SUBINT_DESKTOP                  186
+#define IDS_PROPPAGE_SUBINT_DESKTOPINPUT                  187
+#define IDS_PROPPAGE_SUBINT_MEDIAFILE                  188
+#define IDS_PROPPAGE_CLASSROOM_CHANGE                  189
+#define IDS_PROPPAGE_CLASSROOM_VOICE                  190
+#define IDS_PROPPAGE_CLASSROOM_VIDEO                  191
+#define IDS_PROPPAGE_CLASSROOM_DESKTOP                  192
+#define IDS_PROPPAGE_CLASSROOM_MEDIAFILE                  193
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
@@ -717,6 +746,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1544
-#define _APS_NEXT_SYMED_VALUE           165
+#define _APS_NEXT_SYMED_VALUE           194
 #endif
 #endif
