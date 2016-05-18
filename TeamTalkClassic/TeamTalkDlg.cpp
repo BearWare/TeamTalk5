@@ -1125,6 +1125,12 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
     }
 
     DefaultUnsubscribe(user.nUserID);
+
+    CString szMsg, szFormat;
+    szFormat.LoadString(IDS_USERLOGIN);
+    szMsg.Format(szFormat, GetDisplayName(user));
+    if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
+        AddVoiceMessage(szMsg);
 }
 
 void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
@@ -1140,6 +1146,12 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
 
     m_users.erase(user.nUserID);
     m_wndTree.RemoveUser(user);
+
+    CString szMsg, szFormat;
+    szFormat.LoadString(IDS_USERLOGOUT);
+    szMsg.Format(szFormat, GetDisplayName(user));
+    if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
+        AddVoiceMessage(szMsg);
 }
 
 /* SESSION_TREE UPDATES    */

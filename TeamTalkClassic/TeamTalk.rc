@@ -1795,9 +1795,16 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_BCASTTEXTMSG        "Broadcast message from %s. %s."
+    IDS_USERLOGIN           "%s logged on to the server"
+    IDS_USERLOGOUT          "%s logged out of the server"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_USERTEXTMSG         "Text message from %s. %s."
+    IDS_BCASTTEXTMSG        "Broadcast message from %s. %s."
 END
 
 STRINGTABLE
@@ -1833,11 +1840,6 @@ BEGIN
     IDC_RADIO_ONLINE        "Online"
     IDC_RADIO_AWAY          "Away"
     IDC_RADIO_QUESTION      "Question"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_USERTEXTMSG         "Text message from %s. %s."
 END
 
 #endif    // Neutral resources

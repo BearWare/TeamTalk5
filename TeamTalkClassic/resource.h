@@ -68,6 +68,8 @@
 #define IDS_USERTEXTMSG                 160
 #define IDD_PROPPAGE_TEXTTOSPEECHPAGE   161
 #define IDS_BCASTTEXTMSG                162
+#define IDS_USERLOGIN                   163
+#define IDS_USERLOGOUT                  164
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
@@ -715,6 +717,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        260
 #define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1544
-#define _APS_NEXT_SYMED_VALUE           163
+#define _APS_NEXT_SYMED_VALUE           165
 #endif
 #endif
