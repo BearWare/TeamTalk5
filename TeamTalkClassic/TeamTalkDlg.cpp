@@ -1126,11 +1126,15 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
 
     DefaultUnsubscribe(user.nUserID);
 
-    CString szMsg, szFormat;
-    szFormat.LoadString(IDS_USERLOGIN);
-    szMsg.Format(szFormat, GetDisplayName(user));
-    if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
-        AddVoiceMessage(szMsg);
+    if (m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN)
+    {
+        CString szMsg, szFormat;
+        szFormat.LoadString(IDS_USERLOGIN);
+        TRANSLATE_ITEM(IDS_USERLOGIN, szFormat);
+        szMsg.Format(szFormat, GetDisplayName(user));
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDIN)
+            AddVoiceMessage(szMsg);
+    }
 }
 
 void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
@@ -1149,6 +1153,7 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
 
     CString szMsg, szFormat;
     szFormat.LoadString(IDS_USERLOGOUT);
+    TRANSLATE_ITEM(IDS_USERLOGOUT, szFormat);
     szMsg.Format(szFormat, GetDisplayName(user));
     if(m_xmlSettings.GetEventTTSEvents() & TTS_USER_LOGGEDOUT)
         AddVoiceMessage(szMsg);
