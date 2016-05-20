@@ -1,0 +1,511 @@
+/* log entry */
+"%@ joined channel" = "%@ присоединился к каналу";
+
+/* log entry */
+"%@ left channel" = "%@ покинул канал";
+
+/* preferences */
+"%d %% - Default" = "%d %% - По умолчанию";
+
+/* codec detail */
+"(Active)" = "(Активно)";
+
+/* codec detail */
+"12 KHz" = "12 KHz";
+
+/* codec detail
+   create channel */
+"16 KHz" = "16 KHz";
+
+/* codec detail */
+"24 KHz" = "24 KHz";
+
+/* codec detail
+   create channel */
+"32 KHz" = "32 KHz";
+
+/* codec detail */
+"48 KHz" = "48 KHz";
+
+/* codec detail
+   create channel */
+"8 KHz" = "8 KHz";
+
+/* serverlist */
+"Access preferences" = "Доступ к параметрам";
+
+/* server entry
+   user detail */
+"Actions" = "Действия";
+
+/* serverlist */
+"Add new server entry" = "Добавление новой записи сервера";
+
+/* preferences */
+"Announce content of text message" = "Объявить содержание текстового сообщения";
+
+/* preferences */
+"Announce lost server connection" = "Объявить соединение с сервером потеряно";
+
+/* preferences */
+"Announce user joining channel" = "Объявить пользователь присоединился к каналу";
+
+/* preferences */
+"Announce user leaving channel" = "Объявить пользователь покинул канал";
+
+/* codec detail */
+"Application" = "Приложение";
+
+/* codec detail */
+"Audio Channels" = "Аудио Каналы";
+
+/* create channel */
+"Audio Codec" = "Аудио Кодек";
+
+/* server entry */
+"Authentication" = "Аутентификация";
+
+/* codec detail */
+"Bitrate" = "Битрейт";
+
+/* preferences
+   user detail */
+"Broadcast Messages" = "Сетевые Сообщения";
+
+/* channel list */
+"Channel" = "Канал";
+
+/* TTS EVENT */
+"Channel message from %@. %@" = "Сообщение канала от %@. %@";
+
+/* preferences
+   user detail */
+"Channel Messages" = "Сообщения Канала";
+
+/* create channel */
+"Channel Properties" = "Channel Properties";
+
+/* preferences */
+"Channel Text Message" = "Текстовое Сообщение Канала";
+
+/* channel list */
+"Channel. %d users" = "Канал. %d пользователей";
+
+/* create channel */
+"Commands" = "Commands";
+
+/* serverlist */
+"Connect to server" = "Подключиться к серверу";
+
+/* preferences
+   server entry */
+"Connection" = "Подключение";
+
+/* preferences
+   tts event */
+"Connection lost" = "Соединение потеряно";
+
+/* View Title */
+"Create Channel" = "Создать Канал";
+
+/* main-tab */
+"Create new channel" = "Создать новый канал";
+
+/* preferences */
+"Default Subscriptions" = "Подписки По Умолчанию";
+
+/* serverlist */
+"Delete server from list" = "Удалить сервер из списка";
+
+/* preferences
+   user detail */
+"Desktop" = "Рабочий стол";
+
+/* preferences */
+"Display" = "Дисплей";
+
+/* channel list */
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+
+/* preferences */
+"Double tap to lock TX button" = "Блокировать кнопку передача по двойному нажатию";
+
+/* codec detail */
+"DTX" = "DTX";
+
+/* channel list */
+"Edit properties" = "Редактировать свойства";
+
+/* Dialog message */
+"Enter Password" = "Введите Пароль";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"Error" = "Ошибка";
+
+/* preferences
+   user detail */
+"General" = "Общее";
+
+/* TTS EVENT */
+"has joined the channel" = "присоединился к каналу";
+
+/* TTS EVENT */
+"has left the channel" = "покинул канал";
+
+/* server entry */
+"Host address" = "Адрес хоста";
+
+/* Dialog message */
+"Join" = "Присоединить";
+
+/* channel list */
+"Join channel" = "Присоединиться к каналу";
+
+/* preferences */
+"Join Root Channel" = "Присоединить Корневой Канал";
+
+/* preferences */
+"Join root channel after login" = "Присоединить корневой канал после входа";
+
+/* log entry */
+"Joined %@" = "Присоединено %@";
+
+/* channel list */
+"Kick user" = "Выгнать пользователя";
+
+/* preferences */
+"Limit length of names in channel list to %d characters" = "Ограничение длины имен в списке каналов до %d символов";
+
+/* log entry */
+"Logged on to server" = "Вход на сервер";
+
+/* preferences */
+"Master Volume" = "Мастер Громкости";
+
+/* preferences */
+"Maximum Text Length" = "Максимальная Длина Текста";
+
+/* preferences
+   user detail */
+"Media File" = "Медиафайл";
+
+/* preferences
+   user detail */
+"Media File Volume" = "Громкость Медиафайла";
+
+/* preferences */
+"Media file vs. voice volume" = "Медиафайл поверх громкости голоса";
+
+/* preferences */
+"Microphone Gain" = "Усиление Микрофона";
+
+/* codec detail
+   create channel */
+"Mono" = "Моно";
+
+/* codec detail */
+"Music" = "Музыка";
+
+/* channel list */
+"Mute" = "Приглушить";
+
+/* user detail */
+"Mute Media File" = "Приглушить Медиа Файл";
+
+/* user detail */
+"Mute Voice" = "Приглушить Голос";
+
+/* create channel
+   server entry */
+"Name" = "Имя";
+
+/* preferences */
+"Name displayed in channel list" = "Отображаемое имя в списке каналов";
+
+/* preferences */
+"Nickname" = "Псевдоним";
+
+/* codec detail
+   create channel */
+"No Audio" = "Нет Аудио";
+
+/* create channel */
+"No Audio Recording" = "Не Записывать Аудио";
+
+/* create channel */
+"No Interruptions" = "Не Перебивать";
+
+/* channel list */
+"No password" = "Нет пароля";
+
+/* create channel */
+"No Voice Activation" = "Нет Голосовой Активации";
+
+/* default nickname */
+"Noname" = "Нет имени";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"OK" = "ОК";
+
+/* codec detail */
+"OPUS Codec" = "Кодек OPUS";
+
+/* channel list */
+"Parent channel" = "Родительский канал";
+
+/* create channel
+   Dialog message
+   server entry */
+"Password" = "Пароль";
+
+/* channel list */
+"Password protected" = "Защищено паролем";
+
+/* create channel */
+"Permanent Channel" = "Постоянный Канал";
+
+/* preferences */
+"Play sound when a user joins the channel" = "Воспроизводить звук, когда пользователь присоединяется к каналу";
+
+/* preferences */
+"Play sound when a user leaves the channel" = "Воспроизводить звук, когда пользователь покидает канал";
+
+/* preferences */
+"Play sound when channel text message is received" = "Воспроизводить звук, когда получено текстовое сообщение канала";
+
+/* preferences */
+"Play sound when connection is dropped" = "Воспроизводить звук, когда соединение прервано";
+
+/* preferences */
+"Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
+
+/* preferences */
+"Play sound when voice transmission is toggled" = "Воспроизводить звук при включении передачи голоса";
+
+/* preferences */
+"Pop up text message when new messages are received" = "Всплывающее текстовое сообщение при получении новых сообщений";
+
+/* serverlist */
+"Preferences" = "Параметры";
+
+/* serverlist */
+"Private server" = "Приватный сервер";
+
+/* preferences */
+"Private Text Message" = "Приватное Текстовое Сообщение";
+
+/* TTS EVENT */
+"Private text message from %@. %@" = "Приватное текстовое сообщение от %@. %@";
+
+/* preferences */
+"Proximity sensor" = "Датчик приближения";
+
+/* serverlist */
+"Public server" = "Публичный сервер";
+
+/* preferences */
+"Push to Talk lock" = "Блокировка передачи";
+
+/* codec detail */
+"Quality" = "Качество";
+
+/* preferences */
+"Receive broadcast messages by default" = "Получать сетевые сообщения по умолчанию";
+
+/* preferences */
+"Receive channel messages by default" = "Получать  сообщения канала по умолчанию";
+
+/* preferences */
+"Receive desktop sessions by default" = "Получать сеансы рабочего стола по умолчанию";
+
+/* preferences */
+"Receive media file streams by default" = "Получать потоки медиафайлов по умолчанию";
+
+/* preferences */
+"Receive text messages by default" = "Получать текстовые сообщения по умолчанию";
+
+/* preferences */
+"Receive voice streams by default" = "Получать голосовые потоки по умолчанию";
+
+/* preferences */
+"Receive webcam streams by default" = "Получать потоки веб-камеры по умолчанию";
+
+/* channel list */
+"Return to previous channel" = "Возврат на предыдущий канал";
+
+/* log entry */
+"root channel" = "корневой канал";
+
+/* codec detail */
+"Sample Rate" = "Частота Дискретизации";
+
+/* preferences */
+"Select the text-to-speech voice to use" = "Выбрать голос для использования текст в речь";
+
+/* channel list */
+"Send private message" = "Отправить приватное сообщение";
+
+/* preferences */
+"Server Connection Lost" = "Соединение С Сервером Потеряно";
+
+/* server entry */
+"Server List Entry" = "Запись Списка Серверов";
+
+/* preferences */
+"Show Public Servers" = "Показ Публичных Серверов";
+
+/* preferences */
+"Show public servers in server list" = "Показать публичные серверы в списке серверов";
+
+/* preferences */
+"Show text messages instantly" = "Показать текст сообщения мгновенно";
+
+/* preferences */
+"Show usernames" = "Показ имён пользователей";
+
+/* preferences */
+"Show usernames instead of nicknames" = "Показать имена пользователей вместо псевдонимов";
+
+/* channel list */
+"Silent" = "Молчит";
+
+/* preferences */
+"Sound Events" = "Озвучивание Событий";
+
+/* preferences */
+"Sound System" = "Звуковая Система";
+
+/* preferences */
+"Speaker Output" = "Выход На Динамик";
+
+/* preferences */
+"Speech" = "Речь";
+
+/* preferences */
+"Speech Rate" = "Скорость Речи";
+
+/* preferences */
+"Speech Volume" = "Громкость Речи";
+
+/* codec detail */
+"Speex Codec" = "Кодек Speex";
+
+/* codec detail */
+"Speex Variable Bitrate Codec" = "Кодек Speex С Переменным Битрейтом";
+
+/* codec detail
+   create channel */
+"Stereo" = "Стерео";
+
+/* channel list */
+"Stop transmit" = "Остановить передачу";
+
+/* user detail */
+"Subscriptions" = "Подписки";
+
+/* channel list */
+"Talking" = "Говорит";
+
+/* server entry */
+"TCP Port" = "TCP Порт";
+
+/* preferences */
+"Text To Speech Events" = "Речевые События";
+
+/* preferences */
+"The rate of the speaking voice is %.1f" = "Скорость речи голоса %.1f";
+
+/* preferences */
+"The volume of the speaking voice is %.1f" = "Громкость речи голоса %.1f";
+
+/* channel list */
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+
+/* create channel */
+"Topic" = "Тема";
+
+/* channel list */
+"Transmit" = "Передача";
+
+/* codec detail */
+"Transmit Interval" = "Интервал Передачи";
+
+/* preferences */
+"Turn off screen when holding phone near ear" = "Выключать экран, когда телефон находится возле уха";
+
+/* text field hint */
+"Type text here" = "Текст";
+
+/* server entry */
+"UDP Port" = "UDP Порт";
+
+/* preferences */
+"Use iPhone's speaker instead of earpiece" = "Использовать динамик iPhone вместо наушника";
+
+/* channel list */
+"User" = "Пользователь";
+
+/* preferences */
+"User Joins Channel" = "Пользователь Присоединяется К Каналу";
+
+/* preferences */
+"User joins channel" = "Пользователь присоединяется к каналу";
+
+/* preferences */
+"User leaves channel" = "Пользователь покидает канал";
+
+/* preferences */
+"User Leaves Channel" = "Пользователь Покидает Канал";
+
+/* preferences
+   user detail */
+"User Messages" = "Сообщения Пользователя";
+
+/* server entry
+   user detail */
+"Username" = "Имя Пользователя";
+
+/* channel list */
+"View" = "Просмотреть";
+
+/* channel list */
+"View properties" = "Просмотреть свойства";
+
+/* preferences
+   user detail */
+"Voice" = "Голос";
+
+/* preferences */
+"Voice Activation Level" = "Уровень Голосовой Активации";
+
+/* preferences */
+"Voice Activation Level: %d. Recommended: %d" = "Уровень Голосовой Активации: %d. Рекомендуется: %d";
+
+/* preferences */
+"Voice Activation Level: Disabled" = "Уровень Голосовой Активации: Выключено";
+
+/* preferences */
+"Voice Transmission Toggled" = "Включение Передачи Голоса";
+
+/* user detail */
+"Voice Volume" = "Громкость Голоса";
+
+/* codec detail */
+"VoIP" = "Речь";
+
+/* user detail */
+"Volume Controls" = "Регуляторы Громкости";
+
+/* preferences
+   user detail */
+"WebCam" = "Веб-Камера";
+
+/* speech */
+"You have selected %@" = "Вы выбрали %@";
+

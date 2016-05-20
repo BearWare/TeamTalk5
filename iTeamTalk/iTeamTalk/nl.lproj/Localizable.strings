@@ -1,0 +1,511 @@
+/* log entry */
+"%@ joined channel" = "%@ is kanaal binnengekomen";
+
+/* log entry */
+"%@ left channel" = "%@ heeft kanaal verlaten";
+
+/* preferences */
+"%d %% - Default" = "%d %% - Standaard";
+
+/* codec detail */
+"(Active)" = "(Actief)";
+
+/* codec detail */
+"12 KHz" = "12 KHz";
+
+/* codec detail
+   create channel */
+"16 KHz" = "16 KHz";
+
+/* codec detail */
+"24 KHz" = "24 KHz";
+
+/* codec detail
+   create channel */
+"32 KHz" = "32 KHz";
+
+/* codec detail */
+"48 KHz" = "48 KHz";
+
+/* codec detail
+   create channel */
+"8 KHz" = "8 KHz";
+
+/* serverlist */
+"Access preferences" = "Instellingen bekijken";
+
+/* server entry
+   user detail */
+"Actions" = "Taken";
+
+/* serverlist */
+"Add new server entry" = "Nieuwe server toevoegen";
+
+/* preferences */
+"Announce content of text message" = "Inhoud van berichten melden";
+
+/* preferences */
+"Announce lost server connection" = "Verbroken serververbinding melden";
+
+/* preferences */
+"Announce user joining channel" = "Gebruiker die kanaal binnenkomt melden";
+
+/* preferences */
+"Announce user leaving channel" = "Gebruiker die kanaal verlaat melden";
+
+/* codec detail */
+"Application" = "Applicatie";
+
+/* codec detail */
+"Audio Channels" = "Audiokanalen";
+
+/* create channel */
+"Audio Codec" = "Audiocodec";
+
+/* server entry */
+"Authentication" = "Authenticatie";
+
+/* codec detail */
+"Bitrate" = "Bitsnelheid";
+
+/* preferences
+   user detail */
+"Broadcast Messages" = "Uitzendberichten";
+
+/* channel list */
+"Channel" = "Kanaal";
+
+/* TTS EVENT */
+"Channel message from %@. %@" = "Kanaalbericht van %@. %@";
+
+/* preferences
+   user detail */
+"Channel Messages" = "Kanaalberichten";
+
+/* create channel */
+"Channel Properties" = "Channel Properties";
+
+/* preferences */
+"Channel Text Message" = "Kanaaltekstbericht";
+
+/* channel list */
+"Channel. %d users" = "Kanaal. %d gebruikers";
+
+/* create channel */
+"Commands" = "Commands";
+
+/* serverlist */
+"Connect to server" = "Verbinden met server";
+
+/* preferences
+   server entry */
+"Connection" = "Verbinding";
+
+/* preferences
+   tts event */
+"Connection lost" = "Verbinding verbroken";
+
+/* View Title */
+"Create Channel" = "Kanaal Aanmaken";
+
+/* main-tab */
+"Create new channel" = "Nieuw kanaal aanmaken";
+
+/* preferences */
+"Default Subscriptions" = "Standaardontvangst";
+
+/* serverlist */
+"Delete server from list" = "Server uit lijst verwijderen ";
+
+/* preferences
+   user detail */
+"Desktop" = "Bureaublad";
+
+/* preferences */
+"Display" = "Weergave";
+
+/* channel list */
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+
+/* preferences */
+"Double tap to lock TX button" = "Tik dubbel om uitzendknop te blokkeren";
+
+/* codec detail */
+"DTX" = "DTX";
+
+/* channel list */
+"Edit properties" = "Eigenschappen bewerken";
+
+/* Dialog message */
+"Enter Password" = "Wachtwoord Invoeren";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"Error" = "Fout";
+
+/* preferences
+   user detail */
+"General" = "Algemeen";
+
+/* TTS EVENT */
+"has joined the channel" = "is het kanaal binnengekomen";
+
+/* TTS EVENT */
+"has left the channel" = "heeft het kanaal verlaten";
+
+/* server entry */
+"Host address" = "Hostadres";
+
+/* Dialog message */
+"Join" = "Binnengaan";
+
+/* channel list */
+"Join channel" = "Kanaal binnengaan";
+
+/* preferences */
+"Join Root Channel" = "Hoofdkanaal binnengaan";
+
+/* preferences */
+"Join root channel after login" = "Hoofdkanaal binnengaan na inloggen";
+
+/* log entry */
+"Joined %@" = "%@ binnengegaan";
+
+/* channel list */
+"Kick user" = "User kicken";
+
+/* preferences */
+"Limit length of names in channel list to %d characters" = "Namen in kanalenlijst beperken tot %d tekens";
+
+/* log entry */
+"Logged on to server" = "Ingelogd op server";
+
+/* preferences */
+"Master Volume" = "Hoofdvolume";
+
+/* preferences */
+"Maximum Text Length" = "Maximale tekstlengte";
+
+/* preferences
+   user detail */
+"Media File" = "Mediabestand";
+
+/* preferences
+   user detail */
+"Media File Volume" = "Mediabestandvolume";
+
+/* preferences */
+"Media file vs. voice volume" = "Mediabestand- vs. stemvolume";
+
+/* preferences */
+"Microphone Gain" = "Microfoonniveau";
+
+/* codec detail
+   create channel */
+"Mono" = "Mono";
+
+/* codec detail */
+"Music" = "Muziek";
+
+/* channel list */
+"Mute" = "Dempen";
+
+/* user detail */
+"Mute Media File" = "Mediabestand dempen";
+
+/* user detail */
+"Mute Voice" = "Stem dempen";
+
+/* create channel
+   server entry */
+"Name" = "Naam";
+
+/* preferences */
+"Name displayed in channel list" = "Naam weergegeven in kanalenlijst";
+
+/* preferences */
+"Nickname" = "Bijnaam";
+
+/* codec detail
+   create channel */
+"No Audio" = "Geen audio";
+
+/* create channel */
+"No Audio Recording" = "Geen audioopname";
+
+/* create channel */
+"No Interruptions" = "Geen onderbrekingen";
+
+/* channel list */
+"No password" = "Geen wachtwoord";
+
+/* create channel */
+"No Voice Activation" = "Geen stemactivatie";
+
+/* default nickname */
+"Noname" = "Geennaam";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"OK" = "OK";
+
+/* codec detail */
+"OPUS Codec" = "OPUS-codec";
+
+/* channel list */
+"Parent channel" = "Bovenliggend kanaal";
+
+/* create channel
+   Dialog message
+   server entry */
+"Password" = "Wachtwoord";
+
+/* channel list */
+"Password protected" = "Wachtwoord beveiligd";
+
+/* create channel */
+"Permanent Channel" = "Permanent kanaal";
+
+/* preferences */
+"Play sound when a user joins the channel" = "Geluid afspelen wanneer een gebruiker het kanaal binnenkomt";
+
+/* preferences */
+"Play sound when a user leaves the channel" = "Geluid afspelen wanneer een gebruiker het kanaal verlaat";
+
+/* preferences */
+"Play sound when channel text message is received" = "Geluid afspelen wanneer kanaaltekstbericht ontvangen wordt";
+
+/* preferences */
+"Play sound when connection is dropped" = "Geluid afspelen wanneer verbinding is verbroken";
+
+/* preferences */
+"Play sound when private text message is received" = "Geluid afspelen wanneer privétekstbericht ontvangen wordt";
+
+/* preferences */
+"Play sound when voice transmission is toggled" = "Geluid afspelen wanneer stemuitzending geschakeld wordt";
+
+/* preferences */
+"Pop up text message when new messages are received" = "Tekstbericht laten zien wanneer nieuwe berichten ontvangen worden";
+
+/* serverlist */
+"Preferences" = "Instellingen";
+
+/* serverlist */
+"Private server" = "Privéserver";
+
+/* preferences */
+"Private Text Message" = "Privétekstbericht";
+
+/* TTS EVENT */
+"Private text message from %@. %@" = "Privétekstbericht van %@. %@";
+
+/* preferences */
+"Proximity sensor" = "Nabijheids sensor";
+
+/* serverlist */
+"Public server" = "Publieke server";
+
+/* preferences */
+"Push to Talk lock" = "Push-to-talk-blokkade";
+
+/* codec detail */
+"Quality" = "Kwaliteit";
+
+/* preferences */
+"Receive broadcast messages by default" = "Standaard uitzendingsberichten ontvangen";
+
+/* preferences */
+"Receive channel messages by default" = "Standaard kanaalberichten ontvangen";
+
+/* preferences */
+"Receive desktop sessions by default" = "Standaard bureaubladsessies ontvangen";
+
+/* preferences */
+"Receive media file streams by default" = "Standaard mediabestandstreams ontvangen";
+
+/* preferences */
+"Receive text messages by default" = "Standaard tekstberichten ontvangen";
+
+/* preferences */
+"Receive voice streams by default" = "Standaard stemstreams ontvangen";
+
+/* preferences */
+"Receive webcam streams by default" = "Standaard webcamstreams ontvangen";
+
+/* channel list */
+"Return to previous channel" = "Terug naar vorig kanaal";
+
+/* log entry */
+"root channel" = "hoofdkanaal";
+
+/* codec detail */
+"Sample Rate" = "Samplesnelheid";
+
+/* preferences */
+"Select the text-to-speech voice to use" = "Selecteer de te gebruiken tekst-naar-spraak-stem";
+
+/* channel list */
+"Send private message" = "Privébericht versturen";
+
+/* preferences */
+"Server Connection Lost" = "Serververbinding verbroken";
+
+/* server entry */
+"Server List Entry" = "Serverlijstitem";
+
+/* preferences */
+"Show Public Servers" = "Publieke servers weergeven";
+
+/* preferences */
+"Show public servers in server list" = "Publieke servers weergeven in serverlijst";
+
+/* preferences */
+"Show text messages instantly" = "Tekstberichten direct weergeven";
+
+/* preferences */
+"Show usernames" = "Gebruikersnamen weergeven";
+
+/* preferences */
+"Show usernames instead of nicknames" = "Gebruikersnamen in plaats van bijnamen weergeven";
+
+/* channel list */
+"Silent" = "Stil";
+
+/* preferences */
+"Sound Events" = "Geluidsgebeurtenissen";
+
+/* preferences */
+"Sound System" = "Geluidssysteem";
+
+/* preferences */
+"Speaker Output" = "Luidsprekeruitvoer";
+
+/* preferences */
+"Speech" = "Spraak";
+
+/* preferences */
+"Speech Rate" = "Spraaksnelheid";
+
+/* preferences */
+"Speech Volume" = "Spraakvolume";
+
+/* codec detail */
+"Speex Codec" = "Speex-codec";
+
+/* codec detail */
+"Speex Variable Bitrate Codec" = "Speex-codec (variabele bitsnelheid)";
+
+/* codec detail
+   create channel */
+"Stereo" = "Stereo";
+
+/* channel list */
+"Stop transmit" = "Uitzenden stoppen";
+
+/* user detail */
+"Subscriptions" = "Ontvangst";
+
+/* channel list */
+"Talking" = "Praat";
+
+/* server entry */
+"TCP Port" = "TCP-poort";
+
+/* preferences */
+"Text To Speech Events" = "Tekst-naar-spraak-gebeurtenissen";
+
+/* preferences */
+"The rate of the speaking voice is %.1f" = "De snelheid van de sprekende stem is %.1f";
+
+/* preferences */
+"The volume of the speaking voice is %.1f" = "Het volume van de sprekende stem is %.1f";
+
+/* channel list */
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+
+/* create channel */
+"Topic" = "Onderwerp";
+
+/* channel list */
+"Transmit" = "Uitzenden";
+
+/* codec detail */
+"Transmit Interval" = "Uitzendinterval";
+
+/* preferences */
+"Turn off screen when holding phone near ear" = "Scherm uitschakelen wanneer telefoon dichtbij oor gehouden wordt";
+
+/* text field hint */
+"Type text here" = "Typ hier tekst";
+
+/* server entry */
+"UDP Port" = "UDP-poort";
+
+/* preferences */
+"Use iPhone's speaker instead of earpiece" = "Gebruik de iPhone-luidspreker in plaats van het telefoongedeelte";
+
+/* channel list */
+"User" = "Gebruiker";
+
+/* preferences */
+"User Joins Channel" = "Gebruiker komt kanaal binnen";
+
+/* preferences */
+"User joins channel" = "Gebruiker komt kanaal binnen";
+
+/* preferences */
+"User leaves channel" = "Gebruiker verlaat kanaal";
+
+/* preferences */
+"User Leaves Channel" = "Gebruiker verlaat kanaal";
+
+/* preferences
+   user detail */
+"User Messages" = "Gebruikersberichten";
+
+/* server entry
+   user detail */
+"Username" = "Gebruikersnaam";
+
+/* channel list */
+"View" = "Weergeven";
+
+/* channel list */
+"View properties" = "Eigenschappen weergeven";
+
+/* preferences
+   user detail */
+"Voice" = "Stem";
+
+/* preferences */
+"Voice Activation Level" = "Stemactivatieniveau";
+
+/* preferences */
+"Voice Activation Level: %d. Recommended: %d" = "Stemactivatieniveau: %d. Aanbevolen: %d";
+
+/* preferences */
+"Voice Activation Level: Disabled" = "Stemactivatieniveau: Uitgeschakeld";
+
+/* preferences */
+"Voice Transmission Toggled" = "Spraakuitzending geschakeld";
+
+/* user detail */
+"Voice Volume" = "Spraakvolume";
+
+/* codec detail */
+"VoIP" = "VoIP";
+
+/* user detail */
+"Volume Controls" = "Volumebediening";
+
+/* preferences
+   user detail */
+"WebCam" = "WebCam";
+
+/* speech */
+"You have selected %@" = "U hebt %@ geselecteerd";
+

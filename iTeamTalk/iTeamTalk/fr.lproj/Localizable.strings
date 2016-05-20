@@ -1,0 +1,511 @@
+/* log entry */
+"%@ joined channel" = "%@ a rejoint le canal";
+
+/* log entry */
+"%@ left channel" = "%@ a quitté le canal";
+
+/* preferences */
+"%d %% - Default" = "%d %% - défaut";
+
+/* codec detail */
+"(Active)" = "(Actif)";
+
+/* codec detail */
+"12 KHz" = "12 KHz";
+
+/* codec detail
+   create channel */
+"16 KHz" = "16 KHz";
+
+/* codec detail */
+"24 KHz" = "24 KHz";
+
+/* codec detail
+   create channel */
+"32 KHz" = "32 KHz";
+
+/* codec detail */
+"48 KHz" = "48 KHz";
+
+/* codec detail
+   create channel */
+"8 KHz" = "8 KHz";
+
+/* serverlist */
+"Access preferences" = "Préférences d'accès";
+
+/* server entry
+   user detail */
+"Actions" = "Actions";
+
+/* serverlist */
+"Add new server entry" = "Ajouter nouvelle entrée serveur";
+
+/* preferences */
+"Announce content of text message" = "Annoncer contenu du message";
+
+/* preferences */
+"Announce lost server connection" = "Annoncer connexion serveur perdue";
+
+/* preferences */
+"Announce user joining channel" = "Annoncer utilisateur rejoignant le canal";
+
+/* preferences */
+"Announce user leaving channel" = "Annoncer utilisateur quittant le canal";
+
+/* codec detail */
+"Application" = "Application";
+
+/* codec detail */
+"Audio Channels" = "Canaux Audio";
+
+/* create channel */
+"Audio Codec" = "Audio Codec";
+
+/* server entry */
+"Authentication" = "Authentification";
+
+/* codec detail */
+"Bitrate" = "Débit";
+
+/* preferences
+   user detail */
+"Broadcast Messages" = "Transmettre Messages";
+
+/* channel list */
+"Channel" = "Canal";
+
+/* TTS EVENT */
+"Channel message from %@. %@" = "Message canal de %@. %@";
+
+/* preferences
+   user detail */
+"Channel Messages" = "Messages Canal";
+
+/* create channel */
+"Channel Properties" = "Channel Properties";
+
+/* preferences */
+"Channel Text Message" = "Message texte canal";
+
+/* channel list */
+"Channel. %d users" = "Canal. %d utilisateurs";
+
+/* create channel */
+"Commands" = "Commands";
+
+/* serverlist */
+"Connect to server" = "Connecter au serveur";
+
+/* preferences
+   server entry */
+"Connection" = "Connexion";
+
+/* preferences
+   tts event */
+"Connection lost" = "Connexion perdue";
+
+/* View Title */
+"Create Channel" = "Créer canal";
+
+/* main-tab */
+"Create new channel" = "Créer nouveau canal";
+
+/* preferences */
+"Default Subscriptions" = "Abonnements par défaut";
+
+/* serverlist */
+"Delete server from list" = "Supprimer serveur de la liste";
+
+/* preferences
+   user detail */
+"Desktop" = "Bureau";
+
+/* preferences */
+"Display" = "Afficher";
+
+/* channel list */
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+
+/* preferences */
+"Double tap to lock TX button" = "Taper deux fois pour bloquer bouton TX";
+
+/* codec detail */
+"DTX" = "DTX";
+
+/* channel list */
+"Edit properties" = "Editer propriétés";
+
+/* Dialog message */
+"Enter Password" = "Entrer mot de passe";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"Error" = "Erreur";
+
+/* preferences
+   user detail */
+"General" = "Général";
+
+/* TTS EVENT */
+"has joined the channel" = "a rejoint le canal";
+
+/* TTS EVENT */
+"has left the channel" = "a quitté le canal";
+
+/* server entry */
+"Host address" = "Adresse hôte";
+
+/* Dialog message */
+"Join" = "Rejoindre";
+
+/* channel list */
+"Join channel" = "Rejoindre le canal";
+
+/* preferences */
+"Join Root Channel" = "Rejoindre le canal source";
+
+/* preferences */
+"Join root channel after login" = "Rejoindre le canal source après identification";
+
+/* log entry */
+"Joined %@" = "Rejoint %@";
+
+/* channel list */
+"Kick user" = "Exclure utilisateur";
+
+/* preferences */
+"Limit length of names in channel list to %d characters" = "Limiter la longueur des noms dans la liste de canaux à %d caractères";
+
+/* log entry */
+"Logged on to server" = "Connecté au serveur";
+
+/* preferences */
+"Master Volume" = "Volume Maître";
+
+/* preferences */
+"Maximum Text Length" = "Longueur de texte maximum";
+
+/* preferences
+   user detail */
+"Media File" = "Fichier Média";
+
+/* preferences
+   user detail */
+"Media File Volume" = "Volume Fichier Média";
+
+/* preferences */
+"Media file vs. voice volume" = "Fichier Média vs. volume voix";
+
+/* preferences */
+"Microphone Gain" = "Augmentation Microphone";
+
+/* codec detail
+   create channel */
+"Mono" = "Mono";
+
+/* codec detail */
+"Music" = "Musique";
+
+/* channel list */
+"Mute" = "Mettre en sourdine";
+
+/* user detail */
+"Mute Media File" = "Mettre en sourdine fichier média";
+
+/* user detail */
+"Mute Voice" = "Mettre en sourdine voix";
+
+/* create channel
+   server entry */
+"Name" = "Nom";
+
+/* preferences */
+"Name displayed in channel list" = "Nom affiché dans la liste des canaux";
+
+/* preferences */
+"Nickname" = "Pseudo";
+
+/* codec detail
+   create channel */
+"No Audio" = "Pas d'Audio";
+
+/* create channel */
+"No Audio Recording" = "Pas d'enregistrement audio";
+
+/* create channel */
+"No Interruptions" = "Pas d'interruptions";
+
+/* channel list */
+"No password" = "Pas de mot de passe";
+
+/* create channel */
+"No Voice Activation" = "Pas d'activation de la voix";
+
+/* default nickname */
+"Noname" = "Anonyme";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"OK" = "OK";
+
+/* codec detail */
+"OPUS Codec" = "OPUS Codec";
+
+/* channel list */
+"Parent channel" = "Canal parent";
+
+/* create channel
+   Dialog message
+   server entry */
+"Password" = "Mot de passe";
+
+/* channel list */
+"Password protected" = "Mot de passe protégé";
+
+/* create channel */
+"Permanent Channel" = "Canal permanent";
+
+/* preferences */
+"Play sound when a user joins the channel" = "Jouer son quand un utilisateur rejoint le canal";
+
+/* preferences */
+"Play sound when a user leaves the channel" = "Jouer son quand un utilisateur quitte le canal";
+
+/* preferences */
+"Play sound when channel text message is received" = "Jouer son quand message texte du canal est reçu";
+
+/* preferences */
+"Play sound when connection is dropped" = "Jouer son quand connexion est perdue";
+
+/* preferences */
+"Play sound when private text message is received" = "Jouer son quand message texte privé est reçu";
+
+/* preferences */
+"Play sound when voice transmission is toggled" = "Jouer son quand transmission voix est enclenchée";
+
+/* preferences */
+"Pop up text message when new messages are received" = "Afficher brièvement message texte quand nouveaux messages sont reçus";
+
+/* serverlist */
+"Preferences" = "Préférences";
+
+/* serverlist */
+"Private server" = "Serveur privé";
+
+/* preferences */
+"Private Text Message" = "Message texte privé";
+
+/* TTS EVENT */
+"Private text message from %@. %@" = "Message texte privé de %@. %@";
+
+/* preferences */
+"Proximity sensor" = "Capteur Proximité";
+
+/* serverlist */
+"Public server" = "Serveur Public";
+
+/* preferences */
+"Push to Talk lock" = "Bloquer Appuyer pour Parler";
+
+/* codec detail */
+"Quality" = "Qualité";
+
+/* preferences */
+"Receive broadcast messages by default" = "Recevoir messages diffusés par défaut";
+
+/* preferences */
+"Receive channel messages by default" = "Recevoir messages canaux par défaut";
+
+/* preferences */
+"Receive desktop sessions by default" = "Recevoir sessions bureau par défaut";
+
+/* preferences */
+"Receive media file streams by default" = "Recevoir flux fichier média par défaut";
+
+/* preferences */
+"Receive text messages by default" = "Reecevoir messages texte par défaut";
+
+/* preferences */
+"Receive voice streams by default" = "Recevoir flux voix par défaut";
+
+/* preferences */
+"Receive webcam streams by default" = "Recevoir flux webcam par défaut";
+
+/* channel list */
+"Return to previous channel" = "Retourner au canal précédent";
+
+/* log entry */
+"root channel" = "canal source";
+
+/* codec detail */
+"Sample Rate" = "Débit d'échantillonnage";
+
+/* preferences */
+"Select the text-to-speech voice to use" = "Sélectionner la voix à utiliser pour le texte en parole";
+
+/* channel list */
+"Send private message" = "Envoyer message privé";
+
+/* preferences */
+"Server Connection Lost" = "Connexion serveur perdie";
+
+/* server entry */
+"Server List Entry" = "Entrée liste serveur";
+
+/* preferences */
+"Show Public Servers" = "Montrer serveurs publics";
+
+/* preferences */
+"Show public servers in server list" = "Montrer serveurs publics dans liste serveur";
+
+/* preferences */
+"Show text messages instantly" = "Montrer messages texte instantanément";
+
+/* preferences */
+"Show usernames" = "Montrer utilisateurs";
+
+/* preferences */
+"Show usernames instead of nicknames" = "Montrer utilisateurs au lieu des pseudos";
+
+/* channel list */
+"Silent" = "Silencieux";
+
+/* preferences */
+"Sound Events" = "Evènements sonores";
+
+/* preferences */
+"Sound System" = "Système sonore";
+
+/* preferences */
+"Speaker Output" = "Sortie haut-parleur";
+
+/* preferences */
+"Speech" = "Parole";
+
+/* preferences */
+"Speech Rate" = "Débit de parole";
+
+/* preferences */
+"Speech Volume" = "Volume sonore";
+
+/* codec detail */
+"Speex Codec" = "Speex Codec";
+
+/* codec detail */
+"Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
+
+/* codec detail
+   create channel */
+"Stereo" = "Stereo";
+
+/* channel list */
+"Stop transmit" = "Arrêter transmission";
+
+/* user detail */
+"Subscriptions" = "Abonnements";
+
+/* channel list */
+"Talking" = "Parlant";
+
+/* server entry */
+"TCP Port" = "Port TCP";
+
+/* preferences */
+"Text To Speech Events" = "Evènements texte vers parole";
+
+/* preferences */
+"The rate of the speaking voice is %.1f" = "Le débit de la voix parlant est %.1f";
+
+/* preferences */
+"The volume of the speaking voice is %.1f" = "Le volume de la voix parlant est %.1f";
+
+/* channel list */
+"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+
+/* create channel */
+"Topic" = "Sujet";
+
+/* channel list */
+"Transmit" = "Transmettre";
+
+/* codec detail */
+"Transmit Interval" = "Transmettre intervalle";
+
+/* preferences */
+"Turn off screen when holding phone near ear" = "Eteindre l'écran quand le téléphone est tenu près de l'oreille";
+
+/* text field hint */
+"Type text here" = "Ecrire texte ici";
+
+/* server entry */
+"UDP Port" = "Port UDP";
+
+/* preferences */
+"Use iPhone's speaker instead of earpiece" = "Utiliser le haut-parleur de l'iPhone au lieu de l'écouteur";
+
+/* channel list */
+"User" = "Utilisateur";
+
+/* preferences */
+"User Joins Channel" = "Utilisateur rejoint le canal";
+
+/* preferences */
+"User joins channel" = "Utilisateur Rejoint le Canal";
+
+/* preferences */
+"User leaves channel" = "Utilisateur quitte le canal";
+
+/* preferences */
+"User Leaves Channel" = "Utilisateur Quitte le Canal";
+
+/* preferences
+   user detail */
+"User Messages" = "Messages utilisateur";
+
+/* server entry
+   user detail */
+"Username" = "Nom d'utilisateur";
+
+/* channel list */
+"View" = "Visionner";
+
+/* channel list */
+"View properties" = "Visionner propriétés";
+
+/* preferences
+   user detail */
+"Voice" = "Voix";
+
+/* preferences */
+"Voice Activation Level" = "Niveau d'activation de la voix";
+
+/* preferences */
+"Voice Activation Level: %d. Recommended: %d" = "Niveau d'activation de la voix: %d. Recommandé: %d";
+
+/* preferences */
+"Voice Activation Level: Disabled" = "Niveau d'activation de la voix: Désactivé";
+
+/* preferences */
+"Voice Transmission Toggled" = "Transmission de la voix effectuée";
+
+/* user detail */
+"Voice Volume" = "Volume de la voix";
+
+/* codec detail */
+"VoIP" = "Parole";
+
+/* user detail */
+"Volume Controls" = "Contrôles du volume";
+
+/* preferences
+   user detail */
+"WebCam" = "WebCam";
+
+/* speech */
+"You have selected %@" = "You have selected %@";
+
