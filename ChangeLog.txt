@@ -2,6 +2,9 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.x, unreleased
+iOS client:
+- Keyboard closes when sending empty message
+- TX toggle from headset now configurable
 
 Version 5.1.3, released 2016/05/01
 Default Qt client:
