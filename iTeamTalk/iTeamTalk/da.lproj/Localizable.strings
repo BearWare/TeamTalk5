@@ -155,6 +155,9 @@
 /* TTS EVENT */
 "has left the channel" = "er ikke længere i kanalen";
 
+/* preferences */
+"Headset TX Toggle" = "Headset TX Toggle";
+
 /* server entry */
 "Host address" = "Serveradresse";
 
@@ -348,6 +351,9 @@
 /* preferences */
 "Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
 
+/* text message */
+"Send empty message to close keyboard" = "Send empty message to close keyboard";
+
 /* channel list */
 "Send private message" = "Send privat tekstbesked";
 
@@ -427,6 +433,9 @@
 /* channel list */
 "Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
+/* preferences */
+"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+
 /* create channel */
 "Topic" = "Emne";
 
@@ -439,11 +448,15 @@
 /* preferences */
 "Turn off screen when holding phone near ear" = "Sluk for skærm når telefonen holdes ved øre";
 
-/* text field hint */
+/* text field hint
+   text message */
 "Type text here" = "Skriv tekst her";
 
 /* server entry */
 "UDP Port" = "UDP Port";
+
+/* preferences */
+"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Brug iPhone's højtaler i stedet for høresnegel";
@@ -489,6 +502,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Niveau for taleaktivering: Standard";
+
+/* preferences */
+"Voice Preprocessing" = "Voice Preprocessing";
 
 /* preferences */
 "Voice Transmission Toggled" = "Taletransmission skifter";

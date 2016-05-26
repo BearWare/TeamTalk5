@@ -155,6 +155,9 @@
 /* TTS EVENT */
 "has left the channel" = "has left the channel";
 
+/* preferences */
+"Headset TX Toggle" = "Headset TX Toggle";
+
 /* server entry */
 "Host address" = "Host address";
 
@@ -348,6 +351,9 @@
 /* preferences */
 "Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
 
+/* text message */
+"Send empty message to close keyboard" = "Send empty message to close keyboard";
+
 /* channel list */
 "Send private message" = "Send private message";
 
@@ -427,6 +433,9 @@
 /* channel list */
 "Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
+/* preferences */
+"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+
 /* create channel */
 "Topic" = "Topic";
 
@@ -439,11 +448,15 @@
 /* preferences */
 "Turn off screen when holding phone near ear" = "Turn off screen when holding phone near ear";
 
-/* text field hint */
+/* text field hint
+   text message */
 "Type text here" = "Type text here";
 
 /* server entry */
 "UDP Port" = "UDP Port";
+
+/* preferences */
+"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Use iPhone's speaker instead of earpiece";
@@ -489,6 +502,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Voice Activation Level: Disabled";
+
+/* preferences */
+"Voice Preprocessing" = "Voice Preprocessing";
 
 /* preferences */
 "Voice Transmission Toggled" = "Voice Transmission Toggled";

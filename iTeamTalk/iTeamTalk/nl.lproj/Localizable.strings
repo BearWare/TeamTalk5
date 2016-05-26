@@ -155,6 +155,9 @@
 /* TTS EVENT */
 "has left the channel" = "heeft het kanaal verlaten";
 
+/* preferences */
+"Headset TX Toggle" = "Headset TX Toggle";
+
 /* server entry */
 "Host address" = "Hostadres";
 
@@ -348,6 +351,9 @@
 /* preferences */
 "Select the text-to-speech voice to use" = "Selecteer de te gebruiken tekst-naar-spraak-stem";
 
+/* text message */
+"Send empty message to close keyboard" = "Send empty message to close keyboard";
+
 /* channel list */
 "Send private message" = "Privébericht versturen";
 
@@ -427,6 +433,9 @@
 /* channel list */
 "Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
 
+/* preferences */
+"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+
 /* create channel */
 "Topic" = "Onderwerp";
 
@@ -439,11 +448,15 @@
 /* preferences */
 "Turn off screen when holding phone near ear" = "Scherm uitschakelen wanneer telefoon dichtbij oor gehouden wordt";
 
-/* text field hint */
+/* text field hint
+   text message */
 "Type text here" = "Typ hier tekst";
 
 /* server entry */
 "UDP Port" = "UDP-poort";
+
+/* preferences */
+"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Gebruik de iPhone-luidspreker in plaats van het telefoongedeelte";
@@ -489,6 +502,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Stemactivatieniveau: Uitgeschakeld";
+
+/* preferences */
+"Voice Preprocessing" = "Voice Preprocessing";
 
 /* preferences */
 "Voice Transmission Toggled" = "Spraakuitzending geschakeld";

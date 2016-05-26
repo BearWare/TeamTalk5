@@ -155,6 +155,9 @@
 /* TTS EVENT */
 "has left the channel" = "kanaldan ayrıldı";
 
+/* preferences */
+"Headset TX Toggle" = "Headset TX Toggle";
+
 /* server entry */
 "Host address" = "Sunucu adresi";
 
@@ -348,6 +351,9 @@
 /* preferences */
 "Select the text-to-speech voice to use" = "Kullanmak istediğiniz bilgilendirici konuşmacıyı seçin";
 
+/* text message */
+"Send empty message to close keyboard" = "Send empty message to close keyboard";
+
 /* channel list */
 "Send private message" = "Özel ileti gönder";
 
@@ -427,6 +433,9 @@
 /* channel list */
 "Toggle to enable/disable transmission" = "Mikrofonu açmak/kapatmak için çift dokunun";
 
+/* preferences */
+"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+
 /* create channel */
 "Topic" = "Konu";
 
@@ -439,11 +448,15 @@
 /* preferences */
 "Turn off screen when holding phone near ear" = "Telefon kulağa yakın tutulduğunda ekranı kapat";
 
-/* text field hint */
+/* text field hint
+   text message */
 "Type text here" = "Buraya metin yazın";
 
 /* server entry */
 "UDP Port" = "UDP Bağlantı Noktası";
+
+/* preferences */
+"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Ahize yerine iPhone hoparlörünü kullan";
@@ -491,13 +504,16 @@
 "Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Devre Dışı";
 
 /* preferences */
+"Voice Preprocessing" = "Voice Preprocessing";
+
+/* preferences */
 "Voice Transmission Toggled" = "Ses İletim Durumu Değişimi";
 
 /* user detail */
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "VoIP";
+"VoIP" = "Konuşma";
 
 /* user detail */
 "Volume Controls" = "Ses Denetimleri";
