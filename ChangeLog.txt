@@ -15,7 +15,7 @@ Accessible Windows client:
 - Video transmission state is restored when restarting the application
 - Fixed issue where voice processing was not reenabled
 - Fixed issue where incorrect sound device is chosen when new sound devices are plugged/unplugged
-- Fixed issue where status-mode is reset after recorrect
+- Fixed issue where status-mode is reset after reconnect
 - Fixed issue where default video frame rate was always selected
 iOS client:
 - Keyboard closes when sending empty message
