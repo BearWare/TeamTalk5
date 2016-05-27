@@ -34,7 +34,7 @@
   <string name="pref_cat_tts">Bilgilendirici konuşma iletilerini ayarla</string>
   <string name="pref_cat_soundtest">Sesi Sına</string>
   <string name="pref_header_general">Genel</string>
-  <string name="pref_title_nickname">Takma Ad</string>
+  <string name="pref_title_nickname">Takma ad</string>
   <string name="pref_default_nickname">Adsız</string>
   <string name="pref_title_keep_screen_on">Bağlanıldığında ekranı açık tut</string>
   <string name="pref_title_voice_act">Ses Etkinleştirme</string>

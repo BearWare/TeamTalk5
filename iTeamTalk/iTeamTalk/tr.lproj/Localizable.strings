@@ -156,7 +156,7 @@
 "has left the channel" = "kanaldan ayrıldı";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Kulaklık Düğmesi Değişikliği";
 
 /* server entry */
 "Host address" = "Sunucu adresi";
@@ -229,7 +229,7 @@
 "Name displayed in channel list" = "Kanal listesinde görünen ad";
 
 /* preferences */
-"Nickname" = "Takma Ad";
+"Nickname" = "Takma ad";
 
 /* codec detail
    create channel */
@@ -313,7 +313,7 @@
 "Public server" = "Genel sunucu";
 
 /* preferences */
-"Push to Talk lock" = "Bas Konuş kilidi";
+"Push to Talk lock" = "Bas konuş kilidi";
 
 /* codec detail */
 "Quality" = "Kalite";
@@ -352,7 +352,7 @@
 "Select the text-to-speech voice to use" = "Kullanmak istediğiniz bilgilendirici konuşmacıyı seçin";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
 
 /* channel list */
 "Send private message" = "Özel ileti gönder";
@@ -434,7 +434,7 @@
 "Toggle to enable/disable transmission" = "Mikrofonu açmak/kapatmak için çift dokunun";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Kulaklık kullanılıyorken ses iletim durumunu değiştir";
 
 /* create channel */
 "Topic" = "Konu";
@@ -456,7 +456,7 @@
 "UDP Port" = "UDP Bağlantı Noktası";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
+"Use echo cancellation and automatic gain control" = "Yankı önlemeyi ve otomatik mikrofon denetimini etkinleştir";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Ahize yerine iPhone hoparlörünü kullan";
@@ -504,7 +504,7 @@
 "Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Devre Dışı";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Ses Önişleniyor";
 
 /* preferences */
 "Voice Transmission Toggled" = "Ses İletim Durumu Değişimi";
@@ -513,7 +513,7 @@
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "Konuşma";
+"VoIP" = "VoIP";
 
 /* user detail */
 "Volume Controls" = "Ses Denetimleri";
