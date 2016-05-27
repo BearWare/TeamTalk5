@@ -10,6 +10,8 @@ Accessible Windows client:
 - TTS events are now configurable in Preferences
 - Sliders labelled for screen reader
 - Option in Help-menu to reset to default settings
+- Pressing Enter on Channel item now means join
+- Pressing Enter on User item now means text message
 - Video transmission state is restored when restarting the application
 - Fixed issue where voice processing was not reenabled
 - Fixed issue where incorrect sound device is chosen when new soun devices are plugged/unplugged
