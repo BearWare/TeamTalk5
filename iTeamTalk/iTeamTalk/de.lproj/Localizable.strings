@@ -83,7 +83,7 @@
 "Channel Messages" = "Raumnachrichten";
 
 /* create channel */
-"Channel Properties" = "Channel Properties";
+"Channel Properties" = "Raumeigenschaften";
 
 /* preferences */
 "Channel Text Message" = "Raum-Textnachricht";
@@ -92,7 +92,7 @@
 "Channel. %d users" = "Raum. %d Benutzer";
 
 /* create channel */
-"Commands" = "Commands";
+"Commands" = "Befehle";
 
 /* serverlist */
 "Connect to server" = "Zum Server verbinden";
@@ -125,7 +125,7 @@
 "Display" = "Anzeige";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Doppeltipp und halten zum Übertragen. Dreimal schnell tippen zum Feststellen der Übertragung.";
 
 /* preferences */
 "Double tap to lock TX button" = "Doppeltipp zum Sperren des Sprechen-Schalters";
@@ -156,7 +156,7 @@
 "has left the channel" = "hat den Raum verlassen";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Headset-Übertragung umschalten";
 
 /* server entry */
 "Host address" = "Hostadresse";
@@ -352,7 +352,7 @@
 "Select the text-to-speech voice to use" = "Wähle die zu verwendende Stimme";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Sende eine leere Nachricht zum Schließen der Tastatur";
 
 /* channel list */
 "Send private message" = "Private Nachricht senden";
@@ -431,10 +431,10 @@
 "The volume of the speaking voice is %.1f" = "Die Lautstärke der gewählten Stimme ist %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+"Toggle to enable/disable transmission" = "Umschalten zum Starten oder Beenden der Übertragung";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Sprachübertragung mittels Headset umschalten";
 
 /* create channel */
 "Topic" = "Thema";
@@ -456,7 +456,7 @@
 "UDP Port" = "UDP-Port";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
+"Use echo cancellation and automatic gain control" = "Echounterdrückung und automatische Pegelkontrolle verwenden";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "iPhone-Lautsprecher anstelle des Hörers benutzen";
@@ -504,7 +504,7 @@
 "Voice Activation Level: Disabled" = "Sprachaktivierungspegel: Ausgeschaltet";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Sprachvorverarbeitung";
 
 /* preferences */
 "Voice Transmission Toggled" = "Sprachübertragung umgeschaltet";
