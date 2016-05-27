@@ -2364,7 +2364,7 @@ Should these settings be applied?</source>
     <message>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="vanished">Файл %1 содержит установочную информацию %2.
+        <translation type="obsolete">Файл %1 содержит установочную информацию %2.
 Применить эти параметры?</translation>
     </message>
     <message>

@@ -2362,7 +2362,7 @@ Should these settings be applied?</source>
     <message>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="vanished">A %1 fájl %2 beállítási információt tartalmaz.
+        <translation type="obsolete">A %1 fájl %2 beállítási információt tartalmaz.
 Alkalmazzuk ezeket a beállításokat?</translation>
     </message>
     <message>

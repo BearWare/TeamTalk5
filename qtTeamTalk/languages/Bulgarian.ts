@@ -2360,7 +2360,7 @@ Should these settings be applied?</source>
     <message>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="vanished">Файлът %1 съдържа %2 информация с настройки.
+        <translation type="obsolete">Файлът %1 съдържа %2 информация с настройки.
 Да приложа ли тези настройки?</translation>
     </message>
     <message>

@@ -1710,6 +1710,12 @@
         <translation>Kendi kendime</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5233"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 Abonelik ayarla %2 üzerinizden:%3</translation>
     </message>
@@ -1740,12 +1746,6 @@
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
         <source>Load %1 File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5233"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
