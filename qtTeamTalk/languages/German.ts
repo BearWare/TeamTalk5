@@ -1650,22 +1650,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="4026"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sollen die bestehenden Einstellungen wirklich gelöscht werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4035"/>
         <source>Cannot find %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 wurde nicht gefunden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4042"/>
         <source>Cannot remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kann nicht entfernt werden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4049"/>
         <source>Failed to copy %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Kopieren von %1 nach %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4278"/>
@@ -1767,7 +1767,8 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="5233"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Setup-Informationen.
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5302"/>
@@ -1843,12 +1844,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="52"/>
         <source>Channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumliste</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="335"/>
         <source>Channel messages and event log</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumnachrichten und Ereignislog</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="541"/>
@@ -2227,7 +2228,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1946"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen auf Standard zurücks&amp;etzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1720"/>
@@ -2945,7 +2946,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="350"/>
         <source>Enable VU-meter updates</source>
-        <translation type="unfinished"></translation>
+        <translation>VU-Meter einschalten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="357"/>
@@ -2955,7 +2956,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="364"/>
         <source>Show username instead of nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Benutzername anstelle des Nicknamen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="371"/>
@@ -3632,7 +3633,7 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="138"/>
         <location filename="../serverlist.ui" line="141"/>
         <source>Remove entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag entfernen</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="158"/>
@@ -4640,7 +4641,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="255"/>
         <source>Client name</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Name</translation>
     </message>
     <message>
         <source>P2P connection</source>
