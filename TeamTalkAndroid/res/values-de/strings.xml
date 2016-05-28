@@ -37,7 +37,7 @@
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Unbekannt</string>
-    <string name="pref_title_keep_screen_on">Bildschirm während Verbindung aktiviert lassen</string>
+    <string name="pref_title_keep_screen_on">Bildschirm während der Verbindung aktiviert lassen</string>
     <string name="pref_title_voice_act">Sprachaktivierung</string>
     <string name="pref_title_vibrate">Bei PTT vibrieren</string>
     <string name="pref_show_log_messages">Lognachrichten im Chatverlauf anzeigen</string>
@@ -45,7 +45,7 @@
     <string name="pref_title_rx_tx_audio_icon">Sprachübertragung umschalten</string>
     <string name="pref_summary_rx_tx_audio_icon">Klang abspielen, wenn TX-Schalter gedrückt wird</string>
     <string name="pref_title_personal_message_audio_icon">Privatnachricht</string>
-    <string name="pref_summary_personal_message_audio_icon">klang bei Empfang einer Privatnachricht abspielen</string>
+    <string name="pref_summary_personal_message_audio_icon">Klang bei Empfang einer Privatnachricht abspielen</string>
     <string name="pref_title_channel_message_audio_icon">Raumnachricht</string>
     <string name="pref_summary_channel_message_audio_icon">Klang bei Empfang einer Raumnachricht abspielen</string>
     <string name="pref_title_broadcast_message_audio_icon">Servernachricht</string>
@@ -73,10 +73,10 @@
     <string name="pref_title_server_login">Benutzer meldet sich an</string>
     <string name="pref_summary_server_login">Ansage des Benutzers, der sich am Server anmeldet</string>
     <string name="pref_title_server_logout">Benutzer meldet sich ab</string>
-    <string name="pref_summary_server_logout">Ansage des Benutzers, der sich vom server abmeldet</string>
-    <string name="pref_title_channel_join">Benutzer betritt Raum</string>
+    <string name="pref_summary_server_logout">Ansage des Benutzers, der sich vom Server abmeldet</string>
+    <string name="pref_title_channel_join">Benutzer betritt den Raum</string>
     <string name="pref_summary_channel_join">Ansage, wenn ein Benutzer den Raum betritt</string>
-    <string name="pref_title_channel_leave">Benutzer verlässt Raum</string>
+    <string name="pref_title_channel_leave">Benutzer verlässt den Raum</string>
     <string name="pref_summary_channel_leave">Ansage, wenn ein Benutzer den Raum verlässt</string>
     <string name="pref_title_personal_message">Privatnachrichten</string>
     <string name="pref_title_broadcast_message">Servernachrichten</string>
@@ -110,7 +110,7 @@
     <string name="action_edit">Raum bearbeiten</string>
     <string name="action_join">Betreten</string>
     <string name="action_kick">Kick</string>
-    <string name="action_move">Hier her verschieben</string>
+    <string name="action_move">Hierher verschieben</string>
     <string name="action_select">Zum Verschieben wählen</string>
     <string name="action_upload">Datei hochladen</string>
     <string name="button_msg">Msg</string>
@@ -151,7 +151,7 @@
     <string name="default_">Standard</string>
 
     <string name="server_list_empty">Serverliste ist leer</string>
-    <string name="no_nickname">Kein nickname</string>
+    <string name="no_nickname">Kein Nickname</string>
     <string name="message_text">Nachrichtentext</string>
     <string name="time_date">Zeit/Datum</string>
     <string name="name">Name</string>
@@ -228,7 +228,7 @@
     <string name="text_txinterval">Übertragungsintervall</string>
     <string name="text_quality">Qualität</string>
     <string name="text_publicserver">Öffentlicher Server</string>
-    <string name="text_localserver">Localer Server</string>
+    <string name="text_localserver">Lokaler Server</string>
     <string name="text_passwdprot">Passwortgeschützt</string>
     <string name="text_translator">Übersetzt von Steffen Schultz</string>
     <string name="desktop_image">Desktop-Bild</string>
@@ -250,7 +250,7 @@
     <string name="err_channel_already_exists">Raum ist bereits vorhanden</string>
     <string name="err_user_not_found">Benutzer nicht gefunden</string>
     <string name="err_openfile_failed">Server konnte die Datei nicht öffnen</string>
-    <string name="err_filesharing_disabled">Dateiübertragungen sind auf diesem server nicht erlaubt</string>
+    <string name="err_filesharing_disabled">Dateiübertragungen sind auf diesem Server nicht erlaubt</string>
     <string name="err_channel_has_users">Raum ist nicht leer</string>
 
     <string name="personal_message_notification">Neue Privatnachricht von Benutzer %1$s</string>
