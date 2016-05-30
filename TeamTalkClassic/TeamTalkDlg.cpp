@@ -6287,7 +6287,7 @@ void CTeamTalkDlg::OnHelpResetpreferencestodefault()
         OnClose();
 
         szMsg.LoadString(IDS_RESTARTAPPLICATION);
-        TRANSLATE_ITEM(IDS_RESETPREFERENCES, szMsg);
+        TRANSLATE_ITEM(IDS_RESTARTAPPLICATION, szMsg);
         MessageBox(szMsg, szTitle, MB_OK);
     }
 }
