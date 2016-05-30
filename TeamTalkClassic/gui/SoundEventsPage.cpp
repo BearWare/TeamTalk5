@@ -38,7 +38,6 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CSoundEventsPage, CPropertyPage)
 CSoundEventsPage::CSoundEventsPage()
     : CPropertyPage(CSoundEventsPage::IDD)
-  , m_bSpeech(FALSE)
   , m_szDesktopAccessReq(_T(""))
 {
 }
@@ -62,8 +61,6 @@ void CSoundEventsPage::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_EVENTS_HOTKEY, m_szHotKeyPath);
     DDX_Control(pDX, IDC_EDIT_EVENTS_CHANMESSAGE, m_wndChanMsgEdit);
     DDX_Text(pDX, IDC_EDIT_EVENTS_CHANMESSAGE, m_szChanMsg);
-    DDX_Check(pDX, IDC_CHECK_SPEECH, m_bSpeech);
-    DDX_Control(pDX, IDC_CHECK_SPEECH, m_wndSpeech);
     DDX_Control(pDX, IDC_EDIT_EVENTS_STOPPEDTALK, m_wndStopTalkEdit);
     DDX_Text(pDX, IDC_EDIT_EVENTS_STOPPEDTALK, m_szStopTalk);
     DDX_Control(pDX, IDC_EDIT_EVENTS_FILEUPD, m_wndFilesUpd);
@@ -101,7 +98,6 @@ BEGIN_MESSAGE_MAP(CSoundEventsPage, CPropertyPage)
     ON_BN_CLICKED(IDC_BUTTON_EVENTS_NEWMESSAGE, OnBnClickedButtonEventsNewmessage)
     ON_BN_CLICKED(IDC_BUTTON_EVENTS_HOTKEY, OnBnClickedButtonEventsHotkey)
     ON_BN_CLICKED(IDC_BUTTON_EVENTS_CHANMESSAGE, OnBnClickedButtonEventsChanmessage)
-  ON_BN_CLICKED(IDC_CHECK_SPEECH, OnBnClickedCheckSpeech)
   ON_BN_CLICKED(IDC_BUTTON_EVENTS_STOPPEDTALK, OnBnClickedButtonEventsStoppedtalk)
     ON_BN_CLICKED(IDC_BUTTON_EVENTS_FILESUPD, OnBnClickedButtonEventsFilesupd)
     ON_BN_CLICKED(IDC_BUTTON_EVENTS_TRANSFEREND, OnBnClickedButtonEventsTransferend)
@@ -177,27 +173,6 @@ void CSoundEventsPage::OnBnClickedButtonEventsTransferend()
     if(szFilePath.GetLength())
         m_wndTransferEnd.SetWindowText(szFilePath);
 }
-
-void CSoundEventsPage::OnBnClickedCheckSpeech()
-{
-#if defined(ENABLE_TOLK)
-    if(m_wndSpeech.GetCheck() == BST_CHECKED)
-    {
-        if(!Tolk_IsLoaded())
-        {
-            Tolk_Load();
-            Tolk_Output(_T("speech is now enabled"));
-        }
-    }
-    else
-    {
-        if(Tolk_IsLoaded())
-            Tolk_Output(_T("speech is now disabled"));
-        Tolk_Unload();
-    }
-#endif
-}
-
 
 BOOL CSoundEventsPage::OnInitDialog()
 {

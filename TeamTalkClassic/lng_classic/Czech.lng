@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
@@ -80,7 +80,6 @@
     <item id="1020">Zobrazovat počet uživatelů na kanálech</item>
     <item id="1021">Automaticky rozmístit uživatele pomocí zvuku 3D</item>
     <item id="1022">Vypnout hlasovou aktivaci při nepřítomnosti</item>
-    <item id="1023">Číst zvukové události hlasovým výstupem</item>
     <item id="1024">Spustit rychlý návod jak nastavit server programu TeamTalk a připojit se k němu</item>
     <item id="1025">Výchozí: 10333</item>
     <item id="1028">Hlasitost</item>

@@ -115,7 +115,6 @@
     <item id="1020">Show number of users in channels</item>
     <item id="1021">Auto position users using 3D sound</item>
     <item id="1022">Disable voice activation while inactive</item>
-    <item id="1023">Use Text-To-Speech for statusbar events</item>
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
     <item id="1025">Default: 10333</item>
     <item id="1028">Volume</item>

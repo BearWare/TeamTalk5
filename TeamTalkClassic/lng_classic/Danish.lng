@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk Guide til Opsætning</item>
     <item id="104">Afbryd &amp;forbindelse\tF2</item>
@@ -117,7 +117,6 @@
     <item id="1020">Vis antal af brugere i kanal</item>
     <item id="1021">Positioner brugere automatisk vha. 3D lyd</item>
     <item id="1022">Deaktiver stemmeaktivering ved away status</item>
-    <item id="1023">Brug Tekst-Til-Tale for handlinger i statuslinien</item>
     <item id="1024">Start Quick-start guiden for at lære hvorledes du konfigurerer en server og opretter forbindelse til den</item>
     <item id="1025">Standard: 10333</item>
     <item id="1028">Volume</item>
@@ -386,7 +385,6 @@
     <item id="1481">Standard bruger</item>
     <item id="1482">Bruger kan anmode om adgang til skrivebord</item>
     <item id="1483">Bruger kan sparke bruger fra serveren</item>
-    <item id="1484"></item>
     <item id="1485">Bruger kan flytte brugere mellem kanaler</item>
     <item id="1486">Bruger kan gøre andre brugere til kanalejere</item>
     <item id="1487">Bruger kan uploade filer</item>

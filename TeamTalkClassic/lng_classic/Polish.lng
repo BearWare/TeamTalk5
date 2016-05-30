@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">Kreator ustawień TeamTalk</item>
     <item id="104">Roz&amp;łącz\tF2</item>
@@ -78,7 +78,6 @@
     <item id="1020">Pokazuj liczbę użytkowników na kanale</item>
     <item id="1021">Automatycznie rozlokuj użytkowników w przestrzeni</item>
     <item id="1022">Wyłącz aktywację głosem, gdy nieobecny</item>
-    <item id="1023">Używaj TTS dla zdarzeń paska statusu</item>
     <item id="1024">Dowiedz się więcej</item>
     <item id="1025">Domyślnie: 10333</item>
     <item id="1028">Głośność</item>

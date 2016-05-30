@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk 설치 마법사</item>
     <item id="104">연결 끊기\tF2 &amp;c</item>
@@ -76,7 +76,6 @@
     <item id="1020">채널에 접속한 사용자 수 표시</item>
     <item id="1021">3D 사운드 사용자 자동 배치</item>
     <item id="1022">사용하지 않을때 음성 활성화 기능 정지</item>
-    <item id="1023"></item>
     <item id="1024">퀵 스타트를 실행하여 서버를 설정하고 접속하는 방법에 대해 알아보십시오.</item>
     <item id="1025">기본값: 10333</item>
     <item id="1028">볼륨</item>
@@ -84,7 +83,6 @@
     <item id="1035">사용자 ID</item>
     <item id="1036">대화명</item>
     <item id="1041">포트 번호</item>
-    <item id="1042"></item>
     <item id="1043">주파수</item>
     <item id="1044">www.bearware.dk에 접속하여 TeamTalk 서버를 검색하십시오.</item>
     <item id="1045">패킷 상실</item>
@@ -93,7 +91,6 @@
     <item id="1050">현재 패킷</item>
     <item id="1051">더블클릭으로 채널 입장</item>
     <item id="1053">메시지에 시간 표시</item>
-    <item id="1054"></item>
     <item id="1055">새 상태</item>
     <item id="1056">음성 활성화</item>
     <item id="1057">메시지</item>
@@ -111,7 +108,6 @@
     <item id="1077">오디오 채널</item>
     <item id="1078">응용 프로그램</item>
     <item id="1079">사용자 권한</item>
-    <item id="1081"></item>
     <item id="1082">Throughput:</item>
     <item id="1083">사용자 이름</item>
     <item id="1084">인증</item>
@@ -129,7 +125,6 @@
     <item id="1111">아무 키나 누르면 창이 닫힙니다.</item>
     <item id="1112">자리비움 &amp;A</item>
     <item id="1114">기록</item>
-    <item id="1117"></item>
     <item id="1118">질문</item>
     <item id="1122">비밀번호로 보호됨</item>
     <item id="1123">IP-주소</item>
@@ -143,7 +138,6 @@
     <item id="1149">클라이언트 설정</item>
     <item id="1150">최소화 상태로 시작</item>
     <item id="1151">로컬 포트</item>
-    <item id="1152"></item>
     <item id="1153">로컬 TCP 포트</item>
     <item id="1155">기본값: 0 (TCP)</item>
     <item id="1157">사용자 설정</item>
@@ -171,7 +165,6 @@
     <item id="1185">마이크 증폭 버그 보정</item>
     <item id="1186">사운드 이벤트</item>
     <item id="1187">높은 음질을 사용하기 위해선 더 많은 대역폭과 CPU사용량을 요구합니다.</item>
-    <item id="1188"></item>
     <item id="1189">입력 장치</item>
     <item id="1190">음질</item>
     <item id="1191">출력 장치</item>
@@ -230,10 +223,8 @@
     <item id="1293">Disk 할당량 (KByte 단위)</item>
     <item id="1294">최대 사용자</item>
     <item id="1295">채널 입장 (선택사항)</item>
-    <item id="1296"></item>
     <item id="1298">음성 코덱</item>
     <item id="1299">계정 활성화</item>
-    <item id="1303"></item>
     <item id="1304">채널 유지(서버에 저장)</item>
     <item id="1308">사용자 유형&#x09;</item>
     <item id="1309">자동으로 서버 변경사항 저장</item>
@@ -250,19 +241,14 @@
     <item id="1332">프로그램 업데이트 확인</item>
     <item id="1333">peer to peer (P2P) 모드 활성화</item>
     <item id="1334">공개 서버 포함</item>
-    <item id="1335"></item>
     <item id="1339">Classroom 운영자가 전송을 제어</item>
     <item id="1341">모든 사용자에 대한 고정 오디오 볼륨 사용</item>
-    <item id="1345"></item>
     <item id="1347">silence 무시</item>
     <item id="1349">비트레이트</item>
     <item id="1350">최대 비트레이트</item>
-    <item id="1351"></item>
     <item id="1352">bps (0 = 무시)</item>
     <item id="1362">전송 간격</item>
     <item id="1363">밀리 초</item>
-    <item id="1364"></item>
-    <item id="1365"></item>
     <item id="1369">비디오 캡처 장치</item>
     <item id="1374">Test 선택됨</item>
     <item id="1379">전체 데스크톱 공유</item>
@@ -272,7 +258,6 @@
     <item id="1387">사용자 메시지</item>
     <item id="1388">채널 메시지</item>
     <item id="1389">Broadcast 메시지</item>
-    <item id="1390"></item>
     <item id="1391">오디오</item>
     <item id="1392">비디오</item>
     <item id="1393">데스크톱</item>
@@ -283,9 +268,6 @@
     <item id="1398">KBytes/초 (0 = 사용안 함)</item>
     <item id="1399">KBytes/초 (0 = 사용안 함)</item>
     <item id="1400">KBytes/초 (0 = 사용안 함)</item>
-    <item id="1401"></item>
-    <item id="1402"></item>
-    <item id="1403"></item>
     <item id="1404">서버 버전</item>
     <item id="1405">서버 정보</item>
     <item id="1406">오디오 코덱 제한</item>
@@ -304,93 +286,50 @@
     <item id="1422">이미지 형식</item>
     <item id="1423">비디오 코덱 설정</item>
     <item id="1424">비트레이트</item>
-    <item id="1425"></item>
-    <item id="1426"></item>
     <item id="1427">Color 모드</item>
     <item id="1428">초</item>
-    <item id="1429"></item>
-    <item id="1430"></item>
-    <item id="1431"></item>
-    <item id="1432"></item>
-    <item id="1433"></item>
-    <item id="1434"></item>
-    <item id="1435"></item>
-    <item id="1436"></item>
     <item id="1437">제거</item>
-    <item id="1438"></item>
     <item id="1440">데스크톱 세션을 전송할 수 있는 사용자(데스크톱 공유)</item>
     <item id="1441">MOTD 변수 보기</item>
-    <item id="1443"></item>
     <item id="1445">기본 채널</item>
     <item id="1451">선택한 채널</item>
     <item id="1452">사용 가능 채널</item>
-    <item id="1453"></item>
     <item id="1456">에코 제거 사용 (스피커에서 에코 제거)</item>
     <item id="1457">새 비디오 세션</item>
     <item id="1458">새 데스크톱 세션</item>
-    <item id="1459"></item>
-    <item id="1460"></item>
-    <item id="1463"></item>
-    <item id="1464"></item>
     <item id="1465">암호화 된 서버</item>
     <item id="1468">서버 정보 저장</item>
-    <item id="1469"></item>
-    <item id="1473"></item>
     <item id="1474">KBytes/초 (0 = 사용안 함)</item>
     <item id="1475">오디오 형식:</item>
     <item id="1476">비디오 형식:</item>
     <item id="1477">미디어 파일 속성</item>
-    <item id="1478"></item>
     <item id="1479">데스크톱 접근 요청</item>
     <item id="1480">KBytes/초 (0 = 사용안 함)</item>
     <item id="1481">기본 사용자</item>
-    <item id="1482"></item>
-    <item id="1483"></item>
-    <item id="1484"></item>
-    <item id="1485"></item>
-    <item id="1486"></item>
     <item id="1487">사용자가 파일 업로드 가능</item>
     <item id="1488">사용자가 파일 다운로드 가능</item>
     <item id="1489">사용자가 서버 속성 업데이트 가능</item>
     <item id="1490">사용자가 오디오 파일 전송 가능 (wav, mp3 파일)</item>
     <item id="1491">사용자가 웹캠을 통한 video 데이터 전송 가능</item>
     <item id="1492">음성 볼륨 설정</item>
-    <item id="1493"></item>
-    <item id="1494"></item>
-    <item id="1495"></item>
     <item id="1496">미디어 파일 볼륨 설정</item>
-    <item id="1497"></item>
-    <item id="1498"></item>
-    <item id="1503"></item>
-    <item id="1504"></item>
-    <item id="1506"></item>
-    <item id="1507"></item>
-    <item id="1510"></item>
-    <item id="1511"></item>
-    <item id="1512"></item>
-    <item id="1513"></item>
-    <item id="1514"></item>
     <item id="1515">장치 새로 고침</item>
     <item id="1516">오디오 녹음이 허용되지 않음 (디스크에 저장이 허용되지 않음)</item>
-    <item id="1519"></item>
     <item id="1520">VU-meter update 사용</item>
     <item id="1523">텍스트 메시지 대화 기록</item>
     <item id="1524">채널 파일 로그 폴더</item>
     <item id="1525">사용자 간 로그 파일 폴더</item>
     <item id="1526">클라이언트 설정</item>
-    <item id="1527"></item>
     <item id="1528">성별</item>
     <item id="1529">남자</item>
     <item id="1530">여자</item>
     <item id="1531">.tt File 저장 &amp;S</item>
     <item id="1534">텍스트 최대 길이</item>
     <item id="1535">비디오 캡처 설정</item>
-    <item id="1537"></item>
     <item id="1538">.tt File 가져오기 &amp;I</item>
     <item id="32791">내 &amp;IP 주소는 무엇인가요?</item>
     <item id="32792">(&amp;P)재생 비율 조정\tCtrl+Shift+P</item>
     <item id="32794">(&amp;D)딜레이 고정 설정\tCtrl+Shift+D</item>
-    <item id="32798"></item>
     <item id="32801">채널 메시지 보기\&#x09;tF10 &amp;w</item>
     <item id="32805">음성으로 이벤트 알림 사용\tCtrl+Alt+S</item>
     <item id="32814">마법사 실행 &amp;R</item>
@@ -426,7 +365,6 @@
     <item id="32847">채널 &amp;C</item>
     <item id="32848">사용자 &amp;U</item>
     <item id="32849">클라이언트 &amp;C</item>
-    <item id="32850"></item>
     <item id="32851">고급 &amp;A</item>
     <item id="32853">알림 &amp;S</item>
     <item id="32854">음속어 &amp;u</item>
@@ -434,19 +372,15 @@
     <item id="32857">파일 업로드\tShift+F5 &amp;U</item>
     <item id="32858">파일 다운로드\tShift+F6 &amp;D</item>
     <item id="32859">File 삭제\tShift+Del &amp;F</item>
-    <item id="32864"></item>
     <item id="32866">채널 삭제\tF8 &amp;e</item>
     <item id="32867">채널 업데이트\tShift+F7 &amp;p</item>
     <item id="32868">서버 속성\tF9 &amp;P</item>
     <item id="32869">사용자 계정\tCtrl+Shift+L &amp;U</item>
     <item id="32870">서버 &amp;S</item>
     <item id="32871">환경 설정 저장\tCtrl+Shift+S &amp;a</item>
-    <item id="32877"></item>
     <item id="32878">사용자 이동\tCtrl+Alt+V &amp;M</item>
     <item id="32882">차단된 사용자\tCtrl+Shift+B &amp;B</item>
     <item id="32885">강퇴와 차단\tCtrl+Shift+K &amp;B</item>
-    <item id="32888"></item>
-    <item id="32890"></item>
     <item id="32892">사용자 메시지\tCtrl+1 &amp;U</item>
     <item id="32893">채널 메시지\tCtrl+2 &amp;C</item>
     <item id="32894">&amp;Broadcast 메시지\tCtrl+3 &amp;B</item>
@@ -462,14 +396,11 @@
     <item id="32904">온라인 사용자\tCtrl+Shift+U &amp;O</item>
     <item id="32905">강퇴\tCtrl+K &amp;K</item>
     <item id="32906">강퇴와 차단\tCtrl+Shift+K &amp;B</item>
-    <item id="32907"></item>
-    <item id="32908"></item>
     <item id="32909">비디오 전송 사용\tCtrl+Shift+V &amp;i</item>
     <item id="32914">데스크톱\tCtrl+6 &amp;D</item>
     <item id="32915">데스크톱 차단\tCtrl+Shift+6 &amp;e</item>
     <item id="32916">데스크톱 공유 사용\tCtrl+Shift+D &amp;D</item>
     <item id="32921">사용자 정보를 클립보드에 복사\tCtrl+C &amp;C</item>
-    <item id="32922"></item>
     <item id="32923">데스크톱 접근\tCtrl+7 &amp;s</item>
     <item id="32924">데스크톱 접근 허용\tCtrl+7 &amp;D</item>
     <item id="32925">데스크톱 접근 요청 &amp;R</item>
@@ -483,10 +414,7 @@
     <item id="32935">미디어 파일 볼륨 감소 (-10)\tCtrl+Shift+Left &amp;l</item>
     <item id="32936">데스크톱 전송 허용\tCtrl+Alt+E &amp;k</item>
     <item id="32937">미디어 파일 전송 허용\tCtrl+Alt+R &amp;e</item>
-    <item id="32938"></item>
     <item id="32939">미디어 파일 Stream 차단\tCtrl+Shift+8 &amp;a</item>
     <item id="32940">사용자 정보 &amp;f</item>
-    <item id="32941"></item>
     <item id="32942">채널 정보 &amp;f</item>
-    <item id="32943"></item>
 </language>

@@ -2325,7 +2325,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //positioning in 3D
     TT_Enable3DSoundPositioning(ttInst, m_xmlSettings.GetAutoPositioning());
 
-    EnableSpeech(m_xmlSettings.GetEventSpeechEvents());
+    EnableSpeech(m_xmlSettings.GetEventTTSEvents() != 0);
 
     //load fonts
     Font font;
@@ -3183,7 +3183,6 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_szNewDesktopSession = STR_UTF8( m_xmlSettings.GetEventDesktopSession().c_str());
     eventspage.m_szQuestionMode = STR_UTF8( m_xmlSettings.GetEventQuestionMode().c_str());
     eventspage.m_szDesktopAccessReq = STR_UTF8( m_xmlSettings.GetEventDesktopAccessReq().c_str());
-    eventspage.m_bSpeech = m_xmlSettings.GetEventSpeechEvents();
 
     ////////////////////////
     // Text to Speech
@@ -3451,13 +3450,12 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDesktopSession(STR_UTF8( eventspage.m_szNewDesktopSession.GetBuffer()));
         m_xmlSettings.SetEventQuestionMode(STR_UTF8( eventspage.m_szQuestionMode.GetBuffer()));
         m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8( eventspage.m_szDesktopAccessReq.GetBuffer()));
-        m_xmlSettings.SetEventSpeechEvents(eventspage.m_bSpeech);
-        EnableSpeech(eventspage.m_bSpeech);
 
         ///////////////////////////////////////
         // write settings for Text to speech
         ///////////////////////////////////////
         m_xmlSettings.SetEventTTSEvents(ttspage.m_uTTSEvents);
+        EnableSpeech(ttspage.m_uTTSEvents != 0);
 
         ///////////////////////////////////////
         // write settings for shortcuts
@@ -4696,7 +4694,6 @@ void CTeamTalkDlg::OnUpdateMeUsespeechonevents(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnMeUsespeechonevents()
 {
     EnableSpeech(!m_bSpeech);
-    m_xmlSettings.SetEventSpeechEvents(m_bSpeech);
 }
 
 void CTeamTalkDlg::OnHelpRunwizard()

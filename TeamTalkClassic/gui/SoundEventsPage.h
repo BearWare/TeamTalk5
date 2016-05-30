@@ -62,9 +62,6 @@ public:
     afx_msg void OnBnClickedButtonEventsChanmessage();
     CEdit m_wndChanMsgEdit;
     CString m_szChanMsg;
-    BOOL m_bSpeech;
-    afx_msg void OnBnClickedCheckSpeech();
-    CButton m_wndSpeech;
     afx_msg void OnBnClickedButtonEventsStoppedtalk();
     CEdit m_wndStopTalkEdit;
     CString m_szStopTalk;

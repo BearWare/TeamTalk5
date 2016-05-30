@@ -307,9 +307,6 @@ namespace teamtalk {
         bool SetEventDesktopAccessReq(std::string szPath);
         std::string GetEventDesktopAccessReq();
 
-        bool SetEventSpeechEvents(bool bEnable);
-        bool GetEventSpeechEvents();
-
         bool SetEventVibrateOnMsg(int nIndex);
         int GetEventVibrateOnMsg();
 

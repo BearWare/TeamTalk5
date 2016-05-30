@@ -2003,29 +2003,6 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventSpeechEvents(bool bEnable)
-    {
-        TiXmlElement* pParent = GetEventsElement();
-        if(pParent)
-        {
-            PutBoolean(*pParent, "speech-events", bEnable);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool ClientXML::GetEventSpeechEvents()
-    {
-        bool bRet = false;
-        TiXmlElement* child = GetEventsElement();
-        if(child)
-        {
-            GetBoolean(*child, "speech-events", bRet);
-        }
-        return bRet;
-    }
-
     bool ClientXML::SetEventVibrateOnMsg(int nIndex)
     {
         TiXmlElement* pParent = GetEventsElement();

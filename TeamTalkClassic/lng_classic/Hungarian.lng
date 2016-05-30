@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk telepítő varázsló</item>
     <item id="104">&amp;Szétkapcsol\tF2</item>
@@ -80,7 +80,6 @@
     <item id="1020">A szobákban lévő felhasználószám mutatása</item>
     <item id="1021">A felhasználók automatikus pozicionálása 3D hang használatakor</item>
     <item id="1022">Hang aktiválásának tiltása inaktív állapot esetén</item>
-    <item id="1023">TTS használata az állapotsori eseményekhez</item>
     <item id="1024">Egy szerver létrehozásához és kezeléséhez nyissa meg a súgót.</item>
     <item id="1025">Alapértelmezett: 10333</item>
     <item id="1028">Hangerő</item>

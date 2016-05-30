@@ -281,8 +281,6 @@ BEGIN
     LTEXT           "Desktop access request",IDC_STATIC_DESKACCESS_REQ,14,199,97,8
     EDITTEXT        IDC_EDIT_EVENTS_DESKTOPACCESSREQ,113,196,116,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BUTTON_EVENTS_DESKTOPACCESSREQ,233,197,16,11
-    CONTROL         "Use Text-To-Speech for statusbar events",IDC_CHECK_SPEECH,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,14,218,182,15
 END
 
 IDD_PROPPAGE_SOUNDSYSPAGE DIALOGEX 0, 0, 260, 221
@@ -1795,38 +1793,6 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_USERLOGIN           "%s logged on to the server"
-    IDS_USERLOGOUT          "%s logged out of the server"
-    IDS_PROPPAGE_USEREVENTS "User events"             
-    IDS_PROPPAGE_USERLOGIN  "User logged in"            
-    IDS_PROPPAGE_USERLOGOUT "User logged out"             
-    IDS_PROPPAGE_USERJOINED "User joined channel"             
-    IDS_PROPPAGE_USERLEFT "User left channel"                
-    IDS_PROPPAGE_TXTMSG_PRIV "Private text messages"            
-    IDS_PROPPAGE_TXTMSG_CHAN "Channel text messages"            
-    IDS_PROPPAGE_TXTMSG_BCAST "Broadcast text messages"           
-    IDS_PROPPAGE_SUB_CHANGE "Subscription changes"             
-    IDS_PROPPAGE_SUB_TXTMSG_PRIV "Private text message subscription"       
-    IDS_PROPPAGE_SUB_TXTMSG_CHAN "Channel text message subscription"        
-    IDS_PROPPAGE_SUB_TXTMSG_BCAST "Broadcast text message subscription"       
-    IDS_PROPPAGE_SUB_VOICE "Voice stream subscription"               
-    IDS_PROPPAGE_SUB_VIDEO "Video stream subscription"              
-    IDS_PROPPAGE_SUB_DESKTOP "Desktop stream subscription"
-    IDS_PROPPAGE_SUB_DESKTOPINPUT   "Desktop access subscription"
-    IDS_PROPPAGE_SUB_MEDIAFILE "Media file stream subscription"
-    IDS_PROPPAGE_SUBINT_TXTMSG_PRIV "Intercept private text message subscription"
-    IDS_PROPPAGE_SUBINT_TXTMSG_CHAN "Intercept channel text message subscription"
-    IDS_PROPPAGE_SUBINT_VOICE "Intercept voice stream subscription"
-    IDS_PROPPAGE_SUBINT_VIDEO "Intercept video stream subscription"
-    IDS_PROPPAGE_SUBINT_DESKTOP  "Intercept desktop stream subscription"
-    IDS_PROPPAGE_SUBINT_DESKTOPINPUT "Intercept desktop access subscription"
-    IDS_PROPPAGE_SUBINT_MEDIAFILE "Intercept media file stream subscription"
-    IDS_PROPPAGE_CLASSROOM_CHANGE "Classroom changes"        
-    IDS_PROPPAGE_CLASSROOM_VOICE "Voice transmission allowed"        
-    IDS_PROPPAGE_CLASSROOM_VIDEO "Video transmission allowed"        
-    IDS_PROPPAGE_CLASSROOM_DESKTOP "Desktop transmission allowed"    
-    IDS_PROPPAGE_CLASSROOM_MEDIAFILE "Media file transmission allowed"   
-
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
@@ -1835,6 +1801,47 @@ STRINGTABLE
 BEGIN
     IDS_USERTEXTMSG         "Text message from %s. %s."
     IDS_BCASTTEXTMSG        "Broadcast message from %s. %s."
+    IDS_USERLOGIN           "%s logged on to the server"
+    IDS_USERLOGOUT          "%s logged out of the server"
+    IDS_PROPPAGE_USEREVENTS "User events"
+    IDS_PROPPAGE_USERLOGIN  "User logged in"
+    IDS_PROPPAGE_USERLOGOUT "User logged out"
+    IDS_PROPPAGE_USERJOINED "User joined channel"
+    IDS_PROPPAGE_USERLEFT   "User left channel"
+    IDS_PROPPAGE_TXTMSG_PRIV "Private text messages"
+    IDS_PROPPAGE_TXTMSG_CHAN "Channel text messages"
+    IDS_PROPPAGE_TXTMSG_BCAST "Broadcast text messages"
+    IDS_PROPPAGE_SUB_CHANGE "Subscription changes"
+    IDS_PROPPAGE_SUB_TXTMSG_PRIV "Private text message subscription"
+    IDS_PROPPAGE_SUB_TXTMSG_CHAN "Channel text message subscription"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PROPPAGE_SUB_TXTMSG_BCAST "Broadcast text message subscription"
+    IDS_PROPPAGE_SUB_VOICE  "Voice stream subscription"
+    IDS_PROPPAGE_SUB_VIDEO  "Video stream subscription"
+    IDS_PROPPAGE_SUB_DESKTOP "Desktop stream subscription"
+    IDS_PROPPAGE_SUB_DESKTOPINPUT "Desktop access subscription"
+    IDS_PROPPAGE_SUB_MEDIAFILE "Media file stream subscription"
+    IDS_PROPPAGE_SUBINT_TXTMSG_PRIV 
+                            "Intercept private text message subscription"
+    IDS_PROPPAGE_SUBINT_TXTMSG_CHAN 
+                            "Intercept channel text message subscription"
+    IDS_PROPPAGE_SUBINT_VOICE "Intercept voice stream subscription"
+    IDS_PROPPAGE_SUBINT_VIDEO "Intercept video stream subscription"
+    IDS_PROPPAGE_SUBINT_DESKTOP "Intercept desktop stream subscription"
+    IDS_PROPPAGE_SUBINT_DESKTOPINPUT "Intercept desktop access subscription"
+    IDS_PROPPAGE_SUBINT_MEDIAFILE "Intercept media file stream subscription"
+    IDS_PROPPAGE_CLASSROOM_CHANGE "Classroom changes"
+    IDS_PROPPAGE_CLASSROOM_VOICE "Voice transmission allowed"
+    IDS_PROPPAGE_CLASSROOM_VIDEO "Video transmission allowed"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PROPPAGE_CLASSROOM_DESKTOP "Desktop transmission allowed"
+    IDS_PROPPAGE_CLASSROOM_MEDIAFILE "Media file transmission allowed"
 END
 
 STRINGTABLE
