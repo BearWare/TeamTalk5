@@ -51,8 +51,8 @@
     <item id="154">一件对话%s</item>			
     <item id="155">生成.tt文件</item>
     <item id="156">&amp;主音量</item>
-    <item id="157">&amp;麦克风增益</item>
-    <item id="158">&amp;语音激活</item>
+    <item id="157">&amp;麦克风</item>
+    <item id="158">&amp;语音激活级别</item>
     <item id="201">消息</item>
     <item id="205">更改状态</item>
     <item id="212">显示</item>
@@ -399,7 +399,7 @@
     <item id="32837">&amp;创建频道\tF7</item>
     <item id="32838">&amp;加入频道\tCtrl+J</item>
     <item id="32839">&amp;所有消息\tCtrl+E</item>
-    <item id="32840">切</item>
+    <item id="32840">剪切</item>
     <item id="32841">复制</item>
     <item id="32842">清除所有</item>
     <item id="32843">删除</item>
@@ -472,4 +472,5 @@
     <item id="32941">用户&amp;发言信息\tCtrl+G</item>
     <item id="32942">&amp;频道信息</item>
     <item id="32943">&amp;发言频道信息\tCtrl+G</item>
+    <item id="32944">&amp;恢复默认设置</item>
 </language>
