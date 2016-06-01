@@ -948,7 +948,7 @@ CAPTION "Text-To-Speech"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "",IDC_TREE_TTS,"SysTreeView32",TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,10,17,240,209
-    GROUPBOX        "Enable/disable text to speech events",IDC_STATIC,7,7,246,226
+    GROUPBOX        "Enable/disable text to speech events",IDC_STATIC_TTS,7,7,246,226
 END
 
 
