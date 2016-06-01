@@ -99,13 +99,24 @@
 #define IDS_PROPPAGE_CLASSROOM_VIDEO    191
 #define IDS_PROPPAGE_CLASSROOM_DESKTOP  192
 #define IDS_PROPPAGE_CLASSROOM_MEDIAFILE 193
+#define IDS_SUB_TEXTMSG                 194
+#define IDS_SUB_CHANTEXTMSG             195
+#define IDS_SUB_BCASTTEXTMSG            196
+#define IDS_SUB_VOICE                   197
+#define IDS_SUB_VIDEO                   198
+#define IDS_SUB_DESKTOP                 199
+#define IDS_SUB_DESKTOPINPUT            200
 #define IDD_DIALOG_MESSAGE              201
 #define IDD_DIALOG_TEAMTALK             202
 #define IDD_DIALOG_CHANNEL              203
 #define IDD_DIALOG_INPUT                204
 #define IDD_DIALOG_CHANGESTATUS         205
+#define IDS_SUB_MEDIAFILE               206
+#define IDS_SUBINT_TEXTMSG              207
 #define ID_INDICATOR_STATS              208
 #define IDD_DIALOG_ABOUTBOX             209
+#define IDS_SUBINT_CHANTEXTMSG          210
+#define IDS_SUBINT_VOICE                211
 #define IDD_PROPPAGE_WINDOWPAGE         212
 #define IDR_MAINFRAME                   213
 #define IDR_MENU_MAIN                   214
@@ -120,6 +131,7 @@
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
 #define IDD_DIALOG_CONNECT              225
+#define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
 #define IDB_BITMAP_VOICEACT             229
@@ -127,6 +139,7 @@
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
 #define IDD_DIALOG_DIRECTCONDLG         233
+#define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
 #define IDR_TOOLBAR1                    237
@@ -136,8 +149,11 @@
 #define IDB_BITMAP_NOVOLUME             241
 #define IDB_BITMAP_TOOLBAR              242
 #define IDD_DIALOG_HOSTMANAGER          243
+#define IDS_SUBINT_MEDIAFILE            244
+#define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
 #define IDD_DIALOG_IPADDRESSES          247
+#define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
 #define IDD_DIALOG_POSITION_USERS       251
@@ -149,6 +165,7 @@
 #define IDR_MENU_ONLINEUSERS            257
 #define IDR_ACCELERATOR3                258
 #define IDR_MENU_DESKTOPINPUT           259
+#define IDS_DESKTOPINPUT_STOPPED        260
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -743,7 +760,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        260
+#define _APS_NEXT_RESOURCE_VALUE        261
 #define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1544
 #define _APS_NEXT_SYMED_VALUE           194

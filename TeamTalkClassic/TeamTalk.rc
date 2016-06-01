@@ -1687,6 +1687,8 @@ END
 STRINGTABLE
 BEGIN
     ID_INDICATOR_STATS      "RX: 0.0KB TX: 0.0KB"
+    IDS_SUBINT_CHANTEXTMSG  "%s changed subscription ""Intercept Channel Messages"" to: %d"
+    IDS_SUBINT_VOICE        "%s changed subscription ""Intercept Voice"" to: %d"
 END
 
 STRINGTABLE
@@ -1793,8 +1795,25 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
+    IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PROPPAGE_CLASSROOM_DESKTOP "Desktop transmission allowed"
+    IDS_PROPPAGE_CLASSROOM_MEDIAFILE "Media file transmission allowed"
+    IDS_SUB_TEXTMSG         "%s changed subscription ""User Messages"" to: %d"
+    IDS_SUB_CHANTEXTMSG     "%s changed subscription ""Channel Messages"" to: %d"
+    IDS_SUB_BCASTTEXTMSG    "%s changed subscription ""Broadcast Messages"" to: %d"
+    IDS_SUB_VOICE           "%s changed subscription ""Voice"" to: %d"
+    IDS_SUB_VIDEO           "%s changed subscription ""Video"" to: %d"
+    IDS_SUB_DESKTOP         "%s changed subscription ""Desktop"" to: %d"
+    IDS_SUB_DESKTOPINPUT    "%s changed subscription ""Desktop Access"" to: %d"
+    IDS_SUB_MEDIAFILE       "%s changed subscription ""Media File Stream"" to: %d"
+    IDS_SUBINT_TEXTMSG      "%s changed subscription ""Intercept User Messages"" to: %d"
 END
 
 STRINGTABLE
@@ -1814,6 +1833,12 @@ BEGIN
     IDS_PROPPAGE_SUB_CHANGE "Subscription changes"
     IDS_PROPPAGE_SUB_TXTMSG_PRIV "Private text message subscription"
     IDS_PROPPAGE_SUB_TXTMSG_CHAN "Channel text message subscription"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBINT_VIDEO        "%s changed subscription ""Intercept Video"" to: %d"
+    IDS_SUBINT_DESKTOP      "%s changed subscription ""Intercept Desktop"" to: %d"
 END
 
 STRINGTABLE
@@ -1840,12 +1865,12 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PROPPAGE_CLASSROOM_DESKTOP "Desktop transmission allowed"
-    IDS_PROPPAGE_CLASSROOM_MEDIAFILE "Media file transmission allowed"
+    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_DESKTOPINPUT_STOPPED "%s no longer has desktop access"
     IDS_RESETPREFERENCES    "Are you sure you want to delete your existing settings?"
     IDS_RESTARTAPPLICATION  "Please restart the application."
     IDS_PUSHTOTALK          "Push To Talk: %s"
