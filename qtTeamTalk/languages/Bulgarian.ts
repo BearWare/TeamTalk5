@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="bg_BG">
+<TS version="2.0" language="bg_BG">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -305,7 +305,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">Обърнете внимание че Спиране на ехото и Аудио настройките понастоящем не се потдържат в система Стерео.</translation>
+        <translation type="obsolete">Обърнете внимание че Спиране на ехото и Аудио настройките понастоящем не се потдържат в система Стерео.</translation>
     </message>
 </context>
 <context>
@@ -614,8 +614,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>Име</translation>
     </message>
@@ -1636,7 +1637,7 @@
         <source>Mute Media File</source>
         <translation>Заглуши файлове от носители</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation></translation>
@@ -3934,9 +3935,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation>Потребителско име</translation>
+        <translation type="obsolete">Потребителско име</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>

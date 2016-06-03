@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<TS version="2.0" language="zh_TW">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -18,43 +18,43 @@
     <name>AudioStorageDlg</name>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">儲存語音到磁碟</translation>
+        <translation type="obsolete">儲存語音到磁碟</translation>
     </message>
     <message>
         <source>Audio file storage</source>
-        <translation type="vanished">語音檔案儲存</translation>
+        <translation type="obsolete">語音檔案儲存</translation>
     </message>
     <message>
         <source>Storage mode</source>
-        <translation type="vanished">儲存模式</translation>
+        <translation type="obsolete">儲存模式</translation>
     </message>
     <message>
         <source>Single audio file for all users</source>
-        <translation type="vanished">所有使用者共用單一檔案</translation>
+        <translation type="obsolete">所有使用者共用單一檔案</translation>
     </message>
     <message>
         <source>Separate audio file for each user</source>
-        <translation type="vanished">每個使用者使用個別檔案</translation>
+        <translation type="obsolete">每個使用者使用個別檔案</translation>
     </message>
     <message>
         <source>Audio file format</source>
-        <translation type="vanished">語音檔格式</translation>
+        <translation type="obsolete">語音檔格式</translation>
     </message>
     <message>
         <source>Folder for audio files</source>
-        <translation type="vanished">語音檔資料夾</translation>
+        <translation type="obsolete">語音檔資料夾</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Storage mode not selected</source>
-        <translation type="vanished">未選取儲存模式</translation>
+        <translation type="obsolete">未選取儲存模式</translation>
     </message>
     <message>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">存放語音檔的資料夾不存在</translation>
+        <translation type="obsolete">存放語音檔的資料夾不存在</translation>
     </message>
 </context>
 <context>
@@ -183,11 +183,11 @@
     </message>
     <message>
         <source>Static channel (persistent)</source>
-        <translation type="vanished">靜態頻道(永久)</translation>
+        <translation type="obsolete">靜態頻道(永久)</translation>
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
-        <translation type="vanished">迴音頻道(聽自己聲音)</translation>
+        <translation type="obsolete">迴音頻道(聽自己聲音)</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
@@ -195,7 +195,7 @@
     </message>
     <message>
         <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="vanished">不間斷模式(同時只能一人出聲)</translation>
+        <translation type="obsolete">不間斷模式(同時只能一人出聲)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="186"/>
@@ -204,11 +204,11 @@
     </message>
     <message>
         <source>Echo video (see own video stream)</source>
-        <translation type="vanished">迴放視訊(看自己的視訊串流)</translation>
+        <translation type="obsolete">迴放視訊(看自己的視訊串流)</translation>
     </message>
     <message>
         <source>Echo desktop (see your shared desktop)</source>
-        <translation type="vanished">迴放桌面(看自己分享的桌面)</translation>
+        <translation type="obsolete">迴放桌面(看自己分享的桌面)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="193"/>
@@ -255,7 +255,7 @@
     </message>
     <message>
         <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="vanished">CELT 0.5.2 編碼解碼器已廢棄.</translation>
+        <translation type="obsolete">CELT 0.5.2 編碼解碼器已廢棄.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="468"/>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">啟用消除雜音</translation>
+        <translation type="obsolete">啟用消除雜音</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="34"/>
@@ -392,7 +392,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">請注意目前在立體聲模式下不支援迴音消除, 雜音消除與語音組態設定等功能.</translation>
+        <translation type="obsolete">請注意目前在立體聲模式下不支援迴音消除, 雜音消除與語音組態設定等功能.</translation>
     </message>
 </context>
 <context>
@@ -432,71 +432,71 @@
     <name>ConnectDlg</name>
     <message>
         <source>Connect to a Server</source>
-        <translation type="vanished">連線到伺服器</translation>
+        <translation type="obsolete">連線到伺服器</translation>
     </message>
     <message>
         <source>Server Information</source>
-        <translation type="vanished">伺服器資訊</translation>
+        <translation type="obsolete">伺服器資訊</translation>
     </message>
     <message>
         <source>Host IP-address</source>
-        <translation type="vanished">主機IP位址</translation>
+        <translation type="obsolete">主機IP位址</translation>
     </message>
     <message>
         <source>E.g. 192.168.1.154</source>
-        <translation type="vanished">例如:192.168.1.154</translation>
+        <translation type="obsolete">例如:192.168.1.154</translation>
     </message>
     <message>
         <source>TCP port</source>
-        <translation type="vanished">TCP 埠號</translation>
+        <translation type="obsolete">TCP 埠號</translation>
     </message>
     <message>
         <source>10333</source>
-        <translation type="vanished">10333</translation>
+        <translation type="obsolete">10333</translation>
     </message>
     <message>
         <source>Default: 10333</source>
-        <translation type="vanished">預設值:10333</translation>
+        <translation type="obsolete">預設值:10333</translation>
     </message>
     <message>
         <source>UDP port</source>
-        <translation type="vanished">UDP 埠號</translation>
+        <translation type="obsolete">UDP 埠號</translation>
     </message>
     <message>
         <source>Authentication (optional)</source>
-        <translation type="vanished">認證(選擇性項目)</translation>
+        <translation type="obsolete">認證(選擇性項目)</translation>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">伺服器密碼</translation>
+        <translation type="obsolete">伺服器密碼</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="vanished">選擇性項目</translation>
+        <translation type="obsolete">選擇性項目</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">使用使用者帳號登入</translation>
+        <translation type="obsolete">使用使用者帳號登入</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="vanished">使用者名稱</translation>
+        <translation type="obsolete">使用者名稱</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="vanished">密碼</translation>
+        <translation type="obsolete">密碼</translation>
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="vanished">只有當伺服器要求使用者帳號資訊時才需要使用者名稱與密碼等資料</translation>
+        <translation type="obsolete">只有當伺服器要求使用者帳號資訊時才需要使用者名稱與密碼等資料</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">認證後進入特定頻道(選擇性項目)</translation>
+        <translation type="obsolete">認證後進入特定頻道(選擇性項目)</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="vanished">頻道</translation>
+        <translation type="obsolete">頻道</translation>
     </message>
 </context>
 <context>
@@ -772,8 +772,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>名稱</translation>
     </message>
@@ -996,19 +997,19 @@
     </message>
     <message>
         <source>Established P2P connection to %1</source>
-        <translation type="vanished">已建立與 %1 的P2P連線</translation>
+        <translation type="obsolete">已建立與 %1 的P2P連線</translation>
     </message>
     <message>
         <source>Failed to establish P2P connection to %1</source>
-        <translation type="vanished">建立與 %1 的P2P連線失敗</translation>
+        <translation type="obsolete">建立與 %1 的P2P連線失敗</translation>
     </message>
     <message>
         <source>%1 will be unavailable for audio transmission</source>
-        <translation type="vanished">%1 將無法進行語音傳輸</translation>
+        <translation type="obsolete">%1 將無法進行語音傳輸</translation>
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
-        <translation type="vanished">%1 將無法進行視訊傳輸</translation>
+        <translation type="obsolete">%1 將無法進行視訊傳輸</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="837"/>
@@ -1037,19 +1038,19 @@
     </message>
     <message>
         <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="vanished">在此伺服器上使用語音傳輸需要用到點對點網路. 現在已經啟用它!</translation>
+        <translation type="obsolete">在此伺服器上使用語音傳輸需要用到點對點網路. 現在已經啟用它!</translation>
     </message>
     <message>
         <source>Peer to peer networking for audio disabled!</source>
-        <translation type="vanished">音訊的點對點網路已停用!</translation>
+        <translation type="obsolete">音訊的點對點網路已停用!</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="vanished">在此伺服器上使用視訊傳輸需要用到點對點網路. 現在已經啟用它!</translation>
+        <translation type="obsolete">在此伺服器上使用視訊傳輸需要用到點對點網路. 現在已經啟用它!</translation>
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
-        <translation type="vanished">視訊的點對點網路已停用!</translation>
+        <translation type="obsolete">視訊的點對點網路已停用!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
@@ -1092,19 +1093,19 @@
     </message>
     <message>
         <source>Error streaming audio file to %1</source>
-        <translation type="vanished">串流播放語音檔給 %1 發生錯誤</translation>
+        <translation type="obsolete">串流播放語音檔給 %1 發生錯誤</translation>
     </message>
     <message>
         <source>Started streaming audio file to %1</source>
-        <translation type="vanished">開始串流播放語音檔給 %1</translation>
+        <translation type="obsolete">開始串流播放語音檔給 %1</translation>
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
-        <translation type="vanished">串流播放語音檔案給 %1 完成</translation>
+        <translation type="obsolete">串流播放語音檔案給 %1 完成</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
-        <translation type="vanished">中止串流播放音訊檔案給 %1</translation>
+        <translation type="obsolete">中止串流播放音訊檔案給 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1083"/>
@@ -1144,7 +1145,7 @@
     </message>
     <message>
         <source>Failed to write audio file for %1</source>
-        <translation type="vanished">寫入語音檔案到 %1 失敗</translation>
+        <translation type="obsolete">寫入語音檔案到 %1 失敗</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
@@ -1173,11 +1174,11 @@
     </message>
     <message>
         <source>Failed to connect to encrypted server</source>
-        <translation type="vanished">連線加密伺服器失敗</translation>
+        <translation type="obsolete">連線加密伺服器失敗</translation>
     </message>
     <message>
         <source>Failed to connect to server</source>
-        <translation type="vanished">連線到伺服器失敗</translation>
+        <translation type="obsolete">連線到伺服器失敗</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1607"/>
@@ -1200,7 +1201,7 @@
     </message>
     <message>
         <source>Incorrect server password. Try again:</source>
-        <translation type="vanished">不正確的伺服器密碼. 請重試:
+        <translation type="obsolete">不正確的伺服器密碼. 請重試:
 </translation>
     </message>
     <message>
@@ -1235,7 +1236,7 @@
     </message>
     <message>
         <source>Channel creation not allowed</source>
-        <translation type="vanished">不允許建立頻道</translation>
+        <translation type="obsolete">不允許建立頻道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1667"/>
@@ -1254,7 +1255,7 @@
     </message>
     <message>
         <source>Modifying subscriptions is not allowed</source>
-        <translation type="vanished">不允許修改訂閱</translation>
+        <translation type="obsolete">不允許修改訂閱</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1673"/>
@@ -1323,7 +1324,7 @@
     </message>
     <message>
         <source>Server has active users</source>
-        <translation type="vanished">伺服器有有效的使用者</translation>
+        <translation type="obsolete">伺服器有有效的使用者</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1707"/>
@@ -1474,15 +1475,15 @@
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">開啟 Wave 檔案</translation>
+        <translation type="obsolete">開啟 Wave 檔案</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wave 檔 (*.wav)</translation>
+        <translation type="obsolete">Wave 檔 (*.wav)</translation>
     </message>
     <message>
         <source>Failed to stream file %1</source>
-        <translation type="vanished">串流播放檔案 %1 失敗</translation>
+        <translation type="obsolete">串流播放檔案 %1 失敗</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3752"/>
@@ -1700,7 +1701,7 @@
     <message>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="vanished">檔案%1包含%2設定資訊
+        <translation type="obsolete">檔案%1包含%2設定資訊
 要套用這些設定嗎?</translation>
     </message>
     <message>
@@ -2256,11 +2257,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">儲存語音到磁碟</translation>
+        <translation type="obsolete">儲存語音到磁碟</translation>
     </message>
     <message>
         <source>Start/stop recording audio to files</source>
-        <translation type="vanished">開始/停止錄音到檔案</translation>
+        <translation type="obsolete">開始/停止錄音到檔案</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1746"/>
@@ -2377,7 +2378,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="vanished">Shift+F3</translation>
+        <translation type="obsolete">Shift+F3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1430"/>
@@ -2454,7 +2455,7 @@ Should these settings be applied?</source>
         <source>Mute Media File</source>
         <translation>靜音媒體檔案</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation></translation>
@@ -2471,7 +2472,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Kick and &amp;Ban</source>
-        <translation type="vanished">踢出與封鎖(&amp;B)</translation>
+        <translation type="obsolete">踢出與封鎖(&amp;B)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
@@ -2500,7 +2501,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Audio</source>
-        <translation type="vanished">音訊(&amp;A)</translation>
+        <translation type="obsolete">音訊(&amp;A)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1488"/>
@@ -2549,7 +2550,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
-        <translation type="vanished">儲存音訊到磁碟上(&amp;A)</translation>
+        <translation type="obsolete">儲存音訊到磁碟上(&amp;A)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1580"/>
@@ -2636,7 +2637,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
-        <translation type="vanished">加大音量 (+10) (&amp;I)</translation>
+        <translation type="obsolete">加大音量 (+10) (&amp;I)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1652"/>
@@ -2645,7 +2646,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
-        <translation type="vanished">降低音量 (-10) (&amp;L)</translation>
+        <translation type="obsolete">降低音量 (-10) (&amp;L)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
@@ -2778,7 +2779,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream Audio &amp;File to User</source>
-        <translation type="vanished">串流播放語音檔給使用者(&amp;F)</translation>
+        <translation type="obsolete">串流播放語音檔給使用者(&amp;F)</translation>
     </message>
 </context>
 <context>
@@ -3060,11 +3061,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="vanished">音訊</translation>
+        <translation type="obsolete">音訊</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="vanished">視訊</translation>
+        <translation type="obsolete">視訊</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="643"/>
@@ -3078,15 +3079,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="vanished">點對點資料傳輸(P2P網路)</translation>
+        <translation type="obsolete">點對點資料傳輸(P2P網路)</translation>
     </message>
     <message>
         <source>Peer to peer transmission of audio data</source>
-        <translation type="vanished">點對點傳輸語音資料</translation>
+        <translation type="obsolete">點對點傳輸語音資料</translation>
     </message>
     <message>
         <source>Peer to peer transmission of video data</source>
-        <translation type="vanished">點對點傳輸視訊資料</translation>
+        <translation type="obsolete">點對點傳輸視訊資料</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="699"/>
@@ -3178,11 +3179,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Enable 3D-sound</source>
-        <translation type="vanished">啟用 3D-音效</translation>
+        <translation type="obsolete">啟用 3D-音效</translation>
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">啟用消除雜音</translation>
+        <translation type="obsolete">啟用消除雜音</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1076"/>
@@ -3399,11 +3400,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">品質</translation>
+        <translation type="obsolete">品質</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">位元率</translation>
+        <translation type="obsolete">位元率</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="302"/>
@@ -3466,7 +3467,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
-        <translation type="vanished">啟用迴音消除失敗</translation>
+        <translation type="obsolete">啟用迴音消除失敗</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="946"/>
@@ -3631,11 +3632,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">伺服器密碼</translation>
+        <translation type="obsolete">伺服器密碼</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">使用使用者帳號登入</translation>
+        <translation type="obsolete">使用使用者帳號登入</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="176"/>
@@ -3699,15 +3700,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Save File</source>
-        <translation type="vanished">儲存檔案</translation>
+        <translation type="obsolete">儲存檔案</translation>
     </message>
     <message>
         <source>%1 File (*%1)</source>
-        <translation type="vanished">%1 檔案 (*%1)</translation>
+        <translation type="obsolete">%1 檔案 (*%1)</translation>
     </message>
     <message>
         <source>Unable to save file</source>
-        <translation type="vanished">無法儲存檔案</translation>
+        <translation type="obsolete">無法儲存檔案</translation>
     </message>
 </context>
 <context>
@@ -3725,7 +3726,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">伺服器密碼</translation>
+        <translation type="obsolete">伺服器密碼</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
@@ -3770,67 +3771,67 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>User Rights</source>
-        <translation type="vanished">使用者權限</translation>
+        <translation type="obsolete">使用者權限</translation>
     </message>
     <message>
         <source>Users can create channels</source>
-        <translation type="vanished">使用者可以建立頻道</translation>
+        <translation type="obsolete">使用者可以建立頻道</translation>
     </message>
     <message>
         <source>Users can become channel operators</source>
-        <translation type="vanished">使用者可以成為頻道管理者</translation>
+        <translation type="obsolete">使用者可以成為頻道管理者</translation>
     </message>
     <message>
         <source>Users can login without a user account</source>
-        <translation type="vanished">使用者可以不需使用者帳號就可登入</translation>
+        <translation type="obsolete">使用者可以不需使用者帳號就可登入</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="vanished">多個使用者可共用同一個帳號</translation>
+        <translation type="obsolete">多個使用者可共用同一個帳號</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
-        <translation type="vanished">使用者可以看到所有頻道的使用者</translation>
+        <translation type="obsolete">使用者可以看到所有頻道的使用者</translation>
     </message>
     <message>
         <source>Users can broadcast text messages</source>
-        <translation type="vanished">使用者可以廣播文字訊息</translation>
+        <translation type="obsolete">使用者可以廣播文字訊息</translation>
     </message>
     <message>
         <source>Users can issue channel commands</source>
-        <translation type="vanished">使用者可以發布頻道命令</translation>
+        <translation type="obsolete">使用者可以發布頻道命令</translation>
     </message>
     <message>
         <source>Users can modify subscriptions</source>
-        <translation type="vanished">使用者可以修改訂閱</translation>
+        <translation type="obsolete">使用者可以修改訂閱</translation>
     </message>
     <message>
         <source>Users can forward/relay audio through server</source>
-        <translation type="vanished">使用者可以透過伺服器轉送音訊</translation>
+        <translation type="obsolete">使用者可以透過伺服器轉送音訊</translation>
     </message>
     <message>
         <source>Users can forward/relay video through server</source>
-        <translation type="vanished">使用者可以透過伺服器轉送視訊</translation>
+        <translation type="obsolete">使用者可以透過伺服器轉送視訊</translation>
     </message>
     <message>
         <source>Users can forward/relay desktops through server</source>
-        <translation type="vanished">使用者可透過伺服器轉送桌面</translation>
+        <translation type="obsolete">使用者可透過伺服器轉送桌面</translation>
     </message>
     <message>
         <source>Users can forward/relay desktop access through server</source>
-        <translation type="vanished">使用者可透過伺服器轉送桌面存取</translation>
+        <translation type="obsolete">使用者可透過伺服器轉送桌面存取</translation>
     </message>
     <message>
         <source>Audio Codec Limitations</source>
-        <translation type="vanished">語音編碼解碼器限制</translation>
+        <translation type="obsolete">語音編碼解碼器限制</translation>
     </message>
     <message>
         <source>Max bitrate for audio codecs</source>
-        <translation type="vanished">語音編碼解碼器的最大位元率</translation>
+        <translation type="obsolete">語音編碼解碼器的最大位元率</translation>
     </message>
     <message>
         <source>kbps (0 = disabled)</source>
-        <translation type="vanished">kbps (0 = 停用)</translation>
+        <translation type="obsolete">kbps (0 = 停用)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="233"/>
@@ -3839,7 +3840,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio TX max</source>
-        <translation type="vanished">最大語音發送</translation>
+        <translation type="obsolete">最大語音發送</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="377"/>
@@ -4004,31 +4005,31 @@ Should these settings be applied?</source>
     <name>StreamAudioFileDlg</name>
     <message>
         <source>Stream Audio File</source>
-        <translation type="vanished">串流播放音訊檔案</translation>
+        <translation type="obsolete">串流播放音訊檔案</translation>
     </message>
     <message>
         <source>Audio Stream Properties</source>
-        <translation type="vanished">音訊檔案屬性</translation>
+        <translation type="obsolete">音訊檔案屬性</translation>
     </message>
     <message>
         <source>Audio File</source>
-        <translation type="vanished">音訊檔案</translation>
+        <translation type="obsolete">音訊檔案</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Continuously play audio file</source>
-        <translation type="vanished">連續播放音訊檔案</translation>
+        <translation type="obsolete">連續播放音訊檔案</translation>
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">開啟 Wave 檔案</translation>
+        <translation type="obsolete">開啟 Wave 檔案</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wave 檔 (*.wav)</translation>
+        <translation type="obsolete">Wave 檔 (*.wav)</translation>
     </message>
 </context>
 <context>
@@ -4065,7 +4066,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream audio</source>
-        <translation type="vanished">串流音訊</translation>
+        <translation type="obsolete">串流音訊</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="70"/>
@@ -4074,7 +4075,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream video</source>
-        <translation type="vanished">串流視訊</translation>
+        <translation type="obsolete">串流視訊</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="88"/>
@@ -4099,11 +4100,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">品質</translation>
+        <translation type="obsolete">品質</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">位元率</translation>
+        <translation type="obsolete">位元率</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="264"/>
@@ -4122,7 +4123,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Media files (*.*)</source>
-        <translation type="vanished">媒體檔案 (*.*)</translation>
+        <translation type="obsolete">媒體檔案 (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="75"/>
@@ -4444,9 +4445,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation>使用者名稱</translation>
+        <translation type="obsolete">使用者名稱</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4532,11 +4532,11 @@ Should these settings be applied?</source>
     <name>UserImageWidget</name>
     <message>
         <source>Waiting for video from %1</source>
-        <translation type="vanished">等待來自 %1 的視訊中</translation>
+        <translation type="obsolete">等待來自 %1 的視訊中</translation>
     </message>
     <message>
         <source>Waiting for local video</source>
-        <translation type="vanished">等待本地端視訊中</translation>
+        <translation type="obsolete">等待本地端視訊中</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="198"/>
@@ -4629,7 +4629,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>P2P connection</source>
-        <translation type="vanished">P2P 連線</translation>
+        <translation type="obsolete">P2P 連線</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="169"/>
@@ -4638,7 +4638,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio packet loss</source>
-        <translation type="vanished">音訊封包丟失</translation>
+        <translation type="obsolete">音訊封包丟失</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
@@ -4678,11 +4678,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="vanished">是</translation>
+        <translation type="obsolete">是</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="vanished">否</translation>
+        <translation type="obsolete">否</translation>
     </message>
 </context>
 <context>

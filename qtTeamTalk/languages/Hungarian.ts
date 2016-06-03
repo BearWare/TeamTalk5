@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<TS version="2.0" language="hu_HU">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -306,7 +306,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">Megjegyzés: A víszhangszűrés, zajszűrés és a hang konfigurálása jelenleg sztereó üzemmódban nem támogatott.</translation>
+        <translation type="obsolete">Megjegyzés: A víszhangszűrés, zajszűrés és a hang konfigurálása jelenleg sztereó üzemmódban nem támogatott.</translation>
     </message>
 </context>
 <context>
@@ -616,8 +616,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>Név</translation>
     </message>
@@ -1638,7 +1639,7 @@
         <source>Mute Media File</source>
         <translation>Médiafájl elnémítása</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation>Ctrl+Alt+M</translation>
@@ -3936,9 +3937,8 @@ Alkalmazzuk ezeket a beállításokat?</translation>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation>Felhasználónév</translation>
+        <translation type="obsolete">Felhasználónév</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>

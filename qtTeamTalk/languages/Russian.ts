@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -305,7 +305,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">Обратите внимание, что Эхоподавление, шумоподавление и Настройки аудио в настоящее время  не поддерживаются в режиме стерео.</translation>
+        <translation type="obsolete">Обратите внимание, что Эхоподавление, шумоподавление и Настройки аудио в настоящее время  не поддерживаются в режиме стерео.</translation>
     </message>
 </context>
 <context>
@@ -614,8 +614,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
@@ -1636,7 +1637,7 @@
         <source>Mute Media File</source>
         <translation>Выключить Медиа Файл</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation type="unfinished"></translation>
@@ -1648,7 +1649,7 @@
     </message>
     <message>
         <source>Ctrl+Alt+Оњ</source>
-        <translation type="vanished">Ctrl+Alt+Оњ</translation>
+        <translation type="obsolete">Ctrl+Alt+Оњ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
@@ -3938,9 +3939,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation>Имя пользователя</translation>
+        <translation type="obsolete">Имя пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>

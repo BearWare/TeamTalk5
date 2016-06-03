@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="tr_TR">
+<TS version="2.0" language="tr_TR">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Static channel (persistent)</source>
-        <translation type="vanished">Statik kanal (kalıcı)</translation>
+        <translation type="obsolete">Statik kanal (kalıcı)</translation>
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
-        <translation type="vanished">Yankılı(echo) kanal (Kendiniz duyun)</translation>
+        <translation type="obsolete">Yankılı(echo) kanal (Kendiniz duyun)</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
@@ -266,15 +266,15 @@
     </message>
     <message>
         <source>8 KHz</source>
-        <translation type="vanished">8 Kilo Hertz(saniyede 8000 titreşim)</translation>
+        <translation type="obsolete">8 Kilo Hertz(saniyede 8000 titreşim)</translation>
     </message>
     <message>
         <source>16 KHz</source>
-        <translation type="vanished">16 Kilo Hertz (saniyede 16000 titreşim)</translation>
+        <translation type="obsolete">16 Kilo Hertz (saniyede 16000 titreşim)</translation>
     </message>
     <message>
         <source>32 KHz</source>
-        <translation type="vanished">32 Kilo Hertz(saniyede 32000 titreşim)</translation>
+        <translation type="obsolete">32 Kilo Hertz(saniyede 32000 titreşim)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="293"/>
@@ -315,7 +315,7 @@
     </message>
     <message>
         <source>44.1 KHz</source>
-        <translation type="vanished">44.1 Kilo Hertz (saniyede 44100 titreşim)</translation>
+        <translation type="obsolete">44.1 Kilo Hertz (saniyede 44100 titreşim)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="617"/>
@@ -353,7 +353,7 @@
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Denoising mümkün</translation>
+        <translation type="obsolete">Denoising mümkün</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="55"/>
@@ -401,7 +401,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">unutmayın echo yani yankılanma iptal sessizlik ve otomatik ayar stereoyu desteklemez.</translation>
+        <translation type="obsolete">unutmayın echo yani yankılanma iptal sessizlik ve otomatik ayar stereoyu desteklemez.</translation>
     </message>
 </context>
 <context>
@@ -441,71 +441,71 @@
     <name>ConnectDlg</name>
     <message>
         <source>Connect to a Server</source>
-        <translation type="vanished">Sunucuya Bağlan</translation>
+        <translation type="obsolete">Sunucuya Bağlan</translation>
     </message>
     <message>
         <source>Server Information</source>
-        <translation type="vanished">Sunucu Bilgisi</translation>
+        <translation type="obsolete">Sunucu Bilgisi</translation>
     </message>
     <message>
         <source>Host IP-address</source>
-        <translation type="vanished">Sunucu ip adresi</translation>
+        <translation type="obsolete">Sunucu ip adresi</translation>
     </message>
     <message>
         <source>E.g. 192.168.1.154</source>
-        <translation type="vanished">Örneğin 192.168.1.154</translation>
+        <translation type="obsolete">Örneğin 192.168.1.154</translation>
     </message>
     <message>
         <source>TCP port</source>
-        <translation type="vanished">TCP kapısı (port)</translation>
+        <translation type="obsolete">TCP kapısı (port)</translation>
     </message>
     <message>
         <source>10333</source>
-        <translation type="vanished">10333</translation>
+        <translation type="obsolete">10333</translation>
     </message>
     <message>
         <source>Default: 10333</source>
-        <translation type="vanished">Varsayılan :10333</translation>
+        <translation type="obsolete">Varsayılan :10333</translation>
     </message>
     <message>
         <source>UDP port</source>
-        <translation type="vanished">Udp kapısı (port)</translation>
+        <translation type="obsolete">Udp kapısı (port)</translation>
     </message>
     <message>
         <source>Authentication (optional)</source>
-        <translation type="vanished">Doğrulama (tercihe Bağlı)</translation>
+        <translation type="obsolete">Doğrulama (tercihe Bağlı)</translation>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Sunucu şifresi</translation>
+        <translation type="obsolete">Sunucu şifresi</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="vanished">#Tercihe bağlı</translation>
+        <translation type="obsolete">#Tercihe bağlı</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">#Kullanıcı hesabıyla gir</translation>
+        <translation type="obsolete">#Kullanıcı hesabıyla gir</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="vanished">Kullanıcı Adı</translation>
+        <translation type="obsolete">Kullanıcı Adı</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="vanished">Şifre</translation>
+        <translation type="obsolete">Şifre</translation>
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="vanished">Kullanıcı adı ve şifre sadece sunucu kullanıcı hesapları için gereklidir</translation>
+        <translation type="obsolete">Kullanıcı adı ve şifre sadece sunucu kullanıcı hesapları için gereklidir</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">#Onaylandıktan sonra özel kanala gir (tercihe bağlı)</translation>
+        <translation type="obsolete">#Onaylandıktan sonra özel kanala gir (tercihe bağlı)</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="vanished">Kanal</translation>
+        <translation type="obsolete">Kanal</translation>
     </message>
 </context>
 <context>
@@ -781,8 +781,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>İsim</translation>
     </message>
@@ -1005,19 +1006,19 @@
     </message>
     <message>
         <source>Established P2P connection to %1</source>
-        <translation type="vanished">Bilgisayardan bilgisayara bağlantı gerçekleşti %1</translation>
+        <translation type="obsolete">Bilgisayardan bilgisayara bağlantı gerçekleşti %1</translation>
     </message>
     <message>
         <source>Failed to establish P2P connection to %1</source>
-        <translation type="vanished">Bilgisayardan bilgisayara bağlantı yapılamadı %1</translation>
+        <translation type="obsolete">Bilgisayardan bilgisayara bağlantı yapılamadı %1</translation>
     </message>
     <message>
         <source>%1 will be unavailable for audio transmission</source>
-        <translation type="vanished">%1 Ses aktarımı kapalı</translation>
+        <translation type="obsolete">%1 Ses aktarımı kapalı</translation>
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
-        <translation type="vanished">%1 Görüntü aktarımı kapalı</translation>
+        <translation type="obsolete">%1 Görüntü aktarımı kapalı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="837"/>
@@ -1046,19 +1047,19 @@
     </message>
     <message>
         <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="vanished">Ses aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda etkin!</translation>
+        <translation type="obsolete">Ses aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda etkin!</translation>
     </message>
     <message>
         <source>Peer to peer networking for audio disabled!</source>
-        <translation type="vanished">Ses aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda kapalı!</translation>
+        <translation type="obsolete">Ses aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda kapalı!</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="vanished">Görüntü aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda etkin!</translation>
+        <translation type="obsolete">Görüntü aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda etkin!</translation>
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
-        <translation type="vanished">Görüntü aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda kapalı!</translation>
+        <translation type="obsolete">Görüntü aktarımı için bilgisayardan bilgisayara ağ bağlantısı gerekiyor. Şu anda kapalı!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
@@ -1101,19 +1102,19 @@
     </message>
     <message>
         <source>Error streaming audio file to %1</source>
-        <translation type="vanished">Akıcı ses dosyası hatası %1</translation>
+        <translation type="obsolete">Akıcı ses dosyası hatası %1</translation>
     </message>
     <message>
         <source>Started streaming audio file to %1</source>
-        <translation type="vanished">Akıcı ses dosyası başladı%1</translation>
+        <translation type="obsolete">Akıcı ses dosyası başladı%1</translation>
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
-        <translation type="vanished">Ses dosyası akıcı dosyası bitti %1</translation>
+        <translation type="obsolete">Ses dosyası akıcı dosyası bitti %1</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
-        <translation type="vanished">Ses aktarımı dosyası iptal edildi %1</translation>
+        <translation type="obsolete">Ses aktarımı dosyası iptal edildi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1083"/>
@@ -1178,7 +1179,7 @@
     </message>
     <message>
         <source>Failed to connect to server</source>
-        <translation type="vanished">Servere bağlantı olmadı</translation>
+        <translation type="obsolete">Servere bağlantı olmadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1607"/>
@@ -1201,7 +1202,7 @@
     </message>
     <message>
         <source>Incorrect server password. Try again:</source>
-        <translation type="vanished">Hatalı server şifresi Yeniden deneyiniz:</translation>
+        <translation type="obsolete">Hatalı server şifresi Yeniden deneyiniz:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1626"/>
@@ -1235,7 +1236,7 @@
     </message>
     <message>
         <source>Channel creation not allowed</source>
-        <translation type="vanished">Kanal açma izni yok</translation>
+        <translation type="obsolete">Kanal açma izni yok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1667"/>
@@ -1254,7 +1255,7 @@
     </message>
     <message>
         <source>Modifying subscriptions is not allowed</source>
-        <translation type="vanished">Sonradan abonelik değişikliği olmuyor</translation>
+        <translation type="obsolete">Sonradan abonelik değişikliği olmuyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1673"/>
@@ -1323,7 +1324,7 @@
     </message>
     <message>
         <source>Server has active users</source>
-        <translation type="vanished">Sunucu aktif kullanıcıya sahip</translation>
+        <translation type="obsolete">Sunucu aktif kullanıcıya sahip</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1707"/>
@@ -1481,15 +1482,15 @@
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">Ses dosyası aç (wave)</translation>
+        <translation type="obsolete">Ses dosyası aç (wave)</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wave şeklindeki ses dosyası (*.wav)</translation>
+        <translation type="obsolete">Wave şeklindeki ses dosyası (*.wav)</translation>
     </message>
     <message>
         <source>Failed to stream file %1</source>
-        <translation type="vanished">Akıcı dosya hatası %1</translation>
+        <translation type="obsolete">Akıcı dosya hatası %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3752"/>
@@ -1710,12 +1711,6 @@
         <translation>Kendi kendime</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5233"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 Abonelik ayarla %2 üzerinizden:%3</translation>
     </message>
@@ -1746,6 +1741,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
         <source>Load %1 File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5233"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2367,7 +2368,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="vanished">Shift+F3 (Shift ile beraber F3 ede basınız)</translation>
+        <translation type="obsolete">Shift+F3 (Shift ile beraber F3 ede basınız)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1430"/>
@@ -2444,7 +2445,7 @@ Should these settings be applied?</source>
         <source>Mute Media File</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation type="unfinished"></translation>
@@ -2461,7 +2462,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Kick and &amp;Ban</source>
-        <translation type="vanished">Tekmeleme ve &amp;Engelleme</translation>
+        <translation type="obsolete">Tekmeleme ve &amp;Engelleme</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
@@ -2490,7 +2491,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Audio</source>
-        <translation type="vanished">&amp;Ses</translation>
+        <translation type="obsolete">&amp;Ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1488"/>
@@ -2539,7 +2540,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
-        <translation type="vanished">Depo&amp;sesi diske</translation>
+        <translation type="obsolete">Depo&amp;sesi diske</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1577"/>
@@ -2583,7 +2584,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
-        <translation type="vanished">&amp;Sesi Yükselt(+10)</translation>
+        <translation type="obsolete">&amp;Sesi Yükselt(+10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1652"/>
@@ -2592,7 +2593,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
-        <translation type="vanished">&amp;En düşük Ses(-10)</translation>
+        <translation type="obsolete">&amp;En düşük Ses(-10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
@@ -3056,15 +3057,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="vanished">Bilgisayardan bilgisayara aktarım</translation>
+        <translation type="obsolete">Bilgisayardan bilgisayara aktarım</translation>
     </message>
     <message>
         <source>Peer to peer transmission of audio data</source>
-        <translation type="vanished">Ses verisi bilgisayardan bilgisayara aktarımı</translation>
+        <translation type="obsolete">Ses verisi bilgisayardan bilgisayara aktarımı</translation>
     </message>
     <message>
         <source>Peer to peer transmission of video data</source>
-        <translation type="vanished">Görüntü verisi bilgisayardan bilgisayara aktar</translation>
+        <translation type="obsolete">Görüntü verisi bilgisayardan bilgisayara aktar</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="699"/>
@@ -3156,11 +3157,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Enable 3D-sound</source>
-        <translation type="vanished">3 Boyutlu Sesi aç</translation>
+        <translation type="obsolete">3 Boyutlu Sesi aç</translation>
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Denoising açık</translation>
+        <translation type="obsolete">Denoising açık</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1076"/>
@@ -3377,11 +3378,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">Kalite</translation>
+        <translation type="obsolete">Kalite</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">Bit Hızı</translation>
+        <translation type="obsolete">Bit Hızı</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="302"/>
@@ -3444,7 +3445,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
-        <translation type="vanished">Yankı(echo) açılamadı</translation>
+        <translation type="obsolete">Yankı(echo) açılamadı</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="946"/>
@@ -3609,11 +3610,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Sunucu şifresi</translation>
+        <translation type="obsolete">Sunucu şifresi</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">Kullanıcı hesabı kullanarak giriş</translation>
+        <translation type="obsolete">Kullanıcı hesabı kullanarak giriş</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="176"/>
@@ -3677,15 +3678,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Save File</source>
-        <translation type="vanished">Dosya kaydet</translation>
+        <translation type="obsolete">Dosya kaydet</translation>
     </message>
     <message>
         <source>%1 File (*%1)</source>
-        <translation type="vanished">%1 Dosya (*%1)</translation>
+        <translation type="obsolete">%1 Dosya (*%1)</translation>
     </message>
     <message>
         <source>Unable to save file</source>
-        <translation type="vanished">Dosya kaydetmek var</translation>
+        <translation type="obsolete">Dosya kaydetmek var</translation>
     </message>
 </context>
 <context>
@@ -3703,7 +3704,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Sunucu  şifresi</translation>
+        <translation type="obsolete">Sunucu  şifresi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
@@ -3748,47 +3749,47 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>User Rights</source>
-        <translation type="vanished">Kullanıcı Hakları</translation>
+        <translation type="obsolete">Kullanıcı Hakları</translation>
     </message>
     <message>
         <source>Users can create channels</source>
-        <translation type="vanished">Kullanıcılar kanal açabilirler</translation>
+        <translation type="obsolete">Kullanıcılar kanal açabilirler</translation>
     </message>
     <message>
         <source>Users can become channel operators</source>
-        <translation type="vanished">Kullanıcı yönetici olabilir</translation>
+        <translation type="obsolete">Kullanıcı yönetici olabilir</translation>
     </message>
     <message>
         <source>Users can login without a user account</source>
-        <translation type="vanished">kullanıcı hesabı olmadanda ziyaretçi girişi yapılabilir</translation>
+        <translation type="obsolete">kullanıcı hesabı olmadanda ziyaretçi girişi yapılabilir</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="vanished">Birden fazla kullanıcılar aynı hesabı kullanabilirler</translation>
+        <translation type="obsolete">Birden fazla kullanıcılar aynı hesabı kullanabilirler</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
-        <translation type="vanished">Kullancıılar diğer kullancııları kanallarda görebilirler</translation>
+        <translation type="obsolete">Kullancıılar diğer kullancııları kanallarda görebilirler</translation>
     </message>
     <message>
         <source>Users can broadcast text messages</source>
-        <translation type="vanished">Kullanıcılar yazı mesajlarını yayınlayabilirler</translation>
+        <translation type="obsolete">Kullanıcılar yazı mesajlarını yayınlayabilirler</translation>
     </message>
     <message>
         <source>Users can issue channel commands</source>
-        <translation type="vanished">Kullanıcılar kanala komutlar verebilirler</translation>
+        <translation type="obsolete">Kullanıcılar kanala komutlar verebilirler</translation>
     </message>
     <message>
         <source>Users can modify subscriptions</source>
-        <translation type="vanished">Kullanıcılar üyeliklerini ayarlayabilirler</translation>
+        <translation type="obsolete">Kullanıcılar üyeliklerini ayarlayabilirler</translation>
     </message>
     <message>
         <source>Users can forward/relay audio through server</source>
-        <translation type="vanished">Kullanıcılar başka yerlerden sunucuymuş gibi ses aktarımı yapabilirler(forward/relay)</translation>
+        <translation type="obsolete">Kullanıcılar başka yerlerden sunucuymuş gibi ses aktarımı yapabilirler(forward/relay)</translation>
     </message>
     <message>
         <source>Users can forward/relay video through server</source>
-        <translation type="vanished">Kullanıcılar dışarıdan görüntü aktarımı yapabilirler.(relay/forward)</translation>
+        <translation type="obsolete">Kullanıcılar dışarıdan görüntü aktarımı yapabilirler.(relay/forward)</translation>
     </message>
     <message>
         <source>Users can forward/relay desktops through server</source>
@@ -4398,9 +4399,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation type="unfinished">Kullanıcı adı</translation>
+        <translation type="obsolete">Kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4583,7 +4583,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>P2P connection</source>
-        <translation type="vanished">Bilgisayardan bilgisayara bağlantı</translation>
+        <translation type="obsolete">Bilgisayardan bilgisayara bağlantı</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="169"/>
@@ -4592,7 +4592,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio packet loss</source>
-        <translation type="vanished">Ses paketi kaybı</translation>
+        <translation type="obsolete">Ses paketi kaybı</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
@@ -4632,11 +4632,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="vanished">Evet</translation>
+        <translation type="obsolete">Evet</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="vanished">Hayır</translation>
+        <translation type="obsolete">Hayır</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sl_SI">
+<TS version="2.0" language="sl_SI">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -18,43 +18,43 @@
     <name>AudioStorageDlg</name>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">Shrani zvok na disk</translation>
+        <translation type="obsolete">Shrani zvok na disk</translation>
     </message>
     <message>
         <source>Audio file storage</source>
-        <translation type="vanished">Shrani audi zvok</translation>
+        <translation type="obsolete">Shrani audi zvok</translation>
     </message>
     <message>
         <source>Storage mode</source>
-        <translation type="vanished">Tip shranjevanja</translation>
+        <translation type="obsolete">Tip shranjevanja</translation>
     </message>
     <message>
         <source>Single audio file for all users</source>
-        <translation type="vanished">Ena audio datoteka za vse uporabnike</translation>
+        <translation type="obsolete">Ena audio datoteka za vse uporabnike</translation>
     </message>
     <message>
         <source>Separate audio file for each user</source>
-        <translation type="vanished">Loči audio datoteke za vsakega uporabnika</translation>
+        <translation type="obsolete">Loči audio datoteke za vsakega uporabnika</translation>
     </message>
     <message>
         <source>Audio file format</source>
-        <translation type="vanished">Format audio zapisa</translation>
+        <translation type="obsolete">Format audio zapisa</translation>
     </message>
     <message>
         <source>Folder for audio files</source>
-        <translation type="vanished">Mapa za audio datoteke</translation>
+        <translation type="obsolete">Mapa za audio datoteke</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Storage mode not selected</source>
-        <translation type="vanished">Tip shranjevanja ni izbran</translation>
+        <translation type="obsolete">Tip shranjevanja ni izbran</translation>
     </message>
     <message>
         <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Mapa za shranjevanje audio datotek ne obstaja</translation>
+        <translation type="obsolete">Mapa za shranjevanje audio datotek ne obstaja</translation>
     </message>
 </context>
 <context>
@@ -183,11 +183,11 @@
     </message>
     <message>
         <source>Static channel (persistent)</source>
-        <translation type="vanished">Statični kanal (prednastavljen)</translation>
+        <translation type="obsolete">Statični kanal (prednastavljen)</translation>
     </message>
     <message>
         <source>Echo channel (hear yourself)</source>
-        <translation type="vanished">Eho kanala(slišnost samega sebe)</translation>
+        <translation type="obsolete">Eho kanala(slišnost samega sebe)</translation>
     </message>
     <message>
         <source>No simultaneous audio transmission</source>
@@ -195,7 +195,7 @@
     </message>
     <message>
         <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="vanished">Ni prekinitve (ni simultanega oddajanja zvoka)</translation>
+        <translation type="obsolete">Ni prekinitve (ni simultanega oddajanja zvoka)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="186"/>
@@ -204,11 +204,11 @@
     </message>
     <message>
         <source>Echo video (see own video stream)</source>
-        <translation type="vanished">Echo video(vidite svoj video med oddajo)</translation>
+        <translation type="obsolete">Echo video(vidite svoj video med oddajo)</translation>
     </message>
     <message>
         <source>Echo desktop (see your shared desktop)</source>
-        <translation type="vanished">Echo namizja (Vidite svoje namizje v skupni rabi)</translation>
+        <translation type="obsolete">Echo namizja (Vidite svoje namizje v skupni rabi)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="193"/>
@@ -255,7 +255,7 @@
     </message>
     <message>
         <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="vanished">CELT 0.5.2 kodek je zastarel.</translation>
+        <translation type="obsolete">CELT 0.5.2 kodek je zastarel.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="468"/>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Omogoči denoising</translation>
+        <translation type="obsolete">Omogoči denoising</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="34"/>
@@ -333,15 +333,15 @@
     </message>
     <message>
         <source>8 KHz</source>
-        <translation type="vanished">8 KHz</translation>
+        <translation type="obsolete">8 KHz</translation>
     </message>
     <message>
         <source>16 KHz</source>
-        <translation type="vanished">16 KHz</translation>
+        <translation type="obsolete">16 KHz</translation>
     </message>
     <message>
         <source>32 KHz</source>
-        <translation type="vanished">32 KHz</translation>
+        <translation type="obsolete">32 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="293"/>
@@ -351,7 +351,7 @@
     </message>
     <message>
         <source>44.1 KHz</source>
-        <translation type="vanished">44.1 KHz</translation>
+        <translation type="obsolete">44.1 KHz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="617"/>
@@ -408,7 +408,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">Opomba, odmevi, odstranitev šumov v videu in nastavitve zvoka niso podprti v stereo sistemu.</translation>
+        <translation type="obsolete">Opomba, odmevi, odstranitev šumov v videu in nastavitve zvoka niso podprti v stereo sistemu.</translation>
     </message>
 </context>
 <context>
@@ -448,71 +448,71 @@
     <name>ConnectDlg</name>
     <message>
         <source>Connect to a Server</source>
-        <translation type="vanished">Poveži se s strežnikom</translation>
+        <translation type="obsolete">Poveži se s strežnikom</translation>
     </message>
     <message>
         <source>Server Information</source>
-        <translation type="vanished">Informacije o serverju</translation>
+        <translation type="obsolete">Informacije o serverju</translation>
     </message>
     <message>
         <source>Host IP-address</source>
-        <translation type="vanished">IP naslov hosta</translation>
+        <translation type="obsolete">IP naslov hosta</translation>
     </message>
     <message>
         <source>E.g. 192.168.1.154</source>
-        <translation type="vanished">E.g. 192.168.1.154</translation>
+        <translation type="obsolete">E.g. 192.168.1.154</translation>
     </message>
     <message>
         <source>TCP port</source>
-        <translation type="vanished">TCP port</translation>
+        <translation type="obsolete">TCP port</translation>
     </message>
     <message>
         <source>10333</source>
-        <translation type="vanished">10333</translation>
+        <translation type="obsolete">10333</translation>
     </message>
     <message>
         <source>Default: 10333</source>
-        <translation type="vanished">Privzeto: 10333</translation>
+        <translation type="obsolete">Privzeto: 10333</translation>
     </message>
     <message>
         <source>UDP port</source>
-        <translation type="vanished">UDP port</translation>
+        <translation type="obsolete">UDP port</translation>
     </message>
     <message>
         <source>Authentication (optional)</source>
-        <translation type="vanished">Avtorizacija (opcijsko)</translation>
+        <translation type="obsolete">Avtorizacija (opcijsko)</translation>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Geslo serverja</translation>
+        <translation type="obsolete">Geslo serverja</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="vanished">Opcijsko</translation>
+        <translation type="obsolete">Opcijsko</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">Prijava z uporabniškim imenom</translation>
+        <translation type="obsolete">Prijava z uporabniškim imenom</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="vanished">Uporabnik</translation>
+        <translation type="obsolete">Uporabnik</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="vanished">Geslo</translation>
+        <translation type="obsolete">Geslo</translation>
     </message>
     <message>
         <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="vanished">Uporabniško ime in geslo je edino potrebno, če strežnik zahteva avtorizacijo uporabnika</translation>
+        <translation type="obsolete">Uporabniško ime in geslo je edino potrebno, če strežnik zahteva avtorizacijo uporabnika</translation>
     </message>
     <message>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">Pridruži določen kanal po avtorizaciji (opcijsko)</translation>
+        <translation type="obsolete">Pridruži določen kanal po avtorizaciji (opcijsko)</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="vanished">Kanal</translation>
+        <translation type="obsolete">Kanal</translation>
     </message>
 </context>
 <context>
@@ -788,8 +788,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>Ime</translation>
     </message>
@@ -1012,19 +1013,19 @@
     </message>
     <message>
         <source>Established P2P connection to %1</source>
-        <translation type="vanished">Vzpostavljam direktno povezavo na %1</translation>
+        <translation type="obsolete">Vzpostavljam direktno povezavo na %1</translation>
     </message>
     <message>
         <source>Failed to establish P2P connection to %1</source>
-        <translation type="vanished">Napaka direktne povezave za %1</translation>
+        <translation type="obsolete">Napaka direktne povezave za %1</translation>
     </message>
     <message>
         <source>%1 will be unavailable for audio transmission</source>
-        <translation type="vanished">%1 ne bo dostopen za audio oddajanje</translation>
+        <translation type="obsolete">%1 ne bo dostopen za audio oddajanje</translation>
     </message>
     <message>
         <source>%1 will be unavailable for video transmission</source>
-        <translation type="vanished">%1 ne bo dostopen za video oddajanje</translation>
+        <translation type="obsolete">%1 ne bo dostopen za video oddajanje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="837"/>
@@ -1053,19 +1054,19 @@
     </message>
     <message>
         <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="vanished">Direktna povezava je potrebna za audio prenos. Sedaj je omogočena !</translation>
+        <translation type="obsolete">Direktna povezava je potrebna za audio prenos. Sedaj je omogočena !</translation>
     </message>
     <message>
         <source>Peer to peer networking for audio disabled!</source>
-        <translation type="vanished">Direktna audio povezava onemogočena!</translation>
+        <translation type="obsolete">Direktna audio povezava onemogočena!</translation>
     </message>
     <message>
         <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="vanished">Direktna povezava je potrebna za video prenos. Sedaj je omogočena !</translation>
+        <translation type="obsolete">Direktna povezava je potrebna za video prenos. Sedaj je omogočena !</translation>
     </message>
     <message>
         <source>Peer to peer networking for video disabled!</source>
-        <translation type="vanished">Direktna video povezava onemogočena!</translation>
+        <translation type="obsolete">Direktna video povezava onemogočena!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
@@ -1108,19 +1109,19 @@
     </message>
     <message>
         <source>Error streaming audio file to %1</source>
-        <translation type="vanished">Napaka oddajanja zvočne datoteke za %1</translation>
+        <translation type="obsolete">Napaka oddajanja zvočne datoteke za %1</translation>
     </message>
     <message>
         <source>Started streaming audio file to %1</source>
-        <translation type="vanished">Začenjam oddajanje audio datoteke za %1</translation>
+        <translation type="obsolete">Začenjam oddajanje audio datoteke za %1</translation>
     </message>
     <message>
         <source>Finished streaming audio file to %1</source>
-        <translation type="vanished">Zaključi oddajanje zvoka za %1</translation>
+        <translation type="obsolete">Zaključi oddajanje zvoka za %1</translation>
     </message>
     <message>
         <source>Aborted streaming audio file to %1</source>
-        <translation type="vanished">Preklicano oddajanje audio datoteke za %1</translation>
+        <translation type="obsolete">Preklicano oddajanje audio datoteke za %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1083"/>
@@ -1160,7 +1161,7 @@
     </message>
     <message>
         <source>Failed to write audio file for %1</source>
-        <translation type="vanished">Napaka pri zapisu audo datoteke za %1</translation>
+        <translation type="obsolete">Napaka pri zapisu audo datoteke za %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
@@ -1193,7 +1194,7 @@
     </message>
     <message>
         <source>Failed to connect to server</source>
-        <translation type="vanished">Napaka povezave na strežnik</translation>
+        <translation type="obsolete">Napaka povezave na strežnik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1607"/>
@@ -1216,7 +1217,7 @@
     </message>
     <message>
         <source>Incorrect server password. Try again:</source>
-        <translation type="vanished">Napačno geslo strežnika:</translation>
+        <translation type="obsolete">Napačno geslo strežnika:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1626"/>
@@ -1250,7 +1251,7 @@
     </message>
     <message>
         <source>Channel creation not allowed</source>
-        <translation type="vanished">Kreiranje kanala onemogočeno</translation>
+        <translation type="obsolete">Kreiranje kanala onemogočeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1667"/>
@@ -1269,7 +1270,7 @@
     </message>
     <message>
         <source>Modifying subscriptions is not allowed</source>
-        <translation type="vanished">Popravljanje prijave ni dovoljeno</translation>
+        <translation type="obsolete">Popravljanje prijave ni dovoljeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1673"/>
@@ -1338,7 +1339,7 @@
     </message>
     <message>
         <source>Server has active users</source>
-        <translation type="vanished">Aktivni uporabniki na strežniku</translation>
+        <translation type="obsolete">Aktivni uporabniki na strežniku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1707"/>
@@ -1495,15 +1496,15 @@
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">Odpri Wav datoteko</translation>
+        <translation type="obsolete">Odpri Wav datoteko</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wav datoteka (*.wav)</translation>
+        <translation type="obsolete">Wav datoteka (*.wav)</translation>
     </message>
     <message>
         <source>Failed to stream file %1</source>
-        <translation type="vanished">Napaka oddajanja datoteke %1</translation>
+        <translation type="obsolete">Napaka oddajanja datoteke %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3752"/>
@@ -1725,12 +1726,6 @@
         <translation>Jaz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5233"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 se naroča &quot;%2&quot; nate za: %3</translation>
     </message>
@@ -1761,6 +1756,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
         <source>Load %1 File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5233"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2265,11 +2266,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Store Audio to Disk</source>
-        <translation type="vanished">Shrani zvok na diks</translation>
+        <translation type="obsolete">Shrani zvok na diks</translation>
     </message>
     <message>
         <source>Start/stop recording audio to files</source>
-        <translation type="vanished">Začni/končaj snemanje zvoka v datoteko</translation>
+        <translation type="obsolete">Začni/končaj snemanje zvoka v datoteko</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1746"/>
@@ -2386,7 +2387,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="vanished">Shift+F3</translation>
+        <translation type="obsolete">Shift+F3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1430"/>
@@ -2463,7 +2464,7 @@ Should these settings be applied?</source>
         <source>Mute Media File</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation type="unfinished"></translation>
@@ -2480,7 +2481,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Kick and &amp;Ban</source>
-        <translation type="vanished">Izvržen in &amp;blokiran</translation>
+        <translation type="obsolete">Izvržen in &amp;blokiran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
@@ -2509,7 +2510,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Audio</source>
-        <translation type="vanished">&amp;Zvok</translation>
+        <translation type="obsolete">&amp;Zvok</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1488"/>
@@ -2558,7 +2559,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
-        <translation type="vanished">Oddaj &amp;Zvok za disk</translation>
+        <translation type="obsolete">Oddaj &amp;Zvok za disk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1577"/>
@@ -2602,7 +2603,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
-        <translation type="vanished">&amp;Povečaj zvok (+10)</translation>
+        <translation type="obsolete">&amp;Povečaj zvok (+10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1652"/>
@@ -2611,7 +2612,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
-        <translation type="vanished">&amp;Zmanjšaj glasnost (-10)</translation>
+        <translation type="obsolete">&amp;Zmanjšaj glasnost (-10)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
@@ -2779,7 +2780,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Stream Audio &amp;File to User</source>
-        <translation type="vanished">Stream Audio &amp;Datoteka za uporabnika</translation>
+        <translation type="obsolete">Stream Audio &amp;Datoteka za uporabnika</translation>
     </message>
 </context>
 <context>
@@ -3061,11 +3062,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="vanished">Zvok</translation>
+        <translation type="obsolete">Zvok</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="vanished">Video</translation>
+        <translation type="obsolete">Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="643"/>
@@ -3079,15 +3080,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="vanished">Direkten prenos podatkov med uporabnikoma (P2P omrežje)</translation>
+        <translation type="obsolete">Direkten prenos podatkov med uporabnikoma (P2P omrežje)</translation>
     </message>
     <message>
         <source>Peer to peer transmission of audio data</source>
-        <translation type="vanished">Direkten prenos audia med uporabnikoma</translation>
+        <translation type="obsolete">Direkten prenos audia med uporabnikoma</translation>
     </message>
     <message>
         <source>Peer to peer transmission of video data</source>
-        <translation type="vanished">Direkten prenos videa med uporabnikoma</translation>
+        <translation type="obsolete">Direkten prenos videa med uporabnikoma</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="699"/>
@@ -3179,11 +3180,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Enable 3D-sound</source>
-        <translation type="vanished">Omogoči 3D-zvok</translation>
+        <translation type="obsolete">Omogoči 3D-zvok</translation>
     </message>
     <message>
         <source>Enable denoising</source>
-        <translation type="vanished">Omogoči denoising</translation>
+        <translation type="obsolete">Omogoči denoising</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1076"/>
@@ -3400,11 +3401,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Quality</source>
-        <translation type="vanished">Kvaliteta</translation>
+        <translation type="obsolete">Kvaliteta</translation>
     </message>
     <message>
         <source>Bit Rate</source>
-        <translation type="vanished">Bitna vrednost</translation>
+        <translation type="obsolete">Bitna vrednost</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="302"/>
@@ -3467,7 +3468,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Failed to enable echo cancellation</source>
-        <translation type="vanished">Napaka pri inicializaciji odstranjevanja odmeva</translation>
+        <translation type="obsolete">Napaka pri inicializaciji odstranjevanja odmeva</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="946"/>
@@ -3632,11 +3633,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Geslo strežnika</translation>
+        <translation type="obsolete">Geslo strežnika</translation>
     </message>
     <message>
         <source>Login using user account</source>
-        <translation type="vanished">Prijava z uporabniškim imenom</translation>
+        <translation type="obsolete">Prijava z uporabniškim imenom</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="176"/>
@@ -3700,15 +3701,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Save File</source>
-        <translation type="vanished">Shrani datoteko</translation>
+        <translation type="obsolete">Shrani datoteko</translation>
     </message>
     <message>
         <source>%1 File (*%1)</source>
-        <translation type="vanished">%1 Datoteka (*%1)</translation>
+        <translation type="obsolete">%1 Datoteka (*%1)</translation>
     </message>
     <message>
         <source>Unable to save file</source>
-        <translation type="vanished">Ne more shraniti datoteke</translation>
+        <translation type="obsolete">Ne more shraniti datoteke</translation>
     </message>
 </context>
 <context>
@@ -3726,7 +3727,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Server password</source>
-        <translation type="vanished">Geslo strežnika</translation>
+        <translation type="obsolete">Geslo strežnika</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
@@ -3771,63 +3772,63 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>User Rights</source>
-        <translation type="vanished">Uporabnikove pravice</translation>
+        <translation type="obsolete">Uporabnikove pravice</translation>
     </message>
     <message>
         <source>Users can create channels</source>
-        <translation type="vanished">Uporabnik lahko ustrvari kanal</translation>
+        <translation type="obsolete">Uporabnik lahko ustrvari kanal</translation>
     </message>
     <message>
         <source>Users can become channel operators</source>
-        <translation type="vanished">Uporabnik postane operator kanala</translation>
+        <translation type="obsolete">Uporabnik postane operator kanala</translation>
     </message>
     <message>
         <source>Users can login without a user account</source>
-        <translation type="vanished">Uporabnik se lahko prijavi brez računa</translation>
+        <translation type="obsolete">Uporabnik se lahko prijavi brez računa</translation>
     </message>
     <message>
         <source>Multiple users can use the same user account</source>
-        <translation type="vanished">Več uporabnikov ima lahko enak račun</translation>
+        <translation type="obsolete">Več uporabnikov ima lahko enak račun</translation>
     </message>
     <message>
         <source>Users can see users in all channels</source>
-        <translation type="vanished">Uporabik lahko vidi vse uporabnike v vseh kanalih</translation>
+        <translation type="obsolete">Uporabik lahko vidi vse uporabnike v vseh kanalih</translation>
     </message>
     <message>
         <source>Users can broadcast text messages</source>
-        <translation type="vanished">Uporabnik lahko oddaja sporočila</translation>
+        <translation type="obsolete">Uporabnik lahko oddaja sporočila</translation>
     </message>
     <message>
         <source>Users can issue channel commands</source>
-        <translation type="vanished">Uporabnik lahko izvaja komande kanala</translation>
+        <translation type="obsolete">Uporabnik lahko izvaja komande kanala</translation>
     </message>
     <message>
         <source>Users can modify subscriptions</source>
-        <translation type="vanished">Uporabnik lahko spreminja prijave</translation>
+        <translation type="obsolete">Uporabnik lahko spreminja prijave</translation>
     </message>
     <message>
         <source>Users can forward/relay audio through server</source>
-        <translation type="vanished">Uporabnik lahko preusmeri audio skozi server</translation>
+        <translation type="obsolete">Uporabnik lahko preusmeri audio skozi server</translation>
     </message>
     <message>
         <source>Users can forward/relay video through server</source>
-        <translation type="vanished">Uporabnik lahko preusmeri video skozi server</translation>
+        <translation type="obsolete">Uporabnik lahko preusmeri video skozi server</translation>
     </message>
     <message>
         <source>Users can forward/relay desktops through server</source>
-        <translation type="vanished">Uporabnik lahko preusmeri namizje skozi server</translation>
+        <translation type="obsolete">Uporabnik lahko preusmeri namizje skozi server</translation>
     </message>
     <message>
         <source>Audio Codec Limitations</source>
-        <translation type="vanished">Omejitve audi kodekov</translation>
+        <translation type="obsolete">Omejitve audi kodekov</translation>
     </message>
     <message>
         <source>Max bitrate for audio codecs</source>
-        <translation type="vanished">Max bitna hitrost za kodek</translation>
+        <translation type="obsolete">Max bitna hitrost za kodek</translation>
     </message>
     <message>
         <source>kbps (0 = disabled)</source>
-        <translation type="vanished">kbps (0 = onemogočeno)</translation>
+        <translation type="obsolete">kbps (0 = onemogočeno)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="233"/>
@@ -3836,7 +3837,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio TX max</source>
-        <translation type="vanished">Max oddajanje audia</translation>
+        <translation type="obsolete">Max oddajanje audia</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="377"/>
@@ -4001,31 +4002,31 @@ Should these settings be applied?</source>
     <name>StreamAudioFileDlg</name>
     <message>
         <source>Stream Audio File</source>
-        <translation type="vanished">Oddajanje audio datoteke</translation>
+        <translation type="obsolete">Oddajanje audio datoteke</translation>
     </message>
     <message>
         <source>Audio Stream Properties</source>
-        <translation type="vanished">Nastavitve oddajanja audio datoteke</translation>
+        <translation type="obsolete">Nastavitve oddajanja audio datoteke</translation>
     </message>
     <message>
         <source>Audio File</source>
-        <translation type="vanished">Datoteka</translation>
+        <translation type="obsolete">Datoteka</translation>
     </message>
     <message>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Continuously play audio file</source>
-        <translation type="vanished">Konstantno predvajaj audio</translation>
+        <translation type="obsolete">Konstantno predvajaj audio</translation>
     </message>
     <message>
         <source>Open Wave File</source>
-        <translation type="vanished">Odpri Wav datoteko</translation>
+        <translation type="obsolete">Odpri Wav datoteko</translation>
     </message>
     <message>
         <source>Wave files (*.wav)</source>
-        <translation type="vanished">Wav datoteke(*.wav)</translation>
+        <translation type="obsolete">Wav datoteke(*.wav)</translation>
     </message>
 </context>
 <context>
@@ -4441,9 +4442,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation type="unfinished">Uporabnik</translation>
+        <translation type="obsolete">Uporabnik</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
@@ -4529,11 +4529,11 @@ Should these settings be applied?</source>
     <name>UserImageWidget</name>
     <message>
         <source>Waiting for video from %1</source>
-        <translation type="vanished">Čakam na video od %1</translation>
+        <translation type="obsolete">Čakam na video od %1</translation>
     </message>
     <message>
         <source>Waiting for local video</source>
-        <translation type="vanished">Čakam na lokalni video</translation>
+        <translation type="obsolete">Čakam na lokalni video</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="198"/>
@@ -4626,7 +4626,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>P2P connection</source>
-        <translation type="vanished">P2P povezava</translation>
+        <translation type="obsolete">P2P povezava</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="169"/>
@@ -4635,7 +4635,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Audio packet loss</source>
-        <translation type="vanished">Izguba audio podatkov</translation>
+        <translation type="obsolete">Izguba audio podatkov</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="209"/>
@@ -4675,11 +4675,11 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="vanished">Da</translation>
+        <translation type="obsolete">Da</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="vanished">Ne</translation>
+        <translation type="obsolete">Ne</translation>
     </message>
 </context>
 <context>

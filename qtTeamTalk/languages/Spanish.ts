@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.0" language="es_ES">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -305,7 +305,7 @@
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="vanished">La Cancelación de Eco, Eliminación de Ruido y la Configuración de Audio actual, no soporta el modo estereo.</translation>
+        <translation type="obsolete">La Cancelación de Eco, Eliminación de Ruido y la Configuración de Audio actual, no soporta el modo estereo.</translation>
     </message>
 </context>
 <context>
@@ -614,8 +614,9 @@
 </context>
 <context>
     <name>FilesModel</name>
-    <message>
+    <message id="Qt::DisplayRole">
         <location filename="../filesmodel.cpp" line="40"/>
+        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
@@ -1636,7 +1637,7 @@
         <source>Mute Media File</source>
         <translation>Silenciar Retransmisión Multimedia</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
         <translation></translation>
@@ -3619,7 +3620,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <source>Media files (*.*)</source>
-        <translation type="vanished">Archivos multimedia (*,*)</translation>
+        <translation type="obsolete">Archivos multimedia (*,*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="75"/>
@@ -3937,9 +3938,8 @@ Should these settings be applied?</source>
 <context>
     <name>UserAccountsModel</name>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation>Usuario</translation>
+        <translation type="obsolete">Usuario</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
