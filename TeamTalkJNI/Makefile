@@ -78,7 +78,8 @@ cleanjava:
 	cd src && rm -rf build
 
 junitcompile: java
-	cd test && javac -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+	cd test && javac -g:vars -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+	cd test && jar cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 
 junitsrvcompile: java
 	cd test && javac -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
