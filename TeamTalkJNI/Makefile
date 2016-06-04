@@ -67,7 +67,7 @@ nativepro:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 java:
-	cd src && mkdir -p build && javac -g:vars -d ./build ./dk/bearware/*.java ./dk/bearware/events/*.java && cd ./build && jar cf ../../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
+	cd src && javac -g:vars ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
 	cd jni && rm -f $(TT5DLL) $(TT5PRODLL)
@@ -75,7 +75,7 @@ clean: cleanjava
 cleanjava:
 	cd src && find . -name \*.class -exec rm {} \;
 	cd test && find . -name \*.class -exec rm {} \;
-	cd src && rm -rf build
+	rm -f libs/TeamTalk5.jar libs/TeamTalk5Test.jar
 
 junitcompile: java
 	cd test && javac -g:vars -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
