@@ -83,7 +83,7 @@
 "Channel Messages" = "Сообщения Канала";
 
 /* create channel */
-"Channel Properties" = "Channel Properties";
+"Channel Properties" = "Свойства Канала";
 
 /* preferences */
 "Channel Text Message" = "Текстовое Сообщение Канала";
@@ -92,7 +92,7 @@
 "Channel. %d users" = "Канал. %d пользователей";
 
 /* create channel */
-"Commands" = "Commands";
+"Commands" = "Команды";
 
 /* serverlist */
 "Connect to server" = "Подключиться к серверу";
@@ -125,7 +125,7 @@
 "Display" = "Дисплей";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Дважды нажмите и удерживайте для передачи. Трижды нажмите быстро, чтобы заблокировать передачю.";
 
 /* preferences */
 "Double tap to lock TX button" = "Блокировать кнопку передача по двойному нажатию";
@@ -156,7 +156,7 @@
 "has left the channel" = "покинул канал";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Включать Передачу Гарнитурой";
 
 /* server entry */
 "Host address" = "Адрес хоста";
@@ -352,7 +352,7 @@
 "Select the text-to-speech voice to use" = "Выбрать голос для использования текст в речь";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Отправить пустое сообщение, чтобы закрыть клавиатуру";
 
 /* channel list */
 "Send private message" = "Отправить приватное сообщение";
@@ -431,10 +431,10 @@
 "The volume of the speaking voice is %.1f" = "Громкость речи голоса %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+"Toggle to enable/disable transmission" = "Переключатель для включения/выключения передачи";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Включать передачю голоса используя гарнитуру";
 
 /* create channel */
 "Topic" = "Тема";
@@ -456,7 +456,7 @@
 "UDP Port" = "UDP Порт";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
+"Use echo cancellation and automatic gain control" = "Использовать шумоподавление и автоматическую регулировку усиления";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Использовать динамик iPhone вместо наушника";
@@ -504,7 +504,7 @@
 "Voice Activation Level: Disabled" = "Уровень Голосовой Активации: Выключено";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Предобработка Голоса";
 
 /* preferences */
 "Voice Transmission Toggled" = "Включение Передачи Голоса";
