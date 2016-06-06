@@ -6,23 +6,23 @@ import junit.framework.TestCase;
 
 public class TeamTalkTestCaseBase extends TestCase {
 
-    static boolean PROEDITION = false, ENCRYPTED = false;
-    static final boolean DEBUG_OUTPUT = false;
-    static final int DEF_WAIT = 15000;
+    public static boolean PROEDITION = false, ENCRYPTED = false;
+    public static final boolean DEBUG_OUTPUT = false;
+    public static final int DEF_WAIT = 15000;
 
-    static String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
-    static String IPADDR = "127.0.0.1";
+    public static String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
+    public static String IPADDR = "127.0.0.1";
 
-    static int TCPPORT = 10333, UDPPORT = 10333;
+    public static int TCPPORT = 10333, UDPPORT = 10333;
 
-    static String SYSTEMID = "teamtalk";
+    public static String SYSTEMID = "teamtalk";
 
-    static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
-    static final String UPLOADFILE = "filename.txt";
-    static final String DOWNLOADFILE = "filename.txt";
-    static final String MUXEDMEDIAFILE = "muxwavefile.wav";
-    static final String MEDIAFILE_AUDIO = "music.wav";
-    static final String MEDIAFILE = "video.avi";
+    public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
+    public static final String UPLOADFILE = "filename.txt";
+    public static final String DOWNLOADFILE = "filename.txt";
+    public static final String MUXEDMEDIAFILE = "muxwavefile.wav";
+    public static final String MEDIAFILE_AUDIO = "music.wav";
+    public static final String MEDIAFILE = "video.avi";
     Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
     
     protected void setUp() throws Exception {
