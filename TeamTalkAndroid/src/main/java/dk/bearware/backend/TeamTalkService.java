@@ -156,6 +156,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         return ttclient;
     }
     
+    public ServerEntry getServerEntry() {
+        return ttserver;
+    }
+    
     // set TT server which service should connect to
     public void setServerEntry(ServerEntry entry) {
         ttserver = entry;
