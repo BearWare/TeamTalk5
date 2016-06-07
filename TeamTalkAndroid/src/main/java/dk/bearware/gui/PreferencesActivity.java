@@ -102,16 +102,17 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     		return;
     				
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String nickname = ttservice.getServerEntry().nickname;
-        if (TextUtils.isEmpty(nickname)) {
-            String def_nick = getResources().getString(R.string.pref_default_nickname);
-            nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
-        }
-
         TeamTalkBase ttinst = ttservice.getTTInstance();
         User myself = ttservice.getUsers().get(ttinst.getMyUserID());
-        if(myself != null && !nickname.equals(myself.szNickname)) {
-        	ttinst.doChangeNickname(nickname);
+        if (myself != null) {
+            String nickname = ttservice.getServerEntry().nickname;
+            if (TextUtils.isEmpty(nickname)) {
+                String def_nick = getResources().getString(R.string.pref_default_nickname);
+                nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+            }
+            if (!nickname.equals(myself.szNickname)) {
+                ttinst.doChangeNickname(nickname);
+            }
         }
         
         int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
