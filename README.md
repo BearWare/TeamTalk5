@@ -65,17 +65,18 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * Open project in Xcode
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
-  * Import project in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-    * Follow the instructions [here](http://www.bearware.dk/teamtalksdk/v5.1b/docs/Java/examples.html#teamtalkandroid)
+  * Open project in [Android Studio](https://developer.android.com/studio/intro/index.html)
     * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
-  * Copy the following files to *TeamTalkAndroid/libs* directory:
-    * android-support-v4.jar
-      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v4
-    * android-support-v13.jar
-      * Located in {Eclipse ADT install-dir}/sdk/extras/android/support/v13
-    * gson-2.2.4.jar
-      * Download from http://code.google.com/p/google-gson/
-  * Requires **TeamTalkJNI** project as library dependency
+  * Copy the TeamTalk 5 Java library to *TeamTalkAndroid/libs* directory:
+    * TeamTalk5.jar
+      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
+    * TeamTalk5Test.jar (optional, only for unit-tests)
+      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
+  * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/armeabi-v7a*
+    * libTeamTalk5-jni.so
+        * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Standard Edition)
+    * libTeamTalk5Pro-jni.so
+        * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Professional Edition)
 * **ttphpadmin**
   * Console PHP-script for administrating a TeamTalk 5 server.
 
