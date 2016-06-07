@@ -45,7 +45,7 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile files('libs/android-support-v13.jar')
+    compile 'com.android.support:support-v13:23.0.+'
     compile files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
