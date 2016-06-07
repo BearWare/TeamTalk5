@@ -64,6 +64,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -352,9 +353,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public void onConnectSuccess() {
         
         assert (ttserver != null);
-        
-        String def_nick = getResources().getString(R.string.pref_default_nickname);
-        String nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+
+        String         nickname = ttserver.nickname;
+        if (TextUtils.isEmpty(nickname)) {
+            String def_nick = getResources().getString(R.string.pref_default_nickname);
+            nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+        }
 
         int loginCmdId = ttclient.doLoginEx(nickname, ttserver.username, ttserver.password, AppInfo.APPNAME_SHORT);
         if(loginCmdId<0) {

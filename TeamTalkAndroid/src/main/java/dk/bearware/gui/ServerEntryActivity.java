@@ -83,6 +83,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         if(category != null)category.removePreference(findPreference(ServerEntry.KEY_ENCRYPTED));
         findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
+        findPreference(ServerEntry.KEY_NICKNAME).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
         findPreference(ServerEntry.KEY_CHANPASSWD).setOnPreferenceChangeListener(this);
@@ -181,6 +182,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         server.encrypted = (p != null)? p.isChecked() : false;
         server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), "");
         server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "");
+        server.nickname = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), "");
         server.rememberLastChannel = ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).isChecked();
         server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), "");
         server.chanpasswd = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), "");
@@ -198,6 +200,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         if(p != null)p.setChecked(entry.encrypted);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password);
+        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), entry.nickname, entry.nickname);
         ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).setChecked(entry.rememberLastChannel);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), entry.channel, entry.channel);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), entry.chanpasswd, entry.chanpasswd);

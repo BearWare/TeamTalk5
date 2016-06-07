@@ -101,9 +101,12 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     	if(ttservice == null)
     		return;
     				
-        String def_nick = getResources().getString(R.string.pref_default_nickname);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); 
-        String nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String nickname = ttservice.getServerEntry().nickname;
+        if (TextUtils.isEmpty(nickname)) {
+            String def_nick = getResources().getString(R.string.pref_default_nickname);
+            nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+        }
 
         TeamTalkBase ttinst = ttservice.getTTInstance();
         User myself = ttservice.getUsers().get(ttinst.getMyUserID());

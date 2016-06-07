@@ -356,6 +356,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             edit.remove(i + ServerEntry.KEY_UDPPORT);
             edit.remove(i + ServerEntry.KEY_USERNAME);
             edit.remove(i + ServerEntry.KEY_PASSWORD);
+            edit.remove(i + ServerEntry.KEY_NICKNAME);
             edit.remove(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL);
             edit.remove(i + ServerEntry.KEY_CHANNEL);
             edit.remove(i + ServerEntry.KEY_CHANPASSWD);
@@ -373,6 +374,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
             edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
             edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);
+            edit.putString(j + ServerEntry.KEY_NICKNAME, servers.get(i).nickname);
 
             edit.putBoolean(j + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, servers.get(i).rememberLastChannel);
             edit.putString(j + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
@@ -396,6 +398,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
             entry.encrypted = pref.getBoolean(i + ServerEntry.KEY_ENCRYPTED, false);
             entry.username = pref.getString(i + ServerEntry.KEY_USERNAME, "");
             entry.password = pref.getString(i + ServerEntry.KEY_PASSWORD, "");
+            entry.nickname = pref.getString(i + ServerEntry.KEY_NICKNAME, "");
             entry.rememberLastChannel = pref.getBoolean(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
             entry.channel = pref.getString(i + ServerEntry.KEY_CHANNEL, "");
             entry.chanpasswd = pref.getString(i + ServerEntry.KEY_CHANPASSWD, "");

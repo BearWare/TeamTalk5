@@ -58,6 +58,12 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:persistent="false" />
+        <EditTextPreference
+            android:key="nickname"
+            android:title="@string/pref_title_nickname"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:persistent="false" />
     </PreferenceCategory>
     
     <PreferenceCategory
