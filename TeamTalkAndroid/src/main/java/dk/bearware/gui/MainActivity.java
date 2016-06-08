@@ -1079,9 +1079,14 @@ implements TeamTalkConnectionListener,
             selectedUser = (User) item;
             UserAccount myuseraccount = new UserAccount();
             ttclient.getMyUserAccount(myuseraccount);
-            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
+
             boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) !=0;
             boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
+            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
+            // operator of a channel can also kick users
+            int myuserid = ttclient.getMyUserID();
+            kickRight |= ttclient.isChannelOperator(myuserid, selectedUser.nChannelID);
+
             PopupMenu userActions = new PopupMenu(this, v);
             userActions.setOnMenuItemClickListener(this);
             userActions.inflate(R.menu.user_actions);
@@ -1116,7 +1121,7 @@ implements TeamTalkConnectionListener,
             editChannelProperties(selectedChannel);
             break;
         case R.id.action_kick:
-            ttclient.doKickUser(selectedUser.nUserID, 0);
+            ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID);
             break;
         case R.id.action_move:
             Iterator<Integer> userIDSIterator = userIDS.iterator(); 
@@ -1326,7 +1331,7 @@ implements TeamTalkConnectionListener,
 
         int flags = ttclient.getFlags(); 
         int mychannel = ttclient.getMyChannelID();
-        if(curchannel == null && mychannel > 0) {
+        if(mychannel > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychannel));
         }
 
@@ -1416,14 +1421,23 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onCmdMyselfLoggedOut() {
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel() {
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel(User kicker) {
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
@@ -1456,10 +1470,14 @@ implements TeamTalkConnectionListener,
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
-            
-            Channel chan = ttservice.getChannels().get(user.nChannelID); 
+            Channel chan = ttservice.getChannels().get(user.nChannelID);
             setCurrentChannel(chan);
             filesAdapter.update(curchannel);
+
+            //update the displayed channel to the one we're currently in
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
         else if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
             //other user joined current channel
