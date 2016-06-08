@@ -44,7 +44,13 @@ help:
 	@echo "  cleanjava"
 	@echo "    - Remove all Java generated classes and JAR files"
 	@echo "  junit"
+	@echo "    - Build TeamTalk5Test.jar"
+	@echo "  junitsrv"
+	@echo "    - Build TeamTalk5ProTest.jar"
+	@echo "  runjunit"
 	@echo "    - Build TeamTalk5Test.jar and run JUnit test-cases"
+	@echo "  runjunitsrv"
+	@echo "    - Build TeamTalk5SrvTest.jar and run JUnit test-cases"
 	@echo "  testcase"
 	@echo "    - Build and run a single test-case in TeamTalkTestCase-class"
 	@echo "  E.g make TARGET=test_04_Auth"
@@ -79,17 +85,18 @@ cleanjava:
 	cd test && find . -name \*.class -exec rm {} \;
 	rm -f libs/TeamTalk5.jar libs/TeamTalk5Test.jar
 
-junitcompile: java
+junit: java
 	cd test && javac $(SRCTARGET) -g:vars -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
 	cd test && jar cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 
-junitsrvcompile: java
+junitsrv: java
 	cd test && javac $(SRCTARGET) -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCaseBase.java dk/bearware/TeamTalkServerTestCase.java TeamTalkServerTestSuite.java SingleJUnitTestRunner.java
+	cd test && jar cf ../libs/TeamTalk5SrvTest.jar ./dk/bearware/*.class
 
-junit:  junitcompile
+runjunit:  junit
 	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkTestSuite
 
-junitsrv:  junitsrvcompile
+runjunitsrv:  junitsrv
 	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase: junitcompile
