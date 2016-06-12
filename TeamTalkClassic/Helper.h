@@ -73,7 +73,7 @@ void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData);
 void PlayWaveFile(LPCTSTR szFilePath);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
-void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *pCmdUI);
+void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);
 CString GetDisplayName(const User& user);
 
 CString GetLogTimeStamp();

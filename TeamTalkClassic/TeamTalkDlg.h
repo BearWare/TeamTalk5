@@ -157,6 +157,7 @@ public:
     HWND GetSharedDesktopWindowHWND();
     BOOL SendDesktopWindow();
     void RestartSendDesktopWindowTimer();
+    void ToggleClassroom(int nUserID, StreamTypes uStreamTypes);
 
     CString m_szTTLink;
     CStringList m_cmdArgs;
@@ -499,5 +500,13 @@ public:
     afx_msg void OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI);
     afx_msg void OnChannelinfoSpeakchannelinfo();
     afx_msg void OnHelpResetpreferencestodefault();
+    afx_msg void OnUpdateAdvancedAllowallvoicetransmission(CCmdUI *pCmdUI);
+    afx_msg void OnAdvancedAllowallvoicetransmission();
+    afx_msg void OnUpdateAdvancedAllowallvideotransmission(CCmdUI *pCmdUI);
+    afx_msg void OnAdvancedAllowallvideotransmission();
+    afx_msg void OnUpdateAdvancedAllowallmediafiletransmission(CCmdUI *pCmdUI);
+    afx_msg void OnAdvancedAllowallmediafiletransmission();
+    afx_msg void OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI);
+    afx_msg void OnAdvancedAllowalldesktoptransmission();
 };
 

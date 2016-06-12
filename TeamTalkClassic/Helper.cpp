@@ -349,18 +349,20 @@ void WriteLogMsg(CFile& file, LPCTSTR szMsg)
     file.Write(utf8.c_str(), (UINT)utf8.size());
 }
 
-void UpdateAllowTransmitMenuItem(int nUserID, StreamTypes uStreamType, CCmdUI *pCmdUI)
+void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, 
+                                 StreamTypes uStreamType, CCmdUI *pCmdUI)
 {
     User user;
     Channel chan;
     BOOL b = FALSE;
-    if(TT_GetUser(ttInst, nUserID, &user) && 
-       TT_GetChannel(ttInst, user.nChannelID, &chan) && 
-       (chan.uChannelType & CHANNEL_CLASSROOM) )
+    
+    if (TT_GetChannel(ttInst, nChannelID, &chan) &&
+       (chan.uChannelType & CHANNEL_CLASSROOM) && 
+       (nUserID == TT_CLASSROOM_FREEFORALL || TT_GetUser(ttInst, nUserID, &user)))
     {
         transmitusers_t users;
         b = (GetTransmitUsers(chan, users)[nUserID] & uStreamType); 
-        pCmdUI->Enable(CanToggleTransmitUsers(user.nChannelID));
+        pCmdUI->Enable(CanToggleTransmitUsers(nChannelID));
     }
     else
     {

@@ -1386,6 +1386,7 @@ BEGIN
     "1",            ID_SUBSCRIPTIONS_USERMESSAGES, VIRTKEY, CONTROL, NOINVERT
     "5",            ID_SUBSCRIPTIONS_VIDEO, VIRTKEY, CONTROL, NOINVERT
     "4",            ID_SUBSCRIPTIONS_VOICE, VIRTKEY, CONTROL, NOINVERT
+    "G",            ID_USERINFO_SPEAKUSERINFO, VIRTKEY, CONTROL, NOINVERT
     "K",            ID_USERS_KICKANDBAN,    VIRTKEY, SHIFT, CONTROL, NOINVERT
     "K",            ID_USERS_KICKCHANNEL,   VIRTKEY, CONTROL, NOINVERT
     "K",            ID_USERS_KICKFROMSERVER, VIRTKEY, CONTROL, ALT, NOINVERT
@@ -1397,7 +1398,10 @@ BEGIN
     "A",            ID_USERS_STORECONVERSATIONSTODISK, VIRTKEY, CONTROL, ALT, NOINVERT
     "I",            ID_USERS_VIEWINFO,      VIRTKEY, CONTROL, NOINVERT
     "U",            ID_USERS_VOLUME,        VIRTKEY, CONTROL, NOINVERT
-    "G",            ID_USERINFO_SPEAKUSERINFO, VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
+    "Q",            ID_ADVANCED_ALLOWALLVOICETRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
+    "R",            ID_ADVANCED_ALLOWALLMEDIAFILETRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
+    "W",            ID_ADVANCED_ALLOWALLVIDEOTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
 END
 
 IDR_ACCELERATOR3 ACCELERATORS
@@ -1540,6 +1544,11 @@ BEGIN
             MENUITEM "Allow Vi&deo Transmission\tCtrl+Alt+W", ID_ADVANCED_ALLOWVIDEOTRANSMISSION
             MENUITEM "Allow Des&ktop Transmission\tCtrl+Alt+E", ID_ADVANCED_ALLOWDESKTOPTRANSMISSION
             MENUITEM "Allow M&edia File Transmission\tCtrl+Alt+R", ID_ADVANCED_ALLOWMEDIAFILETRANSMISSION
+            MENUITEM SEPARATOR
+            MENUITEM "Allow All Voi&ce Transmission\tCtrl+Alt+Shift+Q", ID_ADVANCED_ALLOWALLVOICETRANSMISSION
+            MENUITEM "Allow All &Video Transmission\tCtrl+Alt+Shift+W", ID_ADVANCED_ALLOWALLVIDEOTRANSMISSION
+            MENUITEM "Allow All Deskto&p Transmission\tCtrl+Alt+Shift+E", ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION
+            MENUITEM "Allow All Medi&a File Transmission\tCtrl+Alt+Shift+R", ID_ADVANCED_ALLOWALLMEDIAFILETRANSMISSION
         END
         MENUITEM SEPARATOR
         MENUITEM "Mu&te All\tCtrl+M",           ID_USERS_MUTEALL
@@ -1795,10 +1804,15 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
-    IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
-    IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
+    IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
+    IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
 END
 
 STRINGTABLE
@@ -1827,14 +1841,20 @@ BEGIN
     IDS_PROPPAGE_USERLOGOUT "User logged out"
     IDS_PROPPAGE_USERJOINED "User joined channel"
     IDS_PROPPAGE_USERLEFT   "User left channel"
-    IDS_PROPPAGE_USERJOINED_SAME "User joined current channel"
-    IDS_PROPPAGE_USERLEFT_SAME   "User left current channel"
     IDS_PROPPAGE_TXTMSG_PRIV "Private text messages"
     IDS_PROPPAGE_TXTMSG_CHAN "Channel text messages"
     IDS_PROPPAGE_TXTMSG_BCAST "Broadcast text messages"
     IDS_PROPPAGE_SUB_CHANGE "Subscription changes"
     IDS_PROPPAGE_SUB_TXTMSG_PRIV "Private text message subscription"
     IDS_PROPPAGE_SUB_TXTMSG_CHAN "Channel text message subscription"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DESKTOPINPUT_STOPPED "%s no longer has desktop access"
+    IDS_PROPPAGE_USERJOINED_SAME "User joined current channel"
+    IDS_PROPPAGE_USERLEFT_SAME "User left current channel"
+    IDS_MAX_TX_USERS "The maximum number of users who can transmit in a channel is %d"
 END
 
 STRINGTABLE
@@ -1867,12 +1887,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_DESKTOPINPUT_STOPPED "%s no longer has desktop access"
     IDS_RESETPREFERENCES    "Are you sure you want to delete your existing settings?"
     IDS_RESTARTAPPLICATION  "Please restart the application."
     IDS_PUSHTOTALK          "Push To Talk: %s"

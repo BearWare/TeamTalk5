@@ -21,6 +21,7 @@
 
 #include "StdAfx.h"
 #include "TeamTalkBase.h"
+#include "resource.h"
 #include <algorithm>
 #include <assert.h>
 
@@ -138,7 +139,9 @@ BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
     {
         p = std::find(begin, end, 0);
         if(p == end)
+        {
             return FALSE;
+        }
         else
         {
             *p = nUserID;

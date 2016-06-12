@@ -124,6 +124,7 @@
     <item id="260">%s no longer has desktop access</item>
     <item id="261">User joined current channel</item>
     <item id="262">User left current channel</item>
+    <item id="263">The maximum number of users who can transmit in a channel is %d</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>
@@ -530,4 +531,8 @@
     <item id="32942">Channel In&amp;fo</item>
     <item id="32943">&amp;Speak Channel Info\tCtrl+G</item>
     <item id="32944">R&amp;eset Preferences to Default</item>
+    <item id="32945">Allow All Voi&ce Transmission\tCtrl+Alt+Shift+Q</item>
+    <item id="32946">Allow All &Video Transmission\tCtrl+Alt+Shift+W</item>
+    <item id="32947">Allow All Deskto&p Transmission\tCtrl+Alt+Shift+E</item>
+    <item id="32948">Allow All Medi&a File Transmission\tCtrl+Alt+Shift+R</item>
 </language>
