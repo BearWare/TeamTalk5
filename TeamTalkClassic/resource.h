@@ -166,6 +166,8 @@
 #define IDR_ACCELERATOR3                258
 #define IDR_MENU_DESKTOPINPUT           259
 #define IDS_DESKTOPINPUT_STOPPED        260
+#define IDS_PROPPAGE_USERJOINED_SAME    261
+#define IDS_PROPPAGE_USERLEFT_SAME      262
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -760,7 +762,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        261
+#define _APS_NEXT_RESOURCE_VALUE        263
 #define _APS_NEXT_COMMAND_VALUE         32945
 #define _APS_NEXT_CONTROL_VALUE         1544
 #define _APS_NEXT_SYMED_VALUE           194

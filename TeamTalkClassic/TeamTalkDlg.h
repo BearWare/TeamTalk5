@@ -83,7 +83,7 @@ enum
 
 enum CommmandComplete
 {
-    CMD_COMPLETE_UNKNOWN,
+    CMD_COMPLETE_NONE,
 
     CMD_COMPLETE_LOGIN,
     CMD_COMPLETE_JOIN,

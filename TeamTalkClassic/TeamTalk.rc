@@ -1827,6 +1827,8 @@ BEGIN
     IDS_PROPPAGE_USERLOGOUT "User logged out"
     IDS_PROPPAGE_USERJOINED "User joined channel"
     IDS_PROPPAGE_USERLEFT   "User left channel"
+    IDS_PROPPAGE_USERJOINED_SAME "User joined current channel"
+    IDS_PROPPAGE_USERLEFT_SAME   "User left current channel"
     IDS_PROPPAGE_TXTMSG_PRIV "Private text messages"
     IDS_PROPPAGE_TXTMSG_CHAN "Channel text messages"
     IDS_PROPPAGE_TXTMSG_BCAST "Broadcast text messages"

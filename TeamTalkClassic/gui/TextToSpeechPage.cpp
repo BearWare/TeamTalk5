@@ -59,6 +59,12 @@ BOOL CTextToSpeechPage::OnInitDialog()
     szText.LoadString(IDS_PROPPAGE_USERLEFT);
     TRANSLATE_ITEM(IDS_PROPPAGE_USERLEFT, szText);
     m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hUser), TTS_USER_LEFT);
+    szText.LoadString(IDS_PROPPAGE_USERJOINED_SAME);
+    TRANSLATE_ITEM(IDS_PROPPAGE_USERJOINED_SAME, szText);
+    m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hUser), TTS_USER_JOINED_SAME);
+    szText.LoadString(IDS_PROPPAGE_USERLEFT_SAME);
+    TRANSLATE_ITEM(IDS_PROPPAGE_USERLEFT_SAME, szText);
+    m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hUser), TTS_USER_LEFT_SAME);
     szText.LoadString(IDS_PROPPAGE_TXTMSG_PRIV);
     TRANSLATE_ITEM(IDS_PROPPAGE_TXTMSG_PRIV, szText);
     m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hUser), TTS_USER_TEXTMSG_PRIVATE);

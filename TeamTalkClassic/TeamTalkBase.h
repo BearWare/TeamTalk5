@@ -188,6 +188,8 @@ enum
     TTS_USER_LOGGEDOUT                              = 0x00000002,
     TTS_USER_JOINED                                 = 0x00000004,
     TTS_USER_LEFT                                   = 0x00000008,
+    TTS_USER_JOINED_SAME                            = 0x10000000,
+    TTS_USER_LEFT_SAME                              = 0x20000000,
     TTS_USER_TEXTMSG_PRIVATE                        = 0x00000010,
     TTS_USER_TEXTMSG_CHANNEL                        = 0x00000020,
     TTS_USER_TEXTMSG_BROADCAST                      = 0x00000040,
@@ -218,6 +220,8 @@ enum
                                 TTS_USER_LOGGEDOUT                              |
                                 TTS_USER_JOINED                                 |
                                 TTS_USER_LEFT                                   |
+                                TTS_USER_JOINED_SAME                            |
+                                TTS_USER_LEFT_SAME                              |
                                 TTS_USER_TEXTMSG_PRIVATE                        |
                                 TTS_USER_TEXTMSG_CHANNEL                        |
                                 TTS_USER_TEXTMSG_BROADCAST,

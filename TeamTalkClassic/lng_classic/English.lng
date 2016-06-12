@@ -122,6 +122,8 @@
     <item id="254">Shortcuts</item>
     <item id="256">Banned Users</item>
     <item id="260">%s no longer has desktop access</item>
+    <item id="261">User joined current channel</item>
+    <item id="262">User left current channel</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>

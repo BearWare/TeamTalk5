@@ -1126,7 +1126,7 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
 
     DefaultUnsubscribe(user.nUserID);
 
-    if (m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN)
+    if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
     {
         CString szMsg, szFormat;
         szFormat.LoadString(IDS_USERLOGIN);
@@ -1169,19 +1169,25 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
 
     if(user.nUserID != TT_GetMyUserID(ttInst))
     {
+        CString szMsg, szFormat;
+        szFormat.LoadString(IDS_CHANNEL_JOINED);
+        TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
+        szMsg.Format(szFormat, GetDisplayName(user));
+
         if(TT_GetMyChannelID(ttInst) == user.nChannelID)
         {
-            CString szMsg, szFormat;
-            szFormat.LoadString(IDS_CHANNEL_JOINED);
-            TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
-            szMsg.Format(szFormat, GetDisplayName(user));
             AddStatusText(szMsg);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED_SAME)
                 AddVoiceMessage(szMsg);
 
             //don't play sound when I join
             if(user.nUserID != TT_GetMyUserID(ttInst))
                 PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewUser()));
+        }
+        else if (m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN)
+        {
+            if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
+                AddVoiceMessage(szMsg);
         }
     }
     else //myself joined channel
@@ -1416,16 +1422,21 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
     }
     m_wndTree.RemoveUser(user);
 
-    int nMyChannelID = TT_GetMyChannelID(ttInst);
-    if(nMyChannelID == msg.nSource)
+    CString szMsg, szFormat;
+    szFormat.LoadString(IDS_CHANNEL_LEFT);
+    TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
+    szMsg.Format(szFormat, GetDisplayName(user));
+
+    if(TT_GetMyChannelID(ttInst) == msg.nSource)
     {
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
-        CString szMsg, szFormat;
-        szFormat.LoadString(IDS_CHANNEL_LEFT);
-        TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
-        szMsg.Format(szFormat, GetDisplayName(user));
 
         AddStatusText(szMsg);
+        if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
+            AddVoiceMessage(szMsg);
+    }
+    else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
+    {
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
             AddVoiceMessage(szMsg);
     }
