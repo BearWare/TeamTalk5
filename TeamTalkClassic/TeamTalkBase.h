@@ -30,7 +30,7 @@ typedef std::map< int, User > users_t;
 typedef std::map< int, Channel > channels_t;
 typedef std::map<int, StreamTypes> transmitusers_t;
 
-channels_t GetSubChannels(int nChannelID, const channels_t& channels);
+channels_t GetSubChannels(int nChannelID, const channels_t& channels, BOOL bRecursive = FALSE);
 channels_t GetParentChannels(int nChannelID, const channels_t& channels);
 int GetRootChannelID(const channels_t& channels);
 int GetMaxChannelID(const channels_t& channels);

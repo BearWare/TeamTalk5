@@ -975,7 +975,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
             if (hItem && (uState & TVIS_EXPANDED) == 0)
             {
                 //TRACE(_T("%s is not expanded\n"), ite->second.szName);
-                channels_t subs = GetSubChannels(nChannelID, m_channels);
+                channels_t subs = GetSubChannels(nChannelID, m_channels, TRUE);
                 for(auto c=subs.begin();c!=subs.end();++c)
                 {
                     nCount += (int)GetChannelUsers(c->first, m_users).size();
