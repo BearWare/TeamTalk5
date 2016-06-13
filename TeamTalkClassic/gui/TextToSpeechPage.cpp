@@ -41,6 +41,9 @@ END_MESSAGE_MAP()
 BOOL CTextToSpeechPage::OnInitDialog()
 {
     CPropertyPage::OnInitDialog();
+
+    TRANSLATE(*this, IDD);
+
     CString szText;
     szText.LoadString(IDS_PROPPAGE_USEREVENTS);
     TRANSLATE_ITEM(IDS_PROPPAGE_USEREVENTS, szText);
