@@ -1267,7 +1267,7 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     {
         szFormat.LoadString(IDS_SUB_BCASTTEXTMSG);
         TRANSLATE_ITEM(IDS_SUB_BCASTTEXTMSG, szFormat);
-        szText.Format(szText, szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
+        szText.Format(szFormat, szName, (int)(bool)(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG));
         AddStatusText(szText);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST)
             AddVoiceMessage(szText);
