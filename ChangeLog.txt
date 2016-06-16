@@ -18,11 +18,14 @@ Accessible Windows client:
 - Fixed issue where incorrect sound device is chosen when new sound devices are plugged/unplugged
 - Fixed issue where status-mode is reset after reconnect
 - Fixed issue where default video frame rate was always selected
+- Added Estonian language
 Android client:
 - Kick/ban option
 iOS client:
 - Keyboard closes when sending empty message
 - TX toggle from headset now configurable
+- BlueTooth support
+- Added "Voice Preprocessing" option to preferences for better echo cancellation
 
 Version 5.1.3, released 2016/05/01
 Default Qt client:
