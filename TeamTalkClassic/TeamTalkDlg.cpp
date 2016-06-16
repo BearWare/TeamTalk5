@@ -5199,7 +5199,7 @@ void CTeamTalkDlg::RestartSendDesktopWindowTimer()
     KillTimer(TIMER_DESKTOPSHARE_ID);
     int nTimeout = m_xmlSettings.GetDesktopShareUpdateInterval();
     if(nTimeout == UNDEFINED)
-        DEFAULT_SENDDESKTOPWINDOW_TIMEOUT;
+        nTimeout = DEFAULT_SENDDESKTOPWINDOW_TIMEOUT;
 
     SetTimer(TIMER_DESKTOPSHARE_ID, nTimeout, NULL);
 }

@@ -90,6 +90,7 @@ BOOL CUserDesktopDlg::OnEraseBkgnd(CDC* pDC)
 
     if(m_desktopwnd && m_desktopwnd->nSessionID)
     {
+        SetStretchBltMode(pDC->m_hDC, COLORONCOLOR);
         TT_PaintDesktopWindow(ttInst, m_nUserID, pDC->m_hDC, rect.left, 
                               rect.top, rect.Width(), rect.Height());
         //const int W = 100, H = 100;

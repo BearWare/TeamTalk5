@@ -116,7 +116,8 @@ BOOL CUserVideoDlg::OnEraseBkgnd(CDC* pDC)
     {
         if(bInitialFrame)
             ResizeWindow(*m_VideoFrame);
-
+        
+        SetStretchBltMode(pDC->m_hDC, COLORONCOLOR);
         TT_PaintVideoFrame(pDC->m_hDC, rect.left, rect.top, rect.Width(),
                            rect.Height(), m_VideoFrame);
     }
