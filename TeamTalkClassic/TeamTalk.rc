@@ -1691,6 +1691,9 @@ BEGIN
     IDS_UPDATECHANNEL       "Update channel"
     IDS_CREATENEWCHANNEL    "Create new channel"
     IDS_UPDEXISTINGCHANNEL  "Update existing channel"
+    IDS_USERJOINEDCHANNEL   "%s joined channel %s"
+    IDS_USERLEFTCHANNEL     "%s left channel %s"
+    IDS_ROOTCHANNEL         "Root"
 END
 
 STRINGTABLE

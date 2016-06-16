@@ -125,6 +125,9 @@
     <item id="261">User joined current channel</item>
     <item id="262">User left current channel</item>
     <item id="263">The maximum number of users who can transmit in a channel is %d</item>
+    <item id="264">%s joined channel %s</item>
+    <item id="265">%s left channel %s</item>
+    <item id="266">Root</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>

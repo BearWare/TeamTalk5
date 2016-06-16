@@ -1175,15 +1175,18 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
     const User& user = msg.user;
     m_wndTree.AddUser(user);
 
+    Channel chan;
+    m_wndTree.GetChannel(user.nChannelID, chan);
+
     if(user.nUserID != TT_GetMyUserID(ttInst))
     {
         CString szMsg, szFormat;
-        szFormat.LoadString(IDS_CHANNEL_JOINED);
-        TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
-        szMsg.Format(szFormat, GetDisplayName(user));
 
         if(TT_GetMyChannelID(ttInst) == user.nChannelID)
         {
+            szFormat.LoadString(IDS_CHANNEL_JOINED);
+            TRANSLATE_ITEM(IDS_CHANNEL_JOINED, szFormat);
+            szMsg.Format(szFormat, GetDisplayName(user));
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED_SAME)
                 AddVoiceMessage(szMsg);
@@ -1194,15 +1197,24 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
         }
         else if (m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN)
         {
+            CString szRoot;
+            szRoot.LoadString(IDS_ROOTCHANNEL);
+            TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+
+            szFormat.LoadString(IDS_USERJOINEDCHANNEL);
+            TRANSLATE_ITEM(IDS_USERJOINEDCHANNEL, szFormat);
+            if(chan.nParentID == 0)
+                szMsg.Format(szFormat, GetDisplayName(user), szRoot);
+            else
+                szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+
             if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_JOINED)
                 AddVoiceMessage(szMsg);
         }
     }
     else //myself joined channel
     {
-        Channel chan;
-        if(m_wndTree.GetChannel(user.nChannelID, chan))
-            OnChannelJoined(chan);
+        OnChannelJoined(chan);
     }
 
     if(m_xmlSettings.GetAudioLogStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
@@ -1421,22 +1433,24 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
 void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
 {
     const User& user = msg.user;
+    Channel chan;
+    m_wndTree.GetChannel(msg.nSource, chan);
+
     if(msg.user.nUserID == TT_GetMyUserID(ttInst))
     {
         //myself left channel
-        Channel chan;
-        if(m_wndTree.GetChannel(msg.nSource, chan))
-            OnChannelLeft(chan);
+        OnChannelLeft(chan);
     }
     m_wndTree.RemoveUser(user);
 
     CString szMsg, szFormat;
-    szFormat.LoadString(IDS_CHANNEL_LEFT);
-    TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
-    szMsg.Format(szFormat, GetDisplayName(user));
 
     if(TT_GetMyChannelID(ttInst) == msg.nSource)
     {
+        szFormat.LoadString(IDS_CHANNEL_LEFT);
+        TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
+        szMsg.Format(szFormat, GetDisplayName(user));
+
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
 
         AddStatusText(szMsg);
@@ -1445,6 +1459,17 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
     }
     else if (m_commands[m_nCurrentCmdID] == CMD_COMPLETE_NONE)
     {
+        CString szRoot;
+        szRoot.LoadString(IDS_ROOTCHANNEL);
+        TRANSLATE_ITEM(IDS_ROOTCHANNEL, szRoot);
+
+        szFormat.LoadString(IDS_USERLEFTCHANNEL);
+        TRANSLATE_ITEM(IDS_USERLEFTCHANNEL, szFormat);
+        if(chan.nParentID == 0)
+            szMsg.Format(szFormat, GetDisplayName(user), szRoot);
+        else
+            szMsg.Format(szFormat, GetDisplayName(user), chan.szName);
+
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT)
             AddVoiceMessage(szMsg);
     }
