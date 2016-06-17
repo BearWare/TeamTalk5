@@ -1768,7 +1768,8 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="5233"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Setup-Informationen.
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5302"/>
