@@ -113,7 +113,7 @@
     <item id="227">Informace o uživateli</item>
     <item id="234">%s mění sledování vzdálené obrazovky na %d</item>
     <item id="243">Správce serverů</item>
-    <item id="244"></item>
+    <item id="244">%s mění odposlech multimediálních souborů na %d</item>
     <item id="245">%s uděluje přístup ke vzdálené obrazovce</item>
     <item id="247">Jaká je moje IP adresa?</item>
     <item id="248">%s má nyní přístup ke vzdálené obrazovce</item>
@@ -125,6 +125,9 @@
     <item id="261">Uživatel vstupuje na současný kanál</item>
     <item id="262">Uživatel opouští současný kanál</item>
     <item id="263">Na kanále může vysílat maximálně %d uživatelů</item>
+    <item id="264">%s vstupuje na kanál %s</item>
+    <item id="265">%s opouští kanál %s</item>
+    <item id="266">Hlavní</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
     <item id="1012">TCP port</item>
@@ -433,7 +436,7 @@
     <item id="1537">Poměr hlasitosti zvuku a multimediálního souboru</item>
     <item id="1538">&amp;Importovat soubor .tt</item>
     <item id="1539">Zobrazovat uživatelské jméno místo přezdívky</item>
-    <item id="1540">Název klienta</item>
+    <item id="1540">Typ klienta</item>
     <item id="1543">Nastavte události čtené hlasovým výstupem</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
