@@ -239,7 +239,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
 
         let voice_prepcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
-            initial: settings.objectForKey(PREF_VOICEPROCESSINGIO) == nil || settings.boolForKey(PREF_VOICEPROCESSINGIO))
+            initial: settings.objectForKey(PREF_VOICEPROCESSINGIO) != nil && settings.boolForKey(PREF_VOICEPROCESSINGIO))
         voice_prepcell.detailTextLabel!.text = NSLocalizedString("Use echo cancellation and automatic gain control",
                                                                  comment: "preferences")
         voiceprepswitch.addTarget(self, action: #selector(PreferencesViewController.voicepreprocessingChanged(_:)), forControlEvents: .ValueChanged)

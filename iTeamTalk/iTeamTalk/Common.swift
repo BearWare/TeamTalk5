@@ -385,7 +385,7 @@ func getSoundFile(s: Sounds) -> String? {
 func setupSoundDevices() {
     
     let defaults = NSUserDefaults.standardUserDefaults()
-    let on = defaults.objectForKey(PREF_VOICEPROCESSINGIO) == nil || defaults.boolForKey(PREF_VOICEPROCESSINGIO)
+    let on = defaults.objectForKey(PREF_VOICEPROCESSINGIO) != nil && defaults.boolForKey(PREF_VOICEPROCESSINGIO)
     
     let flags = TT_GetFlags(ttInst)
     if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
