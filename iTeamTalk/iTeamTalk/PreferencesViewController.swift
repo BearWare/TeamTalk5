@@ -236,7 +236,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         sound_items.append(headsettxcell)
         
         
-
+/*
         let voice_prepcell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
         let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
             initial: settings.objectForKey(PREF_VOICEPROCESSINGIO) != nil && settings.boolForKey(PREF_VOICEPROCESSINGIO))
@@ -244,7 +244,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
                                                                  comment: "preferences")
         voiceprepswitch.addTarget(self, action: #selector(PreferencesViewController.voicepreprocessingChanged(_:)), forControlEvents: .ValueChanged)
         sound_items.append(voice_prepcell)
-        
+*/
         
         // sound events
         

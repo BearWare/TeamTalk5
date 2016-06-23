@@ -22,6 +22,12 @@ Accessible Windows client:
 - Fixed issue where resizing video dialog would show weird colors
 Android client:
 - Kick/ban option
+
+Version 5.1.5
+iOS client:
+- Removed use of "Voice Preprocessing" option in preferences
+
+Version 5.1.4, released 2016/06/18
 iOS client:
 - Keyboard closes when sending empty message
 - TX toggle from headset now configurable
