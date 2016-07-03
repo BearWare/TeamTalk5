@@ -2667,70 +2667,83 @@ HCURSOR CTeamTalkDlg::OnQueryDragIcon()
 //  then the UI is hidden but the dialog remains around if it
 //  is dismissed.
 
-void CTeamTalkDlg::OnClose() 
+void CTeamTalkDlg::Exit()
 {
-    Disconnect();
+	Disconnect();
 
-    //////////////////////
-    // Store all settings
-    //////////////////////
+	//////////////////////
+	// Store all settings
+	//////////////////////
 
-    //save output volume
-    VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos()));
-    VERIFY(m_xmlSettings.SetVoiceActivationLevel(m_wndVoiceSlider.GetPos()));
-    VERIFY(m_xmlSettings.SetVoiceActivated(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-    VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos()));
-    VERIFY(m_xmlSettings.SetPushToTalk(m_bHotKey));
+	//save output volume
+	VERIFY(m_xmlSettings.SetSoundOutputVolume(m_wndVolSlider.GetPos()));
+	VERIFY(m_xmlSettings.SetVoiceActivationLevel(m_wndVoiceSlider.GetPos()));
+	VERIFY(m_xmlSettings.SetVoiceActivated(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+	VERIFY(m_xmlSettings.SetVoiceGainLevel(m_wndGainSlider.GetPos()));
+	VERIFY(m_xmlSettings.SetPushToTalk(m_bHotKey));
 
-    //erase tray of minimized
-    if(m_pTray)
-    {
-        delete m_pTray;
-        m_pTray = NULL;
-        ShowWindow(SW_SHOW);
-    }
-    
-    //store window position
-    if(m_bMinimized)
-        VERIFY(m_xmlSettings.SetWindowPlacement(m_rectLast.left, m_rectLast.top, m_rectLast.Width(), m_rectLast.Height()));
-    else
-    {
-        CRect rect, rectSplit;
-        GetWindowRect(&rect);
-        //m_wndSplitter.GetWindowRect(&rectSplit);
-        //int nWidth = m_bChanMessages? rectSplit.left - rect.left : rect.Width();
-        VERIFY(m_xmlSettings.SetWindowPlacement(rect.left, rect.top, rect.Width()/*nWidth*/, rect.Height()));
-    }
+	//erase tray of minimized
+	if (m_pTray)
+	{
+		delete m_pTray;
+		m_pTray = NULL;
+		ShowWindow(SW_SHOW);
+	}
 
-    m_xmlSettings.SetWindowExtended(m_bTwoPanes);
+	//store window position
+	if (m_bMinimized)
+		VERIFY(m_xmlSettings.SetWindowPlacement(m_rectLast.left, m_rectLast.top, m_rectLast.Width(), m_rectLast.Height()));
+	else
+	{
+		CRect rect, rectSplit;
+		GetWindowRect(&rect);
+		//m_wndSplitter.GetWindowRect(&rectSplit);
+		//int nWidth = m_bChanMessages? rectSplit.left - rect.left : rect.Width();
+		VERIFY(m_xmlSettings.SetWindowPlacement(rect.left, rect.top, rect.Width()/*nWidth*/, rect.Height()));
+	}
 
-    CloseLogFile(m_logChan);
+	m_xmlSettings.SetWindowExtended(m_bTwoPanes);
 
-    //Close TeamTalk DLLs
-    TT_CloseTeamTalk(ttInst);
+	CloseLogFile(m_logChan);
+
+	//Close TeamTalk DLLs
+	TT_CloseTeamTalk(ttInst);
 #if defined(ENABLE_TOLK)
-    if(Tolk_IsLoaded()) {
-      Tolk_Unload();
-    }
+	if (Tolk_IsLoaded()) {
+		Tolk_Unload();
+	}
 #endif
-    m_xmlSettings.SaveFile();
+	m_xmlSettings.SaveFile();
 
-    if(m_bResetSettings)
-    {
-        CString szCfgPath = STR_UTF8(m_xmlSettings.GetFileName());
-        CString szDefPath = GetExecutableFolder() + _T("\\") + _T( SETTINGS_DEFAULT_FILE );
-        if(!CopyFile(szDefPath, szCfgPath, FALSE))
-        {
-            CString szMsg;
-            szMsg.Format(_T("Failed to copy %s to %s"), szDefPath, szCfgPath);
-            MessageBox(szMsg, _T("Reset Settings"));
-        }
-    }
+	if (m_bResetSettings)
+	{
+		CString szCfgPath = STR_UTF8(m_xmlSettings.GetFileName());
+		CString szDefPath = GetExecutableFolder() + _T("\\") + _T(SETTINGS_DEFAULT_FILE);
+		if (!CopyFile(szDefPath, szCfgPath, FALSE))
+		{
+			CString szMsg;
+			szMsg.Format(_T("Failed to copy %s to %s"), szDefPath, szCfgPath);
+			MessageBox(szMsg, _T("Reset Settings"));
+		}
+	}
 
-    CDialog::OnCancel();
+	CDialog::OnCancel();
+}
+	
+void CTeamTalkDlg::OnClose()
+{
+	if (m_xmlSettings.GetMinimizeToTray())
+	{
+		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE);
+		m_bMinimized = TRUE;
+	}
+	else
+	{
+		Exit();
+	}
 }
 
-void CTeamTalkDlg::OnOK() 
+	void CTeamTalkDlg::OnOK() 
 {
     if(GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst)>0) 
     {
@@ -3622,7 +3635,7 @@ void CTeamTalkDlg::OnFilePreferences()
 
 void CTeamTalkDlg::OnFileExit()
 {
-    OnClose();
+    Exit();
 }
 
 void CTeamTalkDlg::OnUpdateMeChangenick(CCmdUI *pCmdUI)

@@ -325,6 +325,7 @@ protected:
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnPaint();
     afx_msg HCURSOR OnQueryDragIcon();
+    afx_msg void Exit();
     afx_msg void OnClose();
     virtual void OnOK();
     virtual void OnCancel();
