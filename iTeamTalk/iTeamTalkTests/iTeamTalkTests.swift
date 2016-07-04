@@ -64,10 +64,13 @@ class iTeamTalkTests: XCTestCase {
         let ttInst = newClient()
         var msg = TTMessage()
 
-        let inst1 = TT_StartSoundLoopbackTest(0, 1, 48000, 1, 0, nil)
-        let inst2 = TT_StartSoundLoopbackTest(0, 1, 48000, 1, 0, nil)
+        let inst1 = TT_StartSoundLoopbackTest(1, 1, 48000, 1, 0, nil)
+        let inst2 = TT_StartSoundLoopbackTest(0, 1, 32000, 1, 0, nil)
 
         print("Sound loop is active now")
+        
+        XCTAssert(inst1 != nil, "inst1 started")
+        XCTAssert(inst2 != nil, "inst2 started")
         
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
         
