@@ -13,6 +13,12 @@
 		android:title="@string/pref_title_speakerphone_checkbox"
 		android:summary="@string/pref_summary_speakerphone_checkbox" />
 
+    <CheckBoxPreference
+        android:key="voice_processing_checkbox"
+        android:defaultValue="true"
+        android:title="@string/pref_title_voice_processing_checkbox"
+        android:summary="@string/pref_summary_voice_processing_checkbox" />
+
 	<dk.bearware.gui.SeekBarPreference
 	    android:key="mediafilevolume_seekbar"
 	    android:defaultValue="100"
