@@ -7,18 +7,17 @@
 		android:title="@string/pref_title_mute_speakers"
 		android:summary="@string/pref_summary_mute_speakers" />
 
-	<ListPreference
-		android:key="audiomode_list"
-		android:entries="@array/audiomodeNames"
-		android:entryValues="@array/audiomodeValues"
-		android:title="@string/pref_title_audiomode_list"
-		android:summary="@string/pref_summary_audiomode_list"/>
-
 	<CheckBoxPreference
 		android:key="speakerphone_checkbox"
 		android:defaultValue="false"
 		android:title="@string/pref_title_speakerphone_checkbox"
 		android:summary="@string/pref_summary_speakerphone_checkbox" />
+
+    <CheckBoxPreference
+        android:key="voice_processing_checkbox"
+        android:defaultValue="true"
+        android:title="@string/pref_title_voice_processing_checkbox"
+        android:summary="@string/pref_summary_voice_processing_checkbox" />
 
 	<dk.bearware.gui.SeekBarPreference
 	    android:key="mediafilevolume_seekbar"
