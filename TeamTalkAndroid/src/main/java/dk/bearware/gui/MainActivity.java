@@ -1371,7 +1371,7 @@ implements TeamTalkConnectionListener,
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setMode(Integer.parseInt(prefs.getString(Preferences.PREF_SOUNDSYSTEM_AUDIOMODE, "0")));
         audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {

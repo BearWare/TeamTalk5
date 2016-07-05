@@ -7,6 +7,13 @@
 		android:title="@string/pref_title_mute_speakers"
 		android:summary="@string/pref_summary_mute_speakers" />
 
+	<ListPreference
+		android:key="audiomode_list"
+		android:entries="@array/audiomodeNames"
+		android:entryValues="@array/audiomodeValues"
+		android:title="@string/pref_title_audiomode_list"
+		android:summary="@string/pref_summary_audiomode_list"/>
+
 	<CheckBoxPreference
 		android:key="speakerphone_checkbox"
 		android:defaultValue="false"
