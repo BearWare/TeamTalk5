@@ -90,6 +90,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
     var subscription_items = [UITableViewCell]()
     var connection_items = [UITableViewCell]()
     var ttsevents_items = [UITableViewCell]()
+    var version_items = [UITableViewCell]()
     
     let SECTION_GENERAL = 0,
         SECTION_DISPLAY = 1,
@@ -98,7 +99,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         SECTION_TTSEVENTS = 4,
         SECTION_CONNECTION = 5,
         SECTION_SUBSCRIPTIONS = 6,
-        SECTIONS_COUNT = 7
+        SECTION_VERSION = 7,
+        SECTIONS_COUNT = 8
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -422,6 +424,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         ttschantxtmsgswitch.addTarget(self, action: #selector(PreferencesViewController.ttschantxtmsgChanged(_:)), forControlEvents: .ValueChanged)
         ttsevents_items.append(ttschantxtmsgcell)
 
+        // version items
+        
+        let versioncell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
+        let v_str = String.fromCString(TT_GetVersion())!
+        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersion()), Library v\(v_str)"
+        version_items.append(versioncell)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -693,6 +702,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
             return NSLocalizedString("Default Subscriptions", comment: "preferences")
         case SECTION_TTSEVENTS :
             return NSLocalizedString("Text To Speech Events", comment: "preferences")
+        case SECTION_VERSION :
+            return NSLocalizedString("Version Information", comment: "preferences")
         default :
             return nil
         }
@@ -714,6 +725,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
             return subscription_items.count
         case SECTION_TTSEVENTS :
             return ttsevents_items.count
+        case SECTION_VERSION :
+            return version_items.count
         default :
             return 0
         }
@@ -736,6 +749,8 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
             return subscription_items[indexPath.row]
         case SECTION_TTSEVENTS:
             return ttsevents_items[indexPath.row]
+        case SECTION_VERSION :
+            return version_items[indexPath.row]
         default :
             return UITableViewCell()
         }
