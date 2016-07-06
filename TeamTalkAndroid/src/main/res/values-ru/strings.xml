@@ -33,6 +33,7 @@
     <string name="pref_cat_tts">Настройка речевых сообщений</string>
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
+    <string name="pref_title_nickname">Псевдоним</string>
     <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_voice_act">Голосовая Активация</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
@@ -80,9 +81,14 @@
     <string name="pref_title_mute_speakers">Выключать звук при передаче голоса</string>
     <string name="pref_summary_mute_speakers">Следует разрешить для избежания эхо-эффекта</string>
     <string name="pref_title_show_usernames">Показывать имена пользователей</string>
-    <string name="pref_summary_show_usernames">Показывать имена пользователей вместо кличек</string>
+    <string name="pref_summary_show_usernames">Показывать имена пользователей вместо псевдонимов</string>
     <string name="pref_title_mediafile_volume">Громкость медиафайлов</string>
     <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
+    <string name="pref_title_speakerphone_checkbox">Громкая связь</string>
+    <string name="pref_summary_speakerphone_checkbox">Использовать динамик вместо наушника</string>
+    <string name="pref_title_voice_processing_checkbox">Разрешить предобработку голоса</string>
+    <string name="pref_summary_voice_processing_checkbox">Подавление эффекта эхо и автоматическая регулировка уровня</string>
+
     <string name="text_tts_loggedin">вошел</string>
     <string name="text_tts_loggedout">ушел</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
@@ -140,7 +146,7 @@
     <string name="default_">По умолчанию</string>
 
     <string name="server_list_empty">Список Серверов TeamTalk 5 пуст</string>
-    <string name="no_nickname">Нет Клички</string>
+    <string name="no_nickname">Нет Псевдонима</string>
     <string name="message_text">Текст Сообщения</string>
     <string name="time_date">Время и Дата</string>
     <string name="name">Имя</string>
