@@ -99,5 +99,5 @@ runjunit:  junit
 runjunitsrv:  junitsrv
 	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
-testcase: junitcompile
+testcase: junit
 	cd test && java -cp "$(CLASSPATH)" SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
