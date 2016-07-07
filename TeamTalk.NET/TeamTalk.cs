@@ -4997,7 +4997,7 @@ namespace BearWare
          * specify @c szClientName. Kept for backwards compatibility.
          *
          * @param szNickname The nickname to use.
-         * @param szUsername The username of the #UserAccount set up on the 
+         * @param szUsername The username of the #BearWare.UserAccount set up on the 
          * server.
          * @param szPassword The password of the user account on the server. Leave 
          * blank if no account is needed on the server.
