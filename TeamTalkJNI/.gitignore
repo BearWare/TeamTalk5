@@ -1,0 +1,12 @@
+.classpath
+.project
+.settings
+bin
+gen
+libs/armeabi-v7a/libTeamTalk5*
+libs/*.so
+libs/*.dylib
+libs/*.jar
+src/build
+*.class
+*.jar

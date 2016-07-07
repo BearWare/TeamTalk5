@@ -1,2 +1,8 @@
+libs/*.jar
+.gradle
+.idea
+build
+gradle
+local.properties
+src/main/jniLibs/armeabi-v7a/*.so
 *.iml
-
