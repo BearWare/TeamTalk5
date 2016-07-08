@@ -3216,6 +3216,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         {
             TT_SetUserVolume(ttInst, userids[i], STREAMTYPE_MEDIAFILE_AUDIO,
                              (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
+            TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userids[i]);
         }
     }
 
@@ -4989,6 +4990,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble() / 100;
     TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO,
                      (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
+    TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID);
 }
 
 void MainWindow::slotUserLeft(int channelid, const User& user)
