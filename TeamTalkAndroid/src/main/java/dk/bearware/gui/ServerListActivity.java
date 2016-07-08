@@ -68,8 +68,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -77,7 +77,7 @@ import android.widget.Toast;
 
 public class ServerListActivity
 extends ListActivity
-implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
+implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {
 
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
@@ -95,6 +95,7 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
         setListAdapter(adapter);
 
         setContentView(R.layout.activity_server_list);        
+        getListView().setOnItemLongClickListener(this);
     }
 
     @Override
@@ -248,12 +249,22 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        serverentry = servers.get(position);
+
+        ttservice.setServerEntry(serverentry);
+        if (!ttservice.reconnect())
+            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
         Intent intent = new Intent(this, ServerEntryActivity.class);
 
         ServerEntry entry = servers.elementAt(position);
 
         startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position),
             REQUEST_EDITSERVER);
+        return true;
     }
 
     Vector<ServerEntry> servers = new Vector<ServerEntry>();
@@ -302,39 +313,25 @@ implements TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> 
                 img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             address.setText(servers.get(position).ipaddr);
-            Button connect = (Button) convertView.findViewById(R.id.server_connect);
-            Button remove = (Button) convertView.findViewById(R.id.server_remove);
-            View.OnClickListener listener = new View.OnClickListener() {
+            convertView.findViewById(R.id.server_remove).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch(v.getId()) {
-                        case R.id.server_connect :
-                            serverentry = servers.get(position);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
+                    alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
+                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                            ttservice.setServerEntry(serverentry);
-                            if (!ttservice.reconnect())
-                                Toast.makeText(ServerListActivity.this, R.string.err_connection, Toast.LENGTH_LONG).show();
-                        break;
-                        case R.id.server_remove :
-                            AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                            alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
-                            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        servers.remove(position);
-                                        notifyDataSetChanged();
-                                        saveServers();
-                                    }
-                                });
-                            alert.setNegativeButton(android.R.string.no, null);
-                            alert.show();
-                        break;
-                    }
+                            @Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                servers.remove(position);
+                                notifyDataSetChanged();
+                                saveServers();
+                            }
+                        });
+                    alert.setNegativeButton(android.R.string.no, null);
+                    alert.show();
                 }
-            };
-            connect.setOnClickListener(listener);
-            remove.setOnClickListener(listener);
+            });
+
             return convertView;
         }
     }
