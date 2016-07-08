@@ -103,7 +103,7 @@
 
 /* preferences
    tts event */
-"Connection lost" = "Bağlantı kesintileri";
+"Connection lost" = "Bağlantı kaybı";
 
 /* View Title */
 "Create Channel" = "Kanal Oluştur";
@@ -125,7 +125,7 @@
 "Display" = "Görünüm";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Konuşmak için çift dokunup basılı tutun. Konuş düğmesini kilitlemek için üç kez dokunun.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Konuşmak için çift dokunup basılı tutun. Konuş düğmesini kilitlemek için hızlıca üç kez dokunun.";
 
 /* preferences */
 "Double tap to lock TX button" = "Konuş düğmesini kilitlemek için çift dokunun";
@@ -156,7 +156,7 @@
 "has left the channel" = "kanaldan ayrıldı";
 
 /* preferences */
-"Headset TX Toggle" = "Kulaklık Düğmesi Değişikliği";
+"Headset TX Toggle" = "Kulaklıktan Ses İletme";
 
 /* server entry */
 "Host address" = "Sunucu adresi";
@@ -165,13 +165,13 @@
 "Join" = "Katıl";
 
 /* channel list */
-"Join channel" = "Katıl";
+"Join channel" = "Kanala katıl";
 
 /* preferences */
 "Join Root Channel" = "Kök Kanala Katıl";
 
 /* preferences */
-"Join root channel after login" = "Giriş yapıldığında kök kanala katıl";
+"Join root channel after login" = "Oturum açıldığında kök kanala katıl";
 
 /* log entry */
 "Joined %@" = "%@ kanalına katıldınız";
@@ -419,7 +419,7 @@
 "Talking" = "Konuşuyor";
 
 /* server entry */
-"TCP Port" = "TCP Bağlantı Noktası";
+"TCP Port" = "TCP bağlantı noktası";
 
 /* preferences */
 "Text To Speech Events" = "Bilgilendirici Konuşma Etkinlikleri";
@@ -434,7 +434,7 @@
 "Toggle to enable/disable transmission" = "Mikrofonu açmak/kapatmak için çift dokunun";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Kulaklık kullanılıyorken ses iletim durumunu değiştir";
+"Toggle voice transmission using headset" = "Kulaklık kullanılırken ses iletim durumunu değiştir";
 
 /* create channel */
 "Topic" = "Konu";
@@ -453,10 +453,10 @@
 "Type text here" = "Buraya metin yazın";
 
 /* server entry */
-"UDP Port" = "UDP Bağlantı Noktası";
+"UDP Port" = "UDP bağlantı noktası";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Yankı önlemeyi ve otomatik mikrofon denetimini etkinleştir";
+"Use echo cancellation and automatic gain control" = "Yankı önleme ve otomatik mikrofon denetimi kullan";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Ahize yerine iPhone hoparlörünü kullan";
@@ -482,7 +482,7 @@
 
 /* server entry
    user detail */
-"Username" = "Kullanıcı Adı";
+"Username" = "Kullanıcı adı";
 
 /* channel list */
 "View" = "Görüntüle";
@@ -504,7 +504,7 @@
 "Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Devre Dışı";
 
 /* preferences */
-"Voice Preprocessing" = "Ses Önişleniyor";
+"Voice Preprocessing" = "Ses Önişleme";
 
 /* preferences */
 "Voice Transmission Toggled" = "Ses İletim Durumu Değişimi";
