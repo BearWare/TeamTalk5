@@ -14,8 +14,8 @@
 		android:summary="@string/pref_summary_speakerphone_checkbox" />
 
     <CheckBoxPreference
-        android:key="voice_processing_checkbox"
-        android:defaultValue="true"
+        android:key="voiceprocessing_checkbox"
+        android:defaultValue="false"
         android:title="@string/pref_title_voice_processing_checkbox"
         android:summary="@string/pref_summary_voice_processing_checkbox" />
 
