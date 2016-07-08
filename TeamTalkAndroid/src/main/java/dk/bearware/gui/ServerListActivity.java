@@ -313,6 +313,14 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             address.setText(servers.get(position).ipaddr);
+            View editButton = convertView.findViewById(R.id.server_edit);
+            if (editButton != null)
+                editButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemLongClick(getListView(), v, position, v.getId());
+                        }
+                    });
             convertView.findViewById(R.id.server_remove).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
