@@ -12,6 +12,7 @@ Accessible Windows client:
 - Option in Help-menu to reset to default settings
 - Pressing Enter on Channel item now means join
 - Pressing Enter on User item now means text message
+- Announce who is talking/streaming/desktop/video by pressing Ctrl+Shift+G
 - Video transmission state is restored when restarting the application
 - Classroom channel transmit all menu-item in Users->Advanced
 - Added Estonian language
@@ -22,6 +23,8 @@ Accessible Windows client:
 - Fixed issue where resizing video dialog would show weird colors
 Android client:
 - Kick/ban option
+iOS client:
+- Reintroduced "Voice Preprocessing" option in preferences
 
 Version 5.1.5
 iOS client:
