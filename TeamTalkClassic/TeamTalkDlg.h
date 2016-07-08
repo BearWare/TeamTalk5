@@ -509,5 +509,7 @@ public:
     afx_msg void OnAdvancedAllowallmediafiletransmission();
     afx_msg void OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI);
     afx_msg void OnAdvancedAllowalldesktoptransmission();
+    afx_msg void OnUpdateChannelinfoSpeakchannelstate(CCmdUI *pCmdUI);
+    afx_msg void OnChannelinfoSpeakchannelstate();
 };
 

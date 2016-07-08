@@ -746,6 +746,8 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_ADVANCED_ALLOWALLMEDIAFILETRANSMISSION, &CTeamTalkDlg::OnAdvancedAllowallmediafiletransmission)
     ON_UPDATE_COMMAND_UI(ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, &CTeamTalkDlg::OnUpdateAdvancedAllowalldesktoptransmission)
     ON_COMMAND(ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, &CTeamTalkDlg::OnAdvancedAllowalldesktoptransmission)
+    ON_UPDATE_COMMAND_UI(ID_CHANNELINFO_SPEAKCHANNELSTATE, &CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelstate)
+    ON_COMMAND(ID_CHANNELINFO_SPEAKCHANNELSTATE, &CTeamTalkDlg::OnChannelinfoSpeakchannelstate)
     END_MESSAGE_MAP()
 
 
@@ -6369,18 +6371,76 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         AddVoiceMessage(szSpeak);
 }
 
-
 void CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelinfo(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(m_bSpeech && m_wndTree.GetSelectedChannel()>0);
 }
-
 
 void CTeamTalkDlg::OnChannelinfoSpeakchannelinfo()
 {
     OnUserinfoSpeakuserinfo();
 }
 
+void CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelstate(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_wndTree.GetMyChannelID()>0);
+}
+
+void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
+{
+    std::set<int> voice, mediafile, vidcap, desktop;
+    users_t users = m_wndTree.GetUsers(m_wndTree.GetMyChannelID());
+    for(auto i=users.begin();i!=users.end();++i)
+    {
+        if (i->second.uUserState & USERSTATE_VOICE)
+            voice.insert(i->first);
+        if (i->second.uUserState & USERSTATE_MEDIAFILE)
+            mediafile.insert(i->first);
+        if (i->second.uUserState & USERSTATE_VIDEOCAPTURE)
+            vidcap.insert(i->first);
+        if (i->second.uUserState & USERSTATE_DESKTOP)
+            desktop.insert(i->first);
+    }
+
+    CString szVoice, szMediaFile, szVideoCapture, szDesktop;
+
+    if (voice.size())
+    {
+        szVoice.LoadString(IDS_TALKING);
+        TRANSLATE_ITEM(IDS_TALKING, szVoice);
+        szVoice += _T(". ");
+        for(auto i=voice.begin();i!=voice.end();++i)    
+            szVoice += GetDisplayName(users.find(*i)->second) + _T(", ");
+        AddVoiceMessage(szVoice);
+    }
+    if (mediafile.size())
+    {
+        szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
+        TRANSLATE_ITEM(IDS_STREAMING_MEDIAFILE, szMediaFile);
+        szMediaFile += _T(". ");
+        for(auto i=mediafile.begin();i!=mediafile.end();++i)    
+            szMediaFile += GetDisplayName(users.find(*i)->second) + _T(", ");
+        AddVoiceMessage(szMediaFile);
+    }
+    if (vidcap.size())
+    {
+        szVideoCapture.LoadString(IDS_VIDEOCAPTURE);
+        TRANSLATE_ITEM(IDS_VIDEOCAPTURE, szVideoCapture);
+        szVideoCapture += _T(". ");
+        for(auto i=vidcap.begin();i!=vidcap.end();++i)    
+            szVideoCapture += GetDisplayName(users.find(*i)->second) + _T(", ");
+        AddVoiceMessage(szVideoCapture);
+    }
+    if (desktop.size())
+    {
+        szDesktop.LoadString(IDS_DESKTOP);
+        TRANSLATE_ITEM(IDS_DESKTOP, szDesktop);
+        szDesktop += _T(". ");
+        for(auto i=desktop.begin();i!=desktop.end();++i)    
+            szDesktop += GetDisplayName(users.find(*i)->second) + _T(", ");
+        AddVoiceMessage(szDesktop);
+    }
+}
 
 void CTeamTalkDlg::OnHelpResetpreferencestodefault()
 {

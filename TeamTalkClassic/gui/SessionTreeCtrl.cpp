@@ -927,17 +927,7 @@ BOOL CSessionTreeCtrl::GetUser(int nUserID, User& outUser) const
 
 users_t CSessionTreeCtrl::GetUsers(int nChannelID) const
 {
-    if(nChannelID == 0)
-        return m_users;
-
-    users_t ret;
-    auto ite = m_users.begin();
-    for(;ite!=m_users.end();ite++)
-    {
-        if(ite->second.nChannelID == nChannelID)
-            ret[ite->first] = ite->second;
-    }
-    return ret;
+    return GetChannelUsers(nChannelID, m_users);
 }
 
 CString CSessionTreeCtrl::GetUserText(int nUserID) const

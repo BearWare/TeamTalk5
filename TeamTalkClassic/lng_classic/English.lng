@@ -534,8 +534,9 @@
     <item id="32942">Channel In&amp;fo</item>
     <item id="32943">&amp;Speak Channel Info\tCtrl+G</item>
     <item id="32944">R&amp;eset Preferences to Default</item>
-    <item id="32945">Allow All Voi&ce Transmission\tCtrl+Alt+Shift+Q</item>
-    <item id="32946">Allow All &Video Transmission\tCtrl+Alt+Shift+W</item>
-    <item id="32947">Allow All Deskto&p Transmission\tCtrl+Alt+Shift+E</item>
-    <item id="32948">Allow All Medi&a File Transmission\tCtrl+Alt+Shift+R</item>
+    <item id="32945">Allow All Voi&amp;ce Transmission\tCtrl+Alt+Shift+Q</item>
+    <item id="32946">Allow All &amp;Video Transmission\tCtrl+Alt+Shift+W</item>
+    <item id="32947">Allow All Deskto&amp;p Transmission\tCtrl+Alt+Shift+E</item>
+    <item id="32948">Allow All Medi&amp;a File Transmission\tCtrl+Alt+Shift+R</item>
+    <item id="32949">Spea&amp;k Channel State\tCtrl+Shift+G</item>
 </language>
