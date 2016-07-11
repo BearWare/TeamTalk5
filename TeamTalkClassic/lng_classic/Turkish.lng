@@ -8,7 +8,7 @@
     <item id="108">Kanal Oluştur</item>
     <item id="109">Kanal&apos;ı Güncelle</item>
     <item id="110">Yeni Kanal Oluştur</item>
-    <item id="111">Mevcut Kanalı Güncelleme</item>
+    <item id="111">Kanal Güncelleme</item>
     <item id="112">Evet</item>
     <item id="113">Hayır</item>
     <item id="114">konuşuyor</item>
@@ -19,8 +19,8 @@
     <item id="119">medya sesini kapat</item>
     <item id="120">şifre korumalı</item>
     <item id="121">Kanal&apos;a katıldı %s</item>
-    <item id="122">3D Çıkış Aygıdı</item>
-    <item id="123">3D Çıkış Aygıdı 3D Sesi Desteklemiyor</item>
+    <item id="122">Çıkış aygıdı 3D sesi destekliyor</item>
+    <item id="123">Çıkış Aygıdı 3D Sesi Desteklemiyor</item>
     <item id="124">Seçili ayarları Test et</item>
     <item id="125">Durdur</item>
     <item id="126">Varsayılan</item>
@@ -100,20 +100,20 @@
     <item id="201">Mesaj</item>
     <item id="205">Durum Değiştir</item>
     <item id="206">%s Medya Yayını aboneliğini değiştirdi: %d</item>
-    <item id="207">%s mesaj takibi aboneliğini değiştirdi</item>
-    <item id="210">%s Kanal Mesajı aboneliğini değiştirdi: %d</item>
-    <item id="211">%s Ses takibi aboneliğini değiştirdi: %d</item>
+    <item id="207">%s mesaj takibi: %d</item>
+    <item id="210">%s Kanal Mesaj Takibi: %d</item>
+    <item id="211">%s Ses Takibi: %d</item>
     <item id="212">Ekran</item>
     <item id="215">Genel</item>
     <item id="220">Gelişmiş</item>
     <item id="221">Bağlantı</item>
     <item id="223">Ses Olayları</item>
     <item id="224">Ses Sistemi</item>
-    <item id="226">%s Video takibi: %d</item>
+    <item id="226">%s Video Takibi: %d</item>
     <item id="227">Kullanıcı Bilgisi</item>
-    <item id="234">%s Masaüstü takibi: %d</item>
+    <item id="234">%s Masaüstü Takibi: %d</item>
     <item id="243">Host Yöneticisi</item>
-    <item id="244">%s Medya Yayını takibi: %d</item>
+    <item id="244">%s Medya Yayını Takibi: %d</item>
     <item id="245">%s Masaüstü erişimine izin verdi</item>
     <item id="247">IP Adresim nedir?</item>
     <item id="248">%s şimdi masaüstü erişimi var</item>
@@ -490,7 +490,7 @@
     <item id="32878">&amp;Kullanıcı taşı\tCtrl+Alt+V</item>
     <item id="32882">&amp;Yasaklanmış kullanıcılar\tCtrl+Shift+B</item>
     <item id="32885">Sunucudan &amp;at ve girişini yasakla\tCtrl+Shift+K</item>
-    <item id="32888">Konuşmaları &amp;Kaydet\tCtrl+Alt+A</item>
+    <item id="32888">&amp;Konuşmaları Kaydet\tCtrl+Alt+A</item>
     <item id="32890">&amp;Kullanıcı Taşıma Penceresi\tCtrl+Alt+M</item>
     <item id="32892">&amp;Kullanıcı Mesajları\tCtrl+F1</item>
     <item id="32893">&amp;Kanal Mesajları\tCtrl+2</item>
@@ -539,4 +539,5 @@
     <item id="32946">Tüm kullanıcıların video etkinleştirmesine izin ver\tCtrl+Alt+Shift+W</item>
     <item id="32947">Tüm kullanıcıların masaüstü etkinleştirmesine izin ver\tCtrl+Alt+Shift+E</item>
     <item id="32948">Tüm kullanıcıların medya yayınlamasına izin ver\tCtrl+Alt+Shift+R</item>
+    <item id="32949">&amp;Kanal durumunu söyle\tCtrl+Shift+G</item>
 </language>
