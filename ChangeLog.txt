@@ -16,6 +16,7 @@ Accessible Windows client:
 - Video transmission state is restored when restarting the application
 - Classroom channel transmit all menu-item in Users->Advanced
 - Added Estonian language
+- Closing client will minize to tray (if minimize to tray is enabled)
 - Fixed issue where voice processing was not reenabled
 - Fixed issue where incorrect sound device is chosen when new sound devices are plugged/unplugged
 - Fixed issue where status-mode is reset after reconnect
@@ -23,6 +24,9 @@ Accessible Windows client:
 - Fixed issue where resizing video dialog would show weird colors
 Android client:
 - Kick/ban option
+- Single tap to connect in portrait mode, edit in landscape mode
+- Added voice preprocessing option in preferences (echo cancellation)
+- Added speakerphone option in preferences
 iOS client:
 - Reintroduced "Voice Preprocessing" option in preferences
 
