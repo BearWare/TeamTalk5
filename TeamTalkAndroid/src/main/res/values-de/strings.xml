@@ -87,6 +87,10 @@
     <string name="pref_summary_show_usernames">Zeigt Benutzernamen anstelle des Nicknamens an</string>
     <string name="pref_title_mediafile_volume">Medienlautstärke</string>
     <string name="pref_summary_mediafile_volume">Lautstärke der Mediendateien gegenüber Sprachübertragungen</string>
+    <string name="pref_title_speakerphone_checkbox">Telefonhörer einschalten</string>
+    <string name="pref_summary_speakerphone_checkbox">Schaltet zwischen Telefonhörer und Lautsprecher um</string>
+    <string name="pref_title_voice_processing_checkbox">Sprachvorverarbeitung</string>
+    <string name="pref_summary_voice_processing_checkbox">Echo-Unterdrückung und automatische Mikrofonpegel-Kontrolle</string>
     
     <string name="text_tts_loggedin">hat sich angemeldet</string>
     <string name="text_tts_loggedout">hat sich abgemeldet</string>
