@@ -6,6 +6,7 @@ Default Qt client:
 - Multi selection for kick, ban, volume levels
 - Option in Help-menu to reset to default settings
 - Video transmission state is restored when restarting the application
+- Fixed issue where local audio was not stored in MP3 format (on Windows)
 Accessible Windows client:
 - TTS events are now configurable in Preferences
 - Sliders labelled for screen reader
@@ -22,7 +23,7 @@ Accessible Windows client:
 - Fixed issue where status-mode is reset after reconnect
 - Fixed issue where default video frame rate was always selected
 - Fixed issue where resizing video dialog would show weird colors
-- Fixed issue where local audio which not stored in MP3 format
+- Fixed issue where local audio was not stored in MP3 format
 Android client:
 - Kick/ban option
 - Single tap to connect in portrait mode, edit in landscape mode
