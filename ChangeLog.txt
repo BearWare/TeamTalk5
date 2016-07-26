@@ -22,6 +22,7 @@ Accessible Windows client:
 - Fixed issue where status-mode is reset after reconnect
 - Fixed issue where default video frame rate was always selected
 - Fixed issue where resizing video dialog would show weird colors
+- Fixed issue where local audio which not stored in MP3 format
 Android client:
 - Kick/ban option
 - Single tap to connect in portrait mode, edit in landscape mode
