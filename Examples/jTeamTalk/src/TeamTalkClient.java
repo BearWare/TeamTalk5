@@ -343,7 +343,7 @@ implements ConnectionListener, CommandListener {
         System.out.println("User #" + user.nUserID + " " +
                            user.szNickname +
                            " left channel \"" + 
-                           channels.get(user.nChannelID).szName + "\"");
+                           channels.get(chanid).szName + "\"");
     }
 
     public void onCmdUserLoggedIn(User user) {
