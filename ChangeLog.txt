@@ -2,6 +2,8 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.x, unreleased
+
+Version 5.1.6, released 2016/08/09
 Default Qt client:
 - Multi selection for kick, ban, volume levels
 - Option in Help-menu to reset to default settings
