@@ -23,7 +23,7 @@
 
 #define COMPANYNAME             _T("BearWare.dk")
 #define APPVERSION_SHORT        _T("5.1.6")
-#define APPVERSION              _T( TEAMTALK_VERSION ) _T(" - Unreleased")
+#define APPVERSION              _T( "5.1.6" ) _T("")
 
 #ifdef ENABLE_ENCRYPTION
 #define APPTITLE                _T("TeamTalk 5 Classic Professional v. ") APPVERSION
