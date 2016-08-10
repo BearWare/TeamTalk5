@@ -1495,8 +1495,6 @@ void MainWindow::Connect()
 
     //Restart sound system so we have the latest sound devices
     TT_RestartSoundSystem();
-    TT_DBG_SetSoundInputTone(
-                ttInst,  STREAMTYPE_VOICE, 800);
 
     int inputid = getSelectedSndInputDevice();
     bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0 &&
