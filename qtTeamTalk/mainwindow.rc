@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,1,6,4617
- PRODUCTVERSION 5,1,6,4617
+ FILEVERSION 5,1,7,4622
+ PRODUCTVERSION 5,1,7,4622
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,21 +72,21 @@ BEGIN
 #ifdef ENABLE_ENCRYPTION
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk 5 Encrypted Conferencing Client"
-            VALUE "FileVersion", "5, 1, 6, 4617"
+            VALUE "FileVersion", "5, 1, 7, 4622"
             VALUE "InternalName", "TeamTalk 5 Professional"
             VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5Pro.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk 5 Professional"
-            VALUE "ProductVersion", "5, 1, 6, 4617"
+            VALUE "ProductVersion", "5, 1, 7, 4622"
 #else
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk Conferencing Client"
-            VALUE "FileVersion", "5, 1, 6, 4617"
+            VALUE "FileVersion", "5, 1, 7, 4622"
             VALUE "InternalName", "TeamTalk 5"
             VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk 5"
-            VALUE "ProductVersion", "5, 1, 6, 4617"
+            VALUE "ProductVersion", "5, 1, 7, 4622"
 #endif
         END
     END
