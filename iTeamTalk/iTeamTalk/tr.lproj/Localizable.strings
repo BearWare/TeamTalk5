@@ -1,4 +1,4 @@
-/* log entry */
+﻿/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
@@ -434,7 +434,7 @@
 "Toggle to enable/disable transmission" = "Mikrofonu açmak/kapatmak için çift dokunun";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Kulaklık kullanılırken ses iletim durumunu değiştir";
+"Toggle voice transmission using headset" = "Kulaklık düğmesine basarak ses iletim durumunu değiştir";
 
 /* create channel */
 "Topic" = "Konu";
