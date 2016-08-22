@@ -112,7 +112,7 @@
   <string name="action_join">Katıl</string>
   <string name="action_kick">Uzaklaştır</string>
   <string name="action_move">Buraya Taşı</string>
-  <string name="action_select">Taşımak için Seçin</string>
+  <string name="action_select">Taşımak için Seç</string>
   <string name="action_upload">Dosya Yükle</string>
   <string name="button_msg">İleti</string>
   <string name="button_send">Gönder</string>
@@ -125,7 +125,7 @@
   <string name="channel_prop_title_permanent">Kalıcı Kanal</string>
   <string name="channel_prop_title_nointerrupt">Aynı anda tek kullanıcı</string>
   <string name="channel_prop_title_classroom">Sınıf</string>
-  <string name="channel_prop_title_oprecvonly">Yalnız Yöneticiler Duyar</string>
+  <string name="channel_prop_title_oprecvonly">Alıcı Yalnız Yöneticidir</string>
   <string name="channel_prop_title_novoiceact">Ses Etkinleştirme Devre Dışı</string>
   <string name="channel_prop_title_noaudiorecord">Ses Kaydı Devre Dışı</string>
   <string name="user_prop_title_username">Kullanıcı Adı</string>
