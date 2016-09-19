@@ -66,7 +66,7 @@
 "NA0-UK-wve.title" = "Ayarlar";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Bağlan button";
+"PaV-2Q-pt4.accessibilityLabel" = "Bağlan düğme";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Bağlan";
