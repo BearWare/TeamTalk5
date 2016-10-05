@@ -301,9 +301,11 @@ public class TeamTalkServer {
     
     public TeamTalkServer() {
         
+        TeamTalk5Srv.loadLibrary();
+        TeamTalk5Srv.setLicenseInformation("", "");
+        
         // Instantiate server
         TeamTalk5Srv server = new TeamTalk5Srv(cmdcallback, logger);
-        TeamTalk5Srv.setLicenseInformation("", "");
         
         if(server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA) != ClientError.CMDERR_SUCCESS) {
             System.out.println("Failed to setup file sharing");
