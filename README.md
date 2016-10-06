@@ -8,8 +8,8 @@ To build the TeamTalk client or server projects you must first download the
 [TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) to obtain the client and server binaries.
 
 * TeamTalk 5 SDK Standard Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5sdk_v5.1.3.4542_win32.zip) **rev. 4542**
-  * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5sdk_v5.1.3.4542_win64.zip) **rev. 4542**
+  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.8.4641/tt5sdk_v5.1.8.4641_win32.zip) **rev. 4641**
+  * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.8.4641/tt5sdk_v5.1.8.4641_win64.zip) **rev. 4641**
   * [Mac 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5sdk_v5.1.3.4542_macos_x86_64.tar.gz) **rev. 4542**
   * [Debian 7 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5sdk_v5.1.3.4542_debian7_i386.tar.gz) **rev. 4542**
   * [Debian 7 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5sdk_v5.1.3.4542_debian7_x86_64.tar.gz) **rev. 4542**
@@ -17,8 +17,8 @@ To build the TeamTalk client or server projects you must first download the
   * [Android arm-v7](http://bearware.dk/test/teamtalksdk/v5.1.6.4603/tt5sdk_v5.1.6.4603_android_armv7a.tar.gz)  **rev. 4603**
   * [iOS 7.0+ universal](http://bearware.dk/test/teamtalksdk/v5.1.6.4603/tt5sdk_v5.1.6.4603_ios_universal.tar.gz)  **rev. 4603**
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5prosdk_v5.1.3.4542_win32.zip) **rev. 4542**
-  * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5prosdk_v5.1.3.4542_win64.zip) **rev. 4542**
+  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.8.4641/tt5prosdk_v5.1.8.4641_win32.zip) **rev. 4641**
+  * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.8.4641/tt5prosdk_v5.1.8.4641_win64.zip) **rev. 4641**
   * [Mac 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5prosdk_v5.1.3.4542_macos_x86_64.tar.gz) **rev. 4542**
   * [Debian 7 32-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5prosdk_v5.1.3.4542_debian7_i386.tar.gz) **rev. 4542**
   * [Debian 7 64-bit](http://bearware.dk/test/teamtalksdk/v5.1.3.4542/tt5prosdk_v5.1.3.4542_debian7_x86_64.tar.gz) **rev. 4542**
