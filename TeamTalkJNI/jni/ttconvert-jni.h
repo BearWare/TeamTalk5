@@ -33,7 +33,7 @@
 #define ZERO_STRUCT(s) memset(&s, 0, sizeof(s))
 
 #if defined(WIN32)
-#define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), TT_STRLEN))
+#define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), wcslen(str)))
 #define TT_STRCPY(dst, src) do { wcsncpy(dst, src, TT_STRLEN); dst[TT_STRLEN-1]; } while(0)
 const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N);
 #else
