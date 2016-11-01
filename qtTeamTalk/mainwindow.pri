@@ -55,6 +55,10 @@ mac {
     LIBS += -framework IOKit -framework Carbon
 }
 
+*-g++* {
+    QMAKE_CXXFLAGS += -std=c++0x
+}
+
 # install
 target.path = .
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS *.pro
