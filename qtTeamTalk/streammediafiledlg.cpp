@@ -37,6 +37,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     connect(this, SIGNAL(accepted()), SLOT(slotAccepted()));
     connect(ui.toolButton, SIGNAL(clicked()), SLOT(slotSelectFile()));
+    connect(ui.refreshBtn, SIGNAL(clicked()), SLOT(showMediaFormatInfo()));
     connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
             ui.vidcodecStackedWidget, SLOT(setCurrentIndex(int)));
 
@@ -73,10 +74,11 @@ void StreamMediaFileDlg::slotSelectFile()
                         tr("Open Media File"),
                         QDir::toNativeSeparators(fileinfo.dir().absolutePath()),
                         tr("Media files %1").arg("(*.*)"));
-
-    fileName = QDir::toNativeSeparators(fileName);
-    ui.mediafileEdit->setText(fileName);
-
+    if(fileName.size())
+    {
+        fileName = QDir::toNativeSeparators(fileName);
+        ui.mediafileEdit->setText(fileName);
+    }
     showMediaFormatInfo();
 }
 
@@ -84,7 +86,6 @@ void StreamMediaFileDlg::showMediaFormatInfo()
 {
     QString filename = ui.mediafileEdit->text();
     QString audio, video;
-
     MediaFileInfo mediaFile;
     ZERO_STRUCT(mediaFile);
 
@@ -122,8 +123,5 @@ void StreamMediaFileDlg::showMediaFormatInfo()
 
     ui.audioLabel->setText(audio);
     ui.videoLabel->setText(video);
-
-    ui.okBtn->setEnabled(mediaFile.audioFmt.nAudioFmt != AFF_NONE ||
-                         mediaFile.videoFmt.picFourCC != FOURCC_NONE);
 }
 

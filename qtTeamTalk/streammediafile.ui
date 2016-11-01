@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>511</width>
-    <height>316</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,17 @@
          <widget class="QToolButton" name="toolButton">
           <property name="text">
            <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="refreshBtn">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
           </property>
          </widget>
         </item>
@@ -167,7 +178,16 @@
         </property>
         <widget class="QWidget" name="vp8_page">
          <layout class="QVBoxLayout" name="verticalLayout_15">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -279,13 +299,16 @@
  <tabstops>
   <tabstop>mediafileEdit</tabstop>
   <tabstop>toolButton</tabstop>
+  <tabstop>refreshBtn</tabstop>
   <tabstop>loopChkBox</tabstop>
   <tabstop>vidcodecBox</tabstop>
   <tabstop>vp8bitrateSpinBox</tabstop>
   <tabstop>okBtn</tabstop>
   <tabstop>cancelBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>okBtn</sender>

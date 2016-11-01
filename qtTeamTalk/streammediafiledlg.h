@@ -34,10 +34,10 @@ public:
 private slots:
     void slotAccepted();
     void slotSelectFile();
+    void showMediaFormatInfo();
 
 private:
     Ui::StreamMediaFileDlg ui;
-    void showMediaFormatInfo();
 };
 
 #endif
