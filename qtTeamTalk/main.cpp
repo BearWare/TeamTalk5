@@ -153,7 +153,11 @@ public:
                 m_mainwindow->keysActive(key->keycode, key->state, event->type == KeyPress);
         }
         
+#if QT_VERSION >= 0x050000
+        return true; //x11EventFilter is not supported in Qt5, so just return true
+#else
         return QApplication::x11EventFilter(event);
+#endif
     }
     MainWindow* m_mainwindow;
 };

@@ -45,6 +45,10 @@
 #define USE_POLL 0
 #endif
 
+#ifdef Q_OS_LINUX
+#include <QX11Info>
+#endif
+
 //Commands which we're interested in knowning when have completed
 enum CommandComplete
 {

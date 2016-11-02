@@ -26,6 +26,10 @@
 
 #include "common.h"
 
+#ifdef Q_OS_LINUX
+#include <QX11Info>
+#endif
+
 class DesktopShareDlg : public QDialog
 {
     Q_OBJECT
