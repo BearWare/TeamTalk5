@@ -25,6 +25,10 @@
 #include <QFileOpenEvent>
 #include <QUrl>
 
+#if QT_VERSION >= 0x050000
+#include <QAbstractNativeEventFilter>
+#endif
+
 #include "mainwindow.h"
 #include "license.h"
 
@@ -62,6 +66,7 @@ public:
 //For hotkeys on X11
 #include <QX11Info>
 #include <X11/Xlib.h>
+#include <xcb/xcb.h> // used by Qt5
 
 struct x_auto_repeat_data
 {
@@ -105,10 +110,51 @@ static Bool qt_keypress_scanner(Display *, XEvent *event, XPointer arg)
 }
 
 class MyQApplication : public QApplication
+#if QT_VERSION >= 0x050000
+                     , public QAbstractNativeEventFilter
+#endif
 {
 public:
+#if QT_VERSION >= 0x050000
+    bool nativeEventFilter(const QByteArray &eventType, void *message, long *result)
+    {
+        Q_UNUSED(result);
+
+        if(eventType == "xcb_generic_event_t")
+        {
+            xcb_generic_event_t *ev = static_cast<xcb_generic_event_t *>(message);
+            xcb_key_press_event_t *keyevent = 0;
+            unsigned int keycode = 0, mods = 0, type = (ev->response_type & 0x7F);
+            switch(type)
+            {
+            case XCB_KEY_PRESS :
+            case XCB_KEY_RELEASE :
+                keyevent = static_cast<xcb_key_press_event_t *>(message);
+                keycode = keyevent->detail;
+                if(keyevent->state & XCB_MOD_MASK_1)
+                    mods |= Mod1Mask;
+                if(keyevent->state & XCB_MOD_MASK_CONTROL)
+                    mods |= ControlMask;
+                if(keyevent->state & XCB_MOD_MASK_4)
+                    mods |= Mod4Mask;
+                if(keyevent->state & XCB_MOD_MASK_SHIFT)
+                    mods |= ShiftMask;
+
+                m_mainwindow->keysActive(keycode, mods, type == XCB_KEY_PRESS);
+                break;
+            }
+        }
+        return false;
+    }
+#endif
+
     MyQApplication(int& argc, char **argv)
-        : QApplication(argc, argv), m_mainwindow(NULL) { }
+        : QApplication(argc, argv), m_mainwindow(NULL)
+    {
+#if QT_VERSION >= 0x050000
+        installNativeEventFilter(this);
+#endif
+    }
 
     bool x11EventFilter ( XEvent * event )
     {
