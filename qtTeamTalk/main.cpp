@@ -140,6 +140,7 @@ public:
                 if(keyevent->state & XCB_MOD_MASK_SHIFT)
                     mods |= ShiftMask;
 
+                //this doesn't work with key repeat
                 m_mainwindow->keysActive(keycode, mods, type == XCB_KEY_PRESS);
                 break;
             }
