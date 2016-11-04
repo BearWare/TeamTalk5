@@ -66,7 +66,10 @@ public:
 //For hotkeys on X11
 #include <QX11Info>
 #include <X11/Xlib.h>
+
+#if QT_VERSION >= 0x050000
 #include <xcb/xcb.h> // used by Qt5
+#endif
 
 struct x_auto_repeat_data
 {
