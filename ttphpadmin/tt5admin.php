@@ -8,8 +8,8 @@
  * Contact Information:
  *
  * Bjoern D. Rasmussen
- * Skanderborgvej 40 4-2
- * DK-8000 Aarhus C
+ * Kirketoften 5
+ * DK-8260 Viby J
  * Denmark
  * Email: contact@bearware.dk
  * Web: http://www.bearware.dk
