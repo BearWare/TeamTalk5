@@ -584,7 +584,7 @@ void PreferencesDlg::slotTabChange(int index)
         case FOURCC_RGB32 :
             ui.vidrgb32RadioButton->setChecked(true);
             break;
-        default :
+        case FOURCC_NONE :
             break;
         }
 
@@ -1516,32 +1516,32 @@ void PreferencesDlg::slotDefaultVideoSettings()
     if(index<0 || index >= m_videodevices.size())
         return;
 
-    ui.vidrgb32RadioButton->setChecked(true);
-    slotImageFormatChange(true);
-    int capfmt_index = -1;
-    for(int i=0;i<m_videodevices[index].nVideoFormatsCount;i++)
+    m_vidfmt = m_videodevices[index].videoFormats[0];
+    if(m_vidfmt.picFourCC == FOURCC_NONE)
     {
-        const VideoFormat& capfmt = m_videodevices[index].videoFormats[i];
-        if(!capfmt.nFPS_Denominator)
-            continue;
-
-        int fps = capfmt.nFPS_Numerator / capfmt.nFPS_Denominator;
-        if(fps+1 >= DEFAULT_VIDEO_FPS && 
-           fps-1 <= DEFAULT_VIDEO_FPS && 
-           capfmt.nWidth == DEFAULT_VIDEO_WIDTH &&
-           capfmt.nHeight == DEFAULT_VIDEO_HEIGHT &&
-           capfmt.picFourCC == DEFAULT_VIDEO_FOURCC)
-        {
-            capfmt_index = ui.captureformatsBox->findData(i);
-            break;
-        }
-    }
-    if(capfmt_index>=0)
-        ui.captureformatsBox->setCurrentIndex(capfmt_index);
-    else
         QMessageBox::information(this,
                                  tr("Default Video Capture"),
                                  tr("Unable to find preferred video capture settings"));
+    }
+    else
+    {
+        switch(m_vidfmt.picFourCC)
+        {
+        case FOURCC_I420 :
+            ui.vidi420RadioButton->setChecked(true);
+            break;
+        case FOURCC_YUY2 :
+            ui.vidyuy2RadioButton->setChecked(true);
+            break;
+        case FOURCC_RGB32 :
+            ui.vidrgb32RadioButton->setChecked(true);
+            break;
+        case FOURCC_NONE :
+            break;
+        }
+    }
+
+    slotVideoCaptureDevChange(index);
 
     for(int i=0;i<ui.vidcodecBox->count();i++)
     {

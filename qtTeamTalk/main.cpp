@@ -127,11 +127,12 @@ public:
         {
             xcb_generic_event_t *ev = static_cast<xcb_generic_event_t *>(message);
             xcb_key_press_event_t *keyevent = 0;
-            unsigned int keycode = 0, mods = 0, type = (ev->response_type & 0x7F);
+            unsigned int keycode = 0, mods = 0, type = (ev->response_type & ~0x80);
             switch(type)
             {
             case XCB_KEY_PRESS :
             case XCB_KEY_RELEASE :
+            {
                 keyevent = static_cast<xcb_key_press_event_t *>(message);
                 keycode = keyevent->detail;
                 if(keyevent->state & XCB_MOD_MASK_1)
@@ -143,9 +144,10 @@ public:
                 if(keyevent->state & XCB_MOD_MASK_SHIFT)
                     mods |= ShiftMask;
 
-                //this doesn't work with key repeat
+                qDebug() << "Hotkeys are not working in Qt5";
                 m_mainwindow->keysActive(keycode, mods, type == XCB_KEY_PRESS);
                 break;
+            }
             }
         }
         return false;
