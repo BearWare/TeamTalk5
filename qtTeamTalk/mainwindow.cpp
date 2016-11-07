@@ -1780,7 +1780,8 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
             ui.micSlider->setValue(ui.micSlider->value() - 1);
         break;
     case HOTKEY_VIDEOTX :
-        slotMeEnableVideoTransmission(active);
+        if(active)
+            slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == 0);
         break;
     }
 }
