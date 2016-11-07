@@ -42,16 +42,16 @@
 "Add new server entry" = "Yeni sunucu girişi ekle";
 
 /* preferences */
-"Announce content of text message" = "İletinin içeriğini söyle";
+"Announce content of text message" = "İletinin içeriğini duyur";
 
 /* preferences */
-"Announce lost server connection" = "Sunucu bağlantısı kesildiğinde bildir";
+"Announce lost server connection" = "Sunucu bağlantısı kaybını duyur";
 
 /* preferences */
-"Announce user joining channel" = "Kullanıcı kanala katıldığında bildir";
+"Announce user joining channel" = "Kullanıcının kanala katılımını duyur";
 
 /* preferences */
-"Announce user leaving channel" = "Kullanıcı kanaldan ayrıldığında bildir";
+"Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
 
 /* codec detail */
 "Application" = "Uygulama";
@@ -103,7 +103,7 @@
 
 /* preferences
    tts event */
-"Connection lost" = "Bağlantı kesintisi";
+"Connection lost" = "Bağlantı kaybı";
 
 /* View Title */
 "Create Channel" = "Kanal Oluştur";
@@ -174,7 +174,7 @@
 "Join root channel after login" = "Oturum açıldıktan sonra kök kanala katıl";
 
 /* log entry */
-"Joined %@" = "%@ kanalına katıldınız";
+"Joined %@" = "Katılınan %@";
 
 /* channel list */
 "Kick user" = "Kullanıcıyı uzaklaştır";
@@ -236,7 +236,7 @@
 "No Audio" = "Ses Yok";
 
 /* create channel */
-"No Audio Recording" = "Ses Kaydı Devre Dışı";
+"No Audio Recording" = "Ses Kaydı Yok";
 
 /* create channel */
 "No Interruptions" = "Aynı Anda Tek Kullanıcı";
@@ -245,7 +245,7 @@
 "No password" = "Parola yok";
 
 /* create channel */
-"No Voice Activation" = "Ses Etkinleştirme Devre Dışı";
+"No Voice Activation" = "Ses Etkinleştirme Yok";
 
 /* default nickname */
 "Noname" = "Adsız";
@@ -260,7 +260,7 @@
 "OPUS Codec" = "OPUS Kodlayıcı/Çözücüsü";
 
 /* channel list */
-"Parent channel" = "Önceki kanal";
+"Parent channel" = "Üst kanal";
 
 /* create channel
    Dialog message
@@ -292,7 +292,7 @@
 "Play sound when voice transmission is toggled" = "Ses iletim durumu değiştiğinde ses çal";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Yeni ileti alındığında ayrı pencere aç";
+"Pop up text message when new messages are received" = "Yeni ileti alındığında ileti açılır penceresi aç";
 
 /* serverlist */
 "Preferences" = "Ayarlar";
@@ -358,7 +358,7 @@
 "Send private message" = "Özel ileti gönder";
 
 /* preferences */
-"Server Connection Lost" = "Sunucu Bağlantısı Kesintisi";
+"Server Connection Lost" = "Sunucu Bağlantısı Kaybı";
 
 /* server entry */
 "Server List Entry" = "Sunucu Listesi Girişi";
@@ -465,16 +465,16 @@
 "User" = "Kullanıcı";
 
 /* preferences */
-"User Joins Channel" = "Kullanıcı Kanala Katıldığında";
+"User Joins Channel" = "Kullanıcının Kanala Katılımı";
 
 /* preferences */
-"User joins channel" = "Kullanıcı kanala katıldığında";
+"User joins channel" = "Kullanıcının kanala katılımı";
 
 /* preferences */
-"User leaves channel" = "Kullanıcı kanaldan ayrıldığında";
+"User leaves channel" = "Kullanıcının kanaldan ayrılması";
 
 /* preferences */
-"User Leaves Channel" = "Kullanıcı Kanaldan Ayrıldığında";
+"User Leaves Channel" = "Kullanıcının Kanaldan Ayrılması";
 
 /* preferences
    user detail */
