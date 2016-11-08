@@ -232,7 +232,11 @@ public:
 
         OSStatus oss = InstallApplicationEventHandler(&mac_callback, 2, hkEvents, NULL, NULL);
         Q_ASSERT(oss == 0);
-     }
+
+#if QT_VERSION >= 0x050400
+        QApplication::setQuitOnLastWindowClosed(false);
+#endif
+    }
 
     //TeamTalk event handling for MacOS X (Carbon). In QT 4 this is an
     //inherited method from QCoreApplication. In QT 5 this is a
@@ -253,6 +257,7 @@ public:
                 m_mainwindow->hotkeyToggle((HotKeyID)keyID.id, kind == kEventHotKeyPressed);
             }
         }
+
 #if QT_VERSION >= 0x050000
         return true; //Just return what ever...
 #else
@@ -274,7 +279,14 @@ protected:
             if(m_mainwindow && tturi.size())
                 m_mainwindow->parseArgs(QStringList() << "abc" << tturi);
         }
-
+#if QT_VERSION >= 0x050400
+        // This handles press in Dock on Mac OS X
+        if (e->type() == QEvent::ApplicationActivated)
+        {
+            if(m_mainwindow->isHidden())
+                m_mainwindow->show();
+        }
+#endif
         return QApplication::event(e);
     }
 };
