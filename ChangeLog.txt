@@ -2,6 +2,11 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.x, unreleased
+Default Qt client:
+- Linux video capture updated to V4L2
+- Mac OS video capture updated to AVFoundation
+- Mac OS client no longer closes when pressing X
+- Video TX hotkey changed to enable/disable by one press
 
 Version 5.1.7, released 2016/08/10
 Default Qt client:
