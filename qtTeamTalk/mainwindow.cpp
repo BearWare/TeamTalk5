@@ -1032,6 +1032,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         case INTERR_SPEEXDSP_INIT_FAILED :
             critical = false;
             textmsg = tr("Failed to initialize audio configuration"); break;
+        case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+            critical = false;
+            textmsg = tr("Internal message queue overloaded"); break;
         default :
             textmsg = _Q(msg.clienterrormsg.szErrorMsg);
             break;
