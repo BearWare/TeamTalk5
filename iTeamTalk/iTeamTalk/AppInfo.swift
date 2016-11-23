@@ -31,20 +31,20 @@ class AppInfo {
     static let DEFAULT_UDPPORT = 10333
     
     enum BundleInfo {
-        case NAME, VERSION_NO
+        case name, version_NO
     }
     
-    static func getBundleInfo(b: BundleInfo) -> String {
-        let bundle = NSBundle.mainBundle()
+    static func getBundleInfo(_ b: BundleInfo) -> String {
+        let bundle = Bundle.main
         let dict = bundle.infoDictionary
 
         switch b {
-        case .NAME :
+        case .name :
             if let info = dict?["CFBundleName"] {
                 return info as! String
             }
             return "Unknown"
-        case .VERSION_NO :
+        case .version_NO :
             if let info = dict?["CFBundleShortVersionString"] {
                 return info as! String
             }
@@ -53,10 +53,10 @@ class AppInfo {
     }
     
     static func getAppName() -> String {
-        return getBundleInfo(.NAME)
+        return getBundleInfo(.name)
     }
     static func getAppVersion() -> String {
-        return getBundleInfo(.VERSION_NO)
+        return getBundleInfo(.version_NO)
     }
     
     static func getServersURL() -> String {

@@ -54,51 +54,51 @@ class ChannelDetailViewController :
             channel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
         }
         
-        let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let namecell = UITableViewCell(style: .default, reuseIdentifier: nil)
         namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: fromTTString(channel.szName))
         namefield?.delegate = self
         chan_items.append(namecell)
         
-        let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: fromTTString(channel.szPassword))
         passwdfield?.delegate = self
-        passwdfield?.autocorrectionType = .No
-        passwdfield?.spellCheckingType = .No
-        passwdfield?.autocapitalizationType = .None
+        passwdfield?.autocorrectionType = .no
+        passwdfield?.spellCheckingType = .no
+        passwdfield?.autocapitalizationType = .none
         chan_items.append(passwdcell)
         
-        let topiccell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let topiccell = UITableViewCell(style: .default, reuseIdentifier: nil)
         topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: fromTTString(channel.szTopic))
         topicfield?.delegate = self
         chan_items.append(topiccell)
         
-        codeccell = tableView.dequeueReusableCellWithIdentifier("Setup Codec Cell")!
-        codeccell!.selectionStyle = .None
+        codeccell = tableView.dequeueReusableCell(withIdentifier: "Setup Codec Cell")!
+        codeccell!.selectionStyle = .none
         codeccell!.textLabel!.text = NSLocalizedString("Audio Codec", comment: "create channel")
         showCodecDetail()
         chan_items.append(codeccell!)
         
-        let permanentcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let permanentcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         permanentswitch = newTableCellSwitch(permanentcell, label: NSLocalizedString("Permanent Channel", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_PERMANENT.rawValue) != 0)
         chan_items.append(permanentcell)
         
-        let nointerruptcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let nointerruptcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         nointerruptionsswitch = newTableCellSwitch(nointerruptcell, label: NSLocalizedString("No Interruptions", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_SOLO_TRANSMIT.rawValue) != 0)
         chan_items.append(nointerruptcell)
         
-        let novoiceactcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let novoiceactcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         novoiceactivationswitch = newTableCellSwitch(novoiceactcell, label: NSLocalizedString("No Voice Activation", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_NO_VOICEACTIVATION.rawValue) != 0)
         chan_items.append(novoiceactcell)
         
-        let noaudiorecordcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let noaudiorecordcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         noaudiorecordingswitch = newTableCellSwitch(noaudiorecordcell, label: NSLocalizedString("No Audio Recording", comment: "create channel"), initial: (channel.uChannelType & CHANNEL_NO_RECORDING.rawValue) != 0)
         chan_items.append(noaudiorecordcell)
         
         if channel.nChannelID != 0 {
-            let joinchan = tableView.dequeueReusableCellWithIdentifier("Join Channel")!
+            let joinchan = tableView.dequeueReusableCell(withIdentifier: "Join Channel")!
             cmd_items.append(joinchan)
             
-            let deletechan = tableView.dequeueReusableCellWithIdentifier("Delete Channel")!
+            let deletechan = tableView.dequeueReusableCell(withIdentifier: "Delete Channel")!
             cmd_items.append(deletechan)
         }
         
@@ -118,16 +118,16 @@ class ChannelDetailViewController :
         tableView.delegate = self
     }
     
-    func textFieldDidBeginEditing(textfield: UITextField) {
+    func textFieldDidBeginEditing(_ textfield: UITextField) {
         let cell = textfield.superview as! UITableViewCell
-        tableView.scrollToRowAtIndexPath(tableView.indexPathForCell(cell)!, atScrollPosition: .Top, animated: true)
+        tableView.scrollToRow(at: tableView.indexPath(for: cell)!, at: .top, animated: true)
     }
     
 //    func textFieldShouldEndEditing(textfield: UITextField) -> Bool {
 //        return true
 //    }
     
-    func textFieldShouldReturn(textfield: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
         textfield.resignFirstResponder()
         return false
     }
@@ -136,14 +136,14 @@ class ChannelDetailViewController :
         var codecdetail = ""
         switch channel.audiocodec.nCodec {
         case OPUS_CODEC :
-            let opus = getOpusCodec(&channel.audiocodec).memory
+            let opus = getOpusCodec(&channel.audiocodec).pointee
             let chans = (opus.nChannels>1 ? NSLocalizedString("Stereo", comment: "create channel") : NSLocalizedString("Mono", comment: "create channel") )
             codecdetail = "OPUS \(opus.nSampleRate / 1000) KHz \(opus.nBitRate / 1000) KB/s " + chans
         case SPEEX_CODEC :
-            let speex = getSpeexCodec(&channel.audiocodec).memory
+            let speex = getSpeexCodec(&channel.audiocodec).pointee
             codecdetail = "Speex " + getBandmodeString(speex.nBandmode)
         case SPEEX_VBR_CODEC :
-            let speexvbr = getSpeexVBRCodec(&channel.audiocodec).memory
+            let speexvbr = getSpeexVBRCodec(&channel.audiocodec).pointee
             codecdetail = "Speex VBR " + getBandmodeString(speexvbr.nBandmode)
         case NO_CODEC :
             fallthrough
@@ -153,7 +153,7 @@ class ChannelDetailViewController :
         codeccell!.detailTextLabel?.text = codecdetail
     }
     
-    func getBandmodeString(bandmode : INT32) -> String {
+    func getBandmodeString(_ bandmode : INT32) -> String {
         switch bandmode {
         case 2 :
             return NSLocalizedString("32 KHz", comment: "create channel")
@@ -166,7 +166,7 @@ class ChannelDetailViewController :
         }
     }
     
-    @IBAction func createChannel(sender: UIBarButtonItem) {
+    @IBAction func createChannel(_ sender: UIBarButtonItem) {
         saveChannelDetail()
         
         if channel.nChannelID == 0 {
@@ -178,11 +178,11 @@ class ChannelDetailViewController :
         }
     }
     
-    @IBAction func joinChannelPressed(sender: UIButton) {
+    @IBAction func joinChannelPressed(_ sender: UIButton) {
         
         if channel.bPassword != 0 {
             let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
-            alert.alertViewStyle = .SecureTextInput
+            alert.alertViewStyle = .secureTextInput
             alert.show()
         }
         else {
@@ -191,32 +191,33 @@ class ChannelDetailViewController :
     }
     
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        let passwd = (alertView.textFieldAtIndex(0)?.text)!
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        let passwd = (alertView.textField(at: 0)?.text)!
         cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, passwd)
     }
 
     
-    @IBAction func deleteChannelPressed(sender: UIButton) {
+    @IBAction func deleteChannelPressed(_ sender: UIButton) {
         cmdid = TT_DoRemoveChannel(ttInst, channel.nChannelID)
     }
     
-    func handleTTMessage(var m: TTMessage) {
+    func handleTTMessage(_ m: TTMessage) {
+        var m = m
         
         switch m.nClientEvent {
             
         case CLIENTEVENT_CMD_SUCCESS :
             if m.nSource == cmdid {
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                let errmsg = getClientErrorMsg(&m).memory
+                let errmsg = getClientErrorMsg(&m).pointee
                 let s = fromTTString(errmsg.szErrorMsg)
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                     
                 } else {
                     // Fallback on earlier versions
@@ -231,56 +232,56 @@ class ChannelDetailViewController :
         }
     }
     
-    @IBAction func saveNoAudioCodec(segue:UIStoryboardSegue) {
+    @IBAction func saveNoAudioCodec(_ segue:UIStoryboardSegue) {
         channel.audiocodec.nCodec = NO_CODEC
         showCodecDetail()
     }
 
-    @IBAction func saveOpusCodec(segue:UIStoryboardSegue) {
+    @IBAction func saveOpusCodec(_ segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is AudioCodecViewController {
-            let vc = segue.sourceViewController as! AudioCodecViewController
+        if segue.source is AudioCodecViewController {
+            let vc = segue.source as! AudioCodecViewController
             vc.saveOPUSCodec()
             setOpusCodec(&channel.audiocodec, &vc.opuscodec)
             showCodecDetail()
         }
     }
     
-    @IBAction func saveSpeexCodec(segue:UIStoryboardSegue) {
+    @IBAction func saveSpeexCodec(_ segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is AudioCodecViewController {
-            let vc = segue.sourceViewController as! AudioCodecViewController
+        if segue.source is AudioCodecViewController {
+            let vc = segue.source as! AudioCodecViewController
             vc.saveSpeexCodec()
             setSpeexCodec(&channel.audiocodec, &vc.speexcodec)
             showCodecDetail()
         }
     }
 
-    @IBAction func saveSpeexVBRCodec(segue:UIStoryboardSegue) {
+    @IBAction func saveSpeexVBRCodec(_ segue:UIStoryboardSegue) {
         
-        if segue.sourceViewController is AudioCodecViewController {
-            let vc = segue.sourceViewController as! AudioCodecViewController
+        if segue.source is AudioCodecViewController {
+            let vc = segue.source as! AudioCodecViewController
             vc.saveSpeexVBRCodec()
             setSpeexVBRCodec(&channel.audiocodec, &vc.speexvbrcodec)
             showCodecDetail()
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "Setup Audio Codec" {
             
-            let vc = segue.destinationViewController as! AudioCodecViewController
+            let vc = segue.destination as! AudioCodecViewController
 
             vc.audiocodec = channel.audiocodec
             
             switch channel.audiocodec.nCodec {
             case SPEEX_CODEC :
-                vc.speexcodec = getSpeexCodec(&channel.audiocodec).memory
+                vc.speexcodec = getSpeexCodec(&channel.audiocodec).pointee
             case SPEEX_VBR_CODEC :
-                vc.speexvbrcodec = getSpeexVBRCodec(&channel.audiocodec).memory
+                vc.speexvbrcodec = getSpeexVBRCodec(&channel.audiocodec).pointee
             case OPUS_CODEC :
-                vc.opuscodec = getOpusCodec(&channel.audiocodec).memory
+                vc.opuscodec = getOpusCodec(&channel.audiocodec).pointee
             case NO_CODEC :
                 if channel.nChannelID == 0 {
                     vc.audiocodec.nCodec = OPUS_CODEC
@@ -299,25 +300,25 @@ class ChannelDetailViewController :
         toTTString(namefield!.text!, dst: &channel.szName)
         toTTString(passwdfield!.text!, dst: &channel.szPassword)
         toTTString(topicfield!.text!, dst: &channel.szTopic)
-        if permanentswitch!.on {
+        if permanentswitch!.isOn {
             channel.uChannelType |= CHANNEL_PERMANENT.rawValue
         }
         else {
             channel.uChannelType &= ~CHANNEL_PERMANENT.rawValue
         }
-        if nointerruptionsswitch!.on {
+        if nointerruptionsswitch!.isOn {
             channel.uChannelType |= CHANNEL_SOLO_TRANSMIT.rawValue
         }
         else {
             channel.uChannelType &= ~CHANNEL_SOLO_TRANSMIT.rawValue
         }
-        if novoiceactivationswitch!.on {
+        if novoiceactivationswitch!.isOn {
             channel.uChannelType |= CHANNEL_NO_VOICEACTIVATION.rawValue
         }
         else {
             channel.uChannelType &= ~CHANNEL_NO_VOICEACTIVATION.rawValue
         }
-        if noaudiorecordingswitch!.on {
+        if noaudiorecordingswitch!.isOn {
             channel.uChannelType |= CHANNEL_NO_RECORDING.rawValue
         }
         else {
@@ -326,7 +327,7 @@ class ChannelDetailViewController :
         
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if cmd_items.count > 0 {
             return 2
         }
@@ -335,7 +336,7 @@ class ChannelDetailViewController :
         }
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
             return NSLocalizedString("Channel Properties", comment: "create channel")
@@ -346,7 +347,7 @@ class ChannelDetailViewController :
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0 :
             return chan_items.count
@@ -357,7 +358,7 @@ class ChannelDetailViewController :
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
             return chan_items[indexPath.row]

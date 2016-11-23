@@ -23,7 +23,7 @@ import UIKit
 import Foundation
 import AVFoundation
 
-func refVolume(percent: Double) -> Int {
+func refVolume(_ percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
     if percent == 0 {
         return 0
@@ -33,7 +33,7 @@ func refVolume(percent: Double) -> Int {
     return Int(d)
 }
 
-func refVolumeToPercent(volume: Int) -> Int {
+func refVolumeToPercent(_ volume: Int) -> Int {
     if(volume == 0) {
         return 0
     }
@@ -45,39 +45,39 @@ func refVolumeToPercent(volume: Int) -> Int {
 
 func getDefaultSubscriptions() -> Subscriptions {
     
-    let settings = NSUserDefaults.standardUserDefaults()
+    let settings = UserDefaults.standard
     
     var sub_usermsg = DEFAULT_SUBSCRIPTION_USERMSG
-    if settings.objectForKey(PREF_SUB_USERMSG) != nil {
-        sub_usermsg = settings.boolForKey(PREF_SUB_USERMSG)
+    if settings.object(forKey: PREF_SUB_USERMSG) != nil {
+        sub_usermsg = settings.bool(forKey: PREF_SUB_USERMSG)
     }
     var sub_chanmsg = DEFAULT_SUBSCRIPTION_CHANMSG
-    if settings.objectForKey(PREF_SUB_CHANMSG) != nil {
-        sub_chanmsg = settings.boolForKey(PREF_SUB_CHANMSG)
+    if settings.object(forKey: PREF_SUB_CHANMSG) != nil {
+        sub_chanmsg = settings.bool(forKey: PREF_SUB_CHANMSG)
     }
     var sub_bcastmsg = DEFAULT_SUBSCRIPTION_BCASTMSG
-    if settings.objectForKey(PREF_SUB_BROADCAST) != nil {
-        sub_bcastmsg = settings.boolForKey(PREF_SUB_BROADCAST)
+    if settings.object(forKey: PREF_SUB_BROADCAST) != nil {
+        sub_bcastmsg = settings.bool(forKey: PREF_SUB_BROADCAST)
     }
     var sub_voice = DEFAULT_SUBSCRIPTION_VOICE
-    if settings.objectForKey(PREF_SUB_VOICE) != nil {
-        sub_voice = settings.boolForKey(PREF_SUB_VOICE)
+    if settings.object(forKey: PREF_SUB_VOICE) != nil {
+        sub_voice = settings.bool(forKey: PREF_SUB_VOICE)
     }
     var sub_vidcap = DEFAULT_SUBSCRIPTION_VIDEOCAP
-    if settings.objectForKey(PREF_SUB_VIDEOCAP) != nil {
-        sub_vidcap = settings.boolForKey(PREF_SUB_VIDEOCAP)
+    if settings.object(forKey: PREF_SUB_VIDEOCAP) != nil {
+        sub_vidcap = settings.bool(forKey: PREF_SUB_VIDEOCAP)
     }
     var sub_mediafile = DEFAULT_SUBSCRIPTION_MEDIAFILE
-    if settings.objectForKey(PREF_SUB_MEDIAFILE) != nil {
-        sub_mediafile = settings.boolForKey(PREF_SUB_MEDIAFILE)
+    if settings.object(forKey: PREF_SUB_MEDIAFILE) != nil {
+        sub_mediafile = settings.bool(forKey: PREF_SUB_MEDIAFILE)
     }
     var sub_desktop = DEFAULT_SUBSCRIPTION_DESKTOP
-    if settings.objectForKey(PREF_SUB_DESKTOP) != nil {
-        sub_desktop = settings.boolForKey(PREF_SUB_DESKTOP)
+    if settings.object(forKey: PREF_SUB_DESKTOP) != nil {
+        sub_desktop = settings.bool(forKey: PREF_SUB_DESKTOP)
     }
     var sub_deskinput = DEFAULT_SUBSCRIPTION_DESKTOPINPUT
-    if settings.objectForKey(PREF_SUB_DESKTOPINPUT) != nil {
-        sub_deskinput = settings.boolForKey(PREF_SUB_DESKTOPINPUT)
+    if settings.object(forKey: PREF_SUB_DESKTOPINPUT) != nil {
+        sub_deskinput = settings.bool(forKey: PREF_SUB_DESKTOPINPUT)
     }
     
     var subs : Subscriptions = SUBSCRIBE_CUSTOM_MSG.rawValue
@@ -109,10 +109,10 @@ func getDefaultSubscriptions() -> Subscriptions {
     return subs
 }
 
-func newTableCellTextField(cell: UITableViewCell, label: String, initial: String) -> UITextField {
-    cell.selectionStyle = .None
+func newTableCellTextField(_ cell: UITableViewCell, label: String, initial: String) -> UITextField {
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
-    let textfield = UITextField(frame: CGRectMake(150, 7, 150, 30))
+    let textfield = UITextField(frame: CGRect(x: 150, y: 7, width: 150, height: 30))
     textfield.text = initial
     textfield.placeholder = NSLocalizedString("Type text here", comment: "text field hint")
     //textfield.borderStyle = .Line
@@ -121,10 +121,10 @@ func newTableCellTextField(cell: UITableViewCell, label: String, initial: String
     return textfield
 }
 
-func newTableCellSlider(cell: UITableViewCell, label: String, min: Float, max: Float, initial: Float) -> UISlider {
-    cell.selectionStyle = .None
+func newTableCellSlider(_ cell: UITableViewCell, label: String, min: Float, max: Float, initial: Float) -> UISlider {
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
-    let sliderfield = UISlider(frame: CGRectMake(150, 7, 150, 31))
+    let sliderfield = UISlider(frame: CGRect(x: 150, y: 7, width: 150, height: 31))
     sliderfield.minimumValue = min
     sliderfield.maximumValue = max
     sliderfield.value = initial
@@ -133,28 +133,28 @@ func newTableCellSlider(cell: UITableViewCell, label: String, min: Float, max: F
     return sliderfield
 }
 
-func newTableCellSwitch(cell: UITableViewCell, label: String, initial: Bool) -> UISwitch {
-    cell.selectionStyle = .None
+func newTableCellSwitch(_ cell: UITableViewCell, label: String, initial: Bool) -> UISwitch {
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
-    let switchfield = UISwitch(frame: CGRectZero)
-    switchfield.on = initial
+    let switchfield = UISwitch(frame: CGRect.zero)
+    switchfield.isOn = initial
     cell.accessoryView = switchfield
     
     return switchfield
 }
 
-func newTableCellBtn(cell: UITableViewCell, label: String, btntext: String) -> UIButton {
-    cell.selectionStyle = .None
+func newTableCellBtn(_ cell: UITableViewCell, label: String, btntext: String) -> UIButton {
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
-    let buttonfield = UIButton(frame: CGRectMake(40, 0, 150, 31))
-    buttonfield.setTitle(btntext, forState: .Normal)
+    let buttonfield = UIButton(frame: CGRect(x: 40, y: 0, width: 150, height: 31))
+    buttonfield.setTitle(btntext, for: UIControlState())
     cell.accessoryView = buttonfield
     
     return buttonfield
 }
 
-func newTableCellSegCtrl(cell: UITableViewCell, label: String, values: [String]) -> UISegmentedControl {
-    cell.selectionStyle = .None
+func newTableCellSegCtrl(_ cell: UITableViewCell, label: String, values: [String]) -> UISegmentedControl {
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
     let field = UISegmentedControl(items: values)
     cell.accessoryView = field
@@ -162,11 +162,11 @@ func newTableCellSegCtrl(cell: UITableViewCell, label: String, values: [String])
     return field
 }
 
-func newTableCellStepper(cell: UITableViewCell, label: String,
+func newTableCellStepper(_ cell: UITableViewCell, label: String,
                          min: Double, max: Double,
                          step: Double, initial: Double) -> UIStepper {
 
-    cell.selectionStyle = .None
+    cell.selectionStyle = .none
     cell.textLabel?.text = label
     let stepper = UIStepper()
     
@@ -181,7 +181,7 @@ func newTableCellStepper(cell: UITableViewCell, label: String,
 }
 
 protocol TeamTalkEvent : class {
-    func handleTTMessage(var m: TTMessage)
+    func handleTTMessage(_ m: TTMessage)
 }
 
 class TeamTalkEventHandler {
@@ -192,11 +192,11 @@ class TeamTalkEventHandler {
 }
 
 //shared TTInstance between all view controllers
-var ttInst : UnsafeMutablePointer<Void> = nil
+var ttInst : UnsafeMutableRawPointer? = nil
 
 var ttMessageHandlers = [TeamTalkEventHandler]()
 
-func addToTTMessages(p: TeamTalkEvent) {
+func addToTTMessages(_ p: TeamTalkEvent) {
     
     for m in ttMessageHandlers {
         if m.value === p {
@@ -209,11 +209,14 @@ func addToTTMessages(p: TeamTalkEvent) {
     ttMessageHandlers.append(new)
 }
 
-func removeFromTTMessages(p: TeamTalkEventHandler) {
+func removeFromTTMessages(_ p: TeamTalkEventHandler) {
 
-    for var i = 0; i < ttMessageHandlers.count; {
-        if ttMessageHandlers[i] === p {
-            ttMessageHandlers.removeAtIndex(i)
+    var i = 0
+    
+    for m in ttMessageHandlers {
+        if m === p {
+            ttMessageHandlers.remove(at: i)
+            break
         }
         else {
             i += 1
@@ -222,16 +225,16 @@ func removeFromTTMessages(p: TeamTalkEventHandler) {
 }
 
 enum MsgType {
-    case IM
-    case IM_MYSELF
-    case LOGMSG
-    case BCAST
+    case im
+    case im_MYSELF
+    case logmsg
+    case bcast
 }
 
 struct MyTextMessage {
     var nickname = ""
     var message : String
-    var date = NSDate()
+    var date = Date()
     var msgtype : MsgType
     
     init(m: TextMessage, nickname: String, msgtype: MsgType) {
@@ -242,34 +245,34 @@ struct MyTextMessage {
     
     init(logmsg: String) {
         message = logmsg
-        msgtype = .LOGMSG
+        msgtype = .logmsg
     }
 
     
-    func drawCell(cell: TextMsgTableCell) {
+    func drawCell(_ cell: TextMsgTableCell) {
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale.currentLocale()
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
         dateFormatter.dateFormat = "HH:mm:ss"
-        let time = dateFormatter.stringFromDate(date)
+        let time = dateFormatter.string(from: date)
         
         switch msgtype {
-        case .IM :
+        case .im :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 1.0, green:0.627, blue:0.882, alpha: 1.0)
             
-        case .IM_MYSELF :
+        case .im_MYSELF :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 0.54, green: 0.82, blue: 0.94, alpha: 1.0)
             
-        case .BCAST :
+        case .bcast :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 0.831, green: 0.376, blue: 1.0, alpha:1.0)
             
-        case .LOGMSG :
+        case .logmsg :
             cell.backgroundColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
             cell.authorLabel.text = "\(time)"
         }
@@ -283,13 +286,13 @@ struct MyTextMessage {
 }
 
 protocol MyTextMessageDelegate {
-    func appendTextMessage(userid: INT32, txtmsg: MyTextMessage)
+    func appendTextMessage(_ userid: INT32, txtmsg: MyTextMessage)
 }
 
 // messages received but no read (blinking)
 var unreadmessages = Set<INT32>()
 
-func isTransmitting(ttInst: UnsafeMutablePointer<Void>, stream: StreamType) -> Bool {
+func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {
     let flags = TT_GetFlags(ttInst)
     
     switch stream {
@@ -307,74 +310,74 @@ func isTransmitting(ttInst: UnsafeMutablePointer<Void>, stream: StreamType) -> B
 }
 
 func hasPTTLock() -> Bool {
-    let defaults = NSUserDefaults.standardUserDefaults()
-    return defaults.objectForKey(PREF_GENERAL_PTTLOCK) != nil && defaults.boolForKey(PREF_GENERAL_PTTLOCK)
+    let defaults = UserDefaults.standard
+    return defaults.object(forKey: PREF_GENERAL_PTTLOCK) != nil && defaults.bool(forKey: PREF_GENERAL_PTTLOCK)
 }
 
-func limitText(s: String) -> String {
+func limitText(_ s: String) -> String {
     
-    let settings = NSUserDefaults.standardUserDefaults()
-    let length = settings.objectForKey(PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integerForKey(PREF_DISPLAY_LIMITTEXT)
+    let settings = UserDefaults.standard
+    let length = settings.object(forKey: PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integer(forKey: PREF_DISPLAY_LIMITTEXT)
     
     if s.characters.count > length {
-        return s.substringWithRange(Range<String.Index>(start: s.startIndex, end: s.startIndex.advancedBy(length)))
+        return s.substring(with: (s.startIndex ..< s.characters.index(s.startIndex, offsetBy: length)))
     }
     return s
 }
 
-func getDisplayName(user: User) -> String {
-    let settings = NSUserDefaults.standardUserDefaults()
-    if settings.objectForKey(PREF_DISPLAY_SHOWUSERNAME) != nil && settings.boolForKey(PREF_DISPLAY_SHOWUSERNAME) {
+func getDisplayName(_ user: User) -> String {
+    let settings = UserDefaults.standard
+    if settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME) {
         return limitText(fromTTString(user.szUsername))
     }
     return limitText(fromTTString(user.szNickname))
 }
 
 enum Sounds : Int {
-    case TX_ON = 1, TX_OFF = 2, CHAN_MSG = 3,
-         USER_MSG = 4, SRV_LOST = 5, JOINED_CHAN = 6, LEFT_CHAN = 7
+    case tx_ON = 1, tx_OFF = 2, chan_MSG = 3,
+         user_MSG = 4, srv_LOST = 5, joined_CHAN = 6, left_CHAN = 7
 }
 
 var player : AVAudioPlayer?
 
-func getSoundFile(s: Sounds) -> String? {
+func getSoundFile(_ s: Sounds) -> String? {
     
-    let settings = NSUserDefaults.standardUserDefaults()
+    let settings = UserDefaults.standard
     
     switch s {
-    case .TX_ON:
-        if settings.objectForKey(PREF_SNDEVENT_VOICETX) == nil ||
-           settings.boolForKey(PREF_SNDEVENT_VOICETX) {
+    case .tx_ON:
+        if settings.object(forKey: PREF_SNDEVENT_VOICETX) == nil ||
+           settings.bool(forKey: PREF_SNDEVENT_VOICETX) {
             return "on"
         }
-    case .TX_OFF:
-        if settings.objectForKey(PREF_SNDEVENT_VOICETX) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_VOICETX) {
+    case .tx_OFF:
+        if settings.object(forKey: PREF_SNDEVENT_VOICETX) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_VOICETX) {
                 return "off"
         }
-    case .CHAN_MSG:
-        if settings.objectForKey(PREF_SNDEVENT_CHANMSG) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_CHANMSG) {
+    case .chan_MSG:
+        if settings.object(forKey: PREF_SNDEVENT_CHANMSG) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_CHANMSG) {
                 return "channel_message"
         }
-    case .USER_MSG:
-        if settings.objectForKey(PREF_SNDEVENT_USERMSG) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_USERMSG) {
+    case .user_MSG:
+        if settings.object(forKey: PREF_SNDEVENT_USERMSG) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_USERMSG) {
                 return "user_message"
         }
-    case .SRV_LOST:
-        if settings.objectForKey(PREF_SNDEVENT_SERVERLOST) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_SERVERLOST) {
+    case .srv_LOST:
+        if settings.object(forKey: PREF_SNDEVENT_SERVERLOST) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_SERVERLOST) {
                 return "serverlost"
         }
-    case .JOINED_CHAN:
-        if settings.objectForKey(PREF_SNDEVENT_JOINEDCHAN) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_JOINEDCHAN) {
+    case .joined_CHAN:
+        if settings.object(forKey: PREF_SNDEVENT_JOINEDCHAN) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_JOINEDCHAN) {
                 return "newuser"
         }
-    case .LEFT_CHAN:
-        if settings.objectForKey(PREF_SNDEVENT_LEFTCHAN) == nil ||
-            settings.boolForKey(PREF_SNDEVENT_LEFTCHAN) {
+    case .left_CHAN:
+        if settings.object(forKey: PREF_SNDEVENT_LEFTCHAN) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_LEFTCHAN) {
                 return "removeuser"
         }
 	    }
@@ -384,8 +387,8 @@ func getSoundFile(s: Sounds) -> String? {
 
 func setupSoundDevices() {
     
-    let defaults = NSUserDefaults.standardUserDefaults()
-    let on = defaults.objectForKey(PREF_VOICEPROCESSINGIO) != nil && defaults.boolForKey(PREF_VOICEPROCESSINGIO)
+    let defaults = UserDefaults.standard
+    let on = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
     
     let flags = TT_GetFlags(ttInst)
     if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
@@ -400,15 +403,15 @@ func setupSoundDevices() {
 
 func setupSpeakerOutput() {
     
-    let defaults = NSUserDefaults.standardUserDefaults()
-    let on = defaults.objectForKey(PREF_SPEAKER_OUTPUT) != nil && defaults.boolForKey(PREF_SPEAKER_OUTPUT)
+    let defaults = UserDefaults.standard
+    let on = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
 
     if on {
         enableSpeakerOutput(on)
     }
 }
 
-func enableSpeakerOutput(on: Bool) {
+func enableSpeakerOutput(_ on: Bool) {
     
     let session = AVAudioSession.sharedInstance()
     
@@ -431,7 +434,7 @@ func enableSpeakerOutput(on: Bool) {
     
 }
 
-func playSound(s: Sounds) {
+func playSound(_ s: Sounds) {
     
     let filename = getSoundFile(s)
     
@@ -439,12 +442,12 @@ func playSound(s: Sounds) {
         return
     }
     
-    if let resPath = NSBundle.mainBundle().pathForResource(filename, ofType: "mp3") {
+    if let resPath = Bundle.main.path(forResource: filename, ofType: "mp3") {
         
-        let url = NSURL(fileURLWithPath: resPath)
+        let url = URL(fileURLWithPath: resPath)
         
         do {
-            player = try AVAudioPlayer(contentsOfURL: url)
+            player = try AVAudioPlayer(contentsOf: url)
             player!.prepareToPlay()
             player!.play()
         }
@@ -468,34 +471,34 @@ var myUtterance = AVSpeechUtterance(string: "")
 
 let DEFAULT_TTS_VOL : Float = 0.5
 
-func newUtterance(utterance: String) {
-    let settings = NSUserDefaults.standardUserDefaults()
+func newUtterance(_ utterance: String) {
+    let settings = UserDefaults.standard
     myUtterance = AVSpeechUtterance(string: utterance)
-    if let rate = settings.valueForKey(PREF_TTSEVENT_RATE) {
-        myUtterance.rate = rate.floatValue!
+    if let rate = settings.value(forKey: PREF_TTSEVENT_RATE) {
+        myUtterance.rate = (rate as AnyObject).floatValue!
     }
-    if let vol = settings.valueForKey(PREF_TTSEVENT_VOL) {
-        myUtterance.volume = vol.floatValue!
+    if let vol = settings.value(forKey: PREF_TTSEVENT_VOL) {
+        myUtterance.volume = (vol as AnyObject).floatValue!
     }
-    if let voice = settings.stringForKey(PREF_TTSEVENT_VOICEID) {
+    if let voice = settings.string(forKey: PREF_TTSEVENT_VOICEID) {
         if #available(iOS 9.0, *) {
             myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
         } else {
             // Fallback on earlier versions
         }
     }
-    else if let lang = settings.stringForKey(PREF_TTSEVENT_VOICELANG) {
+    else if let lang = settings.string(forKey: PREF_TTSEVENT_VOICELANG) {
         myUtterance.voice = AVSpeechSynthesisVoice(language: lang)
     }
     
-    synth.speakUtterance(myUtterance)
+    synth.speak(myUtterance)
 }
 
-func speakTextMessage(msgtype: TextMsgType, mymsg: MyTextMessage) {
+func speakTextMessage(_ msgtype: TextMsgType, mymsg: MyTextMessage) {
     
-    let settings = NSUserDefaults.standardUserDefaults()
-    let tts_priv = settings.objectForKey(PREF_TTSEVENT_TEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_TEXTMSG) && msgtype == MSGTYPE_USER
-    let tts_chan = settings.objectForKey(PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.boolForKey(PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
+    let settings = UserDefaults.standard
+    let tts_priv = settings.object(forKey: PREF_TTSEVENT_TEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_TEXTMSG) && msgtype == MSGTYPE_USER
+    let tts_chan = settings.object(forKey: PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
     
     if tts_priv {
         let ttsmsg = String(format: NSLocalizedString("Private text message from %@. %@", comment: "TTS EVENT"),
@@ -556,7 +559,7 @@ let DEFAULT_SPEEX_VBR_DTX : TTBOOL = 1
 let DEFAULT_SPEEX_VBR_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
 let DEFAULT_SPEEX_VBR_SIMSTEREO : TTBOOL = 0
 
-func newAudioCodec(codec: Codec) -> AudioCodec {
+func newAudioCodec(_ codec: Codec) -> AudioCodec {
     var audiocodec = AudioCodec()
     
     switch codec {
@@ -608,7 +611,7 @@ let DEFAULT_SUBSCRIPTION_MEDIAFILE = true
 let DEFAULT_SUBSCRIPTION_DESKTOP = false
 let DEFAULT_SUBSCRIPTION_DESKTOPINPUT = false
 
-func within<T : Comparable>(min_v: T, max_v: T, value: T) -> T {
+func within<T : Comparable>(_ min_v: T, max_v: T, value: T) -> T {
     if value < min_v {
         return min_v
     }
@@ -619,11 +622,12 @@ func within<T : Comparable>(min_v: T, max_v: T, value: T) -> T {
 }
 
 //TODO: someone find a way out of this madness
-func fromTTString(var cs: (TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR)) -> String {
-    return withUnsafePointer(&cs) { String.fromCString(UnsafePointer($0))! }
+func fromTTString(_ cs: (TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR)) -> String {
+    var cs = cs
+    return withUnsafePointer(to: &cs) { String(cString: UnsafeRawPointer($0).assumingMemoryBound(to: CChar.self)) }
 }
 
-func toTTString(src: String, inout dst: (TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR)) {
+func toTTString(_ src: String, dst: inout (TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHAR)) {
 
     var c = StringWrap()
     convertTuple(src, &c)

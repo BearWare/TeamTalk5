@@ -41,9 +41,9 @@ class TextMessageViewController :
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let def = NSNotificationCenter.defaultCenter()
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        let def = NotificationCenter.default
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         resetText()
         
@@ -55,58 +55,58 @@ class TextMessageViewController :
         msgTextView.accessibilityHint = NSLocalizedString("Send empty message to close keyboard", comment: "text message")
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if self.isMovingFromParentViewController() {
+        if self.isMovingFromParentViewController {
             unreadmessages.remove(userid)
         }
     }
 
     
     func dismissKeyboard() {
-        if msgTextView.isFirstResponder() {
+        if msgTextView.isFirstResponder {
            msgTextView.resignFirstResponder()
         }
     }
     
     func resetText() {
         msgTextView.text = initial_text
-        msgTextView.textColor = UIColor.lightGrayColor()
+        msgTextView.textColor = UIColor.lightGray
     }
     
     func updateTableView() {
         
         tableView.reloadData()
         
-        if tableView.numberOfRowsInSection(0) > 0 {
+        if tableView.numberOfRows(inSection: 0) > 0 {
 //            let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
 //            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Top, animated: true)
 //            let frame = tableView.frame
 //            let content = tableView.contentSize
 //            tableView.setContentOffset(CGPointMake(0, rect.height - frame.height), animated: true)
 //            if content.height > frame.height {
-                let ip = NSIndexPath(forRow: tableView.numberOfRowsInSection(0)-1, inSection: 0)
-                tableView.scrollToRowAtIndexPath(ip, atScrollPosition: .Bottom, animated: true)
+                let ip = IndexPath(row: tableView.numberOfRows(inSection: 0)-1, section: 0)
+                tableView.scrollToRow(at: ip, at: .bottom, animated: true)
 //            }
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    func keyboardWillShow(notify: NSNotification) {
+    func keyboardWillShow(_ notify: Notification) {
         moveForKeyboard(notify, up: true)
     }
     
-    func keyboardWillHide(notify: NSNotification) {
+    func keyboardWillHide(_ notify: Notification) {
         moveForKeyboard(notify, up: false)
     }
     
-    func moveForKeyboard(notify: NSNotification, up: Bool) {
+    func moveForKeyboard(_ notify: Notification, up: Bool) {
         if let userInfo = notify.userInfo {
-            if let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue {
+            if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
                 
                 let selfFrame = self.view.frame
                 var newTableFrame = tableView.frame
@@ -141,7 +141,7 @@ class TextMessageViewController :
         }
     }
     
-    @IBAction func sendTextMessage(sender: UIButton) {
+    @IBAction func sendTextMessage(_ sender: UIButton) {
         
         if msgTextView.text.isEmpty {
             msgTextView.resignFirstResponder()
@@ -163,7 +163,7 @@ class TextMessageViewController :
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = getDisplayName(user)
-            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .IM_MYSELF)
+            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .im_MYSELF)
             
             messages.append(mymsg)
 
@@ -180,29 +180,30 @@ class TextMessageViewController :
         }
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         
         if msgTextView.text == initial_text {
             msgTextView.text = ""
         }
-        msgTextView.textColor = UIColor.darkTextColor()
+        msgTextView.textColor = UIColor.darkText
         
         return true
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if msgTextView.text.isEmpty {
             resetText()
         }
     }
     
-    func handleTTMessage(var m: TTMessage) {
+    func handleTTMessage(_ m: TTMessage) {
+        var m = m
 
         switch m.nClientEvent {
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             
-            let txtmsg = getTextMessage(&m).memory
+            let txtmsg = getTextMessage(&m).pointee
             
             if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid /* private message to this view controller */) ||
                 (txtmsg.nMsgType == MSGTYPE_CHANNEL && userid == 0 /* channel message to tab-bar chat */) ||
@@ -211,15 +212,15 @@ class TextMessageViewController :
                     var user = User()
                     TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                     
-                    var msgtype = MsgType.IM
+                    var msgtype = MsgType.im
                     
                     switch txtmsg.nMsgType {
                     case MSGTYPE_USER :
                         fallthrough
                     case MSGTYPE_CHANNEL :
-                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM
+                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .im_MYSELF : .im
                     case MSGTYPE_BROADCAST :
-                        msgtype = .BCAST
+                        msgtype = .bcast
                     default :
                         break
                     }
@@ -241,7 +242,7 @@ class TextMessageViewController :
             }
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
             
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             if TT_GetMyUserID(ttInst) == user.nUserID {
                 let logmsg = MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry"))
                 messages.append(logmsg)
@@ -252,7 +253,7 @@ class TextMessageViewController :
             }
         case CLIENTEVENT_CMD_USER_JOINED :
             
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             if TT_GetMyChannelID(ttInst) == user.nChannelID {
                 var logmsg : MyTextMessage?
                 if TT_GetMyUserID(ttInst) == user.nUserID {
@@ -281,7 +282,7 @@ class TextMessageViewController :
             }
         case CLIENTEVENT_CMD_USER_LEFT :
             
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             if TT_GetMyChannelID(ttInst) == m.nSource {
                 let name = getDisplayName(user)
                 let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
@@ -296,16 +297,16 @@ class TextMessageViewController :
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Text Msg Cell") as! TextMsgTableCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
         let txtmsg = messages[indexPath.row]
         
         txtmsg.drawCell(cell)
@@ -315,14 +316,14 @@ class TextMessageViewController :
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Text Msg Cell") as! TextMsgTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
         let txtmsg = messages[indexPath.row]
         cell.messageTextView.text = txtmsg.message
         
         let fixedWidth = cell.messageTextView.frame.size.width
-        let newSize = cell.messageTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max))
+        let newSize = cell.messageTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         
         return newSize.height
     }

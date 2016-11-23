@@ -43,7 +43,7 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
 //        let defaults = NSUserDefaults.standardUserDefaults()
@@ -80,28 +80,28 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         
     }
     
-    func getVoices(language: String) -> [AVSpeechSynthesisVoice] {
+    func getVoices(_ language: String) -> [AVSpeechSynthesisVoice] {
         let voices = AVSpeechSynthesisVoice.speechVoices().filter({$0.language == language})
         return voices
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getVoices(sections[section]).count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let language = sections[indexPath.section]
-        let localname = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: language)
+        let localname = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: language)
         let voices = getVoices(language)
-        let cell = tableView.dequeueReusableCellWithIdentifier("Voice Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Voice Cell")
         if #available(iOS 9.0, *) {
             cell?.textLabel?.text = voices[indexPath.row].name
         } else {
@@ -111,10 +111,10 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let voices = getVoices(sections[indexPath.section])
         let voice = voices[indexPath.row]
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
         if #available(iOS 9.0, *) {
             defaults.setValue(voice.identifier, forKey: PREF_TTSEVENT_VOICEID)
@@ -125,7 +125,7 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         } else {
             defaults.setValue(voice.language, forKey: PREF_TTSEVENT_VOICELANG)
             
-            if let localname = NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: voice.language) {
+            if let localname = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: voice.language) {
                 let utterance = String(format: NSLocalizedString("You have selected %@" , comment: "speech"), localname)
                 newUtterance(utterance)
             }

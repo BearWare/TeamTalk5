@@ -21,6 +21,30 @@
 
 import UIKit
 import AVFoundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ChannelListViewController :
     UIViewController, UITableViewDataSource,
@@ -48,13 +72,13 @@ class ChannelListViewController :
     // user to user text messages
     var textmessages = [INT32 : [MyTextMessage] ]()
     // timer for blinking unread messages
-    var unreadTimer : NSTimer?
+    var unreadTimer : Timer?
     // list of channels and users
     @IBOutlet weak var tableView: UITableView!
     // PTT button
     @IBOutlet weak var txButton: UIButton!
     // timeout for PTT lock
-    var pttLockTimeout = NSDate()
+    var pttLockTimeout = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,14 +89,14 @@ class ChannelListViewController :
         updateTX()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         tableView.reloadData()
         updateTX()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
     }
@@ -82,41 +106,41 @@ class ChannelListViewController :
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func joinChannel(sender: UIButton) {
+    @IBAction func joinChannel(_ sender: UIButton) {
         joinNewChannel(curchannel)
     }
     
-    func joinNewChannel(channel: Channel) {
+    func joinNewChannel(_ channel: Channel) {
         if channel.bPassword != 0 {
             let alertView = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
-            alertView.alertViewStyle = .SecureTextInput
+            alertView.alertViewStyle = .secureTextInput
             alertView.tag = Int(channel.nChannelID)
             if let passwd = chanpasswds[channel.nChannelID] {
-                alertView.textFieldAtIndex(0)?.text = passwd
+                alertView.textField(at: 0)?.text = passwd
             }
             alertView.show()
         }
         else {
             let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
-            activeCommands[cmdid] = .JoinCmd
+            activeCommands[cmdid] = .joinCmd
         }
         
     }
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        let passwd = (alertView.textFieldAtIndex(0)?.text)!
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        let passwd = (alertView.textField(at: 0)?.text)!
         chanpasswds[INT32(alertView.tag)] = passwd
         let cmdid = TT_DoJoinChannelByID(ttInst, INT32(alertView.tag), passwd)
-        activeCommands[cmdid] = .JoinCmd
+        activeCommands[cmdid] = .joinCmd
     }
     
     enum Command {
-        case LoginCmd, JoinCmd
+        case loginCmd, joinCmd
     }
     
     var activeCommands = [INT32: Command]()
     
-    func appendTextMessage(userid: INT32, txtmsg: MyTextMessage) {
+    func appendTextMessage(_ userid: INT32, txtmsg: MyTextMessage) {
         
         if textmessages[userid] == nil {
             textmessages[userid] = [MyTextMessage]()
@@ -128,7 +152,7 @@ class ChannelListViewController :
         }
     }
     
-    func getUsersCount(chanid: INT32) -> Int {
+    func getUsersCount(_ chanid: INT32) -> Int {
         
         let chanusers : [User] = users.values.filter({$0.nChannelID == chanid})
         
@@ -142,11 +166,11 @@ class ChannelListViewController :
         return (subchans, chanusers)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let (subchans, chanusers) = getDisplayItems()
         
@@ -162,7 +186,7 @@ class ChannelListViewController :
         return n_items
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let (subchans, chanusers) = getDisplayItems()
 
@@ -184,13 +208,13 @@ class ChannelListViewController :
 
         if button_index == indexPath.row {
             let cellIdentifier = "JoinChannelCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
             return cell
         }
         else if user_index < chanusers.count {
             
             let cellIdentifier = "UserTableCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UserTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
             let user = chanusers[user_index]
             let name = getDisplayName(user)
             let statusmsg = fromTTString(user.szStatusMsg)
@@ -201,7 +225,7 @@ class ChannelListViewController :
             cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
             if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
                 (TT_GetMyUserID(ttInst) == user.nUserID &&
-                    isTransmitting(ttInst, stream: STREAMTYPE_VOICE)) {
+                    isTransmitting(ttInst!, stream: STREAMTYPE_VOICE)) {
                         
                 cell.userImage.image = UIImage(named: "man_green.png")
                 cell.userImage.accessibilityHint = NSLocalizedString("Talking", comment: "channel list")
@@ -234,7 +258,7 @@ class ChannelListViewController :
         else {
 
             let cellIdentifier = "ChannelTableCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChannelTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ChannelTableCell
             
             var channel = Channel()
             var textcolor : UIColor? = nil
@@ -256,7 +280,7 @@ class ChannelListViewController :
                     subtitle = fromTTString(channel.szName)
                 }
                 
-                textcolor = UIColor.grayColor()
+                textcolor = UIColor.gray
                 cell.chanimage.image = UIImage(named: "back_orange.png")
                 cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
             }
@@ -320,7 +344,7 @@ class ChannelListViewController :
                 let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
                 var action_edit : MyCustomAction?
                 if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
-                    cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), forState: .Normal)
+                    cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
                     action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
                 }
                 else {
@@ -335,8 +359,8 @@ class ChannelListViewController :
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = self.tableView.cellForRow(at: indexPath)
         if cell is ChannelTableCell {
             curchannel = channels[INT32(cell!.tag)]!
             tableView.reloadData()
@@ -357,15 +381,15 @@ class ChannelListViewController :
     }
     
     @available(iOS 8.0, *)
-    func messageUser(action: UIAccessibilityCustomAction) -> Bool {
+    func messageUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
-            performSegueWithIdentifier("New TextMessage", sender: ac)
+            performSegue(withIdentifier: "New TextMessage", sender: ac)
         }
         return true
     }
 
  @available(iOS 8.0, *)
-       func muteUser(action: UIAccessibilityCustomAction) -> Bool {
+       func muteUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             let userid = INT32(ac.tag)
             if let user = users[userid] {
@@ -382,7 +406,7 @@ class ChannelListViewController :
     }
     
     @available(iOS 8.0, *)
-    func kickUser(action: UIAccessibilityCustomAction) -> Bool {
+    func kickUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             
             cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
@@ -391,7 +415,7 @@ class ChannelListViewController :
     }
 
     @available(iOS 8.0, *)
-    func joinThisChannel(action: UIAccessibilityCustomAction) -> Bool {
+    func joinThisChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             if let channel = channels[INT32(ac.tag)] {
                 joinNewChannel(channel)
@@ -401,14 +425,14 @@ class ChannelListViewController :
     }
 
     @available(iOS 8.0, *)
-    func editChannel(action: UIAccessibilityCustomAction) -> Bool {
+    func editChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
-            performSegueWithIdentifier("Edit Channel", sender: ac)
+            performSegue(withIdentifier: "Edit Channel", sender: ac)
         }
         return true
     }
 
-    func commandComplete(cmdid : INT32) {
+    func commandComplete(_ cmdid : INT32) {
 
         let cmd = activeCommands[cmdid]
         
@@ -418,7 +442,7 @@ class ChannelListViewController :
         
         switch cmd! {
             
-        case .LoginCmd :
+        case .loginCmd :
             self.tableView.reloadData()
             
             let flags = TT_GetFlags(ttInst)
@@ -431,37 +455,37 @@ class ChannelListViewController :
                     
                     let cmdid = TT_DoJoinChannelByID(ttInst, mychannel.nChannelID, passwd!)
                     if cmdid > 0 {
-                        activeCommands[cmdid] = .JoinCmd
+                        activeCommands[cmdid] = .joinCmd
                     }
                 }
-                else if NSUserDefaults.standardUserDefaults().objectForKey(PREF_JOINROOTCHANNEL) == nil ||
-                    NSUserDefaults.standardUserDefaults().boolForKey(PREF_JOINROOTCHANNEL) {
+                else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil ||
+                    UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
                     
                     let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
                     if cmdid > 0 {
-                        activeCommands[cmdid] = .JoinCmd
+                        activeCommands[cmdid] = .joinCmd
                     }
                 }
             }
             
-        case .JoinCmd :
+        case .joinCmd :
             self.tableView.reloadData()
         }
 
-        activeCommands.removeValueForKey(cmdid)
+        activeCommands.removeValue(forKey: cmdid)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "Show User" {
             let index = self.tableView.indexPathForSelectedRow
-            let cell = self.tableView.cellForRowAtIndexPath(index!)
+            let cell = self.tableView.cellForRow(at: index!)
 
-            let userDetail = segue.destinationViewController as! UserDetailViewController
+            let userDetail = segue.destination as! UserDetailViewController
             userDetail.userid = INT32(cell!.tag)
         }
         else if segue.identifier == "New Channel" {
-            let chanDetail = segue.destinationViewController as! ChannelDetailViewController
+            let chanDetail = segue.destination as! ChannelDetailViewController
             chanDetail.channel.nParentID = curchannel.nChannelID
             
             if chanDetail.channel.nParentID == 0 {
@@ -488,7 +512,7 @@ class ChannelListViewController :
 
             let channel = channels[chanid]
             
-            let chanDetail = segue.destinationViewController as! ChannelDetailViewController
+            let chanDetail = segue.destination as! ChannelDetailViewController
             chanDetail.channel = channel!
         }
         else if segue.identifier == "New TextMessage" {
@@ -505,22 +529,22 @@ class ChannelListViewController :
                 // Fallback on earlier versions
             }
             
-            let txtmsgView = segue.destinationViewController as! TextMessageViewController
+            let txtmsgView = segue.destination as! TextMessageViewController
             openTextMessages(txtmsgView, userid: userid)
         }
     }
     
-    @IBAction func openTextMessages(segue:UIStoryboardSegue) {
+    @IBAction func openTextMessages(_ segue:UIStoryboardSegue) {
 
-        let src_vc = segue.sourceViewController as! UserDetailViewController
+        let src_vc = segue.source as! UserDetailViewController
         
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
         openTextMessages(vc, userid: src_vc.userid)
         self.navigationController?.pushViewController(vc, animated: true)
 
     }
 
-    func openTextMessages(sender: TextMessageViewController, userid: INT32) {
+    func openTextMessages(_ sender: TextMessageViewController, userid: INT32) {
         sender.userid = userid
         sender.delegate = self
         addToTTMessages(sender)
@@ -529,26 +553,26 @@ class ChannelListViewController :
         }
     }
     
-    @IBAction func closeTextMessages(segue:UIStoryboardSegue) {
+    @IBAction func closeTextMessages(_ segue:UIStoryboardSegue) {
         
         print("Closed messages")
         
     }
     
-    @IBAction func txBtnDown(sender: UIButton) {
+    @IBAction func txBtnDown(_ sender: UIButton) {
         
         if hasPTTLock() {
             enableVoiceTx(true)
         }
         else {
-            enableVoiceTx(!isTransmitting(ttInst, stream: STREAMTYPE_VOICE))
+            enableVoiceTx(!isTransmitting(ttInst!, stream: STREAMTYPE_VOICE))
         }
     }
     
-    func enableVoiceTx(enable: Bool) {
+    func enableVoiceTx(_ enable: Bool) {
 
         TT_EnableVoiceTransmission(ttInst, enable ? TRUE : FALSE)
-        playSound(enable ? .TX_ON : .TX_OFF)
+        playSound(enable ? .tx_ON : .tx_OFF)
         updateTX()
 
     }
@@ -557,24 +581,24 @@ class ChannelListViewController :
         
         if hasPTTLock() {
             
-            let now = NSDate()
+            let now = Date()
             
-            if pttLockTimeout.earlierDate(now) == now {
+            if (pttLockTimeout as NSDate).earlierDate(now) == now {
                 enableVoiceTx(true)
             }
             else {
                 enableVoiceTx(false)
             }
             // PTT lock is 0.5 sec
-            pttLockTimeout = now.dateByAddingTimeInterval(0.5)
+            pttLockTimeout = now.addingTimeInterval(0.5)
         }
     }
     
-    @IBAction func txBtnUpInside(sender: UIButton) {
+    @IBAction func txBtnUpInside(_ sender: UIButton) {
         txBtnUp()
     }
     
-    @IBAction func txBtnUpOutside(sender: UIButton) {
+    @IBAction func txBtnUpOutside(_ sender: UIButton) {
         txBtnUp()
     }
     
@@ -584,10 +608,10 @@ class ChannelListViewController :
         
         switch flags & CLIENT_TX_VOICE.rawValue {
         case CLIENT_TX_VOICE.rawValue :
-            txButton.backgroundColor = UIColor.redColor()
+            txButton.backgroundColor = UIColor.red
             txButton.accessibilityLabel = NSLocalizedString("Stop transmit", comment: "channel list")
         default :
-            txButton.backgroundColor = UIColor.greenColor()
+            txButton.backgroundColor = UIColor.green
             txButton.accessibilityLabel = NSLocalizedString("Transmit", comment: "channel list")
         }
         
@@ -608,16 +632,16 @@ class ChannelListViewController :
             if c.reuseIdentifier == "UserTableCell"  {
                 let cell = c as! UserTableCell
                 if unreadmessages.contains(INT32(c.tag)) {
-                    let time = Int(NSDate().timeIntervalSince1970)
+                    let time = Int(Date().timeIntervalSince1970)
                     if time % 2 == 0 {
-                        cell.messageBtn.setImage(UIImage(named: "message_red"), forState: .Normal)
+                        cell.messageBtn.setImage(UIImage(named: "message_red"), for: UIControlState())
                     }
                     else {
-                        cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
+                        cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControlState())
                     }
                 }
                 else {
-                    cell.messageBtn.setImage(UIImage(named: "message_blue"), forState: .Normal)
+                    cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControlState())
                 }
             }
         }
@@ -626,7 +650,8 @@ class ChannelListViewController :
         }
     }
     
-    func handleTTMessage(var m: TTMessage) {
+    func handleTTMessage(_ m: TTMessage) {
+        var m = m
         
         switch(m.nClientEvent) {
 
@@ -653,28 +678,28 @@ class ChannelListViewController :
             }
         case CLIENTEVENT_CMD_ERROR :
             if activeCommands[m.nSource] != nil {
-                let errmsg = getClientErrorMsg(&m).memory
+                let errmsg = getClientErrorMsg(&m).pointee
                 let s = fromTTString(errmsg.szErrorMsg)
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 } else {
                     // Fallback on earlier versions
                 }
             }
         case CLIENTEVENT_CMD_SERVER_UPDATE :
-            srvprop = getServerProperties(&m).memory
+            srvprop = getServerProperties(&m).pointee
             
         case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-            myuseraccount = getUserAccount(&m).memory
+            myuseraccount = getUserAccount(&m).pointee
             if (myuseraccount.uUserType & USERTYPE_ADMIN.rawValue) != 0 {
                 // an admin user type can do everything
                 myuseraccount.uUserRights = 0xFFFFFFFF
             }
             
         case CLIENTEVENT_CMD_CHANNEL_NEW :
-            let channel = getChannel(&m).memory
+            let channel = getChannel(&m).pointee
             
             channels[channel.nChannelID] = channel
             
@@ -688,7 +713,7 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_CHANNEL_UPDATE :
-            let channel = getChannel(&m).memory
+            let channel = getChannel(&m).pointee
             channels[channel.nChannelID] = channel
             
             if currentCmdId == 0 {
@@ -696,23 +721,23 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_CHANNEL_REMOVE :
-            let channel = getChannel(&m).memory
-            channels.removeValueForKey(channel.nChannelID)
+            let channel = getChannel(&m).pointee
+            channels.removeValue(forKey: channel.nChannelID)
             
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
             
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             users[user.nUserID] = user
             
         case CLIENTEVENT_CMD_USER_LOGGEDOUT :
-            let user = getUser(&m).memory
-            users.removeValueForKey(user.nUserID)
+            let user = getUser(&m).pointee
+            users.removeValue(forKey: user.nUserID)
             
         case CLIENTEVENT_CMD_USER_JOINED :
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             users[user.nUserID] = user
             
             // we joined a new channel so update table view
@@ -722,10 +747,10 @@ class ChannelListViewController :
                 updateTitle()
             }
             if user.nChannelID == mychannel.nChannelID && mychannel.nChannelID > 0 {
-                playSound(.JOINED_CHAN)
-                let defaults = NSUserDefaults.standardUserDefaults()
+                playSound(.joined_CHAN)
+                let defaults = UserDefaults.standard
                 
-                if defaults.objectForKey(PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_JOINEDCHAN) {
+                if defaults.object(forKey: PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.bool(forKey: PREF_TTSEVENT_JOINEDCHAN) {
                     let name = getDisplayName(user)
                     newUtterance(name + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                 }
@@ -734,7 +759,7 @@ class ChannelListViewController :
                 self.tableView.reloadData()
             }
         case CLIENTEVENT_CMD_USER_UPDATE :
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             users[user.nUserID] = user
             
             if currentCmdId == 0 {
@@ -742,11 +767,11 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_USER_LEFT :
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             users[user.nUserID] = user
             
             if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
-                users.removeValueForKey(user.nUserID)
+                users.removeValue(forKey: user.nUserID)
             }
             else {
                 users[user.nUserID] = user
@@ -757,9 +782,9 @@ class ChannelListViewController :
             }
             
             if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
-                playSound(.LEFT_CHAN)
-                let defaults = NSUserDefaults.standardUserDefaults()
-                if defaults.objectForKey(PREF_TTSEVENT_LEFTCHAN) == nil || defaults.boolForKey(PREF_TTSEVENT_LEFTCHAN) {
+                playSound(.left_CHAN)
+                let defaults = UserDefaults.standard
+                if defaults.object(forKey: PREF_TTSEVENT_LEFTCHAN) == nil || defaults.bool(forKey: PREF_TTSEVENT_LEFTCHAN) {
                     let name = getDisplayName(user)
                     newUtterance(name + " " + NSLocalizedString("has left the channel", comment: "TTS EVENT"))
                 }
@@ -770,19 +795,19 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :
-            let txtmsg = getTextMessage(&m).memory
+            let txtmsg = getTextMessage(&m).pointee
             
             if txtmsg.nMsgType == MSGTYPE_USER {
                 
-                let settings = NSUserDefaults.standardUserDefaults()
+                let settings = UserDefaults.standard
                 if let user = users[txtmsg.nFromUserID] {
                     let name = getDisplayName(user)
                     let newmsg = MyTextMessage(m: txtmsg, nickname: name,
-                        msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .IM_MYSELF : .IM)
+                        msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .im_MYSELF : .im)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
-                        unreadTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ChannelListViewController.timerUnread), userInfo: nil, repeats: true)
+                        unreadTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ChannelListViewController.timerUnread), userInfo: nil, repeats: true)
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)                    
                 }
@@ -795,8 +820,8 @@ class ChannelListViewController :
                     }
                 }
                 
-                if settings.objectForKey(PREF_DISPLAY_POPUPTXTMSG) == nil || settings.boolForKey(PREF_DISPLAY_POPUPTXTMSG) {
-                    let vc = self.storyboard?.instantiateViewControllerWithIdentifier("Text Message") as! TextMessageViewController
+                if settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG) {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
                     openTextMessages(vc, userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
                     if vc.messages.count > 0 {
@@ -807,19 +832,19 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                let errmsg = getClientErrorMsg(&m).memory
+                let errmsg = getClientErrorMsg(&m).pointee
                 let s = fromTTString(errmsg.szErrorMsg)
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 } else {
                     // Fallback on earlier versions
                 }
             }
 
         case CLIENTEVENT_USER_STATECHANGE :
-            let user = getUser(&m).memory
+            let user = getUser(&m).pointee
             users[user.nUserID] = user
             self.tableView.reloadData()
         

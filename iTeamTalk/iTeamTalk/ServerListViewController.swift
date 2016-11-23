@@ -39,37 +39,37 @@ class Server : NSObject {
     }
     
     init(coder dec: NSCoder!) {
-        name = dec.decodeObjectForKey("name") as! String
-        ipaddr = dec.decodeObjectForKey("ipaddr") as! String
-        tcpport = dec.decodeIntegerForKey("tcpport")
-        udpport = dec.decodeIntegerForKey("udpport")
-        username = dec.decodeObjectForKey("username") as! String
-        password = dec.decodeObjectForKey("password") as! String
-        channel = dec.decodeObjectForKey("channel") as! String
-        chanpasswd = dec.decodeObjectForKey("chanpasswd") as! String
+        name = dec.decodeObject(forKey: "name") as! String
+        ipaddr = dec.decodeObject(forKey: "ipaddr") as! String
+        tcpport = dec.decodeInteger(forKey: "tcpport")
+        udpport = dec.decodeInteger(forKey: "udpport")
+        username = dec.decodeObject(forKey: "username") as! String
+        password = dec.decodeObject(forKey: "password") as! String
+        channel = dec.decodeObject(forKey: "channel") as! String
+        chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
     }
     
-    func encodeWithCoder(enc: NSCoder!) {
-        enc.encodeObject(name, forKey: "name")
-        enc.encodeObject(ipaddr, forKey: "ipaddr")
-        enc.encodeInteger(tcpport, forKey: "tcpport")
-        enc.encodeInteger(udpport, forKey: "udpport")
-        enc.encodeObject(username, forKey: "username")
-        enc.encodeObject(password, forKey: "password")
-        enc.encodeObject(channel, forKey: "channel")
-        enc.encodeObject(chanpasswd, forKey: "chanpasswd")
+    func encodeWithCoder(_ enc: NSCoder!) {
+        enc.encode(name, forKey: "name")
+        enc.encode(ipaddr, forKey: "ipaddr")
+        enc.encode(tcpport, forKey: "tcpport")
+        enc.encode(udpport, forKey: "udpport")
+        enc.encode(username, forKey: "username")
+        enc.encode(password, forKey: "password")
+        enc.encode(channel, forKey: "channel")
+        enc.encode(chanpasswd, forKey: "chanpasswd")
     }
 }
 
 class ServerListViewController : UITableViewController,
-    NSXMLParserDelegate {
+    XMLParserDelegate {
     
     // server for segue
     var currentServer = Server()
     // list of available servers
     var servers = [Server]()
     
-    var nextappupdate = NSDate()
+    var nextappupdate = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,31 +84,31 @@ class ServerListViewController : UITableViewController,
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         servers.removeAll()
         
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
-        if let stored = defaults.arrayForKey("ServerList") {
+        if let stored = defaults.array(forKey: "ServerList") {
             for e in stored {
-                let data = e as! NSData
+                let data = e as! Data
                 
-                let server = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Server
+                let server = NSKeyedUnarchiver.unarchiveObject(with: data) as! Server
                 
                 servers.append(server)
             }
         }
         
-        if defaults.objectForKey(PREF_DISPLAY_PUBSERVERS) == nil || defaults.boolForKey(PREF_DISPLAY_PUBSERVERS) {
-            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ServerListViewController.downloadServerList), userInfo: nil, repeats: false)
+        if defaults.object(forKey: PREF_DISPLAY_PUBSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBSERVERS) {
+            Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ServerListViewController.downloadServerList), userInfo: nil, repeats: false)
         }
 
         tableView.reloadData()
         
-        if nextappupdate.earlierDate(NSDate()) == nextappupdate {
-            NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(ServerListViewController.checkAppUpdate), userInfo: nil, repeats: false)
+        if (nextappupdate as NSDate).earlierDate(Date()) == nextappupdate {
+            Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ServerListViewController.checkAppUpdate), userInfo: nil, repeats: false)
         }
         
     }
@@ -118,11 +118,11 @@ class ServerListViewController : UITableViewController,
         // check for new version
         let updateparser = AppUpdateParser()
         
-        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.getUpdateURL())!)!
+        let parser = XMLParser(contentsOf: URL(string: AppInfo.getUpdateURL())!)!
         parser.delegate = updateparser
         parser.parse()
         
-        nextappupdate = nextappupdate.dateByAddingTimeInterval(60 * 60 * 24)
+        nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
     }
     
     func downloadServerList() {
@@ -130,7 +130,7 @@ class ServerListViewController : UITableViewController,
         // get xml-list of public server
         let serverparser = ServerParser()
         
-        let parser = NSXMLParser(contentsOfURL: NSURL(string: AppInfo.getServersURL())!)!
+        let parser = XMLParser(contentsOf: URL(string: AppInfo.getServersURL())!)!
         parser.delegate = serverparser
         parser.parse()
 
@@ -148,29 +148,29 @@ class ServerListViewController : UITableViewController,
     func saveServerList() {
         //Store local servers
         let localservers = servers.filter({$0.publicserver == false})
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var s_array = [NSData]()
+        let defaults = UserDefaults.standard
+        var s_array = [Data]()
         for s in localservers {
-            let data = NSKeyedArchiver.archivedDataWithRootObject(s)
+            let data = NSKeyedArchiver.archivedData(withRootObject: s)
             s_array.append(data)
         }
-        defaults.setObject(s_array, forKey: "ServerList")
+        defaults.set(s_array, forKey: "ServerList")
         defaults.synchronize()
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return servers.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellIdentifier = "ServerTableCell"
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ServerTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ServerTableCell
         
         let server = servers[indexPath.row]
         cell.connectBtn.tag = indexPath.row
@@ -197,44 +197,44 @@ class ServerListViewController : UITableViewController,
     }
 
     @available(iOS 8.0, *)
-    func connectServer(action: UIAccessibilityCustomAction) -> Bool {
+    func connectServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
             currentServer = servers[ac.tag]
-            performSegueWithIdentifier("Show ChannelList", sender: self)
+            performSegue(withIdentifier: "Show ChannelList", sender: self)
         }
         return true
     }
     
     @available(iOS 8.0, *)
-    func deleteServer(action: UIAccessibilityCustomAction) -> Bool {
+    func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
-            servers.removeAtIndex(ac.tag)
+            servers.remove(at: ac.tag)
             saveServerList()
             tableView.reloadData()
         }
         return true
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Server" {
             let index = self.tableView.indexPathForSelectedRow
             currentServer = servers[index!.row]
-            let serverDetail = segue.destinationViewController as! ServerDetailViewController
+            let serverDetail = segue.destination as! ServerDetailViewController
             serverDetail.server = currentServer
         }
         else if segue.identifier == "New Server" {
             
         }
         else if segue.identifier == "Show ChannelList" {
-            let vc = segue.destinationViewController as! MainTabBarController
+            let vc = segue.destination as! MainTabBarController
             vc.setTeamTalkServer(currentServer)
         }
     }
     
-    @IBAction func deleteServerDetail(segue:UIStoryboardSegue) {
-        let vc = segue.sourceViewController as! ServerDetailViewController
+    @IBAction func deleteServerDetail(_ segue:UIStoryboardSegue) {
+        let vc = segue.source as! ServerDetailViewController
         
         vc.saveServerDetail()
         let name = vc.namefield?.text
@@ -246,13 +246,13 @@ class ServerListViewController : UITableViewController,
         tableView.reloadData()
     }
     
-    @IBAction func saveServerDetail(segue:UIStoryboardSegue) {
-        let vc = segue.sourceViewController as! ServerDetailViewController
+    @IBAction func saveServerDetail(_ segue:UIStoryboardSegue) {
+        let vc = segue.source as! ServerDetailViewController
         
         vc.saveServerDetail()
         let name = vc.server.name
         
-        if let found = servers.map({$0.name}).indexOf(name) {
+        if let found = servers.map({$0.name}).index(of: name) {
             servers[found] = vc.server
         }
         else {
@@ -266,17 +266,17 @@ class ServerListViewController : UITableViewController,
         tableView.reloadData()
     }
     
-    @IBAction func connectToServer(sender: UIButton) {
+    @IBAction func connectToServer(_ sender: UIButton) {
         currentServer = servers[sender.tag]
     }
 
-    func openUrl(url: NSURL) {
+    func openUrl(_ url: URL) {
         
-        if url.fileURL {
+        if url.isFileURL {
             // get server from either .tt file or tt-URL
             let serverparser = ServerParser()
             
-            let parser = NSXMLParser(contentsOfURL: url)!
+            let parser = XMLParser(contentsOf: url)!
             parser.delegate = serverparser
             parser.parse()
             
@@ -293,60 +293,60 @@ class ServerListViewController : UITableViewController,
 
                 // ip-addr
                 let host = AppInfo.TTLINK_PREFIX + "([^\\??!/]*)/?\\??"
-                let host_regex = try NSRegularExpression(pattern: host, options: .CaseInsensitive)
-                let host_matches = host_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let host_regex = try NSRegularExpression(pattern: host, options: .caseInsensitive)
+                let host_matches = host_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = host_matches.first {
-                    currentServer.ipaddr = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.ipaddr = ns_str.substring(with: m.rangeAt(1))
                 }
                 
                 //tcp port
                 let tcpport = "[&|\\?]tcpport=(\\d+)"
-                let tcpport_regex = try NSRegularExpression(pattern: tcpport, options: .CaseInsensitive)
-                let tcpport_matches = tcpport_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let tcpport_regex = try NSRegularExpression(pattern: tcpport, options: .caseInsensitive)
+                let tcpport_matches = tcpport_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = tcpport_matches.first {
-                    let s = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    let s = ns_str.substring(with: m.rangeAt(1))
                     currentServer.tcpport = Int(s)!
                 }
                 
                 // udp port
                 let udpport = "[&|\\?]udpport=(\\d+)"
-                let udpport_regex = try NSRegularExpression(pattern: udpport, options: .CaseInsensitive)
-                let udpport_matches = udpport_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let udpport_regex = try NSRegularExpression(pattern: udpport, options: .caseInsensitive)
+                let udpport_matches = udpport_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = udpport_matches.first {
-                    let s = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    let s = ns_str.substring(with: m.rangeAt(1))
                     currentServer.udpport = Int(s)!
                 }
 
                 // username
                 let username = "[&|\\?]username=([^&]*)"
-                let username_regex = try NSRegularExpression(pattern: username, options: .CaseInsensitive)
-                let username_matches = username_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let username_regex = try NSRegularExpression(pattern: username, options: .caseInsensitive)
+                let username_matches = username_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = username_matches.first {
-                    currentServer.username = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.username = ns_str.substring(with: m.rangeAt(1))
                 }
                 
                 // password
                 let password = "[&|\\?]password=([^&]*)"
-                let password_regex = try NSRegularExpression(pattern: password, options: .CaseInsensitive)
-                let password_matches = password_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let password_regex = try NSRegularExpression(pattern: password, options: .caseInsensitive)
+                let password_matches = password_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = password_matches.first {
-                    currentServer.password = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.password = ns_str.substring(with: m.rangeAt(1))
                 }
                 
                 // channel
                 let channel = "[&|\\?]channel=([^&]*)"
-                let channel_regex = try NSRegularExpression(pattern: channel, options: .CaseInsensitive)
-                let channel_matches = channel_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let channel_regex = try NSRegularExpression(pattern: channel, options: .caseInsensitive)
+                let channel_matches = channel_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = channel_matches.first {
-                    currentServer.channel = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.channel = ns_str.substring(with: m.rangeAt(1))
                 }
                 
                 // channel password
                 let chpasswd = "[&|\\?]chanpasswd=([^&]*)"
-                let chpasswd_regex = try NSRegularExpression(pattern: chpasswd, options: .CaseInsensitive)
-                let chpasswd_matches = chpasswd_regex.matchesInString(url_str, options: .ReportCompletion, range: url_range)
+                let chpasswd_regex = try NSRegularExpression(pattern: chpasswd, options: .caseInsensitive)
+                let chpasswd_matches = chpasswd_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = chpasswd_matches.first {
-                    currentServer.chanpasswd = ns_str.substringWithRange(m.rangeAtIndex(1))
+                    currentServer.chanpasswd = ns_str.substring(with: m.rangeAt(1))
                 }
             }
             catch {
@@ -355,17 +355,17 @@ class ServerListViewController : UITableViewController,
         }
         
         if !currentServer.ipaddr.isEmpty {
-            performSegueWithIdentifier("Show ChannelList", sender: self)
+            performSegue(withIdentifier: "Show ChannelList", sender: self)
         }
     }
 }
 
-class AppUpdateParser : NSObject, NSXMLParserDelegate {
+class AppUpdateParser : NSObject, XMLParserDelegate {
 
     var update = ""
     var updatefound = false
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String,
+    func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
             
@@ -374,24 +374,24 @@ class AppUpdateParser : NSObject, NSXMLParserDelegate {
             }
     }
 
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         update = string
     }
 
-    func parser(parser: NSXMLParser, didEndElement elementName: String,
+    func parser(_ parser: XMLParser, didEndElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?) {
             
     }
 
 }
 
-class ServerParser : NSObject, NSXMLParserDelegate {
+class ServerParser : NSObject, XMLParserDelegate {
     
     var currentServer = Server()
     var elementStack = [String]()
     var servers = [Server]()
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String,
+    func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
             
@@ -401,7 +401,7 @@ class ServerParser : NSObject, NSXMLParserDelegate {
             }
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         
         switch elementStack.last! {
         case "teamtalk" : break
@@ -426,10 +426,10 @@ class ServerParser : NSObject, NSXMLParserDelegate {
         case "username" :
             currentServer.username = string
         case "password" :
-            if elementStack.indexOf("auth") != nil {
+            if elementStack.index(of: "auth") != nil {
                 currentServer.password = string
             }
-            else if elementStack.indexOf("join") != nil {
+            else if elementStack.index(of: "join") != nil {
                 currentServer.chanpasswd = string
             }
         case "channel" :
@@ -439,7 +439,7 @@ class ServerParser : NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parser(parser: NSXMLParser, didEndElement elementName: String,
+    func parser(_ parser: XMLParser, didEndElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?) {
             
             self.elementStack.removeLast()
