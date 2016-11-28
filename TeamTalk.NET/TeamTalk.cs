@@ -77,13 +77,19 @@ namespace BearWare
         SOUNDSYSTEM_OPENSLES_ANDROID = 7,
         /** @brief iOS sound API.
          *
-         * Add libraries AVFoundation.framework and
-         * AudioToolbox.framework.
+         * Two sound devices will appear when calling
+         * TT_GetSoundDevices(). Sound device ID 0 will be AudioUnit
+         * subtype Remote I/O Unit and sound device ID 1 will be
+         * AudioUnit subtype Voice-Processing I/O Unit.
          *
-         * Duplex mode is not supported by AudioUnit iOS sound API. 
+         * Note that iOS only supports one active Voice-Processing I/O
+         * Unit, i.e. only one #TTInstance can use the
+         * Voice-Processing I/O Unit.
          *
-         * Use audio session mode AVAudioSessionModeVideoChat to
-         * remove echo from speakers. */
+         * Add libraries @c AVFoundation.framework and
+         * @c AudioToolbox.framework.
+         *
+         * Duplex mode is not supported by AudioUnit iOS sound API. */
         SOUNDSYSTEM_AUDIOUNIT = 8
     }
 
@@ -433,7 +439,18 @@ namespace BearWare
         /** @brief The name of the capture device. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
         public string szDeviceName;
-        /** @brief The name of the API used to capture video. */
+        /** @brief @brief The name of the API used to capture video.
+         *
+         * The following video capture APIs are supported:
+         * - AVFoundation (Mac OS)
+         * - DirectShow (Windows)
+         * - V4L2 (Linux)
+         *
+         * Mac OS's QTkit video capture API was removed in TeamTalk
+         * 5.2 because Apple's AppStore will reject apps which have
+         * dependencies to it.
+         *
+         * V4L support was removed in TeamTalk 5.2. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalk.TT_STRLEN)]
         public string szCaptureAPI;
         /** @brief The supported capture formats. */
