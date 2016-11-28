@@ -221,6 +221,15 @@ extern "C" {
         return TT_InitSoundOutputDevice(reinterpret_cast<TTInstance*>(lpTTInstance), nOutputDeviceID);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundDuplexDevices(JNIEnv* env,
+                                                                                    jobject thiz,
+                                                                                    jlong lpTTInstance,
+                                                                                    jint nInputDeviceID,
+                                                                                    jint nOutputDeviceID)
+    {
+        return TT_InitSoundDuplexDevices(reinterpret_cast<TTInstance*>(lpTTInstance), nInputDeviceID, nOutputDeviceID);
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundInputDevice(JNIEnv* env,
                                                                                    jobject thiz,
                                                                                    jlong lpTTInstance)
@@ -233,6 +242,13 @@ extern "C" {
                                                                                     jlong lpTTInstance)
     {
         return TT_CloseSoundOutputDevice(reinterpret_cast<TTInstance*>(lpTTInstance));
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundDuplexDevices(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jlong lpTTInstance)
+    {
+        return TT_CloseSoundDuplexDevices(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputLevel(JNIEnv* env,
@@ -581,7 +597,7 @@ extern "C" {
                                                                            jobject thiz,
                                                                            jlong lpTTInstance,
                                                                            jobject lpDesktopWindow,
-                                                                           int nConvertBmpFormat)
+                                                                           jint nConvertBmpFormat)
     {
         DesktopWindow wnd;
         setDesktopWindow(env, wnd, lpDesktopWindow, J2N);

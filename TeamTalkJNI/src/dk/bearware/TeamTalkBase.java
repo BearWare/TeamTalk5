@@ -106,6 +106,10 @@ public abstract class TeamTalkBase
     public boolean initSoundOutputDevice(int nOutputDeviceID) {
         return initSoundOutputDevice(ttInst, nOutputDeviceID);
     }
+    private native boolean initSoundDuplexDevices(long lpTTInstance, int nInputDeviceID, int nOutputDeviceID);
+    public boolean initSoundDuplexDevices(int nInputDeviceID, int nOutputDeviceID) {
+        return initSoundDuplexDevices(ttInst, nInputDeviceID, nOutputDeviceID);
+    }
     private native boolean closeSoundInputDevice(long lpTTInstance);
     public boolean closeSoundInputDevice() {
         return closeSoundInputDevice(ttInst);
@@ -114,7 +118,10 @@ public abstract class TeamTalkBase
     public boolean closeSoundOutputDevice() {
         return closeSoundOutputDevice(ttInst);
     }
-
+    private native boolean closeSoundDuplexDevices(long lpTTInstance);
+    public boolean closeSoundDuplexDevices() {
+        return closeSoundDuplexDevices(ttInst);
+    }
     private native int getSoundInputLevel(long lpTTInstance);
     public int getSoundInputLevel() { return getSoundInputLevel(ttInst); }
 
