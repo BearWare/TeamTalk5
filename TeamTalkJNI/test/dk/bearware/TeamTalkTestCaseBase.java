@@ -10,7 +10,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
 
-    public static String ADMIN_USERNAME = "admin.username", ADMIN_PASSWORD = "admin.password", ADMIN_NICKNAME = "Admin";
+    public static String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
     public static String IPADDR = "127.0.0.1";
 
     public static int TCPPORT = 10333, UDPPORT = 10333;
@@ -34,35 +34,47 @@ public class TeamTalkTestCaseBase extends TestCase {
         
         for(TeamTalkBase ttclient : ttclients) {
             ttclient.disconnect();
-            ttclient.closeSoundInputDevice();
-            ttclient.closeSoundOutputDevice();
+            if((ttclient.getFlags() & ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) == ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) {
+                ttclient.closeSoundDuplexDevices();
+            }
+            else {
+                ttclient.closeSoundInputDevice();
+                ttclient.closeSoundOutputDevice();
+            }
             ttclient.closeVideoCaptureDevice();
             ttclient.stopStreamingMediaFileToChannel();
         }
         ttclients.clear();
     }
      
-    protected void initSound(TeamTalkBase ttclient)
-    {
+    protected void initSound(TeamTalkBase ttclient) {
+        initSound(ttclient, false);
+    }
+
+    protected void initSound(TeamTalkBase ttclient, boolean duplex) {
         IntPtr howmany = new IntPtr(0);
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
-        assertTrue(ttclient.getSoundDevices(devs));
+        assertTrue("get sound devs", ttclient.getSoundDevices(devs));
         System.out.println("---- Sound Devices ----");
         for(int i=0;i<devs.size();i++)
             printSoundDevice(devs.get(i));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue(ttclient.getDefaultSoundDevices(indev, outdev));
+        assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
         
-        assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
-        assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
-
+        if(duplex) {
+            assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));
+        }
+        else {
+            assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
+            assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
+        }
         
         SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
-        assertTrue(ttclient.setSoundInputPreprocess(spxdsp));
+        assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
 
-        assertTrue(ttclient.getSoundInputPreprocess(spxdsp2));
+        assertTrue("get Speex DSP", ttclient.getSoundInputPreprocess(spxdsp2));
         assertEquals("agc1", spxdsp.bEnableAGC, spxdsp2.bEnableAGC);
         assertEquals("agc2", spxdsp.nGainLevel, spxdsp2.nGainLevel);
         assertEquals("agc3", spxdsp.nMaxIncDBSec, spxdsp2.nMaxIncDBSec);
@@ -104,7 +116,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertEquals("username set", username, account.szUsername);
         //Assert.AreEqual(passwd, account.szPassword, "password set");
         assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
-        assertTrue(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
     protected void makeUserAccount(String nickname, String username, String password, int userrights)
@@ -117,8 +129,8 @@ public class TeamTalkTestCaseBase extends TestCase {
         useraccount.szPassword = password;
         useraccount.uUserRights = userrights;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
-        assertTrue(ttclient.disconnect());
+        assertTrue("New user accout ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
+        assertTrue("Disconnect", ttclient.disconnect());
     }
 
     protected static void joinRoot(TeamTalkBase ttclient)
@@ -133,7 +145,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
         assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
         
-        assertEquals(ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }
 
     

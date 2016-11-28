@@ -1166,4 +1166,28 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
         }
     }
+
+    public void test_23_SoundDuplex() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient, true);
+
+        // setup echo cancellation
+        SpeexDSP spxdsp = new SpeexDSP();
+        spxdsp.bEnableAGC = true;
+        spxdsp.bEnableDenoise = true;
+        spxdsp.bEnableEchoCancellation = true;
+        assertTrue(ttclient.setSoundInputPreprocess(spxdsp));
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        assertFalse("Wait event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000, msg));
+    }
 }
