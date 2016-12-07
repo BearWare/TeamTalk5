@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import java.util.Vector;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.File;
 
 import dk.bearware.AudioBlock;
 import dk.bearware.AudioFileFormat;
@@ -1190,4 +1191,116 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("Wait event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000, msg));
     }
+
+    public void test_24_StoreUserVoiceInFileFormats() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        int freq = 300;
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        initSound(ttclient);
+        assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(ttclient.getMyChannelID(), chan);
+
+        assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
+
+        ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq);
+
+        assertTrue("wait cmd ok", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(),
+                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+        String cwd = System.getProperty("user.dir");
+        assertTrue("specify audio storage", ttclient.setUserMediaStorageDir(ttclient.getMyUserID(),
+                                                                            cwd, "%username%_%counter%",
+                                                                            AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+
+        assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("audio file created", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("recording started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertEquals("correct filename", cwd + File.separator + USERNAME + "_" + "000000001.ogg", msg.mediafileinfo.szFileName);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+
+        ttclient.enableVoiceTransmission(false);
+
+        assertTrue("audio file stopped", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+        assertTrue("enable voice tx 2 ", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("audio file created 2", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("recording started 2", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertEquals("correct filename 2", cwd + File.separator + USERNAME + "_" + "000000002.ogg", msg.mediafileinfo.szFileName);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+
+        ttclient.enableVoiceTransmission(false);
+
+        assertTrue("audio file stopped 2", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started 2", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+        // now test Speex recording
+        chan = new Channel();
+        chan.nParentID = ttclient.getRootChannelID();
+        chan.szName = "My Channel";
+        chan.szPassword = "2222";
+        chan.szOpPassword = "123";
+        chan.nMaxUsers = 200;
+        chan.uChannelType = ChannelType.CHANNEL_DEFAULT;
+        chan.audiocodec.nCodec = Codec.SPEEX_CODEC;
+        chan.audiocodec.speex = new SpeexCodec();
+        chan.audiocodec.speex.nBandmode = 1;
+        chan.audiocodec.speex.nQuality = 5;
+        chan.audiocodec.speex.nTxIntervalMSec = 40;
+        chan.audiocodec.speex.bStereoPlayback = false;
+
+        assertTrue("join speex channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("enable voice tx 3", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("audio file created 3", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("recording started 3", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertEquals("correct filename 3", cwd + File.separator + USERNAME + "_" + "000000003.ogg", msg.mediafileinfo.szFileName);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+
+        ttclient.enableVoiceTransmission(false);
+
+        assertTrue("audio file stopped 3", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started 3", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+
+        assertTrue("enable voice tx 4", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("audio file created 4", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("recording started 4", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertEquals("correct filename 4", cwd + File.separator + USERNAME + "_" + "000000004.ogg", msg.mediafileinfo.szFileName);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 10000);
+
+        ttclient.enableVoiceTransmission(false);
+
+        assertTrue("audio file stopped 4", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started 4", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+    }
+
 }

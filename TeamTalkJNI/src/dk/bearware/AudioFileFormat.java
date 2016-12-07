@@ -24,6 +24,7 @@ package dk.bearware;
 public interface AudioFileFormat
 {
     public static final int AFF_NONE                 = 0;
+    public static final int AFF_CHANNELCODEC_FORMAT  = 1;
     public static final int AFF_WAVE_FORMAT          = 2;
     public static final int AFF_MP3_16KBIT_FORMAT    = 3;
     public static final int AFF_MP3_32KBIT_FORMAT    = 4;
