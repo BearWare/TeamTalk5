@@ -20,7 +20,10 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String UPLOADFILE = "filename.txt";
     public static final String DOWNLOADFILE = "filename.txt";
-    public static final String MUXEDMEDIAFILE = "muxwavefile.wav";
+    public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
+    public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
+    public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
+    public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
     public static final String MEDIAFILE_AUDIO = "music.wav";
     public static final String MEDIAFILE = "video.avi";
     Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
