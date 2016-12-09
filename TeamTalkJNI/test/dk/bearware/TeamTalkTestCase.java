@@ -734,9 +734,12 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(ttclient1);
         login(ttclient1, NICKNAME, USERNAME, PASSWORD);
-        Channel chan = buildDefaultChannel(ttclient1, "Some channel", Codec.SPEEX_CODEC);
+        Channel chan = buildDefaultChannel(ttclient1, "speex channel", Codec.SPEEX_CODEC);
         assertTrue(waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
 
+        assertTrue(waitCmdSuccess(ttclient1, ttclient1.doSubscribe(ttclient1.getMyUserID(),
+                                                                  Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+        
         assertTrue("speex channel", ttclient1.getChannel(ttclient1.getMyChannelID(), chan));
 
         assertEquals("Speex codec running", Codec.SPEEX_CODEC, chan.audiocodec.nCodec);
@@ -769,9 +772,15 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         
         assertTrue(ttclient1.stopRecordingMuxedAudioFile());
 
+        ttclient1.enableVoiceTransmission(false);
+        ttclient2.enableVoiceTransmission(false);
+        
         // Now store in Speex VBR
-        chan = buildDefaultChannel(ttclient2, "Some channel", Codec.SPEEX_CODEC);
+        chan = buildDefaultChannel(ttclient2, "speex vbr channel", Codec.SPEEX_VBR_CODEC);
         assertTrue("wait cmd", waitCmdSuccess(ttclient2, ttclient2.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue(waitCmdSuccess(ttclient2, ttclient2.doSubscribe(ttclient2.getMyUserID(),
+                                                                   Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
         
         // now store in Speex
         assertTrue("Mux to Speex VBR file", ttclient2.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_SPEEX_VBR, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
