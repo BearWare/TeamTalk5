@@ -5066,6 +5066,9 @@ void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
         case AFF_WAVE_FORMAT :
             szAudioFile += _T(".wav");
             break;
+        case AFF_CHANNELCODEC_FORMAT :
+            szAudioFile += _T(".ogg");
+            break;
         case AFF_MP3_16KBIT_FORMAT :
         case AFF_MP3_32KBIT_FORMAT :
         case AFF_MP3_64KBIT_FORMAT :
