@@ -4,6 +4,7 @@
 Version 5.x, unreleased
 Default Qt client:
 - Linux video capture updated to V4L2
+- Reduced shared library dependencies on Linux
 - Mac OS video capture updated to AVFoundation
 - Mac OS client no longer closes when pressing X
 - Video TX hotkey changed to enable/disable by one press
