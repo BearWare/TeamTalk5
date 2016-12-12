@@ -45,6 +45,8 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     connect(ui.usertextToolButton, SIGNAL(clicked()),
             SLOT(slotSetUserLogFolder()));
 
+    ui.affComboBox->addItem("Wave-format", AFF_WAVE_FORMAT);
+    ui.affComboBox->addItem("Ogg-format", AFF_CHANNELCODEC_FORMAT);
 #ifdef MP3ENCDLL_FILENAME
     if(QFile::exists(QString(MP3ENCDLL_FILENAME)))
     {
@@ -55,7 +57,6 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
         ui.affComboBox->addItem("MP3-format (256 kbit)", AFF_MP3_256KBIT_FORMAT);
     }
 #endif
-    ui.affComboBox->addItem("Wave-format", AFF_WAVE_FORMAT);
 
     quint32 audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
                                               AUDIOSTORAGE_SINGLEFILE).toUInt();

@@ -1441,6 +1441,9 @@ QString generateAudioStorageFilename(AudioFileFormat aff)
     case AFF_WAVE_FORMAT :
         filename += ".wav";
         break;
+    case AFF_CHANNELCODEC_FORMAT :
+        filename += ".ogg";
+        break;
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
