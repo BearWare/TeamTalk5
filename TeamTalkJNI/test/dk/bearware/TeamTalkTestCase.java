@@ -686,6 +686,9 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = new Channel();
         ttclient1.getChannel(ttclient1.getMyChannelID(), chan);
 
+        assertTrue(waitCmdSuccess(ttclient1, ttclient1.doSubscribe(ttclient1.getMyUserID(),
+                                                                   Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
         assertEquals("OPUS codec running", Codec.OPUS_CODEC, chan.audiocodec.nCodec);
         assertTrue("Mux to Opus file", ttclient1.startRecordingMuxedAudioFile(chan.audiocodec, MUXEDMEDIAFILE_OPUS, AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
 
@@ -805,7 +808,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ttclient2.enableVoiceTransmission(false);
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
-}
+    }
 
     public void test_13_SelfEchoMediaStorage() {
 
