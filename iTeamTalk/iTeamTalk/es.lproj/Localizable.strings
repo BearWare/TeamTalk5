@@ -83,7 +83,7 @@
 "Channel Messages" = "Mensajes del canal";
 
 /* create channel */
-"Channel Properties" = "Channel Properties";
+"Channel Properties" = "Propiedades del canal";
 
 /* preferences */
 "Channel Text Message" = "Mensaje de texto en el canal";
@@ -92,7 +92,7 @@
 "Channel. %d users" = "Canal. %d usuarios";
 
 /* create channel */
-"Commands" = "Commands";
+"Commands" = "Comandos";
 
 /* serverlist */
 "Connect to server" = "Conectar al servidor";
@@ -125,7 +125,7 @@
 "Display" = "Mostrar";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Toca dos veces y mantén presionado para transmitir. Toca tres veces rápidamente para bloquear la transmisión.";
 
 /* preferences */
 "Double tap to lock TX button" = "Pulsa dos veces para bloquear el botón TX";
@@ -153,10 +153,10 @@
 "has joined the channel" = "se ha unido al canal";
 
 /* TTS EVENT */
-"has left the channel" = "ha dejado el canal";
+"has left the channel" = "ha salido del  canal";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Usar los auriculares para conmutar el estado del botón TX";
 
 /* server entry */
 "Host address" = "Dirección";
@@ -257,7 +257,7 @@
 "OK" = "Aceptar";
 
 /* codec detail */
-"OPUS Codec" = "Codec OPUS";
+"OPUS Codec" = "Códec OPUS";
 
 /* channel list */
 "Parent channel" = "Canal superior";
@@ -352,7 +352,7 @@
 "Select the text-to-speech voice to use" = "Selecciona el motor de texto a voz a utilizar";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Envía un mensaje en blanco para cerrar el teclado";
 
 /* channel list */
 "Send private message" = "Enviar mensaje privado";
@@ -400,7 +400,7 @@
 "Speech Volume" = "Volumen de voz";
 
 /* codec detail */
-"Speex Codec" = "Codec Speex";
+"Speex Codec" = "Códec Speex";
 
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Codec Speex, calidad variable";
@@ -431,10 +431,10 @@
 "The volume of the speaking voice is %.1f" = "El volumen de la voz es  %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+"Toggle to enable/disable transmission" = "Pulsa para activar o desactivar transmisión";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Conmutar transmisión usando los auriculares";
 
 /* create channel */
 "Topic" = "Tema";
@@ -504,7 +504,7 @@
 "Voice Activation Level: Disabled" = "Nivel de activación de voz: desactivado";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Preprocesamiento de voz";
 
 /* preferences */
 "Voice Transmission Toggled" = "Transmisión de voz activada";
