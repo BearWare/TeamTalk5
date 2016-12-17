@@ -156,7 +156,7 @@
 "has left the channel" = "kanaldan ayrıldı";
 
 /* preferences */
-"Headset TX Toggle" = "Kulaklık İletim Geçişi";
+"Headset TX Toggle" = "Kulaklıktan İletim Durumunu Değiştir";
 
 /* server entry */
 "Host address" = "Sunucu adresi";
@@ -239,7 +239,7 @@
 "No Audio Recording" = "Ses Kaydı Yok";
 
 /* create channel */
-"No Interruptions" = "Aynı Anda Tek Kullanıcı";
+"No Interruptions" = "Söz Kesintisi Yok";
 
 /* channel list */
 "No password" = "Parola yok";

@@ -123,7 +123,7 @@
   <string name="channel_prop_title_maxusers">En Fazla Kullanıcı</string>
   <string name="channel_prop_title_diskquota">Disk Alanı (KB)</string>
   <string name="channel_prop_title_permanent">Kalıcı Kanal</string>
-  <string name="channel_prop_title_nointerrupt">Aynı anda tek kullanıcı</string>
+  <string name="channel_prop_title_nointerrupt">Söz kesintisi yok</string>
   <string name="channel_prop_title_classroom">Sınıf</string>
   <string name="channel_prop_title_oprecvonly">Yalnız İşletmeci Alır</string>
   <string name="channel_prop_title_novoiceact">Ses Etkinleştirme Yok</string>
