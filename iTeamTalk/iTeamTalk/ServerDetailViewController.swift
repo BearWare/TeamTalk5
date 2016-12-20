@@ -43,77 +43,77 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
         
         // ServerList Entry section
-        let namecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let namecell = UITableViewCell(style: .default, reuseIdentifier: nil)
         namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "server entry"), initial: server.name)
         namefield!.delegate = self
         nameItems.append(namecell)
 
         // Connection section
-        let ipaddrcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let ipaddrcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         ipaddrfield = newTableCellTextField(ipaddrcell, label: NSLocalizedString("Host address", comment: "server entry"), initial: server.ipaddr)
         ipaddrfield!.delegate = self
         ipaddrfield!.keyboardType = .URL
-        ipaddrfield!.spellCheckingType = .No
-        ipaddrfield!.autocorrectionType = .No
-        ipaddrfield!.autocapitalizationType = .None
+        ipaddrfield!.spellCheckingType = .no
+        ipaddrfield!.autocorrectionType = .no
+        ipaddrfield!.autocapitalizationType = .none
         conItems.append(ipaddrcell)
 
-        let tcpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let tcpportcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         tcpportfield = newTableCellTextField(tcpportcell, label: NSLocalizedString("TCP Port", comment: "server entry"), initial: String(server.tcpport))
         tcpportfield!.delegate = self
-        tcpportfield!.keyboardType = .NumberPad
+        tcpportfield!.keyboardType = .numberPad
         conItems.append(tcpportcell)
 
-        let udpportcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let udpportcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         udpportfield = newTableCellTextField(udpportcell, label: NSLocalizedString("UDP Port", comment: "server entry"), initial: String(server.udpport))
         udpportfield!.delegate = self
-        udpportfield!.keyboardType = .NumberPad
+        udpportfield!.keyboardType = .numberPad
         conItems.append(udpportcell)
 
         // Authentication section
-        let usernamecell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
         usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: server.username)
         usernamefield!.delegate = self
-        usernamefield!.autocorrectionType = .No
-        usernamefield!.spellCheckingType = .No
-        usernamefield!.autocapitalizationType = .None
+        usernamefield!.autocorrectionType = .no
+        usernamefield!.spellCheckingType = .no
+        usernamefield!.autocapitalizationType = .none
         authItems.append(usernamecell)
         
-        let passwdcell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+        let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: server.password)
         passwdfield!.delegate = self
-        passwdfield!.autocorrectionType = .No
-        passwdfield!.spellCheckingType = .No
-        passwdfield!.autocapitalizationType = .None
-        passwdfield!.secureTextEntry = true
+        passwdfield!.autocorrectionType = .no
+        passwdfield!.spellCheckingType = .no
+        passwdfield!.autocapitalizationType = .none
+        passwdfield!.isSecureTextEntry = true
         authItems.append(passwdcell)
         
-        let connectcell = tableView.dequeueReusableCellWithIdentifier("Connect Server")!
+        let connectcell = tableView.dequeueReusableCell(withIdentifier: "Connect Server")!
         actionItems.append(connectcell)
         
-        let deletecell = tableView.dequeueReusableCellWithIdentifier("Delete Server")!
+        let deletecell = tableView.dequeueReusableCell(withIdentifier: "Delete Server")!
         actionItems.append(deletecell)
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        let def = NSNotificationCenter.defaultCenter()
+        let def = NotificationCenter.default
         
-        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWillShow(notify: NSNotification) {
+    func keyboardWillShow(_ notify: Notification) {
         moveForKeyboard(notify, up: true)
     }
     
-    func keyboardWillHide(notify: NSNotification) {
+    func keyboardWillHide(_ notify: Notification) {
         moveForKeyboard(notify, up: false)
     }
 
-    func moveForKeyboard(notify: NSNotification, up: Bool) {
+    func moveForKeyboard(_ notify: Notification, up: Bool) {
         if let userInfo = notify.userInfo {
-            if let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue {
+            if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
                 
                 let selfFrame = self.view.frame
                 var newTableFrame = tableView.frame
@@ -150,25 +150,25 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         server.publicserver = false
     }
     
-    func textFieldDidBeginEditing(textfield: UITextField) {
+    func textFieldDidBeginEditing(_ textfield: UITextField) {
         let cell = textfield.superview as! UITableViewCell
-        tableView.scrollToRowAtIndexPath(tableView.indexPathForCell(cell)!, atScrollPosition: .Top, animated: true)
+        tableView.scrollToRow(at: tableView.indexPath(for: cell)!, at: .top, animated: true)
     }
     
     //    func textFieldShouldEndEditing(textfield: UITextField) -> Bool {
     //        return true
     //    }
     
-    func textFieldShouldReturn(textfield: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
         textfield.resignFirstResponder()
         return false
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
             return NSLocalizedString("Server List Entry", comment: "server entry")
@@ -183,7 +183,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
         case 0 :
@@ -199,7 +199,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case 0 :
@@ -217,12 +217,12 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         return UITableViewCell()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Connect From ServerDetail" {
             
             saveServerDetail()
             
-            let vc = segue.destinationViewController as! MainTabBarController
+            let vc = segue.destination as! MainTabBarController
             vc.setTeamTalkServer(server)
         }
     }

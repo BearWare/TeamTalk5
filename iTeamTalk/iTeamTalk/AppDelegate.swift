@@ -26,32 +26,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+    let backgroundQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
     var backgroundRunning: Bool = false
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY)
         
         // Default values are not set in Settings bundle, so we need to load them manually
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         defaults.synchronize()
         
         var bundleDefaults = [String : AnyObject]()
         
-        if let settingsBundle = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle") {
+        if let settingsBundle = Bundle.main.path(forResource: "Settings", ofType: "bundle") {
             
-            let path = (settingsBundle as NSString).stringByAppendingPathComponent("Root.plist")
+            let path = (settingsBundle as NSString).appendingPathComponent("Root.plist")
             let settings = NSDictionary(contentsOfFile: path)
-            let preferences = settings!.objectForKey("PreferenceSpecifiers") as! NSArray
+            let preferences = settings!.object(forKey: "PreferenceSpecifiers") as! NSArray
 
             for prefSpecification in preferences {
-                if let key: AnyObject = prefSpecification.objectForKey("Key") {
-                    if defaults.objectForKey(key as! String) == nil {
-                        let defValue: AnyObject? = prefSpecification.objectForKey("DefaultValue")
-                        bundleDefaults[key as! String] = defValue
+                if let key = (prefSpecification as AnyObject).object(forKey: "Key") {
+                    if defaults.object(forKey: key as! String) == nil {
+                        let defValue = (prefSpecification as AnyObject).object(forKey: "DefaultValue")
+                        bundleDefaults[key as! String] = defValue as AnyObject?
 //                        println("Pref: " + (key as! String) + "=" + defValue)
                     }
                 }
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if !bundleDefaults.isEmpty {
-            defaults.registerDefaults(bundleDefaults)
+            defaults.register(defaults: bundleDefaults)
             defaults.synchronize()
         }
 
@@ -81,11 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
         let nav = self.window?.rootViewController as! UINavigationController
         
-        nav.popToRootViewControllerAnimated(true)
+        nav.popToRootViewController(animated: true)
         
         let svc = nav.topViewController as! ServerListViewController
         svc.openUrl(url)
@@ -93,54 +93,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
         if TT_GetFlags(ttInst) & CLIENT_CONNECTED.rawValue != 0 {
             backgroundRunning = true
-            dispatch_async(backgroundQueue, testBackgroundTask)
+            backgroundQueue.async(execute: testBackgroundTask)
         }
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
         backgroundRunning = false
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
     func testBackgroundTask() {
         if (backgroundRunning) {
             endBackgroundTask()
-            NSThread.sleepForTimeInterval(5)
-            dispatch_async(backgroundQueue, testBackgroundTask)
+            Thread.sleep(forTimeInterval: 5)
+            backgroundQueue.async(execute: testBackgroundTask)
             registerBackgroundTask()
         }
     }
     
     func registerBackgroundTask() {
-        backgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
+        backgroundTask = UIApplication.shared.beginBackgroundTask (expirationHandler: {
             [unowned self] in
             self.endBackgroundTask()
-        }
+        })
         assert(backgroundTask != UIBackgroundTaskInvalid)
     }
     
     func endBackgroundTask() {
-        UIApplication.sharedApplication().endBackgroundTask(backgroundTask)
+        UIApplication.shared.endBackgroundTask(backgroundTask)
         backgroundTask = UIBackgroundTaskInvalid
     }
 }

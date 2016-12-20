@@ -59,6 +59,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is required for conversations</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
