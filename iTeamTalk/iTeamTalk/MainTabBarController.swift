@@ -365,7 +365,7 @@ class MainTabBarController : UITabBarController, TeamTalkEvent {
     }
     
     @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController!.popViewController(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

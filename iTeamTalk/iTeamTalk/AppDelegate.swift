@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let backgroundQueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background)
+    let backgroundQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
     var backgroundRunning: Bool = false
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
