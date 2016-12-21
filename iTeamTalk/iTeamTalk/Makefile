@@ -1,11 +1,8 @@
 
 genstrings:
-	genstrings -o Base.lproj/ *.swift
-	genstrings -o en.lproj/ *.swift
-	make TARGET=Base.lproj/Localizable.strings iconv
+		genstrings -o en.lproj/ *.swift
 	make TARGET=en.lproj/Localizable.strings iconv
-	make TARGET=Base.lproj/Localizable.strings replace
-	make TARGET=en.lproj/Localizable.strings replace
+		make TARGET=en.lproj/Localizable.strings replace
 
 iconv:
 	iconv -f UTF-16LE -t UTF-8 $(TARGET) > $(TARGET).utf8
