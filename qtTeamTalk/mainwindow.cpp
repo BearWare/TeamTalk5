@@ -2676,7 +2676,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
         }
      }
 #else
-        qDebug() << "Ignoring desktop input. Share specific window not supported on Mac OS X";
+        qDebug() << "Ignoring desktop input. Share specific window not supported on Mac OS";
         return;
 #endif
      break;
