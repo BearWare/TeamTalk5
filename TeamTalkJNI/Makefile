@@ -29,6 +29,10 @@ CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar
 TT5DLL := $(PWD)/libs/libTeamTalk5-jni.$(SHARED_EXT)
 TT5PRODLL := $(PWD)/libs/libTeamTalk5Pro-jni.$(SHARED_EXT)
 
+# DYLD_LIBRARY_PATH has been removed in Mac OS Sierra, so use
+# -Djava.library.path instead
+LIBPATH=$(TEAMTALK_ROOT)/TeamTalk_DLL:$(TEAMTALK_ROOT)/TeamTalkJNI/libs
+
 SRCTARGET=-source 1.5 -target 1.5
 
 help:
@@ -74,6 +78,12 @@ native:
 nativepro:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
+macnative: native
+	install_name_tool -change libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib $(TT5DLL)
+
+macnativepro: nativepro
+	install_name_tool -change libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
+
 java:
 	cd src && javac $(SRCTARGET) -g:vars ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
@@ -94,10 +104,10 @@ junitsrv: java
 	cd test && jar cf ../libs/TeamTalk5SrvTest.jar ./dk/bearware/*.class
 
 runjunit:  junit
-	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkTestSuite
+	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) org.junit.runner.JUnitCore TeamTalkTestSuite
 
 runjunitsrv:  junitsrv
-	cd test && java -cp "$(CLASSPATH)" org.junit.runner.JUnitCore TeamTalkServerTestSuite
+	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase: junit
-	cd test && java -cp "$(CLASSPATH)" SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
