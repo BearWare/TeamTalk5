@@ -280,7 +280,7 @@ protected:
                 m_mainwindow->parseArgs(QStringList() << "abc" << tturi);
         }
 #if QT_VERSION >= 0x050400
-        // This handles press in Dock on Mac OS X
+        // This handles press in Dock on Mac OS
         if (e->type() == QEvent::ApplicationActivated)
         {
             if(m_mainwindow->isHidden())

@@ -15,7 +15,7 @@
   <string name="title_activity_text_message">İleti</string>
   <string name="title_activity_preferences">Ayarlar</string>
   <string name="action_createchannel">Oluştur</string>
-  <string name="action_updatechannel">Güncelle</string>
+  <string name="action_updatechannel">Güncelleştir</string>
   <string name="text_con_failed">Sunucuya bağlanılamadı. Yeniden deneniyor...</string>
   <string name="text_con_lost">Sunucu bağlantısı kaybedildi</string>
   <string name="text_con_success">Sunucuya bağlanıldı</string>
@@ -51,7 +51,7 @@
   <string name="pref_summary_broadcast_message_audio_icon">Yayınlanan ileti alındığında ses çal</string>
   <string name="pref_title_server_lost_audio_icon">Sunucu bağlantısı kaybı</string>
   <string name="pref_summary_server_lost_audio_icon">Bağlantı düştüğünde ses çal</string>
-  <string name="pref_title_files_update_audio_icon">Dosya listesi güncellemesi</string>
+  <string name="pref_title_files_update_audio_icon">Dosya listesi güncelleştirmesi</string>
   <string name="pref_summary_files_update_audio_icon">Dosya eklendiğinde ya da kaldırıldığında ses çal</string>
   <string name="pref_header_connection">Bağlantı</string>
   <string name="pref_title_sub_txtmsg">İletiler</string>

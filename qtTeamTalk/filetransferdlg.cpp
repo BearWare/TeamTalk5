@@ -61,7 +61,7 @@ void FileTransferDlg::timerEvent(QTimerEvent* event)
             killTimer(m_timerid);
             m_timerid = -1;
             QMessageBox::critical(this, tr("File Transfer"), 
-                tr("File tranfer failed."));
+                tr("File transfer failed."));
         }
         else
             updateFileTransfer(transfer);
