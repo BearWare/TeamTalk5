@@ -64,15 +64,38 @@ class iTeamTalkTests: XCTestCase {
         let ttInst = newClient()
         var msg = TTMessage()
 
-        let inst1 = TT_StartSoundLoopbackTest(0, 0, 16000, 1, 0, nil)
+        let inst1 = TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, nil)
 
         print("Sound loop is active now")
         
         XCTAssert(inst1 != nil, "inst1 started")
         
-        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 10000, msg: &msg)
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
         
-        TT_CloseSoundLoopbackTest(inst1)
+        XCTAssert(TT_CloseSoundLoopbackTest(inst1) == TRUE)
+        
+        var agc = SpeexDSP()
+        
+        agc.bEnableAGC = TRUE
+        agc.nGainLevel = 8000
+        agc.nMaxIncDBSec = 12
+        agc.nMaxDecDBSec = -40
+        agc.nMaxGainDB = 30
+        agc.bEnableDenoise = TRUE
+        
+        let instAGC = TT_StartSoundLoopbackTest(0, 0, 48000, 1, FALSE, &agc)
+        
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+        
+        XCTAssert(TT_CloseSoundLoopbackTest(instAGC) == TRUE)
+
+        agc.nGainLevel = 2000
+        let instAGC2 = TT_StartSoundLoopbackTest(0, 0, 48000, 1, FALSE, &agc)
+        
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+        
+        XCTAssert(TT_CloseSoundLoopbackTest(instAGC2) == TRUE)
+
     }
     
     // test is invalid. Sound device 1 no longer exists.
