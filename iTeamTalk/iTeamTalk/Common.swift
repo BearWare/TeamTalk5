@@ -422,14 +422,14 @@ func enableSpeakerOutput(_ on: Bool) {
         }
         else {
             try session.setMode(AVAudioSessionModeDefault)
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetooth)
 //            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.None)
         }
 //        try session.setActive(true)
         print("post set: "  + session.mode)
     }
     catch {
-        print("Failed")
+        print("Failed to set mode")
     }
     
 }
