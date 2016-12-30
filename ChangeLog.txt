@@ -13,6 +13,8 @@ Default Qt client:
 Accessible Windows client:
 - Store audio in .ogg format
 - Fixed bug when storing in 4GB .wav file
+iOS client:
+- Fixed recording/playback issue related to Bluetooth headsets
 
 Version 5.1.7, released 2016/08/10
 Default Qt client:
