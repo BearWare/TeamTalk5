@@ -513,7 +513,7 @@
 "Voice Volume" = "Sprachlautstärke";
 
 /* codec detail */
-"VoIP" = "Sprachausgabe";
+"VoIP" = "VoIP";
 
 /* user detail */
 "Volume Controls" = "Lautstärkekontrollen";
