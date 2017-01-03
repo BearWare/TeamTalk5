@@ -10,6 +10,7 @@ Default Qt client:
 - Video TX hotkey changed to enable/disable by one press
 - Store audio in .ogg format
 - Fixed bug when storing in 4GB .wav file
+- Fixed bug on Mac OS where some sounds where not played
 Accessible Windows client:
 - Store audio in .ogg format
 - Fixed bug when storing in 4GB .wav file
