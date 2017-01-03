@@ -772,7 +772,7 @@
     <message>
         <location filename="../filetransferdlg.cpp" line="64"/>
         <source>File transfer failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiübertragung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="101"/>
@@ -993,7 +993,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="220"/>
         <source>Mac OS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mac OS erlaubt nicht die Benutzung einzelner Modifikationstasten, daher können Cmd, Option und Shift nur gemeinsam mit anderen tasten verwendet werden.</translation>
     </message>
     <message>
         <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
@@ -1557,7 +1557,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1037"/>
         <source>Internal message queue overloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Interne Nachrichtenwarteschlange überlastet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1252"/>
@@ -1780,7 +1780,8 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="5238"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Setup-Informationen. 
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5307"/>
@@ -4475,7 +4476,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="52"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="53"/>
