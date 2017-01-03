@@ -454,37 +454,37 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         MediaFileInfo mfi = new MediaFileInfo();
-        assertTrue(ttclient.getMediaFileInfo(MEDIAFILE, mfi));
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(MEDIAFILE, mfi));
         
         VideoCodec vidcodec = new VideoCodec();
         vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
         vidcodec.webm_vp8.nRcTargetBitrate = 256;
 
-        assertTrue(ttclient.startStreamingMediaFileToChannel(MEDIAFILE, vidcodec));
+        assertTrue("Start", ttclient.startStreamingMediaFileToChannel(MEDIAFILE, vidcodec));
 
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
-        assertEquals(msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
-        assertEquals(msg.mediafileinfo.szFileName, mfi.szFileName);
-        assertEquals(msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        assertEquals("Filename match", msg.mediafileinfo.szFileName, mfi.szFileName);
+        assertEquals("Found duration", msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
 
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertTrue("Wait USER_STATECHANGE", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
 
         VideoFrame vidfrm;
         int n_rx_frames = 0;
         while(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_STREAM_VIDEO)) {
-            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO, DEF_WAIT));
+            assertTrue("Wait  MEDIAFILE_VIDEO", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO, DEF_WAIT));
 
             vidfrm = ttclient.acquireUserMediaVideoFrame(ttclient.getMyUserID());
             if(vidfrm != null) {
-                assertEquals(vidfrm.nWidth, mfi.videoFmt.nWidth);
-                assertEquals(vidfrm.nHeight, mfi.videoFmt.nHeight);
+                assertEquals("Width ok", vidfrm.nWidth, mfi.videoFmt.nWidth);
+                assertEquals("Height ok", vidfrm.nHeight, mfi.videoFmt.nHeight);
 
                 n_rx_frames++;
             }
         }
-        assertTrue(n_rx_frames>0);
-        assertTrue(ttclient.stopStreamingMediaFileToChannel());
+        assertTrue("Received frames", n_rx_frames>0);
+        assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
     public void test_13_MediaStorage_WaveOutput() {
@@ -869,30 +869,30 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = buildDefaultChannel(ttclient, "Opus");
         assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
 
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+        assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
-        assertTrue(ttclient.enableVoiceTransmission(true));
+        assertTrue("vox", ttclient.enableVoiceTransmission(true));
 
         assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
 
-        assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+        assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
 
         assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
-        assertEquals(TTType.__STREAMTYPE, msg.ttType);
-        assertEquals(StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+        assertEquals("StreamType", TTType.__STREAMTYPE, msg.ttType);
+        assertEquals("Voice StreamType", StreamType.STREAMTYPE_VOICE, msg.nStreamType);
             
         AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
 
-        assertTrue(block.nSamples > 0);
+        assertTrue("aud block has samples", block.nSamples > 0);
 
         //drain message before we start calculating
-        assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
+        assertFalse("No queued events", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
 
-        assertTrue(ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_MEDIAFILE_AUDIO, true));
-        assertTrue(ttclient.startStreamingMediaFileToChannel(MEDIAFILE_AUDIO, new VideoCodec()));
+        assertTrue("Enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_MEDIAFILE_AUDIO, true));
+        assertTrue("Start stream file", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_AUDIO, new VideoCodec()));
 
         int n_voice_blocks = 0, n_mfa_blocks = 0;
         while (n_voice_blocks < 10 || n_mfa_blocks < 10)
@@ -1315,7 +1315,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
      
         int frames = 0;
         while(frames < 10) {
-            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
+            assertTrue("Get video frame", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
             long start = System.currentTimeMillis();
             VideoFrame frm = ttclient.acquireUserVideoCaptureFrame(msg.nSource);
             if(frm != null) {
