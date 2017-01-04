@@ -352,7 +352,7 @@
 "Select the text-to-speech voice to use" = "Выбрать голос для использования текст в речь";
 
 /* text message */
-"Send empty message to close keyboard" = "Отправить пустое сообщение, чтобы закрыть клавиатуру";
+"Send empty message to close keyboard" = "Отправьте пустое сообщение, чтобы закрыть клавиатуру";
 
 /* channel list */
 "Send private message" = "Отправить приватное сообщение";
@@ -370,7 +370,7 @@
 "Show public servers in server list" = "Показать публичные серверы в списке серверов";
 
 /* preferences */
-"Show text messages instantly" = "Показать текст сообщения мгновенно";
+"Show text messages instantly" = "Показать текстовые сообщения мгновенно";
 
 /* preferences */
 "Show usernames" = "Показ имён пользователей";
