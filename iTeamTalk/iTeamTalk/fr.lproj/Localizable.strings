@@ -358,7 +358,7 @@
 "Send private message" = "Envoyer message privé";
 
 /* preferences */
-"Server Connection Lost" = "Connexion serveur perdie";
+"Server Connection Lost" = "Connexion serveur perdue";
 
 /* server entry */
 "Server List Entry" = "Entrée liste serveur";
