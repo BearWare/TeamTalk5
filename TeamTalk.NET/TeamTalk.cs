@@ -83,7 +83,7 @@ namespace BearWare
          * AudioUnit subtype Voice-Processing I/O Unit.
          *
          * Note that iOS only supports one active Voice-Processing I/O
-         * Unit, i.e. only one #TTInstance can use the
+         * Unit, i.e. only one @c TTInstance can use the
          * Voice-Processing I/O Unit.
          *
          * Add libraries @c AVFoundation.framework and
@@ -297,6 +297,17 @@ namespace BearWare
     {
         /** @brief Used to denote nothing selected. */
         AFF_NONE = 0,
+        /** @brief Store audio in the same format as the #BearWare.Channel's
+         * configured audio codec.
+         *
+         * Audio is stored in OGG format.  OGG format is supported by
+         * https://www.xiph.org/ogg and can be played using VLC media player
+         * http://www.videolan.org
+         * 
+         * Requires TeamTalk version 5.2.0.4730.
+         * @see TeamTalk.SetUserMediaStorageDir()
+         * @see TeamTalk.StartRecordingMuxedAudioFile() */
+        AFF_CHANNELCODEC_FORMAT  = 1,
         /** @brief Store in 16-bit wave format. */
         AFF_WAVE_FORMAT = 2,
         /** @brief Store in MP3-format. 
