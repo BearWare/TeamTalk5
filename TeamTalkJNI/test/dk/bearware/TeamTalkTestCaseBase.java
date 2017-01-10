@@ -91,9 +91,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     protected static void connect(TeamTalkBase ttclient)
     {
-        assertTrue("connect call", ttclient.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
-
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        connect(ttclient, SYSTEMID);
     }
 
     protected static void connect(TeamTalkBase ttclient, String systemID)

@@ -127,7 +127,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec.speex.bStereoPlayback = false;
         chan.audiocfg.bEnableAGC = true;
         
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("join channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
         Channel joinchan = new Channel();
         assertTrue(ttclient.getChannel(ttclient.getChannelIDFromPath("/" + chan.szName), joinchan));
