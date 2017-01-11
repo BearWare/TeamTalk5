@@ -455,7 +455,8 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = newUser(env, lpUser);
+        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
 
@@ -474,8 +475,8 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = newUser(env, lpUser);
-        assert(user_obj);
+        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
 
@@ -494,7 +495,8 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = newUser(env, lpUser);
+        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
 

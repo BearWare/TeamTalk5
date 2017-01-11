@@ -612,6 +612,46 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
 
+    public void test_08_channelUpdates() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = new Channel();
+        chan.nChannelID = 2;
+        chan.nParentID = 1;
+        chan.nMaxUsers = 10;
+        chan.szName = "foo";
+        chan.audiocodec = new AudioCodec(true);
+        chan.audiocfg = new AudioConfig(true);
+
+        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+
+        while(server.runEventLoop(100));
+
+        chan.szName = "foo2";
+        assertEquals("Update sub channel", ClientError.CMDERR_SUCCESS, server.updateChannel(chan));
+        
+        while(server.runEventLoop(100));
+
+        assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
+        
+        while(server.runEventLoop(100));
+
+    }
+
     public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
