@@ -652,6 +652,64 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_09_kickUser() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+        
+        TeamTalkBase client2 = newClientInstance();
+        connect(server, client2);
+        login(server, client2, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), client1.getMyChannelID())>0);
+
+        while(server.runEventLoop(100));
+
+        Channel chan = new Channel();
+        chan.nChannelID = 2;
+        chan.nParentID = 1;
+        chan.nMaxUsers = 10;
+        chan.szName = "foo";
+        chan.audiocodec = new AudioCodec(true);
+        chan.audiocfg = new AudioConfig(true);
+
+        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+
+        while(server.runEventLoop(100));
+
+        int cmdid = client1.doJoinChannelByID(chan.nChannelID, "");
+        assertTrue("Join new channel", cmdid>0);
+
+        while(server.runEventLoop(100));
+
+        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
+
+        while(server.runEventLoop(100));
+
+        assertEquals("No channel", 0, client1.getMyChannelID());
+
+        assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), 0)>0);
+
+        while(server.runEventLoop(100));
+
+    }
+
     public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
@@ -731,5 +789,21 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
     }
 
+    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
+    {
+        assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+
+        assertTrue("root exists", ttclient.getRootChannelID() > 0);
+
+        int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
+        
+        assertTrue("do join root", cmdid > 0);
+
+        while(server.runEventLoop(100));
+
+        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
+        
+        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+    }
 
 }

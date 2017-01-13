@@ -297,9 +297,10 @@ extern "C" {
 
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject kicker_obj = newUser(env, lpKicker);
+        jobject kicker_obj = lpKicker? newUser(env, lpKicker) : 0;
+        assert(lpKickee);
         jobject kickee_obj = newUser(env, lpKickee);
-        jobject channel_obj = newChannel(env, lpChannel);
+        jobject channel_obj = lpChannel? newChannel(env, lpChannel) : 0;
         jclass cls = env->FindClass("dk/bearware/ServerLogger");
         assert(cls);
         jmethodID method = env->GetMethodID(cls, "userKicked", 
