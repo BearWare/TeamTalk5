@@ -70,18 +70,7 @@ namespace BearWare
         {
             deleteMe();
         }
-        /// <summary>
-        /// brief Start server on specified IP-address and ports.
-        /// Before starting a server the root channel must be created using
-        /// TT_MakeChannel().
-        /// </summary>
-        /// <param name="szBindIPAddr">The IP-address to bind to.</param>
-        /// <param name="nTcpPort">The TCP port to bind to.</param>
-        /// <param name="nUdpPort">The UDP port to bind to.</param>
-        /// <param name="bEncrypted">If encryption is enabled then encryption context
-        ///  must be set prior to this call using TTS_SetEncryptionContext().</param>
-        /// <returns></returns>
-        public virtual bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
+        public bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
         {
             return TTProDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
         }

@@ -139,7 +139,7 @@ namespace BearWare
             Init();
         }
 
-        public void Init()
+        protected void Init()
         {
             base.OnChannelCreatedCallback += new ChannelCreatedCallback(TeamTalkSrv_OnChannelCreatedCallback);
             base.OnChannelRemovedCallback += new ChannelRemovedCallback(TeamTalkSrv_OnChannelRemovedCallback);
@@ -397,18 +397,13 @@ namespace BearWare
                 OnChannelCreated(ref lpChannel, ref user);
             }
         }
-
-        public override bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
-        {
-            return base.StartServer(szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
-        }
     }
 
     public class TeamTalk5Srv : TeamTalkSrv
     {
         public TeamTalk5Srv()
+            : base()
         {
-            Init();
         }
 
         public TeamTalk5Srv(Channel lpChannel)
