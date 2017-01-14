@@ -130,16 +130,16 @@ namespace BearWare
         public TeamTalk5Srv(Channel lpChannel)
             : base(lpChannel)
         {
-            Init(lpChannel);
+            Init();
         }
 
         public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
             : base(lpChannel, lpServerProperties)
         {
-            Init(lpChannel);
+            Init();
         }
 
-        public void Init(Nullable<Channel> lpChannel = null)
+        public void Init()
         {
             base.OnChannelCreatedCallback += new ChannelCreatedCallback(TeamTalk5Srv_OnChannelCreatedCallback);
             base.OnChannelRemovedCallback += new ChannelRemovedCallback(TeamTalk5Srv_OnChannelRemovedCallback);
@@ -167,11 +167,6 @@ namespace BearWare
             base.OnFileDeletedCallback += new FileDeletedCallback(TeamTalk5Srv_OnFileDeletedCallback);
             base.OnFileDownloadedCallback += new FileDownloadedCallback(TeamTalk5Srv_OnFileDownloadedCallback);
             base.OnFileUploadedCallback += new FileUploadedCallback(TeamTalk5Srv_OnFileUploadedCallback);
-
-            if (lpChannel != null)
-            {
-                MakeChannel((Channel)lpChannel);
-            }
         }
 
         void TeamTalk5Srv_OnFileUploadedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
