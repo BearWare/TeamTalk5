@@ -1277,7 +1277,7 @@
     </message>
     <message>
         <source>Modifying subscriptions is not allowed</source>
-        <translation type="obsolete">Anpassen von Benutzeraktionen ist nicht erlaubt</translation>
+        <translation type="obsolete">Anpassen von Empfangseinstellungen ist nicht erlaubt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1675"/>
@@ -1944,7 +1944,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1051"/>
         <source>&amp;Subscriptions</source>
-        <translation>&amp;Benutzeraktionen</translation>
+        <translation>Em&amp;pfang</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1071"/>
@@ -1975,7 +1975,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.ui" line="1213"/>
         <location filename="../mainwindow.ui" line="1425"/>
         <source>F3</source>
-        <translation>F3</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1225"/>
@@ -1985,7 +1985,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1228"/>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1233"/>
@@ -1995,12 +1995,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1236"/>
         <source>F4</source>
-        <translation>F4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1244"/>
         <source>Alt+F4</source>
-        <translation>Alt+F4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1256"/>
@@ -2010,7 +2010,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1259"/>
         <source>Ctrl+Shift+T</source>
-        <translation>STRG+Umsch+T</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
@@ -2025,7 +2025,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1275"/>
         <source>F1</source>
-        <translation>F1</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1280"/>
@@ -2035,7 +2035,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1283"/>
         <source>F9</source>
-        <translation>F9</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1288"/>
@@ -2045,7 +2045,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1291"/>
         <source>F7</source>
-        <translation>F7</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1296"/>
@@ -2055,7 +2055,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1299"/>
         <source>Shift+F7</source>
-        <translation>Umsch+F7</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1304"/>
@@ -2065,7 +2065,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1307"/>
         <source>F8</source>
-        <translation>F8</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1312"/>
@@ -2076,7 +2076,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1315"/>
         <source>Ctrl+J</source>
-        <translation>STRG+J</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1327"/>
@@ -2086,7 +2086,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1330"/>
         <source>Ctrl+Shift+A</source>
-        <translation>STRG+Umsch+A</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1335"/>
@@ -2096,7 +2096,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1338"/>
         <source>F5</source>
-        <translation>F5</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1343"/>
@@ -2106,7 +2106,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1346"/>
         <source>F6</source>
-        <translation>F6</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1351"/>
@@ -2116,7 +2116,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1354"/>
         <source>Ctrl+I</source>
-        <translation>STRG+I</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1366"/>
@@ -2126,7 +2126,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1369"/>
         <source>Ctrl+M</source>
-        <translation>STRG+M</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1374"/>
@@ -2136,7 +2136,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1377"/>
         <source>Shift+F5</source>
-        <translation>Umsch+F5</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1382"/>
@@ -2146,7 +2146,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1385"/>
         <source>Shift+F6</source>
-        <translation>Umsch+F6</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1390"/>
@@ -2156,7 +2156,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1393"/>
         <source>Shift+Del</source>
-        <translation>Umsch+Entfernen</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1398"/>
@@ -2181,27 +2181,27 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1476"/>
         <source>Ctrl+4</source>
-        <translation>STRG+4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1491"/>
         <source>Ctrl+1</source>
-        <translation>STRG+1</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1502"/>
         <source>Ctrl+2</source>
-        <translation>STRG+2</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1517"/>
         <source>Ctrl+5</source>
-        <translation>STRG+5</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1528"/>
         <source>Ctrl+3</source>
-        <translation>STRG+3</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1574"/>
@@ -2211,22 +2211,22 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1595"/>
         <source>Ctrl+Shift+1</source>
-        <translation>STRG+Umsch++1</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1606"/>
         <source>Ctrl+Shift+2</source>
-        <translation>STRG+Umsch+2</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1621"/>
         <source>Ctrl+Shift+4</source>
-        <translation>STRG+Umsch+4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1636"/>
         <source>Ctrl+Shift+5</source>
-        <translation>STRG+Umsch+5</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1930"/>
@@ -2251,7 +2251,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1723"/>
         <source>Ctrl+N</source>
-        <translation>STRG+N</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1731"/>
@@ -2261,7 +2261,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1734"/>
         <source>Ctrl+Shift+U</source>
-        <translation>STRG+Umsch+U</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1922"/>
@@ -2271,17 +2271,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1925"/>
         <source>Ctrl+Alt+K</source>
-        <translation>Ctrl+Alt+K</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1933"/>
         <source>Ctrl+Shift+Right</source>
-        <translation>Ctrl+Shift+Right</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1941"/>
         <source>Ctrl+Shift+Left</source>
-        <translation>Ctrl+Shift+Left</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Store Audio to Disk</source>
@@ -2309,7 +2309,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1764"/>
         <source>Ctrl+Shift+D</source>
-        <translation>STRG+Umsch+D</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1772"/>
@@ -2319,7 +2319,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1775"/>
         <source>Ctrl+Alt+E</source>
-        <translation>STRG+Alt+E</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1787"/>
@@ -2329,7 +2329,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1790"/>
         <source>Ctrl+6</source>
-        <translation>STRG+6</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1802"/>
@@ -2339,7 +2339,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1805"/>
         <source>Ctrl+Shift+6</source>
-        <translation>STRG+Umsch+6</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1817"/>
@@ -2349,7 +2349,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1820"/>
         <source>Ctrl+S</source>
-        <translation>STRG+S</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1832"/>
@@ -2364,7 +2364,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1847"/>
         <source>Ctrl+7</source>
-        <translation>STRG+7</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1855"/>
@@ -2378,7 +2378,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1401"/>
         <source>Ctrl+Shift+B</source>
-        <translation>STRG+Umsch+B</translation>
+        <translation></translation>
     </message>
     <message>
         <source>List &amp;User Accounts</source>
@@ -2387,7 +2387,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1409"/>
         <source>Ctrl+Shift+L</source>
-        <translation>STRG+Umsch+L</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1414"/>
@@ -2397,7 +2397,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1417"/>
         <source>Ctrl+Shift+S</source>
-        <translation>STRG+Umsch+S</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1422"/>
@@ -2406,7 +2406,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <source>Shift+F3</source>
-        <translation type="obsolete">Umsch+F3</translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1430"/>
@@ -2416,7 +2416,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1433"/>
         <source>Ctrl+E</source>
-        <translation>STRG+E</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1088"/>
@@ -2441,7 +2441,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1870"/>
         <source>Ctrl+8</source>
-        <translation>STRG+8</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1882"/>
@@ -2451,7 +2451,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1885"/>
         <source>Ctrl+Shift+8</source>
-        <translation>STRG+Umsch+8</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1890"/>
@@ -2461,7 +2461,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1893"/>
         <source>Ctrl+Alt+R</source>
-        <translation>Ctrl+Alt+R</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1898"/>
@@ -2471,7 +2471,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1901"/>
         <source>Ctrl+Shift+M</source>
-        <translation>STRG+Umsch+M</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1095"/>
@@ -2486,7 +2486,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+Alt+Μ</source>
-        <translation>Ctrl+Alt+Μ</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
@@ -2496,7 +2496,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1917"/>
         <source>Ctrl+K</source>
-        <translation>STRG+K</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Kick and &amp;Ban</source>
@@ -2505,7 +2505,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
         <source>Ctrl+Shift+K</source>
-        <translation>STRG+Umsch+K</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1450"/>
@@ -2515,7 +2515,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1453"/>
         <source>Ctrl+O</source>
-        <translation>STRG+O</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1458"/>
@@ -2525,7 +2525,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1461"/>
         <source>Ctrl+U</source>
-        <translation>STRG+U</translation>
+        <translation></translation>
     </message>
     <message>
         <source>&amp;Audio</source>
@@ -2544,7 +2544,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1525"/>
         <source>&amp;Broadcast Messages</source>
-        <translation>Nachrichten &amp;senden</translation>
+        <translation>&amp;Servernachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1540"/>
@@ -2554,7 +2554,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1543"/>
         <source>Ctrl+Shift+V</source>
-        <translation>STRG+Umsch+V</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1551"/>
@@ -2564,7 +2564,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1554"/>
         <source>Ctrl+W</source>
-        <translation>STRG+W</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1559"/>
@@ -2574,7 +2574,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1562"/>
         <source>Ctrl+Shift+W</source>
-        <translation>STRG+Umsch+W</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Store &amp;Audio to Disk</source>
@@ -2583,7 +2583,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1580"/>
         <source>Ctrl+Alt+A</source>
-        <translation>STRG+Alt+A</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1665"/>
@@ -2598,7 +2598,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1696"/>
         <source>Ctrl+Alt+Q</source>
-        <translation>STRG+Alt+Q</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1704"/>
@@ -2608,7 +2608,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1707"/>
         <source>Ctrl+Alt+W</source>
-        <translation>STRG+Alt+W</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -2618,7 +2618,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1715"/>
         <source>Shift+F9</source>
-        <translation>Shift+F9</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Store &amp;Audio From Channel to Disk</source>
@@ -2631,7 +2631,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <source>Ctrl+Alt+F</source>
-        <translation type="obsolete">STRG+Alt+F</translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1592"/>
@@ -2661,7 +2661,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1644"/>
         <source>Ctrl+Alt+B</source>
-        <translation>STRG+Alt+B</translation>
+        <translation></translation>
     </message>
     <message>
         <source>&amp;Increase Volume (+10)</source>
@@ -2670,7 +2670,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1652"/>
         <source>Ctrl+Right</source>
-        <translation>STRG+Cursor rechts</translation>
+        <translation></translation>
     </message>
     <message>
         <source>&amp;Lower Volume (-10)</source>
@@ -2679,7 +2679,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
         <source>Ctrl+Left</source>
-        <translation>STRG+Cursor links</translation>
+        <translation></translation>
     </message>
     <message>
         <source>&amp;Store for Move</source>
@@ -2688,7 +2688,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1668"/>
         <source>Ctrl+Alt+X</source>
-        <translation>STRG+Alt+X</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1673"/>
@@ -2698,7 +2698,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1676"/>
         <source>Ctrl+Alt+V</source>
-        <translation>STRG+Alt+V</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4339,92 +4339,92 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../useraccounts.ui" line="322"/>
         <source>User can log in multiple times</source>
-        <translation>Benutzer kann sich mehrfach anmelden</translation>
+        <translation>Kann sich mehrfach anmelden</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>User can upload files</source>
-        <translation>Benutzer kann Dateien hochladen</translation>
+        <translation>Kann Dateien hochladen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
         <source>User can see users in all channels</source>
-        <translation>Benutzer kann alle Benutzer in allen Räumen sehen</translation>
+        <translation>Kann alle Benutzer in allen Räumen sehen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="349"/>
         <source>User can download files</source>
-        <translation>Benutzer kann Dateien herunterladen</translation>
+        <translation>Kann Dateien herunterladen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>User can create/modify all channels</source>
-        <translation>Benutzer kann alle Räume erstellen/bearbeiten</translation>
+        <translation>Kann alle Räume erstellen/bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="363"/>
         <source>User can update server properties</source>
-        <translation>Benutzer kann Server-Eigenschaften bearbeiten</translation>
+        <translation>Kann Server-Eigenschaften bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="376"/>
         <source>User can create temporary channels</source>
-        <translation>Benutzer kann temporäre Räume erstellen</translation>
+        <translation>Kann temporäre Räume erstellen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="383"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>Benutzer kann Sprachdaten senden (Mikrofon)</translation>
+        <translation>Kann Sprachdaten senden (Mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
         <source>User can broadcast text messages</source>
-        <translation>Benutzer kann Textnachrichten übermitteln</translation>
+        <translation>Kann Textnachrichten übermitteln</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>Benutzer kann Videodaten senden (Webcam)</translation>
+        <translation>Kann Videodaten senden (Webcam)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="410"/>
         <source>User can kick users off the server</source>
-        <translation>Benutzer kann andere Benutzer vom Server verweisen</translation>
+        <translation>Kann andere Benutzer vom Server verweisen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="417"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>Benutzer kann Audiodateien senden (wav, mp3)</translation>
+        <translation>Kann Audiodateien senden (wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="424"/>
         <source>User can ban users from server</source>
-        <translation>Benutzer kann andere Benutzer sperren</translation>
+        <translation>Kann andere Benutzer sperren</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="431"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>Benutzer kann Videodateien senden (avi, mp4)</translation>
+        <translation>Kann Videodateien senden (avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="438"/>
         <source>User can move users between channels</source>
-        <translation>Benutzer kann andere Benutzer zwischen Räumen verschieben</translation>
+        <translation>Kann andere Benutzer zwischen Räumen verschieben</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="445"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>Benutzer kann Desktopsitzungen übertragen</translation>
+        <translation>Kann Desktopsitzungen übertragen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="452"/>
         <source>User can make other users channel operator</source>
-        <translation>Benutzer kann andere Benutzer Operatorrechte verleihen</translation>
+        <translation>Kann anderen Benutzern Operator-Rechte verleihen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>Benutzer kann Fernzugriff auf Desktops erhalten</translation>
+        <translation>Kann Fernzugriff auf Desktops erhalten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="484"/>
