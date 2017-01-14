@@ -85,6 +85,9 @@ Sample applications for writing a TeamTalk 5 server are located in the Examples 
 * **TeamTalkServer**
   * TeamTalk 5 server application written in C++
   * Requires **TeamTalk_DLL** project for DLL dependency
+* **TeamTalkServer.NET**
+  * TeamTalk 5 server application written in C#
+  * Requires **TeamTalk_DLL** and **TeamTalk.NET** projects for DLL dependencies
 * **jTeamTalkServer**
   * TeamTalk 5 server application written in Java
   * Requires **TeamTalk_DLL** and **TeamTalkJNI** for DLL dependencies
