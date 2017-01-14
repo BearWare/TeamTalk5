@@ -4,8 +4,8 @@
  * Contact Information:
  *
  * Bjoern D. Rasmussen
- * Skanderborgvej 40 4-2
- * DK-8000 Aarhus C
+ * Kirketoften 5
+ * DK-8260 Viby J
  * Denmark
  * Email: contact@bearware.dk
  * Phone: +45 20 20 54 59
@@ -43,7 +43,7 @@ namespace BearWare
         {
             if (m_ttsInst != IntPtr.Zero)
             {
-                TTDLL.TTS_CloseTeamTalk(m_ttsInst);
+                TTProDLL.TTS_CloseTeamTalk(m_ttsInst);
                 m_ttsInst = IntPtr.Zero;
             }
         }
@@ -53,7 +53,7 @@ namespace BearWare
         }
         protected TeamTalkSrv()
         {
-            m_ttsInst = TTDLL.TTS_InitTeamTalk();
+            m_ttsInst = TTProDLL.TTS_InitTeamTalk();
         }
         protected TeamTalkSrv(Channel lpChannel)
             : this()
@@ -83,52 +83,52 @@ namespace BearWare
         /// <returns></returns>
         public virtual bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
         {
-            return TTDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
+            return TTProDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
         }
         public bool StopServer()
         {
-            return TTDLL.TTS_StopServer(m_ttsInst);
+            return TTProDLL.TTS_StopServer(m_ttsInst);
         }
         public ClientError MoveUser(int nUserID, BearWare.Channel lpChannel)
         {
-            return TTDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
+            return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
         }
         public ClientError SetChannelFilesRoot(string szFilesRoot, Int64 nMaxDiskUsage, Int64 nDefaultChannelQuota)
         {
-            return TTDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
+            return TTProDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
         }
         public ClientError AddFileToChannel(string szLocalFilePath, BearWare.RemoteFile lpRemoteFile)
         {
-            return TTDLL.TTS_AddFileToChannel(m_ttsInst, ref szLocalFilePath, ref lpRemoteFile);
+            return TTProDLL.TTS_AddFileToChannel(m_ttsInst, ref szLocalFilePath, ref lpRemoteFile);
         }
         public ClientError RemoveFileFromChannel(RemoteFile lpRemoteFile)
         {
-            return TTDLL.TTS_RemoveFileFromChannel(m_ttsInst, ref  lpRemoteFile);
+            return TTProDLL.TTS_RemoveFileFromChannel(m_ttsInst, ref  lpRemoteFile);
         }
         public static bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
         {
-            return TTDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
+            return TTProDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
         }
-        public static string GetVersion() { return Marshal.PtrToStringAuto(TTDLL.TT_GetVersion()); }
+        public static string GetVersion() { return Marshal.PtrToStringAuto(TTProDLL.TT_GetVersion()); }
         public ClientError RemoveChannel(int nChannelID)
         {
-            return TTDLL.TTS_RemoveChannel(m_ttsInst, nChannelID);
+            return TTProDLL.TTS_RemoveChannel(m_ttsInst, nChannelID);
         }
         public ClientError UpdateChannel(Channel lpChannel)
         {
-            return TTDLL.TTS_UpdateChannel(m_ttsInst, ref lpChannel);
+            return TTProDLL.TTS_UpdateChannel(m_ttsInst, ref lpChannel);
         }
         public virtual ClientError MakeChannel(BearWare.Channel lpChannel)
         {
-            return TTDLL.TTS_MakeChannel(m_ttsInst, ref lpChannel);
+            return TTProDLL.TTS_MakeChannel(m_ttsInst, ref lpChannel);
         }
         public ClientError UpdateServer([In] BearWare.ServerProperties lpServerInfo)
         {
-            return TTDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
+            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
         }
         public bool RunEventLoop(int pnWaitMs)
         {
-            return TTDLL.TTS_RunEventLoop(m_ttsInst, pnWaitMs);
+            return TTProDLL.TTS_RunEventLoop(m_ttsInst, pnWaitMs);
         }
         class CallBack : IDisposable
         {
@@ -180,8 +180,8 @@ namespace BearWare
         {
             CallBack callBack = null;
             bool b = false;
-            string TTDLL_Method = "TTS_Register" + lpCallback.GetType().ToString().Split('+')[1];
-            MethodInfo method = typeof(TTDLL).GetMethod(TTDLL_Method);
+            string TTProDLL_Method = "TTS_Register" + lpCallback.GetType().ToString().Split('+')[1];
+            MethodInfo method = typeof(TTProDLL).GetMethod(TTProDLL_Method);
             DLL dg = (DLL)Delegate.CreateDelegate(typeof(DLL), method);
 
             foreach (KeyValuePair<CallBack, DLL> cb in Delegate2DLL)
