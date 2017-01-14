@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BearWare;
+
 namespace TeamTalk5ProServer.NET
 {
     public class TeamTalkServer
@@ -31,7 +32,7 @@ namespace TeamTalk5ProServer.NET
             useraccount.szPassword = ADMIN_PASSWORD;
             useraccount.uUserType = UserType.USERTYPE_ADMIN;
             useraccount.szNote = "An example administrator user account with all user-rights";
-            useraccount.uUserRights = UserRight.USERRIGHT_ALL;
+            useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
             useraccounts.Add(useraccount);
             // Make root channel
             Channel chan = new Channel();
@@ -63,7 +64,9 @@ namespace TeamTalk5ProServer.NET
                 Console.WriteLine("Failed to start server");
             }
             Console.Title = "TeamTalk Server v." + TeamTalk5Srv.GetVersion();
-            Console.WriteLine("Started TeamTalk Server v." + TeamTalk5Srv.GetVersion());
+            Console.WriteLine("Started TeamTalk {0} Server v.{1}\nTCP port: {2}, UDP port: {3}",
+                                (ENCRYPTED? "Encrypted" : "Non-Encrypted"),  TeamTalk5Srv.GetVersion(),
+                                TCPPORT, UDPPORT);
             //run server forever
             while (server.RunEventLoop(0)) ;
         }

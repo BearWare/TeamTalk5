@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BearWare;
+
 namespace TeamTalk5ProServer.NET
 {
     public class ServerCallback
