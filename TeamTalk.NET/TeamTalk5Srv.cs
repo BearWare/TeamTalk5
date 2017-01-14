@@ -167,7 +167,6 @@ namespace BearWare
             base.OnFileDeletedCallback += new FileDeletedCallback(TeamTalk5Srv_OnFileDeletedCallback);
             base.OnFileDownloadedCallback += new FileDownloadedCallback(TeamTalk5Srv_OnFileDownloadedCallback);
             base.OnFileUploadedCallback += new FileUploadedCallback(TeamTalk5Srv_OnFileUploadedCallback);
-
         }
 
         void TeamTalk5Srv_OnFileUploadedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
