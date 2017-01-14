@@ -24,693 +24,401 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using c_tt;
-using System.Collections;
-using System.Reflection;
 
 namespace BearWare
 {
-    public abstract class TeamTalkSrv : IDisposable
+    public class TeamTalkSrv : TeamTalkSrvBase, IDisposable
     {
-        // brief A server instance
-        // see TTS_InitTeamTalk()
-        static IntPtr m_ttsInst;
-        public void Dispose()
-        {
-            deleteMe();
-        }
 
-        private void deleteMe()
-        {
-            if (m_ttsInst != IntPtr.Zero)
-            {
-                TTProDLL.TTS_CloseTeamTalk(m_ttsInst);
-                m_ttsInst = IntPtr.Zero;
-            }
-        }
-        ~TeamTalkSrv()
-        {
-            deleteMe();
-        }
-        protected TeamTalkSrv()
-        {
-            m_ttsInst = TTProDLL.TTS_InitTeamTalk();
-        }
-        protected TeamTalkSrv(Channel lpChannel)
-            : this()
-        {
-            MakeChannel(lpChannel);
-        }
-        protected TeamTalkSrv(Channel lpChannel,ServerProperties lpServerProperties)
-            : this()
-        {
-            UpdateServer(lpServerProperties);
-            MakeChannel(lpChannel);
-        }
-        public void Close()
-        {
-            deleteMe();
-        }
-        /// <summary>
-        /// brief Start server on specified IP-address and ports.
-        /// Before starting a server the root channel must be created using
-        /// TT_MakeChannel().
-        /// </summary>
-        /// <param name="szBindIPAddr">The IP-address to bind to.</param>
-        /// <param name="nTcpPort">The TCP port to bind to.</param>
-        /// <param name="nUdpPort">The UDP port to bind to.</param>
-        /// <param name="bEncrypted">If encryption is enabled then encryption context
-        ///  must be set prior to this call using TTS_SetEncryptionContext().</param>
-        /// <returns></returns>
-        public virtual bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
-        {
-            return TTProDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
-        }
-        public bool StopServer()
-        {
-            return TTProDLL.TTS_StopServer(m_ttsInst);
-        }
-        public ClientError MoveUser(int nUserID, BearWare.Channel lpChannel)
-        {
-            return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
-        }
-        public ClientError SetChannelFilesRoot(string szFilesRoot, Int64 nMaxDiskUsage, Int64 nDefaultChannelQuota)
-        {
-            return TTProDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
-        }
-        public ClientError AddFileToChannel(string szLocalFilePath, BearWare.RemoteFile lpRemoteFile)
-        {
-            return TTProDLL.TTS_AddFileToChannel(m_ttsInst, ref szLocalFilePath, ref lpRemoteFile);
-        }
-        public ClientError RemoveFileFromChannel(RemoteFile lpRemoteFile)
-        {
-            return TTProDLL.TTS_RemoveFileFromChannel(m_ttsInst, ref  lpRemoteFile);
-        }
-        public static bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
-        {
-            return TTProDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
-        }
-        public static string GetVersion() { return Marshal.PtrToStringAuto(TTProDLL.TT_GetVersion()); }
-        public ClientError RemoveChannel(int nChannelID)
-        {
-            return TTProDLL.TTS_RemoveChannel(m_ttsInst, nChannelID);
-        }
-        public ClientError UpdateChannel(Channel lpChannel)
-        {
-            return TTProDLL.TTS_UpdateChannel(m_ttsInst, ref lpChannel);
-        }
-        public virtual ClientError MakeChannel(BearWare.Channel lpChannel)
-        {
-            return TTProDLL.TTS_MakeChannel(m_ttsInst, ref lpChannel);
-        }
-        public ClientError UpdateServer([In] BearWare.ServerProperties lpServerInfo)
-        {
-            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
-        }
-        public bool RunEventLoop(int pnWaitMs)
-        {
-            return TTProDLL.TTS_RunEventLoop(m_ttsInst, pnWaitMs);
-        }
-        class CallBack : IDisposable
-        {
-            private GCHandle hCallBack;
-            private IntPtr pCallFuncPointer;
-            Delegate lpCallback;
-            public CallBack(Delegate lpCallback)
-            {
-                this.lpCallback = lpCallback;
-                hCallBack = GCHandle.Alloc(lpCallback);
-                pCallFuncPointer = Marshal.GetFunctionPointerForDelegate(lpCallback);
-                GC.KeepAlive(lpCallback);
-                GC.Collect();
-            }
-            ~CallBack()
-            {
-                Dispose(true);
-            }
-
-            public IntPtr GetFuncPointer()
-            {
-                return pCallFuncPointer;
-            }
-            public void Dispose()
-            {
-                GC.SuppressFinalize(this);
-                Dispose(true);
-            }
-            protected void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    // Do Something
-                }
-                // free ressource
-                if (hCallBack.IsAllocated)
-                    hCallBack.Free();
-                pCallFuncPointer = IntPtr.Zero;
-            }
-
-            public bool Compare(Delegate x)
-            {
-                return Object.Equals(lpCallback, x);
-            }
-        }
-        private delegate bool DLL(IntPtr lpTTSInstance, IntPtr lpCallback, int lpUserData, bool bEnable);
-        private Dictionary<CallBack, DLL> Delegate2DLL = new Dictionary<CallBack, DLL>();
-        private bool RegisterServerCallback(Delegate lpCallback, int lpUserData, bool bEnable)
-        {
-            CallBack callBack = null;
-            bool b = false;
-            string TTProDLL_Method = "TTS_Register" + lpCallback.GetType().ToString().Split('+')[1];
-            MethodInfo method = typeof(TTProDLL).GetMethod(TTProDLL_Method);
-            DLL dg = (DLL)Delegate.CreateDelegate(typeof(DLL), method);
-
-            foreach (KeyValuePair<CallBack, DLL> cb in Delegate2DLL)
-            {
-                if (cb.Key.Compare(lpCallback))
-                {
-                    if (bEnable == true) return true;
-                    callBack = cb.Key;
-                    b = Delegate2DLL[callBack](m_ttsInst, callBack.GetFuncPointer(), 0, bEnable);
-                    callBack.Dispose();
-                    Delegate2DLL.Remove(callBack);
-                    callBack = null;
-                    return b;
-                }
-            }
-            if (callBack == null && bEnable)
-            {
-                callBack = new CallBack(lpCallback);
-                Delegate2DLL.Add(callBack, dg);
-                b = Delegate2DLL[callBack](m_ttsInst, callBack.GetFuncPointer(), 0, bEnable);
-            }
-            return b;
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserLoggedInCallback(IntPtr lpTTSInstance, [In] IntPtr lpUserData, [In] ref User lpUser);
-        private event UserLoggedInCallback onUserLoggedInCallback;
-        internal event UserLoggedInCallback OnUserLoggedInCallBack
-        {
-            add
-            {
-                lock (objectLock)
-                {
-                    onUserLoggedInCallback += value;
-                    RegisterServerCallback(value, 0, true);
-                }
-            }
-            remove
-            {
-                lock (objectLock)
-                {
-                    onUserLoggedInCallback -= value;
-                    RegisterServerCallback(value, 0, false);
-                }
-            }
-
-        }
+        public delegate void UserLoggedIn(ref User lpUser);
+        public event UserLoggedIn OnUserLoggedIn;
 
         /// <summary>
-        /// brief Callback when a user is requesting to log on to the
-        /// server.
+        /// brief   when a user is requesting to log On to the server.
         /// 
-        /// This callback occurs in the context of TT_DoLogin().
         /// 
-        /// Register using TTS_RegisterUserLoginCallback().
+        /// This   occurs in the cOntext of TT_DoLogin().
+        /// 
+        /// Register using TTS_RegisterUserLogin ().
         /// </summary>
-        /// <param name="lpTTSInstance">lpTTSInstance The server instance where the event is occurring.</param>
-        /// <param name="lpUserData">lpUserData The user data supplied to register-callback function.</param>
         /// <param name="lpClientErrorMsg">lpClientErrorMsg Error message which should be sent back to user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.</param>
         /// <param name="lpUser">The user properties gathered so far.</param>
-        /// <param name="lpUserAccount">lpUserAccount The user account information which shouldbe set for this user.</param>
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserLoginCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In, Out]ref UserAccount lpUserAccount);
-        object objectLock = new Object();
-        private event UserLoginCallback onUserLoginCallback;
-        internal event UserLoginCallback OnUserLoginCallback
+        /// <param name="lpUserAccount">lpUserAccount The user account informatiOn which shouldbe set for this user.</param>
+        public delegate void UserLogin( ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
+        public event UserLogin OnUserLogin;
+
+        public delegate void UserCreateUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
+        public event UserCreateUserAccount OnUserCreateUserAccount;
+
+        public delegate void UserDeleteUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szUsername);
+        public event UserDeleteUserAccount OnUserDeleteUserAccount;
+
+        public delegate void UserAddServerBan(ref ClientErrorMsg lpClientErrorMsg,  ref User lpBanner, ref User lpBanee);
+        public event UserAddServerBan OnUserAddServerBan;
+
+        public delegate void UserAddServerBanIPAddress(ref ClientErrorMsg lpClientErrorMsg,ref User lpBanner, string szIPAddress);
+        public event UserAddServerBanIPAddress OnUserAddServerBanIPAddress;
+
+        public delegate void UserDeleteServerBan(ref ClientErrorMsg lpClientErrorMsg,ref User lpUser, string szIPAddress);
+        public event UserDeleteServerBan OnUserDeleteServerBan;
+
+        public delegate void UserConnected(ref User lpUser);
+        public event UserConnected OnUserConnected;
+
+        public delegate void UserLoggedOut(ref User lpUser);
+        public event UserLoggedOut OnUserLoggedOut;
+
+        public delegate void UserDisconnected(ref User lpUser);
+        public event UserDisconnected OnUserDisconnected;
+
+        public delegate void UserTimedout(ref User lpUser);
+        public event UserTimedout OnUserTimedout;
+
+        public delegate void UserKicked(ref User lpKicker,ref User lpKickee, ref Channel lpChannel);
+        public event UserKicked OnUserKicked;
+
+        public delegate void UserBanned(ref User lpBanner,  ref User lpBanee, IntPtr lpChannel);
+        public event UserBanned OnUserBanned;
+
+        public delegate void UserUnbanned(ref User lpUnbanner, string szIPAddress);
+        public event UserUnbanned OnUserUnbanned;
+
+        public delegate void UserUpdated(ref User lpUser);
+        public event UserUpdated OnUserUpdated;
+
+        public delegate void UserJoinedChannel(ref User lpUser, ref Channel lpChannel);
+        public event UserJoinedChannel OnUserJoinedChannel;
+
+        public delegate void UserLeftChannel(ref User lpUser, ref Channel lpChannel);
+        public event UserLeftChannel OnUserLeftChannel;
+
+        public delegate void UserMoved(ref User lpMover, ref User lpMovee);
+        public event UserMoved OnUserMoved;
+
+        public delegate void UserTextMessage(ref User lpUser,ref TextMessage lpTextMessage);
+        public event UserTextMessage OnUserTextMessage;
+
+        public delegate void ChannelCreated(ref Channel lpChannel,ref User lpUser);
+        public event ChannelCreated OnChannelCreated;
+
+        public delegate void ChannelUpdated(ref Channel lpChannel,ref User lpUser);
+        public event ChannelUpdated OnChannelUpdated;
+
+        public delegate void ChannelRemoved(ref Channel lpChannel,ref User lpUser);
+        public event ChannelRemoved OnChannelRemoved;
+
+        public delegate void FileUploaded(ref RemoteFile lpRemoteFile,ref User lpUser);
+        public event FileUploaded OnFileUploaded;
+
+        public delegate void FileDownloaded(ref RemoteFile lpRemoteFile,ref User lpUser);
+        public event FileDownloaded OnFileDownloaded;
+
+        public delegate void FileDeleted(ref RemoteFile lpRemoteFile,ref User lpUser);
+        public event FileDeleted OnFileDeleted;
+
+        public delegate void ServerUpdated(ref ServerProperties lpServerProperties,ref User lpUser);
+        public event ServerUpdated OnServerUpdated;
+
+        public delegate void SaveServerConfig(ref User lpUser);
+        public event SaveServerConfig OnSaveServerConfig;
+
+        public TeamTalkSrv()
         {
-            add
-            {
-                lock (objectLock)
-                {
-                    onUserLoginCallback += value;
-                    RegisterServerCallback(value, 0, true);
-                }
-            }
-            remove
-            {
-                lock (objectLock)
-                {
-                    onUserLoginCallback -= value;
-                    RegisterServerCallback(value, 0, false);
-                }
-            }
+            Init();
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserCreateUserAccountCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In, Out]ref UserAccount lpUserAccount);
-        private event UserCreateUserAccountCallback onUserCreateUserAccountCallback;
-        internal event UserCreateUserAccountCallback OnUserCreateUserAccountCallback
+
+        public TeamTalkSrv(Channel lpChannel)
+            : base(lpChannel)
         {
-            add
-            {
-                onUserCreateUserAccountCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserCreateUserAccountCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
+            Init();
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserDeleteUserAccountCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In]  [MarshalAs(UnmanagedType.LPWStr)] string szUsername);
-        private event UserDeleteUserAccountCallback onUserDeleteUserAccountCallback;
-        internal event UserDeleteUserAccountCallback OnUserDeleteUserAccountCallback
+
+        public TeamTalkSrv(Channel lpChannel, ServerProperties lpServerProperties)
+            : base(lpChannel, lpServerProperties)
         {
-            add
-            {
-                onUserDeleteUserAccountCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserDeleteUserAccountCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
+            Init();
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserAddServerBanCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, [In,Out] ref User lpBanner, [In,Out] ref User lpBanee);
-        private event UserAddServerBanCallback onUserAddServerBanCallback;
-        internal event UserAddServerBanCallback OnUserAddServerBanCallback
+
+        public void Init()
         {
-            add
-            {
-                onUserAddServerBanCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserAddServerBanCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
+            base.OnChannelCreatedCallback += new ChannelCreatedCallback(TeamTalkSrv_OnChannelCreatedCallback);
+            base.OnChannelRemovedCallback += new ChannelRemovedCallback(TeamTalkSrv_OnChannelRemovedCallback);
+            base.OnChannelUpdatedCallback += new ChannelUpdatedCallback(TeamTalkSrv_OnChannelUpdatedCallback);
+            base.OnUserLoginCallback += new UserLoginCallback(TeamTalkSrv_OnUserLoginCallback);
+            base.OnUserLoggedOutCallback += new UserLoggedOutCallback(TeamTalkSrv_OnUserLoggedOutCallback);
+            base.OnUserLoggedInCallBack += new UserLoggedInCallback(TeamTalkSrv_OnUserLoggedInCallBack);
+            base.OnUserTextMessageCallback += new UserTextMessageCallback(TeamTalkSrv_OnUserTextMessageCallback);
+            base.OnUserAddServerBanCallback += new UserAddServerBanCallback(TeamTalkSrv_OnUserAddServerBanCallback);
+            base.OnUserAddServerBanIPAddressCallback += new UserAddServerBanIPAddressCallback(TeamTalkSrv_OnUserAddServerBanIPAddressCallback);
+            base.OnUserDeleteServerBanCallback += new UserDeleteServerBanCallback(TeamTalkSrv_OnUserDeleteServerBanCallback);
+            base.OnUserBannedCallback += new UserBannedCallback(TeamTalkSrv_OnUserBannedCallback);
+            base.OnUserConnectedCallback += new UserConnectedCallback(TeamTalkSrv_OnUserConnectedCallback);
+            base.OnUserDisconnectedCallback += new UserDisconnectedCallback(TeamTalkSrv_OnUserDisconnectedCallback);
+            base.OnUserTimedoutCallback += new UserTimedoutCallback(TeamTalkSrv_OnUserTimedoutCallback);
+            base.OnUserLeftChannelCallback += new UserLeftChannelCallback(TeamTalkSrv_OnUserLeftChannelCallback);
+            base.OnUserJoinedChannelCallback += new UserJoinedChannelCallback(TeamTalkSrv_OnUserJoinedChannelCallback);
+            base.OnUserKickedCallback += new UserKickedCallback(TeamTalkSrv_OnUserKickedCallback);
+            base.OnUserMovedCallback += new UserMovedCallback(TeamTalkSrv_OnUserMovedCallback);
+            base.OnUserUpdatedCallback += new UserUpdatedCallback(TeamTalkSrv_OnUserUpdatedCallback);
+            base.OnSaveServerConfigCallback += new SaveServerConfigCallback(TeamTalkSrv_OnSaveServerConfigCallback);
+            base.OnServerUpdatedCallback += new ServerUpdatedCallback(TeamTalkSrv_OnServerUpdatedCallback);
+            base.OnUserCreateUserAccountCallback += new UserCreateUserAccountCallback(TeamTalkSrv_OnUserCreateUserAccountCallback);
+            base.OnUserDeleteUserAccountCallback += new UserDeleteUserAccountCallback(TeamTalkSrv_OnUserDeleteUserAccountCallback);
+            base.OnFileDeletedCallback += new FileDeletedCallback(TeamTalkSrv_OnFileDeletedCallback);
+            base.OnFileDownloadedCallback += new FileDownloadedCallback(TeamTalkSrv_OnFileDownloadedCallback);
+            base.OnFileUploadedCallback += new FileUploadedCallback(TeamTalkSrv_OnFileUploadedCallback);
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserAddServerBanIPAddressCallback(IntPtr lpTTSInstance,
-                                                   IntPtr lpUserData,
-                                                   [In, Out] ref ClientErrorMsg lpClientErrorMsg,
-                                                   [In] ref User lpBanner,
-                                                   [In,Out]  [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
-        private event UserAddServerBanIPAddressCallback onUserAddServerBanIPAddressCallback;
-        internal event UserAddServerBanIPAddressCallback OnUserAddServerBanIPAddressCallback
+
+        void TeamTalkSrv_OnFileUploadedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
         {
-            add
-            {
-                onUserAddServerBanIPAddressCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserAddServerBanIPAddressCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
+           if(OnFileUploaded != null)
+           {
+               OnFileUploaded(ref lpRemoteFile, ref lpUser);
+           }
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserDeleteServerBanCallback(IntPtr lpTTSInstance,
-                                             IntPtr lpUserData,
-                                             [In, Out] ref ClientErrorMsg lpClientErrorMsg,
-                                             [In] ref User lpUser,
-                                             [In]  [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
-        private event UserDeleteServerBanCallback onUserDeleteServerBanCallback;
-        internal event UserDeleteServerBanCallback OnUserDeleteServerBanCallback
+
+        void TeamTalkSrv_OnFileDownloadedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
         {
-            add
-            {
-                onUserDeleteServerBanCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserDeleteServerBanCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
+            
+           if(OnFileDownloaded != null)
+           {
+               OnFileDownloaded(ref lpRemoteFile, ref lpUser);
+           }
         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserConnectedCallback(IntPtr lpTTSInstance,
-                                       IntPtr lpUserData, [In] ref User lpUser);
-        private event UserConnectedCallback onUserConnectedCallback;
-        internal event UserConnectedCallback OnUserConnectedCallback
+        void TeamTalkSrv_OnFileDeletedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
         {
-            add
+            if(OnFileDeleted != null)
             {
-                onUserConnectedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserConnectedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserLoggedOutCallback(IntPtr lpTTSInstance,
-                                       IntPtr lpUserData, [In] ref User lpUser);
-        private event UserLoggedOutCallback onUserLoggedOutCallback;
-        internal event UserLoggedOutCallback OnUserLoggedOutCallback
-        {
-            add
-            {
-                onUserLoggedOutCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserLoggedOutCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserDisconnectedCallback(IntPtr lpTTSInstance,
-                                       IntPtr lpUserData, [In] ref User lpUser);
-        private event UserDisconnectedCallback onUserDisconnectedCallback;
-        internal event UserDisconnectedCallback OnUserDisconnectedCallback
-        {
-            add
-            {
-                onUserDisconnectedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserDisconnectedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserTimedoutCallback(IntPtr lpTTSInstance,
-                                       IntPtr lpUserData, [In] ref User lpUser);
-        private event UserTimedoutCallback onUserTimedoutCallback;
-        internal event UserTimedoutCallback OnUserTimedoutCallback
-        {
-            add
-            {
-                onUserTimedoutCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserTimedoutCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserKickedCallback(IntPtr lpTTSInstance,
-                                IntPtr lpUserData, [In] ref User lpKicker,
-                                [In] ref User lpKickee, [In] IntPtr lpChannel);
-        private event UserKickedCallback onUserKickedCallback;
-        internal event UserKickedCallback OnUserKickedCallback
-        {
-            add
-            {
-                onUserKickedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserKickedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserBannedCallback(IntPtr lpTTSInstance,IntPtr lpUserData, [In,Out] ref User lpBanner,[In,Out] ref User lpBanee,  IntPtr  lpChannel);
-        private event UserBannedCallback onUserBannedCallback;
-        internal event UserBannedCallback OnUserBannedCallback
-        {
-            add
-            {
-                onUserBannedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserBannedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserUnbannedCallback(IntPtr lpTTSInstance,
-                                      IntPtr lpUserData, [In] ref User lpUnbanner,
-                                      [In] [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress);
-         private event UserUnbannedCallback onUserUnbannedCallback;
-         internal event UserUnbannedCallback OnUserUnbannedCallback
-         {
-             add
-             {
-                 onUserUnbannedCallback += value;
-                 RegisterServerCallback(value, 0, true);
-             }
-             remove
-             {
-                 onUserUnbannedCallback -= value;
-                 RegisterServerCallback(value, 0, false);
-             }
-         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserUpdatedCallback(IntPtr lpTTSInstance,
-                                     IntPtr lpUserData, [In] ref User lpUser);
-        private event UserUpdatedCallback onUserUpdatedCallback;
-        internal event UserUpdatedCallback OnUserUpdatedCallback
-        {
-            add
-            {
-                onUserUpdatedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserUpdatedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserJoinedChannelCallback(IntPtr lpTTSInstance,
-                                           IntPtr lpUserData, [In, Out] ref User lpUser,
-                                           [In,Out] ref Channel lpChannel);
-        private event UserJoinedChannelCallback onUserJoinedChannelCallback;
-        internal event UserJoinedChannelCallback OnUserJoinedChannelCallback
-        {
-            add
-            {
-                onUserJoinedChannelCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserJoinedChannelCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserLeftChannelCallback(IntPtr lpTTSInstance,
-                                           IntPtr lpUserData, [In,Out] ref User lpUser,
-                                           [In,Out] ref Channel lpChannel);
-        private event UserLeftChannelCallback onUserLeftChannelCallback;
-        internal event UserLeftChannelCallback OnUserLeftChannelCallback
-        {
-            add
-            {
-                onUserLeftChannelCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onUserLeftChannelCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserMovedCallback(IntPtr lpTTSInstance,
-                                   IntPtr lpUserData, [In,Out] ref User lpMover,
-                                   [In,Out] ref User lpMovee);
-         private event UserMovedCallback onUserMovedCallback;
-         internal event UserMovedCallback OnUserMovedCallback
-         {
-             add
-             {
-                 onUserMovedCallback += value;
-                 RegisterServerCallback(value, 0, true);
-             }
-             remove
-             {
-                 onUserMovedCallback -= value;
-                 RegisterServerCallback(value, 0, false);
-             }
-         }
-         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void UserTextMessageCallback(IntPtr lpTTSInstance,
-                                         IntPtr lpUserData, [In] ref User lpUser,
-                                        [In] ref TextMessage lpTextMessage);
-         private event UserTextMessageCallback onUserTextMessageCallback;
-         internal event UserTextMessageCallback OnUserTextMessageCallback
-         {
-             add
-             {
-                 onUserTextMessageCallback  += value;
-                 RegisterServerCallback(value, 0, true);
-             }
-             remove
-             {
-                 onUserTextMessageCallback -= value;
-                 RegisterServerCallback(value, 0, false);
-             }
-         }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        public delegate void ChannelCreatedCallback(IntPtr lpTTSInstance,
-                                        IntPtr lpUserData,[In] ref Channel lpChannel,
-                                        IntPtr lpUser);
-        private event ChannelCreatedCallback onChannelCreatedCallback;
-        public event ChannelCreatedCallback OnChannelCreatedCallback
-        {
-            add
-            {
-                onChannelCreatedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onChannelCreatedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void ChannelUpdatedCallback(IntPtr lpTTSInstance,
-                                        IntPtr lpUserData, [In] ref Channel lpChannel,
-                                        IntPtr lpUser);
-        private event ChannelUpdatedCallback onChannelUpdatedCallback;
-        internal event ChannelUpdatedCallback OnChannelUpdatedCallback
-        {
-            add
-            {
-                onChannelUpdatedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onChannelUpdatedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void ChannelRemovedCallback(IntPtr lpTTSInstance,
-                                        IntPtr lpUserData, [In] ref Channel lpChannel,
-                                        IntPtr  lpUser);
-        private event ChannelRemovedCallback onChannelRemovedCallback;
-        internal event ChannelRemovedCallback OnChannelRemovedCallback
-        {
-            add
-            {
-                onChannelRemovedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onChannelRemovedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void FileUploadedCallback(IntPtr lpTTSInstance,
-                                      IntPtr lpUserData, 
-                                      [In] ref RemoteFile lpRemoteFile,
-                                      [In] ref User lpUser);
-        private event FileUploadedCallback onFileUploadedCallback;
-        internal event FileUploadedCallback OnFileUploadedCallback
-        {
-            add
-            {
-                onFileUploadedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onFileUploadedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void FileDownloadedCallback(IntPtr lpTTSInstance,
-                                      IntPtr lpUserData,
-                                      [In] ref RemoteFile lpRemoteFile,
-                                      [In] ref User lpUser);
-        private event FileDownloadedCallback onFileDownloadedCallback;
-        internal event FileDownloadedCallback OnFileDownloadedCallback
-        {
-            add
-            {
-                onFileDownloadedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onFileDownloadedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void FileDeletedCallback(IntPtr lpTTSInstance,
-                                      IntPtr lpUserData,
-                                      [In] ref RemoteFile lpRemoteFile,
-                                      [In] ref User lpUser);
-        private event FileDeletedCallback onFileDeletedCallback;
-        internal event FileDeletedCallback OnFileDeletedCallback
-        {
-            add
-            {
-                onFileDeletedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onFileDeletedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void ServerUpdatedCallback(IntPtr lpTTSInstance,
-                                       IntPtr lpUserData, 
-                                       [In] ref ServerProperties lpServerProperties,
-                                       [In] ref User lpUser);
-        private event ServerUpdatedCallback onServerUpdatedCallback;
-        internal event ServerUpdatedCallback OnServerUpdatedCallback
-        {
-            add
-            {
-                onServerUpdatedCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onServerUpdatedCallback -= value;
-                RegisterServerCallback(value, 0, false);
-            }
-        }
-        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        internal delegate void SaveServerConfigCallback(IntPtr lpTTSInstance,
-                                          IntPtr lpUserData, 
-                                          [In] ref User lpUser);
-        private event SaveServerConfigCallback onSaveServerConfigCallback;
-        internal event SaveServerConfigCallback OnSaveServerConfigCallback
-        {
-            add
-            {
-                onSaveServerConfigCallback += value;
-                RegisterServerCallback(value, 0, true);
-            }
-            remove
-            {
-                onSaveServerConfigCallback -= value;
-                RegisterServerCallback(value, 0, false);
+                OnFileDeleted(ref lpRemoteFile, ref lpUser);
             }
         }
 
+        void TeamTalkSrv_OnUserDeleteUserAccountCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szUsername)
+        {
+            
+            if(OnUserDeleteUserAccount != null)
+            {
+                OnUserDeleteUserAccount(ref lpClientErrorMsg, ref lpUser, szUsername);
+            }
+        }
+
+        void TeamTalkSrv_OnUserCreateUserAccountCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount)
+        {
+            if(OnUserCreateUserAccount != null)
+            {
+                OnUserCreateUserAccount(ref lpClientErrorMsg, ref lpUser, ref lpUserAccount);
+            }
+        }
+        
+        void TeamTalkSrv_OnServerUpdatedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ServerProperties lpServerProperties, ref User lpUser)
+        {
+            if(OnServerUpdated != null)
+            {
+                OnServerUpdated(ref lpServerProperties, ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnSaveServerConfigCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if(OnSaveServerConfig != null)
+            {
+                OnSaveServerConfig(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserUpdatedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if(OnUserUpdated != null)
+            {
+                OnUserUpdated(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserMovedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpMover, ref User lpMovee)
+        {
+            if(OnUserMoved != null)
+            {
+                OnUserMoved(ref lpMover, ref lpMovee);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserKickedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpKicker, ref User lpKickee, IntPtr lpChannel)
+        {
+            Channel chan = new Channel();
+            if(lpChannel != IntPtr.Zero)
+            {
+                chan = (Channel)Marshal.PtrToStructure(lpChannel, typeof(Channel));
+            }
+            if(OnUserKicked != null)
+            {
+                OnUserKicked(ref lpKicker, ref lpKickee, ref chan);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserJoinedChannelCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser, ref Channel lpChannel)
+        {
+            if(OnUserJoinedChannel !=null)
+            {
+                OnUserJoinedChannel(ref lpUser, ref lpChannel);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserLeftChannelCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser, ref Channel lpChannel)
+        {
+            if(OnUserLeftChannel != null)
+            {
+                OnUserLeftChannel(ref lpUser, ref lpChannel);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserTimedoutCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if(OnUserTimedout != null)
+            {
+                OnUserTimedout(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserDisconnectedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if(OnUserDisconnected != null)
+            {
+                OnUserDisconnected(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserConnectedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if(OnUserConnected != null)
+            {
+                OnUserConnected(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserBannedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpBanner, ref User lpBanee, IntPtr lpChannel)
+        {
+            if(OnUserBanned != null)
+            {
+                OnUserBanned(ref lpBanner, ref lpBanee, lpChannel);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserDeleteServerBanCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szIPAddress)
+        {
+            if(OnUserDeleteServerBan != null)
+            {
+                OnUserDeleteServerBan(ref lpClientErrorMsg, ref lpUser, szIPAddress);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserAddServerBanIPAddressCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpBanner, string szIPAddress)
+        {
+            if(OnUserAddServerBanIPAddress != null)
+            {
+                OnUserAddServerBanIPAddress(ref lpClientErrorMsg, ref lpBanner, szIPAddress);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserAddServerBanCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpBanner, ref User lpBanee)
+        {
+            if(OnUserAddServerBan != null)
+            {
+                OnUserAddServerBan(ref lpClientErrorMsg, ref lpBanner, ref lpBanee);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserTextMessageCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser, ref TextMessage lpTextMessage)
+        {
+            if(OnUserTextMessage !=null)
+            {
+                OnUserTextMessage(ref lpUser, ref lpTextMessage);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserLoggedOutCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if (OnUserLoggedOut != null)
+            {
+                OnUserLoggedOut(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserLoggedInCallBack(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        {
+            if (OnUserLoggedIn != null)
+            {
+                OnUserLoggedIn(ref lpUser);
+            }
+        }
+        
+        void TeamTalkSrv_OnUserLoginCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount)
+        {
+            if (OnUserLogin != null)
+            {
+                OnUserLogin(ref lpClientErrorMsg, ref lpUser, ref lpUserAccount);
+            }
+        }
+        
+        void TeamTalkSrv_OnChannelUpdatedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref Channel lpChannel, IntPtr lpUser)
+        {
+            User user = new User();
+            if (lpUser != IntPtr.Zero)
+            {
+                user = (User)Marshal.PtrToStructure(lpUser, typeof(User));
+            }
+            if (OnChannelUpdated != null)
+            {
+                OnChannelUpdated(ref lpChannel, ref user);
+            }
+        }
+        
+        void TeamTalkSrv_OnChannelRemovedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref Channel lpChannel, IntPtr lpUser)
+        {
+            User user = new User();
+            if (lpUser != IntPtr.Zero)
+            {
+                user = (User)Marshal.PtrToStructure(lpUser, typeof(User));
+            }
+            if (OnChannelRemoved != null)
+            {
+                OnChannelRemoved(ref lpChannel, ref user);
+            }
+        }
+        
+        void TeamTalkSrv_OnChannelCreatedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref Channel lpChannel, IntPtr lpUser)
+        {
+            User user = new User();
+            if (lpUser != IntPtr.Zero)
+            {
+                user = (User)Marshal.PtrToStructure(lpUser, typeof(User));
+            }
+            if (OnChannelCreated != null)
+            {
+                OnChannelCreated(ref lpChannel, ref user);
+            }
+        }
+
+        public override bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
+        {
+            return base.StartServer(szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
+        }
     }
-   
+
+    public class TeamTalk5Srv : TeamTalkSrv
+    {
+        public TeamTalk5Srv()
+        {
+            Init();
+        }
+
+        public TeamTalk5Srv(Channel lpChannel)
+            : base(lpChannel)
+        {
+        }
+
+        public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
+            : base(lpChannel, lpServerProperties)
+        {
+        }
+    }
 }
