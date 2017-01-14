@@ -1240,7 +1240,9 @@ namespace BearWare
         USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO          = 0x00010000,
         /** @brief User is allowed to stream video files to channel.
          * @see TeamTalk.StartStreamingMediaFileToChannel() */
-        USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO          = 0x00020000
+        USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO          = 0x00020000,
+         /** @brief User with all rights.*/
+        USERRIGHT_ALL                               = 0xFFFFFFFF
     }
 
     /** 
