@@ -30,7 +30,7 @@ namespace BearWare
     public class TeamTalkSrv : TeamTalkSrvBase, IDisposable
     {
 
-        /** @addtogroup serverevents
+        /** @addtogroup servercallbacks
          * @{ */
 
         /**
