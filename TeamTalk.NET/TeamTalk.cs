@@ -979,6 +979,7 @@ namespace BearWare
         }
     }
 
+    /** @brief Default values for #BearWare.SpeexDSP. */
     public struct SpeexDSPConstants
     {
         public const bool DEFAULT_AGC_ENABLE = true;

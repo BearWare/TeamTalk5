@@ -27,7 +27,17 @@ using c_tt;
 
 namespace BearWare
 {
-    public class TeamTalkSrv : TeamTalkSrvBase, IDisposable
+    /** @ingroup serverapi
+     *
+     * @brief Instantiate this class to start a TeamTalk server.
+     *
+     * These are the steps to start a TeamTalk server:
+     * - First call TeamTalk5Srv.SetEncryptionContext() to setup encryption.
+     * - Second call TeamTalk5Srv.UpdateServer() to setup server properties.
+     * - Third call TeamTalk5Srv.MakeChannel() to create the root channel.
+     *
+     * @see TeamTalk5Srv.StartServer() */
+    public class TeamTalk5Srv : TeamTalkSrvBase, IDisposable
     {
 
         /** @addtogroup servercallbacks
@@ -116,7 +126,7 @@ namespace BearWare
         /**
          * @brief Callback when a user is requesting to remove a ban.
          *
-         * This callback occurs in the context of TeamTalk.DoUnbanUser().
+         * This callback occurs in the context of TeamTalk.DoUnBanUser().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
          * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
@@ -215,7 +225,7 @@ namespace BearWare
         /**
          * @brief Callback when a ban is removed.
          *
-         * This callback occurs in the contect of TeamTalk.DoUnbanUser().
+         * This callback occurs in the contect of TeamTalk.DoUnBanUser().
          *
          * @param lpUnbanner The user removing the ban.
          * @param szIPAddress The IP-address which is unbanned.   */
@@ -385,24 +395,43 @@ namespace BearWare
         /** @addtogroup serverapi
          * @{ */
 
-        public TeamTalkSrv()
+        /** @brief Instantiate TeamTalk server. Call UpdateServer()
+         * and MakeChannel() to setup server properties and root
+         * channel.
+         *
+         * Users cannot log in unless root channel and #BearWare.ServerProperties have been set.
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv()
         {
             Init();
         }
 
-        public TeamTalkSrv(Channel lpChannel)
+        /** @brief Instantiate TeamTalk server with a root channel.
+         *
+         * Users cannot log in unless root channel and #BearWare.ServerProperties have been set.
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv(Channel lpChannel)
             : base(lpChannel)
         {
             Init();
         }
 
-        public TeamTalkSrv(Channel lpChannel, ServerProperties lpServerProperties)
+        /** @brief Instantiate TeamTalk server with root channel and server properties.
+         *
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
             : base(lpChannel, lpServerProperties)
         {
             Init();
         }
 
-        protected void Init()
+        void Init()
         {
             base.OnChannelCreatedCallback += new ChannelCreatedCallback(TeamTalkSrv_OnChannelCreatedCallback);
             base.OnChannelRemovedCallback += new ChannelRemovedCallback(TeamTalkSrv_OnChannelRemovedCallback);
@@ -663,26 +692,4 @@ namespace BearWare
             }
         }
     }
-
-    /** @addtogroup serverapi
-     * @{ */
-
-    public class TeamTalk5Srv : TeamTalkSrv
-    {
-        public TeamTalk5Srv()
-            : base()
-        {
-        }
-
-        public TeamTalk5Srv(Channel lpChannel)
-            : base(lpChannel)
-        {
-        }
-
-        public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
-            : base(lpChannel, lpServerProperties)
-        {
-        }
-    }
-    /** @} */
 }
