@@ -3279,7 +3279,10 @@ namespace BearWare
             {
                 string errmsg = String.Format("Invalid {2} version loaded. {2} is version {0} and {3} is version {1}",
                     dllversion.ToString(), name.Version.ToString(), c_tt.TTDLL.dllname, c_tt.TTDLL.mgtdllname);
-                throw new Exception(errmsg);
+
+                // throw new Exception(errmsg);
+
+                System.Diagnostics.Debug.WriteLine(errmsg);
             }
 
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOCODEC) == Marshal.SizeOf(new AudioCodec()));
