@@ -78,12 +78,12 @@ namespace BearWare
         /** @brief iOS sound API.
          *
          * Two sound devices will appear when calling
-         * TT_GetSoundDevices(). Sound device ID 0 will be AudioUnit
+         * TeamTalk.GetSoundDevices(). Sound device ID 0 will be AudioUnit
          * subtype Remote I/O Unit and sound device ID 1 will be
          * AudioUnit subtype Voice-Processing I/O Unit.
          *
          * Note that iOS only supports one active Voice-Processing I/O
-         * Unit, i.e. only one @c TTInstance can use the
+         * Unit, i.e. only one #BearWare.TeamTalk instance can use the
          * Voice-Processing I/O Unit.
          *
          * Add libraries @c AVFoundation.framework and
@@ -2152,7 +2152,8 @@ namespace BearWare
      * error. */
     public enum ClientError : uint
     {
-        /** @brief Command indicating success. Only used internally. */
+        /** @brief Command indicating success. */
+        CMDERR_SUCCESS = 0,
         SUCCESS = 0,
 
         /* COMMAND ERRORS 1000-1999 ARE DUE TO INVALID OR UNSUPPORTED

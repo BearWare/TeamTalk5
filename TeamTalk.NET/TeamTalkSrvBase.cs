@@ -129,13 +129,13 @@ namespace BearWare
          * been started.
          *
          * Ensure to set #USERRIGHT_UPLOAD_FILES and #USERRIGHT_DOWNLOAD_FILES
-         * in user's #UserAccount.
+         * in user's #BearWare.UserAccount.
          *
          * @param szFilesRoot Directory where to store uploaded files.
          * @param nMaxDiskUsage The maximum number of bytes which can be used for
          * file storage.
          * @param nDefaultChannelQuota The number of bytes available to temporary
-         * channels (not #CHANNEL_PERMANENT). This will be the value in #Channel
+         * channels (not #CHANNEL_PERMANENT). This will be the value in #BearWare.Channel
          * @c nDiskQuota.
          *
          * @return Error code from #ClientError. */
@@ -156,16 +156,16 @@ namespace BearWare
          * @return Returns a #ClientError.
          *
          * @see StartServer() */
-        public ClientError UpdateServer([In] BearWare.ServerProperties lpServerInfo)
+        public ClientError UpdateServer([In] BearWare.ServerProperties lpServerProperties)
         {
-            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
+            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerProperties);
         }
         /**
          * @brief Make new channel.
          *
          * Create a new channel on the server. Before starting a server
          * using StartServer() the server MUST have a root
-         * channel. I.e. a #Channel where @c nParentID is 0.
+         * channel. I.e. a #BearWare.Channel where @c nParentID is 0.
          *
          * @param lpChannel The new channel to create.
          * @return Returns a #ClientError.
@@ -205,7 +205,7 @@ namespace BearWare
          * @brief Add a file to an existing channel.
          *
          * Ensure to have set up file storage first using SetChannelFilesRoot().
-         * Also ensure #Channel's @c nDiskQuota is specified.
+         * Also ensure #BearWare.Channel's @c nDiskQuota is specified.
          *
          * @param szLocalFilePath Path to file.
          * @param lpRemoteFile Properties of file to add.
@@ -221,7 +221,7 @@ namespace BearWare
          * @brief Remove a file from a channel.
          *
          * Ensure to have set up file storage first using SetChannelFilesRoot().
-         * Also ensure #Channel's @c nDiskQuota is specified.
+         * Also ensure #BearWare.Channel's @c nDiskQuota is specified.
          *
          * @param lpRemoteFile Properties of file to remove. Channel ID and 
          * file name is enough.
