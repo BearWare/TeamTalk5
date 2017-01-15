@@ -31,8 +31,6 @@ namespace BearWare
 {
     public abstract class TeamTalkSrvBase : IDisposable
     {
-        // brief A server instance
-        // see TTS_InitTeamTalk()
         static IntPtr m_ttsInst;
         public void Dispose()
         {
@@ -51,6 +49,47 @@ namespace BearWare
         {
             deleteMe();
         }
+
+        /** @addtogroup serverapi
+         * @{ */
+
+        /**
+         * @brief Set certificate and private key for encrypted server.
+         *
+         * @verbatim
+         * NOTE: AT THE MOMENT CALL SetEncryptionContext() BEFORE
+         * CREATING THE SERVER INSTANCE. IN OTHER WORDS ONLY ONE
+         * ENCRYPTION CONTEXT IS SUPPORTED AT THE MOMENT.
+         * @endverbatim
+         *
+         * The encrypted server's certificate and private key must be set
+         * prior to starting the server using StartServer().
+         *
+         * Look in @ref serversetup on how to generate the certificate and
+         * private key file using OpenSSL.
+         *
+         * @param szCertificateFile Path to server's certificate file. 
+         * @param szPrivateKeyFile Path to server's private key file. */
+        public static bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
+        {
+            return TTProDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
+        }
+
+        /**
+         * @brief Create new TeamTalk server instance.
+         * 
+         * Once server instance is created call UpdateServer() to set
+         * the server's properties followed by MakeChannel() to create
+         * the root channel.
+         *
+         * @verbatim
+         * NOTE: AT THE MOMENT CALL SetEncryptionContext() BEFORE
+         * CREATING THE SERVER INSTANCE, TeamTalkSrvBase(). 
+         * IN OTHER WORDS ONLY ONE ENCRYPTION CONTEXT IS
+         * SUPPORTED AT THE MOMENT.
+         * @endverbatim
+         *
+         * @see StartServer() */
         protected TeamTalkSrvBase()
         {
             m_ttsInst = TTProDLL.TTS_InitTeamTalk();
@@ -60,65 +99,198 @@ namespace BearWare
         {
             MakeChannel(lpChannel);
         }
-        protected TeamTalkSrvBase(Channel lpChannel,ServerProperties lpServerProperties)
+        protected TeamTalkSrvBase(Channel lpChannel, ServerProperties lpServerProperties)
             : this()
         {
             UpdateServer(lpServerProperties);
             MakeChannel(lpChannel);
         }
+        /**
+         * @brief Close TeamTalk server instance.
+         **/
         public void Close()
         {
             deleteMe();
         }
-        public bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
-        {
-            return TTProDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
-        }
-        public bool StopServer()
-        {
-            return TTProDLL.TTS_StopServer(m_ttsInst);
-        }
-        public ClientError MoveUser(int nUserID, BearWare.Channel lpChannel)
-        {
-            return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
-        }
-        public ClientError SetChannelFilesRoot(string szFilesRoot, Int64 nMaxDiskUsage, Int64 nDefaultChannelQuota)
-        {
-            return TTProDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
-        }
-        public ClientError AddFileToChannel(string szLocalFilePath, BearWare.RemoteFile lpRemoteFile)
-        {
-            return TTProDLL.TTS_AddFileToChannel(m_ttsInst, ref szLocalFilePath, ref lpRemoteFile);
-        }
-        public ClientError RemoveFileFromChannel(RemoteFile lpRemoteFile)
-        {
-            return TTProDLL.TTS_RemoveFileFromChannel(m_ttsInst, ref  lpRemoteFile);
-        }
-        public static bool SetEncryptionContext(string szCertificateFile, string szPrivateKeyFile)
-        {
-            return TTProDLL.TTS_SetEncryptionContext(m_ttsInst, ref szCertificateFile, ref  szPrivateKeyFile);
-        }
-        public static string GetVersion() { return Marshal.PtrToStringAuto(TTProDLL.TT_GetVersion()); }
-        public ClientError RemoveChannel(int nChannelID)
-        {
-            return TTProDLL.TTS_RemoveChannel(m_ttsInst, nChannelID);
-        }
-        public ClientError UpdateChannel(Channel lpChannel)
-        {
-            return TTProDLL.TTS_UpdateChannel(m_ttsInst, ref lpChannel);
-        }
-        public virtual ClientError MakeChannel(BearWare.Channel lpChannel)
-        {
-            return TTProDLL.TTS_MakeChannel(m_ttsInst, ref lpChannel);
-        }
-        public ClientError UpdateServer([In] BearWare.ServerProperties lpServerInfo)
-        {
-            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
-        }
+        /**
+         * @brief Run the server's event loop.
+         * 
+         * @param pnWaitMs The amount of time to wait for the event. If NULL or -1
+         * the function will block forever or until the next event occurs.
+         * @return Returns TRUE if an event has occured otherwise FALSE. */
         public bool RunEventLoop(int pnWaitMs)
         {
             return TTProDLL.TTS_RunEventLoop(m_ttsInst, pnWaitMs);
         }
+        /**
+         * @brief The root folder of where users should upload files to.
+         *
+         * The root file folder cannot be changed after the server has
+         * been started.
+         *
+         * Ensure to set #USERRIGHT_UPLOAD_FILES and #USERRIGHT_DOWNLOAD_FILES
+         * in user's #UserAccount.
+         *
+         * @param szFilesRoot Directory where to store uploaded files.
+         * @param nMaxDiskUsage The maximum number of bytes which can be used for
+         * file storage.
+         * @param nDefaultChannelQuota The number of bytes available to temporary
+         * channels (not #CHANNEL_PERMANENT). This will be the value in #Channel
+         * @c nDiskQuota.
+         *
+         * @return Error code from #ClientError. */
+        public ClientError SetChannelFilesRoot(string szFilesRoot, Int64 nMaxDiskUsage, Int64 nDefaultChannelQuota)
+        {
+            return TTProDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
+        }
+        /**
+         * @brief Set server properties.
+         *
+         * Set server's properties, like e.g. maximum number of users,
+         * server name, etc.
+         *
+         * Server properties must be set prior to starting a server.
+         *
+         * @param lpServerProperties The server's properties which will be
+         * see by all users who log on to the server.
+         * @return Returns a #ClientError.
+         *
+         * @see StartServer() */
+        public ClientError UpdateServer([In] BearWare.ServerProperties lpServerInfo)
+        {
+            return TTProDLL.TTS_UpdateServer(m_ttsInst, ref lpServerInfo);
+        }
+        /**
+         * @brief Make new channel.
+         *
+         * Create a new channel on the server. Before starting a server
+         * using StartServer() the server MUST have a root
+         * channel. I.e. a #Channel where @c nParentID is 0.
+         *
+         * @param lpChannel The new channel to create.
+         * @return Returns a #ClientError.
+         *
+         * @see UpdateChannel()
+         * @see RemoveChannel() */
+        public virtual ClientError MakeChannel(BearWare.Channel lpChannel)
+        {
+            return TTProDLL.TTS_MakeChannel(m_ttsInst, ref lpChannel);
+        }
+        /**
+         * @brief Update an existing channel.
+         *
+         * @param lpChannel The updated channel properties. @c nChannelID
+         * and @c nParentID must remain the same.
+         * @return Returns a #ClientError.
+         *
+         * @see MakeChannel()
+         * @see RemoveChannel() */
+        public ClientError UpdateChannel(Channel lpChannel)
+        {
+            return TTProDLL.TTS_UpdateChannel(m_ttsInst, ref lpChannel);
+        }
+        /**
+         * @brief Remove a channel.
+         *
+         * @param nChannelID The ID of the channel to remove.
+         * @return Returns a #ClientError.
+         *
+         * @see MakeChannel()
+         * @see UpdateChannel() */
+        public ClientError RemoveChannel(int nChannelID)
+        {
+            return TTProDLL.TTS_RemoveChannel(m_ttsInst, nChannelID);
+        }
+        /**
+         * @brief Add a file to an existing channel.
+         *
+         * Ensure to have set up file storage first using SetChannelFilesRoot().
+         * Also ensure #Channel's @c nDiskQuota is specified.
+         *
+         * @param szLocalFilePath Path to file.
+         * @param lpRemoteFile Properties of file to add.
+         * @return Command error code from #ClientError.
+         *
+         * @see SetChannelFilesRoot().
+         * @see MakeChannel() */
+        public ClientError AddFileToChannel(string szLocalFilePath, BearWare.RemoteFile lpRemoteFile)
+        {
+            return TTProDLL.TTS_AddFileToChannel(m_ttsInst, ref szLocalFilePath, ref lpRemoteFile);
+        }
+        /**
+         * @brief Remove a file from a channel.
+         *
+         * Ensure to have set up file storage first using SetChannelFilesRoot().
+         * Also ensure #Channel's @c nDiskQuota is specified.
+         *
+         * @param lpRemoteFile Properties of file to remove. Channel ID and 
+         * file name is enough.
+         * @return Command error code from #ClientError.
+         *
+         * @see SetChannelFilesRoot().
+         * @see MakeChannel() */
+        public ClientError RemoveFileFromChannel(RemoteFile lpRemoteFile)
+        {
+            return TTProDLL.TTS_RemoveFileFromChannel(m_ttsInst, ref  lpRemoteFile);
+        }
+        /**
+         * @brief Move a user from one channel to another.
+         * 
+         * @param nUserID The ID of the user to move.
+         * @param lpChannel The channel the user should move to. If the
+         * channel already exists then simply set @c nChannelID. To make
+         * a user leave a channel set @c nChannelID to 0.
+         * @return Returns a #ClientError. */
+        public ClientError MoveUser(int nUserID, BearWare.Channel lpChannel)
+        {
+            return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
+        }
+        /** 
+         * @brief Start server on specified IP-address and ports.
+         *
+         * Before starting a server the root channel must be created using
+         * MakeChannel().
+         *
+         * @param szBindIPAddr The IP-address to bind to.
+         * @param nTcpPort The TCP port to bind to.
+         * @param nUdpPort The UDP port to bind to.
+         * @param bEncrypted If encryption is enabled then encryption context
+         * must be set prior to this call using SetEncryptionContext().
+         *
+         * @see SetEncryptionContext()
+         * @see MakeChannel() */
+        public bool StartServer(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted)
+        {
+            return TTProDLL.TTS_StartServer(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
+        }
+        /**
+         * @brief Same as StartServer() but with the option of
+         * specifying a system-ID.
+         *
+         * Requires TeamTalk version 5.1.3.4506.
+         *
+         * @param szBindIPAddr The IP-address to bind to.
+         * @param nTcpPort The TCP port to bind to.
+         * @param nUdpPort The UDP port to bind to.
+         * @param bEncrypted If encryption is enabled then encryption context
+         * must be set prior to this call using SetEncryptionContext().
+         * @param szSystemID The identification of the conferencing system.
+         * The default value is "teamtalk". See ConnectSysID(). */
+        public bool StartServerSysID(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted,
+                                     string szSystemID)
+        {
+            return TTProDLL.TTS_StartServerSysID(m_ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted, szSystemID);
+        }
+        /**
+         * @brief Stop server and drop all users.
+         *
+         * @see StartServer() */
+        public bool StopServer()
+        {
+            return TTProDLL.TTS_StopServer(m_ttsInst);
+        }
+
+        public static string GetVersion() { return Marshal.PtrToStringAuto(TTProDLL.TT_GetVersion()); }
         class CallBack : IDisposable
         {
             private GCHandle hCallBack;
@@ -218,19 +390,6 @@ namespace BearWare
 
         }
 
-        /// <summary>
-        /// brief Callback when a user is requesting to log on to the
-        /// server.
-        /// 
-        /// This callback occurs in the context of TT_DoLogin().
-        /// 
-        /// Register using TTS_RegisterUserLoginCallback().
-        /// </summary>
-        /// <param name="lpTTSInstance">lpTTSInstance The server instance where the event is occurring.</param>
-        /// <param name="lpUserData">lpUserData The user data supplied to register-callback function.</param>
-        /// <param name="lpClientErrorMsg">lpClientErrorMsg Error message which should be sent back to user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.</param>
-        /// <param name="lpUser">The user properties gathered so far.</param>
-        /// <param name="lpUserAccount">lpUserAccount The user account information which shouldbe set for this user.</param>
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void UserLoginCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In, Out]ref UserAccount lpUserAccount);
         object objectLock = new Object();
