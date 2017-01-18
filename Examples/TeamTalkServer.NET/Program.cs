@@ -32,7 +32,7 @@ namespace TeamTalk5ProServer.NET
             useraccount.szPassword = ADMIN_PASSWORD;
             useraccount.uUserType = UserType.USERTYPE_ADMIN;
             useraccount.szNote = "An example administrator user account with all user-rights";
-            useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+            useraccount.uUserRights = UserRight.USERRIGHT_ALL;
             useraccounts.Add(useraccount);
             // Make root channel
             Channel chan = new Channel();
