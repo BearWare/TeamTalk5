@@ -162,7 +162,7 @@ namespace TeamTalk5ProServer.NET
                 {
                     // manually copy every field
                     lpUserAccount.szUsername = u.szUsername;
-                    lpUserAccount.szUsername = u.szPassword;
+                    lpUserAccount.szPassword = u.szPassword;
                     lpUserAccount.uUserRights = u.uUserRights;
                     lpUserAccount.uUserType = UserType.USERTYPE_ADMIN;
                     lpClientErrorMsg.nErrorNo = (int)ClientError.SUCCESS;
