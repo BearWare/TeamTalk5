@@ -57,8 +57,10 @@ class ChannelListViewController :
     var chanpasswds = [INT32 : String]()
     // the channel being displayed (not nescessarily the same channel as we're in)
     var curchannel = Channel()
-    // joined channel
+    // joined channel (the channel we're in)
     var mychannel = Channel()
+    // channel to join if connection is lost
+    var rejoinchannel = Channel()
     // all users on server
     var users = [INT32 : User]()
     // the ID of the command for which we're expecting a result
@@ -192,21 +194,21 @@ class ChannelListViewController :
 
         //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
-        let button_index = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0 ? 0 : -1
+        let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         
         // current index for users
         var user_index = indexPath.row
-        if button_index >= 0 {
+        if show_join {
             user_index -= 1
         }
         
         // current index for channels
         var chan_index = indexPath.row - chanusers.count
-        if button_index >= 0 {
+        if show_join {
             chan_index -= 1
         }
 
-        if button_index == indexPath.row {
+        if show_join && indexPath.row == 0 {
             let cellIdentifier = "JoinChannelCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
             return cell
@@ -450,10 +452,10 @@ class ChannelListViewController :
             if (flags & CLIENT_AUTHORIZED.rawValue) != 0 {
                 
                 // if we were previously in a channel then rejoin
-                if mychannel.nChannelID > 0 {
-                    let passwd = chanpasswds[mychannel.nChannelID] != nil ? chanpasswds[mychannel.nChannelID] : ""
-                    
-                    let cmdid = TT_DoJoinChannelByID(ttInst, mychannel.nChannelID, passwd!)
+                if rejoinchannel.nChannelID > 0 {
+                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : ""
+                    toTTString(passwd!, dst: &rejoinchannel.szPassword)
+                    let cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     if cmdid > 0 {
                         activeCommands[cmdid] = .joinCmd
                     }
@@ -660,6 +662,7 @@ class ChannelListViewController :
             channels.removeAll()
             users.removeAll()
             curchannel = Channel()
+            mychannel = Channel()
             activeCommands.removeAll()
             
             tableView.reloadData()
@@ -744,6 +747,7 @@ class ChannelListViewController :
             if user.nUserID == TT_GetMyUserID(ttInst) {
                 curchannel = channels[user.nChannelID]!
                 mychannel = channels[user.nChannelID]!
+                rejoinchannel = channels[user.nChannelID]! //join this on connection lost
                 updateTitle()
             }
             if user.nChannelID == mychannel.nChannelID && mychannel.nChannelID > 0 {
@@ -779,6 +783,7 @@ class ChannelListViewController :
     
             if user.nUserID == TT_GetMyUserID(ttInst) {
                 mychannel = Channel()
+                rejoinchannel = Channel()
             }
             
             if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
