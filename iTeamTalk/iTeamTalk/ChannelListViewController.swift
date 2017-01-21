@@ -63,6 +63,8 @@ class ChannelListViewController :
     var rejoinchannel = Channel()
     // all users on server
     var users = [INT32 : User]()
+    // users which should be moved
+    var moveusers = [INT32]()
     // the ID of the command for which we're expecting a result
     var cmdid : INT32 = 0
     // the command ID which is currently processing
@@ -137,7 +139,7 @@ class ChannelListViewController :
     }
     
     enum Command {
-        case loginCmd, joinCmd
+        case loginCmd, joinCmd, moveCmd
     }
     
     var activeCommands = [INT32: Command]()
@@ -192,9 +194,10 @@ class ChannelListViewController :
 
         let (subchans, chanusers) = getDisplayItems()
 
-        //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
+        let show_parent = curchannel.nParentID != 0
         
         // current index for users
         var user_index = indexPath.row
@@ -202,18 +205,13 @@ class ChannelListViewController :
             user_index -= 1
         }
         
-        // current index for channels
-        var chan_index = indexPath.row - chanusers.count
-        if show_join {
-            chan_index -= 1
-        }
-
         if show_join && indexPath.row == 0 {
             let cellIdentifier = "JoinChannelCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
             return cell
         }
-        else if user_index < chanusers.count {
+        
+        if user_index < chanusers.count {
             
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
@@ -243,122 +241,146 @@ class ChannelListViewController :
             if #available(iOS 8.0, *) {
                 let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.messageUser(_:)), tag: cell.tag)
                 let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.muteUser(_:)), tag: cell.tag)
+                let action_move = MyCustomAction(name: NSLocalizedString("Move user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveUser(_:)), tag: cell.tag)
                 let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
                 
+                var actions = [MyCustomAction]()
+                actions.append(action_msg)
+                actions.append(action_mute)
+                
+                if (myuseraccount.uUserRights & USERRIGHT_MOVE_USERS.rawValue) != 0 {
+                    actions.append(action_move)
+                }
                 if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
-                    cell.accessibilityCustomActions = [ action_msg, action_mute, action_kick ]
+                    actions.append(action_kick)
                 }
-                else {
-                    cell.accessibilityCustomActions = [ action_msg, action_mute ]
-                }
+                cell.accessibilityCustomActions = actions
             } else {
                 // Fallback on earlier versions
             }
             
             return cell
+        }
+
+        // current index for channels
+        var chan_index = indexPath.row - chanusers.count
+        if show_join {
+            chan_index -= 1
+        }
+        
+        let cellIdentifier = "ChannelTableCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ChannelTableCell
+        
+        var channel = Channel()
+        var textcolor : UIColor? = nil
+        var title : String?, subtitle : String?
+        
+        cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
+        
+        if curchannel.nChannelID == 0 {
+            
+            // display only the root channel
+            
+            assert(subchans.count == 1) //only sub channel should be the root channel
+            
+            channel = subchans[chan_index]
+            
+            title = fromTTString(srvprop.szServerName)
+            subtitle = fromTTString(channel.szTopic)
+            
+            if channel.bPassword != 0 {
+                cell.chanimage.image = UIImage(named: "channel_pink.png")
+                cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
+            }
+            else {
+                cell.chanimage.image = UIImage(named: "channel_orange.png")
+                cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
+            }
+        }
+        else if chan_index == 0 && show_parent {
+            
+            // display previous channel if not in root channel
+            
+            channel = channels[curchannel.nParentID]!
+            
+            title = NSLocalizedString("Parent channel", comment: "channel list")
+            if channel.nParentID == 0 {
+                subtitle = fromTTString(srvprop.szServerName)
+            }
+            else {
+                subtitle = fromTTString(channel.szName)
+            }
+            
+            textcolor = UIColor.gray
+            cell.chanimage.image = UIImage(named: "back_orange.png")
+            cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
         }
         else {
-
-            let cellIdentifier = "ChannelTableCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ChannelTableCell
             
-            var channel = Channel()
-            var textcolor : UIColor? = nil
-            var title : String?, subtitle : String?
+            // display sub channels
             
-            cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
-
-            if chan_index == 0 && curchannel.nParentID != 0 {
-                
-                // display previous channel if not in root channel
-                
-                channel = channels[curchannel.nParentID]!
-                
-                title = NSLocalizedString("Parent channel", comment: "channel list")
-                if channel.nParentID == 0 {
-                    subtitle = fromTTString(srvprop.szServerName)
-                }
-                else {
-                    subtitle = fromTTString(channel.szName)
-                }
-                
-                textcolor = UIColor.gray
-                cell.chanimage.image = UIImage(named: "back_orange.png")
-                cell.chanimage.accessibilityHint = NSLocalizedString("Return to previous channel", comment: "channel list")
-            }
-            else if curchannel.nChannelID == 0 {
-                
-                // display only the root channel
-                
-                channel = subchans[chan_index]
-                
-                title = fromTTString(srvprop.szServerName)
-                subtitle = fromTTString(channel.szTopic)
-                
-                if channel.bPassword != 0 {
-                    cell.chanimage.image = UIImage(named: "channel_pink.png")
-                    cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
-                }
-                else {
-                    cell.chanimage.image = UIImage(named: "channel_orange.png")
-                    cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
-                }
-            }
-            else  {
-                
-                // display sub channels
-                
-                if curchannel.nParentID != 0 {
-                    // root channel doesn't display access to parent
-                    channel = subchans[chan_index - 1]
-                }
-                else {
-                    channel = subchans[chan_index]
-                }
-                
-                let user_count = getUsersCount(channel.nChannelID)
-                title = fromTTString(channel.szName) + " (\(user_count))"
-                subtitle = fromTTString(channel.szTopic)
-                
-                if channel.bPassword != 0 {
-                    cell.chanimage.image = UIImage(named: "channel_pink.png")
-                    cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
-                }
-                else {
-                    cell.chanimage.image = UIImage(named: "channel_orange.png")
-                    cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
-                }
-
-                cell.chanimage.accessibilityLabel =
-                    String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)             
+            if show_parent {
+                chan_index -= 1
             }
 
-            cell.channame.textColor = textcolor
-            cell.chantopicLabel.textColor = textcolor
-
-            cell.channame.text = limitText(title!)
-            cell.chantopicLabel.text = subtitle
+            assert(chan_index >= 0)
+            assert(chan_index < subchans.count)
             
-            cell.editBtn.tag = Int(channel.nChannelID)
-            cell.tag = Int(channel.nChannelID)
-
-            if #available(iOS 8.0, *) {
-                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
-                var action_edit : MyCustomAction?
-                if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
-                    cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
-                    action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
-                }
-                else {
-                    action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
-                }
-                
-                cell.accessibilityCustomActions = [ action_join, action_edit! ]
-            } else {
-                // Fallback on earlier versions
+            channel = subchans[chan_index]
+            
+            let user_count = getUsersCount(channel.nChannelID)
+            title = fromTTString(channel.szName) + " (\(user_count))"
+            subtitle = fromTTString(channel.szTopic)
+            
+            if channel.bPassword != 0 {
+                cell.chanimage.image = UIImage(named: "channel_pink.png")
+                cell.chanimage.accessibilityHint = NSLocalizedString("Password protected", comment: "channel list")
             }
-            return cell
+            else {
+                cell.chanimage.image = UIImage(named: "channel_orange.png")
+                cell.chanimage.accessibilityHint = NSLocalizedString("No password", comment: "channel list")
+            }
+            
+            cell.chanimage.accessibilityLabel =
+                String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)
         }
+        
+        cell.channame.textColor = textcolor
+        cell.chantopicLabel.textColor = textcolor
+        
+        cell.channame.text = limitText(title!)
+        cell.chantopicLabel.text = subtitle
+        
+        cell.editBtn.tag = Int(channel.nChannelID)
+        cell.tag = Int(channel.nChannelID)
+        
+        if #available(iOS 8.0, *) {
+            
+            var actions = [MyCustomAction]()
+
+            if moveusers.count>0 {
+                let action_move = MyCustomAction(name: NSLocalizedString("Move users here", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveIntoChannel(_:)), tag: cell.tag)
+                actions.append(action_move)
+            }
+            
+            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
+            actions.append(action_join)
+
+            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
+                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
+                let action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
+                actions.append(action_edit)
+            }
+            else {
+                let action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
+                actions.append(action_edit)
+            }
+            
+            cell.accessibilityCustomActions = actions
+        } else {
+            // Fallback on earlier versions
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -390,23 +412,32 @@ class ChannelListViewController :
         return true
     }
 
- @available(iOS 8.0, *)
-       func muteUser(_ action: UIAccessibilityCustomAction) -> Bool {
+    @available(iOS 8.0, *)
+    func muteUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             let userid = INT32(ac.tag)
             if let user = users[userid] {
                 TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
-                    (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == 0 ? TRUE : FALSE )
+                               (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == 0 ? TRUE : FALSE )
                 TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
-                    (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == 0 ? TRUE : FALSE )
+                               (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == 0 ? TRUE : FALSE )
                 // tell TeamTalk event loop to send us an updated User-struct
                 TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
             }
-
+            
         }
         return true
     }
-    
+
+    @available(iOS 8.0, *)
+    func moveUser(_ action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            moveusers.append(INT32(ac.tag))
+            self.tableView.reloadData() //need to update accessible actions on channels
+        }
+        return true
+    }
+
     @available(iOS 8.0, *)
     func kickUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
@@ -433,6 +464,22 @@ class ChannelListViewController :
         }
         return true
     }
+    
+    @available(iOS 8.0, *)
+    func moveIntoChannel(_ action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            for userid in moveusers {
+                cmdid = TT_DoMoveUser(ttInst, userid, INT32(ac.tag))
+                if cmdid > 0 {
+                    activeCommands[cmdid] = .moveCmd
+                }
+            }
+            moveusers.removeAll()
+        }
+        return true
+    }
+    
+    
 
     func commandComplete(_ cmdid : INT32) {
 
@@ -471,6 +518,8 @@ class ChannelListViewController :
             }
             
         case .joinCmd :
+            fallthrough
+        case .moveCmd :
             self.tableView.reloadData()
         }
 
