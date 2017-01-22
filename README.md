@@ -8,7 +8,7 @@ To build the TeamTalk client or server projects you must first download the
 [TeamTalk 5 SDK](http://www.bearware.dk/?page_id=393) to obtain the client and server binaries.
 
 * TeamTalk 5 SDK Standard Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5sdk_v5.2.0.4731_win32.zip) **rev. 4731**
+  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.1.4775/tt5sdk_v5.2.1.4775_win32.zip) **rev. 4775**
   * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5sdk_v5.2.0.4731_win64.zip) **rev. 4731**
   * [Mac 64-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5sdk_v5.2.0.4731_macos_x86_64.tar.gz) **rev. 4731**
   * [Debian 7 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5sdk_v5.2.0.4731_debian7_i386.tar.gz) **rev. 4731**
@@ -17,7 +17,7 @@ To build the TeamTalk client or server projects you must first download the
   * [Android arm-v7](http://bearware.dk/test/teamtalksdk/v5.1.6.4603/tt5sdk_v5.1.6.4603_android_armv7a.tar.gz)  **rev. 4603**
   * [iOS 7.0+ universal](http://bearware.dk/test/teamtalksdk/v5.1.6.4603/tt5sdk_v5.1.6.4603_ios_universal.tar.gz)  **rev. 4603**
 * TeamTalk 5 SDK Professional Edition - **Beta** releases
-  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.1.4772/tt5prosdk_v5.2.1.4772_win32.zip) **rev. 4772**
+  * [Windows 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.1.4775/tt5prosdk_v5.2.1.4775_win32.zip) **rev. 4775**
   * [Windows 64-bit](http://bearware.dk/test/teamtalksdk/v5.2.1.4772/tt5prosdk_v5.2.1.4772_win64.zip) **rev. 4772**
   * [Mac 64-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5prosdk_v5.2.0.4731_macos_x86_64.tar.gz) **rev. 4731**
   * [Debian 7 32-bit](http://bearware.dk/test/teamtalksdk/v5.2.0.4731/tt5prosdk_v5.2.0.4731_debian7_i386.tar.gz) **rev. 4731**
@@ -31,14 +31,14 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalk_DLL**
   * TeamTalk 5 C-API DLL project 
   * C-API header files for TeamTalk 5 DLL
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4772/docs/C-API/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4775/docs/C-API/)
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4772/docs/NET/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4775/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * **TeamTalkJNI**
   * TeamTalk 5 JNI project with Java wrapper classes
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4772/docs/Java/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.2.1.4775/docs/Java/)
   * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
   * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
     * Based on Android API Level 16
