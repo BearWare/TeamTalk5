@@ -125,7 +125,7 @@ class ChannelListViewController :
             alertView.show()
         }
         else {
-            let cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+            cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
             activeCommands[cmdid] = .joinCmd
         }
         
@@ -134,12 +134,12 @@ class ChannelListViewController :
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         let passwd = (alertView.textField(at: 0)?.text)!
         chanpasswds[INT32(alertView.tag)] = passwd
-        let cmdid = TT_DoJoinChannelByID(ttInst, INT32(alertView.tag), passwd)
+        cmdid = TT_DoJoinChannelByID(ttInst, INT32(alertView.tag), passwd)
         activeCommands[cmdid] = .joinCmd
     }
     
     enum Command {
-        case loginCmd, joinCmd, moveCmd
+        case loginCmd, joinCmd, moveCmd, kickCmd
     }
     
     var activeCommands = [INT32: Command]()
@@ -194,7 +194,7 @@ class ChannelListViewController :
 
         let (subchans, chanusers) = getDisplayItems()
 
-        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+        // print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         let show_parent = curchannel.nParentID != 0
@@ -241,17 +241,19 @@ class ChannelListViewController :
             if #available(iOS 8.0, *) {
                 let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.messageUser(_:)), tag: cell.tag)
                 let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.muteUser(_:)), tag: cell.tag)
-                let action_move = MyCustomAction(name: NSLocalizedString("Move user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveUser(_:)), tag: cell.tag)
-                let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
                 
                 var actions = [MyCustomAction]()
                 actions.append(action_msg)
                 actions.append(action_mute)
                 
                 if (myuseraccount.uUserRights & USERRIGHT_MOVE_USERS.rawValue) != 0 {
+                    let action_move = MyCustomAction(name: NSLocalizedString("Move user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveUser(_:)), tag: cell.tag)
                     actions.append(action_move)
                 }
-                if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 {
+                
+                let op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID) == TRUE
+                if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 || op {
+                    let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
                     actions.append(action_kick)
                 }
                 cell.accessibilityCustomActions = actions
@@ -358,22 +360,25 @@ class ChannelListViewController :
             
             var actions = [MyCustomAction]()
 
-            if moveusers.count>0 {
+            if moveusers.count > 0 {
                 let action_move = MyCustomAction(name: NSLocalizedString("Move users here", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveIntoChannel(_:)), tag: cell.tag)
                 actions.append(action_move)
             }
             
-            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
-            actions.append(action_join)
+            if channel.nChannelID != mychannel.nChannelID {
+                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
+                actions.append(action_join)
+            }
 
-            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) == 0 {
-                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
-                let action_edit = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
+            let op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), channel.nChannelID) == TRUE
+            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) != 0 || op {
+                let action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
                 actions.append(action_edit)
             }
             else {
-                let action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
-                actions.append(action_edit)
+                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControlState())
+                let action_view = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
+                actions.append(action_view)
             }
             
             cell.accessibilityCustomActions = actions
@@ -443,6 +448,7 @@ class ChannelListViewController :
         if let ac = action as? MyCustomAction {
             
             cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            activeCommands[cmdid] = .kickCmd
         }
         return true
     }
@@ -470,9 +476,7 @@ class ChannelListViewController :
         if let ac = action as? MyCustomAction {
             for userid in moveusers {
                 cmdid = TT_DoMoveUser(ttInst, userid, INT32(ac.tag))
-                if cmdid > 0 {
-                    activeCommands[cmdid] = .moveCmd
-                }
+                activeCommands[cmdid] = .moveCmd
             }
             moveusers.removeAll()
         }
@@ -481,9 +485,9 @@ class ChannelListViewController :
     
     
 
-    func commandComplete(_ cmdid : INT32) {
+    func commandComplete(_ active_cmdid : INT32) {
 
-        let cmd = activeCommands[cmdid]
+        let cmd = activeCommands[active_cmdid]
         
         if cmd == nil {
             return
@@ -502,28 +506,25 @@ class ChannelListViewController :
                 if rejoinchannel.nChannelID > 0 {
                     let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : ""
                     toTTString(passwd!, dst: &rejoinchannel.szPassword)
-                    let cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
-                    if cmdid > 0 {
-                        activeCommands[cmdid] = .joinCmd
-                    }
+                    cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
+                    activeCommands[cmdid] = .joinCmd
                 }
                 else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil ||
                     UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
                     
-                    let cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
-                    if cmdid > 0 {
-                        activeCommands[cmdid] = .joinCmd
-                    }
+                    cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
+                    activeCommands[cmdid] = .joinCmd
                 }
             }
-            
+        case .kickCmd :
+            fallthrough
         case .joinCmd :
             fallthrough
         case .moveCmd :
             self.tableView.reloadData()
         }
 
-        activeCommands.removeValue(forKey: cmdid)
+        activeCommands.removeValue(forKey: active_cmdid)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
