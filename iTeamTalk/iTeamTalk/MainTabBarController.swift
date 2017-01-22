@@ -366,13 +366,12 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     
     @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
         let servers = loadLocalServers()
-        let found = servers.filter({server.publicserver == false &&
-                                    $0.ipaddr == server.ipaddr &&
+        let found = servers.filter({$0.ipaddr == server.ipaddr &&
                                     $0.tcpport == server.tcpport &&
                                     $0.udpport == server.udpport &&
                                     $0.username == server.username})
 
-        if found.count == 0 {
+        if found.count == 0 && server.publicserver == false {
             let alertView = UIAlertView(title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
                                         message: NSLocalizedString("Save Server", comment: "Dialog message"), delegate: self,
                                         cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
