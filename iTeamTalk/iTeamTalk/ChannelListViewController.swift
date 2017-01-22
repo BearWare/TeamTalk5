@@ -483,8 +483,6 @@ class ChannelListViewController :
         return true
     }
     
-    
-
     func commandComplete(_ active_cmdid : INT32) {
 
         let cmd = activeCommands[active_cmdid]
@@ -522,6 +520,8 @@ class ChannelListViewController :
             fallthrough
         case .moveCmd :
             self.tableView.reloadData()
+//        default :
+//            print("Command #\(active_cmdid) is not a completion command")
         }
 
         activeCommands.removeValue(forKey: active_cmdid)

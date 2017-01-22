@@ -196,6 +196,22 @@ class TextMessageViewController :
         }
     }
     
+    // send message on enter
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || defaults.bool(forKey: PREF_GENERAL_SENDONRETURN) {
+            
+            if text.contains("\n") {
+                sendTextMessage(sendButton)
+                return false
+            }
+        }
+        return true
+    }
+    
     func handleTTMessage(_ m: TTMessage) {
         var m = m
 
