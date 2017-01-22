@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Annoncer utilisateur quittant le canal";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Application";
 
@@ -209,6 +212,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Musique";
 
@@ -297,6 +306,9 @@
 /* serverlist */
 "Preferences" = "Préférences";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
 /* serverlist */
 "Private server" = "Serveur privé";
 
@@ -338,6 +350,9 @@
 
 /* preferences */
 "Receive webcam streams by default" = "Recevoir flux webcam par défaut";
+
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
 
 /* channel list */
 "Return to previous channel" = "Retourner au canal précédent";
@@ -483,6 +498,9 @@
 /* server entry
    user detail */
 "Username" = "Nom d'utilisateur";
+
+/* preferences */
+"Version Information" = "Version Information";
 
 /* channel list */
 "View" = "Visionner";

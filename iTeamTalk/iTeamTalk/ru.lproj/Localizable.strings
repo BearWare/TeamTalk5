@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Объявить пользователь покинул канал";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Приложение";
 
@@ -209,6 +212,12 @@
    create channel */
 "Mono" = "Моно";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Музыка";
 
@@ -297,6 +306,9 @@
 /* serverlist */
 "Preferences" = "Параметры";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
 /* serverlist */
 "Private server" = "Приватный сервер";
 
@@ -338,6 +350,9 @@
 
 /* preferences */
 "Receive webcam streams by default" = "Получать потоки веб-камеры по умолчанию";
+
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
 
 /* channel list */
 "Return to previous channel" = "Возврат на предыдущий канал";
@@ -483,6 +498,9 @@
 /* server entry
    user detail */
 "Username" = "Имя Пользователя";
+
+/* preferences */
+"Version Information" = "Version Information";
 
 /* channel list */
 "View" = "Просмотреть";
