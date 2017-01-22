@@ -248,7 +248,7 @@ namespace BearWare
             return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
         }
         /**
-         * @brief Move a user from one channel to another.
+         * @brief Send text message from server to clients.
          *
          * 
          * @param lpTextMessage Text message to send. The message type determines
