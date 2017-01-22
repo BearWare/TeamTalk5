@@ -237,8 +237,14 @@
 /* preferences */
 "Name displayed in channel list" = "Kanal listesinde görünen ad";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Takma ad";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -362,6 +368,12 @@
 
 /* codec detail */
 "Sample Rate" = "Örnekleme Hızı";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Kullanmak istediğiniz bilgilendirici konuşmacıyı seçin";
@@ -539,6 +551,9 @@
 /* preferences
    user detail */
 "WebCam" = "Web Kamerası";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "%@ sesini seçtiniz";

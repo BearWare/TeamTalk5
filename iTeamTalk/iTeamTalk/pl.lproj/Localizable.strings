@@ -237,8 +237,14 @@
 /* preferences */
 "Name displayed in channel list" = "Nazwa wyświetlana na liście kanałów";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Nick";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -362,6 +368,12 @@
 
 /* codec detail */
 "Sample Rate" = "Częstotliwość próbkowania";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Wybierz głos, którego chcesz używać";
@@ -539,6 +551,9 @@
 /* preferences
    user detail */
 "WebCam" = "Kamerka";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "Wybrano %@";
