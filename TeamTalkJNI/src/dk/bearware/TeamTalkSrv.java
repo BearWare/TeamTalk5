@@ -114,6 +114,10 @@ public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
     public int moveUser(int nUserID, Channel lpChannel) {
         return moveUser(ttsInst, nUserID, lpChannel);
     }
+    native int sendTextMessage(long lpTTSInstance, TextMessage lpTextMessage);
+    public int sendTextMessage(TextMessage lpTextMessage) {
+        return sendTextMessage(ttsInst, lpTextMessage);
+    }
     native boolean startServer(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
     public boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted) {
         return startServer(ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);

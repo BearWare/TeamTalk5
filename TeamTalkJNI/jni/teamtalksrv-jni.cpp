@@ -782,6 +782,16 @@ extern "C" {
         return TTS_RemoveFileFromChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
                                          &rmfile);
     }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_sendTextMessage
+        (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jobject lpTextMessage) {
+
+        TextMessage msg;
+        setTextMessage(env, msg, lpTextMessage, J2N);
+
+        return TTS_SendTextMessage(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+                                   &msg);
+    }
     
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_moveUser
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jint nUserID, jobject lpChannel) {

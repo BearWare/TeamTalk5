@@ -710,6 +710,86 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_10_sendMessage() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+
+        while(server.runEventLoop(100));
+
+        TextMessage textmsg = new TextMessage();
+
+        // user 2 user message
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.nFromUserID = 0;
+        textmsg.szFromUsername = "hest";
+        textmsg.nToUserID = client1.getMyUserID();
+        textmsg.nChannelID = 0;
+        textmsg.szMessage = "this is my message";
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+
+        // custom message
+
+        textmsg.nMsgType = TextMsgType.MSGTYPE_CUSTOM;
+        textmsg.nToUserID = client1.getMyUserID();
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        // channel message
+
+        textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
+        textmsg.nChannelID = client1.getMyChannelID();
+        textmsg.nToUserID = 0;
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+
+        // broadcast mesage
+        textmsg.nMsgType = TextMsgType.MSGTYPE_BROADCAST;
+        textmsg.nChannelID = 0;
+        textmsg.nToUserID = 0;
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+
+    }
+
     public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
