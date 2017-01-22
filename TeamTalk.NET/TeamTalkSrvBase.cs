@@ -247,6 +247,18 @@ namespace BearWare
         {
             return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
         }
+        /**
+         * @brief Move a user from one channel to another.
+         *
+         * 
+         * @param lpTextMessage Text message to send. The message type determines
+         * how the message will be sent.
+         * @return Returns a #ClientError.
+         * @see TeamTalk.DoTextMessage() */
+        public ClientError SendTextMessage(BearWare.TextMessage lpTextMessage)
+        {
+            return TTProDLL.TTS_SendTextMessage(m_ttsInst, ref lpTextMessage);
+        }
         /** 
          * @brief Start server on specified IP-address and ports.
          *

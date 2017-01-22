@@ -53,6 +53,8 @@ namespace c_tt
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_MoveUser(IntPtr lpTTSInstance, int nUserID, [In] ref BearWare.Channel lpChannel);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern BearWare.ClientError TTS_SendTextMessage(IntPtr lpTTSInstance, [In] ref BearWare.TextMessage lpTextMessage);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_RemoveChannel(IntPtr lpTTSInstance, [In]  int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_RemoveFileFromChannel(IntPtr lpTTSInstance, [In] ref BearWare.RemoteFile lpRemoteFile);
