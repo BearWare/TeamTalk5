@@ -1,4 +1,4 @@
-/* log entry */
+﻿/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
@@ -42,19 +42,19 @@
 "Add new server entry" = "Yeni sunucu girişi ekle";
 
 /* preferences */
-"Announce content of text message" = "İletinin içeriğini duyur";
+"Announce content of text message" = "İletinin içeriğini söyle";
 
 /* preferences */
-"Announce lost server connection" = "Sunucu bağlantısı kaybını duyur";
+"Announce lost server connection" = "Sunucu bağlantısı kaybını bildir";
 
 /* preferences */
-"Announce user joining channel" = "Kullanıcının kanala katılımını duyur";
+"Announce user joining channel" = "Kullanıcının kanala katılımını bildir";
 
 /* preferences */
-"Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
+"Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını bildir";
 
 /* preferences */
-"App Version" = "App Version";
+"App Version" = "Uygulama Sürümü";
 
 /* codec detail */
 "Application" = "Uygulama";
@@ -79,7 +79,7 @@
 "Channel" = "Kanal";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "%@ kullanıcısından kanal iletisi. %@";
+"Channel message from %@. %@" = "%@ kanal iletisi gönderdi. %@";
 
 /* preferences
    user detail */
@@ -128,10 +128,10 @@
 "Display" = "Görünüm";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "İletmek için çift dokunup basılı tutun. İletimi kilitlemek için hızlıca üç kez dokunun.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Konuşmak için çift dokunup basılı tutun. Konuşmayı kilitlemek için hızlıca üç kez dokunun.";
 
 /* preferences */
-"Double tap to lock TX button" = "İlet düğmesini kilitlemek için çift dokunun";
+"Double tap to lock TX button" = "Konuş düğmesini kilitlemek için çift dokunun";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -213,10 +213,10 @@
 "Mono" = "Tek Kanal";
 
 /* channel list */
-"Move user" = "Move user";
+"Move user" = "Kullanıcıyı taşı";
 
 /* channel list */
-"Move users here" = "Move users here";
+"Move users here" = "Kullanıcıları buraya taşı";
 
 /* codec detail */
 "Music" = "Müzik";
@@ -238,13 +238,13 @@
 "Name displayed in channel list" = "Kanal listesinde görünen ad";
 
 /* Dialog message */
-"New Server" = "New Server";
+"New Server" = "Yeni Sunucu";
 
 /* preferences */
 "Nickname" = "Takma ad";
 
 /* Dialog message */
-"No" = "No";
+"No" = "Hayır";
 
 /* codec detail
    create channel */
@@ -313,7 +313,7 @@
 "Preferences" = "Ayarlar";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+"Pressing Return-key sends text message" = "Return tuşuna basarak ileti gönder";
 
 /* serverlist */
 "Private server" = "Özel sunucu";
@@ -322,7 +322,7 @@
 "Private Text Message" = "Özel İleti";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "%@ kullanıcısından özel ileti. %@";
+"Private text message from %@. %@" = "%@ özel ileti gönderdi. %@";
 
 /* preferences */
 "Proximity sensor" = "Yakınlık sensörü";
@@ -358,7 +358,7 @@
 "Receive webcam streams by default" = "Varsayılan olarak web kamerası akışlarını al";
 
 /* preferences */
-"Return Sends Message" = "Return Sends Message";
+"Return Sends Message" = "Return İleti Gönderir";
 
 /* channel list */
 "Return to previous channel" = "Önceki kanala dön";
@@ -370,13 +370,13 @@
 "Sample Rate" = "Örnekleme Hızı";
 
 /* Dialog message */
-"Save Server" = "Save Server";
+"Save Server" = "Sunucuyu Kaydet";
 
 /* Dialog message */
-"Save server to server list?" = "Save server to server list?";
+"Save server to server list?" = "Sunucu, sunucu listesine kaydedilsin mi?";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "Kullanmak istediğiniz bilgilendirici konuşmacıyı seçin";
+"Select the text-to-speech voice to use" = "Kullanmak için bilgilendirici konuşmacı seçin";
 
 /* text message */
 "Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
@@ -437,7 +437,7 @@
 "Stereo" = "Çift Kanal";
 
 /* channel list */
-"Stop transmit" = "İletimi durdur";
+"Stop transmit" = "Konuşmayı durdur";
 
 /* user detail */
 "Subscriptions" = "Abonelikler";
@@ -458,7 +458,7 @@
 "The volume of the speaking voice is %.1f" = "Konuşmacının ses düzeyi %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "İletimi etkinleştirmek/devre dışı bırakmak için çift dokunun";
+"Toggle to enable/disable transmission" = "İletimi etkinleştirmek/etkisizleştirmek için çift dokunun";
 
 /* preferences */
 "Toggle voice transmission using headset" = "Kulaklık kullanarak ses iletim durumunu değiştir";
@@ -467,7 +467,7 @@
 "Topic" = "Konu";
 
 /* channel list */
-"Transmit" = "İlet";
+"Transmit" = "Konuş";
 
 /* codec detail */
 "Transmit Interval" = "İletim Aralığı";
@@ -512,7 +512,7 @@
 "Username" = "Kullanıcı adı";
 
 /* preferences */
-"Version Information" = "Version Information";
+"Version Information" = "Sürüm Bilgileri";
 
 /* channel list */
 "View" = "Görüntüle";
@@ -531,7 +531,7 @@
 "Voice Activation Level: %d. Recommended: %d" = "Ses Etkinleştirme Düzeyi: %d. Önerilen: %d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Devre Dışı";
+"Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Etkisiz";
 
 /* preferences */
 "Voice Preprocessing" = "Ses Önişleme";
@@ -543,7 +543,7 @@
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "Konuşma";
+"VoIP" = "VoIP";
 
 /* user detail */
 "Volume Controls" = "Ses Denetimleri";
@@ -553,7 +553,7 @@
 "WebCam" = "Web Kamerası";
 
 /* Dialog message */
-"Yes" = "Yes";
+"Yes" = "Evet";
 
 /* speech */
 "You have selected %@" = "%@ sesini seçtiniz";
