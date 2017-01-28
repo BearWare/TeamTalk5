@@ -295,9 +295,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             }
             
             cmdid = TT_DoLoginEx(ttInst, nickname!, server.username, server.password, AppInfo.getAppName())
-            if cmdid > 0 {
-                channelsTab.activeCommands[cmdid] = .loginCmd
-            }
+            channelsTab.activeCommands[cmdid] = .loginCmd
             
             reconnecttimer?.invalidate()
             
@@ -318,6 +316,16 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             }
 
             startReconnectTimer()
+            
+        case CLIENTEVENT_CMD_PROCESSING :
+            if getTTBOOL(&m) != 0 {
+            }
+            else {
+                commandComplete(m.nSource)
+            }
+            
+        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
+            break
             
         case CLIENTEVENT_CMD_ERROR :
             let errmsg = getClientErrorMsg(&m).pointee
@@ -350,6 +358,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
             }
             
+            let user = getUser(&m).pointee
+            if TT_GetMyUserID(ttInst) == user.nUserID {
+            }
+            
         case CLIENTEVENT_CMD_USER_TEXTMSG :
             
             switch getTextMessage(&m).pointee.nMsgType {
@@ -363,6 +375,41 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             break
         }
     }
+    
+    func commandComplete(_ active_cmdid : INT32) {
+        
+        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
+        let cmd = channelsTab.activeCommands[active_cmdid]
+        
+        if cmd == nil {
+            return
+        }
+        
+        switch cmd! {
+            
+        case .loginCmd :
+            //setup initial channel
+            if server.channel.isEmpty == false {
+                let tokens = server.channel.components(separatedBy: "/")
+                var channame = ""
+                // TODO: handle sub-channels if server.channel is a path
+                if tokens.count > 0 {
+                    channame = tokens.last!
+                }
+                channelsTab.rejoinchannel.nParentID = TT_GetRootChannelID(ttInst)
+                toTTString(channame, dst: &channelsTab.rejoinchannel.szName)
+                toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
+                channelsTab.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
+                //only do the initial login once. ChannelListViewController will
+                //handle rejoin
+                server.channel.removeAll()
+                server.chanpasswd.removeAll()
+            }
+        default :
+            break
+        }
+    }
+
     
     @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
         let servers = loadLocalServers()

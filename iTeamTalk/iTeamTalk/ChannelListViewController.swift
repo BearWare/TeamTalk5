@@ -69,6 +69,8 @@ class ChannelListViewController :
     var cmdid : INT32 = 0
     // the command ID which is currently processing
     var currentCmdId : INT32 = 0
+    // the commands awaiting reponse
+    var activeCommands = [INT32: Command]()
     // properties of connected server
     var srvprop = ServerProperties()
     // local instance's user account
@@ -138,12 +140,6 @@ class ChannelListViewController :
         activeCommands[cmdid] = .joinCmd
     }
     
-    enum Command {
-        case loginCmd, joinCmd, moveCmd, kickCmd
-    }
-    
-    var activeCommands = [INT32: Command]()
-    
     func appendTextMessage(_ userid: INT32, txtmsg: MyTextMessage) {
         
         if textmessages[userid] == nil {
@@ -194,7 +190,7 @@ class ChannelListViewController :
 
         let (subchans, chanusers) = getDisplayItems()
 
-        // print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         let show_parent = curchannel.nParentID != 0
@@ -494,22 +490,27 @@ class ChannelListViewController :
         switch cmd! {
             
         case .loginCmd :
-            self.tableView.reloadData()
-            
             let flags = TT_GetFlags(ttInst)
             
             if (flags & CLIENT_AUTHORIZED.rawValue) != 0 {
                 
-                // if we were previously in a channel then rejoin
                 if rejoinchannel.nChannelID > 0 {
+                    // if we were previously in a channel then rejoin
                     let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : ""
                     toTTString(passwd!, dst: &rejoinchannel.szPassword)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
+                else if fromTTString(rejoinchannel.szName).isEmpty == false {
+                    // join from initial login
+                    let passwd = fromTTString(rejoinchannel.szPassword)
+                    toTTString(passwd, dst: &rejoinchannel.szPassword)
+                    cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
+                    activeCommands[cmdid] = .joinCmd
+                }
                 else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil ||
                     UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
-                    
+                    //join root channel automatically (if enabled)
                     cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
                     activeCommands[cmdid] = .joinCmd
                 }
@@ -519,12 +520,14 @@ class ChannelListViewController :
         case .joinCmd :
             fallthrough
         case .moveCmd :
-            self.tableView.reloadData()
+            break
 //        default :
 //            print("Command #\(active_cmdid) is not a completion command")
         }
 
         activeCommands.removeValue(forKey: active_cmdid)
+        
+        self.tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -719,7 +722,7 @@ class ChannelListViewController :
             break
             
         case CLIENTEVENT_CMD_PROCESSING :
-            if getTTBOOL(&m) != 0 {
+            if getTTBOOL(&m) == TRUE {
                 // command active
                 self.currentCmdId = m.nSource
             }
@@ -797,7 +800,13 @@ class ChannelListViewController :
             if user.nUserID == TT_GetMyUserID(ttInst) {
                 curchannel = channels[user.nChannelID]!
                 mychannel = channels[user.nChannelID]!
+                
+                //store password if it's from initial login (server properties)
+                if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
+                   chanpasswds[user.nChannelID] = fromTTString(rejoinchannel.szPassword)
+                }
                 rejoinchannel = channels[user.nChannelID]! //join this on connection lost
+
                 updateTitle()
             }
             if user.nChannelID == mychannel.nChannelID && mychannel.nChannelID > 0 {
@@ -883,6 +892,8 @@ class ChannelListViewController :
                         speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
                     }
                 }
+                
+                TT_DoQuit(ttInst)
             }
             
         case CLIENTEVENT_CMD_ERROR :

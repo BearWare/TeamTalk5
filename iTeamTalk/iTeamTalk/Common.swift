@@ -292,6 +292,11 @@ protocol MyTextMessageDelegate {
 // messages received but no read (blinking)
 var unreadmessages = Set<INT32>()
 
+// types of responses
+enum Command {
+    case loginCmd, joinCmd, moveCmd, kickCmd
+}
+
 func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {
     let flags = TT_GetFlags(ttInst)
     
