@@ -892,8 +892,6 @@ class ChannelListViewController :
                         speakTextMessage(txtmsg.nMsgType, mymsg: vc.messages.last!)
                     }
                 }
-                
-                TT_DoQuit(ttInst)
             }
             
         case CLIENTEVENT_CMD_ERROR :
