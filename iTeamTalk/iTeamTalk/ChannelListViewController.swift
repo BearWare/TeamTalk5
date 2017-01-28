@@ -195,6 +195,21 @@ class ChannelListViewController :
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         let show_parent = curchannel.nParentID != 0
         
+        // for some absurd reason UITableView::numberOfRowsInSection() and UITableView::cellForRowAt()
+        // can be interleaved when calling UITableView::reloadData() so row-count and data to be 
+        // displayed (self.channels and self.users) are out of sync
+        var display_rows = subchans.count + chanusers.count
+        if show_join {
+            display_rows += 1
+        }
+        if show_parent {
+            display_rows += 1
+        }
+        
+        if indexPath.row >= display_rows {
+            return UITableViewCell(style: .default, reuseIdentifier: nil)
+        }
+        
         // current index for users
         var user_index = indexPath.row
         if show_join {
@@ -788,9 +803,17 @@ class ChannelListViewController :
             let user = getUser(&m).pointee
             users[user.nUserID] = user
             
+            if currentCmdId == 0 && user.nChannelID == curchannel.nChannelID {
+                self.tableView.reloadData()
+            }
+            
         case CLIENTEVENT_CMD_USER_LOGGEDOUT :
             let user = getUser(&m).pointee
             users.removeValue(forKey: user.nUserID)
+
+            if currentCmdId == 0 && user.nChannelID == curchannel.nChannelID {
+                self.tableView.reloadData()
+            }
             
         case CLIENTEVENT_CMD_USER_JOINED :
             let user = getUser(&m).pointee
@@ -801,7 +824,7 @@ class ChannelListViewController :
                 curchannel = channels[user.nChannelID]!
                 mychannel = channels[user.nChannelID]!
                 
-                //store password if it's from initial login (server properties)
+                //store password if it's from initial login (Server-struct)
                 if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
                    chanpasswds[user.nChannelID] = fromTTString(rejoinchannel.szPassword)
                 }
@@ -818,6 +841,7 @@ class ChannelListViewController :
                     newUtterance(name + " " +  NSLocalizedString("has joined the channel", comment: "TTS EVENT"))
                 }
             }
+
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }
