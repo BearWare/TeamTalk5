@@ -190,7 +190,7 @@ class ChannelListViewController :
 
         let (subchans, chanusers) = getDisplayItems()
 
-        print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
+        //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         let show_parent = curchannel.nParentID != 0
