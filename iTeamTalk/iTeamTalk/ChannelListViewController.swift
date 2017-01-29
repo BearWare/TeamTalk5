@@ -895,7 +895,7 @@ class ChannelListViewController :
                 if let user = users[txtmsg.nFromUserID] {
                     let name = getDisplayName(user)
                     let newmsg = MyTextMessage(m: txtmsg, nickname: name,
-                        msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .im_MYSELF : .im)
+                        msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
