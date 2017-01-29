@@ -511,7 +511,11 @@ class ChannelListViewController :
                 
                 if rejoinchannel.nChannelID > 0 {
                     // if we were previously in a channel then rejoin
-                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : ""
+                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : fromTTString(rejoinchannel.szPassword)
+                    if chanpasswds[rejoinchannel.nChannelID] == nil {
+                        // if channel password is from initial login (Server-struct) then we need to store it
+                       chanpasswds[rejoinchannel.nChannelID] = fromTTString(rejoinchannel.szPassword)
+                    }
                     toTTString(passwd!, dst: &rejoinchannel.szPassword)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd

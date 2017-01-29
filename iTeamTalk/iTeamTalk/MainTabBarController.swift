@@ -390,16 +390,36 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         case .loginCmd :
             //setup initial channel
             if server.channel.isEmpty == false {
-                let tokens = server.channel.components(separatedBy: "/")
-                var channame = ""
-                // TODO: handle sub-channels if server.channel is a path
-                if tokens.count > 0 {
-                    channame = tokens.last!
+                
+                var path = StringWrap();
+                toTTString(server.channel, dst: &path.buf)
+
+                var tokens = server.channel.components(separatedBy: "/")
+                
+                let chanid = TT_GetChannelIDFromPath(ttInst, fromStringWrap(&path))
+                if chanid > 0 {
+                    //join existing channel
+                    channelsTab.rejoinchannel.nChannelID = chanid
+                    toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
                 }
-                channelsTab.rejoinchannel.nParentID = TT_GetRootChannelID(ttInst)
-                toTTString(channame, dst: &channelsTab.rejoinchannel.szName)
-                toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
-                channelsTab.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
+                else if tokens.count > 0 {
+                    // extract path of parent channel
+                    let channame = tokens.removeLast()
+                    var chanpath = ""
+                    for c in tokens {
+                        chanpath += "/" + c
+                    }
+                    
+                    toTTString(chanpath, dst: &path.buf)
+                    let parentid = TT_GetChannelIDFromPath(ttInst, fromStringWrap(&path))
+                    if parentid > 0 {
+                        channelsTab.rejoinchannel.nParentID = parentid
+                        toTTString(channame, dst: &channelsTab.rejoinchannel.szName)
+                        toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
+                        channelsTab.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
+                    }
+                }
+                
                 //only do the initial login once. ChannelListViewController will
                 //handle rejoin
                 server.channel.removeAll()

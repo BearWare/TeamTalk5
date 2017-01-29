@@ -82,4 +82,8 @@ void convertTuple(const char* str, StringWrap* wrap) {
     strncpy(wrap->buf, str, TT_STRLEN);
 }
 
+TTCHAR* fromStringWrap(StringWrap* wrap) {
+    return &wrap->buf[0];
+}
+
 

@@ -57,4 +57,4 @@ typedef struct StringWrap {
 } StringWrap;
 
 void convertTuple(const char* str, StringWrap* wrap);
-
+TTCHAR* fromStringWrap(StringWrap* wrap);
