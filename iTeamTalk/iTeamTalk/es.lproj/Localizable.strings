@@ -71,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Taza de bits";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Mensajes de difusión";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Canal";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Mensaje en el canal de %@. %@";
@@ -167,6 +174,9 @@
 /* Dialog message */
 "Join" = "Unirse";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Unirse";
 
@@ -184,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Limitar longitud máxima de nombres de usuario a %d caracteres";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Conectado al servidor";
@@ -314,6 +327,9 @@
 
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
 
 /* serverlist */
 "Private server" = "Servidor privado";

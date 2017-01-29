@@ -71,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitrate";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Broadcast Beskeder";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Kanal";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Kanalbesked fra %@. %@";
@@ -167,6 +174,9 @@
 /* Dialog message */
 "Join" = "Deltag";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Skift til kanal";
 
@@ -184,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Begræns længden af navn i kanalliste til %d karakterer";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Loggede på serveren";
@@ -314,6 +327,9 @@
 
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
 
 /* serverlist */
 "Private server" = "Privat server";

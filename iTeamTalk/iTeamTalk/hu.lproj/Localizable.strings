@@ -71,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitrate";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "teljesszögű üzenetek";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Csatorna";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "csatorna üzenet a következőtől: %@. %@";
@@ -167,6 +174,9 @@
 /* Dialog message */
 "Join" = "Belépett";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Kapcsolódás a csatornához";
 
@@ -184,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Nevek kiírás korlátozása a csatorna listában %d karakterre";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Bejelentkeztünk a szerverre";
@@ -314,6 +327,9 @@
 
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
 
 /* serverlist */
 "Private server" = "Személyes Szerver";
