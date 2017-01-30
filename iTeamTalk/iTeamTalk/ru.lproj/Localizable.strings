@@ -54,7 +54,7 @@
 "Announce user leaving channel" = "Объявить пользователь покинул канал";
 
 /* preferences */
-"App Version" = "App Version";
+"App Version" = "Версия Приложения";
 
 /* codec detail */
 "Application" = "Приложение";
@@ -72,7 +72,7 @@
 "Bitrate" = "Битрейт";
 
 /* text message type */
-"Broadcast message" = "Broadcast message";
+"Broadcast message" = "Сетевое сообщение";
 
 /* preferences
    user detail */
@@ -83,7 +83,7 @@
 "Channel" = "Канал";
 
 /* text message type */
-"Channel message" = "Channel message";
+"Channel message" = "Сообщение канала";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Сообщение канала от %@. %@";
@@ -166,7 +166,7 @@
 "has left the channel" = "покинул канал";
 
 /* preferences */
-"Headset TX Toggle" = "Включать Передачу Гарнитурой";
+"Headset TX Toggle" = "Включение Передачи Гарнитурой";
 
 /* server entry */
 "Host address" = "Адрес хоста";
@@ -175,7 +175,7 @@
 "Join" = "Присоединить";
 
 /* server entry */
-"Join Channel" = "Join Channel";
+"Join Channel" = "Присоединиться К Каналу";
 
 /* channel list */
 "Join channel" = "Присоединиться к каналу";
@@ -196,7 +196,7 @@
 "Limit length of names in channel list to %d characters" = "Ограничение длины имен в списке каналов до %d символов";
 
 /* text message type */
-"Log message" = "Log message";
+"Log message" = "Лог сообщения";
 
 /* log entry */
 "Logged on to server" = "Вход на сервер";
@@ -226,38 +226,38 @@
 "Mono" = "Моно";
 
 /* channel list */
-"Move user" = "Move user";
+"Move user" = "Переместить пользователя";
 
 /* channel list */
-"Move users here" = "Move users here";
+"Move users here" = "Переместить пользователей сюда";
 
 /* codec detail */
 "Music" = "Музыка";
 
 /* channel list */
-"Mute" = "Приглушить";
+"Mute" = "Отключить Звук";
 
 /* user detail */
-"Mute Media File" = "Приглушить Медиа Файл";
+"Mute Media File" = "Отключить Медиа Файл";
 
 /* user detail */
-"Mute Voice" = "Приглушить Голос";
+"Mute Voice" = "Отключить Голос";
 
 /* create channel
    server entry */
 "Name" = "Имя";
 
 /* preferences */
-"Name displayed in channel list" = "Отображаемое имя в списке каналов";
+"Name displayed in channel list" = "Отображаемое имя";
 
 /* Dialog message */
-"New Server" = "New Server";
+"New Server" = "Новый Сервер";
 
 /* preferences */
 "Nickname" = "Псевдоним";
 
 /* Dialog message */
-"No" = "No";
+"No" = "Нет";
 
 /* codec detail
    create channel */
@@ -326,10 +326,10 @@
 "Preferences" = "Параметры";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+"Pressing Return-key sends text message" = "При нажатии клавиши Ввод отправлять текстовое сообщение";
 
 /* text message type */
-"Private message" = "Private message";
+"Private message" = "Приватное сообщение";
 
 /* serverlist */
 "Private server" = "Приватный сервер";
@@ -374,7 +374,7 @@
 "Receive webcam streams by default" = "Получать потоки веб-камеры по умолчанию";
 
 /* preferences */
-"Return Sends Message" = "Return Sends Message";
+"Return Sends Message" = "Ввод Отправляет Сообщение";
 
 /* channel list */
 "Return to previous channel" = "Возврат на предыдущий канал";
@@ -386,10 +386,10 @@
 "Sample Rate" = "Частота Дискретизации";
 
 /* Dialog message */
-"Save Server" = "Save Server";
+"Save Server" = "Сохранить Сервер";
 
 /* Dialog message */
-"Save server to server list?" = "Save server to server list?";
+"Save server to server list?" = "Сохранить сервер в списке серверов?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Выбрать голос для использования текст в речь";
@@ -528,7 +528,7 @@
 "Username" = "Имя Пользователя";
 
 /* preferences */
-"Version Information" = "Version Information";
+"Version Information" = "Информация О Версии";
 
 /* channel list */
 "View" = "Просмотреть";
@@ -569,7 +569,7 @@
 "WebCam" = "Веб-Камера";
 
 /* Dialog message */
-"Yes" = "Yes";
+"Yes" = "Да";
 
 /* speech */
 "You have selected %@" = "Вы выбрали %@";
