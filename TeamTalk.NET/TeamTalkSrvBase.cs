@@ -725,11 +725,11 @@ namespace BearWare
              }
          }
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
-        public delegate void ChannelCreatedCallback(IntPtr lpTTSInstance,
+        internal delegate void ChannelCreatedCallback(IntPtr lpTTSInstance,
                                         IntPtr lpUserData,[In] ref Channel lpChannel,
                                         IntPtr lpUser);
         private event ChannelCreatedCallback onChannelCreatedCallback;
-        public event ChannelCreatedCallback OnChannelCreatedCallback
+        internal event ChannelCreatedCallback OnChannelCreatedCallback
         {
             add
             {
