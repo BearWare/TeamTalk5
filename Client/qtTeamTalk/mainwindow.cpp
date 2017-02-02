@@ -175,6 +175,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.filesView->setModel(m_filesmodel);
     QItemSelectionModel* selmodel = ui.filesView->selectionModel();
 
+    m_speech = new QTextToSpeech(this);
+
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
@@ -1664,6 +1666,8 @@ void MainWindow::addStatusMsg(const QString& msg)
 
     if(!timerExists(TIMER_STATUSMSG))
         m_timers[startTimer(1000)] = TIMER_STATUSMSG;
+
+    m_speech->say(msg);
 }
 
 void MainWindow::initSound()

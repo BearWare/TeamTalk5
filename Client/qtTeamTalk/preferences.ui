@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>758</width>
+    <width>807</width>
     <height>640</height>
    </rect>
   </property>
@@ -1733,6 +1733,30 @@
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ttsTab">
+      <attribute name="title">
+       <string>Text To Speech</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_22">
+       <item>
+        <widget class="QGroupBox" name="groupBox_10">
+         <property name="title">
+          <string>Enable/disable Text to Speech Events</string>
+         </property>
+         <widget class="QListView" name="ttsListView">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>391</width>
+            <height>401</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>

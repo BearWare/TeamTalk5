@@ -40,6 +40,7 @@
 #include <QQueue>
 #include <QSystemTrayIcon>
 #include <QNetworkAccessManager>
+#include <QTextToSpeech>
 
 #include "common.h"
 
@@ -137,6 +138,7 @@ private:
     QLabel* m_pinglabel;
     QLabel* m_dtxlabel;
     QProgressBar* m_dtxprogress;
+    QTextToSpeech* m_speech;
 
     //keep track for active commands awaiting replies
     typedef QMap<int, CommandComplete> cmdreply_t;
