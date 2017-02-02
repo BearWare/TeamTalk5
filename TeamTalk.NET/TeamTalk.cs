@@ -5496,6 +5496,7 @@ namespace BearWare
          * A user with channel-operator status (see TeamTalk.DoChannelOp()) can 
          * also update a channel's properties, but is not able to change the 
          * following properties:
+         * - @c audiocodec
          * - @c nDiskQuota
          * - @c nMaxUsers
          * - @c uChannelType
