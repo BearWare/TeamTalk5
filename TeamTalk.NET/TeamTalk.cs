@@ -176,9 +176,10 @@ namespace BearWare
          *
          * This is a sound device which decodes received audio packets but
          * does not send the decoded audio to a real sound device. When used
-         * for recording the virtual sound device injects silence. In duplex
-         * mode the virtual TeamTalk sound device can only be used as
-         * input/output device. @see SOUNDSYSTEM_NONE */
+         * for recording the virtual sound device injects silence.
+         *
+         * In duplex mode the virtual TeamTalk sound device can only
+         * be used as input/output device. @see SOUNDSYSTEM_NONE */
         public const int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978;
     }
 
