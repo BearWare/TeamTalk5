@@ -2,6 +2,7 @@ package dk.bearware;
 
 import junit.framework.TestCase;
 import java.util.Vector;
+import java.util.List;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
@@ -1463,4 +1464,63 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_25_SoundLoopback() {
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        IntPtr in = new IntPtr(), out = new IntPtr();
+        assertTrue("Get default sound devices", TeamTalkBase.getDefaultSoundDevices(in, out));
+
+        SoundDevice nodev = null;
+        Vector<SoundDevice> devs = new Vector<SoundDevice>();
+        ttclient.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            if(d.nSoundSystem == SoundSystem.SOUNDSYSTEM_NONE) {
+                nodev = d;
+                assertEquals("Virtual TeamTalk device", SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, d.nDeviceID);
+            }
+        }
+
+        long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound duplex loopback started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop duplex stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
+        assertTrue("Sound loopback started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, false, null);
+        assertTrue("Sound loopback virtual input-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual input-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 2, false, null);
+        assertTrue("Sound loopback virtual output-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual output-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, nodev.nDeviceID, 48000, 2, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+
+        loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+
+    }
 }
