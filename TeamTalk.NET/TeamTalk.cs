@@ -160,6 +160,29 @@ namespace BearWare
     }
 
     /**
+     * @brief IDs for sound devices. */
+    public struct SoundDeviceConstants
+    {
+        /** @brief Sound device ID for iOS AudioUnit subtype Remote I/O
+         * Unit. @see SOUNDSYSTEM_AUDIOUNIT */
+        public const int TT_SOUNDDEVICE_ID_REMOTEIO = 0;
+        /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
+         * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
+        public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1;
+        /** @brief Sound device ID for Android OpenSL ES default audio
+         * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+        public const int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0;
+        /** @brief Sound device ID for virtual TeamTalk sound device.
+         *
+         * This is a sound device which decodes received audio packets but
+         * does not send the decoded audio to a real sound device. When used
+         * for recording the virtual sound device injects silence. In duplex
+         * mode the virtual TeamTalk sound device can only be used as
+         * input/output device. @see SOUNDSYSTEM_NONE */
+        public const int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978;
+    }
+
+    /**
      * @brief An enum encapsulation the minimum, maximum and default sound
      * levels for input and output sound devices. */
     public struct SoundLevel
