@@ -115,7 +115,6 @@ namespace TeamTalkTest.NET
             {
                 Assert.IsTrue(s.nDefaultSampleRate > 0);
                 Assert.IsTrue(s.szDeviceName.Length > 0);
-                Assert.IsTrue(s.nSoundSystem != SoundSystem.SOUNDSYSTEM_NONE);
             }
 
             int devin = 0, devout = 0;
