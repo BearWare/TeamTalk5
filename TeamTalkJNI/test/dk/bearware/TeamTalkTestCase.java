@@ -1521,6 +1521,46 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
         assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+    }
+
+    public void test_26_VirtualSoundDevice() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttvirt = newClientInstance();
+        TeamTalkBase ttclient = newClientInstance();
+        
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        assertTrue("Init virtual input dev", ttvirt.initSoundInputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        assertTrue("Init virtual output dev", ttvirt.initSoundOutputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        connect(ttvirt);
+        login(ttvirt, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttvirt);
+
+        assertTrue("Gen tone", ttvirt.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300));
+        assertTrue("Enable virtual voice transmission", ttvirt.enableVoiceTransmission(true));
+        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Disable voice transmission", ttvirt.enableVoiceTransmission(false));
+        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", 0, msg.user.uUserState & UserState.USERSTATE_VOICE);
+
+
+        assertTrue("Enable real voice transmission", ttclient.enableVoiceTransmission(true));
+        assertTrue("Wait for talking event", waitForEvent(ttvirt, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        waitForEvent(ttvirt, ClientEvent.CLIENTEVENT_NONE, 5000);
 
     }
 }
