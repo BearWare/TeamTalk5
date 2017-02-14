@@ -836,13 +836,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, ttclient, SYSTEMID);
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
+    protected static void connect(final TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
     {
-        assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
-
-        while(server.runEventLoop(0));
-
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        connect(ttclient, SYSTEMID, new ServerInterleave() {
+                public void interleave() {
+                    while(server.runEventLoop(0));
+                }
+            });
     }
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
@@ -850,40 +850,24 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, ttclient, nick, username, passwd, "");
     }
 
-    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
+    protected static void login(final TeamTalkSrv server, TeamTalkBase ttclient, 
                                 String nick, String username, String passwd, 
                                 String clientname)
     {
-        int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
-        assertTrue("do login", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        TTMessage msg = new TTMessage();
-        assertTrue("wait login", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
-
-        UserAccount account = msg.useraccount;
-        assertEquals("username set", username, account.szUsername);
-        //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
-        assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        login(ttclient, nick, username, passwd, clientname, new ServerInterleave() {
+                public void interleave() {
+                    while(server.runEventLoop(100));
+                }
+            });
     }
 
-    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
+    protected static void joinRoot(final TeamTalkSrv server, TeamTalkBase ttclient)
     {
-        assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
-
-        assertTrue("root exists", ttclient.getRootChannelID() > 0);
-
-        int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
-        
-        assertTrue("do join root", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
-        
-        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        joinRoot(ttclient, new ServerInterleave() {
+                public void interleave() {
+                    while(server.runEventLoop(0));
+                }
+            });
     }
 
 }
