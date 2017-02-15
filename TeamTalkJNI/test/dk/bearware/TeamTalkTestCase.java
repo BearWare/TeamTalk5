@@ -1224,8 +1224,14 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(ttclient);
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
-        
+        if(INPUTDEVICEID>=0)
+            indev.value = INPUTDEVICEID;
+        else
+            assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
+
+        if(OUTPUTDEVICEID>=0)
+            outdev.value = OUTPUTDEVICEID;
+
         assertTrue("init input dev (we skip output device for now)", ttclient.initSoundInputDevice(indev.value));
 
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1469,7 +1475,12 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         ttclient = newClientInstance();
         IntPtr in = new IntPtr(), out = new IntPtr();
-        assertTrue("Get default sound devices", TeamTalkBase.getDefaultSoundDevices(in, out));
+        if(INPUTDEVICEID<0 || OUTPUTDEVICEID<0)
+            assertTrue("Get default sound devices", TeamTalkBase.getDefaultSoundDevices(in, out));
+        else {
+            in.value = INPUTDEVICEID;
+            out.value = OUTPUTDEVICEID;
+        }
 
         SoundDevice nodev = null;
         Vector<SoundDevice> devs = new Vector<SoundDevice>();

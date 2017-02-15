@@ -15,9 +15,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         PROEDITION = true;
 
-        // IPADDR = "127.0.0.1";
-        // TCPPORT = 12000;
-        // UDPPORT = 12000;
+        IPADDR = "127.0.0.1";
+        TCPPORT = 12456;
+        UDPPORT = 12456;
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = ADMIN_USERNAME;
@@ -831,18 +831,26 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         return server;
     }
 
+    static class RunServer implements ServerInterleave {
+        TeamTalkSrv server;
+
+        public RunServer(TeamTalkSrv server) {
+            this.server = server;
+        }
+
+        public void interleave() {
+            while(server.runEventLoop(100));
+        }
+    }
+
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient)
     {
         connect(server, ttclient, SYSTEMID);
     }
 
-    protected static void connect(final TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
     {
-        connect(ttclient, SYSTEMID, new ServerInterleave() {
-                public void interleave() {
-                    while(server.runEventLoop(0));
-                }
-            });
+        connect(ttclient, SYSTEMID, new RunServer(server));
     }
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
@@ -850,24 +858,16 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, ttclient, nick, username, passwd, "");
     }
 
-    protected static void login(final TeamTalkSrv server, TeamTalkBase ttclient, 
+    protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
                                 String nick, String username, String passwd, 
                                 String clientname)
     {
-        login(ttclient, nick, username, passwd, clientname, new ServerInterleave() {
-                public void interleave() {
-                    while(server.runEventLoop(100));
-                }
-            });
+        login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }
 
-    protected static void joinRoot(final TeamTalkSrv server, TeamTalkBase ttclient)
+    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
     {
-        joinRoot(ttclient, new ServerInterleave() {
-                public void interleave() {
-                    while(server.runEventLoop(0));
-                }
-            });
+        joinRoot(ttclient, new RunServer(server));
     }
 
 }

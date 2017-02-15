@@ -17,6 +17,9 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     public static String SYSTEMID = "teamtalk";
 
+    public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
+
+
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String UPLOADFILE = "filename.txt";
     public static final String DOWNLOADFILE = "filename.txt";
@@ -30,6 +33,8 @@ public class TeamTalkTestCaseBase extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
+
+        // this.INPUTDEVICEID = this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
     }
 
     protected void tearDown() throws Exception {
@@ -55,8 +60,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
-        IntPtr howmany = new IntPtr(0);
-
+        
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
         System.out.println("---- Sound Devices ----");
@@ -64,8 +68,14 @@ public class TeamTalkTestCaseBase extends TestCase {
             printSoundDevice(devs.get(i));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
-        
+        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+           assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
+
+        if(INPUTDEVICEID >= 0)
+            indev.value = INPUTDEVICEID;
+        if(OUTPUTDEVICEID >= 0)
+            outdev.value = OUTPUTDEVICEID;
+
         if(duplex) {
             assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));
         }
