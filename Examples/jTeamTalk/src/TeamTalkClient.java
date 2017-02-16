@@ -11,7 +11,7 @@ import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDevice;
 import dk.bearware.SoundSystem;
-import dk.bearware.TeamTalk5;
+import dk.bearware.TeamTalk5Pro;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
@@ -24,7 +24,7 @@ import dk.bearware.events.TeamTalkEventHandler;;
 public class TeamTalkClient
 implements ConnectionListener, CommandListener {
 
-    TeamTalk5 ttclient = new TeamTalk5();
+    TeamTalkBase ttclient = new TeamTalk5Pro();
     TeamTalkEventHandler handler = new TeamTalkEventHandler();
     
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
@@ -128,8 +128,11 @@ implements ConnectionListener, CommandListener {
             System.err.println("Failed to join channel");
         }
         
-        // wait forever
-        handler.processEvent(ttclient, -1);
+        // run forever
+        while(true) {
+            handler.processEvent(ttclient, -1);
+            System.out.println("Processed event");
+        }
     }
 
     void configureSoundDevices() {

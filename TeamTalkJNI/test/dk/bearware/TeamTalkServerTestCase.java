@@ -15,9 +15,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         PROEDITION = true;
 
-        // IPADDR = "127.0.0.1";
-        // TCPPORT = 12000;
-        // UDPPORT = 12000;
+        IPADDR = "127.0.0.1";
+        TCPPORT = 12456;
+        UDPPORT = 12456;
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = ADMIN_USERNAME;
@@ -831,6 +831,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         return server;
     }
 
+    static class RunServer implements ServerInterleave {
+        TeamTalkSrv server;
+
+        public RunServer(TeamTalkSrv server) {
+            this.server = server;
+        }
+
+        public void interleave() {
+            while(server.runEventLoop(100));
+        }
+    }
+
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient)
     {
         connect(server, ttclient, SYSTEMID);
@@ -838,11 +850,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
     {
-        assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
-
-        while(server.runEventLoop(0));
-
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        connect(ttclient, SYSTEMID, new RunServer(server));
     }
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
@@ -854,36 +862,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                 String nick, String username, String passwd, 
                                 String clientname)
     {
-        int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
-        assertTrue("do login", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        TTMessage msg = new TTMessage();
-        assertTrue("wait login", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
-
-        UserAccount account = msg.useraccount;
-        assertEquals("username set", username, account.szUsername);
-        //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
-        assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }
 
     protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
     {
-        assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
-
-        assertTrue("root exists", ttclient.getRootChannelID() > 0);
-
-        int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
-        
-        assertTrue("do join root", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
-        
-        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        joinRoot(ttclient, new RunServer(server));
     }
 
 }

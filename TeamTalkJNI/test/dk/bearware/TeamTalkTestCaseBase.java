@@ -17,6 +17,9 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     public static String SYSTEMID = "teamtalk";
 
+    public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
+
+
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String UPLOADFILE = "filename.txt";
     public static final String DOWNLOADFILE = "filename.txt";
@@ -30,6 +33,8 @@ public class TeamTalkTestCaseBase extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
+
+        // this.INPUTDEVICEID = this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
     }
 
     protected void tearDown() throws Exception {
@@ -55,8 +60,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
-        IntPtr howmany = new IntPtr(0);
-
+        
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
         System.out.println("---- Sound Devices ----");
@@ -64,8 +68,14 @@ public class TeamTalkTestCaseBase extends TestCase {
             printSoundDevice(devs.get(i));
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
-        
+        if(INPUTDEVICEID < 0 && OUTPUTDEVICEID < 0)
+           assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
+
+        if(INPUTDEVICEID >= 0)
+            indev.value = INPUTDEVICEID;
+        if(OUTPUTDEVICEID >= 0)
+            outdev.value = OUTPUTDEVICEID;
+
         if(duplex) {
             assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));
         }
@@ -89,14 +99,29 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertEquals("agc9", spxdsp.nEchoSuppressActive, spxdsp2.nEchoSuppressActive);
     }
 
+    public interface ServerInterleave {
+        public void interleave();
+    }
+
+    static ServerInterleave nop = new ServerInterleave() {
+        public void interleave() {
+        }
+    };
+
     protected static void connect(TeamTalkBase ttclient)
     {
         connect(ttclient, SYSTEMID);
     }
 
-    protected static void connect(TeamTalkBase ttclient, String systemID)
+    protected static void connect(TeamTalkBase ttclient, String systemID) {
+        connect(ttclient, systemID, nop);
+    }
+
+    protected static void connect(TeamTalkBase ttclient, String systemID, ServerInterleave server)
     {
         assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
+
+        server.interleave();
 
         assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
     }
@@ -105,10 +130,17 @@ public class TeamTalkTestCaseBase extends TestCase {
         login(ttclient, nick, username, passwd, "");
     }
 
-    protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd, String clientname)
+    protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd, String clientname) {
+        login(ttclient, nick, username, passwd, clientname, nop);
+    }
+
+    protected static void login(TeamTalkBase ttclient, String nick, String username, 
+                                String passwd, String clientname, ServerInterleave server)
     {
         int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
         assertTrue("do login", cmdid > 0);
+
+        server.interleave();
 
         TTMessage msg = new TTMessage();
         assertTrue("wait login", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
@@ -134,7 +166,11 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertTrue("Disconnect", ttclient.disconnect());
     }
 
-    protected static void joinRoot(TeamTalkBase ttclient)
+    protected static void joinRoot(TeamTalkBase ttclient) {
+        joinRoot(ttclient, nop);
+    }
+
+    protected static void joinRoot(TeamTalkBase ttclient, ServerInterleave server)
     {
         assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
 
@@ -143,6 +179,8 @@ public class TeamTalkTestCaseBase extends TestCase {
         int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
         
         assertTrue("do join root", cmdid > 0);
+        
+        server.interleave();
 
         assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
         
