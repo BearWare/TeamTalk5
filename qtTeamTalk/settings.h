@@ -204,6 +204,5 @@
 #define SETTINGS_FIREWALL_ADD                       "history/firewall-add"
 
 #define SOUNDDEVICEID_DEFAULT  -2
-#define SOUNDDEVICEID_NODEVICE -1
 
 #endif
