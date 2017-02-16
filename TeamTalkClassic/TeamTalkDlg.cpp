@@ -3448,7 +3448,7 @@ void CTeamTalkDlg::OnFilePreferences()
             nTextLimit = windowpage.m_nTextLen;
             bShowUsernames = windowpage.m_bShowUsername;
 
-            users_t users = m_wndTree.GetUsers(0);
+            users_t users = m_wndTree.GetUsers();
             channels_t chans = m_wndTree.GetChannels();
             for(users_t::const_iterator i=users.begin();i!=users.end();i++)
                 m_wndTree.UpdateUser(i->second);
@@ -3502,7 +3502,7 @@ void CTeamTalkDlg::OnFilePreferences()
         if(m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE) != soundpage.m_nMediaVsVoice)
         {
             m_xmlSettings.SetMediaStreamVsVoice(soundpage.m_nMediaVsVoice);
-            users_t users = m_wndTree.GetUsers(0);
+            users_t users = m_wndTree.GetUsers();
             users_t::const_iterator i;
             double mediaVol = soundpage.m_nMediaVsVoice;
             mediaVol /= 100.0;

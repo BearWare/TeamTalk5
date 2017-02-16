@@ -34,7 +34,7 @@ channels_t GetSubChannels(int nChannelID, const channels_t& channels, BOOL bRecu
 channels_t GetParentChannels(int nChannelID, const channels_t& channels);
 int GetRootChannelID(const channels_t& channels);
 int GetMaxChannelID(const channels_t& channels);
-users_t GetChannelUsers(int nChannelID, const users_t& users);
+users_t GetChannelUsers(const users_t& users, int nChannelID = -1);
 transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmitUsers);
 BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams);
 BOOL CanToggleTransmitUsers(int nChannelID);
