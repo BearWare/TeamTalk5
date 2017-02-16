@@ -1818,6 +1818,7 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_NOSOUNDDEVICE       "No Sound Device"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
