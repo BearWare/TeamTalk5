@@ -64,6 +64,9 @@ help:
 	@echo "  testcase"
 	@echo "    - Build and run a single test-case in TeamTalkTestCase-class"
 	@echo "  E.g make TARGET=test_04_Auth"
+	@echo "  testcasesrv"
+	@echo "    - Build and run a single test-case in TeamTalkServerTestCase-class"
+	@echo "  E.g make TARGET=test_04_Auth"
 	@echo ""
 	@echo "When running an application which uses the TeamTalk 5 SDK then"
 	@echo "ensure $(LIBPATHNAME) is set up with the path to both "
@@ -117,3 +120,6 @@ runjunitsrv:  junitsrv
 
 testcase: junit
 	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+
+testcasesrv: junitsrv
+	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
