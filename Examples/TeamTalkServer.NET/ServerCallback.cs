@@ -33,6 +33,40 @@ namespace TeamTalk5ProServer.NET
             ttserver.OnUserAddServerBan += new TeamTalk5Srv.UserAddServerBan(ttserver_OnUserAddServerBan);
             ttserver.OnUserAddServerBanIPAddress += new TeamTalk5Srv.UserAddServerBanIPAddress(ttserver_OnUserAddServerBanIPAddress);
             ttserver.OnUserDeleteServerBan += new TeamTalk5Srv.UserDeleteServerBan(ttserver_OnUserDeleteServerBan);
+            ttserver.OnUserChangeNickname += new TeamTalk5Srv.UserChangeNickname(ttserver_OnUserChangeNickname);
+            ttserver.OnUserChangeStatus += new TeamTalk5Srv.UserChangeStatus(ttserver_OnUserChangeStatus);
+        
+        }
+
+        void ttserver_OnUserChangeStatus(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref int nNewStatusMode, string szNewStatusMsg)
+        {
+                String str = String.Format("User {0} is requesting to change status message to {1}",
+                                           lpUser.szNickname, szNewStatusMsg);
+                Console.WriteLine(str);
+
+                if(szNewStatusMsg.IndexOf("crap")>=0) {
+                    lpClientErrorMsg.nErrorNo = 4568;
+                    lpClientErrorMsg.szErrorMsg = "Status not allowed";
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = (int)ClientError.CMDERR_SUCCESS;
+}
+        }
+
+        void ttserver_OnUserChangeNickname(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname)
+        {
+            
+                String str = String.Format("User {0} is requesting to change nickname to {1}",
+                                           lpUser.szNickname, szNewNickname);
+                Console.WriteLine(str);
+
+                if(szNewNickname.IndexOf("crap")>=0) {
+                    lpClientErrorMsg.nErrorNo = 4567;
+                    lpClientErrorMsg.szErrorMsg = "Nickname not allowed";
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = (int)ClientError.CMDERR_SUCCESS;
+}
         }
 
 
