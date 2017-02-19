@@ -17,18 +17,18 @@ namespace TeamTalkTest.NET
         const bool DEBUG_OUTPUT = false;
 
         const int DEF_WAIT = 15000;
-        const string ADMIN_USERNAME = "", ADMIN_PASSWORD = "", ADMIN_NICKNAME = "Admin";
-        const string IPADDR = "";
+        const string ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
+        const string IPADDR = "127.0.0.1";
         //const string IPADDR = "localhost";
         const int TCPPORT = 10333, UDPPORT = 10333;
         const bool ENCRYPTED = false;
 
-        const string MUXRECORDFILENAME = "";
-        const string MEDIAFOLDER = "";
-        const string MEDIAFILE_AUDIO = "";
-        const string MEDIAFILE_VIDEO = "";
-        const string UPLOADFILE = "";
-        const string DOWNLOADFILE = "";
+        const string MUXRECORDFILENAME = "c:\\Temp\\testmux.wav";
+        const string MEDIAFOLDER = "c:\\temp";
+        const string MEDIAFILE_AUDIO = "c:\\temp\\test.wma";
+        const string MEDIAFILE_VIDEO = "c:\\temp\\test.mpg";
+        const string UPLOADFILE = "c:\\temp\\test.wma";
+        const string DOWNLOADFILE = "c:\\temp\\test_download.mp3";
 
         List<TeamTalk> ttclients = new List<TeamTalk>();
 
@@ -115,7 +115,6 @@ namespace TeamTalkTest.NET
             {
                 Assert.IsTrue(s.nDefaultSampleRate > 0);
                 Assert.IsTrue(s.szDeviceName.Length > 0);
-                Assert.IsTrue(s.nSoundSystem != SoundSystem.SOUNDSYSTEM_NONE);
             }
 
             int devin = 0, devout = 0;
@@ -533,6 +532,7 @@ namespace TeamTalkTest.NET
             VideoCodec vidcodec = new VideoCodec();
             vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
             vidcodec.webm_vp8.nRcTargetBitrate = 0;
+            vidcodec.webm_vp8.nEncodeDeadline = WebMVP8CodecConstants.WEBM_VPX_DL_REALTIME;
 
             Assert.IsTrue(ttclient.StartStreamingMediaFileToChannel(MEDIAFILE_VIDEO, vidcodec), "start stream media file");
 
@@ -696,6 +696,67 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(ttclient2.ReleaseUserDesktopWindow(wnd2), "release desk wnd");
 
+        }
+
+        [TestMethod]
+        public void TestDesktopShareLeak()
+        {
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
+            MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
+            TeamTalk ttclient = NewClientInstance();
+
+            Connect(ttclient);
+            Login(ttclient, NICKNAME, USERNAME, PASSWORD);
+            JoinRoot(ttclient);
+
+            int BMP_HEIGHT = 168, BMP_WIDTH = 120;
+            PixelFormat pixelformat = PixelFormat.Format32bppRgb;
+            Bitmap bmp = new Bitmap(BMP_WIDTH, BMP_HEIGHT, pixelformat);
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+
+            int again = 50;
+            while (again-- > 0)
+            {
+                for (int x = 0; x < BMP_WIDTH; x++)
+                {
+                    for (int y = 0; y < BMP_HEIGHT; y++)
+                    {
+                        if (again % 2 == 0)
+                            bmp.SetPixel(x, y, Color.Beige);
+                        else
+                            bmp.SetPixel(x, y, Color.Blue);
+                    }
+                }
+
+                BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                                  bmp.PixelFormat);
+                IntPtr ptr = bmpData.Scan0;
+
+                DesktopWindow wnd = new DesktopWindow();
+                wnd.nBytesPerLine = bmpData.Stride;
+                wnd.nHeight = bmp.Height;
+                wnd.nWidth = bmp.Width;
+                wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+                wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+                wnd.frameBuffer = ptr;
+                wnd.nFrameBufferSize = bmpData.Stride * bmpData.Height;
+
+                int tx = ttclient.SendDesktopWindow(wnd, BitmapFormat.BMP_RGB32);
+                Assert.IsTrue(tx > 0, "tx bitmap");
+                bmp.UnlockBits(bmpData);
+
+                TTMessage msg = new TTMessage();
+                Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
+                int remain = (int)msg.DataToObject();
+                while (remain > 0)
+                {
+                    Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
+                    remain = (int)msg.DataToObject();
+                }
+
+                Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "Desktop tx ended");
+            }
         }
 
         [TestMethod]

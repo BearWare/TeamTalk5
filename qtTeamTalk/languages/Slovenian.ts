@@ -1734,12 +1734,6 @@
         <translation>Jaz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5238"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
         <translation type="obsolete">%1 se naroča &quot;%2&quot; nate za: %3</translation>
     </message>
@@ -1770,6 +1764,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5237"/>
         <source>Load %1 File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5238"/>
+        <source>The file %1 contains %2 setup information.
+Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

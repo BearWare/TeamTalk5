@@ -21,6 +21,11 @@
 
 package dk.bearware;
 
-public interface DesktopProtocol {
-    public int DESKTOPPROTOCOL_ZLIB_1  = 1;
+public interface SoundDeviceConstants {
+
+    public static final int TT_SOUNDDEVICE_ID_REMOTEIO = 0;
+    public static final int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1;
+    public static final int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0;
+    public static final int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978;
+
 }

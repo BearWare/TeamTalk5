@@ -128,6 +128,7 @@
     <item id="264">%s joined channel %s</item>
     <item id="265">%s left channel %s</item>
     <item id="266">Root</item>
+    <item id="267">No Sound Device</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>

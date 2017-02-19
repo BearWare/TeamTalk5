@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -180,7 +180,7 @@ class ChannelDetailViewController :
     
     @IBAction func joinChannelPressed(_ sender: UIButton) {
         
-        if channel.bPassword != 0 {
+        if channel.bPassword == TRUE {
             let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alert.alertViewStyle = .secureTextInput
             alert.show()
@@ -224,7 +224,7 @@ class ChannelDetailViewController :
                 }
             }
         case CLIENTEVENT_CMD_PROCESSING :
-            if getTTBOOL(&m) == 0 && cmdid == m.nSource {
+            if getTTBOOL(&m) == FALSE && cmdid == m.nSource {
                 cmdid = 0
             }
             

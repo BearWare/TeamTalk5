@@ -2,6 +2,7 @@ package dk.bearware;
 
 import junit.framework.TestCase;
 import java.util.Vector;
+import java.util.List;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
@@ -1223,8 +1224,14 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(ttclient);
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
-        
+        if(INPUTDEVICEID>=0)
+            indev.value = INPUTDEVICEID;
+        else
+            assertTrue("get default sound devices", ttclient.getDefaultSoundDevices(indev, outdev));
+
+        if(OUTPUTDEVICEID>=0)
+            outdev.value = OUTPUTDEVICEID;
+
         assertTrue("init input dev (we skip output device for now)", ttclient.initSoundInputDevice(indev.value));
 
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1463,4 +1470,108 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_25_SoundLoopback() {
+        TeamTalkBase ttclient;
+
+        ttclient = newClientInstance();
+        IntPtr in = new IntPtr(), out = new IntPtr();
+        if(INPUTDEVICEID<0 || OUTPUTDEVICEID<0)
+            assertTrue("Get default sound devices", TeamTalkBase.getDefaultSoundDevices(in, out));
+        else {
+            in.value = INPUTDEVICEID;
+            out.value = OUTPUTDEVICEID;
+        }
+
+        SoundDevice nodev = null;
+        Vector<SoundDevice> devs = new Vector<SoundDevice>();
+        ttclient.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            if(d.nSoundSystem == SoundSystem.SOUNDSYSTEM_NONE) {
+                nodev = d;
+                assertEquals("Virtual TeamTalk device", SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, d.nDeviceID);
+            }
+        }
+
+        long loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound duplex loopback started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop duplex stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(in.value, out.value, 48000, 1, false, null);
+        assertTrue("Sound loopback started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, false, null);
+        assertTrue("Sound loopback virtual input-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual input-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 2, false, null);
+        assertTrue("Sound loopback virtual output-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual output-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, nodev.nDeviceID, 48000, 2, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev started", loop>0);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
+
+        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+
+        loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
+        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+    }
+
+    public void test_26_VirtualSoundDevice() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttvirt = newClientInstance();
+        TeamTalkBase ttclient = newClientInstance();
+        
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        assertTrue("Init virtual input dev", ttvirt.initSoundInputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        assertTrue("Init virtual output dev", ttvirt.initSoundOutputDevice(SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        connect(ttvirt);
+        login(ttvirt, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttvirt);
+
+        assertTrue("Gen tone", ttvirt.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 300));
+        assertTrue("Enable virtual voice transmission", ttvirt.enableVoiceTransmission(true));
+        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Disable voice transmission", ttvirt.enableVoiceTransmission(false));
+        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", 0, msg.user.uUserState & UserState.USERSTATE_VOICE);
+
+
+        assertTrue("Enable real voice transmission", ttclient.enableVoiceTransmission(true));
+        assertTrue("Wait for talking event", waitForEvent(ttvirt, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        waitForEvent(ttvirt, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+    }
 }

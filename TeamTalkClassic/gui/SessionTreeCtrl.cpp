@@ -605,7 +605,7 @@ void CSessionTreeCtrl::UpdateChannel(const Channel& chan)
         else
             ChannelItemMinus(hItem, ChannelLocked);
 
-        users_t users = GetChannelUsers(chan.nChannelID, m_users);
+        users_t users = GetChannelUsers(m_users, chan.nChannelID);
         users_t::const_iterator ite;
         for(ite = users.begin();ite != users.end();ite++)
         {
@@ -905,7 +905,7 @@ BOOL CSessionTreeCtrl::IsUserOperator(int nUserID, int nChannelID) const
 
 users_t CSessionTreeCtrl::GetOperators(int nChannelID) const
 {
-    users_t users = GetChannelUsers(nChannelID, m_users);
+    users_t users = GetChannelUsers(m_users, nChannelID);
     users_t ops;
     for(users_t::iterator ite=users.begin();ite!=users.end();ite++)
         if(IsUserOperator(ite->first, nChannelID))
@@ -927,7 +927,7 @@ BOOL CSessionTreeCtrl::GetUser(int nUserID, User& outUser) const
 
 users_t CSessionTreeCtrl::GetUsers(int nChannelID) const
 {
-    return GetChannelUsers(nChannelID, m_users);
+    return GetChannelUsers(m_users, nChannelID);
 }
 
 CString CSessionTreeCtrl::GetUserText(int nUserID) const
@@ -960,7 +960,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
         if(IsShowingUserCount())
         {
             HTREEITEM hItem = GetChannelItem(nChannelID);
-            int nCount = (int)GetChannelUsers(nChannelID, m_users).size();
+            int nCount = (int)GetChannelUsers(m_users, nChannelID).size();
             UINT uState = hItem? GetItemState(hItem, TVIS_EXPANDED) : 0;
             if (hItem && (uState & TVIS_EXPANDED) == 0)
             {
@@ -968,7 +968,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
                 channels_t subs = GetSubChannels(nChannelID, m_channels, TRUE);
                 for(auto c=subs.begin();c!=subs.end();++c)
                 {
-                    nCount += (int)GetChannelUsers(c->first, m_users).size();
+                    nCount += (int)GetChannelUsers(m_users, c->first).size();
                 }
             }
             else if (hItem && (uState & TVIS_EXPANDED) == TVIS_EXPANDED)

@@ -1780,8 +1780,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="5238"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>Die Datei %1 enthält %2 Setup-Informationen. 
-Sollen diese Einstellungen übernommen werden?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5307"/>
@@ -2405,10 +2404,6 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Raum&amp;informationen ansehen</translation>
     </message>
     <message>
-        <source>Shift+F3</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1430"/>
         <source>M&amp;essages</source>
         <translation>Nachricht&amp;en</translation>
@@ -2628,10 +2623,6 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.ui" line="1577"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Gib einen Ordner an, in dem die Mitschnitte von Benutzern gespeichert werden sollen</translation>
-    </message>
-    <message>
-        <source>Ctrl+Alt+F</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1592"/>

@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Gebruiker die kanaal verlaat melden";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Applicatie";
 
@@ -68,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitsnelheid";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Uitzendberichten";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Kanaal";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Kanaalbericht van %@. %@";
@@ -164,6 +174,9 @@
 /* Dialog message */
 "Join" = "Binnengaan";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Kanaal binnengaan";
 
@@ -181,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Namen in kanalenlijst beperken tot %d tekens";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Ingelogd op server";
@@ -209,6 +225,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Muziek";
 
@@ -228,8 +250,14 @@
 /* preferences */
 "Name displayed in channel list" = "Naam weergegeven in kanalenlijst";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Bijnaam";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -297,6 +325,12 @@
 /* serverlist */
 "Preferences" = "Instellingen";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
+
 /* serverlist */
 "Private server" = "Privéserver";
 
@@ -339,6 +373,9 @@
 /* preferences */
 "Receive webcam streams by default" = "Standaard webcamstreams ontvangen";
 
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
+
 /* channel list */
 "Return to previous channel" = "Terug naar vorig kanaal";
 
@@ -347,6 +384,12 @@
 
 /* codec detail */
 "Sample Rate" = "Samplesnelheid";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Selecteer de te gebruiken tekst-naar-spraak-stem";
@@ -484,6 +527,9 @@
    user detail */
 "Username" = "Gebruikersnaam";
 
+/* preferences */
+"Version Information" = "Version Information";
+
 /* channel list */
 "View" = "Weergeven";
 
@@ -521,6 +567,9 @@
 /* preferences
    user detail */
 "WebCam" = "WebCam";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "U hebt %@ geselecteerd";

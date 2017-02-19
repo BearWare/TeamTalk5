@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  *
  * Contact Information:
  *
@@ -80,6 +80,10 @@ void setSpeexVBRCodec(AudioCodec* a, SpeexVBRCodec* s) {
 
 void convertTuple(const char* str, StringWrap* wrap) {
     strncpy(wrap->buf, str, TT_STRLEN);
+}
+
+TTCHAR* fromStringWrap(StringWrap* wrap) {
+    return &wrap->buf[0];
 }
 
 

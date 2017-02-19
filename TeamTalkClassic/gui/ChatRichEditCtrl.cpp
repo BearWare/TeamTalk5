@@ -357,7 +357,7 @@ void CChatRichEditCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     //for some odd reason ESC makes the CDialog close although 
     //OnCancel() is overwritten
-    if(nChar != VK_ESCAPE)
+    //if(nChar != VK_ESCAPE)
         CRichEditCtrl::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 

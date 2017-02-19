@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  *
  * Contact Information:
  *
@@ -57,4 +57,4 @@ typedef struct StringWrap {
 } StringWrap;
 
 void convertTuple(const char* str, StringWrap* wrap);
-
+TTCHAR* fromStringWrap(StringWrap* wrap);
