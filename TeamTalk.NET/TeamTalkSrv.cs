@@ -166,7 +166,10 @@ namespace BearWare
          * @brief Register using #UserLoggedIn delegate.
          */
         public event UserLoggedIn OnUserLoggedIn;
-
+        public delegate  void UserChangeNickname(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname);
+        public event UserChangeNickname OnUserChangeNickname;
+        public delegate void UserChangeStatus(ref ClientErrorMsg lpClientErrorMsg,  ref User lpUser,  ref int nNewStatusMode, string szNewStatusMsg);
+        public event UserChangeStatus OnUserChangeStatus;
         /**
          * @brief Callback when a user has logged out.
          *
@@ -459,6 +462,24 @@ namespace BearWare
             base.OnFileDeletedCallback += new FileDeletedCallback(TeamTalkSrv_OnFileDeletedCallback);
             base.OnFileDownloadedCallback += new FileDownloadedCallback(TeamTalkSrv_OnFileDownloadedCallback);
             base.OnFileUploadedCallback += new FileUploadedCallback(TeamTalkSrv_OnFileUploadedCallback);
+            base.OnUserChangeNicknameCallback += new UserChangeNicknameCallback(TeamTalk5Srv_OnUserChangeNicknameCallback);
+            base.OnUserChangeStatusCallback += new UserChangeStatusCallback(TeamTalk5Srv_OnUserChangeStatusCallback);
+        }
+
+        void TeamTalk5Srv_OnUserChangeStatusCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref int nNewStatusMode, string szNewStatusMsg)
+        {
+            if(OnUserChangeStatus !=null)
+            {
+                OnUserChangeStatus(ref lpClientErrorMsg, ref lpUser, ref nNewStatusMode, szNewStatusMsg);
+            }
+        }
+
+        void TeamTalk5Srv_OnUserChangeNicknameCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname)
+        {
+            if(OnUserChangeNickname != null)
+            {
+                OnUserChangeNickname(ref lpClientErrorMsg, ref lpUser, szNewNickname);
+            }
         }
 
         /** @} */

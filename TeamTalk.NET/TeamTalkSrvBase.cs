@@ -405,6 +405,51 @@ namespace BearWare
         }
 
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
+        internal delegate void UserChangeNicknameCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In] [MarshalAs(UnmanagedType.LPWStr)] string szNewNickname);
+        private event UserChangeNicknameCallback onUserChangeNicknameCallback;
+        internal event UserChangeNicknameCallback OnUserChangeNicknameCallback
+        {
+            add 
+            {
+                lock(objectLock)
+                {
+                    onUserChangeNicknameCallback += value;
+                    RegisterServerCallback(value, 0, true);
+                }
+            }
+            remove
+            {
+                lock(objectLock)
+                {
+                    onUserChangeNicknameCallback -= value;
+                    RegisterServerCallback(value, 0, false);
+                }
+            }
+        }
+        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
+        internal delegate void UserChangeStatusCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In,Out] ref ClientErrorMsg lpClientErrorMsg,  [In] ref User lpUser, [In] ref int nNewStatusMode, [In] [MarshalAs(UnmanagedType.LPWStr)] string szNewStatusMsg);
+        private event UserChangeStatusCallback onUserChangeStatusCallback;
+        internal event UserChangeStatusCallback OnUserChangeStatusCallback
+        {
+            add
+            {
+                lock(objectLock)
+                {
+                    onUserChangeStatusCallback += value;
+                    RegisterServerCallback(value, 0, true);
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    onUserChangeStatusCallback -= value;
+                    RegisterServerCallback(value, 0, true);
+                }
+            }
+        }
+
+        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void UserLoginCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In, Out]ref UserAccount lpUserAccount);
         object objectLock = new Object();
         private event UserLoginCallback onUserLoginCallback;
