@@ -187,7 +187,6 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }
 
-    
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, int waittimeout, TTMessage msg)
     {
         long start = System.currentTimeMillis();
@@ -268,9 +267,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         return false;
     }
 
-    protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout)
-    {
-        TTMessage msg = new TTMessage();
+    protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, TTMessage msg) {
 
         while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, waittimeout, msg))
         {
@@ -279,6 +276,12 @@ public class TeamTalkTestCaseBase extends TestCase {
         }
 
         return false;
+    }
+
+    protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout)
+    {
+        TTMessage msg = new TTMessage();
+        return waitCmdError(ttclient, cmdid, waittimeout);
     }
 
     protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name) {

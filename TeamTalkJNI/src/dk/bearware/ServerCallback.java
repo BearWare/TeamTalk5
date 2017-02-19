@@ -27,6 +27,14 @@ public class ServerCallback {
                           User lpUser, UserAccount lpUserAccount) {
     }
 
+    public void userChangeNickname(ClientErrorMsg lpClientErrorMsg,
+                                   User lpUser, String szNewNickname) {
+    }
+
+    public void userChangeStatus(ClientErrorMsg lpClientErrorMsg,
+                                 User lpUser, int nNewStatusMode, String szNewStatusMsg) {
+    }
+
     public void userCreateUserAccount(ClientErrorMsg lpClientErrorMsg,
                                       User lpUser, UserAccount lpUserAccount) {
     }
