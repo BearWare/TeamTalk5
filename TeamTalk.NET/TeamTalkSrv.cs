@@ -27,119 +27,414 @@ using c_tt;
 
 namespace BearWare
 {
-    public class TeamTalkSrv : TeamTalkSrvBase, IDisposable
+    /** @ingroup serverapi
+     *
+     * @brief Instantiate this class to start a TeamTalk server.
+     *
+     * These are the steps to start a TeamTalk server:
+     * - First call TeamTalk5Srv.SetEncryptionContext() to setup encryption.
+     * - Second call TeamTalk5Srv.UpdateServer() to setup server properties.
+     * - Third call TeamTalk5Srv.MakeChannel() to create the root channel.
+     *
+     * @see TeamTalk5Srv.StartServer() */
+    public class TeamTalk5Srv : TeamTalkSrvBase, IDisposable
     {
 
-        public delegate void UserLoggedIn(ref User lpUser);
-        public event UserLoggedIn OnUserLoggedIn;
+        /** @addtogroup servercallbacks
+         * @{ */
 
-        /// <summary>
-        /// brief   when a user is requesting to log On to the server.
-        /// 
-        /// 
-        /// This   occurs in the cOntext of TT_DoLogin().
-        /// 
-        /// Register using TTS_RegisterUserLogin ().
-        /// </summary>
-        /// <param name="lpClientErrorMsg">lpClientErrorMsg Error message which should be sent back to user. Set @c nErrorNo to #CMDERR_SUCCESS if user is authorized.</param>
-        /// <param name="lpUser">The user properties gathered so far.</param>
-        /// <param name="lpUserAccount">lpUserAccount The user account informatiOn which shouldbe set for this user.</param>
-        public delegate void UserLogin( ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
+        /**
+         * @brief Callback when a user is requesting to log on to the
+         * server.
+         *
+         * This callback occurs in the context of TeamTalk.DoLogin().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The user properties gathered so far.
+         * @param lpUserAccount The user account information which should
+         * be set for this user. */
+        public delegate void UserLogin(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
+        /**
+         * @brief Register using #UserLogin delegate.
+         */
         public event UserLogin OnUserLogin;
 
+        /**
+         * @brief Callback when a user is requesting to create a new user
+         * account.
+         *
+         * This callback occurs in the context of TeamTalk.DoNewUserAccount().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The user's properties.
+         * @param lpUserAccount The properties of the user account to be created. */
         public delegate void UserCreateUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
+        /**
+         * @brief Register using #UserCreateUserAccount delegate.
+         */
         public event UserCreateUserAccount OnUserCreateUserAccount;
 
+        /**
+         * @brief Callback when a user is requesting to delete a user
+         * account.
+         *
+         * This callback occurs in the context of TeamTalk.DoDeleteUserAccount().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The properties of the user requesting.
+         * @param szUsername The username of the account to delete. */
         public delegate void UserDeleteUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szUsername);
+        /**
+         * @brief Register using #UserCreateUserAccount delegate.
+         */
         public event UserDeleteUserAccount OnUserDeleteUserAccount;
 
+        /**
+         * @brief Callback when a user is requesting to ban a user.
+         *
+         * This callback occurs in the context of TeamTalk.DoBanUser().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpBanner The properties of the user requesting the ban.
+         * @param lpBanee The properties of the user who should be banned. */
         public delegate void UserAddServerBan(ref ClientErrorMsg lpClientErrorMsg,  ref User lpBanner, ref User lpBanee);
+        /**
+         * @brief Register using #UserAddServerBan delegate.
+         */
         public event UserAddServerBan OnUserAddServerBan;
 
+        /**
+         * @brief Callback when a user is requesting to ban an IP-address.
+         *
+         * This callback occurs in the context of TeamTalk.DoBanIPAddress().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpBanner The properties of the user requesting the ban. This value
+         * can be NULL if #BearWare.ServerProperties @c nMaxLoginAttempts is enabled.
+         * @param szIPAddress The IP-address to be banned. */
         public delegate void UserAddServerBanIPAddress(ref ClientErrorMsg lpClientErrorMsg,ref User lpBanner, string szIPAddress);
+        /**
+         * @brief Register using #UserAddServerBan delegate.
+         */
         public event UserAddServerBanIPAddress OnUserAddServerBanIPAddress;
 
+        /**
+         * @brief Callback when a user is requesting to remove a ban.
+         *
+         * This callback occurs in the context of TeamTalk.DoUnBanUser().
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The properties of the user doing the request.
+         * @param szIPAddress The IP-address to be unbanned. */
         public delegate void UserDeleteServerBan(ref ClientErrorMsg lpClientErrorMsg,ref User lpUser, string szIPAddress);
+        /**
+         * @brief Register using #UserAddServerBanIPAddress delegate.
+         */
         public event UserDeleteServerBan OnUserDeleteServerBan;
 
+        /** @} */
+
+        /** @addtogroup serverlogevents
+         * @{ */
+
+        /**
+         * @brief Callback when a new user is connecting to the server.
+         *
+         * @param lpUser The user properties gathered so far. */
         public delegate void UserConnected(ref User lpUser);
+
+        /**
+         * @brief Register using #UserConnected delegate.
+         */
         public event UserConnected OnUserConnected;
 
+        /**
+         * @brief Callback when a user has logged in.
+         *
+         * This callback occurs in the context of TeamTalk.DoLogin() and if
+         * #UserLogin returned ::CMDERR_SUCCESS.
+         *
+         * @param lpUser The user properties of the user who logged in. */
+        public delegate void UserLoggedIn(ref User lpUser);
+        /** 
+         * @brief Register using #UserLoggedIn delegate.
+         */
+        public event UserLoggedIn OnUserLoggedIn;
+        public delegate  void UserChangeNickname(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname);
+        public event UserChangeNickname OnUserChangeNickname;
+        public delegate void UserChangeStatus(ref ClientErrorMsg lpClientErrorMsg,  ref User lpUser,  ref int nNewStatusMode, string szNewStatusMsg);
+        public event UserChangeStatus OnUserChangeStatus;
+        /**
+         * @brief Callback when a user has logged out.
+         *
+         * @param lpUser The properties of the user.   */
         public delegate void UserLoggedOut(ref User lpUser);
+        /**
+         * @brief Register using #UserLoggedOut delegate.
+         */
         public event UserLoggedOut OnUserLoggedOut;
 
+        /**
+         * @brief Callback when user has disconnected.
+         *
+         * @param lpUser The properties of the user.   */
         public delegate void UserDisconnected(ref User lpUser);
+        /**
+         * @brief Register using #UserDisconnected delegate.
+         */
         public event UserDisconnected OnUserDisconnected;
 
+        /**
+         * @brief Callback when a user's connection has timed out.
+         *
+         * @param lpUser The properties of the user. */
         public delegate void UserTimedout(ref User lpUser);
+        /**
+         * @brief Register using #UserTimedout delegate.
+         */
         public event UserTimedout OnUserTimedout;
 
-        public delegate void UserKicked(ref User lpKicker,ref User lpKickee, ref Channel lpChannel);
+        /**
+         * @brief Callback when a user has been kicked.
+         *
+         * @param lpKicker The user who had initiated the kick. This can be 0.
+         * @param lpKickee The user who has been kicked.
+         * @param lpChannel The channel where the user is kicked from. The can be 0. */
+        public delegate void UserKicked(ref User lpKicker, ref User lpKickee, ref Channel lpChannel);
+        /**
+         * @brief Register using #UserKicked delegate.
+         */
         public event UserKicked OnUserKicked;
 
-        public delegate void UserBanned(ref User lpBanner,  ref User lpBanee, IntPtr lpChannel);
+        /**
+         * @brief Callback when a user has been banned.
+         *
+         * @param lpBanner The user who had initiated the ban. This can be 0.
+         * @param lpBanee The user who has been banned. This may only
+         * contain an IP-address.
+         * @param lpChannel The channel where the user is banned from. The can be 0. */
+        public delegate void UserBanned(ref User lpBanner, ref User lpBanee, IntPtr lpChannel);
+        /**
+         * @brief Register using #UserBanned delegate.
+         */
         public event UserBanned OnUserBanned;
 
+        /**
+         * @brief Callback when a ban is removed.
+         *
+         * This callback occurs in the contect of TeamTalk.DoUnBanUser().
+         *
+         * @param lpUnbanner The user removing the ban.
+         * @param szIPAddress The IP-address which is unbanned.   */
         public delegate void UserUnbanned(ref User lpUnbanner, string szIPAddress);
+        /**
+         * @brief Register using #UserUnbanned delegate.
+         */
         public event UserUnbanned OnUserUnbanned;
 
+        /**
+         * @brief Callback when a user's properties are being updated.
+         *
+         * @param lpUser The properties of the user.   */
         public delegate void UserUpdated(ref User lpUser);
+        /**
+         * @brief Register using #UserUpdated delegate.
+         */
         public event UserUpdated OnUserUpdated;
 
+        /**
+         * @brief Callback when a user has joined a channel.
+         *
+         * @param lpUser The properties of the user.
+         * @param lpChannel The properties of the channel being joined.   */
         public delegate void UserJoinedChannel(ref User lpUser, ref Channel lpChannel);
+        /**
+         * @brief Register using #UserJoinedChannel delegate.
+         */
         public event UserJoinedChannel OnUserJoinedChannel;
 
+        /**
+         * @brief Callback when a user has left a channel.
+         *
+         * @param lpUser The properties of the user.
+         * @param lpChannel The properties of the channel being left. */
         public delegate void UserLeftChannel(ref User lpUser, ref Channel lpChannel);
+        /**
+         * @brief Register using #UserLeftChannel delegate.
+         */
         public event UserLeftChannel OnUserLeftChannel;
 
+        /**
+         * @brief Callback when a user has been moved.
+         *
+         * This callback occurs in the context of TeamTalk.DoMoveUser().
+         *
+         * @param lpMover The user who initiated the move.
+         * @param lpMovee The user who has been moved. */
         public delegate void UserMoved(ref User lpMover, ref User lpMovee);
+        /**
+         * @brief Register using #UserMoved delegate.
+         */
         public event UserMoved OnUserMoved;
 
+        /**
+         * @brief Callback when a user is sending a text message.
+         *
+         * This callback occurs in the context of TeamTalk.DoTextMessage().
+         *
+         * @param lpUser The properties of the user.
+         * @param lpTextMessage The text message being sent.   */
         public delegate void UserTextMessage(ref User lpUser,ref TextMessage lpTextMessage);
+        /**
+         * @brief Register using #UserTextMessage delegate.
+         */
         public event UserTextMessage OnUserTextMessage;
 
+        /**
+         * @brief Callback when a new channel has been created.
+         *
+         * This callback occurs in the context of TeamTalk.DoMakeChannel() or
+         * TeamTalk.DoJoinChannel().
+         *
+         * @param lpChannel The channel which has been created.
+         * @param lpUser The user who created the channel. This can be 0.   */
         public delegate void ChannelCreated(ref Channel lpChannel,ref User lpUser);
+        /**
+         * @brief Register using #ChannelCreated delegate.
+         */
         public event ChannelCreated OnChannelCreated;
 
+        /**
+         * @brief Callback when a channel has been updated.
+         *
+         * This callback occurs in the context of TeamTalk.DoUpdateChannel().
+         *
+         * @param lpChannel The new properties of the channel.
+         * @param lpUser The user who initiated the update. This can be 0.   */
         public delegate void ChannelUpdated(ref Channel lpChannel,ref User lpUser);
+        /**
+         * @brief Register using #ChannelUpdated delegate.
+         */
         public event ChannelUpdated OnChannelUpdated;
 
+        /**
+         * @brief Callback when channel has been removed.
+         *
+         * @param lpChannel The properties of the channel which has been removed.
+         * @param lpUser The properties of the who initiated the
+         * removal. This can be 0.  */
         public delegate void ChannelRemoved(ref Channel lpChannel,ref User lpUser);
+        /**
+         * @brief Register using #ChannelRemoved delegate.
+         */
         public event ChannelRemoved OnChannelRemoved;
 
+        /**
+         * @brief Callback when a new file has been uploaded to a channel.
+         *
+         * @param lpRemoteFile The properties of the file.
+         * @param lpUser The properties of the user who uploaded the file. */
         public delegate void FileUploaded(ref RemoteFile lpRemoteFile,ref User lpUser);
+        /**
+         * @brief Register using #FileUploaded delegate.
+         */
         public event FileUploaded OnFileUploaded;
 
+        /**
+         * @brief Callback when a user has downloaded a file.
+         *
+         * @param lpRemoteFile The properties of the file.
+         * @param lpUser The properties of the user who downloaded the file. */
         public delegate void FileDownloaded(ref RemoteFile lpRemoteFile,ref User lpUser);
+        /**
+         * @brief Register using #FileDownloaded delegate.
+         */
         public event FileDownloaded OnFileDownloaded;
 
+        /**
+         * @brief Callback when a user has deleted a file.
+         *
+         * @param lpRemoteFile The properties of the file.
+         * @param lpUser The properties of the user who deleted the file.   */
         public delegate void FileDeleted(ref RemoteFile lpRemoteFile,ref User lpUser);
+        /**
+         * @brief Register using #FileDeleted delegate.
+         */
         public event FileDeleted OnFileDeleted;
 
+        /**
+         * @brief Callback when a user has updated the server properties.
+         *
+         * This callback occurs in the context of TeamTalk.DoUpdateServer().
+         *
+         * @param lpServerProperties The properties of the server.
+         * @param lpUser The user who initiated the server update.   */
         public delegate void ServerUpdated(ref ServerProperties lpServerProperties,ref User lpUser);
+        /**
+         * @brief Register using #ServerUpdated delegate.
+         */
         public event ServerUpdated OnServerUpdated;
 
+        /**
+         * @brief Callback when a user has reguested to save the server
+         * configuration.
+         *
+         * @param lpUser The properties of the user who requested to save
+         * the server configuration. This can be 0.  */
         public delegate void SaveServerConfig(ref User lpUser);
+        /**
+         * @brief Register using #SaveServerConfig delegate.
+         */
         public event SaveServerConfig OnSaveServerConfig;
 
-        public TeamTalkSrv()
+        /** @} */
+
+        /** @addtogroup serverapi
+         * @{ */
+
+        /** @brief Instantiate TeamTalk server. Call UpdateServer()
+         * and MakeChannel() to setup server properties and root
+         * channel.
+         *
+         * Users cannot log in unless root channel and #BearWare.ServerProperties have been set.
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv()
         {
             Init();
         }
 
-        public TeamTalkSrv(Channel lpChannel)
+        /** @brief Instantiate TeamTalk server with a root channel.
+         *
+         * Users cannot log in unless root channel and #BearWare.ServerProperties have been set.
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv(Channel lpChannel)
             : base(lpChannel)
         {
             Init();
         }
 
-        public TeamTalkSrv(Channel lpChannel, ServerProperties lpServerProperties)
+        /** @brief Instantiate TeamTalk server with root channel and server properties.
+         *
+         * @see UpdateServer()
+         * @see MakeChannel()
+         * @see StartServer() */
+        public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
             : base(lpChannel, lpServerProperties)
         {
             Init();
         }
 
-        protected void Init()
+        void Init()
         {
             base.OnChannelCreatedCallback += new ChannelCreatedCallback(TeamTalkSrv_OnChannelCreatedCallback);
             base.OnChannelRemovedCallback += new ChannelRemovedCallback(TeamTalkSrv_OnChannelRemovedCallback);
@@ -167,7 +462,27 @@ namespace BearWare
             base.OnFileDeletedCallback += new FileDeletedCallback(TeamTalkSrv_OnFileDeletedCallback);
             base.OnFileDownloadedCallback += new FileDownloadedCallback(TeamTalkSrv_OnFileDownloadedCallback);
             base.OnFileUploadedCallback += new FileUploadedCallback(TeamTalkSrv_OnFileUploadedCallback);
+            base.OnUserChangeNicknameCallback += new UserChangeNicknameCallback(TeamTalk5Srv_OnUserChangeNicknameCallback);
+            base.OnUserChangeStatusCallback += new UserChangeStatusCallback(TeamTalk5Srv_OnUserChangeStatusCallback);
         }
+
+        void TeamTalk5Srv_OnUserChangeStatusCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref int nNewStatusMode, string szNewStatusMsg)
+        {
+            if(OnUserChangeStatus !=null)
+            {
+                OnUserChangeStatus(ref lpClientErrorMsg, ref lpUser, ref nNewStatusMode, szNewStatusMsg);
+            }
+        }
+
+        void TeamTalk5Srv_OnUserChangeNicknameCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname)
+        {
+            if(OnUserChangeNickname != null)
+            {
+                OnUserChangeNickname(ref lpClientErrorMsg, ref lpUser, szNewNickname);
+            }
+        }
+
+        /** @} */
 
         void TeamTalkSrv_OnFileUploadedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref RemoteFile lpRemoteFile, ref User lpUser)
         {
@@ -396,24 +711,6 @@ namespace BearWare
             {
                 OnChannelCreated(ref lpChannel, ref user);
             }
-        }
-    }
-
-    public class TeamTalk5Srv : TeamTalkSrv
-    {
-        public TeamTalk5Srv()
-            : base()
-        {
-        }
-
-        public TeamTalk5Srv(Channel lpChannel)
-            : base(lpChannel)
-        {
-        }
-
-        public TeamTalk5Srv(Channel lpChannel, ServerProperties lpServerProperties)
-            : base(lpChannel, lpServerProperties)
-        {
         }
     }
 }
