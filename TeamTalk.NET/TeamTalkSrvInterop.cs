@@ -35,6 +35,10 @@ namespace c_tt
         public static extern bool TTS_StartServer(IntPtr lpTTSInstance, [MarshalAs(UnmanagedType.LPWStr)] string szBindIPAddr,
                                                   [In] int nTcpPort, [In] int nUdpPort, bool bEncrypted);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TTS_StartServerSysID(IntPtr lpTTSInstance, [MarshalAs(UnmanagedType.LPWStr)] string szBindIPAddr,
+                                                       [In] int nTcpPort, [In] int nUdpPort, bool bEncrypted,
+                                                       [MarshalAs(UnmanagedType.LPWStr)] string szSystemID);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr TTS_InitTeamTalk();
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_UpdateServer(IntPtr lpTTSInstance, [In] ref BearWare.ServerProperties lpServerInfo);
@@ -48,6 +52,8 @@ namespace c_tt
         public static extern bool TTS_CloseTeamTalk(IntPtr lpTTSInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_MoveUser(IntPtr lpTTSInstance, int nUserID, [In] ref BearWare.Channel lpChannel);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern BearWare.ClientError TTS_SendTextMessage(IntPtr lpTTSInstance, [In] ref BearWare.TextMessage lpTextMessage);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern BearWare.ClientError TTS_RemoveChannel(IntPtr lpTTSInstance, [In]  int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -114,5 +120,10 @@ namespace c_tt
         public static extern bool TTS_RegisterUserDeleteServerBanCallback(IntPtr lpTTSInstance, IntPtr lpCallback, int lpUserData, bool bEnable);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TTS_RegisterUserConnectedCallback(IntPtr lpTTSInstance, IntPtr lpCallback, int lpUserData, bool bEnable);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TTS_RegisterUserChangeNicknameCallback(IntPtr lpTTSInstance, IntPtr lpCallback, int lpUserData, bool bEnable);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TTS_RegisterUserChangeStatusCallback(IntPtr lpTTSInstance, IntPtr lpCallback, int lpUserData, bool bEnable);
+       
     }
 }
