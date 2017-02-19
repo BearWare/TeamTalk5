@@ -3,7 +3,7 @@
 /*
  * TeamTalk 5 PHP Admin
  *
- * Copyright (c) 2005-2014, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -62,7 +62,7 @@
 
 echo "TeamTalk 5 PHP Admin!\r\n";
 echo "Supports TeamTalk 5 protocol 5.0\r\n\r\n";
-echo "Copyright (c) 2005-2014, BearWare.dk\r\n\r\n";
+echo "Copyright (c) 2005-2017, BearWare.dk\r\n\r\n";
 echo "This is a console application so don't put it on a webserver.\r\n";
 
 /* TeamTalk 5 server's IP-address and port number */
