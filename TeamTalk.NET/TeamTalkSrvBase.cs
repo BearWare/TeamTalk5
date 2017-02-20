@@ -443,7 +443,7 @@ namespace BearWare
                 lock (objectLock)
                 {
                     onUserChangeStatusCallback -= value;
-                    RegisterServerCallback(value, 0, true);
+                    RegisterServerCallback(value, 0, false);
                 }
             }
         }
