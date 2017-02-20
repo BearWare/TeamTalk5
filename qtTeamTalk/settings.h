@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -204,6 +204,5 @@
 #define SETTINGS_FIREWALL_ADD                       "history/firewall-add"
 
 #define SOUNDDEVICEID_DEFAULT  -2
-#define SOUNDDEVICEID_NODEVICE -1
 
 #endif

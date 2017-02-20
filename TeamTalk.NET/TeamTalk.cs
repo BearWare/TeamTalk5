@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -78,12 +78,12 @@ namespace BearWare
         /** @brief iOS sound API.
          *
          * Two sound devices will appear when calling
-         * TT_GetSoundDevices(). Sound device ID 0 will be AudioUnit
+         * TeamTalk.GetSoundDevices(). Sound device ID 0 will be AudioUnit
          * subtype Remote I/O Unit and sound device ID 1 will be
          * AudioUnit subtype Voice-Processing I/O Unit.
          *
          * Note that iOS only supports one active Voice-Processing I/O
-         * Unit, i.e. only one @c TTInstance can use the
+         * Unit, i.e. only one #BearWare.TeamTalk instance can use the
          * Voice-Processing I/O Unit.
          *
          * Add libraries @c AVFoundation.framework and
@@ -157,6 +157,30 @@ namespace BearWare
         public int[] outputSampleRates;
         /** @brief The default sample rate for the sound device. */
         public int nDefaultSampleRate;
+    }
+
+    /**
+     * @brief IDs for sound devices. */
+    public struct SoundDeviceConstants
+    {
+        /** @brief Sound device ID for iOS AudioUnit subtype Remote I/O
+         * Unit. @see SOUNDSYSTEM_AUDIOUNIT */
+        public const int TT_SOUNDDEVICE_ID_REMOTEIO = 0;
+        /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
+         * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
+        public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1;
+        /** @brief Sound device ID for Android OpenSL ES default audio
+         * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+        public const int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0;
+        /** @brief Sound device ID for virtual TeamTalk sound device.
+         *
+         * This is a sound device which decodes received audio packets but
+         * does not send the decoded audio to a real sound device. When used
+         * for recording the virtual sound device injects silence.
+         *
+         * In duplex mode the virtual TeamTalk sound device can only
+         * be used as input/output device. @see SOUNDSYSTEM_NONE */
+        public const int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978;
     }
 
     /**
@@ -979,6 +1003,7 @@ namespace BearWare
         }
     }
 
+    /** @brief Default values for #BearWare.SpeexDSP. */
     public struct SpeexDSPConstants
     {
         public const bool DEFAULT_AGC_ENABLE = true;
@@ -2154,7 +2179,8 @@ namespace BearWare
      * error. */
     public enum ClientError : uint
     {
-        /** @brief Command indicating success. Only used internally. */
+        /** @brief Command indicating success. */
+        CMDERR_SUCCESS = 0,
         SUCCESS = 0,
 
         /* COMMAND ERRORS 1000-1999 ARE DUE TO INVALID OR UNSUPPORTED
@@ -3277,7 +3303,10 @@ namespace BearWare
             {
                 string errmsg = String.Format("Invalid {2} version loaded. {2} is version {0} and {3} is version {1}",
                     dllversion.ToString(), name.Version.ToString(), c_tt.TTDLL.dllname, c_tt.TTDLL.mgtdllname);
-                throw new Exception(errmsg);
+
+                // throw new Exception(errmsg);
+
+                System.Diagnostics.Debug.WriteLine(errmsg);
             }
 
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOCODEC) == Marshal.SizeOf(new AudioCodec()));
@@ -5491,6 +5520,7 @@ namespace BearWare
          * A user with channel-operator status (see TeamTalk.DoChannelOp()) can 
          * also update a channel's properties, but is not able to change the 
          * following properties:
+         * - @c audiocodec
          * - @c nDiskQuota
          * - @c nMaxUsers
          * - @c uChannelType
@@ -7431,123 +7461,4 @@ namespace BearWare
         }
 
     }
-
-    /*
-    class Class1
-    {
-        [STAThread]
-        static void Main(string[] args)
-        {
-            TeamTalk tt = new TeamTalk(true);
-            bool b = tt.Connect("192.168.1.110", 10333, 10333, 0, 0);
-            TTMessage msg = new TTMessage(); ;
-            tt.GetMessage(ref msg, 4000);
-
-            SoundDevice[] devs;
-            if (TeamTalk.GetSoundDevices(out devs))
-            {
-                devs = devs;
-            }
-
-            DesktopInput[] inputs = new DesktopInput[1];
-            inputs[0] = new DesktopInput();
-            inputs[0].uMousePosX = 55;
-            inputs[0].uMousePosY = 66;
-            inputs[0].uKeyCode = TeamTalk.TT_DESKTOPINPUT_KEYCODE_IGNORE;
-            inputs[0].uKeyState = DesktopKeyState.DESKTOPKEYSTATE_NONE;
-
-            DesktopInput[] trans_inputs;
-            if (WindowsHelper.KeyTranslate(TTKeyTranslate.TTKEY_WINKEYCODE_TO_TTKEYCODE, inputs, out trans_inputs) > 0)
-            {
-                WindowsHelper.KeyTranslate(TTKeyTranslate.TTKEY_TTKEYCODE_TO_WINKEYCODE, trans_inputs, out inputs);
-            }
-
-            //bool ret;
-            //int len, id;
-            //ret = c_tt.TTDLL.TT_SetLicenseInformation("", "");
-            //IntPtr ttInst = c_tt.TTDLL.TT_InitTeamTalkPoll();
-            //ClientFlag flag = c_tt.TTDLL.TT_GetFlags(ttInst);
-
-            //int devin, devout, devcount;
-            //ret = c_tt.TTDLL.TT_GetDefaultSoundDevices(ttInst, out devin, out devout);
-            //SoundDevice[] devs = null;
-            //ret = c_tt.TTDLL.TT_GetSoundInputDevices(ttInst, devs, out devcount);
-            //devs = new SoundDevice[devcount];
-            //ret = c_tt.TTDLL.TT_GetSoundInputDevices(ttInst, devs, out devcount);
-
-            //ret = c_tt.TTDLL.TT_GetSoundOutputDevices(ttInst, devs, out devcount);
-            //devs = new SoundDevice[devcount];
-            //ret = c_tt.TTDLL.TT_GetSoundOutputDevices(ttInst, devs, out devcount);
-
-            //ret = c_tt.TTDLL.TT_InitSoundInputDevice(ttInst, devin);
-            //flag = c_tt.TTDLL.TT_GetFlags(ttInst);
-            //ret = c_tt.TTDLL.TT_InitSoundOutputDevice(ttInst, devout);
-            //flag = c_tt.TTDLL.TT_GetFlags(ttInst);
-            //ret = c_tt.TTDLL.TT_EnableVoiceActivation(ttInst, true);
-
-            //VideoCaptureDevice[] viddevs = null;
-            //ret = c_tt.TTDLL.TT_GetVideoCaptureDevices(ttInst, viddevs, out devcount);
-            //viddevs = new VideoCaptureDevice[devcount];
-            //len = Marshal.SizeOf(viddevs[0]);
-            //ret = c_tt.TTDLL.TT_GetVideoCaptureDevices(ttInst, viddevs, out devcount);
-            //VideoCodec vidcodec = new VideoCodec();
-            //vidcodec.nCodec = Codec.THEORA_CODEC;
-            //vidcodec.theora.nQuality = 10;
-            //vidcodec.theora.nTargetBitRate = 0;
-            //ret = c_tt.TTDLL.TT_InitVideoCaptureDevice(ttInst, viddevs[0].szDeviceID, 
-            //    ref viddevs[0].captureFormats[0], ref vidcodec);
-            //flag = c_tt.TTDLL.TT_GetFlags(ttInst);
-            //ret = c_tt.TTDLL.TT_Connect(ttInst, "teamtalk.dyndns.dk", 10333, 10333, 0, 0);
-
-            //c_tt.TTMessage ttmsg;
-            //int maxms = 5000;
-            //ret = c_tt.TTDLL.TT_GetMessage(ttInst, out ttmsg, out maxms);
-            //while((c_tt.TTDLL.TT_GetFlags(ttInst) & ClientFlag ::CLIENT_CONNECTED) != ClientFlag ::CLIENT_CONNECTED)
-            //    Thread.Sleep(100);
-
-            //ClientStatistics stats;
-            //c_tt.TTDLL.TT_GetStatistics(ttInst, out stats);
-
-            //AudioCodec audcodec = new AudioCodec();
-            //audcodec.nCodec = Codec.SPEEX_CODEC;
-            //audcodec.speex.bStereoPlayback = false;
-            //audcodec.speex.bUseJitterBuffer = false;
-            //audcodec.speex.nBandmode = 0;
-            //audcodec.speex.nTxIntervalMSec = 45;
-            //audcodec.speex.nQuality = 10;
-            //len = c_tt.TTDLL.TT_GetPacketSize(ref audcodec);
-
-            //id = c_tt.TTDLL.TT_DoLogin(ttInst, "BBB", "", "admin", "pillow");
-
-            //ret = c_tt.TTDLL.TT_GetMessage(ttInst, out ttmsg, out maxms);
-
-            //while ((c_tt.TTDLL.TT_GetFlags(ttInst) & ClientFlag ::CLIENT_AUTHORIZED) != ClientFlag ::CLIENT_AUTHORIZED)
-            //    Thread.Sleep(100);
-            //flag = c_tt.TTDLL.TT_GetFlags(ttInst);
-
-            ////TextMessage txtmsg = new TextMessage();
-            ////txtmsg.nMsgType = TextMsgType.MSGTYPE_USER;
-            ////txtmsg.nToUserID = 15160;
-            ////txtmsg.szMessage = "Heoollle";
-            ////c_tt.TTDLL.TT_DoTextMessage(ttInst, ref txtmsg);
-
-            //IntPtr ptr = Marshal.AllocHGlobal(TeamTalk.TT_STRLEN*2);
-            //c_tt.TTDLL.TT_GetErrorMessage(1000, ptr);
-            //string s = Marshal.PtrToStringUni(ptr);
-
-            //c_tt.TTDLL.TT_GetChannelPath(ttInst, 1, ptr);
-            //s = Marshal.PtrToStringUni(ptr);
-            //c_tt.TTDLL.TT_Mixer_GetMixerName(0, ptr);
-            //s = Marshal.PtrToStringUni(ptr);
-
-            //Marshal.FreeHGlobal(ptr);
-            
-
-            //int[] keys = {163};
-            //c_tt.TTDLL.TT_HotKey_Register(ttInst, 1, keys, 1);
-
-            //c_tt.TTDLL.TT_HotKey_Unregister(ttInst, 1);
-        }
-    }
-    */
 }

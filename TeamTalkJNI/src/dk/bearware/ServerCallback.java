@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -25,6 +25,14 @@ public class ServerCallback {
     
     public void userLogin(ClientErrorMsg lpClientErrorMsg,
                           User lpUser, UserAccount lpUserAccount) {
+    }
+
+    public void userChangeNickname(ClientErrorMsg lpClientErrorMsg,
+                                   User lpUser, String szNewNickname) {
+    }
+
+    public void userChangeStatus(ClientErrorMsg lpClientErrorMsg,
+                                 User lpUser, int nNewStatusMode, String szNewStatusMsg) {
     }
 
     public void userCreateUserAccount(ClientErrorMsg lpClientErrorMsg,

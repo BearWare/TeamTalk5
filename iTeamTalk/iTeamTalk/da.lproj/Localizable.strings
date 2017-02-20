@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Annoncer når bruger forlader kanalen";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Applikation";
 
@@ -68,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitrate";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Broadcast Beskeder";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Kanal";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Kanalbesked fra %@. %@";
@@ -164,6 +174,9 @@
 /* Dialog message */
 "Join" = "Deltag";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Skift til kanal";
 
@@ -181,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Begræns længden af navn i kanalliste til %d karakterer";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Loggede på serveren";
@@ -209,6 +225,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Musik";
 
@@ -228,8 +250,14 @@
 /* preferences */
 "Name displayed in channel list" = "Navn vist i kanalliste";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Øgenavn";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -297,6 +325,12 @@
 /* serverlist */
 "Preferences" = "Indstillinger";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
+
 /* serverlist */
 "Private server" = "Privat server";
 
@@ -339,6 +373,9 @@
 /* preferences */
 "Receive webcam streams by default" = "Modtag webcam som standard";
 
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
+
 /* channel list */
 "Return to previous channel" = "Returner til forrige kanal";
 
@@ -347,6 +384,12 @@
 
 /* codec detail */
 "Sample Rate" = "Sample Rate";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
@@ -484,6 +527,9 @@
    user detail */
 "Username" = "Brugernavn";
 
+/* preferences */
+"Version Information" = "Version Information";
+
 /* channel list */
 "View" = "Vis";
 
@@ -521,6 +567,9 @@
 /* preferences
    user detail */
 "WebCam" = "WebCam";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "Du har valgt %@";

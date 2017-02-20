@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -113,6 +113,10 @@ public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
     native int moveUser(long lpTTSInstance, int nUserID, Channel lpChannel);
     public int moveUser(int nUserID, Channel lpChannel) {
         return moveUser(ttsInst, nUserID, lpChannel);
+    }
+    native int sendTextMessage(long lpTTSInstance, TextMessage lpTextMessage);
+    public int sendTextMessage(TextMessage lpTextMessage) {
+        return sendTextMessage(ttsInst, lpTextMessage);
     }
     native boolean startServer(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
     public boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted) {

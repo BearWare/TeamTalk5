@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -1499,12 +1499,10 @@ void MainWindow::Connect()
     TT_RestartSoundSystem();
 
     int inputid = getSelectedSndInputDevice();
-    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0 &&
-                      inputid != SOUNDDEVICEID_NODEVICE;
+    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
 
     int outputid = getSelectedSndOutputDevice();
-    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0 &&
-                       outputid != SOUNDDEVICEID_NODEVICE;
+    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
 
     bool snd_init_ok = true;
 

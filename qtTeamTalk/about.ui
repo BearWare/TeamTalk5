@@ -80,7 +80,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string notr="true">Copyright (c) 2002-2014, BearWare.dk</string>
+        <string notr="true">Copyright (c) 2005-2017, BearWare.dk</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

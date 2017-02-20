@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -403,6 +403,7 @@ namespace BearWare
             }
 
         }
+
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void UserChangeNicknameCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In] [MarshalAs(UnmanagedType.LPWStr)] string szNewNickname);
         private event UserChangeNicknameCallback onUserChangeNicknameCallback;
@@ -447,6 +448,7 @@ namespace BearWare
                 }
             }
         }
+
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void UserLoginCallback(IntPtr lpTTSInstance, IntPtr lpUserData, [In, Out] ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, [In, Out]ref UserAccount lpUserAccount);
         object objectLock = new Object();

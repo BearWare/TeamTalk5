@@ -572,7 +572,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2002-2016, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
+    LTEXT           "Copyright (c) 2005-2017, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
     LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC,7,88,189,17
     LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC,7,110,189,17
     LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC,7,132,189,17
@@ -1429,8 +1429,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,2,0,4752
- PRODUCTVERSION 5,2,0,4752
+ FILEVERSION 5,2,2,4820
+ PRODUCTVERSION 5,2,2,4820
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1447,12 +1447,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 2, 0, 4752"
+            VALUE "FileVersion", "5, 2, 2, 4820"
             VALUE "InternalName", "TeamTalk5.exe"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (c) 2005-2017, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 2, 0, 4752"
+            VALUE "ProductVersion", "5, 2, 2, 4820"
         END
     END
     BLOCK "VarFileInfo"
@@ -1818,6 +1818,7 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_NOSOUNDDEVICE       "No Sound Device"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END

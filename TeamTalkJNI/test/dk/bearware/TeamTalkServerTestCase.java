@@ -15,9 +15,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         PROEDITION = true;
 
-        // IPADDR = "127.0.0.1";
-        // TCPPORT = 12000;
-        // UDPPORT = 12000;
+        IPADDR = "127.0.0.1";
+        TCPPORT = 12456;
+        UDPPORT = 12456;
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = ADMIN_USERNAME;
@@ -74,6 +74,38 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                 // login rejected
                 lpClientErrorMsg.nErrorNo = ClientError.CMDERR_INVALID_ACCOUNT;
                 lpClientErrorMsg.szErrorMsg = "Invalid username or password";
+            }
+
+            public void userChangeNickname(ClientErrorMsg lpClientErrorMsg,
+                                           User lpUser, String szNewNickname) {
+
+                String str = String.format("User %s is requesting to change nickname to %s",
+                                           lpUser.szNickname, szNewNickname);
+                System.out.println(str);
+
+                if(szNewNickname.indexOf("crap")>=0) {
+                    lpClientErrorMsg.nErrorNo = 4567;
+                    lpClientErrorMsg.szErrorMsg = "Nickname not allowed";
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                }
+            }
+
+            public void userChangeStatus(ClientErrorMsg lpClientErrorMsg,
+                                         User lpUser, int nNewStatusMode, String szNewStatusMsg) {
+
+                String str = String.format("User %s is requesting to change status message to %s",
+                                           lpUser.szNickname, szNewStatusMsg);
+                System.out.println(str);
+
+                if(szNewStatusMsg.indexOf("crap")>=0) {
+                    lpClientErrorMsg.nErrorNo = 4568;
+                    lpClientErrorMsg.szErrorMsg = "Status not allowed";
+                }
+                else {
+                    lpClientErrorMsg.nErrorNo = ClientError.CMDERR_SUCCESS;
+                }
             }
 
             public void userCreateUserAccount(ClientErrorMsg lpClientErrorMsg,
@@ -710,6 +742,123 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_10_sendMessage() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+
+        while(server.runEventLoop(100));
+
+        TextMessage textmsg = new TextMessage();
+
+        // user 2 user message
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.nFromUserID = 0;
+        textmsg.szFromUsername = "hest";
+        textmsg.nToUserID = client1.getMyUserID();
+        textmsg.nChannelID = 0;
+        textmsg.szMessage = "this is my message";
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        TTMessage msg = new TTMessage();
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+
+        // custom message
+
+        textmsg.nMsgType = TextMsgType.MSGTYPE_CUSTOM;
+        textmsg.nToUserID = client1.getMyUserID();
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        // channel message
+
+        textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
+        textmsg.nChannelID = client1.getMyChannelID();
+        textmsg.nToUserID = 0;
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+
+        // broadcast mesage
+        textmsg.nMsgType = TextMsgType.MSGTYPE_BROADCAST;
+        textmsg.nChannelID = 0;
+        textmsg.nToUserID = 0;
+
+        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+
+        while(server.runEventLoop(100));
+
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+
+        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
+        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+    }
+
+    public void test_changeNicknameStatus() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+
+        int cmdid = client1.doChangeNickname("This is crap");
+        assertTrue("Issue change nickname", cmdid>0);
+
+        new RunServer(server).interleave();
+
+        TTMessage msg = new TTMessage();
+        assertTrue("Change nick error", waitCmdError(client1, cmdid, DEF_WAIT, msg));
+
+        assertEquals("Error message", 4567, msg.clienterrormsg.nErrorNo);
+
+        cmdid = client1.doChangeStatus(45, "This is also crap");
+        assertTrue("Issue change status", cmdid>0);
+
+        new RunServer(server).interleave();
+
+        msg = new TTMessage();
+        assertTrue("Change status error", waitCmdError(client1, cmdid, DEF_WAIT, msg));
+        assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
+    }
+
     public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
@@ -751,6 +900,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         return server;
     }
 
+    static class RunServer implements ServerInterleave {
+        TeamTalkSrv server;
+
+        public RunServer(TeamTalkSrv server) {
+            this.server = server;
+        }
+
+        public void interleave() {
+            while(server.runEventLoop(100));
+        }
+    }
+
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient)
     {
         connect(server, ttclient, SYSTEMID);
@@ -758,11 +919,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
     {
-        assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
-
-        while(server.runEventLoop(0));
-
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        connect(ttclient, SYSTEMID, new RunServer(server));
     }
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
@@ -774,36 +931,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                                 String nick, String username, String passwd, 
                                 String clientname)
     {
-        int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
-        assertTrue("do login", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        TTMessage msg = new TTMessage();
-        assertTrue("wait login", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
-
-        UserAccount account = msg.useraccount;
-        assertEquals("username set", username, account.szUsername);
-        //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete", waitCmdComplete(ttclient, cmdid, 1000));
-        assertTrue("Authorized", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }
 
     protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
     {
-        assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
-
-        assertTrue("root exists", ttclient.getRootChannelID() > 0);
-
-        int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
-        
-        assertTrue("do join root", cmdid > 0);
-
-        while(server.runEventLoop(100));
-
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000));
-        
-        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        joinRoot(ttclient, new RunServer(server));
     }
 
 }
