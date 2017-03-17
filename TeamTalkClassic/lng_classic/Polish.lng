@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">Kreator ustawień TeamTalk</item>
     <item id="104">Roz&amp;łącz\tF2</item>
@@ -158,15 +158,15 @@
     <item id="1169">&amp;Nowy</item>
     <item id="1170">&amp;Utwórz plik .tt</item>
     <item id="1172">Wiadomość powitalna</item>
-    <item id="1174">Nowy użytkownik</item>
+    <item id="268">Nowy użytkownik</item>
     <item id="1175">Testuj</item>
-    <item id="1176">Użytkownik odchodzi</item>
-    <item id="1177">Utracono połączenie</item>
-    <item id="1178">Nowa wiadomość</item>
-    <item id="1180">Naciśnięto klawisz Push-To-Talk</item>
+    <item id="269">Użytkownik odchodzi</item>
+    <item id="276">Utracono połączenie</item>
+    <item id="270">Nowa wiadomość</item>
+    <item id="277">Naciśnięto klawisz Push-To-Talk</item>
     <item id="1181">Włącz tymczasowe wejście miksera gdy klawisz jest wciskany (Przestarzałe, użyteczne dla WIN XP)</item>
-    <item id="1182">Wiadomość kanału</item>
-    <item id="1184">Przestał mówić</item>
+    <item id="271">Wiadomość kanału</item>
+    <item id="280">Przestał mówić</item>
     <item id="1185">Kompensuj błąd wzmocnienia mikrofonu (przestarzałe, użyteczne dla WIN XP)</item>
     <item id="1186">Ustawienia zdarzeń dźwiękowych</item>
     <item id="1188">Prędkość próbkowania urządzenia wejściowego</item>
@@ -215,8 +215,8 @@
     <item id="1276">&amp;Ustaw klawisze</item>
     <item id="1277">Zmniejsz poziom wzmocnienia</item>
     <item id="1278">Skróty klawiszowe</item>
-    <item id="1279">Uaktualniono plik</item>
-    <item id="1280">Ukończono przesył pliku</item>
+    <item id="278">Uaktualniono plik</item>
+    <item id="279">Ukończono przesył pliku</item>
     <item id="1284">&amp;Otwórz</item>
     <item id="1287">Hasło operatora</item>
     <item id="1292">Ustawienia serwera</item>
@@ -320,9 +320,9 @@
     <item id="1452">Dostępne kanały</item>
     <item id="1453">Ustawienia kanałów auto-Operator</item>
     <item id="1456">Włącz antyzwrotkę (redukuje echo z głośników mogące prowadzić do sprzężeń zwrotnych)</item>
-    <item id="1457">Nowa sesja Wideo</item>
-    <item id="1458">Udostępnia pulpit</item>
-    <item id="1459">Tryb pytania</item>
+    <item id="274">Nowa sesja Wideo</item>
+    <item id="275">Udostępnia pulpit</item>
+    <item id="272">Tryb pytania</item>
     <item id="1460">Tylko operatorzy słyszą i widzą wysyłane dane</item>
     <item id="1463">Częstotliwości próbkowania urządzenia odtwarzającego</item>
     <item id="1464">Częstotliwości próbkowania urządzenia nagrywającego</item>
@@ -335,7 +335,7 @@
     <item id="1476">Format wideo:</item>
     <item id="1477">Właściwości multimediów</item>
     <item id="1478">Ścieżka do pliku multimedialnego</item>
-    <item id="1479">Prośba o dostęp do pulpitu</item>
+    <item id="273">Prośba o dostęp do pulpitu</item>
     <item id="1480">KBytes/sec (0 = wyłączono)</item>
     <item id="1481">Użytkownik</item>
     <item id="1482">Użytkownik może aktywnie uczestniczyć w sesjach udostępnianego pulpitu</item>

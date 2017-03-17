@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102"></item>
     <item id="104">Od&amp;pojiť\tF2</item>
@@ -111,15 +111,15 @@
     <item id="1170">Lokálny UDP port</item>
     <item id="1172">MOTD</item>
     <item id="1173">Nový používateľ</item>
-    <item id="1174">Nový používateľ</item>
+    <item id="268">Nový používateľ</item>
     <item id="1175">Testovať vybraté</item>
-    <item id="1176">Odpojenie používateľa</item>
-    <item id="1177">Strata spojenia</item>
-    <item id="1178">Nová správa</item>
-    <item id="1180">Stlačenie klávesovej skratky</item>
+    <item id="269">Odpojenie používateľa</item>
+    <item id="276">Strata spojenia</item>
+    <item id="270">Nová správa</item>
+    <item id="277">Stlačenie klávesovej skratky</item>
     <item id="1181">Zapnúť dočasný vstup zmiešavača po stlačení klávesovej skratky</item>
-    <item id="1182">Správa z miestnosti</item>
-    <item id="1184">Koniec rozprávania</item>
+    <item id="271">Správa z miestnosti</item>
+    <item id="280">Koniec rozprávania</item>
     <item id="1185">Kompenzovať problém s nastavením microphone boost</item>
     <item id="1186">Zvukové udalosti</item>
     <item id="1187">Uvedomte si, že vyššie nastavenie kvality enkodéra vyžaduje vyššiu prenosovú kapacitu a výkonnosť procesora.</item>
@@ -165,8 +165,8 @@
     <item id="1268">Zvýšiť zosilnenie hlasu</item>
     <item id="1277">Znížiť zosilnenie hlasu</item>
     <item id="1278">Klávesové skratky</item>
-    <item id="1279">Aktualizované súbory</item>
-    <item id="1280">Prenos ukončený</item>
+    <item id="278">Aktualizované súbory</item>
+    <item id="279">Prenos ukončený</item>
     <item id="1287">Heslo operátora</item>
     <item id="1292">Režim prehrávania</item>
     <item id="1294">Maximálny počet používateľov</item>

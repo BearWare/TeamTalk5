@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
@@ -212,15 +212,15 @@
     <item id="1169">&amp;Nový</item>
     <item id="1170">&amp;Vytvořit soubor .tt</item>
     <item id="1172">Uvítací zpráva</item>
-    <item id="1174">Nový uživatel</item>
+    <item id="268">Nový uživatel</item>
     <item id="1175">Testovat vybrané</item>
-    <item id="1176">Uživatel odstraněn</item>
-    <item id="1177">Spojení přerušeno</item>
-    <item id="1178">Nová zpráva</item>
-    <item id="1180">Klávesa stisknuta</item>
+    <item id="269">Uživatel odstraněn</item>
+    <item id="276">Spojení přerušeno</item>
+    <item id="270">Nová zpráva</item>
+    <item id="277">Klávesa stisknuta</item>
     <item id="1181">Aktivovat dočasný zvukový vstup směšovače hlasitosti při stisknutí klávesové zkratky</item>
-    <item id="1182">Zpráva v chatu</item>
-    <item id="1184">Přestal mluvit</item>
+    <item id="271">Zpráva v chatu</item>
+    <item id="280">Přestal mluvit</item>
     <item id="1185">Odstranit chybu dodatečného zesílení mikrofonu</item>
     <item id="1186">Zvukové události</item>
     <item id="1188">Vzorkovací frekvence zařízení</item>
@@ -269,8 +269,8 @@
     <item id="1276">&amp;Nastavit klávesy</item>
     <item id="1277">Snížit úroveň hlasitosti</item>
     <item id="1278">Klávesové zkratky</item>
-    <item id="1279">Soubory aktualizovány</item>
-    <item id="1280">Přenos dokončen</item>
+    <item id="278">Soubory aktualizovány</item>
+    <item id="279">Přenos dokončen</item>
     <item id="1284">&amp;Otevřít</item>
     <item id="1287">Heslo operátora</item>
     <item id="1292">Nastavení serveru</item>
@@ -374,9 +374,9 @@
     <item id="1452">Dostupné kanály</item>
     <item id="1453">Kanály s automatickým operátorem</item>
     <item id="1456">Povolit redukci ozvěny</item>
-    <item id="1457">Nová relace video</item>
-    <item id="1458">Nové sdílení obrazovky</item>
-    <item id="1459">Režim otázky</item>
+    <item id="274">Nová relace video</item>
+    <item id="275">Nové sdílení obrazovky</item>
+    <item id="272">Režim otázky</item>
     <item id="1460">Pouze operátor kanálu slyší a vidí data od uživatelů</item>
     <item id="1463">Výstupní vzorkování</item>
     <item id="1464">Vstupní vzorkování</item>
@@ -389,7 +389,7 @@
     <item id="1476">Formát videa:</item>
     <item id="1477">Vlastnosti multimediálního souboru</item>
     <item id="1478">Umístění souboru</item>
-    <item id="1479">Žádost o sdílení obrazovky</item>
+    <item id="273">Žádost o sdílení obrazovky</item>
     <item id="1480">kB/s (0 = vypnuto)</item>
     <item id="1481">Běžný uživatel</item>
     <item id="1482">Uživatel může mít vzdálený přístup ke sdíleným obrazovkám</item>

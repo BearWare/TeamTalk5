@@ -153,15 +153,15 @@
     <item id="1170">.tt File 만들기 &amp;G</item>
     <item id="1172">MOTD</item>
     <item id="1173">새 사용자</item>
-    <item id="1174">새 사용자</item>
+    <item id="268">새 사용자</item>
     <item id="1175">Test 선택됨</item>
-    <item id="1176">사용자 제거됨</item>
-    <item id="1177">서버 연결 끊김</item>
-    <item id="1178">새 메시지</item>
-    <item id="1180">단축키 사용됨</item>
+    <item id="269">사용자 제거됨</item>
+    <item id="276">서버 연결 끊김</item>
+    <item id="270">새 메시지</item>
+    <item id="277">단축키 사용됨</item>
     <item id="1181">단축키를 누를 동안 믹서 입력장치 사용 가능</item>
-    <item id="1182">채널 메시지</item>
-    <item id="1184">대화가 중지됨</item>
+    <item id="271">채널 메시지</item>
+    <item id="280">대화가 중지됨</item>
     <item id="1185">마이크 증폭 버그 보정</item>
     <item id="1186">사운드 이벤트</item>
     <item id="1187">높은 음질을 사용하기 위해선 더 많은 대역폭과 CPU사용량을 요구합니다.</item>
@@ -215,8 +215,8 @@
     <item id="1276">키 설정 &amp;S</item>
     <item id="1277">음성 게인 감소</item>
     <item id="1278">키보드 단축키</item>
-    <item id="1279">파일 업데이트됨</item>
-    <item id="1280">전송 완료</item>
+    <item id="278">파일 업데이트됨</item>
+    <item id="279">전송 완료</item>
     <item id="1284">열기 &amp;O</item>
     <item id="1287">운영자 비밀번호</item>
     <item id="1292">서버 설정</item>
@@ -295,15 +295,15 @@
     <item id="1451">선택한 채널</item>
     <item id="1452">사용 가능 채널</item>
     <item id="1456">에코 제거 사용 (스피커에서 에코 제거)</item>
-    <item id="1457">새 비디오 세션</item>
-    <item id="1458">새 데스크톱 세션</item>
+    <item id="274">새 비디오 세션</item>
+    <item id="275">새 데스크톱 세션</item>
     <item id="1465">암호화 된 서버</item>
     <item id="1468">서버 정보 저장</item>
     <item id="1474">KBytes/초 (0 = 사용안 함)</item>
     <item id="1475">오디오 형식:</item>
     <item id="1476">비디오 형식:</item>
     <item id="1477">미디어 파일 속성</item>
-    <item id="1479">데스크톱 접근 요청</item>
+    <item id="273">데스크톱 접근 요청</item>
     <item id="1480">KBytes/초 (0 = 사용안 함)</item>
     <item id="1481">기본 사용자</item>
     <item id="1487">사용자가 파일 업로드 가능</item>

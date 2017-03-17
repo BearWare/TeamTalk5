@@ -211,15 +211,15 @@
     <item id="1169">新建</item>
     <item id="1170">生成.tt文件</item>
     <item id="1172">MOTD</item>
-    <item id="1174">新用户</item>
+    <item id="268">新用户</item>
     <item id="1175">测试所选项目</item>
-    <item id="1176">用户移除</item>
-    <item id="1177">服务器丢失</item>
-    <item id="1178">新消息</item>
-    <item id="1180">热键按下</item>
+    <item id="269">用户移除</item>
+    <item id="276">服务器丢失</item>
+    <item id="270">新消息</item>
+    <item id="277">热键按下</item>
     <item id="1181">使用按下启动临时混频器输入装置热键</item>
-    <item id="1182">频道消息</item>
-    <item id="1184">停止通话</item>
+    <item id="271">频道消息</item>
+    <item id="280">停止通话</item>
     <item id="1185">麦克风增强漏洞补偿</item>
     <item id="1186">声音事件</item>
     <item id="1188">录音机采样率</item>
@@ -268,8 +268,8 @@
     <item id="1276">&amp;注册按键</item>
     <item id="1277">放低声音增益</item>
     <item id="1278">键盘快捷键</item>
-    <item id="1279">文件已更新</item>
-    <item id="1280">传送完成</item>
+    <item id="278">文件已更新</item>
+    <item id="279">传送完成</item>
     <item id="1284">&amp;打开</item>
     <item id="1287">管理员密码受保护</item>
     <item id="1292">服务器设置</item>
@@ -372,9 +372,9 @@
     <item id="1452">可用频道</item>
     <item id="1453">自动操作频道</item>
     <item id="1456">启用回声消除（从扬声器回声移除）</item>
-    <item id="1457">新建视频会议</item>
-    <item id="1458">新建桌面会话</item>
-    <item id="1459">问题模式</item>
+    <item id="274">新建视频会议</item>
+    <item id="275">新建桌面会话</item>
+    <item id="272">问题模式</item>
     <item id="1460">紧管理员可见（只有管理员才能听到或者看到）</item>
     <item id="1463">输出采样率</item>
     <item id="1464">输入采样率</item>
@@ -387,7 +387,7 @@
     <item id="1476">视频格式</item>
     <item id="1477">媒体文件的属性</item>
     <item id="1478">最大媒体文件TX数</item>
-    <item id="1479">桌面访问请求</item>
+    <item id="273">桌面访问请求</item>
     <item id="1480">KBytes/sec (0 = 禁用)</item>
     <item id="1481">默认用户</item>
     <item id="1482">用户可以远程访问桌面会话和</item>

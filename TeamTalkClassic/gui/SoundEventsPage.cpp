@@ -38,7 +38,7 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CSoundEventsPage, CPropertyPage)
 CSoundEventsPage::CSoundEventsPage()
     : CPropertyPage(CSoundEventsPage::IDD)
-  , m_szDesktopAccessReq(_T(""))
+  , m_uSoundEvents(SOUNDEVENT_NONE)
 {
 }
 
@@ -49,38 +49,33 @@ CSoundEventsPage::~CSoundEventsPage()
 void CSoundEventsPage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_NEWMESSAGE, m_szNewMessagePath);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_NEWUSER, m_szNewUserPath);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_USERREMOVED, m_szUserRemovedPath);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_NEWMESSAGE, m_wndNewMessage);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_NEWUSER, m_wndNewUser);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_SERVERLOST, m_wndServerLost);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_USERREMOVED, m_wndUserRemoved);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_SERVERLOST, m_szServerLostPath);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_HOTKEY, m_wndHotKey);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_HOTKEY, m_szHotKeyPath);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_CHANMESSAGE, m_wndChanMsgEdit);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_CHANMESSAGE, m_szChanMsg);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_STOPPEDTALK, m_wndStopTalkEdit);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_STOPPEDTALK, m_szStopTalk);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_FILEUPD, m_wndFilesUpd);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_FILEUPD, m_szFilesUpd);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_TRANSFERSTART, m_wndTransferEnd);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_TRANSFERSTART, m_szTransferEnd);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_VIDEOSESSION, m_wndVideoSession);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_DESKTOPSESSION, m_wndDesktopSession);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_QUESTIONMODE, m_wndQuestionMode);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_VIDEOSESSION, m_szNewVideoSession);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_DESKTOPSESSION, m_szNewDesktopSession);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_QUESTIONMODE, m_szQuestionMode);
-    DDX_Text(pDX, IDC_EDIT_EVENTS_DESKTOPACCESSREQ, m_szDesktopAccessReq);
-    DDX_Control(pDX, IDC_EDIT_EVENTS_DESKTOPACCESSREQ, m_wndDesktopAccessReq);
+    DDX_Control(pDX, IDC_TREE_SOUNDEVENTS, m_wndTree);
 }
 
-CString CSoundEventsPage::GetEventFilePath()
+BOOL CSoundEventsPage::OnInitDialog()
+{
+    CPropertyPage::OnInitDialog();
+
+    TRANSLATE(*this, IDD);
+
+    // clear out checks of filenames that are not set
+    std::map<SoundEvent, CString>::iterator i;
+    for(i=m_SoundFiles.begin();i!=m_SoundFiles.end();++i)
+    {
+        if(i->second.IsEmpty())
+            m_uSoundEvents &= ~i->first;
+    }
+
+    SetTimer(1, 0, NULL);
+
+    return TRUE;  // return TRUE unless you set the focus to a control
+    // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+CString CSoundEventsPage::GetEventFilePath(const CString& szInitFile)
 {
     CString filetypes = _T("Wave files (*.wav)|*.wav|All files (*.*)|*.*|");
-    CFileDialog dlg(TRUE, 0,0,OFN_FILEMUSTEXIST| OFN_HIDEREADONLY,filetypes, this);
+    CFileDialog dlg(TRUE, 0, szInitFile.IsEmpty()?0:szInitFile, OFN_FILEMUSTEXIST| OFN_HIDEREADONLY, filetypes, this);
     TCHAR s[MAX_PATH];
     CString szFilePath;
     GetCurrentDirectory(MAX_PATH, s);
@@ -91,124 +86,134 @@ CString CSoundEventsPage::GetEventFilePath()
     return szFilePath;
 }
 
+void CSoundEventsPage::ToggleItem(HTREEITEM hItem)
+{
+    SoundEvent e = SoundEvent(m_wndTree.GetItemData(hItem));
+    if(m_wndTree.GetCheck(hItem))
+        m_uSoundEvents &= ~e;
+    else
+    {
+        CString szFilePath = GetEventFilePath(m_SoundFiles[e]);
+        if(!szFilePath.IsEmpty())
+        {
+            m_uSoundEvents |= e;
+            m_SoundFiles[e] = szFilePath;
+        }
+        else
+            m_wndTree.SetCheck(hItem, FALSE);
+    }
+
+    SetTimer(1, 0, NULL);
+}
+
 BEGIN_MESSAGE_MAP(CSoundEventsPage, CPropertyPage)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_NEWUSER, OnBnClickedButtonEventsNewuser)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_USERREMOVED, OnBnClickedButtonEventsUserremoved)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_SERVERLOST, OnBnClickedButtonEventsServerlost)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_NEWMESSAGE, OnBnClickedButtonEventsNewmessage)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_HOTKEY, OnBnClickedButtonEventsHotkey)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_CHANMESSAGE, OnBnClickedButtonEventsChanmessage)
-  ON_BN_CLICKED(IDC_BUTTON_EVENTS_STOPPEDTALK, OnBnClickedButtonEventsStoppedtalk)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_FILESUPD, OnBnClickedButtonEventsFilesupd)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_TRANSFEREND, OnBnClickedButtonEventsTransferend)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_VIDEOSESSION, &CSoundEventsPage::OnBnClickedButtonEventsVideosession)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_DESKTOPSESSION, &CSoundEventsPage::OnBnClickedButtonEventsDesktopsession)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_QUESTIONMODE, &CSoundEventsPage::OnBnClickedButtonEventsQuestionmode)
-    ON_BN_CLICKED(IDC_BUTTON_EVENTS_DESKTOPACCESSREQ, &CSoundEventsPage::OnBnClickedButtonEventsDesktopaccessreq)
+    ON_NOTIFY(TVN_KEYDOWN, IDC_TREE_SOUNDEVENTS, &CSoundEventsPage::OnTvnKeydownTreeSoundevents)
+    ON_NOTIFY(NM_CLICK, IDC_TREE_SOUNDEVENTS, &CSoundEventsPage::OnNMClickTreeSoundevents)
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
 // CSoundEventsPage message handlers
 
-void CSoundEventsPage::OnBnClickedButtonEventsNewuser()
+void CSoundEventsPage::OnNMClickTreeSoundevents(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndNewUser.SetWindowText(szFilePath);
+    // TODO: Add your control notification handler code here
+    *pResult = 0;
+    UINT uFlags = 0;
+    CPoint pt(0, 0);
+    GetCursorPos(&pt);
+    m_wndTree.ScreenToClient(&pt);
+    HTREEITEM hItem = m_wndTree.HitTest(pt, &uFlags);
+    if(NULL != hItem && (TVHT_ONITEMSTATEICON  & uFlags))
+    {
+        m_wndTree.SelectItem(hItem);
+        ToggleItem(hItem);
+    }
+    *pResult = 0;
 }
 
-void CSoundEventsPage::OnBnClickedButtonEventsUserremoved()
+void CSoundEventsPage::OnTvnKeydownTreeSoundevents(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndUserRemoved.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsServerlost()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndServerLost.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsNewmessage()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndNewMessage.SetWindowText(szFilePath);
-}
-
-
-void CSoundEventsPage::OnBnClickedButtonEventsHotkey()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndHotKey.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsChanmessage()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndChanMsgEdit.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsStoppedtalk()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndStopTalkEdit.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsFilesupd()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndFilesUpd.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsTransferend()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndTransferEnd.SetWindowText(szFilePath);
-}
-
-BOOL CSoundEventsPage::OnInitDialog()
-{
-    CPropertyPage::OnInitDialog();
-
-    TRANSLATE(*this, IDD);
-
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsVideosession()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndVideoSession.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsDesktopsession()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndDesktopSession.SetWindowText(szFilePath);
-}
-
-void CSoundEventsPage::OnBnClickedButtonEventsQuestionmode()
-{
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndQuestionMode.SetWindowText(szFilePath);
+    LPNMTVKEYDOWN pTVKeyDown = reinterpret_cast<LPNMTVKEYDOWN>(pNMHDR);
+    
+    HTREEITEM hItem = m_wndTree.GetSelectedItem();
+    if(pTVKeyDown->wVKey == VK_SPACE && hItem)
+        ToggleItem(hItem);
+    *pResult = 0;
 }
 
 
-void CSoundEventsPage::OnBnClickedButtonEventsDesktopaccessreq()
+void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
 {
-    CString szFilePath = GetEventFilePath();
-    if(szFilePath.GetLength())
-        m_wndDesktopAccessReq.SetWindowText(szFilePath);
+    CPropertyPage::OnTimer(nIDEvent);
+    KillTimer(nIDEvent);
+
+    m_wndTree.DeleteAllItems();
+
+    CString szText;
+    szText.LoadString(IDS_USER_JOIN);
+    HTREEITEM hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_JOIN);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_JOIN) != 0);
+    
+    szText.LoadString(IDS_USER_LEFT);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_LEFT);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_LEFT) != 0);
+
+    szText.LoadString(IDS_USER_TEXTMSG);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSG);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSG) != 0);
+
+    szText.LoadString(IDS_USER_CHANMSG);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSG);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSG) != 0);
+
+    szText.LoadString(IDS_USER_QUESTIONMODE);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_QUESTIONMODE);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_QUESTIONMODE) != 0);
+
+    szText.LoadString(IDS_USER_DESKACCESS_REQ);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_DESKTOP_ACCESS);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_DESKTOP_ACCESS) != 0);
+
+    szText.LoadString(IDS_USER_NEWVIDEOSESSION);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_VIDEOSESSION_NEW);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_VIDEOSESSION_NEW) != 0);
+
+    szText.LoadString(IDS_USER_NEWDESKTOPSESSION);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_DESKTOPSESSION_NEW);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_DESKTOPSESSION_NEW) != 0);
+
+    szText.LoadString(IDS_CONNECTION_SERVERLOST);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_CONNECTION_LOST);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_CONNECTION_LOST) != 0);
+
+    szText.LoadString(IDS_HOTKEY);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_PUSHTOTALK);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_PUSHTOTALK) != 0);
+
+    szText.LoadString(IDS_FILES_UPDATED);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_FILES_UPDATED);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_FILES_UPDATED) != 0);
+
+    szText.LoadString(IDS_TRANSFER_COMPLETE);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_FILETX_COMPLETE);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_FILETX_COMPLETE) != 0);
+
+    szText.LoadString(IDS_CHANNELSILENT);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_CHANNEL_SILENT);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_CHANNEL_SILENT) != 0);
+
 }

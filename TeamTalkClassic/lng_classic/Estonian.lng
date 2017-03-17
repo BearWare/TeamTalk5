@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk häälestuseabiline</item>
     <item id="104">Katkesta &amp;ühendus\tF2</item>
@@ -154,15 +154,15 @@
     <item id="1169">&amp;Uus</item>
     <item id="1170">&amp;Genereeri .tt fail</item>
     <item id="1172">p.sõnum</item>
-    <item id="1174">Uus kasutaja</item>
+    <item id="268">Uus kasutaja</item>
     <item id="1175">Testi valitut</item>
-    <item id="1176">Kasutaja eemaldatud</item>
-    <item id="1177">Server kadunud</item>
-    <item id="1178">Uus sõnum</item>
-    <item id="1180">Kiirklahv vajutatud</item>
+    <item id="269">Kasutaja eemaldatud</item>
+    <item id="276">Server kadunud</item>
+    <item id="270">Uus sõnum</item>
+    <item id="277">Kiirklahv vajutatud</item>
     <item id="1181">Luba ajutine mikseri sisendseade, kui vajutatakse kiirklahvi</item>
-    <item id="1182">Kanali sõnum</item>
-    <item id="1184">Lõpetas rääkimise</item>
+    <item id="271">Kanali sõnum</item>
+    <item id="280">Lõpetas rääkimise</item>
     <item id="1185">Kompenseeri mikrofoni võimendamise bugi</item>
     <item id="1186">Helisündmus</item>
     <item id="1188">Salvestaja sämplimiskiirus</item>
@@ -211,8 +211,8 @@
     <item id="1276">&amp;Määra klahvid</item>
     <item id="1277">Vähenda hääle võimendamist</item>
     <item id="1278">Klaviatuuri otseteed</item>
-    <item id="1279">Failid uuendatud</item>
-    <item id="1280">Ülekanne valmis</item>
+    <item id="278">Failid uuendatud</item>
+    <item id="279">Ülekanne valmis</item>
     <item id="1284">&amp;Ava</item>
     <item id="1287">Operaatori salasõna</item>
     <item id="1292">Serveri häälestus</item>
@@ -315,9 +315,9 @@
     <item id="1452">Saadaolevad kanalid</item>
     <item id="1453">Auto-operaator-kanalid</item>
     <item id="1456">Luba kajasummutus (eemalda kõlaritest kaja)</item>
-    <item id="1457">Uus videosessioon</item>
-    <item id="1458">Uus töölauasessioon</item>
-    <item id="1459">Küsimuste režiim</item>
+    <item id="274">Uus videosessioon</item>
+    <item id="275">Uus töölauasessioon</item>
+    <item id="272">Küsimuste režiim</item>
     <item id="1460">Üksnes operaatorid saavad (ainult operaatorid näevad ja kuulevad)</item>
     <item id="1463">Väljund sämplimiskiirus</item>
     <item id="1464">Sisend sämplimiskiirus</item>
@@ -330,7 +330,7 @@
     <item id="1476">Video vorming:</item>
     <item id="1477">Meediafaili atribuudid</item>
     <item id="1478">Meediafaili maks. TX</item>
-    <item id="1479">Töölaua ligipääsu taotlus</item>
+    <item id="273">Töölaua ligipääsu taotlus</item>
     <item id="1480">KBaiti/sek (0 = keelatud)</item>
     <item id="1481">Vaikekasutaja</item>
     <item id="1482">Kasutaja saab ligi töölaua kaugligipääsule</item>

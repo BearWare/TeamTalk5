@@ -212,15 +212,15 @@
     <item id="1169">&amp;Neu</item>
     <item id="1170">.tt-Datei &amp;erstellen</item>
     <item id="1172">Nachricht des Tages</item>
-    <item id="1174">Neuer Benutzer</item>
+    <item id="268">Neuer Benutzer</item>
     <item id="1175">Klangtest</item>
-    <item id="1176">Benutzer entfernt</item>
-    <item id="1177">Verbindungsverlust</item>
-    <item id="1178">Neue Nachricht</item>
-    <item id="1180">Hotkey gedrückt</item>
+    <item id="269">Benutzer entfernt</item>
+    <item id="276">Verbindungsverlust</item>
+    <item id="270">Neue Nachricht</item>
+    <item id="277">Hotkey gedrückt</item>
     <item id="1181">Temporäre Aufnahmequelle beim Drücken eines Hotkeys</item>
-    <item id="1182">Raumnachricht</item>
-    <item id="1184">Sprechen beendet</item>
+    <item id="271">Raumnachricht</item>
+    <item id="280">Sprechen beendet</item>
     <item id="1185">Mikrofonboost-Fehler beheben</item>
     <item id="1186">Klangereignisse</item>
     <item id="1188">Rekorder-Samplerate</item>
@@ -269,8 +269,8 @@
     <item id="1276">Taste fe&amp;stlegen</item>
     <item id="1277">Sprachverst. niedriger</item>
     <item id="1278">Tastenkombinationen</item>
-    <item id="1279">Dateien aktualisiert</item>
-    <item id="1280">Übertragung komplett</item>
+    <item id="278">Dateien aktualisiert</item>
+    <item id="279">Übertragung komplett</item>
     <item id="1284">Ö&amp;ffnen</item>
     <item id="1287">Operator-Passwort</item>
     <item id="1292">Servereinstellungen</item>
@@ -374,9 +374,9 @@
     <item id="1452">Verfügbare Räume</item>
     <item id="1453">Auto-Operator-Räume</item>
     <item id="1456">Echounterdrückung einschalten</item>
-    <item id="1457">Neue Videositzung</item>
-    <item id="1458">Neue Desktopsitzung</item>
-    <item id="1459">Fragemodus</item>
+    <item id="274">Neue Videositzung</item>
+    <item id="275">Neue Desktopsitzung</item>
+    <item id="272">Fragemodus</item>
     <item id="1460">Empfang nur für Operator</item>
     <item id="1463">Ausgabe-Sampleraten</item>
     <item id="1464">Eingangs-Sampleraten</item>
@@ -389,7 +389,7 @@
     <item id="1476">Videoformat:</item>
     <item id="1477">Dateieigenschaften</item>
     <item id="1478">Mediendatei</item>
-    <item id="1479">Desktop-Zugriffsanfrage</item>
+    <item id="273">Desktop-Zugriffsanfrage</item>
     <item id="1480">KBytes/sec (0 = ausgeschaltet)</item>
     <item id="1481">Standardbenutzer</item>
     <item id="1482">Kann Fernzugriff auf Desktopsitzungen erhalten</item>

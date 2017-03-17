@@ -254,6 +254,44 @@ enum
 
 typedef __int64 TTSEvents;
 
+enum SoundEvent
+{
+    SOUNDEVENT_NONE = 0,
+    SOUNDEVENT_USER_JOIN                = 0x00000001,
+    SOUNDEVENT_USER_LEFT                = 0x00000002,
+    SOUNDEVENT_USER_TEXTMSG             = 0x00000004,
+    SOUNDEVENT_USER_CHANNEL_TEXTMSG     = 0x00000008,
+    SOUNDEVENT_USER_QUESTIONMODE        = 0x00000010,
+    SOUNDEVENT_USER_DESKTOP_ACCESS      = 0x00000020,
+    SOUNDEVENT_USER_VIDEOSESSION_NEW    = 0x00000040,
+    SOUNDEVENT_USER_DESKTOPSESSION_NEW  = 0x00000080,
+
+    SOUNDEVENT_CONNECTION_LOST          = 0x00000100,
+
+    SOUNDEVENT_PUSHTOTALK               = 0x00000200,
+    SOUNDEVENT_FILES_UPDATED            = 0x00000400,
+    SOUNDEVENT_FILETX_COMPLETE          = 0x00000800,
+
+    SOUNDEVENT_CHANNEL_SILENT           = 0x00001000,
+
+    SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
+                                          SOUNDEVENT_USER_LEFT |
+                                          SOUNDEVENT_USER_TEXTMSG |
+                                          SOUNDEVENT_USER_CHANNEL_TEXTMSG |
+                                          SOUNDEVENT_USER_QUESTIONMODE |
+                                          SOUNDEVENT_USER_DESKTOP_ACCESS |
+                                          SOUNDEVENT_USER_VIDEOSESSION_NEW |
+                                          SOUNDEVENT_USER_DESKTOPSESSION_NEW |
+                                          SOUNDEVENT_CONNECTION_LOST |
+                                          SOUNDEVENT_PUSHTOTALK |
+                                          SOUNDEVENT_FILES_UPDATED |
+                                          SOUNDEVENT_FILETX_COMPLETE,
+
+    SOUNDEVENT_ALL                      = 0xFFFFFFFF
+};
+
+typedef unsigned SoundEvents;
+
 //internal TeamTalk 5 commands. Use with TT_DoTextMessage() and 
 //message type MSGTYPE_CUSTOM
 #define TT_INTCMD_TYPING_TEXT         _T("typing")

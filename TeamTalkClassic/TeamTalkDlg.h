@@ -158,6 +158,7 @@ public:
     BOOL SendDesktopWindow();
     void RestartSendDesktopWindowTimer();
     void ToggleClassroom(int nUserID, StreamTypes uStreamTypes);
+    void PlaySoundEvent(SoundEvent event);
 
     CString m_szTTLink;
     CStringList m_cmdArgs;
