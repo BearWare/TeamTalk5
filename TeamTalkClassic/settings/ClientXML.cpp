@@ -334,7 +334,7 @@ namespace teamtalk {
             return false;
     }
 
-    bool ClientXML::GetHostManagerEntry(string entryname, HostEntry& entry)
+    bool ClientXML::GetHostManagerEntry(const std::string& entryname, HostEntry& entry)
     {
         bool found = false;
         for(int i=0;i<GetHostManagerEntryCount() && !found;i++)
@@ -434,7 +434,7 @@ namespace teamtalk {
 
     /************** <general> ****************/
 
-    bool ClientXML::SetNickname(string szNickname)
+    bool ClientXML::SetNickname(const std::string& szNickname)
     {
         TiXmlElement* pParent = GetGeneralElement();
         if(pParent)
@@ -784,7 +784,7 @@ namespace teamtalk {
     /*************************************************/
     /***************** <window> **********************/
     /*************************************************/
-    bool ClientXML::SetFont(string szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic)
+    bool ClientXML::SetFont(const std::string& szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic)
     {
         TiXmlElement element("font");
         PutString(element, "name", szFontName);
@@ -952,7 +952,7 @@ namespace teamtalk {
         return bEnabled;
     }
 
-    bool ClientXML::SetLanguageFile(std::string szLanguageFile)
+    bool ClientXML::SetLanguageFile(const std::string& szLanguageFile)
     {
         TiXmlElement* pParent = GetWindowElement();
         if(pParent)
@@ -1689,7 +1689,7 @@ namespace teamtalk {
         return uDefEvents;
     }
 
-    bool ClientXML::SetEventNewUser(string szPath)
+    bool ClientXML::SetEventNewUser(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1713,7 +1713,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventNewMessage(string szPath)
+    bool ClientXML::SetEventNewMessage(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1737,7 +1737,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventRemovedUser(string szPath)
+    bool ClientXML::SetEventRemovedUser(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1761,7 +1761,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventServerLost(string szPath)
+    bool ClientXML::SetEventServerLost(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1785,7 +1785,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventChannelSilent(std::string szPath)
+    bool ClientXML::SetEventChannelSilent(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1810,7 +1810,7 @@ namespace teamtalk {
     }
 
 
-    bool ClientXML::SetEventHotKey(string szPath)
+    bool ClientXML::SetEventHotKey(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1834,7 +1834,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventChannelMsg(string szPath)
+    bool ClientXML::SetEventChannelMsg(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1859,7 +1859,7 @@ namespace teamtalk {
     }
 
 
-    bool ClientXML::SetEventFilesUpd(string szPath)
+    bool ClientXML::SetEventFilesUpd(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1884,7 +1884,7 @@ namespace teamtalk {
     }
 
 
-    bool ClientXML::SetEventTransferEnd(string szPath)
+    bool ClientXML::SetEventTransferEnd(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1908,7 +1908,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventVideoSession(std::string szPath)
+    bool ClientXML::SetEventVideoSession(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1932,7 +1932,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventDesktopSession(std::string szPath)
+    bool ClientXML::SetEventDesktopSession(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1956,7 +1956,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventQuestionMode(std::string szPath)
+    bool ClientXML::SetEventQuestionMode(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)
@@ -1980,7 +1980,7 @@ namespace teamtalk {
         return "";
     }
 
-    bool ClientXML::SetEventDesktopAccessReq(std::string szPath)
+    bool ClientXML::SetEventDesktopAccessReq(const std::string& szPath)
     {
         TiXmlElement* pParent = GetEventsElement();
         if(pParent)

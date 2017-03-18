@@ -96,7 +96,7 @@ namespace teamtalk {
         /******** </main> ********/
 
         /******** <general> *******/
-        bool SetNickname(std::string szNickname);
+        bool SetNickname(const std::string& szNickname);
         std::string GetNickname(std::string def_nickname = std::string());
 
         bool SetGender(int nGender);
@@ -134,7 +134,7 @@ namespace teamtalk {
         /******** </general> *******/
 
         /******** <window> ********/
-        bool SetFont(std::string szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
+        bool SetFont(const std::string& szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
         bool GetFont(std::string& szFontName, int& nSize, bool& bBold, bool& bUnderline, bool& bItalic);
 
         bool SetStartMinimized(bool bEnable);
@@ -161,7 +161,7 @@ namespace teamtalk {
         bool SetMessageTimeStamp(bool bEnable);
         bool GetMessageTimeStamp();
 
-        bool SetLanguageFile(std::string szLanguageFile);
+        bool SetLanguageFile(const std::string& szLanguageFile);
         std::string GetLanguageFile();
 
         bool SetCloseTransferDialog(bool bEnable);
@@ -268,43 +268,43 @@ namespace teamtalk {
         bool SetEnabledSoundEvents(unsigned uSoundEvents);
         unsigned GetEnabledSoundEvents(unsigned uDefEvents = 0);
 
-        bool SetEventNewUser(std::string szPath);
+        bool SetEventNewUser(const std::string& szPath);
         std::string GetEventNewUser();
 
-        bool SetEventNewMessage(std::string szPath);
+        bool SetEventNewMessage(const std::string& szPath);
         std::string GetEventNewMessage();
 
-        bool SetEventRemovedUser(std::string szPath);
+        bool SetEventRemovedUser(const std::string& szPath);
         std::string GetEventRemovedUser();
 
-        bool SetEventServerLost(std::string szPath);
+        bool SetEventServerLost(const std::string& szPath);
         std::string GetEventServerLost();
 
-        bool SetEventChannelSilent(std::string szPath);
+        bool SetEventChannelSilent(const std::string& szPath);
         std::string GetEventChannelSilent();
 
-        bool SetEventHotKey(std::string szPath);
+        bool SetEventHotKey(const std::string& szPath);
         std::string GetEventHotKey();
 
-        bool SetEventChannelMsg(std::string szPath);
+        bool SetEventChannelMsg(const std::string& szPath);
         std::string GetEventChannelMsg();
 
-        bool SetEventFilesUpd(std::string szPath);
+        bool SetEventFilesUpd(const std::string& szPath);
         std::string GetEventFilesUpd();
 
-        bool SetEventTransferEnd(std::string szPath);
+        bool SetEventTransferEnd(const std::string& szPath);
         std::string GetEventTransferEnd();
 
-        bool SetEventVideoSession(std::string szPath);
+        bool SetEventVideoSession(const std::string& szPath);
         std::string GetEventVideoSession();
 
-        bool SetEventDesktopSession(std::string szPath);
+        bool SetEventDesktopSession(const std::string& szPath);
         std::string GetEventDesktopSession();
 
-        bool SetEventQuestionMode(std::string szPath);
+        bool SetEventQuestionMode(const std::string& szPath);
         std::string GetEventQuestionMode();
 
-        bool SetEventDesktopAccessReq(std::string szPath);
+        bool SetEventDesktopAccessReq(const std::string& szPath);
         std::string GetEventDesktopAccessReq();
 
         bool SetEventVibrateOnMsg(int nIndex);
@@ -383,7 +383,7 @@ namespace teamtalk {
         bool RemoveHostManagerEntry(const std::string entryname);
         int GetHostManagerEntryCount();
         bool GetHostManagerEntry(int index, HostEntry& entry);
-        bool GetHostManagerEntry(std::string entryname, HostEntry& entry);
+        bool GetHostManagerEntry(const std::string& entryname, HostEntry& entry);
         /********** </hostmanager> **********/
 
         /********** <other> *********/
