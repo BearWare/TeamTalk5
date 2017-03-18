@@ -2012,6 +2012,7 @@ void CTeamTalkDlg::OnVoiceActivated(const TTMessage& msg)
 {
     m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst),
                              IsMyselfTalking());
+    PlaySoundEvent(msg.bActive? SOUNDEVENT_VOICEACTIVATED :  SOUNDEVENT_VOICEDEACTIVATED);
 }
 
 void CTeamTalkDlg::OnFileTransfer(const TTMessage& msg)
@@ -3284,7 +3285,7 @@ void CTeamTalkDlg::OnFilePreferences()
     ///////////////////////
     // sound events
     ///////////////////////
-    eventspage.m_uSoundEvents = m_xmlSettings.GetEnabledSoundEvents(SOUNDEVENT_DEFAULT);
+    eventspage.m_uSoundEvents = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_DEFAULT);
     eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN] = STR_UTF8( m_xmlSettings.GetEventNewUser().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT] = STR_UTF8( m_xmlSettings.GetEventRemovedUser().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
@@ -3297,7 +3298,9 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK] = STR_UTF8( m_xmlSettings.GetEventHotKey().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_FILES_UPDATED] = STR_UTF8( m_xmlSettings.GetEventFilesUpd().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_FILETX_COMPLETE] = STR_UTF8( m_xmlSettings.GetEventTransferEnd().c_str());
-    eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT] = STR_UTF8( m_xmlSettings.GetEventChannelSilent().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT] = STR_UTF8(m_xmlSettings.GetEventChannelSilent().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED] = STR_UTF8(m_xmlSettings.GetEventVoiceActivated().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED] = STR_UTF8( m_xmlSettings.GetEventVoiceDeactivated().c_str() );
 
     ////////////////////////
     // Text to Speech
@@ -3552,7 +3555,7 @@ void CTeamTalkDlg::OnFilePreferences()
         ////////////////////////////////////////
         //    write settings for events
         ////////////////////////////////////////
-        m_xmlSettings.SetEnabledSoundEvents(eventspage.m_uSoundEvents);
+        m_xmlSettings.SetEventSoundsEnabled(eventspage.m_uSoundEvents);
         m_xmlSettings.SetEventNewUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN]));
         m_xmlSettings.SetEventRemovedUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT]));
         m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
@@ -3566,6 +3569,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDesktopSession(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOPSESSION_NEW]));
         m_xmlSettings.SetEventQuestionMode(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_QUESTIONMODE]));
         m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS]));
+        m_xmlSettings.SetEventVoiceActivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED]));
+        m_xmlSettings.SetEventVoiceDeactivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED]));
 
         ///////////////////////////////////////
         // write settings for Text to speech
@@ -5943,7 +5948,7 @@ void CTeamTalkDlg::ToggleClassroom(int nUserID, StreamTypes uStreamTypes)
 
 void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
 {
-    SoundEvents events = m_xmlSettings.GetEnabledSoundEvents(SOUNDEVENT_ALL);
+    SoundEvents events = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_ALL);
     switch(events & event)
     {
     case SOUNDEVENT_USER_JOIN :
@@ -5984,6 +5989,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_CHANNEL_SILENT :
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelSilent()));
+        break;
+    case SOUNDEVENT_VOICEACTIVATED :
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVoiceActivated()));
+        break;
+    case SOUNDEVENT_VOICEDEACTIVATED :
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVoiceDeactivated()));
         break;
     }
 }

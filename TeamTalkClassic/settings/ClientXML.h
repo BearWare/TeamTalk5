@@ -265,8 +265,8 @@ namespace teamtalk {
         /********* </soundsystem> ********/
 
         /********* <events> *************/
-        bool SetEnabledSoundEvents(unsigned uSoundEvents);
-        unsigned GetEnabledSoundEvents(unsigned uDefEvents = 0);
+        bool SetEventSoundsEnabled(unsigned uSoundEvents);
+        unsigned GetEventSoundsEnabled(unsigned uDefEvents = 0);
 
         bool SetEventNewUser(const std::string& szPath);
         std::string GetEventNewUser();
@@ -306,6 +306,12 @@ namespace teamtalk {
 
         bool SetEventDesktopAccessReq(const std::string& szPath);
         std::string GetEventDesktopAccessReq();
+
+        bool SetEventVoiceActivated(const std::string& szPath);
+        std::string GetEventVoiceActivated();
+
+        bool SetEventVoiceDeactivated(const std::string& szPath);
+        std::string GetEventVoiceDeactivated();
 
         bool SetEventVibrateOnMsg(int nIndex);
         int GetEventVibrateOnMsg();

@@ -274,6 +274,9 @@ enum SoundEvent
 
     SOUNDEVENT_CHANNEL_SILENT           = 0x00001000,
 
+    SOUNDEVENT_VOICEACTIVATED           = 0x00002000,
+    SOUNDEVENT_VOICEDEACTIVATED         = 0x00004000,
+
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
                                           SOUNDEVENT_USER_TEXTMSG |
