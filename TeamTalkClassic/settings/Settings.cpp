@@ -20,8 +20,8 @@
  */
 
 #include "Settings.h"
-#include "StringPrintf.h"
 #include "MyStd.h"
+#include <sstream>
 
 using namespace std;
 
@@ -44,9 +44,11 @@ namespace teamtalk {
 
     string XMLDocument::GetError()
     {
-        string error;
-        StringPrintf(error, "%s. Line %d column %d.", m_xmlDocument.ErrorDesc(), m_xmlDocument.ErrorCol(), m_xmlDocument.ErrorRow());
-        return error;
+        std::ostringstream os;
+        os << "File: " << this->GetFileName() << ". ";
+        os << m_xmlDocument.ErrorDesc() << ". ";
+        os << "Line " << m_xmlDocument.ErrorRow() << " column " << m_xmlDocument.ErrorCol() << ".";
+        return os.str();
     }
 
     bool XMLDocument::Parse(const std::string& xml)
