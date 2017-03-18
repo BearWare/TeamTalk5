@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
+    <item id="1473f">Mensagem de boas-vindas</item>
     <item id="1">OK</item>
     <item id="2">Cancelar</item>
     <item id="102">Assistente de configuração do TeamTalk5</item>
@@ -26,7 +27,7 @@
     <item id="124">Testar</item>
     <item id="125">Parar</item>
     <item id="126">Padrão</item>
-    <item id="127">Você deixou o canal  %s</item>
+    <item id="127">Você deixou o canal %s</item>
     <item id="128">Configurações</item>
     <item id="129">&amp;Ajuda</item>
     <item id="130">Novo Apelido</item>
@@ -36,12 +37,12 @@
     <item id="134">Arquivos</item>
     <item id="135">Mensagens</item>
     <item id="136">O arquivo %s possui informação de configurações de %s.\r\nShould these settings be applied?</item>
-	<item id="137">Usuário</item>
+    <item id="137">Usuário</item>
     <item id="138">%s esta solicitando acesso remoto</item>
     <item id="139">%s retirou o acesso remoto</item>
     <item id="140">Propriedades do Servidor</item>
     <item id="141">Contas de Usuários</item>
-	<item id="142">Canal</item>
+    <item id="142">Canal</item>
     <item id="144">Mover Usuário</item>
     <item id="145">Estatísticas do Servidor</item>
     <item id="146">Usuários Conectados</item>
@@ -90,6 +91,19 @@
     <item id="254">Atalho</item>
     <item id="255">t255</item>
     <item id="256">Usuários Banidos</item>
+    <item id="268">Novo usuário</item>
+    <item id="269">Usuário expulso</item>
+    <item id="270">Nova mensagem</item>
+    <item id="271">Mensagem do canal</item>
+    <item id="272">Modo de pergunta</item>
+    <item id="273">Solicitação de acesso remoto</item>
+    <item id="274">Nova sessão de vídeo</item>
+    <item id="275">Nova sessão de compartilhamento de tela</item>
+    <item id="276">Desconectado do servidor</item>
+    <item id="277">Tecla de atalho pressionada</item>
+    <item id="278">Arquivo atualizado</item>
+    <item id="279">Transferência completa</item>
+    <item id="280">Terminar conversação</item>
     <item id="1008">Reencaminhar sempre pelo servidor</item>
     <item id="1009">Ao conecttar, ir automaticamente para o canal principal</item>
     <item id="1011">Propriedades do servidor</item>
@@ -189,15 +203,8 @@
     <item id="1169">Novo</item>
     <item id="1170">Gerar arquivo .tt</item>
     <item id="1172">Mensagem de Boas-Vindas</item>
-    <item id="268">Novo usuário</item>
     <item id="1175">Testar</item>
-    <item id="269">Usuário expulso</item>
-    <item id="276">Desconectado do servidor</item>
-    <item id="270">Nova mensagem</item>
-    <item id="277">Tecla de atalho pressionada</item>
-    <item id="1181">Ativar o mixer temporário do dispositivo de entrada quando pressionar  a tecla de atalho</item>
-    <item id="271">Mensagem do canal</item>
-    <item id="280">Terminar conversação</item>
+    <item id="1181">Ativar o mixer temporário do dispositivo de entrada quando pressionar a tecla de atalho</item>
     <item id="1185">Compensar o problema do microfone boost</item>
     <item id="1186">Sons e sintetizadores</item>
     <item id="1187">Lembre-se que quanto maior a qualidade para o codificador maior será o uso da conexão e do processador (CPU).</item>
@@ -253,8 +260,6 @@
     <item id="1276">&amp;Configure a tecla</item>
     <item id="1277">Diminuir a voz</item>
     <item id="1278">Tecla de atalho</item>
-    <item id="278">Arquivo atualizado</item>
-    <item id="279">Transferência completa</item>
     <item id="1284">&amp;Abrir</item>
     <item id="1287">Senha de moderação</item>
     <item id="1292">Configurações do Servidor</item>
@@ -357,22 +362,18 @@
     <item id="1452">Canais Disponíveis</item>
     <item id="1453">Canais para Moderação</item>
     <item id="1456">Ativar redução de eco</item>
-    <item id="274">Nova sessão de vídeo</item>
-    <item id="275">Nova sessão de compartilhamento de tela</item>
-    <item id="272">Modo de pergunta</item>
     <item id="1460">Somente moderadores recebem as mensagens e áudios</item>
     <item id="1463">Output sample rates</item>
     <item id="1464">Input sample rates</item>
     <item id="1465">Servidor criptografado</item>
     <item id="1468">Salvar informação do servidor</item>
     <item id="1469">KBytes</item>
-    <item id="1473f">Mensagem de boas-vindas</item>
+    <item id="1473"></item>
     <item id="1474">KBytes/sec (0 = disabled)</item>
     <item id="1475">Formato de áudio:</item>
     <item id="1476">Formato de vídeo:</item>
     <item id="1477">Procurar arquivo de mídia</item>
     <item id="1478">Arquivo de mídia</item>
-    <item id="273">Solicitação de acesso remoto</item>
     <item id="1480">KBytes/sec (0 = disabled)</item>
     <item id="1481">Padrão</item>
     <item id="1482">O usuário pode fazer acesso remoto</item>
@@ -464,7 +465,6 @@
     <item id="32855">E&amp;xpulsar</item>
     <item id="32857">&amp;Enviar arquivo\tShift+F5</item>
     <item id="32858">&amp;Baixar Arquivo\tShift+F6</item>
-    <item id="32857">&amp;Enviar Arquivo\tShift+F5</item>
     <item id="32859">Deletar &amp;Arquivo\tShift+Del</item>
     <item id="32864">Deixar o canal\tCtrl+L</item>
     <item id="32866">D&amp;eletar Canal\tF8</item>

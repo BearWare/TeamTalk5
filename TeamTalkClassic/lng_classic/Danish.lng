@@ -106,6 +106,19 @@
     <item id="251">Positioner deltagere (3D lydkort)</item>
     <item id="254">Genveje</item>
     <item id="256">Blokerede Brugere</item>
+    <item id="268">Ny bruger</item>
+    <item id="269">Bruger fjernet</item>
+    <item id="270">Ny besked</item>
+    <item id="271">Kanalbesked</item>
+    <item id="272">Spørgsmål-tilstand</item>
+    <item id="273">Anmodning om skrivebordsadgang</item>
+    <item id="274">Ny videosession</item>
+    <item id="275">Ny desktopsession</item>
+    <item id="276">Mistet forbindelse</item>
+    <item id="277">HotKey nede</item>
+    <item id="278">Filer opdateret</item>
+    <item id="279">Overførsel færdig</item>
+    <item id="280">Tale stopper</item>
     <item id="1008">Altid send gennem server</item>
     <item id="1009">Indtræd automatisk i rodkanalen ved tilslutning</item>
     <item id="1011">Serverindstillinger</item>
@@ -197,15 +210,8 @@
     <item id="1170">&amp;Generer .tt Fil</item>
     <item id="1172">MOTD</item>
     <item id="1173">Ny bruger</item>
-    <item id="268">Ny bruger</item>
     <item id="1175">Afprøv valgte</item>
-    <item id="269">Bruger fjernet</item>
-    <item id="276">Mistet forbindelse</item>
-    <item id="270">Ny besked</item>
-    <item id="277">HotKey nede</item>
     <item id="1181">Aktiver midlertidig mixer input enhed når hotkey holdes nede</item>
-    <item id="271">Kanalbesked</item>
-    <item id="280">Tale stopper</item>
     <item id="1185">Kompenser for mikrofon boost fejl</item>
     <item id="1186">Lydhændelser</item>
     <item id="1187">Husk at en højere kvalitet for encoder vil kræve mere båndbredde og CPU forbrug.</item>
@@ -260,8 +266,6 @@
     <item id="1276">&amp;Angiv Taster</item>
     <item id="1277">Reducer mikrofonvolume</item>
     <item id="1278">Tastaturgenveje</item>
-    <item id="278">Filer opdateret</item>
-    <item id="279">Overførsel færdig</item>
     <item id="1284">&amp;Åben</item>
     <item id="1287">Kanalejer kodeord</item>
     <item id="1292">Serverindstillinger</item>
@@ -365,9 +369,6 @@
     <item id="1452">Tilgængeligt Kanaler</item>
     <item id="1453">Automatisk Kanalejer</item>
     <item id="1456">Aktiver ekkofjernelse (fjern ekko fra højtalere)</item>
-    <item id="274">Ny videosession</item>
-    <item id="275">Ny desktopsession</item>
-    <item id="272">Spørgsmål-tilstand</item>
     <item id="1460">Kun kanalejere modtager (kun kanalejere ser og hører)</item>
     <item id="1463">Output sample rater</item>
     <item id="1464">Input sample rater</item>
@@ -380,7 +381,6 @@
     <item id="1476">Videoformat:</item>
     <item id="1477">Egenskaber for mediefil</item>
     <item id="1478">Mediefil TX max</item>
-    <item id="273">Anmodning om skrivebordsadgang</item>
     <item id="1480">KBytes/sek (0 = ingen)</item>
     <item id="1481">Standard bruger</item>
     <item id="1482">Bruger kan anmode om adgang til skrivebord</item>

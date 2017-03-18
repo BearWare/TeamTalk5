@@ -70,6 +70,19 @@
     <item id="251">Résztvevők pozíciója (3d-t támogató hangkártyák esetén)</item>
     <item id="254">Billentyűparancsok</item>
     <item id="256">Kitiltott felhasználók</item>
+    <item id="268">Új felhasználó</item>
+    <item id="269">Felhasználó eltávolítva</item>
+    <item id="270">Új üzenet</item>
+    <item id="271">Szoba üzenet</item>
+    <item id="272">Kérdező mód</item>
+    <item id="273">Asztali hozzáférés kérése</item>
+    <item id="274">Új videófolyamat</item>
+    <item id="275">Új asztalfolyamat</item>
+    <item id="276">A szerver nem elérhető</item>
+    <item id="277">Gyorsgomb lenyomva</item>
+    <item id="278">Fájlok frissítve</item>
+    <item id="279">Az átvitel befejeződött</item>
+    <item id="280">Beszéd megszakadt</item>
     <item id="1009">Belépés a főszobába csatlakozáskor</item>
     <item id="1011">Szerver tulajdonságok</item>
     <item id="1012">Szerver TCP port</item>
@@ -153,15 +166,8 @@
     <item id="1169">&amp;Új</item>
     <item id="1170">.tt fájl &amp;létrehozása</item>
     <item id="1172">MOTD</item>
-    <item id="268">Új felhasználó</item>
     <item id="1175">A kiválasztott tesztelése</item>
-    <item id="269">Felhasználó eltávolítva</item>
-    <item id="276">A szerver nem elérhető</item>
-    <item id="270">Új üzenet</item>
-    <item id="277">Gyorsgomb lenyomva</item>
     <item id="1181">A billentyűparancs megnyomására engedélyezi az ideiglenes bemeneti mixer eszközt.</item>
-    <item id="271">Szoba üzenet</item>
-    <item id="280">Beszéd megszakadt</item>
     <item id="1185">A mikrofon erősítés hibájának kompenzálása</item>
     <item id="1186">Hang események</item>
     <item id="1188">Felvevő mintavételezési arány</item>
@@ -210,8 +216,6 @@
     <item id="1276">&amp;Gyorsgombok beállítása</item>
     <item id="1277">Hangerősítés csökkentése</item>
     <item id="1278">Billentyűparancsok</item>
-    <item id="278">Fájlok frissítve</item>
-    <item id="279">Az átvitel befejeződött</item>
     <item id="1284">&amp;Megnyitás</item>
     <item id="1287">Operátor jelszó</item>
     <item id="1292">Szerver beállítások</item>
@@ -314,9 +318,6 @@
     <item id="1452">Elérhető szobák</item>
     <item id="1453">Auto-Operátor szobák</item>
     <item id="1456">Visszhang megszűntetés engedélyezése (Eltávolítja a beszélők visszhangját)</item>
-    <item id="274">Új videófolyamat</item>
-    <item id="275">Új asztalfolyamat</item>
-    <item id="272">Kérdező mód</item>
     <item id="1460">Csak operátoroknak (Csak operátorok láthatják és hallhatják)</item>
     <item id="1463">Kimeneti mintavételezési arányok</item>
     <item id="1464">Bemeneti mintavételezési arányok</item>
@@ -329,7 +330,6 @@
     <item id="1476">Videó formátum:</item>
     <item id="1477">Média fájl tulajdonságok</item>
     <item id="1478">Médiafájl TX max</item>
-    <item id="273">Asztali hozzáférés kérése</item>
     <item id="1480">KBytes/másodperc (0 = letiltva)</item>
     <item id="1481">Alapértelmezett felhasználó</item>
     <item id="1482">A felhasználó hozzáférést kaphat távoli asztali munkamenethez</item>
