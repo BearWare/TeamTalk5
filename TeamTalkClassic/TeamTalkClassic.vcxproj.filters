@@ -273,18 +273,6 @@
     <ClCompile Include="gui\StreamMediaDlg.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="xml\tinyxmlparser.cpp">
-      <Filter>Source Files\Xml</Filter>
-    </ClCompile>
-    <ClCompile Include="xml\tinyxmlerror.cpp">
-      <Filter>Source Files\Xml</Filter>
-    </ClCompile>
-    <ClCompile Include="xml\tinyxml.cpp">
-      <Filter>Source Files\Xml</Filter>
-    </ClCompile>
-    <ClCompile Include="xml\tinystr.cpp">
-      <Filter>Source Files\Xml</Filter>
-    </ClCompile>
     <ClCompile Include="settings\XMLLanguages.cpp">
       <Filter>Source Files\Settings</Filter>
     </ClCompile>
@@ -311,6 +299,18 @@
     </ClCompile>
     <ClCompile Include="gui\TextToSpeechPage.cpp">
       <Filter>Source Files\Property pages</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp">
+      <Filter>Source Files\Xml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinystr.cpp">
+      <Filter>Source Files\Xml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxml.cpp">
+      <Filter>Source Files\Xml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp">
+      <Filter>Source Files\Xml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,12 +545,6 @@
     <ClInclude Include="gui\StreamMediaDlg.h">
       <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
-    <ClInclude Include="xml\tinyxml.h">
-      <Filter>Header Files\Xml</Filter>
-    </ClInclude>
-    <ClInclude Include="xml\tinystr.h">
-      <Filter>Header Files\Xml</Filter>
-    </ClInclude>
     <ClInclude Include="settings\XMLLanguages.h">
       <Filter>Header Files\Settings</Filter>
     </ClInclude>
@@ -586,6 +580,12 @@
     </ClInclude>
     <ClInclude Include="gui\TextToSpeechPage.h">
       <Filter>Header Files\Property pages</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinyxml.h">
+      <Filter>Header Files\Xml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinystr.h">
+      <Filter>Header Files\Xml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
