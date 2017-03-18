@@ -4,3 +4,4 @@ TeamTalkSrv.h
 *.a
 *.so
 *.dylib
+*.dll
