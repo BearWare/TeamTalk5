@@ -29,7 +29,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
     public static final String MEDIAFILE_AUDIO = "music.wav";
     public static final String MEDIAFILE = "video.avi";
-    Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
+    public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
     
     protected void setUp() throws Exception {
         super.setUp();
