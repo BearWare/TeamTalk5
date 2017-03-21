@@ -207,7 +207,7 @@
     <ClCompile>
       <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\;.\xml;..\TeamTalk_DLL;$(TOLK)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;.\tinyxml;..\TeamTalk_DLL;.\tolk\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_TOLK;_DEBUG;_AMD64_;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -289,7 +289,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;.\xml;..\TeamTalk_DLL;$(TOLK)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;.\tinyxml;..\TeamTalk_DLL;.\tolk\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_TOLK;NDEBUG;_AMD64_;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -368,7 +368,7 @@
     <ClCompile>
       <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\;.\xml;..\TeamTalk_DLL;$(TOLK)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;.\tinyxml;..\TeamTalk_DLL;.\tolk\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_TOLK;_DEBUG;_AMD64_;_WIN64;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -445,7 +445,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/wd4018 /wd4267 /wd4244 /wd4311 /wd4312 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;.\xml;..\TeamTalk_DLL;$(TOLK)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;.\tinyxml;..\TeamTalk_DLL;.\tolk\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_TOLK;NDEBUG;_AMD64_;_WIN64;ENABLE_ENCRYPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
