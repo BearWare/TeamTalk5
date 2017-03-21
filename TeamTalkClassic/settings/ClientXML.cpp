@@ -1967,6 +1967,18 @@ namespace teamtalk {
         else
             return false;
     }
+    
+    std::string ClientXML::GetEventQuestionMode()
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+        {
+            string s;
+            GetString(*child, "question-mode", s);
+            return s;
+        }
+        return "";
+    }
 
     bool ClientXML::SetEventDesktopAccessReq(const std::string& szPath)
     {
@@ -2031,16 +2043,48 @@ namespace teamtalk {
         return s;
     }
 
-    std::string ClientXML::GetEventQuestionMode()
+    bool ClientXML::SetEventTransmitQueueHead(std::string szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "transmit-queue-front", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    std::string ClientXML::GetEventTransmitQueueHead(std::string szDefPath)
     {
         TiXmlElement* child = GetEventsElement();
         if(child)
         {
-            string s;
-            GetString(*child, "question-mode", s);
-            return s;
+            GetString(*child, "transmit-queue-front", szDefPath);
         }
-        return "";
+        return szDefPath;
+    }
+
+    bool ClientXML::SetEventTransmitQueueStop(std::string szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "transmit-queue-stop", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetEventTransmitQueueStop(std::string szDefPath)
+    {
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+        {
+            GetString(*child, "transmit-queue-stop", szDefPath);
+        }
+        return szDefPath;
     }
 
     bool ClientXML::SetEventVibrateOnMsg(int nIndex)

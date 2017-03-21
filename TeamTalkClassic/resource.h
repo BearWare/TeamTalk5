@@ -188,6 +188,8 @@
 #define IDS_CHANNELSILENT               280
 #define IDS_VOICEACTIVATED              281
 #define IDS_VOICEDEACTIVATED            282
+#define IDS_TXQUEUEHEAD                 283
+#define IDS_TXQUEUESTOP                 284
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -749,7 +751,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        283
+#define _APS_NEXT_RESOURCE_VALUE        284
 #define _APS_NEXT_COMMAND_VALUE         32950
 #define _APS_NEXT_CONTROL_VALUE         1545
 #define _APS_NEXT_SYMED_VALUE           194

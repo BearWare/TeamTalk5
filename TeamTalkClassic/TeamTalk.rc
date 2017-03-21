@@ -348,13 +348,13 @@ MENU IDR_MENU_MAIN
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "",IDC_TREE_SESSION,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | WS_BORDER | WS_TABSTOP,7,3,119,73
-    CONTROL         IDD_DIALOG_GENERATETTFILE,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
+    CONTROL         155,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,77,47,12
     LTEXT           "VU",IDC_STATIC_VU,66,79,11,8
     CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",PBS_SMOOTH | WS_BORDER,79,79,47,8
-    CONTROL         IDD_DIALOG_GENERATETTFILE,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
+    CONTROL         155,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,88,47,12
-    CONTROL         IDS_PUSHTOTALK,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
+    CONTROL         154,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
     CONTROL         "",IDC_SLIDER_VOICEACT,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,79,88,47,12
     LTEXT           "",IDC_STATIC_SPLITTER,126,3,8,73,NOT WS_VISIBLE
     CONTROL         "",IDC_TAB_CTRL,"SysTabControl32",WS_TABSTOP,134,3,120,96
@@ -1273,25 +1273,15 @@ END
 //
 
 IDB_BITMAP_LOGO         BITMAP                  "res\\logo.bmp"
-
 IDB_BITMAP_SESSION      BITMAP                  "res\\session.bmp"
-
 IDB_BITMAP_MIKE         BITMAP                  "res\\bmp00001.bmp"
-
 IDB_BITMAP_VOICEACT     BITMAP                  "res\\bmp00002.bmp"
-
 IDB_BITMAP_VOLUME       BITMAP                  "res\\bmp00003.bmp"
-
 IDR_TOOLBAR1            BITMAP                  "res\\toolbar1.bmp"
-
 IDB_BITMAP_NOVOICEACT   BITMAP                  "res\\bitmap1.bmp"
-
 IDB_BITMAP_NOVOLUME     BITMAP                  "res\\bmp00004.bmp"
-
 IDB_BITMAP_TOOLBAR      BITMAP                  "res\\bmp00005.bmp"
-
 IDB_BITMAP_SESSION2     BITMAP                  "res\\session2.bmp"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1394,7 +1384,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1698,6 +1687,8 @@ BEGIN
     IDS_CHANNELSILENT       "Stopped talking"
     IDS_VOICEACTIVATED      "Voice activated"
     IDS_VOICEDEACTIVATED    "Voice deactivated"
+    IDS_TXQUEUEHEAD         "Transmit ready in ""No Interruptions"" channel"
+    IDS_TXQUEUESTOP         "Transmit stopped in ""No Interruptions"" channel"
 END
 
 STRINGTABLE

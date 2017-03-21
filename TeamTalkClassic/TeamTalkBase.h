@@ -277,6 +277,10 @@ enum SoundEvent
     SOUNDEVENT_VOICEACTIVATED           = 0x00002000,
     SOUNDEVENT_VOICEDEACTIVATED         = 0x00004000,
 
+    SOUNDEVENT_TRANSMITQUEUE_HEAD       = 0x00008000,
+    SOUNDEVENT_TRANSMITQUEUE_STOP       = 0x00010000,
+
+
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
                                           SOUNDEVENT_USER_TEXTMSG |

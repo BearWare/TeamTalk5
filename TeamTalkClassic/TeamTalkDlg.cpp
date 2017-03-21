@@ -1500,6 +1500,16 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     if(chan.nChannelID == TT_GetMyChannelID(ttInst))
         UpdateAudioConfig();
 
+    // Solo transmission
+    if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst))
+        PlaySoundEvent(SOUNDEVENT_TRANSMITQUEUE_HEAD);
+
+    if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
+        PlaySoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
+
+    // remaining is for class room channel
     if((chan.uChannelType & CHANNEL_CLASSROOM) == 0 ||
        TT_GetMyChannelID(ttInst) != chan.nChannelID)
         return;
@@ -3301,6 +3311,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT] = STR_UTF8(m_xmlSettings.GetEventChannelSilent().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED] = STR_UTF8(m_xmlSettings.GetEventVoiceActivated().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED] = STR_UTF8( m_xmlSettings.GetEventVoiceDeactivated().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
 
     ////////////////////////
     // Text to Speech
@@ -3571,6 +3583,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS]));
         m_xmlSettings.SetEventVoiceActivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED]));
         m_xmlSettings.SetEventVoiceDeactivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED]));
+        m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
+        m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
 
         ///////////////////////////////////////
         // write settings for Text to speech
@@ -5995,6 +6009,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_VOICEDEACTIVATED :
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVoiceDeactivated()));
+        break;
+    case SOUNDEVENT_TRANSMITQUEUE_HEAD :
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead()));
+        break;
+    case SOUNDEVENT_TRANSMITQUEUE_STOP :
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueStop()));
         break;
     }
 }

@@ -226,4 +226,13 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_CHANNEL_SILENT);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_CHANNEL_SILENT) != 0);
 
+    szText.LoadString(IDS_TXQUEUEHEAD);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_TRANSMITQUEUE_HEAD);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_TRANSMITQUEUE_HEAD) != 0);
+
+    szText.LoadString(IDS_TXQUEUESTOP);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_TRANSMITQUEUE_STOP);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_TRANSMITQUEUE_STOP) != 0);
 }
