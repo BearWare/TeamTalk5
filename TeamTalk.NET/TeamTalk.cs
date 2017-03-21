@@ -1977,6 +1977,12 @@ namespace BearWare
          * @see TT_CLASSROOM_FREEFORALL */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalk.TT_TRANSMITUSERS_MAX * 2)]
         public int[,] transmitUsers;
+        /** @brief The users currently queued for voice or media file transmission.
+         *
+         * This property only applied with channel is configured with
+         * #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT. Read-only property. */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalk.TT_TRANSMITQUEUE_MAX)]
+        public int[] transmitUsersQueue;
 
         public Channel(bool set_defaults) : this()
         {
@@ -3262,6 +3268,12 @@ namespace BearWare
          * channel operator.
          * @see #BearWare.UserAccount */
         public const int TT_CHANNELS_OPERATOR_MAX = 16;
+
+        /** @ingroup channels
+         * @def TT_TRANSMITQUEUE_MAX
+         * The maximum number of users in a #Channel's transmit queue when channel
+         * is configured with #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT */
+        public const int TT_TRANSMITQUEUE_MAX = 16;
 
         /** @ingroup sounddevices
          * The maximum number of sample rates supported by a #BearWare.SoundDevice. */

@@ -55,6 +55,9 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
   * TeamTalk 5 accessible client application written in C++ and based on MFC
     * Works well with screen-readers
   * Requires [Tolk](https://github.com/dkager/tolk) project as dependency. Remove macro *ENABLE_TOLK* to disable Tolk.
+    * Run ```git submodule init``` followed by ```git submodule update```
+  * Requires [tinyxml](https://github.com/bear101/tinyxml) project as dependency.
+    * Run ```git submodule init``` followed by ```git submodule update```
   * Requires **TeamTalk_DLL** project for DLL dependency
 * **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#

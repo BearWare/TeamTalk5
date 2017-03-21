@@ -1574,4 +1574,99 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         waitForEvent(ttvirt, ClientEvent.CLIENTEVENT_NONE, 5000);
 
     }
+
+    public void testSoloTransmitChannel() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
+            UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TTMessage msg = new TTMessage();
+        this.INPUTDEVICEID = this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        connect(ttclient);
+        initSound(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(ttclient, "Opus");
+        assertEquals("opus default", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+        chan.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
+
+        assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("Channel id set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+
+        for(int u : chan.transmitUsersQueue)
+            assertEquals("no users in queue", 0, u);
+
+        assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+
+        for(int i=0;i<2;i++) {
+
+            ttclient = newClientInstance();
+
+            connect(ttclient);
+            initSound(ttclient);
+            login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+            assertTrue("join existing " , waitCmdSuccess(ttclient, ttclient.doJoinChannelByID(chan.nChannelID, chan.szPassword), DEF_WAIT));
+
+            assertTrue("subscribe", waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+
+            assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
+
+            assertTrue("wait chan update " + i, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+
+            assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+
+            assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
+
+            assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+            assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+            assertEquals("myself talking", ttclient.getMyUserID(), msg.user.nUserID);
+
+            assertTrue("Disable voice transmission", ttclient.enableVoiceTransmission(false));
+
+            assertTrue("Wait for talking event stopped", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+            assertEquals("User state to no voice", UserState.USERSTATE_NONE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+            assertEquals("myself stopped talking", ttclient.getMyUserID(), msg.user.nUserID);
+        }
+
+        // user 0 is make user account
+        ttclient = ttclients.get(1);
+
+        assertTrue("drain client 1", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
+
+        assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("wait chan txq update", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+
+        assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+
+        assertEquals("myself in queue ", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
+
+        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        assertEquals("myself talking", ttclient.getMyUserID(), msg.user.nUserID);
+
+
+        ttclient = ttclients.get(2);
+
+        assertTrue("drain client 2", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
+
+        assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
+
+        assertTrue("wait chan txq update as no 2", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+
+        assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+
+        assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[1]);
+
+        assertFalse("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+    }
 }
