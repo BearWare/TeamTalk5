@@ -19,6 +19,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "MyStd.h"
 #include <stdio.h>
 #include <algorithm>

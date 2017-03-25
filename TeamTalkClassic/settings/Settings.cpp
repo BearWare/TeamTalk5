@@ -19,6 +19,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "Settings.h"
 #include "MyStd.h"
 #include <sstream>
