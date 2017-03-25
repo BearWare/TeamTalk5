@@ -6,7 +6,7 @@ project(ttproserverlog) : vc_warnings {
   libpaths += ../../TeamTalk_DLL
   lit_libs += TeamTalk5Pro
   
-specific(vc8,vc10,vc11,vc12) {
+specific(vc8,vc10,vc11,vc12,vc14) {
   intermediate_dir = $(PlatformName)/$(Configuration)
   exeout = $(PlatformName)/$(Configuration)
   unicode = 1
