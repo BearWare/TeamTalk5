@@ -240,14 +240,22 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
 void CSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
     m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
-    m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
+    if(m_SoundDevices.find(m_nInputDevice) != m_SoundDevices.end())
+        m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
+    else
+        m_szInputDeviceID.Empty();
+
     UpdateSoundControls();
 }
 
 void CSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
     m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
-    m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
+    if(m_SoundDevices.find(m_nOutputDevice) != m_SoundDevices.end())
+        m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
+    else
+        m_szOutputDeviceID.Empty();
+
     UpdateSoundControls();
 }
 

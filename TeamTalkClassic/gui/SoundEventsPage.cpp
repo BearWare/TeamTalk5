@@ -152,86 +152,103 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
 
     CString szText;
     szText.LoadString(IDS_USER_JOIN);
+    TRANSLATE_ITEM(IDS_USER_JOIN, szText);
     HTREEITEM hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_JOIN);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_JOIN) != 0);
     
     szText.LoadString(IDS_USER_LEFT);
+    TRANSLATE_ITEM(IDS_USER_LEFT, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_LEFT);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_LEFT) != 0);
 
     szText.LoadString(IDS_USER_TEXTMSG);
+    TRANSLATE_ITEM(IDS_USER_TEXTMSG, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_TEXTMSG) != 0);
 
     szText.LoadString(IDS_USER_CHANMSG);
+    TRANSLATE_ITEM(IDS_USER_CHANMSG, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_CHANNEL_TEXTMSG) != 0);
 
     szText.LoadString(IDS_USER_QUESTIONMODE);
+    TRANSLATE_ITEM(IDS_USER_QUESTIONMODE, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_QUESTIONMODE);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_QUESTIONMODE) != 0);
 
     szText.LoadString(IDS_USER_DESKACCESS_REQ);
+    TRANSLATE_ITEM(IDS_USER_DESKACCESS_REQ, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_DESKTOP_ACCESS);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_DESKTOP_ACCESS) != 0);
 
     szText.LoadString(IDS_USER_NEWVIDEOSESSION);
+    TRANSLATE_ITEM(IDS_USER_NEWVIDEOSESSION, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_VIDEOSESSION_NEW);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_VIDEOSESSION_NEW) != 0);
 
     szText.LoadString(IDS_USER_NEWDESKTOPSESSION);
+    TRANSLATE_ITEM(IDS_USER_NEWDESKTOPSESSION, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_USER_DESKTOPSESSION_NEW);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_USER_DESKTOPSESSION_NEW) != 0);
 
     szText.LoadString(IDS_CONNECTION_SERVERLOST);
+    TRANSLATE_ITEM(IDS_CONNECTION_SERVERLOST, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_CONNECTION_LOST);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_CONNECTION_LOST) != 0);
 
     szText.LoadString(IDS_HOTKEY);
+    TRANSLATE_ITEM(IDS_HOTKEY, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_PUSHTOTALK);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_PUSHTOTALK) != 0);
 
     szText.LoadString(IDS_VOICEACTIVATED);
+    TRANSLATE_ITEM(IDS_VOICEACTIVATED, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_VOICEACTIVATED);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_VOICEACTIVATED) != 0);
 
     szText.LoadString(IDS_VOICEDEACTIVATED);
+    TRANSLATE_ITEM(IDS_VOICEDEACTIVATED, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_VOICEDEACTIVATED);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_VOICEDEACTIVATED) != 0);
 
     szText.LoadString(IDS_FILES_UPDATED);
+    TRANSLATE_ITEM(IDS_FILES_UPDATED, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_FILES_UPDATED);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_FILES_UPDATED) != 0);
 
     szText.LoadString(IDS_TRANSFER_COMPLETE);
+    TRANSLATE_ITEM(IDS_TRANSFER_COMPLETE, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_FILETX_COMPLETE);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_FILETX_COMPLETE) != 0);
 
     szText.LoadString(IDS_CHANNELSILENT);
+    TRANSLATE_ITEM(IDS_CHANNELSILENT, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_CHANNEL_SILENT);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_CHANNEL_SILENT) != 0);
 
     szText.LoadString(IDS_TXQUEUEHEAD);
+    TRANSLATE_ITEM(IDS_TXQUEUEHEAD, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_TRANSMITQUEUE_HEAD);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_TRANSMITQUEUE_HEAD) != 0);
 
     szText.LoadString(IDS_TXQUEUESTOP);
+    TRANSLATE_ITEM(IDS_TXQUEUESTOP, szText);
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_TRANSMITQUEUE_STOP);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_TRANSMITQUEUE_STOP) != 0);
