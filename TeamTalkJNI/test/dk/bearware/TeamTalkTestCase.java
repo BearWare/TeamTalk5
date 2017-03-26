@@ -1636,37 +1636,73 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertEquals("myself stopped talking", ttclient.getMyUserID(), msg.user.nUserID);
         }
 
-        // user 0 is make user account
-        ttclient = ttclients.get(1);
+        // user 0 is make user account, so get user 1
+        TeamTalkBase ttclient1 = ttclients.get(1);
 
-        assertTrue("drain client 1", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
+        assertTrue("drain ttclient1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
 
-        assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
+        assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
 
-        assertTrue("wait chan txq update", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertTrue("ttclient1, wait chan txq update", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
 
-        assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+        assertTrue("ttclient1, Channel tx queue set", ttclient1.getChannel(ttclient1.getMyChannelID(), chan));
 
-        assertEquals("myself in queue ", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
+        assertEquals("ttclient1, myself in queue ", ttclient1.getMyUserID(), chan.transmitUsersQueue[0]);
 
-        assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
-        assertEquals("myself talking", ttclient.getMyUserID(), msg.user.nUserID);
+        assertTrue("ttclient1, Wait for talking event", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("ttclient1, User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        assertEquals("ttclient1, myself talking", ttclient1.getMyUserID(), msg.user.nUserID);
 
 
-        ttclient = ttclients.get(2);
+        // ensure ttclient2 doesn't take over transmit queue from ttclient1
+        TeamTalkBase ttclient2 = ttclients.get(2);
 
-        assertTrue("drain client 2", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
 
-        assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
+        assertTrue("ttclient2, Enable voice transmission", ttclient2.enableVoiceTransmission(true));
 
-        assertTrue("wait chan txq update as no 2", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertTrue("ttclient2, wait chan txq update as no 2", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
 
-        assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+        assertTrue("ttclient2, Channel tx queue set", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
 
-        assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[1]);
+        assertEquals("ttclient2, myself in queue", ttclient2.getMyUserID(), chan.transmitUsersQueue[1]);
 
-        assertFalse("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertFalse("ttclient2,Wait for talking event", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+
+        // ensure ttclient2 takes over transmit queue when ttclient1 stops transmitting
+        assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+
+        assertTrue("ttclient1, Disable voice transmission", ttclient1.enableVoiceTransmission(false));
+
+        assertTrue("ttclient1, wait chan txq update", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+
+        assertTrue("ttclient2, wait chan txq update as no 1", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertTrue("ttclient2, retrieve channel", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
+
+        assertEquals("ttclient2 head in queue", ttclient2.getMyUserID(), chan.transmitUsersQueue[0]);
+
+        //ensure transmit queue becomes empty when ttclient2 stops transmitting
+        assertTrue("ttclient2, disable voice transmission", ttclient2.enableVoiceTransmission(false));
+
+        assertTrue("ttclient2, wait chan txq update clear", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertTrue("ttclient2, retrieve channel", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
+
+        assertEquals("ttclient2 empty queue", 0, chan.transmitUsersQueue[0]);
+
+
+        // ensure ttclient1 can take over transmit queue again
+        assertTrue("drain ttclient1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+
+        assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
+
+        assertTrue("ttclient1, wait chan txq update", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+
+        assertTrue("ttclient1, Channel tx queue set", ttclient1.getChannel(ttclient1.getMyChannelID(), chan));
+
+        assertEquals("ttclient1, myself in queue ", ttclient1.getMyUserID(), chan.transmitUsersQueue[0]);
+
 
     }
 }
