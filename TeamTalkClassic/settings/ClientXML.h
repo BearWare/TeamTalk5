@@ -313,6 +313,12 @@ namespace teamtalk {
         bool SetEventVoiceDeactivated(const std::string& szPath);
         std::string GetEventVoiceDeactivated();
 
+        bool SetEventEnableVoiceActivation(const std::string& szPath);
+        std::string GetEventEnableVoiceActivation();
+
+        bool SetEventDisableVoiceActivation(const std::string& szPath);
+        std::string GetEventDisableVoiceActivation();
+
         bool SetEventTransmitQueueHead(std::string szPath);
         std::string GetEventTransmitQueueHead(std::string szDefPath = "");
 

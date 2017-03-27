@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <Mmsystem.h>
+#include <queue>
 
 extern TTInstance* ttInst;
 
@@ -269,6 +270,32 @@ void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData)
             return;
         }
     }
+}
+
+HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData)
+{
+    HTREEITEM hItem = wnd.GetRootItem();
+    HTREEITEM hResult = 0;
+    std::queue<HTREEITEM> items;
+
+    items.push(hItem);
+
+    while(items.size() && hResult == 0)
+    {
+        hItem = items.front();
+        items.pop();
+
+        if(dwItemData == wnd.GetItemData(hItem))
+        {
+            hResult = hItem;
+            break;
+        }
+        else if(wnd.ItemHasChildren(hItem))
+            items.push(wnd.GetChildItem(hItem));
+        else if(wnd.GetNextSiblingItem(hItem))
+            items.push(wnd.GetNextSiblingItem(hItem));
+    }
+    return hResult;
 }
 
 void PlayWaveFile(LPCTSTR szFilePath)

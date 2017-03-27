@@ -70,6 +70,7 @@ int GetWindowNumber(CWnd& wnd);
 void AddString(CComboBox& wnd, LPCTSTR szText, DWORD_PTR nItemData);
 int GetItemData(CComboBox& wnd, BOOL* pError = NULL);
 void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData);
+HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData);
 void PlayWaveFile(LPCTSTR szFilePath);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);

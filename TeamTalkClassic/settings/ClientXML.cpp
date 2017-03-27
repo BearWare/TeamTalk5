@@ -2043,6 +2043,48 @@ namespace teamtalk {
         return s;
     }
 
+    bool ClientXML::SetEventEnableVoiceActivation(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "enable-voice-activation", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetEventEnableVoiceActivation()
+    {
+        string s;
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "enable-voice-activation", s);
+        return s;
+    }
+
+    bool ClientXML::SetEventDisableVoiceActivation(const std::string& szPath)
+    {
+        TiXmlElement* pParent = GetEventsElement();
+        if(pParent)
+        {
+            PutString(*pParent, "disable-voice-activation", szPath);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    std::string ClientXML::GetEventDisableVoiceActivation()
+    {
+        string s;
+        TiXmlElement* child = GetEventsElement();
+        if(child)
+            GetString(*child, "disable-voice-activation", s);
+        return s;
+    }
+
     bool ClientXML::SetEventTransmitQueueHead(std::string szPath)
     {
         TiXmlElement* pParent = GetEventsElement();

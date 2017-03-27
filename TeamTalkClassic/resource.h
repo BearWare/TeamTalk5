@@ -190,6 +190,8 @@
 #define IDS_VOICEDEACTIVATED            282
 #define IDS_TXQUEUEHEAD                 283
 #define IDS_TXQUEUESTOP                 284
+#define IDS_ENABLEVOX                   285
+#define IDS_DISABLEVOX                  286
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

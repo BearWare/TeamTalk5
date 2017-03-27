@@ -148,6 +148,10 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     CPropertyPage::OnTimer(nIDEvent);
     KillTimer(nIDEvent);
 
+    DWORD dwItemData = SOUNDEVENT_NONE;
+    if(m_wndTree.GetSelectedItem())
+        dwItemData = m_wndTree.GetItemData(m_wndTree.GetSelectedItem());
+
     m_wndTree.DeleteAllItems();
 
     CString szText;
@@ -223,6 +227,18 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     m_wndTree.SetItemData(hItem, SOUNDEVENT_VOICEDEACTIVATED);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_VOICEDEACTIVATED) != 0);
 
+    szText.LoadString(IDS_ENABLEVOX);
+    TRANSLATE_ITEM(IDS_ENABLEVOX, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_ENABLE_VOICEACTIVATION);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_ENABLE_VOICEACTIVATION) != 0);
+
+    szText.LoadString(IDS_DISABLEVOX);
+    TRANSLATE_ITEM(IDS_DISABLEVOX, szText);
+    hItem = m_wndTree.InsertItem(szText);
+    m_wndTree.SetItemData(hItem, SOUNDEVENT_DISABLE_VOICEACTIVATION);
+    m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_DISABLE_VOICEACTIVATION) != 0);
+
     szText.LoadString(IDS_FILES_UPDATED);
     TRANSLATE_ITEM(IDS_FILES_UPDATED, szText);
     hItem = m_wndTree.InsertItem(szText);
@@ -252,4 +268,8 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     hItem = m_wndTree.InsertItem(szText);
     m_wndTree.SetItemData(hItem, SOUNDEVENT_TRANSMITQUEUE_STOP);
     m_wndTree.SetCheck(hItem, (m_uSoundEvents & SOUNDEVENT_TRANSMITQUEUE_STOP) != 0);
+
+    hItem = GetItemDataItem(m_wndTree, dwItemData);
+    if(hItem)
+        m_wndTree.SelectItem(hItem);
 }
