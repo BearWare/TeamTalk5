@@ -693,7 +693,7 @@ class ChannelListViewController :
             txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
         }
         else {
-            txButton.accessibilityHint = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
+            txButton.accessibilityHint = NSLocalizedString("Double tap to enable/disable transmission", comment: "channel list")
         }
         
         tableView.reloadData()

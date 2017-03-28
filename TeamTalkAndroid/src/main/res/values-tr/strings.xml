@@ -13,7 +13,7 @@
   <string name="title_activity_channel_prop">Kanal Özellikleri</string>
   <string name="title_activity_user_prop">Kullanıcı Özellikleri</string>
   <string name="title_activity_text_message">İleti</string>
-  <string name="title_activity_preferences">Ayarlar</string>
+  <string name="title_activity_preferences">Tercihler</string>
   <string name="action_createchannel">Oluştur</string>
   <string name="action_updatechannel">Güncelleştir</string>
   <string name="text_con_failed">Sunucuya bağlanılamadı. Yeniden deneniyor...</string>
@@ -229,7 +229,7 @@
   <string name="err_max_server_users_exceeded">Sunucuda çok fazla kullanıcı var</string>
   <string name="err_max_channel_users_exceeded">Kanalda çok fazla kullanıcı var</string>
   <string name="err_server_banned">IP adresiniz engellendi</string>
-  <string name="err_not_authorized">Yetkisiz</string>
+  <string name="err_not_authorized">Yetkili değil</string>
   <string name="err_max_diskusage_exceeded">Yetersiz disk alanı</string>
   <string name="err_incorrect_op_password">İşletmeci parolası yanlış</string>
   <string name="err_max_logins_per_ipaddress_exceeded">Bir IP adresinden çok fazla bağlantı var</string>

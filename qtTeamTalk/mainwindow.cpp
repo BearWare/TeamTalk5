@@ -1614,7 +1614,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INCOMPATIBLE_PROTOCOLS :
     case CMDERR_MISSING_PARAMETER :
         textmsg = tr("This client is not compatible with the server, "
-                    " so the action cannot be performed."); break;
+                    "so the action cannot be performed."); break;
     case CMDERR_INVALID_USERNAME :
         textmsg = tr("The username is invalid"); break;
 
