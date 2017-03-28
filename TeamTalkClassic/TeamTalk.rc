@@ -1713,6 +1713,7 @@ BEGIN
     IDS_TXQUEUESTOP         "Transmit stopped in ""No Interruptions"" channel"
     IDS_ENABLEVOX           "Enable voice activation"
     IDS_DISABLEVOX          "Disable voice activation"
+    IDS_ME_ENABLEVOX        "Enable voice activation from Me-menu"
 END
 
 STRINGTABLE
@@ -1932,6 +1933,11 @@ BEGIN
     IDC_RADIO_ONLINE        "Online"
     IDC_RADIO_AWAY          "Away"
     IDC_RADIO_QUESTION      "Question"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
 END
 
 #endif    // Neutral resources

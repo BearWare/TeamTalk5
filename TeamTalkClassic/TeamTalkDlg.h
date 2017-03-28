@@ -121,7 +121,7 @@ public:
 
     void UpdateWindowTitle();
 
-    void EnableVoiceActivation(BOOL bEnable);
+    void EnableVoiceActivation(BOOL bEnable, SoundEvent on = SOUNDEVENT_ENABLE_VOICEACTIVATION, SoundEvent off = SOUNDEVENT_DISABLE_VOICEACTIVATION);
     void EnableSpeech(BOOL bEnable);
 
     void CloseMessageSessions();

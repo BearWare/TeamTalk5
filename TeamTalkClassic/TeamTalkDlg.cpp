@@ -130,7 +130,9 @@ CTeamTalkDlg::~CTeamTalkDlg()
 }
 
 
-void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
+void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable,
+                                         SoundEvent on /*= SOUNDEVENT_ENABLE_VOICEACTIVATION*/,
+                                         SoundEvent off /*= SOUNDEVENT_DISABLE_VOICEACTIVATION*/)
 {
     if(bEnable)
         m_wndVoiceSlider.ShowWindow(SW_SHOW);
@@ -140,7 +142,7 @@ void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
     m_wndVoiceSlider.EnableWindow(bEnable);
     TT_SetVoiceActivationLevel(ttInst, m_wndVoiceSlider.GetPos());
     TT_EnableVoiceActivation(ttInst, bEnable);
-    PlaySoundEvent(bEnable?SOUNDEVENT_ENABLE_VOICEACTIVATION :  SOUNDEVENT_DISABLE_VOICEACTIVATION);
+    PlaySoundEvent(bEnable? on :  off);
 }
 
 void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
@@ -3314,6 +3316,8 @@ void CTeamTalkDlg::OnFilePreferences()
     eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED] = STR_UTF8( m_xmlSettings.GetEventVoiceDeactivated().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventEnableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation().c_str());
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
     eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
 
@@ -3588,6 +3592,8 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetEventVoiceDeactivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED]));
         m_xmlSettings.SetEventEnableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventMeEnableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventMeDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION]));
         m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
         m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
 
@@ -3763,7 +3769,8 @@ void CTeamTalkDlg::OnUpdateMeEnablevoiceactivation(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnMeEnablevoiceactivation()
 {
     BOOL bCurState = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED);
-    EnableVoiceActivation(!bCurState);
+    EnableVoiceActivation(!bCurState, SOUNDEVENT_ME_ENABLE_VOICEACTIVATION,
+                          SOUNDEVENT_ME_DISABLE_VOICEACTIVATION);
     m_xmlSettings.SetVoiceActivated((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
     m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst), IsMyselfTalking());
 }
@@ -6020,6 +6027,12 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
         break;
     case SOUNDEVENT_DISABLE_VOICEACTIVATION:
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation()));
+        break;
+    case SOUNDEVENT_ME_ENABLE_VOICEACTIVATION:
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation()));
+        break;
+    case SOUNDEVENT_ME_DISABLE_VOICEACTIVATION:
+        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation()));
         break;
     case SOUNDEVENT_TRANSMITQUEUE_HEAD :
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead()));
