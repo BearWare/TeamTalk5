@@ -434,6 +434,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
 
         // version items
         
+        let translatorcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        translatorcell.textLabel?.text = NSLocalizedString("Translator", comment: "preferences")
+        translatorcell.detailTextLabel?.text = NSLocalizedString("Bjoern D. Rasmussen, contact@bearware.dk", comment: "preferences")
+        version_items.append(translatorcell)
+        
         let versioncell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
         let v_str = String(cString: TT_GetVersion())
