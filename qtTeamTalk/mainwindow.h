@@ -71,7 +71,8 @@ enum TimerEvent
     TIMER_SEND_DESKTOPCURSOR,
     TIMER_RECONNECT,
     TIMER_STATUSMSG,
-    TIMER_SEND_DESKTOPWINDOW
+    TIMER_SEND_DESKTOPWINDOW,
+    TIMER_APP_UPDATE,
 };
 
 enum
@@ -245,6 +246,7 @@ private:
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
+    void checkAppUpdate();
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif

@@ -625,17 +625,9 @@ void MainWindow::loadSettings()
     //set files header to last position
     ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
 
-    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
-    {
-        QUrl url(URL_APPUPDATE);
-
-        m_http_manager = new QNetworkAccessManager(this);
-        connect(m_http_manager, SIGNAL(finished(QNetworkReply*)),
-                SLOT(slotHttpUpdateReply(QNetworkReply*)));
-
-        QNetworkRequest request(url);
-        m_http_manager->get(request);
-    }
+    // http query for app updates
+    checkAppUpdate();
+    m_timers.insert(startTimer(24 * 60 * 60 * 1000), TIMER_APP_UPDATE);
 
     if(ttSettings->value(SETTINGS_DISPLAY_STARTMINIMIZED, false).toBool())
         QTimer::singleShot(0, this, SLOT(showMinimized()));
@@ -1944,6 +1936,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
         else
             m_desktopsend_on_completion = true;
         break;
+    case TIMER_APP_UPDATE :
+        checkAppUpdate();
+        break;
     default :
         Q_ASSERT(0);
     }
@@ -3054,6 +3049,21 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
     }
 }
 #endif
+
+void MainWindow::checkAppUpdate()
+{
+    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
+    {
+        QUrl url(URL_APPUPDATE);
+
+        m_http_manager = new QNetworkAccessManager(this);
+        connect(m_http_manager, SIGNAL(finished(QNetworkReply*)),
+            SLOT(slotHttpUpdateReply(QNetworkReply*)));
+
+        QNetworkRequest request(url);
+        m_http_manager->get(request);
+}
+}
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
