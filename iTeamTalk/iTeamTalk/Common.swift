@@ -417,13 +417,13 @@ func setupSoundDevices() {
     
     let defaults = UserDefaults.standard
     let on = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
-    
+     
     let flags = TT_GetFlags(ttInst)
     if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
-        TT_InitSoundInputDevice(ttInst, on ? 1 : 0)
+        TT_InitSoundInputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
     }
     if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-        TT_InitSoundOutputDevice(ttInst, on ? 1 : 0)
+        TT_InitSoundOutputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
     }
     
     setupSpeakerOutput()
