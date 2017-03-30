@@ -50,7 +50,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoLogin().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpUser The user properties gathered so far.
          * @param lpUserAccount The user account information which should
          * be set for this user. */
@@ -67,7 +67,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoNewUserAccount().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpUser The user's properties.
          * @param lpUserAccount The properties of the user account to be created. */
         public delegate void UserCreateUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, ref UserAccount lpUserAccount);
@@ -83,7 +83,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoDeleteUserAccount().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpUser The properties of the user requesting.
          * @param szUsername The username of the account to delete. */
         public delegate void UserDeleteUserAccount(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szUsername);
@@ -98,7 +98,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoBanUser().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpBanner The properties of the user requesting the ban.
          * @param lpBanee The properties of the user who should be banned. */
         public delegate void UserAddServerBan(ref ClientErrorMsg lpClientErrorMsg,  ref User lpBanner, ref User lpBanee);
@@ -113,7 +113,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoBanIPAddress().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpBanner The properties of the user requesting the ban. This value
          * can be NULL if #BearWare.ServerProperties @c nMaxLoginAttempts is enabled.
          * @param szIPAddress The IP-address to be banned. */
@@ -129,7 +129,7 @@ namespace BearWare
          * This callback occurs in the context of TeamTalk.DoUnBanUser().
          *
          * @param lpClientErrorMsg Error message which should be sent back to
-         * user. Set @c nErrorNo to ::CMDERR_SUCCESS if user is authorized.
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
          * @param lpUser The properties of the user doing the request.
          * @param szIPAddress The IP-address to be unbanned. */
         public delegate void UserDeleteServerBan(ref ClientErrorMsg lpClientErrorMsg,ref User lpUser, string szIPAddress);
@@ -158,7 +158,7 @@ namespace BearWare
          * @brief Callback when a user has logged in.
          *
          * This callback occurs in the context of TeamTalk.DoLogin() and if
-         * #UserLogin returned ::CMDERR_SUCCESS.
+         * #UserLogin returned #ClientError.CMDERR_SUCCESS.
          *
          * @param lpUser The user properties of the user who logged in. */
         public delegate void UserLoggedIn(ref User lpUser);
