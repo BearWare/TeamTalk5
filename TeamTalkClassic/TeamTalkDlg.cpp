@@ -112,7 +112,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_tabChat(m_wndTabCtrl.m_tabChat)
 , m_xmlSettings(TT_XML_ROOTNAME)
 , m_nMoveUserID(0)
-, m_pHttpUpdate(NULL)
 , m_nLastMoveChannel(0)
 , m_nStatusMode(STATUSMODE_AVAILABLE)
 , m_bSendDesktopOnCompletion(FALSE)
@@ -2537,12 +2536,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
             m_bBoostBugComp = TRUE;
     }
 
-    if(m_xmlSettings.GetCheckApplicationUpdates())
-    {
-        m_pHttpUpdate = new CHttpRequest(URL_APPUPDATE);
-        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
-        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
-    }
+    RunAppUpdate();
+    SetTimer(TIMER_APPUPDATE_ID, 24 * 60 * 60 * 1000, NULL);
 
     //register hotkeys
     UpdateHotKeys();
@@ -4520,17 +4515,17 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                     m_host.nUdpPort, m_host.bEncrypted);
         break;
     case TIMER_HTTPREQUEST_UPDATE_ID :
-        ASSERT(m_pHttpUpdate);
-        if(!m_pHttpUpdate)
+        ASSERT(m_httpUpdate.get());
+        if(!m_httpUpdate.get())
         {
             KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
             break;
         }
-        if(m_pHttpUpdate->SendReady())
-            m_pHttpUpdate->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
-        else if(m_pHttpUpdate->ResponseReady())
+        if(m_httpUpdate->SendReady())
+            m_httpUpdate->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
+        else if(m_httpUpdate->ResponseReady())
         {
-            CString szResponse = m_pHttpUpdate->GetResponse();
+            CString szResponse = m_httpUpdate->GetResponse();
             string xml = STR_UTF8(szResponse, szResponse.GetLength()*4);
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
@@ -4546,15 +4541,13 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
 
             KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
             KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-            delete m_pHttpUpdate;
-            m_pHttpUpdate = NULL;
+            m_httpUpdate.reset();
         }
         break;
     case TIMER_HTTPREQUEST_TIMEOUT_ID :
         KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
         KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-        delete m_pHttpUpdate;
-        m_pHttpUpdate = NULL;
+        m_httpUpdate.reset();
         break;
     case TIMER_DESKTOPSHARE_ID :
         if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
@@ -4573,6 +4566,9 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
         }
         else
             m_bSendDesktopOnCompletion = TRUE;
+        break;
+    case TIMER_APPUPDATE_ID :
+        RunAppUpdate();
         break;
     }
 }
@@ -6040,6 +6036,16 @@ void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
     case SOUNDEVENT_TRANSMITQUEUE_STOP :
         PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueStop()));
         break;
+    }
+}
+
+void CTeamTalkDlg::RunAppUpdate()
+{
+    if(m_xmlSettings.GetCheckApplicationUpdates())
+    {
+        m_httpUpdate.reset(new CHttpRequest(URL_APPUPDATE));
+        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
+        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
     }
 }
 

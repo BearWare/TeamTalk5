@@ -66,7 +66,8 @@ enum
     TIMER_RECONNECT_ID,
     TIMER_HTTPREQUEST_UPDATE_ID,
     TIMER_HTTPREQUEST_TIMEOUT_ID,
-    TIMER_DESKTOPSHARE_ID
+    TIMER_DESKTOPSHARE_ID,
+    TIMER_APPUPDATE_ID
 };
 
 enum
@@ -159,6 +160,8 @@ public:
     void RestartSendDesktopWindowTimer();
     void ToggleClassroom(int nUserID, StreamTypes uStreamTypes);
     void PlaySoundEvent(SoundEvent event);
+
+    void RunAppUpdate();
 
     CString m_szTTLink;
     CStringList m_cmdArgs;
@@ -342,7 +345,7 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    CHttpRequest* m_pHttpUpdate;
+    std::auto_ptr<CHttpRequest> m_httpUpdate;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);
