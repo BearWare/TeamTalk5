@@ -254,7 +254,7 @@ namespace BearWare
          * @param lpTextMessage Text message to send. The message type determines
          * how the message will be sent.
          * @return Returns a #ClientError.
-         * @see TeamTalk.DoTextMessage() */
+         * @see TeamTalkBase.DoTextMessage() */
         public ClientError SendTextMessage(BearWare.TextMessage lpTextMessage)
         {
             return TTProDLL.TTS_SendTextMessage(m_ttsInst, ref lpTextMessage);
@@ -289,7 +289,7 @@ namespace BearWare
          * @param bEncrypted If encryption is enabled then encryption context
          * must be set prior to this call using SetEncryptionContext().
          * @param szSystemID The identification of the conferencing system.
-         * The default value is "teamtalk". See TeamTalk.ConnectSysID(). */
+         * The default value is "teamtalk". See TeamTalkBase.ConnectSysID(). */
         public bool StartServerSysID(string szBindIPAddr, int nTcpPort, int nUdpPort, bool bEncrypted,
                                      string szSystemID)
         {

@@ -30,11 +30,11 @@ namespace TeamTalkTest.NET
         const string UPLOADFILE = "c:\\temp\\test.wma";
         const string DOWNLOADFILE = "c:\\temp\\test_download.mp3";
 
-        List<TeamTalk> ttclients = new List<TeamTalk>();
+        List<TeamTalkBase> ttclients = new List<TeamTalkBase>();
 
         public TeamTalkTest()
         {
-            TeamTalk.SetLicenseInformation("", "");
+            TeamTalkBase.SetLicenseInformation("", "");
         }
 
         [TestInitialize]
@@ -45,7 +45,7 @@ namespace TeamTalkTest.NET
         [TestCleanup]
         public void TearDown()
         {
-            foreach (TeamTalk ttclient in ttclients)
+            foreach (TeamTalkBase ttclient in ttclients)
             {
                 ttclient.Disconnect();
                 ttclient.CloseSoundDuplexDevices();
@@ -61,17 +61,17 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestStatic()
         {
-            Assert.IsTrue(TeamTalk.GetVersion().Length > 0, "Test version info");
+            Assert.IsTrue(TeamTalkBase.GetVersion().Length > 0, "Test version info");
         }
 
         [TestMethod]
         public void TestSoundInit()
         {
             System.GC.Collect();
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             int devin = 0, devout = 0;
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
 
             Assert.IsTrue(ttclient.InitSoundInputDevice(devin), "Init sound input");
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_READY), "Input ready");
@@ -82,7 +82,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.CloseSoundOutputDevice(), "close snd out");
             Assert.IsTrue(ttclient.CloseSoundInputDevice(), "close snd in");
 
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_DSOUND, ref devin, ref devout),
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_DSOUND, ref devin, ref devout),
                           "get dpx for dsound");
 
             Assert.IsTrue(ttclient.InitSoundDuplexDevices(devin, devout), "init dpx");
@@ -92,9 +92,9 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(ttclient.Flags == ClientFlag.CLIENT_CLOSED);
 
-            Assert.IsTrue(TeamTalk.RestartSoundSystem(), "restart snd sys");
+            Assert.IsTrue(TeamTalkBase.RestartSoundSystem(), "restart snd sys");
 
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
 
             Assert.IsTrue(ttclient.InitSoundInputDevice(devin), "Init sound input");
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_READY), "Input ready");
@@ -110,7 +110,7 @@ namespace TeamTalkTest.NET
         public void TestSoundDevices()
         {
             SoundDevice[] devs;
-            Assert.IsTrue(TeamTalk.GetSoundDevices(out devs));
+            Assert.IsTrue(TeamTalkBase.GetSoundDevices(out devs));
             foreach (SoundDevice s in devs)
             {
                 Assert.IsTrue(s.nDefaultSampleRate > 0);
@@ -118,19 +118,19 @@ namespace TeamTalkTest.NET
             }
 
             int devin = 0, devout = 0;
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevices(ref devin, ref devout), "Get default devices");
             SoundDevice sin = devs.First<SoundDevice>(m => m.nDeviceID == devin);
             SoundDevice sout = devs.First<SoundDevice>(m => m.nDeviceID == devout);
 
             int minChan = Math.Min(sin.nMaxInputChannels, sout.nMaxOutputChannels);
 
-            IntPtr sndloop = TeamTalk.StartSoundLoopbackTest(devin, devout, sin.nDefaultSampleRate, minChan, false, new SpeexDSP());
+            IntPtr sndloop = TeamTalkBase.StartSoundLoopbackTest(devin, devout, sin.nDefaultSampleRate, minChan, false, new SpeexDSP());
             Assert.IsTrue(sndloop != IntPtr.Zero,
                             "Start loopback test");
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop loopback test");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop loopback test");
 
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_DSOUND,
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_DSOUND,
                                                              ref devin, ref devout), "Get default DSound devices");
 
             sin = devs.First<SoundDevice>(m => m.nDeviceID == devin);
@@ -143,26 +143,26 @@ namespace TeamTalkTest.NET
             spxdsp.nMaxDecDBSec = SpeexDSPConstants.DEFAULT_AGC_DEC_MAXDB;
             spxdsp.nMaxGainDB = SpeexDSPConstants.DEFAULT_AGC_GAINMAXDB;
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
             Assert.IsTrue(sndloop != IntPtr.Zero,
                           "Testing duplex with AGC");
 
             System.Threading.Thread.Sleep(500);
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC");
 
             spxdsp.bEnableAGC = false;
 
             spxdsp.bEnableDenoise = SpeexDSPConstants.DEFAULT_DENOISE_ENABLE;
             spxdsp.nMaxNoiseSuppressDB = SpeexDSPConstants.DEFAULT_DENOISE_SUPPRESS;
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with denoise");
 
             System.Threading.Thread.Sleep(500);
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with denoise");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop duplex test with denoise");
 
             spxdsp.bEnableDenoise = false;
 
@@ -170,33 +170,33 @@ namespace TeamTalkTest.NET
             spxdsp.nEchoSuppress = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS;
             spxdsp.nEchoSuppressActive = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with AEC");
 
             System.Threading.Thread.Sleep(500);
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AEC");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AEC");
 
             spxdsp.bEnableAGC = spxdsp.bEnableDenoise = spxdsp.bEnableEchoCancellation = true;
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 1, true, spxdsp);
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with AGC, AEC, denoise");
 
             System.Threading.Thread.Sleep(500);
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, true, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, true, spxdsp);
             Assert.IsTrue(IntPtr.Zero != sndloop,
                           "Testing duplex with AGC, AEC, denoise in stereo");
 
             System.Threading.Thread.Sleep(500);
 
-            Assert.IsTrue(TeamTalk.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
+            Assert.IsTrue(TeamTalkBase.CloseSoundLoopbackTest(sndloop), "Stop duplex test with AGC, AEC, denoise");
 
-            sndloop = TeamTalk.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, false, spxdsp);
+            sndloop = TeamTalkBase.StartSoundLoopbackTest(sin.nDeviceID, sout.nDeviceID, sin.nDefaultSampleRate, 2, false, spxdsp);
             Assert.IsTrue(IntPtr.Zero == sndloop,
                           "Testing AEC without duplex");
 
@@ -205,10 +205,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestVoice()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
@@ -299,10 +299,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestRecordAudio()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
@@ -377,13 +377,13 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestVideoCapture()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             VideoCaptureDevice[] devs;
-            Assert.IsTrue(TeamTalk.GetVideoCaptureDevices(out devs), "get video devs");
+            Assert.IsTrue(TeamTalkBase.GetVideoCaptureDevices(out devs), "get video devs");
 
             Assert.IsTrue(devs.Length > 0, "Video devs available");
 
@@ -464,10 +464,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestMediaStreamAudio()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
@@ -476,7 +476,7 @@ namespace TeamTalkTest.NET
 
             MediaFileInfo mf = new MediaFileInfo();
 
-            Assert.IsTrue(TeamTalk.GetMediaFileInfo(MEDIAFILE_AUDIO, ref mf), "get media file info");
+            Assert.IsTrue(TeamTalkBase.GetMediaFileInfo(MEDIAFILE_AUDIO, ref mf), "get media file info");
             Assert.IsTrue(mf.uDurationMSec > 0, "media file time");
             Assert.IsTrue(mf.audioFmt.nSampleRate > 0, "sample rate");
             Assert.IsTrue(mf.audioFmt.nChannels > 0, "channels");
@@ -511,10 +511,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestMediaStreamVideo()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
@@ -523,7 +523,7 @@ namespace TeamTalkTest.NET
 
             MediaFileInfo mf = new MediaFileInfo();
 
-            Assert.IsTrue(TeamTalk.GetMediaFileInfo(MEDIAFILE_VIDEO, ref mf), "get media file info");
+            Assert.IsTrue(TeamTalkBase.GetMediaFileInfo(MEDIAFILE_VIDEO, ref mf), "get media file info");
             Assert.IsTrue(mf.uDurationMSec > 0, "media file time");
             Assert.IsTrue(mf.audioFmt.nSampleRate > 0, "sample rate");
             Assert.IsTrue(mf.audioFmt.nChannels > 0, "channels");
@@ -577,10 +577,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestMediaStreamFileInvalid()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
@@ -599,10 +599,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestDesktopShare()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -641,7 +641,7 @@ namespace TeamTalkTest.NET
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_DESKTOP_ACTIVE), "desktop active");
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             InitSound(ttclient2);
             Connect(ttclient2);
             Login(ttclient2, NICKNAME, USERNAME, PASSWORD);
@@ -701,10 +701,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestDesktopShareLeak()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -762,10 +762,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestDesktopHWND()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_DESKTOP;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -851,17 +851,17 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestDesktopInput()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT | UserRight.USERRIGHT_MULTI_LOGIN;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             InitSound(ttclient);
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
             JoinRoot(ttclient);
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             InitSound(ttclient2);
             Connect(ttclient2);
             Login(ttclient2, NICKNAME, USERNAME, PASSWORD);
@@ -913,10 +913,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestConnectivity()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_NONE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Assert.IsTrue(ttclient.Connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED), "connect call");
 
@@ -958,7 +958,7 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestServerStats()
         {
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, GetCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
             TTMessage msg = new TTMessage();
@@ -972,10 +972,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestLogin()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1043,10 +1043,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestTextMessage()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1071,7 +1071,7 @@ namespace TeamTalkTest.NET
             chan.audiocodec.opus.bVBR = true;
             chan.audiocodec.opus.bVBRConstraint = false;
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
@@ -1158,10 +1158,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelOp()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1196,7 +1196,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(cmdid > 0, "join root issued");
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT), "join root complete");
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
@@ -1251,10 +1251,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelPassword()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             string username1 = "guest1", password1 = "guest1";
             string username2 = "guest2", password2 = "guest2";
@@ -1297,7 +1297,7 @@ namespace TeamTalkTest.NET
 
             //see own channel password (as operator)
             MakeUserAccount(GetCurrentMethod(), username1, password1, UserRight.USERRIGHT_VIEW_ALL_USERS);
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
 
             Connect(ttclient2);
             Login(ttclient2, "test user 1", username1, username1);
@@ -1321,7 +1321,7 @@ namespace TeamTalkTest.NET
 
             //see channel password with USERRIGHT_MODIFY_CHANNELS
             MakeUserAccount(GetCurrentMethod(), username2, password2, UserRight.USERRIGHT_MODIFY_CHANNELS);
-            TeamTalk ttclient3 = NewClientInstance();
+            TeamTalkBase ttclient3 = NewClientInstance();
 
             Connect(ttclient3);
             Login(ttclient3, "test user 2", username2, username2);
@@ -1341,10 +1341,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestFileUpDown()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_UPLOAD_FILES | UserRight.USERRIGHT_DOWNLOAD_FILES;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1455,15 +1455,15 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelCommands()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             int cmdid;
             TTMessage msg = new TTMessage();
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
@@ -1645,10 +1645,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestMoveUserCommands()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             int cmdid;
             TTMessage msg = new TTMessage();
@@ -1656,7 +1656,7 @@ namespace TeamTalkTest.NET
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
@@ -1697,10 +1697,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestServerUpdateCommands()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_NONE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             int cmdid;
             TTMessage msg = new TTMessage();
@@ -1713,7 +1713,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient.DoUpdateServer(prop);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, ref msg), "server update fail");
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             cmdid = ttclient2.DoLogin(ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
             Assert.IsTrue(cmdid > 0, "login issued");
@@ -1797,10 +1797,10 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestIpLogins()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES | UserRight.USERRIGHT_MULTI_LOGIN;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1815,13 +1815,13 @@ namespace TeamTalkTest.NET
 
             ttclient.Disconnect();
 
-            TeamTalk ttclient2 = new TeamTalk(true);
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, NICKNAME, USERNAME, PASSWORD);
             Connect(ttclient2);
             Login(ttclient2, NICKNAME, USERNAME, PASSWORD);
 
-            TeamTalk ttclient3 = new TeamTalk(true);
+            TeamTalkBase ttclient3 = NewClientInstance();
             Connect(ttclient3);
             Assert.IsTrue(!WaitCmdSuccess(ttclient3, ttclient3.DoLogin(NICKNAME, USERNAME, PASSWORD), 500), "Login failure");
             
@@ -1831,7 +1831,7 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestUserAccountRights()
         {
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
@@ -1839,7 +1839,7 @@ namespace TeamTalkTest.NET
             string BANIPADDR = "192.25.2.1";
             UserAccount account = new UserAccount();
             account.szInitChannel = "";
-            account.autoOperatorChannels = new int[TeamTalk.TT_CHANNELS_OPERATOR_MAX];
+            account.autoOperatorChannels = new int[TeamTalkBase.TT_CHANNELS_OPERATOR_MAX];
             account.szUsername = "svend";
             account.szPassword = "passwd";
             account.szNote = "the note";
@@ -1851,7 +1851,7 @@ namespace TeamTalkTest.NET
             int cmdid = ttclient.DoNewUserAccount(account);
             WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT);
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
 
             Login(ttclient2, "blah", account.szUsername, account.szPassword);
@@ -1919,7 +1919,7 @@ namespace TeamTalkTest.NET
             Assert.AreEqual(account.uUserRights, account2.uUserRights);
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoBanUser(ttclient2.GetMyUserID(), 0), DEF_WAIT));
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoBanIPAddress(BANIPADDR, 0), DEF_WAIT));
-            ttclient2.OnCmdBannedUser += new TeamTalk.ListBannedUser(ttclient2_OnCmdBannedUser);
+            ttclient2.OnCmdBannedUser += new TeamTalkBase.ListBannedUser(ttclient2_OnCmdBannedUser);
             bannedusers.Clear();
             Assert.IsTrue(WaitCmdComplete(ttclient2, ttclient2.DoListBans(0, 0, 200), DEF_WAIT));
 
@@ -2000,13 +2000,13 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestAdminUserAccount()
         {
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
             UserAccount account = new UserAccount();
             account.szInitChannel = "";
-            account.autoOperatorChannels = new int[TeamTalk.TT_CHANNELS_OPERATOR_MAX];
+            account.autoOperatorChannels = new int[TeamTalkBase.TT_CHANNELS_OPERATOR_MAX];
             account.szUsername = "svend";
             account.szPassword = "passwd";
             account.szNote = "the note";
@@ -2016,13 +2016,13 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoNewUserAccount(account), DEF_WAIT));
 
-            ttclient.OnCmdUserAccount += new TeamTalk.ListUserAccount(ttclient_OnCmdUserAccount);
+            ttclient.OnCmdUserAccount += new TeamTalkBase.ListUserAccount(ttclient_OnCmdUserAccount);
             useraccounts.Clear();
             Assert.IsTrue(WaitCmdComplete(ttclient, ttclient.DoListUserAccounts(0, 1000000), DEF_WAIT));
 
             Assert.IsTrue(useraccounts.Count>0);
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, GetCurrentMethod(), account.szUsername, account.szPassword);
 
@@ -2036,13 +2036,13 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestManyUserAccounts()
         {
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
             UserAccount account = new UserAccount();
             account.szInitChannel = "";
-            account.autoOperatorChannels = new int[TeamTalk.TT_CHANNELS_OPERATOR_MAX];
+            account.autoOperatorChannels = new int[TeamTalkBase.TT_CHANNELS_OPERATOR_MAX];
             account.szUsername = "svend";
             account.szPassword = "passwd";
             account.szNote = "the note";
@@ -2057,7 +2057,7 @@ namespace TeamTalkTest.NET
                 account.szUsername = username + i;
                 Assert.IsTrue(ttclient.DoNewUserAccount(account) > 0);
             }
-            ttclient.OnCmdUserAccount += new TeamTalk.ListUserAccount(ttclient_OnCmdUserAccount);
+            ttclient.OnCmdUserAccount += new TeamTalkBase.ListUserAccount(ttclient_OnCmdUserAccount);
             useraccounts.Clear();
             Assert.IsTrue(WaitCmdComplete(ttclient, ttclient.DoListUserAccounts(0, N_ACCOUNT), 30000));
             Assert.IsTrue(useraccounts.Count >= N_ACCOUNT);
@@ -2076,20 +2076,20 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestViewAllUsers()
         {
-            const string USERNAME1 = "guest1", PASSWORD1 = "guest1", NICKNAME1 = "TeamTalk.NET1";
-            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalk.NET2";
+            const string USERNAME1 = "guest1", PASSWORD1 = "guest1", NICKNAME1 = "TeamTalkBase.NET1";
+            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalkBase.NET2";
             const UserRight USERRIGHTS1 = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
             const UserRight USERRIGHTS2 = UserRight.USERRIGHT_MULTI_LOGIN;
             MakeUserAccount(GetCurrentMethod(), USERNAME1, PASSWORD1, USERRIGHTS1);
             MakeUserAccount(GetCurrentMethod(), USERNAME2, PASSWORD2, USERRIGHTS2);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             TTMessage msg = new TTMessage();
 
             Connect(ttclient);
             Login(ttclient, NICKNAME1, USERNAME1, PASSWORD1);
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             Connect(ttclient2);
             Login(ttclient2, NICKNAME2, USERNAME2, PASSWORD2);
 
@@ -2126,15 +2126,15 @@ namespace TeamTalkTest.NET
             
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 0));
 
-            List<TeamTalk> clients = new List<TeamTalk>();
+            List<TeamTalkBase> clients = new List<TeamTalkBase>();
             for (int i = 0; i < 10; i++)
             {
-                TeamTalk client = NewClientInstance();
+                TeamTalkBase client = NewClientInstance();
                 Connect(client);
                 Login(client, NICKNAME2, USERNAME2, PASSWORD2);
                 JoinRoot(client);
             }
-            foreach (TeamTalk t in clients)
+            foreach (TeamTalkBase t in clients)
                 t.DoQuit();
 
             Assert.IsFalse(ttclient2.GetMessage(ref msg, 0));
@@ -2143,7 +2143,7 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelClassroom()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | 
                                          UserRight.USERRIGHT_TRANSMIT_VOICE |
                                          UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE |
@@ -2151,9 +2151,9 @@ namespace TeamTalkTest.NET
                                          UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO |
                                          UserRight.USERRIGHT_TRANSMIT_DESKTOP;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
-            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalk.NET2";
+            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalkBase.NET2";
             const UserRight USERRIGHTS2 = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                           UserRight.USERRIGHT_MULTI_LOGIN |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE |
@@ -2180,7 +2180,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             InitSound(ttclient2);
             Connect(ttclient2);
             Login(ttclient2, NICKNAME2, USERNAME2, PASSWORD2);
@@ -2219,7 +2219,7 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelNoVoiceActivation()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE |
                                          UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE |
@@ -2227,9 +2227,9 @@ namespace TeamTalkTest.NET
                                          UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO |
                                          UserRight.USERRIGHT_TRANSMIT_DESKTOP;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
-            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalk.NET2";
+            const string USERNAME2 = "guest2", PASSWORD2 = "guest2", NICKNAME2 = "TeamTalkBase.NET2";
             const UserRight USERRIGHTS2 = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                           UserRight.USERRIGHT_MULTI_LOGIN |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE |
@@ -2256,7 +2256,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
 
-            TeamTalk ttclient2 = NewClientInstance();
+            TeamTalkBase ttclient2 = NewClientInstance();
             InitSound(ttclient2);
             Connect(ttclient2);
             Login(ttclient2, NICKNAME2, USERNAME2, PASSWORD2);
@@ -2279,11 +2279,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestSoundInputPreprocess()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             int cmdid;
 
@@ -2316,11 +2316,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestAudioCodecs()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             InitSound(ttclient);
@@ -2388,11 +2388,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestChannelNoRecording()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             TTMessage msg = new TTMessage();
 
@@ -2448,11 +2448,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestAudioBlock()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             TTMessage msg = new TTMessage();
 
@@ -2517,11 +2517,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestSpeexSimStereo()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             InitSound(ttclient);
@@ -2560,11 +2560,11 @@ namespace TeamTalkTest.NET
         [TestMethod]
         public void TestVoiceTxRx()
         {
-            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalk.NET - " + GetCurrentMethod();
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
             const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
                                          UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
 
             Connect(ttclient);
             InitSound(ttclient);
@@ -2595,7 +2595,7 @@ namespace TeamTalkTest.NET
             //VoiceTxRx(ttclient, 3600000, 30000, 125000);
         }
 
-        void VoiceTxRx(TeamTalk ttclient, int TEST_DURATION, int VOICE_TX_DURATION, int SILENCE_DURATION)
+        void VoiceTxRx(TeamTalkBase ttclient, int TEST_DURATION, int VOICE_TX_DURATION, int SILENCE_DURATION)
         {
             Debug.WriteLine("Total Duration {0} {1} {2}", TEST_DURATION, VOICE_TX_DURATION, SILENCE_DURATION);
             Channel chan = new Channel();
@@ -2649,10 +2649,10 @@ namespace TeamTalkTest.NET
             }
         }
 
-        private void InitSound(TeamTalk ttclient)
+        private void InitSound(TeamTalkBase ttclient)
         {
             int devin = 0, devout = 0;
-            Assert.IsTrue(TeamTalk.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_WASAPI,
+            Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_WASAPI,
                                                  ref devin, ref devout), "Get default DSound devices");
 
             SpeexDSP spxdsp = new SpeexDSP();
@@ -2674,14 +2674,14 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDOUTPUT_READY), "Output ready");
         }
 
-        private static void Connect(TeamTalk ttclient)
+        private static void Connect(TeamTalkBase ttclient)
         {
             Assert.IsTrue(ttclient.Connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED), "connect call");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000), "wait connect");
         }
 
-        private static void Login(TeamTalk ttclient, string nick, string username, string passwd)
+        private static void Login(TeamTalkBase ttclient, string nick, string username, string passwd)
         {
             int cmdid = ttclient.DoLogin(nick, username, passwd);
             Assert.IsTrue(cmdid > 0, "do login");
@@ -2698,7 +2698,7 @@ namespace TeamTalkTest.NET
 
         private void MakeUserAccount(string nickname, string username, string password, UserRight userrights)
         {
-            TeamTalk ttclient = NewClientInstance();
+            TeamTalkBase ttclient = NewClientInstance();
             Connect(ttclient);
             Login(ttclient, nickname, ADMIN_USERNAME, ADMIN_PASSWORD);
             UserAccount useraccount = new UserAccount();
@@ -2710,7 +2710,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.Disconnect());
         }
 
-        private static void JoinRoot(TeamTalk ttclient)
+        private static void JoinRoot(TeamTalkBase ttclient)
         {
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_AUTHORIZED), "Auth ok");
 
@@ -2723,7 +2723,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, 1000), "Wait join complete");
         }
 
-        private static bool WaitForEvent(TeamTalk ttclient, ClientEvent e, int waittimeout, ref TTMessage msg)
+        private static bool WaitForEvent(TeamTalkBase ttclient, ClientEvent e, int waittimeout, ref TTMessage msg)
         {
             long start = DateTime.Now.Ticks / 10000;
             TTMessage tmp = new TTMessage();
@@ -2746,13 +2746,13 @@ namespace TeamTalkTest.NET
             return tmp.nClientEvent == e;
         }
 
-        private static bool WaitForEvent(TeamTalk ttclient, ClientEvent e, int waittimeout)
+        private static bool WaitForEvent(TeamTalkBase ttclient, ClientEvent e, int waittimeout)
         {
             TTMessage msg = new TTMessage();
             return WaitForEvent(ttclient, e, waittimeout, ref msg);
         }
 
-        private static bool WaitCmdComplete(TeamTalk ttclient, int cmdid, int waittimeout)
+        private static bool WaitCmdComplete(TeamTalkBase ttclient, int cmdid, int waittimeout)
         {
             TTMessage msg = new TTMessage();
 
@@ -2764,7 +2764,7 @@ namespace TeamTalkTest.NET
             return false;
         }
 
-        private static bool WaitCmdSuccess(TeamTalk ttclient, int cmdid, int waittimeout)
+        private static bool WaitCmdSuccess(TeamTalkBase ttclient, int cmdid, int waittimeout)
         {
             TTMessage msg = new TTMessage();
 
@@ -2777,7 +2777,7 @@ namespace TeamTalkTest.NET
             return false;
         }
 
-        private static bool WaitCmdError(TeamTalk ttclient, int cmdid, int waittimeout)
+        private static bool WaitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout)
         {
             TTMessage msg = new TTMessage();
 
@@ -2790,7 +2790,7 @@ namespace TeamTalkTest.NET
             return false;
         }
 
-        private static Channel BuildDefaultChannel(TeamTalk ttclient, string name)
+        private static Channel BuildDefaultChannel(TeamTalkBase ttclient, string name)
         {
             Channel chan = new Channel(true);
             chan.nParentID = ttclient.GetRootChannelID();
@@ -2832,9 +2832,9 @@ namespace TeamTalkTest.NET
             return sf.GetMethod().Name;
         }
 
-        TeamTalk NewClientInstance()
+        TeamTalkBase NewClientInstance()
         {
-            TeamTalk ttclient = new TeamTalk(true);
+            TeamTalkBase ttclient = new TeamTalk5(true);
             ttclients.Add(ttclient);
             return ttclient;
         }
