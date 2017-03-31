@@ -1,0 +1,73 @@
+/**
+ * @page license License TeamTalk SDK
+ *
+ * The binaries included with the TeamTalk SDK are trials which will
+ * disable themselves after 30 days of use. To use the TeamTalk SDK
+ * in an end-user application you must purchase a license from
+ * <a href="http://www.bearware.dk">BearWare.dk</a>.
+ *
+ * A TeamTalk SDK License is royalty-free meaning that when you have
+ * purchased a license you're allowed to redistribute unlimited copies
+ * of your end-user applications which use the TeamTalk
+ * DLLs. Additionally the license grants you the right to run an
+ * unlimited number of TeamTalk servers.
+ *
+ * @section purchase Purchase License
+ *
+ * Please visit <a
+ * href="http://www.bearware.dk">BearWare.dk</a> for
+ * pricing or send an email to <a
+ * href="mailto:contact@bearware.dk">contact@bearware.dk</a> for more
+ * information.
+ *
+ * @subsection netlicense Activate License in .NET DLL
+ *
+ * To apply the TeamTalk 5 SDK license in a .NET application call the
+ * method BearWare.TeamTalk.SetLicenseInformation(). This will disable
+ * trail mode.
+ *
+ * @code
+ * class MyProgram {
+ * 
+ *   static void Main(string[] args) {
+ *     BearWare.TeamTalk.SetLicenseInformation("MyCompany", "1234abcd");
+ *     BearWare.TeamTalk ttclient = new BearWare.TeamTalk(true);
+ *   }
+ * }
+ * @endcode
+ *
+ * @subsection javalicense Activate License in Java DLL
+ *
+ * To apply the TeamTalk 5 SDK license in a Java application call the
+ * method dk.bearware.TeamTalk5.setLicenseInformation(). This will
+ * disable trail mode.
+ *
+ * @code
+ * class MyProgram {
+ *   
+ *    public static void main(String[] args) {
+ *      dk.bearware.TeamTalk5.loadLibrary();
+ *      dk.bearware.TeamTalk5.setLicenseInformation("MyCompany", "1234abcd");
+ *      dk.bearware.TeamTalk5 ttclient = new dk.bearware.TeamTalk5();
+ *    }
+ *  }
+ * @endcode
+ *
+ * In Java you must call @c dk.bearware.TeamTalk5.loadLibrary()
+ * followed by @c dk.bearware.TeamTalk5.setLicenseInformation() to set
+ * license name and key. The call to @c loadLibrary() ensures the
+ * TeamTalk JNI DLL is loaded prior to invoking a function in the
+ * DLL. Otherwise you'll see an @c UnsatisfiedLinkError.
+ *
+ * @subsection capilicense Activate License in C-API DLL
+ *
+ * To apply the TeamTalk 5 SDK license in a C API application call the
+ * function TT_SetLicenseInformation(). This will disable trial mode.
+ *
+ * @code
+ * int main(int argc, char* argv[]) {
+ *   TT_SetLicenseInformation("MyCompany", "1234abcd");
+ *   TTInstance* ttclient = TT_InitTeamTalkPoll();
+ * }
+ * @endcode
+ */

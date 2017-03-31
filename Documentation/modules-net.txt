@@ -1,0 +1,741 @@
+namespace BearWare
+{
+/**
+ * @defgroup initclient Client Initialization
+ *
+ * @brief This section explains how to instantiate a new client
+ * instance and query its current state.
+ *
+ * To instantiate a client in TeamTalk 5 SDK Standard Edition call the
+ * constructor TeamTalk5.TeamTalk5() and in TeamTalk 5 Professional
+ * Edition call TeamTalk5Pro.TeamTalk5Pro(). In both cases the
+ * constructor has the parameter @a poll_events which should be
+ * 'false' for Windows Forms applications and 'true' for console
+ * applications. The @a poll_events parameter tells how the client
+ * instance should post its events. Since a Windows Forms application
+ * has its own message-loop it does not need to "poll" for
+ * events. This is, however, needed by console applications which
+ * should call TeamTalkBase.GetMessage() to get events.
+ *
+ * When a new client instance is created a user application can call
+ * to TeamTalkBase.GetFlags() to query the client instance's current
+ * state. Initially the client instance's state will be #ClientFlag
+ * #ClientFlag.CLIENT_CLOSED. This means that no operation has been performed on
+ * the client.
+ *
+ * @defgroup sounddevices Sound Capture and Playback
+ *
+ * @brief This section explains how to record and playback audio
+ * in the client instance.
+ *
+ * Before being able to initialize the sound devices to use for
+ * recording and playback the computer's available sound devices must
+ * first be queried. This is done using the functions
+ * TeamTalkBase.GetSoundInputDevices() and
+ * TeamTalkBase.GetSoundOutputDevices(). These two functions return arrays
+ * of #BearWare.SoundDevice-structs which contains a description of
+ * the sound device. In the #BearWare.SoundDevice-struct there's a
+ * member variable called @a nDeviceID. This ID should be passed to
+ * the client instance's two sound initialization functions
+ * TeamTalkBase.InitSoundInputDevice() and
+ * TeamTalkBase.InitSoundOutputDevice(). Once this has been done the
+ * TeamTalkBase.GetFlags() call will return a value containing the mask
+ * bits #ClientFlag #ClientFlag.CLIENT_SNDINPUT_READY and #ClientFlag
+ * #ClientFlag.CLIENT_SNDOUTPUT_READY.
+ *
+ * A computer's default sound devices can be queried using
+ * TeamTalkBase.GetDefaultSoundDevices(). A loop-back test of the selected sound
+ * devices can be performed using TeamTalkBase.StartSoundLoopbackTest().
+ * 
+ * Be aware that the sound devices might fail if e.g. a USB sound
+ * device is unplugged while the client is talking in a channel. In
+ * this case ensure the application is processing the errors
+ * #ClientError.INTERR_SNDINPUT_FAILURE and #ClientError.INTERR_SNDOUTPUT_FAILURE in the
+ * TeamTalkBase.OnInternalError() event.
+ *
+ * Read section @ref transmission to see how to transmit recorded
+ * audio to other users.
+ *
+ *
+ * @defgroup videocapture Video Capture and Image Display
+ *
+ * @brief This section explains how to detect and configure video
+ * capture devices.
+ *
+ * The client is able to capture video and present them to the user
+ * application in RGB32-format and transmit the image in encoded
+ * format to other users.
+ *
+ * Sections:
+ * - @ref vidcapinit
+ * - @ref vidcapdisplay
+ *
+ * @section vidcapinit Initialize Video Capture Device
+ *
+ * To capture video the user application must first query the
+ * available capture devices by calling TeamTalkBase.GetVideoCaptureDevices(). A
+ * #BearWare.VideoCaptureDevice supports a certain number of capture formats
+ * each described in the @a videoFormats member of #BearWare.VideoFormat.
+ *
+ * Once a device has been chosen the TeamTalkBase.InitVideoCaptureDevice()
+ * must be called for the client instance to start capturing video
+ * frames. Use the @a szDevice member of #BearWare.VideoCaptureDevice
+ * as the device identifier for the video capture device and pass a
+ * #BearWare.VideoFormat from the @a videoFormats array of
+ * #BearWare.VideoCaptureDevice. Check out section @ref codecs on how
+ * to configure the video codec.
+ *
+ * @section vidcapdisplay Display Captured Video
+ *
+ * When a video frame becomes available the event
+ * TeamTalkBase.OnUserVideoCapture() is posted to the application and
+ * TeamTalkBase.GetUserVideoFrame() can be used to extract the RGB32
+ * image. On Windows it's also possible to call
+ * TeamTalkBase.PaintVideoFrame() to make the client instance paint on
+ * a @c HWND by getting its HDC.
+ *
+ *
+ * @defgroup codecs Audio and Video Codecs
+ *
+ * @brief This section explains how to configure audio and video
+ * codecs.
+ *
+ * The client is able to encode audio in <a
+ * href="http://www.speex.org">Speex</a> and <a
+ * href="http://www.opus-codec.org">OPUS</a> format whereas video can
+ * be encoded in <a href="http://www.webmproject.org">WebM</a>
+ * format. OPUS is recommended for audio encoding, both for voice and
+ * music.
+ *
+ * Choosing the right codec settings in an end-user application is
+ * very important and proper settings depend entirely on the user
+ * scenario. Always ensure that the codec settings do not require too
+ * much bandwidth and thereby resulting in packetloss causing
+ * inaudible conversations and poor video quality. Detecting
+ * packetloss can be done using #BearWare.UserStatistics and
+ * #BearWare.ClientStatistics.
+ *
+ * Note that bandwidth usage will be much higher when running in peer
+ * to peer mode since each client must then broadcast data to all
+ * users instead of having the server forward the audio and video
+ * packets. Checkout the section @ref connectivity on the different
+ * types of connections.
+ * 
+ * Every channel must configure which audio codec to use in order for
+ * users to be able to talk to each other. The @a audiocodec member of
+ * #BearWare.Channel specifies which audio codec
+ * (#BearWare.AudioCodec) should be used. A channel does not restrict
+ * the video codec (#BearWare.VideoCodec) users are using.
+ *
+ *
+ * @defgroup desktopshare Desktop Sharing
+ *
+ * @brief This section explains how to use the desktop sharing
+ * feature where users can share their desktop applications.
+ *
+ * A user can transmit a desktop window to other users in a
+ * channel by passing the handle of a window to the TeamTalk client
+ * instance. The TeamTalk client then converts the window to a bitmap
+ * image which is transmitted to the server. The server then forwards
+ * the bitmap image to all other users in the channel.
+ *
+ * To transmit a desktop window the user's #BearWare.UserAccount must
+ * have the #UserRight.USERRIGHT_TRANSMIT_DESKTOP.
+ *
+ * Sections:
+ * - @ref desktoptx
+ *   - @ref desktopwin
+ * - @ref desktopshow
+ *   - @ref desktopcursor
+ * - @ref desktopinput
+ *   - @ref rxdesktopinput
+ *   - @ref txdesktopinput
+ *   - @ref transdesktopinput
+ *
+ * @section desktoptx Send Desktop Window (or bitmap)
+ *
+ * Before sending a desktop window to a channel the handle
+ * (identifier) of the window to share must first be found. It is,
+ * however, possible to simply send a raw bitmap by calling
+ * TeamTalkBase.SendDesktopWindow().
+ *
+ * @subsection desktopwin Windows Desktop Sharing
+ *
+ * TeamTalk for Windows provides the following functions for
+ * obtaining different @c HWNDs:
+ *
+ * - WindowsHelper.GetDesktopActiveHWND()
+ *   - Get the @c HWND of the window which has focus.
+ * - WindowsHelper.GetDesktopHWND()
+ *   - Get the @c HWND of the Windows desktop.
+ * - WindowsHelper.GetDesktopWindowHWND()
+ *   - Enumerate all visible windows.
+ * - WindowsHelper.GetWindow()
+ *   - Get information about a window, e.g. window title, size, etc.
+ *
+ * Once the @c HWND of the window to share has been found use the
+ * following function for sending the window to the channel:
+ * 
+ * - TeamTalkBase.SendDesktopWindowFromHWND()
+ *
+ * @section desktopshow Displaying Shared Desktop Window (or bitmap)
+ *
+ * When a shared desktop window is received the event
+ * TeamTalkBase.OnUserDesktopWindow() is posted to the local client
+ * instance. TeamTalkBase.AcquireUserDesktopWindow() can then be called to obtain
+ * a bitmap image of the shared window.
+ *
+ * @subsection desktopcursor Desktop Cursor Sharing
+ *
+ * It is also possible to share the position of the mouse cursor when
+ * sharing a desktop window. Use TeamTalkBase.SendDesktopCursorPosition() to
+ * transmit the position of the mouse cursor. When the position is
+ * received the event #BearWare.TeamTalkBase.OnUserDesktopCursor is posted to the
+ * local client instance. TeamTalkBase.GetUserDesktopCursor() can then be used
+ * to obtain the cursor position.
+ * 
+ * @section desktopinput Remote Desktop Access
+ *
+ * If a user has shared a desktop window it's possible for other users
+ * in the same channel to take over control of mouse and keyboard on
+ * the computer sharing the desktop window.
+ *
+ * To access a remote desktop the user's #BearWare.UserAccount must have the
+ * #UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT.
+ * 
+ * @subsection rxdesktopinput Receive Desktop Input
+ *
+ * In order for a client instance to allow remote desktop access it is
+ * required to first subscribe to desktop input from the user who
+ * wants access to the shared desktop window. This is done by calling
+ * TeamTalkBase.DoSubscribe() along with the user-id and subscription
+ * #Subscription.SUBSCRIBE_DESKTOPINPUT. Once desktop input (mouse or keyboard
+ * input) is received from a remote user the
+ * TeamTalkBase.OnUserDesktopInput() event will be posted to the client
+ * instance. The actual mouse or keyboard input can then be obtained
+ * by the client instance using TeamTalkBase.GetUserDesktopInput() which returns
+ * a struct of type #BearWare.DesktopInput. Afterwards
+ * WindowsHelper.Execute() can be used to execute the mouse or
+ * keyboard input.
+ *
+ * @subsection txdesktopinput Transmit Desktop Input
+ * 
+ * The remote user who wants to transmit mouse or keyboard input to
+ * the user sharing a desktop window can use
+ * TeamTalkBase.SendDesktopInput(). Remember that the user sharing the desktop
+ * window must have enabled the subscription #Subscription.SUBSCRIBE_DESKTOPINPUT.
+ *
+ * @subsection transdesktopinput Desktop Input and Keyboard Layouts
+ *
+ * It can be quite troublesome to handle keyboard input since each
+ * key-code depends on the OS and the regional settings on the
+ * OS. E.g. on a German keyboard the Z key is located where the Y key
+ * is on a US keyboard. The German keyboard also has letters which
+ * don't even appear on a US keyboard.
+ *
+ * Because of the issues with keyboard layouts and regional settings
+ * the TeamTalk API provides BearWare.WindowsHelper.DesktopInput_KeyTranslate() which can
+ * be used to translate a keyboard's scan-code to an intermediate
+ * format. If e.g. a client instance is running Windows then
+ * BearWare.WindowsHelper.DesktopInput_KeyTranslate() can be called with
+ * #TTKeyTranslate.TTKEY_WINKEYCODE_TO_TTKEYCODE which converts the scan-code on a
+ * Windows keyboard to TeamTalk's intermediate format (TTKEYCODE). To
+ * be able to execute the key-code once it's received it must be
+ * converted back again from TeamTalk's intermediate format to the
+ * platform where the application is running. I.e. if the TTKEYCODE is
+ * received on a Mac then BearWare.WindowsHelper.DesktopInput_KeyTranslate() must be
+ * called with #TTKeyTranslate.TTKEY_TTKEYCODE_TO_MACKEYCODE.
+ *
+ * @defgroup mediastream Stream Media Files
+ *
+ * Media files, mp3, avi, wmv, wma, etc. can be streamed to a channel
+ * and controlled separately from the voice and video capture
+ * input. Streaming a media file requires
+ * #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO and/or
+ * #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO.
+ *
+ * The media formats supported by the TeamTalk DLL depends on the
+ * platform. On Windows the Windows Media Player's API is used to
+ * convert media files to TeamTalk's internal formats (i.e. Speex,
+ * OPUS and WebM). So whatever Windows Media Player can play should
+ * also be possible to stream using TeamTalkBase. On Mac and Linux avconv
+ * is used for converting media files which in similar way makes use
+ * of what the platform provides.
+ *
+ * Use BearWare.TeamTalkBase.GetMediaFileInfo() to see if the media file format is
+ * supported and what properties are used for audio and video.
+ *
+ * To stream a media file to a channel call
+ * BearWare.TeamTalkBase.StartStreamingMediaFileToChannel() and to stop the stream call
+ * BearWare.TeamTalkBase.StopStreamingMediaFileToChannel(). The user receiving the media
+ * stream can control volume levels by calling BearWare.TeamTalkBase.SetUserVolume() and
+ * BearWare.TeamTalkBase.AcquireUserMediaVideoFrame() to obtain video frames.
+ *
+ * Subscription of media files is controlled by #Subscription.SUBSCRIBE_MEDIAFILE.
+ *
+ * @defgroup events Client Event Handling
+ *
+ * @brief This section explains how to handle events generated by the
+ * client instance.
+ *
+ * When events occur in the client instance, like e.g. if a new user
+ * joins a channel, the client instance invokes an event which the
+ * user application must act upon. The message queue for events is
+ * limited to 1 MB. If the queue grows above the maximum size then
+ * event handling is suspended and will not be resumed until the queue
+ * size is again below the maximum size. The event
+ * #ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW will be posted to the message
+ * queue if an overflow has taken place.
+ *
+ * Note that when an event occurs the TeamTalk client instance doesn't
+ * wait for the user application to process the event. So if e.g. a
+ * user sends a text-message and immediately after disconnects from
+ * the server, then the #BearWare.User, who sent the message, cannot be
+ * retrieved using TeamTalkBase.GetUser() since the user is no longer available
+ * when the user application starts processing the new text-message
+ * event. This is, of course, annoying when designing the user
+ * application, but the reason for this design choice it that the
+ * client instance is a realtime component which cannot wait for the
+ * UI to process data, since audio playback and recording would then
+ * be halted.
+ *
+ * The section @ref stepbystep gives a good idea of how events are
+ * processed in a user application.
+ *
+ *
+ * @defgroup errorhandling Client Error Handling
+ *
+ * @brief This section explains how to handle errors occuring in the
+ * client instance or as a result of server commands.
+ *
+ * There are two types errors which can occur in the client,
+ * either server command error or internal errors. Section @ref
+ * commands describes all the commands a client can issue to a
+ * server. If a server commands fails the client instance notifies the
+ * user application through the event TeamTalkBase.OnCmdError(). An
+ * example of a server command error could be to issue the TeamTalkBase.DoLogin()
+ * command with an incorrect password. The server will in this
+ * case respond with the error #ClientError.CMDERR_INVALID_ACCOUNT. The
+ * user application must be designed to process these errors so
+ * application users can be notified of errors.
+ *
+ * Internal errors are errors due to failing devices. Currently only
+ * two such errors exist #ClientError.INTERR_SNDINPUT_FAILURE and
+ * #ClientError.INTERR_SNDOUTPUT_FAILURE.
+ *
+ *
+ * @defgroup connectivity Client/Server Connectivity
+ *
+ * @brief This section explains how to connect to a server and how the
+ * client should transmit voice and video data.
+ * 
+ * To communicate with a server the TeamTalk client creates
+ * both a TCP and UDP connection to the server. Commands, i.e. the
+ * @c BearWare.TeamTalkBase.Do*-functions, are sent on TCP whereas audio and video are sent
+ * on UDP.
+ *
+ * To connect to a server the user application must call
+ * TeamTalkBase.Connect(). Once connected the event TeamTalkBase.OnConnectSuccess() is
+ * posted to the user application and the TeamTalkBase.DoLogin() command can be
+ * issued. Always ensure to call TeamTalkBase.Disconnect() before attempting to
+ * create a new connection with TeamTalkBase.Connect().
+ *
+ * When the client instance has joined a channel and wants to transmit
+ * audio or video data to other users this can be done in two ways
+ * depending on how the user application configures the client. One
+ * way is forward through server and the other is peer to peer mode
+ * which are explained in the following two sections.
+ *
+ * @section txforward Forward Through Server Transmission Mode
+ *
+ * The client instance is sending its audio and video packets to the
+ * server and the server will then broadcast the packets to the other
+ * users on behalf of the client. In other words the client puts the
+ * bandwidth load onto the server. This approach has its advantages
+ * and disadvantages. Since most internet users nowadays have 
+ * limited upstream they cannot broadcast audio and video packets to
+ * numerous users at the same time, so therefore the TeamTalk
+ * client makes the server do the broadcasting. This means that
+ * the server must have sufficient bandwidth available to handle data
+ * transmission from and to all the connected users. One disadvantage
+ * by having the server forward the audio and video packets is that it
+ * doubles latency, since the client doesn't send directly to other
+ * clients.
+ *
+ * If the server should not allow clients to forward audio and video
+ * packets the @a uUserRights member of #BearWare.UserAccount must disable
+ * #UserRight.USERRIGHT_TRANSMIT_VOICE and #UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE.
+ *
+ * @defgroup commands Client/Server Commands
+ *
+ * @brief This section contains the list of commands which can be
+ * issued by the client instance to the server.
+ *
+ * @section cmdprocessing Client/Server Command Processing
+ *
+ * Functions with the prefix @c Do* are commands which the client can
+ * issue to the server. Every @c Do* function returns a command
+ * identifier which can user application can use to check when the
+ * server has finished processing the issued command. Once the client
+ * receives a response to a command the client instance posts the
+ * event TeamTalkBase.OnCmdProcessing() to the user application
+ * containing the command identifier and whether the command is being
+ * processed or it has completed.
+ *
+ * As an example, say the user application wants to issue the
+ * TeamTalkBase.DoLogin() command. When the application calls TeamTalkBase.DoLogin() the
+ * returned command ID is stored in a variable. The application then
+ * waits for the TeamTalkBase.OnCmdProcessing() event to be posted with
+ * the stored command ID. The first time TeamTalkBase.OnCmdProcessing()
+ * is posted to the user application it is to say that processing has
+ * begun. The second time TeamTalkBase.OnCmdProcessing() is called it is
+ * to say that the command has completed. In between the command
+ * starting and completing several other events may take place. If
+ * e.g. the TeamTalkBase.DoLogin() fails the user application would receive the
+ * event TeamTalkBase.OnCmdError(). If on the other hand the command was
+ * successful all the channels and user would be posted as events to
+ * the application before the login-command completed processing.
+ *
+ *
+ * @defgroup transmission Audio and Video Transmission
+ *
+ * @brief This section explains how to transmit audio and video to
+ * users in a channel.
+ *
+ * Once the client instance has joined a channel it can transmit
+ * audio, video and desktops to other users in the channel.
+ *
+ * To transmit audio the client must have the flag
+ * #ClientFlag #ClientFlag.CLIENT_SNDINPUT_READY enabled which is done in the function
+ * TeamTalkBase.InitSoundInputDevice(). To transmit video requires the flag
+ * #ClientFlag #ClientFlag.CLIENT_VIDEOCAPTURE_READY which is enabled by the function
+ * TeamTalkBase.InitVideoCaptureDevice(). To hear what others users are saying a
+ * sound output device must have been configured using
+ * TeamTalkBase.InitSoundOutputDevice() and thereby have enabled the flag
+ * #ClientFlag #ClientFlag.CLIENT_SNDOUTPUT_READY.
+ *
+ * Calling TeamTalkBase.EnableVoiceTransmission() will make the client
+ * instance start transmitting voice data. Voice transmission can also
+ * be activated automatically using voice activation. This is done by
+ * called TeamTalkBase.EnableVoiceActivation() and setting a voice
+ * activation level using TeamTalkBase.SetVoiceActivationLevel(). Note
+ * that voice transmission requires #UserRight.USERRIGHT_TRANSMIT_VOICE.
+ *
+ * Calling TeamTalkBase.StartVideoCaptureTransmission() will make the client
+ * instance start transmission video data from a video capture device
+ * (typically a webcam). Note that video capture transmission requires
+ * #UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE.
+ *
+ *
+ * @defgroup server Server Administration
+ *
+ * @brief This section explains how to configure a server and setup
+ * user accounts.
+ *
+ * The server keeps track of which users are in which channels
+ * and ensures that users in the same channel can communicate with
+ * each other. It is also the job of the server to provide user
+ * authentication so only users with the proper credentials are
+ * allowed to do certain operations.
+ *
+ * It is a good idea to check out section @ref serversetup to learn
+ * how to configure the TeamTalk server.
+ *
+ * The server's name, message of the day (MOTD) can be updated using
+ * the #BearWare.ServerProperties-struct. Only users with
+ * #UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES are allowed change a server's
+ * properties while it's running. This is done using the command
+ * TeamTalkBase.DoUpdateServer().
+ *
+ * Sections:
+ * - @ref useradmin
+ * - @ref userban
+ *
+ * @section useradmin User Administration
+ *
+ * Two types of users exists on a server, default users
+ * (#UserType.USERTYPE_DEFAULT) and administrator users (#UserType.USERTYPE_ADMIN). The
+ * #UserType-enum can be used to see who is what. A user of
+ * #UserType.USERTYPE_ADMIN have unrestricted rights on the server and can
+ * issue any command to the server whereas a default user is limited
+ * to the #UserRights which are assigned to the @c uUserRights member
+ * of the user's #BearWare.UserAccount.
+ *
+ * As administrator it is possible to list all users who have an
+ * account on the server using TeamTalkBase.DoListUserAccounts(). To
+ * create a new user account call the command
+ * TeamTalkBase.DoNewUserAccount() and to delete an account call
+ * TeamTalkBase.DoDeleteUserAccount().
+ *
+ * @section userban Kicking and Banning Users
+ *
+ * Sometimes it may be necessary to kick and ban users from a
+ * server. With #UserRight.USERRIGHT_KICK_USERS it is possible to use the
+ * command TT_DoKickUser() to kick a user off the server. A channel
+ * operator (TT_DoChannelOp()) can also kick a user from a channel
+ * (but not off a server).
+ *
+ * With #UserRight.USERRIGHT_BAN_USERS it is also possible to ban users from the
+ * server, so they can no longer log in. This can be done using
+ * TT_DoBanUser(). To list who are currently banned call
+ * TT_DoListBans() and to remove a ban call TT_DoUnBanUser().
+ *
+ *
+ * @defgroup channels Channel Properties
+ *
+ * @brief This section explains the concept of channels where users
+ * can interact.
+ *
+ * Users are arranged in a tree structure consisting of
+ * channels where each channel can hold a number of users. While
+ * in a channel users can transmit audio and video to each other
+ * as well as sending channel messages. On a server there will
+ * always be a root channel which cannot be deleted.
+ *
+ * In other conferencing tools channels are also refered to as
+ * "rooms".
+ *
+ * Sections:
+ * - @ref chanadmin
+ * - @ref filesharing
+ * - @ref voicelog
+ *
+ * @section chanadmin Channel Administration
+ *
+ * To create a new channel on a server requires
+ * #UserRight.USERRIGHT_MODIFY_CHANNELS or #UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL.
+ *
+ * With #UserRight.USERRIGHT_MODIFY_CHANNELS the method TeamTalkBase.DoMakeChannel() can
+ * be used to create a new channel and any existing channel can be
+ * updated using TeamTalkBase.DoUpdateChannel() and removed by calling
+ * TeamTalkBase.DoRemoveChannel(). Basically #UserRight.USERRIGHT_MODIFY_CHANNELS gives
+ * unrestricted access to all channels on the server. Also seeing
+ * passwords of all channels on the server.
+ *
+ * With #UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL the user can only create
+ * temporary channels which disappear when the last user leaves the
+ * channel. A temporary channel must be created by calling
+ * TeamTalkBase.DoJoinChannel(). Once a user has created a temporary channel and
+ * joined it he becomes operator of the channel which means that he
+ * can update the channel's properties at any given time.
+ * 
+ * @section filesharing File Sharing
+ *
+ * While in a channel users can upload and download files if the
+ * #UserRight.USERRIGHT_UPLOAD_FILES and #UserRight.USERRIGHT_DOWNLOAD_FILES are
+ * enabled. To upload a file to a channel the channel needs to have a
+ * disk quota. The disk quota is specified by @a nDiskQuota in the
+ * #BearWare.Channel-struct. The file being uploaded must have a file
+ * size which is less than the disk quota and the sum of sizes of
+ * existing files. Once a file is uploaded only channel operators and
+ * the file's owner can delete a file.
+ *
+ * Call TeamTalkBase.DoSendFile() to upload a file and
+ * TeamTalkBase.DoRecvFile() to download a file. Only users who have
+ * a #BearWare.UserAccount on the server are allowed to upload
+ * files. There is no limit on the maximum number of file
+ * transfers but it is advised to queue file transfers so the file
+ * transfers do no affect server performance.
+ *
+ * @section voicelog Storing Conversations to Audio Files
+ *
+ * In some applications it may be required to be able to save all
+ * audio data received by the client instance to disk. This can be
+ * archived by calling TeamTalkBase.SetUserMediaStorageDir() which
+ * will then save received audio data in the following format:
+ * "YYYYMMDD-HHMMSS \#USERID USERNAME.wav". USERNAME is the @a
+ * szUsername from #BearWare.User.
+ *
+ * To store audio data from outside the local client instance's
+ * channel, please read section @ref spying.
+ *
+ *
+ * @defgroup users User Properties
+ *
+ * @brief This section explains users interact and how to configure
+ * user settings.
+ *
+ * Users can be seen on the server after a successful call
+ * to TeamTalkBase.DoLogin(). Once logged in a user can send user to user
+ * text-messages using TeamTalkBase.DoTextMessage() as well as receive
+ * broadcast messages. A user cannot send audio and video data to
+ * other users until they have joined the same channel.
+ *
+ * Sections:
+ * - @ref usertypes
+ * - @ref userinteract
+ * - @ref uservolume
+ * - @ref subscriptions
+ *   - @ref spying
+ *
+ * @section usertypes User Types
+ *
+ * A user can either be a default user #UserType.USERTYPE_DEFAULT or an
+ * administrator #UserType.USERTYPE_ADMIN. A default user has limited rights
+ * on the server (see @c uUserRights of #BearWare.UserAccount) whereas an
+ * administrator can change server properties, create, delete and
+ * remove channels as well as move, kick and ban users. Checkout @ref
+ * useradmin on how to set up user rights.
+ *
+ * @section userinteract User Interaction
+ *
+ * Once a user has joined a channel it is possible to transmit voice
+ * and video data to other users. If a user starts talking in the
+ * channel the event TeamTalkBase.OnUserStateChange() is posted to the user
+ * application and if a video frame is received the event
+ * TeamTalkBase.OnUserVideoFrame() is sent to the user application.
+ *
+ * @section uservolume User Audio Settings
+ *
+ * While in the same channel the user application can change different
+ * settings on a user. If e.g. a user's volume is too low the user
+ * application can call TeamTalkBase.SetUserVolume() to increase the volume. 
+ *
+ * If on the other hand the user application wants to mute a user
+ * TeamTalkBase.SetUserMute() can be used for this. Note that muting a user
+ * doesn't mean that the client instance will stop receiving audio
+ * from that user, it simply means it will not be played. To stop
+ * receiving audio from a user the local client instance must ask the
+ * server to unsubscribe audio data from the user. This is explained
+ * in the next section.
+ *
+ * @section subscriptions User Subscriptions
+ * 
+ * When logging on to a server the local client instance will by
+ * default subscribe to user messages, channel messages, broadcast
+ * messages, audio data and video data from all users. If,
+ * however, a client wants to stop receiving e.g. audio from a
+ * user, he can call TeamTalkBase.DoUnsubscribe() along with the user
+ * ID and the #Subscription.SUBSCRIBE_VOICE-flag to tell the
+ * server that he no longer wants to receive audio from that
+ * user. The server will then respond with the event
+ * TeamTalkBase.OnCmdUserUpdate() and the @a uLocalSubscriptions
+ * member of #BearWare.User will have the
+ * #Subscription.SUBSCRIBE_VOICE-flag removed. At the remote user
+ * the \a uPeerSubscriptions member will be
+ * changed. Subscribe/unsubscribe can also be done for user,
+ * channel and broadcast messages and video data. The function
+ * TeamTalkBase.DoSubscribe() can be used to revert unsubscriptions.
+ *
+ * @subsection spying Spying on Users
+ *
+ * Previously it has been said that users can only receive audio and
+ * video from users when they are in the same channel, but actually an
+ * administrator user can call TeamTalkBase.DoSubscribe() with the flags prefixed
+ * SUBSCRIBE_INTERCEPT_* to spy on users outside his own channel. In
+ * other words it's possible hear and see video data outside ones
+ * channel. Also all user and channel messages sent by a user can also
+ * be intercepted in this way.
+ *
+ * Having the ability to intercept all data sent from users in any
+ * channel means that it's possible to log everything that is
+ * happening on the server. Both audio and video transfers as well
+ * as text messaging. Checkout TeamTalkBase.SetUserMediaStorageDir()
+ * on how to store voice data to audio files.
+ *
+ *
+ * @defgroup hotkey Windows Hotkeys
+ *
+ * @brief This section explains how to setup hot-keys on Windows.
+ *
+ * Hotkeys can be used to e.g. enable push-to-talk.
+ *
+ * Windows supports intercepting key strokes globally, i.e. without
+ * having the user application's window focused. To investigate which
+ * keys are currently being pressed the function
+ * TeamTalkBase.HotKey_InstallTestHook() can be used. Once the desired
+ * key-combination has been found the function TeamTalkBase.HotKey_Register() can
+ * be used to register the combination as a hotkey and have the
+ * TeamTalkBase.OnHotKeyToggle() event posted whenever the key combination
+ * becomes active.
+ *
+ * Note that it's not advised to have a hotkey installed while
+ * debugging an application in Visual Studio. It slows down the
+ * debugger dramatically.
+ * 
+ *
+ * @defgroup mixer Windows Mixer
+ *
+ * @brief This section explains how to control the Windows mixer.
+ *
+ * The Windows mixer can also be manipulated so e.g. Line In
+ * can be chosen instead of Microphone for recording.
+ *
+ * To find the mixer which is associated with the current sound input
+ * or output device the @a nWaveDeviceID member of #BearWare.SoundDevice must
+ * be used when querying the mixer.
+ *
+ *
+ * @defgroup firewall Windows Firewall
+ *
+ * @brief This section explains how to configure the Windows firewall
+ * available in Windows XP SP2 and later.
+ *
+ * The Windows Firewall can be modified so applications can be
+ * added to the firewall's exception list.
+ *
+ * The Windows Firewall was introduced in Windows XP SP2. Modifying
+ * the Windows Firewall requires administrator rights. On Windows XP
+ * the user running the application, which calls the DLL, is assumed
+ * to have administrator rights. On Windows Vista/7 the DLL will
+ * automatically call User Account Control (UAC) to obtain
+ * administrator rights.
+ *
+ * Check out #BearWare.WindowsFirewall class on how to add
+ * application executables to the Windows Firewall exception list.
+ *
+ * @defgroup serverapi TeamTalk Server API
+ *
+ * @brief Instantiate and run a TeamTalk server.
+ *
+ * The Professional Edition of the TeamTalk SDK includes a class 
+ * called #BearWare.TeamTalk5Srv which exposes the TeamTalk server API.
+ *
+ * To create a TeamTalk server instantiate the #BearWare.TeamTalk5Srv
+ * class. If the server should be encrypted then call
+ * TeamTalk5Srv.SetEncryptionContext() prior to the instantiation,
+ * since the SSL context must be available before instantiation of the
+ * server.
+ *
+ * Next configure the server instance by calling
+ * TeamTalk5Srv.UpdateServer(). Remember to set all properties of
+ * #BearWare.ServerProperties. Also create a root channel by calling
+ * TeamTalk5Srv.MakeChannel(). If there is no root channel then the
+ * server will not start. Finally call TeamTalk5Srv.StartServer() to
+ * start the server. Now you must continuesly call
+ * TeamTalk5Srv.RunEventLoop() to run the server event loop.
+ *
+ * The TeamTalk server API is able to do callbacks when users perform
+ * certain events. There are two types of callbacks, one is @ref
+ * serverlogevents and the other is @ref servercallbacks where the server
+ * is asking the server application on what to return to the user (a
+ * #BearWare.ClientErrorMsg is provided by the server API which will be
+ * returned to the user).
+ *
+ * To see a simple example application of a TeamTalk server check
+ * out @ref ttservernet.
+ *
+ * @defgroup servercallbacks Server Request Callbacks
+ *
+ * @brief Handle user requests to the server.
+ *
+ * Callbacks of this type are invoked when a client application has
+ * issued a command to the server, basically called a @c TeamTalkBase.Do*
+ * method (one example could be TeamTalkBase.DoLogin()).
+ *
+ * To get a callback when a user wants to log in listen for event
+ * TeamTalk5Srv.OnUserLogin(). If the user should be allowed to log on
+ * pass #ClientError.CMDERR_SUCCESS to the #BearWare.ClientErrorMsg provided by the
+ * TeamTalk server API. If not pass any another value which will then
+ * be returned to the client application.
+ *
+ * @defgroup serverlogevents Server Notification Callbacks
+ *
+ * @brief Notification events for server changes.
+ *
+ * Callbacks of this type are mainly meant for logging so it's
+ * possible to see what is going on the server. Examples of logging
+ * events are when a user is dropped due to connection timeout.
+ *
+ */
+}

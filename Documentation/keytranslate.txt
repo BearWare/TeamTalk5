@@ -1,0 +1,132 @@
+/**
+ * @addtogroup desktopshare
+ *
+ * @section keytranslate Translation of key-codes to TTKEYCODE-format.
+ *
+ * When a key is pressed the OS generates a scan-code which denotes
+ * the location of the key on the keyboard. In order to generate the
+ * same key-press on a remote computer this scan-code must be
+ * converted to an intermediate format. The reason the scan-code
+ * cannot be sent directly is that the remote computer might use a
+ * different keyboard layout or run an operating system which has
+ * other values for the scan-codes.
+ *
+ * The intermediate format for storing key-codes in TeamTalk is
+ * TTKEYCODE. Here's a table which shows how the keys on a US 104-keys
+ * keyboard are translated to TTKEYCODE.
+ * 
+@verbatim
+   Symbol      | Shifted Symbol | Location | TTKEYCODE
+   --------------------------------------------------
+   Esc         |                |          | 0x0001
+   1           | !              |          | 0x0002
+   2           | @              |          | 0x0003
+   3           | #              |          | 0x0004
+   4           | $              |          | 0x0005
+   5           | %              |          | 0x0006
+   6           | ^              |          | 0x0007
+   7           | &              |          | 0x0008
+   8           |                |          | 0x0009
+   9           | (              |          | 0x000a
+   0           | )              |          | 0x000b
+   -           | _              |          | 0x000c
+   =           | +              |          | 0x000d
+   Backspace   |                |          | 0x000e
+   Tab         |                |          | 0x000f
+   Q           |                |          | 0x0010
+   W           |                |          | 0x0011
+   E           |                |          | 0x0012
+   R           |                |          | 0x0013
+   T           |                |          | 0x0014
+   Y           |                |          | 0x0015
+   U           |                |          | 0x0016
+   I           |                |          | 0x0017
+   O           |                |          | 0x0018
+   P           |                |          | 0x0019
+   [           | {              |          | 0x001a
+   ]           | }              |          | 0x001b
+   Enter       |                |          | 0x001c
+   Ctrl        |                | Left     | 0x001d
+   A           |                |          | 0x001e
+   S           |                |          | 0x001f
+   D           |                |          | 0x0020
+   F           |                |          | 0x0021
+   G           |                |          | 0x0022
+   H           |                |          | 0x0023
+   J           |                |          | 0x0024
+   K           |                |          | 0x0025
+   L           |                |          | 0x0026
+   ;           |                |          | 0x0027
+   '           |                |          | 0x0028
+   `           |                |          | 0x0029
+   Shift       |                | Left     | 0x002a
+   \\          | |              |          | 0x002b
+   Z           |                |          | 0x002c
+   X           |                |          | 0x002d
+   C           |                |          | 0x002e
+   V           |                |          | 0x002f
+   B           |                |          | 0x0030
+   N           |                |          | 0x0031
+   M           |                |          | 0x0032
+   ,           | <              |          | 0x0033
+   .           | >              |          | 0x0034
+   /           | ?              |          | 0x0035
+   Shift       |                | Right    | 0x0036
+   \*          |                |          | 0x0037
+   Alt         |                |          | 0x0038
+   Space bar   |                |          | 0x0039
+   Caps Lock   |                |          | 0x003a
+   F1          |                |          | 0x003b
+   F2          |                |          | 0x003c
+   F3          |                |          | 0x003d
+   F4          |                |          | 0x003e
+   F5          |                |          | 0x003f
+   F6          |                |          | 0x0040
+   F7          |                |          | 0x0041
+   F8          |                |          | 0x0042
+   F9          |                |          | 0x0043
+   Num Lock    |                | Numpad   | 0x0044
+   Scroll Lock |                |          | 0x0046
+   Home        | 7              | Numpad   | 0x0047
+   Up arrow    | 8              | Numpad   | 0x0048
+   PgUp        | 9              | Numpad   | 0x0049
+   -           |                | Numpad   | 0x004a
+   Left arrow  | 4              | Numpad   | 0x004b
+   5           |                | Numpad   | 0x004c
+   Right arrow | 6              | Numpad   | 0x004d
+   +           |                | Numpad   | 0x004e
+   End         | 1              | Numpad   | 0x004f
+   Down arrow  | 2              | Numpad   | 0x0050
+   PgDn        | 3              | Numpad   | 0x0051
+   Insert      | 0              | Numpad   | 0x0052
+   Delete      |                | Numpad   | 0x0053
+   F11         |                |          | 0x0057
+   F12         |                |          | 0x0058
+   Break       | Pause          |          | 0x0100
+   Enter       |                | Numpad   | 0x011c
+   Ctrl        |                | Right    | 0x011d
+   /           |                | Numpad   | 0x0135
+   SysRq       | Print Scrn     |          | 0x0137
+   Alt         |                | Right    | 0x0138
+   Home        |                | Funcpad  | 0x0147
+   Up arrow    |                | Funcpad  | 0x0148
+   Page Up     |                | Funcpad  | 0x0149
+   Left arrow  |                | Funcpad  | 0x014b
+   Right arrow |                | Funcpad  | 0x014d
+   End         |                | Funcpad  | 0x014f
+   Down arrow  |                | Funcpad  | 0x0150
+   Page Down   |                | Funcpad  | 0x0151
+   Insert      |                | Funcpad  | 0x0152
+   Delete      |                | Funcpad  | 0x0153
+   Windows     |                | Left     | 0x015b
+   Windows     |                | Right    | 0x015c
+   Menu        |                |          | 0x015d
+               |                |          | 
+   <           |                | Non-US   | 0x0056
+               |                |          | 
+   Mouse btn   |                | Left     | 0x1000
+   Mouse btn   |                | Right    | 0x1001
+   Mouse btn   |                | Middle   | 0x1002
+
+@endverbatim
+ */

@@ -1,0 +1,15 @@
+namespace BearWare
+{
+
+/** @page stepbystep Client Programming Guide
+ *
+ * The Java TeamTalk classes greatly ressemble the .NET classes
+ * therefore the API documentation for Java is the same as
+ * .NET. Hopefully this doesn't cause too much confusion.
+ *
+ * To get a step-by-step tour on how to use TeamTalk JNI DLL please
+ * refer to the sample application described in @ref jteamtalk.
+ *
+ */
+
+}

@@ -1,0 +1,390 @@
+/**
+ * @page serversetup TeamTalk Server Setup Guide
+ * 
+ * This guide explains how to configure and run the included
+ * standalone TeamTalk server on either Windows, Mac OS X or Linux.
+ * If you plan to write your own TeamTalk server then check out
+ * the @ref serverapi and the sample applications @ref jteamtalkserver
+ * and @ref ttserverexample.
+ *
+ * @section serverexe TeamTalk Server Executables
+ *
+ * The server executables are located in the 'Server' sub-directory of
+ * the SDK. Note, however, that the Android and iOS releases of the
+ * SDK do not include servers.
+ *
+ * Here's a brief overview of the server binaries in each SDK and for
+ * each platform:
+ *
+ * - <b>TeamTalk Standard Edition</b>
+ *   - Windows server executables
+ *     - @c tt5srv.exe
+ *       TeamTalk server as console application.
+ *     - @c tt5svc.exe
+ *       TeamTalk server as an NT service.
+ *   - Mac OS X and Linux server executables
+ *      - @c tt5srv
+ *        TeamTalk server which can run as a console application and a
+ *        daemon.
+ *
+ * - <b>TeamTalk Professional Edition</b>
+ *   - The encrypted server requires a certificate and private key
+ *     which can be created using OpenSSL. Run the following command line
+ *     using OpenSSL to generate the certificate and privte key:
+ *   @verbatim
+$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM @endverbatim
+ *   - Windows server executables
+ *     - @c tt5prosrv.exe
+ *       TeamTalk server with encryption as console application.
+ *     - @c tt5prosvc.exe
+ *       TeamTalk server with encryption as an NT service.
+ *   - Mac OS X and Linux server executables
+ *      - @c tt5prosrv
+ *        TeamTalk server with encryption which can run as a console
+ *        application and a daemon.
+ *
+ * This section outlines the following:
+ * - @ref srvconfig
+ * - @ref srvstart
+ * - @ref ntservice
+ * - @ref ttphpadmin
+ *
+ * @section srvconfig Configurating the TeamTalk Server
+ *
+ * The TeamTalk server reads its configuration from an XML file,
+ * typically @c tt5srv.xml in the Standard SDK Edition and @c
+ * tt5prosrv.xml in Professional SDK Edition. This file can be edited
+ * manually (using an UTF-8 aware editor) or one can choose to use
+ * the @c -wizard option to the server executable.
+ *
+ * Below is an example a server's configuration file:
+@verbatim
+<?xml version="1.0" encoding="UTF-8" ?>
+<teamtalk version="5.0">
+    <general>
+        <server-name>TeamTalk 5 Server</server-name>
+        <motd>My login message to users</motd>
+        <max-users>1000</max-users>
+        <auto-save>true</auto-save>
+        <bind-ip />
+        <tcpport>10333</tcpport>
+        <udpport>10333</udpport>
+        <login-attempts>0</login-attempts>
+        <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
+        <bandwidth-limits>
+            <voicetx-limit>0</voicetx-limit>
+            <vidcaptx-limit>0</vidcaptx-limit>
+            <mediafiletx-limit>0</mediafiletx-limit>
+            <desktoptx-limit>0</desktoptx-limit>
+            <totaltx-limit>0</totaltx-limit>
+        </bandwidth-limits>
+        <user-timeout>60</user-timeout>
+    </general>
+    <file-storage>
+        <files-root>files</files-root>
+        <max-diskusage>500000000000</max-diskusage>
+        <channel-diskquota>50000000</channel-diskquota>
+    </file-storage>
+    <logging>
+        <server-log-maxsize>-1</server-log-maxsize>
+    </logging>
+    <users>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+            <user-type>2</user-type>
+            <user-rights>0</user-rights>
+            <note />
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+        <user>
+            <username>guest</username>
+            <password>guest</password>
+            <user-type>1</user-type>
+            <user-rights>259591</user-rights>
+            <note />
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator>
+                <channel>1</channel>
+            </channel-operator>
+        </user>
+    </users>
+    <serverbans>
+        <serverban address="192.168.11.44">
+            <bantime>2009/10/12 12:48</bantime>
+            <nickname>Benjamin</nickname>
+            <username>ben</username>
+            <channel-path>/Conf ABC</channel-path>
+        </serverban>
+    </serverbans>
+    <permanent-channels>
+        <channel>
+            <!--Channel: /-->
+            <channel-id>1</channel-id>
+            <password></password>
+            <topic></topic>
+            <diskquota>51200000000</diskquota>
+            <op-password></op-password>
+            <max-users>1000</max-users>
+            <channel-type>1</channel-type>
+            <userdata>0</userdata>
+            <audio-codec>
+                <codec-type>1</codec-type>
+                <bandmode>1</bandmode>
+                <quality>4</quality>
+                <fpp>2</fpp>
+                <sim-stereo>false</sim-stereo>
+            </audio-codec>
+            <audio-config>
+                <enable-agc>false</enable-agc>
+                <gain-level>0</gain-level>
+                <inc-dbsec-max>0</inc-dbsec-max>
+                <dec-dbsec-max>0</dec-dbsec-max>
+                <gain-db-max>0</gain-db-max>
+                <enable-denoise>false</enable-denoise>
+                <denoise-level>0</denoise-level>
+            </audio-config>
+            <files>
+                <file name="testmux.wav">
+                    <internalname>data_1.dat</internalname>
+                    <filesize>107564</filesize>
+                    <username>admin</username>
+                </file>
+            </files>
+        </channel>
+    </permanent-channels>
+</teamtalk>
+@endverbatim
+ *
+ * Here is an explanation of each of the tags in the server configuration
+ * file:
+ *
+ * - @c \<general\> Tags related to server's configuration.
+ *
+ *   - @c \<server-name\>
+ *     The server's name.
+ *   - @c \<motd\>
+ *     The message of the day (MOTD) which will be available to users once 
+ *     they log in. The MOTD supports the following variables:
+ *     - \%users\% The number of users on the server.
+ *     - \%admins\% The number of administrators on the server.
+ *     - \%uptime\% The time the server has been online.
+ *     - \%voicetx\% The number of KBytes containing audio which has been forwarded
+ *       through the server to users.
+ *     - \%voicerx\% The number of KBytes containing audio which has been received
+ *       by the server.
+ *     - \%lastuser\% The nickname of the last user to log on to the server.
+ *   - @c \<max-users\>
+ *     The maximum number of users on the server.
+ *   - @c \<auto-save\>
+ *     If 'true' the server will automatically save changes to it configuration
+ *     file whenever the server's configuration is changed. When static channels
+ *     are either created, updated or deleted this will also be automatically
+ *     saved to the server's configuration.
+ *   - @c \<bind-ip\>
+ *     The server should bind to this IP-address. If the computer running the
+ *     server has multiple IP-address it is advised to specify the IP-address
+ *     where the server should be running. If the server should run IPv6 the
+ *     bind-ip MUST be specified. Use "::" to make the server run IPv6 on all
+ *     interfaces.
+ *   - @c \<tcpport\>
+ *     The TCP port the server must use. Ensure it's not taken by another
+ *     application.
+ *   - @c \<udpport\>
+ *     The UDP port the server must use. Ensure it's not taken by another
+ *     application.
+ *   - @c \<login-attempts\>
+ *     The maximum number of log in attempt with incorrect password before
+ *     banning a user's IP-address.
+ *   - @c \<max-logins-per-ipaddr\>
+ *     The maximum number of logins allowed from a single IP-address.
+ *
+ *   - @c \<bandwidth-limits\> Tags related to bandwidth usage.
+ *     - @c \<voicetx-limit\>
+ *       The maximum number of bytes per second of voice allowed by the server 
+ *       to be forwarded to users.
+ *     - @c \<vidcaptx-limit\>
+ *       The maximum number of bytes per second of video allowed by the server 
+ *       to be forwarded to users.
+ *     - @c \<mediafiletx-limit\>
+ *       The maximum number of bytes per second of media streaming allowed by the server 
+ *       to be forwarded to users.
+ *     - @c \<desktoptx-limit\>
+ *       The maximum number of bytes per second of desktop sharing allowed by the server 
+ *       to be forwarded to users.
+ *     - @c \<totaltx-limit\>
+ *       The maximum number of bytes per second of all data allowed by the 
+ *       server to be forwarded to users.
+ *
+ *   - @c \<file-storage\> Tags related to storing files.
+ *     - @c \<files-root\>
+ *       If file-sharing is enabled uploaded files will be stored at this location.
+ *     - @c \<max-diskusage\>
+ *       The maximum number of bytes available for storing files on the server.
+ *     - @c \<channel-diskquota\>
+ *       The default number of bytes available for storing files when a user
+ *       creates a temporary channel.
+ *
+ *   - @c \<logging\> Tags related to logging
+ *     - @c \<server-log-maxsize\>
+ *       The maximum size in bytes of the server log file before it
+ *       creates a new one (log rotation). Specifying -1 means there
+ *       is no limit. 0 means don't log events.
+ *
+ *   - @c \<users\> Tags related to user accounts
+ *     - @c \<user\> Tags related to a user account
+ *       - @c \<username\>
+ *         The username of the user account (must be unique).
+ *       - @c \<password\>
+ *         The password of the user account.
+ *       - @c \<user-type\>
+ *         The type of user. 1 = Default user, 2 = Administrator.
+ *       - @c \<user-rights\>
+ *         The user rights assigned to the user. This value is a
+ *         bitmask where each bit specifies a right on the server. For
+ *         accounts of user-type Administrator this value is ignored
+ *         since administrator have unrestricted rights.
+ *       - @c \<note\>
+ *         A note assigned to the user account.
+ *       - @c \<userdata\>
+ *         A user specific value which can be used by applications to e.g. map
+ *         the user account to a database.
+ *       - @c \<init-channel\>
+ *         The channel which the user should initially join.
+ *       - @c \<audiocodec-bps-limit\>
+ *         The highest bitrate for audio codec allowed by the user. Admins do not 
+ *         need to obey this limit.
+ *       - @c \<channel-operator\>
+ *         - @c \<channel\>
+ *           The ID of the channel where the user will automatically become channel
+ *           operator.
+ *
+ * - @c \<server-bans\> Tags related to users who have been banned from 
+ *   the server.
+ *   - @c \<serverban address="..."\> Tags related to a banned user (IP-address).
+ *     A banned user where the @c address attribute is the IP-address which 
+ *     has been banned. Note that it's the IP-address which is banned and
+ *     not the user who own the account.
+ *     - @c \<bantime\>
+ *       The time of when the ban was issued.
+ *     - @c \<nickname\>
+ *       The nickname of the user at the time of the ban.
+ *     - @c \<username\>
+ *       If the user has an account on the server it is specified here.
+ *     - @c \<channel-path\>
+ *       The channel the user was in a the time of the ban.
+ * - @c \<permanent-channels> Tags related to permanent channels on the server.
+ *   - @c \<channel\> Tags related to a channel.
+ *     - @c \<channel-id\>
+ *       The ID of the channel.
+ *     - @c \<topic\>
+ *       The topic of the channel.
+ *     - @c \<diskquota\>
+ *       The amount of disk space available for storing files. This value 
+ *       should be less than or equal to @c \<max-diskusage\>.
+ *     - @c \<op-password\>
+ *       A password which any user can use to become channel operator.
+ *     - @c \<max-users\>
+ *       The maximum number of users allowed in the channel. 
+ *     - @c \<channel-type\>
+ *       The type of channel, i.e. classroom, single transmission, etc.
+ *     - @c \<userdata\>
+ *       A user specific value which can be used by applications to e.g. map
+ *       the channel to a database.
+ *     - @c \<audio-codec\> Tags related to audio codec settings
+ *       - @c \<codec-type\>
+ *         The type of codec used, in this case Speex. For Opus the sub-tags
+ *         would be different.
+ *       - @c \<bandmode\>
+ *         Bandmode used by Speex
+ *       - @c \<quality\>
+ *         Quality setting for Speex
+ *       - @c \<fpp\>
+ *         Frames per packet for Speex
+ *       - @c \<sim-stereo\>
+ *         Whether to do stereo playback for Speex
+ *     - @c \<audio-config\>
+ *         Audio configuration for the channel
+ *       - @c \<enable-agc\>
+ *         Whether users who join should enable AGC.
+ *       - @c \<gain-level\>
+ *         Gain level for AGC.
+ *       - @c \<inc-dbsec-max\>
+ *         AGC setting for
+ *       - @c \<dec-dbsec-max\>
+ *       - @c \<gain-db-max\>
+ *       - @c \<enable-denoise\>
+ *       - @c \<denoise-level\>
+ *     - @c \<files\> Tags related to files in the channel.
+ *       - @c \<file\> Tags related to a file.
+ *         - @c \<internalname\>
+ *           The file name on disk in \<files-root\>.
+ *         - @c \<filesize\>
+ *           The size of the file.
+ *         - @c \<username\>
+ *           The owner of the file. The owner of the file can delete it, or a 
+ *           channel operator, or an administrator type user.
+ *
+ *
+ * @section srvstart Starting a TeamTalk Server
+ *
+ * Try running the server executable to get an overview of the
+ * possible ways to run the server. Note that running the NT service
+ * will not give any output since an NT service doesn't have a 
+ * user-interface. <b>Also note the NT service must be run using
+ * the Windows Administrator account.</b>
+ * 
+ * @section ntservice Installing the TeamTalk NT Service
+ *
+ * In addition to the options described in section @ref srvstart the
+ * NT Service (@c tt5svc.exe or @c tt5prosvc.exe) also accepts the
+ * following parameters:
+ *
+ * - @c -i Install the NT service.
+ * - @c -s Start the NT service.
+ * - @c -e Stop the NT service.
+ * - @c -u Uninstall the NT service.
+ *
+ * <b>Note the above commands must be run using the Windows
+ * Administrator account.</b> Right-click @c
+ * C:\\Windows\\system32\\cmd.exe and choose "Run as Administrator".
+ *
+ * @subsection mntservice Installing multiple NT Services
+ *
+ * To install multiple TeamTalk NT Services the @c sc.exe command
+ * can be used. Here is an example:
+ @verbatim
+sc.exe create "TeamTalk Server 2" binPath= "C:\MyServer\tt5svc.exe -wd c:\MyServer" start= auto
+@endverbatim
+ *
+ * The service in the above example will be called "TeamTalk Server 2"
+ * in the NT service list. Notice the spaces after @c binPath and @c
+ * start. For some strange reason these are required. To start the above
+ * service run:
+ @verbatim
+sc.exe start "TeamTalk Server 2"
+@endverbatim
+ * To stop it type:
+@verbatim
+sc.exe stop "TeamTalk Server 2"
+@endverbatim
+ * To uninstall it type:
+@verbatim
+sc.exe delete "TeamTalk Server 2"
+@endverbatim
+ *
+ *
+ * @section ttphpadmin TeamTalk PHP Admin for remote administration
+ *
+ * The 'Server' sub-directory also contains a PHP script named @c
+ * tt5admin.php which can be used for remote administation of a
+ * TeamTalk server. The TeamTalk PHP Admin must be executed in a
+ * console.
+ *
+ *
+ */
