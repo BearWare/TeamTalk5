@@ -285,14 +285,8 @@
     <ClCompile Include="settings\ClientXML.cpp">
       <Filter>Source Files\Settings</Filter>
     </ClCompile>
-    <ClCompile Include="settings\StringPrintf.cpp">
-      <Filter>Source Files\Settings</Filter>
-    </ClCompile>
     <ClCompile Include="Languages.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="settings\CPrintfArg.cpp">
-      <Filter>Source Files\Settings</Filter>
     </ClCompile>
     <ClCompile Include="gui\GenerateTTFileDlg.cpp">
       <Filter>Source Files\Dialogs</Filter>
@@ -548,9 +542,6 @@
     <ClInclude Include="settings\XMLLanguages.h">
       <Filter>Header Files\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="settings\StringPrintf.h">
-      <Filter>Header Files\Settings</Filter>
-    </ClInclude>
     <ClInclude Include="settings\Settings.h">
       <Filter>Header Files\Settings</Filter>
     </ClInclude>
@@ -562,9 +553,6 @@
     </ClInclude>
     <ClInclude Include="Languages.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="settings\CPrintfArg.h">
-      <Filter>Header Files\Settings</Filter>
     </ClInclude>
     <ClInclude Include="gui\GenerateTTFileDlg.h">
       <Filter>Header Files\Dialogs</Filter>
