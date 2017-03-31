@@ -32,9 +32,9 @@ namespace TeamTalkApp.NET
 {
     public partial class UserInfoDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int userid;
-        public UserInfoDlg(TeamTalk tt, int userid)
+        public UserInfoDlg(TeamTalkBase tt, int userid)
         {
             ttclient = tt;
             InitializeComponent();

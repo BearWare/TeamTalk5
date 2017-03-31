@@ -37,7 +37,7 @@ namespace TeamTalkApp.NET
 
     public partial class MainForm : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ChannelsView channels;
         UsersView users;
         FilesView files;
@@ -81,7 +81,11 @@ namespace TeamTalkApp.NET
 
             /* we pass 'false' to poll_events since we don't want to 
              * manually process events using ttclient.GetMessage */
-            ttclient = new TeamTalk(false);
+#if ENABLE_ENCRYPTION
+            ttclient = new TeamTalk5Pro(false);
+#else
+            ttclient = new TeamTalk5(false);
+#endif
             channels = new ChannelsView(ttclient, treeView1);
             users = new UsersView(ttclient, listView1);
             files = new FilesView(ttclient, filesListView);
@@ -92,33 +96,33 @@ namespace TeamTalkApp.NET
             volumeTrackBar.Value = ttclient.GetSoundOutputVolume();
 
             //get default devices
-            TeamTalk.GetDefaultSoundDevices(ref settings.sndinputid, ref settings.sndoutputid);
+            TeamTalkBase.GetDefaultSoundDevices(ref settings.sndinputid, ref settings.sndoutputid);
 
-            ttclient.OnConnectionSuccess += new TeamTalk.Connection(ttclient_OnConnectionSuccess);
-            ttclient.OnConnectionFailed += new TeamTalk.Connection(ttclient_OnConnectionFailed);
-            ttclient.OnConnectionLost += new TeamTalk.Connection(ttclient_OnConnectionLost);
+            ttclient.OnConnectionSuccess += new TeamTalkBase.Connection(ttclient_OnConnectionSuccess);
+            ttclient.OnConnectionFailed += new TeamTalkBase.Connection(ttclient_OnConnectionFailed);
+            ttclient.OnConnectionLost += new TeamTalkBase.Connection(ttclient_OnConnectionLost);
 
-            ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
-            ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
-            ttclient.OnCmdMyselfLoggedIn += new TeamTalk.MyselfLoggedIn(ttclient_OnCmdMyselfLoggedIn);
-            ttclient.OnCmdMyselfLoggedOut += new TeamTalk.MyselfLoggedOut(ttclient_OnCmdMyselfLoggedOut);
-            ttclient.OnCmdUserLoggedIn += new TeamTalk.UserUpdate(ttclient_OnCmdUserLoggedIn);
-            ttclient.OnCmdUserJoinedChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserJoinedChannel);
-            ttclient.OnCmdUserLeftChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserLeftChannel);
-            ttclient.OnCmdUserTextMessage += new TeamTalk.UserTextMessage(ttclient_OnCmdUserTextMessage);
-            ttclient.OnCmdChannelNew += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelNew);
-            ttclient.OnCmdChannelUpdate += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelUpdate);
-            ttclient.OnCmdChannelRemove += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelRemove);
+            ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
+            ttclient.OnCmdError += new TeamTalkBase.CommandError(ttclient_OnCmdError);
+            ttclient.OnCmdMyselfLoggedIn += new TeamTalkBase.MyselfLoggedIn(ttclient_OnCmdMyselfLoggedIn);
+            ttclient.OnCmdMyselfLoggedOut += new TeamTalkBase.MyselfLoggedOut(ttclient_OnCmdMyselfLoggedOut);
+            ttclient.OnCmdUserLoggedIn += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLoggedIn);
+            ttclient.OnCmdUserJoinedChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserJoinedChannel);
+            ttclient.OnCmdUserLeftChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLeftChannel);
+            ttclient.OnCmdUserTextMessage += new TeamTalkBase.UserTextMessage(ttclient_OnCmdUserTextMessage);
+            ttclient.OnCmdChannelNew += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelNew);
+            ttclient.OnCmdChannelUpdate += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelUpdate);
+            ttclient.OnCmdChannelRemove += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelRemove);
 
-            ttclient.OnInternalError += new TeamTalk.ErrorOccured(ttclient_OnInternalError);
-            ttclient.OnHotKeyToggle += new TeamTalk.HotKeyToggle(ttclient_OnHotKeyToggle);
-            ttclient.OnUserVideoCapture += new TeamTalk.UserVideoFrame(ttclient_OnUserVideoCapture);
-            ttclient.OnStreamMediaFile += new TeamTalk.StreamMediaFile(ttclient_OnStreamMediaFile);
-            ttclient.OnUserRecordMediaFile += new TeamTalk.UserRecordMediaFile(ttclient_OnUserRecordMediaFile);
-            ttclient.OnUserAudioBlock += new TeamTalk.NewAudioBlock(ttclient_OnUserAudioBlock);
-            ttclient.OnUserDesktopInput += new TeamTalk.UserDesktopInput(ttclient_OnUserDesktopInput);
-            ttclient.OnFileTransfer += new TeamTalk.FileTransferUpdate(ttclient_OnFileTransfer);
-            ttclient.OnUserDesktopWindow += new TeamTalk.NewDesktopWindow(ttclient_OnUserDesktopWindow);
+            ttclient.OnInternalError += new TeamTalkBase.ErrorOccured(ttclient_OnInternalError);
+            ttclient.OnHotKeyToggle += new TeamTalkBase.HotKeyToggle(ttclient_OnHotKeyToggle);
+            ttclient.OnUserVideoCapture += new TeamTalkBase.UserVideoFrame(ttclient_OnUserVideoCapture);
+            ttclient.OnStreamMediaFile += new TeamTalkBase.StreamMediaFile(ttclient_OnStreamMediaFile);
+            ttclient.OnUserRecordMediaFile += new TeamTalkBase.UserRecordMediaFile(ttclient_OnUserRecordMediaFile);
+            ttclient.OnUserAudioBlock += new TeamTalkBase.NewAudioBlock(ttclient_OnUserAudioBlock);
+            ttclient.OnUserDesktopInput += new TeamTalkBase.UserDesktopInput(ttclient_OnUserDesktopInput);
+            ttclient.OnFileTransfer += new TeamTalkBase.FileTransferUpdate(ttclient_OnFileTransfer);
+            ttclient.OnUserDesktopWindow += new TeamTalkBase.NewDesktopWindow(ttclient_OnUserDesktopWindow);
 
             vumeterTimer.Enabled = true;
             timer1.Enabled = true;
@@ -269,7 +273,7 @@ namespace TeamTalkApp.NET
             LoginDlg dlg = new LoginDlg(ttclient, settings);
             dlg.ShowDialog();
 
-            ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
+            ttclient.OnCmdError += new TeamTalkBase.CommandError(ttclient_OnCmdError);
 
             UpdateControls();
         }
@@ -1135,8 +1139,8 @@ namespace TeamTalkApp.NET
                 if(allowVoiceTransmissionToolStripMenuItem.Checked)
                 {
                     if (chan.GetTransmitStreamTypes(user.nUserID) == StreamType.STREAMTYPE_NONE &&
-                        chan.GetTransmitUserCount() >= TeamTalk.TT_TRANSMITUSERS_MAX)
-                        MessageBox.Show("Maximum users to transmit is " + TeamTalk.TT_TRANSMITUSERS_MAX.ToString());
+                        chan.GetTransmitUserCount() >= TeamTalkBase.TT_TRANSMITUSERS_MAX)
+                        MessageBox.Show("Maximum users to transmit is " + TeamTalkBase.TT_TRANSMITUSERS_MAX.ToString());
                     else
                         chan.AddTransmitUser(user.nUserID, StreamType.STREAMTYPE_VOICE);
                 }
@@ -1157,8 +1161,8 @@ namespace TeamTalkApp.NET
                 if (allowVideoTransmissionToolStripMenuItem.Checked)
                 {
                     if (chan.GetTransmitStreamTypes(user.nUserID) == StreamType.STREAMTYPE_NONE &&
-                        chan.GetTransmitUserCount() >= TeamTalk.TT_TRANSMITUSERS_MAX)
-                        MessageBox.Show("Maximum users to transmit is " + TeamTalk.TT_TRANSMITUSERS_MAX.ToString());
+                        chan.GetTransmitUserCount() >= TeamTalkBase.TT_TRANSMITUSERS_MAX)
+                        MessageBox.Show("Maximum users to transmit is " + TeamTalkBase.TT_TRANSMITUSERS_MAX.ToString());
                     else
                         chan.AddTransmitUser(user.nUserID, StreamType.STREAMTYPE_VIDEOCAPTURE);
                 }

@@ -31,10 +31,10 @@ namespace TeamTalkApp.NET
 {
     class UsersView
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ListView listview;
 
-        public UsersView(TeamTalk tt, ListView list)
+        public UsersView(TeamTalkBase tt, ListView list)
         {
             ttclient = tt;
             listview = list;
@@ -47,9 +47,9 @@ namespace TeamTalkApp.NET
             listview.Columns.Add("User Type");
             listview.Columns.Add("UserData");
 
-            ttclient.OnCmdUserLoggedIn += new TeamTalk.UserUpdate(ttclient_OnCmdUserLoggedIn);
-            ttclient.OnCmdUserLoggedOut += new TeamTalk.UserUpdate(ttclient_OnCmdUserLoggedOut);
-            ttclient.OnCmdUserUpdate += new TeamTalk.UserUpdate(ttclient_OnCmdUserUpdate);
+            ttclient.OnCmdUserLoggedIn += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLoggedIn);
+            ttclient.OnCmdUserLoggedOut += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLoggedOut);
+            ttclient.OnCmdUserUpdate += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserUpdate);
         }
 
         int GetSelectedUser()

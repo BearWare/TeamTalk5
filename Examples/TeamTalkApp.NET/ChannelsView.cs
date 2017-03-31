@@ -31,7 +31,7 @@ namespace TeamTalkApp.NET
 {
     class ChannelsView
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         TreeView treeview;
 
         public enum ImageIndex
@@ -40,21 +40,21 @@ namespace TeamTalkApp.NET
             USER
         }
 
-        public ChannelsView(TeamTalk tt, TreeView tree)
+        public ChannelsView(TeamTalkBase tt, TreeView tree)
         {
             ttclient = tt;
             treeview = tree;
 
-            ttclient.OnCmdChannelNew += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelNew);
-            ttclient.OnCmdChannelUpdate += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelUpdate);
-            ttclient.OnCmdChannelRemove += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelRemove);
+            ttclient.OnCmdChannelNew += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelNew);
+            ttclient.OnCmdChannelUpdate += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelUpdate);
+            ttclient.OnCmdChannelRemove += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelRemove);
 
-            ttclient.OnCmdUserJoinedChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserJoinedChannel);
-            ttclient.OnCmdUserUpdate += new TeamTalk.UserUpdate(ttclient_OnCmdUserUpdate);
-            ttclient.OnCmdUserLeftChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserLeftChannel);
+            ttclient.OnCmdUserJoinedChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserJoinedChannel);
+            ttclient.OnCmdUserUpdate += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserUpdate);
+            ttclient.OnCmdUserLeftChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLeftChannel);
 
-            ttclient.OnUserStateChange += new TeamTalk.UserUpdate(ttclient_OnUserStateChange);
-            ttclient.OnVoiceActivation += new TeamTalk.VoiceActivation(ttclient_OnVoiceActivation);
+            ttclient.OnUserStateChange += new TeamTalkBase.UserUpdate(ttclient_OnUserStateChange);
+            ttclient.OnVoiceActivation += new TeamTalkBase.VoiceActivation(ttclient_OnVoiceActivation);
         }
 
         public TreeNode GetTreeNode(int id, int img_type)

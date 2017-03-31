@@ -32,10 +32,10 @@ namespace TeamTalkApp.NET
 {
     public partial class ServerPropertiesDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ServerProperties prop;
 
-        public ServerPropertiesDlg(TeamTalk tt)
+        public ServerPropertiesDlg(TeamTalkBase tt)
         {
             ttclient = tt;
             InitializeComponent();

@@ -34,12 +34,12 @@ namespace TeamTalkApp.NET
 {
     public partial class DesktopDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int userid;
         Bitmap bmp;
         int unsubscribe_cmdid = 0;
 
-        public DesktopDlg(TeamTalk tt, int userid)
+        public DesktopDlg(TeamTalkBase tt, int userid)
         {
             ttclient = tt;
             this.userid = userid;
@@ -47,7 +47,7 @@ namespace TeamTalkApp.NET
             InitializeComponent();
             this.CenterToScreen();
             
-            ttclient.OnUserDesktopWindow += new TeamTalk.NewDesktopWindow(ttclient_OnUserDesktopWindow);
+            ttclient.OnUserDesktopWindow += new TeamTalkBase.NewDesktopWindow(ttclient_OnUserDesktopWindow);
         }
 
         private void DesktopDlg_FormClosing(object sender, FormClosingEventArgs e)
@@ -59,7 +59,7 @@ namespace TeamTalkApp.NET
                 {
                     //we wait for the server to repond to us that we'll no 
                     //longer receive video from this user.
-                    ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
+                    ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
 
                     //figure out how we're subscribing to video
                     Subscription subtype = Subscription.SUBSCRIBE_NONE;
@@ -147,7 +147,7 @@ namespace TeamTalkApp.NET
                                      PixelFormat.Format8bppIndexed, deskwnd.frameBuffer);
                     ColorPalette pal = bmp.Palette;
                     for (int i = 0; i < 256; i++)
-                        pal.Entries[i] = TeamTalk.Palette_GetColorTable(BitmapFormat.BMP_RGB8_PALETTE, i);
+                        pal.Entries[i] = TeamTalkBase.Palette_GetColorTable(BitmapFormat.BMP_RGB8_PALETTE, i);
                     bmp.Palette = pal;
                     break;
                 case BitmapFormat.BMP_RGB16_555:

@@ -47,11 +47,11 @@ namespace TeamTalkApp.NET
 
     public partial class ChannelDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ChannelDlgType dlgtype;
         Channel chan;
 
-        public ChannelDlg(TeamTalk tt, ChannelDlgType dlgtype, int channelid, int parentid)
+        public ChannelDlg(TeamTalkBase tt, ChannelDlgType dlgtype, int channelid, int parentid)
         {
             ttclient = tt;
             this.dlgtype = dlgtype;

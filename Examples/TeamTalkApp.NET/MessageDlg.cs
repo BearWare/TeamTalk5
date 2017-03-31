@@ -32,9 +32,9 @@ namespace TeamTalkApp.NET
 {
     public partial class MessageDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int userid;
-        public MessageDlg(TeamTalk tt, int userid)
+        public MessageDlg(TeamTalkBase tt, int userid)
         {
             ttclient = tt;
             this.userid = userid;

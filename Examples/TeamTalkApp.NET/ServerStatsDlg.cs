@@ -32,15 +32,15 @@ namespace TeamTalkApp.NET
 {
     public partial class ServerStatsDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int cmd_id;
 
-        public ServerStatsDlg(TeamTalk tt)
+        public ServerStatsDlg(TeamTalkBase tt)
         {
             InitializeComponent();
             ttclient = tt;
 
-            ttclient.OnCmdServerStatistics += new TeamTalk.ServerStats(ttclient_OnCmdServerStatistics);
+            ttclient.OnCmdServerStatistics += new TeamTalkBase.ServerStats(ttclient_OnCmdServerStatistics);
 
             cmd_id = ttclient.DoQueryServerStats();
             this.CenterToScreen();
