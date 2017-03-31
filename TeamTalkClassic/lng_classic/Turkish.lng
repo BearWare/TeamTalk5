@@ -64,7 +64,7 @@
     <item id="165">Kullanıcı Olayları</item>
     <item id="166">kullanıcı giriş yaptı</item>
     <item id="167">kullanıcı çıkış yaptı</item>
-    <item id="168">kullanıcı kanala katıldı</item>
+    <item id="168">kullanıcı kanala giriş yaptı</item>
     <item id="169">kullanıcı kanaldan ayrıldı</item>
     <item id="170">özel metin mesajları</item>
     <item id="171">kanal mesajları</item>
@@ -128,6 +128,7 @@
     <item id="264">%s kanala katıldı %s</item>
     <item id="265">%s kanaldan ayrıldı %s</item>
     <item id="266">Ana Giriş</item>
+    <item id="267">Ses aygıdı yok</item>
     <item id="268">Yeni Kullanıcı</item>
     <item id="269">Kullanıcı Ayrıldı</item>
     <item id="270">Yeni Mesaj</item>
@@ -141,6 +142,7 @@
     <item id="278">Dosyalar Güncellendi</item>
     <item id="279">Aktarım Tamamlandı</item>
     <item id="280">Konuşma Durduruldu</item>
+    <item id="281">ses aktif</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
     <item id="1011">Host Özellikleri</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
@@ -158,7 +160,7 @@
     <item id="1035">Kullanıcı Kimliği</item>
     <item id="1036">Kullanıcı Adı</item>
     <item id="1042">Bu Setup programı TeamTalk uygulaması kurulumunca size yardım edecektir. Devam etmek için Ileri, kurulumdan çıkmak için Iptal&apos;i seçin</item>
-    <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol et</item>
+    <item id="1044">www.bearware.dk adresine bağlanıp En son TeamTalk sunucularını kontrol et</item>
     <item id="1045"></item>
     <item id="1047">Dosya Boyutu</item>
     <item id="1048">Kanal güncelleme zamanını göster</item>
