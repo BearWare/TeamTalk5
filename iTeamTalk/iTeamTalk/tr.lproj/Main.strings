@@ -63,7 +63,7 @@
 "N1w-a6-R3D.title" = "Kullanıcı Özellikleri";
 
 /* Class = "UIViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
-"NA0-UK-wve.title" = "Ayarlar";
+"NA0-UK-wve.title" = "Tercihler";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "Bağlan button";
@@ -159,7 +159,7 @@
 "vC1-lW-BtX.normalTitle" = "Kanalı Sil";
 
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
-"vIN-Uc-3Ms.title" = "Ayarlar";
+"vIN-Uc-3Ms.title" = "Tercihler";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Blank";
