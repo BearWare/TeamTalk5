@@ -3,9 +3,10 @@
 .settings
 bin
 gen
-libs/armeabi-v7a/libTeamTalk5*
-libs/*.so
-libs/*.dylib
+libs/armeabi-v7a/libTeamTalk5-jni*
+libs/armeabi-v7a/libTeamTalk5Pro-jni*
+libs/libTeamTalk5-jni*
+libs/libTeamTalk5Pro-jni*
 libs/*.jar
 src/build
 *.class
