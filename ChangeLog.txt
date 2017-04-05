@@ -1,6 +1,16 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.2.2
+Accessible Windows client:
+- Queue system when channel type is "Allow only one user to talk"
+- Exclusive voice/media file access in channel type "Allow only one user to talk"
+- Sound events for:
+  - Voice activation toggled
+  - Transmit ready/suspended in channel type "Allow only one user to talk"
+- Close private text message dialog by pressing escape
+- Virtual sound device for no input/output sound device
+
 Version 5.2.1, released 2017/01/30
 Default Qt client:
 - Fixed bug causing audio playback to halt during bursts
