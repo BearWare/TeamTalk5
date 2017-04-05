@@ -474,7 +474,7 @@
 "The volume of the speaking voice is %.1f" = "Konuşmacının ses düzeyi %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Konuşmayı etkinleştirmek/etkisizleştirmek için çift dokunun";
+"Toggle to enable/disable transmission" = "Konuşmayı etkinleştirmek/etkisizleştirmek için geçiş yap";
 
 /* preferences */
 "Toggle voice transmission using headset" = "Kulaklık kullanarak ses iletim durumunu değiştir";
