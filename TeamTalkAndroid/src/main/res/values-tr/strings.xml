@@ -83,7 +83,7 @@
   <string name="pref_title_mute_speakers">Konuş düğmesine basıldığında hoparlörleri sustur</string>
   <string name="pref_summary_mute_speakers">Hoparlörlerdeki yankıyı önlemek için bunu etkinleştirin</string>
   <string name="pref_title_show_usernames">Kullanıcı adlarını göster</string>
-  <string name="pref_summary_show_usernames">Takma ad yerine kullanıcı adlarını göster</string>
+  <string name="pref_summary_show_usernames">Takma adların yerine kullanıcı adlarını göster</string>
   <string name="pref_title_mediafile_volume">Ortam dosyasının sesi</string>
   <string name="pref_summary_mediafile_volume">Ortam dosyasının ses düzeyi</string>
   <string name="pref_title_speakerphone_checkbox">Telefon hoparlörünü etkinleştir</string>

@@ -102,7 +102,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Text Apperance</string>
+        <string>Text Appearance</string>
        </property>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
