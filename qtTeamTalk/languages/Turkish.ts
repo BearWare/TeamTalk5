@@ -2095,7 +2095,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2916"/>
         <source>Push To Talk: </source>
-        <translation>Bas konuş: </translation>
+        <translation>Bas Konuş: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
