@@ -9,5 +9,7 @@ libs/libTeamTalk5-jni*
 libs/libTeamTalk5Pro-jni*
 libs/*.jar
 src/build
+jni/*.mk
+obj
 *.class
 *.jar
