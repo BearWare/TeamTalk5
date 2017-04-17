@@ -23,9 +23,11 @@ package dk.bearware.data;
 
 public class Preferences {
 
+	//duplicates of pref_connection.xml (isn't there an easier way to do this??)
 	public static final String 
 			PREF_GENERAL_NICKNAME = "nickname_text",
-			PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox";
+			PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox",
+            PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox";
 	public static final String
 	        PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
 	        PREF_SOUNDSYSTEM_VOICEACTIVATION = "voice_activation",
@@ -33,7 +35,7 @@ public class Preferences {
 	        PREF_SOUNDSYSTEM_MICROPHONEGAIN = "microphonegain",
 			PREF_SOUNDSYSTEM_SPEAKERPHONE = "speakerphone_checkbox",
 			PREF_SOUNDSYSTEM_VOICEPROCESSING = "voiceprocessing_checkbox";
-	public static final String //duplicates of pref_connection.xml (isn't there an easier way to do this??) 
+	public static final String
 			PREF_SUB_TEXTMESSAGE = "sub_txtmsg_checkbox",
 			PREF_SUB_CHANMESSAGE = "sub_chanmsg_checkbox",
 			PREF_SUB_BCAST_MESSAGES = "sub_bcastmsg_checkbox",
