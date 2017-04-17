@@ -3,3 +3,5 @@
 *.so
 *.dylib
 *.dll
+*.pdb
+*.exp

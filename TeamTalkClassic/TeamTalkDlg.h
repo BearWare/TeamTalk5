@@ -32,6 +32,7 @@
 #include "gui/MyTabCtrl.h"
 #include "settings/ClientXML.h"
 #include "HttpRequest.h"
+#include "PlaySoundThread.h"
 
 #if defined(ENABLE_TOLK)
 #include <Tolk.h>
@@ -197,6 +198,7 @@ protected:
     teamtalk::HostEntry m_host;
     CString m_szStatusBar;
     CRect m_rectLast;
+    CPlaySoundThread* m_pPlaySndThread;
 
     UINT_PTR m_nConnectTimerID, m_nReconnectTimerID;
     //pictures

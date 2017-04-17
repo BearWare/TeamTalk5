@@ -306,6 +306,9 @@
     <ClCompile Include="tinyxml\tinyxmlerror.cpp">
       <Filter>Source Files\Xml</Filter>
     </ClCompile>
+    <ClCompile Include="PlaySoundThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.h">
@@ -574,6 +577,9 @@
     </ClInclude>
     <ClInclude Include="tinyxml\tinystr.h">
       <Filter>Header Files\Xml</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaySoundThread.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

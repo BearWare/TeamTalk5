@@ -13,3 +13,5 @@ jni/*.mk
 obj
 *.class
 *.jar
+Debug
+Release

@@ -298,10 +298,9 @@ HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData)
     return hResult;
 }
 
-void PlayWaveFile(LPCTSTR szFilePath)
+void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync)
 {
-    if(szFilePath && *szFilePath && FileExists( szFilePath ))
-        ::PlaySound(szFilePath, NULL, SND_FILENAME | SND_ASYNC);
+    ::PlaySound(szFilePath, NULL, SND_FILENAME | (bAsync ? SND_ASYNC : SND_SYNC));
 }
 
 int nTextLimit = TT_STRLEN;

@@ -71,7 +71,7 @@ void AddString(CComboBox& wnd, LPCTSTR szText, DWORD_PTR nItemData);
 int GetItemData(CComboBox& wnd, BOOL* pError = NULL);
 void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData);
 HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData);
-void PlayWaveFile(LPCTSTR szFilePath);
+void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
 void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);

@@ -7,3 +7,5 @@ license.h
 *.vcxproj*
 *_plugin_import.cpp
 uic_wrapper.bat
+debug
+release

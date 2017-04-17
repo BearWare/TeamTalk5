@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-SSL|Win32">
       <Configuration>Debug-SSL</Configuration>
@@ -190,7 +189,7 @@
       </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5d.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;advapi32.lib;user32.lib;gdi32.lib;shell32.lib;comdlg32.lib;version.lib;mpr.lib;rasapi32.lib;winmm.lib;winspool.lib;vfw32.lib;secur32.lib;oleacc.lib;oledlg.lib;sensapi.lib;teamtalk5.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\TeamTalk_DLL;tolk\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -487,6 +486,7 @@
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="Languages.cpp" />
     <ClCompile Include="mdump.cpp" />
+    <ClCompile Include="PlaySoundThread.cpp" />
     <ClCompile Include="settings\ClientXML.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug-SSL|Win32'">
@@ -706,6 +706,7 @@
     <ClInclude Include="Languages.h" />
     <ClInclude Include="License.h" />
     <ClInclude Include="mdump.h" />
+    <ClInclude Include="PlaySoundThread.h" />
     <ClInclude Include="settings\ClientXML.h" />
     <ClInclude Include="settings\MyStd.h" />
     <ClInclude Include="settings\Settings.h" />

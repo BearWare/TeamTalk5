@@ -100,6 +100,7 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_nLastRecvBytes(0)
 , m_nLastSentBytes(0)
 , m_pTray(NULL)
+, m_pPlaySndThread(NULL)
 , m_bMinimized(FALSE)
 , m_nConnectTimerID(0)
 , m_nReconnectTimerID(0)
@@ -2306,6 +2307,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //init session tree control
     m_wndTree.Initialize();
 
+    m_pPlaySndThread = new CPlaySoundThread();
+    m_pPlaySndThread->CreateThread();
+
     BOOL bRunWizard = FALSE;
 
     CString szXmlFile = _T( SETTINGS_FILE );
@@ -2744,6 +2748,9 @@ void CTeamTalkDlg::Exit()
 			MessageBox(szMsg, _T("Reset Settings"));
 		}
 	}
+
+    m_pPlaySndThread->AddSoundEvent(NULL);
+    m_pPlaySndThread->KillThread();
 
 	CDialog::OnCancel();
 }
@@ -5971,72 +5978,76 @@ void CTeamTalkDlg::ToggleClassroom(int nUserID, StreamTypes uStreamTypes)
 void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
 {
     SoundEvents events = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_ALL);
+    CString szFilename;
     switch(events & event)
     {
     case SOUNDEVENT_USER_JOIN :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewUser()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewUser());
         break;
     case SOUNDEVENT_USER_LEFT :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventRemovedUser());
         break;
     case SOUNDEVENT_USER_TEXTMSG :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewMessage()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());
         break;
     case SOUNDEVENT_USER_CHANNEL_TEXTMSG :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelMsg()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsg());
         break;
     case SOUNDEVENT_USER_QUESTIONMODE :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventQuestionMode()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventQuestionMode());
         break;
     case SOUNDEVENT_USER_DESKTOP_ACCESS :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq());
         break;
     case SOUNDEVENT_USER_VIDEOSESSION_NEW :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVideoSession()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVideoSession());
         break;
     case SOUNDEVENT_USER_DESKTOPSESSION_NEW :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopSession()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDesktopSession());
         break;
     case SOUNDEVENT_CONNECTION_LOST :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventServerLost()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventServerLost());
         break;
     case SOUNDEVENT_PUSHTOTALK :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventHotKey()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventHotKey());
         break;
     case SOUNDEVENT_FILES_UPDATED :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventFilesUpd()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventFilesUpd());
         break;
     case SOUNDEVENT_FILETX_COMPLETE :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransferEnd()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransferEnd());
         break;
     case SOUNDEVENT_CHANNEL_SILENT :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelSilent()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelSilent());
         break;
     case SOUNDEVENT_VOICEACTIVATED :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVoiceActivated()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVoiceActivated());
         break;
     case SOUNDEVENT_VOICEDEACTIVATED :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVoiceDeactivated()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVoiceDeactivated());
         break;
     case SOUNDEVENT_ENABLE_VOICEACTIVATION:
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventEnableVoiceActivation()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventEnableVoiceActivation());
         break;
     case SOUNDEVENT_DISABLE_VOICEACTIVATION:
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation());
         break;
     case SOUNDEVENT_ME_ENABLE_VOICEACTIVATION:
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation());
         break;
     case SOUNDEVENT_ME_DISABLE_VOICEACTIVATION:
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation());
         break;
     case SOUNDEVENT_TRANSMITQUEUE_HEAD :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead());
         break;
     case SOUNDEVENT_TRANSMITQUEUE_STOP :
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransmitQueueStop()));
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransmitQueueStop());
         break;
     }
+
+    if(szFilename.GetLength())
+        m_pPlaySndThread->AddSoundEvent(szFilename);
 }
 
 void CTeamTalkDlg::RunAppUpdate()
