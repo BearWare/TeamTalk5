@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "PlaySoundThread.h"
+#include <Mmsystem.h>
 
 // CPlaySoundThread
 
@@ -19,6 +20,10 @@ CPlaySoundThread::~CPlaySoundThread()
 
 void CPlaySoundThread::KillThread()
 {
+    m_mutex.Lock();
+    m_SoundQueue.RemoveAll();
+    m_mutex.Unlock();
+
     ::SetEvent(m_handles[KILL_EVENT]);
 }
 
@@ -43,14 +48,15 @@ void CPlaySoundThread::AddSoundEvent(LPCTSTR szFilename)
 {
     m_mutex.Lock();
     
-    if(szFilename)
+    m_SoundQueue.AddTail(szFilename);
+
+    if(m_SoundQueue.GetCount()>5)
     {
-        m_SoundQueue.AddTail(szFilename);
-    }
-    else
-    {
-        m_SoundQueue.RemoveAll();
-        PlayWaveFile(NULL, TRUE);
+        //Cancel currently played file
+        //PlayWaveFile(NULL, TRUE);
+        //::PlaySound(NULL, NULL, 0); // doesn't work...
+
+        m_SoundQueue.RemoveHead();
     }
     
     m_mutex.Unlock();
@@ -71,10 +77,15 @@ int CPlaySoundThread::Run()
         {
         case DATA_SEMAPHORE:
         {
+            CString szFilename;
+
             m_mutex.Lock();
             if(m_SoundQueue.GetSize())
-                PlayWaveFile(m_SoundQueue.RemoveHead(), FALSE);
+                szFilename = m_SoundQueue.RemoveHead();
             m_mutex.Unlock();
+            
+            if(szFilename.GetLength())
+                PlayWaveFile(szFilename, FALSE);
             break;
         }
         case KILL_EVENT:
