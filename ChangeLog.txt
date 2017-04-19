@@ -6,10 +6,12 @@ Accessible Windows client:
 - Queue system when channel type is "Allow only one user to talk"
 - Exclusive voice/media file access in channel type "Allow only one user to talk"
 - Sound events for:
-  - Voice activation toggled
+  - Voice activation feature enabled/disabled
+  - Voice activation triggered
   - Transmit ready/suspended in channel type "Allow only one user to talk"
 - Close private text message dialog by pressing escape
 - Virtual sound device for no input/output sound device
+- Sound events are played fully, i.e. new sound events do not cancel currently played
 
 Version 5.2.1, released 2017/01/30
 Default Qt client:
