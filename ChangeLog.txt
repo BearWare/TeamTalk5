@@ -1,7 +1,34 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.x, unreleased
+Version 5.2.2
+Accessible Windows client:
+- Queue system when channel type is "Allow only one user to talk"
+- Exclusive voice/media file access in channel type "Allow only one user to talk"
+- Sound events for:
+  - Voice activation feature enabled/disabled
+  - Voice activation triggered
+  - Transmit ready/suspended in channel type "Allow only one user to talk"
+- Close private text message dialog by pressing escape
+- Virtual sound device for no input/output sound device
+- Sound events are played fully, i.e. new sound events do not cancel currently played
+
+Version 5.2.1, released 2017/01/30
+Default Qt client:
+- Fixed bug causing audio playback to halt during bursts
+Accessible Windows client:
+- Fixed bug causing audio playback to halt during bursts
+iOS client:
+- Added accessible action for moving users
+- Accessible actions now takes user-rights into account
+- Client now asks whether to save new servers to list when disconnecting
+- Configurable option on whether Return should automatically send text message
+- Fixed bug causing audio playback to halt during bursts
+- Fixed reconnect issue when switching from WIFI to phone network
+Android client:
+- Fixed bug causing audio playback to halt during bursts
+
+Version 5.2, released 2017/01/08
 Default Qt client:
 - Linux video capture updated to V4L2
 - Reduced shared library dependencies on Linux
@@ -10,6 +37,7 @@ Default Qt client:
 - Video TX hotkey changed to enable/disable by one press
 - Store audio in .ogg format
 - Fixed bug when storing in 4GB .wav file
+- Fixed bug on Mac OS where some sounds where not played
 Accessible Windows client:
 - Store audio in .ogg format
 - Fixed bug when storing in 4GB .wav file

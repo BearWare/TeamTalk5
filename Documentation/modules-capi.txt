@@ -1,0 +1,753 @@
+/**
+ * @defgroup initclient Client Initialization
+ *
+ * @brief This section explains how to instantiate a new client
+ * instance and query its current state.
+ *
+ * TT_InitTeamTalkPoll() will instantiate a new client instance where
+ * events are polled using TT_GetMessage(). The events are defined in
+ * #ClientEvent. On Windows TT_InitTeamTalk() can also be used which
+ * takes as parameter a HWND that will have a message posted whenever
+ * an event in the client instance takes place.
+ *
+ * When a new client instance is created a user application can call
+ * to #TT_GetFlags to query the client instance's current
+ * state. Initially the client instance's state will be
+ * #CLIENT_CLOSED. This means that no operation has been performed on
+ * the client.
+ *
+ * @defgroup sounddevices Sound Capture and Playback
+ *
+ * @brief This section explains how to record and playback audio
+ * in the client instance.
+ *
+ * Before being able to initialize the sound devices to use for
+ * recording and playback the computer's available sound devices must
+ * first be queried. This is done using the function
+ * TT_GetSoundDevices() which returns an array of #SoundDevice-structs
+ * containing a description of the sound device. In the
+ * #SoundDevice-struct there's a member variable called @a
+ * nDeviceID. This ID should be passed to the client instance's two
+ * sound initialization functions #TT_InitSoundInputDevice and
+ * #TT_InitSoundOutputDevice. Once this has been done the #TT_GetFlags
+ * call will return a value containing the mask bits
+ * #CLIENT_SNDINPUT_READY and #CLIENT_SNDOUTPUT_READY.
+ *
+ * A computer's default sound devices can be queried using
+ * #TT_GetDefaultSoundDevices. A loop-back test of the selected sound
+ * devices can be performed using #TT_StartSoundLoopbackTest.
+ * 
+ * Be aware that the sound devices might fail if e.g. a USB sound
+ * device is unplugged while the client is talking in a channel. In
+ * this case ensure the application is processing the errors
+ * #INTERR_SNDINPUT_FAILURE and #INTERR_SNDOUTPUT_FAILURE in the
+ * #CLIENTEVENT_INTERNAL_ERROR event.
+ *
+ * Read section @ref transmission to see how to transmit recorded
+ * audio to other users.
+ *
+ *
+ * @defgroup videocapture Video Capture and Image Display
+ *
+ * @brief This section explains how to initialize a video device
+ * and display captured images on the user's display.
+ *
+ * The client is able to capture video and present them to the user
+ * application in RGB32-format and transmit the image in encoded
+ * format to other users.
+ *
+ * Sections:
+ * - @ref vidcapinit
+ * - @ref vidcapdisplay
+ *
+ * @section vidcapinit Initialize Video Capture Device
+ *
+ * @brief This section explains how to detect and configure video
+ * capture devices.
+ *
+ * To capture video the user application must first query the
+ * available capture devices by calling #TT_GetVideoCaptureDevices. A
+ * #VideoCaptureDevice supports a certain number of capture formats
+ * each described in the @a videoFormats member of #VideoFormat.
+ *
+ * Once a device has been chosen the #TT_InitVideoCaptureDevice must
+ * be called for the client instance to start capturing video
+ * frames. Use the @a szDevice member of #VideoCaptureDevice as the
+ * device identifier for the video capture device and pass a
+ * #VideoFormat from the @a videoFormats array of
+ * #VideoCaptureDevice. Check out section @ref codecs on how to
+ * configure the video codec.
+ *
+ * @section vidcapdisplay Display Captured Video
+ *
+ * When a video frame becomes available the event
+ * #CLIENTEVENT_USER_VIDEOCAPTURE is posted to the application and
+ * #TT_AcquireUserVideoCaptureFrame can be used to extract the RGB32
+ * image. On Windows it's also possible to call #TT_PaintVideoFrame to
+ * make the client instance paint on a HWND by getting its HDC,
+ * otherwise use the #VideoFrame's frame buffer pointer to access the
+ * bitmap data.
+ *
+ *
+ * @defgroup codecs Audio and Video Codecs
+ *
+ * @brief This section explains how to configure audio and video
+ * codecs.
+ *
+ * The client is able to encode audio in <a
+ * href="http://www.speex.org">Speex</a> and <a
+ * href="http://www.opus-codec.org">OPUS</a> format whereas video can
+ * be encoded in <a href="http://www.webmproject.org">WebM</a>
+ * format. OPUS is recommended for audio encoding, both for voice and
+ * music.
+ *
+ * Choosing the right codec settings in an end-user application is
+ * very important and proper settings depend entirely on the user
+ * scenario. Always ensure that the codec settings do not require too
+ * much bandwidth and thereby resulting in packetloss causing
+ * inaudible conversations and poor video quality. Detecting
+ * packetloss can be done using #UserStatistics and #ClientStatistics.
+ *
+ * Every channel must configure which audio codec to use in order for
+ * users to be able to talk to each other. The @c audiocodec member of
+ * #Channel specifies which audio codec (#AudioCodec) should be
+ * used. A channel does not restrict the video codec (#VideoCodec)
+ * users are using.
+ *
+ *
+ * @defgroup desktopshare Desktop Sharing
+ *
+ * @brief This section explains how to use the desktop sharing
+ * feature where users can share their desktop applications.
+ *
+ * A user can transmit a desktop window to other users in a
+ * channel by passing the handle of a window to the TeamTalk client
+ * instance. The client instance then converts the window to a bitmap
+ * image which is transmitted to the server. The server then forwards
+ * the bitmap image to all other users in the channel.
+ *
+ * To transmit a desktop window the user's #UserAccount must have the
+ * #USERRIGHT_TRANSMIT_DESKTOP.
+ *
+ * Sections:
+ * - @ref desktoptx
+ *   - @ref desktopwin
+ *   - @ref desktopmac
+ *   - @ref desktopx11
+ * - @ref desktopshow
+ *   - @ref desktopcursor
+ * - @ref desktopinput
+ *   - @ref rxdesktopinput
+ *   - @ref txdesktopinput
+ *   - @ref transdesktopinput
+ *
+ * @section desktoptx Send Desktop Window (or bitmap)
+ *
+ * Before sending a desktop window to a channel the handle
+ * (identifier) of the window to share must first be found. Windows,
+ * Mac and Linux (X11) have different ways of locating the window
+ * handle.
+ *
+ * Instead of using a window handle it's also possible to simply send
+ * a raw bitmap by calling TT_SendDesktopWindow().
+ *
+ * @subsection desktopwin Windows Desktop Sharing
+ *
+ * TeamTalk for Windows provides the following functions for
+ * obtaining different @c HWNDs:
+ *
+ * - TT_Windows_GetDesktopActiveHWND()
+ *   - Get the @c HWND of the window which has focus.
+ * - TT_Windows_GetDesktopHWND()
+ *   - Get the @c HWND of the Windows desktop.
+ * - TT_Windows_GetDesktopWindowHWND()
+ *   - Enumerate all visible windows.
+ * - TT_Windows_GetWindow()
+ *   - Get information about a window, e.g. window title, size, etc.
+ *
+ * Once the @c HWND of the window to share has been found use the
+ * following function for sending the window to the channel:
+ * 
+ * - TT_SendDesktopWindowFromHWND()
+ *
+ * @subsection desktopmac Mac OS Desktop Sharing
+ *
+ * TeamTalk for Mac OS provides the following functions for obtaining
+ * desktop window handles:
+ *
+ * - TT_MacOS_GetWindow()
+ *   - Enumerate all active windows.
+ * - TT_MacOS_GetWindowFromWindowID()
+ *   - Get information about a window, e.g. window title, size, etc.
+ *
+ * Once the handle (@c CGWindowID) of the window to share has
+ * been found use the following function for sending the window to the
+ * channel:
+ *
+ * - TT_SendDesktopFromWindowID()
+ *
+ * @subsection desktopx11 Linux Desktop Sharing
+ *
+ * TeamTalk for Linux does not provide helper functions for getting
+ * the handle of a X11 window. This is in order to avoid linking the
+ * TeamTalk DLL to X11. Instead it is recommended to check out @ref
+ * qtexample which shows how to convert X11 windows to bitmaps and use
+ * TT_SendDesktopWindow() for transmission.
+ * 
+ * @section desktopshow Displaying Shared Desktop Window (or bitmap)
+ *
+ * When a shared desktop window is received the event
+ * #CLIENTEVENT_USER_DESKTOPWINDOW is posted to the local client
+ * instance.  TT_AcquireUserDesktopWindow() can then be called to obtain
+ * a bitmap image of the shared window.
+ *
+ * @subsection desktopcursor Desktop Cursor Sharing
+ *
+ * It is also possible to share the position of the mouse cursor when
+ * sharing a desktop window. Use TT_SendDesktopCursorPosition() to
+ * transmit the position of the mouse cursor. When the position is
+ * received the event #CLIENTEVENT_USER_DESKTOPCURSOR is posted to the
+ * local client instance with the mouse coordinates.
+ *
+ * @section desktopinput Remote Desktop Access
+ *
+ * If a user has shared a desktop window it's possible for other users
+ * in the same channel to take over control of mouse and keyboard on
+ * the computer sharing the desktop window.
+ *
+ * To access a remote desktop the user's #UserAccount must have the
+ * userright #USERRIGHT_TRANSMIT_DESKTOPINPUT.
+ * 
+ * @subsection rxdesktopinput Receive Desktop Input
+ *
+ * In order for a client instance to allow remote desktop access it is
+ * required to first subscribe to desktop input from the user who
+ * wants access to the shared desktop window. This is done by calling
+ * TT_DoSubscribe() along with the user-id and subscription
+ * #SUBSCRIBE_DESKTOPINPUT. Once desktop input (mouse or keyboard
+ * input) is received from a remote user the
+ * #CLIENTEVENT_USER_DESKTOPINPUT event will be posted to the client
+ * instance. The actual mouse or keyboard input can then be obtained
+ * by accessing the #DesktopInput member of the #TTMessage. Afterwards
+ * TT_DesktopInput_Execute() can be used to execute the mouse or
+ * keyboard input.
+ *
+ * @subsection txdesktopinput Transmit Desktop Input
+ * 
+ * The remote user who wants to transmit mouse or keyboard input to
+ * the user sharing a desktop window can use
+ * TT_SendDesktopInput(). Remember that the user sharing the desktop
+ * window must have enabled the subscription #SUBSCRIBE_DESKTOPINPUT.
+ *
+ * @subsection transdesktopinput Desktop Input and Keyboard Layouts
+ *
+ * It can be quite troublesome to handle keyboard input since each
+ * key-code depends on the OS and the regional settings on the
+ * OS. E.g. on a German keyboard the Z key is located where the Y key
+ * is on a US keyboard. The German keyboard also has letters which
+ * don't even appear on a US keyboard.
+ *
+ * Because of the issues with keyboard layouts and regional settings
+ * the TeamTalk API provides TT_DesktopInput_KeyTranslate() which can
+ * be used to translate a keyboard's scan-code to an intermediate
+ * format. If e.g. a client instance is running Windows then
+ * TT_DesktopInput_KeyTranslate() can be called with
+ * #TTKEY_WINKEYCODE_TO_TTKEYCODE which converts the scan-code on a
+ * Windows keyboard to TeamTalk's intermediate format (TTKEYCODE). To
+ * be able to execute the key-code once it's received it must be
+ * converted back again from TeamTalk's intermediate format to the
+ * platform where the application is running. I.e. if the TTKEYCODE is
+ * received on a Mac then TT_DesktopInput_KeyTranslate() must be
+ * called with #TTKEY_TTKEYCODE_TO_MACKEYCODE.
+ *
+ * @defgroup mediastream Stream Media Files
+ *
+ * @brief This section explains how to stream media files to channels.
+ *
+ * Media files, mp3, avi, wmv, wma, etc. can be streamed to a channel
+ * and controlled separately from the voice and video capture
+ * input. Streaming a media file requires
+ * #USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO and/or
+ * #USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO.
+ *
+ * The media formats supported by the TeamTalk DLL depends on the
+ * platform. On Windows the Windows Media Player's API is used to
+ * convert media files to TeamTalk's internal formats (i.e. Speex,
+ * OPUS and WebM). So whatever Windows Media Player can play should
+ * also be possible to stream using TeamTalk. On Mac and Linux avconv
+ * is used for converting media files which in similar way makes use
+ * of what the platform provides.
+ *
+ * Use TT_GetMediaFileInfo() to see if the media file format is
+ * supported and what properties are used for audio and video.
+ *
+ * To stream a media file to a channel call
+ * TT_StartStreamingMediaFileToChannel() and to stop the stream call
+ * TT_StopStreamingMediaFileToChannel(). The user receiving the media
+ * stream can control volume levels by calling TT_SetUserVolume() and
+ * TT_AcquireUserMediaVideoFrame() to obtain video frames.
+ *
+ * Subscription of media files is controlled by #SUBSCRIBE_MEDIAFILE.
+ *
+ * @defgroup events Client Event Handling
+ *
+ * @brief This section explains how to handle events generated by the
+ * client instance.
+ *
+ * When events occur in the client instance, like e.g. if a new user
+ * joins a channel, the client instance queues a #TTMessage which the
+ * user application must retrieve using TT_GetMessage(). The message
+ * queue for events is limited to 1 MB. If the queue grows above the
+ * maximum size then event handling is suspended and will not be
+ * resumed until the queue size is again below the maximum size. The
+ * event #INTERR_TTMESSAGE_QUEUE_OVERFLOW will be posted to the
+ * message queue if an overflow has taken place.
+ *
+ * If #TT_InitTeamTalk is used with a HWND then the events are sent to
+ * the user application with WinAPI's PostMessage(...)  function and
+ * is retrieved through GetMessage(...).
+ * 
+ * Note that when an event occurs the TeamTalk client instance doesn't
+ * wait for the user application to process the event. So if e.g. a
+ * user sends a text-message and immediately after disconnects from
+ * the server, then the #User, who sent the message, cannot be
+ * retrieved using TT_GetUser() since the user is no longer available
+ * when the user application starts processing the new text-message
+ * event. This is, of course, annoying when designing the user
+ * application, but the reason for this design choice it that the
+ * client instance is a realtime component which cannot wait for the
+ * UI to process data, since audio playback and recording would then
+ * be halted.
+ *
+ * The section @ref stepbystep gives a good idea of how events are
+ * processed in a user application.
+ *
+ *
+ * @defgroup errorhandling Client Error Handling
+ *
+ * @brief This section explains how to handle errors occuring in the
+ * client instance or as a result of server commands.
+ *
+ * There are two types errors which can occur in the client,
+ * either server command error or internal errors. Section @ref
+ * commands describes all the commands a client can issue to a
+ * server. If a server commands fails the client instance notifies the
+ * user application through the event #CLIENTEVENT_CMD_ERROR. An
+ * example of a server command error could be to issue the #TT_DoLogin
+ * command with an incorrect password. The server will in this
+ * case respond with the error #CMDERR_INVALID_ACCOUNT. The
+ * user application must be designed to process these errors so
+ * application users can be notified of errors.
+ *
+ * Internal errors are errors due to failing devices. Currently only
+ * two such errors exist #INTERR_SNDINPUT_FAILURE and
+ * #INTERR_SNDOUTPUT_FAILURE.
+ *
+ *
+ * @defgroup connectivity Client/Server Connectivity
+ *
+ * @brief This section explains how to connect to a server and how the
+ * client should transmit voice and video data.
+ *
+ * To communicate with a server the TeamTalk client creates
+ * both a TCP and UDP connection to the server. Commands, i.e. the
+ * TT_Do*-functions, are sent on TCP whereas audio and video are sent
+ * on UDP.
+ *
+ * To connect to a server the user application must call
+ * #TT_Connect. Once connected the event #CLIENTEVENT_CON_SUCCESS is
+ * posted to the user application and the #TT_DoLogin command can be
+ * issued. Always ensure to call #TT_Disconnect before attempting to
+ * create a new connection with #TT_Connect.
+ *
+ * When the client instance has joined a channel and wants to transmit
+ * audio or video data to other users this can be done by calling
+ * TT_EnableTransmission().
+ *
+ * @section txforward Forward Through Server Transmission Mode
+ *
+ * The client instance is sending its audio and video packets to the
+ * server and the server will then broadcast the packets to the other
+ * users on behalf of the client. In other words the client puts the
+ * bandwidth load onto the server. This approach has its advantages
+ * and disadvantages. Since most internet users nowadays have 
+ * limited upstream they cannot broadcast audio and video packets to
+ * numerous users at the same time, so therefore the TeamTalk
+ * client makes the server do the broadcasting. This means that
+ * the server must have sufficient bandwidth available to handle data
+ * transmission from and to all the connected users. One disadvantage
+ * by having the server forward the audio and video packets is that it
+ * doubles latency, since the client doesn't send directly to other
+ * clients.
+ *
+ * If the server should not allow clients to forward audio and video
+ * packets the @a uUserRights member of #UserAccount must disable
+ * #USERRIGHT_TRANSMIT_VOICE and #USERRIGHT_TRANSMIT_VIDEOCAPTURE.
+ *
+ * @defgroup commands Client/Server Commands
+ *
+ * @brief This section contains the list of commands which can be
+ * issued by the client instance to the server.
+ *
+ * @section cmdprocessing Client/Server Command Processing
+ *
+ * Functions with the prefix TT_Do* are commands which the client can
+ * issue to the server. Every TT_Do* function returns a command
+ * identifier which can user application can use to check when the
+ * server has finished processing the issued command. Once the client
+ * receives a response to a command the client instance posts the
+ * event #CLIENTEVENT_CMD_PROCESSING to the user application
+ * containing the command identifier and whether the command is being
+ * processed or it has completed.
+ *
+ * As an example, say the user application wants to issue the
+ * #TT_DoLogin command. When the application calls #TT_DoLogin the
+ * returned command ID is stored in a variable. The application then
+ * waits for the #CLIENTEVENT_CMD_PROCESSING event to be posted with
+ * the stored command ID. The first time #CLIENTEVENT_CMD_PROCESSING
+ * is posted to the user application it is to say that processing has
+ * begun. The second time #CLIENTEVENT_CMD_PROCESSING is called it is
+ * to say that the command has completed. In between the command
+ * starting and completing several other events may take place. If
+ * e.g. the #TT_DoLogin fails the user application would receive the
+ * event #CLIENTEVENT_CMD_ERROR. If on the other hand the command was
+ * successful all the channels and user would be posted as events to
+ * the application before the login-command completed processing.
+ *
+ *
+ * @defgroup transmission Audio and Video Transmission
+ *
+ * @brief This section explains how to transmit audio and video to
+ * users in a channel.
+ *
+ * Once the client instance has joined a channel it can transmit
+ * audio, video and desktops to other users in the channel.
+ *
+ * To transmit audio the client must have the flag
+ * #CLIENT_SNDINPUT_READY enabled which is done in the function
+ * #TT_InitSoundInputDevice. To transmit video requires the flag
+ * #CLIENT_VIDEOCAPTURE_READY which is enabled by the function
+ * #TT_InitVideoCaptureDevice. To hear what others users are saying a
+ * sound output device must have been configured using
+ * #TT_InitSoundOutputDevice and thereby have enabled the flag
+ * #CLIENT_SNDOUTPUT_READY.
+ *
+ * Calling TT_EnableVoiceTransmission() will make the client instance
+ * start transmitting voice data. Voice transmission can also be
+ * activated automatically using voice activation. This is done by
+ * called TT_EnableVoiceActivation() and setting a voice activation
+ * level using TT_SetVoiceActivationLevel(). Note that voice
+ * transmission requires #USERRIGHT_TRANSMIT_VOICE.
+ *
+ * Calling TT_StartVideoCaptureTransmission() will make the client
+ * instance start transmission video data from a video capture device
+ * (typically a webcam). Note that video capture transmission requires
+ * #USERRIGHT_TRANSMIT_VIDEOCAPTURE.
+ *
+ *
+ * @defgroup server Server Administration
+ *
+ * @brief This section explains how to configure a server and setup
+ * user accounts.
+ *
+ * The server keeps track of which users are in which channels
+ * and ensures that users in the same channel can communicate with
+ * each other. It is also the job of the server to provide user
+ * authentication so only users with the proper credentials are
+ * allowed to do certain operations.
+ *
+ * It is a good idea to check out section @ref serversetup to learn
+ * how to configure the TeamTalk server.
+ *
+ * The server's name, message of the day (MOTD) can be updated using
+ * the #ServerProperties-struct. Only users with
+ * #USERRIGHT_UPDATE_SERVERPROPERTIES are allowed change a server's
+ * properties while it's running. This is done using the command
+ * TT_DoUpdateServer().
+ *
+ * Sections:
+ * - @ref useradmin
+ * - @ref userban
+ *
+ * @section useradmin User Administration
+ *
+ * Two types of users exists on a server, default users
+ * (#USERTYPE_DEFAULT) and administrator users (#USERTYPE_ADMIN). The
+ * #UserType-enum can be used to see who is what. A user of
+ * #USERTYPE_ADMIN have unrestricted rights on the server and can
+ * issue any command to the server whereas a default user is limited
+ * to the #UserRights which are assigned to the @c uUserRights member
+ * of the user's #UserAccount.
+ *
+ * As administrator it is possible to list all users who have an
+ * account on the server using #TT_DoListUserAccounts. To create a new
+ * user account call the command #TT_DoNewUserAccount and to delete an
+ * account call #TT_DoDeleteUserAccount.
+ *
+ *
+ * @section userban Kicking and Banning Users
+ *
+ * Sometimes it may be necessary to kick and ban users from a
+ * server. With #USERRIGHT_KICK_USERS it is possible to use the
+ * command TT_DoKickUser() to kick a user off the server. A channel
+ * operator (TT_DoChannelOp()) can also kick a user from a channel
+ * (but not off a server).
+ *
+ * With #USERRIGHT_BAN_USERS it is also possible to ban users from the
+ * server, so they can no longer log in. This can be done using
+ * TT_DoBanUser(). To list who are currently banned call
+ * TT_DoListBans() and to remove a ban call TT_DoUnBanUser().
+ *
+ *
+ * @defgroup channels Channel Properties
+ *
+ * @brief This section explains the concept of channels where users
+ * can interact.
+ *
+ * Users are arranged in a tree structure consisting of
+ * channels where each channel can hold a number of users. While
+ * in a channel users can transmit audio and video to each other
+ * as well as sending channel messages. On a server there will
+ * always be a root channel which cannot be deleted.
+ *
+ * In other conferencing tools channels are also refered to as
+ * "rooms".
+ *
+ * Sections:
+ * - @ref chanadmin
+ * - @ref filesharing
+ * - @ref voicelog
+ *
+ * @section chanadmin Channel Administration
+ *
+ * To create a new channel on a server requires
+ * #USERRIGHT_MODIFY_CHANNELS or #USERRIGHT_CREATE_TEMPORARY_CHANNEL.
+ *
+ * With #USERRIGHT_MODIFY_CHANNELS the method TT_DoMakeChannel() can
+ * be used to create a new channel and any existing channel can be
+ * updated using TT_DoUpdateChannel() and removed by calling
+ * TT_DoRemoveChannel(). Basically #USERRIGHT_MODIFY_CHANNELS gives
+ * unrestricted access to all channels on the server. Also seeing
+ * passwords of all channels on the server.
+ *
+ * With #USERRIGHT_CREATE_TEMPORARY_CHANNEL the user can only create
+ * temporary channels which disappear when the last user leaves the
+ * channel. A temporary channel must be created by calling
+ * TT_DoJoinChannel(). Once a user has created a temporary channel and
+ * joined it he becomes operator of the channel which means that he
+ * can update the channel's properties at any given time.
+ * 
+ * @section filesharing File Sharing
+ *
+ * While in a channel users can upload and download files if the
+ * #USERRIGHT_UPLOAD_FILES and #USERRIGHT_DOWNLOAD_FILES are
+ * enabled. To upload a file to a channel the channel needs to have a
+ * disk quota. The disk quota is specified by @a nDiskQuota in the
+ * #Channel-struct. The file being uploaded must have a file size
+ * which is less than the disk quota and the sum of sizes of existing
+ * files. Once a file is uploaded only channel operators and the
+ * file's owner can delete a file.
+ *
+ * Call #TT_DoSendFile to upload a file and #TT_DoRecvFile to download
+ * a file. Only users who have a #UserAccount on the server are
+ * allowed to upload files. There is no limit on the maximum number of
+ * file transfers but it is advised to queue file transfers so the
+ * file transfers do no affect server performance.
+ *
+ * @section voicelog Storing Conversations to Audio Files
+ *
+ * In some applications it may be required to be able to save all
+ * audio data received by the client instance to disk. This can be
+ * archived by calling TT_SetUserMediaStorageDir() which will then save
+ * received audio data in the following format: "YYYYMMDD-HHMMSS
+ * \#USERID USERNAME.wav". USERNAME is the @a szUsername from #User.
+ *
+ * To store audio data from outside the local client instance's
+ * channel, please read section @ref spying.
+ *
+ * @defgroup users User Properties
+ *
+ * @brief This section explains users interact and how to configure
+ * user settings.
+ *
+ * Users can be seen on the server after a successful call
+ * to #TT_DoLogin. Once logged in a user can send user to user
+ * text-messages using #TT_DoTextMessage as well as receive
+ * broadcast messages. A user cannot send audio and video data to
+ * other users until they have joined the same channel.
+ *
+ * Sections:
+ * - @ref usertypes
+ * - @ref userinteract
+ * - @ref uservolume
+ * - @ref subscriptions
+ *   - @ref spying
+ *
+ * @section usertypes User Types
+ *
+ * A user can either be a default user #USERTYPE_DEFAULT or an
+ * administrator #USERTYPE_ADMIN. A default user has limited rights
+ * on the server (see @c uUserRights of #UserAccount) whereas an
+ * administrator can change server properties, create, delete and
+ * remove channels as well as move, kick and ban users. Checkout @ref
+ * useradmin on how to set up user rights.
+ *
+ * @section userinteract User Interaction
+ *
+ * Once a user has joined a channel it is possible to transmit voice
+ * and video data to other users. If a user starts talking in the
+ * channel the event #CLIENTEVENT_USER_STATECHANGE is posted to the user
+ * application and if a video frame is received the event
+ * #CLIENTEVENT_USER_VIDEOCAPTURE is sent to the user application.
+ *
+ * @section uservolume User Audio Settings
+ *
+ * While in the same channel the user application can change different
+ * settings on a user. If e.g. a user's volume is too low the user
+ * application can call #TT_SetUserVolume to increase the volume.
+ *
+ * If on the other hand the user application wants to mute a user
+ * #TT_SetUserMute can be used for this. Note that muting a user
+ * doesn't mean that the client instance will stop receiving audio
+ * from that user, it simply means it will not be played. To stop
+ * receiving audio from a user the local client instance must ask the
+ * server to unsubscribe voice data from the user. This is explained
+ * in the next section.
+ *
+ * @section subscriptions User Subscriptions
+ * 
+ * When logging on to a server the local client instance will by
+ * default subscribe to user messages, channel messages, broadcast
+ * messages, audio data and video data from all users. If, however, a
+ * client wants to stop receiving e.g. audio from a user, he can call
+ * #TT_DoUnsubscribe along with the user ID and the
+ * #SUBSCRIBE_VOICE-flag to tell the server that he no longer wants to
+ * receive audio from that user. The server will then respond with the
+ * event #CLIENTEVENT_CMD_USER_UPDATE and the @a uLocalSubscriptions
+ * member of #User will have the #SUBSCRIBE_VOICE-flag removed. At the
+ * remote user the \a uPeerSubscriptions member will be
+ * changed. Subscribe/unsubscribe can also be done for user, channel
+ * and broadcast messages and video data. The function #TT_DoSubscribe
+ * can be used to revert unsubscriptions.
+ *
+ * @subsection spying Spying on Users
+ *
+ * Previously it has been said that users can only receive audio and
+ * video from users when they are in the same channel, but actually an
+ * administrator user can call #TT_DoSubscribe with the flags prefixed
+ * SUBSCRIBE_INTERCEPT_* to spy on users outside his own channel. In
+ * other words it's possible hear and see video data outside ones
+ * channel. Also all user and channel messages sent by a user can also
+ * be intercepted in this way.
+ *
+ * Having the ability to intercept all data sent from users in any
+ * channel means that it's possible to log everything that is
+ * happening on the server. Both audio and video transfers as well as
+ * text messaging. Checkout TT_SetUserMediaStorageDir() on how to store
+ * voice data to audio files.
+ *
+ *
+ * @defgroup hotkey Windows Hotkeys
+ *
+ * @brief This section explains how to setup hot-keys on Windows.
+ *
+ * Hotkeys can be used to e.g. enable push-to-talk.
+ *
+ * Windows supports intercepting key strokes globally, i.e. without
+ * having the user application's window focused. To investigate which
+ * keys are currently being pressed the function
+ * #TT_HotKey_InstallTestHook can be used. Once the desired
+ * key-combination has been found the function #TT_HotKey_Register can
+ * be used to register the combination as a hotkey and have the
+ * #CLIENTEVENT_HOTKEY event posted whenever the key combination
+ * becomes active.
+ *
+ * Note that it's not advised to have a hotkey installed while
+ * debugging an application in Visual Studio. It slows down the
+ * debugger dramatically.
+ * 
+ *
+ * @defgroup mixer Windows Mixer
+ *
+ * @brief This section explains how to control the Windows mixer.
+ *
+ * The Windows mixer can be manipulated so e.g. Line In can be
+ * chosen instead of Microphone for recording.
+ *
+ * To find the mixer which is associated with the current sound input
+ * or output device the @a nWaveDeviceID member of #SoundDevice must
+ * be used when querying the mixer.
+ *
+ * @defgroup firewall Windows Firewall
+ *
+ * @brief This section explains how to configure the Windows firewall
+ * available in Windows XP SP2 and later.
+ *
+ * The Windows Firewall can be modified so applications can be
+ * added to the firewall's exception list.
+ *
+ * The Windows Firewall was introduced in Windows XP SP2. Modifying
+ * the Windows Firewall requires administrator rights. On Windows XP
+ * the user running the application, which calls the DLL, is assumed
+ * to have administrator rights. On Windows Vista/7 the DLL will
+ * automatically call User Account Control (UAC) to obtain
+ * administrator rights.
+ *
+ * Check out TT_Firewall_AddAppException() on how to add application
+ * executables to the Windows Firewall exception list.
+ *
+ * @defgroup serverapi TeamTalk Server API
+ *
+ * @brief Instantiate and run a TeamTalk server.
+ *
+ * The Professional Edition of the TeamTalk SDK includes a header file
+ * called @c TeamTalkSrv.h which exposes the TeamTalk server API.
+ *
+ * To create a TeamTalk server instance first call
+ * TTS_InitTeamTalk(). If the server should be encrypted then call
+ * TTS_SetEncryptionContext() prior to the instantiation, since the
+ * SSL context must be available before instantiation of the server.
+ *
+ * Next configure the server instance by calling
+ * TTS_UpdateServer(). Remember to set all properties of
+ * #ServerProperties. Also create a root channel by calling
+ * TTS_MakeChannel(). If there is no root channel then the server will
+ * not start. Finally call TTS_StartServer() to start the server. Now
+ * you must continuesly call TTS_RunEventLoop() to run the server
+ * event loop.
+ *
+ * The TeamTalk server API is able to do callbacks when users perform
+ * certain events. There are two types of callbacks, one is @ref
+ * serverlogevents and the other is @ref servercallbacks where the server
+ * is asking the server application on what to return to the user (a
+ * #ClientErrorMsg is provided by the server API which will be
+ * returned to the user).
+ *
+ * To see a simple example application of a TeamTalk server check
+ * out @ref ttserverexample.
+ *
+ * @defgroup servercallbacks Server Request Callbacks
+ *
+ * @brief Handle user requests to the server.
+ *
+ * Callbacks of this type are invoked when a client application has
+ * issued a command to the server, basically called a @c TT_Do*
+ * method (one example could be TT_DoLogin()).
+ *
+ * To get a callback when a user wants to log in call
+ * TTS_RegisterUserLoginCallback() and pass a pointer to the function
+ * which the TeamTalk server should call when a user wants to log in.
+ * If the user should be allowed to log on pass #CMDERR_SUCCESS to the
+ * #ClientErrorMsg provided by the TeamTalk server API. If not pass
+ * any another value which will then be returned to the client
+ * application.
+ *
+ * @defgroup serverlogevents Server Notification Callbacks
+ *
+ * @brief Notification events for server changes.
+ *
+ * Callbacks of this type are mainly meant for logging so it's
+ * possible to see what is going on the server. Examples of logging
+ * events are when a user is dropped due to connection timeout.
+ *
+ */

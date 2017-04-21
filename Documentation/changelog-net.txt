@@ -1,0 +1,1831 @@
+namespace BearWare
+{
+/**
+ * @page changelog ChangeLog
+ * 
+ * This section contains the list of new features and API changes
+ * in TeamTalk SDK releases.
+ *
+ * @ref v52brelease
+ * - @ref v52bapi
+ *   - @ref v52bsrvnet
+ * - @ref v52bbugfixes
+ *
+ * @ref v52arelease
+ * - @ref v52afeatures
+ *   - @ref v52asrvapi
+ *   - @ref v52aaudunit
+ *   - @ref v52av4l2
+ *   - @ref v52aavf
+ *   - @ref v52adeps
+ *   - @ref v52aagc
+ *   - @ref v52attand
+ *   - @ref v52aogg
+ * - @ref v52aapi
+ *   - @ref v52awebm
+ *   - @ref v52aclientname
+ *   - @ref v52aconsys
+ * - @ref v52abugfixes
+ * 
+ * @ref v51crelease
+ * - @ref v51capi
+ *
+ * @ref v51brelease
+ * - @ref v51bfeatures
+ *   - @ref v51bownstream
+ *   - @ref v51bwinjni
+ *
+ * @ref v51arelease
+ * - @ref v51afeatures
+ *   - @ref v51aserverapi
+ *   - @ref v51ajava
+ *   - @ref v51aios
+ *
+ * @ref v50arelease
+ * - @ref v50afeatures
+ *   - @ref v50aeventhandling
+ *   - @ref v50awebm
+ *   - @ref v50aopus
+ *   - @ref v50aaes
+ *   - @ref v50amediastream
+ *   - @ref v50auserrights
+ *   - @ref v50abitratelimit
+ *   - @ref v50amaxchannels
+ *   - @ref v50ap2p
+ *   - @ref v50achanrename
+ *   - @ref v50adaemon
+ *   - @ref v50aagc
+ *   - @ref v50asrvxml
+ *   - @ref v50astats
+ *   - @ref v50anocrypt
+ * - @ref v50aapi
+ *   - Structures
+ *     - @ref newstruct5
+ *     - @ref modstructs5
+ *     - @ref remstructs5
+ *   - Enumerations
+ *     - @ref newenum5
+ *     - @ref renamedenum5
+ *     - @ref remenum5
+ *   - Events
+ *     - @ref newevents5
+ *     - @ref renamedevents5
+ *     - @ref removedevents5
+ *   - Methods
+ *     - @ref v50anewmethods
+ *     - @ref v50amodmethods
+ *     - @ref v50aremovemethods
+ *
+ * @ref v46brelease
+ * - @ref v46bfeatures
+ *
+ * @ref v46arelease
+ * - @ref v46afeatures
+ *   - @ref v46adeskinput
+ * - @ref v46aapi
+ *
+ * @ref v45arelease
+ * - @ref v45afeatures
+ *   - @ref v45astream
+ *   - @ref v45alogin
+ *   - @ref v45aipban
+ * - @ref v45aapi
+ *
+ * @ref v44arelease
+ * - @ref v44afeatures
+ *   - @ref v44awasapi
+ *   - @ref v44arestartsnd
+ *   - @ref v44aautoresam
+ *   - @ref v44aoprecv
+ *   - @ref v44anoncrypt
+ *   - @ref v44aviduni
+ * - @ref v4aaapi
+ *
+ * @ref v43arelease
+ * - @ref v43afeatures
+ *   - @ref v43adesktop
+ *   - @ref v43ainitialchan
+ *   - @ref v43aautoop
+ *   - @ref v43acustommsgtype
+ *   - @ref v43aquerymtu
+ *   - @ref v43aaudioblock
+ *   - @ref v43aaudiofilename
+ *   - @ref v43aresetaudiofile
+ *   - @ref v43achanechovideo
+ *   - @ref v43afreeforall
+ * - @ref v43aapi
+ *
+ * @ref v42arelease
+ * - @ref v42afeatures
+ *   - @ref v42amuxaudio
+ *   - @ref v42awinfirewall
+ *   - @ref v42atalkdelay
+ *   - @ref v42avbrcodecs
+ *   - @ref v42acelt011
+ *   - @ref v42aipv6
+ * - @ref v42aapi
+ *
+ * @ref v41arelease
+ * - @ref v41afeatures
+ *   - @ref v41adeps
+ *   - @ref v41aplatforms
+ *   - @ref v41aecho
+ *   - @ref v41aclassroom
+ *   - @ref v41aaudiocfg
+ *   - @ref v41asrvstats
+ *   - @ref v41avideo
+ * - @ref v41aapi
+ *
+ * @ref v40crelease
+ * - @ref v40cfeatures
+ *   - @ref v40cuseraccount
+ *   - @ref v40cmyaccount
+ *   - @ref v40cserverusers
+ * - @ref v40capi
+ * - @ref v40cbugfixes
+ *
+ * @ref v40arelease
+ * - @ref v40afeatures
+ *   - @ref chvidcap
+ *   - @ref chuseradmin
+ *   - @ref chcmdid
+ *   - @ref chp2p
+ *   - @ref chcelt
+ * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v52brelease TeamTalk 5 SDK v. 5.2b release
+ *
+ * @subsection v52bapi API changes in v.5.2b
+ *
+ * @subsubsection v52bsrvnet TeamTalk Server API for .NET
+ *
+ * The TeamTalk server API is now also supported by .NET. Checkout the
+ * #BearWare.TeamTalk5Srv class which runs the server. To quickly get
+ * started it's probably a good idea to checkout @ref ttservernet.
+ *
+ * @subsection v52bbugfixes Bugfixes in v5.2b
+ *
+ * - Fixed severe issue causing audio playback not to start if client
+ *   received bursts of audio packets (the client has a 1 second
+ *   buffer which would overflow and not restart).
+ * - Fixed @c nChannelID not being set in #BearWare.User-struct when using
+ *   TeamTalk Server API.
+ *
+ * <hr>
+ *
+ * @section v52arelease TeamTalk 5 SDK v. 5.2a release
+ *
+ * @subsection v52afeatures New features in v5.2a
+ *
+ * @subsubsection v52asrvapi TeamTalk Server API with System ID
+ *
+ * The server API has been updated in this release so it's possible to
+ * restrict logins to your TeamTalk server to only your own client
+ * application. If the "normal" TeamTalk client tries to connect to
+ * your TeamTalk server then it will be possible to reject it.
+ *
+ * To limit access to your TeamTalk server you can use the @c
+ * szSystemID parameter of TeamTalkSrv.StartServerSysID(). When a client has to
+ * connect then the chosen system-ID will also have to passed to
+ * TeamTalkBase.ConnectSysID(). If it's not then the connecting TeamTalk client
+ * will receive the #ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS. The szSystemID of
+ * the default TeamTalk application is "teamtalk". This is what you
+ * see when you connect with Telnet on port TCP port 10333
+ * (non-encrypted).
+ *
+ * On top of the system-ID restriction it's now also possible to do a
+ * check on the client name connecting by using the extended
+ * TeamTalkBase.DoLoginEx(). When a client tries to connect to a TeamTalk server
+ * you can then check the @c szClientName property of #BearWare.User to ensure
+ * only your client application is allowed to connect.
+ *
+ * @subsubsection v52aaudunit Voice-Processing I/O Unit for iOS
+ *
+ * Audio device "Voice-Processing I/O Unit" added as sound device ID 1
+ * on iOS. The Voice-Processing I/O Unit sound device is designed to
+ * eliminate echo when using speaker output and also enable automatic
+ * gain control. Read more on audio units here:
+ * https://developer.apple.com/library/ios/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/UsingSpecificAudioUnits/UsingSpecificAudioUnits.html
+ *
+ * @subsubsection v52av4l2 Video4Linux2 (V4L2) support on Linux
+ *
+ * The video capture API on Linux has been updated to it now uses V4L2
+ * instead of the obsolete V4L API.
+ *
+ * @subsubsection v52aavf AVFoundation replaces QTkit on Mac OS
+ *
+ * The previously used video capture API, QTkit, on Mac OS has been
+ * replaced by AVFoundation. Apple's AppStore doesn't accept apps
+ * which link to QTkit, so therefore this replacement was nescessary.
+ *
+ * @subsubsection v52adeps Dependencies on Linux has been reduced
+ *
+ * Previous releases of TeamTalk 5 shared library depended on WebM
+ * (libvpx), Speex (libspeex), OPUS (libopus), etc. Now this has been
+ * limited to C++ standard library (libstdc++) and ALSA (libasound).
+ *
+ * @subsubsection v52aagc Sound Preprocessing (Automatic gain control) for iOS
+ *
+ * The Speex sound preprocessing library (SpeexDSP) is now also
+ * supported on iOS platforms.
+ *
+ * The #BearWare.SpeexDSP-struct is used by
+ * TeamTalkBase.SetSoundInputPreprocess() and
+ * TeamTalkBase.StartSoundLoopbackTest().
+ *
+ * @subsubsection v52attand TeamTalk for Android now uses Android Studio
+ *
+ * Previously the TeamTalk sample application (TeamTalkAndroid) was
+ * using Eclipse but this project has now been converted to Android
+ * Studio 2.0.
+ *
+ * @subsubsection v52aogg Store audio in .ogg format
+ *
+ * When storing audio to files it's now possible to specify
+ * #AudioFileFormat.AFF_CHANNELCODEC_FORMAT which is part of the enumeration
+ * #BearWare.AudioFileFormat. The #AudioFileFormat.AFF_CHANNELCODEC_FORMAT will store in the
+ * audio format configured by a #BearWare.Channel's #BearWare.AudioCodec.
+ *
+ * @subsection v52aapi API changes in v5.2a
+ *
+ * @subsubsection v52awebm Deadline for WebM video encoder
+ *
+ * Added @c nEncodeDeadline to #BearWare.WebMVP8Codec which specifies quality
+ * of the video encoder. Values are
+ * #BearWare.WebMVP8CodecConstants.WEBM_VPX_DL_REALTIME,
+ * #BearWare.WebMVP8CodecConstants.WEBM_VPX_DL_GOOD_QUALITY and
+ * #BearWare.WebMVP8CodecConstants.WEBM_VPX_DL_BEST_QUALITY.
+ *
+ * @subsubsection v52aclientname Get software client used by peer
+ *
+ * Added @c szClientName to #BearWare.User-struct. The client name is specified
+ * in TeamTalkBase.DoLoginEx().
+ *
+ * @subsubsection v52aconsys Limit access to TeamTalk server to one software client
+ *
+ * If using TeamTalk 5 SDK Professional then a System-ID can be used
+ * to limit access to the TeamTalk server to a single client
+ * application.
+ *
+ * Use the TeamTalk server API to setup a server with a System-ID,
+ * i.e. TTS_StartServerSysID() and then use BearWare.TeamTalkBase.ConnectSysID().
+ *
+ * @subsection v52abugfixes Bugfixes in v5.2a
+ *
+ * - Stream media files was slow to start.
+ * - Streaming media file from Windows caused bottom-up bitmap image.
+ * - Fixed file handle being leaked on Windows during desktop transmission.
+ * - Fixed corrupt .wav file if file greater than 4GB.
+ * - Fixed Bluetooth not working on iOS 10 and later.
+ *
+ * <hr>
+ *
+ * @section v51crelease TeamTalk 5 SDK v. 5.1c release
+ *
+ * The TeamTalk C-API DLL has been moved to @c Library/TeamTalk_DLL
+ * The TeamTalk .NET DLL project has been moved to @c
+ * Library/TeamTalkBase.NET.
+ * The TeamTalk JNI DLL has been moved to @c Library/TeamTalkJNI.
+ *
+ * This file layout change has been made so the projects are more
+ * aligned with @ref github.
+ *
+ * TeamTalk 5 for iOS application (iTeamTalk) from App Store now
+ * included with TeamTalk 5 SDKs for iOS.
+ *
+ * TeamTalk 5 Professional SDK now includes TeamTalk 5 Java server
+ * sample application (jTeamTalkServer).
+ *
+ * @subsection v51cfeatures New features in v. 5.1c
+ *
+ * TeamTalk 5 iOS SDKs can now be compiled with "Enable Bitcode" (@c
+ * -fembed-bitcode).
+ *
+ * @subsection v51capi API changes in v. 5.1c
+ *
+ * Added function TeamTalkBase.PumpMessage() for getting latest #BearWare.User-state. 
+ *
+ * Sound device 1 (speaker output) removed from TeamTalk iOS SDK when
+ * calling TeamTalkBase.GetSoundDevices(). Instead use iOS's function @c
+ * AVAudioSession.setMode().
+ *
+ * <hr>
+ *
+ * @section v51brelease TeamTalk 5 SDK v. 5.1b release
+ *
+ * A quite severe bug which caused files on the server to end up in
+ * the wrong channels has been fixed in this minor release. The issue
+ * only affects the standalone servers which are included in the
+ * SDK. Custom servers created by the TeamTalk server API should not
+ * be affected.
+ *
+ * @subsection v51bfeatures New features in v. 5.1b
+ *
+ * @subsubsection v51bownstream Record own voice stream to separate file
+ *
+ * Previously it has only been possible to record own audio streams by
+ * subscribing to them. Now it's, however, possible to call
+ * TeamTalkBase.SetUserMediaStorageDir() with user ID 0 to record own audio
+ * stream.
+ *
+ * @subsubsection v51bwinjni TeamTalk JNI DLL for Windows
+ *
+ * Windows developers can now also use Java for client
+ * development. The TeamTalk JNI DLL is located in @c
+ * Library/Java/TeamTalkJNI.
+ *
+ * <hr>
+ * 
+ * @section v51arelease TeamTalk 5 SDK v. 5.1a release
+ *
+ * The inclusion of the @ref serverapi has caused quite a bit of
+ * reorganization of the TeamTalk SDK's file layout. Previously the
+ * TeamTalk DLL only allowed client operations and was therefore
+ * located in the @c Client folder. Now that the TeamTalk DLL (in the
+ * Professional edition) also allows users to develop a TeamTalk
+ * server then the core TeamTalk library projects have been moved to
+ * the @c Library folder in the root of the SDK.
+ *
+ * 
+@verbatim
+   Library
+     C-API
+     Java
+     NET
+   Documentation
+     C-API
+     Java
+     NET
+   Examples
+     C-API
+     Java
+     NET
+   Server
+   Demo Client
+@endverbatim
+ *
+ * @subsection v51afeatures New Features in v. 5.1a release
+ *
+ * @subsubsection v51aserverapi TeamTalk 5 Server API
+ *
+ * The TeamTalk 5 Professional Edition now includes a @ref serverapi
+ * which enables developers to instantiate a TeamTalk server by
+ * calling the TeamTalk DLL. With the server API it's possible to do
+ * basic operations like authentication users and updating server
+ * properties.
+ * 
+ * Note that the TeamTalk server API is currently only supported in
+ * the TeamTalk C-API DLL.
+ *
+ * @subsubsection v51ajava TeamTalk 5 Java DLL
+ *
+ * Now that the TeamTalk SDK is also available for Android the Java
+ * API used for Android development has also been ported to Linux and
+ * Mac OS X.
+ *
+ * Java is supported by using a new TeamTalk DLL with a Java Native
+ * Interface (JNI). The TeamTalk JNI DLL is located in @c
+ * Library/Java/TeamTalkJNI.
+ * 
+ * Open the Java documentation to see how to use the new Java API. The
+ * Java TeamTalk classes greatly ressemble the .NET classes therefore
+ * the API documentation for Java is the same as .NET. Hopefully this
+ * doesn't cause too much confusion.
+ * 
+ * @subsubsection v51aios TeamTalk 5 SDK for iOS
+ *
+ * The iOS platform is now also supported by the TeamTalk DLL. Please
+ * refer to the C-API on how to use the TeamTalk DLL on iOS.
+ *
+ * <hr>
+ *
+ * @section v50arelease TeamTalk 5 SDK v. 5.0a release
+ *
+ * @subsection v50afeatures New features in v. 5.0a
+ *
+ * @subsubsection v50aeventhandling Updated event handling
+ *
+ * In TeamTalk 4 events were posted in a @c TTMessage containing a
+ * WPARAM and LPARAM where the WPARAM would typically contain an ID
+ * and the LPARAM some extended information about the event. When an
+ * event occured the client application would query the TeamTalk
+ * client instance to extract information about what had changed to
+ * the current state. Since the client instance was running in its own
+ * thread the state change could, however, have become unknown in the
+ * meantime. If e.g. a text message was received from a user and the
+ * user would immediately quit afterwards then the text message would
+ * be lost since the text message was "attached" to the user who was
+ * no longer there. In TeamTalk 5 a #BearWare.TTMessage now contains a
+ * copy of what changed as a cause of the event. If e.g. a text
+ * message is received from a user then the #BearWare.TTMessage will
+ * contain a full copy of the #BearWare.TextMessage which was
+ * received. Also if a new channel is created then it's no longer
+ * required to extract the #BearWare.Channel object through the
+ * TeamTalk client instance (using TeamTalkBase.GetChannel()) now the new
+ * channel is part of the #BearWare.TTMessage using the
+ * #BearWare.TTMessage's data container.
+ *
+ * @subsubsection v50awebm WebM replaces Theora video codec
+ *
+ * Theora video codec was used in TeamTalk 4 to encode video from
+ * webcam and media files but this has now been replaced by the more
+ * recent Google-backed WebM codec. Check out <a
+ * href="http://www.webmproject.org/">WebM</a> website for more
+ * information about the new video codec. Currently it's only possible
+ * to configure the bitrate in the codec but should you need access to
+ * more codec configuration options then feel free to request these.
+ * 
+ * @subsubsection v50aopus OPUS replaces CELT audio codec
+ *
+ * CELT is no longer being developed and has been replaced by
+ * OPUS. Check out <a href="http://www.opus-codec.org/">OPUS</a>
+ * website for more information.
+ *
+ * @subsubsection v50aaes AES encryption replaces Blowfish
+ *
+ * TeamTalk 4 used Blowfish for encrypting audio, video and desktop
+ * sharing streams. TeamTalk 5 uses AES 256-bit for encrypting audio,
+ * video, media file and desktop sharing streams.
+ *
+ * @subsubsection v50amediastream New stream type for media files
+ *
+ * In TeamTalk 4 streaming a media file would replace voice input from
+ * microphone and video from a media file would replace webcam
+ * input. In TeamTalk 5 a new stream type for media files has been
+ * introduced so it's still possible to talk and show webcam video
+ * while streaming a media file to a channel.
+ *
+ * @subsubsection v50auserrights User rights now moved to user account
+ *
+ * In TeamTalk 4 all users of the default user type had the same user
+ * rights on the server which were set up in
+ * #BearWare.ServerProperties. The user rights (#BearWare.UserRight)
+ * are now part of #BearWare.UserAccount so each user can have
+ * different #BearWare.UserRight on the server.
+ *
+ * @subsubsection v50abitratelimit Audio codec bitrate limit moved to user account
+ *
+ * The maximum bitrate for audio codecs where global to all users in
+ * TeamTalk 4 but now the maximum bitrate a user can use for a new
+ * channel is configured in the #BearWare.UserAccount.
+ *
+ * @subsubsection v50amaxchannels Max channels limited to 4000
+ *
+ * TeamTalk 4 supported 65000 active channels/rooms but in TeamTalk 5
+ * only 4000 channels are supported. This limited has been implemented
+ * to reduce bandwidth usage.
+ *
+ * @subsubsection v50ap2p Peer to peer support has been removed
+ *
+ * TeamTalk 5 doesn't support P2P connections since the 'forward
+ * through server' is required for desktop sharing to work.
+ *
+ * @subsubsection v50achanrename Channels can be renamed
+ *
+ * In TeamTalk 4 is was not possible to update a channel's name but
+ * this is now supported. Ensure to update @c szInitChannel of
+ * #BearWare.UserAccount if you use this feature.
+ *
+ * @subsubsection v50adaemon Daemon script for server included
+ *
+ * The TeamTalk 5 Linux server now includes a daemon script which can
+ * be put in @c /etc/init.d on Debian to start/stop the TeamTalk
+ * daemon (with -d option).
+ *
+ * @subsubsection v50aagc Audio configuration no longer forced by channel
+ *
+ * If a #BearWare.Channel was configured with an #BearWare.AudioConfig
+ * in TeamTalk 4 then the client instance would automatically enable
+ * this audio configuration. This is no longer the case in TeamTalk
+ * 5. Now the client application must invoke TeamTalkBase.SetSoundInputPreprocess()
+ * manually.
+ *
+ * @subsubsection v50asrvxml Default server config file renamed to tt5srv.xml
+ *
+ * The default name for the server xml configuration file was @c
+ * tt4svc.xml in TeamTalk 4 but in TeamTalk 5 it's now @c tt5srv.xml
+ * and @c tt5prosrv.xml for the Professional edition.
+ *
+ * @subsubsection v50astats Server statistics updated
+ *
+ * #BearWare.ServerStatistics now includes the number of users served, the
+ * highest number of users and server's uptime.
+ *
+ * @subsubsection v50anocrypt Non-encrypted mode in Professional server
+ *
+ * The TeamTalk server in the Professional SDK (tt5prosrv) now also
+ * supports non-encrypted mode. Whether to run in encrypted or
+ * non-encrypted mode is configured when running the setup wizard. See
+ * more in @ref serversetup.
+ *
+ * @subsection v50aapi API changes in v. 5.0a
+ *
+ * @subsubsection newstruct5 New structs:
+ * 
+ * - #BearWare.OpusCodec
+ *   - See @ref v50aopus
+ * - #BearWare.SpeexDSP
+ *   - See TeamTalkBase.SetSoundInputPreprocess().
+ * - #BearWare.OpusConstants
+ *   - Constants for #BearWare.OpusCodec.
+ * - #BearWare.WebMVP8Codec
+ *   - See @ref v50awebm
+ * - #BearWare.RemoteFile
+ *   - Replacement for @c FileInfo.
+ * - #BearWare.ClientErrorMsg
+ *   - Contains information about an error of type #BearWare.ClientError.
+ * - #BearWare.DesktopInputConstants
+ *   - Constants for #BearWare.DesktopInput.
+ * - #BearWare.AudioConfigConstants
+ *   - Default values for #BearWare.AudioConfig.
+ *
+ * @subsubsection modstructs5 Renamed/modified structs:
+ * - #BearWare.SoundDevice
+ *   - @c inputSampleRates and @c outputSampleRates replaced by 
+ *     @c supportedSampleRates due to change of TeamTalkBase.GetSoundDevices()
+ *     instead of @c TeamTalk4.GetSoundInputDevices() and @c 
+ *     TeamTalk4.GetSoundOutputDevices().
+ * - #BearWare.AudioBlock
+ *   - Now contains @c nStreamID. Stream ID changes whenever
+ *     push-to-talk or voice activation are toggled.
+ * - #BearWare.VideoCaptureDevice
+ *   - @c captureFormats renamed to @c videoFormats.
+ *   - @c nCaptureFormatsCount renamed to @c nVideoFormatsCount.
+ * - #BearWare.MediaFileInfo
+ *   - Now contains @c szFileName.
+ * - #BearWare.DesktopWindow
+ *   - Now contains @c frameBuffer with pointer to data and @c 
+ *     nFrameBufferSize with size of bffer.
+ * - #BearWare.SpeexCodec
+ *   - Renamed @c nMSecPerPacket to nTxIntervalMSec.
+ *   - Removed @c bUseJitterBuffer.
+ * - #BearWare.SpeexVBRCodec
+ *   - Renamed @c nMSecPerPacket to nTxIntervalMSec.
+ *   - Renamed @c nQualityVBR to @c nQuality.
+ *   - Removed @c bUseJitterBuffer.
+ * - #BearWare.AudioCodec
+ *   - Removed @c celt and @c celt_vbr.
+ *   - Added @c opus, i.e. #BearWare.OpusCodec.
+ * - #BearWare.AudioConfig
+ *   - Now only contains gain settings. Use #BearWare.SpeexDSP for denoising, AEC and AGC.
+ * - #BearWare.VideoCodec
+ *   - Removed @c theora.
+ *   - Added @c webm_vp8.
+ * - #BearWare.ServerProperties
+ *   - Removed @c szServerPasswd. Only valid #BearWare.UserAccount is required now.
+ *   - Removed @c uUserRights. Now part of #BearWare.UserAccount.
+ *   - Removed @c nAduioCodecBpsLimit. Now part of #BearWare.UserAccount.
+ *   - @c nMaxVideoTxPerSecond replaced by nMaxVideoCaptureTxPerSecond.
+ *   - Added @c nMaxMediaFileTxPerSecond.
+ * - #BearWare.ServerStatistics
+ *   - @c nVideoBytesTX replaced by nVideoCaptureBytesTX.
+ *   - @c nVideoBytesRX replaced by nVideoCaptureBytesRX.
+ *   - Added @c nMediaFileBytesTX.
+ *   - Added @c nMediaFileBytesRX.
+ *   - Added @c nUsersServed.
+ *   - Added @c nUsersPeak.
+ *   - Added @c nFilesTx.
+ *   - Added @c nFilesRx.
+ * - #BearWare.UserAccount
+ *   - Added @c uUserRights. See @ref v50auserrights.
+ *   - Added @c nAudioCodecBpsLimit. See @ref v50abitratelimit.
+ * - #BearWare.User
+ *   - Added @c nVolumeVoice.
+ *   - Added @c nVolumeMediaFile.
+ *   - Added @c nGainLevelVoice.
+ *   - Added @c nGainLevelMediaFile.
+ *   - Added @c nStoppedDelayVoice.
+ *   - Added @c nStoppedDelayMediaFile.
+ *   - Added @c soundPositionVoice.
+ *   - Added @c soundPositionMediaFile.
+ *   - Added @c stereoPlaybackVoice.
+ *   - Added @c stereoPlaybackMediaFile.
+ *   - Added @c nBufferMSecVoice
+ *   - Added @c nBufferMSecMediaFile.
+ *   - Renamed @c szAudioFolder to @c szMediaStorageDir
+ *   - Removed @c uAFF. Format in #ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE.
+ *   - Removed @c szAudioFileName. File name in #ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE.
+ * - #BearWare.UserStatistics
+ *   - @c nAudioPacketsRecv replaced by nVoicePacketsRecv.
+ *   - @c nAudioPacketsLost replaced by nVoicePacketsLost.
+ *   - @c nVideoPacketsRecv replaced by nVideoCapturePacketsRecv.
+ *   - @c nVideoFramesRecv replaced by nVideoCaptureFramesRecv.
+ *   - Added @c nMediaFileAudioPacketsRecv.
+ *   - Added @c nMediaFileAudioPacketsLost.
+ *   - Added @c nMediaFileVideoPacketsRecv.
+ *   - Added @c nMediaFileVideoFramesRecv.
+ *   - Added @c nMediaFileVideoFramesLost.
+ *   - Added @c nMediaFileVideoFramesDropped.
+ * - #BearWare.Channel
+ *   - Added @c nUserData.
+ *   - Added @c transmitUsers.
+ *   - Renamed @c codec to @c audiocodec.
+ *   - Remove @c voiceUsers. Use @c transmitUsers instead.
+ *   - Remove @c videoUsers. Use @c transmitUsers instead.
+ *   - Remove @c desktopUsers. Use @c transmitUsers instead.
+ *   - Remove @c voiceUsers. Use @c transmitUsers instead.
+ * - #BearWare.FileTransfer
+ *   - Added @c nStatus.
+ * - #BearWare.TTMessage
+ *   - See @ref v50aeventhandling.
+ *
+ * @subsubsection remstructs5 Removed structs
+ * - @c CELTCodec
+ *   - See @ref v50aopus
+ * - @c TheoraCodec
+ *   - See @ref v50awebm
+ * - @c FileInfo
+ *   - Replaced by #BearWare.RemoteFile.
+ * - @c CaptureFormat
+ *   - Replaced by #BearWare.VideoFormat.
+ *
+ * @subsubsection newenum5 New enumerations
+ * - #StreamType
+ *   - See @ref v50amediastream
+ *
+ * @subsubsection renamedenum5 Renamed/modified enumerations
+ * - @c TransmitType
+ *   - Use #BearWare.StreamType instead.
+ * - #BearWare.UserRight
+ *   - Added #UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL. See @ref v50auserrights.
+ *   - Added #UserRight.USERRIGHT_MODIFY_CHANNELS. See @ref v50auserrights.
+ *   - Added #UserRight.USERRIGHT_KICK_USERS.
+ *   - Added #UserRight.USERRIGHT_BAN_USERS.
+ *   - Added #UserRight.USERRIGHT_MOVE_USERS.
+ *   - Added #UserRight.USERRIGHT_OPERATOR_ENABLE.
+ *   - Added #UserRight.USERRIGHT_UPLOAD_FILES.
+ *   - Added #UserRight.USERRIGHT_DOWNLOAD_FILES.
+ *   - Added #UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES.
+ *   - Added #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO. See @ref v50amediastream.
+ *   - Added #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO See @ref v50amediastream.
+ *   - @c USERRIGHT_DOUBLE_LOGIN replaced by #UserRight.USERRIGHT_MULTI_LOGIN.
+ *   - @c USERRIGHT_CLIENT_BROADCAST replaced by #UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST.
+ *   - @c USERRIGHT_FORWARD_AUDIO replaced by #UserRight.USERRIGHT_TRANSMIT_VOICE
+ *   - @c USERRIGHT_FORWARD_VIDEO replaced by #UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE
+ *   - @c USERRIGHT_FORWARD_DESKTOP replaced by #UserRight.USERRIGHT_TRANSMIT_DESKTOP
+ *   - @c USERRIGHT_FORWARD_DESKTOPINPUT replaced by #UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT
+ *   - Removed @c USERRIGHT_CHANNEL_CREATION. See @ref v50auserrights.
+ *   - Removed @c USERRIGHT_CHANNEL_OPERATORS.
+ *   - Removed @c USERRIGHT_CHANNEL_COMMANDS.
+ *   - Removed @c USERRIGHT_SUBSCRIPTIONS. Subscriptions are now mandatory.
+ *   - Removed @c USERRIGHT_STRICT_UTF8. UTF-8 is now mandatory.
+ * - #BearWare.Subscription
+ *   - @c SUBSCRIBE_AUDIO replaced by SUBSCRIBE_VOICE.
+ *   - @c SUBSCRIBE_VIDEO replaced by SUBSCRIBE_VIDEOCAPTURE.
+ *   - @c SUBSCRIBE_INTERCEPT_AUDIO replaced by SUBSCRIBE_INTERCEPT_VOICE.
+ *   - @c SUBSCRIBE_INTERCEPT_VIDEO replaced by SUBSCRIBE_INTERCEPT_VIDEOCAPTURE.
+ *   - Added #Subscription.SUBSCRIBE_MEDIAFILE.
+ *   - Added #Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE.
+ * - #BearWare.UserState
+ *   - @c USERSTATE_TALKING replaced by #UserState.USERSTATE_VOICE.
+ *   - @c USERSTATE_MUTE replaced by #UserState.USERSTATE_MUTE_VOICE.
+ *   - @c USERSTATE_VIDEO replaced by #UserState.USERSTATE_VIDEOCAPTURE.
+ *   - Added @c USERSTATE_MUTE_MEDIAFILE.
+ *   - Added @c USERSTATE_MEDIAFILE_AUDIO.
+ *   - Added @c USERSTATE_MEDIAFILE_VIDEO.
+ *   - Added @c USERSTATE_MEDIAFILE.
+ * - #BearWare.ChannelType
+ *   - @c CHANNEL_STATIC replaced by #ChannelType.CHANNEL_PERMANENT.
+ *   - Removed @c CHANNEL_ECHO. Use #Subscription.SUBSCRIBE_VOICE instead.
+ *   - Removed @c CHANNEL_ECHO_AUDIO. Use #Subscription.SUBSCRIBE_VOICE instead.
+ *   - Removed @c CHANNEL_ECHO_VIDEO. Use #Subscription.SUBSCRIBE_VIDEOCAPTURE instead.
+ *   - Removed @c CHANNEL_ECHO_DESKTOP. Use #Subscription.SUBSCRIBE_DESKTOP instead.
+ *   - Added #ChannelType.CHANNEL_NO_VOICEACTIVATION.
+ *   - Added #ChannelType.CHANNEL_NO_RECORDING.
+ * - #BearWare.ClientError
+ *   - Removed @c CMDERR_INCORRECT_SERVER_PASSWORD.
+ *   - Removed @c CMDERR_CANNOT_CREATE_CHANNELS.
+ *   - Removed @c CMDERR_SUBSCRIPTIONS_DISABLED.
+ *   - Removed @c CMDERR_SERVER_HAS_USERS.
+ *   - Added #ClientError.CMDERR_INVALID_USERNAME.
+ *   - Added #ClientError.CMDERR_MAX_CHANNELS_EXCEEDED. See @ref v50amaxchannels.
+ *   - Added #ClientError.INTERR_AUDIOCODEC_INIT_FAILED.
+ *   - Added #ClientError.INTERR_SPEEXDSP_INIT_FAILED.
+ * - #BearWare.ClientFlag
+ *   - Added #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE.
+ *   - @c CLIENT_TX_AUDIO replaced by #ClientFlag.CLIENT_TX_VOICE.
+ *   - @c CLIENT_TX_VIDEO replaced by #ClientFlag.CLIENT_TX_VIDEOCAPTURE.
+ *   - Removed @c CLIENT_SNDINPUT_DENOISING.
+ *   - Removed @c CLIENT_P2P_AUDIO. See @ref v50ap2p.
+ *   - Removed @c CLIENT_P2P_VIDEO. See @ref v50ap2p.
+ *   - Removed @c CLIENT_P2P. See @ref v50ap2p.
+ *   - Removed @c CLIENT_SNDINPUT_AEC.
+ *   - Removed @c CLIENT_SNDINPUT_AGC.
+ * - #BearWare.SoundLevel
+ *   - Changed #BearWare.SoundLevel @c SOUND_VU_MAX to 100
+ *   - Changed #BearWare.SoundLevel @c SOUND_VOLUME_MAX 32000
+ *   - Added #BearWare.SoundLevel @c SOUND_VOLUME_DEFAULT
+ *
+ * @subsubsection remenum5 Removed enumerations:
+ * - @c AudioFileStatus
+ *   - Replaced by #BearWare.MediaFileStatus.
+ *
+ * @subsubsection newevents5 New events:
+ *   - #BearWare.TeamTalkBase.OnCmdServerStatistics
+ *     - Response to TeamTalkBase.DoQueryServerStats().
+ *   - #BearWare.TeamTalkBase.OnUserStateChange
+ *     - #BearWare.User's state mask @c uUserState changed.
+ *   - #BearWare.TeamTalkBase.OnUserMediaFileVideo
+ *     - Video frame from media file ready for display.
+ *
+ * @subsubsection renamedevents5 Renamed/modified events:
+ * - @c TeamTalk4.OnConnectSuccess
+ *   - Use #BearWare.TeamTalkBase.OnConnectionSuccess instead.
+ * - @c TeamTalk4.OnConnectFailed
+ *   - Use #BearWare.TeamTalkBase.OnConnectionFailed instead.
+ * - @c TeamTalk4.OnCmdProcessing
+ *   - Use #BearWare.TeamTalkBase.OnCmdProcessing instead.
+ *   - @c bCompleted inverted and now states @c bActive.
+ * - @c TeamTalk4.OnCmdMyselfLoggedIn
+ *   - #BearWare.UserAccount passed as parameter.
+ * - @c TeamTalk4.OnCmdMyselfJoinedChannel
+ *   - Use #BearWare.TeamTalkBase.OnCmdUserJoinedChannel instead.
+ * - @c TeamTalk4.OnCmdMyselfLeftChannel
+ *   - Use #BearWare.TeamTalkBase.OnCmdUserLeftChannel instead.
+ * - @c TeamTalk4.OnCmdMyselfKickedFromChannel
+ *   - Use #BearWare.TeamTalkBase.OnCmdMyselfKicked instead.
+ * - @c TeamTalk4.OnUserTalking
+ *   - Use #BearWare.TeamTalkBase.OnUserStateChange instead.
+ * - @c TeamTalk4.OnUserVideoFrame
+ *   - Use #BearWare.TeamTalkBase.OnUserVideoCapture or #BearWare.TeamTalkBase.OnUserMediaFileVideo instead.
+ * - @c TeamTalk4.OnUserAudioFile
+ *   - Use #BearWare.TeamTalkBase.OnUserRecordMediaFile instead.
+ * - @c TeamTalk4.OnDesktopTransferUpdate
+ *   - Use #BearWare.TeamTalkBase.OnDesktopWindowTransfer instead.
+ * - @c TeamTalk4.OnUserDesktopCursorPosition
+ *   - Use #BearWare.TeamTalkBase.OnUserDesktopCursor instead.
+ * - @c TeamTalk4.OnMaxPayloadUpdate
+ *   - Use #BearWare.TeamTalkBase.OnConnectionMaxPayloadUpdated instead.
+ * - @c TeamTalk4.OnStreamAudioFileToChannel
+ *   - @c TeamTalk4.StartStreamingAudioFileToUser() replaced by 
+ *     BearWare.TeamTalkBase.StartStreamingMediaFileToChannel()
+ * - @c TeamTalk4.OnStreamMediaFileChannel
+ *   - Use #BearWare.TeamTalkBase.OnStreamMediaFile instead.
+ *
+ * @subsubsection removedevents5 Removed events
+ * - @c TeamTalk4.OnStreamAudioFileToUser
+ *   - "Outside channel" streaming no longer supported.
+ * - @c TeamTalk4.OnConnectionP2P
+ *    - See @ref v50ap2p
+ *
+ * @subsubsection v50anewmethods New methods
+ * - BearWare.TeamTalkBase.GetSoundDevices()
+ *   - Replacement for @c TeamTalk4.GetSoundInputDevices and TeamTalk4.GetSoundOutputDevices.
+ * - BearWare.TeamTalkBase.SetSoundInputPreprocess()
+ *   - Replacement for @c TeamTalk4.SetAGCSettings and @c TeamTalk4.GetAGCSettings.
+ * - BearWare.TeamTalkBase.GetSoundInputPreprocess()
+ *   - Replacement for @c TeamTalk4.GetAGCSettings.
+ * - BearWare.TeamTalkBase.EnableVoiceTransmission()
+ *   - Replacement for @c TeamTalk4.EnableTransmission.
+ * - BearWare.TeamTalkBase.StartVideoCaptureTransmission()
+ *   - Replacement for @c TeamTalk4.EnableTransmission.
+ * - BearWare.TeamTalkBase.StopVideoCaptureTransmission()
+ *   - Replacement for @c TeamTalk4.EnableTransmission.
+ * - BearWare.TeamTalkBase.AcquireUserVideoCaptureFrame()
+ *   - Replacement for @c TeamTalk4.GetUserVideoFrame and @c TeamTalk4.AcquireUserVideoFrame.
+ * - BearWare.TeamTalkBase.ReleaseUserVideoCaptureFrame()
+ *   - Replacement for @c TeamTalk4.ReleaseUserVideoFrame.
+ * - BearWare.TeamTalkBase.AcquireUserMediaVideoFrame()
+ *   - See @ref v50amediastream
+ * - BearWare.TeamTalkBase.ReleaseUserMediaVideoFrame()
+ *   - See @ref v50amediastream
+ * - BearWare.TeamTalkBase.AcquireUserDesktopWindow()
+ *   - Replacement for BearWare.TeamTalkBase.GetUserDesktopWindow().
+ * - BearWare.TeamTalkBase.AcquireUserDesktopWindowEx()
+ *   - Replacement for BearWare.TeamTalkBase.GetUserDesktopWindow().
+ * - BearWare.TeamTalkBase.ReleaseUserDesktopWindow()
+ *   - Replacement for BearWare.TeamTalkBase.GetUserDesktopWindow().
+ * - BearWare.TeamTalkBase.GetClientStatistics()
+ *   - Replacement for BearWare.TeamTalkBase.GetStatistics().
+ * - BearWare.TeamTalkBase.DoPing()
+ *   - Response using #ClientEvent.CLIENTEVENT_CMD_PROCESSING.
+ * - BearWare.TeamTalkBase.GetChannelFile()
+ *   - Replacement for @c TeamTalk4.GetChannelFileInfo
+ * - BearWare.TeamTalkBase.GetMyUserRights()
+ *   - Quick access to own #BearWare.UserAccount.
+ * - BearWare.TeamTalkBase.SetUserStoppedPlaybackDelay()
+ *   - Replacement for @c TeamTalk4.SetUserStoppedTalkingDelay
+ * - BearWare.TeamTalkBase.SetUserAudioStreamBufferSize()
+ *   - Replacement for @c TeamTalk4.SetUserMediaBufferSize
+ *
+ * @subsubsection v50amodmethods Renamed/modified methods
+ * - BearWare.TeamTalkBase.InitTeamTalk()
+ *   - Now has uMsg parameter @c HWND message identifier.
+ * - BearWare.TeamTalkBase.GetDefaultSoundDevices()
+ *   - Removed lpTTInstance parameter.
+ * - BearWare.TeamTalkBase.StartSoundLoopbackTest()
+ *   - Now returns instance value.
+ * - BearWare.TeamTalkBase.GetVideoCaptureDevices()
+ *   - Removed @c lpTTInstance parameter.
+ * - BearWare.TeamTalkBase.InitVideoCaptureDevice()
+ *   - Removed @c lpVideoCodec parameter.
+ * - BearWare.TeamTalkBase.SendDesktopWindow()
+ *   - @c lpBitmap and @c nBitmapSize are now part of #BearWare.DesktopWindow.
+ * - BearWare.TeamTalkBase.SendDesktopCursorPosition()
+ *   - Removed @c nUserID parameter. All in channel will receive.
+ * - BearWare.TeamTalkBase.Connect()
+ *   - Added @c bEncrypted parameter.
+ * - BearWare.TeamTalkBase.ConnectEx()
+ *   - Added @c bEncrypted parameter.
+ * - BearWare.TeamTalkBase.DoLogin()
+ *   - @c szServerPassword removed. User account mandatory in TeamTalk 5.
+ * - BearWare.TeamTalkBase.GetServerUsers()
+ *   - @c lpUserIDs replaced by @c lpUsers parameter.
+ * - BearWare.TeamTalkBase.GetChannelUsers()
+ *   - @c lpUserIDs replaced by @c lpUsers parameter.
+ * - BearWare.TeamTalkBase.GetChannelFiles()
+ *   - @c lpFileInfos replaced by @c lpRemoteFiles
+ * - BearWare.TeamTalkBase.GetServerChannels()
+ *   - @c lpChannelIDs replaced by @c lpChannels.
+ * - BearWare.TeamTalkBase.SetUserVolume()
+ *   - Added @c nStreamType parameter.
+ * - BearWare.TeamTalkBase.SetUserGainLevel()
+ *   - Added @c nStreamType parameter.
+ * - BearWare.TeamTalkBase.SetUserMute()
+ *   - Added @c nStreamType parameter.
+ * - BearWare.TeamTalkBase.EnableAudioBlockEvent()
+ *   - Now requires @c nUserID and @c nStreamType.
+ * - BearWare.TeamTalkBase.AcquireUserAudioBlock()
+ *   - Removed @c lpAudioBlock parameter. Now returns #BearWare.AudioBlock.
+ *
+ * @subsubsection v50aremovemethods Removed methods
+ * - @c TeamTalk4.GetSoundInputDevices
+ *   - Use BearWare.TeamTalkBase.GetSoundDevices() instead.
+ * - @c TeamTalk4.GetSoundOutputDevices
+ *   - Use BearWare.TeamTalkBase.GetSoundDevices() instead.
+ * - @c TeamTalk4.StartSoundLoopbackTestEx()
+ *   - Use BearWare.TeamTalkBase.StartSoundLoopbackTest() instead.
+ * - @c TeamTalk4.EnableAGC
+ *   - Use BearWare.TeamTalkBase.SetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.EnableEchoCancellation
+ *   - Use BearWare.TeamTalkBase.SetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.SetAGCSettings
+ *   - Use BearWare.TeamTalkBase.SetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.GetAGCSettings
+ *   - Use BearWare.TeamTalkBase.GetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.EnableDenoising
+ *   - Use BearWare.TeamTalkBase.SetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.SetDenoiseLevel
+ *   - Use BearWare.TeamTalkBase.SetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.GetDenoiseLevel
+ *   - Use BearWare.TeamTalkBase.GetSoundInputPreprocess() instead.
+ * - @c TeamTalk4.GetUserVideoFrame
+ *   - Use BearWare.TeamTalkBase.AcquireUserVideoCaptureFrame() instead.
+ * - @c TeamTalk4.AcquireUserVideoFrame
+ *   - Use BearWare.TeamTalkBase.AcquireUserVideoCaptureFrame() instead.
+ * - @c TeamTalk4.ReleaseUserVideoFrame.
+ *   - Use BearWare.TeamTalkBase.ReleaseUserVideoCaptureFrame() instead.
+ * - @c TeamTalk4.EnableTransmission
+ *   - Use BearWare.TeamTalkBase.EnableVoiceTransmission() or BearWare.TeamTalkBase.StartVideoCaptureTransmission() instead.
+ * - @c TeamTalk4.IsTransmitting
+ *   - Use BearWare.TeamTalkBase.GetFlags() instead.
+ * - @c TeamTalk4.StartStreamingAudioFileToUser
+ *   - "Outside channel" streaming no longer supported.
+ * - @c TeamTalk4.StopStreamingAudioFileToUser
+ *   - "Outside channel" streaming no longer supported.
+ * - @c TeamTalk4.StartStreamingAudioFileToChannel
+ *   - Use BearWare.TeamTalkBase.StartStreamingMediaFileToChannel() instead.
+ * - @c TeamTalk4.StopStreamingAudioFileToChannel
+ *   - Use BearWare.TeamTalkBase.StopStreamingMediaFileToChannel() instead.
+ * - @c BearWare.TeamTalk4.SetUserAudioFolder
+ *   - Use BearWare.TeamTalkBase.SetUserMediaStorageDir() instead.
+ * - @c TeamTalk4.GetUserDesktopCursor
+ *   - Cursor position posted in #ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR.
+ * - @c TeamTalk4.GetUserDesktopInput
+ *   - #BearWare.DesktopInput posted in #ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT.
+ * - @c TeamTalk4.ConnectNonEncrypted
+ *   - Use BearWare.TeamTalkBase.Connect() instead.
+ * - @c TeamTalk4.SetKeepAliveInterval()
+ *   - Use BearWare.TeamTalkBase.DoPing() instead.
+ * - @c TeamTalk4.GetKeepAliveInterval()
+ * - @c TeamTalk4.SetServerTimeout
+ * - @c TeamTalk4.GetServerTimeout
+ * - @c TeamTalk4.EnablePeerToPeer
+ *   - See @ref v50ap2p
+ * - @c TeamTalk4.GetStatistics
+ *   - Use BearWare.TeamTalkBase.GetClientStatistics() instead.
+ * - @c TeamTalk4.GetPacketSize
+ * - @c TeamTalk4.GetServerStatistics
+ *   - #BearWare.ServerStatistics posted in #ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS.
+ * - @c TeamTalk4.GetChannelFileInfo()
+ *   - Use BearWare.TeamTalkBase.GetChannelFile() instead.
+ * - @c TeamTalk4.GetTextMessage()
+ *   - #BearWare.TextMessage posted in #ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG.
+ * - @c TeamTalk4.GetUserVolume
+ *   - Use @c nVolumeVoice in #BearWare.User instead.
+ * - @c TeamTalk4.GetUserGainLevel
+ *   - Use @c nGainLevelVoice in #BearWare.User instead.
+ * - @c TeamTalk4.SetUserStoppedTalkingDelay
+ *   - Use BearWare.TeamTalkBase.SetUserStoppedPlaybackDelay() instead.
+ * - @c TeamTalk4.GetUserStoppedTalkingDelay
+ *   - Use @c nStoppedDelayVoice in #BearWare.User instead.
+ * - @c TeamTalk4.GetUserPosition
+ *   - Use @c soundPositionVoice in #BearWare.User instead.
+ * - @c TeamTalk4.GetUserStereo
+ *   - Use @c uUserState in #BearWare.User instead.
+ * - @c TeamTalk4.SetUserMediaBufferSize
+ *   - Use BearWare.TeamTalkBase.SetUserAudioStreamBufferSize() instead.
+ * - @c TeamTalk4.ReleaseAllAudioBlocks
+ *   - Use BearWare.TeamTalkBase.ReleaseUserAudioBlock() instead.
+ *
+ * <hr>
+ *
+ * @section v46brelease TeamTalk 4 SDK v. 4.6b release
+ *
+ * The TeamTalk 4 SDK is now also available for Mac OS X 64-bit.
+ *
+ * Released on 2014/07/20.
+ *
+ * @subsection v46bfeatures New features in v. 4.6b
+ *
+ * The TeamTalk server now also includes @c -l command line argument
+ * for specifying the location of the log-file. Previously only the @c
+ * -wd argument could be used for changing the location of the log
+ * file.
+ *
+ * The log-file of the TeamTalk server now also includes entries for
+ * when a user acount is added or deleted and also a log entry for
+ * when users are moved between channels.
+ *
+ * <hr>
+ *
+ * @section v46arelease TeamTalk 4 SDK v. 4.6a release
+ * 
+ * Released on 2014/02/20.
+ *
+ * @subsection v46afeatures New features in v. 4.6a
+ *
+ * @subsubsection v46adeskinput Desktop Access
+ *
+ * Shared desktops can now be controlled remotely using mouse and
+ * keyboard input. Check out @ref desktopinput to read on how to
+ * control remote desktops.
+ *
+ * @subsection v46aapi API Changes in v4.6a
+ *
+ * - @c BearWare.DesktopInput
+ * - @c BearWare.DesktopKeyState
+ * - @c BearWare.Subscription
+ *   - Added @c Subscription.SUBSCRIBE_DESKTOPINPUT
+ * - @c BearWare.TeamTalk.OnUserDesktopInput
+ * - @c BearWare.UserRight
+ *   - Added @c USERRIGHT_FORWARD_DESKTOPINPUT
+ * - @c BearWare.TeamTalk.SendDesktopInput
+ * - @c BearWare.TeamTalk.GetUserDesktopInput
+ * - @c BearWare.WindowsHelper.KeyTranslate
+ * - @c BearWare.WindowsHelper.Execute
+ *
+ * <hr>
+ *
+ * @section v45arelease TeamTalk 4 SDK v. 4.5a release
+ *
+ * Released on 2013/05/13.
+ *
+ * @subsection v45afeatures New features in v. 4.5a
+ *
+ * @subsubsection v45astream Stream Media Files to Channel
+ *
+ * Previously it's only been possible to stream 16-bit signed PCM
+ * wave-files to a channel but in the 4.5 release it's now possible to
+ * stream mp3, mpg, avi, wma, wmv, etc. to a channel. On Windows you
+ * can basically stream whatever Windows Media Player can play to a
+ * channel. Checkout
+ * BearWare.TeamTalk.StartStreamingMediaFileToChannel() for more
+ * information.
+ *
+ * @subsubsection v45alogin Login Attempt Limit
+ *
+ * To prevent a brute force login attempt it's now possible to limit
+ * the number of login attempt before banning an
+ * IP-address. Checkout @c nMaxLoginAttempts property of
+ * @c BearWare.ServerProperties.  It's now also possible to limit the
+ * number of logins per IP-address by specifying @c
+ * nMaxLoginsPerIPAddress in @c BearWare.ServerProperties.
+ *
+ * @subsubsection v45aipban Ban user by IP-address
+ *
+ * Previously it was only possible to ban a user's IP-address if the
+ * user was present on the server. Now it's, however, possible to ban
+ * an IP-address using BearWare.TeamTalk.DoBanIPAddress().
+ * 
+ * @subsection v45aapi API Changes in v4.5a
+ *
+ * - @c BearWare.AudioFormat
+ * - @c BearWare.MediaFileInfo
+ * - @c BearWare.ServerProperties
+ *   - Added @c nMaxLoginAttempts
+ *   - Added @c nMaxLoginsPerIPAddress
+ * - @c BearWare.ClientError
+ *   - Added @c ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED
+ * - @c BearWare.ClientFlag
+ *   - Added @c ClientFlag.CLIENT_STREAM_VIDEO
+ *   - Added @c ClientFlag.CLIENT_STREAM_AUDIO
+ * - BearWare.TeamTalk.OnStreamMediaFileChannel()
+ * - BearWare.TeamTalk.StartStreamingMediaFileToChannel()
+ * - BearWare.TeamTalk.StopStreamingMediaFileToChannel()
+ * - BearWare.TeamTalk.GetMediaFileInfo()
+ * - BearWare.TeamTalk.DoBanIPAddress()
+ * - BearWare.TeamTalk.SetUserMediaBufferSize()
+ *
+ * <hr>
+ *
+ * @section v44arelease TeamTalk 4 SDK v. 4.4a release
+ *
+ * Released on 2012/10/15.
+ *
+ * @subsection v44afeatures New features in v. 4.4a
+ *
+ * @subsubsection v44awasapi Support for Windows Audio Session
+ *
+ * Windows Audio Session is a new sound system available in Windows
+ * Vista and later versions of Windows. It's a sound system which
+ * provides significantly lower latency than both DirectSound and
+ * Windows default sound devices. Check out @c SoundSystem.SOUNDSYSTEM_WASAPI for
+ * more information.
+ * 
+ * @subsubsection v44arestartsnd Restart Sound System
+ *
+ * When the TeamTalk client is initially start it scan the system for
+ * all sound devices but if a user later plugs in a USB sound card
+ * then this device will not be detected automatically in
+ * TeamTalk.GetSoundInputDevices() and TeamTalk.GetSoundOutputDevices().
+ *
+ * TeamTalk.RestartSoundSystem() can now be used to shut down the sound
+ * systems can rescan for new devices.
+ *
+ * @subsubsection v44aautoresam Automatic resampling of unsupported sample rates
+ *
+ * If a sound card doesn't support the sampling rate of a codec or if
+ * the codec requires stereo input then TeamTalk now automatically
+ * resamples audio so it fits the proper format. DirectSound e.g. had
+ * problems with input devices which only allowed mono and therefore
+ * couldn't be used with stereo codecs.
+ *
+ * @subsubsection v44aoprecv Operator receive-only channel type
+ *
+ * A new channel type, @c BearWare.ChannelType @c
+ * CHANNEL_OPERATOR_RECVONLY has now also been introduced which only
+ * allowed administrators and operators of a channel to receive audio
+ * and video. This can be useful if bandwidth is a problem.
+ *
+ * @subsubsection v44anoncrypt Encrypted client (Pro-Edition) can connect to non-encrypted servers
+ *
+ * The client in the TeamTalk 4 Professional Edition can now also
+ * connect to non-encrypted TeamTalk server. Use
+ * TeamTalk.ConnectNonEncrypted() to do this.
+ *
+ * @subsubsection v44aviduni Unicode video device names
+ *
+ * @c BearWare.VideoCaptureDevice now shows the name of the video device in Unicode on Windows.
+ *
+ * @subsection v4aaapi API Changes in v4.4a
+ *
+ * - @c BearWare.SoundSystem
+ *   - Added @c SoundSystem.SOUNDSYSTEM_WASAPI
+ * - @c BearWare.SoundDevice
+ *   - Added @c nDefaultSampleRate
+ * - @c BearWare.UserRight
+ *   - Added @c USERRIGHT_STRICT_UTF8
+ * - @c BearWare.ChannelType
+ *   - Added @c ChannelType.CHANNEL_OPERATOR_RECVONLY
+ * - TeamTalk.GetDefaultSoundDevicesEx()
+ * - TeamTalk.RestartSoundSystem()
+ * - TeamTalk.ConnectNonEncrypted()
+ *
+ * <hr>
+ *
+ * @section v43arelease TeamTalk 4 SDK v. 4.3a release
+ *
+ * Released on 2012/03/26.
+ *
+ * @subsection v43afeatures New features in v. 4.3a
+ *
+ * @subsubsection v43adesktop Share Desktop Applications
+ *
+ * The major new feature in the 4.3 release is the ability to
+ * share desktop applications. When sharing a desktop application you
+ * send a bitmap, using TeamTalk.SendDesktopWindow(), to the local client
+ * instance. The bitmap is then split into in small blocks and
+ * transmitted to the server using the UDP connection. Read more about
+ * this feature in the section @ref desktopshare.
+ *
+ * @subsubsection v43ainitialchan Join channel after login
+ *
+ * A @c BearWare.UserAccount now has the @c szInitChannel property which holds
+ * the channel a user should join after login. The user can join this
+ * channel without passing a password. Use TeamTalk.GetMyUserAccount() to
+ * get the local instance's @c BearWare.UserAccount after login has completed.
+ *
+ * @subsubsection v43aautoop Automatically become channel operator
+ *
+ * A user can automatically become operator of a @c BearWare.Channel configured
+ * with @c ChannelType @c CHANNEL_STATIC if the channel's ID is in the @c
+ * autoOperatorChannels property of @c BearWare.UserAccount.
+ *
+ * @subsubsection v43acustommsgtype Custom message type
+ *
+ * An extra message type has been added for custom messages. The
+ * @c TextMsgType @c TextMsgType.MSGTYPE_CUSTOM works in the same way as @c TextMsgType @c TextMsgType.MSGTYPE_USER.
+ *
+ * @subsubsection v43aquerymtu Query maximum UDP packet size
+ *
+ * Some routers don't allow UDP packets over a given size so use
+ * TeamTalk.QueryMaxPayload() after connecting to a server to detect the
+ * maximum size for UDP packets. The event
+ * TeamTalk.OnMaxPayloadUpdate() is triggered when the client
+ * instance has finished querying.
+ *
+ * @subsubsection v43aaudioblock Access raw audio data
+ *
+ * The raw audio, which has been playing when a user is talking, can
+ * now be accessed by calling TeamTalk.EnableAudioBlockEvent(). The event
+ * TeamTalk.OnUserAudioBlock() is triggered when a new @c BearWare.AudioBlock is
+ * available.
+ *
+ * @subsubsection v43aaudiofilename Get name of file being recorded to
+ *
+ * If audio files are being recorded separately for every @c BearWare.User, using
+ * @c TeamTalk.SetUserAudioFolder, the file name of the file currently being
+ * recorded to can be found in the @c szAudioFileName property of the
+ * @c BearWare.User struct.
+ *
+ * @subsubsection v43aresetaudiofile Reset recorded audio file
+ *
+ * To cancel and start recording to a new audio file pass @c AudioFileFormat @c AudioFileFormat.AFF_NONE as
+ * parameter to @c TeamTalk.SetUserAudioFolder. This will reset the current
+ * recording and generate the TeamTalk.OnUserAudioFile() event.
+ *
+ * @subsubsection v43achanechovideo See own video stream
+ *
+ * A @c BearWare.Channel can now be configured using the @c ChannelType @c CHANNEL_ECHO_VIDEO flag
+ * for echoing the video stream transmitted by the local client
+ * instance.
+ *
+ * @subsubsection v43afreeforall Free-for-all option in classrooms
+ *
+ * A @c BearWare.Channel configured using @c ChannelType @c ChannelType.CHANNEL_CLASSROOM was previously
+ * limited to 16 people transmitting either video or audio. Now it's,
+ * however, possible to add @c BearWare.TeamTalk.TT_CLASSROOM_FREEFORALL to the "enabled"
+ * users properties to allow everyone to transmit.
+ *
+ * @subsection v43aapi API Changes in v4.3a
+ *
+ * - TeamTalk.EnableAudioBlockEvent()
+ * - TeamTalk.AcquireUserAudioBlock()
+ * - TeamTalk.ReleaseUserAudioBlock()
+ * - TeamTalk.ReleaseAllAudioBlocks()
+ * - TeamTalk.SetUserAudioFolder
+ *   - Added @c uAFF parameter
+ * - TeamTalk.PaintVideoFrameEx()
+ * - TeamTalk.PaintDesktopWindow()
+ * - TeamTalk.PaintDesktopWindowEx()
+ * - TeamTalk.SendDesktopWindow()
+ * - TeamTalk.SendDesktopWindowFromHWND()
+ * - TeamTalk.SendDesktopCursorPosition()
+ * - TeamTalk.CloseDesktopWindow()
+ * - TeamTalk.GetUserDesktopWindow()
+ * - TeamTalk.GetUserDesktopCursor()
+ * - TeamTalk.QueryMaxPayload()
+ * - TeamTalk.Palette_GetColorTable()
+ * - WindowsHelper.GetDesktopActiveHWND()
+ * - WindowsHelper.GetDesktopHWND()
+ * - WindowsHelper.GetDesktopWindowHWND()
+ * - WindowsHelper.GetWindow()
+ * - @c BearWare.TeamTalk.OnUserAudioBlock()
+ * - @c BearWare.TeamTalk.OnUserDesktopWindow()
+ * - @c BearWare.TeamTalk.OnDesktopTransferUpdate()
+ * - @c BearWare.TeamTalk.OnUserDesktopCursorPosition()
+ * - @c BearWare.TeamTalk.OnMaxPayloadUpdate()
+ * - @c BearWare.AudioBlock new struct
+ * - @c BitmapFormat new struct
+ * - @c DesktopProtocol new struct
+ * - @c BearWare.DesktopWindow new struct
+ * - @c BearWare.ShareWindow new struct
+ * - @c BearWare.Channel struct updated with new fields:
+ *   - @c desktopUsers
+ * - @c BearWare.ClientStatistics
+ *   - @c nDesktopBytesSent
+ *   - @c nDesktopBytesRecv
+ * - @c BearWare.ServerProperties struct updated with new fields:
+ *   - @c szMOTDRaw
+ *   - @c nMaxDesktopTxPerSecond.
+ * - @c BearWare.UserAccount struct updated with new fields:
+ *   - @c szInitChannel
+ *   - @c autoOperatorChannels
+ * - @c BearWare.User struct updated with new fields
+ *   - @c uAFF
+ *   - @c szAudioFileName
+ * - @c AudioFileFormat enumeration updated with new values:
+ *   - @c AudioFileFormat @c AudioFileFormat.AFF_MP3_16KBIT_FORMAT
+ *   - @c AudioFileFormat @c AudioFileFormat.AFF_MP3_32KBIT_FORMAT
+ * - @c ChannelType enumeration updated with new values:
+ *   - @c ChannelType @c CHANNEL_ECHO_AUDIO
+ *   - @c ChannelType @c CHANNEL_ECHO_VIDEO
+ *   - @c ChannelType @c CHANNEL_ECHO_DESKTOP
+ * - @c ClientFlag
+ *   - @c ClientFlag.CLIENT_DESKTOP_ACTIVE
+ *   - @c ClientFlag.CLIENT_TX_DESKTOP
+ * - @c Subscription enumeration updated with new values:
+ *   - @c Subscription @c Subscription.SUBSCRIBE_CUSTOM_MSG
+ *   - @c Subscription @c Subscription.SUBSCRIBE_INTERCEPT_CUSTOM_MSG
+ *   - @c Subscription @c Subscription.SUBSCRIBE_DESKTOP
+ *   - @c Subscription @c Subscription.SUBSCRIBE_INTERCEPT_DESKTOP
+ * - @c TextMsgType
+ *   - @c TextMsgType @c TextMsgType.MSGTYPE_CUSTOM
+ * - @c UserState enumeration updated with new values:
+ *   - @c UserState @c UserState.USERSTATE_DESKTOP
+ *   - @c UserState @c USERSTATE_VIDEO
+ * - @c UserRight enumeration updated with new values:
+ *   - @c UserRight @c USERRIGHT_FORWARD_DESKTOP.
+ * - @c BearWare.TeamTalk.TT_CLASSROOM_FREEFORALL new const macro
+ * - @c BearWare.TeamTalk.TT_CHANNELS_OPERATOR_MAX new const macro
+ *
+ * <hr>
+ *
+ * @section v42arelease TeamTalk 4 SDK v. 4.2a release
+ *
+ * Released on 2011/11/02.
+ *
+ * @subsection v42afeatures New features in v. 4.2a
+ *
+ * @subsubsection v42amuxaudio Muxed audio files
+ *
+ * It is now possible to store "muxed" audio files, i.e. audio from
+ * all users are written to the same audio file. Check out
+ * BearWare.StartRecordingMuxedAudioFile() on how to do this.
+ *
+ * @subsubsection v42awinfirewall Windows XP/Vista/7 Firewall
+ *
+ * The Windows Firewall, included in XP and later Windows versions,
+ * can sometimes block network traffic to and from applications which
+ * uses the TeamTalk DLL. Check out the section @ref firewall on how
+ * to use the Windows Firewall functions.
+ *
+ * @subsubsection v42atalkdelay Modify "talking" delay
+ *
+ * Voice activation is by default disabled if no audio has reached the
+ * voice activation level for 1.5 seconds. This option can now be
+ * changed by calling TeamTalk.SetVoiceActivationStopDelay(). Also
+ * users who are talking are set to non-talking after 0.5 seconds if
+ * no new voice data has been received. This value can now be changed
+ * by calling TeamTalk.SetUserStoppedTalkingDelay().
+ *
+ * @subsubsection v42avbrcodecs VBR audio codecs
+ *
+ * Speex and CELT can now be used in VBR mode by creating a @c BearWare.Channel
+ * with the @c BearWare.SpeexVBRCodec or @c BearWare.CELTVBRCodec. To
+ * limit bandwidth usage it is advised to use the VBR
+ * codecs. Especially the Speex VBR codec with DTX enabled reduces
+ * throughput when there's silence.
+ * 
+ * @subsubsection v42acelt011 CELT updated to version 0.11
+ *
+ * CELT 0.5.2, which was used in v 4.1 and previous of the SDK, has been
+ * replaced by CELT 0.11. Note that encoding and decoding of CELT 0.5.2 
+ * is no longer supported. Check out http://www.celt-codec.org
+ *
+ * @subsubsection v42aipv6 IPv6 support (Windows 2000 no longer supported)
+ *
+ * Client and server now support IPv6. To make the server run in IPv6
+ * mode the server must bind to an IPv6 address. Check out @ref srvconfig
+ * on how to specify the bind IP-address (\<bind-ip\> tag).
+ *
+ * Note that the TeamTalk DLL can no longer run on Windows 2000 since
+ * this platform does not support IPv6.
+ *
+ * @subsection v42aapi API Changes in v4.2a
+ *
+ * - TeamTalk.SetVoiceActivationStopDelay()
+ * - TeamTalk.GetVoiceActivationStopDelay()
+ * - TeamTalk.StartRecordingMuxedAudioFile()
+ * - TeamTalk.StopRecordingMuxedAudioFile()
+ * - TeamTalk.GetServerChannels()
+ * - TeamTalk.SetUserStoppedTalkingDelay()
+ * - TeamTalk.GetUserStoppedTalkingDelay()
+ * - WindowsFirewall.IsEnabled()
+ * - WindowsFirewall.Enable()
+ * - WindowsFirewall.AppExceptionExists()
+ * - WindowsFirewall.AddAppException()
+ * - WindowsFirewall.RemoveAppException()
+ * - @c BearWare.SpeexVBRCodec struct for Speex VBR.
+ * - @c BearWare.CELTCodec struct updated for CELT 0.11.
+ * - @c BearWare.CELTVBRCodec struct for CELT VBR.
+ * - @c Codec enum update with @c Codec @c CELT_0_5_2_OBSOLETE_CODEC, @c Codec.SPEEX_VBR_CODEC, 
+ *   @c Codec @c CELT_CODEC and @c Codec @c CELT_VBR_CODEC.
+ * - @c BearWare.AudioCodec struct updated with VBR codecs.
+ * - @c BearWare.ServerProperties struct updated with @c nAudioCodecBpsLimit, 
+ *   @c nMaxAudioTxPerSecond, @c nMaxVideoTxPerSecond and @c nMaxTotalTxPerSecond.
+ * - @c BearWare.ServerStatistics struct updated with @c nUptimeMSec.
+ * - @c AudioFileFormat enum for different types of audio storage.
+ * - @c ClientError enum now contains @c ClientError @c ClientError.CMDERR_UNKNOWN_AUDIOCODEC for unsupport
+ *   audio codec and @c ClientError @c ClientError.CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED for setting a 
+ *   bitrate for audio codecs which is too high.
+ * - @c ClientFlag enum now contains @c ClientFlag.CLIENT_MUX_AUDIOFILE for active muxed 
+ *   audio file.
+ *
+ * <hr>
+ *
+ * @section v41arelease TeamTalk 4 SDK v. 4.1a release
+ * 
+ * Released on 2010/10/30.
+ *
+ * @subsection v41afeatures New Features in v. 4.1a release
+ *
+ * The new features in the TeamTalk 4 SDK v. 4.1a has are described in
+ * the following subsections.
+ *
+ * @subsubsection v41adeps Removed Microsoft C Runtime dependency
+ *
+ * The .NET wrapper for the TeamTalk 4 C-API DLL is now written in C@c  so
+ * there's no longer a need to include the Microsoft C Runtime files.
+ *
+ * @subsubsection v41aplatforms Mac OS X and Windows Mobile platforms
+ *
+ * Mac OS X is now supported using the C-API DLL. The C-API DLL is
+ * compiled for i386 uses QuickTime for video and CoreAudio for audio.
+ * Windows Mobile support is now also supported using both the C-API
+ * DLL and the .NET Framework DLL.
+ *
+ * @subsubsection v41aecho Echo Cancellation
+ *
+ * When initializing the client instance's sound system in duplex mode
+ * it is now possible to enable echo cancellation. Note, however, that
+ * echo cancellation performs poorly on Windows whereas it's very
+ * effective on Mac OS X and Linux. Check out
+ * BearWare.TeamTalk.InitSoundDuplexDevices() and
+ * BearWare.TeamTalk.EnableEchoCancellation() on how to use echo
+ * cancellation.
+ *
+ * @subsubsection v41aclassroom Classroom channel-type
+ *
+ * A new channel-type called classroom has now been introduced where
+ * the channel's operator can control who is allowed to transmit audio
+ * and video to a channel. The channel operator can then work as sort
+ * of a teacher where the teacher selects the people who should answer
+ * questions. Check out @c BearWare.ChannelType @c ChannelType.CHANNEL_CLASSROOM for how to create classroom
+ * channels.
+ *
+ * @subsubsection v41aaudiocfg Channel based audio configuration
+ *
+ * Often users have set their microphones to different audio levels so
+ * it's hard to hear certain users and others are too loud. When
+ * creating a channel it's now possible to use @c BearWare.Channel's @a audiocfg
+ * member to set the same audio level for all users. Note that all
+ * users must use the v. 4.1a release for this to work.
+ *
+ * @subsubsection v41asrvstats Server Statistics
+ *
+ * Administrators can now query a server statistics using the command
+ * BearWare.TeamTalk.DoQueryServerStats() and thereby get an overview
+ * of bandwidth usage.
+ *
+ * @subsubsection v41avideo Simpler video extraction
+ * 
+ * Using BearWare.TeamTalk.GetUserVideoFrame() is quite tricky to use
+ * since the developer must first query for how much memory must be
+ * allocated to store the video frame. In this new release it's
+ * possible to share memory with the client instance so one simply
+ * calls BearWare.TeamTalk.AcquireUserVideoFrame() to get a pointer
+ * to a user's video data.  when one has completed using the video
+ * frame call BearWare.TeamTalk.ReleaseUserVideoFrame() to release
+ * the shared memory. Note that only one video frame can be extracted
+ * each time, therefore calling
+ * BearWare.TeamTalk.AcquireUserVideoFrame() twice will simply result
+ * in getting the same video frame.
+ *
+ * @subsection v41aapi API Changes in v4.1a
+ *
+ * - @c BearWare.TeamTalk.ConnectEx()
+ *   - This function has now been introduced which allows to
+ *     specify the IP-address to bind to on the local interface.
+ * - BearWare.TeamTalk.OnCmdSuccess()
+ *   - Whenever the client issues a command to the server (BearWare.TeamTalk.Do* 
+ *     functions) this message will be posted if the command was 
+ *     successful.
+ * - @c BearWare.SoundSystem @c SoundSystem.SOUNDSYSTEM_COREAUDIO
+ *   - Support for Mac OS X sound system.
+ * - BearWare.TeamTalk.InitSoundDuplexDevices()
+ *   - Initialize both sound input and output devices simultaneously.
+ *     In duplex mode all users' playback streams will be mixed into
+ *     a single stream. Duplex mode most be enabled if echo cancellation
+ *     is to be used.
+ * - BearWare.TeamTalk.CloseSoundDuplexDevices()
+ *   - When running in duplex mode this function must be used to close
+ *     down audio capture and playback.
+ * - BearWare.TeamTalk.StartSoundLoopbackTestEx()
+ *   - Same as BearWare.TeamTalk.StartSoundLoopbackTest() both with @c BearWare.AudioConfig and
+ *     echo cancellation.
+ * - BearWare.TeamTalk.SetDenoiseLevel()
+ *   - Specify how agressive denoise should be when @c BearWare.TeamTalk.EnableDenoising()
+ *     is enabled.
+ * - BearWare.TeamTalk.GetDenoiseLevel()
+ *   - Getter for BearWare.TeamTalk.SetDenoiseLevel().
+ * - BearWare.TeamTalk.EnableEchoCancellation()
+ *   - For echo cancellation to be enabled the sound system must have been
+ *     initialized in duplex mode using BearWare.TeamTalk.InitSoundDuplexDevices(). Note
+ *     that echo cancellation performs poorly on Windows.
+ * - BearWare.TeamTalk.AcquireUserVideoFrame()
+ *   - Extract a user's video frame in a @c BearWare.VideoFrame struct. Call
+ *     BearWare.TeamTalk.ReleaseUserVideoFrame() to release the memory referenced in the
+ *     @c BearWare.VideoFrame.
+ * - BearWare.TeamTalk.ReleaseUserVideoFrame()
+ *   - Release the resources held by the client instance so a new video frame
+ *     can be extracted. Never use the @c BearWare.VideoFrame from 
+ *     BearWare.TeamTalk.AcquireUserVideoFrame() again after this call.
+ * - @c BearWare.AudioConfig
+ *   - When creating a @c BearWare.Channel using BearWare.TeamTalk.DoMakeChannel() or
+ *     BearWare.TeamTalk.DoJoinChannel() it is now possible to specify an audio
+ *     configuration so all users will speak at the same volume level.
+ * - @c BearWare.ChannelType @c ChannelType.CHANNEL_CLASSROOM
+ *   - This is a new channel-type where a channel operator or
+ *     administrator can select which users are allowed to talk and
+ *     send video to a channel. Use @a voiceUsers and @a videoUsers
+ *     members of @c BearWare.Channel to select who is allowed to transmit then
+ *     afterwards call BearWare.TeamTalk.DoUpdateChannel().
+ * - BearWare.TeamTalk.DoChannelOpEx()
+ *   - Make another user operator of a channel by specifying the
+ *     @c BearWare.Channel's operator password.
+ * - BearWare.TeamTalk.DoQueryServerStats()
+ *   - Ask the server for statistics regarding bandwidth usage.
+ * - BearWare.TeamTalk.GetServerStatistics()
+ *   - After a successful call to BearWare.TeamTalk.DoQueryServerStats() extract the server's
+ *     statistics in a @c BearWare.ServerStatistics struct.
+ *
+ * <hr>
+ *
+ * @section v40crelease TeamTalk 4 SDK v. 4.0c release
+ *
+ * Released on 2010/03/16.
+ *
+ * @subsection v40cfeatures New Features in v. 4.0c
+ *
+ * The new features in the TeamTalk 4 SDK v. 4.0c has are described in
+ * the following subsections.
+ *
+ * @subsubsection v40cuseraccount Note-field and user-data for user accounts
+ * 
+ * The @c BearWare.UserAccount struct now has a new member called @a
+ * szNote which can contain extra information about a user
+ * account. The @c BearWare.UserAccount and @c BearWare.User structs now
+ * also has a @a nUserData integer field which can be used by
+ * developers to store an application specific value. After a
+ * successful login the @a nUserData field on @c BearWare.UserAccount
+ * will be transferred to the @a nUserData field on the @c BearWare.User
+ * struct.
+ *
+ * @subsubsection v40cmyaccount Get "my" User Account
+ *
+ * After login it's now possible to retrieve one's own
+ * @c BearWare.UserAccount by calling
+ * BearWare.TeamTalk.GetMyUserAccount(). BearWare.TeamTalk.GetMyUserData()
+ * can be used to extract one's @a nUserData of one's
+ * @c BearWare.UserAccount.
+ * 
+ * @subsubsection v40cserverusers Extract all Users on the Server
+ *
+ * All users who are connected to a server can now be retrieved using
+ * BearWare.TeamTalk.GetServerUsers().
+ *
+ * @subsection v40capi API Changes in v4.0c
+ *
+ * The folder for audio storage has now been placed in @c BearWare.User
+ * instead of on @c BearWare.Channel. Audio storage is therefore user
+ * specific now instead of channel specific.
+ *
+ * Renamed/modified functions:
+ *
+ * - @c BearWare.TeamTalk.SetChannelAudioFolder
+ *   - Call @c BearWare.TeamTalk.SetUserAudioFolder instead.
+ *
+ * @subsection v40cbugfixes Bug fixes in v. 4.0c
+ *
+ * Here a list of bugs fixed in this release:
+ *
+ * - Fixed TCP keep-alive timer not starting after connect event
+ * - Improved performance for uploading/downloading files
+ *
+ * <hr>
+ *
+ * @section v40arelease TeamTalk 4 SDK v. 4.0a release
+ *
+ * Released on 2009/11/23.
+ *
+ * @subsection v40afeatures New Features in v. 4.0a
+ * 
+ * The new features in the TeamTalk 4 SDK v. 4.0a has are described in
+ * the following subsections.
+ *
+ * @subsubsection chvidcap Video Capturing from WebCams
+ *
+ * TeamTalk can now capture video from webcams and encode it for
+ * transmission. Bandwidth usage can be as low as a 2-3 KBytes/sec in
+ * low resolutions. High resultions are, of course, also supported.
+ *
+ * To start using the new video features checkout the following 
+ * new functions:   
+ *
+ * - Call TeamTalk.GetVideoCaptureDevices() to get a list 
+ *   of available capture devices.
+ * - Call TeamTalk.InitVideoCaptureDevice() to initialize
+ *   the video capture device.
+ * - Process TeamTalk.OnUserVideoFrame() event.
+ * - Call TeamTalk.EnableTransmission() to transmit video
+ *   data.
+ *
+ * @subsubsection chuseradmin User Accounts
+ *
+ * The TeamTalk server can now be set to only allow users to log on if
+ * they have a user account on the server. The user account also
+ * introduces user types, so some users can have administrator
+ * capabilities.
+ *
+ * Read the section @ref srvconfig on how to configure the server with
+ * user accounts. To see the new functions in the TeamTalk DLL for
+ * handling user accounts check out the following new functions:
+ *
+ * - Call TeamTalk.DoNewUserAccount() to create a new user
+ *   account. The user doing this must be administrator, i.e.
+ *   @c UserType @c UserType.USERTYPE_ADMIN.
+ * - Call TeamTalk.DoDeleteUserAccount() to delete a user account.
+ * - Call TeamTalk.DoListUserAccounts() to list all user accounts
+ *   on the server.
+ *
+ * @subsubsection chcmdid Track Command Completion
+ *
+ * When calling any of the client to server commands listed in
+ * section @ref commands a command ID is returned to the user
+ * application. This command ID can be used to track when the server
+ * has started and finished processing the command using the
+ * TeamTalk.OnCmdProcessing() event.
+ *
+ * @subsubsection chp2p Improved P2P Connections
+ *
+ * The TeamTalk client now has better support for peer to peer data
+ * transmission and can now penetrate most NAT devices.
+ *
+ * Check out section @a REMOVED for more information on P2P
+ * networking. P2P networking is enabled using the following
+ * functions:
+ *
+ * - Call TeamTalk.EnablePeerToPeer() to enable/disable
+ *   peer to peer connections.
+ *
+ * @subsubsection chcelt Support for CELT audio codec
+ *
+ * TeamTalk now not only supports the Speex codec, but also the CELT
+ * codec. The CELT codec gives much better audio quality but also
+ * requires higher bandwidth usage. If a user application is used to
+ * transmit music it is advised to use CELT since the sound quality
+ * will be must better than Speex. Speex is mainly for voice
+ * transmissions. Check out section @ref codecs to read more about the
+ * new codec.
+ *
+ * Also note that the audio codec used by a client is now configured
+ * on a @c BearWare.Channel and not on each individual client. This
+ * means that all users in a channel must now use the same audio
+ * settings. This restriction has been set to support
+ * echo-cancellation which is on the @ref knownissues.
+ *
+ * @subsection v40aapi API Changes in v. 4.0a
+ *
+ * The COM DLL has been removed from the SDK since most developers
+ * used .NET for their client applications. These developers should
+ * now use the .NET DLL instead. Here are the changes from the
+ * TeamTalk 3 COM DLL to the TeamTalk 4 .NET DLL.
+ *
+ * Renamed/modified methods:
+ *
+ * - @c TeamTalk3 constructor
+ *   - Call TeamTalk.TeamTalk() constructor instead. Input
+ *      parameter @a poll_based should be 'false' in Windows Forms
+ *      applications and 'true' in Console applications.
+ * - @c TeamTalk3.DoBroadcastMessage
+ *      - Call TeamTalk.DoTextMessage() instead with
+ *        @c BearWare.TextMessage using message type @c MSGTYPE_BROADCAST.
+ * - @c TeamTalk3.DoChangeNick
+ *      - Call TeamTalk.DoChangeNickname()
+ * - @c TeamTalk3.DoChannelMessage
+ *      - Call TeamTalk.DoTextMessage() instead with
+ *        @c BearWare.TextMessage using message type @c MSGTYPE_CHANNEL.
+ * - @c TeamTalk3.DoUserMessage
+ *      - Call TeamTalk.DoTextMessage() instead with
+ *        @c BearWare.TextMessage using message type @c MSGTYPE_USER.
+ * - @c TeamTalk3.DoUserSubscribe
+ *      - Call TeamTalk.DoSubscribe()
+ * - @c TeamTalk3.DoUserUnsubscribe
+ *      - Call TeamTalk.DoUnsubscribe()
+ * - @c TeamTalk3.GetBytesSent
+ *      - Call TeamTalk.GetStatistics()
+ * - @c TeamTalk3.GetBytesReceived
+ *      - Call TeamTalk.GetStatistics()
+ * - @c TeamTalk3.GetChannelFile
+ *      - Call TeamTalk.GetChannelFileInfo/(
+ * - @c TeamTalk3.GetChannelFileFromIndex
+ *      - Call TeamTalk.GetChannelFiles()
+ * - @c TeamTalk3.GetChannelFilesCount
+ *      - Call TeamTalk.GetChannelFiles()
+ * - @c TeamTalk3.GetCurrentInputLevel
+ *      - Call TeamTalk.GetSoundInputLevel()
+ * - @c TeamTalk3.GetDenoising
+ *      - Call TeamTalk.GetFlags and check 
+ *        @c ClientFlag @c CLIENT_SNDINPUT_DENOISING.
+ * - @c TeamTalk3.GetFileTransfer
+ *      - Call TeamTalk.GetFileTransferInfo()
+ * - @c TeamTalk3.GetForwardToAll
+ *      - Call TeamTalk.GetFlags and check
+ *        @c ClientFlag @c CLIENT_P2P is cleared.
+ * - @c TeamTalk3.GetInputDeviceCount
+ *      - Call TeamTalk.GetSoundInputDevices()
+ * - @c TeamTalk3.GetInputDeviceName
+ *      - Call TeamTalk.GetSoundInputDevices()
+ * - @c TeamTalk3.GetMasterVolume
+ *      - Call TeamTalk.GetSoundOutputVolume()
+ * - @c TeamTalk3.GetMixerCount
+ *      - Call WindowsMixer.GetMixerCount()
+ * - @c TeamTalk3.GetMixerName
+ *      - Call WindowsMixer.GetMixerName()
+ * - @c TeamTalk3.GetMixerWaveInBoost
+ *      - Call WindowsMixer.GetWaveInBoost()
+ * - @c TeamTalk3.GetMixerWaveInControlCount
+ *      - Call WindowsMixer.GetWaveInControlCount()
+ * - @c TeamTalk3.GetMixerWaveInControlSelected
+ *      - Call WindowsMixer.GetWaveInControlSelected()
+ * - @c TeamTalk3.GetMixerWaveInSelected
+ *      - Call WindowsMixer.GetWaveInSelected()
+ * - @c TeamTalk3.GetMixerWaveInVolume
+ *      - Call WindowsMixer.GetWaveInVolume()
+ * - @c TeamTalk3.GetMixerWaveOutMute
+ *      - Call WindowsMixer.GetWaveOutMute()
+ * - @c TeamTalk3.GetMixerWaveOutVolume
+ *      - Call WindowsMixer.GetWaveOutVolume()
+ * - @c TeamTalk3.GetMuteAll
+ *      - Call TeamTalk.GetFlags and check 
+ *        @c ClientFlag @c CLIENT_SNDOUTPUT_MUTE.
+ * - @c TeamTalk3.GetOutputDeviceCount
+ *      - Call TeamTalk.GetSoundOutputDevices()
+ * - @c TeamTalk3.GetOutputDeviceID
+ *      - Call TeamTalk.GetSoundOutputDevices()
+ * - @c TeamTalk3.GetOutputDeviceName
+ *      - Call TeamTalk.GetSoundOutputDevices()
+ * - @c TeamTalk3.GetTcpKeepAliveInterval
+ *      - Call TeamTalk.GetKeepAliveInterval()
+ * - @c TeamTalk3.GetUserMute
+ *      - Call TeamTalk.GetUser() and check @c BearWare.User's
+ *        @a uUserState flag for @c USERSTATE_MUTE.
+ * - @c TeamTalk3.GetVoiceActivated
+ *      - Call TeamTalk.GetFlags() and check for
+ *        @c ClientFlag @c CLIENT_SNDINPUT_VOICEACTIVATED.
+ * - @c TeamTalk3.GetVoiceGainLevel
+ *      - Call TeamTalk.GetSoundInputGainLevel()
+ * - @c TeamTalk3.InstallTestKeyHook
+ *      - Call TeamTalk.HotKey_InstallTestHook()
+ * - @c TeamTalk3.IsAuthorized
+ *      - Call TeamTalk.GetFlags() and check for
+ *        @c ClientFlag @c CLIENT_AUTHORIZED.
+ * - @c TeamTalk3.IsConnected
+ *      - Call TeamTalk.GetFlags() and check for
+ *        @c ClientFlag @c CLIENT_CONNECTED
+ * - @c TeamTalk3.IsConnecting
+ *      - Call TeamTalk.GetFlags() and check for
+ *        @c ClientFlag @c CLIENT_CONNECTING
+ * - @c TeamTalk3.IsSoundSystemInitialized
+ *      - Call TeamTalk.GetFlags() and check for
+ *        @c ClientFlag @c CLIENT_SNDNPUT_READY and
+ *        @c CLIENT_SNDOUTPUT_READY
+ * - @c TeamTalk3.LaunchSoundSystem
+ *      - Call TeamTalk.InitSoundInputDevice() and
+ *        TeamTalk.InitSoundOutputDevice()
+ * - @c TeamTalk3.RegisterHotKey
+ *      - Call TeamTalk.HotKey_Register()
+ * - @c TeamTalk3.RestartSoundSystem
+ *      - Call TeamTalk.CloseSoundInputDevice() and
+ *        TeamTalk.CloseSoundOutputDevice(), then
+ *        TeamTalk.InitSoundInputDevice() and
+ *        TeamTalk.InitSoundOutputDevice()
+ * - @c TeamTalk3.SetDenoising
+ *      - Call TeamTalk.EnableDenoising()
+ * - @c TeamTalk3.SetForwardToAll
+ *      - Call TeamTalk.EnablePeerToPeer() with 'false'.
+ * - @c TeamTalk3.SetMasterVolume
+ *      - Call TeamTalk.SetSoundOutputVolume()
+ * - @c TeamTalk3.SetMixerWaveInBoost
+ *      - Call WindowsMixer.SetWaveInBoost()
+ * - @c TeamTalk3.SetMixerWaveInControlSelected
+ *      - Call WindowsMixer.SetWaveInControlSelected()
+ * - @c TeamTalk3.SetMixerWaveInSelected
+ *      - Call WindowsMixer.SetWaveInSelected()
+ * - @c TeamTalk3.SetMixerWaveOutMute
+ *      - Call WindowsMixer.SetWaveOutMute()
+ * - @c TeamTalk3.SetMuteAll
+ *      - Call TeamTalk.SetSoundOutputMute()
+ * - @c TeamTalk3.SetTcpKeepAliveInterval
+ *      - Call TeamTalk.SetKeepAliveInterval()
+ * - @c TeamTalk3.SetVoiceActivated
+ *      - Call TeamTalk.EnableVoiceActivation()
+ * - @c TeamTalk3.SetVoiceGainLevel
+ *      - Call TeamTalk.SetSoundInputGainLevel()
+ * - @c TeamTalk3.ShutdownSoundSystem
+ *      - Call TeamTalk.CloseSoundInputDevice() and
+ *        TeamTalk.CloseSoundOutputDevice()
+ * - @c TeamTalk3.StartTransmitting
+ *      - Call TeamTalk.EnableTransmission()
+ * - @c TeamTalk3.StartTransmittingWaveFile
+ *      - Call TeamTalk.StartStreamingAudioFileToUser() or
+ *        TeamTalk.StartStreamingAudioFileToChannel()
+ * - @c TeamTalk3.StopTransmitting
+ *      - Call TeamTalk.EnableTransmission()
+ * - @c TeamTalk3.StopTransmittingWaveFile
+ *      - Call TeamTalk.StopStreamingAudioFileToUser() or
+ *        TeamTalk.StopStreamingAudioFileToChannel()
+ * - @c TeamTalk3.UninstallTestKeyHook
+ *      - Call TeamTalk.HotKey_RemoveTestHook()
+ * - @c TeamTalk3.UnregisterHotKey
+ *      - Call TeamTalk.HotKey_Unregister()
+ *
+ * Removed methods:
+ * - @c TeamTalk3.InitTeamTalk
+ * - @c TeamTalk3.CloseTeamTalk
+ * - @c TeamTalk3.SetLocalBindIP see @ref knownissues
+ *   it will be available again.
+ * - @c TeamTalk3.GetPlaybackMode
+ * - @c TeamTalk3.GetSamplesPerPacket
+ * - @c TeamTalk3.ProcessMessageQueue
+ * - @c TeamTalk3.RestartSoundSystem
+ * - @c TeamTalk3.SetPlaybackMode
+ * - @c TeamTalk3.RegisterTalkingCallback see @ref knownissues
+ *   it will be available again.
+ * - @c TeamTalk3.UnregisterTalkingCallback see @ref knownissues
+ *   it will be available again.
+
+ * Renamed/modfied events:
+ *
+ * - @c TeamTalk3.OnAccepted
+ *      - TeamTalk.OnCmdMyselfLoggedIn()
+ * - @c TeamTalk3.OnAddChannel
+ *      - TeamTalk.OnCmdChannelNew()
+ * - @c TeamTalk3.OnAddFile
+ *      - TeamTalk.OnCmdFileNew()
+ * - @c TeamTalk3.OnAddUser
+ *      - TeamTalk.OnCmdUserJoinedChannel()
+ * - @c TeamTalk3.OnBroadcastMessage
+ *      - TeamTalk.OnCmdUserTextMessage() check 
+ *        @c BearWare.TextMessage for @c MSGTYPE_BROADCAST
+ * - @c TeamTalk3.OnChannelMessage
+ *      - TeamTalk.OnCmdUserTextMessage() check 
+ *        @c BearWare.TextMessage for @c MSGTYPE_CHANNEL
+ * - @c TeamTalk3.OnCommandError
+ *      - TeamTalk.OnCmdError()
+ * - @c TeamTalk3.OnFileTransferBegin
+ *      - TeamTalk.OnFileTransfer()
+ * - @c TeamTalk3.OnFileTransferCompleted
+ *      - TeamTalk.OnFileTransfer()
+ * - @c TeamTalk3.OnFileTransferFailed
+ *      - TeamTalk.OnFileTransfer()
+ * - @c TeamTalk3.OnJoinedChannel
+ *      - TeamTalk.OnCmdMyselfJoinedChannel()
+ * - @c TeamTalk3.OnKicked
+ *      - TeamTalk.OnCmdMyselfKickedFromChannel()
+ * - @c TeamTalk3.OnLeftChannel
+ *      - TeamTalk.OnCmdMyselfLeftChannel()
+ * - @c TeamTalk3.OnLoggedOut
+ *      - TeamTalk.OnCmdMyselfLoggedOut()
+ * - @c TeamTalk3.OnRemoveChannel
+ *      - TeamTalk.OnCmdChannelRemove()
+ * - @c TeamTalk3.OnRemoveFile
+ *      - TeamTalk.OnCmdFileRemove()
+ * - @c TeamTalk3.OnRemoveUser
+ *      - TeamTalk.OnCmdUserLeftChannel()
+ * - @c TeamTalk3.OnServerUpdate
+ *      - TeamTalk.OnCmdServerUpdate()
+ * - @c TeamTalk3.OnSoundDeviceError
+ *      - TeamTalk.OnInternalError()
+ * - @c TeamTalk3.OnTestKeyToggle
+ *      - TeamTalk.OnHotKeyTest()
+ * - @c TeamTalk3.OnUpdateChannel
+ *      - TeamTalk.OnCmdChannelUpdate()
+ * - @c TeamTalk3.OnUpdateUser
+ *      - TeamTalk.OnCmdUserUpdate()
+ * - @c TeamTalk3.OnUserLoggedIn
+ *      - TeamTalk.OnCmdUserLoggedIn()
+ * - @c TeamTalk3.OnUserLoggedOut
+ *      - TeamTalk.OnCmdUserLoggedOut()
+ * - @c TeamTalk3.OnUserMessage
+ *      - TeamTalk.OnCmdUserTextMessage() check 
+ *        @c BearWare.TextMessage for @c MSGTYPE_USER
+ * - @c TeamTalk3.OnUserStoppedTalking
+ *      - TeamTalk.OnUserTalking()
+ * - @c TeamTalk3.OnUserTalking
+ *      - TeamTalk.OnUserTalking()
+ *
+ * Removed events:
+ *
+ * - @c TeamTalk3.OnListCommandCompleted
+ * - @c TeamTalk3.OnUserAudioData see @ref knownissues
+ *
+ *
+ */
+
+}
+

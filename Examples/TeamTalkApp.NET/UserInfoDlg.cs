@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,9 +32,9 @@ namespace TeamTalkApp.NET
 {
     public partial class UserInfoDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int userid;
-        public UserInfoDlg(TeamTalk tt, int userid)
+        public UserInfoDlg(TeamTalkBase tt, int userid)
         {
             ttclient = tt;
             InitializeComponent();

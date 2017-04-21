@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -186,7 +186,7 @@ int getDefaultSndInputDevice()
 {
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
                                                         SOUNDSYSTEM_NONE).toInt();
-    int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_NODEVICE).toInt();
+    int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, &inputid, NULL);
     else
@@ -198,7 +198,7 @@ int getDefaultSndOutputDevice()
 {
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
                                                         SOUNDSYSTEM_NONE).toInt();
-    int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_NODEVICE).toInt();
+    int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, NULL, &outputid);
     else
@@ -247,9 +247,6 @@ int getSelectedSndInputDevice()
 {
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE,
                                     SOUNDDEVICEID_DEFAULT).toInt();
-    if(inputid == SOUNDDEVICEID_NODEVICE)
-        return SOUNDDEVICEID_NODEVICE;
-
     if(inputid == SOUNDDEVICEID_DEFAULT)
         inputid = getDefaultSndInputDevice();
     else
@@ -266,9 +263,6 @@ int getSelectedSndOutputDevice()
 {
     int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE,
                                      SOUNDDEVICEID_DEFAULT).toInt();
-    if(outputid == SOUNDDEVICEID_NODEVICE)
-        return SOUNDDEVICEID_NODEVICE;
-
     if(outputid == SOUNDDEVICEID_DEFAULT)
         outputid = getDefaultSndOutputDevice();
     else

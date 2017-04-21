@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <language version="1.0">
     <item id="102"></item>
     <item id="104">斷開連接(&amp;C)\tF2</item>
@@ -39,6 +39,15 @@
     <item id="247">我的IP位址?</item>
     <item id="249">複合鍵</item>
     <item id="254">快速鍵</item>
+    <item id="268">新用戶</item>
+    <item id="269">移除用戶</item>
+    <item id="270">新訊息</item>
+    <item id="271">頻道訊息</item>
+    <item id="276">伺服器丟失</item>
+    <item id="277">按下熱鍵</item>
+    <item id="278">更新檔案</item>
+    <item id="279">發送完成</item>
+    <item id="280">禁止發言</item>
     <item id="1008">始終允許連接伺服器</item>
     <item id="1009">自動加入預設頻道</item>
     <item id="1011">伺服器屬性</item>
@@ -116,15 +125,8 @@
     <item id="1170">本地 UDP 埠</item>
     <item id="1172">伺服器資訊</item>
     <item id="1173">新用戶</item>
-    <item id="1174">新用戶</item>
     <item id="1175">測試</item>
-    <item id="1176">移除用戶</item>
-    <item id="1177">伺服器丟失</item>
-    <item id="1178">新訊息</item>
-    <item id="1180">按下熱鍵</item>
     <item id="1181">按下熱鍵時允許臨時混音輸入</item>
-    <item id="1182">頻道訊息</item>
-    <item id="1184">禁止發言</item>
     <item id="1185">彌補麥克風增強的BUG</item>
     <item id="1186">聲音事件</item>
     <item id="1187">注意: 優質的編碼需要佔用更多的頻寬和CPU資源</item>
@@ -170,8 +172,6 @@
     <item id="1268">增加聲音增益</item>
     <item id="1277">減弱聲音增益</item>
     <item id="1278">鍵盤快速鍵</item>
-    <item id="1279">更新檔案</item>
-    <item id="1280">發送完成</item>
     <item id="1292">回放模式</item>
     <item id="32791">你的IP位址?(&amp;I)</item>
     <item id="32792">固定播放碼率(&amp;P)\tCtrl+Shift+P</item>

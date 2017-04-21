@@ -29,6 +29,12 @@
 		android:defaultValue="false"
 		android:title="@string/pref_title_keep_screen_on" />
 
+	<CheckBoxPreference
+		android:key="showpublicservers_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_public_servers"
+		android:summary="@string/pref_summary_public_servers" />
+
     <CheckBoxPreference
 		android:key="show_log_messages"
 		android:defaultValue="true"

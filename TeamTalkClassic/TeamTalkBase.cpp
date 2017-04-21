@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -117,13 +117,13 @@ int GetMaxChannelID(const channels_t& channels)
     return ret;
 }
 
-users_t GetChannelUsers(int nChannelID, const users_t& users)
+users_t GetChannelUsers(const users_t& users, int nChannelID)
 {
     users_t result;
     users_t::const_iterator ite;
     for(ite=users.begin();ite!=users.end();ite++)
     {
-        if(ite->second.nChannelID == nChannelID)
+        if(ite->second.nChannelID == nChannelID || nChannelID == -1)
             result.insert(*ite);
     }
     return result;

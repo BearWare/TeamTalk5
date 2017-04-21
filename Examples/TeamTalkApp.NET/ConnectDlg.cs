@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -36,12 +36,12 @@ namespace TeamTalkApp.NET
 {
     public partial class ConnectDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         Settings settings;
 
         List<Server> publicservers = new List<Server>();
 
-        public ConnectDlg(TeamTalk tt, Settings settings)
+        public ConnectDlg(TeamTalkBase tt, Settings settings)
         {
             ttclient = tt;
             this.settings = settings;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -26,13 +26,11 @@ public interface Constants
     public static final int TT_STRLEN = 512;
     public static final int TT_USERID_MAX = 0xFFF;
     public static final int TT_CHANNELID_MAX = 0xFFF;
-    public static final int TT_VIDEOFORMATS_MAX = 128;
-    public static final int TT_VOICEUSERS_MAX = 16;
-    public static final int TT_VIDEOUSERS_MAX = 16;
-    public static final int TT_DESKTOPUSERS_MAX = 16;
-    public static final int TT_MEDIAFILEUSERS_MAX = 16;
+    public static final int TT_VIDEOFORMATS_MAX = 1024;
+    public static final int TT_TRANSMITUSERS_MAX = 128;
     public static final int TT_CLASSROOM_FREEFORALL = 0xFFFF;
     public static final int TT_CHANNELS_OPERATOR_MAX = 16;
+    public static final int TT_TRANSMITQUEUE_MAX = 16;
     public static final int TT_SAMPLERATES_MAX = 16;
     public static final int TT_DESKTOPINPUT_MAX = 16;
     public static final int TT_DESKTOPINPUT_KEYCODE_IGNORE = 0xFFFFFFFF;

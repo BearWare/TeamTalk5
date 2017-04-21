@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102"></item>
     <item id="104">Huỷ kết nối (&amp;c)\tF2</item>
@@ -33,6 +33,15 @@
     <item id="247">Địa chỉ IP của tôi là gì?</item>
     <item id="249">Tổ hợp phím</item>
     <item id="254">Liên kết</item>
+    <item id="268">Người dùng mới</item>
+    <item id="269">Đã xoá người dùng</item>
+    <item id="270">Tin nhắn mới</item>
+    <item id="271">Tin nhắn của kênh</item>
+    <item id="276">Máy chủ bị tắt</item>
+    <item id="277">Đã nhấn phím tắt</item>
+    <item id="278">File đã cập nhật</item>
+    <item id="279">Chuyển xong</item>
+    <item id="280">Dừng nói</item>
     <item id="1008">Luôn truyền qua server</item>
     <item id="1009">Tự động tham gia vào kênh gốc dựa trên kết nối</item>
     <item id="1011">Thuộc tính máy chủ</item>
@@ -110,15 +119,8 @@
     <item id="1170">Cổng UDP cục bộ</item>
     <item id="1172">MOTD</item>
     <item id="1173">Người dùng mới</item>
-    <item id="1174">Người dùng mới</item>
     <item id="1175">Đã chọn chế độ thử</item>
-    <item id="1176">Đã xoá người dùng</item>
-    <item id="1177">Máy chủ bị tắt</item>
-    <item id="1178">Tin nhắn mới</item>
-    <item id="1180">Đã nhấn phím tắt</item>
     <item id="1181">Dật thiết bị vào hoà âm tạm thời khi nhấn phím nóng</item>
-    <item id="1182">Tin nhắn của kênh</item>
-    <item id="1184">Dừng nói</item>
     <item id="1185">Bù âm cho míc</item>
     <item id="1186">Sự kiện âm thanh</item>
     <item id="1187">Chú ý là chất lượng cao sẽ tốn nhiều băng thông và CPU.</item>
@@ -164,8 +166,6 @@
     <item id="1268">Tăng độ tăng âm</item>
     <item id="1277">Giảm độ tăng âm</item>
     <item id="1278">Phím tắt</item>
-    <item id="1279">File đã cập nhật</item>
-    <item id="1280">Chuyển xong</item>
     <item id="1287">Mật khẩu điều hành viên</item>
     <item id="1292">Chế độ phát nền</item>
     <item id="32791">Địa chỉ &amp;IP của tôi là gì?</item>

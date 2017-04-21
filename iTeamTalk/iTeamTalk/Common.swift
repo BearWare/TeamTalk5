@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -225,10 +225,12 @@ func removeFromTTMessages(_ p: TeamTalkEventHandler) {
 }
 
 enum MsgType {
-    case im
-    case im_MYSELF
-    case logmsg
-    case bcast
+    case PRIV_IM
+    case PRIV_IM_MYSELF
+    case CHAN_IM
+    case CHAN_IM_MYSELF
+    case LOGMSG
+    case BCAST
 }
 
 struct MyTextMessage {
@@ -245,7 +247,7 @@ struct MyTextMessage {
     
     init(logmsg: String) {
         message = logmsg
-        msgtype = .logmsg
+        msgtype = .LOGMSG
     }
 
     
@@ -257,29 +259,50 @@ struct MyTextMessage {
         let time = dateFormatter.string(from: date)
         
         switch msgtype {
-        case .im :
+        case .PRIV_IM :
+            fallthrough
+        case .CHAN_IM :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 1.0, green:0.627, blue:0.882, alpha: 1.0)
-            
-        case .im_MYSELF :
+        case .PRIV_IM_MYSELF :
+            fallthrough
+        case .CHAN_IM_MYSELF :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 0.54, green: 0.82, blue: 0.94, alpha: 1.0)
             
-        case .bcast :
+        case .BCAST :
             let source = limitText(nickname)
             cell.authorLabel.text = "\(source), \(time)"
             cell.backgroundColor = UIColor(red: 0.831, green: 0.376, blue: 1.0, alpha:1.0)
             
-        case .logmsg :
+        case .LOGMSG :
             cell.backgroundColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
             cell.authorLabel.text = "\(time)"
         }
         cell.messageTextView.text = message
-
-        cell.accessibilityHint = cell.authorLabel.text
+        
+        var hint = ""
+        
+        switch msgtype {
+        case .PRIV_IM :
+            fallthrough
+        case .PRIV_IM_MYSELF :
+            hint = NSLocalizedString("Private message", comment: "text message type")
+        case .CHAN_IM :
+            fallthrough
+        case .CHAN_IM_MYSELF :
+            hint = NSLocalizedString("Channel message", comment: "text message type")
+        case .BCAST :
+            hint = NSLocalizedString("Broadcast message", comment: "text message type")
+        case .LOGMSG :
+            hint = NSLocalizedString("Log message", comment: "text message type")
+        }
+        
         cell.accessibilityLabel = message
+        cell.accessibilityHint = cell.authorLabel.text! + ". " + hint
+        
         //cell.messageTextView.textContainerInset = UIEdgeInsetsZero
         //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
     }
@@ -291,6 +314,11 @@ protocol MyTextMessageDelegate {
 
 // messages received but no read (blinking)
 var unreadmessages = Set<INT32>()
+
+// types of responses
+enum Command {
+    case loginCmd, joinCmd, moveCmd, kickCmd
+}
 
 func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {
     let flags = TT_GetFlags(ttInst)
@@ -389,13 +417,13 @@ func setupSoundDevices() {
     
     let defaults = UserDefaults.standard
     let on = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
-    
+     
     let flags = TT_GetFlags(ttInst)
     if flags & CLIENT_SNDINPUT_READY.rawValue == 0 {
-        TT_InitSoundInputDevice(ttInst, on ? 1 : 0)
+        TT_InitSoundInputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
     }
     if flags & CLIENT_SNDOUTPUT_READY.rawValue == 0 {
-        TT_InitSoundOutputDevice(ttInst, on ? 1 : 0)
+        TT_InitSoundOutputDevice(ttInst, on ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO)
     }
     
     setupSpeakerOutput()

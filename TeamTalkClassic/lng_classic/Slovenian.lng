@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Pre&amp;kinit\F2</item>
     <item id="105"></item>
@@ -30,6 +30,13 @@
     <item id="243">Nastavitev strežnika</item>
     <item id="247">Moj IP naslov</item>
     <item id="249">Kombinacija tipk</item>
+    <item id="268">Nov uporabnik</item>
+    <item id="269">Uporabnik odstranjen</item>
+    <item id="270">Novo sporočilo</item>
+    <item id="271">Sporočilo kanala</item>
+    <item id="276">Strežnik izgubljen</item>
+    <item id="277">Pritisnjene tipke</item>
+    <item id="280">Prekini pogovor</item>
     <item id="1008">Vedno preusmeri skozi server</item>
     <item id="1009">Avtomatski pristop kanalu pri prijavi</item>
     <item id="1011">Nastavitve strežnika</item>
@@ -105,15 +112,8 @@
     <item id="1170">Lokalni UDP port</item>
     <item id="1172">MOTD</item>
     <item id="1173">Nov uporabnik</item>
-    <item id="1174">Nov uporabnik</item>
     <item id="1175">Izbrano testiranje</item>
-    <item id="1176">Uporabnik odstranjen</item>
-    <item id="1177">Strežnik izgubljen</item>
-    <item id="1178">Novo sporočilo</item>
-    <item id="1180">Pritisnjene tipke</item>
     <item id="1181">Omogoči trenuten mixer vhodne enote ob pritisni in govori</item>
-    <item id="1182">Sporočilo kanala</item>
-    <item id="1184">Prekini pogovor</item>
     <item id="1185">Komponente za ojačanje mikrofona</item>
     <item id="1186">Zvokovni dogodki</item>
     <item id="1187">Večja kvaliteta govora zahteva večjo pasovno širino in večjo uporabo procesorja.</item>

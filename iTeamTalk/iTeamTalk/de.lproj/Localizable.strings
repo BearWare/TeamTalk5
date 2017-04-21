@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Ansage wenn Benutzer Raum verlässt";
 
+/* preferences */
+"App Version" = "App-Version";
+
 /* codec detail */
 "Application" = "Anwendung";
 
@@ -68,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitrate";
 
+/* text message type */
+"Broadcast message" = "Servernachricht";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Servernachrichten";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Raum";
+
+/* text message type */
+"Channel message" = "Raumnachricht";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Raumnachricht von %@. %@";
@@ -164,6 +174,9 @@
 /* Dialog message */
 "Join" = "Betreten";
 
+/* server entry */
+"Join Channel" = "Raum betreten";
+
 /* channel list */
 "Join channel" = "Raum betreten";
 
@@ -181,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Begrenze Namen in Raumliste auf %d Zeichen";
+
+/* text message type */
+"Log message" = "Lognachricht";
 
 /* log entry */
 "Logged on to server" = "Auf Server eingeloggt";
@@ -209,6 +225,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Benutzer verschieben";
+
+/* channel list */
+"Move users here" = "Benutzer hierher verschieben";
+
 /* codec detail */
 "Music" = "Musik";
 
@@ -228,8 +250,14 @@
 /* preferences */
 "Name displayed in channel list" = "In Raumliste angezeigter Name";
 
+/* Dialog message */
+"New Server" = "Neuer Server";
+
 /* preferences */
 "Nickname" = "Nickname";
+
+/* Dialog message */
+"No" = "Nein";
 
 /* codec detail
    create channel */
@@ -297,6 +325,12 @@
 /* serverlist */
 "Preferences" = "Voreinstellungen";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Entertaste sendet Textnachricht";
+
+/* text message type */
+"Private message" = "Private Nachricht";
+
 /* serverlist */
 "Private server" = "Privater Server";
 
@@ -339,6 +373,9 @@
 /* preferences */
 "Receive webcam streams by default" = "Webcam-Streams standardmäßig empfangen";
 
+/* preferences */
+"Return Sends Message" = "Enter sendet Nachricht";
+
 /* channel list */
 "Return to previous channel" = "Zurück Zum vorherigen Raum";
 
@@ -347,6 +384,12 @@
 
 /* codec detail */
 "Sample Rate" = "Sampling-Rate";
+
+/* Dialog message */
+"Save Server" = "Server speichern";
+
+/* Dialog message */
+"Save server to server list?" = "Server in Serverliste speichern?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Wähle die zu verwendende Stimme";
@@ -422,7 +465,7 @@
 "TCP Port" = "TCP-Port";
 
 /* preferences */
-"Text To Speech Events" = "Text-To-Speech-Ereignisse";
+"Text To Speech Events" = "Sprachausgabenereignisse";
 
 /* preferences */
 "The rate of the speaking voice is %.1f" = "Die Geschwindigkeit der gewählten Stimme ist %.1f";
@@ -484,6 +527,9 @@
    user detail */
 "Username" = "Benutzername";
 
+/* preferences */
+"Version Information" = "Versionsinformation";
+
 /* channel list */
 "View" = "Ansehen";
 
@@ -513,7 +559,7 @@
 "Voice Volume" = "Sprachlautstärke";
 
 /* codec detail */
-"VoIP" = "Sprachausgabe";
+"VoIP" = "Telefonie";
 
 /* user detail */
 "Volume Controls" = "Lautstärkekontrollen";
@@ -521,6 +567,9 @@
 /* preferences
    user detail */
 "WebCam" = "WebCam";
+
+/* Dialog message */
+"Yes" = "Ja";
 
 /* speech */
 "You have selected %@" = "Du hast %@ gewählt";

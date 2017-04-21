@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -39,12 +39,12 @@ namespace c_tt
     {
         public const int WM_TEAMTALK_CLIENTEVENT = 0x8000 + 1; /* WM_APP */
 
-        public MyEventHandler(BearWare.TeamTalk tt)
+        public MyEventHandler(BearWare.TeamTalkBase tt)
         {
             m_tt = tt;
         }
 
-        protected BearWare.TeamTalk m_tt;
+        protected BearWare.TeamTalkBase m_tt;
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_TEAMTALK_CLIENTEVENT)

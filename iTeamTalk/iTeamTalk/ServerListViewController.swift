@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -61,6 +61,35 @@ class Server : NSObject {
     }
 }
 
+func loadLocalServers() -> [Server] {
+    
+    var servers = [Server]()
+    
+    let defaults = UserDefaults.standard
+    if let stored = defaults.array(forKey: "ServerList") {
+        for e in stored {
+            let data = e as! Data
+            
+            let server = NSKeyedUnarchiver.unarchiveObject(with: data) as! Server
+            
+            servers.append(server)
+        }
+    }
+    return servers
+}
+
+func saveLocalServers(_ servers : [Server]) {
+    //Store local servers
+    let defaults = UserDefaults.standard
+    var s_array = [Data]()
+    for s in servers {
+        let data = NSKeyedArchiver.archivedData(withRootObject: s)
+        s_array.append(data)
+    }
+    defaults.set(s_array, forKey: "ServerList")
+    defaults.synchronize()
+}
+
 class ServerListViewController : UITableViewController,
     XMLParserDelegate {
     
@@ -89,18 +118,9 @@ class ServerListViewController : UITableViewController,
 
         servers.removeAll()
         
+        servers = loadLocalServers()
+        
         let defaults = UserDefaults.standard
-        
-        if let stored = defaults.array(forKey: "ServerList") {
-            for e in stored {
-                let data = e as! Data
-                
-                let server = NSKeyedUnarchiver.unarchiveObject(with: data) as! Server
-                
-                servers.append(server)
-            }
-        }
-        
         if defaults.object(forKey: PREF_DISPLAY_PUBSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBSERVERS) {
             Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ServerListViewController.downloadServerList), userInfo: nil, repeats: false)
         }
@@ -146,16 +166,8 @@ class ServerListViewController : UITableViewController,
     }
     
     func saveServerList() {
-        //Store local servers
-        let localservers = servers.filter({$0.publicserver == false})
-        let defaults = UserDefaults.standard
-        var s_array = [Data]()
-        for s in localservers {
-            let data = NSKeyedArchiver.archivedData(withRootObject: s)
-            s_array.append(data)
-        }
-        defaults.set(s_array, forKey: "ServerList")
-        defaults.synchronize()
+        
+        saveLocalServers(servers.filter({$0.publicserver == false}))
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

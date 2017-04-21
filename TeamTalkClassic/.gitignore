@@ -1,0 +1,10 @@
+.vs
+Win32
+x64
+ipch
+*.user
+*.VC.opendb
+*.VC.db
+*.sln
+TeamTalk.aps
+

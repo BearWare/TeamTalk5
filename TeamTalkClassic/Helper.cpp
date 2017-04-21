@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include <Mmsystem.h>
+#include <queue>
 
 extern TTInstance* ttInst;
 
@@ -271,10 +272,35 @@ void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData)
     }
 }
 
-void PlayWaveFile(LPCTSTR szFilePath)
+HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData)
 {
-    if(szFilePath && *szFilePath && FileExists( szFilePath ))
-        ::PlaySound(szFilePath, NULL, SND_FILENAME | SND_ASYNC);
+    HTREEITEM hItem = wnd.GetRootItem();
+    HTREEITEM hResult = 0;
+    std::queue<HTREEITEM> items;
+
+    items.push(hItem);
+
+    while(items.size() && hResult == 0)
+    {
+        hItem = items.front();
+        items.pop();
+
+        if(dwItemData == wnd.GetItemData(hItem))
+        {
+            hResult = hItem;
+            break;
+        }
+        else if(wnd.ItemHasChildren(hItem))
+            items.push(wnd.GetChildItem(hItem));
+        else if(wnd.GetNextSiblingItem(hItem))
+            items.push(wnd.GetNextSiblingItem(hItem));
+    }
+    return hResult;
+}
+
+void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync)
+{
+    ::PlaySound(szFilePath, NULL, SND_FILENAME | (bAsync ? SND_ASYNC : SND_SYNC));
 }
 
 int nTextLimit = TT_STRLEN;

@@ -1,6 +1,7 @@
-TeamTalk.h
-TeamTalkSrv.h
 *.lib
 *.a
 *.so
 *.dylib
+*.dll
+*.pdb
+*.exp

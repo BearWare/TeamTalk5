@@ -1,0 +1,6 @@
+[submodule "TeamTalkClassic/tolk"]
+	path = TeamTalkClassic/tolk
+	url = https://github.com/bear101/tolk
+[submodule "TeamTalkClassic/tinyxml"]
+	path = TeamTalkClassic/tinyxml
+	url = https://github.com/bear101/tinyxml

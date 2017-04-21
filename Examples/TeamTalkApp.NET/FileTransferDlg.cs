@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,15 +32,15 @@ namespace TeamTalkApp.NET
 {
     public partial class FileTransferDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int transferid;
-        public FileTransferDlg(TeamTalk tt, int transferid)
+        public FileTransferDlg(TeamTalkBase tt, int transferid)
         {
             this.ttclient = tt;
             this.transferid = transferid;
             InitializeComponent();
 
-            ttclient.OnFileTransfer += new TeamTalk.FileTransferUpdate(ttclient_OnFileTransfer);
+            ttclient.OnFileTransfer += new TeamTalkBase.FileTransferUpdate(ttclient_OnFileTransfer);
             UpdateFileTransfer();
         }
 

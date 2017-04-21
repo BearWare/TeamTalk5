@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2014, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -19,6 +19,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "MyStd.h"
 #include <stdio.h>
 #include <algorithm>

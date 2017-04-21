@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -46,6 +46,7 @@ import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.data.Preferences;
 import dk.bearware.gui.R;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -62,6 +63,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -450,10 +452,13 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             loadLocalServers();        
         }
 
-        // Get public servers from http. TeamTalk DLL must be loaded by 
-        // service, otherwise static methods are unavailable (for getting DLL
-        // version number).
-        new ServerListAsyncTask().execute();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        if(pref.getBoolean(Preferences.PREF_GENERAL_PUBLICSERVERS, true)) {
+            // Get public servers from http. TeamTalk DLL must be loaded by
+            // service, otherwise static methods are unavailable (for getting DLL
+            // version number).
+            new ServerListAsyncTask().execute();
+        }
     }
     
     class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {

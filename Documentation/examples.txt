@@ -1,0 +1,291 @@
+/**
+ * @page examples Example Applications
+ *
+ * The @c Examples directory of the TeamTalk 5 SDKs contains examples
+ * of how to use the TeamTalk library. Ensure to download the TeamTalk
+ * 5 SDK for the platform which the example supports.
+ *
+ * @section clientexamples TeamTalk Client Examples
+ *
+ * Java client examples:
+ * - @ref jteamtalk
+ * - @ref teamtalkandroid
+ *
+ * .NET client examples:
+ * - @ref netexample
+ * - @ref ttserverlognet
+ *
+ * C++ client examples:
+ * - @ref qtexample
+ * - @ref ttserverlogcapi
+ *
+ * Swift client examples:
+ * - @ref iteamtalk
+ *
+ * @section serverexamples TeamTalk Server Examples
+ *
+ * Java server examples:
+ * - @ref jteamtalkserver
+ *
+ * .NET server examples:
+ * - @ref ttservernet
+ *
+ * C++ server examples:
+ * - @ref ttserverexample
+ *
+ * @section jteamtalk TeamTalk Java client as console application (jTeamTalk)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ *
+ * This sample application is located in the SDK's folder:
+ * - @c Examples/Java/jTeamTalk
+ *
+ * This example is a TeamTalk client application which runs as a
+ * console application.
+ *
+ * The jTeamTalk example application is a very basic example of how
+ * the TeamTalk client works. Here's what it does:
+ *
+ * 1. Configure sound devices
+ * 2. Connect to a TeamTalk server
+ * 3. Perform logon to TeamTalk server
+ * 4. Join a channel
+ *
+ * @section teamtalkandroid TeamTalk Java client for Android (TeamTalkAndroid)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Android
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Android
+ *
+ * This sample application is located in the SDK's folder:
+ * - @c Examples/Java/TeamTalkAndroid
+ *
+ * This is a TeamTalk client example for Android. The easiest way to
+ * get this example running is to use Android Studio 2.1 or later.
+ *
+ * In Android Studio navigate to the TeamTalkAndroid project located
+ * in @c Examples/Java/TeamTalkAndroid.
+
+ * @image html as_openproject.png
+ *
+ * The Android Studio should look like this after opening.
+ *
+ * @image html as_ttandroid.png
+ *
+ * The TeamTalk 5 JNI library (@c libTeamTalk5-jni.so) for the example
+ * project is located in @c
+ * Examples/Java/TeamTalkAndroid/src/main/jniLibs/armeabi-v7a. This is
+ * the same file as is located in @c
+ * Library/TeamTalkJNI/libs/armeabi-v7a
+ *
+ * The TeamTalk 5 jar file which loads the TeamTalk 5 JNI library is
+ * located in @c Examples/Java/TeamTalkAndroid/libs. This is the same
+ * file as is located in @c Library/TeamTalkJNI/libs and the source
+ * code for the jar file is located in @c Library/TeamTalkJNI/src
+ *
+ * @section netexample TeamTalk .NET client example using Windows Forms (TeamTalkApp.NET)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Windows
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Windows
+ *
+ * This sample application is located in the SDK's folder:
+ * - @c Examples/NET/TeamTalkApp.NET
+ *
+ * This example shows how to connect to a server and join channels
+ * where it's possible to stream audio and video data to other users.
+ *
+ * To build the example start Visual Studio 2010 or later and open the
+ * file @c TeamTalk.NET.csproj. Once opened notice the configuration
+ * says @c x86 and not @c "Any CPU" as it usually does in .NET
+ * projects. This is because the .NET DLL is compiled to run on
+ * x86. On Windows x64 Visual Studio will automatically build
+ * applications for x64 execution. In order to run the example the
+ * working directory for the debugger must be set to the @c
+ * Library/TeamTalk_DLL directory of the SDK (where the native
+ * TeamTalk5 DLL is located). This is done in the project settings as
+ * shown in the picture below:
+ *
+ * @image html netdebug.png Debugging .NET example
+ *
+ * Now build the example and run the application.
+ *
+ * Before connecting to a server press "File -> Preferences" to set up
+ * your audio and video devices. Once this is done press "File ->
+ * Connect" and connect to a TeamTalk server. To join a channel
+ * right-click it in the tree view and click "Join Channel". Below is
+ * shown an example of the .NET example in use.
+ *
+ * @image html netexample.png TeamTalk .NET example
+ *
+ * Before building your own .NET application ensure to read the
+ * section @ref clientsetup.
+ *
+ * @section ttserverlognet TeamTalk .NET Server Activity Logger Example (ttserverlog.net)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Windows
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Windows
+ *
+ * This sample application is located in the SDK's folder:
+ * - @c Examples/NET/ttserverlog.net
+ *
+ * This is a simple console application which stores all audio sent to
+ * the server to a specific directory on disk. It also displays all
+ * user text chat sessions, file uploads, etc. This example gives a
+ * good idea of how events are processed in TeamTalk when using the
+ * pool mechanism instead of having events posted to a Windows Forms
+ * application.
+ *
+ * @section qtexample TeamTalk Qt Client Example (qtTeamTalk)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ *
+ * This sample application is located in the SDK's folder:
+ * - @c Examples/C-API/qtTeamTalk
+ *
+ * This guide explains how to build the TeamTalk Qt client example
+ * using Qt Creator and the Qt SDK for Windows 32-bit MinGW. The Qt
+ * SDK can be downloaded from <a
+ * href="http://www.qt.io">qt.io</a> and the Qt SDK
+ * includes Qt Creator.
+ *
+ * Once installed start Qt Creator and open the project file:
+ * @c Examples/C-API/qtTeamTalk/teamtalk5.pro or @c
+ * Examples/C-API/qtTeamTalk/teamtalk5pro.pro for the Professional
+ * Edition of the SDK.
+ *
+ * Qt Creator will now ask to configure the project:
+ *
+ * @image html qtcreator_conf.png Configure Qt Project
+ *
+ * Press <i>Configure Project</i> and the TeamTalk project will now be opened:
+ *
+ * @image html qtcreator_opened.png Opened Qt Project
+ *
+ * Now click the hammer icon in the bottom left of the toolbar to
+ * build the project and wait for the build process to complete. Once
+ * completed click the @a Projects icon in the left toolbar and then
+ * the @a Run tab. Specify the <i>Working directory</i> to point to the
+ * location of the C-API DLL file:
+ *
+ * @image html qtcreator_run.png Run Qt Project
+ *
+ * Finally press the play icon in the left toolbar to run the
+ * application.
+ *
+ * @section ttserverlogcapi TeamTalk C++ Server Activity Logger Example (ttserverlog)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ *
+ * This sample application is located in folder:
+ * - @c Examples/C-API/ttserverlog
+ *
+ * This is a simple console application which stores all audio sent to
+ * the server to a specific directory on disk. It also displays all
+ * user text chat sessions, file uploads, etc. This example gives a
+ * good idea of how events are processed in TeamTalk when using
+ * TT_InitTeamTalkPoll() and events are not posted to a window handle.
+ *
+ * @section iteamtalk TeamTalk for iOS (iTeamTalk)
+ *
+ * This sample application applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Standard Edition
+ *   - iOS
+ * - TeamTalk 5 SDK Professional Edition
+ *   - iOS
+ *
+ * This sample application is located in folder:
+ * - @c Examples/C-API/iTeamTalk
+ * 
+ * This is the TeamTalk 5 client application which can also be found
+ * in the App Store. Open the project in Xcode.
+ *
+ * @section jteamtalkserver TeamTalk Java Server Example (jTeamTalkServer)
+ *
+ * This sample applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ *
+ * This sample application is located in folder:
+ * - @c Examples/Java/jTeamTalkServer
+ *
+ * This sample application shows how to run a TeamTalk server which
+ * authenticates users and is able to log client events on the server.
+ *
+ * Note that it's only possible to use the @ref serverapi in TeamTalk
+ * Professional edition.
+ *
+ * @section ttservernet TeamTalk .NET Server Example (TeamTalkServer.NET)
+ * 
+ * This sample applies to the following plaforms:
+ *
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Windows
+ *
+ * This sample application is located in folder:
+ * - @c Examples/NET/TeamTalkServer.NET
+ *
+ * This sample application shows how to run a TeamTalk server which
+ * authenticates users and is able to log client events on the server.
+ *
+ * Note that it's only possible to use the @ref serverapi in TeamTalk
+ * Professional edition.
+ *
+ * @section ttserverexample TeamTalk C++ Server Example (TeamTalkServer)
+ *
+ * - TeamTalk 5 SDK Professional Edition
+ *   - Mac OS X
+ *   - Linux
+ *   - Windows
+ *
+ * This sample application is located in folder:
+ * - @c Examples/C-API/TeamTalkServer
+ *
+ * This is an example of programming a TeamTalk server. To use the
+ * TeamTalk server API include the file @c TeamTalkSrv.h instead of
+ * @c TeamTalk.h in your project.
+ *
+ * Note that it's only possible to use the @ref serverapi in TeamTalk
+ * Professional edition.
+ */

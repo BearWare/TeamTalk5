@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Annoncer utilisateur quittant le canal";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Application";
 
@@ -68,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Débit";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "Transmettre Messages";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Canal";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Message canal de %@. %@";
@@ -164,6 +174,9 @@
 /* Dialog message */
 "Join" = "Rejoindre";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Rejoindre le canal";
 
@@ -181,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Limiter la longueur des noms dans la liste de canaux à %d caractères";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Connecté au serveur";
@@ -209,6 +225,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Musique";
 
@@ -228,8 +250,14 @@
 /* preferences */
 "Name displayed in channel list" = "Nom affiché dans la liste des canaux";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Pseudo";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -297,6 +325,12 @@
 /* serverlist */
 "Preferences" = "Préférences";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
+
 /* serverlist */
 "Private server" = "Serveur privé";
 
@@ -339,6 +373,9 @@
 /* preferences */
 "Receive webcam streams by default" = "Recevoir flux webcam par défaut";
 
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
+
 /* channel list */
 "Return to previous channel" = "Retourner au canal précédent";
 
@@ -347,6 +384,12 @@
 
 /* codec detail */
 "Sample Rate" = "Débit d'échantillonnage";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Sélectionner la voix à utiliser pour le texte en parole";
@@ -358,7 +401,7 @@
 "Send private message" = "Envoyer message privé";
 
 /* preferences */
-"Server Connection Lost" = "Connexion serveur perdie";
+"Server Connection Lost" = "Connexion serveur perdue";
 
 /* server entry */
 "Server List Entry" = "Entrée liste serveur";
@@ -484,6 +527,9 @@
    user detail */
 "Username" = "Nom d'utilisateur";
 
+/* preferences */
+"Version Information" = "Version Information";
+
 /* channel list */
 "View" = "Visionner";
 
@@ -521,6 +567,9 @@
 /* preferences
    user detail */
 "WebCam" = "WebCam";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "You have selected %@";

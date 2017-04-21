@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -100,6 +100,7 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_nLastRecvBytes(0)
 , m_nLastSentBytes(0)
 , m_pTray(NULL)
+, m_pPlaySndThread(NULL)
 , m_bMinimized(FALSE)
 , m_nConnectTimerID(0)
 , m_nReconnectTimerID(0)
@@ -112,7 +113,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_tabChat(m_wndTabCtrl.m_tabChat)
 , m_xmlSettings(TT_XML_ROOTNAME)
 , m_nMoveUserID(0)
-, m_pHttpUpdate(NULL)
 , m_nLastMoveChannel(0)
 , m_nStatusMode(STATUSMODE_AVAILABLE)
 , m_bSendDesktopOnCompletion(FALSE)
@@ -130,7 +130,9 @@ CTeamTalkDlg::~CTeamTalkDlg()
 }
 
 
-void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
+void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable,
+                                         SoundEvent on /*= SOUNDEVENT_ENABLE_VOICEACTIVATION*/,
+                                         SoundEvent off /*= SOUNDEVENT_DISABLE_VOICEACTIVATION*/)
 {
     if(bEnable)
         m_wndVoiceSlider.ShowWindow(SW_SHOW);
@@ -140,6 +142,7 @@ void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable)
     m_wndVoiceSlider.EnableWindow(bEnable);
     TT_SetVoiceActivationLevel(ttInst, m_wndVoiceSlider.GetPos());
     TT_EnableVoiceActivation(ttInst, bEnable);
+    PlaySoundEvent(bEnable? on :  off);
 }
 
 void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
@@ -352,7 +355,7 @@ void CTeamTalkDlg::OpenVideoSession(int nUserID)
     ASSERT(b);
     dlg->ShowWindow(SW_SHOW);
     m_videodlgs[nUserID] = dlg;
-    PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventVideoSession()));
+    PlaySoundEvent(SOUNDEVENT_USER_VIDEOSESSION_NEW);
 }
 
 void CTeamTalkDlg::CloseVideoSession(int nUserID)
@@ -930,7 +933,7 @@ void CTeamTalkDlg::OnConnectionLost(const TTMessage& msg)
         m_nReconnectTimerID = SetTimer(TIMER_RECONNECT_ID, RECONNECT_TIMEOUT, NULL);
     }
 
-    PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventServerLost()));
+    PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
 }
 
 void CTeamTalkDlg::OnLoggedIn(const TTMessage& msg)
@@ -956,7 +959,7 @@ void CTeamTalkDlg::OnLoggedOut(const TTMessage& msg)
 
 void CTeamTalkDlg::OnKicked(const TTMessage& msg)
 {
-    PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventServerLost()));
+    PlaySoundEvent(SOUNDEVENT_CONNECTION_LOST);
 
     AfxMessageBox(_T("You have been kicked from the channel."));
 }
@@ -1195,7 +1198,7 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
 
             //don't play sound when I join
             if(user.nUserID != TT_GetMyUserID(ttInst))
-                PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewUser()));
+                PlaySoundEvent(SOUNDEVENT_USER_JOIN);
         }
         else if (m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN)
         {
@@ -1247,7 +1250,9 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
        user.nChannelID == TT_GetMyChannelID(ttInst) &&
        (oldUser.nStatusMode & STATUSMODE_QUESTION) == 0 &&
        (user.nStatusMode & STATUSMODE_QUESTION))
-       PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventQuestionMode()));
+    {
+        PlaySoundEvent(SOUNDEVENT_USER_QUESTIONMODE);
+    }
 
     //if not in same channel, then ignore
     if(user.nChannelID != TT_GetMyChannelID(ttInst) || !user.nChannelID)
@@ -1453,7 +1458,7 @@ void CTeamTalkDlg::OnUserRemove(const TTMessage& msg)
         TRANSLATE_ITEM(IDS_CHANNEL_LEFT, szFormat);
         szMsg.Format(szFormat, GetDisplayName(user));
 
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventRemovedUser()));
+        PlaySoundEvent(SOUNDEVENT_USER_LEFT);
 
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_USER_LEFT_SAME)
@@ -1498,6 +1503,16 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     if(chan.nChannelID == TT_GetMyChannelID(ttInst))
         UpdateAudioConfig();
 
+    // Solo transmission
+    if(chan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst))
+        PlaySoundEvent(SOUNDEVENT_TRANSMITQUEUE_HEAD);
+
+    if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
+        oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
+        PlaySoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
+
+    // remaining is for class room channel
     if((chan.uChannelType & CHANNEL_CLASSROOM) == 0 ||
        TT_GetMyChannelID(ttInst) != chan.nChannelID)
         return;
@@ -1665,7 +1680,9 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst) &&
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_LOGIN &&
        m_commands[m_nCurrentCmdID] != CMD_COMPLETE_JOIN)
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventFilesUpd()));
+    {
+        PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
+    }
 }
 
 void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
@@ -1674,7 +1691,9 @@ void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
     m_tabFiles.RemoveFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventFilesUpd()));
+    {
+        PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
+    }
 }
 
 void CTeamTalkDlg::OnUserAccount(const TTMessage& msg)
@@ -1699,7 +1718,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
     {
         m_wndTree.AddUserMessage(textmsg.nFromUserID, textmsg);
 
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewMessage()));
+        PlaySoundEvent(SOUNDEVENT_USER_TEXTMSG);
 
         //find message session
         BOOL bNew = FALSE;
@@ -1777,7 +1796,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 AddVoiceMessage(szMsg);
         }
 
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventChannelMsg()));
+        PlaySoundEvent(SOUNDEVENT_USER_CHANNEL_TEXTMSG);
     }
     break;
     case MSGTYPE_BROADCAST :
@@ -1788,7 +1807,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         CString szName = GetDisplayName(user);
         m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg.szMessage);
 
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventNewMessage()));
+        PlaySoundEvent(SOUNDEVENT_USER_TEXTMSG);
 
         CString szFmt, szMsg;
         szFmt.LoadString(IDS_BCASTTEXTMSG);
@@ -1817,8 +1836,10 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
                 TRANSLATE_ITEM(IDS_DESKTOPINPUT_REQUEST, szFormat);
                 szText.Format(szFormat, GetDisplayName(user));
                 if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                {
                     AddVoiceMessage(szText);
-                PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq()));
+                }
+                PlaySoundEvent(SOUNDEVENT_USER_DESKTOP_ACCESS);
             }
             else
             {
@@ -1851,10 +1872,9 @@ void CTeamTalkDlg::OnUserStateChange(const TTMessage& msg)
         //add to stopped talking (for event)
         m_Talking.erase(user.nUserID);
 
-        if(m_xmlSettings.GetEventUserStoppedTalking().size() && m_Talking.empty())
+        if(m_xmlSettings.GetEventChannelSilent().size() && m_Talking.empty())
         {
-            CString szFile = STR_UTF8(m_xmlSettings.GetEventUserStoppedTalking().c_str());
-            PlayWaveFile(szFile);
+            PlaySoundEvent(SOUNDEVENT_CHANNEL_SILENT);
         }
     }
 }
@@ -1917,7 +1937,7 @@ void CTeamTalkDlg::OnUserDesktopWindow(const TTMessage& msg)
         ASSERT(b);
         dlg->ShowWindow(SW_SHOW);
         m_desktopdlgs[msg.nSource] = dlg;
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventDesktopSession()));
+        PlaySoundEvent(SOUNDEVENT_USER_DESKTOPSESSION_NEW);
     }
 }
 
@@ -2005,6 +2025,7 @@ void CTeamTalkDlg::OnVoiceActivated(const TTMessage& msg)
 {
     m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst),
                              IsMyselfTalking());
+    PlaySoundEvent(msg.bActive? SOUNDEVENT_VOICEACTIVATED :  SOUNDEVENT_VOICEDEACTIVATED);
 }
 
 void CTeamTalkDlg::OnFileTransfer(const TTMessage& msg)
@@ -2014,7 +2035,7 @@ void CTeamTalkDlg::OnFileTransfer(const TTMessage& msg)
     {
     case FILETRANSFER_ERROR :
         // play hotkey event if exists
-        PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransferEnd()));
+        PlaySoundEvent(SOUNDEVENT_FILETX_COMPLETE);
 
         if(m_mTransfers.find(filetransfer.nTransferID) != m_mTransfers.end())
             m_mTransfers.find(filetransfer.nTransferID)->second->Failed();
@@ -2033,7 +2054,7 @@ void CTeamTalkDlg::OnFileTransfer(const TTMessage& msg)
                 m_mTransfers.find(filetransfer.nTransferID)->second->Completed();
 
             // play hotkey event if exists
-            PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventTransferEnd()));
+            PlaySoundEvent(SOUNDEVENT_FILETX_COMPLETE);
         }
         break;
     case FILETRANSFER_ACTIVE :
@@ -2130,7 +2151,7 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
                                      IsMyselfTalking());
 
             // play hotkey event if exists
-            PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventHotKey()));
+            PlaySoundEvent(SOUNDEVENT_PUSHTOTALK);
         }
         else    //key being released
         {
@@ -2140,7 +2161,7 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
                                      IsMyselfTalking());
 
             //released event
-            PlayWaveFile(STR_UTF8(m_xmlSettings.GetEventHotKey()));
+            PlaySoundEvent(SOUNDEVENT_PUSHTOTALK);
 
             //check whether input must be changed
             if(m_bTempMixerInput)
@@ -2149,7 +2170,7 @@ void CTeamTalkDlg::OnHotKey(const TTMessage& msg)
         break;
     case HOTKEY_VOICEACT_ID :
         if(msg.bActive)
-            TT_EnableVoiceActivation(ttInst, !(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+            EnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
         break;
     case HOTKEY_VOLUME_PLUS :
         if(msg.bActive)
@@ -2285,6 +2306,9 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     //init session tree control
     m_wndTree.Initialize();
+
+    m_pPlaySndThread = new CPlaySoundThread();
+    m_pPlaySndThread->CreateThread();
 
     BOOL bRunWizard = FALSE;
 
@@ -2516,12 +2540,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
             m_bBoostBugComp = TRUE;
     }
 
-    if(m_xmlSettings.GetCheckApplicationUpdates())
-    {
-        m_pHttpUpdate = new CHttpRequest(URL_APPUPDATE);
-        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
-        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
-    }
+    RunAppUpdate();
+    SetTimer(TIMER_APPUPDATE_ID, 24 * 60 * 60 * 1000, NULL);
 
     //register hotkeys
     UpdateHotKeys();
@@ -2728,6 +2748,9 @@ void CTeamTalkDlg::Exit()
 			MessageBox(szMsg, _T("Reset Settings"));
 		}
 	}
+
+    m_pPlaySndThread->AddSoundEvent(NULL);
+    m_pPlaySndThread->KillThread();
 
 	CDialog::OnCancel();
 }
@@ -3277,19 +3300,28 @@ void CTeamTalkDlg::OnFilePreferences()
     ///////////////////////
     // sound events
     ///////////////////////
-    eventspage.m_szNewUserPath = STR_UTF8( m_xmlSettings.GetEventNewUser().c_str() );
-    eventspage.m_szNewMessagePath = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
-    eventspage.m_szUserRemovedPath = STR_UTF8( m_xmlSettings.GetEventRemovedUser().c_str() );
-    eventspage.m_szServerLostPath = STR_UTF8( m_xmlSettings.GetEventServerLost().c_str() );
-    eventspage.m_szHotKeyPath = STR_UTF8( m_xmlSettings.GetEventHotKey().c_str() );
-    eventspage.m_szChanMsg = STR_UTF8( m_xmlSettings.GetEventChannelMsg().c_str() );
-    eventspage.m_szStopTalk = STR_UTF8( m_xmlSettings.GetEventUserStoppedTalking().c_str() );
-    eventspage.m_szFilesUpd = STR_UTF8( m_xmlSettings.GetEventFilesUpd().c_str());
-    eventspage.m_szTransferEnd = STR_UTF8( m_xmlSettings.GetEventTransferEnd().c_str());
-    eventspage.m_szNewVideoSession = STR_UTF8( m_xmlSettings.GetEventVideoSession().c_str());
-    eventspage.m_szNewDesktopSession = STR_UTF8( m_xmlSettings.GetEventDesktopSession().c_str());
-    eventspage.m_szQuestionMode = STR_UTF8( m_xmlSettings.GetEventQuestionMode().c_str());
-    eventspage.m_szDesktopAccessReq = STR_UTF8( m_xmlSettings.GetEventDesktopAccessReq().c_str());
+    eventspage.m_uSoundEvents = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_DEFAULT);
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN] = STR_UTF8( m_xmlSettings.GetEventNewUser().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT] = STR_UTF8( m_xmlSettings.GetEventRemovedUser().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventNewMessage().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG] = STR_UTF8( m_xmlSettings.GetEventChannelMsg().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_QUESTIONMODE] = STR_UTF8( m_xmlSettings.GetEventQuestionMode().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS] = STR_UTF8( m_xmlSettings.GetEventDesktopAccessReq().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_VIDEOSESSION_NEW] = STR_UTF8( m_xmlSettings.GetEventVideoSession().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOPSESSION_NEW] = STR_UTF8( m_xmlSettings.GetEventDesktopSession().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST] = STR_UTF8( m_xmlSettings.GetEventServerLost().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK] = STR_UTF8( m_xmlSettings.GetEventHotKey().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_FILES_UPDATED] = STR_UTF8( m_xmlSettings.GetEventFilesUpd().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_FILETX_COMPLETE] = STR_UTF8( m_xmlSettings.GetEventTransferEnd().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT] = STR_UTF8(m_xmlSettings.GetEventChannelSilent().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED] = STR_UTF8(m_xmlSettings.GetEventVoiceActivated().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED] = STR_UTF8( m_xmlSettings.GetEventVoiceDeactivated().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventEnableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION] = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation().c_str());
+    eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueHead().c_str() );
+    eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP] = STR_UTF8( m_xmlSettings.GetEventTransmitQueueStop().c_str() );
 
     ////////////////////////
     // Text to Speech
@@ -3367,7 +3399,7 @@ void CTeamTalkDlg::OnFilePreferences()
         m_xmlSettings.SetPushToTalkKey(hotkey);
 
         m_xmlSettings.SetVoiceActivated(generalpage.m_bVoiceAct);
-        TT_EnableVoiceActivation(ttInst, generalpage.m_bVoiceAct);
+        EnableVoiceActivation(generalpage.m_bVoiceAct);
         m_xmlSettings.SetInactivityDelay(generalpage.m_nInactivity);
         m_xmlSettings.SetDisableVadOnIdle(generalpage.m_bIdleVox);
 
@@ -3448,7 +3480,7 @@ void CTeamTalkDlg::OnFilePreferences()
             nTextLimit = windowpage.m_nTextLen;
             bShowUsernames = windowpage.m_bShowUsername;
 
-            users_t users = m_wndTree.GetUsers(0);
+            users_t users = m_wndTree.GetUsers();
             channels_t chans = m_wndTree.GetChannels();
             for(users_t::const_iterator i=users.begin();i!=users.end();i++)
                 m_wndTree.UpdateUser(i->second);
@@ -3502,7 +3534,7 @@ void CTeamTalkDlg::OnFilePreferences()
         if(m_xmlSettings.GetMediaStreamVsVoice(DEFAULT_MEDIA_VS_VOICE) != soundpage.m_nMediaVsVoice)
         {
             m_xmlSettings.SetMediaStreamVsVoice(soundpage.m_nMediaVsVoice);
-            users_t users = m_wndTree.GetUsers(0);
+            users_t users = m_wndTree.GetUsers();
             users_t::const_iterator i;
             double mediaVol = soundpage.m_nMediaVsVoice;
             mediaVol /= 100.0;
@@ -3544,19 +3576,28 @@ void CTeamTalkDlg::OnFilePreferences()
         ////////////////////////////////////////
         //    write settings for events
         ////////////////////////////////////////
-        m_xmlSettings.SetEventNewUser(STR_UTF8( eventspage.m_szNewUserPath.GetBuffer()));
-        m_xmlSettings.SetEventRemovedUser(STR_UTF8( eventspage.m_szUserRemovedPath.GetBuffer()));
-        m_xmlSettings.SetEventNewMessage(STR_UTF8( eventspage.m_szNewMessagePath.GetBuffer()));
-        m_xmlSettings.SetEventServerLost(STR_UTF8( eventspage.m_szServerLostPath.GetBuffer()));
-        m_xmlSettings.SetEventHotKey(STR_UTF8( eventspage.m_szHotKeyPath.GetBuffer()));
-        m_xmlSettings.SetEventChannelMsg(STR_UTF8( eventspage.m_szChanMsg.GetBuffer()));
-        m_xmlSettings.SetEventUserStoppedTalking(STR_UTF8( eventspage.m_szStopTalk.GetBuffer()));
-        m_xmlSettings.SetEventFilesUpd(STR_UTF8( eventspage.m_szFilesUpd.GetBuffer()));
-        m_xmlSettings.SetEventTransferEnd(STR_UTF8( eventspage.m_szTransferEnd.GetBuffer()));
-        m_xmlSettings.SetEventVideoSession(STR_UTF8( eventspage.m_szNewVideoSession.GetBuffer()));
-        m_xmlSettings.SetEventDesktopSession(STR_UTF8( eventspage.m_szNewDesktopSession.GetBuffer()));
-        m_xmlSettings.SetEventQuestionMode(STR_UTF8( eventspage.m_szQuestionMode.GetBuffer()));
-        m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8( eventspage.m_szDesktopAccessReq.GetBuffer()));
+        m_xmlSettings.SetEventSoundsEnabled(eventspage.m_uSoundEvents);
+        m_xmlSettings.SetEventNewUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_JOIN]));
+        m_xmlSettings.SetEventRemovedUser(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_LEFT]));
+        m_xmlSettings.SetEventNewMessage(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_TEXTMSG]));
+        m_xmlSettings.SetEventServerLost(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CONNECTION_LOST]));
+        m_xmlSettings.SetEventHotKey(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_PUSHTOTALK]));
+        m_xmlSettings.SetEventChannelMsg(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_CHANNEL_TEXTMSG]));
+        m_xmlSettings.SetEventChannelSilent(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_CHANNEL_SILENT]));
+        m_xmlSettings.SetEventFilesUpd(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_FILES_UPDATED]));
+        m_xmlSettings.SetEventTransferEnd(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_FILETX_COMPLETE]));
+        m_xmlSettings.SetEventVideoSession(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_VIDEOSESSION_NEW]));
+        m_xmlSettings.SetEventDesktopSession(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOPSESSION_NEW]));
+        m_xmlSettings.SetEventQuestionMode(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_QUESTIONMODE]));
+        m_xmlSettings.SetEventDesktopAccessReq(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_USER_DESKTOP_ACCESS]));
+        m_xmlSettings.SetEventVoiceActivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEACTIVATED]));
+        m_xmlSettings.SetEventVoiceDeactivated(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_VOICEDEACTIVATED]));
+        m_xmlSettings.SetEventEnableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ENABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_DISABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventMeEnableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_ENABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventMeDisableVoiceActivation(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_ME_DISABLE_VOICEACTIVATION]));
+        m_xmlSettings.SetEventTransmitQueueHead(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_HEAD]));
+        m_xmlSettings.SetEventTransmitQueueStop(STR_UTF8(eventspage.m_SoundFiles[SOUNDEVENT_TRANSMITQUEUE_STOP]));
 
         ///////////////////////////////////////
         // write settings for Text to speech
@@ -3730,7 +3771,8 @@ void CTeamTalkDlg::OnUpdateMeEnablevoiceactivation(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnMeEnablevoiceactivation()
 {
     BOOL bCurState = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED);
-    EnableVoiceActivation(!bCurState);
+    EnableVoiceActivation(!bCurState, SOUNDEVENT_ME_ENABLE_VOICEACTIVATION,
+                          SOUNDEVENT_ME_DISABLE_VOICEACTIVATION);
     m_xmlSettings.SetVoiceActivated((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
     m_wndTree.SetUserTalking(TT_GetMyUserID(ttInst), IsMyselfTalking());
 }
@@ -4480,17 +4522,17 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                     m_host.nUdpPort, m_host.bEncrypted);
         break;
     case TIMER_HTTPREQUEST_UPDATE_ID :
-        ASSERT(m_pHttpUpdate);
-        if(!m_pHttpUpdate)
+        ASSERT(m_httpUpdate.get());
+        if(!m_httpUpdate.get())
         {
             KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
             break;
         }
-        if(m_pHttpUpdate->SendReady())
-            m_pHttpUpdate->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
-        else if(m_pHttpUpdate->ResponseReady())
+        if(m_httpUpdate->SendReady())
+            m_httpUpdate->Send(_T("<") _T( TT_XML_ROOTNAME ) _T("/>"));
+        else if(m_httpUpdate->ResponseReady())
         {
-            CString szResponse = m_pHttpUpdate->GetResponse();
+            CString szResponse = m_httpUpdate->GetResponse();
             string xml = STR_UTF8(szResponse, szResponse.GetLength()*4);
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
@@ -4506,15 +4548,13 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
 
             KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
             KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-            delete m_pHttpUpdate;
-            m_pHttpUpdate = NULL;
+            m_httpUpdate.reset();
         }
         break;
     case TIMER_HTTPREQUEST_TIMEOUT_ID :
         KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
         KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
-        delete m_pHttpUpdate;
-        m_pHttpUpdate = NULL;
+        m_httpUpdate.reset();
         break;
     case TIMER_DESKTOPSHARE_ID :
         if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
@@ -4533,6 +4573,9 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
         }
         else
             m_bSendDesktopOnCompletion = TRUE;
+        break;
+    case TIMER_APPUPDATE_ID :
+        RunAppUpdate();
         break;
     }
 }
@@ -5930,6 +5973,91 @@ void CTeamTalkDlg::ToggleClassroom(int nUserID, StreamTypes uStreamTypes)
     }
 
     TT_DoUpdateChannel(ttInst, &chan);
+}
+
+void CTeamTalkDlg::PlaySoundEvent(SoundEvent event)
+{
+    SoundEvents events = m_xmlSettings.GetEventSoundsEnabled(SOUNDEVENT_ALL);
+    CString szFilename;
+    switch(events & event)
+    {
+    case SOUNDEVENT_USER_JOIN :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewUser());
+        break;
+    case SOUNDEVENT_USER_LEFT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventRemovedUser());
+        break;
+    case SOUNDEVENT_USER_TEXTMSG :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventNewMessage());
+        break;
+    case SOUNDEVENT_USER_CHANNEL_TEXTMSG :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelMsg());
+        break;
+    case SOUNDEVENT_USER_QUESTIONMODE :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventQuestionMode());
+        break;
+    case SOUNDEVENT_USER_DESKTOP_ACCESS :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDesktopAccessReq());
+        break;
+    case SOUNDEVENT_USER_VIDEOSESSION_NEW :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVideoSession());
+        break;
+    case SOUNDEVENT_USER_DESKTOPSESSION_NEW :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDesktopSession());
+        break;
+    case SOUNDEVENT_CONNECTION_LOST :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventServerLost());
+        break;
+    case SOUNDEVENT_PUSHTOTALK :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventHotKey());
+        break;
+    case SOUNDEVENT_FILES_UPDATED :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventFilesUpd());
+        break;
+    case SOUNDEVENT_FILETX_COMPLETE :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransferEnd());
+        break;
+    case SOUNDEVENT_CHANNEL_SILENT :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventChannelSilent());
+        break;
+    case SOUNDEVENT_VOICEACTIVATED :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVoiceActivated());
+        break;
+    case SOUNDEVENT_VOICEDEACTIVATED :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventVoiceDeactivated());
+        break;
+    case SOUNDEVENT_ENABLE_VOICEACTIVATION:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventEnableVoiceActivation());
+        break;
+    case SOUNDEVENT_DISABLE_VOICEACTIVATION:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventDisableVoiceActivation());
+        break;
+    case SOUNDEVENT_ME_ENABLE_VOICEACTIVATION:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventMeEnableVoiceActivation());
+        break;
+    case SOUNDEVENT_ME_DISABLE_VOICEACTIVATION:
+        szFilename = STR_UTF8(m_xmlSettings.GetEventMeDisableVoiceActivation());
+        break;
+    case SOUNDEVENT_TRANSMITQUEUE_HEAD :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransmitQueueHead());
+        break;
+    case SOUNDEVENT_TRANSMITQUEUE_STOP :
+        szFilename = STR_UTF8(m_xmlSettings.GetEventTransmitQueueStop());
+        break;
+    }
+
+    if(szFilename.GetLength())
+        m_pPlaySndThread->AddSoundEvent(szFilename);
+}
+
+void CTeamTalkDlg::RunAppUpdate()
+{
+    if(m_xmlSettings.GetCheckApplicationUpdates())
+    {
+        m_httpUpdate.reset(new CHttpRequest(URL_APPUPDATE));
+        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
+        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowvoicetransmission(CCmdUI *pCmdUI)

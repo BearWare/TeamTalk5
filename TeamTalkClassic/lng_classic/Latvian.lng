@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">At&amp;vienoties\tF2</item>
     <item id="105"></item>
@@ -34,6 +34,15 @@
     <item id="247">Kāda ir man IP-adrese?</item>
     <item id="249">Pogu kombinācijas</item>
     <item id="254">Saīsnes</item>
+    <item id="268">Jauns lietotājs</item>
+    <item id="269">Lietotājs aizvākts</item>
+    <item id="270">Jauna ziņa</item>
+    <item id="271">Kanāla ziņa</item>
+    <item id="276">Serveris pazaudēts</item>
+    <item id="277">Karstpoga nospiesta</item>
+    <item id="278">Datne atjaunota</item>
+    <item id="279">Pārsūtīšana pabeigta</item>
+    <item id="280">Pārtrauca runāt</item>
     <item id="1008">Vienmēr pārsūtīt caur serveri</item>
     <item id="1009">Savienojoties pievienoties galvenajam kanālam</item>
     <item id="1011">Servera opcijas</item>
@@ -111,15 +120,8 @@
     <item id="1170">Lokālais UDP ports</item>
     <item id="1172">MOTD</item>
     <item id="1173">Jauns lietotājs</item>
-    <item id="1174">Jauns lietotājs</item>
     <item id="1175">Pārbaudīt</item>
-    <item id="1176">Lietotājs aizvākts</item>
-    <item id="1177">Serveris pazaudēts</item>
-    <item id="1178">Jauna ziņa</item>
-    <item id="1180">Karstpoga nospiesta</item>
     <item id="1181">Iespējot pagaidu miksera ievadierīci, kad nospiesta karstpoga</item>
-    <item id="1182">Kanāla ziņa</item>
-    <item id="1184">Pārtrauca runāt</item>
     <item id="1185">Atlīdzināt par mikrafona pastiprinājuma kļūdu</item>
     <item id="1186">Notikumu skaņas</item>
     <item id="1187">Atceries, ka labāka kodēšanas kvalitāte prasīs vairāk tīkla un procesora resursus.</item>
@@ -165,8 +167,6 @@
     <item id="1268">Palielināt balss ienākumu</item>
     <item id="1277">Pazemināt balss ienākumu</item>
     <item id="1278">Klaviatūras saīsnes</item>
-    <item id="1279">Datne atjaunota</item>
-    <item id="1280">Pārsūtīšana pabeigta</item>
     <item id="32791">Kāda ir mana IP-adrese?</item>
     <item id="32792">Salabots &amp;atskaņošanas temps\tCtrl+Shift+P</item>
     <item id="32794">Uzstādīt izlīdzinošo &amp;aizkavi\tCtrl+Shift+D</item>

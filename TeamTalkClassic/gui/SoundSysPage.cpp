@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -141,14 +141,24 @@ void CSoundSysPage::OnBnClickedRadioWasapi()
 void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
 {
     m_OutputDriversCombo.ResetContent();
+    BOOL bFoundNoDev = FALSE;
     sounddevs_t::const_iterator ii = m_SoundDevices.begin();
     for(;ii != m_SoundDevices.end();ii++)
     {
+        bFoundNoDev |= ii->second.nDeviceID == TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
         if(ii->second.nSoundSystem != nSoundSystem ||
            ii->second.nMaxOutputChannels == 0)
             continue;
         int index = m_OutputDriversCombo.AddString(ii->second.szDeviceName);
         m_OutputDriversCombo.SetItemData(index, ii->second.nDeviceID);
+    }
+
+    CString szNoDev = _T("No Sound Device");
+    TRANSLATE_ITEM(IDS_NOSOUNDDEVICE, szNoDev);
+    if(bFoundNoDev)
+    {
+        int index = m_OutputDriversCombo.AddString(szNoDev);
+        m_OutputDriversCombo.SetItemData(index, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
     }
 
     bool bFound = false;
@@ -189,6 +199,12 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
         m_InputDriversCombo.SetItemData(index, ii->second.nDeviceID);
     }
 
+    if(bFoundNoDev)
+    {
+        int index = m_InputDriversCombo.AddString(szNoDev);
+        m_InputDriversCombo.SetItemData(index, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
+    }
+
     bFound = false;
     for(int i=0;i<m_InputDriversCombo.GetCount() && m_szInputDeviceID.GetLength() && !bFound;++i)
     {
@@ -224,14 +240,22 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
 void CSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
     m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
-    m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
+    if(m_SoundDevices.find(m_nInputDevice) != m_SoundDevices.end())
+        m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
+    else
+        m_szInputDeviceID.Empty();
+
     UpdateSoundControls();
 }
 
 void CSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
     m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
-    m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
+    if(m_SoundDevices.find(m_nOutputDevice) != m_SoundDevices.end())
+        m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
+    else
+        m_szOutputDeviceID.Empty();
+
     UpdateSoundControls();
 }
 
@@ -361,8 +385,10 @@ void CSoundSysPage::RefreshSoundDevices()
 
     sounddevs_t::const_iterator ii = m_SoundDevices.find(m_nOutputDevice);
     if(ii != m_SoundDevices.end())
-        ShowDrivers(ii->second.nSoundSystem);
-
+    {
+        ShowDrivers(ii->second.nSoundSystem != SOUNDSYSTEM_NONE?
+            ii->second.nSoundSystem : SOUNDSYSTEM_WASAPI);
+    }
     UpdateSoundControls();
 }
 

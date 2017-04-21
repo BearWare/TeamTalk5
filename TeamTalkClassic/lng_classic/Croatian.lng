@@ -54,6 +54,19 @@
     <item id="251">Pozicioniraj učesnike podržano samo na 3d zvučnim karticama</item>
     <item id="254">prečaci</item>
     <item id="256">banirani korisnici</item>
+    <item id="268">Novi korisnik</item>
+    <item id="269">Korisnik je uklonjen</item>
+    <item id="270">Nova poruka</item>
+    <item id="271">poruka kanala</item>
+    <item id="272">način pitanja</item>
+    <item id="273">zahtjev pristupa radne površine</item>
+    <item id="274">nova video sesija</item>
+    <item id="275">nova sesija radne površine</item>
+    <item id="276">izgubljena veza sa serverom</item>
+    <item id="277">Kombinacija tipaka je pritisnuta</item>
+    <item id="278">Datoteke su osvježene</item>
+    <item id="279">Transfer završen</item>
+    <item id="280">prestao je pričati</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1011">svojstva hosta</item>
     <item id="1012">TCP port hosta</item>
@@ -137,15 +150,8 @@
     <item id="1169">&amp;Novo</item>
     <item id="1170">&amp;Generiraj datoteku.tt</item>
     <item id="1172">Poruka Dana</item>
-    <item id="1174">Novi korisnik</item>
     <item id="1175">Testiraj označeno</item>
-    <item id="1176">Korisnik je uklonjen</item>
-    <item id="1177">izgubljena veza sa serverom</item>
-    <item id="1178">Nova poruka</item>
-    <item id="1180">Kombinacija tipaka je pritisnuta</item>
     <item id="1181">Ukljući privremeni mješač pri pritisku tipke</item>
-    <item id="1182">poruka kanala</item>
-    <item id="1184">prestao je pričati</item>
     <item id="1185">Nadomjesti grešku mikrofonskog pojačanja</item>
     <item id="1186">Zvukovi</item>
     <item id="1188">brzina uzorkovanja snimača</item>
@@ -165,7 +171,7 @@
     <item id="1209">Teamtalk podržava dva načina prijenosa zvuka drugim korisnicima pritisak tipke (pritisni i govori ili aktivacija glasom</item>
     <item id="1211">postavke sustava zvuka</item>
     <item id="1212">nema označenog fonta</item>
-    <item id="1213">Ovdje odabirete uređaje zvuka  koje teamtalk treba koristiti za snimanje i reprodukciju zvuka odabir izravnog zvuka je jako preporučljivo zato što daje manje kašnjenje na izlazu od windows podrazumjevanog zvučnog sustava</item>
+    <item id="1213">Ovdje odabirete uređaje zvuka koje teamtalk treba koristiti za snimanje i reprodukciju zvuka odabir izravnog zvuka je jako preporučljivo zato što daje manje kašnjenje na izlazu od windows podrazumjevanog zvučnog sustava</item>
     <item id="1215">Kada pritisnete testiraj označeno, možete testirati trenutno odabrane uređaje i čuti rade li uređaji ispravno</item>
     <item id="1217">korisnici mogu stvarati kanale</item>
     <item id="1218">korisnici mogu stvarati / modificirati sve kanale</item>
@@ -194,8 +200,6 @@
     <item id="1276">&amp;Postavi tipkovnički prečac</item>
     <item id="1277">Niska glasnoča glasa</item>
     <item id="1278">Tipkovnički prečaci</item>
-    <item id="1279">Datoteke su osvježene</item>
-    <item id="1280">Transfer završen</item>
     <item id="1284">&amp;Otvori</item>
     <item id="1287">&amp;lozinka operatora</item>
     <item id="1292">Postavke Poslužitelja</item>
@@ -299,9 +303,6 @@
     <item id="1452">dostupni kanali</item>
     <item id="1453">auto operatorski kanali</item>
     <item id="1456">omogući poništavanje jeke /ukloni jeku iz zvučnika</item>
-    <item id="1457">nova video sesija</item>
-    <item id="1458">nova sesija radne površine</item>
-    <item id="1459">način pitanja</item>
     <item id="1460">operator prima podatke samo od operatora vidi i slušaj</item>
     <item id="1463">brzina uzorkovanja izlaza</item>
     <item id="1464">brzina uzorkovanja ulaza</item>
@@ -314,7 +315,6 @@
     <item id="1476">format video</item>
     <item id="1477">svojstva multimedijalne datoteke</item>
     <item id="1478">datoteka multimedijalna tx max</item>
-    <item id="1479">zahtjev pristupa radne površine</item>
     <item id="1480">KBytes/sec (0 = onemogućeno)</item>
     <item id="1481">zadani korisnik</item>
     <item id="1482">Korisnik može dobiti pristup sesijama udaljene radne površine</item>

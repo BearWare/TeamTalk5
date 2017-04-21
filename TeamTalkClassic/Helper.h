@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -70,7 +70,8 @@ int GetWindowNumber(CWnd& wnd);
 void AddString(CComboBox& wnd, LPCTSTR szText, DWORD_PTR nItemData);
 int GetItemData(CComboBox& wnd, BOOL* pError = NULL);
 void SetCurSelItemData(CComboBox& wnd, DWORD_PTR nItemData);
-void PlayWaveFile(LPCTSTR szFilePath);
+HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData);
+void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
 void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);

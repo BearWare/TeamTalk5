@@ -1,0 +1,56 @@
+/** @mainpage
+ *
+ * @image html bearware.gif
+ *
+ * @section intro Introduction
+ *
+ * The TeamTalk SDK enables developers to quickly develop applications
+ * with instant messaging, voice over IP (VoIP), desktop sharing and
+ * video capturing capabilities. Examples of such applications could
+ * be Internet phones, conferencing tools, surveillance systems,
+ * e-Learning systems, or any other type of application where audio
+ * and video transmission between networked clients is an essential
+ * part of the application.
+ *
+ * The fastest way to get an overview of the features available in the
+ * TeamTalk SDK is to download the TeamTalk application from the
+ * http://www.bearware.dk website. The TeamTalk application uses the
+ * C-API DLL which is included with this SDK. On the website is also
+ * listed public TeamTalk servers which can be used freely for testing
+ * the application.
+ *
+ * To quickly get started developing your own TeamTalk client
+ * application please read the @ref stepbystep or simply try out the
+ * @ref examples included with the SDK.
+ *
+ * @section github TeamTalk 5 on GitHub
+ *
+ * To get the latest samples and source code check out TeamTalk 5 SDK
+ * on GitHub: https://github.com/BearWare/TeamTalk5
+ *
+ * @section support Support and Feedback
+ *
+ * If at any time you have questions regarding the use of the SDK
+ * you're always welcome to send an email to <a
+ * href="mailto:contact@bearware.dk?subject=TeamTalk SDK
+ * question">contact@bearware.dk</a>. On the <a
+ * href="http://www.bearware.dk">BearWare.dk</a> website there's also
+ * a <a href="http://www.bearware.dk/phorum">forum</a> where you can
+ * ask questions.
+ *
+ * If you need a specific feature added to the SDK to support your
+ * application please email <a
+ * href="mailto:contact@bearware.dk?subject=TeamTalk SDK
+ * question">contact@bearware.dk</a> to get a time and cost estimate
+ * of implementing the feature.
+ *
+ * Note that the DLLs in TeamTalk SDK are trials which will expire
+ * after 30 days. To use the DLLs in an end-user application you must
+ * purchase a license. Read the @ref license section for information
+ * on how to obtain a license.
+ *
+ * Read the @ref changelog to see what has changed since the last
+ * release.
+ *
+ * Copyright (C) 2006-2017, <a href="http://www.bearware.dk">BearWare.dk</a>. All rights reserved.
+ */

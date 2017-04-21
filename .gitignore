@@ -1,10 +1,4 @@
 ./*.sln
 ./*.bat
-UnitTest/*.testsettings
-UnitTest/*.vsmdi
-UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/project.xcworkspace
-UnitTest/TeamTalkXCTest/TeamTalkTest.xcodeproj/xcuserdata
-qtTeamTalk/license.h
-TeamTalkAndroid/src/dk/bearware/data/License.java
-TeamTalkClassic/License.h
 TAGS
+teamtalkd

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,10 +32,10 @@ namespace TeamTalkApp.NET
 {
     public partial class MediaFileDlg : Form
     {
-        private TeamTalk ttclient;
+        private TeamTalkBase ttclient;
         MediaFileInfo info;
 
-        public MediaFileDlg(TeamTalk ttclient)
+        public MediaFileDlg(TeamTalkBase ttclient)
         {
             this.ttclient = ttclient;
             InitializeComponent();
@@ -52,7 +52,7 @@ namespace TeamTalkApp.NET
 
             textBox1.Text = openFileDialog1.FileName;
 
-            if (TeamTalk.GetMediaFileInfo(openFileDialog1.FileName, ref info))
+            if (TeamTalkBase.GetMediaFileInfo(openFileDialog1.FileName, ref info))
             {
                 if (info.audioFmt.nAudioFmt != AudioFileFormat.AFF_NONE)
                     audioLabel.Text = String.Format("{0} Hz, {1}", info.audioFmt.nSampleRate,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -214,7 +214,7 @@ void PreferencesDlg::initDevices()
         for(int i=0;i<m_sounddevices.size();i++)
         {
             int deviceid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE,
-                                             SOUNDDEVICEID_NODEVICE).toInt();
+                                             TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
             QString uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
             if(m_sounddevices[i].nDeviceID == deviceid &&
                _Q(m_sounddevices[i].szDeviceID) == uid)
@@ -303,15 +303,17 @@ void PreferencesDlg::showDevices(SoundSystem snd)
         default_inputid = SOUNDDEVICEID_DEFAULT;
     }
 
+    bool add_no_device = false;
     for(int i=0;i<m_sounddevices.size();i++)
     {
+        add_no_device |= m_sounddevices[i].nDeviceID == TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
+
         if(m_sounddevices[i].nSoundSystem != snd ||
            m_sounddevices[i].nMaxInputChannels == 0)
             continue;
         ui.inputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName),
                                 m_sounddevices[i].nDeviceID);
     }
-    ui.inputdevBox->addItem("", SOUNDDEVICEID_NODEVICE);
 
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, default_inputid).toInt();
@@ -338,7 +340,12 @@ void PreferencesDlg::showDevices(SoundSystem snd)
         ui.outputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName), 
                                  m_sounddevices[i].nDeviceID);
     }
-    ui.outputdevBox->addItem("", SOUNDDEVICEID_NODEVICE);
+
+    if(add_no_device)
+    {
+        ui.inputdevBox->addItem(tr("No Sound Device"), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
+        ui.outputdevBox->addItem(tr("No Sound Device"), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
+    }
 
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, default_outputid).toInt();
@@ -353,7 +360,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
 void PreferencesDlg::slotUpdateSoundCheckBoxes()
 {
-    int inputid = SOUNDDEVICEID_NODEVICE, outputid = SOUNDDEVICEID_NODEVICE;
+    int inputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, outputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
     if(ui.inputdevBox->count())
         inputid = ui.inputdevBox->itemData(ui.inputdevBox->currentIndex()).toInt();
     if(ui.outputdevBox->count())
@@ -712,13 +719,13 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(SOUND_TAB) != m_modtab.end())
     {
-        int inputid = SOUNDDEVICEID_NODEVICE, outputid = SOUNDDEVICEID_NODEVICE;
+        int inputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, outputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
         if(ui.inputdevBox->count())
             inputid = ui.inputdevBox->itemData(ui.inputdevBox->currentIndex()).toInt();
         if(ui.outputdevBox->count())
             outputid = ui.outputdevBox->itemData(ui.outputdevBox->currentIndex()).toInt();
 
-        int def_inputid = SOUNDDEVICEID_NODEVICE, def_outputid = SOUNDDEVICEID_NODEVICE;
+        int def_inputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, def_outputid = TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
         TT_GetDefaultSoundDevicesEx(getSoundSystem(), &def_inputid, &def_outputid);
         TT_CloseSoundLoopbackTest(m_sndloop);
 
@@ -760,29 +767,23 @@ void PreferencesDlg::slotSaveChanges()
                 prev_duplex)
             {
                 TT_CloseSoundInputDevice(ttInst);
-                if(inputid != SOUNDDEVICEID_NODEVICE)
-                {
-                    int tmp_inputid = inputid;
-                    if(inputid == SOUNDDEVICEID_DEFAULT)
-                        tmp_inputid = def_inputid;
-                    if(!TT_InitSoundInputDevice(ttInst, tmp_inputid))
-                        QMessageBox::critical(this, tr("Sound Initialization"),
-                        tr("Failed to initialize new sound input device"));
-                }
+                int tmp_inputid = inputid;
+                if(inputid == SOUNDDEVICEID_DEFAULT)
+                    tmp_inputid = def_inputid;
+                if(!TT_InitSoundInputDevice(ttInst, tmp_inputid))
+                    QMessageBox::critical(this, tr("Sound Initialization"),
+                                          tr("Failed to initialize new sound input device"));
             }
             if(ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE).toInt() != outputid ||
                 prev_duplex)
             {
                 TT_CloseSoundOutputDevice(ttInst);
-                if(outputid != SOUNDDEVICEID_NODEVICE)
-                {
-                    int tmp_outputid = outputid;
-                    if(outputid == SOUNDDEVICEID_DEFAULT)
-                        tmp_outputid = def_outputid;
-                    if(!TT_InitSoundOutputDevice(ttInst, tmp_outputid))
-                        QMessageBox::critical(this, tr("Sound Initialization"),
-                        tr("Failed to initialize new sound output device"));
-                }
+                int tmp_outputid = outputid;
+                if(outputid == SOUNDDEVICEID_DEFAULT)
+                    tmp_outputid = def_outputid;
+                if(!TT_InitSoundOutputDevice(ttInst, tmp_outputid))
+                    QMessageBox::critical(this, tr("Sound Initialization"),
+                                          tr("Failed to initialize new sound output device"));
             }
         }
 
@@ -1068,10 +1069,8 @@ void PreferencesDlg::slotSoundRestart()
             success = (bool)TT_InitSoundDuplexDevices(ttInst, inputid, outputid);
         else
         {
-            if(inputid != SOUNDDEVICEID_NODEVICE)
-                success &= (bool)TT_InitSoundInputDevice(ttInst, inputid);
-            if(outputid != SOUNDDEVICEID_NODEVICE)
-                success &= (bool)TT_InitSoundOutputDevice(ttInst, outputid);
+            success &= (bool)TT_InitSoundInputDevice(ttInst, inputid);
+            success &= (bool)TT_InitSoundOutputDevice(ttInst, outputid);
         }
     }
     

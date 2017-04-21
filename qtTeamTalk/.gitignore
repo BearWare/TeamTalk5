@@ -1,0 +1,11 @@
+.qmake.stash
+Makefile
+TeamTalk5.app
+TeamTalk5Pro.app
+build
+license.h
+*.vcxproj*
+*_plugin_import.cpp
+uic_wrapper.bat
+debug
+release

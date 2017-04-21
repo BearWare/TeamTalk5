@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -26,7 +26,7 @@
 #include <assert.h>
 #include <iostream>
 #include <vector>
-
+#include <algorithm>
 using namespace std;
 
 #include <jni.h>

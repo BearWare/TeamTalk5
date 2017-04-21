@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -49,12 +49,12 @@ namespace TeamTalkApp.NET
 
     public partial class PreferencesDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         Settings settings;
         VideoCaptureDevice[] videodevs;
         IntPtr soundloop;
 
-        public PreferencesDlg(TeamTalk tt, Settings settings)
+        public PreferencesDlg(TeamTalkBase tt, Settings settings)
         {
             ttclient = tt;
             this.settings = settings;
@@ -79,7 +79,7 @@ namespace TeamTalkApp.NET
             sndoutputComboBox.Items.Clear();
 
             SoundDevice[] devs;
-            TeamTalk.GetSoundDevices(out devs);
+            TeamTalkBase.GetSoundDevices(out devs);
 
             SoundSystem soundsystem = SoundSystem.SOUNDSYSTEM_WASAPI;
             if (dsoundRadioButton.Checked)
@@ -143,7 +143,7 @@ namespace TeamTalkApp.NET
             int outputid = ((ItemData)sndoutputComboBox.SelectedItem).id;
             
             SoundDevice[] devs;
-            TeamTalk.GetSoundDevices(out devs);
+            TeamTalkBase.GetSoundDevices(out devs);
 
             int in_samplerate = 0, out_samplerate = 0;
             foreach (SoundDevice dev in devs)
@@ -173,7 +173,7 @@ namespace TeamTalkApp.NET
                 //Extract input device and get its default samplerate.
                 //WASAPI devices only support one sample rate so it's important to use the correct one.
                 SoundDevice[] devs;
-                TeamTalk.GetSoundDevices(out devs);
+                TeamTalkBase.GetSoundDevices(out devs);
 
                 int in_samplerate = 0;
                 foreach (SoundDevice dev in devs)
@@ -186,7 +186,7 @@ namespace TeamTalkApp.NET
                 spxdsp.bEnableAGC = true;
                 spxdsp.bEnableDenoise = true;
                 spxdsp.bEnableEchoCancellation = echocancelCheckBox.Checked;
-                soundloop = TeamTalk.StartSoundLoopbackTest(input.id, output.id, in_samplerate, 1, duplexCheckBox.Checked, spxdsp);
+                soundloop = TeamTalkBase.StartSoundLoopbackTest(input.id, output.id, in_samplerate, 1, duplexCheckBox.Checked, spxdsp);
                 if (soundloop == IntPtr.Zero)
                 {
                     MessageBox.Show("Failed to test selected device");
@@ -194,17 +194,17 @@ namespace TeamTalkApp.NET
                 }
             }
             else
-                TeamTalk.CloseSoundLoopbackTest(soundloop);
+                TeamTalkBase.CloseSoundLoopbackTest(soundloop);
         }
 
         private void PreferencesDlg_FormClosing(object sender, FormClosingEventArgs e)
         {
-            TeamTalk.CloseSoundLoopbackTest(soundloop);
+            TeamTalkBase.CloseSoundLoopbackTest(soundloop);
         }
 
         private void UpdateVideoCaptureDevices()
         {
-            if (!TeamTalk.GetVideoCaptureDevices(out videodevs) || videodevs.Length == 0)
+            if (!TeamTalkBase.GetVideoCaptureDevices(out videodevs) || videodevs.Length == 0)
                 return;
 
             foreach (VideoCaptureDevice dev in videodevs)

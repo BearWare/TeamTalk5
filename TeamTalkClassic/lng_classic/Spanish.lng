@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Des&amp;conectar\tF2</item>
     <item id="107">&amp;Conectar\tF2</item>
@@ -8,10 +8,6 @@
     <item id="111">Actualizar el canal existente</item>
     <item id="112">Sí</item>
     <item id="113">No</item>
-    <item id="215">General</item>
-    <item id="220">Avanzado</item>
-    <item id="223">Eventos de sonido</item>
-    <item id="224">Sistema de sonido</item>
     <item id="122">El dispositivo de salida soporta sonido 3D</item>
     <item id="123">El dispositivo de salida no soporta sonido 3D</item>
     <item id="124">Probar seleccionado</item>
@@ -21,12 +17,10 @@
     <item id="129">A&amp;yuda</item>
     <item id="130">Nuevo sobrenombre</item>
     <item id="131">Cambiar sobrenombre</item>
-    <item id="254">Atajos</item>
     <item id="134">Archivos</item>
     <item id="135">Chat</item>
     <item id="140">Propiedades del servidor</item>
     <item id="141">Cuentas de usuario</item>
-    <item id="148">Captura de video</item>
     <item id="144">Diálogo Mover usuario</item>
     <item id="145">Estadísticas del servidor</item>
     <item id="146">Usuarios en línea</item>
@@ -36,12 +30,29 @@
     <item id="151">Transmitir archivo multimedia en el canal</item>
     <item id="201">Mensajes</item>
     <item id="205">Cambiar estado</item>
+    <item id="215">General</item>
+    <item id="220">Avanzado</item>
+    <item id="223">Eventos de sonido</item>
+    <item id="224">Sistema de sonido</item>
     <item id="227">Información del usuario</item>
     <item id="243">Administrador de servidores</item>
     <item id="247">¿Cuál es mi dirección IP?</item>
     <item id="249">Combinación de teclas</item>
     <item id="251">Posicionar participantes (tarjetas de sonido 3D)</item>
+    <item id="254">Atajos</item>
     <item id="256">Usuarios bloqueados</item>
+    <item id="268">Nuevo Usuario</item>
+    <item id="269">Usuario retirado</item>
+    <item id="270">Nuevo mensaje</item>
+    <item id="271">Mensaje del canal</item>
+    <item id="272">Modo de preguntas</item>
+    <item id="274">Nueva sesión de video</item>
+    <item id="275">Nueva sesión de escritorio</item>
+    <item id="276">Servidor perdido</item>
+    <item id="277">Tecla rápida presionada</item>
+    <item id="278">Archivos actualizados</item>
+    <item id="279">Transferencia completa</item>
+    <item id="280">Dejó de hablar</item>
     <item id="1009">Unirse al canal raíz automáticamente al conectarse</item>
     <item id="1011">Propiedades del host</item>
     <item id="1012">Puerto TCP del host</item>
@@ -113,15 +124,8 @@
     <item id="1169">&amp;Nuevo</item>
     <item id="1170">&amp;Generar archivo .tt</item>
     <item id="1172">MDD</item>
-    <item id="1174">Nuevo Usuario</item>
     <item id="1175">Probar seleccionado</item>
-    <item id="1176">Usuario retirado</item>
-    <item id="1177">Servidor perdido</item>
-    <item id="1178">Nuevo mensaje</item>
-    <item id="1180">Tecla rápida presionada</item>
     <item id="1181">Activar dispositivo de entrada temporal del mezclador al presionar la tecla rápida</item>
-    <item id="1182">Mensaje del canal</item>
-    <item id="1184">Dejó de hablar</item>
     <item id="1185">Compensar por problema de potencia del micrófono</item>
     <item id="1186">Eventos de sonido</item>
     <item id="1189">Dispositivo de entrada</item>
@@ -149,7 +153,7 @@
     <item id="1231">&amp;Enviar</item>
     <item id="1236">Bienvenido al asistente de instalación de TeamTalk 4</item>
     <item id="1237">Asistente de instalación de TeamTalk 4 completado</item>
-    <item id="1240">Traducido por Antonio Tutusaus Fernandez  Fernando Gregoire</item>
+    <item id="1240">Traducido por Antonio Tutusaus Fernandez Fernando Gregoire</item>
     <item id="1241">Idioma de interfaz de usuario</item>
     <item id="1243">Dispositivo de mezcla</item>
     <item id="1245">Usar otro idioma de instalación</item>
@@ -168,8 +172,6 @@
     <item id="1276">&amp;Configurar teclas</item>
     <item id="1277">Bajar ganancia de voz</item>
     <item id="1278">Atajos de teclado</item>
-    <item id="1279">Archivos actualizados</item>
-    <item id="1280">Transferencia completa</item>
     <item id="1284">&amp;Abrir</item>
     <item id="1287">Clave de acceso del operador</item>
     <item id="1292">Configuración del servidor</item>
@@ -266,9 +268,6 @@
     <item id="1452">Canales disponibles</item>
     <item id="1453">Canales auto-operados</item>
     <item id="1456">Activar cancelación de eco (quita el eco de los altavoces)</item>
-    <item id="1457">Nueva sesión de video</item>
-    <item id="1458">Nueva sesión de escritorio</item>
-    <item id="1459">Modo de preguntas</item>
     <item id="1460">Sólo reciben operadores (sólo ven y escuchan los operadores)</item>
     <item id="1463">Índices de muestreo de salida</item>
     <item id="1464">Índices de muestreo de entrada</item>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk häälestuseabiline</item>
     <item id="104">Katkesta &amp;ühendus\tF2</item>
@@ -70,6 +70,19 @@
     <item id="251">Osaliste asukoht(3D helikaardid)</item>
     <item id="254">Otseteed</item>
     <item id="256">Blokeeritud kasutajad</item>
+    <item id="268">Uus kasutaja</item>
+    <item id="269">Kasutaja eemaldatud</item>
+    <item id="270">Uus sõnum</item>
+    <item id="271">Kanali sõnum</item>
+    <item id="272">Küsimuste režiim</item>
+    <item id="273">Töölaua ligipääsu taotlus</item>
+    <item id="274">Uus videosessioon</item>
+    <item id="275">Uus töölauasessioon</item>
+    <item id="276">Server kadunud</item>
+    <item id="277">Kiirklahv vajutatud</item>
+    <item id="278">Failid uuendatud</item>
+    <item id="279">Ülekanne valmis</item>
+    <item id="280">Lõpetas rääkimise</item>
     <item id="1009">Peale ühendamist autoliitu juurkanaliga</item>
     <item id="1011">Hosti atribuudid</item>
     <item id="1012">Hosti TCP port</item>
@@ -87,7 +100,7 @@
     <item id="1030">&amp;Ühenda</item>
     <item id="1035">Kasutaja ID</item>
     <item id="1036">Hüüdnimi</item>
-    <item id="1042">See abiline juhatab sind läbi sammude, mis on vajalikud TeamTalk konverentsi rakenduse häälestamiseks. Vajuta nuppu &quot;Järgmine&quot;, et läbida abiline ja teha need vajalikud sammmud. Kui vajutad  nuppu &quot;Tühista&quot;, pead häälestama TeamTalki käsitsi.</item>
+    <item id="1042">See abiline juhatab sind läbi sammude, mis on vajalikud TeamTalk konverentsi rakenduse häälestamiseks. Vajuta nuppu &quot;Järgmine&quot;, et läbida abiline ja teha need vajalikud sammmud. Kui vajutad nuppu &quot;Tühista&quot;, pead häälestama TeamTalki käsitsi.</item>
     <item id="1044">Vaata lehele www.bearware.dk, et leida TeamTalk servereid</item>
     <item id="1045">Pakettide kadu</item>
     <item id="1047">Faili suurus:</item>
@@ -121,7 +134,7 @@
     <item id="1101">Vaikimisi: 10333</item>
     <item id="1102">Käivitumisel autoühendu viimase serveriga</item>
     <item id="1104">Määra kiirklahv</item>
-    <item id="1106">Hoia all klahvide kombinatsioon, mida tahad kiirklahvina kasutada.  Koos muude klahvidega võib kasutada ka muuteklahve nagu Shift, Ctrl ja Alt .</item>
+    <item id="1106">Hoia all klahvide kombinatsioon, mida tahad kiirklahvina kasutada. Koos muude klahvidega võib kasutada ka muuteklahve nagu Shift, Ctrl ja Alt .</item>
     <item id="1108">Hetke klahvikombinatsioon</item>
     <item id="1109">On&amp;line</item>
     <item id="1111">See dialoog sulgub, kui oled kõik klahvid vabastanud.</item>
@@ -140,12 +153,12 @@
     <item id="1150">Käivitu minimeeritult</item>
     <item id="1151">Kohalikud pordid</item>
     <item id="1152">Meediafaili video freimide kadu</item>
-    <item id="1153">Kohalik  TCP port</item>
+    <item id="1153">Kohalik TCP port</item>
     <item id="1155">Vaikimisi: 0 (TCP)</item>
     <item id="1157">Kasutaja seaded</item>
     <item id="1158">Hääle edastamisrežiim</item>
     <item id="1160">sek. passiivsust (0=keelatud)</item>
-    <item id="1162">Määra olek eemal peale </item>
+    <item id="1162">Määra olek eemal peale</item>
     <item id="1163">Serveri nimi</item>
     <item id="1164">&amp;Kustuta</item>
     <item id="1165">Serveri salasõna</item>
@@ -154,22 +167,15 @@
     <item id="1169">&amp;Uus</item>
     <item id="1170">&amp;Genereeri .tt fail</item>
     <item id="1172">p.sõnum</item>
-    <item id="1174">Uus kasutaja</item>
     <item id="1175">Testi valitut</item>
-    <item id="1176">Kasutaja eemaldatud</item>
-    <item id="1177">Server kadunud</item>
-    <item id="1178">Uus sõnum</item>
-    <item id="1180">Kiirklahv vajutatud</item>
     <item id="1181">Luba ajutine mikseri sisendseade, kui vajutatakse kiirklahvi</item>
-    <item id="1182">Kanali sõnum</item>
-    <item id="1184">Lõpetas rääkimise</item>
     <item id="1185">Kompenseeri mikrofoni võimendamise bugi</item>
     <item id="1186">Helisündmus</item>
     <item id="1188">Salvestaja sämplimiskiirus</item>
     <item id="1189">Sisendseade</item>
     <item id="1190">Hääle kvaliteet</item>
     <item id="1191">Väljundseade</item>
-    <item id="1193">Luba  müravähendus</item>
+    <item id="1193">Luba müravähendus</item>
     <item id="1194">Hääle võimendamise tase</item>
     <item id="1196">&amp;Määra klahvid</item>
     <item id="1198">Klahvikombinatsioon</item>
@@ -179,7 +185,7 @@
     <item id="1202">Klõpsa nuppu Lõpeta, et sulgeda abiline ja alustada TeamTalki kasutamist.</item>
     <item id="1203">Kirjuta hüüdnimi, mida tahad serveriga ühendumisel kasutada</item>
     <item id="1208">Hüpikaken siseneva sõnumi saabumisel</item>
-    <item id="1209">TeamTalk toetab kaht meetodit, kuidas teistele kõne edastada. Kas hoides all kindlat klahvikombinatsiooni (vajuta ja räägi - Push-to-talk) või kasutades häälaktiveerimist </item>
+    <item id="1209">TeamTalk toetab kaht meetodit, kuidas teistele kõne edastada. Kas hoides all kindlat klahvikombinatsiooni (vajuta ja räägi - Push-to-talk) või kasutades häälaktiveerimist</item>
     <item id="1211">Helisüsteemi häälestus</item>
     <item id="1212">Fonti pole valitud</item>
     <item id="1213">Vali siin heliseadmed, mida TeamTalk peab heli salvestamiseks ja taasesitamiseks kasutama. DirectSound valimine on tungivalt soovitatav, sest see pakub väiksemat viivitust kui Windowsi vaikehelisüsteem.</item>
@@ -198,7 +204,7 @@
     <item id="1245">Kasuta teist paigalduskeelt</item>
     <item id="1246">Sulge kui valmis</item>
     <item id="1253">Faili nimi:</item>
-    <item id="1257">&amp;Määra  klahvid</item>
+    <item id="1257">&amp;Määra klahvid</item>
     <item id="1260">Häälaktiveerimine</item>
     <item id="1261">Suurenda helitugevust</item>
     <item id="1262">Vähenda helitugevust</item>
@@ -211,8 +217,6 @@
     <item id="1276">&amp;Määra klahvid</item>
     <item id="1277">Vähenda hääle võimendamist</item>
     <item id="1278">Klaviatuuri otseteed</item>
-    <item id="1279">Failid uuendatud</item>
-    <item id="1280">Ülekanne valmis</item>
     <item id="1284">&amp;Ava</item>
     <item id="1287">Operaatori salasõna</item>
     <item id="1292">Serveri häälestus</item>
@@ -315,9 +319,6 @@
     <item id="1452">Saadaolevad kanalid</item>
     <item id="1453">Auto-operaator-kanalid</item>
     <item id="1456">Luba kajasummutus (eemalda kõlaritest kaja)</item>
-    <item id="1457">Uus videosessioon</item>
-    <item id="1458">Uus töölauasessioon</item>
-    <item id="1459">Küsimuste režiim</item>
     <item id="1460">Üksnes operaatorid saavad (ainult operaatorid näevad ja kuulevad)</item>
     <item id="1463">Väljund sämplimiskiirus</item>
     <item id="1464">Sisend sämplimiskiirus</item>
@@ -330,7 +331,6 @@
     <item id="1476">Video vorming:</item>
     <item id="1477">Meediafaili atribuudid</item>
     <item id="1478">Meediafaili maks. TX</item>
-    <item id="1479">Töölaua ligipääsu taotlus</item>
     <item id="1480">KBaiti/sek (0 = keelatud)</item>
     <item id="1481">Vaikekasutaja</item>
     <item id="1482">Kasutaja saab ligi töölaua kaugligipääsule</item>
@@ -358,20 +358,20 @@
     <item id="1511">KBaiti</item>
     <item id="1512">Kasutajaid teenindatud</item>
     <item id="1513">Meediafailide striim</item>
-    <item id="1514">Luba automaatne helitugevuskontroll  (mikrofoni taset reguleeritakse automaatselt)</item>
+    <item id="1514">Luba automaatne helitugevuskontroll (mikrofoni taset reguleeritakse automaatselt)</item>
     <item id="1515">Värskenda seadmeid</item>
     <item id="1516">Audio salvestamine pole lubatud (salvestamine kettale pole lubatud)</item>
-    <item id="1519">Meediafaili paketikadu </item>
+    <item id="1519">Meediafaili paketikadu</item>
     <item id="1520">Luba VU-mõõdiku värskendamine</item>
-    <item id="1523">Säilita tekstsõnumite vestlused </item>
+    <item id="1523">Säilita tekstsõnumite vestlused</item>
     <item id="1524">Kaust kanalite logifailide jaoks</item>
-    <item id="1525">Kaust kasutajalt kasutajale logifailide jaoks </item>
+    <item id="1525">Kaust kasutajalt kasutajale logifailide jaoks</item>
     <item id="1526">Kliendi häälestus</item>
     <item id="1527">Kirjuta kliendi varasemad häälestused üle</item>
     <item id="1528">Sugu</item>
     <item id="1529">Mees</item>
     <item id="1530">Naine</item>
-    <item id="1531">&amp;Salvesta  .tt fail</item>
+    <item id="1531">&amp;Salvesta .tt fail</item>
     <item id="1534">Teksti maksimum pikkus</item>
     <item id="1535">Videotõmmise häälestused</item>
     <item id="1537">Meediafaili vs. hääle tugevus</item>
@@ -392,7 +392,7 @@
     <item id="32822">V&amp;älju\tAlt-F4</item>
     <item id="32823">Kasuta &amp;Vajuta ja räägi\tCtrl+Shift+T</item>
     <item id="32824">Kasuta &amp;Häälaktiveerimist\tCtrl+Shift+A</item>
-    <item id="32826">Muuda  &amp;olekut\tF6</item>
+    <item id="32826">Muuda &amp;olekut\tF6</item>
     <item id="32828">V&amp;iska välja\tCtrl+K</item>
     <item id="32829">Taasta</item>
     <item id="32830">Muuda &amp;Hüüdnime\tF5</item>
@@ -428,7 +428,7 @@
     <item id="32870">&amp;Server</item>
     <item id="32871">S&amp;alvesta häälestus\tCtrl+Shift+S</item>
     <item id="32877">&amp;Säilita liigutamiseks\tCtrl+Alt+X</item>
-    <item id="32878">Teisal&amp;da  kasutajat\tCtrl+Alt+V</item>
+    <item id="32878">Teisal&amp;da kasutajat\tCtrl+Alt+V</item>
     <item id="32882">&amp;Blokitud kasutajad\tCtrl+Shift+B</item>
     <item id="32885">Viska välja ja &amp;bloki\tCtrl+Shift+K</item>
     <item id="32888">&amp;Salvesta vestluseid\tCtrl+Alt+A</item>
@@ -473,6 +473,6 @@
     <item id="32939">Püüa me&amp;ediastriimi\tCtrl+Shift+8</item>
     <item id="32940">Kasutaja in&amp;fo</item>
     <item id="32941">&amp;Ütle kasutaja info\tCtrl+G</item>
-    <item id="32942">Kanali  in&amp;fo</item>
+    <item id="32942">Kanali in&amp;fo</item>
     <item id="32943">&amp;Ütle kanali info\tCtrl+G</item>
 </language>

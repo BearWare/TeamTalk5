@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,6 +32,7 @@
 #include "gui/MyTabCtrl.h"
 #include "settings/ClientXML.h"
 #include "HttpRequest.h"
+#include "PlaySoundThread.h"
 
 #if defined(ENABLE_TOLK)
 #include <Tolk.h>
@@ -66,7 +67,8 @@ enum
     TIMER_RECONNECT_ID,
     TIMER_HTTPREQUEST_UPDATE_ID,
     TIMER_HTTPREQUEST_TIMEOUT_ID,
-    TIMER_DESKTOPSHARE_ID
+    TIMER_DESKTOPSHARE_ID,
+    TIMER_APPUPDATE_ID
 };
 
 enum
@@ -121,7 +123,7 @@ public:
 
     void UpdateWindowTitle();
 
-    void EnableVoiceActivation(BOOL bEnable);
+    void EnableVoiceActivation(BOOL bEnable, SoundEvent on = SOUNDEVENT_ENABLE_VOICEACTIVATION, SoundEvent off = SOUNDEVENT_DISABLE_VOICEACTIVATION);
     void EnableSpeech(BOOL bEnable);
 
     void CloseMessageSessions();
@@ -158,6 +160,9 @@ public:
     BOOL SendDesktopWindow();
     void RestartSendDesktopWindowTimer();
     void ToggleClassroom(int nUserID, StreamTypes uStreamTypes);
+    void PlaySoundEvent(SoundEvent event);
+
+    void RunAppUpdate();
 
     CString m_szTTLink;
     CStringList m_cmdArgs;
@@ -193,6 +198,7 @@ protected:
     teamtalk::HostEntry m_host;
     CString m_szStatusBar;
     CRect m_rectLast;
+    CPlaySoundThread* m_pPlaySndThread;
 
     UINT_PTR m_nConnectTimerID, m_nReconnectTimerID;
     //pictures
@@ -341,7 +347,7 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    CHttpRequest* m_pHttpUpdate;
+    std::auto_ptr<CHttpRequest> m_httpUpdate;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);

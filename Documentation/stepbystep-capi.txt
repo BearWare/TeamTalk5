@@ -1,0 +1,128 @@
+/** @page stepbystep Client Programming Guide
+ *
+ * The following sections gives a step-by-step tour of building a user
+ * application which uses the TeamTalk C-API DLL to transmit voice
+ * and video. In order for the user application to interact with other
+ * clients a TeamTalk server must first be set up. Section @ref
+ * serversetup explains how to do this.
+ *
+ * The job of the TeamTalk server is to keep track of connected users
+ * and provide user autentication. Once a client is connected and has
+ * been authenticated the client is presented with a tree structure
+ * where each node is a so-called channel which the client can join
+ * and from there interact with the other users who are in the same
+ * channel.
+ *
+ * The following six steps explains how to build a TeamTalk client:
+ *
+ * - @ref stepinit
+ * - @ref stepdevs
+ * - @ref stepconnect
+ * - @ref steplogon
+ * - @ref stepjoin
+ * - @ref steptx
+ *
+ * @section stepinit Step 1: Create a TeamTalk Client Instance
+ *
+ * A new client instance is created by calling TT_InitTeamTalkPoll()
+ * which will return a #TTInstance pointer to the new client
+ * instance. When the user application quits ensure to call
+ * TT_CloseTeamTalk() with the returned #TTInstance so the client
+ * instance can close down properly.
+ *
+ * Once a new client instance has been created its current state can
+ * always be retrieved by calling the function TT_GetFlags() which will
+ * return a bitmask describing the client's current state. Initially
+ * after creating the client instance a call to TT_GetFlags() will
+ * return a bitmask with the value #CLIENT_CLOSED since no operations
+ * have been performed on the client.
+ *
+ * @section stepdevs Step 2: Initialize Sound and Video Devices
+ *
+ * Before connecting to a server it is a good idea to setup the user's
+ * sound and video devices. Sound devices are initialized using the
+ * TT_InitSoundInputDevice() and TT_InitSoundOutputDevice()
+ * functions. The video capture device is initialized using
+ * TT_InitVideoCaptureDevice(). Initializing the video capture device
+ * can be quite tricky because there's many properties which needs to
+ * be configured. Look at the SDK sample applications to see how it's
+ * done.
+ *
+ * Once sound and video devices has been initialized the function
+ * TT_GetFlags() will return a mask containing
+ * #CLIENT_SNDINPUT_READY, #CLIENT_SNDOUTPUT_READY and
+ * #CLIENT_VIDEOCAPTURE_READY.
+ *
+ * @section stepconnect Step 3: Connect to a TeamTalk Server
+ *
+ * Calling TT_Connect() will make the client connect to the server
+ * running on the IP-address and port numbers specified as parameters
+ * to the function. After this call the TT_GetFlags() function will
+ * have the #CLIENT_CONNECTING bit set. TT_Connect() is a non-blocking
+ * call so the user application must query the client instance for
+ * events by calling TT_GetMessage() to see if a connection has been
+ * established. 
+ *
+ * If the TT_Connect() call fails the event #CLIENTEVENT_CON_FAILED
+ * will be posted to the event queue and retrieved by TT_GetMessage()
+ * and the #CLIENT_CONNECTING bit will be cleared.
+ *
+ * If the TT_Connect() is successful the event
+ * #CLIENTEVENT_CON_SUCCESS will be posted to the event queue and the
+ * #CLIENT_CONNECTED bit will be set and #CLIENT_CONNECTING will be
+ * cleared.
+ *
+ * @section steplogon Step 4: Log on to a TeamTalk Server
+ *
+ * Once connected the user application can call TT_DoLogin() to log on
+ * to the server. All functions with the prefix TT_Do* are client to
+ * server commands (see @ref commands). The TT_DoLogin() requires that
+ * the user application provides a username and password for a user
+ * account on the server.
+ *
+ * TT_DoLogin() is also a non-blocking call so the client instance's
+ * message queue must be queried, using TT_GetMessage(), to see if the
+ * login was successful.  If the server rejects the login the event
+ * #CLIENTEVENT_CMD_ERROR is posted along with an error code (see
+ * #ClientError).
+ *
+ * If the server accepts the login information the
+ * #CLIENTEVENT_CMD_SUCCESS event is posted and the the client
+ * instance will have the #CLIENT_AUTHORIZED flag set.
+ *
+ * For every channel on the server a #CLIENTEVENT_CMD_CHANNEL_NEW
+ * event will be posted and a #CLIENTEVENT_CMD_USER_LOGGEDIN will be
+ * posted for every user logged on to the server. The
+ * #CLIENTEVENT_CMD_USER_JOINED event follows which tells if the user
+ * is in a channel.
+ *
+ * @section stepjoin Step 5: Join a channel on the TeamTalk Server
+ *
+ * Now that the client is connected and authorized it is possible to
+ * join a channel on the server. This is done by either calling the
+ * function TT_DoJoinChannel() to create a new channel or by calling
+ * #TT_DoJoinChannelByID() to join an existing channel.
+ *
+ * If using the TT_DoJoinChannelByID() command to join a channel the
+ * ID of the channel must be retrieved and also the password needed to
+ * join the channel. The ID of a channel is posted in the
+ * #CLIENTEVENT_CMD_CHANNEL_NEW event and the password (if any) must
+ * be provided by the user.
+ *
+ * If the call to TT_DoJoinChannelByID() is successful the event
+ * #CLIENTEVENT_CMD_SUCCESS is posted and if the server rejected
+ * the command to join the #CLIENTEVENT_CMD_ERROR event is posted.
+ *
+ * @section steptx Step 6: Transmit data to users in a Channel
+ * 
+ * Having joined a channel now enables the client instance to start
+ * transmitting audio and video to the other users in the channel by
+ * calling TT_EnableVoiceTransmission() and
+ * TT_StartVideoCaptureTransmission().
+ *
+ * When the other users in the channel starts receiving audio they
+ * will receive the #CLIENTEVENT_USER_STATECHANGE event. If video is also
+ * being transmitted the event #CLIENTEVENT_USER_VIDEOCAPTURE will be
+ * posted for every video frame which is received.
+ */
+

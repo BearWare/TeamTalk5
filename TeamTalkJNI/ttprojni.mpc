@@ -2,7 +2,7 @@ project(TeamTalk5ProJNI) : vc_warnings {
 
   sharedname   = TeamTalk5Pro-jni
 
-specific(vc8,vc10,vc11,vc12) {
+specific(vc8,vc10,vc11,vc12,vc14) {
   
   includes += ../TeamTalk_DLL
   includes += $(JDK_ROOT)/include

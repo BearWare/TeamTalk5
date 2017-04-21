@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -28,6 +28,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     var nameItems = [UITableViewCell]()
     var conItems = [UITableViewCell]()
     var authItems = [UITableViewCell]()
+    var chanItems = [UITableViewCell]()
     var actionItems = [UITableViewCell]()
     
     var namefield : UITextField?
@@ -36,6 +37,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     var udpportfield : UITextField?
     var usernamefield : UITextField?
     var passwdfield : UITextField?
+    var chanfield : UITextField?
+    var chpasswdfield : UITextField?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -88,6 +91,24 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         passwdfield!.isSecureTextEntry = true
         authItems.append(passwdcell)
         
+        //initial channel
+        let chancell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        chanfield = newTableCellTextField(chancell, label: NSLocalizedString("Channel", comment: "server entry"), initial: server.channel)
+        chanfield!.delegate = self
+        chanfield!.autocorrectionType = .no
+        chanfield!.spellCheckingType = .no
+        chanfield!.autocapitalizationType = .none
+        chanItems.append(chancell)
+
+        let chpasswdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        chpasswdfield = newTableCellTextField(chpasswdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: server.chanpasswd)
+        chpasswdfield!.delegate = self
+        chpasswdfield!.autocorrectionType = .no
+        chpasswdfield!.spellCheckingType = .no
+        chpasswdfield!.autocapitalizationType = .none
+        chpasswdfield!.isSecureTextEntry = true
+        chanItems.append(chpasswdcell)
+
         let connectcell = tableView.dequeueReusableCell(withIdentifier: "Connect Server")!
         actionItems.append(connectcell)
         
@@ -148,6 +169,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         server.username = usernamefield!.text!
         server.password = passwdfield!.text!
         server.publicserver = false
+        server.channel = chanfield!.text!
+        server.chanpasswd = chpasswdfield!.text!
     }
     
     func textFieldDidBeginEditing(_ textfield: UITextField) {
@@ -165,7 +188,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -177,6 +200,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         case 2 :
             return NSLocalizedString("Authentication", comment: "server entry")
         case 3 :
+            return NSLocalizedString("Join Channel", comment: "server entry")
+        case 4 :
             return NSLocalizedString("Actions", comment: "server entry")
         default :
             return nil
@@ -193,6 +218,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         case 2 :
             return authItems.count
         case 3 :
+            return chanItems.count
+        case 4 :
             return actionItems.count
         default :
             return 0
@@ -209,6 +236,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         case 2 :
             return authItems[indexPath.row]
         case 3 :
+            return chanItems[indexPath.row]
+        case 4 :
             return actionItems[indexPath.row]
         default :
             break

@@ -1,0 +1,4 @@
+*.vcxproj*
+Win32
+x64
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -145,7 +145,7 @@ int XMLLanguages::GetNextItem(int curid)
         TiXmlElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
-            if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id"))
+            if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id") && child->NextSiblingElement())
             {
                 child = child->NextSiblingElement();
                 if(child)
@@ -167,7 +167,7 @@ int XMLLanguages::GetPrevItem(int curid)
         TiXmlElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
-            if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id"))
+            if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id") && child->PreviousSibling())
             {
                 child = child->PreviousSibling()->ToElement();
                 if(child)

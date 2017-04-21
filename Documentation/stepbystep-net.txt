@@ -1,0 +1,401 @@
+namespace BearWare
+{
+
+/** @page stepbystep Client Programming Guide
+ *
+ * The following sections gives a step-by-step tour of how to build an
+ * application which uses the TeamTalk .NET DLL to transmit voice
+ * and video. This chapter assumes the developer has read the
+ * section @ref clientsetup on how to configure Visual Studio to work
+ * with the TeamTalk client DLL.
+ *
+ * In order for the user application to interact with other clients a
+ * TeamTalk server must first be set up. Section @ref serversetup
+ * explains how to do this. The job of the TeamTalk server is to
+ * provide user autentication and keep track of users. Once a client
+ * is connected and has been authenticated the client is presented
+ * with a tree structure where each node is a so-called "channel"
+ * which the client can join and from there interact with the other
+ * users who are in the same channel.
+ *
+ * The following six steps explains how to build a TeamTalk client:
+ *
+ * - @ref stepinit
+ * - @ref stepdevs
+ * - @ref stepconnect
+ * - @ref steplogon
+ * - @ref stepjoin
+ * - @ref steptx
+ *
+ * @section stepinit Step 1: Create a TeamTalk Client Instance
+ *
+ * A new client instance is created by instantiating the
+ * #BearWare.TeamTalk5-class. Once the new instance has been created
+ * its current state can be retrieved by calling the function
+ * TeamTalkBase.GetFlags() which will return a bitmask describing
+ * the client's current state. Initially after creating the client
+ * instance a call to TeamTalkBase.GetFlags() will return a
+ * bitmask with the value #ClientFlag.CLIENT_CLOSED since no operations have been
+ * performed on the client.
+ * 
+ * Here a code-snip which shows how to instantiate the
+ * #BearWare.TeamTalk5 class.
+ @code
+//...
+    public partial class Form1 : Form
+    {
+        BearWare.TeamTalkBase ttclient;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            // Here we instantiate a TeamTalk client in the TeamTalk 5 SDK Standard Edition.
+
+            ttclient = new BearWare.TeamTalk5(false); // We pass 'false' to the constructor
+                                                      // since we're a Forms application
+
+            // In TeamTalk 5 Professional Edition the TeamTalk client instance is created
+            // using: 'ttclient = new BearWare.TeamTalk5Pro(false);
+
+            Debug.Assert(ttclient.Flags == ClientFlag.CLIENT_CLOSED);
+        }
+    }
+//...
+@endcode
+ *
+ * @section stepdevs Step 2: Initialize Sound and Video Devices
+ *
+ * Before connecting to a server it is a good idea to setup the user's
+ * sound and video devices. Sound devices are initialized using the
+ * TeamTalkBase.InitSoundInputDevice() and
+ * TeamTalkBase.InitSoundOutputDevice() functions. The video capture
+ * device is initialized using
+ * TeamTalkBase.InitVideoCaptureDevice(). Initializing the video capture
+ * device can be quite tricky because there's many properties which
+ * needs to be configured. Look at the SDK sample applications to see
+ * how it is done.
+ *
+ * Once sound and video devices has been initialized the function
+ * TeamTalkBase.GetFlags() will return a mask containing
+ * #ClientFlag.CLIENT_SNDINPUT_READY,
+ * #ClientFlag.CLIENT_SNDOUTPUT_READY and
+ * #ClientFlag.CLIENT_VIDEOCAPTURE_READY.
+ *
+ * Here a code-snip which shows how to extract extract sound and video
+ * devices:
+@code
+//...
+
+  SoundDevice[] snddevs;
+  VideoCaptureDevice[] videodevs;
+
+  /* extract sound and video devices and put them in UI */
+  public void button3ListDevices()
+  {
+    /* get sound devices for recording and playback */
+    ttclient.GetSoundInputDevices(out snddevs); //we should check return value...
+    
+    foreach(SoundDevice dev in snddevs) {
+      /* add sound devices for recording to display container, say 'recComboBox' */
+      if(dev.nMaxInputChannels>0)
+        recComboBox.Items.Add(dev);
+      /* add sound devices for playback to display container, say 'playComboBox' */
+      if(dev.nMaxOutputChannels>0)
+        playComboBox.Items.Add(dev);
+    }
+
+    /* get video capture devices. Here we assume there is ONE */
+    ttclient.GetVideoCaptureDevices(out videodevs);  //we should check return value...
+    Debug.Assert(videodevs.Length == 1);
+    /* add video capture device to display container, let's say 'vidComboBox'... */
+
+    /* here we list the capture formats supported */
+    foreach(VideoFormat cap in videodevs[0].videoFormats) {
+      /* add capture format to display container, let's say 'fmtComboBox' */
+    }
+  }
+
+  /* when user has chosen sound and video devices they can now be initialized */
+  public void button4InitDevices()
+  {
+    /* init sound recording device */
+    ttclient.InitSoundInputDevice(snddevs[recComboBox.SelectedIndex].nDeviceID);  //we should check return value...
+    Debug.Assert( (ttclient.Flags & ClientFlag.CLIENT_SNDINPUT_READY) == 
+                  ClientFlag.CLIENT_SNDINPUT_READY );
+
+    /* init sound playback device */
+    ttclient.InitSoundOutputDevice(snddevs[playComboBox.SelectedIndex].nDeviceID);  //we should check return value...
+    Debug.Assert( (ttclient.Flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 
+                  ClientFlag.CLIENT_SNDOUTPUT_READY );
+
+    /* init video capture device and capture format. */
+    ttclient.InitVideoCaptureDevice(videodevs[0].szDeviceName, //we pretended to have ONE
+                                    videodevs[0].videoFormats[fmtComboBox.SelectedIndex]);
+                                    //we should check return value...
+    Debug.Assert( (ttclient.Flags & ClientFlag.CLIENT_VIDEOCAPTURE_READY) == 
+                  (ClientFlag.CLIENT_VIDEOCAPTURE_READY) );
+  }
+//...
+@endcode
+ *
+ * @section stepconnect Step 3: Connect to a TeamTalk Server
+ *
+ * Calling TeamTalkBase.Connect() will make the client connect to the
+ * server running on the IP-address and port numbers specified as
+ * parameters to the function. After this call the TeamTalkBase.GetFlags()
+ * function will have the #ClientFlag.CLIENT_CONNECTING bit set.
+ *
+ * If the TeamTalkBase.Connect() call fails the TeamTalkBase.OnConnectionFailed()
+ * event will be posted by the client instance and the
+ * #ClientFlag.CLIENT_CONNECTING bit will be cleared.
+ *
+ * If the TeamTalkBase.Connect() is successful the
+ * TeamTalkBase.OnConnectSuccess() event will be posted by the client
+ * instance and the #ClientFlag.CLIENT_CONNECTED bit will be set and
+ * #ClientFlag.CLIENT_CONNECTING will be cleared.
+ *
+ * Here is a code-snip which shows how to connect to a server:
+@code
+  /* in the constructor we should add event handlers to these two 
+   * events for connecting */
+  public Form1()
+  {
+    //..
+    ttclient.OnConnectionSuccess += new TeamTalkBase.Connection(form1_OnConnectionSuccess);
+    ttclient.OnConnectionFailed += new TeamTalkBase.Connection(form1_OnConnectionFailed);
+    //..
+  }
+
+  /* let's say the user presses 'button1' to connect to a server and invokes this */
+  public void button1ConnectToServer()
+  {
+      Debug.Assert( (ttclient.Flags & 
+                    (ClientFlag.CLIENT_CONNECTING | ClientFlag.CLIENT_CONNECTED) ) ==
+                    ClientFlag.CLIENT_CLOSED /* basically 0 */ );
+      if( ttclient.Connect("10.10.66.2", 10333, 10333, 0, 0) == false)
+          MessageBox.Show("Unable to connect!");
+      else {
+          //we wait for 'form1_OnConnectionSuccess' or 'form1_OnConnectionFailed'
+          //to be called...
+      }
+  }
+
+  /* invoked by the client instance if connection is successful */
+  public void form1_OnConnectionSuccess()
+  {
+      MessageBox.Show("We're connected!");
+      Debug.Assert( (ttclient.Flags & ClientFlag.CLIENT_CONNECTED) ==
+                    ClientFlag.CLIENT_CONNECTED);
+  }
+
+  /* invoked by the client instance if the connection is unsuccessful */
+  public void form1_OnConnectionFailed()
+  {
+      MessageBox.Show("Unable to connect!");
+      ttclient.Disconnect(); //reset the client, so we can call .Connect() again
+  }
+@endcode
+ * @section steplogon Step 4: Log on to a TeamTalk Server
+ *
+ * Once connected the user application can call TeamTalkBase.DoLogin() to
+ * log on to the server. All functions with the prefix @c Do* are
+ * client to server commands (see @ref commands). The
+ * TeamTalkBase.DoLogin() requires that
+ * the user application provides a username and password for a user
+ * account on the server.
+ *
+ * If the server rejects the login the TeamTalkBase.OnCmdError() event is
+ * posted along with an error code (see #ClientError).
+ *
+ * If the server accepts the login information the
+ * TeamTalkBase.OnCmdMyselfLoggedIn() event is posted and the the client
+ * instance will have the #ClientFlag.CLIENT_AUTHORIZED set.
+ *
+ * For every channel on the server a TeamTalkBase.OnCmdChannelNew() event
+ * will be posted and a TeamTalkBase.OnCmdUserLoggedIn() will be posted
+ * for every user on the server. The TeamTalkBase.OnCmdUserJoinedChannel()
+ * will also be posted for every user who is in a channel.
+ *
+ * Here's a code-snip which shows how to log on to a server:
+@code
+  /* in the constructor we should add an event handler for login success 
+   * and login failure */
+  public Form1()
+  {
+      //..
+      ttclient.OnCmdError += new TeamTalkBase.CommandError(form1_OnCmdError);
+      ttclient.OnCmdMyselfLoggedIn += 
+            new TeamTalkBase.MyselfLoggedIn(form1_OnCmdMyselfLoggedIn);
+      //..
+  }
+
+  void button2Login()
+  {
+      Debug.Assert( (ttclient.Flags & ClientFlag.CLIENT_CONNECTED) ==
+                    ClientFlag.CLIENT_CONNECTED);
+      if(ttclient.DoLogin("John Doe", "admin", "admin_passwd321")<0)
+          MessageBox.Show("Failed to issue client/server command");
+      else {
+          //wait for 'ttclient_OnCmdMyselfLoggedIn' or 
+          //'ttclient_OnCmdError' to be called
+      }
+  }
+
+  /* invoked by client instance if login comamnd is ok */
+  void ttclient_OnCmdMyselfLoggedIn(int nMyUserID)
+  {
+      MessageBox.Show("Log in successful");
+      Debug.Assert((ttclient.Flags & ClientFlag.CLIENT_AUTHORIZED) == 
+                   ClientFlag.CLIENT_AUTHORIZED);
+      Debug.Assert(ttclient.UserID>0); //we have a user ID now
+  }
+
+  /* invoked by client instance if login command fails */
+  void ttclient_OnCmdError(int nCmdID, ClientErrorMsg clienterrormsg)
+  {
+      MessageBox.Show(clienterrormsg.szErrorMsg); break;
+  }
+@endcode
+ * @section stepjoin Step 5: Join a channel on the TeamTalk Server
+ *
+ * Now that the client is connected and authorized it is possible to
+ * join a channel on the server. This is done by either calling the
+ * function TeamTalkBase.DoJoinChannel() to create a new channel or by
+ * calling TeamTalkBase.DoJoinChannelByID() to join an existing channel.
+ *
+ * If using the TeamTalkBase.DoJoinChannelByID() command to join a channel
+ * the ID of the channel must be retrieved and also the password
+ * needed (if any) to join the channel. The ID of a channel is posted
+ * in the TeamTalkBase.OnCmdChannelNew() event and the password must be
+ * known by the user.
+ *
+ * If the call to TeamTalkBase.DoJoinChannelByID() is successful the event
+ * TeamTalkBase.OnCmdUserJoinedChannel() is posted and if the server
+ * rejected the command to join the TeamTalkBase.OnCmdError() event is
+ * posted.
+ *
+ * Here is a code-snip for joining a channel:
+@code
+  /* in the constructor we should add an event handler for 
+   * joining a channel and join failure */
+  public Form1()
+  {
+      //..
+      ttclient.OnCmdError += new TeamTalkBase.CommandError(form1_OnCmdError);
+      ttclient.OnCmdUserJoinedChannel += 
+           new TeamTalkBase.UserUpdate(form1_OnCmdUserJoinedChannel);
+      //..
+  }
+
+  /* button invoked by user to join a channel... */
+  public void button7JoinChannel()
+  {
+    if(ttclient.DoJoinChannelByID((int)treeView.SelectedItem.Tag, 
+                                  "chan_passwd123")<0)
+      MessageBox.Show("Failed to issue commnand to join channel");
+    else {
+      //wait for either 'form1_OnCmdUserJoinedChannel' or 
+      //'ttclient_OnCmdError' to be invoked
+    }
+  }
+
+  /* invoked by client instance if join command succeeds */
+  void form1_OnCmdUserJoinedChannel(User user)
+  {
+    //check if user is 'myself'
+    if(user.nUserID == ttclient.GetMyUserID())
+    {
+      string chanpath;
+      if(ttclient.GetChannelPath(user.nChannelID, out chanpath))
+      {
+        MessageBox.Show("Joined channel: " + chanpath);
+        Debug.Assert(ttclient.ChannelID>0); //we're in a channel now...
+      }
+    }
+  }
+
+  /* invoked by client instance if join command fails */
+  void ttclient_OnCmdError(int nCmdID, ClientErrorMsg clienterrormsg)
+  {
+      MessageBox.Show(clienterrormsg.szErrorMsg); break;
+  }
+@endcode
+ * @section steptx Step 6: Transmit data to users in a Channel
+ * 
+ * Having joined a channel now enables the client instance to start
+ * transmitting audio and video to the other users in the channel by
+ * calling TeamTalkBase.EnableVoiceTransmission() and 
+ * TeamTalkBase.StartVideoCaptureTransmission().
+ *
+ * When the other users in the channel starts receiving audio they
+ * will receive the TeamTalkBase.OnUserStateChange() event. If video is also
+ * being transmitted the event TeamTalkBase.OnUserVideoCapture() will be
+ * posted for every video frame which is received.
+ *
+ * Here's a code-snip on how to transmit and display data:
+@code
+  /* in the constructor we should add an event handler seeing talking user and video */
+  public Form1()
+  {
+      //..
+      ttclient.OnUserStateChange += new TeamTalkBase.UserUpdate(form1_OnUserStateChange);
+      ttclient.OnUserVideoCapture += new TeamTalkBase.UserVideoFrame(form1_OnUserVideoCapture);
+      //..
+  }
+
+  /* user wants to transmit voice */
+  public void button8TransmitVoice()
+  {
+    Debug.Assert(ttclient.ChannelID>0); //must be in channel or no one will receive
+    ttclient.EnableVoiceTransmission(true);
+  }
+
+  /* user wants to transmit video */
+  public void button9TransmitVideo()
+  {
+    /* Let's choose some WebM video codec settings for use with video capture */
+    VideoCodec vidcodec;
+    vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
+    vidcodec.webm_vp8.nRcTargetBitrate = 1024; //1024 KBit/sec
+
+    Debug.Assert(ttclient.ChannelID>0); //must be in channel or no one will receive
+
+    ttclient.StartVideoCaptureTransmission(vidcodec);
+  }
+
+  /* invoked when a user is talking */
+  void form1_OnUserStateChange(User user)
+  {
+    if(user.uUserState.HasFlag(UserState.USERSTATE_VOICE)
+      Debug.WriteLine(user.szNickName + " is talking...");
+    else
+      Debug.WriteLine(user.szNickName + " stopped talking...");
+  }
+
+  /* Hold VideoFrame in container for each user until it's no longer needed. */
+  Dictionary<int, VideoFrame> vidframes = new Dictionary<int, VideoFrame>();
+
+  /* invoked when a new video frame can be displayed */
+  void form1_OnUserVideoCapture(int nUserID, int nStreamID)
+  {
+    Bitmap user_bmp;
+    VideoFrame new_frame;
+    new_frame = ttclient.AcquireUserVideoCaptureFrame(nUserID, out user_bmp);
+    
+    //'new_frame' is valid if members are non-zero
+    if(new_frame.nFrameBufferSize > 0) {
+      //display the 'user_bmp' bitmap in an image control...
+
+      //release memory from previous VideoFrame stored in container
+      VideoFrame old_frame;
+      if(vidframes.TryGetValue(nUserID, out old_frame))
+        ttclient.ReleaseUserVideoCaptureFrame(old_frame);
+    }
+    /* store new VideoFrame in container so it can be reused */
+    vidframes[nUserID] = new_frame;
+  }
+@endcode
+ */
+
+}

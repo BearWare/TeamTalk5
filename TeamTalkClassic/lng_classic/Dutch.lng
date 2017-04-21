@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Dis&amp;Verbinden\F2</item>
     <item id="105"></item>
@@ -29,6 +29,13 @@
     <item id="243">host beheerder</item>
     <item id="247">wat is mijn ip adres</item>
     <item id="249">toetsen combinatie</item>
+    <item id="268">nieuwe gebruiker</item>
+    <item id="269">gebruiker verwijdert</item>
+    <item id="270">nieuw bericht</item>
+    <item id="271">kanaal bericht</item>
+    <item id="276">server kwijt</item>
+    <item id="277">sneltoets ingedrukt</item>
+    <item id="280">gestopt met spreken</item>
     <item id="1008">altijd forward door server</item>
     <item id="1009">automatisch aansluiten hoofd kanaal bij verbinding</item>
     <item id="1011">host eigenschappen</item>
@@ -106,15 +113,8 @@
     <item id="1170">lokale UDP poort</item>
     <item id="1172">Bericht van de dag</item>
     <item id="1173">nieuwe gebruiker</item>
-    <item id="1174">nieuwe gebruiker</item>
     <item id="1175">test geselecteerde</item>
-    <item id="1176">gebruiker verwijdert</item>
-    <item id="1177">server kwijt</item>
-    <item id="1178">nieuw bericht</item>
-    <item id="1180">sneltoets ingedrukt</item>
     <item id="1181">zet tijdelijke mixer invoer apparaat aan indien je sneltoets indrukt</item>
-    <item id="1182">kanaal bericht</item>
-    <item id="1184">gestopt met spreken</item>
     <item id="1185">compenseer microfoon BOOST fout</item>
     <item id="1186">geluids gebeurtenis</item>
     <item id="1187">onthoud dat een hogere kwaliteit voor de encoder meer bandbreedte en cpu verbruikt</item>

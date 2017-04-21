@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -30,7 +30,7 @@ namespace ttserverlog.net
 {
     class Program
     {
-        static BearWare.TeamTalk ttclient;
+        static BearWare.TeamTalkBase ttclient;
 
         static string audio_dir = "c:\\temp";
 
@@ -39,11 +39,15 @@ namespace ttserverlog.net
         [STAThread] //this macro must be set in console applications for TeamTalk to work properly
         static void Main(string[] args)
         {
-            ttclient = new TeamTalk(true);
-
+#if ENABLE_ENCRYPTION
+            ttclient = new TeamTalk5Pro(true);
+            int tcpport = TeamTalk5Pro.DEFAULT_TCPPORT, udpport = TeamTalk5Pro.DEFAULT_UDPPORT;
+#else
+            ttclient = new TeamTalk5(true);
+            int tcpport = TeamTalk5.DEFAULT_TCPPORT, udpport = TeamTalk5.DEFAULT_UDPPORT;
+#endif
             string ipaddr = "192.168.1.110";
             string username = "admin", password = "admin";
-            int tcpport = TeamTalk.DEFAULT_TCPPORT, udpport = TeamTalk.DEFAULT_UDPPORT;
             bool encrypted = false;
 
             Console.WriteLine("TeamTalk 5 server logger.");
@@ -69,9 +73,9 @@ namespace ttserverlog.net
                 Console.WriteLine("lame_enc.dll not found, so audio will be stored to .wav instead of .mp3");
 
             //hook events for checking connection
-            ttclient.OnConnectionFailed += new TeamTalk.Connection(ttclient_OnConnectFailed);
-            ttclient.OnConnectionSuccess += new TeamTalk.Connection(ttclient_OnConnectSuccess);
-            ttclient.OnConnectionLost += new TeamTalk.Connection(ttclient_OnConnectionLost);
+            ttclient.OnConnectionFailed += new TeamTalkBase.Connection(ttclient_OnConnectFailed);
+            ttclient.OnConnectionSuccess += new TeamTalkBase.Connection(ttclient_OnConnectSuccess);
+            ttclient.OnConnectionLost += new TeamTalkBase.Connection(ttclient_OnConnectionLost);
 
             //now that we got all the information we needed we can connect and logon
             if (!ttclient.Connect(ipaddr, tcpport, udpport, 0, 0, encrypted))
@@ -91,23 +95,23 @@ namespace ttserverlog.net
             Debug.Assert((ttclient.Flags & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED);
 
             //hook the remaining events we want to process
-            ttclient.OnCmdMyselfLoggedIn += new TeamTalk.MyselfLoggedIn(ttclient_OnCmdMyselfLoggedIn);
-            ttclient.OnCmdServerUpdate += new TeamTalk.ServerUpdate(ttclient_OnCmdServerUpdate);
-            ttclient.OnCmdChannelNew += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelNew);
-            ttclient.OnCmdChannelUpdate += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelUpdate);
-            ttclient.OnCmdChannelRemove += new TeamTalk.ChannelUpdate(ttclient_OnCmdChannelRemove);
-            ttclient.OnCmdUserLoggedIn += new TeamTalk.UserUpdate(ttclient_OnCmdUserLoggedIn);
-            ttclient.OnCmdUserLoggedOut += new TeamTalk.UserUpdate(ttclient_OnCmdUserLoggedOut);
-            ttclient.OnCmdUserUpdate += new TeamTalk.UserUpdate(ttclient_OnCmdUserUpdate);
-            ttclient.OnCmdUserJoinedChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserJoinedChannel);
-            ttclient.OnCmdUserLeftChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserLeftChannel);
-            ttclient.OnCmdFileNew += new TeamTalk.FileUpdate(ttclient_OnCmdFileNew);
-            ttclient.OnCmdFileRemove += new TeamTalk.FileUpdate(ttclient_OnCmdFileRemove);
-            ttclient.OnCmdUserTextMessage += new TeamTalk.UserTextMessage(ttclient_OnCmdUserTextMessage);
-            ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
-            ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
-            ttclient.OnCmdSuccess += new TeamTalk.CommandSuccess(ttclient_OnCmdSuccess);
-            ttclient.OnUserRecordMediaFile += new TeamTalk.UserRecordMediaFile(ttclient_OnUserAudioFile);
+            ttclient.OnCmdMyselfLoggedIn += new TeamTalkBase.MyselfLoggedIn(ttclient_OnCmdMyselfLoggedIn);
+            ttclient.OnCmdServerUpdate += new TeamTalkBase.ServerUpdate(ttclient_OnCmdServerUpdate);
+            ttclient.OnCmdChannelNew += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelNew);
+            ttclient.OnCmdChannelUpdate += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelUpdate);
+            ttclient.OnCmdChannelRemove += new TeamTalkBase.ChannelUpdate(ttclient_OnCmdChannelRemove);
+            ttclient.OnCmdUserLoggedIn += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLoggedIn);
+            ttclient.OnCmdUserLoggedOut += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLoggedOut);
+            ttclient.OnCmdUserUpdate += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserUpdate);
+            ttclient.OnCmdUserJoinedChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserJoinedChannel);
+            ttclient.OnCmdUserLeftChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserLeftChannel);
+            ttclient.OnCmdFileNew += new TeamTalkBase.FileUpdate(ttclient_OnCmdFileNew);
+            ttclient.OnCmdFileRemove += new TeamTalkBase.FileUpdate(ttclient_OnCmdFileRemove);
+            ttclient.OnCmdUserTextMessage += new TeamTalkBase.UserTextMessage(ttclient_OnCmdUserTextMessage);
+            ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
+            ttclient.OnCmdError += new TeamTalkBase.CommandError(ttclient_OnCmdError);
+            ttclient.OnCmdSuccess += new TeamTalkBase.CommandSuccess(ttclient_OnCmdSuccess);
+            ttclient.OnUserRecordMediaFile += new TeamTalkBase.UserRecordMediaFile(ttclient_OnUserAudioFile);
 
             //now that we're connected log on
             cur_cmd_id = ttclient.DoLogin("ttserverlog", username, password);

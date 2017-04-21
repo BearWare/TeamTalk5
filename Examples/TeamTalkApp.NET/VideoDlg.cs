@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -34,12 +34,12 @@ namespace TeamTalkApp.NET
 {
     public partial class VideoDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int userid;
         Bitmap bmp;
         int unsubscribe_cmdid = 0;
 
-        public VideoDlg(TeamTalk tt, int userid)
+        public VideoDlg(TeamTalkBase tt, int userid)
         {
             ttclient = tt;
             this.userid = userid;
@@ -52,7 +52,7 @@ namespace TeamTalkApp.NET
             else
                 this.Text = "Local Video";
 
-            ttclient.OnUserVideoCapture += new TeamTalk.UserVideoFrame(ttclient_OnUserVideoFrame);
+            ttclient.OnUserVideoCapture += new TeamTalkBase.UserVideoFrame(ttclient_OnUserVideoFrame);
         }
 
         private void VideoDlg_FormClosing(object sender, FormClosingEventArgs e)
@@ -64,7 +64,7 @@ namespace TeamTalkApp.NET
                 {
                     //we wait for the server to repond to us that we'll no 
                     //longer receive video from this user.
-                    ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
+                    ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
 
                     //figure out how we're subscribing to video
                     Subscription subtype = Subscription.SUBSCRIBE_NONE;

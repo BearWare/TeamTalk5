@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -30,10 +30,10 @@ namespace TeamTalkApp.NET
 {
     class FilesView
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ListView listview;
 
-        public FilesView(TeamTalk tt, ListView list)
+        public FilesView(TeamTalkBase tt, ListView list)
         {
             this.ttclient = tt;
             this.listview = list;
@@ -43,9 +43,9 @@ namespace TeamTalkApp.NET
             listview.Columns.Add("Size");
             listview.Columns.Add("Owner");
 
-            ttclient.OnCmdFileNew += new TeamTalk.FileUpdate(ttclient_OnCmdFileNew);
-            ttclient.OnCmdFileRemove += new TeamTalk.FileUpdate(ttclient_OnCmdFileRemove);
-            ttclient.OnCmdUserJoinedChannel += new TeamTalk.UserUpdate(ttclient_OnCmdUserJoinedChannel);
+            ttclient.OnCmdFileNew += new TeamTalkBase.FileUpdate(ttclient_OnCmdFileNew);
+            ttclient.OnCmdFileRemove += new TeamTalkBase.FileUpdate(ttclient_OnCmdFileRemove);
+            ttclient.OnCmdUserJoinedChannel += new TeamTalkBase.UserUpdate(ttclient_OnCmdUserJoinedChannel);
         }
 
         public int GetSelectedFile()

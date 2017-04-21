@@ -242,45 +242,7 @@ CAPTION "Sound Events"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Sound events",IDC_STATIC_GRPSNDEVENT,7,7,246,226
-    LTEXT           "New user",IDC_STATIC_NEWUSER,14,19,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_NEWUSER,113,16,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_NEWUSER,233,17,16,11
-    LTEXT           "User removed",IDC_STATIC_USERREMOVED,14,34,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_USERREMOVED,113,31,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_USERREMOVED,233,34,16,11
-    LTEXT           "Server lost",IDC_STATIC_SERVERLOST,14,49,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_SERVERLOST,113,46,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_SERVERLOST,233,49,16,11
-    LTEXT           "New message",IDC_STATIC_NEWMSG,14,64,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_NEWMESSAGE,113,61,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_NEWMESSAGE,233,63,16,11
-    LTEXT           "HotKey pressed",IDC_STATIC_HOTKEY,14,79,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_HOTKEY,113,76,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_HOTKEY,233,79,16,11
-    LTEXT           "Channel message",IDC_STATIC_CHMSG,14,94,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_CHANMESSAGE,113,91,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_CHANMESSAGE,233,94,16,11
-    LTEXT           "Stopped talking",IDC_STATIC_STOPTALK,14,109,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_STOPPEDTALK,113,106,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_STOPPEDTALK,233,109,16,11
-    LTEXT           "Files updated",IDC_STATIC_FILEUPD,14,124,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_FILEUPD,113,121,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_FILESUPD,233,123,16,11
-    LTEXT           "Transfer completed",IDC_STATIC_TRANSFERSTART,14,139,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_TRANSFERSTART,113,136,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_TRANSFEREND,233,138,16,11
-    LTEXT           "New video session",IDC_STATIC_NEWVIDEOSESSION,14,154,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_VIDEOSESSION,113,151,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_VIDEOSESSION,233,153,16,11
-    LTEXT           "New desktop session",IDC_STATIC_NEWDESKTOPSESSION,14,169,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_DESKTOPSESSION,113,166,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_DESKTOPSESSION,233,168,16,11
-    LTEXT           "Question mode",IDC_STATIC_QUESTIONMODE,14,184,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_QUESTIONMODE,113,181,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_QUESTIONMODE,233,183,16,11
-    LTEXT           "Desktop access request",IDC_STATIC_DESKACCESS_REQ,14,199,97,8
-    EDITTEXT        IDC_EDIT_EVENTS_DESKTOPACCESSREQ,113,196,116,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BUTTON_EVENTS_DESKTOPACCESSREQ,233,197,16,11
+    CONTROL         "",IDC_TREE_SOUNDEVENTS,"SysTreeView32",TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,15,17,232,211
 END
 
 IDD_PROPPAGE_SOUNDSYSPAGE DIALOGEX 0, 0, 260, 221
@@ -386,13 +348,13 @@ MENU IDR_MENU_MAIN
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "",IDC_TREE_SESSION,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | WS_BORDER | WS_TABSTOP,7,3,119,73
-    CONTROL         155,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
+    CONTROL         IDD_DIALOG_GENERATETTFILE,IDC_STATIC_VOLUME,"Static",SS_BITMAP,7,77,11,10
     CONTROL         "",IDC_SLIDER_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,77,47,12
     LTEXT           "VU",IDC_STATIC_VU,66,79,11,8
     CONTROL         "",IDC_PROGRESS_VOICEACT,"msctls_progress32",PBS_SMOOTH | WS_BORDER,79,79,47,8
-    CONTROL         155,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
+    CONTROL         IDD_DIALOG_GENERATETTFILE,IDC_STATIC_MIKE,"Static",SS_BITMAP,7,87,15,13
     CONTROL         "",IDC_SLIDER_GAINLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,88,47,12
-    CONTROL         154,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
+    CONTROL         IDS_PUSHTOTALK,IDC_STATIC_VOICEACT,"Static",SS_BITMAP,66,89,11,10
     CONTROL         "",IDC_SLIDER_VOICEACT,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,79,88,47,12
     LTEXT           "",IDC_STATIC_SPLITTER,126,3,8,73,NOT WS_VISIBLE
     CONTROL         "",IDC_TAB_CTRL,"SysTabControl32",WS_TABSTOP,134,3,120,96
@@ -572,7 +534,7 @@ BEGIN
     LTEXT           "Static",IDC_STATIC_APPTITLE,7,7,143,47
     LTEXT           "Static",IDC_STATIC_VERSION,105,34,92,14
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC_AUTHOR,7,62,139,8
-    LTEXT           "Copyright (c) 2002-2016, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
+    LTEXT           "Copyright (c) 2005-2017, BearWare.dk",IDC_STATIC_COPYRIGHT,7,75,183,8
     LTEXT           "Speex codec developed by Jean-Marc Valin, www.speex.org",IDC_STATIC,7,88,189,17
     LTEXT           "OPUS codec developed by Opus project, www.opus-codec.org",IDC_STATIC,7,110,189,17
     LTEXT           "WebM VP8 codec developed by WebM project, www.webmproject.org",IDC_STATIC,7,132,189,17
@@ -1311,15 +1273,25 @@ END
 //
 
 IDB_BITMAP_LOGO         BITMAP                  "res\\logo.bmp"
+
 IDB_BITMAP_SESSION      BITMAP                  "res\\session.bmp"
+
 IDB_BITMAP_MIKE         BITMAP                  "res\\bmp00001.bmp"
+
 IDB_BITMAP_VOICEACT     BITMAP                  "res\\bmp00002.bmp"
+
 IDB_BITMAP_VOLUME       BITMAP                  "res\\bmp00003.bmp"
+
 IDR_TOOLBAR1            BITMAP                  "res\\toolbar1.bmp"
+
 IDB_BITMAP_NOVOICEACT   BITMAP                  "res\\bitmap1.bmp"
+
 IDB_BITMAP_NOVOLUME     BITMAP                  "res\\bmp00004.bmp"
+
 IDB_BITMAP_TOOLBAR      BITMAP                  "res\\bmp00005.bmp"
+
 IDB_BITMAP_SESSION2     BITMAP                  "res\\session2.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1423,14 +1395,15 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,2,0,4731
- PRODUCTVERSION 5,2,0,4731
+ FILEVERSION 5,2,2,4885
+ PRODUCTVERSION 5,2,2,4885
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1447,12 +1420,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 2, 0, 4731"
+            VALUE "FileVersion", "5, 2, 2, 4885"
             VALUE "InternalName", "TeamTalk5.exe"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (c) 2005-2017, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 2, 0, 4731"
+            VALUE "ProductVersion", "5, 2, 2, 4885"
         END
     END
     BLOCK "VarFileInfo"
@@ -1677,6 +1650,17 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PROPPAGE_SOUNDEVENTSPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
@@ -1705,6 +1689,31 @@ BEGIN
     IDS_USERJOINEDCHANNEL   "%s joined channel %s"
     IDS_USERLEFTCHANNEL     "%s left channel %s"
     IDS_ROOTCHANNEL         "Root"
+    IDS_NOSOUNDDEVICE       "No Sound Device"
+    IDS_USER_JOIN           "User joined channel"
+    IDS_USER_LEFT           "User left channel"
+    IDS_USER_TEXTMSG        "Private text message"
+    IDS_USER_CHANMSG        "Channel text message"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_USER_QUESTIONMODE   "User toggled question mode"
+    IDS_USER_DESKACCESS_REQ "Desktop access request"
+    IDS_USER_NEWVIDEOSESSION "New video session"
+    IDS_USER_NEWDESKTOPSESSION "New desktop session"
+    IDS_CONNECTION_SERVERLOST "Server lost"
+    IDS_HOTKEY              "Push-to-Talk key activated"
+    IDS_FILES_UPDATED       "File list updated"
+    IDS_TRANSFER_COMPLETE   "File transfer completed"
+    IDS_CHANNELSILENT       "Everyone in channel has stopped talking"
+    IDS_VOICEACTIVATED      "Voice activation triggered"
+    IDS_VOICEDEACTIVATED    "Voice activation stopped"
+    IDS_TXQUEUEHEAD         "Transmit ready in ""No Interruptions"" channel"
+    IDS_TXQUEUESTOP         "Transmit stopped in ""No Interruptions"" channel"
+    IDS_ENABLEVOX           "Enable voice activation"
+    IDS_DISABLEVOX          "Disable voice activation"
+    IDS_ME_ENABLEVOX        "Enable voice activation from Me-menu"
 END
 
 STRINGTABLE
@@ -1924,6 +1933,11 @@ BEGIN
     IDC_RADIO_ONLINE        "Online"
     IDC_RADIO_AWAY          "Away"
     IDC_RADIO_QUESTION      "Question"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
 END
 
 #endif    // Neutral resources

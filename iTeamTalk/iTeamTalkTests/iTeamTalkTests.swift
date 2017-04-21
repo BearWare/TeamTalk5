@@ -1,10 +1,23 @@
-//
-//  iTeamTalkTests.swift
-//  iTeamTalkTests
-//
-//  Created by Bjoern Rasmussen on 3-09-15.
-//  Copyright (c) 2015 BearWare.dk. All rights reserved.
-//
+/*
+* Copyright (c) 2005-2017, BearWare.dk
+*
+* Contact Information:
+*
+* Bjoern D. Rasmussen
+* Kirketoften 5
+* DK-8260 Viby J
+* Denmark
+* Email: contact@bearware.dk
+* Phone: +45 20 20 54 59
+* Web: http://www.bearware.dk
+*
+* This source code is part of the TeamTalk 5 SDK owned by
+* BearWare.dk. All copyright statements may not be removed
+* or altered from any source distribution. If you use this
+* software in a product, an acknowledgment in the product
+* documentation is required.
+*
+*/
 
 import UIKit
 import XCTest
@@ -64,7 +77,7 @@ class iTeamTalkTests: XCTestCase {
         let ttInst = newClient()
         var msg = TTMessage()
 
-        let inst1 = TT_StartSoundLoopbackTest(0, 0, 16000, 1, FALSE, nil)
+        let inst1 = TT_StartSoundLoopbackTest(TT_SOUNDDEVICE_ID_REMOTEIO, TT_SOUNDDEVICE_ID_REMOTEIO, 16000, 1, FALSE, nil)
 
         print("Sound loop is active now")
         
@@ -83,19 +96,24 @@ class iTeamTalkTests: XCTestCase {
         agc.nMaxGainDB = 30
         agc.bEnableDenoise = TRUE
         
-        let instAGC = TT_StartSoundLoopbackTest(0, 0, 48000, 1, FALSE, &agc)
+        let instAGC = TT_StartSoundLoopbackTest(TT_SOUNDDEVICE_ID_REMOTEIO, TT_SOUNDDEVICE_ID_REMOTEIO, 48000, 1, FALSE, &agc)
         
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
         
         XCTAssert(TT_CloseSoundLoopbackTest(instAGC) == TRUE)
 
         agc.nGainLevel = 2000
-        let instAGC2 = TT_StartSoundLoopbackTest(0, 0, 48000, 1, FALSE, &agc)
+        let instAGC2 = TT_StartSoundLoopbackTest(TT_SOUNDDEVICE_ID_REMOTEIO, TT_SOUNDDEVICE_ID_REMOTEIO, 48000, 1, FALSE, &agc)
         
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
         
         XCTAssert(TT_CloseSoundLoopbackTest(instAGC2) == TRUE)
 
+        let instAGC3 = TT_StartSoundLoopbackTest(TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO, TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO, 48000, 1, FALSE, &agc)
+        
+        waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
+        
+        XCTAssert(TT_CloseSoundLoopbackTest(instAGC3) == TRUE)
     }
     
     // test is invalid. Sound device 1 no longer exists.
@@ -119,8 +137,8 @@ class iTeamTalkTests: XCTestCase {
         }
         
         let ttInst = newClient()
-        XCTAssert(TT_InitSoundInputDevice(ttInst, 0) != 0, "Init sound input")
-        XCTAssert(TT_InitSoundOutputDevice(ttInst, 1) != 0, "Init speaker device")
+        XCTAssert(TT_InitSoundInputDevice(ttInst, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "Init sound input")
+        XCTAssert(TT_InitSoundOutputDevice(ttInst, TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO) != 0, "Init speaker device")
         
         connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
         login(ttInst, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
@@ -130,14 +148,14 @@ class iTeamTalkTests: XCTestCase {
         let cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE.rawValue)
         XCTAssert(waitCmdComplete(ttInst, cmdid: cmdid, waittimeout: DEF_WAIT), "hear myself")
         
-        XCTAssert(TT_EnableVoiceTransmission(ttInst, 1) != 0, "Enable voice tx")
+        XCTAssert(TT_EnableVoiceTransmission(ttInst, TRUE) != 0, "Enable voice tx")
         
         var msg = TTMessage()
         waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
 
         let ttInst2 = newClient()
-        XCTAssert(TT_InitSoundInputDevice(ttInst2, 0) != 0, "Init sound input")
-        XCTAssert(TT_InitSoundOutputDevice(ttInst2, 1) != 0, "Init speaker device")
+        XCTAssert(TT_InitSoundInputDevice(ttInst2, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "Init sound input")
+        XCTAssert(TT_InitSoundOutputDevice(ttInst2, TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO) != 0, "Init speaker device")
         connect(ttInst2, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
         login(ttInst2, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
         joinRootChannel(ttInst2)
@@ -154,8 +172,8 @@ class iTeamTalkTests: XCTestCase {
     func testMultiVoice() {
         let src1 = newClient(), src2 = newClient()
         
-        XCTAssert(TT_InitSoundInputDevice(src1, 0) != 0, "init sound src1")
-        XCTAssert(TT_InitSoundInputDevice(src2, 0) != 0, "init sound src2")
+        XCTAssert(TT_InitSoundInputDevice(src1, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "init sound src1")
+        XCTAssert(TT_InitSoundInputDevice(src2, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "init sound src2")
         
         connect(src1, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
         connect(src2, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
@@ -167,12 +185,12 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(TT_DBG_SetSoundInputTone(src1, UInt32(STREAMTYPE_VOICE.rawValue), 300) != 0, "Set tone src1")
         XCTAssert(TT_DBG_SetSoundInputTone(src2, UInt32(STREAMTYPE_VOICE.rawValue), 800) != 0, "Set tone src2")
         
-        XCTAssert(TT_EnableVoiceTransmission(src1, 1) != 0, "Enable voice tx src1")
-        XCTAssert(TT_EnableVoiceTransmission(src2, 1) != 0, "Enable voice tx src2")
+        XCTAssert(TT_EnableVoiceTransmission(src1, TRUE) != 0, "Enable voice tx src1")
+        XCTAssert(TT_EnableVoiceTransmission(src2, TRUE) != 0, "Enable voice tx src2")
 
         let player = newClient()
         
-        XCTAssert(TT_InitSoundOutputDevice(player, 0) != 0, "init sound player")
+        XCTAssert(TT_InitSoundOutputDevice(player, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "init sound player")
         connect(player, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
         login(player, nickname: NICKNAME, username: USERNAME, password: PASSWORD)
         joinRootChannel(player)
@@ -367,7 +385,7 @@ class iTeamTalkTests: XCTestCase {
             let ttInst = newClient()
             var msg = TTMessage()
             
-            let inst1 = TT_StartSoundLoopbackTest(0, 0, 48000, 1, 0, nil)
+            let inst1 = TT_StartSoundLoopbackTest(TT_SOUNDDEVICE_ID_REMOTEIO, TT_SOUNDDEVICE_ID_REMOTEIO, 48000, 1, 0, nil)
             
             print("Sound loop is active now")
             
@@ -587,8 +605,8 @@ class iTeamTalkTests: XCTestCase {
     
     
     func initSound(_ ttInst: UnsafeMutableRawPointer) {
-        XCTAssert(TT_InitSoundInputDevice(ttInst, 0) != 0, "Init input sound device");
-        XCTAssert(TT_InitSoundOutputDevice(ttInst, 0) != 0, "Init output sound device");
+        XCTAssert(TT_InitSoundInputDevice(ttInst, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "Init input sound device");
+        XCTAssert(TT_InitSoundOutputDevice(ttInst, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "Init output sound device");
     }
     
     func connect(_ ttInst: UnsafeMutableRawPointer, ipaddr: String, tcpport: INT32, udpport: INT32, encrypted: TTBOOL) {

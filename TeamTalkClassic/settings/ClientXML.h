@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -96,7 +96,7 @@ namespace teamtalk {
         /******** </main> ********/
 
         /******** <general> *******/
-        bool SetNickname(std::string szNickname);
+        bool SetNickname(const std::string& szNickname);
         std::string GetNickname(std::string def_nickname = std::string());
 
         bool SetGender(int nGender);
@@ -134,7 +134,7 @@ namespace teamtalk {
         /******** </general> *******/
 
         /******** <window> ********/
-        bool SetFont(std::string szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
+        bool SetFont(const std::string& szFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
         bool GetFont(std::string& szFontName, int& nSize, bool& bBold, bool& bUnderline, bool& bItalic);
 
         bool SetStartMinimized(bool bEnable);
@@ -161,7 +161,7 @@ namespace teamtalk {
         bool SetMessageTimeStamp(bool bEnable);
         bool GetMessageTimeStamp();
 
-        bool SetLanguageFile(std::string szLanguageFile);
+        bool SetLanguageFile(const std::string& szLanguageFile);
         std::string GetLanguageFile();
 
         bool SetCloseTransferDialog(bool bEnable);
@@ -265,47 +265,71 @@ namespace teamtalk {
         /********* </soundsystem> ********/
 
         /********* <events> *************/
-        bool SetEventNewUser(std::string szPath);
+        bool SetEventSoundsEnabled(unsigned uSoundEvents);
+        unsigned GetEventSoundsEnabled(unsigned uDefEvents = 0);
+
+        bool SetEventNewUser(const std::string& szPath);
         std::string GetEventNewUser();
 
-        bool SetEventNewMessage(std::string szPath);
+        bool SetEventNewMessage(const std::string& szPath);
         std::string GetEventNewMessage();
 
-        bool SetEventRemovedUser(std::string szPath);
+        bool SetEventRemovedUser(const std::string& szPath);
         std::string GetEventRemovedUser();
 
-        bool SetEventServerLost(std::string szPath);
+        bool SetEventServerLost(const std::string& szPath);
         std::string GetEventServerLost();
 
-        bool SetEventUserReturned(std::string szPath);
-        std::string GetEventUserReturned();
+        bool SetEventChannelSilent(const std::string& szPath);
+        std::string GetEventChannelSilent();
 
-        bool SetEventUserStoppedTalking(std::string szPath);
-        std::string GetEventUserStoppedTalking();
-
-        bool SetEventHotKey(std::string szPath);
+        bool SetEventHotKey(const std::string& szPath);
         std::string GetEventHotKey();
 
-        bool SetEventChannelMsg(std::string szPath);
+        bool SetEventChannelMsg(const std::string& szPath);
         std::string GetEventChannelMsg();
 
-        bool SetEventFilesUpd(std::string szPath);
+        bool SetEventFilesUpd(const std::string& szPath);
         std::string GetEventFilesUpd();
 
-        bool SetEventTransferEnd(std::string szPath);
+        bool SetEventTransferEnd(const std::string& szPath);
         std::string GetEventTransferEnd();
 
-        bool SetEventVideoSession(std::string szPath);
+        bool SetEventVideoSession(const std::string& szPath);
         std::string GetEventVideoSession();
 
-        bool SetEventDesktopSession(std::string szPath);
+        bool SetEventDesktopSession(const std::string& szPath);
         std::string GetEventDesktopSession();
 
-        bool SetEventQuestionMode(std::string szPath);
+        bool SetEventQuestionMode(const std::string& szPath);
         std::string GetEventQuestionMode();
 
-        bool SetEventDesktopAccessReq(std::string szPath);
+        bool SetEventDesktopAccessReq(const std::string& szPath);
         std::string GetEventDesktopAccessReq();
+
+        bool SetEventVoiceActivated(const std::string& szPath);
+        std::string GetEventVoiceActivated();
+
+        bool SetEventVoiceDeactivated(const std::string& szPath);
+        std::string GetEventVoiceDeactivated();
+
+        bool SetEventEnableVoiceActivation(const std::string& szPath);
+        std::string GetEventEnableVoiceActivation();
+
+        bool SetEventDisableVoiceActivation(const std::string& szPath);
+        std::string GetEventDisableVoiceActivation();
+
+        bool SetEventMeEnableVoiceActivation(const std::string& szPath);
+        std::string GetEventMeEnableVoiceActivation();
+
+        bool SetEventMeDisableVoiceActivation(const std::string& szPath);
+        std::string GetEventMeDisableVoiceActivation();
+
+        bool SetEventTransmitQueueHead(std::string szPath);
+        std::string GetEventTransmitQueueHead(std::string szDefPath = "");
+
+        bool SetEventTransmitQueueStop(std::string szPath);
+        std::string GetEventTransmitQueueStop(std::string szDefPath = "");
 
         bool SetEventVibrateOnMsg(int nIndex);
         int GetEventVibrateOnMsg();
@@ -383,7 +407,7 @@ namespace teamtalk {
         bool RemoveHostManagerEntry(const std::string entryname);
         int GetHostManagerEntryCount();
         bool GetHostManagerEntry(int index, HostEntry& entry);
-        bool GetHostManagerEntry(std::string entryname, HostEntry& entry);
+        bool GetHostManagerEntry(const std::string& entryname, HostEntry& entry);
         /********** </hostmanager> **********/
 
         /********** <other> *********/

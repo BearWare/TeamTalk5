@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,7 +32,7 @@ namespace TeamTalkApp.NET
 {
     public partial class UserAccountsDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         int create_cmdid;
         int list_cmdid;
         int del_cmdid;
@@ -52,7 +52,7 @@ namespace TeamTalkApp.NET
                             UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |  
                             UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
 
-        public UserAccountsDlg(TeamTalk tt)
+        public UserAccountsDlg(TeamTalkBase tt)
         {
             ttclient = tt;
             create_cmdid = 0;
@@ -80,10 +80,10 @@ namespace TeamTalkApp.NET
                 }
             }
 
-            ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
-            ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
-            ttclient.OnCmdSuccess += new TeamTalk.CommandSuccess(ttclient_OnCmdSuccess);
-            ttclient.OnCmdUserAccount += new TeamTalk.ListUserAccount(ttclient_OnCmdUserAccount);
+            ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
+            ttclient.OnCmdError += new TeamTalkBase.CommandError(ttclient_OnCmdError);
+            ttclient.OnCmdSuccess += new TeamTalkBase.CommandSuccess(ttclient_OnCmdSuccess);
+            ttclient.OnCmdUserAccount += new TeamTalkBase.ListUserAccount(ttclient_OnCmdUserAccount);
 
             //hopefully you have less than 100000 accounts
             list_cmdid = ttclient.DoListUserAccounts(0, 100000);
@@ -292,7 +292,7 @@ namespace TeamTalkApp.NET
             account_create.szInitChannel = initchanTextBox.Text;
             account_create.nAudioCodecBpsLimit = (int)bitrateNumericUpDown.Value * 1000;
             
-            account_create.autoOperatorChannels = new int[TeamTalk.TT_CHANNELS_OPERATOR_MAX];
+            account_create.autoOperatorChannels = new int[TeamTalkBase.TT_CHANNELS_OPERATOR_MAX];
             int c = 0;
             //process auto-operator channels
             foreach (string channel in selchanListBox.Items)

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -25,6 +25,7 @@ import AVFoundation
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
+let PREF_GENERAL_SENDONRETURN = "general_sendonreturn_preference"
 
 let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
@@ -130,6 +131,13 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         pttlockcell.detailTextLabel!.text = NSLocalizedString("Double tap to lock TX button", comment: "preferences")
         pttlockswitch.addTarget(self, action: #selector(PreferencesViewController.pttlockChanged(_:)), for: .valueChanged)
         general_items.append(pttlockcell)
+        
+        let sendonenter = settings.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || settings.bool(forKey: PREF_GENERAL_SENDONRETURN)
+        let sendonentercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let sendonenterswitch = newTableCellSwitch(sendonentercell, label: NSLocalizedString("Return Sends Message", comment: "preferences"), initial: sendonenter)
+        sendonentercell.detailTextLabel!.text = NSLocalizedString("Pressing Return-key sends text message", comment: "preferences")
+        sendonenterswitch.addTarget(self, action: #selector(PreferencesViewController.sendonenterChanged(_:)), for: .valueChanged)
+        general_items.append(sendonentercell)
         
         // display items
 
@@ -426,6 +434,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
 
         // version items
         
+        let translatorcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        translatorcell.textLabel?.text = NSLocalizedString("Translator", comment: "preferences")
+        translatorcell.detailTextLabel?.text = NSLocalizedString("Bjoern D. Rasmussen, contact@bearware.dk", comment: "preferences")
+        version_items.append(translatorcell)
+        
         let versioncell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
         let v_str = String(cString: TT_GetVersion())
@@ -497,6 +510,11 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
     func pttlockChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_GENERAL_PTTLOCK)
+    }
+
+    func sendonenterChanged(_ sender: UISwitch) {
+        let defaults = UserDefaults.standard
+        defaults.set(sender.isOn, forKey: PREF_GENERAL_SENDONRETURN)
     }
     
     func masterVolumeChanged(_ sender: UISlider) {

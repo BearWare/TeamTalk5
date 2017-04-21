@@ -53,6 +53,9 @@
 /* preferences */
 "Announce user leaving channel" = "Csatorna elhagyások bemondása";
 
+/* preferences */
+"App Version" = "App Version";
+
 /* codec detail */
 "Application" = "Alkalmazás";
 
@@ -68,12 +71,19 @@
 /* codec detail */
 "Bitrate" = "Bitrate";
 
+/* text message type */
+"Broadcast message" = "Broadcast message";
+
 /* preferences
    user detail */
 "Broadcast Messages" = "teljesszögű üzenetek";
 
-/* channel list */
+/* channel list
+   server entry */
 "Channel" = "Csatorna";
+
+/* text message type */
+"Channel message" = "Channel message";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "csatorna üzenet a következőtől: %@. %@";
@@ -164,6 +174,9 @@
 /* Dialog message */
 "Join" = "Belépett";
 
+/* server entry */
+"Join Channel" = "Join Channel";
+
 /* channel list */
 "Join channel" = "Kapcsolódás a csatornához";
 
@@ -181,6 +194,9 @@
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Nevek kiírás korlátozása a csatorna listában %d karakterre";
+
+/* text message type */
+"Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Bejelentkeztünk a szerverre";
@@ -209,6 +225,12 @@
    create channel */
 "Mono" = "Mono";
 
+/* channel list */
+"Move user" = "Move user";
+
+/* channel list */
+"Move users here" = "Move users here";
+
 /* codec detail */
 "Music" = "Zene";
 
@@ -228,8 +250,14 @@
 /* preferences */
 "Name displayed in channel list" = "Kijelzett név a listában";
 
+/* Dialog message */
+"New Server" = "New Server";
+
 /* preferences */
 "Nickname" = "Becenév";
+
+/* Dialog message */
+"No" = "No";
 
 /* codec detail
    create channel */
@@ -297,6 +325,12 @@
 /* serverlist */
 "Preferences" = "Beállítások";
 
+/* preferences */
+"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+
+/* text message type */
+"Private message" = "Private message";
+
 /* serverlist */
 "Private server" = "Személyes Szerver";
 
@@ -339,6 +373,9 @@
 /* preferences */
 "Receive webcam streams by default" = "Webkamera folyamok alapértelmezett beérkezése";
 
+/* preferences */
+"Return Sends Message" = "Return Sends Message";
+
 /* channel list */
 "Return to previous channel" = "Visszalépés az utolsó csatornába";
 
@@ -347,6 +384,12 @@
 
 /* codec detail */
 "Sample Rate" = "Sample Rate";
+
+/* Dialog message */
+"Save Server" = "Save Server";
+
+/* Dialog message */
+"Save server to server list?" = "Save server to server list?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Válassza ki a használt TTS hangot";
@@ -484,6 +527,9 @@
    user detail */
 "Username" = "Felhasználónév";
 
+/* preferences */
+"Version Information" = "Version Information";
+
 /* channel list */
 "View" = "megtekintés";
 
@@ -521,6 +567,9 @@
 /* preferences
    user detail */
 "WebCam" = "Webkamera";
+
+/* Dialog message */
+"Yes" = "Yes";
 
 /* speech */
 "You have selected %@" = "a %@ hangot választotta";

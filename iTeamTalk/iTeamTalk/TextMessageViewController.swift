@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2016, BearWare.dk
+* Copyright (c) 2005-2017, BearWare.dk
 *
 * Contact Information:
 *
@@ -163,7 +163,7 @@ class TextMessageViewController :
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = getDisplayName(user)
-            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .im_MYSELF)
+            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .PRIV_IM_MYSELF)
             
             messages.append(mymsg)
 
@@ -196,6 +196,22 @@ class TextMessageViewController :
         }
     }
     
+    // send message on enter
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || defaults.bool(forKey: PREF_GENERAL_SENDONRETURN) {
+            
+            if text.contains("\n") {
+                sendTextMessage(sendButton)
+                return false
+            }
+        }
+        return true
+    }
+    
     func handleTTMessage(_ m: TTMessage) {
         var m = m
 
@@ -212,15 +228,15 @@ class TextMessageViewController :
                     var user = User()
                     TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                     
-                    var msgtype = MsgType.im
+                    var msgtype = MsgType.PRIV_IM
                     
                     switch txtmsg.nMsgType {
                     case MSGTYPE_USER :
-                        fallthrough
+                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM
                     case MSGTYPE_CHANNEL :
-                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .im_MYSELF : .im
+                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .CHAN_IM_MYSELF : .CHAN_IM
                     case MSGTYPE_BROADCAST :
-                        msgtype = .bcast
+                        msgtype = .BCAST
                     default :
                         break
                     }

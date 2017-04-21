@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -47,11 +47,11 @@ namespace TeamTalkApp.NET
 
     public partial class ChannelDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         ChannelDlgType dlgtype;
         Channel chan;
 
-        public ChannelDlg(TeamTalk tt, ChannelDlgType dlgtype, int channelid, int parentid)
+        public ChannelDlg(TeamTalkBase tt, ChannelDlgType dlgtype, int channelid, int parentid)
         {
             ttclient = tt;
             this.dlgtype = dlgtype;

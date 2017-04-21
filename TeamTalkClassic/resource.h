@@ -172,6 +172,28 @@
 #define IDS_USERJOINEDCHANNEL           264
 #define IDS_USERLEFTCHANNEL             265
 #define IDS_ROOTCHANNEL                 266
+#define IDS_NOSOUNDDEVICE               267
+#define IDS_USER_JOIN                   268
+#define IDS_USER_LEFT                   269
+#define IDS_USER_TEXTMSG                270
+#define IDS_USER_CHANMSG                271
+#define IDS_USER_QUESTIONMODE           272
+#define IDS_USER_DESKACCESS_REQ         273
+#define IDS_USER_NEWVIDEOSESSION        274
+#define IDS_USER_NEWDESKTOPSESSION      275
+#define IDS_CONNECTION_SERVERLOST       276
+#define IDS_HOTKEY                      277
+#define IDS_FILES_UPDATED               278
+#define IDS_TRANSFER_COMPLETE           279
+#define IDS_CHANNELSILENT               280
+#define IDS_VOICEACTIVATED              281
+#define IDS_VOICEDEACTIVATED            282
+#define IDS_TXQUEUEHEAD                 283
+#define IDS_TXQUEUESTOP                 284
+#define IDS_ENABLEVOX                   285
+#define IDS_DISABLEVOX                  286
+#define IDS_ME_ENABLEVOX                287
+#define IDS_ME_DISABLEVOX               288
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -213,7 +235,6 @@
 #define IDC_SLIDER_MEDIAFILEVOL         1043
 #define IDC_CHECK_WEBSITE               1044
 #define IDC_STATIC_PACKETLOSS           1045
-#define IDC_EDIT_EVENTS_STOPPEDTALK     1046
 #define IDC_STATIC_FILESIZE             1047
 #define IDC_CHECK_QUITCLEAR             1048
 #define IDC_SLIDER_VOICEVOL             1049
@@ -254,33 +275,23 @@
 #define IDC_EDIT_CHPASSWD               1087
 #define IDC_STATIC_GRPHOSTPROP          1088
 #define IDC_STATIC_MESSAGE              1089
-#define IDC_BUTTON_EVENTS_NEWUSER       1090
 #define IDC_EDIT_VIDEO                  1091
 #define IDC_STATIC_ENTRYNAME            1092
 #define IDC_STATIC_VU                   1093
-#define IDC_BUTTON_EVENTS_USERREMOVED   1094
 #define IDC_STATIC_DEFLOCALUDP          1095
 #define IDC_EDIT_USERSPEAK              1096
-#define IDC_BUTTON_EVENTS_NEWMESSAGE    1097
 #define IDC_STATIC_DEFHOSTPORT          1098
 #define IDC_COMBO_HOSTADDRESS           1099
-#define IDC_EDIT_EVENTS_NEWUSER         1100
 #define IDC_STATIC_DEFUDPPORT           1101
 #define IDC_CHECK_AUTOCONNECT           1102
-#define IDC_EDIT_EVENTS_USERREMOVED     1103
 #define IDC_STATIC_GRPKEYCOMP           1104
-#define IDC_EDIT_EVENTS_NEWMESSAGE      1105
 #define IDC_STATIC_KEYCOMPDESCRIP       1106
-#define IDC_BUTTON_EVENTS_SERVERLOST    1107
 #define IDC_STATIC_CURKEYCOMP           1108
 #define IDC_RADIO_ONLINE                1109
-#define IDC_BUTTON_EVENTS_CHANMESSAGE   1110
 #define IDC_STATIC_KEYCOMPDLGCLOSES     1111
 #define IDC_RADIO_AWAY                  1112
-#define IDC_BUTTON_EVENTS_HOTKEY        1113
 #define IDC_STATIC_HISTORY              1114
 #define IDC_EDIT_AWAYMESSAGE            1115
-#define IDC_BUTTON_EVENTS_STOPPEDTALK   1116
 #define IDC_STATIC_3DDESCRIP            1117
 #define IDC_RADIO_QUESTION              1118
 #define IDC_STATIC_SUSERID              1119
@@ -294,16 +305,10 @@
 #define IDC_EDIT_MAXBITRATE             1130
 #define IDC_CHECK_RECONNECT             1131
 #define IDC_STATIC_SCLIENTVER           1132
-#define IDC_EDIT_EVENTS_SERVERLOST      1133
-#define IDC_EDIT_EVENTS_DESKTOPSESSION  1134
 #define IDC_RICHEDIT_MESSAGE            1135
-#define IDC_EDIT_EVENTS_CHANMESSAGE     1136
 #define IDC_EDIT_VIDEOTX                1137
 #define IDC_RICHEDIT_HISTORY            1138
-#define IDC_EDIT_EVENTS_HOTKEY          1139
 #define IDC_STATIC_GRPADVANCED          1142
-#define IDC_EDIT_EVENTS_QUESTIONMODE    1143
-#define IDC_EDIT_EVENTS_DESKTOPACCESSREQ 1144
 #define IDC_STATIC_GRPMIXER             1145
 #define IDC_STATIC_TMPMIXERDEVICE       1147
 #define IDC_STATIC_CLIENTVER            1148
@@ -325,19 +330,11 @@
 #define IDC_BUTTON_ADDUPDATE            1167
 #define IDC_BUTTON_NEW                  1169
 #define IDC_BUTTON_GENTT                1170
-#define IDC_EDIT_EVENTS_TRANSFERSTART   1171
 #define IDC_STATIC_MOTD                 1172
-#define IDC_STATIC_NEWUSER              1174
 #define IDC_BUTTON_TEST                 1175
-#define IDC_STATIC_USERREMOVED          1176
-#define IDC_STATIC_SERVERLOST           1177
-#define IDC_STATIC_NEWMSG               1178
 #define IDC_COMBO_MIXERINPUTS           1179
-#define IDC_STATIC_HOTKEY               1180
 #define IDC_CHECK_MIXERAUTOSELECT       1181
-#define IDC_STATIC_CHMSG                1182
 #define IDC_EDIT_ADDRESSES              1183
-#define IDC_STATIC_STOPTALK             1184
 #define IDC_CHECK_BOOSTBUG              1185
 #define IDC_STATIC_GRPSNDEVENT          1186
 #define IDC_STATIC_RECORDERFREQ         1188
@@ -374,7 +371,6 @@
 #define IDC_STATIC_COPYRIGHT            1226
 #define IDC_STATIC_IMAGE                1227
 #define IDC_STATIC_AUTHOR               1228
-#define IDC_EDIT_EVENTS_FILEUPD         1229
 #define IDC_STATIC_GRPCHANNEL           1230
 #define IDC_BUTTON_SEND                 1231
 #define IDC_STATIC_SUSERNAME            1232
@@ -397,7 +393,6 @@
 #define IDC_STATIC_FILENAME             1255
 #define IDC_BUTTON_HKVA                 1257
 #define IDC_EDIT_HKVA                   1258
-#define IDC_BUTTON_EVENTS_DESKTOPACCESSREQ 1259
 #define IDC_STATIC_VA                   1260
 #define IDC_STATIC_VOLUMEPLUS           1261
 #define IDC_STATIC_VOLUMEMINUS          1262
@@ -417,13 +412,8 @@
 #define IDC_BUTTON_HKMIN                1276
 #define IDC_STATIC_LVG                  1277
 #define IDC_STATIC_KBSHORTCUTS          1278
-#define IDC_STATIC_FILEUPD              1279
-#define IDC_STATIC_TRANSFERSTART        1280
-#define IDC_BUTTON_EVENTS_TRANSFEREND   1281
-#define IDC_BUTTON_EVENTS_FILESUPD      1282
 #define IDC_STATIC_COMPILED             1283
 #define IDC_BUTTON_OPEN                 1284
-#define IDC_BUTTON_EVENTS_QUESTIONMODE  1285
 #define IDC_STATIC_OPPASSWD             1287
 #define IDC_EDIT_OPPASSWD               1288
 #define IDC_EDIT_MAXUSERS               1290
@@ -562,7 +552,6 @@
 #define IDC_EDIT_DESKTOPTX              1439
 #define IDC_CHECK_TRANSMITDESKTOP       1440
 #define IDC_CHECK_SHOWMOTD              1441
-#define IDC_EDIT_EVENTS_VIDEOSESSION    1442
 #define IDC_STATIC_NOTE                 1443
 #define IDC_EDIT_NOTE                   1444
 #define IDC_STATIC_INITCHANNEL          1445
@@ -574,12 +563,7 @@
 #define IDC_STATIC_SELCHANNELS          1451
 #define IDC_STATIC_AVAILCHANNELS        1452
 #define IDC_STATIC_GRPAUTOOP            1453
-#define IDC_BUTTON_EVENTS_VIDEOSESSION  1454
-#define IDC_BUTTON_EVENTS_DESKTOPSESSION 1455
 #define IDC_CHECK_ECHOCANCEL            1456
-#define IDC_STATIC_NEWVIDEOSESSION      1457
-#define IDC_STATIC_NEWDESKTOPSESSION    1458
-#define IDC_STATIC_QUESTIONMODE         1459
 #define IDC_CHECK_OPRECVONLY            1460
 #define IDC_STATIC_INPUT_SAMPLERATES    1461
 #define IDC_STATIC_OUTPUT_SAMPLERATES   1462
@@ -597,7 +581,6 @@
 #define IDC_STATIC_VIDFMT               1476
 #define IDC_STATIC_MEDIAGRP             1477
 #define IDC_STATIC_MEDIAFILE            1478
-#define IDC_STATIC_DESKACCESS_REQ       1479
 #define IDC_STATIC_KBYPS5               1480
 #define IDC_RADIO_DEFAULTUSER           1481
 #define IDC_CHECK_TRANSMITDESKTOPINPUT  1482
@@ -662,6 +645,7 @@
 #define IDC_STATIC_SCLIENTNAME          1541
 #define IDC_TREE_TTS                    1542
 #define IDC_STATIC_TTS                  1543
+#define IDC_TREE_SOUNDEVENTS            1544
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -771,9 +755,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        267
+#define _APS_NEXT_RESOURCE_VALUE        289
 #define _APS_NEXT_COMMAND_VALUE         32950
-#define _APS_NEXT_CONTROL_VALUE         1544
+#define _APS_NEXT_CONTROL_VALUE         1545
 #define _APS_NEXT_SYMED_VALUE           194
 #endif
 #endif

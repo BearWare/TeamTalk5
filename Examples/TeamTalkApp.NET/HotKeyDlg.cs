@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -37,16 +37,16 @@ namespace TeamTalkApp.NET
 
     public partial class HotKeyDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         public List<int> keys = new List<int>();
         List<int> activekeys = new List<int>();
 
-        public HotKeyDlg(TeamTalk tt)
+        public HotKeyDlg(TeamTalkBase tt)
         {
             ttclient = tt;
             InitializeComponent();
 
-            ttclient.OnHotKeyTest += new TeamTalk.HotKeyTest(ttclient_OnHotKeyTest);
+            ttclient.OnHotKeyTest += new TeamTalkBase.HotKeyTest(ttclient_OnHotKeyTest);
         }
 
         void ttclient_OnHotKeyTest(int nVkCode, bool bActive)

@@ -91,6 +91,8 @@
     <string name="pref_summary_speakerphone_checkbox">Switch from earpiece to speakers</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
+    <string name="pref_title_public_servers">Show public servers</string>
+    <string name="pref_summary_public_servers">Include public servers in Server List</string>
 
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>

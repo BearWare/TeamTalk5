@@ -136,7 +136,7 @@ public:
     BOOL GetUser(int nUserID, User& outUser) const;
 
     const channels_t& GetChannels();
-    users_t GetUsers(int nChannelID) const; //nChannelID = 0 -> all users
+    users_t GetUsers(int nChannelID = -1) const; //nChannelID = -1 -> all users
     users_t GetOperators(int nChannelID) const;
 
     void ExpandAll();

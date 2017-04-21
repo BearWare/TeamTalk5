@@ -39,8 +39,14 @@ help:
 	@echo "Targets:"
 	@echo "  native"
 	@echo "    - Build libTeamTalk5-jni.$(SHARED_EXT) JNI DLL for TeamTalk5 DLL"
+	@echo "  macnative"
+	@echo "    - Build libTeamTalk5-jni.$(SHARED_EXT) JNI DLL for TeamTalk5 DLL"
+	@echo "      and run install_name_tool to set dependency path (otool -L)"
 	@echo "  nativepro"
 	@echo "    - Build libTeamTalk5Pro-jni.$(SHARED_EXT) JNI DLL for TeamTalk5Pro DLL"
+	@echo "  macnativepro"
+	@echo "    - Build libTeamTalk5Pro-jni.$(SHARED_EXT) JNI DLL for TeamTalk5Pro DLL"
+	@echo "      and run install_name_tool to set depencency path (otool -L)"
 	@echo "  java"
 	@echo "    - Build TeamTalk5.jar. Java wrapper classes for JNI DLLs"
 	@echo "  clean"
@@ -57,6 +63,9 @@ help:
 	@echo "    - Build TeamTalk5SrvTest.jar and run JUnit test-cases"
 	@echo "  testcase"
 	@echo "    - Build and run a single test-case in TeamTalkTestCase-class"
+	@echo "  E.g make TARGET=test_04_Auth"
+	@echo "  testcasesrv"
+	@echo "    - Build and run a single test-case in TeamTalkServerTestCase-class"
 	@echo "  E.g make TARGET=test_04_Auth"
 	@echo ""
 	@echo "When running an application which uses the TeamTalk 5 SDK then"
@@ -85,7 +94,7 @@ macnativepro: nativepro
 	install_name_tool -change libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
 
 java:
-	cd src && javac $(SRCTARGET) -g:vars ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
+	cd src && javac $(SRCTARGET) -g ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
 
 clean: cleanjava
 	cd jni && rm -f $(TT5DLL) $(TT5PRODLL)
@@ -96,7 +105,7 @@ cleanjava:
 	rm -f libs/TeamTalk5.jar libs/TeamTalk5Test.jar
 
 junit: java
-	cd test && javac $(SRCTARGET) -g:vars -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
+	cd test && javac $(SRCTARGET) -g -cp "$(CLASSPATH)" -sourcepath ../src dk/bearware/TeamTalkTestCase.java dk/bearware/TeamTalkTestCaseBase.java TeamTalkTestSuite.java SingleJUnitTestRunner.java
 	cd test && jar cf ../libs/TeamTalk5Test.jar ./dk/bearware/*.class
 
 junitsrv: java
@@ -111,3 +120,6 @@ runjunitsrv:  junitsrv
 
 testcase: junit
 	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+
+testcasesrv: junitsrv
+	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)

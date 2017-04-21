@@ -12,7 +12,7 @@ using namespace std;
 
 TTSInstance* ttInst;
 
-#ifdef UNICODE
+#ifdef WIN32
 #define cout wcout
 #define cin wcin
 #define string wstring

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2016, BearWare.dk
+ * Copyright (c) 2005-2017, BearWare.dk
  * 
  * Contact Information:
  *
@@ -32,11 +32,11 @@ namespace TeamTalkApp.NET
 {
     public partial class LoginDlg : Form
     {
-        TeamTalk ttclient;
+        TeamTalkBase ttclient;
         Settings settings;
         int login_cmdid = 0;
 
-        public LoginDlg(TeamTalk tt, Settings settings)
+        public LoginDlg(TeamTalkBase tt, Settings settings)
         {
             ttclient = tt;
             this.settings = settings;
@@ -46,8 +46,8 @@ namespace TeamTalkApp.NET
             usernameTextBox.Text = settings.server.username;
             passwdTextBox.Text = settings.server.password;
 
-            ttclient.OnCmdProcessing += new TeamTalk.CommandProcessing(ttclient_OnCmdProcessing);
-            ttclient.OnCmdError += new TeamTalk.CommandError(ttclient_OnCmdError);
+            ttclient.OnCmdProcessing += new TeamTalkBase.CommandProcessing(ttclient_OnCmdProcessing);
+            ttclient.OnCmdError += new TeamTalkBase.CommandError(ttclient_OnCmdError);
         }
 
         void ttclient_OnCmdError(int nCmdID, ClientErrorMsg clienterrormsg)
