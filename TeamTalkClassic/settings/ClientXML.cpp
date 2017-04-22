@@ -1826,7 +1826,7 @@ namespace teamtalk {
     {
         TiXmlElement* child = GetEventsElement();
         if(child)
-            GetString(*child, "channelmessage", s);
+            GetString(*child, "channelmessage", szDefPath);
         return szDefPath;
     }
 
@@ -1908,7 +1908,7 @@ namespace teamtalk {
     {
         TiXmlElement* child = GetEventsElement();
         if(child)
-            GetString(*child, "new-desktop-session", s);
+            GetString(*child, "new-desktop-session", szDefPath);
         return szDefPath;
     }
 
