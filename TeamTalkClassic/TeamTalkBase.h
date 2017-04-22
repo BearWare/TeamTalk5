@@ -297,7 +297,15 @@ enum SoundEvent
                                           SOUNDEVENT_CONNECTION_LOST |
                                           SOUNDEVENT_PUSHTOTALK |
                                           SOUNDEVENT_FILES_UPDATED |
-                                          SOUNDEVENT_FILETX_COMPLETE,
+                                          SOUNDEVENT_FILETX_COMPLETE |
+                                          SOUNDEVENT_VOICEACTIVATED |
+                                          SOUNDEVENT_VOICEDEACTIVATED |
+                                          SOUNDEVENT_TRANSMITQUEUE_HEAD |
+                                          SOUNDEVENT_TRANSMITQUEUE_STOP |
+                                          SOUNDEVENT_ENABLE_VOICEACTIVATION |
+                                          SOUNDEVENT_DISABLE_VOICEACTIVATION |
+                                          SOUNDEVENT_ME_ENABLE_VOICEACTIVATION |
+                                          SOUNDEVENT_ME_DISABLE_VOICEACTIVATION,
 
     SOUNDEVENT_ALL                      = 0xFFFFFFFF
 };
