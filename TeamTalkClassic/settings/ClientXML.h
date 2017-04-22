@@ -38,6 +38,28 @@
 #define DEFAULT_SOUND_GAIN_LEVEL                    50
 #define DEFAULT_MEDIA_VS_VOICE                      100
 
+#define DEFAULT_SOUNDEVENT_USERJOINED               "Sounds\\newuser.wav"
+#define DEFAULT_SOUNDEVENT_USERLEFT                 "Sounds\\removeuser.wav"
+#define DEFAULT_SOUNDEVENT_PRIVTEXTMSG              "Sounds\\user_msg.wav"
+#define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
+#define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
+#define DEFAULT_SOUNDEVENT_CHANTEXTMSG              "Sounds\\channel_msg.wav"
+#define DEFAULT_SOUNDEVENT_FILESUPDATE              "Sounds\\fileupdate.wav"
+#define DEFAULT_SOUNDEVENT_FILETXCOMPLETE           "Sounds\\filetx_complete.wav"
+#define DEFAULT_SOUNDEVENT_VIDEOSESSION             "Sounds\\videosession.wav"
+#define DEFAULT_SOUNDEVENT_DESKTOPSESSION           "Sounds\\desktopsession.wav"
+#define DEFAULT_SOUNDEVENT_QUESTIONMODE             "Sounds\\questionmode.wav"
+#define DEFAULT_SOUNDEVENT_DESKTOPACCESS            "Sounds\\desktopaccessreq.wav"
+#define DEFAULT_SOUNDEVENT_CHANNELSILENT            ""
+#define DEFAULT_SOUNDEVENT_VOICEACTIVATED           "Sounds\\voiceact_on.wav"
+#define DEFAULT_SOUNDEVENT_VOICEDEACTIVATED         "Sounds\\voiceact_off.wav"
+#define DEFAULT_SOUNDEVENT_ENABLEVOICEACT           "Sounds\\vox_enable.wav"
+#define DEFAULT_SOUNDEVENT_DISABLEVOICEACT          "Sounds\\vox_disable.wav"
+#define DEFAULT_SOUNDEVENT_ME_ENABLEVOICEACT        "Sounds\\vox_me_enable.wav"
+#define DEFAULT_SOUNDEVENT_ME_DISABLEVOICEACT       "Sounds\\vox_me_disable.wav"
+#define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_READY      "Sounds\\txqueue_start.wav"
+#define DEFAULT_SOUNDEVENT_TRANSMITQUEUE_STOP       "Sounds\\txqueue_stop.wav"
+
 namespace teamtalk {
 
     typedef std::vector<int> HotKey;
@@ -269,67 +291,67 @@ namespace teamtalk {
         unsigned GetEventSoundsEnabled(unsigned uDefEvents = 0);
 
         bool SetEventNewUser(const std::string& szPath);
-        std::string GetEventNewUser();
+        std::string GetEventNewUser(std::string szDefPath = DEFAULT_SOUNDEVENT_USERJOINED);
 
         bool SetEventNewMessage(const std::string& szPath);
-        std::string GetEventNewMessage();
+        std::string GetEventNewMessage(std::string szDefPath = DEFAULT_SOUNDEVENT_PRIVTEXTMSG);
 
         bool SetEventRemovedUser(const std::string& szPath);
-        std::string GetEventRemovedUser();
+        std::string GetEventRemovedUser(std::string szDefPath = DEFAULT_SOUNDEVENT_USERLEFT);
 
         bool SetEventServerLost(const std::string& szPath);
-        std::string GetEventServerLost();
+        std::string GetEventServerLost(std::string szDefPath = DEFAULT_SOUNDEVENT_SERVERLOST);
 
         bool SetEventChannelSilent(const std::string& szPath);
-        std::string GetEventChannelSilent();
+        std::string GetEventChannelSilent(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANNELSILENT);
 
         bool SetEventHotKey(const std::string& szPath);
-        std::string GetEventHotKey();
+        std::string GetEventHotKey(std::string szDefPath = DEFAULT_SOUNDEVENT_PTTHOTKEY);
 
         bool SetEventChannelMsg(const std::string& szPath);
-        std::string GetEventChannelMsg();
+        std::string GetEventChannelMsg(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANTEXTMSG);
 
         bool SetEventFilesUpd(const std::string& szPath);
-        std::string GetEventFilesUpd();
+        std::string GetEventFilesUpd(std::string szDefPath = DEFAULT_SOUNDEVENT_FILESUPDATE);
 
         bool SetEventTransferEnd(const std::string& szPath);
-        std::string GetEventTransferEnd();
+        std::string GetEventTransferEnd(std::string szDefPath = DEFAULT_SOUNDEVENT_FILETXCOMPLETE);
 
         bool SetEventVideoSession(const std::string& szPath);
-        std::string GetEventVideoSession();
+        std::string GetEventVideoSession(std::string szDefPath = DEFAULT_SOUNDEVENT_VIDEOSESSION);
 
         bool SetEventDesktopSession(const std::string& szPath);
-        std::string GetEventDesktopSession();
+        std::string GetEventDesktopSession(std::string szDefPath = DEFAULT_SOUNDEVENT_DESKTOPSESSION);
 
         bool SetEventQuestionMode(const std::string& szPath);
-        std::string GetEventQuestionMode();
+        std::string GetEventQuestionMode(std::string szDefPath = DEFAULT_SOUNDEVENT_QUESTIONMODE);
 
         bool SetEventDesktopAccessReq(const std::string& szPath);
-        std::string GetEventDesktopAccessReq();
+        std::string GetEventDesktopAccessReq(std::string szDefPath = DEFAULT_SOUNDEVENT_DESKTOPACCESS);
 
         bool SetEventVoiceActivated(const std::string& szPath);
-        std::string GetEventVoiceActivated();
+        std::string GetEventVoiceActivated(std::string szDefPath = DEFAULT_SOUNDEVENT_VOICEACTIVATED);
 
         bool SetEventVoiceDeactivated(const std::string& szPath);
-        std::string GetEventVoiceDeactivated();
+        std::string GetEventVoiceDeactivated(std::string szDefPath = DEFAULT_SOUNDEVENT_VOICEDEACTIVATED);
 
         bool SetEventEnableVoiceActivation(const std::string& szPath);
-        std::string GetEventEnableVoiceActivation();
+        std::string GetEventEnableVoiceActivation(std::string szDefPath = DEFAULT_SOUNDEVENT_ENABLEVOICEACT);
 
         bool SetEventDisableVoiceActivation(const std::string& szPath);
-        std::string GetEventDisableVoiceActivation();
+        std::string GetEventDisableVoiceActivation(std::string szDefPath = DEFAULT_SOUNDEVENT_DISABLEVOICEACT);
 
         bool SetEventMeEnableVoiceActivation(const std::string& szPath);
-        std::string GetEventMeEnableVoiceActivation();
+        std::string GetEventMeEnableVoiceActivation(std::string szDefPath = DEFAULT_SOUNDEVENT_ME_ENABLEVOICEACT);
 
         bool SetEventMeDisableVoiceActivation(const std::string& szPath);
-        std::string GetEventMeDisableVoiceActivation();
+        std::string GetEventMeDisableVoiceActivation(std::string szDefPath = DEFAULT_SOUNDEVENT_ME_DISABLEVOICEACT);
 
         bool SetEventTransmitQueueHead(std::string szPath);
-        std::string GetEventTransmitQueueHead(std::string szDefPath = "");
+        std::string GetEventTransmitQueueHead(std::string szDefPath = DEFAULT_SOUNDEVENT_TRANSMITQUEUE_READY);
 
         bool SetEventTransmitQueueStop(std::string szPath);
-        std::string GetEventTransmitQueueStop(std::string szDefPath = "");
+        std::string GetEventTransmitQueueStop(std::string szDefPath = DEFAULT_SOUNDEVENT_TRANSMITQUEUE_STOP);
 
         bool SetEventVibrateOnMsg(int nIndex);
         int GetEventVibrateOnMsg();
