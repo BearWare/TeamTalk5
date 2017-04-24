@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="102">TeamTalk&amp;设置 向导</item>
     <item id="104">Dis&amp;连接\tF2</item>
@@ -542,7 +542,7 @@
     <item id="32941">用户&amp;发言信息\tCtrl+G</item>
     <item id="32942">&amp;频道信息</item>
     <item id="32943">&amp;发言频道信息\tCtrl+G</item>
-    <item id="32944">>R&amp;将首选项设置为默认值</item>
+    <item id="32944">&amp;将首选项设置为默认值</item>
     <item id="32945">&amp;允许所有语音传输\tCtrl+Alt+Shift+Q</item>
     <item id="32946">&amp;允许所有视频传输\tCtrl+Alt+Shift+W</item>
     <item id="32947">&amp;允许所有桌面传输\tCtrl+Alt+Shift+E</item>
