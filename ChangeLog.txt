@@ -12,6 +12,9 @@ Accessible Windows client:
 - Close private text message dialog by pressing escape
 - Virtual sound device for no input/output sound device
 - Sound events are played fully, i.e. new sound events do not cancel currently played
+Android client:
+- Option to disable public servers from server list
+- Arabic language support
 
 Version 5.2.1, released 2017/01/30
 Default Qt client:
