@@ -71,6 +71,9 @@
 /* codec detail */
 "Bitrate" = "Битрейт";
 
+/* preferences */
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+
 /* text message type */
 "Broadcast message" = "Сетевое сообщение";
 
@@ -481,6 +484,9 @@
 
 /* create channel */
 "Topic" = "Тема";
+
+/* preferences */
+"Translator" = "Translator";
 
 /* channel list */
 "Transmit" = "Передача";

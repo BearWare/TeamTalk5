@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
@@ -70,6 +70,9 @@
 
 /* codec detail */
 "Bitrate" = "Bit Hızı";
+
+/* preferences */
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* text message type */
 "Broadcast message" = "Yayınlanan ileti";
@@ -482,6 +485,9 @@
 /* create channel */
 "Topic" = "Konu";
 
+/* preferences */
+"Translator" = "Translator";
+
 /* channel list */
 "Transmit" = "Konuş";
 
@@ -559,7 +565,7 @@
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "VoIP";
+"VoIP" = "Konuşma";
 
 /* user detail */
 "Volume Controls" = "Ses Denetimleri";

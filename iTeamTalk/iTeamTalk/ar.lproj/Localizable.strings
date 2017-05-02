@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ إنضم للقناة";
 
 /* log entry */
@@ -70,6 +70,9 @@
 
 /* codec detail */
 "Bitrate" = "معدل ال Bit";
+
+/* preferences */
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* text message type */
 "Broadcast message" = "رسالة عامة";
@@ -285,7 +288,7 @@
 "OK" = "حسناً";
 
 /* codec detail */
-"OPUS Codec" = ترميز "OPUS";
+"OPUS Codec" = "ترميز OPUS";
 
 /* channel list */
 "Parent channel" = "الرجوع لقناة ";
@@ -410,7 +413,7 @@
 "Show Public Servers" = "إظهار الخوادم العامة";
 
 /* preferences */
-"Show public servers in server list" = إظهار الخوادم العامة في قائمة الخوادم";
+"Show public servers in server list" = "إظهار الخوادم العامة في قائمة الخوادم";
 
 /* preferences */
 "Show text messages instantly" = "عرض الرسائل النصية على الفور";
@@ -481,6 +484,9 @@
 
 /* create channel */
 "Topic" = "الموضوع";
+
+/* preferences */
+"Translator" = "Translator";
 
 /* channel list */
 "Transmit" = "الإرسال";

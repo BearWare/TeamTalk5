@@ -71,6 +71,9 @@
 /* codec detail */
 "Bitrate" = "Bitsnelheid";
 
+/* preferences */
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+
 /* text message type */
 "Broadcast message" = "Broadcast message";
 
@@ -175,7 +178,7 @@
 "Join" = "Binnengaan";
 
 /* server entry */
-"Join Channel" = "Join Channel";
+"Join Channel" = "Kanaal binnengaan";
 
 /* channel list */
 "Join channel" = "Kanaal binnengaan";
@@ -481,6 +484,9 @@
 
 /* create channel */
 "Topic" = "Onderwerp";
+
+/* preferences */
+"Translator" = "Translator";
 
 /* channel list */
 "Transmit" = "Uitzenden";
