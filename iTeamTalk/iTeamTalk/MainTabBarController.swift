@@ -317,6 +317,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
 
             startReconnectTimer()
             
+        case CLIENTEVENT_VOICE_ACTIVATION :
+            
+            playSound(getTTBOOL(&m) != 0 ? .voxtriggered_ON : .voxtriggered_OFF)
+            
         case CLIENTEVENT_CMD_PROCESSING :
             if getTTBOOL(&m) != 0 {
             }

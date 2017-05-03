@@ -11,6 +11,10 @@
 		2516CB6C1BA8818B00EF9A17 /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */; };
 		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
 		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
+		251997F41EBA5FD3003C94B1 /* txqueue_start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */; };
+		251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */; };
+		251997F81EBA5FE7003C94B1 /* voiceact_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */; };
+		251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */; };
 		251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251F61351BD68F6700617C43 /* TextMsgTableCell.swift */; };
 		253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 253343BE1C8C85CF00B43A9A /* Splash-568h.png */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
@@ -69,6 +73,10 @@
 		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		251997F01EB911FA003C94B1 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		251997F21EB911FB003C94B1 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_start.mp3; sourceTree = "<group>"; };
+		251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_stop.mp3; sourceTree = "<group>"; };
+		251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_off.mp3; sourceTree = "<group>"; };
+		251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_on.mp3; sourceTree = "<group>"; };
 		251B42671C5BC1C8009650EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		251B42681C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Main.strings; sourceTree = "<group>"; };
 		251B42691C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -238,13 +246,17 @@
 		25E4DC2C1BF7291000EC5A8C /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				254C08491C345E3700C98566 /* newuser.mp3 */,
-				254C084A1C345E3700C98566 /* removeuser.mp3 */,
 				25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */,
+				254C08491C345E3700C98566 /* newuser.mp3 */,
 				25AA206D1BEBCA0A0089AD54 /* off.mp3 */,
 				25E4DC2D1BF7347200EC5A8C /* on.mp3 */,
+				254C084A1C345E3700C98566 /* removeuser.mp3 */,
 				25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */,
+				251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */,
+				251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */,
 				25E4DC311BF7360D00EC5A8C /* user_message.mp3 */,
+				251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */,
+				251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -355,11 +367,15 @@
 				2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */,
 				25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */,
 				25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */,
+				251997F81EBA5FE7003C94B1 /* voiceact_off.mp3 in Resources */,
 				254C084B1C345E3700C98566 /* newuser.mp3 in Resources */,
+				251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */,
 				254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */,
 				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
 				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
+				251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */,
 				25E4DC331BF7360D00EC5A8C /* serverlost.mp3 in Resources */,
+				251997F41EBA5FD3003C94B1 /* txqueue_start.mp3 in Resources */,
 				254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */,
 				25E4DC2E1BF7347200EC5A8C /* on.mp3 in Resources */,
 			);

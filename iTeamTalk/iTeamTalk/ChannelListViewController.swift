@@ -791,6 +791,22 @@ class ChannelListViewController :
             let channel = getChannel(&m).pointee
             channels[channel.nChannelID] = channel
             
+            if mychannel.nChannelID == channel.nChannelID {
+                
+                let myuserid = TT_GetMyUserID(ttInst)
+                if channel.transmitUsersQueue.0 == myuserid &&
+                    mychannel.transmitUsersQueue.0 != myuserid {
+                    playSound(.transmit_ON)
+                }
+                
+                if mychannel.transmitUsersQueue.0 == myuserid &&
+                    channel.transmitUsersQueue.0 != myuserid {
+                    playSound(.transmit_OFF)
+                }
+                
+                mychannel = channel
+            }
+            
             if currentCmdId == 0 {
                 self.tableView.reloadData()
             }

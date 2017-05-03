@@ -363,7 +363,9 @@ func getDisplayName(_ user: User) -> String {
 
 enum Sounds : Int {
     case tx_ON = 1, tx_OFF = 2, chan_MSG = 3,
-         user_MSG = 4, srv_LOST = 5, joined_CHAN = 6, left_CHAN = 7
+         user_MSG = 4, srv_LOST = 5, joined_CHAN = 6, left_CHAN = 7,
+        voxtriggered_ON = 8, voxtriggered_OFF = 9, transmit_ON = 10,
+        transmit_OFF = 11
 }
 
 var player : AVAudioPlayer?
@@ -408,7 +410,27 @@ func getSoundFile(_ s: Sounds) -> String? {
             settings.bool(forKey: PREF_SNDEVENT_LEFTCHAN) {
                 return "removeuser"
         }
-	    }
+    case .voxtriggered_ON :
+        if settings.object(forKey: PREF_SNDEVENT_VOXTRIGGER) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_VOXTRIGGER) {
+            return "voiceact_on"
+        }
+    case .voxtriggered_OFF :
+        if settings.object(forKey: PREF_SNDEVENT_VOXTRIGGER) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_VOXTRIGGER) {
+            return "voiceact_off"
+        }
+    case .transmit_ON :
+        if settings.object(forKey: PREF_SNDEVENT_TRANSMITREADY) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_TRANSMITREADY) {
+            return "txqueue_start"
+        }
+    case .transmit_OFF :
+        if settings.object(forKey: PREF_SNDEVENT_TRANSMITREADY) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_TRANSMITREADY) {
+            return "txqueue_stop"
+        }
+    }
 
     return nil
 }

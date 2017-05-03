@@ -47,6 +47,8 @@ let PREF_SNDEVENT_CHANMSG = "snd_chanmsg_preference"
 let PREF_SNDEVENT_USERMSG = "snd_usermsg_preference"
 let PREF_SNDEVENT_JOINEDCHAN = "snd_joinedchan_preference"
 let PREF_SNDEVENT_LEFTCHAN = "snd_leftchan_preference"
+let PREF_SNDEVENT_VOXTRIGGER = "snd_vox_triggered_preference"
+let PREF_SNDEVENT_TRANSMITREADY = "snd_transmitready_preference"
 
 let PREF_SUB_USERMSG = "sub_usertextmsg_preference"
 let PREF_SUB_CHANMSG = "sub_chantextmsg_preference"
@@ -303,6 +305,22 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         leftchanswitch.addTarget(self, action: #selector(PreferencesViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(leftchanswitch)
         soundevents_items.append(leftchancell)
+        
+        let voxtriggercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let voxtriggerswitch = newTableCellSwitch(voxtriggercell, label: NSLocalizedString("Voice Activation Triggered", comment: "preferences"), initial: getSoundFile(.voxtriggered_ON) != nil)
+        voxtriggercell.detailTextLabel!.text = NSLocalizedString("Play sound when voice activation is triggered", comment: "preferences")
+        voxtriggerswitch.tag = Sounds.voxtriggered_ON.rawValue
+        voxtriggerswitch.addTarget(self, action: #selector(PreferencesViewController.soundeventChanged(_:)), for: .valueChanged)
+        soundeventChanged(voxtriggerswitch)
+        soundevents_items.append(voxtriggercell)
+        
+        let transmitcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let transmitswitch = newTableCellSwitch(transmitcell, label: NSLocalizedString("Exclusive Mode Toggled", comment: "preferences"), initial: getSoundFile(.transmit_ON) != nil)
+        transmitcell.detailTextLabel!.text = NSLocalizedString("Play sound when transmit ready in \"No Interruptions\" channel", comment: "preferences")
+        transmitswitch.tag = Sounds.transmit_ON.rawValue
+        transmitswitch.addTarget(self, action: #selector(PreferencesViewController.soundeventChanged(_:)), for: .valueChanged)
+        soundeventChanged(transmitswitch)
+        soundevents_items.append(transmitcell)
 
         // connection items
         
@@ -469,6 +487,10 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_LEFTCHAN)
         case Sounds.user_MSG.rawValue :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_USERMSG)
+        case Sounds.voxtriggered_ON.rawValue :
+            defaults.set(sender.isOn, forKey: PREF_SNDEVENT_VOXTRIGGER)
+        case Sounds.transmit_ON.rawValue :
+            defaults.set(sender.isOn, forKey: PREF_SNDEVENT_TRANSMITREADY)
         default :
             break
         }
