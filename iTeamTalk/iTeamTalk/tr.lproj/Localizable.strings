@@ -1,4 +1,4 @@
-/* log entry */
+﻿/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
@@ -72,7 +72,7 @@
 "Bitrate" = "Bit Hızı";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Ozancan Karataş, ozanc27@icloud.com";
 
 /* text message type */
 "Broadcast message" = "Yayınlanan ileti";
@@ -159,7 +159,7 @@
 "Error" = "Hata";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "Özel Kip Değişimi";
 
 /* preferences
    user detail */
@@ -175,7 +175,7 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Durumu Değişimi";
 
 /* server entry */
-"Host address" = "Sunucu adresi";
+"Host address" = "Barındırıcı adresi";
 
 /* Dialog message */
 "Join" = "Katıl";
@@ -323,10 +323,10 @@
 "Play sound when private text message is received" = "Özel ileti alındığında ses çal";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "\"Söz Kesintisi Yok\" kipindeki kanal iletime hazır olduğunda ses çal";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "Ses etkinleştirme tetiklendiğinde ses çal";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Ses iletim durumu değiştiğinde ses çal";
@@ -495,7 +495,7 @@
 "Topic" = "Konu";
 
 /* preferences */
-"Translator" = "Translator";
+"Translator" = "Çeviren";
 
 /* channel list */
 "Transmit" = "Konuş";
@@ -514,7 +514,7 @@
 "UDP Port" = "UDP bağlantı noktası";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Yankı önleme ve otomatik mikrofon denetimi kullan";
+"Use echo cancellation and automatic gain control" = "Yankı iptali ve otomatik mikrofon denetimi kullan";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Ahizenin yerine iPhone hoparlörünü kullan";
@@ -565,7 +565,7 @@
 "Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Etkisiz";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "Ses Etkinleştirmenin Tetiklenmesi";
 
 /* preferences */
 "Voice Preprocessing" = "Ses Önişleme";
@@ -577,7 +577,7 @@
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "Konuşma";
+"VoIP" = "VoIP";
 
 /* user detail */
 "Volume Controls" = "Ses Denetimleri";

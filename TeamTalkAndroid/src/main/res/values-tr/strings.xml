@@ -77,7 +77,7 @@
   <string name="pref_summary_channel_join">Kanala katılan kullanıcının adını söyle</string>
   <string name="pref_title_channel_leave">Kullanıcının kanaldan ayrılması</string>
   <string name="pref_summary_channel_leave">Kanaldan ayrılan kullanıcının adını söyle</string>
-  <string name="pref_title_personal_message">Özel iletiler</string>
+  <string name="pref_title_personal_message">Kişisel iletiler</string>
   <string name="pref_title_broadcast_message">Yayınlanan iletiler</string>
   <string name="pref_summary_message">Gönderenin adını söyle</string>
   <string name="pref_title_mute_speakers">Konuş düğmesine basıldığında hoparlörleri sustur</string>
@@ -89,12 +89,14 @@
   <string name="pref_title_speakerphone_checkbox">Telefon hoparlörünü etkinleştir</string>
   <string name="pref_summary_speakerphone_checkbox">Ahizeden hoparlörlere geç</string>
   <string name="pref_title_voice_processing_checkbox">Ses önişlemeyi etkinleştir</string>
-  <string name="pref_summary_voice_processing_checkbox">Yankı önleme ve otomatik mikrofon denetimi kullan</string>
+  <string name="pref_summary_voice_processing_checkbox">Yankı iptali ve otomatik mikrofon denetimi kullan</string>
+  <string name="pref_title_public_servers">Genel sunucuları göster</string>
+  <string name="pref_summary_public_servers">Sunucu Listesi\'ne genel sunucuları kat</string>
   <string name="text_tts_loggedin">oturum açtı</string>
   <string name="text_tts_loggedout">oturumu kapattı</string>
   <string name="text_tts_joined_chan">kanala katıldı</string>
   <string name="text_tts_left_chan">kanaldan ayrıldı</string>
-  <string name="text_tts_personal_message">%1$s kullanıcısından özel ileti</string>
+  <string name="text_tts_personal_message">%1$s kullanıcısından kişisel ileti</string>
   <string name="text_tts_broadcast_message">%1$s kullanıcısından yayınlanan ileti</string>
   <string name="pref_header_soundsystem">Ses Sistemi</string>
   <string name="title_activity_audio_codec">Ses Kodlayıcı/Çözücüsü</string>
@@ -189,7 +191,7 @@
   <string name="err_download_path">%1$s indirme yolu kullanılabilir değil</string>
   <string name="download_progress">%1$d%% indirildi</string>
   <string name="upload_progress_title">%1$s karşıya yükleniyor</string>
-  <string name="upload_progress">%1$d%%, Vazgeçmek için tıklayın</string>
+  <string name="upload_progress">%1$d%%, İptal etmek için tıklayın</string>
   <string name="upload_started">Karşıya yükleme başladı</string>
   <string name="transfer_stopped">Aktarım durduruldu</string>
   <string name="complete">Bitti</string>
