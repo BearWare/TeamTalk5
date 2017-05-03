@@ -158,6 +158,9 @@
    user detail */
 "Error" = "Fout";
 
+/* preferences */
+"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
 /* preferences
    user detail */
 "General" = "Algemeen";
@@ -318,6 +321,12 @@
 
 /* preferences */
 "Play sound when private text message is received" = "Geluid afspelen wanneer privétekstbericht ontvangen wordt";
+
+/* preferences */
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+
+/* preferences */
+"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Geluid afspelen wanneer stemuitzending geschakeld wordt";
@@ -554,6 +563,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Stemactivatieniveau: Uitgeschakeld";
+
+/* preferences */
+"Voice Activation Triggered" = "Voice Activation Triggered";
 
 /* preferences */
 "Voice Preprocessing" = "Voice Preprocessing";

@@ -158,6 +158,9 @@
    user detail */
 "Error" = "Ошибка";
 
+/* preferences */
+"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
 /* preferences
    user detail */
 "General" = "Общее";
@@ -318,6 +321,12 @@
 
 /* preferences */
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
+
+/* preferences */
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+
+/* preferences */
+"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Воспроизводить звук при включении передачи голоса";
@@ -554,6 +563,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Уровень Голосовой Активации: Выключено";
+
+/* preferences */
+"Voice Activation Triggered" = "Voice Activation Triggered";
 
 /* preferences */
 "Voice Preprocessing" = "Предобработка Голоса";

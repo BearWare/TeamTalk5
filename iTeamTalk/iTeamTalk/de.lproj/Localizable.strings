@@ -158,6 +158,9 @@
    user detail */
 "Error" = "Fehler";
 
+/* preferences */
+"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
 /* preferences
    user detail */
 "General" = "Allgemein";
@@ -318,6 +321,12 @@
 
 /* preferences */
 "Play sound when private text message is received" = "Klang bei privater Textnachricht abspielen";
+
+/* preferences */
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+
+/* preferences */
+"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Klang bei Umschaltung der Sprachübertragung abspielen";
@@ -554,6 +563,9 @@
 
 /* preferences */
 "Voice Activation Level: Disabled" = "Sprachaktivierungspegel: Ausgeschaltet";
+
+/* preferences */
+"Voice Activation Triggered" = "Voice Activation Triggered";
 
 /* preferences */
 "Voice Preprocessing" = "Sprachvorverarbeitung";
