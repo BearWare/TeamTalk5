@@ -72,7 +72,7 @@
 "Bitrate" = "Bitrate";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Steffen Schultz, schulle3o@yahoo.de";
 
 /* text message type */
 "Broadcast message" = "Servernachricht";
@@ -159,7 +159,7 @@
 "Error" = "Fehler";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "Exklusiver Modus umgeschaltet";
 
 /* preferences
    user detail */
@@ -323,10 +323,10 @@
 "Play sound when private text message is received" = "Klang bei privater Textnachricht abspielen";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Klang bei Übertragungsbereitschaft in unterbrechungsfreien Räumen abspielen";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "Klang beim Auslösen der Sprachaktivierung abspielen";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Klang bei Umschaltung der Sprachübertragung abspielen";
@@ -495,7 +495,7 @@
 "Topic" = "Thema";
 
 /* preferences */
-"Translator" = "Translator";
+"Translator" = "Übersetzer";
 
 /* channel list */
 "Transmit" = "Sprechen";
@@ -565,7 +565,7 @@
 "Voice Activation Level: Disabled" = "Sprachaktivierungspegel: Ausgeschaltet";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "Sprachaktivierung ausgelöst";
 
 /* preferences */
 "Voice Preprocessing" = "Sprachvorverarbeitung";
