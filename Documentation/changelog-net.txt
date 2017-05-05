@@ -6,6 +6,16 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v52crelease
+ * - @ref v52cfeatures
+ *   - @ref v52cvirtsnd
+ *   - @ref v52ctxqueue
+ *   - @ref v52csrvcb
+ *   - @ref v52cstatic
+ *   - @ref v52cdaemon
+ * - @ref v52capi
+ *   - @ref v52crename
+ *
  * @ref v52brelease
  * - @ref v52bapi
  *   - @ref v52bsrvnet
@@ -152,6 +162,71 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v52crelease TeamTalk 5 SDK v. 5.2c release
+ *
+ * @subsection v52cfeatures New features in v5.2c
+ * 
+ * @subsubsection v52cvirtsnd Virtual sound device
+ *
+ * In order to record conversations using
+ * TeamTalkBase.StartRecordingMuxedAudioFile() it has previously been required
+ * to initialize a real sound output device in order to process audio
+ * packets. It is still required to initialize the sound output device
+ * but now a new virtual sound device is available which processes
+ * audio packets. This virtual sound device has ID
+ * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ *
+ * @subsubsection v52ctxqueue Transmission queue in @c CHANNEL_SOLO_TRANSMIT
+ *
+ * A new feature of the #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT channel type is that
+ * the server ensures that only one user can transmit audio and media
+ * files to the channel. The user's position in the transmission queue
+ * can be seen in #BearWare.Channel.transmitUsersQueue array.
+ *
+ * @subsubsection v52csrvcb Server callbacks for TeamTalkBase.DoChangeNickname() and TeamTalkBase.DoChangeStatus()
+ *
+ * The server API can now intercept when a user requests to change
+ * nickname or change status. This is done by calling
+ * TeamTalk5Srv.UserChangeNickname and
+ * TeamTalk5Srv.UserChangeStatus.
+ *
+ * @subsubsection v52cstatic OpenSSL again dynamically linked in Linux distributions
+ *
+ * The TeamTalk SDK v5.2b introduced static linking of all
+ * dependencies in libTeamTalk5Pro.so but this caused problems when
+ * linking an application that already included an OpenSSL
+ * dependency. Therefore the Linux distributions now again requires
+ * that the user installs the required OpenSSL dependency. To see what
+ * OpenSSL dependency is missing run:
+@verbatim
+  $ ldd Library/TeamTalk_DLL/libTeamTalk5Pro.so
+@endverbatim
+ *
+ * @subsubsection v52cdaemon Daemon scripts included for TeamTalk servers
+ *
+ * The SDK's @c Server folder now includes daemon scripts for Debian
+ * (@c /etc/init.d) and systemd based Linux distributions.
+ * 
+ * @subsection v52capi API changes in v5.2c
+ * 
+ * - Added macro for virtual sound device #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ * - New member variable #BearWare.Channel.transmitUsersQueue of #BearWare.Channel struct.
+ * - Added macro for size of transmissionUsersQueue #BearWare.TeamTalkBase.TT_TRANSMITQUEUE_MAX.
+ * - Added server callback TeamTalk5Srv.OnUserChangeNickname
+ * - Added server callback TeamTalk5Srv.OnUserChangeStatus
+ *
+ * @subsubsection v52crename TeamTalk class renamed to TeamTalkBase
+ *
+ * Previously the @c TeamTalk class was used by both the Professional
+ * and Standard edition of the TeamTalk SDK but from now on the
+ * TeamTalk 5 Professional SDK must instantiate #BearWare.TeamTalk5Pro class
+ * and TeamTalk 5 Standard Edition must instantiate #BearWare.TeamTalk5 class.
+ *
+ * This change has been made to ensure the distinction between the two
+ * SDKs and also to make the .NET API streamlined with the Java API.
  *
  * <hr>
  *

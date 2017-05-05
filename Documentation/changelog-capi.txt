@@ -177,7 +177,7 @@
  * audio packets. This virtual sound device has ID
  * #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
  *
- * @subsubsection v52ctxqueue Transmission queue in #CHANNEL_SOLO_TRANSMIT
+ * @subsubsection v52ctxqueue Transmission queue in @c CHANNEL_SOLO_TRANSMIT
  *
  * A new feature of the #CHANNEL_SOLO_TRANSMIT channel type is that
  * the server ensures that only one user can transmit audio and media
@@ -200,7 +200,7 @@
  * that the user installs the required OpenSSL dependency. To see what
  * OpenSSL dependency is missing run:
 @verbatim
-  $ ldd Libray/TeamTalk_DLL/libTeamTalk5Pro.so 
+  $ ldd Library/TeamTalk_DLL/libTeamTalk5Pro.so 
 @endverbatim
  *
  * @subsubsection v52cdaemon Daemon scripts included for TeamTalk servers

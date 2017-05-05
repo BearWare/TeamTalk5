@@ -61,6 +61,36 @@ namespace BearWare
         public event UserLogin OnUserLogin;
 
         /**
+         * @brief Callback when a user is requesting to change nickname
+         *
+         * This callback occurs in the context of TeamTalkBase.DoChangeNickname()
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The user's properties.
+         * @param szNewNickname The new nickname requested by the user. */
+        public delegate void UserChangeNickname(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname);
+        /**
+         * @brief Register using #UserChangeNickname delegate.
+         */
+        public event UserChangeNickname OnUserChangeNickname;
+        /**
+         * @brief Callback when a user is requesting to change status
+         *
+         * This callback occurs in the context of TeamTalkBase.DoChangeStatus()
+         *
+         * @param lpClientErrorMsg Error message which should be sent back to
+         * user. Set @c nErrorNo to #ClientError.CMDERR_SUCCESS if user is authorized.
+         * @param lpUser The user's properties.
+         * @param nNewStatusMode The new status mode requested by the user.
+         * @param szNewStatusMsg The new status message requested by the user. */
+        public delegate void UserChangeStatus(ref ClientErrorMsg lpClientErrorMsg,  ref User lpUser,  ref int nNewStatusMode, string szNewStatusMsg);
+        /**
+         * @brief Register using #UserChangeStatus delegate.
+         */
+        public event UserChangeStatus OnUserChangeStatus;
+
+        /**
          * @brief Callback when a user is requesting to create a new user
          * account.
          *
@@ -166,10 +196,6 @@ namespace BearWare
          * @brief Register using #UserLoggedIn delegate.
          */
         public event UserLoggedIn OnUserLoggedIn;
-        public delegate  void UserChangeNickname(ref ClientErrorMsg lpClientErrorMsg, ref User lpUser, string szNewNickname);
-        public event UserChangeNickname OnUserChangeNickname;
-        public delegate void UserChangeStatus(ref ClientErrorMsg lpClientErrorMsg,  ref User lpUser,  ref int nNewStatusMode, string szNewStatusMsg);
-        public event UserChangeStatus OnUserChangeStatus;
         /**
          * @brief Callback when a user has logged out.
          *
