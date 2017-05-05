@@ -5,7 +5,7 @@
  * in TeamTalk SDK releases.
  *
  * @ref v52crelease
- * - @ref v52vfeatures
+ * - @ref v52cfeatures
  *   - @ref v52cvirtsnd
  *   - @ref v52ctxqueue
  *   - @ref v52csrvcb
