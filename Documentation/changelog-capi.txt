@@ -4,6 +4,15 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v52crelease
+ * - @ref v52vfeatures
+ *   - @ref v52cvirtsnd
+ *   - @ref v52ctxqueue
+ *   - @ref v52csrvcb
+ *   - @ref v52cstatic
+ *   - @ref v52cdaemon
+ * @ref v52capi
+ *
  * @ref v52brelease
  * - @ref v52bapi
  *   - @ref v52bsendmsg
@@ -154,9 +163,64 @@
  *
  * <hr>
  *
+ * @section v52crelease TeamTalk 5 SDK v. 5.2c release
+ *
+ * @subsection v52cfeatures New features in v5.2c
+ * 
+ * @subsubsection v52cvirtsnd Virtual sound device
+ *
+ * In order to record conversations using
+ * TT_StartRecordingMuxedAudioFile() it has previously been required
+ * to initialize a real sound output device in order to process audio
+ * packets. It is still required to initialize the sound output device
+ * but now a new virtual sound device is available which processes
+ * audio packets. This virtual sound device has ID
+ * #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ *
+ * @subsubsection v52ctxqueue Transmission queue in #CHANNEL_SOLO_TRANSMIT
+ *
+ * A new feature of the #CHANNEL_SOLO_TRANSMIT channel type is that
+ * the server ensures that only one user can transmit audio and media
+ * files to the channel. The user's position in the transmission queue
+ * can be seen in #Channel's @c transmitUsersQueue array.
+ *
+ * @subsubsection v52csrvcb Server callbacks for TT_DoChangeNickname() and TT_DoChangeStatus()
+ *
+ * The server API can now intercept when a user requests to change
+ * nickname or change status. This is done by calling
+ * TTS_RegisterUserChangeNicknameCallback() and
+ * TTS_RegisterUserChangeStatusCallback().
+ *
+ * @subsubsection v52cstatic OpenSSL again dynamically linked in Linux distributions
+ *
+ * The TeamTalk SDK v5.2b introduced static linking of all
+ * dependencies in libTeamTalk5Pro.so but this caused problems when
+ * linking an application that already included an OpenSSL
+ * dependency. Therefore the Linux distributions now again requires
+ * that the user installs the required OpenSSL dependency. To see what
+ * OpenSSL dependency is missing run:
+@verbatim
+  $ ldd Libray/TeamTalk_DLL/libTeamTalk5Pro.so 
+@endverbatim
+ *
+ * @subsubsection v52cdaemon Daemon scripts included for TeamTalk servers
+ *
+ * The SDK's @c Server folder now includes daemon scripts for Debian
+ * (@c /etc/init.d) and systemd based Linux distributions.
+ * 
+ * @subsection v52capi API changes in v5.2c
+ * 
+ * - Added macro for virtual sound device #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
+ * - New member variable @c transmitUsersQueue of #Channel struct.
+ * - Added macro for size of transmissionUsersQueue #TT_TRANSMITQUEUE_MAX.
+ * - Added server callback TTS_RegisterUserChangeNicknameCallback()
+ * - Added server callback TTS_RegisterUserChangeStatusCallback()
+ *
+ * <hr>
+ *
  * @section v52brelease TeamTalk 5 SDK v. 5.2b release
  *
- * @subsection v52bapi API changes in v.5.2b
+ * @subsection v52bapi API changes in v5.2b
  *
  * @subsubsection v52bsendmsg
  *
