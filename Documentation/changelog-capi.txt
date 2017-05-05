@@ -177,7 +177,7 @@
  * audio packets. This virtual sound device has ID
  * #TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
  *
- * @subsubsection v52ctxqueue Transmission queue in @c CHANNEL_SOLO_TRANSMIT
+ * @subsubsection v52ctxqueue Transmission queue in CHANNEL_SOLO_TRANSMIT
  *
  * A new feature of the #CHANNEL_SOLO_TRANSMIT channel type is that
  * the server ensures that only one user can transmit audio and media

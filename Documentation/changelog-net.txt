@@ -179,7 +179,7 @@ namespace BearWare
  * audio packets. This virtual sound device has ID
  * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL.
  *
- * @subsubsection v52ctxqueue Transmission queue in @c CHANNEL_SOLO_TRANSMIT
+ * @subsubsection v52ctxqueue Transmission queue in CHANNEL_SOLO_TRANSMIT
  *
  * A new feature of the #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT channel type is that
  * the server ensures that only one user can transmit audio and media
@@ -222,8 +222,10 @@ namespace BearWare
  *
  * Previously the @c TeamTalk class was used by both the Professional
  * and Standard edition of the TeamTalk SDK but from now on the
- * TeamTalk 5 Professional SDK must instantiate #BearWare.TeamTalk5Pro class
- * and TeamTalk 5 Standard Edition must instantiate #BearWare.TeamTalk5 class.
+ * TeamTalk 5 Professional SDK must instantiate #BearWare.TeamTalk5Pro
+ * class and TeamTalk 5 Standard Edition must instantiate
+ * #BearWare.TeamTalk5 class. Both #BearWare.TeamTalk5 and
+ * #BearWare.TeamTalk5Pro classes inherit from #BearWare.TeamTalkBase.
  *
  * This change has been made to ensure the distinction between the two
  * SDKs and also to make the .NET API streamlined with the Java API.
