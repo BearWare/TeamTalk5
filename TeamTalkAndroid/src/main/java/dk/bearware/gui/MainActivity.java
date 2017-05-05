@@ -146,7 +146,10 @@ implements TeamTalkConnectionListener,
                      REQUEST_EDITUSER = 3,
                      REQUEST_SELECT_FILE = 4;
 
+    // The channel currently being displayed
     Channel curchannel;
+    // The channel we're currenlty in
+    Channel mychannel;
 
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
@@ -169,7 +172,11 @@ implements TeamTalkConnectionListener,
               SOUND_CHANMSG = 4,
               SOUND_BCASTMSG = 5,
               SOUND_SERVERLOST = 6,
-              SOUND_FILESUPDATE = 7;
+              SOUND_FILESUPDATE = 7,
+              SOUND_VOXON = 8,
+              SOUND_VOXOFF = 9,
+              SOUND_TXREADY = 10,
+              SOUND_TXSTOP = 11;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -351,6 +358,14 @@ implements TeamTalkConnectionListener,
         }
         if (prefs.getBoolean("files_updated_audio_icon", true)) {
             sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
+        }
+        if (prefs.getBoolean("voiceact_triggered_icon", true)) {
+            sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
+            sounds.put(SOUND_VOXOFF, audioIcons.load(getApplicationContext(), R.raw.voiceact_off, 1));
+        }
+        if (prefs.getBoolean("transmitready_icon", true)) {
+            sounds.put(SOUND_TXREADY, audioIcons.load(getApplicationContext(), R.raw.txqueue_start, 1));
+            sounds.put(SOUND_TXSTOP, audioIcons.load(getApplicationContext(), R.raw.txqueue_stop, 1));
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
@@ -1335,6 +1350,8 @@ implements TeamTalkConnectionListener,
             setCurrentChannel(ttservice.getChannels().get(mychannel));
         }
 
+        this.mychannel = ttservice.getChannels().get(mychannel);
+
         mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
         channelsAdapter.notifyDataSetChanged();
@@ -1477,6 +1494,8 @@ implements TeamTalkConnectionListener,
             Channel chan = ttservice.getChannels().get(user.nChannelID);
             setCurrentChannel(chan);
             filesAdapter.update(curchannel);
+            //store copy of channel
+            mychannel = chan;
 
             //update the displayed channel to the one we're currently in
             accessibilityAssistant.lockEvents();
@@ -1522,6 +1541,7 @@ implements TeamTalkConnectionListener,
             textmsgAdapter.notifyDataSetChanged();
             
             setCurrentChannel(null);
+            mychannel = null;
         }
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
@@ -1609,6 +1629,24 @@ implements TeamTalkConnectionListener,
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
+        }
+
+        if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+
+            int myuserid = ttclient.getMyUserID();
+
+            if(channel.transmitUsersQueue[0] == myuserid && mychannel.transmitUsersQueue[0] != myuserid) {
+                if(sounds.get(SOUND_TXREADY) != 0) {
+                    audioIcons.play(sounds.get(SOUND_TXREADY), 1.0f, 1.0f, 0, 0, 1.0f);
+                }
+            }
+            if(mychannel.transmitUsersQueue[0] == myuserid && channel.transmitUsersQueue[0] != myuserid) {
+                if(sounds.get(SOUND_TXSTOP) != 0) {
+                    audioIcons.play(sounds.get(SOUND_TXSTOP), 1.0f, 1.0f, 0, 0, 1.0f);
+                }
+            }
+
+            mychannel = channel;
         }
     }
 
@@ -1718,15 +1756,17 @@ implements TeamTalkConnectionListener,
         Button tx_btn = (Button) findViewById(R.id.transmit_voice);
         tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
         if (voiceTransmissionEnabled) {
-            if (sounds.get(SOUND_VOICETXON) != 0)
+            if (sounds.get(SOUND_VOICETXON) != 0) {
                 audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
             if (ptt_vibrate) {
                 Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 vibrat.vibrate(50);
             }
         } else {
-            if (sounds.get(SOUND_VOICETXOFF) != 0)
+            if (sounds.get(SOUND_VOICETXOFF) != 0) {
                 audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
             if (ptt_vibrate) {
                 Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 long pattern[] = { 0, 20, 80, 20 };
@@ -1768,6 +1808,13 @@ implements TeamTalkConnectionListener,
                 accessibilityAssistant.lockEvents();
                 channelsAdapter.notifyDataSetChanged();
                 accessibilityAssistant.unlockEvents();
+            }
+
+            if(bVoiceActive && sounds.get(SOUND_VOXON) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXON), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+            if(!bVoiceActive && sounds.get(SOUND_VOXOFF) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
             }
         }
     }

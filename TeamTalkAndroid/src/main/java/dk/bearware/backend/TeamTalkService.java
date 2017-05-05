@@ -244,7 +244,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public Map<Integer, User> getUsers() {
         return users;
     }
-    
+
     public int HISTORY_CHATLOG_MSG_MAX = 100;
     public int HISTORY_USER_MSG_MAX = 100;
 

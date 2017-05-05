@@ -44,6 +44,8 @@
     <string name="pref_title_audio_icons">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
+    <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
+    <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
     <string name="pref_title_personal_message_audio_icon">Private message</string>
     <string name="pref_summary_personal_message_audio_icon">Play sound when private message is received</string>
     <string name="pref_title_channel_message_audio_icon">Channel message</string>
@@ -54,6 +56,8 @@
     <string name="pref_summary_server_lost_audio_icon">Play sound when connection is dropped</string>
     <string name="pref_title_files_update_audio_icon">File list updated</string>
     <string name="pref_summary_files_update_audio_icon">Play sound when files are added or removed</string>
+    <string name="pref_title_transmitready_icon">Exclusive mode toggled</string>
+    <string name="pref_summary_transmitready_icon">Play sound when transmit ready in "No Interruptions" channel</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
