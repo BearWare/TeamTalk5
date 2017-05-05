@@ -1,20 +1,31 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.2.2
+Version 5.2.2 (unreleased)
+Server:
+- Exclusive voice/media file access in "Allow only one user to talk"/"No Interruptions" channel
+Default Qt client:
+- Virtual sound device for no input/output sound device
 Accessible Windows client:
 - Queue system when channel type is "Allow only one user to talk"
-- Exclusive voice/media file access in channel type "Allow only one user to talk"
 - Sound events for:
   - Voice activation feature enabled/disabled
   - Voice activation triggered
-  - Transmit ready/suspended in channel type "Allow only one user to talk"
+  - Transmit ready/suspended in channel type "Allow only one user to talk" (requires server v5.2.2)
 - Close private text message dialog by pressing escape
 - Virtual sound device for no input/output sound device
 - Sound events are played fully, i.e. new sound events do not cancel currently played
+iOS client:
+- Added Arabic language (Israel)
+- Sound events for:
+  - Voice activation triggered
+  - Transmit ready/suspended in "No Interruptions" channel (requires server v5.2.2)
 Android client:
+- Added Arabic language
 - Option to disable public servers from server list
-- Arabic language support
+- Sound events for:
+  - Voice activation triggered
+  - Transmit ready/suspended in "No Interruptions" channel (requires server v5.2.2)
 
 Version 5.2.1, released 2017/01/30
 Default Qt client:
