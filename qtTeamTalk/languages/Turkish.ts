@@ -398,12 +398,12 @@
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Burada sunucudaki seçilen bir grubun kullanıcılarına otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu şekilde bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklatmanız gerekmez.</translation>
+        <translation>Burada sunucudaki seçilen bir grubun kullanıcılarına otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu yol bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamanızı gerektirmez.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>Sunucu IP adresi</translation>
+        <translation>Barındırıcı IP adresi</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -458,7 +458,7 @@
     <message>
         <location filename="../desktopaccessdlg.cpp" line="119"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Lütfen &apos;Sunucu IP adresi&apos; alanını doldurun</translation>
+        <translation>Lütfen &apos;Barındırıcı IP adresi&apos; alanını doldurun</translation>
     </message>
 </context>
 <context>
@@ -578,7 +578,7 @@
     <message>
         <location filename="../filetransfer.ui" line="135"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Vazgeç</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="142"/>
@@ -1488,7 +1488,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1720"/>
         <source>&amp;New Client Instance</source>
-        <translation>&amp;Yeni İstemci Kopyası</translation>
+        <translation>&amp;Yeni İstemci Örneği</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1723"/>
@@ -2024,7 +2024,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesine eklemek ister misiniz?</translation>
+        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesine eklemek istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
@@ -2343,7 +2343,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Sunucu bilgileri %1 üzerinden çıkartılamadı</translation>
+        <translation>Barındırıcı bilgileri %1 üzerinden çıkartılamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5235"/>
@@ -2657,7 +2657,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="423"/>
         <source>Timestamp text messages</source>
-        <translation>İletiler zaman damgalı</translation>
+        <translation>Zaman damgalı iletiler</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="430"/>
@@ -2701,7 +2701,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="562"/>
         <source>Connect to latest host on startup</source>
-        <translation>Başlangıçta en son sunucuya bağlan</translation>
+        <translation>Başlangıçta en son barındırıcıya bağlan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="569"/>
@@ -2851,12 +2851,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation>Çift yönlü kipini etkinleştir (yankı önleme için gereklidir)</translation>
+        <translation>Çift yönlü kipini etkinleştir (yankı iptali için gereklidir)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>Yankı önlemeyi etkinleştir (hoparlörlerden gelen yankıyı kaldır)</translation>
+        <translation>Yankı iptalini etkinleştir (hoparlörlerden gelen yankıyı kaldır)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1026"/>
@@ -3219,7 +3219,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="79"/>
         <source>Host IP-address</source>
-        <translation>Sunucu IP adresi</translation>
+        <translation>Barındırıcı IP adresi</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="86"/>
@@ -3304,7 +3304,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlist.ui" line="316"/>
         <location filename="../serverlist.ui" line="319"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>.tt dosyaları çift tıklatılabilir; istemci otomatik olarak başlayacak ve belirlenen sunucuya bağlanacaktır</translation>
+        <translation>.tt dosyaları çift tıklanabilir; istemci otomatik olarak başlayacak ve belirlenen sunucuya bağlanacaktır</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="322"/>
@@ -3324,7 +3324,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="210"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>Lütfen &apos;Sunucu IP adresi&apos;, &apos;TCP bağlantı noktası&apos; ve &apos;UDP bağlantı noktası&apos; alanlarını doldurun</translation>
+        <translation>Lütfen &apos;Barındırıcı IP adresi&apos;, &apos;TCP bağlantı noktası&apos; ve &apos;UDP bağlantı noktası&apos; alanlarını doldurun</translation>
     </message>
 </context>
 <context>
@@ -3612,7 +3612,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafile.ui" line="291"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Vazgeç</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="74"/>
@@ -3680,7 +3680,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../textmessage.ui" line="67"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Vazgeç</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="93"/>
@@ -4277,22 +4277,22 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="63"/>
         <source>Top-Left</source>
-        <translation>Sol Üstte</translation>
+        <translation>Sol üst</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="70"/>
         <source>Bottom-Left</source>
-        <translation>Sol Altta</translation>
+        <translation>Sol alt</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="80"/>
         <source>Top-Right</source>
-        <translation>Sağ Üstte</translation>
+        <translation>Sağ üst</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="90"/>
         <source>Bottom-Right</source>
-        <translation>Sağ Altta</translation>
+        <translation>Sağ alt</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="105"/>

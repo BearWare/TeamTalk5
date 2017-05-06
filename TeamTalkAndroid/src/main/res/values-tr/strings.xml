@@ -43,6 +43,8 @@
   <string name="pref_title_audio_icons">Ses Etkinlikleri</string>
   <string name="pref_title_rx_tx_audio_icon">Ses iletim durumu değişimi</string>
   <string name="pref_summary_rx_tx_audio_icon">Konuş düğmesine basıldığında ses çal</string>
+  <string name="pref_title_vox_triggered_icon">Ses etkinleştirmenin tetiklenmesi</string>
+  <string name="pref_summary_vox_triggered_icon">Ses etkinleştirme tetiklendiğinde ses çal</string>
   <string name="pref_title_personal_message_audio_icon">Özel ileti</string>
   <string name="pref_summary_personal_message_audio_icon">Özel ileti alındığında ses çal</string>
   <string name="pref_title_channel_message_audio_icon">Kanal iletisi</string>
@@ -53,6 +55,8 @@
   <string name="pref_summary_server_lost_audio_icon">Bağlantı düştüğünde ses çal</string>
   <string name="pref_title_files_update_audio_icon">Dosya listesi güncelleştirmesi</string>
   <string name="pref_summary_files_update_audio_icon">Dosya eklendiğinde ya da kaldırıldığında ses çal</string>
+  <string name="pref_title_transmitready_icon">Özel kip değişimi</string>
+  <string name="pref_summary_transmitready_icon">\"Söz Kesintisi Yok\" kipindeki kanal iletime hazır olduğunda ses çal</string>
   <string name="pref_header_connection">Bağlantı</string>
   <string name="pref_title_sub_txtmsg">İletiler</string>
   <string name="pref_summary_sub_txtmsg">Kullanıcılardan gelen iletilere abone ol</string>
