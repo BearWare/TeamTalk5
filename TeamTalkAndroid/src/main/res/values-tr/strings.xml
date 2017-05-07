@@ -198,7 +198,7 @@
   <string name="upload_progress">%1$d%%, İptal etmek için tıklayın</string>
   <string name="upload_started">Karşıya yükleme başladı</string>
   <string name="transfer_stopped">Aktarım durduruldu</string>
-  <string name="complete">Bitti</string>
+  <string name="complete">Tamamlandı</string>
   <string name="remote_file_exists">%1$s dosyası sunucudaki bu kanalda zaten var</string>
   <string name="remote_file_remove_confirmation">%1$s dosyasını sunucudan gerçekten kaldırmak istiyor musunuz?</string>
   <string name="server_remove_confirmation">%1$s öğesini sunucu listesinden gerçekten kaldırmak istiyor musunuz?</string>
