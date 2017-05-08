@@ -11,7 +11,7 @@
  *   - @ref v52csrvcb
  *   - @ref v52cstatic
  *   - @ref v52cdaemon
- * @ref v52capi
+ * - @ref v52capi
  *
  * @ref v52brelease
  * - @ref v52bapi
