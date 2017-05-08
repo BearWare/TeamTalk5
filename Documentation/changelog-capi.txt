@@ -222,7 +222,7 @@
  *
  * @subsection v52bapi API changes in v5.2b
  *
- * @subsubsection v52bsendmsg
+ * @subsubsection v52bsendmsg Send text message from Server API
  *
  * Added TTS_SendTextMessage() to TeamTalk Server API.
  *
