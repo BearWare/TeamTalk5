@@ -522,7 +522,6 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
                 m_blinkchalk_users.remove(*ite);
 
             userItem = getUserItem(*ite);
-            Q_ASSERT(userItem);
             if(userItem)
                 slotUpdateTreeWidgetItem(userItem);
 
@@ -545,16 +544,14 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
                     m_blinkhand_users.remove(user.nUserID);
 
                 userItem = getUserItem(user.nUserID);
-                Q_ASSERT(userItem);
-                if(userItem)
+                if(userItem) //may not be in a channel
                     slotUpdateTreeWidgetItem(userItem);
             }
             else if(m_blinkhand_users.find(user.nUserID) != m_blinkhand_users.end())
             {
                 m_blinkhand_users.remove(user.nUserID);
                 userItem = getUserItem(user.nUserID);
-                Q_ASSERT(userItem);
-                if(userItem)
+                if(userItem) //may not be in a channel
                     slotUpdateTreeWidgetItem(userItem);
             }
             ite++;
@@ -1244,6 +1241,12 @@ void ChannelsTree::slotUserLoggedIn(const User& user)
 
 void ChannelsTree::slotUserLoggedOut(const User& user)
 {
+    m_stats.remove(user.nUserID);
+    m_blinkhand_users.remove(user.nUserID);
+    m_blinkchalk_users.remove(user.nUserID);
+    m_desktopaccess_users.remove(user.nUserID);
+    m_videousers.remove(user.nUserID);
+
     Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
     m_users.remove(user.nUserID);
 }
