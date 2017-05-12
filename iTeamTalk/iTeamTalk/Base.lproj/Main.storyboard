@@ -632,7 +632,7 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" hint="Double tap to view content of this channel.">
+                                        <accessibility key="accessibilityConfiguration" hint="Double tap to expand options for this channel.">
                                             <accessibilityTraits key="traits" button="YES"/>
                                         </accessibility>
                                         <connections>
