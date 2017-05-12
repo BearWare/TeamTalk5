@@ -94,3 +94,6 @@ Sample applications for writing a TeamTalk 5 server are located in the Examples 
 * **jTeamTalkServer**
   * TeamTalk 5 server application written in Java
   * Requires **TeamTalk_DLL** and **TeamTalkJNI** for DLL dependencies
+## Localization
+Create a pull request for new and updated localization files or visit [unofficial Transifex project page](https://www.transifex.com/Ozancan/teamtalk5).
+Note: TeamTalk Classic project is excluded for technical reasons.
