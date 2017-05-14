@@ -24,6 +24,7 @@
 #include "common.h"
 
 #include <QMessageBox>
+#include <QInputDialog>
 
 extern TTInstance* ttInst;
 
@@ -152,10 +153,21 @@ void UserAccountsModel::delRegUser(const QString& username)
     this->endResetModel();
 }
 
+enum
+{
+    LIMITCMD_DISABLED       = 0,
+    LIMITCMD_10_PER_10SEC   = 1,
+    LIMITCMD_10_PER_MINUTE  = 2,
+    LIMITCMD_60_PER_MINUTE  = 3,
+    LIMITCMD_CUSTOM         = 4
+};
+
 UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
     , m_add_cmdid(0)
     , m_del_cmdid(0)
+    , m_add_user()
+    , m_abuse()
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -187,6 +199,15 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
                 ui.opchanComboBox->addItem(str_channels[i]);
         }
     }
+
+    ui.limitcmdComboBox->addItem(tr("Disabled"), LIMITCMD_DISABLED);
+    ui.limitcmdComboBox->addItem(tr("10 commands in 10 sec."), LIMITCMD_10_PER_10SEC);
+    ui.limitcmdComboBox->addItem(tr("10 commands in 1 minute"), LIMITCMD_10_PER_MINUTE);
+    ui.limitcmdComboBox->addItem(tr("60 commands in 1 minute"), LIMITCMD_60_PER_MINUTE);
+    ui.limitcmdComboBox->addItem(tr("Custom specified"), LIMITCMD_CUSTOM);
+
+    connect(ui.limitcmdComboBox, SIGNAL(activated(int)),
+            SLOT(slotCustomCmdLimit(int)));
 
     for(int i=0;i<useraccounts.size();i++)
         m_model->addRegUser(useraccounts[i], i+1 == useraccounts.size());
@@ -311,6 +332,8 @@ void UserAccountsDlg::slotClearUser()
     ui.opchannelsListWidget->clear();
     ui.opchanComboBox->setCurrentIndex(0);
     ui.audmaxbpsSpinBox->setValue(0);
+    ui.limitcmdComboBox->setCurrentIndex(0);
+    ZERO_STRUCT(m_abuse);
 
     ZERO_STRUCT(m_add_user);
     slotUserTypeChanged();
@@ -414,6 +437,7 @@ void UserAccountsDlg::slotAddUser()
     COPY_TTSTR(m_add_user.szNote, ui.noteEdit->toPlainText());
     COPY_TTSTR(m_add_user.szInitChannel, ui.channelComboBox->lineEdit()->text());
 
+    // Tab - Channel operator
     int opchan_idx = 0;
     for(int i=0;i<ui.opchannelsListWidget->count();i++)
     {
@@ -425,7 +449,13 @@ void UserAccountsDlg::slotAddUser()
             m_add_user.autoOperatorChannels[opchan_idx++] = chanid;
     }
 
+    // Tab - Audio codec bitrate limit
+
     m_add_user.nAudioCodecBpsLimit = ui.audmaxbpsSpinBox->value() * 1000;
+
+    // Tab - Abuse Prevention - Flood protection
+
+    m_add_user.abusePrevent = m_abuse;
 
     m_add_cmdid = TT_DoNewUserAccount(ttInst, &m_add_user);
     lockUI(true);
@@ -459,10 +489,13 @@ void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
     if(useraccount.uUserType & USERTYPE_DEFAULT)
         ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
 
-    updateUserRights(useraccount);
-
     ui.noteEdit->setPlainText(_Q(useraccount.szNote));
     ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
+
+    // User Rights
+    updateUserRights(useraccount);
+
+    // Tab - Channel Operator
 
     ui.opchannelsListWidget->clear();
     for(int c=0;c<TT_CHANNELS_OPERATOR_MAX;c++)
@@ -475,7 +508,58 @@ void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
            ui.opchannelsListWidget->addItem(_Q(chanpath));
     }
 
+    // Tab - Audio codec limit
+
     ui.audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
+
+    // Tab - abuse prevention
+
+    m_abuse = useraccount.abusePrevent;
+
+    switch(useraccount.abusePrevent.nCommandsLimit)
+    {
+    case 0 :
+        i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
+        break;
+    case 10 :
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 10000 :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_10SEC);
+            break;
+        case 60000 :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_MINUTE);
+            break;
+        default :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+        break;
+    case 60 :
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 60000 :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_60_PER_MINUTE);
+            break;
+        default :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+        break;
+    default :
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 0 :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
+            break;
+        default :
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+    }
+
+    if(i>=0)
+        ui.limitcmdComboBox->setCurrentIndex(i);
 
     ui.delButton->setEnabled(true);
 }
@@ -528,5 +612,44 @@ void UserAccountsDlg::slotRemoveOpChannel()
             delete *items.begin();
             items.erase(items.begin());
         }
+    }
+}
+
+void UserAccountsDlg::slotCustomCmdLimit(int index)
+{
+    switch(ui.limitcmdComboBox->itemData(index).toInt())
+    {
+    case LIMITCMD_DISABLED :
+        m_abuse.nCommandsIntervalMSec = m_abuse.nCommandsLimit = 0;
+        break;
+    case LIMITCMD_10_PER_10SEC :
+        m_abuse.nCommandsLimit = 10;
+        m_abuse.nCommandsIntervalMSec = 10000;
+        break;
+    case LIMITCMD_10_PER_MINUTE :
+        m_abuse.nCommandsLimit = 10;
+        m_abuse.nCommandsIntervalMSec = 60000;
+        break;
+    case LIMITCMD_60_PER_MINUTE :
+        m_abuse.nCommandsLimit = 60;
+        m_abuse.nCommandsIntervalMSec = 60000;
+        break;
+    case LIMITCMD_CUSTOM :
+        m_abuse.nCommandsLimit =
+                QInputDialog::getInt(this, tr("Limit issued commands"),
+                                     tr("Number of commands to allow (0 = disabled)"),
+                                     m_abuse.nCommandsLimit, 0);
+        if(m_abuse.nCommandsLimit)
+        {
+            m_abuse.nCommandsIntervalMSec =
+                    QInputDialog::getInt(this, tr("Limit issued commands"),
+                                         tr("Timeframe to allow %1 commands (in seconds)")
+                                         .arg(m_abuse.nCommandsLimit),
+                                         m_abuse.nCommandsIntervalMSec/1000, 1);
+            m_abuse.nCommandsIntervalMSec *= 1000;
+        }
+        break;
+    default :
+        Q_ASSERT(0);
     }
 }
