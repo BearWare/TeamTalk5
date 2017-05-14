@@ -105,6 +105,7 @@ jobject newUserAccount(JNIEnv* env, const UserAccount* lpUserAccount);
 jobject newTextMessage(JNIEnv* env, const TextMessage* lpTextMessage);
 jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile);
 jobject newServerProperties(JNIEnv* env, const ServerProperties* lpServerProperties);
+jobject newAbusePrevention(JNIEnv* env, const AbusePrevention* lpAbusePrevent);
 void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv);
 void setUser(JNIEnv* env, const User& user, jobject lpUser);
 void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg);
@@ -132,4 +133,5 @@ void setAudioFormat(JNIEnv* env, const AudioFormat& fmt, jobject lpAudioFormat);
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv);
 void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConvert conv);
 void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec, JConvert conv);
+void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv);
 #endif

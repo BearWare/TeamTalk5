@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 public class TeamTalkTestCaseBase extends TestCase {
 
     public static boolean PROEDITION = false, ENCRYPTED = false;
-    public static final boolean DEBUG_OUTPUT = false;
+    public static boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
 
     public static String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
@@ -230,7 +230,7 @@ public class TeamTalkTestCaseBase extends TestCase {
             msg.banneduser = tmp.banneduser;
             msg.nStreamType = tmp.nStreamType;
             //if assert fails it's because the TTType isn't handled here
-            assertTrue(tmp.ttType <= TTType.__STREAMTYPE);
+            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__STREAMTYPE);
         }
         return tmp.nClientEvent == nClientEvent;
     }
@@ -281,7 +281,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout)
     {
         TTMessage msg = new TTMessage();
-        return waitCmdError(ttclient, cmdid, waittimeout);
+        return waitCmdError(ttclient, cmdid, waittimeout, msg);
     }
 
     protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name) {
