@@ -213,7 +213,7 @@
          <item>
           <widget class="QTabWidget" name="tabWidget">
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tab">
             <attribute name="title">
@@ -681,27 +681,11 @@
   <tabstop>usersTreeView</tabstop>
   <tabstop>delButton</tabstop>
   <tabstop>defaultuserBtn</tabstop>
-  <tabstop>transmitdesktopBox</tabstop>
-  <tabstop>transmitdesktopaccessBox</tabstop>
-  <tabstop>addButton</tabstop>
-  <tabstop>newButton</tabstop>
-  <tabstop>closeBtn</tabstop>
-  <tabstop>transmitvideofileBox</tabstop>
-  <tabstop>transmitvoiceBox</tabstop>
-  <tabstop>transmitvideoBox</tabstop>
   <tabstop>adminBtn</tabstop>
-  <tabstop>transmitaudiofileBox</tabstop>
   <tabstop>usernameEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
   <tabstop>noteEdit</tabstop>
   <tabstop>channelComboBox</tabstop>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>opchannelsListWidget</tabstop>
-  <tabstop>opchanComboBox</tabstop>
-  <tabstop>addopBtn</tabstop>
-  <tabstop>rmopBtn</tabstop>
-  <tabstop>audmaxbpsSpinBox</tabstop>
-  <tabstop>limitcmdComboBox</tabstop>
   <tabstop>multiloginBox</tabstop>
   <tabstop>viewallusersBox</tabstop>
   <tabstop>permchannelsBox</tabstop>
@@ -714,6 +698,22 @@
   <tabstop>uploadfilesBox</tabstop>
   <tabstop>downloadfilesBox</tabstop>
   <tabstop>srvpropBox</tabstop>
+  <tabstop>transmitvoiceBox</tabstop>
+  <tabstop>transmitvideoBox</tabstop>
+  <tabstop>transmitaudiofileBox</tabstop>
+  <tabstop>transmitvideofileBox</tabstop>
+  <tabstop>transmitdesktopBox</tabstop>
+  <tabstop>transmitdesktopaccessBox</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>opchannelsListWidget</tabstop>
+  <tabstop>opchanComboBox</tabstop>
+  <tabstop>addopBtn</tabstop>
+  <tabstop>rmopBtn</tabstop>
+  <tabstop>audmaxbpsSpinBox</tabstop>
+  <tabstop>limitcmdComboBox</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>newButton</tabstop>
+  <tabstop>closeBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>
