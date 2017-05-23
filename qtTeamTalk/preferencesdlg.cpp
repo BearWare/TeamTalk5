@@ -315,6 +315,11 @@ void PreferencesDlg::showDevices(SoundSystem snd)
                                 m_sounddevices[i].nDeviceID);
     }
 
+    if(add_no_device)
+    {
+        ui.inputdevBox->addItem(tr("No Sound Device"), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
+    }
+
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, default_inputid).toInt();
     uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
@@ -343,7 +348,6 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
     if(add_no_device)
     {
-        ui.inputdevBox->addItem(tr("No Sound Device"), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
         ui.outputdevBox->addItem(tr("No Sound Device"), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL);
     }
 
