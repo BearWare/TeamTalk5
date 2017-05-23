@@ -14,11 +14,6 @@ public:
     CMyTabCtrl();
     virtual ~CMyTabCtrl();
 
-    BOOL Init();
-    void Translate();
-    CChatTab m_tabChat;
-    CFilesTab m_tabFiles;
-
 protected:
     DECLARE_MESSAGE_MAP()
     void Sizing();

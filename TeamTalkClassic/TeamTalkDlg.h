@@ -140,7 +140,7 @@ public:
     void AddVoiceMessage(LPCTSTR szMsg);
 
     void RunWizard();
-    void TranslateMenu();
+    void Translate();
     void UpdateHotKeys();
     void ParseArgs();
     void DefaultUnsubscribe(int nUserID);
@@ -233,8 +233,8 @@ protected:
 
     //right side controls
     CMyTabCtrl m_wndTabCtrl;
-    CFilesTab& m_tabFiles;
-    CChatTab& m_tabChat;
+    CChatTab m_tabChat;
+    CFilesTab m_tabFiles;
     typedef std::map<int, CFileTransferDlg*> mtransferdlg_t;
     mtransferdlg_t m_mTransfers;
 
