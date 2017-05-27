@@ -239,6 +239,10 @@ void CTeamTalkDlg::Disconnect()
     TT_CloseSoundInputDevice(ttInst);
     TT_CloseSoundOutputDevice(ttInst);
 
+    TTMessage msg;
+    INT32 nZero = 0;
+    while(TT_GetMessage(ttInst, &msg, &nZero));
+
     m_nLastRecvBytes = m_nLastSentBytes = 0;
 
     //clear channels view?
@@ -2773,7 +2777,7 @@ void CTeamTalkDlg::OnClose()
 	}
 }
 
-	void CTeamTalkDlg::OnOK() 
+void CTeamTalkDlg::OnOK()
 {
     if(GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst)>0) 
     {
