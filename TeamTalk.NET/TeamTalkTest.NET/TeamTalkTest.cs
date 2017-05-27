@@ -2030,7 +2030,10 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient2.GetMyUserAccount(ref a));
 
             foreach (UserRight u in (UserRight[])Enum.GetValues(typeof(UserRight)))
-                Assert.IsTrue(a.uUserRights.HasFlag(u));
+            {
+                if (u != UserRight.USERRIGHT_NONE && u != UserRight.USERRIGHT_ALL)
+                    Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+            }
         }
 
         [TestMethod]
