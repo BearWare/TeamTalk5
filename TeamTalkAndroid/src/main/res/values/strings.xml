@@ -271,4 +271,11 @@
     <string name="text_webcam_session">Webcam session</string>
     <string name="text_mediafile_session">Media file session</string>
 
+    <string name="permission_audioinput">Audio recording and playback will be unavailable</string>
+    <string name="permission_audiomodify">Audio recording and playback will be unavailable</string>
+    <string name="permission_filerx">Download files will be unavailable</string>
+    <string name="permission_filetx">Upload files will be unavailable</string>
+    <string name="permission_internet">Client will be unable to connect to servers</string>
+    <string name="permission_vibrate">Vibrate during push-to-talk will be unavilable</string>
+
 </resources>

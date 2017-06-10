@@ -54,7 +54,7 @@ extends Activity
 implements TeamTalkConnectionListener, CommandListener {
 
     public static final String TAG = "bearware";
-    
+
     public static final String EXTRA_CHANNELID = "channelid",   //edit existing channel
                                EXTRA_PARENTID = "parentid";     //create new channel
 

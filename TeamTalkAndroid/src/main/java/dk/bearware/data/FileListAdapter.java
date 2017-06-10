@@ -41,7 +41,9 @@ import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -72,6 +74,7 @@ implements ClientListener, Comparator<RemoteFile> {
     private static final String PROGRESS_NOTIFICATION_TAG = "file_transfer";
 
     private final Context context;
+    private final Activity activity;
     private final LayoutInflater inflater;
     private final NotificationManager notificationManager;
     private final AccessibilityAssistant accessibilityAssistant;
@@ -84,8 +87,9 @@ implements ClientListener, Comparator<RemoteFile> {
     private volatile int chanId;
     private volatile boolean needRefresh;
 
-    public FileListAdapter(Context uiContext, AccessibilityAssistant accessibilityAssistant) {
+    public FileListAdapter(Context uiContext, Activity uiActivity, AccessibilityAssistant accessibilityAssistant) {
         context = uiContext;
+        this.activity = uiActivity;
         this.accessibilityAssistant = accessibilityAssistant;
         inflater = LayoutInflater.from(context);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -476,6 +480,8 @@ implements ClientListener, Comparator<RemoteFile> {
     }
 
     private void startDownload(RemoteFile remoteFile, File localFile) {
+        Permissions.setupPermission(context, activity, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
         if (ttClient.doRecvFile(chanId, remoteFile.nFileID, localFile.getAbsolutePath()) <= 0)
             warnDownloadFailure(remoteFile.szFileName);
     }

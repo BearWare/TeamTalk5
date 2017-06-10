@@ -47,6 +47,7 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
+import dk.bearware.data.Permissions;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
@@ -63,6 +64,8 @@ import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -73,6 +76,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -211,7 +215,7 @@ implements TeamTalkConnectionListener,
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
-        filesAdapter = new FileListAdapter(this, accessibilityAssistant);
+        filesAdapter = new FileListAdapter(this, this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
         mediaAdapter = new MediaAdapter(this.getBaseContext());
         
@@ -254,6 +258,8 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_upload : {
+                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
                 startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
             }
             break;
@@ -1420,6 +1426,20 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        switch (requestCode) {
+            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+                break;
+        }
+    }
+
+    @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
         // error is notified in service
     }
@@ -1760,6 +1780,8 @@ implements TeamTalkConnectionListener,
                 audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
             }
             if (ptt_vibrate) {
+                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
+
                 Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 vibrat.vibrate(50);
             }
