@@ -7,6 +7,10 @@ Default Qt client:
 Accessible Windows client:
 - Fixed crash issue when receiving multiple voice streams
 - Two new sound events for transmit start/suspended
+iOS client:
+- Fixed crash issue when receiving multiple voice streams
+Android client:
+- Fixed crash issue when receiving multiple voice streams
 
 Version 5.2.2, released 2017/05/08
 Server:
