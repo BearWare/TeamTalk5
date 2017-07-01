@@ -134,7 +134,7 @@
     <string name="channel_prop_title_diskquota">Disk Quota (KBytes)</string>
     
     <string name="channel_prop_title_permanent">Permanent Channel</string>
-    <string name="channel_prop_title_nointerrupt">No interruptions</string>
+    <string name="channel_prop_title_nointerrupt">No Interruptions</string>
     <string name="channel_prop_title_classroom">Classroom</string>
     <string name="channel_prop_title_oprecvonly">Operator Receives Only</string>
     <string name="channel_prop_title_novoiceact">No Voice Activation</string>

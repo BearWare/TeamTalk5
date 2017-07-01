@@ -127,7 +127,7 @@
     <string name="channel_prop_title_diskquota">Квота Дискового Пространства (КБайт)</string>
     
     <string name="channel_prop_title_permanent">Постоянный Канал</string>
-    <string name="channel_prop_title_nointerrupt">Не перебивать говорящего</string>
+    <string name="channel_prop_title_nointerrupt">Не Перебивать Говорящего</string>
     <string name="channel_prop_title_classroom">Учебный Класс</string>
     <string name="channel_prop_title_oprecvonly">Связь Только с Оператором</string>
     <string name="channel_prop_title_novoiceact">Запрет Активации Голосом</string>
