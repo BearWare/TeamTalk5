@@ -2,6 +2,10 @@
 #include "afxwin.h"
 
 #include <vector>
+#include "MyTabCtrl.h"
+#include "ChannelOpTab.h"
+#include "CodecLimitTab.h"
+#include "AbuseTab.h"
 
 // CUserAccountsDlg dialog
 
@@ -42,13 +46,7 @@ public:
     afx_msg void OnEnChangeEditUsername();
     afx_msg void OnEnChangeEditPassword();
     CComboBox m_wndInitChannel;
-    afx_msg void OnBnClickedButtonAddchannel();
-    afx_msg void OnBnClickedButtonDelchannel();
-    CListBox m_wndAvailChannels;
-    CListBox m_wndSelChannels;
     CEdit m_wndNote;
-    CEdit m_wndBitrate;
-    int m_nBitrate;
 
     CButton m_wndDoubleLogin;
     CButton m_wndTempChannels;
@@ -70,4 +68,10 @@ public:
     CButton m_wndSrvProp;
     CButton m_wndTransmitAudFiles;
     CButton m_wndTransmitVidFiles;
+    CMyTabCtrl m_wndTabCtrl;
+    CChannelOpTab m_wndChanOpTab;
+    CCodecLimitTab m_wndCodecTab;
+    CAbuseTab m_wndAbuseTab;
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    BOOL m_bResizeReady;
 };

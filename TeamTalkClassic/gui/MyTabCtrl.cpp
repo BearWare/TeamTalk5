@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "Resource.h"
 #include "MyTabCtrl.h"
 #include <afxtempl.h>
 // CMyTabCtrl

@@ -30,6 +30,8 @@
 #include "gui/SplitterBar.h"
 #include "gui/MyEdit.h"
 #include "gui/MyTabCtrl.h"
+#include "gui/ChatTab.h"
+#include "gui/FilesTab.h"
 #include "settings/ClientXML.h"
 #include "HttpRequest.h"
 #include "PlaySoundThread.h"

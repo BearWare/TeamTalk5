@@ -97,7 +97,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
-IDD_DIALOG_USERACCOUNTS DIALOGEX 0, 0, 573, 304
+IDD_DIALOG_USERACCOUNTS DIALOGEX 0, 0, 861, 304
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "User Accounts"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -105,47 +105,29 @@ BEGIN
     GROUPBOX        "Active Accounts",IDC_STATIC_ACTACCOUNTS,7,7,126,290
     LISTBOX         IDC_LIST_ACCOUNTS,14,17,111,199,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Delete",IDC_BUTTON_DEL,14,218,42,14,WS_DISABLED
-    GROUPBOX        "Modify User Account",IDC_STATIC_MODACCOUNT,136,7,459,290
-    LTEXT           "Username",IDC_STATIC_USERNAME,140,19,50,8
-    EDITTEXT        IDC_EDIT_USERNAME,196,16,101,14,ES_AUTOHSCROLL
-    LTEXT           "Password",IDC_STATIC_PASSWORD,140,35,50,8
-    EDITTEXT        IDC_EDIT_PASSWORD,196,32,101,14,ES_AUTOHSCROLL
-    LTEXT           "Note",IDC_STATIC_NOTE,140,49,52,8
-    EDITTEXT        IDC_EDIT_NOTE,196,49,101,30,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN
-    LTEXT           "Initial-channel",IDC_STATIC_INITCHANNEL,140,84,50,8
-    COMBOBOX        IDC_COMBO_INITCHANNEL,196,81,101,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "User Account Properties",IDC_STATIC_GRPACCOUNT,144,16,180,120
+    LTEXT           "User type",IDC_STATIC_USERTYPE,153,26,50,8
+    CONTROL         "Default user",IDC_RADIO_DEFAULTUSER,"Button",BS_AUTORADIOBUTTON,215,25,101,10
+    CONTROL         "Administrator",IDC_RADIO_ADMIN,"Button",BS_AUTORADIOBUTTON,215,36,101,10
+    LTEXT           "Username",IDC_STATIC_USERNAME,154,51,50,8
+    EDITTEXT        IDC_EDIT_USERNAME,215,48,101,14,ES_AUTOHSCROLL
+    LTEXT           "Password",IDC_STATIC_PASSWORD,154,67,50,8
+    EDITTEXT        IDC_EDIT_PASSWORD,215,64,101,14,ES_AUTOHSCROLL
+    LTEXT           "Note",IDC_STATIC_NOTE,154,81,52,8
+    EDITTEXT        IDC_EDIT_NOTE,215,81,101,30,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN
+    LTEXT           "Initial-channel",IDC_STATIC_INITCHANNEL,154,116,50,8
+    COMBOBOX        IDC_COMBO_INITCHANNEL,215,113,101,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "User Rights",IDC_STATIC_GRPUSRRIGHTS,140,137,419,139
     CONTROL         "User can log in multiple times",IDC_CHECK_DOUBLELOGIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,151,190,10
-    CONTROL         "User can create temporary channels",IDC_CHECK_CHANNELSTEMP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,190,190,10
     CONTROL         "User can see users in all channels",IDC_CHECK_VIEWALLUSERS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,164,190,10
-    CONTROL         "User can broadcast text messages",IDC_CHECK_USERBCAST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,203,190,10
-    CONTROL         "User can transmit voice data (microphone)",IDC_CHECK_TRANSMITVOICE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,190,204,10
-    CONTROL         "User can transmit video data (webcam)",IDC_CHECK_TRANSMITVIDEOCAPTURE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,203,204,10
-    CONTROL         "User can transmit desktop sessions (shared desktop)",IDC_CHECK_TRANSMITDESKTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,242,204,10
-    CONTROL         "User can get remote access to desktop sessions",IDC_CHECK_TRANSMITDESKTOPINPUT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,255,204,10
-    GROUPBOX        "Auto-Operator Channels",IDC_STATIC_GRPAUTOOP,306,13,254,89
-    LTEXT           "Available Channels",IDC_STATIC_AVAILCHANNELS,315,26,89,8
-    LISTBOX         IDC_LIST_AVAILCHANNELS,315,36,107,60,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      ">",IDC_BUTTON_ADDCHANNEL,425,48,17,14
-    PUSHBUTTON      "<",IDC_BUTTON_DELCHANNEL,425,68,17,14
-    LTEXT           "Selected Channels",IDC_STATIC_SELCHANNELS,444,25,83,8
-    LISTBOX         IDC_LIST_SELECTEDCHANNELS,444,36,107,60,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Add",IDC_BUTTON_ADD,341,280,42,14
-    PUSHBUTTON      "&Clear",IDC_BUTTON_NEW,283,280,42,14
-    DEFPUSHBUTTON   "C&lose",IDOK,509,279,50,16
     CONTROL         "User can create/modify all channels",IDC_CHECK_CHANNELSPERMANENT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,177,190,10
-    LTEXT           "User type",IDC_STATIC_USERTYPE,140,98,50,8
-    CONTROL         "Default user",IDC_RADIO_DEFAULTUSER,"Button",BS_AUTORADIOBUTTON,196,108,101,10
-    CONTROL         "Administrator",IDC_RADIO_ADMIN,"Button",BS_AUTORADIOBUTTON,196,97,101,10
+    CONTROL         "User can create temporary channels",IDC_CHECK_CHANNELSTEMP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,190,190,10
+    CONTROL         "User can broadcast text messages",IDC_CHECK_USERBCAST,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,203,190,10
     CONTROL         "User can kick users off the server",IDC_CHECK_KICKUSERS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,216,190,10
     CONTROL         "User can ban users from server",IDC_CHECK_BANUSERS,
@@ -158,14 +140,22 @@ BEGIN
     CONTROL         "User can download files",IDC_CHECK_DOWNLOADFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,164,204,10
     CONTROL         "User can update server properties",IDC_CHECK_UPDATESERVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,177,204,10
+    CONTROL         "User can transmit voice data (microphone)",IDC_CHECK_TRANSMITVOICE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,190,204,10
+    CONTROL         "User can transmit video data (webcam)",IDC_CHECK_TRANSMITVIDEOCAPTURE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,203,204,10
     CONTROL         "User can transmit audio files (wav, mp3 files)",IDC_CHECK_TRANSMITAUDIOFILE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,216,204,10
     CONTROL         "User can transmit video files (avi, mp4 files)",IDC_CHECK_TRANSMITVIDEOFILE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,229,204,10
-    GROUPBOX        "Audio Codec Limitations",IDC_STATIC_AUDCODECLIMIT,306,104,253,34
-    LTEXT           "Max bitrate for audio codecs",IDC_STATIC_MAXABPS,312,121,99,8
-    EDITTEXT        IDC_EDIT_BITRATE,415,118,40,14,ES_RIGHT | ES_AUTOHSCROLL
-    LTEXT           "kbps (0 = disabled)",IDC_STATIC_KBPS,458,121,62,8
+    CONTROL         "User can transmit desktop sessions (shared desktop)",IDC_CHECK_TRANSMITDESKTOP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,242,204,10
+    CONTROL         "User can get remote access to desktop sessions",IDC_CHECK_TRANSMITDESKTOPINPUT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,255,204,10
+    PUSHBUTTON      "&Add",IDC_BUTTON_ADD,341,280,42,14
+    PUSHBUTTON      "&Clear",IDC_BUTTON_NEW,283,280,42,14
+    DEFPUSHBUTTON   "C&lose",IDOK,509,279,50,16
+    CONTROL         "",IDC_TAB_USERACCOUNT,"SysTabControl32",WS_GROUP | WS_TABSTOP,329,14,221,121
 END
 
 IDD_PROPPAGE_GENERALPAGE DIALOGEX 0, 0, 260, 240
@@ -913,6 +903,39 @@ BEGIN
     GROUPBOX        "Enable/disable text to speech events",IDC_STATIC_TTS,7,7,246,226
 END
 
+IDD_TAB_CHANNELOP DIALOGEX 0, 0, 251, 88
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Auto-Operator Channels",IDC_STATIC_GRPAUTOOP,0,0,251,88
+    LTEXT           "Available Channels",IDC_STATIC_AVAILCHANNELS,6,10,89,8
+    LISTBOX         IDC_LIST_AVAILCHANNELS,6,20,107,60,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      ">",IDC_BUTTON_ADDCHANNEL,117,31,17,14
+    PUSHBUTTON      "<",IDC_BUTTON_DELCHANNEL,117,52,17,14
+    LTEXT           "Selected Channels",IDC_STATIC_SELCHANNELS,138,10,83,8
+    LISTBOX         IDC_LIST_SELECTEDCHANNELS,138,20,107,60,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TAB_CODECLIMIT DIALOGEX 0, 0, 238, 34
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Audio Codec Limitations",IDC_STATIC_AUDCODECLIMIT,0,0,238,34
+    LTEXT           "Max bitrate for audio codecs",IDC_STATIC_MAXABPS,6,17,123,8
+    EDITTEXT        IDC_EDIT_BITRATE,132,14,26,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "kbps (0 = disabled)",IDC_STATIC_KBPS,161,17,71,8
+END
+
+IDD_TAB_ABUSE DIALOGEX 0, 0, 201, 83
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Flood Protection",IDC_STATIC_GRPABUSE,0,0,201,57
+    LTEXT           "Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.",IDC_STATIC_PREVENTSPAM,8,10,188,32
+    LTEXT           "Limit issued commands",IDC_STATIC_CMDLIMIT,8,42,103,8
+    COMBOBOX        IDC_COMBO_CMDLIMIT,117,40,74,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -951,7 +974,7 @@ BEGIN
     IDD_DIALOG_USERACCOUNTS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 566
+        RIGHTMARGIN, 854
         VERTGUIDE, 140
         VERTGUIDE, 559
         TOPMARGIN, 7
@@ -1009,6 +1032,10 @@ BEGIN
         VERTGUIDE, 248
         TOPMARGIN, 7
         BOTTOMMARGIN, 233
+    END
+
+    IDD_TAB_CHAT, DIALOG
+    BEGIN
     END
 
     IDD_DIALOG_MESSAGE, DIALOG
@@ -1263,6 +1290,21 @@ BEGIN
         BOTTOMMARGIN, 233
         HORZGUIDE, 226
     END
+
+    IDD_TAB_CHANNELOP, DIALOG
+    BEGIN
+        VERTGUIDE, 6
+        VERTGUIDE, 245
+    END
+
+    IDD_TAB_CODECLIMIT, DIALOG
+    BEGIN
+    END
+
+    IDD_TAB_ABUSE, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 57
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1420,12 +1462,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 2, 3, 4891"
+            VALUE "FileVersion", "5, 2, 2, 4888"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2017, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 2, 3, 4891"
+            VALUE "ProductVersion", "5, 2, 2, 4888"
         END
     END
     BLOCK "VarFileInfo"
@@ -1654,6 +1696,26 @@ END
 //
 
 IDD_PROPPAGE_SOUNDEVENTSPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIALOG_USERACCOUNTS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TAB_CHANNELOP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TAB_CODECLIMIT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TAB_ABUSE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

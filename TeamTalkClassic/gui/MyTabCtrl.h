@@ -2,8 +2,6 @@
 
 #include "XPTabCtrl.h"
 
-#include "ChatTab.h"
-#include "FilesTab.h"
 // CMyTabCtrl
 
 class CMyTabCtrl : public CXPTabCtrl
@@ -15,8 +13,8 @@ public:
     virtual ~CMyTabCtrl();
 
 protected:
-    DECLARE_MESSAGE_MAP()
     void Sizing();
+    DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
