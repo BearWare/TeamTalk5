@@ -67,7 +67,7 @@ namespace c_tt
 
 #else
 
-        public const string dllname = "TeamTalk5d.dll";
+        public const string dllname = "TeamTalk5.dll";
         public const string mgtdllname = "TeamTalk5.NET.dll";
 
 #endif
