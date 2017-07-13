@@ -24,9 +24,7 @@ public:
 	virtual ~CAbuseTab();
 
 // Dialog Data
-#ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_TAB_ABUSE };
-#endif
     void ShowAbuseInfo();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

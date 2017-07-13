@@ -41,19 +41,26 @@ BOOL CAbuseTab::OnInitDialog()
 {
     CMyTab::OnInitDialog();
 
-    CString szText = _T("Disabled");
+    TRANSLATE(*this, IDD);
+
+    CString szText; szText.LoadString(IDS_DISABLED);
+    TRANSLATE_ITEM(IDS_DISABLED, szText);
     int i = m_wndCmdLimit.AddString(szText);
     m_wndCmdLimit.SetItemData(i, LIMITCMD_DISABLED);
-    szText = _T("10 commands in 10 sec.");
+    szText.LoadString(IDS_CMD10IN10);
+    TRANSLATE_ITEM(IDS_CMD10IN10, szText);
     i = m_wndCmdLimit.AddString(szText);
     m_wndCmdLimit.SetItemData(i, LIMITCMD_10_PER_10SEC);
-    szText = _T("10 commands in 1 minute");
+    szText.LoadString(IDS_CMD10IN60);
+    TRANSLATE_ITEM(IDS_CMD10IN60, szText);
     i = m_wndCmdLimit.AddString(szText);
     m_wndCmdLimit.SetItemData(i, LIMITCMD_10_PER_MINUTE);
-    szText = _T("60 commands in 1 minute");
+    szText.LoadString(IDS_CMD60IN60);
+    TRANSLATE_ITEM(IDS_CMD60IN60, szText);
     i = m_wndCmdLimit.AddString(szText);
     m_wndCmdLimit.SetItemData(i, LIMITCMD_60_PER_MINUTE);
-    szText = _T("Custom");
+    szText.LoadString(IDS_CMDCUSTOM);
+    TRANSLATE_ITEM(IDS_CMDCUSTOM, szText);
     i = m_wndCmdLimit.AddString(szText);
     m_wndCmdLimit.SetItemData(i, LIMITCMD_CUSTOM);
 
@@ -132,9 +139,11 @@ void CAbuseTab::OnCbnSelchangeComboCmdlimit()
         m_abuse.nCommandsLimit = 60;
         break;
     case LIMITCMD_CUSTOM:
-        CString szTitle = _T("Limit issued commands"),
-            szMsg = _T("Number of commands to allow (0 = disabled)"),
-            szInitialMsg;
+        CString szTitle; szTitle.LoadString(IDS_CMDLIMIT);
+        TRANSLATE_ITEM(IDS_CMDLIMIT, szTitle);
+        CString szMsg; szMsg.LoadString(IDS_CMDNO);
+        TRANSLATE_ITEM(IDS_CMDNO, szMsg);
+        CString szInitialMsg;
         szInitialMsg.Format(_T("%d"), m_abuse.nCommandsLimit);
         CInputDlg dlg_nCmd(szTitle, szMsg, szInitialMsg, this);
         if(dlg_nCmd.DoModal() == IDOK)
@@ -142,7 +151,9 @@ void CAbuseTab::OnCbnSelchangeComboCmdlimit()
             int nCmd = _ttoi(dlg_nCmd.m_szInput);
             if(nCmd>0)
             {
-                szMsg.Format(_T("Timeframe to allow %d commands (in seconds)"), nCmd);
+                CString szFmt; szFmt.LoadString(IDS_CMDTIMEFRAME);
+                TRANSLATE_ITEM(IDS_CMDTIMEFRAME, szFmt);
+                szMsg.Format(szFmt, nCmd);
                 szInitialMsg.Format(_T("%d"), m_abuse.nCommandsIntervalMSec / 1000);
                 CInputDlg dlg_nSec(szTitle, szMsg, szInitialMsg, this);
                 if(dlg_nSec.DoModal() == IDOK)

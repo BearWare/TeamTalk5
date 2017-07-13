@@ -933,7 +933,7 @@ BEGIN
     GROUPBOX        "Flood Protection",IDC_STATIC_GRPABUSE,0,0,201,57
     LTEXT           "Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.",IDC_STATIC_PREVENTSPAM,8,10,188,32
     LTEXT           "Limit issued commands",IDC_STATIC_CMDLIMIT,8,42,103,8
-    COMBOBOX        IDC_COMBO_CMDLIMIT,117,40,74,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_CMDLIMIT,117,40,74,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -1895,6 +1895,19 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
+    IDS_DISABLED            "Disabled"
+    IDS_CMD10IN10           "10 commands in 10 sec."
+    IDS_CMD10IN60           "10 commands in 1 minute"
+    IDS_CMD60IN60           "60 commands in 1 minute"
+    IDS_CMDCUSTOM           "Custom"
+    IDS_CMDLIMIT            "Limit issued commands"
+    IDS_CMDNO               "Number of commands to allow (0 = disabled)"
+    IDS_CMDTIMEFRAME        "Timeframe to allow %d commands (in seconds)"
+END
+
+STRINGTABLE
+BEGIN
     IDS_SUBINT_MEDIAFILE    "%s changed subscription ""Intercept Media File Stream"" to: %d"
     IDS_DESKTOPINPUT_GRANTED "%s has granted desktop access"
     IDS_DESKTOPINPUT_ACTIVE "%s now has desktop access"
@@ -1995,11 +2008,6 @@ BEGIN
     IDC_RADIO_ONLINE        "Online"
     IDC_RADIO_AWAY          "Away"
     IDC_RADIO_QUESTION      "Question"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_ME_DISABLEVOX       "Disable voice activation from Me-menu"
 END
 
 #endif    // Neutral resources

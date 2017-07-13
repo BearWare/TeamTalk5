@@ -242,7 +242,7 @@
       </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>teamtalk5d.lib;winmm.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>teamtalk5.lib;winmm.lib;Tolk.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\TeamTalk_DLL;.\tolk\bin\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>

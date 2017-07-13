@@ -105,7 +105,6 @@ BOOL CUserAccountsDlg::OnInitDialog()
         }
     }
 
-
     ListAccounts();
 
     OnBnClickedButtonNew();

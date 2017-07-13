@@ -197,6 +197,14 @@
 #define IDD_TAB_CHANNELOP               289
 #define IDD_TAB_CODECLIMIT              290
 #define IDD_TAB_ABUSE                   291
+#define IDS_DISABLED                    292
+#define IDS_CMD10IN10                   293
+#define IDS_CMD10IN60                   294
+#define IDS_CMD60IN60                   295
+#define IDS_CMDCUSTOM                   296
+#define IDS_CMDLIMIT                    297
+#define IDS_CMDNO                       298
+#define IDS_CMDTIMEFRAME                299
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

@@ -17,9 +17,7 @@ public:
     int m_nBitrate;
 
 // Dialog Data
-#ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_TAB_CODECLIMIT };
-#endif
     CResizer m_resizer;
 
 protected:

@@ -42,6 +42,7 @@ BOOL CCodecLimitTab::OnInitDialog()
 {
     CMyTab::OnInitDialog();
 
+    TRANSLATE(*this, IDD);
 
     static CResizer::CBorderInfo s_bi[] = {
 

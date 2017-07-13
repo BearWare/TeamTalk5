@@ -42,6 +42,8 @@ BOOL CChannelOpTab::OnInitDialog()
 {
     CMyTab::OnInitDialog();
 
+    TRANSLATE(*this, IDD);
+
     static CResizer::CBorderInfo s_bi[] = {
 
         { IDC_STATIC_GRPAUTOOP,
