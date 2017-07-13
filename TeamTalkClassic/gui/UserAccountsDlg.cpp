@@ -60,6 +60,7 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
+
 BOOL CUserAccountsDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
@@ -103,6 +104,7 @@ BOOL CUserAccountsDlg::OnInitDialog()
             }
         }
     }
+
 
     ListAccounts();
 
@@ -204,6 +206,8 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
     }
 
     account.nAudioCodecBpsLimit = GetWindowNumber(m_wndCodecTab.m_wndBitrate) * 1000;
+
+    account.abusePrevent = m_wndAbuseTab.m_abuse;
 
     TT_DoNewUserAccount(ttInst, &account);
 
@@ -322,12 +326,13 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
     m_wndTransmitDesktopInput.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOPINPUT)?BST_CHECKED:BST_UNCHECKED);
 
     m_wndNote.SetWindowText(useraccount.szNote);
-    SetWindowNumber(m_wndCodecTab.m_wndBitrate, useraccount.nAudioCodecBpsLimit / 1000);
     int nChan = m_wndInitChannel.FindString(-1, useraccount.szInitChannel);
     if(nChan>=0)
         m_wndInitChannel.SetCurSel(nChan);
     else
         m_wndInitChannel.SetCurSel(0);
+
+    // Channel Operator - tab control
     m_wndChanOpTab.m_wndSelChannels.ResetContent();
     TTCHAR szChannel[TT_STRLEN];
     for(int i=0;i<TT_CHANNELS_OPERATOR_MAX;i++)
@@ -340,6 +345,14 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
              m_wndChanOpTab.m_wndSelChannels.SetItemData(ii, useraccount.autoOperatorChannels[i]);
         }
     }
+
+    // Audio Codec - tab control
+    SetWindowNumber(m_wndCodecTab.m_wndBitrate, useraccount.nAudioCodecBpsLimit / 1000);
+
+    // Abuse - tab control
+    m_wndAbuseTab.m_abuse = useraccount.abusePrevent;
+    m_wndAbuseTab.ShowAbuseInfo();
+
     UpdateControls();
 }
 

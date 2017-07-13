@@ -312,11 +312,11 @@
     <ClCompile Include="gui\ChannelOpTab.cpp">
       <Filter>Source Files\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="gui\CodecLimitTab.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gui\AbuseTab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\CodecLimitTab.cpp">
+      <Filter>Source Files\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -593,11 +593,11 @@
     <ClInclude Include="gui\ChannelOpTab.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="gui\CodecLimitTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gui\AbuseTab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\CodecLimitTab.h">
+      <Filter>Header Files\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
