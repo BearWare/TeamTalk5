@@ -46,6 +46,7 @@ import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
 import dk.bearware.gui.R;
 import dk.bearware.backend.TeamTalkConnection;
@@ -55,15 +56,18 @@ import dk.bearware.events.CommandListener;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.ServerEntry;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -113,7 +117,11 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             saveServers();
             serverentry = null;
         }
-        
+
+        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_INTERNET);
+        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
+        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS);
+
         // Bind to LocalService
         Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
         mConnection = new TeamTalkConnection(this);
@@ -506,7 +514,21 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             }
         }
     }
-    
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        switch (requestCode) {
+            case Permissions.MY_PERMISSIONS_REQUEST_INTERNET :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
+                break;
+        }
+    }
+
     @Override
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;

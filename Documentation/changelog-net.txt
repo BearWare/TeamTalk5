@@ -6,6 +6,9 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v52drelease
+ * - @ref v52dbugfixes
+ * 
  * @ref v52crelease
  * - @ref v52cfeatures
  *   - @ref v52cvirtsnd
@@ -162,6 +165,15 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v52drelease TeamTalk 5 SDK v. 5.2d release
+ *
+ * @subsection v52dbugfixes Bugfixes in v5.2d
+ *
+ * Fixed severe crash issue when audio streams are stopped. Crash was
+ * due to a race condition which occurs in rare cases.
  *
  * <hr>
  *

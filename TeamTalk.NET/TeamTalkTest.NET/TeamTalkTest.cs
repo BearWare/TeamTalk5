@@ -436,20 +436,24 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT), "sub vidcap");
 
             List<VideoFrame> vidframes = new List<VideoFrame>();
-
             while (WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, 10000, ref msg))
             {
                 if (msg.nSource == ttclient.GetMyUserID())
                 {
+                    // it may take some time before the first frame is decoded (we need a key frame)
                     frm = ttclient.AcquireUserVideoCaptureFrame(msg.nSource, out bmp);
-                    Assert.IsTrue(frm.nStreamID > 0, "got remote video frame");
-                    bmp.Save(MEDIAFOLDER + "\\" + counter++ + ".bmp");
-
-                    vidframes.Add(frm);
+                    if(frm.nHeight>0)
+                    {
+                        Assert.IsTrue(frm.nStreamID > 0, "got remote video frame");
+                        bmp.Save(MEDIAFOLDER + "\\" + counter++ + ".bmp");
+                        vidframes.Add(frm);
+                    }
                 }
                 if (vidframes.Count == 10)
                     break;
             }
+
+            Assert.IsTrue(vidframes.Count > 0);
 
             foreach (VideoFrame v in vidframes)
                 Assert.IsTrue(ttclient.ReleaseUserVideoCaptureFrame(v), "release vid frame");
@@ -553,14 +557,17 @@ namespace TeamTalkTest.NET
                         {
                             Bitmap bmp;
                             VideoFrame f = ttclient.AcquireUserMediaVideoFrame(msg.nSource, out bmp);
-                            videoframes++;
-                            Assert.IsTrue(f.nWidth > 0, "acquired video frame");
-                            Assert.IsTrue(ttclient.ReleaseUserMediaVideoFrame(f), "release video frame");
+                            if (f.nHeight > 0)
+                            {
+                                videoframes++;
+                                Assert.IsTrue(ttclient.ReleaseUserMediaVideoFrame(f), "release video frame");
+                            }
                             break;
                         }
                 }
             }
             
+            Assert.IsTrue(videoframes > 0, "acquired video frame");
             Assert.IsTrue(audio, "media audio playback");
             Assert.IsTrue(video, "media video playback");
             Assert.IsTrue(videoframes>0, "got video frames");
@@ -2030,7 +2037,10 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient2.GetMyUserAccount(ref a));
 
             foreach (UserRight u in (UserRight[])Enum.GetValues(typeof(UserRight)))
-                Assert.IsTrue(a.uUserRights.HasFlag(u));
+            {
+                if (u != UserRight.USERRIGHT_NONE && u != UserRight.USERRIGHT_ALL)
+                    Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+            }
         }
 
         [TestMethod]

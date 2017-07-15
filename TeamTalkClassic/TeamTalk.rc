@@ -922,7 +922,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Audio Codec Limitations",IDC_STATIC_AUDCODECLIMIT,0,0,238,34
     LTEXT           "Max bitrate for audio codecs",IDC_STATIC_MAXABPS,6,17,123,8
-    EDITTEXT        IDC_EDIT_BITRATE,132,14,26,14,ES_RIGHT | ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BITRATE,132,14,26,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "kbps (0 = disabled)",IDC_STATIC_KBPS,161,17,71,8
 END
 
@@ -1444,8 +1444,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,2,3,4891
- PRODUCTVERSION 5,2,3,4891
+ FILEVERSION 5,2,3,4895
+ PRODUCTVERSION 5,2,3,4895
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1462,12 +1462,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 2, 2, 4888"
+            VALUE "FileVersion", "5, 2, 3, 4895"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2017, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 2, 2, 4888"
+            VALUE "ProductVersion", "5, 2, 3, 4895"
         END
     END
     BLOCK "VarFileInfo"
@@ -1696,6 +1696,11 @@ END
 //
 
 IDD_PROPPAGE_SOUNDEVENTSPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIALOG_USERACCOUNTS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

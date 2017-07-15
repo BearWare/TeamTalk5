@@ -1,6 +1,17 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.2.3, released 2017/06/01
+Default Qt client:
+- Fixed crash issue when receiving multiple voice streams
+Accessible Windows client:
+- Fixed crash issue when receiving multiple voice streams
+- Two new sound events for transmit start/suspended
+iOS client:
+- Fixed crash issue when receiving multiple voice streams
+Android client:
+- Fixed crash issue when receiving multiple voice streams
+
 Version 5.2.2, released 2017/05/08
 Server:
 - Exclusive voice/media file access in "Allow only one user to talk"/"No Interruptions" channel

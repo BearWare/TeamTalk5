@@ -72,7 +72,7 @@
 "Bitrate" = "Битрейт";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Crystal, crystal@audio-club.net";
 
 /* text message type */
 "Broadcast message" = "Сетевое сообщение";
@@ -159,7 +159,7 @@
 "Error" = "Ошибка";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "Включение Особого Режима";
 
 /* preferences
    user detail */
@@ -273,7 +273,7 @@
 "No Audio Recording" = "Не Записывать Аудио";
 
 /* create channel */
-"No Interruptions" = "Не Перебивать";
+"No Interruptions" = "Непрерывный";
 
 /* channel list */
 "No password" = "Нет пароля";
@@ -323,10 +323,10 @@
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда непрерывный канал готов к передаче";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "Воспроизводить звук при срабатывании голосовой активации";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Воспроизводить звук при включении передачи голоса";
@@ -495,7 +495,7 @@
 "Topic" = "Тема";
 
 /* preferences */
-"Translator" = "Translator";
+"Translator" = "Переводчик";
 
 /* channel list */
 "Transmit" = "Передача";
@@ -565,7 +565,7 @@
 "Voice Activation Level: Disabled" = "Уровень Голосовой Активации: Выключено";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "Срабатывание Голосовой Активации";
 
 /* preferences */
 "Voice Preprocessing" = "Предобработка Голоса";

@@ -550,6 +550,9 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     case __STREAMTYPE :
         env->SetIntField(pMsg, fid_st, msg.nStreamType);
         break;
+    default :
+        assert(0 /* unknown msg.ttType */);
+        break;
     }
 }
 
@@ -1529,11 +1532,18 @@ void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConver
         env->SetIntField(lpVideoCodec, fid_codec, codec.nCodec);
         switch(codec.nCodec)
         {
-        case WEBM_VP8_CODEC :
+        case WEBM_VP8_CODEC : {
             jobject webm_obj = newObject(env, cls_webm);
             assert(webm_obj);
             setWebMVP8Codec(env, codec.webm_vp8, webm_obj, conv);
             env->SetObjectField(lpVideoCodec, fid_webm, webm_obj);
+            break;
+        }
+        case NO_CODEC :
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+            // make compiler shut up
             break;
         }
     }
@@ -1544,6 +1554,12 @@ void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConver
         {
         case WEBM_VP8_CODEC :
             setWebMVP8Codec(env, codec.webm_vp8, env->GetObjectField(lpVideoCodec, fid_webm), conv);
+            break;
+        case NO_CODEC :
+        case SPEEX_CODEC :
+        case SPEEX_VBR_CODEC :
+        case OPUS_CODEC :
+            // make compiler shut up
             break;
         }
     }

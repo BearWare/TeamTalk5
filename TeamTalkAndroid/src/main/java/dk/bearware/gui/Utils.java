@@ -394,4 +394,5 @@ public class Utils {
         }
         return user.szNickname;
     }
+
 }

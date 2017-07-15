@@ -25,8 +25,6 @@
 #include "AppInfo.h"
 #include "License.h"
 
-#include "mdump.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
