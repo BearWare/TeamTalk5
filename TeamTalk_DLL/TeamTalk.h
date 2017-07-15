@@ -1367,6 +1367,12 @@ extern "C" {
      * @see UserType */
     typedef UINT32 UserTypes;
 
+    /**
+     * @brief Properties to prevent server abuse.
+     * 
+     * The AbusePrevention-struct is part of #UserAccount and can be
+     * used to limit the number of commands a user can issue to the 
+     * server. */
     typedef struct AbusePrevention
     {
         /** @brief Limit number of commands a user can send to the
