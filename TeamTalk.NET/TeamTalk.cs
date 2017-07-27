@@ -1445,7 +1445,9 @@ namespace BearWare
      * 
      * The AbusePrevention-struct is part of #UserAccount and can be
      * used to limit the number of commands a user can issue to the 
-     * server. */
+     * server.
+     * 
+     * Requires TeamTalk version 5.2.3.4896. */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct AbusePrevention
     {
@@ -1509,7 +1511,9 @@ namespace BearWare
          * is allowed for audio codecs. 0 = no limit. @see AudioCodec */
         public int nAudioCodecBpsLimit;
         /** @brief Properties which can be set to prevent abuse of a
-         * server, e.g. limit number of commands issued. */
+         * server, e.g. limit number of commands issued.
+         * 
+         * Requires TeamTalk version 5.2.3.4896. */
         public AbusePrevention abusePrevent;
     }
     /** @} */

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.2.3.4895"
+#define TEAMTALK_VERSION "5.2.3.4896"
 
 
 #if defined(WIN32)
@@ -1372,7 +1372,9 @@ extern "C" {
      * 
      * The AbusePrevention-struct is part of #UserAccount and can be
      * used to limit the number of commands a user can issue to the 
-     * server. */
+     * server.
+     * 
+     * Requires TeamTalk version 5.2.3.4896. */
     typedef struct AbusePrevention
     {
         /** @brief Limit number of commands a user can send to the
@@ -1429,7 +1431,9 @@ extern "C" {
          * is allowed for audio codecs. 0 = no limit. @see AudioCodec */
         INT32 nAudioCodecBpsLimit;
         /** @brief Properties which can be set to prevent abuse of a
-         * server, e.g. limit number of commands issued. */
+         * server, e.g. limit number of commands issued.
+         * 
+         * Requires TeamTalk version 5.2.3.4896. */
         AbusePrevention abusePrevent;
     } UserAccount;
     /** @} */
