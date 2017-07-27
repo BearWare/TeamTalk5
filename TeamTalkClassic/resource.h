@@ -205,6 +205,7 @@
 #define IDS_CMDLIMIT                    297
 #define IDS_CMDNO                       298
 #define IDS_CMDTIMEFRAME                299
+#define IDS_ANONYMOUS                   300
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

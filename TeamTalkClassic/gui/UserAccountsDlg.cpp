@@ -251,8 +251,7 @@ void CUserAccountsDlg::OnLbnSelchangeListAccounts()
     if(index == LB_ERR)
         return;
 
-    const UserAccount& account = m_accounts[index];
-    ShowUserAccount(account);
+    ShowUserAccount(m_accounts[index]);
 }
 
 void CUserAccountsDlg::OnEnChangeEditUsername()
@@ -357,10 +356,16 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
 
 void CUserAccountsDlg::ListAccounts()
 {
+    CString szAnonymous; szAnonymous.LoadString(IDS_ANONYMOUS);
+    TRANSLATE_ITEM(IDS_ANONYMOUS, szAnonymous);
+    CString szFmt; szFmt.Format(_T("<%s>"), szAnonymous);
     m_wndAccounts.ResetContent();
     for(size_t i=0;i<m_accounts.size();i++)
     {
-        m_wndAccounts.AddString(m_accounts[i].szUsername);
+        if(_tcslen(m_accounts[i].szUsername) == 0)
+            m_wndAccounts.AddString(szFmt);
+        else
+            m_wndAccounts.AddString(m_accounts[i].szUsername);
     }
 }
 
