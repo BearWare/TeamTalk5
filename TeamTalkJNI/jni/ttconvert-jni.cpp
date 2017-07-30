@@ -550,6 +550,8 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     case __STREAMTYPE :
         env->SetIntField(pMsg, fid_st, msg.nStreamType);
         break;
+    case __NONE :
+        break;
     default :
         assert(0 /* unknown msg.ttType */);
         break;
