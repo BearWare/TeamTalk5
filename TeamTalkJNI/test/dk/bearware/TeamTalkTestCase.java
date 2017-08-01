@@ -1744,4 +1744,39 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         
         assertTrue("do text message after cmd-timeout", waitCmdSuccess(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
     }
+
+    public void testLoginAttempts() {
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue("get srvprop", ttadmin.getServerProperties(srvprop));
+        srvprop.nMaxLoginAttempts = 2;
+
+        assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+
+        User user = new User();
+        assertTrue("get user", ttadmin.getUser(ttadmin.getMyUserID(), user));
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        connect(ttclient);
+        
+        TTMessage msg = new TTMessage();
+        int cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword1");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("invalid account", ClientError.CMDERR_INVALID_ACCOUNT, msg.clienterrormsg.nErrorNo);
+
+        cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword2");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("invalid account", ClientError.CMDERR_INVALID_ACCOUNT, msg.clienterrormsg.nErrorNo);
+
+        cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword3");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("banned account", ClientError.CMDERR_SERVER_BANNED, msg.clienterrormsg.nErrorNo);
+
+        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+    }
 }
