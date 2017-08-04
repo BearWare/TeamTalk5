@@ -4,7 +4,7 @@
 /*
  * BearWare.dk TeamTalk 5 SDK.
  *
- * Copyright 2005-2016, BearWare.dk.
+ * Copyright 2005-2017, BearWare.dk.
  *
  * Read the License.txt file included with the TeamTalk 5 SDK for
  * terms of use.
@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.2.3.4896"
+#define TEAMTALK_VERSION "5.2.3.4897"
 
 
 #if defined(WIN32)
