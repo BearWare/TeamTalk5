@@ -150,6 +150,18 @@
     <item id="286">Disable voice activation</item>
     <item id="287">Enable voice activation from Me-menu</item>
     <item id="288">Disable voice activation from Me-menu</item>
+    <item id="289">Channel Operator</item>
+    <item id="290">Codec Limitations</item>
+    <item id="291">Abuse Prevention</item>
+    <item id="292">Disabled</item>
+    <item id="293">10 commands in 10 sec.</item>
+    <item id="294">10 commands in 1 minute</item>
+    <item id="295">60 commands in 1 minute</item>
+    <item id="296">Custom</item>
+    <item id="297">Limit issued commands</item>
+    <item id="298">Number of commands to allow (0 = disabled)</item>
+    <item id="299">Timeframe to allow %d commands (in seconds)</item>
+    <item id="300">Anonymous</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>
@@ -445,6 +457,10 @@
     <item id="1539">Show username instead of nickname</item>
     <item id="1540">Client name</item>
     <item id="1543">Enable/disable text to speech events</item>
+    <item id="1546">User Account Properties</item>
+    <item id="1547">Flood Protection</item>
+    <item id="1548">Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</item>
+    <item id="1550">Limit issued commands</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>

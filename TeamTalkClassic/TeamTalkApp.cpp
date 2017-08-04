@@ -145,6 +145,7 @@ const WORD _wVerMinor = 0;
 
 BOOL CTeamTalkApp::InitInstance()
 {
+	AfxOleInit();
 #if defined(USE_MINIDUMP)
     MiniDumper dump( _T("TeamTalk") );
 #endif

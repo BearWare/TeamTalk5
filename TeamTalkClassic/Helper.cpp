@@ -301,6 +301,7 @@ HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData)
 void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync)
 {
     ::PlaySound(szFilePath, NULL, SND_FILENAME | (bAsync ? SND_ASYNC : SND_SYNC));
+    TRACE(_T("PLAY %s\n"), szFilePath);
 }
 
 int nTextLimit = TT_STRLEN;

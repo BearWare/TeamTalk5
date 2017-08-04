@@ -16,7 +16,7 @@ IMPLEMENT_DYNAMIC(CUserAccountsDlg, CDialog)
 
 CUserAccountsDlg::CUserAccountsDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CUserAccountsDlg::IDD, pParent)
-    , m_nBitrate(DEFAULT_AUDIOCODEC_BPS_LIMIT)
+    , m_bResizeReady(FALSE)
 {
 
 }
@@ -37,8 +37,6 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIO_ADMIN, m_wndAdminUser);
     DDX_Control(pDX, IDC_RADIO_DEFAULTUSER, m_wndDefaultUser);
     DDX_Control(pDX, IDC_COMBO_INITCHANNEL, m_wndInitChannel);
-    DDX_Control(pDX, IDC_LIST_AVAILCHANNELS, m_wndAvailChannels);
-    DDX_Control(pDX, IDC_LIST_SELECTEDCHANNELS, m_wndSelChannels);
     DDX_Control(pDX, IDC_EDIT_NOTE, m_wndNote);
     DDX_Control(pDX, IDC_CHECK_DOUBLELOGIN, m_wndDoubleLogin);
     DDX_Control(pDX, IDC_CHECK_CHANNELSTEMP, m_wndTempChannels);
@@ -58,14 +56,29 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK_UPDATESERVER, m_wndSrvProp);
     DDX_Control(pDX, IDC_CHECK_TRANSMITAUDIOFILE, m_wndTransmitAudFiles);
     DDX_Control(pDX, IDC_CHECK_TRANSMITVIDEOFILE, m_wndTransmitVidFiles);
-    DDX_Control(pDX, IDC_EDIT_BITRATE, m_wndBitrate);
-    DDX_Text(pDX, IDC_EDIT_BITRATE, m_nBitrate);
+    DDX_Control(pDX, IDC_TAB_USERACCOUNT, m_wndTabCtrl);
 }
+
 
 
 BOOL CUserAccountsDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
+
+    m_wndTabCtrl.SetOrientation(e_tabTop);
+    VERIFY(m_wndChanOpTab.Create(IDD_TAB_CHANNELOP, &m_wndTabCtrl));
+    VERIFY(m_wndCodecTab.Create(IDD_TAB_CODECLIMIT, &m_wndTabCtrl));
+    VERIFY(m_wndAbuseTab.Create(IDD_TAB_ABUSE, &m_wndTabCtrl));
+
+    CString szTabTitle = _T("Channel Operator");
+    TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szTabTitle);
+    m_wndTabCtrl.AddTab(&m_wndChanOpTab, szTabTitle, 0);
+    szTabTitle = _T("Codec Limitations");
+    TRANSLATE_ITEM(IDD_TAB_CODECLIMIT, szTabTitle);
+    m_wndTabCtrl.AddTab(&m_wndCodecTab, szTabTitle, 0);
+    szTabTitle = _T("Abuse Prevention");
+    TRANSLATE_ITEM(IDD_TAB_ABUSE, szTabTitle);
+    m_wndTabCtrl.AddTab(&m_wndAbuseTab, szTabTitle, 0);
 
     TRANSLATE(*this, IDD);
 
@@ -84,17 +97,19 @@ BOOL CUserAccountsDlg::OnInitDialog()
             if((channels[i].uChannelType & CHANNEL_PERMANENT) &&
                TT_GetChannelPath(ttInst, channels[i].nChannelID, szPath))
             {
-                int index = m_wndAvailChannels.AddString(szPath);
-                m_wndAvailChannels.SetItemData(index, channels[i].nChannelID);
+                int index = m_wndChanOpTab.m_wndAvailChannels.AddString(szPath);
+                m_wndChanOpTab.m_wndAvailChannels.SetItemData(index, channels[i].nChannelID);
                 index = m_wndInitChannel.AddString(szPath);
                 m_wndInitChannel.SetItemData(index, channels[i].nChannelID);
             }
         }
     }
-    
+
     ListAccounts();
 
     OnBnClickedButtonNew();
+
+    m_bResizeReady = TRUE;
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -107,10 +122,9 @@ BEGIN_MESSAGE_MAP(CUserAccountsDlg, CDialog)
     ON_LBN_SELCHANGE(IDC_LIST_ACCOUNTS, &CUserAccountsDlg::OnLbnSelchangeListAccounts)
     ON_EN_CHANGE(IDC_EDIT_USERNAME, &CUserAccountsDlg::OnEnChangeEditUsername)
     ON_EN_CHANGE(IDC_EDIT_PASSWORD, &CUserAccountsDlg::OnEnChangeEditPassword)
-    ON_BN_CLICKED(IDC_BUTTON_ADDCHANNEL, &CUserAccountsDlg::OnBnClickedButtonAddchannel)
-    ON_BN_CLICKED(IDC_BUTTON_DELCHANNEL, &CUserAccountsDlg::OnBnClickedButtonDelchannel)
     ON_BN_CLICKED(IDC_RADIO_DEFAULTUSER, &CUserAccountsDlg::OnBnClickedRadioDefaultuser)
     ON_BN_CLICKED(IDC_RADIO_ADMIN, &CUserAccountsDlg::OnBnClickedRadioAdmin)
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -181,16 +195,18 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
 
     for(int i=0;i<TT_CHANNELS_OPERATOR_MAX;i++)
     {
-        if(i<m_wndSelChannels.GetCount())
+        if(i<m_wndChanOpTab.m_wndSelChannels.GetCount())
         {
-            ASSERT(m_wndSelChannels.GetItemData(i));
-            account.autoOperatorChannels[i] = m_wndSelChannels.GetItemData(i);
+            ASSERT(m_wndChanOpTab.m_wndSelChannels.GetItemData(i));
+            account.autoOperatorChannels[i] = m_wndChanOpTab.m_wndSelChannels.GetItemData(i);
         }
         else
             account.autoOperatorChannels[i] = 0;
     }
 
-    account.nAudioCodecBpsLimit = GetWindowNumber(m_wndBitrate) * 1000;
+    account.nAudioCodecBpsLimit = GetWindowNumber(m_wndCodecTab.m_wndBitrate) * 1000;
+
+    account.abusePrevent = m_wndAbuseTab.m_abuse;
 
     TT_DoNewUserAccount(ttInst, &account);
 
@@ -235,8 +251,7 @@ void CUserAccountsDlg::OnLbnSelchangeListAccounts()
     if(index == LB_ERR)
         return;
 
-    const UserAccount& account = m_accounts[index];
-    ShowUserAccount(account);
+    ShowUserAccount(m_accounts[index]);
 }
 
 void CUserAccountsDlg::OnEnChangeEditUsername()
@@ -309,13 +324,14 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
     m_wndTransmitDesktopInput.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOPINPUT)?BST_CHECKED:BST_UNCHECKED);
 
     m_wndNote.SetWindowText(useraccount.szNote);
-    SetWindowNumber(m_wndBitrate, useraccount.nAudioCodecBpsLimit / 1000);
     int nChan = m_wndInitChannel.FindString(-1, useraccount.szInitChannel);
     if(nChan>=0)
         m_wndInitChannel.SetCurSel(nChan);
     else
         m_wndInitChannel.SetCurSel(0);
-    m_wndSelChannels.ResetContent();
+
+    // Channel Operator - tab control
+    m_wndChanOpTab.m_wndSelChannels.ResetContent();
     TTCHAR szChannel[TT_STRLEN];
     for(int i=0;i<TT_CHANNELS_OPERATOR_MAX;i++)
     {
@@ -323,42 +339,35 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
                              useraccount.autoOperatorChannels[i], 
                              szChannel))
         {
-             int ii = m_wndSelChannels.AddString(szChannel);
-             m_wndSelChannels.SetItemData(ii, useraccount.autoOperatorChannels[i]);
+             int ii = m_wndChanOpTab.m_wndSelChannels.AddString(szChannel);
+             m_wndChanOpTab.m_wndSelChannels.SetItemData(ii, useraccount.autoOperatorChannels[i]);
         }
     }
+
+    // Audio Codec - tab control
+    SetWindowNumber(m_wndCodecTab.m_wndBitrate, useraccount.nAudioCodecBpsLimit / 1000);
+
+    // Abuse - tab control
+    m_wndAbuseTab.m_abuse = useraccount.abusePrevent;
+    m_wndAbuseTab.ShowAbuseInfo();
+
     UpdateControls();
 }
 
 void CUserAccountsDlg::ListAccounts()
 {
+    CString szAnonymous; szAnonymous.LoadString(IDS_ANONYMOUS);
+    TRANSLATE_ITEM(IDS_ANONYMOUS, szAnonymous);
+    CString szFmt; szFmt.Format(_T("<%s>"), szAnonymous);
     m_wndAccounts.ResetContent();
     for(size_t i=0;i<m_accounts.size();i++)
     {
-        m_wndAccounts.AddString(m_accounts[i].szUsername);
+        if(_tcslen(m_accounts[i].szUsername) == 0)
+            m_wndAccounts.AddString(szFmt);
+        else
+            m_wndAccounts.AddString(m_accounts[i].szUsername);
     }
 }
-
-void CUserAccountsDlg::OnBnClickedButtonAddchannel()
-{
-    int i = m_wndAvailChannels.GetCurSel();
-    if(i == LB_ERR)
-        return;
-    int nItemData = m_wndAvailChannels.GetItemData(i);
-    CString szChan;
-    m_wndAvailChannels.GetText(i, szChan);
-    i = m_wndSelChannels.AddString(szChan);
-    m_wndSelChannels.SetItemData(i, nItemData);
-}
-
-void CUserAccountsDlg::OnBnClickedButtonDelchannel()
-{
-    int i = m_wndSelChannels.GetCurSel();
-    if(i == LB_ERR)
-        return;
-    m_wndSelChannels.DeleteString(i);
-}
-
 
 void CUserAccountsDlg::OnBnClickedRadioDefaultuser()
 {
@@ -369,4 +378,10 @@ void CUserAccountsDlg::OnBnClickedRadioDefaultuser()
 void CUserAccountsDlg::OnBnClickedRadioAdmin()
 {
     UpdateControls();
+}
+
+
+void CUserAccountsDlg::OnSize(UINT nType, int cx, int cy)
+{
+    CDialog::OnSize(nType, cx, cy);
 }

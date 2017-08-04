@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-SSL|Win32">
       <Configuration>Debug-SSL</Configuration>
@@ -92,6 +92,7 @@
     <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -480,6 +481,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gui\AbuseTab.cpp" />
+    <ClCompile Include="gui\ChannelOpTab.cpp" />
+    <ClCompile Include="gui\CodecLimitTab.cpp" />
     <ClCompile Include="gui\GenerateTTFileDlg.cpp" />
     <ClCompile Include="gui\StreamMediaDlg.cpp" />
     <ClCompile Include="gui\TextToSpeechPage.cpp" />
@@ -698,6 +702,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppInfo.h" />
+    <ClInclude Include="gui\AbuseTab.h" />
+    <ClInclude Include="gui\ChannelOpTab.h" />
+    <ClInclude Include="gui\CodecLimitTab.h" />
     <ClInclude Include="gui\GenerateTTFileDlg.h" />
     <ClInclude Include="gui\StreamMediaDlg.h" />
     <ClInclude Include="gui\TextToSpeechPage.h" />

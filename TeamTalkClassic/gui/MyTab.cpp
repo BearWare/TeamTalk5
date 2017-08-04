@@ -44,7 +44,9 @@ BOOL CMyTab::PreTranslateMessage(MSG* pMsg)
                 GetParent()->SetFocus();
             else
             {
-                pNext = AfxGetMainWnd()->GetNextDlgTabItem(GetParent());
+                // pNext = AfxGetMainWnd()->GetNextDlgTabItem(GetParent()); //This only works if tab-ctrl is on main dialog
+                CWnd* pParent = GetParent()->GetParent(); // tab ctrl (parent), dialog (parent-parent)
+                pNext = pParent->GetNextDlgTabItem(GetParent());
                 if(pNext)
                     pNext->SetFocus();
             }

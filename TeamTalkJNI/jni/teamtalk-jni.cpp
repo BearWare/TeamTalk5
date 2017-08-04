@@ -20,7 +20,6 @@
  */
 
 #include "ttconvert-jni.h"
-#include "teamtalk-jni.h"
 
 #include <string.h>
 #include <assert.h>

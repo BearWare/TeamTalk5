@@ -72,6 +72,7 @@ private:
     UserAccount m_add_user;
     QString m_del_username;
 
+    AbusePrevention m_abuse;
     void lockUI(bool locked);
     void updateUserRights(const UserAccount& useraccount);
 
@@ -82,6 +83,7 @@ private slots:
     void slotUserSelected(const QModelIndex & index );
     void slotEdited(const QString&);
     void slotUserTypeChanged();
+    void slotCustomCmdLimit(int index);
 
     void slotAddOpChannel();
     void slotRemoveOpChannel();

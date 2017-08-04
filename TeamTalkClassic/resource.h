@@ -194,6 +194,18 @@
 #define IDS_DISABLEVOX                  286
 #define IDS_ME_ENABLEVOX                287
 #define IDS_ME_DISABLEVOX               288
+#define IDD_TAB_CHANNELOP               289
+#define IDD_TAB_CODECLIMIT              290
+#define IDD_TAB_ABUSE                   291
+#define IDS_DISABLED                    292
+#define IDS_CMD10IN10                   293
+#define IDS_CMD10IN60                   294
+#define IDS_CMD60IN60                   295
+#define IDS_CMDCUSTOM                   296
+#define IDS_CMDLIMIT                    297
+#define IDS_CMDNO                       298
+#define IDS_CMDTIMEFRAME                299
+#define IDS_ANONYMOUS                   300
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -646,6 +658,12 @@
 #define IDC_TREE_TTS                    1542
 #define IDC_STATIC_TTS                  1543
 #define IDC_TREE_SOUNDEVENTS            1544
+#define IDC_TAB_USERACCOUNT             1545
+#define IDC_STATIC_GRPACCOUNT           1546
+#define IDC_STATIC_GRPABUSE             1547
+#define IDC_STATIC_PREVENTSPAM          1548
+#define IDC_COMBO_CMDLIMIT              1549
+#define IDC_STATIC_CMDLIMIT             1550
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -755,9 +773,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        289
+#define _APS_NEXT_RESOURCE_VALUE        301
 #define _APS_NEXT_COMMAND_VALUE         32950
-#define _APS_NEXT_CONTROL_VALUE         1545
-#define _APS_NEXT_SYMED_VALUE           194
+#define _APS_NEXT_CONTROL_VALUE         1551
+#define _APS_NEXT_SYMED_VALUE           301
 #endif
 #endif

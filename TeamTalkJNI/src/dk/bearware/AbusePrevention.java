@@ -19,7 +19,10 @@
  *
  */
 
-#ifndef TEAMTALKJNI_H
-#define TEAMTALKJNI_H
+package dk.bearware;
 
-#endif
+public class AbusePrevention {
+    public int nCommandsLimit = 0;
+    public int nCommandsIntervalMSec = 0;
+    public AbusePrevention() {}
+}

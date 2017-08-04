@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.2.3.4894"
+#define TEAMTALK_VERSION "5.2.3.4896"
 
 
 #if defined(WIN32)
@@ -1367,6 +1367,30 @@ extern "C" {
      * @see UserType */
     typedef UINT32 UserTypes;
 
+    /**
+     * @brief Properties to prevent server abuse.
+     * 
+     * The AbusePrevention-struct is part of #UserAccount and can be
+     * used to limit the number of commands a user can issue to the 
+     * server.
+     * 
+     * Requires TeamTalk version 5.2.3.4896. */
+    typedef struct AbusePrevention
+    {
+        /** @brief Limit number of commands a user can send to the
+         * server. 
+         *
+         * This can be used to prevent flooding where a user is
+         * sending several hundred text messages to another user.
+         *
+         * Values set like this: User can issue @c nCommandsLimit
+         * commands within duration @c nCommandsIntervalMSec. Put zeros to
+         * disable.  @see CMDERR_COMMAND_FLOOD */
+        INT32 nCommandsLimit;
+        /** @brief Commands within given interval. */
+        INT32 nCommandsIntervalMSec;
+    } AbusePrevention;
+
     /** 
      * @brief A struct containing the properties of a user account.
      *
@@ -1406,6 +1430,11 @@ extern "C" {
          * this user. This value will hold the highest bitrate which 
          * is allowed for audio codecs. 0 = no limit. @see AudioCodec */
         INT32 nAudioCodecBpsLimit;
+        /** @brief Properties which can be set to prevent abuse of a
+         * server, e.g. limit number of commands issued.
+         * 
+         * Requires TeamTalk version 5.2.3.4896. */
+        AbusePrevention abusePrevent;
     } UserAccount;
     /** @} */
 
@@ -2127,6 +2156,12 @@ extern "C" {
         /** @brief The maximum number of channels has been exceeded.
          * @see TT_CHANNELID_MAX */
         CMDERR_MAX_CHANNELS_EXCEEDED = 2013,
+
+        /** @brief Command flooding prevented by server.
+         *
+         * Commands are issued faster than allowed by the server. See
+         * #UserAccount.commandsPerMSec.  @see TT_CHANNELID_MAX */
+        CMDERR_COMMAND_FLOOD = 2014,
 
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
 

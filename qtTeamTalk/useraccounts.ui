@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
-    <height>612</height>
+    <width>1056</width>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,232 +81,346 @@
       <property name="title">
        <string>Modify User Account</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <layout class="QFormLayout" name="formLayout_2">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          <widget class="QGroupBox" name="groupBox_6">
+           <property name="title">
+            <string>Basic Account Properties</string>
            </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Username</string>
-             </property>
-             <property name="buddy">
-              <cstring>usernameEdit</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="usernameEdit">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Password</string>
-             </property>
-             <property name="buddy">
-              <cstring>passwordEdit</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="passwordEdit">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Note</string>
-             </property>
-             <property name="buddy">
-              <cstring>noteEdit</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QPlainTextEdit" name="noteEdit"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Initial Channel</string>
-             </property>
-             <property name="buddy">
-              <cstring>channelComboBox</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QComboBox" name="channelComboBox">
-             <property name="toolTip">
-              <string>User should automatically join this channel after login</string>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>User type</string>
-             </property>
-             <property name="buddy">
-              <cstring>defaultuserBtn</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QRadioButton" name="adminBtn">
-               <property name="text">
-                <string>Administrator</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="defaultuserBtn">
-               <property name="text">
-                <string>Default user</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
+           <layout class="QFormLayout" name="formLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>User type</string>
+              </property>
+              <property name="buddy">
+               <cstring>defaultuserBtn</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QRadioButton" name="defaultuserBtn">
+                <property name="text">
+                 <string>Default user</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="adminBtn">
+                <property name="text">
+                 <string>Administrator</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Username</string>
+              </property>
+              <property name="buddy">
+               <cstring>usernameEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="usernameEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Password</string>
+              </property>
+              <property name="buddy">
+               <cstring>passwordEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="passwordEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Note</string>
+              </property>
+              <property name="buddy">
+               <cstring>noteEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPlainTextEdit" name="noteEdit"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Initial Channel</string>
+              </property>
+              <property name="buddy">
+               <cstring>channelComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QComboBox" name="channelComboBox">
+              <property name="toolTip">
+               <string>User should automatically join this channel after login</string>
+              </property>
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QGroupBox" name="groupBox_3">
-             <property name="accessibleName">
-              <string>Auto-Operator Channels</string>
-             </property>
-             <property name="title">
-              <string>Auto-Operator Channels</string>
-             </property>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Selected Channels</string>
-                </property>
-                <property name="buddy">
-                 <cstring>opchannelsListWidget</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QListWidget" name="opchannelsListWidget">
-                <property name="toolTip">
-                 <string>User will automatically become operator when joining these channels</string>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <property name="uniformItemSizes">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Available Channels</string>
-                </property>
-                <property name="buddy">
-                 <cstring>opchanComboBox</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0">
-                <item>
-                 <widget class="QComboBox" name="opchanComboBox">
-                  <property name="editable">
+          <widget class="QTabWidget" name="tabWidget">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Channel Operator</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QGroupBox" name="groupBox_3">
+               <property name="accessibleName">
+                <string>Auto-Operator Channels</string>
+               </property>
+               <property name="title">
+                <string>Auto-Operator Channels</string>
+               </property>
+               <layout class="QFormLayout" name="formLayout">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>Selected Channels</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>opchannelsListWidget</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QListWidget" name="opchannelsListWidget">
+                  <property name="toolTip">
+                   <string>User will automatically become operator when joining these channels</string>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::SingleSelection</enum>
+                  </property>
+                  <property name="uniformItemSizes">
                    <bool>false</bool>
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QToolButton" name="addopBtn">
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_6">
                   <property name="text">
-                   <string>Add</string>
+                   <string>Available Channels</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>opchanComboBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0">
+                  <item>
+                   <widget class="QComboBox" name="opchanComboBox">
+                    <property name="editable">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="addopBtn">
+                    <property name="text">
+                     <string>Add</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="rmopBtn">
+                    <property name="text">
+                     <string>Remove</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_2">
+            <attribute name="title">
+             <string>Codec Limitations</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QGroupBox" name="groupBox_5">
+               <property name="title">
+                <string>Audio Codec Limitations</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>Max bitrate for audio codecs</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>audmaxbpsSpinBox</cstring>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QToolButton" name="rmopBtn">
+                 <widget class="QSpinBox" name="audmaxbpsSpinBox">
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="maximum">
+                   <number>2048</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>1</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_11">
                   <property name="text">
-                   <string>Remove</string>
+                   <string>kbps (0 = disabled)</string>
                   </property>
                  </widget>
                 </item>
                </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_5">
-             <property name="title">
-              <string>Audio Codec Limitations</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>Max bitrate for audio codecs</string>
-                </property>
-                <property name="buddy">
-                 <cstring>audmaxbpsSpinBox</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="audmaxbpsSpinBox">
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="maximum">
-                 <number>2048</number>
-                </property>
-                <property name="singleStep">
-                 <number>1</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>kbps (0 = disabled)</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>158</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_3">
+            <attribute name="title">
+             <string>Abuse Prevention</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QGroupBox" name="groupBox_7">
+               <property name="title">
+                <string>Flood Protection</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_9">
+                  <property name="text">
+                   <string>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Limit issued commands</string>
+                    </property>
+                    <property name="buddy">
+                     <cstring>limitcmdComboBox</cstring>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="limitcmdComboBox"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>100</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </item>
         </layout>
        </item>
@@ -566,15 +680,12 @@
  <tabstops>
   <tabstop>usersTreeView</tabstop>
   <tabstop>delButton</tabstop>
+  <tabstop>defaultuserBtn</tabstop>
+  <tabstop>adminBtn</tabstop>
   <tabstop>usernameEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
   <tabstop>noteEdit</tabstop>
   <tabstop>channelComboBox</tabstop>
-  <tabstop>defaultuserBtn</tabstop>
-  <tabstop>opchannelsListWidget</tabstop>
-  <tabstop>opchanComboBox</tabstop>
-  <tabstop>addopBtn</tabstop>
-  <tabstop>rmopBtn</tabstop>
   <tabstop>multiloginBox</tabstop>
   <tabstop>viewallusersBox</tabstop>
   <tabstop>permchannelsBox</tabstop>
@@ -593,6 +704,13 @@
   <tabstop>transmitvideofileBox</tabstop>
   <tabstop>transmitdesktopBox</tabstop>
   <tabstop>transmitdesktopaccessBox</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>opchannelsListWidget</tabstop>
+  <tabstop>opchanComboBox</tabstop>
+  <tabstop>addopBtn</tabstop>
+  <tabstop>rmopBtn</tabstop>
+  <tabstop>audmaxbpsSpinBox</tabstop>
+  <tabstop>limitcmdComboBox</tabstop>
   <tabstop>addButton</tabstop>
   <tabstop>newButton</tabstop>
   <tabstop>closeBtn</tabstop>

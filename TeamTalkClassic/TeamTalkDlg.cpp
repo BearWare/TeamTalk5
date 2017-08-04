@@ -109,8 +109,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_bIdledOut(FALSE)
 , m_bPreferencesOpen(FALSE)
 , m_bSpeech(FALSE)
-, m_tabFiles(m_wndTabCtrl.m_tabFiles)
-, m_tabChat(m_wndTabCtrl.m_tabChat)
 , m_xmlSettings(TT_XML_ROOTNAME)
 , m_nMoveUserID(0)
 , m_nLastMoveChannel(0)
@@ -240,6 +238,10 @@ void CTeamTalkDlg::Disconnect()
     TT_CloseSoundDuplexDevices(ttInst);
     TT_CloseSoundInputDevice(ttInst);
     TT_CloseSoundOutputDevice(ttInst);
+
+    TTMessage msg;
+    INT32 nZero = 0;
+    while(TT_GetMessage(ttInst, &msg, &nZero));
 
     m_nLastRecvBytes = m_nLastSentBytes = 0;
 
@@ -459,7 +461,7 @@ void CTeamTalkDlg::RunWizard()
         if(welcomepage.m_bLanguage)
             m_xmlSettings.SetLanguageFile( STR_UTF8( welcomepage.m_szLanguage.GetBuffer() ) );
 
-        TranslateMenu();
+        Translate();
         TRANSLATE(*this, IDD);
 
         /// General page
@@ -2382,7 +2384,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     {
         Languages::Instance( szLanguage );
         TRANSLATE(*this, IDD);
-        TranslateMenu();
+        Translate();
     }
 
     //see if wizard should be invoked
@@ -2469,10 +2471,17 @@ BOOL CTeamTalkDlg::OnInitDialog()
 
     m_brush.CreateSolidBrush(RGB(244,244,244));
 
-    VERIFY(m_wndTabCtrl.Init());
-    m_wndTabCtrl.SetOrientation(e_tabTop);
+    BOOL b = m_tabChat.Create(IDD_TAB_CHAT, &m_wndTabCtrl);
+    CString szChat = _T("Chat");
+    TRANSLATE_ITEM(IDS_CHAT, szChat);
+    m_wndTabCtrl.AddTab(&m_tabChat, szChat, 0);
+    b &= m_tabFiles.Create(IDD_TAB_FILES, &m_wndTabCtrl);
+    CString szFiles = _T("Files");
+    TRANSLATE_ITEM(IDS_FILES, szFiles);
+    m_wndTabCtrl.AddTab(&m_tabFiles, szFiles, 0);
     m_tabChat.m_hAccel = m_hAccel;
     m_tabFiles.m_hAccel = m_hAccel;
+    m_wndTabCtrl.SetOrientation(e_tabTop);
 
     //set splitter panes
     m_wndSplitter.Create(WS_CHILD | WS_DLGFRAME | WS_VISIBLE, CRect(0,0,0,0), this, IDC_VERT_SPLITTER);
@@ -2768,7 +2777,7 @@ void CTeamTalkDlg::OnClose()
 	}
 }
 
-	void CTeamTalkDlg::OnOK() 
+void CTeamTalkDlg::OnOK()
 {
     if(GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst)>0) 
     {
@@ -3464,7 +3473,7 @@ void CTeamTalkDlg::OnFilePreferences()
 
         TRANSLATE(*this, IDD);
         ASSERT(GetMenu());
-        TranslateMenu();
+        Translate();
 
         m_xmlSettings.SetVuMeterUpdate(windowpage.m_bVuMeter);
         if(windowpage.m_bVuMeter)
@@ -4854,7 +4863,7 @@ void CTeamTalkDlg::OnHelpRunwizard()
         RunWizard();
 }
 
-void CTeamTalkDlg::TranslateMenu()
+void CTeamTalkDlg::Translate()
 {
     //an ugly hack to translate pop-up menu but popup menus doesn't have IDs :(
     ASSERT(GetMenu());
@@ -4915,7 +4924,21 @@ void CTeamTalkDlg::TranslateMenu()
 
     //redraw
     DrawMenuBar();
-    m_wndTabCtrl.Translate();
+
+    //Translate tab ctrl
+    TCITEM item = { 0 };
+    item.mask = TCIF_TEXT;
+    m_wndTabCtrl.GetItem(0, &item);
+    CString szChat = _T("Chat");
+    TRANSLATE_ITEM(IDS_CHAT, szChat);
+    item.pszText = szChat.GetBuffer();
+    m_wndTabCtrl.SetItem(0, &item);
+    m_wndTabCtrl.GetItem(1, &item);
+    CString szFiles = _T("Files");
+    TRANSLATE_ITEM(IDS_FILES, szFiles);
+    item.pszText = szFiles.GetBuffer();
+    m_wndTabCtrl.SetItem(1, &item);
+    Invalidate();
 }
 
 void CTeamTalkDlg::ParseArgs()

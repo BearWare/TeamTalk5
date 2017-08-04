@@ -1702,7 +1702,81 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("ttclient1, Channel tx queue set", ttclient1.getChannel(ttclient1.getMyChannelID(), chan));
 
         assertEquals("ttclient1, myself in queue ", ttclient1.getMyUserID(), chan.transmitUsersQueue[0]);
+    }
 
+    public void testAbusePrevention() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
 
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        UserAccount account = new UserAccount();
+        account.szUsername = USERNAME;
+        account.szPassword = PASSWORD;
+        account.uUserType = UserType.USERTYPE_DEFAULT;
+        account.uUserRights = USERRIGHTS;
+        account.abusePrevent.nCommandsLimit = 1;
+        account.abusePrevent.nCommandsIntervalMSec = 1000;
+
+        assertTrue("create flood prevent account", waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(account), DEF_WAIT));
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 2000);
+
+        TextMessage txtmsg = new TextMessage();
+        txtmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        txtmsg.nToUserID = ttclient.getMyUserID();
+        txtmsg.szMessage = "My text message";
+
+        assertTrue("do text message", waitCmdSuccess(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
+
+        assertTrue("do text message in less than cmd-timeout", waitCmdError(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 2000);
+        
+        assertTrue("do text message after cmd-timeout", waitCmdSuccess(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
+    }
+
+    public void testLoginAttempts() {
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue("get srvprop", ttadmin.getServerProperties(srvprop));
+        srvprop.nMaxLoginAttempts = 2;
+
+        assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+
+        User user = new User();
+        assertTrue("get user", ttadmin.getUser(ttadmin.getMyUserID(), user));
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        connect(ttclient);
+        
+        TTMessage msg = new TTMessage();
+        int cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword1");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("invalid account", ClientError.CMDERR_INVALID_ACCOUNT, msg.clienterrormsg.nErrorNo);
+
+        cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword2");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("invalid account", ClientError.CMDERR_INVALID_ACCOUNT, msg.clienterrormsg.nErrorNo);
+
+        cmdid = ttclient.doLogin(ADMIN_NICKNAME, ADMIN_USERNAME, "wrongpassword3");
+        assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
+        assertEquals("banned account", ClientError.CMDERR_SERVER_BANNED, msg.clienterrormsg.nErrorNo);
+
+        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
     }
 }
