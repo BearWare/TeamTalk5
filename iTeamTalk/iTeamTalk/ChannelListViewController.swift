@@ -683,10 +683,10 @@ class ChannelListViewController :
         switch flags & CLIENT_TX_VOICE.rawValue {
         case CLIENT_TX_VOICE.rawValue :
             txButton.backgroundColor = UIColor.red
-            txButton.accessibilityLabel = NSLocalizedString("Stop transmit", comment: "channel list")
+            txButton.accessibilityLabel = NSLocalizedString("Transmitting", comment: "channel list")
         default :
             txButton.backgroundColor = UIColor.green
-            txButton.accessibilityLabel = NSLocalizedString("Transmit", comment: "channel list")
+            txButton.accessibilityLabel = NSLocalizedString("Transmit inactive", comment: "channel list")
         }
         
         if hasPTTLock() {
