@@ -2337,6 +2337,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
         szXmlFile += _T("\\");
         szXmlFile += _T( SETTINGS_FILE );
     }
+
     string ansiXml = STR_LOCAL(szXmlFile);
     if(FileExists(szXmlFile))
     {
@@ -2371,6 +2372,17 @@ BOOL CTeamTalkDlg::OnInitDialog()
     }
     else
     {
+        // Create config folder if it doesn't exist already
+        CString szCfgDir = szXmlFile;
+        int nDirEnd = szCfgDir.ReverseFind('\\');
+        if(nDirEnd>=0)
+        {
+            szCfgDir = szXmlFile.Left(nDirEnd);
+            if(!DirectoryExists(szCfgDir))
+                CreateDirectory(szCfgDir, NULL);
+        }
+
+        // Create settings file in current directory if it cannot be created in cfg-folder
         if(!m_xmlSettings.CreateFile(ansiXml))
             m_xmlSettings.CreateFile( SETTINGS_FILE );
         bRunWizard = TRUE;

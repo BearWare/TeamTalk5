@@ -38,6 +38,7 @@ BOOL ConvertFont( const Font font, LOGFONT& destination);
 
 BOOL FileExists(LPCTSTR szFileName);
 CString GetExecutableFolder();
+BOOL DirectoryExists(LPCTSTR szPath);
 
 BOOL VersionSameOrLater(const CString& szCheck, const CString& szAgainst);
 
