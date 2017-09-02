@@ -75,6 +75,14 @@ CString GetExecutableFolder()
     return path.Left(path.ReverseFind('\\')+1);
 }
 
+BOOL DirectoryExists(LPCTSTR szPath)
+{
+    DWORD dwAttrib = GetFileAttributes(szPath);
+
+    return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
+        (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
 BOOL VersionSameOrLater(const CString& szCheck, const CString& szAgainst)
 {
     if(szCheck == szAgainst) return true;

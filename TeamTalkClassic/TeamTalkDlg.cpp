@@ -2337,6 +2337,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
         szXmlFile += _T("\\");
         szXmlFile += _T( SETTINGS_FILE );
     }
+
     string ansiXml = STR_LOCAL(szXmlFile);
     if(FileExists(szXmlFile))
     {
@@ -2371,6 +2372,17 @@ BOOL CTeamTalkDlg::OnInitDialog()
     }
     else
     {
+        // Create config folder if it doesn't exist already
+        CString szCfgDir = szXmlFile;
+        int nDirEnd = szCfgDir.ReverseFind('\\');
+        if(nDirEnd>=0)
+        {
+            szCfgDir = szXmlFile.Left(nDirEnd);
+            if(!DirectoryExists(szCfgDir))
+                CreateDirectory(szCfgDir, NULL);
+        }
+
+        // Create settings file in current directory if it cannot be created in cfg-folder
         if(!m_xmlSettings.CreateFile(ansiXml))
             m_xmlSettings.CreateFile( SETTINGS_FILE );
         bRunWizard = TRUE;
@@ -6437,9 +6449,10 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
             return;
 
         CString szUser, szVoice, szMute, szMediaFile, szMuteMediaFile,
-            szVideoCapture, szDesktop;
+            szVideoCapture, szDesktop, szChanOp = _T("Channel Operator");
 
         szUser.LoadString(IDS_USER);
+        TRANSLATE_ITEM(IDD_TAB_CHANNELOP, szChanOp);
         szVoice.LoadString(IDS_TALKING);
         szMute.LoadString(IDS_MUTE);
         szMediaFile.LoadString(IDS_STREAMING_MEDIAFILE);
@@ -6458,6 +6471,10 @@ void CTeamTalkDlg::OnUserinfoSpeakuserinfo()
         szSpeakList.AddTail(szUser);
 
         CString szStatus;
+
+        if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
+            szSpeakList.AddTail(szChanOp);
+
         if(user.uUserState & USERSTATE_VOICE)
             szSpeakList.AddTail(szVoice);
         switch(user.nStatusMode & STATUSMODE_MASK)
@@ -6543,7 +6560,8 @@ void CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelstate(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnChannelinfoSpeakchannelstate()
 {
     std::set<int> voice, mediafile, vidcap, desktop;
-    users_t users = m_wndTree.GetUsers(m_wndTree.GetMyChannelID());
+    int nMyChannel = m_wndTree.GetMyChannelID();
+    users_t users = m_wndTree.GetUsers(nMyChannel);
     for(auto i=users.begin();i!=users.end();++i)
     {
         if (i->second.uUserState & USERSTATE_VOICE)
