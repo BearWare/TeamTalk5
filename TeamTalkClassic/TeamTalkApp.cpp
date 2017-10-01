@@ -156,6 +156,8 @@ BOOL CTeamTalkApp::InitInstance()
 
     CWinApp::InitInstance();
 
+    AfxEnableControlContainer();
+
     HMODULE hCoreMod = 0;
     // Load keyboard hook
     if(IsWin2kPlus())

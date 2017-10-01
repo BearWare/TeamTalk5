@@ -1,5 +1,6 @@
 #pragma once
 #include "afxcmn.h"
+#include "Resizer.h"
 
 enum
 {
@@ -32,6 +33,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
     HACCEL m_hAccel; // accelerator table
 
+    CResizer m_resizer;
+
     void MenuCommand(UINT uCmd);
 public:
     CListCtrl m_wndUsers;
@@ -42,4 +45,5 @@ public:
     afx_msg void OnPopupKickandban();
     afx_msg void OnPopupOp();
     afx_msg void OnPopupCopyuserinformation();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

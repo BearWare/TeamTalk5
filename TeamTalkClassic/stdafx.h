@@ -78,3 +78,4 @@
 
 #include "Helper.h"
 #include "Languages.h"
+#include <afxcontrolbars.h>

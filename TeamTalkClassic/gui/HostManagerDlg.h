@@ -36,7 +36,7 @@ public:
     CString    m_szEntryName;
     UINT    m_nTcpPort;
     UINT    m_nUdpPort;
-    CEdit    m_wndUsername;
+    CComboBox    m_wndUsername;
     CEdit    m_wndPassword;
     CString m_szUsername;
     CString m_szPassword;
@@ -73,6 +73,7 @@ private:
     teamtalk::ClientXML* m_pSettings;
     CHttpRequest* m_pHttpRequest;
     std::vector<teamtalk::HostEntry> m_pubservers;
+    void ShowFieldError();
 
 public:
     afx_msg void OnBnClickedOk();
@@ -93,6 +94,8 @@ public:
     afx_msg void OnCbnSelchangeComboHostaddress();
     afx_msg void OnBnClickedButtonImportttile();
     CButton m_wndImportBtn;
+    afx_msg void OnCbnEditchangeComboUsername();
+    afx_msg void OnCbnKillfocusComboUsername();
 };
 
 //{{AFX_INSERT_LOCATION}}
