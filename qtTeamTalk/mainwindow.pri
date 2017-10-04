@@ -74,7 +74,7 @@ INCLUDEPATH += $${TEAMTALK_INCLUDE}
 
 QT += xml network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia webkit
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia webenginewidgets
 
 TRANSLATIONS = languages/Bulgarian.ts \
                languages/Chinese_Simplified.ts \

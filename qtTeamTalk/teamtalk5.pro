@@ -33,11 +33,3 @@ CONFIG(release, debug|release) {
     }
 }
 
-FORMS += \
-    weblogin.ui
-
-HEADERS += \
-    weblogindlg.h
-
-SOURCES += \
-    weblogindlg.cpp

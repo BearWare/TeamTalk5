@@ -6,30 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Web Login</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QWebView" name="webView" native="true">
-     <property name="url" stdset="0">
-      <url>
-       <string>about:blank</string>
-      </url>
-     </property>
-    </widget>
+    <widget class="QWebEngineView" name="webView" native="true"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebView</class>
+   <class>QWebEngineView</class>
    <extends>QWidget</extends>
-   <header>qwebview.h</header>
+   <header>qwebengineview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

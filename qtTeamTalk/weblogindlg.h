@@ -3,20 +3,22 @@
 
 #include <QDialog>
 
-namespace Ui {
-class WebLoginDlg;
-}
+#include "ui_weblogin.h"
 
 class WebLoginDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit WebLoginDlg(QWidget *parent = 0);
+    WebLoginDlg(QWidget *parent = 0);
     ~WebLoginDlg();
 
+    QString m_password;
+private slots:
+    void slotUrlChanged(const QUrl &url);
+
 private:
-    Ui::WebLoginDlg *ui;
+    Ui::WebLoginDlg ui;
 };
 
 #endif // WEBLOGINDLG_H

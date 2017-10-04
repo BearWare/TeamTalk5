@@ -24,6 +24,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
+#include "weblogindlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -229,6 +230,14 @@ void ServerListDlg::slotConnect()
     HostEntry entry;
     if(getHostEntry(entry))
     {
+        if(entry.username.compare(WEBLOGIN_FACEBOOK, Qt::CaseInsensitive) == 0)
+        {
+            WebLoginDlg dlg(this);
+            if(dlg.exec() != QDialog::Accepted)
+                return;
+            entry.password = dlg.m_password;
+        }
+
         addLatestHost(entry);
         this->accept();
     }
