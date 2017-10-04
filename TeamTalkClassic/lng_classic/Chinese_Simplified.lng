@@ -150,6 +150,18 @@
     <item id="286">禁用语音激活</item>
     <item id="287">从本地菜单启用语音激活</item>
     <item id="288">从本地菜单禁用语音激活</item>
+    <item id="289">频道运营商</item>
+    <item id="290">编解码器限制</item>
+    <item id="291">滥用预防</item>
+    <item id="292">禁用</item>
+    <item id="293">10秒内的10个命令</item>
+    <item id="294">1分钟内有10条命令</item>
+    <item id="295">60分钟命令</item>
+    <item id="296">Custom</item>
+    <item id="297">限制发出命令</item>
+    <item id="298">允许的命令数（0 =禁用）</item>
+    <item id="299">允许％d命令的时间（以秒为单位）</item>
+    <item id="300">匿名</item>
     <item id="1009">自动加入所连接的根频道</item>
     <item id="1011">主机属性</item>
     <item id="1012">主机TCP端口</item>
