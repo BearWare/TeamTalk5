@@ -258,9 +258,9 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_upload : {
-                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                    startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                }
             }
             break;
             case R.id.action_edit : {
@@ -1433,6 +1433,7 @@ implements TeamTalkConnectionListener,
             case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
+                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
                 break;
@@ -1779,9 +1780,7 @@ implements TeamTalkConnectionListener,
             if (sounds.get(SOUND_VOICETXON) != 0) {
                 audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
             }
-            if (ptt_vibrate) {
-                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
-
+            if (ptt_vibrate && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE)) {
                 Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 vibrat.vibrate(50);
             }

@@ -240,8 +240,10 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 refreshServerList();
             break;
             case R.id.action_import_serverlist :
-                Intent filepicker = new Intent(this, FilePickerActivity.class);
-                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                    Intent filepicker = new Intent(this, FilePickerActivity.class);
+                    startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                }
             break;
             case R.id.action_settings : {
                 Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
@@ -525,6 +527,10 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
+                Intent filepicker = new Intent(this, FilePickerActivity.class);
+                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
                 break;
         }
     }

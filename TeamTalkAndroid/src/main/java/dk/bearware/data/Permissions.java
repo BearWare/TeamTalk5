@@ -41,7 +41,7 @@ public class Permissions {
     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 5,
     MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 6;
 
-    public static void setupPermission(Context context, Activity activity, int permission) {
+    public static boolean setupPermission(Context context, Activity activity, int permission) {
         String stringPermission;
         String errormessage;
 
@@ -72,7 +72,7 @@ public class Permissions {
                 break;
             default :
                 Log.e(AppInfo.TAG, String.format("Unknown permission %d", permission));
-                return;
+                return false;
         }
 
         int permissionCheck = ContextCompat.checkSelfPermission(context,
@@ -91,6 +91,8 @@ public class Permissions {
                         new String[]{stringPermission},
                         permission);
             }
+            return false;
         }
+        return true;
     }
 }
