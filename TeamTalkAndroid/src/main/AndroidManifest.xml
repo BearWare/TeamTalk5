@@ -95,5 +95,9 @@
     </uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
     </uses-permission>
-    
+
+    <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" >
+    </uses-permission>
+
 </manifest>

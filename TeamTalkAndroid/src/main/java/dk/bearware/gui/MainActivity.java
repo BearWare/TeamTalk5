@@ -83,6 +83,8 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -167,6 +169,7 @@ implements TeamTalkConnectionListener,
     SoundPool audioIcons;
     ComponentName mediaButtonEventReceiver;
     NotificationManager notificationManager;
+    WakeLock wakeLock;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -213,6 +216,8 @@ implements TeamTalkConnectionListener,
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        wakeLock.setReferenceCounted(false);
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, this, accessibilityAssistant);
@@ -323,15 +328,18 @@ implements TeamTalkConnectionListener,
 
         if (ttsWrapper == null)
             ttsWrapper = TTSWrapper.getInstance(this);
-        
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        Log.d(TAG, "Binding TeamTalk service");
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+
+        if (!mConnection.isBound()) {
+            // Bind to LocalService
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            Log.d(TAG, "Binding TeamTalk service");
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+            else
+                mConnection.setBound(true);
+        }
     }
 
     @Override
@@ -385,7 +393,7 @@ implements TeamTalkConnectionListener,
     protected void onStop() {
         super.onStop();
         
-        if(stats_timer != null) {
+        if (stats_timer != null) {
             stats_timer.cancel();
             stats_timer = null;
         }
@@ -399,7 +407,7 @@ implements TeamTalkConnectionListener,
         }
         
         // Cleanup resources
-        if(isFinishing()) {
+        if (isFinishing()) {
             if (audioIcons != null) {
                 audioIcons.release();
                 audioIcons = null;
@@ -409,23 +417,13 @@ implements TeamTalkConnectionListener,
                 ttsWrapper = null;
             }
             notificationManager.cancelAll();
-        }
-        
-        if(ttservice != null) {
-            ttservice.setOnVoiceTransmissionToggleListener(null);
-            ttservice.unregisterConnectionListener(this);
-            ttservice.unregisterCommandListener(this);
-            ttservice.unregisterUserListener(this);
-            ttservice.unregisterClientListener(this);
-            filesAdapter.setTeamTalkService(null);
-            mediaAdapter.clearTeamTalkService(ttservice);
-        }
-        
-        // Unbind from the service
-        if(mConnection.isBound()) {
-            Log.d(TAG, "Unbinding TeamTalk service");
-            unbindService(mConnection);
-            mConnection.setBound(false);
+
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                Log.d(TAG, "Unbinding TeamTalk service");
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
         }
     }
 
@@ -1391,12 +1389,16 @@ implements TeamTalkConnectionListener,
             Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
         }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
-        
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
                 AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
         audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+
+        if ((!prefs.getBoolean("keep_screen_on_checkbox", false))
+            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+            wakeLock.acquire();
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
             ttservice.enableVoiceActivation(true);
@@ -1422,7 +1424,16 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        if (wakeLock.isHeld())
+            wakeLock.release();
         audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
+        service.setOnVoiceTransmissionToggleListener(null);
+        service.unregisterConnectionListener(this);
+        service.unregisterCommandListener(this);
+        service.unregisterUserListener(this);
+        service.unregisterClientListener(this);
+        filesAdapter.setTeamTalkService(null);
+        mediaAdapter.clearTeamTalkService(service);
     }
 
     @Override
@@ -1436,6 +1447,9 @@ implements TeamTalkConnectionListener,
                 startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
+                wakeLock.acquire();
                 break;
         }
     }
