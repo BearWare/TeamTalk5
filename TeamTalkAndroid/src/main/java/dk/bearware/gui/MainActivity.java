@@ -390,13 +390,17 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        
+    public void onPause() {
+        super.onPause();
         if (stats_timer != null) {
             stats_timer.cancel();
             stats_timer = null;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor editor = prefs.edit();
