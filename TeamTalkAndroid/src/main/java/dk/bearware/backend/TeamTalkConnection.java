@@ -51,14 +51,16 @@ public class TeamTalkConnection implements ServiceConnection {
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
             " running v. " + TeamTalkBase.getVersion() + " connected";
         Log.i(TAG, s);
-        
+
+        setBound(true);
         ttlistener.onServiceConnected(ttservice);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName arg0) {
         ttlistener.onServiceDisconnected(ttservice);
-        
+        setBound(false);
+
         TeamTalkBase ttclient = ttservice.getTTInstance();
         
         String s = new String();
