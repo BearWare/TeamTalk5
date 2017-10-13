@@ -1863,12 +1863,13 @@ implements TeamTalkConnectionListener,
             fromCallStateChange = false;
         else {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true);
+            boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
+                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
             if (voiceTransmissionEnabled) {
                 if (sounds.get(SOUND_VOICETXON) != 0) {
                     audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
                 }
-                if (ptt_vibrate && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE)) {
+                if (ptt_vibrate) {
                     Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibrat.vibrate(50);
                 }
