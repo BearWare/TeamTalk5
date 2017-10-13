@@ -337,8 +337,8 @@ implements TeamTalkConnectionListener,
             Log.d(TAG, "Binding TeamTalk service");
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
-            else
-                mConnection.setBound(true);
+            else if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+                wakeLock.acquire();
         }
     }
 
@@ -412,6 +412,8 @@ implements TeamTalkConnectionListener,
         
         // Cleanup resources
         if (isFinishing()) {
+            if (wakeLock.isHeld())
+                wakeLock.release();
             if (audioIcons != null) {
                 audioIcons.release();
                 audioIcons = null;
@@ -420,14 +422,16 @@ implements TeamTalkConnectionListener,
                 ttsWrapper.shutdown();
                 ttsWrapper = null;
             }
-            notificationManager.cancelAll();
 
             // Unbind from the service
             if(mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
+                onServiceDisconnected(ttservice);
+                ttservice.resetState();
                 unbindService(mConnection);
                 mConnection.setBound(false);
             }
+            notificationManager.cancelAll();
         }
     }
 
@@ -1400,9 +1404,6 @@ implements TeamTalkConnectionListener,
                 AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
         audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
 
-        if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
-            wakeLock.acquire();
-
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
             ttservice.enableVoiceActivation(true);
             ttclient.setVoiceActivationLevel(5);
@@ -1427,8 +1428,6 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        if (wakeLock.isHeld())
-            wakeLock.release();
         audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
         service.setOnVoiceTransmissionToggleListener(null);
         service.unregisterConnectionListener(this);

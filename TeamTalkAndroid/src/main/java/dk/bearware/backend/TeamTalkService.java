@@ -54,9 +54,14 @@ import dk.bearware.events.ConnectionListener;
 import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.UserListener;
 import dk.bearware.gui.CmdComplete;
+import dk.bearware.gui.MainActivity;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
@@ -113,14 +118,14 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.hasExtra(CANCEL_TRANSFER)) {
+        if ((intent != null) && intent.hasExtra(CANCEL_TRANSFER)) {
             int transferId = intent.getIntExtra(CANCEL_TRANSFER, 0);
             if ((ttclient != null) && ttclient.cancelFileTransfer(transferId)) {
                 fileTransfers.remove(transferId);
                 Toast.makeText(this, R.string.transfer_stopped, Toast.LENGTH_LONG).show();
             }
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
@@ -150,8 +155,38 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             curchannel; /* the channel 'ttclient' is currently in */
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     CountDownTimer eventTimer;
-    
+    Notification.Builder widget = null;
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
+
+    private String getNotificationText() {
+        return (curchannel != null) ?
+            String.format("%s / %s", ttserver.servername, curchannel.szName) :
+            ttserver.servername;
+    }
+
+    private void displayNotification(boolean enabled) {
+        if (enabled) {
+            final int UI_WIDGET_ID = 1;
+            if (widget == null) {
+                Intent ui = new Intent(this, MainActivity.class);
+                ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                widget = new Notification.Builder(this);
+                widget.setSmallIcon(R.drawable.teamtalk_green)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentIntent(PendingIntent.getActivity(this, 0, ui, PendingIntent.FLAG_UPDATE_CURRENT))
+                    .setOngoing(true)
+                    .setShowWhen(false)
+                    .setAutoCancel(false)
+                    .setContentText(getNotificationText());
+                startForeground(UI_WIDGET_ID, widget.build());
+            } else {
+                ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
+            }
+        } else if (widget != null) {
+            stopForeground(true);
+            widget = null;
+        }
+    }
 
     public TeamTalkBase getTTInstance() {
         return ttclient;
@@ -272,7 +307,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         
         if(ttclient != null)
             ttclient.disconnect();
-        
+
+        displayNotification(false);
         joinchannel = null;
         curchannel = null;
         channels.clear();
@@ -424,6 +460,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             
             //stop reconnect timer since we're now connected and logged in
             reconnectHandler.removeCallbacks(reconnectTimer);
+
+            //update status bar widget
+            displayNotification(true);
         }
     }
 
@@ -542,7 +581,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
             curchannel = getChannels().get(user.nChannelID);
-            
+            displayNotification(true);
+
             MyTextMessage msg;
             if(curchannel.nParentID == 0) {
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
