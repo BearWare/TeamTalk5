@@ -92,8 +92,15 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (mConnection.isBound()) {
+            // reset state since we're creating a new connection
+            ttservice.resetState();
+            ttclient.closeSoundInputDevice();
+            ttclient.closeSoundOutputDevice();
+        }
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -115,13 +122,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
-        }
-
-        if (mConnection.isBound()) {
-            // reset state since we're creating a new connection
-            ttservice.resetState();
-            ttclient.closeSoundInputDevice();
-            ttclient.closeSoundOutputDevice();
         }
     }
 

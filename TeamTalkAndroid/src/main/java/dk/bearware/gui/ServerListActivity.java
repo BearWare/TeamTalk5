@@ -105,14 +105,21 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+
+        if (mConnection.isBound()) {
+            // reset state since we're creating a new connection
+            ttservice.resetState();
+            ttclient.closeSoundInputDevice();
+            ttclient.closeSoundOutputDevice();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        
+
         if ((serverentry != null) && serverentry.rememberLastChannel) {
             saveServers();
             serverentry = null;
@@ -131,13 +138,6 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 Log.e(TAG, "Failed to bind to TeamTalk service");
             else
                 startService(intent);
-        }
-
-        if (mConnection.isBound()) {
-            // reset state since we're creating a new connection
-            ttservice.resetState();
-            ttclient.closeSoundInputDevice();
-            ttclient.closeSoundOutputDevice();
         }
     }
 
