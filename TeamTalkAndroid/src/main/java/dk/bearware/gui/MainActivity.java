@@ -347,10 +347,36 @@ implements TeamTalkConnectionListener,
             else if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
                 wakeLock.acquire();
         }
+        else {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+            int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+
+            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
+                ttservice.enableVoiceActivation(true);
+                ttclient.setVoiceActivationLevel(5);
+            } else {
+                ttservice.enableVoiceActivation(false);
+            }
+
+            // only set volume and gain if tt-instance hasn't already been configured
+            if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
+                ttclient.setSoundOutputVolume(mastervol);
+            if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
+                ttclient.setSoundInputGainLevel(gain);
+
+            TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+            TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+            mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
+            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+            volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
+            volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
+        }
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
 
         if (audioIcons != null)
@@ -360,7 +386,11 @@ implements TeamTalkConnectionListener,
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
+
+        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
+                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
         }
@@ -390,14 +420,14 @@ implements TeamTalkConnectionListener,
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
-        
+
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         if (stats_timer != null) {
             stats_timer.cancel();
@@ -1467,9 +1497,8 @@ implements TeamTalkConnectionListener,
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+        int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+        int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
             ttservice.enableVoiceActivation(true);
@@ -1477,14 +1506,13 @@ implements TeamTalkConnectionListener,
         } else {
             ttservice.enableVoiceActivation(false);
         }
-        int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
-        int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+
         // only set volume and gain if tt-instance hasn't already been configured
         if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
             ttclient.setSoundOutputVolume(mastervol);
         if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
             ttclient.setSoundInputGainLevel(gain);
-        
+
         TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
