@@ -88,11 +88,10 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
-
-        if (mConnection.isBound()) {
-            int userid = UserPropActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
+        else {
+            int userid = getIntent().getExtras().getInt(EXTRA_USERID);
             if(!ttclient.getUser(userid, user)) {
-                UserPropActivity.this.setResult(RESULT_CANCELED);
+                setResult(RESULT_CANCELED);
                 finish();
             }
             else
@@ -194,6 +193,14 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
+
+        int userid = getIntent().getExtras().getInt(EXTRA_USERID);
+        if(!ttclient.getUser(userid, user)) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+        else
+            showUser();
     }
 
     @Override
