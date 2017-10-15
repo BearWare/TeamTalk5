@@ -50,7 +50,7 @@ x11 {
 
 linux {
      LIBS += -lX11
-     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
+     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras webenginewidgets
 }
 
 mac {
@@ -58,6 +58,8 @@ mac {
     QTPLUGIN += qtaccessiblewidgets
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
+
+    greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
 }
 
 *-g++* {
@@ -74,7 +76,7 @@ INCLUDEPATH += $${TEAMTALK_INCLUDE}
 
 QT += xml network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia webenginewidgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 TRANSLATIONS = languages/Bulgarian.ts \
                languages/Chinese_Simplified.ts \

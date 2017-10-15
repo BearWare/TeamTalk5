@@ -3,6 +3,7 @@
 
 #include <QUrl>
 #include <QRegExp>
+#include <QWebEngineView>
 
 WebLoginDlg::WebLoginDlg(QWidget *parent) :
     QDialog(parent)
@@ -10,10 +11,14 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    connect(ui.webView, SIGNAL(urlChanged(const QUrl&)),
+    QWebEngineView *webView = new QWebEngineView(this);
+    webView->setObjectName(QStringLiteral("webView"));
+
+    connect(webView, SIGNAL(urlChanged(const QUrl&)),
             SLOT(slotUrlChanged(const QUrl&)));
 
-    ui.webView->load(QUrl(WEBLOGIN_FACEBOOK_URL));
+    ui.horizontalLayout->addWidget(webView);
+    webView->load(QUrl(WEBLOGIN_FACEBOOK_URL));
 }
 
 WebLoginDlg::~WebLoginDlg()
