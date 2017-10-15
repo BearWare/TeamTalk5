@@ -169,7 +169,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         reconnecttimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(MainTabBarController.connectToServer), userInfo: nil, repeats: false)
     }
     
-    func connectToServer() {
+    @objc func connectToServer() {
         
         if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == FALSE {
             TT_Disconnect(ttInst)
@@ -178,7 +178,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     }
     
     // run the TeamTalk event loop
-    func timerEvent() {
+    @objc func timerEvent() {
         var m = TTMessage()
         var n : INT32 = 0
         while TT_GetMessage(ttInst, &m, &n) != FALSE {
@@ -194,7 +194,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         }
     }
     
-    func proximityChanged(_ notification: Notification) {
+    @objc func proximityChanged(_ notification: Notification) {
         let device = notification.object as! UIDevice
         
         if device.proximityState {
@@ -205,7 +205,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         }
     }
     
-    func audioRouteChange(_ notification: Notification) {
+    @objc func audioRouteChange(_ notification: Notification) {
 //        let session = AVAudioSession.sharedInstance()
 //        print("Audio route: " + session.currentRoute.debugDescription)
         if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
@@ -244,7 +244,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         }
     }
 
-    func audioInterruption(_ notification: Notification) {
+    @objc func audioInterruption(_ notification: Notification) {
         
         // Phone call active/inactive
         if let reason = notification.userInfo![AVAudioSessionInterruptionTypeKey] {
