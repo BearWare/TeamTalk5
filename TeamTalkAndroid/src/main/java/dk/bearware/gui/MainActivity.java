@@ -1444,6 +1444,8 @@ implements TeamTalkConnectionListener,
         }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
+        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+
         fromCallStateChange = false;
         telephonyManager.listen(new PhoneStateListener() {
                 int myStatus = ttservice.getUsers().get(ttclient.getMyUserID()).nStatusMode;
