@@ -348,7 +348,7 @@ func limitText(_ s: String) -> String {
     let length = settings.object(forKey: PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integer(forKey: PREF_DISPLAY_LIMITTEXT)
     
     if s.characters.count > length {
-        return s.substring(with: (s.startIndex ..< s.characters.index(s.startIndex, offsetBy: length)))
+        return String(s.prefix(length))
     }
     return s
 }
