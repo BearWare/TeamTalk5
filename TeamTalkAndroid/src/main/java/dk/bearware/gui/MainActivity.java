@@ -358,6 +358,7 @@ implements TeamTalkConnectionListener,
                 ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
             } else {
                 ttservice.enableVoiceActivation(false);
+                ttservice.enableVoiceTransmission(savedTxState);
             }
 
             // only set volume and gain if tt-instance hasn't already been configured
@@ -1919,6 +1920,8 @@ implements TeamTalkConnectionListener,
                     vibrat.vibrate(pattern, -1);
                 }
             }
+
+            savedTxState = voiceTransmissionEnabled;
 
             boolean mute = pref.getBoolean("mute_speakers_on_tx_checkbox", false)
                 && (voiceTransmissionEnabled != ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0));
