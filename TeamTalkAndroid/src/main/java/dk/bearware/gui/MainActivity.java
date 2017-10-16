@@ -1451,7 +1451,7 @@ implements TeamTalkConnectionListener,
 
         fromCallStateChange = false;
         telephonyManager.listen(new PhoneStateListener() {
-                int myStatus = ttservice.getUsers().get(ttclient.getMyUserID()).nStatusMode;
+                int myStatus = 0;
 
                 @Override
                 public void onCallStateChanged(int state, String incomingNumber) {
@@ -1479,7 +1479,7 @@ implements TeamTalkConnectionListener,
                             fromCallStateChange = true;
                             ttservice.enableVoiceTransmission(savedTxState);
                         }
-                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                        if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
                             ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                         break;
                     case TelephonyManager.CALL_STATE_RINGING:
@@ -1496,9 +1496,11 @@ implements TeamTalkConnectionListener,
                             fromCallStateChange = true;
                             ttservice.enableVoiceTransmission(false);
                         }
-                        myStatus = myself.nStatusMode;
-                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
-                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                        if (myself != null) {
+                            myStatus = myself.nStatusMode;
+                            if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                                ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                        }
                         break;
                     default:
                         break;
