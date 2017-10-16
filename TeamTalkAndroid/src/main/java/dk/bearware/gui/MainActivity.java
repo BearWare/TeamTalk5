@@ -355,7 +355,7 @@ implements TeamTalkConnectionListener,
 
             if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
                 ttservice.enableVoiceActivation(true);
-                ttclient.setVoiceActivationLevel(5);
+                ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
             } else {
                 ttservice.enableVoiceActivation(false);
             }
@@ -1504,7 +1504,7 @@ implements TeamTalkConnectionListener,
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
             ttservice.enableVoiceActivation(true);
-            ttclient.setVoiceActivationLevel(5);
+            ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
         } else {
             ttservice.enableVoiceActivation(false);
         }

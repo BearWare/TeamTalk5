@@ -24,6 +24,11 @@
 		android:defaultValue="false"
 		android:title="@string/pref_title_voice_act" />
 
+    <dk.bearware.gui.SeekBarPreference
+		android:key="voice_activation_level"
+		android:defaultValue="5"
+		android:title="@string/pref_title_voice_act_level" />
+
     <CheckBoxPreference
 		android:key="keep_screen_on_checkbox"
 		android:defaultValue="false"
