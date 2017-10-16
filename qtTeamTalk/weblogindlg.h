@@ -2,8 +2,11 @@
 #define WEBLOGINDLG_H
 
 #include <QDialog>
-
 #include "ui_weblogin.h"
+
+#if defined(Q_OS_WIN32)
+#include <QAxWidget>
+#endif
 
 class WebLoginDlg : public QDialog
 {
@@ -15,6 +18,10 @@ public:
 
     QString m_password;
 private slots:
+#if defined(Q_OS_WIN32)
+    void slotNavigateComplete(IDispatch*, QVariant&);
+#endif
+
     void slotUrlChanged(const QUrl &url);
 
 private:

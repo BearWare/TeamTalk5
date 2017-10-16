@@ -42,6 +42,7 @@ RESOURCES += resources.qrc
 win32 {
       DEFINES += _CRT_SECURE_NO_WARNINGS
       RC_FILE = mainwindow.rc
+      QT += axcontainer
 }
 
 x11 {
