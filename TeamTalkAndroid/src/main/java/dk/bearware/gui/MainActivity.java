@@ -1444,6 +1444,8 @@ implements TeamTalkConnectionListener,
         }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
 
         fromCallStateChange = false;
@@ -1468,7 +1470,11 @@ implements TeamTalkConnectionListener,
                                 speakerBtn.setContentDescription(getString(R.string.speaker_mute));
                             }
                         }
-                        if (isSpeaking != savedTxState) {
+                        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
+                            ttservice.enableVoiceActivation(true);
+                            ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
+                        }
+                        else if (isSpeaking != savedTxState) {
                             fromCallStateChange = true;
                             ttservice.enableVoiceTransmission(savedTxState);
                         }
@@ -1483,6 +1489,8 @@ implements TeamTalkConnectionListener,
                             speakerBtn.setImageResource(R.drawable.mute_blue);
                             speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
                         }
+                        if ((ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0)
+                            ttservice.enableVoiceActivation(false);
                         if (isSpeaking) {
                             fromCallStateChange = true;
                             ttservice.enableVoiceTransmission(false);
@@ -1496,8 +1504,6 @@ implements TeamTalkConnectionListener,
                     }
                 }
             }, PhoneStateListener.LISTEN_CALL_STATE);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
