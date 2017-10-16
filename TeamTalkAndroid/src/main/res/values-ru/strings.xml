@@ -269,5 +269,5 @@
     <string name="permission_internet">Клиент не сможет подключаться к серверам</string>
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
-
+    <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
 </resources>

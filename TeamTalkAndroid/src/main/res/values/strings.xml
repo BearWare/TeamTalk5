@@ -279,5 +279,5 @@
     <string name="permission_internet">Client will be unable to connect to servers</string>
     <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
-    <string name="permission_read_phone_state">Detect incoming phone call</string>
+    <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
 </resources>
