@@ -175,7 +175,7 @@ implements TeamTalkConnectionListener,
     WakeLock wakeLock;
     boolean fromCallStateChange;
     boolean listeningPhoneStateChanges;
-    boolean savedMuteState;
+    boolean permanentMuteState;
     boolean savedTxState;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
@@ -357,10 +357,15 @@ implements TeamTalkConnectionListener,
             if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
                 ttservice.enableVoiceActivation(true);
                 ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
+                savedTxState = false;
             } else {
                 ttservice.enableVoiceActivation(false);
                 ttservice.enableVoiceTransmission(savedTxState);
+                adjustMuteOnTx(prefs, savedTxState);
             }
+
+            adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
+            findViewById(R.id.transmit_voice).setBackgroundColor(savedTxState ? Color.GREEN : Color.RED);
 
             // only set volume and gain if tt-instance hasn't already been configured
             if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
@@ -1225,6 +1230,29 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void adjustMuteState(SharedPreferences prefs, ImageButton btn) {
+        if ((ttclient != null) &&
+            (((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) != permanentMuteState) &&
+            !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && ttservice.isVoiceTransmitting()))
+            ttclient.setSoundOutputMute(permanentMuteState);
+        if (permanentMuteState) {
+            btn.setImageResource(R.drawable.mute_blue);
+            btn.setContentDescription(getString(R.string.speaker_unmute));
+        }
+        else {
+            btn.setImageResource(R.drawable.speaker_blue);
+            btn.setContentDescription(getString(R.string.speaker_mute));
+        }
+    }
+
+    private void adjustMuteOnTx(SharedPreferences pref, boolean txEnabled) {
+        if (pref.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false)) {
+            boolean isMuted = ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
+            if ((txEnabled && !isMuted) || (isMuted && !txEnabled && !permanentMuteState))
+                ttclient.setSoundOutputMute(txEnabled);
+        }
+    }
+
     private void setupButtons() {
         
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
@@ -1359,34 +1387,16 @@ implements TeamTalkConnectionListener,
         incVol.setOnTouchListener(listener);
         decMike.setOnTouchListener(listener);
         incMike.setOnTouchListener(listener);
-        
-        final ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-        
-        OnClickListener imgbtnListener = new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                if(ttclient == null)
-                    return;
-                
-                if(v == speakerBtn) {
-                    int flags = ttclient.getFlags();
-                    if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
-                        ttclient.setSoundOutputMute(true);
-                        speakerBtn.setImageResource(R.drawable.mute_blue);
-                        speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-                        savedMuteState = true;
-                    }
-                    else {
-                        ttclient.setSoundOutputMute(false);
-                        speakerBtn.setImageResource(R.drawable.speaker_blue);
-                        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
-                        savedMuteState = false;
-                    }
+
+        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+        speakerBtn.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    permanentMuteState = !permanentMuteState;
+                    adjustMuteState(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), (ImageButton) v);
                 }
-            }
-        };
-        speakerBtn.setOnClickListener(imgbtnListener);
+            });
     }
 
     private void listenPhoneStateChanges() {
@@ -1399,39 +1409,26 @@ implements TeamTalkConnectionListener,
                     public void onCallStateChanged(int state, String incomingNumber) {
                     User myself = ttservice.getUsers().get(ttclient.getMyUserID());
                     boolean isMute = ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
-                    boolean isSpeaking = ttservice.isVoiceTransmissionEnabled();
+                    boolean isSpeaking = ttservice.isVoiceTransmitting();
                     switch (state) {
                     case TelephonyManager.CALL_STATE_IDLE:
-                        if (isMute != savedMuteState) {
-                            ttclient.setSoundOutputMute(savedMuteState);
-                            if (savedMuteState) {
-                                speakerBtn.setImageResource(R.drawable.mute_blue);
-                                speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-                            }
-                            else {
-                                speakerBtn.setImageResource(R.drawable.speaker_blue);
-                                speakerBtn.setContentDescription(getString(R.string.speaker_mute));
-                            }
-                        }
+                        if (!permanentMuteState && isMute &&
+                            !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && isSpeaking))
+                            ttclient.setSoundOutputMute(false);
                         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
                             ttservice.enableVoiceActivation(true);
                             ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
                         }
-                        else if (isSpeaking != savedTxState) {
+                        else if (savedTxState && !isSpeaking) {
                             fromCallStateChange = true;
-                            ttservice.enableVoiceTransmission(savedTxState);
+                            ttservice.enableVoiceTransmission(true);
                         }
                         if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
                             ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                         break;
                     case TelephonyManager.CALL_STATE_RINGING:
-                        savedMuteState = isMute;
-                        savedTxState = isSpeaking;
-                        if (!isMute) {
+                        if (!isMute)
                             ttclient.setSoundOutputMute(true);
-                            speakerBtn.setImageResource(R.drawable.mute_blue);
-                            speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-                        }
                         if ((ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0)
                             ttservice.enableVoiceActivation(false);
                         if (isSpeaking) {
@@ -1460,7 +1457,6 @@ implements TeamTalkConnectionListener,
 
         //ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440);
 
-        int flags = ttclient.getFlags(); 
         int mychannel = ttclient.getMyChannelID();
         if(mychannel > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychannel));
@@ -1471,43 +1467,36 @@ implements TeamTalkConnectionListener,
         mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
         channelsAdapter.notifyDataSetChanged();
-        
+
         textmsgAdapter.setTextMessages(ttservice.getChatLogTextMsgs());
         textmsgAdapter.setMyUserID(ttclient.getMyUserID());
         textmsgAdapter.notifyDataSetChanged();
-        
+
         mediaAdapter.setTeamTalkService(service);
         mediaAdapter.notifyDataSetChanged();
-        
+
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
 
-        savedTxState = ttservice.isVoiceTransmissionEnabled();
-        Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setBackgroundColor(savedTxState ? Color.GREEN : Color.RED);
+        if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
+            !ttclient.initSoundOutputDevice(0))
+            Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
+        ttclient.setSoundOutputMute(false);
+        ttservice.enableVoiceTransmission(false);
+
+        permanentMuteState = false;
+        savedTxState = false;
 
         ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-        if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
-            speakerBtn.setImageResource(R.drawable.mute_blue);
-            speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-            savedMuteState = true;
-        }
-        else {
-            speakerBtn.setImageResource(R.drawable.speaker_blue);
-            speakerBtn.setContentDescription(getString(R.string.speaker_mute));
-            savedMuteState = false;
-        }
+        speakerBtn.setImageResource(R.drawable.speaker_blue);
+        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
+        findViewById(R.id.transmit_voice).setBackgroundColor(Color.RED);
 
         ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
         ttservice.registerUserListener(this);
         ttservice.registerClientListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
-
-        if(((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !ttclient.initSoundOutputDevice(0)) {
-            Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
-        }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -1906,13 +1895,11 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onUserAudioBlock(int nUserID, int nStreamType) {
-       
     }
 
     @Override
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
-        Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
+        findViewById(R.id.transmit_voice).setBackgroundColor(voiceTransmissionEnabled ? Color.GREEN : Color.RED);
 
         if (fromCallStateChange)
             fromCallStateChange = false;
@@ -1940,22 +1927,7 @@ implements TeamTalkConnectionListener,
             }
 
             savedTxState = voiceTransmissionEnabled;
-
-            boolean mute = pref.getBoolean("mute_speakers_on_tx_checkbox", false)
-                && (voiceTransmissionEnabled != ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0));
-            if(mute) {
-                ttclient.setSoundOutputMute(voiceTransmissionEnabled);
-
-                ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-                if(voiceTransmissionEnabled) {
-                    speakerBtn.setImageResource(R.drawable.mute_blue);
-                    speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-                }
-                else {
-                    speakerBtn.setImageResource(R.drawable.speaker_blue);
-                    speakerBtn.setContentDescription(getString(R.string.speaker_mute));
-                }
-            }
+            adjustMuteOnTx(pref, voiceTransmissionEnabled);
         }
 
         // update self user icon
@@ -1970,7 +1942,6 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onVoiceActivation(boolean bVoiceActive) {
-        
         if(ttservice != null && curchannel != null) {
             int chanid = ttservice.getTTInstance().getMyChannelID();
             if (curchannel.nChannelID == chanid) {
@@ -1979,12 +1950,11 @@ implements TeamTalkConnectionListener,
                 accessibilityAssistant.unlockEvents();
             }
 
-            if(bVoiceActive && sounds.get(SOUND_VOXON) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOXON), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
-            if(!bVoiceActive && sounds.get(SOUND_VOXOFF) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
+            adjustMuteOnTx(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), bVoiceActive);
+
+            int sound = sounds.get(bVoiceActive ? SOUND_VOXON : SOUND_VOXOFF);
+            if (sound != 0)
+                audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
         }
     }
 

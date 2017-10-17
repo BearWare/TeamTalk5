@@ -27,13 +27,14 @@ public class Preferences {
 	public static final String 
 			PREF_GENERAL_NICKNAME = "nickname_text",
 			PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox",
-            PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox";
+			PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox";
 	public static final String
-	        PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
-	        PREF_SOUNDSYSTEM_VOICEACTIVATION = "voice_activation",
-	        PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL = "voice_activation_level",
-	        PREF_SOUNDSYSTEM_MASTERVOLUME = "mastervolume",
-	        PREF_SOUNDSYSTEM_MICROPHONEGAIN = "microphonegain",
+			PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
+			PREF_SOUNDSYSTEM_VOICEACTIVATION = "voice_activation",
+			PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL = "voice_activation_level",
+			PREF_SOUNDSYSTEM_MASTERVOLUME = "mastervolume",
+			PREF_SOUNDSYSTEM_MICROPHONEGAIN = "microphonegain",
+			PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION = "mute_speakers_on_tx_checkbox",
 			PREF_SOUNDSYSTEM_SPEAKERPHONE = "speakerphone_checkbox",
 			PREF_SOUNDSYSTEM_VOICEPROCESSING = "voiceprocessing_checkbox";
 	public static final String
