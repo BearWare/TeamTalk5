@@ -368,9 +368,9 @@ implements TeamTalkConnectionListener,
             findViewById(R.id.transmit_voice).setBackgroundColor(savedTxState ? Color.GREEN : Color.RED);
 
             // only set volume and gain if tt-instance hasn't already been configured
-            if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
+            if (ttclient.getSoundOutputVolume() != mastervol)
                 ttclient.setSoundOutputVolume(mastervol);
-            if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
+            if (ttclient.getSoundInputGainLevel() != gain)
                 ttclient.setSoundInputGainLevel(gain);
 
             TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
@@ -1518,9 +1518,9 @@ implements TeamTalkConnectionListener,
         }
 
         // only set volume and gain if tt-instance hasn't already been configured
-        if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
+        if (ttclient.getSoundOutputVolume() != mastervol)
             ttclient.setSoundOutputVolume(mastervol);
-        if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
+        if (ttclient.getSoundInputGainLevel() != gain)
             ttclient.setSoundInputGainLevel(gain);
 
         TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
