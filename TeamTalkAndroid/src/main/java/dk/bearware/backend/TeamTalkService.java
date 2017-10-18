@@ -213,13 +213,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public boolean isVoiceTransmissionEnabled() {
         return (ttclient.getFlags() & ClientFlag.CLIENT_TX_VOICE) != 0;
     }
-    
+
     public boolean isVoiceTransmitting() {
-        boolean tx = isVoiceTransmissionEnabled();
-        tx |= (ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED) != 0 &&
-              (ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE) != 0;
-        
-        return tx;
+        final int voiceActivationMask = ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE;
+        int flags = ttclient.getFlags();
+        return ((flags & ClientFlag.CLIENT_TX_VOICE) != 0) ||
+            ((flags & voiceActivationMask) == voiceActivationMask);
     }
 
     public boolean enableVoiceTransmission(boolean enable) {
