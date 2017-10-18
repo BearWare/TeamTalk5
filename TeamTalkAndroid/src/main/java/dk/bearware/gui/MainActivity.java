@@ -358,11 +358,11 @@ implements TeamTalkConnectionListener,
                 ttservice.enableVoiceActivation(true);
                 ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
                 savedTxState = false;
-            } else {
+            } else if ((ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0) {
                 ttservice.enableVoiceActivation(false);
                 ttservice.enableVoiceTransmission(savedTxState);
-                adjustMuteOnTx(prefs, savedTxState);
             }
+            adjustMuteOnTx(prefs, ttservice.isVoiceTransmitting());
 
             adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
             findViewById(R.id.transmit_voice).setBackgroundColor(savedTxState ? Color.GREEN : Color.RED);
