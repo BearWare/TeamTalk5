@@ -1402,7 +1402,6 @@ implements TeamTalkConnectionListener,
     private void listenPhoneStateChanges() {
         telephonyManager.listen(new PhoneStateListener() {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
                 int myStatus = 0;
 
                 @Override
