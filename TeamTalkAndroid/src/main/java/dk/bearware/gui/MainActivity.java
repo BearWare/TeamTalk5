@@ -1303,13 +1303,13 @@ implements TeamTalkConnectionListener,
                     return false;
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    adjustVolume(v);
+                    adjustLevel(v);
                     
                     runnable = new Runnable() {
 
                         @Override
                         public void run() {
-                            boolean done = adjustVolume(v);
+                            boolean done = adjustLevel(v);
                             if(!done)
                                 handler.postDelayed(this, 100);
                         }
@@ -1323,7 +1323,7 @@ implements TeamTalkConnectionListener,
                 return false;
             }
             
-            boolean adjustVolume(View view) {
+            boolean adjustLevel(View view) {
                 if(view == decVol) {
                     int v = ttclient.getSoundOutputVolume();
                     v = Utils.refVolumeToPercent(v);
