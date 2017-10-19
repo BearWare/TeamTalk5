@@ -358,7 +358,7 @@ implements TeamTalkConnectionListener,
                 ttservice.enableVoiceActivation(true);
                 ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
                 savedTxState = false;
-            } else if ((ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0) {
+            } else if (ttservice.isVoiceActivationEnabled()) {
                 ttservice.enableVoiceActivation(false);
                 ttservice.enableVoiceTransmission(savedTxState);
             }
@@ -1429,7 +1429,7 @@ implements TeamTalkConnectionListener,
                     case TelephonyManager.CALL_STATE_RINGING:
                         if (!isMute)
                             ttclient.setSoundOutputMute(true);
-                        if ((ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0)
+                        if (ttservice.isVoiceActivationEnabled())
                             ttservice.enableVoiceActivation(false);
                         if (isSpeaking) {
                             fromCallStateChange = true;

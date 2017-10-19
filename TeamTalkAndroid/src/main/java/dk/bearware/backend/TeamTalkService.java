@@ -221,6 +221,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             ((flags & voiceActivationMask) == voiceActivationMask);
     }
 
+    public boolean isVoiceActivationEnabled() {
+        return (ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0;
+    }
+
     public boolean enableVoiceTransmission(boolean enable) {
         if (enable)
             return (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0)) && ttclient.enableVoiceTransmission(true);
