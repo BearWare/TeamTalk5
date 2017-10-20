@@ -353,10 +353,14 @@ namespace BearWare
         private Dictionary<CallBack, DLL> Delegate2DLL = new Dictionary<CallBack, DLL>();
         private bool RegisterServerCallback(Delegate lpCallback, int lpUserData, bool bEnable)
         {
+            string TTProDLL_Method = "TTS_Register" + lpCallback.GetType().ToString().Split('+')[1];
+            return RegisterServerCallback(lpCallback, TTProDLL_Method, lpUserData, bEnable);
+        }
+        private bool RegisterServerCallback(Delegate lpCallback, string szMethodName, int lpUserData, bool bEnable)
+        {
             CallBack callBack = null;
             bool b = false;
-            string TTProDLL_Method = "TTS_Register" + lpCallback.GetType().ToString().Split('+')[1];
-            MethodInfo method = typeof(TTProDLL).GetMethod(TTProDLL_Method);
+            MethodInfo method = typeof(TTProDLL).GetMethod(szMethodName);
             DLL dg = (DLL)Delegate.CreateDelegate(typeof(DLL), method);
 
             foreach (KeyValuePair<CallBack, DLL> cb in Delegate2DLL)
@@ -917,7 +921,24 @@ namespace BearWare
                 RegisterServerCallback(value, 0, false);
             }
         }
-
+        [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
+        internal delegate void SaveServerConfigCallbackNullUser(IntPtr lpTTSInstance,
+                                  IntPtr lpUserData,
+                                  IntPtr lpUser);
+        private event SaveServerConfigCallbackNullUser onSaveServerConfigCallbackNullUser;
+        internal event SaveServerConfigCallbackNullUser OnSaveServerConfigCallbackNullUser
+        {
+            add
+            {
+                onSaveServerConfigCallbackNullUser += value;
+                RegisterServerCallback(value, "TTS_RegisterSaveServerConfigCallback", 0, true);
+            }
+            remove
+            {
+                onSaveServerConfigCallbackNullUser -= value;
+                RegisterServerCallback(value, "TTS_RegisterSaveServerConfigCallback", 0, false);
+            }
+        }
     }
    
 }

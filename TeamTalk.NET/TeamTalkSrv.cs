@@ -482,6 +482,7 @@ namespace BearWare
             base.OnUserMovedCallback += new UserMovedCallback(TeamTalkSrv_OnUserMovedCallback);
             base.OnUserUpdatedCallback += new UserUpdatedCallback(TeamTalkSrv_OnUserUpdatedCallback);
             base.OnSaveServerConfigCallback += new SaveServerConfigCallback(TeamTalkSrv_OnSaveServerConfigCallback);
+            base.OnSaveServerConfigCallbackNullUser += new SaveServerConfigCallbackNullUser(TeamTalkSrv_OnSaveServerConfigCallbackNullUser);
             base.OnServerUpdatedCallback += new ServerUpdatedCallback(TeamTalkSrv_OnServerUpdatedCallback);
             base.OnUserCreateUserAccountCallback += new UserCreateUserAccountCallback(TeamTalkSrv_OnUserCreateUserAccountCallback);
             base.OnUserDeleteUserAccountCallback += new UserDeleteUserAccountCallback(TeamTalkSrv_OnUserDeleteUserAccountCallback);
@@ -566,7 +567,16 @@ namespace BearWare
                 OnSaveServerConfig(ref lpUser);
             }
         }
-        
+
+        void TeamTalkSrv_OnSaveServerConfigCallbackNullUser(IntPtr lpTTSInstance, IntPtr lpUserData, IntPtr lpUser)
+        {
+            if (OnSaveServerConfig != null)
+            {
+                User u = new User();
+                OnSaveServerConfig(ref u);
+            }
+        }
+
         void TeamTalkSrv_OnUserUpdatedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
         {
             if(OnUserUpdated != null)
