@@ -155,6 +155,21 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
+    }
+
     ServerEntry serverentry;
 
     static final int REQUEST_EDITSERVER = 1;

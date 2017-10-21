@@ -177,6 +177,7 @@ implements TeamTalkConnectionListener,
     boolean permanentMuteState;
     boolean txSuspended;
     boolean voxSuspended;
+    boolean restarting;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -219,6 +220,7 @@ implements TeamTalkConnectionListener,
             setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        restarting = (savedInstanceState != null);
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
@@ -345,8 +347,6 @@ implements TeamTalkConnectionListener,
             Log.d(TAG, "Binding TeamTalk service");
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
-            else if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
-                wakeLock.acquire();
         }
         else {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -355,6 +355,7 @@ implements TeamTalkConnectionListener,
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
             int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
             boolean voxState = ttservice.isVoiceActivationEnabled();
+            boolean txState = ttservice.isVoiceTransmitting();
 
             txSuspended = false;
             voxSuspended = false;
@@ -367,10 +368,10 @@ implements TeamTalkConnectionListener,
             if (ttclient.getVoiceActivationLevel() != voxlevel)
                 ttclient.setVoiceActivationLevel(voxlevel);
 
-            adjustMuteOnTx(prefs, ttservice.isVoiceTransmitting());
+            adjustMuteOnTx(prefs, txState);
             adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
             adjustVoxState(voxState, voxState ? voxlevel : gain);
-            findViewById(R.id.transmit_voice).setBackgroundColor(ttservice.isVoiceTransmitting() ? Color.GREEN : Color.RED);
+            findViewById(R.id.transmit_voice).setBackgroundColor(txState ? Color.GREEN : Color.RED);
 
             TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
             volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
@@ -453,8 +454,6 @@ implements TeamTalkConnectionListener,
 
         // Cleanup resources
         if (isFinishing()) {
-            if (wakeLock.isHeld())
-                wakeLock.release();
             if (audioIcons != null) {
                 audioIcons.release();
                 audioIcons = null;
@@ -473,16 +472,21 @@ implements TeamTalkConnectionListener,
                 mConnection.setBound(false);
             }
             notificationManager.cancelAll();
-
-            permanentMuteState = false;
-            txSuspended = false;
-            voxSuspended = false;
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
         Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
@@ -1536,21 +1540,22 @@ implements TeamTalkConnectionListener,
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
 
-        if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
+        int flags = ttclient.getFlags();
+        if (((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
             !ttclient.initSoundOutputDevice(0))
             Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
-        ttclient.setSoundOutputMute(false);
-        ttservice.enableVoiceTransmission(false);
-        ttservice.enableVoiceActivation(false);
 
-        permanentMuteState = false;
+        if (restarting)
+            permanentMuteState = ((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
+        else {
+            ttclient.setSoundOutputMute(false);
+            ttservice.enableVoiceTransmission(false);
+            ttservice.enableVoiceActivation(false);
+            permanentMuteState = false;
+        }
+
         txSuspended = false;
         voxSuspended = false;
-
-        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-        speakerBtn.setImageResource(R.drawable.speaker_blue);
-        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
-        findViewById(R.id.transmit_voice).setBackgroundColor(Color.RED);
 
         ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
@@ -1564,10 +1569,14 @@ implements TeamTalkConnectionListener,
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE))
             listenPhoneStateChanges();
+        if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+            wakeLock.acquire();
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
         int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+        boolean voxState = ttservice.isVoiceActivationEnabled();
+        boolean txState = ttservice.isVoiceTransmitting();
 
         // only set volume and gain if tt-instance hasn't already been configured
         if (ttclient.getSoundOutputVolume() != mastervol)
@@ -1577,7 +1586,11 @@ implements TeamTalkConnectionListener,
         if (ttclient.getVoiceActivationLevel() != voxlevel)
             ttclient.setVoiceActivationLevel(voxlevel);
 
-        adjustVoxState(false, gain);
+        adjustMuteOnTx(prefs, txState);
+        adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
+        adjustVoxState(voxState, voxState ? voxlevel : gain);
+        findViewById(R.id.transmit_voice).setBackgroundColor(txState ? Color.GREEN : Color.RED);
+
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
@@ -1589,6 +1602,8 @@ implements TeamTalkConnectionListener,
             telephonyManager.listen(null, PhoneStateListener.LISTEN_NONE);
             listeningPhoneStateChanges = false;
         }
+        if (wakeLock.isHeld())
+            wakeLock.release();
         audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
         service.setOnVoiceTransmissionToggleListener(null);
         service.unregisterConnectionListener(this);

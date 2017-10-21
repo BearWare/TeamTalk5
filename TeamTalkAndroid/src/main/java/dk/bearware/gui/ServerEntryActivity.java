@@ -139,6 +139,21 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.server_entry, menu);
