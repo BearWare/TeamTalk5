@@ -321,18 +321,26 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         usertxtmsgs.clear();
         chatlogtxtmsgs.clear();
     }
-    
+
     void createEventTimer() {
         eventTimer = new CountDownTimer(10000, 100) {
             private boolean prevVoiceTransmissionState = isVoiceTransmissionEnabled();
+            private boolean prevVoiceActivationState = isVoiceActivationEnabled();
 
             public void onTick(long millisUntilFinished) {
                 while(mEventHandler.processEvent(ttclient, 0));
                 boolean newVoiceTransmissionState = isVoiceTransmissionEnabled();
-                if ((onVoiceTransmissionToggleListener != null) &&
-                    (newVoiceTransmissionState != prevVoiceTransmissionState))
-                    onVoiceTransmissionToggleListener.onVoiceTransmissionToggle(newVoiceTransmissionState);
-                prevVoiceTransmissionState = newVoiceTransmissionState;
+                boolean newVoiceActivationState = isVoiceActivationEnabled();
+                if (onVoiceTransmissionToggleListener != null) {
+                    if (newVoiceTransmissionState != prevVoiceTransmissionState) {
+                        onVoiceTransmissionToggleListener.onVoiceTransmissionToggle(newVoiceTransmissionState);
+                        prevVoiceTransmissionState = newVoiceTransmissionState;
+                    }
+                    if (newVoiceActivationState != prevVoiceActivationState) {
+                        onVoiceTransmissionToggleListener.onVoiceActivationToggle(newVoiceActivationState);
+                        prevVoiceActivationState = newVoiceActivationState;
+                    }
+                }
             }
 
             public void onFinish() {

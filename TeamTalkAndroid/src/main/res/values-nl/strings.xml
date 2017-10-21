@@ -38,7 +38,6 @@
     <string name="pref_title_nickname">Bijnaam</string>
     <string name="pref_default_nickname">Geennaam</string>
     <string name="pref_title_keep_screen_on">Scherm aanhouden wanneer verbonden</string>
-    <string name="pref_title_voice_act">Stemactivatie</string>
     <string name="pref_title_vibrate">Trillen bij PTT</string>
     <string name="pref_show_log_messages">Logberichten weergeven in chatgeschiedenis</string>
     <string name="pref_title_audio_icons">Geluidsgebeurtenis</string>

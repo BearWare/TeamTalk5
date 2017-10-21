@@ -177,6 +177,7 @@ implements TeamTalkConnectionListener,
     boolean listeningPhoneStateChanges;
     boolean permanentMuteState;
     boolean savedTxState;
+    boolean savedVoxState;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -353,30 +354,25 @@ implements TeamTalkConnectionListener,
 
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+            int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
 
-            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
-                ttservice.enableVoiceActivation(true);
-                ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
-                savedTxState = false;
-            } else if (ttservice.isVoiceActivationEnabled()) {
-                ttservice.enableVoiceActivation(false);
-                ttservice.enableVoiceTransmission(savedTxState);
-            }
-            adjustMuteOnTx(prefs, ttservice.isVoiceTransmitting());
-
-            adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
-            findViewById(R.id.transmit_voice).setBackgroundColor(savedTxState ? Color.GREEN : Color.RED);
+            savedTxState = ttservice.isVoiceTransmissionEnabled();
+            savedVoxState = ttservice.isVoiceActivationEnabled();
 
             // only set volume and gain if tt-instance hasn't already been configured
             if (ttclient.getSoundOutputVolume() != mastervol)
                 ttclient.setSoundOutputVolume(mastervol);
             if (ttclient.getSoundInputGainLevel() != gain)
                 ttclient.setSoundInputGainLevel(gain);
+            if (ttclient.getVoiceActivationLevel() != voxlevel)
+                ttclient.setVoiceActivationLevel(voxlevel);
 
-            TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+            adjustMuteOnTx(prefs, ttservice.isVoiceTransmitting());
+            adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
+            adjustVoxState(savedVoxState, savedVoxState ? voxlevel : gain);
+            findViewById(R.id.transmit_voice).setBackgroundColor(ttservice.isVoiceTransmitting() ? Color.GREEN : Color.RED);
+
             TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
-            mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
-            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
             volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
             volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
         }
@@ -445,15 +441,16 @@ implements TeamTalkConnectionListener,
     @Override
     protected void onStop() {
         super.onStop();
-        
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor editor = prefs.edit();
         if(ttclient != null) {
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
+            editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
             editor.commit();
         }
-        
+
         // Cleanup resources
         if (isFinishing()) {
             if (wakeLock.isHeld())
@@ -476,6 +473,10 @@ implements TeamTalkConnectionListener,
                 mConnection.setBound(false);
             }
             notificationManager.cancelAll();
+
+            permanentMuteState = false;
+            savedTxState = false;
+            savedVoxState = false;
         }
     }
 
@@ -1231,7 +1232,7 @@ implements TeamTalkConnectionListener,
     }
 
     private void adjustMuteState(SharedPreferences prefs, ImageButton btn) {
-        if ((ttclient != null) &&
+        if ((mConnection != null) && mConnection.isBound() &&
             (((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) != permanentMuteState) &&
             !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && ttservice.isVoiceTransmitting()))
             ttclient.setSoundOutputMute(permanentMuteState);
@@ -1250,6 +1251,28 @@ implements TeamTalkConnectionListener,
             boolean isMuted = ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
             if ((txEnabled && !isMuted) || (isMuted && !txEnabled && !permanentMuteState))
                 ttclient.setSoundOutputMute(txEnabled);
+        }
+    }
+
+    private void adjustVoxState(boolean voiceActivationEnabled, int level) {
+        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
+        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+
+        if (voiceActivationEnabled) {
+            mikeLevel.setText(level + "%");
+            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+            voxSwitch.setImageResource(R.drawable.microphone);
+            voxSwitch.setContentDescription(getString(R.string.voice_activation_off));
+            findViewById(R.id.mikeDec).setContentDescription(getString(R.string.decvoxlevel));
+            findViewById(R.id.mikeInc).setContentDescription(getString(R.string.incvoxlevel));
+        }
+        else {
+            mikeLevel.setText(Utils.refVolumeToPercent(level) + "%");
+            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+            voxSwitch.setImageResource(R.drawable.mike_green);
+            voxSwitch.setContentDescription(getString(R.string.voice_activation_on));
+            findViewById(R.id.mikeDec).setContentDescription(getString(R.string.decgain));
+            findViewById(R.id.mikeInc).setContentDescription(getString(R.string.incgain));
         }
     }
 
@@ -1279,6 +1302,8 @@ implements TeamTalkConnectionListener,
                         //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
                     }
 
+                    if (ttservice.isVoiceActivationEnabled())
+                        ttservice.enableVoiceActivation(false);
                     ttservice.enableVoiceTransmission(tx);
                 }
                 tx_state = tx;
@@ -1353,32 +1378,56 @@ implements TeamTalkConnectionListener,
                         return true;
                 }
                 else if(view == decMike) {
-                    int g = ttclient.getSoundInputGainLevel();
-                    g = Utils.refGainToPercent(g);
-                    g = Utils.refGain(g-1);
-                    if(g >= SoundLevel.SOUND_GAIN_MIN) {
-                        ttclient.setSoundInputGainLevel(g);
-                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
-                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                        if(g == SoundLevel.SOUND_GAIN_DEFAULT)
+                    if (savedVoxState) {
+                        int x = ttclient.getVoiceActivationLevel() - 1;
+                        if (x >= SoundLevel.SOUND_VU_MIN) {
+                            ttclient.setVoiceActivationLevel(x);
+                            mikeLevel.setText(x + "%");
+                            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                        }
+                        else
                             return true;
                     }
-                    else
-                        return true;
+                    else {
+                        int g = ttclient.getSoundInputGainLevel();
+                        g = Utils.refGainToPercent(g);
+                        g = Utils.refGain(g-1);
+                        if(g >= SoundLevel.SOUND_GAIN_MIN) {
+                            ttclient.setSoundInputGainLevel(g);
+                            mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                            if(g == SoundLevel.SOUND_GAIN_DEFAULT)
+                                return true;
+                        }
+                        else
+                            return true;
+                    }
                 }
                 else if(view == incMike) {
-                    int g = ttclient.getSoundInputGainLevel();
-                    g = Utils.refGainToPercent(g);
-                    g = Utils.refGain(g+1);
-                    if(g <= SoundLevel.SOUND_GAIN_MAX) {
-                        ttclient.setSoundInputGainLevel(g);
-                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
-                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                        if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
+                    if (savedVoxState) {
+                        int x = ttclient.getVoiceActivationLevel() + 1;
+                        if (x <= SoundLevel.SOUND_VU_MAX) {
+                            ttclient.setVoiceActivationLevel(x);
+                            mikeLevel.setText(x + "%");
+                            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                        }
+                        else
                             return true;
                     }
-                    else
-                        return true;
+                    else {
+                        int g = ttclient.getSoundInputGainLevel();
+                        g = Utils.refGainToPercent(g);
+                        g = Utils.refGain(g+1);
+                        if(g <= SoundLevel.SOUND_GAIN_MAX) {
+                            ttclient.setSoundInputGainLevel(g);
+                            mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                            if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
+                                return true;
+                        }
+                        else
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -1395,6 +1444,21 @@ implements TeamTalkConnectionListener,
                 public void onClick(View v) {
                     permanentMuteState = !permanentMuteState;
                     adjustMuteState(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), (ImageButton) v);
+                }
+            });
+
+        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
+        voxSwitch.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    savedVoxState = !savedVoxState;
+                    if ((mConnection != null) && mConnection.isBound() &&
+                        (ttservice.isVoiceActivationEnabled() != savedVoxState)) {
+                        if (ttservice.isVoiceTransmissionEnabled())
+                            ttservice.enableVoiceTransmission(false);
+                        ttservice.enableVoiceActivation(savedVoxState);
+                    }
                 }
             });
     }
@@ -1414,10 +1478,8 @@ implements TeamTalkConnectionListener,
                         if (!permanentMuteState && isMute &&
                             !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && isSpeaking))
                             ttclient.setSoundOutputMute(false);
-                        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
+                        if (savedVoxState)
                             ttservice.enableVoiceActivation(true);
-                            ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
-                        }
                         else if (savedTxState && !isSpeaking) {
                             fromCallStateChange = true;
                             ttservice.enableVoiceTransmission(true);
@@ -1482,9 +1544,11 @@ implements TeamTalkConnectionListener,
             Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
         ttclient.setSoundOutputMute(false);
         ttservice.enableVoiceTransmission(false);
+        ttservice.enableVoiceActivation(false);
 
         permanentMuteState = false;
         savedTxState = false;
+        savedVoxState = false;
 
         ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
         speakerBtn.setImageResource(R.drawable.speaker_blue);
@@ -1508,24 +1572,18 @@ implements TeamTalkConnectionListener,
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
-
-        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
-            ttservice.enableVoiceActivation(true);
-            ttclient.setVoiceActivationLevel(prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5));
-        } else {
-            ttservice.enableVoiceActivation(false);
-        }
+        int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
 
         // only set volume and gain if tt-instance hasn't already been configured
         if (ttclient.getSoundOutputVolume() != mastervol)
             ttclient.setSoundOutputVolume(mastervol);
         if (ttclient.getSoundInputGainLevel() != gain)
             ttclient.setSoundInputGainLevel(gain);
+        if (ttclient.getVoiceActivationLevel() != voxlevel)
+            ttclient.setVoiceActivationLevel(voxlevel);
 
-        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+        adjustVoxState(false, gain);
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
-        mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
-        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
@@ -1929,10 +1987,17 @@ implements TeamTalkConnectionListener,
             adjustMuteOnTx(pref, voiceTransmissionEnabled);
         }
 
-        // update self user icon
-        accessibilityAssistant.lockEvents();
-        channelsAdapter.notifyDataSetChanged();
-        accessibilityAssistant.unlockEvents();
+        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
+            // update self user icon
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
+    }
+
+    @Override
+    public void onVoiceActivationToggle(boolean voiceActivationEnabled) {
+        adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
     }
 
     @Override
@@ -1941,19 +2006,17 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onVoiceActivation(boolean bVoiceActive) {
-        if(ttservice != null && curchannel != null) {
-            int chanid = ttservice.getTTInstance().getMyChannelID();
-            if (curchannel.nChannelID == chanid) {
-                accessibilityAssistant.lockEvents();
-                channelsAdapter.notifyDataSetChanged();
-                accessibilityAssistant.unlockEvents();
-            }
+        adjustMuteOnTx(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), bVoiceActive);
+        findViewById(R.id.transmit_voice).setBackgroundColor(bVoiceActive ? Color.GREEN : Color.RED);
 
-            adjustMuteOnTx(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), bVoiceActive);
+        int sound = sounds.get(bVoiceActive ? SOUND_VOXON : SOUND_VOXOFF);
+        if (sound != 0)
+            audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-            int sound = sounds.get(bVoiceActive ? SOUND_VOXON : SOUND_VOXOFF);
-            if (sound != 0)
-                audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
     }
 

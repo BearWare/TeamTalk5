@@ -30,7 +30,6 @@ public class Preferences {
 			PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox";
 	public static final String
 			PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
-			PREF_SOUNDSYSTEM_VOICEACTIVATION = "voice_activation",
 			PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL = "voice_activation_level",
 			PREF_SOUNDSYSTEM_MASTERVOLUME = "mastervolume",
 			PREF_SOUNDSYSTEM_MICROPHONEGAIN = "microphonegain",

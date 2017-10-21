@@ -38,8 +38,6 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Noname</string>
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
-    <string name="pref_title_voice_act">Voice Activation</string>
-    <string name="pref_title_voice_act_level">Voice activation level</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
     <string name="pref_show_log_messages">Show log messages in chat history</string>
     <string name="pref_title_audio_icons">Sound Events</string>
@@ -220,16 +218,22 @@
     <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
     <string name="version_update">New TeamTalk version available: %1$s?</string>
     <string name="decvolume">Decrease volume</string>
-	<string name="incvolume">Increase volume</string>
-	<string name="speaker_mute">Mute speakers</string>
-	<string name="speaker_unmute">Unmute speakers</string>
-	<string name="mic_mute">Mute microphone</string>
-	<string name="mic_unmute">Unmute microphone</string>
-	<string name="decgain">Decrease microphone gain</string>
-	<string name="incgain">Increase microphone gain</string>
-	
+    <string name="incvolume">Increase volume</string>
+    <string name="speaker_mute">Mute speakers</string>
+    <string name="speaker_unmute">Unmute speakers</string>
+    <string name="mic_mute">Mute microphone</string>
+    <string name="mic_unmute">Unmute microphone</string>
+    <string name="decgain">Decrease microphone gain</string>
+    <string name="incgain">Increase microphone gain</string>
+
     <string name="speaker_volume_description">Speaker volume is %1$s</string>
     <string name="mic_gain_description">Microphone gain is %1$s</string>
+
+    <string name="voice_activation_on">Turn voice activation on</string>
+    <string name="voice_activation_off">Turn voice activation off</string>
+    <string name="decvoxlevel">Decrease voice activation level</string>
+    <string name="incvoxlevel">Increase voice activation level</string>
+    <string name="vox_level_description">Voice activation level is %1$s</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>

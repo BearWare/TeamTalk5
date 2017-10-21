@@ -38,7 +38,6 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Sin nombre</string>
     <string name="pref_title_keep_screen_on">Mantener la pantalla encendida al conectarse</string>
-    <string name="pref_title_voice_act">Activación por voz</string>
     <string name="pref_title_vibrate">Vibrar al activar  el botón de pulsar para hablar</string>
     <string name="pref_show_log_messages">Ver mensajes de log en el historial de chat</string>
     <string name="pref_title_audio_icons">Eventos de sonido</string>

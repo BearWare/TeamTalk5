@@ -25,4 +25,6 @@ public interface OnVoiceTransmissionToggleListener {
 
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled);
 
+    public void onVoiceActivationToggle(boolean voiceActivationEnabled);
+
 }
