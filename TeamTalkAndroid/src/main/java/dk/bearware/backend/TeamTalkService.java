@@ -69,6 +69,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -80,11 +82,17 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public static final String CANCEL_TRANSFER = "cancel_transfer";
 
     public static final String TAG = "bearware";
-    
+
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
-    TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    private TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    private TelephonyManager telephonyManager;
+    private boolean listeningPhoneStateChanges;
+    private boolean txSuspended;
+    private boolean voxSuspended;
+    private boolean permanentMuteState;
+    private boolean currentMuteState;
 
     public class LocalBinder extends Binder {
         public TeamTalkService getService() {
@@ -96,23 +104,29 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     @Override
     public void onCreate() {
         super.onCreate();
-        
+
         // make sure DLL is loaded 
         TeamTalk5.loadLibrary();
-        
+
         TeamTalk5.setLicenseInformation(License.REGISTRATION_NAME, License.REGISTRATION_KEY);
-        
+
         ttclient = new TeamTalk5();
-        
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        listeningPhoneStateChanges = false;
+        txSuspended = false;
+        voxSuspended = false;
+        permanentMuteState = false;
+        currentMuteState = false;
+
         //register self as event handler so 'users' and 'channels' can be updated
         mEventHandler.addConnectionListener(this);
         mEventHandler.addClientListener(this);
         mEventHandler.addCommandListener(this);
         mEventHandler.addUserListener(this);
-        
+
         //create timer to process 'mEventHandler'
         createEventTimer();
-        
+
         Log.d(TAG, "Created TeamTalk 5 service");
     }
 
@@ -140,12 +154,13 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         mEventHandler.removeClientListener(this);
         mEventHandler.removeCommandListener(this);
         mEventHandler.removeUserListener(this);
+        disablePhoneCallReaction();
 
         if (ttclient != null)
             ttclient.closeTeamTalk();
 
         super.onDestroy();
-        
+
         Log.d(TAG, "Destroyed TeamTalk 5 service");
     }
 
@@ -188,26 +203,99 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         }
     }
 
+    private void adjustMuteOnTx(boolean txEnabled) {
+        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false)) {
+            boolean isMuted = isMute();
+            if ((txEnabled && !isMuted) || (isMuted && !txEnabled && !permanentMuteState))
+                ttclient.setSoundOutputMute(txEnabled);
+        }
+    }
+
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+            int myStatus = 0;
+
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                User myself = users.get(ttclient.getMyUserID());
+                switch (state) {
+                case TelephonyManager.CALL_STATE_IDLE:
+                    if (voxSuspended)
+                        enableVoiceActivation(true);
+                    else if (txSuspended)
+                        enableVoiceTransmission(true);
+                    setMute(permanentMuteState);
+                    if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
+                        ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING:
+                    if (!isMute()) {
+                        ttclient.setSoundOutputMute(true);
+                        currentMuteState = true;
+                    }
+                    if (isVoiceActivationEnabled()) {
+                        voxSuspended = true;
+                        enableVoiceActivation(false);
+                    }
+                    else if (isVoiceTransmissionEnabled()) {
+                        txSuspended = true;
+                        enableVoiceTransmission(false);
+                    }
+                    if (myself != null) {
+                        myStatus = myself.nStatusMode;
+                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        };
+
+    public void enablePhoneCallReaction() {
+        txSuspended = false;
+        voxSuspended = false;
+        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        listeningPhoneStateChanges = true;
+    }
+
+    public void disablePhoneCallReaction() {
+        if (listeningPhoneStateChanges) {
+            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+            listeningPhoneStateChanges = false;
+        }
+        txSuspended = false;
+        voxSuspended = false;
+    }
+
     public TeamTalkBase getTTInstance() {
         return ttclient;
     }
-    
+
     public ServerEntry getServerEntry() {
         return ttserver;
     }
-    
+
     // set TT server which service should connect to
     public void setServerEntry(ServerEntry entry) {
         ttserver = entry;
     }
-    
+
     // set channel which service should join
     public void setJoinChannel(Channel channel) {
         joinchannel = channel;
     }
-    
+
     public void setOnVoiceTransmissionToggleListener(OnVoiceTransmissionToggleListener listener) {
         onVoiceTransmissionToggleListener = listener;
+    }
+
+    public boolean getCurrentMuteState() {
+        return currentMuteState;
+    }
+
+    public boolean isMute() {
+        return ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
     }
 
     public boolean isVoiceTransmissionEnabled() {
@@ -225,24 +313,37 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         return (ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0;
     }
 
-    public boolean enableVoiceTransmission(boolean enable) {
-        if (enable)
-            return (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0)) && ttclient.enableVoiceTransmission(true);
-        else if (ttclient.enableVoiceTransmission(false)) {
-            ttclient.closeSoundInputDevice();
-            return true;
-        }
-        return false;
+    public void setMute(boolean state) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        permanentMuteState = state;
+        currentMuteState = state;
+        if ((isMute() != permanentMuteState) &&
+            !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && isVoiceTransmitting()))
+            ttclient.setSoundOutputMute(permanentMuteState);
     }
 
-    public boolean enableVoiceActivation(boolean enable) {
-        if (enable)
-            return (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0)) && ttclient.enableVoiceActivation(true);
-        else if (ttclient.enableVoiceActivation(false)) {
-            ttclient.closeSoundInputDevice();
-            return true;
+    public void enableVoiceTransmission(boolean enable) {
+        if (enable) {
+            txSuspended = false;
+            voxSuspended = false;
+            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
+                ttclient.enableVoiceTransmission(true);
         }
-        return false;
+        else if (!ttclient.enableVoiceTransmission(false))
+            ttclient.closeSoundInputDevice();
+        adjustMuteOnTx(enable);
+    }
+
+    public void enableVoiceActivation(boolean enable) {
+        if (enable) {
+            txSuspended = false;
+            voxSuspended = false;
+            if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
+                ttclient.enableVoiceActivation(true);
+        }
+        else if (!ttclient.enableVoiceActivation(false))
+            ttclient.closeSoundInputDevice();
     }
 
     public boolean reconnect() {
@@ -301,13 +402,14 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     public Vector<MyTextMessage> getChatLogTextMsgs() {
         if(chatlogtxtmsgs.size()>HISTORY_CHATLOG_MSG_MAX)
             chatlogtxtmsgs.remove(0);
-        
+
         return chatlogtxtmsgs;
     }
-    
+
     public void resetState() {
         reconnectHandler.removeCallbacks(reconnectTimer);
-        
+        disablePhoneCallReaction();
+
         if(ttclient != null)
             ttclient.disconnect();
 
@@ -333,11 +435,11 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                 boolean newVoiceActivationState = isVoiceActivationEnabled();
                 if (onVoiceTransmissionToggleListener != null) {
                     if (newVoiceTransmissionState != prevVoiceTransmissionState) {
-                        onVoiceTransmissionToggleListener.onVoiceTransmissionToggle(newVoiceTransmissionState);
+                        onVoiceTransmissionToggleListener.onVoiceTransmissionToggle(newVoiceTransmissionState, txSuspended);
                         prevVoiceTransmissionState = newVoiceTransmissionState;
                     }
                     if (newVoiceActivationState != prevVoiceActivationState) {
-                        onVoiceTransmissionToggleListener.onVoiceActivationToggle(newVoiceActivationState);
+                        onVoiceTransmissionToggleListener.onVoiceActivationToggle(newVoiceActivationState, voxSuspended);
                         prevVoiceActivationState = newVoiceActivationState;
                     }
                 }
@@ -751,6 +853,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onVoiceActivation(boolean bVoiceActive) {
+        adjustMuteOnTx(bVoiceActive);
     }
 
     @Override
