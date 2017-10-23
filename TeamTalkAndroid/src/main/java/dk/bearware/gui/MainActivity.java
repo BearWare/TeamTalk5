@@ -173,11 +173,10 @@ implements TeamTalkConnectionListener,
     NotificationManager notificationManager;
     TelephonyManager telephonyManager;
     WakeLock wakeLock;
-    boolean fromCallStateChange;
     boolean listeningPhoneStateChanges;
     boolean permanentMuteState;
-    boolean savedTxState;
-    boolean savedVoxState;
+    boolean txSuspended;
+    boolean voxSuspended;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -355,9 +354,10 @@ implements TeamTalkConnectionListener,
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
             int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+            boolean voxState = ttservice.isVoiceActivationEnabled();
 
-            savedTxState = ttservice.isVoiceTransmissionEnabled();
-            savedVoxState = ttservice.isVoiceActivationEnabled();
+            txSuspended = false;
+            voxSuspended = false;
 
             // only set volume and gain if tt-instance hasn't already been configured
             if (ttclient.getSoundOutputVolume() != mastervol)
@@ -369,7 +369,7 @@ implements TeamTalkConnectionListener,
 
             adjustMuteOnTx(prefs, ttservice.isVoiceTransmitting());
             adjustMuteState(prefs, (ImageButton) findViewById(R.id.speakerBtn));
-            adjustVoxState(savedVoxState, savedVoxState ? voxlevel : gain);
+            adjustVoxState(voxState, voxState ? voxlevel : gain);
             findViewById(R.id.transmit_voice).setBackgroundColor(ttservice.isVoiceTransmitting() ? Color.GREEN : Color.RED);
 
             TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
@@ -475,8 +475,8 @@ implements TeamTalkConnectionListener,
             notificationManager.cancelAll();
 
             permanentMuteState = false;
-            savedTxState = false;
-            savedVoxState = false;
+            txSuspended = false;
+            voxSuspended = false;
         }
     }
 
@@ -1378,7 +1378,7 @@ implements TeamTalkConnectionListener,
                         return true;
                 }
                 else if(view == decMike) {
-                    if (savedVoxState) {
+                    if (ttservice.isVoiceActivationEnabled()) {
                         int x = ttclient.getVoiceActivationLevel() - 1;
                         if (x >= SoundLevel.SOUND_VU_MIN) {
                             ttclient.setVoiceActivationLevel(x);
@@ -1404,7 +1404,7 @@ implements TeamTalkConnectionListener,
                     }
                 }
                 else if(view == incMike) {
-                    if (savedVoxState) {
+                    if (ttservice.isVoiceActivationEnabled()) {
                         int x = ttclient.getVoiceActivationLevel() + 1;
                         if (x <= SoundLevel.SOUND_VU_MAX) {
                             ttclient.setVoiceActivationLevel(x);
@@ -1452,12 +1452,10 @@ implements TeamTalkConnectionListener,
 
                 @Override
                 public void onClick(View v) {
-                    savedVoxState = !savedVoxState;
-                    if ((mConnection != null) && mConnection.isBound() &&
-                        (ttservice.isVoiceActivationEnabled() != savedVoxState)) {
+                    if ((mConnection != null) && mConnection.isBound()) {
                         if (ttservice.isVoiceTransmissionEnabled())
                             ttservice.enableVoiceTransmission(false);
-                        ttservice.enableVoiceActivation(savedVoxState);
+                        ttservice.enableVoiceActivation(!ttservice.isVoiceActivationEnabled());
                     }
                 }
             });
@@ -1469,31 +1467,30 @@ implements TeamTalkConnectionListener,
                 int myStatus = 0;
 
                 @Override
-                    public void onCallStateChanged(int state, String incomingNumber) {
+                public void onCallStateChanged(int state, String incomingNumber) {
                     User myself = ttservice.getUsers().get(ttclient.getMyUserID());
                     boolean isMute = ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0);
-                    boolean isSpeaking = ttservice.isVoiceTransmitting();
                     switch (state) {
                     case TelephonyManager.CALL_STATE_IDLE:
                         if (!permanentMuteState && isMute &&
-                            !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && isSpeaking))
+                            !(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION, false) && ttservice.isVoiceTransmitting()))
                             ttclient.setSoundOutputMute(false);
-                        if (savedVoxState)
+                        if (voxSuspended)
                             ttservice.enableVoiceActivation(true);
-                        else if (savedTxState && !isSpeaking) {
-                            fromCallStateChange = true;
+                        else if (txSuspended)
                             ttservice.enableVoiceTransmission(true);
-                        }
                         if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
                             ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                         break;
                     case TelephonyManager.CALL_STATE_RINGING:
                         if (!isMute)
                             ttclient.setSoundOutputMute(true);
-                        if (ttservice.isVoiceActivationEnabled())
+                        if (ttservice.isVoiceActivationEnabled()) {
+                            voxSuspended = true;
                             ttservice.enableVoiceActivation(false);
-                        if (isSpeaking) {
-                            fromCallStateChange = true;
+                        }
+                        else if (ttservice.isVoiceTransmissionEnabled()) {
+                            txSuspended = true;
                             ttservice.enableVoiceTransmission(false);
                         }
                         if (myself != null) {
@@ -1547,8 +1544,8 @@ implements TeamTalkConnectionListener,
         ttservice.enableVoiceActivation(false);
 
         permanentMuteState = false;
-        savedTxState = false;
-        savedVoxState = false;
+        txSuspended = false;
+        voxSuspended = false;
 
         ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
         speakerBtn.setImageResource(R.drawable.speaker_blue);
@@ -1563,8 +1560,6 @@ implements TeamTalkConnectionListener,
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        fromCallStateChange = false;
         listeningPhoneStateChanges = false;
 
         if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE))
@@ -1958,8 +1953,10 @@ implements TeamTalkConnectionListener,
     public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
         findViewById(R.id.transmit_voice).setBackgroundColor(voiceTransmissionEnabled ? Color.GREEN : Color.RED);
 
-        if (fromCallStateChange)
-            fromCallStateChange = false;
+        if (txSuspended) {
+            if (voiceTransmissionEnabled)
+                txSuspended = false;
+        }
         else {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
@@ -1983,7 +1980,6 @@ implements TeamTalkConnectionListener,
                 }
             }
 
-            savedTxState = voiceTransmissionEnabled;
             adjustMuteOnTx(pref, voiceTransmissionEnabled);
         }
 
@@ -1998,6 +1994,9 @@ implements TeamTalkConnectionListener,
     @Override
     public void onVoiceActivationToggle(boolean voiceActivationEnabled) {
         adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
+
+        if (voxSuspended && voiceActivationEnabled)
+            voxSuspended = false;
     }
 
     @Override
