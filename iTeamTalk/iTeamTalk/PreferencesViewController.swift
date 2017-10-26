@@ -469,7 +469,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         return false
     }
     
-    func soundeventChanged(_ sender: UISwitch) {
+    @objc func soundeventChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         
@@ -496,7 +496,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         }
     }
     
-    func subscriptionChanged(_ sender: UISwitch) {
+    @objc func subscriptionChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         
@@ -520,7 +520,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         }
     }
     
-    func nicknameChanged(_ sender: UITextField) {
+    @objc func nicknameChanged(_ sender: UITextField) {
         if ttInst != nil {
             TT_DoChangeNickname(ttInst, sender.text!)
         }
@@ -529,17 +529,17 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.setValue(sender.text!, forKey: PREF_NICKNAME)
     }
     
-    func pttlockChanged(_ sender: UISwitch) {
+    @objc func pttlockChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_GENERAL_PTTLOCK)
     }
 
-    func sendonenterChanged(_ sender: UISwitch) {
+    @objc func sendonenterChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_GENERAL_SENDONRETURN)
     }
     
-    func masterVolumeChanged(_ sender: UISlider) {
+    @objc func masterVolumeChanged(_ sender: UISlider) {
         let percent : Int = Int(sender.value * 10.0) * 10
         let vol = refVolume(Double(percent))
         if ttInst != nil {
@@ -558,37 +558,37 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.set(percent, forKey: PREF_MASTER_VOLUME)
     }
     
-    func showtextmessagesChanged(_ sender: UISwitch) {
+    @objc func showtextmessagesChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_POPUPTXTMSG)
     }
 
-    func ttsjoinedchanChanged(_ sender: UISwitch) {
+    @objc func ttsjoinedchanChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_TTSEVENT_JOINEDCHAN)
     }
 
-    func ttsleftchanChanged(_ sender: UISwitch) {
+    @objc func ttsleftchanChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_TTSEVENT_LEFTCHAN)
     }
 
-    func ttsconlostChanged(_ sender: UISwitch) {
+    @objc func ttsconlostChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_TTSEVENT_CONLOST)
     }
     
-    func ttsprivtxtmsgChanged(_ sender: UISwitch) {
+    @objc func ttsprivtxtmsgChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_TTSEVENT_TEXTMSG)
     }
 
-    func ttschantxtmsgChanged(_ sender: UISwitch) {
+    @objc func ttschantxtmsgChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_TTSEVENT_CHANTEXTMSG)
     }
 
-    func proximityChanged(_ sender: UISwitch) {
+    @objc func proximityChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_PROXIMITY)
         
@@ -596,24 +596,24 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         device.isProximityMonitoringEnabled = sender.isOn
     }
 
-    func limittextChanged(_ sender: UIStepper) {
+    @objc func limittextChanged(_ sender: UIStepper) {
         let defaults = UserDefaults.standard
         defaults.set(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
         let txt = String(format: NSLocalizedString("Limit length of names in channel list to %d characters", comment: "preferences"), Int(sender.value))
         limittextcell!.detailTextLabel!.text = txt
     }
     
-    func showpublicserversChanged(_ sender: UISwitch) {
+    @objc func showpublicserversChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_PUBSERVERS)
     }
 
-    func showusernameChanged(_ sender: UISwitch) {
+    @objc func showusernameChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_SHOWUSERNAME)
     }
     
-    func speakeroutputChanged(_ sender: UISwitch) {
+    @objc func speakeroutputChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_SPEAKER_OUTPUT)
@@ -621,7 +621,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         enableSpeakerOutput(sender.isOn)
     }
 
-    func headsetTxToggleChanged(_ sender: UISwitch) {
+    @objc func headsetTxToggleChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_HEADSET_TXTOGGLE)
@@ -634,7 +634,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         }
     }
 
-    func voicepreprocessingChanged(_ sender: UISwitch) {
+    @objc func voicepreprocessingChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_VOICEPROCESSINGIO)
@@ -644,7 +644,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         setupSoundDevices()
     }
 
-    func voiceactlevelChanged(_ sender: UISlider) {
+    @objc func voiceactlevelChanged(_ sender: UISlider) {
         let level = Int(sender.value * Float(VOICEACT_DISABLED))
         
         if level == VOICEACT_DISABLED {
@@ -665,7 +665,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.set(level, forKey: PREF_VOICEACTIVATION)
     }
     
-    func microphoneGainChanged(_ sender: UISlider) {
+    @objc func microphoneGainChanged(_ sender: UISlider) {
         let vol_pct : Int = Int(sender.value * 10.0) * 10
         let vol = refVolume(Double(vol_pct))
         if ttInst != nil {
@@ -684,7 +684,7 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.set(vol_pct, forKey: PREF_MICROPHONE_GAIN)
     }
 
-    func mediafileVolumeChanged(_ sender: UISlider) {
+    @objc func mediafileVolumeChanged(_ sender: UISlider) {
         let defaults = UserDefaults.standard
         defaults.set(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
         
@@ -695,21 +695,21 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         
     }
     
-    func ttsrateChanged(_ sender: UISlider) {
+    @objc func ttsrateChanged(_ sender: UISlider) {
         let defaults = UserDefaults.standard
         defaults.set(Float(sender.value), forKey: PREF_TTSEVENT_RATE)
         let txt = String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
         ttsratecell!.detailTextLabel!.text = txt
     }
     
-    func ttsvolChanged(_ sender: UISlider) {
+    @objc func ttsvolChanged(_ sender: UISlider) {
         let defaults = UserDefaults.standard
         defaults.set(Float(sender.value), forKey: PREF_TTSEVENT_VOL)
         let txt = String(format: NSLocalizedString("The volume of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
         ttsvolcell!.detailTextLabel!.text = txt
     }
     
-    func joinrootChanged(_ sender: UISwitch) {
+    @objc func joinrootChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_JOINROOTCHANNEL)

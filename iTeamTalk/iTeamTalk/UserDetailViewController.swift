@@ -141,23 +141,23 @@ class UserDetailViewController : UIViewController,
 
     }
 
-    func voiceVolumeChanged(_ sender: UISlider) {
+    @objc func voiceVolumeChanged(_ sender: UISlider) {
         TT_SetUserVolume(ttInst, userid, STREAMTYPE_VOICE, INT32(refVolume(Double(sender.value))))
     }
     
-    func mediaVolumeChanged(_ sender: UISlider) {
+    @objc func mediaVolumeChanged(_ sender: UISlider) {
         TT_SetUserVolume(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, INT32(refVolume(Double(sender.value))))
     }
     
-    func muteVoice(_ sender: UISwitch) {
+    @objc func muteVoice(_ sender: UISwitch) {
         TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE, (sender.isOn ? TRUE : FALSE))
     }
     
-    func muteMediaStream(_ sender: UISwitch) {
+    @objc func muteMediaStream(_ sender: UISwitch) {
         TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, (sender.isOn ? TRUE : FALSE))
     }
     
-    func subscriptionChanged(_ sender: UISwitch) {
+    @objc func subscriptionChanged(_ sender: UISwitch) {
         var sub = SUBSCRIBE_NONE
         
         switch sender {

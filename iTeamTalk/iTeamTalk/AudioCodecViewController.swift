@@ -178,11 +178,11 @@ class AudioCodecViewController : UITableViewController {
         opus_items.append(blank)
     }
     
-    func opus_bitrateChanged(_ sender: UISlider) {
+    @objc func opus_bitrateChanged(_ sender: UISlider) {
         opus_bitrateCell?.detailTextLabel!.text =  "\(sender.value) KB/s"
     }
     
-    func opus_txintervalChanged(_ sender: UIStepper) {
+    @objc func opus_txintervalChanged(_ sender: UIStepper) {
          opus_txintervalCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
     }
     
@@ -190,7 +190,7 @@ class AudioCodecViewController : UITableViewController {
         opuscodec.nApplication = opus_applications[opus_appSegCtrl!.selectedSegmentIndex]
         opuscodec.nBitRate = Int32(opus_bitrateSlider!.value) * 1000
         opuscodec.nSampleRate = opus_samplerates[opus_srSegCtrl!.selectedSegmentIndex]
-        opuscodec.nChannels = opus_chansSegCtrl!.selectedSegmentIndex + 1
+        opuscodec.nChannels = INT32(opus_chansSegCtrl!.selectedSegmentIndex + 1)
         opuscodec.nTxIntervalMSec = Int32(opus_txintervalStepper!.value)
         opuscodec.bDTX = (opus_dtxSwitch!.isOn ? 1 : 0)
     }
@@ -226,7 +226,7 @@ class AudioCodecViewController : UITableViewController {
 
     }
 
-    func speex_txintervalChanged(_ sender: UIStepper) {
+    @objc func speex_txintervalChanged(_ sender: UIStepper) {
         spx_txintervalCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
     }
     
@@ -272,11 +272,11 @@ class AudioCodecViewController : UITableViewController {
         speexvbr_items.append(blank)
     }
 
-    func speexvbr_bitrateChanged(_ sender: UISlider) {
+    @objc func speexvbr_bitrateChanged(_ sender: UISlider) {
         spxvbr_bitrateCell?.detailTextLabel!.text = String(Int(sender.value)) + " KB/s"
     }
     
-    func speexvbr_txintervalChanged(_ sender: UIStepper) {
+    @objc func speexvbr_txintervalChanged(_ sender: UIStepper) {
         spxvbr_txintervalCell?.detailTextLabel!.text = String(Int(sender.value)) + " ms"
     }
 
