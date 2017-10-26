@@ -142,24 +142,23 @@ implements TeamTalkConnectionListener, CommandListener {
     protected void onStart() {
         super.onStart();
         
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if(ttservice != null) {
-            ttservice.unregisterCommandListener(ChannelPropActivity.this);            
-        }
         // Unbind from the service
         if(mConnection.isBound()) {
+            onServiceDisconnected(ttservice);
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -237,7 +236,7 @@ implements TeamTalkConnectionListener, CommandListener {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        ttservice.registerCommandListener(ChannelPropActivity.this);
+        service.registerCommandListener(ChannelPropActivity.this);
 
         int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
         int parentid = getIntent().getExtras().getInt(EXTRA_PARENTID);
@@ -279,6 +278,7 @@ implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        service.unregisterCommandListener(ChannelPropActivity.this);            
     }
 
     int updateCmdId = 0;

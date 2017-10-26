@@ -73,14 +73,15 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     protected void onStart() {
         super.onStart();
         
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        Log.d(TAG, "Binding TeamTalk service");
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            Log.d(TAG, "Binding TeamTalk service");
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
     }
     
     @Override

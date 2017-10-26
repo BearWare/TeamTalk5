@@ -39,9 +39,11 @@ public class Permissions {
     MY_PERMISSIONS_REQUEST_INTERNET = 3,
     MY_PERMISSIONS_REQUEST_VIBRATE = 4,
     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 5,
-    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 6;
+    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 6,
+    MY_PERMISSIONS_REQUEST_WAKE_LOCK = 7,
+    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 8;
 
-    public static void setupPermission(Context context, Activity activity, int permission) {
+    public static boolean setupPermission(Context context, Activity activity, int permission) {
         String stringPermission;
         String errormessage;
 
@@ -70,9 +72,17 @@ public class Permissions {
                 stringPermission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
                 errormessage = context.getString(R.string.permission_filerx);
                 break;
+            case MY_PERMISSIONS_REQUEST_WAKE_LOCK:
+                stringPermission = Manifest.permission.WAKE_LOCK;
+                errormessage = context.getString(R.string.permission_wake_lock);
+                break;
+            case MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
+                stringPermission = Manifest.permission.READ_PHONE_STATE;
+                errormessage = context.getString(R.string.permission_read_phone_state);
+                break;
             default :
                 Log.e(AppInfo.TAG, String.format("Unknown permission %d", permission));
-                return;
+                return false;
         }
 
         int permissionCheck = ContextCompat.checkSelfPermission(context,
@@ -91,6 +101,8 @@ public class Permissions {
                         new String[]{stringPermission},
                         permission);
             }
+            return false;
         }
+        return true;
     }
 }

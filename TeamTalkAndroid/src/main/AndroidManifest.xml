@@ -30,6 +30,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_main" >
         </activity>
         <activity
@@ -95,5 +96,13 @@
     </uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
     </uses-permission>
-    
+
+    <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" >
+    </uses-permission>
+
+    <!-- READ_PHONE_STATE is needed to suspend on incoming call -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+
 </manifest>

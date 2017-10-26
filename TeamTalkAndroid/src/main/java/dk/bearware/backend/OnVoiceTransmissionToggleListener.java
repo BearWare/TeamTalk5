@@ -23,6 +23,8 @@ package dk.bearware.backend;
 
 public interface OnVoiceTransmissionToggleListener {
 
-    public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled);
+    public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled, boolean isSuspended);
+
+    public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended);
 
 }

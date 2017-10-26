@@ -83,6 +83,8 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -167,6 +169,8 @@ implements TeamTalkConnectionListener,
     SoundPool audioIcons;
     ComponentName mediaButtonEventReceiver;
     NotificationManager notificationManager;
+    WakeLock wakeLock;
+    boolean restarting;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -209,10 +213,13 @@ implements TeamTalkConnectionListener,
             setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        restarting = (savedInstanceState != null);
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        wakeLock.setReferenceCounted(false);
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, this, accessibilityAssistant);
@@ -258,9 +265,9 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_upload : {
-                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                    startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                }
             }
             break;
             case R.id.action_edit : {
@@ -323,19 +330,45 @@ implements TeamTalkConnectionListener,
 
         if (ttsWrapper == null)
             ttsWrapper = TTSWrapper.getInstance(this);
-        
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        Log.d(TAG, "Binding TeamTalk service");
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+
+        if (!mConnection.isBound()) {
+            // Bind to LocalService
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            Log.d(TAG, "Binding TeamTalk service");
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
+        else {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+            int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+            int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+            boolean voxState = ttservice.isVoiceActivationEnabled();
+            boolean txState = ttservice.isVoiceTransmitting();
+
+            // only set volume and gain if tt-instance hasn't already been configured
+            if (ttclient.getSoundOutputVolume() != mastervol)
+                ttclient.setSoundOutputVolume(mastervol);
+            if (ttclient.getSoundInputGainLevel() != gain)
+                ttclient.setSoundInputGainLevel(gain);
+            if (ttclient.getVoiceActivationLevel() != voxlevel)
+                ttclient.setVoiceActivationLevel(voxlevel);
+
+            adjustMuteButton((ImageButton) findViewById(R.id.speakerBtn));
+            adjustVoxState(voxState, voxState ? voxlevel : gain);
+            adjustTxState(txState);
+
+            TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+            volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
+            volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
+        }
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
 
         if (audioIcons != null)
@@ -345,7 +378,11 @@ implements TeamTalkConnectionListener,
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
+
+        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
+                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
             sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
         }
@@ -375,31 +412,36 @@ implements TeamTalkConnectionListener,
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
-        
+
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        
-        if(stats_timer != null) {
+    protected void onPause() {
+        super.onPause();
+        if (stats_timer != null) {
             stats_timer.cancel();
             stats_timer = null;
         }
-        
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor editor = prefs.edit();
         if(ttclient != null) {
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
+            editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
             editor.commit();
         }
-        
+
         // Cleanup resources
-        if(isFinishing()) {
+        if (isFinishing()) {
             if (audioIcons != null) {
                 audioIcons.release();
                 audioIcons = null;
@@ -408,30 +450,32 @@ implements TeamTalkConnectionListener,
                 ttsWrapper.shutdown();
                 ttsWrapper = null;
             }
+
+            // Unbind from the service
+            if(mConnection.isBound()) {
+                Log.d(TAG, "Unbinding TeamTalk service");
+                onServiceDisconnected(ttservice);
+                ttservice.disablePhoneCallReaction();
+                ttservice.resetState();
+                unbindService(mConnection);
+                mConnection.setBound(false);
+            }
             notificationManager.cancelAll();
-        }
-        
-        if(ttservice != null) {
-            ttservice.setOnVoiceTransmissionToggleListener(null);
-            ttservice.unregisterConnectionListener(this);
-            ttservice.unregisterCommandListener(this);
-            ttservice.unregisterUserListener(this);
-            ttservice.unregisterClientListener(this);
-            filesAdapter.setTeamTalkService(null);
-            mediaAdapter.clearTeamTalkService(ttservice);
-        }
-        
-        // Unbind from the service
-        if(mConnection.isBound()) {
-            Log.d(TAG, "Unbinding TeamTalk service");
-            unbindService(mConnection);
-            mConnection.setBound(false);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
         Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
@@ -1180,6 +1224,49 @@ implements TeamTalkConnectionListener,
         return true;
     }
 
+    private void adjustMuteButton(ImageButton btn) {
+        if (ttservice.getCurrentMuteState()) {
+            btn.setImageResource(R.drawable.mute_blue);
+            btn.setContentDescription(getString(R.string.speaker_unmute));
+        }
+        else {
+            btn.setImageResource(R.drawable.speaker_blue);
+            btn.setContentDescription(getString(R.string.speaker_mute));
+        }
+    }
+
+    private void adjustVoxState(boolean voiceActivationEnabled, int level) {
+        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
+        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+
+        if (voiceActivationEnabled) {
+            mikeLevel.setText(level + "%");
+            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+            voxSwitch.setImageResource(R.drawable.microphone);
+            voxSwitch.setContentDescription(getString(R.string.voice_activation_off));
+            findViewById(R.id.mikeDec).setContentDescription(getString(R.string.decvoxlevel));
+            findViewById(R.id.mikeInc).setContentDescription(getString(R.string.incvoxlevel));
+        }
+        else {
+            mikeLevel.setText(Utils.refVolumeToPercent(level) + "%");
+            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+            voxSwitch.setImageResource(R.drawable.mike_green);
+            voxSwitch.setContentDescription(getString(R.string.voice_activation_on));
+            findViewById(R.id.mikeDec).setContentDescription(getString(R.string.decgain));
+            findViewById(R.id.mikeInc).setContentDescription(getString(R.string.incgain));
+        }
+    }
+
+    private void adjustTxState(boolean txEnabled) {
+        findViewById(R.id.transmit_voice).setBackgroundColor(txEnabled ? Color.GREEN : Color.RED);
+
+        if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
+        }
+    }
+
     private void setupButtons() {
         
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
@@ -1206,6 +1293,8 @@ implements TeamTalkConnectionListener,
                         //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
                     }
 
+                    if (ttservice.isVoiceActivationEnabled())
+                        ttservice.enableVoiceActivation(false);
                     ttservice.enableVoiceTransmission(tx);
                 }
                 tx_state = tx;
@@ -1230,13 +1319,13 @@ implements TeamTalkConnectionListener,
                     return false;
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    adjustVolume(v);
+                    adjustLevel(v);
                     
                     runnable = new Runnable() {
 
                         @Override
                         public void run() {
-                            boolean done = adjustVolume(v);
+                            boolean done = adjustLevel(v);
                             if(!done)
                                 handler.postDelayed(this, 100);
                         }
@@ -1250,7 +1339,7 @@ implements TeamTalkConnectionListener,
                 return false;
             }
             
-            boolean adjustVolume(View view) {
+            boolean adjustLevel(View view) {
                 if(view == decVol) {
                     int v = ttclient.getSoundOutputVolume();
                     v = Utils.refVolumeToPercent(v);
@@ -1280,32 +1369,56 @@ implements TeamTalkConnectionListener,
                         return true;
                 }
                 else if(view == decMike) {
-                    int g = ttclient.getSoundInputGainLevel();
-                    g = Utils.refGainToPercent(g);
-                    g = Utils.refGain(g-1);
-                    if(g >= SoundLevel.SOUND_GAIN_MIN) {
-                        ttclient.setSoundInputGainLevel(g);
-                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
-                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                        if(g == SoundLevel.SOUND_GAIN_DEFAULT)
+                    if (ttservice.isVoiceActivationEnabled()) {
+                        int x = ttclient.getVoiceActivationLevel() - 1;
+                        if (x >= SoundLevel.SOUND_VU_MIN) {
+                            ttclient.setVoiceActivationLevel(x);
+                            mikeLevel.setText(x + "%");
+                            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                        }
+                        else
                             return true;
                     }
-                    else
-                        return true;
+                    else {
+                        int g = ttclient.getSoundInputGainLevel();
+                        g = Utils.refGainToPercent(g);
+                        g = Utils.refGain(g-1);
+                        if(g >= SoundLevel.SOUND_GAIN_MIN) {
+                            ttclient.setSoundInputGainLevel(g);
+                            mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                            if(g == SoundLevel.SOUND_GAIN_DEFAULT)
+                                return true;
+                        }
+                        else
+                            return true;
+                    }
                 }
                 else if(view == incMike) {
-                    int g = ttclient.getSoundInputGainLevel();
-                    g = Utils.refGainToPercent(g);
-                    g = Utils.refGain(g+1);
-                    if(g <= SoundLevel.SOUND_GAIN_MAX) {
-                        ttclient.setSoundInputGainLevel(g);
-                        mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
-                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                        if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
+                    if (ttservice.isVoiceActivationEnabled()) {
+                        int x = ttclient.getVoiceActivationLevel() + 1;
+                        if (x <= SoundLevel.SOUND_VU_MAX) {
+                            ttclient.setVoiceActivationLevel(x);
+                            mikeLevel.setText(x + "%");
+                            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                        }
+                        else
                             return true;
                     }
-                    else
-                        return true;
+                    else {
+                        int g = ttclient.getSoundInputGainLevel();
+                        g = Utils.refGainToPercent(g);
+                        g = Utils.refGain(g+1);
+                        if(g <= SoundLevel.SOUND_GAIN_MAX) {
+                            ttclient.setSoundInputGainLevel(g);
+                            mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
+                            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                            if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
+                                return true;
+                        }
+                        else
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -1314,43 +1427,40 @@ implements TeamTalkConnectionListener,
         incVol.setOnTouchListener(listener);
         decMike.setOnTouchListener(listener);
         incMike.setOnTouchListener(listener);
-        
-        final ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-        
-        OnClickListener imgbtnListener = new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                if(ttclient == null)
-                    return;
-                
-                if(v == speakerBtn) {
-                    int flags = ttclient.getFlags();
-                    if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) == 0) {
-                        ttclient.setSoundOutputMute(true);
-                        speakerBtn.setImageResource(R.drawable.mute_blue);
-                        speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-                    }
-                    else {
-                        ttclient.setSoundOutputMute(false);
-                        speakerBtn.setImageResource(R.drawable.speaker_blue);
-                        speakerBtn.setContentDescription(getString(R.string.speaker_mute));
+
+        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+        speakerBtn.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if ((mConnection != null) && mConnection.isBound()) {
+                        ttservice.setMute(!ttservice.isMute());
+                        adjustMuteButton((ImageButton) v);
                     }
                 }
-            }
-        };
-        speakerBtn.setOnClickListener(imgbtnListener);
+            });
+
+        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
+        voxSwitch.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if ((mConnection != null) && mConnection.isBound()) {
+                        if (ttservice.isVoiceTransmissionEnabled())
+                            ttservice.enableVoiceTransmission(false);
+                        ttservice.enableVoiceActivation(!ttservice.isVoiceActivationEnabled());
+                    }
+                }
+            });
     }
-    
+
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        
         ttservice = service;
         ttclient = ttservice.getTTInstance();
-        
+
         //ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440);
 
-        int flags = ttclient.getFlags(); 
         int mychannel = ttclient.getMyChannelID();
         if(mychannel > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychannel));
@@ -1361,68 +1471,77 @@ implements TeamTalkConnectionListener,
         mSectionsPagerAdapter.onPageSelected(mViewPager.getCurrentItem());
 
         channelsAdapter.notifyDataSetChanged();
-        
+
         textmsgAdapter.setTextMessages(ttservice.getChatLogTextMsgs());
         textmsgAdapter.setMyUserID(ttclient.getMyUserID());
         textmsgAdapter.notifyDataSetChanged();
-        
+
         mediaAdapter.setTeamTalkService(service);
         mediaAdapter.notifyDataSetChanged();
-        
+
         filesAdapter.setTeamTalkService(service);
         filesAdapter.update(mychannel);
 
-        Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setBackgroundColor(ttservice.isVoiceTransmissionEnabled() ? Color.GREEN : Color.RED);
-        if((flags & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0) {
-            ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-            speakerBtn.setImageResource(R.drawable.mute_blue);
-            speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
+        int flags = ttclient.getFlags();
+        if (((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
+            !ttclient.initSoundOutputDevice(0))
+            Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
+
+        if (!restarting) {
+            ttservice.setMute(false);
+            ttservice.enableVoiceTransmission(false);
+            ttservice.enableVoiceActivation(false);
+            if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE))
+                ttservice.enablePhoneCallReaction();
         }
-        
+
         ttservice.registerConnectionListener(this);
         ttservice.registerCommandListener(this);
         ttservice.registerUserListener(this);
         ttservice.registerClientListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
-
-        if(((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !ttclient.initSoundOutputDevice(0)) {
-            Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
-        }
         audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
-        
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
-                AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
-        audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+        if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+            wakeLock.acquire();
 
-        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION, false)) {
-            ttservice.enableVoiceActivation(true);
-            ttclient.setVoiceActivationLevel(5);
-        } else {
-            ttservice.enableVoiceActivation(false);
-        }
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
         int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+        int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+        boolean voxState = ttservice.isVoiceActivationEnabled();
+        boolean txState = ttservice.isVoiceTransmitting();
+
         // only set volume and gain if tt-instance hasn't already been configured
-        if(ttclient.getSoundOutputVolume() == SoundLevel.SOUND_VOLUME_DEFAULT)
+        if (ttclient.getSoundOutputVolume() != mastervol)
             ttclient.setSoundOutputVolume(mastervol);
-        if(ttclient.getSoundInputGainLevel() == SoundLevel.SOUND_GAIN_DEFAULT)
+        if (ttclient.getSoundInputGainLevel() != gain)
             ttclient.setSoundInputGainLevel(gain);
-        
-        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+        if (ttclient.getVoiceActivationLevel() != voxlevel)
+            ttclient.setVoiceActivationLevel(voxlevel);
+
+        adjustMuteButton((ImageButton) findViewById(R.id.speakerBtn));
+        adjustVoxState(voxState, voxState ? voxlevel : gain);
+        adjustTxState(txState);
+
         TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
-        mikeLevel.setText(Utils.refVolumeToPercent(gain) + "%");
-        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        if (wakeLock.isHeld())
+            wakeLock.release();
         audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
+        service.setOnVoiceTransmissionToggleListener(null);
+        service.unregisterConnectionListener(this);
+        service.unregisterCommandListener(this);
+        service.unregisterUserListener(this);
+        service.unregisterClientListener(this);
+        filesAdapter.setTeamTalkService(null);
+        mediaAdapter.clearTeamTalkService(service);
     }
 
     @Override
@@ -1433,8 +1552,16 @@ implements TeamTalkConnectionListener,
             case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
+                startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
+                wakeLock.acquire();
+                break;
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
+                if ((mConnection != null) && mConnection.isBound())
+                    ttservice.enablePhoneCallReaction();
                 break;
         }
     }
@@ -1766,55 +1893,40 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onUserAudioBlock(int nUserID, int nStreamType) {
-       
     }
 
     @Override
-    public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true);
-        Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setBackgroundColor( voiceTransmissionEnabled ? Color.GREEN : Color.RED);
-        if (voiceTransmissionEnabled) {
-            if (sounds.get(SOUND_VOICETXON) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
-            if (ptt_vibrate) {
+        public void onVoiceTransmissionToggle(boolean voiceTransmissionEnabled, boolean isSuspended) {
+        adjustTxState(voiceTransmissionEnabled);
+
+        if (!isSuspended) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
                 Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
-
-                Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrat.vibrate(50);
-            }
-        } else {
-            if (sounds.get(SOUND_VOICETXOFF) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
-            if (ptt_vibrate) {
-                Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                long pattern[] = { 0, 20, 80, 20 };
-                vibrat.vibrate(pattern, -1);
-            }
-        }
-    
-        boolean mute = pref.getBoolean("mute_speakers_on_tx_checkbox", false)
-            && (voiceTransmissionEnabled != ((ttclient.getFlags() & ClientFlag.CLIENT_SNDOUTPUT_MUTE) != 0));
-        if(mute) {
-            ttclient.setSoundOutputMute(voiceTransmissionEnabled);
-
-            ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-            if(voiceTransmissionEnabled) {
-                speakerBtn.setImageResource(R.drawable.mute_blue);
-                speakerBtn.setContentDescription(getString(R.string.speaker_unmute));
-            }
-            else {
-                speakerBtn.setImageResource(R.drawable.speaker_blue);
-                speakerBtn.setContentDescription(getString(R.string.speaker_mute));
+            if (voiceTransmissionEnabled) {
+                if (sounds.get(SOUND_VOICETXON) != 0) {
+                    audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
+                }
+                if (ptt_vibrate) {
+                    Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrat.vibrate(50);
+                }
+            } else {
+                if (sounds.get(SOUND_VOICETXOFF) != 0) {
+                    audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
+                }
+                if (ptt_vibrate) {
+                    Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    long pattern[] = { 0, 20, 80, 20 };
+                    vibrat.vibrate(pattern, -1);
+                }
             }
         }
-        // update self user icon
-        accessibilityAssistant.lockEvents();
-        channelsAdapter.notifyDataSetChanged();
-        accessibilityAssistant.unlockEvents();
+    }
+
+    @Override
+        public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended) {
+        adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
     }
 
     @Override
@@ -1823,22 +1935,11 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onVoiceActivation(boolean bVoiceActive) {
-        
-        if(ttservice != null && curchannel != null) {
-            int chanid = ttservice.getTTInstance().getMyChannelID();
-            if (curchannel.nChannelID == chanid) {
-                accessibilityAssistant.lockEvents();
-                channelsAdapter.notifyDataSetChanged();
-                accessibilityAssistant.unlockEvents();
-            }
+        adjustTxState(bVoiceActive);
 
-            if(bVoiceActive && sounds.get(SOUND_VOXON) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOXON), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
-            if(!bVoiceActive && sounds.get(SOUND_VOXOFF) != 0) {
-                audioIcons.play(sounds.get(SOUND_VOXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
-            }
-        }
+        int sound = sounds.get(bVoiceActive ? SOUND_VOXON : SOUND_VOXOFF);
+        if (sound != 0)
+            audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 
     @Override

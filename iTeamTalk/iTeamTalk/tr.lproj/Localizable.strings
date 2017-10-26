@@ -42,16 +42,16 @@
 "Add new server entry" = "Yeni sunucu girişi ekle";
 
 /* preferences */
-"Announce content of text message" = "İletinin içeriğini söyle";
+"Announce content of text message" = "Metin iletisinin içeriğini duyur";
 
 /* preferences */
-"Announce lost server connection" = "Sunucu bağlantısı kaybını bildir";
+"Announce lost server connection" = "Kaybedilen sunucu bağlantısını duyur";
 
 /* preferences */
-"Announce user joining channel" = "Kullanıcının kanala katılımını bildir";
+"Announce user joining channel" = "Kullanıcının kanala katılmasını duyur";
 
 /* preferences */
-"Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını bildir";
+"Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
 
 /* preferences */
 "App Version" = "Uygulama Sürümü";
@@ -72,7 +72,7 @@
 "Bitrate" = "Bit Hızı";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Ozancan Karataş, ozanc27@icloud.com";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Ozancan Karataş, ozancankaratas96@outlook.com";
 
 /* text message type */
 "Broadcast message" = "Yayınlanan ileti";
@@ -89,7 +89,7 @@
 "Channel message" = "Kanal iletisi";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "%@ kanal iletisi gönderdi. %@";
+"Channel message from %@. %@" = "%@ kullanıcısından kanal iletisi. %@";
 
 /* preferences
    user detail */
@@ -99,7 +99,7 @@
 "Channel Properties" = "Kanal Özellikleri";
 
 /* preferences */
-"Channel Text Message" = "Kanal İletisi";
+"Channel Text Message" = "Kanal Metin İletisi";
 
 /* channel list */
 "Channel. %d users" = "Kanal. %d kullanıcı";
@@ -138,10 +138,10 @@
 "Display" = "Görünüm";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Konuşmak için çift dokunup basılı tutun. Konuşmayı kilitlemek için hızlıca üç kez dokunun.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "İletmek için çift dokunup basılı tutun. İletimi kilitlemek için hızlıca üç kez dokunun.";
 
 /* preferences */
-"Double tap to lock TX button" = "Konuş düğmesini kilitlemek için çift dokun";
+"Double tap to lock TX button" = "İlet düğmesini kilitlemek için çift dokun";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -175,7 +175,7 @@
 "Headset TX Toggle" = "Kulaklıktan İletim Durumu Değişimi";
 
 /* server entry */
-"Host address" = "Barındırıcı adresi";
+"Host address" = "Ana bilgisayar adresi";
 
 /* Dialog message */
 "Join" = "Katıl";
@@ -208,7 +208,7 @@
 "Logged on to server" = "Sunucuda oturum açıldı";
 
 /* preferences */
-"Master Volume" = "Genel Ses";
+"Master Volume" = "Ana Düzey";
 
 /* preferences */
 "Maximum Text Length" = "En Fazla Metin Uzunluğu";
@@ -219,13 +219,13 @@
 
 /* preferences
    user detail */
-"Media File Volume" = "Ortam Dosyasının Sesi";
+"Media File Volume" = "Ortam Dosyası Düzeyi";
 
 /* preferences */
-"Media file vs. voice volume" = "Ortam dosyasının ses düzeyi";
+"Media file vs. voice volume" = "Ortam dosyası-ses düzeyi oranı";
 
 /* preferences */
-"Microphone Gain" = "Mikrofon Düzeyi";
+"Microphone Gain" = "Mikrofon Kazancı";
 
 /* codec detail
    create channel */
@@ -247,7 +247,7 @@
 "Mute Media File" = "Ortam Dosyasını Sustur";
 
 /* user detail */
-"Mute Voice" = "Sesi Kapat";
+"Mute Voice" = "Sesi Sustur";
 
 /* create channel
    server entry */
@@ -308,37 +308,37 @@
 "Permanent Channel" = "Kalıcı Kanal";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Bir kullanıcı kanala katıldığında ses çal";
+"Play sound when a user joins the channel" = "Bir kullanıcı kanala katıldığında ses oynat";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "Bir kullanıcı kanaldan ayrıldığında ses çal";
+"Play sound when a user leaves the channel" = "Bir kullanıcı kanaldan ayrıldığında ses oynat";
 
 /* preferences */
-"Play sound when channel text message is received" = "Kanal iletisi alındığında ses çal";
+"Play sound when channel text message is received" = "Kanal metin iletisi alındığında ses oynat";
 
 /* preferences */
-"Play sound when connection is dropped" = "Bağlantı düştüğünde ses çal";
+"Play sound when connection is dropped" = "Bağlantı düştüğünde ses oynat";
 
 /* preferences */
-"Play sound when private text message is received" = "Özel ileti alındığında ses çal";
+"Play sound when private text message is received" = "Özel metin iletisi alındığında ses oynat";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "\"Söz Kesintisi Yok\" kipindeki kanal iletime hazır olduğunda ses çal";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "\"Söz Kesintisi Yok\" kanalı iletime hazır olduğunda ses oynat";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Ses etkinleştirme tetiklendiğinde ses çal";
+"Play sound when voice activation is triggered" = "Ses etkinleştirme tetiklendiğinde ses oynat";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "Ses iletim durumu değiştiğinde ses çal";
+"Play sound when voice transmission is toggled" = "Ses iletim durumu değiştiğinde ses oynat";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Yeni iletiler alındığında ileti penceresini aç";
+"Pop up text message when new messages are received" = "Yeni iletiler alındığında metin iletisi penceresini aç";
 
 /* serverlist */
 "Preferences" = "Tercihler";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Return tuşuna basarak ileti gönder";
+"Pressing Return-key sends text message" = "Return tuşuna basılınca metin iletisi gönderilir";
 
 /* text message type */
 "Private message" = "Özel ileti";
@@ -347,13 +347,13 @@
 "Private server" = "Özel sunucu";
 
 /* preferences */
-"Private Text Message" = "Özel İleti";
+"Private Text Message" = "Özel Metin İletisi";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "%@ özel ileti gönderdi. %@";
+"Private text message from %@. %@" = "%@ kullanıcısından özel metin iletisi. %@";
 
 /* preferences */
-"Proximity sensor" = "Yakınlık sensörü";
+"Proximity sensor" = "Yakınlık algılayıcısı";
 
 /* serverlist */
 "Public server" = "Genel sunucu";
@@ -377,7 +377,7 @@
 "Receive media file streams by default" = "Varsayılan olarak ortam dosyası akışlarını al";
 
 /* preferences */
-"Receive text messages by default" = "Varsayılan olarak iletileri al";
+"Receive text messages by default" = "Varsayılan olarak metin iletilerini al";
 
 /* preferences */
 "Receive voice streams by default" = "Varsayılan olarak ses akışlarını al";
@@ -386,7 +386,7 @@
 "Receive webcam streams by default" = "Varsayılan olarak web kamerası akışlarını al";
 
 /* preferences */
-"Return Sends Message" = "Return İleti Gönderir";
+"Return Sends Message" = "Return İletiyi Gönderir";
 
 /* channel list */
 "Return to previous channel" = "Önceki kanala dön";
@@ -404,7 +404,7 @@
 "Save server to server list?" = "Sunucu, sunucu listesine kaydedilsin mi?";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "Kullanmak için bilgilendirici konuşmacı seçin";
+"Select the text-to-speech voice to use" = "Kullanmak için metin okuma sesi seçin";
 
 /* text message */
 "Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
@@ -425,7 +425,7 @@
 "Show public servers in server list" = "Sunucu listesinde genel sunucuları göster";
 
 /* preferences */
-"Show text messages instantly" = "İletileri anında göster";
+"Show text messages instantly" = "Metin iletilerini anında göster";
 
 /* preferences */
 "Show usernames" = "Kullanıcı adlarını göster";
@@ -437,7 +437,7 @@
 "Silent" = "Sessiz";
 
 /* preferences */
-"Sound Events" = "Ses Etkinlikleri";
+"Sound Events" = "Ses Olayları";
 
 /* preferences */
 "Sound System" = "Ses Sistemi";
@@ -452,7 +452,7 @@
 "Speech Rate" = "Konuşma Hızı";
 
 /* preferences */
-"Speech Volume" = "Konuşma Ses Düzeyi";
+"Speech Volume" = "Konuşma Düzeyi";
 
 /* codec detail */
 "Speex Codec" = "Speex Kodlayıcı/Çözücüsü";
@@ -465,7 +465,7 @@
 "Stereo" = "Çoklu";
 
 /* channel list */
-"Stop transmit" = "Konuşmayı durdur";
+"Stop transmit" = "İletimi durdur";
 
 /* user detail */
 "Subscriptions" = "Abonelikler";
@@ -477,16 +477,16 @@
 "TCP Port" = "TCP bağlantı noktası";
 
 /* preferences */
-"Text To Speech Events" = "Bilgilendirici Konuşma Etkinlikleri";
+"Text To Speech Events" = "Metin Okuma Olayları";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "Konuşmacının hızı %.1f";
+"The rate of the speaking voice is %.1f" = "Konuşma sesinin hızı %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "Konuşmacının ses düzeyi %.1f";
+"The volume of the speaking voice is %.1f" = "Konuşma sesinin düzeyi %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Konuşmayı etkinleştirmek/etkisizleştirmek için geçiş yap";
+"Toggle to enable/disable transmission" = "İletimi etkinleştirmek/etkisizleştirmek için geçiş yap";
 
 /* preferences */
 "Toggle voice transmission using headset" = "Kulaklık kullanarak ses iletim durumunu değiştir";
@@ -495,10 +495,10 @@
 "Topic" = "Konu";
 
 /* preferences */
-"Translator" = "Çeviren";
+"Translator" = "Çevirmen";
 
 /* channel list */
-"Transmit" = "Konuş";
+"Transmit" = "İlet";
 
 /* codec detail */
 "Transmit Interval" = "İletim Aralığı";
@@ -514,7 +514,7 @@
 "UDP Port" = "UDP bağlantı noktası";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Yankı iptali ve otomatik mikrofon denetimi kullan";
+"Use echo cancellation and automatic gain control" = "Yankı iptali ve otomatik kazanç denetimi kullan";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Ahizenin yerine iPhone'un hoparlörünü kullan";
@@ -523,10 +523,10 @@
 "User" = "Kullanıcı";
 
 /* preferences */
-"User Joins Channel" = "Kullanıcının Kanala Katılımı";
+"User Joins Channel" = "Kullanıcının Kanala Katılması";
 
 /* preferences */
-"User joins channel" = "Kullanıcının kanala katılımı";
+"User joins channel" = "Kullanıcının kanala katılması";
 
 /* preferences */
 "User leaves channel" = "Kullanıcının kanaldan ayrılması";
@@ -562,7 +562,7 @@
 "Voice Activation Level: %d. Recommended: %d" = "Ses Etkinleştirme Düzeyi: %d. Önerilen: %d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Etkisiz";
+"Voice Activation Level: Disabled" = "Ses Etkinleştirme Düzeyi: Etkisizleştirildi";
 
 /* preferences */
 "Voice Activation Triggered" = "Ses Etkinleştirmenin Tetiklenmesi";
@@ -580,7 +580,7 @@
 "VoIP" = "VoIP";
 
 /* user detail */
-"Volume Controls" = "Ses Denetimleri";
+"Volume Controls" = "Düzey Denetimleri";
 
 /* preferences
    user detail */
