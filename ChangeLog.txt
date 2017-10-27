@@ -1,6 +1,28 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.3, unreleased
+Default Qt client
+- Abuse prevention tab in user account administration
+Accessible Windows client:
+- Abuse prevention tab in user account administration
+- Tell operator state using Ctrl+G
+Server:
+- Fixed brute force login prevention using ban feature
+- Limit number of issued commands by clients
+
+Version 5.2.4, unreleased
+iOS client:
+- Updated UI to iOS 11
+- Corrected accessibility hint for TX button
+Android client:
+- Stay connected after screen dims
+- Set voice activation level on main screen
+- Toggle between voice activation and microphone gain
+- Disable voice communication during phone call
+- Status bar notification for initiated connection
+- Ask before deleting server entry
+
 Version 5.2.3, released 2017/06/01
 Default Qt client:
 - Fixed crash issue when receiving multiple voice streams
