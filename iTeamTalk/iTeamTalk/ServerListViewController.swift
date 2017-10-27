@@ -49,7 +49,7 @@ class Server : NSObject {
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
     }
     
-    func encodeWithCoder(_ enc: NSCoder!) {
+    @objc func encodeWithCoder(_ enc: NSCoder!) {
         enc.encode(name, forKey: "name")
         enc.encode(ipaddr, forKey: "ipaddr")
         enc.encode(tcpport, forKey: "tcpport")
