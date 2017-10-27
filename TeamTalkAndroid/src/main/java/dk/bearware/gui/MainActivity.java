@@ -1341,6 +1341,14 @@ implements TeamTalkConnectionListener,
             
             boolean adjustLevel(View view) {
                 if(view == decVol) {
+
+                    // pressing +/- aborts mute state
+                    if(ttservice.isMute()) {
+                        ttservice.setMute(false);
+                        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+                        adjustMuteButton(speakerBtn);
+                    }
+
                     int v = ttclient.getSoundOutputVolume();
                     v = Utils.refVolumeToPercent(v);
                     v = Utils.refVolume(v-1);
@@ -1355,6 +1363,14 @@ implements TeamTalkConnectionListener,
                         return true;
                 }
                 else if(view == incVol) {
+
+                    // pressing +/- aborts mute state
+                    if(ttservice.isMute()) {
+                        ttservice.setMute(false);
+                        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+                        adjustMuteButton(speakerBtn);
+                    }
+
                     int v = ttclient.getSoundOutputVolume();
                     v = Utils.refVolumeToPercent(v);
                     v = Utils.refVolume(v+1);
@@ -1436,6 +1452,13 @@ implements TeamTalkConnectionListener,
                     if ((mConnection != null) && mConnection.isBound()) {
                         ttservice.setMute(!ttservice.isMute());
                         adjustMuteButton((ImageButton) v);
+
+                        int level = ttclient.getSoundOutputVolume();
+                        level = Utils.refVolumeToPercent(level);
+                        if(ttservice.isMute()) {
+                            level = 0;
+                        }
+                        volLevel.setText(level + "%");
                     }
                 }
             });
