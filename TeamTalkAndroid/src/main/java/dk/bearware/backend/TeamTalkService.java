@@ -330,8 +330,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
                 ttclient.enableVoiceTransmission(true);
         }
-        else if (!ttclient.enableVoiceTransmission(false))
+        else {
+            ttclient.enableVoiceTransmission(false);
             ttclient.closeSoundInputDevice();
+        }
         adjustMuteOnTx(enable);
     }
 
@@ -342,8 +344,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             if (((ttclient.getFlags() & ClientFlag.CLIENT_SNDINPUT_READY) != 0) || ttclient.initSoundInputDevice(0))
                 ttclient.enableVoiceActivation(true);
         }
-        else if (!ttclient.enableVoiceActivation(false))
+        else {
+            ttclient.enableVoiceActivation(false);
             ttclient.closeSoundInputDevice();
+        }
     }
 
     public boolean reconnect() {
