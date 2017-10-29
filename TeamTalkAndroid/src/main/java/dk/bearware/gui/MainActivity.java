@@ -1453,12 +1453,11 @@ implements TeamTalkConnectionListener,
                         ttservice.setMute(!ttservice.isMute());
                         adjustMuteButton((ImageButton) v);
 
-                        int level = ttclient.getSoundOutputVolume();
-                        level = Utils.refVolumeToPercent(level);
-                        if(ttservice.isMute()) {
-                            level = 0;
-                        }
+                        int level = ttservice.isMute() ?
+                            0 :
+                            Utils.refVolumeToPercent(ttclient.getSoundOutputVolume());
                         volLevel.setText(level + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                     }
                 }
             });
