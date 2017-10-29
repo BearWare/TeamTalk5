@@ -113,7 +113,15 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
+            ttservice.registerCommandListener(this);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mConnection.isBound())
+            ttservice.unregisterCommandListener(this);
     }
 
     @Override
