@@ -31,6 +31,8 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
             android:label="@string/title_activity_main" >
         </activity>
         <activity

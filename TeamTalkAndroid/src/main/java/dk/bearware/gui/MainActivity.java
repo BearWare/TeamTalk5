@@ -97,6 +97,7 @@ import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+import android.view.inputmethod.InputMethodManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -570,6 +571,10 @@ implements TeamTalkConnectionListener,
 
         @Override
         public void onPageSelected(int position) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            View v = getCurrentFocus();
+            if (v != null)
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             accessibilityAssistant.setVisiblePage(position);
         }
 
