@@ -38,7 +38,7 @@
             android:label="@string/title_activity_channel_prop" >
         </activity>
 
-        <service android:name="dk.bearware.backend.TeamTalkService" />
+        <service android:name="dk.bearware.backend.TeamTalkService" android:stopWithTask="true" />
 
         <activity
             android:name=".UserPropActivity"
