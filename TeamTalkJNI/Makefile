@@ -35,6 +35,13 @@ LIBPATH=$(TEAMTALK_ROOT)/TeamTalk_DLL:$(TEAMTALK_ROOT)/TeamTalkJNI/libs
 
 SRCTARGET=-source 1.5 -target 1.5
 
+# Override default settings in dk.bearware.TeamTalkTestCaseBase
+JAVAPROP=-Djava.library.path=$(LIBPATH)
+JAVAPROP+=-Ddk.bearware.sndinputid=$(INPUTDEVICEID)
+JAVAPROP+=-Ddk.bearware.sndoutputid=$(OUTPUTDEVICEID)
+JAVAPROP+=-Ddk.bearware.proedition=$(PROEDITION)
+JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED) 
+
 help:
 	@echo "Targets:"
 	@echo "  native"
@@ -113,13 +120,13 @@ junitsrv: java
 	cd test && jar cf ../libs/TeamTalk5SrvTest.jar ./dk/bearware/*.class
 
 runjunit:  junit
-	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) org.junit.runner.JUnitCore TeamTalkTestSuite
+	cd test && java -cp "$(CLASSPATH)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkTestSuite
 
 runjunitsrv:  junitsrv
-	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) org.junit.runner.JUnitCore TeamTalkServerTestSuite
+	cd test && java -cp "$(CLASSPATH)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
 
 testcase: junit
-	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
+	cd test && java -cp "$(CLASSPATH)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkTestCase#$(TARGET)
 
 testcasesrv: junitsrv
-	cd test && java -cp "$(CLASSPATH)" -Djava.library.path=$(LIBPATH) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
+	cd test && java -cp "$(CLASSPATH)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)

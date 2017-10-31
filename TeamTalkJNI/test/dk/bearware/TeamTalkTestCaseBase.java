@@ -34,7 +34,21 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        // this.INPUTDEVICEID = this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
+        String prop = System.getProperty("dk.bearware.sndinputid");
+        if(prop != null && !prop.isEmpty())
+            this.INPUTDEVICEID = Integer.parseInt(prop);
+
+        prop = System.getProperty("dk.bearware.sndoutputid");
+        if(prop != null && !prop.isEmpty())
+            this.OUTPUTDEVICEID = Integer.parseInt(prop);
+
+        prop = System.getProperty("dk.bearware.proedition");
+        if(prop != null && !prop.isEmpty())
+            this.PROEDITION = Integer.parseInt(prop) != 0;
+
+        prop = System.getProperty("dk.bearware.encrypted");
+        if(prop != null && !prop.isEmpty())
+            this.ENCRYPTED = Integer.parseInt(prop) != 0;
     }
 
     protected void tearDown() throws Exception {
