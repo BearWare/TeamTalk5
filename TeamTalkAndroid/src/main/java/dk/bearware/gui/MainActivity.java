@@ -433,12 +433,13 @@ implements TeamTalkConnectionListener,
         super.onStop();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        if(ttclient != null) {
+
+        if (mConnection.isBound()) {
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
-            editor.commit();
+            editor.apply();
         }
 
         // Cleanup resources
@@ -453,7 +454,7 @@ implements TeamTalkConnectionListener,
             }
 
             // Unbind from the service
-            if(mConnection.isBound()) {
+            if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
                 onServiceDisconnected(ttservice);
                 ttservice.disablePhoneCallReaction();

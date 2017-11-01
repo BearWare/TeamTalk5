@@ -100,7 +100,7 @@ implements FileFilter, Comparator<File> {
         super.onStop();
         if (currentDirectory != null) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath()).commit();
+            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath()).apply();
         }
     }
 
