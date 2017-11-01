@@ -164,7 +164,7 @@
     <string name="pref_summary_server_address">Alan adı yada Sunucunun İP Adresi</string>
     <string name="channel_password_prompt">Kanal Şifresini Girin</string>
     <string name="button_download">İndir</string>
-    <string name="download_succeeded" formatted="false">%1$s dosyası %2$s konumuna başarıyla indirildi ve qeyd edildi</string>
+    <string name="download_succeeded">%1$s dosyası %2$s konumuna başarıyla indirildi ve qeyd edildi</string>
     <string name="download_failed">%1$s dosyası indirilirken bir sehf oldu</string>
     <string name="upload_succeeded">%1$s dosyası başarıyla qarşıya yüklendi</string>
     <string name="upload_failed">%1$s dosyası qarşıya yüklenirken bir sehf oldu</string>
