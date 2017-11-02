@@ -334,7 +334,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             if(convertView == null)
-                convertView = inflater.inflate(R.layout.item_serverentry, null);
+                convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
             
             ImageView img = (ImageView) convertView.findViewById(R.id.servericon);
             TextView name = (TextView) convertView.findViewById(R.id.server_name);

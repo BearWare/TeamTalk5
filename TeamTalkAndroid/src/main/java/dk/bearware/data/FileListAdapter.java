@@ -318,7 +318,7 @@ implements ClientListener, Comparator<RemoteFile> {
         switch (getItemViewType(position)) {
         case REMOTE_FILE_VIEW_TYPE: {
             if((convertView == null) || (convertView.findViewById(R.id.fileinfo) == null))
-                convertView = inflater.inflate(R.layout.item_remote_file, null);
+                convertView = inflater.inflate(R.layout.item_remote_file, parent, false);
             ((TextView)convertView.findViewById(R.id.fileinfo)).setText(String.format("%d (%s)", remoteFile.nFileSize, remoteFile.szUsername));
             Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
             Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
@@ -330,7 +330,7 @@ implements ClientListener, Comparator<RemoteFile> {
         }
         case FILE_TRANSFER_VIEW_TYPE: {
             if((convertView == null) || (convertView.findViewById(R.id.progress) == null))
-                convertView = inflater.inflate(R.layout.item_file_transfer, null);
+                convertView = inflater.inflate(R.layout.item_file_transfer, parent, false);
             FileTransfer transferinfo = downloads.get(remoteFile.szFileName);
             ((TextView)convertView.findViewById(R.id.progress)).setText(context.getString(R.string.download_progress, getPercentage(transferinfo)));
             Button cancelButton = (Button)convertView.findViewById(R.id.cancel_btn);

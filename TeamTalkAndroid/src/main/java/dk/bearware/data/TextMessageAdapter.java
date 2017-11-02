@@ -145,7 +145,7 @@ public class TextMessageAdapter extends BaseAdapter {
             case TextMsgType.MSGTYPE_USER : {
                 if(convertView == null ||
                    convertView.findViewById(R.id.item_textmsg) == null)
-                    convertView = inflater.inflate(R.layout.item_textmsg, null);
+                    convertView = inflater.inflate(R.layout.item_textmsg, parent, false);
                 
                 if(txtmsg.nFromUserID == myuserid) {
                     bg_color = self_bg_color;
@@ -172,7 +172,7 @@ public class TextMessageAdapter extends BaseAdapter {
             case MyTextMessage.MSGTYPE_SERVERPROP : {
                 if(convertView == null ||
                    convertView.findViewById(R.id.item_textmsg_srvinfo) == null) {
-                    convertView = inflater.inflate(R.layout.item_textmsg_srvinfo, null);
+                    convertView = inflater.inflate(R.layout.item_textmsg_srvinfo, parent, false);
                 }
 
                 bg_color = srvinfo_bg_color;
@@ -196,7 +196,7 @@ public class TextMessageAdapter extends BaseAdapter {
             default : {
                 if(convertView == null ||
                    convertView.findViewById(R.id.item_textmsg_logmsg) == null) {
-                    convertView = inflater.inflate(R.layout.item_textmsg_logmsg, null);
+                    convertView = inflater.inflate(R.layout.item_textmsg_logmsg, parent, false);
                 }
 
                 switch(txtmsg.nMsgType) {

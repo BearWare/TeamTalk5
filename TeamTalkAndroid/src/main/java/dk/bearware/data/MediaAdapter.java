@@ -138,7 +138,7 @@ implements UserListener {
             boolean isLastChild, View convertView, ViewGroup parent) {
     	int userid = (int) getGroupId(groupPosition);
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.item_media, null);
+            convertView = inflater.inflate(R.layout.item_media, parent, false);
 
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
@@ -176,7 +176,7 @@ implements UserListener {
         int userid = (int) getGroupId(groupPosition);
 
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.item_media_user, null);
+            convertView = inflater.inflate(R.layout.item_media_user, parent, false);
 
         TextView nickname = (TextView) convertView
                 .findViewById(R.id.media_nickname_textview);
