@@ -68,7 +68,8 @@ public class TextMessageAdapter extends BaseAdapter {
         
         setTextMessages(msgs);
     }
-    
+
+    @SuppressWarnings("ResourceType")
     public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant) {
         inflater = LayoutInflater.from(context);
         this.accessibilityAssistant = accessibilityAssistant;
