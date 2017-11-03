@@ -77,7 +77,7 @@ implements FileFilter, Comparator<File> {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     if(convertView == null)
-                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_file, null);
+                        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_file, parent, false);
                     File item = getItem(position);
                     TextView filename = (TextView) convertView.findViewById(R.id.filename);
                     ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -100,7 +100,7 @@ implements FileFilter, Comparator<File> {
         super.onStop();
         if (currentDirectory != null) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath()).commit();
+            editor.putString(CURRENT_DIRECTORY, currentDirectory.getAbsolutePath()).apply();
         }
     }
 

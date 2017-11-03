@@ -433,12 +433,13 @@ implements TeamTalkConnectionListener,
         super.onStop();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        if(ttclient != null) {
+
+        if (mConnection.isBound()) {
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
-            editor.commit();
+            editor.apply();
         }
 
         // Cleanup resources
@@ -453,7 +454,7 @@ implements TeamTalkConnectionListener,
             }
 
             // Unbind from the service
-            if(mConnection.isBound()) {
+            if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
                 onServiceDisconnected(ttservice);
                 ttservice.disablePhoneCallReaction();
@@ -924,13 +925,13 @@ implements TeamTalkConnectionListener,
                     // show parent channel shortcut
                     if (convertView == null ||
                         convertView.findViewById(R.id.parentname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel_back, null);
+                        convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
                 }
                 else {
 
                     if (convertView == null ||
                         convertView.findViewById(R.id.channelname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel, null);
+                        convertView = inflater.inflate(R.layout.item_channel, parent, false);
 
                     ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
@@ -980,7 +981,7 @@ implements TeamTalkConnectionListener,
             else if(item instanceof User) {
                 if (convertView == null ||
                     convertView.findViewById(R.id.nickname) == null)
-                    convertView = inflater.inflate(R.layout.item_user, null);
+                    convertView = inflater.inflate(R.layout.item_user, parent, false);
                 ImageView usericon = (ImageView) convertView.findViewById(R.id.usericon);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
                 TextView status = (TextView) convertView.findViewById(R.id.status);

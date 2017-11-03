@@ -45,14 +45,14 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:support-v13:25.3.1'
+    compile 'com.android.support:support-v13:23.4.0'
     compile files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     testCompile files('libs/TeamTalk5Test.jar')
 
-    androidTestCompile 'com.android.support:support-annotations:25.3.1'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     // Optional -- Hamcrest library

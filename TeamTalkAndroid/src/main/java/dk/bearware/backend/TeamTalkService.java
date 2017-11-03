@@ -57,6 +57,7 @@ import dk.bearware.gui.CmdComplete;
 import dk.bearware.gui.MainActivity;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -65,6 +66,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
@@ -179,6 +181,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
             ttserver.servername;
     }
 
+    @SuppressLint("NewApi")
     private void displayNotification(boolean enabled) {
         if (enabled) {
             final int UI_WIDGET_ID = 1;
@@ -190,9 +193,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                     .setContentTitle(getString(R.string.app_name))
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, PendingIntent.FLAG_UPDATE_CURRENT))
                     .setOngoing(true)
-                    .setShowWhen(false)
                     .setAutoCancel(false)
                     .setContentText(getNotificationText());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    widget.setShowWhen(false);
                 startForeground(UI_WIDGET_ID, widget.build());
             } else {
                 ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
