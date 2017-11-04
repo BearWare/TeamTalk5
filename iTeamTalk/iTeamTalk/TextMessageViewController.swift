@@ -96,11 +96,11 @@ class TextMessageViewController :
         super.viewDidAppear(animated)
     }
     
-    func keyboardWillShow(_ notify: Notification) {
+    @objc func keyboardWillShow(_ notify: Notification) {
         moveForKeyboard(notify, up: true)
     }
     
-    func keyboardWillHide(_ notify: Notification) {
+    @objc func keyboardWillHide(_ notify: Notification) {
         moveForKeyboard(notify, up: false)
     }
     

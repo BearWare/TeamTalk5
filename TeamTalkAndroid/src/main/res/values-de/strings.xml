@@ -38,7 +38,6 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Unbekannt</string>
     <string name="pref_title_keep_screen_on">Bildschirm während der Verbindung aktiviert lassen</string>
-    <string name="pref_title_voice_act">Sprachaktivierung</string>
     <string name="pref_title_vibrate">Bei PTT vibrieren</string>
     <string name="pref_show_log_messages">Lognachrichten im Chatverlauf anzeigen</string>
     <string name="pref_title_audio_icons">Klangereignisse</string>

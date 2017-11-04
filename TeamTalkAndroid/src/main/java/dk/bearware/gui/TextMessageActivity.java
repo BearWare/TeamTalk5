@@ -100,25 +100,23 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
     protected void onStart() {
         super.onStart();        
         
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        
-        if(ttservice != null) {
-            ttservice.unregisterCommandListener(this);
-        }
-        
+
         // Unbind from the service
         if(mConnection.isBound()) {
+            onServiceDisconnected(ttservice);
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -189,6 +187,7 @@ extends Activity implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        service.unregisterCommandListener(this);
     }
 
     @Override

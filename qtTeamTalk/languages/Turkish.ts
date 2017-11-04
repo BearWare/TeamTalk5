@@ -11,7 +11,7 @@
     <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
-        <translation>Ozancan Karataş tarafından çevirilmiştir</translation>
+        <translation>Ozancan Karataş tarafından çevrilmiştir</translation>
     </message>
 </context>
 <context>
@@ -151,17 +151,17 @@
     <message>
         <location filename="../channel.ui" line="193"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>Yalnız işletmeci alır (kullanıcıları yalnız işletmeci görür ve duyar)</translation>
+        <translation>Yalnızca işletmeci alır (kullanıcıları yalnızca işletmeci görür ve duyar)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Ses etkinleştirme yok (yalnız bas konuşa izin verilir)</translation>
+        <translation>Ses etkinleştirme yok (yalnızca bas konuşa izin verilir)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="207"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>Ses kaydı izni yok (diske kaydetmeye izin verilmez)</translation>
+        <translation>Ses kayıt izni yok (diske kaydetmeye izin verilmez)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="221"/>
@@ -400,12 +400,12 @@
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Burada sunucudaki seçilen bir grubun kullanıcılarına otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu yol bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamanızı gerektirmez.</translation>
+        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu yol bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamanızı gerektirmez.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>Barındırıcı IP adresi</translation>
+        <translation>Ana bilgisayar IP adresi</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -460,7 +460,7 @@
     <message>
         <location filename="../desktopaccessdlg.cpp" line="119"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Lütfen &apos;Barındırıcı IP adresi&apos; alanını doldurun</translation>
+        <translation>Lütfen &apos;Ana bilgisayar IP adresi&apos; alanını doldurun</translation>
     </message>
 </context>
 <context>
@@ -496,12 +496,12 @@
     <message>
         <location filename="../desktopshare.ui" line="45"/>
         <source>Share specific window</source>
-        <translation>Belirlenen pencereyi paylaş</translation>
+        <translation>Belirtilen pencereyi paylaş</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="70"/>
         <source>Shared Window Look</source>
-        <translation>Paylaşılacak Pencerenin Görünümü</translation>
+        <translation>Paylaşılan Pencerenin Görünümü</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="78"/>
@@ -565,7 +565,7 @@
     <message>
         <location filename="../filetransfer.ui" line="56"/>
         <source>Throughput:</source>
-        <translation>Hacim:</translation>
+        <translation>Verim:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="70"/>
@@ -580,7 +580,7 @@
     <message>
         <location filename="../filetransfer.ui" line="135"/>
         <source>&amp;Cancel</source>
-        <translation>İ&amp;ptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="142"/>
@@ -623,7 +623,7 @@
     <message>
         <location filename="../filesmodel.cpp" line="42"/>
         <source>Owner</source>
-        <translation>Sahibi</translation>
+        <translation>Sahip</translation>
     </message>
 </context>
 <context>
@@ -712,7 +712,7 @@
     <message>
         <location filename="../generatettfile.ui" line="271"/>
         <source>Video Codec Settings</source>
-        <translation>Video Kodlayıcı/Çözücü Ayarları</translation>
+        <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="274"/>
@@ -786,7 +786,7 @@
     <message>
         <location filename="../keycomp.ui" line="38"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>Kısayol tuşu olarak kullanılacak tuşu basılı tutun. Shift, Ctrl ve Alt gibi niteleyici tuşlar diğer tuşlarla birleştirilerek kullanılabilir</translation>
+        <translation>Kısayol tuşu olarak kullanılacak tuşu basılı tutun. Shift, Ctrl ve Alt gibi değiştirici tuşlar diğer tuşlarla birleştirilerek kullanılabilir</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="50"/>
@@ -801,7 +801,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="52"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Niteleyiciler (Option, Kontrol, Komut ve Shift) diğer tuşlarla birleştirilerek kullanılmalıdır.</translation>
+        <translation>Değiştiriciler (Option, Kontrol, Komut ve Shift) diğer tuşlarla birleştirilerek kullanılmalıdır.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="219"/>
@@ -811,7 +811,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="220"/>
         <source>Mac OS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>Mac OS, yalnız niteleyici tuşları desteklemediğinden Cmd, Option ve Shift diğer niteleyici olmayan tuşlarla birleştirilerek kullanılmalıdır.</translation>
+        <translation>Mac OS, değiştirici tuşları tek başına desteklemediğinden Cmd, Option ve Shift diğer değiştirici olmayan tuşlarla birleştirilerek kullanılmalıdır.</translation>
     </message>
 </context>
 <context>
@@ -825,7 +825,7 @@
         <location filename="../mainwindow.ui" line="134"/>
         <location filename="../mainwindow.ui" line="156"/>
         <source>Master volume</source>
-        <translation>Genel ses</translation>
+        <translation>Ana düzey</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="172"/>
@@ -838,7 +838,7 @@
         <location filename="../mainwindow.ui" line="238"/>
         <location filename="../mainwindow.cpp" line="2411"/>
         <source>Microphone gain</source>
-        <translation>Mikrofon düzeyi</translation>
+        <translation>Mikrofon kazancı</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="254"/>
@@ -854,12 +854,12 @@
     <message>
         <location filename="../mainwindow.ui" line="335"/>
         <source>Channel messages and event log</source>
-        <translation>Kanal iletileri ve etkinlik günlüğü</translation>
+        <translation>Kanal iletileri ve olay günlüğü</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="365"/>
         <source>Send text message</source>
-        <translation>İleti gönder</translation>
+        <translation>Metin iletisi gönder</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="368"/>
@@ -901,7 +901,7 @@
         <location filename="../mainwindow.ui" line="630"/>
         <location filename="../mainwindow.cpp" line="5153"/>
         <source>Desktops</source>
-        <translation>Masaüstü</translation>
+        <translation>Masaüstleri</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="685"/>
@@ -967,7 +967,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1047"/>
         <source>&amp;Users</source>
-        <translation>&amp;Kullanıcılar</translation>
+        <translation>K&amp;ullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1051"/>
@@ -992,7 +992,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1115"/>
         <source>&amp;Channels</source>
-        <translation>Kanalla&amp;r</translation>
+        <translation>&amp;Kanallar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1132"/>
@@ -1270,7 +1270,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1458"/>
         <source>&amp;Volume</source>
-        <translation>&amp;Ses</translation>
+        <translation>Dü&amp;zey</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1461"/>
@@ -1360,7 +1360,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1577"/>
         <source>Specify a folder where audio from users will be stored</source>
-        <translation>Kullanıcılardan gelen sesin depolanacağı bir klasör belirtin</translation>
+        <translation>Kullanıcılardan gelen sesin saklanacağı bir klasör belirtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1580"/>
@@ -1440,7 +1440,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1665"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>Kullanıcıları Taşımak için &amp;Tut</translation>
+        <translation>Kullanıcıları &amp;Taşımak için Sakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1668"/>
@@ -1620,7 +1620,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1898"/>
         <source>Mu&amp;te Voice</source>
-        <translation>Sesi &amp;Kapat</translation>
+        <translation>Sesi Sus&amp;tur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1901"/>
@@ -1660,7 +1660,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1930"/>
         <source>Increase Media File Volume</source>
-        <translation>Ortam Dosyasının Sesini Artır</translation>
+        <translation>Ortam Dosyası Düzeyini Artır</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1933"/>
@@ -1670,7 +1670,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1938"/>
         <source>Lower Media File Volume</source>
-        <translation>Ortam Dosyasının Sesini Azalt</translation>
+        <translation>Ortam Dosyası Düzeyini Azalt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1941"/>
@@ -1706,18 +1706,18 @@
     <message>
         <location filename="../mainwindow.cpp" line="764"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıldı</translation>
+        <translation>%1 konumuna bağlanıldı TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="778"/>
         <location filename="../mainwindow.cpp" line="1559"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanılamadı</translation>
+        <translation>%1 konumuna bağlanılamadı TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="790"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 bağlantısı kaybedildi</translation>
+        <translation>%1 bağlantısı kaybedildi TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
@@ -1867,7 +1867,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanılıyor</translation>
+        <translation>%1 konumuna bağlanılıyor TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1599"/>
@@ -1876,13 +1876,9 @@
         <translation>Hata</translation>
     </message>
     <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Bu istemci, sunucuyla uyumsuz olduğundan işlem yürütülemez.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1608"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu istemci sunucuyla uyumlu olmadığından eylem yürütülemedi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1611"/>
@@ -1910,7 +1906,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1640"/>
         <source>Join channel error</source>
-        <translation>Kanala katılım hatası</translation>
+        <translation>Kanala katılma hatası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1641"/>
@@ -1955,7 +1951,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1671"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Eylem yürütülemez çünkü istemci şu anda oturum açmadı</translation>
+        <translation>İstemci şu anda oturum açmadığından eylem yürütülemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1674"/>
@@ -2005,7 +2001,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1697"/>
         <source>File sharing is disabled</source>
-        <translation>Dosya paylaşımı etkisiz</translation>
+        <translation>Dosya paylaşımı etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1699"/>
@@ -2081,7 +2077,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2405"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation>Mikrofon düzeyi kanal tarafından denetlenir</translation>
+        <translation>Mikrofon kazancı kanal tarafından denetlenir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
@@ -2112,7 +2108,7 @@
         <location filename="../mainwindow.cpp" line="3326"/>
         <location filename="../mainwindow.cpp" line="4584"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
-        <translation>Video aygıt donatısı yapılandırılamadı. &apos;Tercihler&apos;den ayarları denetleyin</translation>
+        <translation>Video aygıt özelliği yapılandırılamadı. &apos;Tercihler&apos;den ayarları denetleyin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3336"/>
@@ -2143,7 +2139,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3800"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>&quot;%1&quot; kanalını silmek istediğinize emin misiniz?</translation>
+        <translation>&quot;%1&quot; kanalını silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3806"/>
@@ -2174,12 +2170,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3923"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>&quot;%1&quot; öğesini silmek istediğinize emin misiniz?</translation>
+        <translation>&quot;%1&quot; öğesini silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3928"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>%1 dosyayı silmek istediğinize emin misiniz?</translation>
+        <translation>%1 dosyayı silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3996"/>
@@ -2189,7 +2185,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4038"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation>Varolan ayarlarınızı silmek istediğinize emin misiniz?</translation>
+        <translation>Varolan ayarlarınızı silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4047"/>
@@ -2214,7 +2210,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4515"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>Konuşabilecek en fazla kullanıcı sayısı %1</translation>
+        <translation>İletebilecek en fazla kullanıcı sayısı %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4551"/>
@@ -2325,7 +2321,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5155"/>
         <source>Desktops (%1)</source>
-        <translation>Masaüstü (%1)</translation>
+        <translation>Masaüstleri (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
@@ -2349,7 +2345,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5237"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Barındırıcı bilgileri %1 üzerinden çıkartılamadı</translation>
+        <translation>Ana bilgisayar bilgileri %1 üzerinden çıkartılamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5245"/>
@@ -2360,12 +2356,7 @@
         <location filename="../mainwindow.cpp" line="5246"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -2384,12 +2375,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation>Sesli sohbetleri depola</translation>
+        <translation>Sesli sohbetleri sakla</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation>Depolama kipi</translation>
+        <translation>Saklama kipi</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="38"/>
@@ -2422,7 +2413,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="94"/>
         <source>Store text message conversations</source>
-        <translation>Metin iletili sohbetleri depola</translation>
+        <translation>Metin iletili sohbetleri sakla</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="100"/>
@@ -2437,7 +2428,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="91"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation>Ses dosyalarını depolamak için klasör yok</translation>
+        <translation>Ses dosyalarını saklamak için klasör yok</translation>
     </message>
 </context>
 <context>
@@ -2557,12 +2548,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="189"/>
         <source>Set away status after</source>
-        <translation>Uzakta durumuna geçiş süresi</translation>
+        <translation>Sonra uzakta durumunu ayarla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>etkisizlik saniyesi (0 etkisizdir)</translation>
+        <translation>etkisizlik saniyesi (0 etkisizleştirildi demektir)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="231"/>
@@ -2608,7 +2599,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="314"/>
         <source>User interface language</source>
-        <translation>Kullanıcı arabirim dili</translation>
+        <translation>Kullanıcı arabirimi dili</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="329"/>
@@ -2628,7 +2619,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="350"/>
         <source>Enable VU-meter updates</source>
-        <translation>Ses göstergesi güncelleştirmelerini etkinleştir</translation>
+        <translation>VU meter güncelleştirmelerini etkinleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="357"/>
@@ -2643,12 +2634,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="371"/>
         <source>Show last to talk in yellow</source>
-        <translation>Son konuşanı sarı göster</translation>
+        <translation>Konuşma sonunda sarı göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="378"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>İleti alındığında iletişim kutusu aç</translation>
+        <translation>Metin iletisi alındığında iletişim kutusu aç</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="385"/>
@@ -2663,17 +2654,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="399"/>
         <source>Start desktops in popup dialog</source>
-        <translation>Masaüstünü açılır iletişim kutusunda başlat</translation>
+        <translation>Masaüstlerini açılır iletişim kutusunda başlat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="423"/>
         <source>Timestamp text messages</source>
-        <translation>Zaman damgalı iletiler</translation>
+        <translation>Zaman damgalı metin iletileri</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="430"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Sohbet penceresinde durum çubuğu etkinliklerini göster</translation>
+        <translation>Sohbet penceresinde durum çubuğu olaylarını göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="437"/>
@@ -2712,7 +2703,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="562"/>
         <source>Connect to latest host on startup</source>
-        <translation>Başlangıçta en son barındırıcıya bağlan</translation>
+        <translation>Başlangıçta en son ana bilgisayara bağlan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="569"/>
@@ -2816,7 +2807,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="835"/>
         <source>Windows Audio Session</source>
-        <translation>Windows Ses Oturumu</translation>
+        <translation>Windows Audio Session</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="842"/>
@@ -2862,7 +2853,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation>Çift yönlü kipini etkinleştir (yankı iptali için gereklidir)</translation>
+        <translation>Çift yönlü kipi etkinleştir (yankı iptali için gereklidir)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
@@ -2872,7 +2863,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1026"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>Otomatik mikrofon denetimini etkinleştir (mikrofon düzeyi otomatik olarak ayarlanır)</translation>
+        <translation>Otomatik kazanç denetimini etkinleştir (mikrofon düzeyi otomatik olarak ayarlanır)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1033"/>
@@ -2882,7 +2873,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1042"/>
         <source>Media file vs. voice volume</source>
-        <translation>Ortam dosyasının ses düzeyi</translation>
+        <translation>Ortam dosyası-ses düzeyi oranı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1076"/>
@@ -2894,7 +2885,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="1102"/>
         <location filename="../preferences.ui" line="1108"/>
         <source>Sound Events</source>
-        <translation>Ses Etkinlikleri</translation>
+        <translation>Ses Olayları</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1116"/>
@@ -2979,27 +2970,27 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1442"/>
         <source>Increase volume</source>
-        <translation>Ses düzeyini artır</translation>
+        <translation>Düzeyi artır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1469"/>
         <source>Lower volume</source>
-        <translation>Ses düzeyini azalt</translation>
+        <translation>Düzeyi azalt</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1496"/>
         <source>Enable/disable mute all</source>
-        <translation>Tümünü susturu etkinleştir/etkisizleştir</translation>
+        <translation>Tümünü sustur&apos;u etkinleştir/etkisizleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1523"/>
         <source>Increase microphone gain</source>
-        <translation>Mikrofon düzeyini artır</translation>
+        <translation>Mikrofon kazancını artır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1550"/>
         <source>Lower microphone gain</source>
-        <translation>Mikrofon düzeyini azalt</translation>
+        <translation>Mikrofon kazancını azalt</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1577"/>
@@ -3055,7 +3046,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="1750"/>
         <location filename="../preferences.ui" line="1753"/>
         <source>Video Codec Settings</source>
-        <translation>Video Kodlayıcı/Çözücü Ayarları</translation>
+        <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1761"/>
@@ -3230,7 +3221,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="79"/>
         <source>Host IP-address</source>
-        <translation>Barındırıcı IP adresi</translation>
+        <translation>Ana bilgisayar IP adresi</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="86"/>
@@ -3284,7 +3275,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlist.ui" line="209"/>
         <location filename="../serverlist.ui" line="212"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>Yetkilendirmeden sonra belirlenen kanala katıl (isteğe bağlı)</translation>
+        <translation>Yetkilendirmeden sonra belirtilen kanala katıl (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="218"/>
@@ -3315,7 +3306,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlist.ui" line="316"/>
         <location filename="../serverlist.ui" line="319"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>.tt dosyaları çift tıklanabilir; istemci otomatik olarak başlayacak ve belirlenen sunucuya bağlanacaktır</translation>
+        <translation>.tt dosyaları çift tıklanabilir; istemci otomatik olarak başlayacak ve belirtilen sunucuya bağlanacak</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="322"/>
@@ -3335,7 +3326,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="210"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>Lütfen &apos;Barındırıcı IP adresi&apos;, &apos;TCP bağlantı noktası&apos; ve &apos;UDP bağlantı noktası&apos; alanlarını doldurun</translation>
+        <translation>Lütfen &apos;Ana bilgisayar IP adresi&apos;, &apos;TCP bağlantı noktası&apos; ve &apos;UDP bağlantı noktası&apos; alanlarını doldurun</translation>
     </message>
 </context>
 <context>
@@ -3409,7 +3400,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverproperties.ui" line="340"/>
         <location filename="../serverproperties.ui" line="367"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KB/sn (0 = etkisiz)</translation>
+        <translation>KB/sn (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="283"/>
@@ -3434,7 +3425,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverproperties.ui" line="377"/>
         <source>Server Abuse</source>
-        <translation>Sunucunun Kötüye Kullanımı</translation>
+        <translation>Sunucu Tacizi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="383"/>
@@ -3445,7 +3436,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverproperties.ui" line="400"/>
         <location filename="../serverproperties.ui" line="424"/>
         <source>(0 = disabled)</source>
-        <translation>(0 = etkisiz)</translation>
+        <translation>(0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="407"/>
@@ -3493,7 +3484,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverstats.ui" line="66"/>
         <source>Throughput RX/TX</source>
-        <translation>Alınan/İletilen hacim</translation>
+        <translation>Alınan/İletilen verim</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="76"/>
@@ -3543,7 +3534,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverstats.ui" line="285"/>
         <source>Users served</source>
-        <translation>Sunulan kullanıcı</translation>
+        <translation>Kullanıcılar sunuldu</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="305"/>
@@ -3603,7 +3594,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../streammediafile.ui" line="131"/>
         <location filename="../streammediafile.ui" line="134"/>
         <source>Video Codec Settings</source>
-        <translation>Video Kodlayıcı/Çözücü Ayarları</translation>
+        <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="142"/>
@@ -3623,7 +3614,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafile.ui" line="291"/>
         <source>&amp;Cancel</source>
-        <translation>İ&amp;ptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="74"/>
@@ -3691,7 +3682,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../textmessage.ui" line="67"/>
         <source>&amp;Cancel</source>
-        <translation>İ&amp;ptal</translation>
+        <translation>&amp;İptal</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="93"/>
@@ -3724,7 +3715,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="82"/>
         <source>Modify User Account</source>
-        <translation>Kullanıcı Hesabını Düzenle</translation>
+        <translation>Kullanıcı Hesabını Değiştir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="95"/>
@@ -3800,7 +3791,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="273"/>
         <source>Audio Codec Limitations</source>
-        <translation>Ses Kodlayıcı/Çözücü Sınırlamaları</translation>
+        <translation>Ses Kodlayıcı/Çözücüsü Sınırlamaları</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="279"/>
@@ -3810,7 +3801,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="302"/>
         <source>kbps (0 = disabled)</source>
-        <translation>kbps (0 = etkisiz)</translation>
+        <translation>kbps (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
@@ -3840,7 +3831,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>User can create/modify all channels</source>
-        <translation>Kullanıcı kanal oluşturabilir/tüm kanalları düzenleyebilir</translation>
+        <translation>Kullanıcı kanal oluşturabilir/tüm kanalları değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="363"/>
@@ -3855,7 +3846,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="383"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>Kullanıcı ses verisi iletebilir (mikrofon)</translation>
+        <translation>Kullanıcı ses verileri iletebilir (mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="396"/>
@@ -3865,7 +3856,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>Kullanıcı video verisi iletebilir (web kamerası)</translation>
+        <translation>Kullanıcı video verileri iletebilir (web kamerası)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="410"/>
@@ -4204,7 +4195,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../uservolume.ui" line="87"/>
         <location filename="../uservolumedlg.cpp" line="77"/>
         <source>Volume</source>
-        <translation>Ses</translation>
+        <translation>Düzey</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="23"/>
@@ -4232,7 +4223,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation>Ortam Dosyasının Ses Düzeyi Ayarları</translation>
+        <translation>Ortam Dosyası Düzeyi Ayarları</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="150"/>
@@ -4242,7 +4233,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../uservolumedlg.cpp" line="78"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>Kullanıcının ses düzeyi değiştirilemedi</translation>
+        <translation>Kullanıcının düzeyi değiştirilemedi</translation>
     </message>
 </context>
 <context>
@@ -4308,11 +4299,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Metin Görünümü</translation>
+        <translation>Metin Görünümü</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>
@@ -4328,7 +4315,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="128"/>
         <source>Background color</source>
-        <translation>Arkaplan rengi</translation>
+        <translation>Artalan rengi</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="145"/>

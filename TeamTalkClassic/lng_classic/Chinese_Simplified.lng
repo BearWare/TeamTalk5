@@ -150,6 +150,18 @@
     <item id="286">禁用语音激活</item>
     <item id="287">从本地菜单启用语音激活</item>
     <item id="288">从本地菜单禁用语音激活</item>
+    <item id="289">频道运营商</item>
+    <item id="290">编解码器限制</item>
+    <item id="291">滥用预防</item>
+    <item id="292">禁用</item>
+    <item id="293">10秒内的10个命令</item>
+    <item id="294">1分钟内有10条命令</item>
+    <item id="295">60分钟命令</item>
+    <item id="296">Custom</item>
+    <item id="297">限制发出命令</item>
+    <item id="298">允许的命令数（0 =禁用）</item>
+    <item id="299">允许％d命令的时间（以秒为单位）</item>
+    <item id="300">匿名</item>
     <item id="1009">自动加入所连接的根频道</item>
     <item id="1011">主机属性</item>
     <item id="1012">主机TCP端口</item>
@@ -445,6 +457,10 @@
     <item id="1539">&amp;频道ID代替频道昵称</item>
     <item id="1540">客户名称</item>
     <item id="1543">启用/禁用文本到语音事件</item>
+    <item id="1546">用户帐户属性</item>
+    <item id="1547">防洪保护</item>
+    <item id="1548">防止用户从例如通过限制在给定时间范围内可以发出的命令数来发送短信。</item>
+    <item id="1550">限制发出命令</item>
     <item id="32791">&amp;你的IP地址?</item>
     <item id="32798">&amp;设置维操作员\tCtrl+O</item>
     <item id="32801">&amp;查看频道消息(w)\tF10</item>
@@ -494,7 +510,7 @@
     <item id="32869">&amp;用户账号\tCtrl+Shift+L</item>
     <item id="32870">服务器(&amp;S)</item>
     <item id="32871">&amp;ave配置\tCtrl+Shift+S</item>
-    <item id="32877">&amp;商店 移动\tCtrl+Alt+X</item>
+    <item id="32877">&amp;存储 移动\tCtrl+Alt+X</item>
     <item id="32878">&amp;移动用户\tCtrl+Alt+V</item>
     <item id="32882">&amp;禁止用户\tCtrl+Shift+B</item>
     <item id="32885">踢和&amp;禁止\tCtrl+Shift+K</item>

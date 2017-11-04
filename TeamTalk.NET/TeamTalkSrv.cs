@@ -559,11 +559,16 @@ namespace BearWare
             }
         }
         
-        void TeamTalkSrv_OnSaveServerConfigCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpUser)
+        void TeamTalkSrv_OnSaveServerConfigCallback(IntPtr lpTTSInstance, IntPtr lpUserData, IntPtr lpUser)
         {
-            if(OnSaveServerConfig != null)
+            User user = new User();
+            if (lpUser != IntPtr.Zero)
             {
-                OnSaveServerConfig(ref lpUser);
+                user = (User)Marshal.PtrToStructure(lpUser, typeof(User));
+            }
+            if (OnSaveServerConfig != null)
+            {
+                OnSaveServerConfig(ref user);
             }
         }
         
@@ -583,8 +588,13 @@ namespace BearWare
             }
         }
         
-        void TeamTalkSrv_OnUserKickedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, ref User lpKicker, ref User lpKickee, IntPtr lpChannel)
+        void TeamTalkSrv_OnUserKickedCallback(IntPtr lpTTSInstance, IntPtr lpUserData, IntPtr lpKicker, ref User lpKickee, IntPtr lpChannel)
         {
+            User user = new User();
+            if (lpKicker != IntPtr.Zero)
+            {
+                user = (User)Marshal.PtrToStructure(lpKicker, typeof(User));
+            }
             Channel chan = new Channel();
             if(lpChannel != IntPtr.Zero)
             {
@@ -592,7 +602,7 @@ namespace BearWare
             }
             if(OnUserKicked != null)
             {
-                OnUserKicked(ref lpKicker, ref lpKickee, ref chan);
+                OnUserKicked(ref user, ref lpKickee, ref chan);
             }
         }
         

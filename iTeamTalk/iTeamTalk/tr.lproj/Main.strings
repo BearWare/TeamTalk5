@@ -3,7 +3,7 @@
 "07s-AR-tvQ.title" = "Ana Sekme Denetleyicisi";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
-"0EG-eF-WzS.title" = "İleti";
+"0EG-eF-WzS.title" = "Metin İletisi";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Blank";
@@ -12,16 +12,16 @@
 "3NI-HT-A3N.normalTitle" = "Gönder";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Özel ileti gönder";
+"4RU-K7-Yga.accessibilityHint" = "Özel metin iletisi gönder";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "İleti";
+"4RU-K7-Yga.accessibilityLabel" = "Metin İletileşmesi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "İleti";
+"4RU-K7-Yga.normalTitle" = "Kullanıcıya ileti";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Konuşmacı";
+"79c-sV-yxb.title" = "Metin Okuma Sesi";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -36,10 +36,10 @@
 "BLM-fs-qcG.title" = "Geri";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Özel ileti";
+"DHN-DJ-cUp.accessibilityLabel" = "Özel metin iletileşmesi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.normalTitle" = "İleti";
+"DHN-DJ-cUp.normalTitle" = "Kullanıcıya ileti";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
 "EHj-xt-HhD.text" = "Blank";
@@ -75,13 +75,13 @@
 "PhY-ED-cqF.title" = "Kanal Ayrıntısı";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
-"Rrg-2O-NzF.normalTitle" = "OPUS Kodlayıcı/Çözücüsü Kullan";
+"Rrg-2O-NzF.normalTitle" = "OPUS Kodlayıcı/Çözücüsünü Kullan";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.normalTitle" = "Konuş";
+"V6G-Gm-l2U.normalTitle" = "İlet";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Sesi Seç";
@@ -105,7 +105,7 @@
 "Y9o-rs-HCe.title" = "Bağlantıyı kes";
 
 /* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
-"ZFj-Rn-XZn.title" = "Masaüstü";
+"ZFj-Rn-XZn.title" = "Masaüstleri";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
 "ZSZ-bY-VqA.text" = "Blank";
@@ -114,13 +114,13 @@
 "aX2-rZ-yEl.title" = "Kanallar";
 
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
-"b6N-H7-SIe.normalTitle" = "Speex VBR Kodlayıcı/Çözücüsü Kullan";
+"b6N-H7-SIe.normalTitle" = "Speex VBR Kodlayıcı/Çözücüsünü Kullan";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Bağlan";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
-"cGm-Jp-0zI.normalTitle" = "Speex Kodlayıcı/Çözücüsü Kullan";
+"cGm-Jp-0zI.normalTitle" = "Speex Kodlayıcı/Çözücüsünü Kullan";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
 "ch0-Xf-hyX.normalTitle" = "Bu kanala katıl";
@@ -129,10 +129,10 @@
 "dcU-Nq-ioW.title" = "Sunucuya Bağlanılıyor";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "Kanal Sohbeti";
+"gA8-TJ-0RU.title" = "Sohbet Kanalı";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Bu kanal ile ilgili seçenekleri açmak için çift dokunun.";
+"hqu-CX-Vn4.accessibilityHint" = "Bu kanal için olan seçenekleri genişletmek için çift dokunun.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "İletiler";
@@ -153,7 +153,7 @@
 "pQJ-c1-GEL.title" = "Sunucu Listesi";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = "Sessizlik Kullan";
+"rNU-2J-hMO.normalTitle" = "Ses Yok'u Kullan";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
 "vC1-lW-BtX.normalTitle" = "Kanalı Sil";

@@ -630,7 +630,7 @@ namespace BearWare
         }
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void UserKickedCallback(IntPtr lpTTSInstance,
-                                IntPtr lpUserData, [In] ref User lpKicker,
+                                IntPtr lpUserData, IntPtr lpKicker,
                                 [In] ref User lpKickee, [In] IntPtr lpChannel);
         private event UserKickedCallback onUserKickedCallback;
         internal event UserKickedCallback OnUserKickedCallback
@@ -901,8 +901,8 @@ namespace BearWare
         }
         [UnmanagedFunctionPointerAttribute(CallingConvention.Cdecl)]
         internal delegate void SaveServerConfigCallback(IntPtr lpTTSInstance,
-                                          IntPtr lpUserData, 
-                                          [In] ref User lpUser);
+                                          IntPtr lpUserData,
+                                          IntPtr lpUser);
         private event SaveServerConfigCallback onSaveServerConfigCallback;
         internal event SaveServerConfigCallback OnSaveServerConfigCallback
         {

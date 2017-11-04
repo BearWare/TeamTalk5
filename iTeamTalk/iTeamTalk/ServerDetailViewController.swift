@@ -124,11 +124,11 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWillShow(_ notify: Notification) {
+    @objc func keyboardWillShow(_ notify: Notification) {
         moveForKeyboard(notify, up: true)
     }
     
-    func keyboardWillHide(_ notify: Notification) {
+    @objc func keyboardWillHide(_ notify: Notification) {
         moveForKeyboard(notify, up: false)
     }
 

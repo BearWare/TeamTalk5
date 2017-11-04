@@ -105,14 +105,21 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+
+        if (mConnection.isBound()) {
+            // reset state since we're creating a new connection
+            ttservice.resetState();
+            ttclient.closeSoundInputDevice();
+            ttclient.closeSoundOutputDevice();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        
+
         if ((serverentry != null) && serverentry.rememberLastChannel) {
             saveServers();
             serverentry = null;
@@ -122,33 +129,45 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS);
 
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+            else
+                startService(intent);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if (ttservice != null) {
-
-            if(isFinishing()) {
-                ttservice.unregisterCommandListener(this);
-            }
+        if(isFinishing() && mConnection.isBound()) {
+            // Unbind from the service.
+            ttservice.resetState();
+            onServiceDisconnected(ttservice);
+            stopService(new Intent(getApplicationContext(), TeamTalkService.class));
+            unbindService(mConnection);
+            mConnection.setBound(false);
         }
-        
-        // Unbind from the service.
-        // We shouldn't do this because someone needs to keep a reference
-        // to the service so it doens't get killed 
-//        if(mConnection.isBound()) {
-//            unbindService(mConnection);
-//            mConnection.setBound(false);
-//        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
     ServerEntry serverentry;
@@ -240,8 +259,10 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 refreshServerList();
             break;
             case R.id.action_import_serverlist :
-                Intent filepicker = new Intent(this, FilePickerActivity.class);
-                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                    Intent filepicker = new Intent(this, FilePickerActivity.class);
+                    startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                }
             break;
             case R.id.action_settings : {
                 Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
@@ -526,6 +547,10 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
                 break;
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
+                Intent filepicker = new Intent(this, FilePickerActivity.class);
+                startActivityForResult(filepicker.putExtra(FilePickerActivity.FILTER_EXTENSION, ".tt"), REQUEST_IMPORT_SERVERLIST);
+                break;
         }
     }
 
@@ -534,12 +559,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         ttservice = service;
         ttclient = service.getTTInstance();
 
-        ttservice.registerCommandListener(this);
-
-        // reset state since we're creating a new connection
-        ttservice.resetState();
-        ttclient.closeSoundInputDevice();
-        ttclient.closeSoundOutputDevice();
+        service.registerCommandListener(this);
         
         refreshServerList();
         
@@ -555,6 +575,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        service.unregisterCommandListener(this);
     }
 
     @Override

@@ -153,13 +153,14 @@
 	            android:contentDescription="@string/decgain"
 	            android:src="@drawable/minus_green" />
 
-	        <ImageView
-	            android:id="@+id/imageView1"
+	        <ImageButton
+	            android:id="@+id/voxSwitch"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_column="1"
 	            android:layout_gravity="center"
 	            android:layout_row="1"
+	            android:contentDescription="@string/voice_activation_on"
 	            android:src="@drawable/mike_green" />
 
 	        <ImageButton

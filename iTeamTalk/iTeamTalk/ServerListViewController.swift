@@ -38,7 +38,7 @@ class Server : NSObject {
         
     }
     
-    init(coder dec: NSCoder!) {
+    @objc init(coder dec: NSCoder!) {
         name = dec.decodeObject(forKey: "name") as! String
         ipaddr = dec.decodeObject(forKey: "ipaddr") as! String
         tcpport = dec.decodeInteger(forKey: "tcpport")
@@ -49,7 +49,7 @@ class Server : NSObject {
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
     }
     
-    func encodeWithCoder(_ enc: NSCoder!) {
+    @objc func encodeWithCoder(_ enc: NSCoder!) {
         enc.encode(name, forKey: "name")
         enc.encode(ipaddr, forKey: "ipaddr")
         enc.encode(tcpport, forKey: "tcpport")
@@ -133,7 +133,7 @@ class ServerListViewController : UITableViewController,
         
     }
     
-    func checkAppUpdate() {
+    @objc func checkAppUpdate() {
 
         // check for new version
         let updateparser = AppUpdateParser()
@@ -145,7 +145,7 @@ class ServerListViewController : UITableViewController,
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
     }
     
-    func downloadServerList() {
+    @objc func downloadServerList() {
 
         // get xml-list of public server
         let serverparser = ServerParser()
@@ -208,7 +208,7 @@ class ServerListViewController : UITableViewController,
         return cell
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func connectServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
@@ -218,7 +218,7 @@ class ServerListViewController : UITableViewController,
         return true
     }
     
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
@@ -308,7 +308,7 @@ class ServerListViewController : UITableViewController,
                 let host_regex = try NSRegularExpression(pattern: host, options: .caseInsensitive)
                 let host_matches = host_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = host_matches.first {
-                    currentServer.ipaddr = ns_str.substring(with: m.rangeAt(1))
+                    currentServer.ipaddr = ns_str.substring(with: m.range(at: 1))
                 }
                 
                 //tcp port
@@ -316,7 +316,7 @@ class ServerListViewController : UITableViewController,
                 let tcpport_regex = try NSRegularExpression(pattern: tcpport, options: .caseInsensitive)
                 let tcpport_matches = tcpport_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = tcpport_matches.first {
-                    let s = ns_str.substring(with: m.rangeAt(1))
+                    let s = ns_str.substring(with: m.range(at: 1))
                     currentServer.tcpport = Int(s)!
                 }
                 
@@ -325,7 +325,7 @@ class ServerListViewController : UITableViewController,
                 let udpport_regex = try NSRegularExpression(pattern: udpport, options: .caseInsensitive)
                 let udpport_matches = udpport_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = udpport_matches.first {
-                    let s = ns_str.substring(with: m.rangeAt(1))
+                    let s = ns_str.substring(with: m.range(at: 1))
                     currentServer.udpport = Int(s)!
                 }
 
@@ -334,7 +334,7 @@ class ServerListViewController : UITableViewController,
                 let username_regex = try NSRegularExpression(pattern: username, options: .caseInsensitive)
                 let username_matches = username_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = username_matches.first {
-                    currentServer.username = ns_str.substring(with: m.rangeAt(1))
+                    currentServer.username = ns_str.substring(with: m.range(at: 1))
                 }
                 
                 // password
@@ -342,7 +342,7 @@ class ServerListViewController : UITableViewController,
                 let password_regex = try NSRegularExpression(pattern: password, options: .caseInsensitive)
                 let password_matches = password_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = password_matches.first {
-                    currentServer.password = ns_str.substring(with: m.rangeAt(1))
+                    currentServer.password = ns_str.substring(with: m.range(at: 1))
                 }
                 
                 // channel
@@ -350,7 +350,7 @@ class ServerListViewController : UITableViewController,
                 let channel_regex = try NSRegularExpression(pattern: channel, options: .caseInsensitive)
                 let channel_matches = channel_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = channel_matches.first {
-                    currentServer.channel = ns_str.substring(with: m.rangeAt(1))
+                    currentServer.channel = ns_str.substring(with: m.range(at: 1))
                 }
                 
                 // channel password
@@ -358,7 +358,7 @@ class ServerListViewController : UITableViewController,
                 let chpasswd_regex = try NSRegularExpression(pattern: chpasswd, options: .caseInsensitive)
                 let chpasswd_matches = chpasswd_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
                 if let m = chpasswd_matches.first {
-                    currentServer.chanpasswd = ns_str.substring(with: m.rangeAt(1))
+                    currentServer.chanpasswd = ns_str.substring(with: m.range(at: 1))
                 }
             }
             catch {

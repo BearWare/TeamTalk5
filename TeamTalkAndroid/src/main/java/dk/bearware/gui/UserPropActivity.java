@@ -80,13 +80,23 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
     protected void onStart() {
         super.onStart();
 
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
+        else {
+            int userid = getIntent().getExtras().getInt(EXTRA_USERID);
+            if(!ttclient.getUser(userid, user)) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            else
+                showUser();
+        }
     }
 
     @Override
@@ -184,9 +194,9 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        int userid = UserPropActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
+        int userid = getIntent().getExtras().getInt(EXTRA_USERID);
         if(!ttclient.getUser(userid, user)) {
-            UserPropActivity.this.setResult(RESULT_CANCELED);
+            setResult(RESULT_CANCELED);
             finish();
         }
         else

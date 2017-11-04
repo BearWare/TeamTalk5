@@ -420,7 +420,7 @@ class ChannelListViewController :
         self.tabBarController?.navigationItem.title = title
     }
     
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func messageUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             performSegue(withIdentifier: "New TextMessage", sender: ac)
@@ -428,7 +428,7 @@ class ChannelListViewController :
         return true
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func muteUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             let userid = INT32(ac.tag)
@@ -445,7 +445,7 @@ class ChannelListViewController :
         return true
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func moveUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             moveusers.append(INT32(ac.tag))
@@ -454,7 +454,7 @@ class ChannelListViewController :
         return true
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func kickUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             
@@ -464,7 +464,7 @@ class ChannelListViewController :
         return true
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func joinThisChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             if let channel = channels[INT32(ac.tag)] {
@@ -474,7 +474,7 @@ class ChannelListViewController :
         return true
     }
 
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func editChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             performSegue(withIdentifier: "Edit Channel", sender: ac)
@@ -482,7 +482,7 @@ class ChannelListViewController :
         return true
     }
     
-    @available(iOS 8.0, *)
+    @objc @available(iOS 8.0, *)
     func moveIntoChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             for userid in moveusers {
@@ -700,7 +700,7 @@ class ChannelListViewController :
         
     }
     
-    func timerUnread() {
+    @objc func timerUnread() {
         let cells = tableView.visibleCells
         for c in cells {
             if c.reuseIdentifier == "UserTableCell"  {

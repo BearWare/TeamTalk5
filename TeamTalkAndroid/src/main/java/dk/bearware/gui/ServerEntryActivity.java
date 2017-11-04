@@ -92,8 +92,15 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (mConnection.isBound()) {
+            // reset state since we're creating a new connection
+            ttservice.resetState();
+            ttclient.closeSoundInputDevice();
+            ttclient.closeSoundOutputDevice();
+        }
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -108,31 +115,44 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             serverentry = null;
         }
         
-        // Bind to LocalService
-        Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-        mConnection = new TeamTalkConnection(this);
-        if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-            Log.e(TAG, "Failed to bind to TeamTalk service");
-        else
-            mConnection.setBound(true);
+        // Bind to LocalService if not already
+        if (mConnection == null)
+            mConnection = new TeamTalkConnection(this);
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if (ttservice != null) {
-            if (isFinishing() && ttservice != null)
-                ttservice.resetState();
-            ttservice.unregisterCommandListener(this);
-        }
-        // Unbind from the service
-        if(mConnection.isBound()) {
+        if (isFinishing() && mConnection.isBound()) {
+            // Unbind from the service
+            ttservice.resetState();
+            onServiceDisconnected(ttservice);
             unbindService(mConnection);
             mConnection.setBound(false);
         }
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unbind from the service
+        if(mConnection.isBound()) {
+            Log.d(TAG, "Unbinding TeamTalk service");
+            onServiceDisconnected(ttservice);
+            unbindService(mConnection);
+            mConnection.setBound(false);
+        }
+
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -220,17 +240,12 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = service.getTTInstance();
-
-        ttservice.registerCommandListener(this);
-
-        // reset state since we're creating a new connection
-        ttservice.resetState();
-        ttclient.closeSoundInputDevice();
-        ttclient.closeSoundOutputDevice();
+        service.registerCommandListener(this);
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
+        service.unregisterCommandListener(this);
     }
 
     @Override
