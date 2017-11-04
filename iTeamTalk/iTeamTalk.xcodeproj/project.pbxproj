@@ -45,6 +45,8 @@
 		25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA20691BE933310089AD54 /* PreferencesViewController.swift */; };
 		25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25AA206D1BEBCA0A0089AD54 /* off.mp3 */; };
 		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
+		25DE1FC01FADAAC800EA77D6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */; };
+		25DE1FC11FADAAC800EA77D6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */; };
 		25DF9A021C5E00E100469BA8 /* License.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DF9A011C5E00E100469BA8 /* License.swift */; };
 		25E4DC2E1BF7347200EC5A8C /* on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC2D1BF7347200EC5A8C /* on.mp3 */; };
 		25E4DC321BF7360D00EC5A8C /* channel_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */; };
@@ -128,6 +130,8 @@
 		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../libraries/ios/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../libraries/ios/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		25DF9A011C5E00E100469BA8 /* License.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
 		25E4DC2D1BF7347200EC5A8C /* on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = on.mp3; sourceTree = "<group>"; };
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25DE1FC01FADAAC800EA77D6 /* FBSDKLoginKit.framework in Frameworks */,
+				25DE1FC11FADAAC800EA77D6 /* FBSDKCoreKit.framework in Frameworks */,
 				254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */,
 				254B7A721B99E67400BE0DEF /* AudioToolbox.framework in Frameworks */,
 				254B7A731B99E67400BE0DEF /* AVFoundation.framework in Frameworks */,
@@ -172,6 +178,7 @@
 				254B7A491B98BAA300BE0DEF /* iTeamTalk */,
 				254B7A5F1B98BAA400BE0DEF /* iTeamTalkTests */,
 				254B7A481B98BAA300BE0DEF /* Products */,
+				25DE1FBD1FADAAC700EA77D6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -241,6 +248,15 @@
 				254B7A611B98BAA400BE0DEF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		25DE1FBD1FADAAC700EA77D6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */,
+				25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		25E4DC2C1BF7291000EC5A8C /* Sounds */ = {
@@ -600,6 +616,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/libraries/ios/FacebookSDK";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -625,6 +642,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/libraries/ios/FacebookSDK";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

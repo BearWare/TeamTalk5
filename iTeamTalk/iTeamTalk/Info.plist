@@ -126,5 +126,30 @@
 			</dict>
 		</dict>
 	</array>
+    
+    <!-- Facebook section start -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb611833262539381</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>611833262539381</string>
+    <key>FacebookDisplayName</key>
+    <string>TeamTalk</string>
+    
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    <!-- Facebook section stop -->
 </dict>
 </plist>
