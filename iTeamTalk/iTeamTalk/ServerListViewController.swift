@@ -183,7 +183,6 @@ class ServerListViewController : UITableViewController,
         let cellIdentifier = "ServerTableCell"
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ServerTableCell
-        
         let server = servers[indexPath.row]
         cell.connectBtn.tag = indexPath.row
         cell.nameLabel.text = server.name
@@ -296,7 +295,7 @@ class ServerListViewController : UITableViewController,
                 currentServer = s
             }
         }
-        else {
+        else if url.absoluteString.starts(with: AppInfo.TTLINK_PREFIX){
             do {
                 // assume TT url
                 let url_str = url.absoluteString

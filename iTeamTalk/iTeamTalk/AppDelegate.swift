@@ -20,6 +20,7 @@
 */
 
 import UIKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -63,6 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.register(defaults: bundleDefaults)
             defaults.synchronize()
         }
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // fix linker problems unit-tests
         if TT_GetRootChannelID(nil) == TRUE {
@@ -83,12 +86,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
-        let nav = self.window?.rootViewController as! UINavigationController
-        
-        nav.popToRootViewController(animated: true)
-        
-        let svc = nav.topViewController as! ServerListViewController
-        svc.openUrl(url)
+        let urlStr = url.absoluteString
+        if urlStr.starts(with: AppInfo.TTLINK_PREFIX) || url.isFileURL {
+            let nav = self.window?.rootViewController as! UINavigationController
+            nav.popToRootViewController(animated: true)
+            let svc = nav.topViewController as! ServerListViewController
+            svc.openUrl(url)
+        }
+        else {
+            print ("URL: " + url.absoluteString)
+            let handled = FBSDKApplicationDelegate.sharedInstance()
+                .application(application, open: url,
+                             sourceApplication: sourceApplication,
+                             annotation: annotation)
+        }
         
         return true
     }

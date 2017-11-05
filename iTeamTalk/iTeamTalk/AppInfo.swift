@@ -30,6 +30,9 @@ class AppInfo {
     static let DEFAULT_TCPPORT = 10333
     static let DEFAULT_UDPPORT = 10333
     
+    static let WEBLOGIN_FACEBOOK = "facebook"
+    static let WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token="
+    
     enum BundleInfo {
         case name, version_NO
     }
