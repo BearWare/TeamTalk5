@@ -37,6 +37,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     var udpportfield : UITextField?
     var usernamefield : UITextField?
     var passwdfield : UITextField?
+    var fbloginfield : UISwitch?
     var chanfield : UITextField?
     var chpasswdfield : UITextField?
     
@@ -73,23 +74,8 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         udpportfield!.keyboardType = .numberPad
         conItems.append(udpportcell)
 
-        // Authentication section
-        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: server.username)
-        usernamefield!.delegate = self
-        usernamefield!.autocorrectionType = .no
-        usernamefield!.spellCheckingType = .no
-        usernamefield!.autocapitalizationType = .none
-        authItems.append(usernamecell)
-        
-        let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: server.password)
-        passwdfield!.delegate = self
-        passwdfield!.autocorrectionType = .no
-        passwdfield!.spellCheckingType = .no
-        passwdfield!.autocapitalizationType = .none
-        passwdfield!.isSecureTextEntry = true
-        authItems.append(passwdcell)
+        // create auth items
+        refreshAuthorizationItems(facebook: self.server.username == AppInfo.WEBLOGIN_FACEBOOK)
         
         //initial channel
         let chancell = UITableViewCell(style: .default, reuseIdentifier: nil)
@@ -156,6 +142,36 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
 
+    func refreshAuthorizationItems(facebook: Bool) {
+        self.authItems.removeAll()
+        
+        // Authentication section
+        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: facebook ? AppInfo.WEBLOGIN_FACEBOOK : server.username)
+        usernamefield!.delegate = self
+        usernamefield!.autocorrectionType = .no
+        usernamefield!.spellCheckingType = .no
+        usernamefield!.autocapitalizationType = .none
+        if facebook == false {
+            authItems.append(usernamecell)
+        }
+        
+        let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: facebook ? "" : server.password)
+        passwdfield!.delegate = self
+        passwdfield!.autocorrectionType = .no
+        passwdfield!.spellCheckingType = .no
+        passwdfield!.autocapitalizationType = .none
+        passwdfield!.isSecureTextEntry = true
+        if facebook == false {
+            authItems.append(passwdcell)
+        }
+        
+        let fbcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        fbloginfield = newTableCellSwitch(fbcell, label: NSLocalizedString("Facebook Login", comment: "server entry"), initial: facebook)
+        fbloginfield?.addTarget(self, action: #selector(facebookLogin(_:)), for: .valueChanged)
+        authItems.append(fbcell)
+    }
     
     func saveServerDetail() {
         server.name = namefield!.text!
@@ -185,6 +201,11 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
         textfield.resignFirstResponder()
         return false
+    }
+    
+    @objc func facebookLogin(_ sender: UISwitch) {
+        refreshAuthorizationItems(facebook: sender.isOn)
+        tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

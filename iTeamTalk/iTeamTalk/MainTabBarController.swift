@@ -484,6 +484,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                                         otherButtonTitles: NSLocalizedString("Yes", comment: "Dialog message"))
             alertView.alertViewStyle = .plainTextInput
             alertView.textField(at: 0)?.text = NSLocalizedString("New Server", comment: "Dialog message")
+            alertView.tag = ALERTVIEW_SAVESERVER
             alertView.show()
         }
         else {
@@ -496,6 +497,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         
         switch alertView.tag {
+            
         case ALERTVIEW_SAVESERVER :
             // save new server to the list of local servers
             if buttonIndex == 1 {
@@ -509,14 +511,16 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 
                 saveLocalServers(servers)
             }
-            case ALERTVIEW_FACEBOOK :
-                if buttonIndex == 1 {
-                    facebookLogin()
+            self.navigationController!.popViewController(animated: true)
+        case ALERTVIEW_FACEBOOK :
+            if buttonIndex == 1 {
+                facebookLogin()
             }
-        default :
-            return
+            else {
+                self.navigationController!.popViewController(animated: true)
+            }
+        default : break
         }
-        self.navigationController!.popViewController(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
