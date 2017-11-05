@@ -199,11 +199,9 @@
              <property name="editable">
               <bool>true</bool>
              </property>
-             <item>
-              <property name="text">
-               <string>Facebook</string>
-              </property>
-             </item>
+             <property name="currentText">
+              <string/>
+             </property>
             </widget>
            </item>
           </layout>

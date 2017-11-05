@@ -45,6 +45,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.cryptChkBox->hide();
 #endif
 
+    ui.usernameBox->addItem(WEBLOGIN_FACEBOOK);
+
     connect(ui.addupdButton, SIGNAL(clicked()),
             SLOT(slotAddUpdServer()));
     connect(ui.delButton, SIGNAL(clicked()),
@@ -235,7 +237,7 @@ void ServerListDlg::slotConnect()
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
                 return;
-            entry.password = dlg.m_password;
+            entry.password = WEBLOGIN_FACEBOOK_PASSWDPREFIX + dlg.m_password;
         }
 
         addLatestHost(entry);
