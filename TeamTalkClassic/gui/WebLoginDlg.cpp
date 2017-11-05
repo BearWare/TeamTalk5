@@ -80,6 +80,7 @@ void CWebLoginDlg::NavigateComplete2Explorer1(LPDISPATCH pDisp, VARIANT* URL)
     if(std::regex_search(url, sm, std::regex("&code=([A-Za-z0-9\\-_]*)")) && sm.size())
     {
         m_szPassword = STR_UTF8(sm[1]);
+        TRACE(_T("Facebook URL: %s\n"), STR_UTF8(url));
     }
 
     if(m_szPassword.GetLength())

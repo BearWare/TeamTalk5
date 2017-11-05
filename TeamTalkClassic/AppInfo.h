@@ -51,6 +51,7 @@
 #define URL_PUBLICSERVER        _T("http://www.bearware.dk/teamtalk/tt5servers.php?client=") APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
 #define URL_APPUPDATE           _T("http://www.bearware.dk/teamtalk/tt5update.php?client=")  APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
 
-#define WEBLOGIN_FACEBOOK          _T("facebook")
-#define WEBLOGIN_FACEBOOK_CLIENTID _T("611833262539381")
-#define WEBLOGIN_FACEBOOK_REDIRECT _T("https://www.facebook.com/connect/login_success.html")
+#define WEBLOGIN_FACEBOOK               _T("facebook")
+#define WEBLOGIN_FACEBOOK_CLIENTID      _T("611833262539381")
+#define WEBLOGIN_FACEBOOK_REDIRECT      _T("https://www.facebook.com/connect/login_success.html")
+#define WEBLOGIN_FACEBOOK_PASSWDPREFIX  _T("code=")
