@@ -1002,6 +1002,9 @@ void CTeamTalkDlg::OnCommandError(const TTMessage& msg)
             break;
     default :
     {
+        // remove command complete notification, since the command failed
+        m_commands.erase(msg.nSource);
+
         if(_tcslen(msg.clienterrormsg.szErrorMsg))
         {
             CString szError = _T("An error occurred while perform a requested command:\r\n");
