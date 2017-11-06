@@ -234,15 +234,15 @@ public class AudioCodecActivity extends Activity implements
                 default :
                 case TAB_OPUS :
                     if(opusfrag == null)
-                        opusfrag = new OPUSFragment(opuscodec);
+                        opusfrag = new OPUSFragment();
                     return opusfrag;
                 case TAB_SPEEX :
                     if(speexfrag == null)
-                        speexfrag = new SpeexFragment(speexcodec);
+                        speexfrag = new SpeexFragment();
                     return speexfrag;
                 case TAB_SPEEXVBR :
                     if(speexvbrfrag == null)
-                        speexvbrfrag = new SpeexVBRFragment(speexvbrcodec);
+                        speexvbrfrag = new SpeexVBRFragment();
                     return speexvbrfrag;
                 case TAB_NOAUDIO :
                     if(noaudiofrag == null)
@@ -279,19 +279,18 @@ public class AudioCodecActivity extends Activity implements
     public static class OPUSFragment extends Fragment {
 
         OpusCodec opuscodec;
-        
+
         MapAdapter appMap;
         MapAdapter srMap;
         MapAdapter audMap;
         MapAdapter delayMap;
-        
-        public OPUSFragment(OpusCodec opuscodec) {
-            this.opuscodec = opuscodec;
+
+        public OPUSFragment() {
         }
-        
+
         @Override
         public void onAttach(Activity activity) {
-            
+            opuscodec = ((AudioCodecActivity)activity).opuscodec;
             appMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             audMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
@@ -399,17 +398,16 @@ public class AudioCodecActivity extends Activity implements
     public static class SpeexFragment extends Fragment {
 
         SpeexCodec speexcodec;
-        
+
         MapAdapter srMap;
         MapAdapter delayMap;
-        
-        public SpeexFragment(SpeexCodec speexcodec) {
-            this.speexcodec = speexcodec;
+
+        public SpeexFragment() {
         }
 
         @Override
         public void onAttach(Activity activity) {
-            
+            speexcodec = ((AudioCodecActivity)activity).speexcodec;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);
@@ -466,13 +464,12 @@ public class AudioCodecActivity extends Activity implements
         MapAdapter srMap;
         MapAdapter delayMap;
 
-        public SpeexVBRFragment(SpeexVBRCodec speexvbrcodec) {
-            this.speexvbrcodec = speexvbrcodec;
+        public SpeexVBRFragment() {
         }
 
         @Override
         public void onAttach(Activity activity) {
-            
+            speexvbrcodec = ((AudioCodecActivity)activity).speexvbrcodec;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
             srMap.addPair("16 KHz", SpeexConstants.SPEEX_BANDMODE_WIDE);

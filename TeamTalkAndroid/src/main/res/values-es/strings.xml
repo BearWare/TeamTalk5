@@ -38,11 +38,13 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Sin nombre</string>
     <string name="pref_title_keep_screen_on">Mantener la pantalla encendida al conectarse</string>
-    <string name="pref_title_vibrate">Vibrar al activar  el botón de pulsar para hablar</string>
+    <string name="pref_title_vibrate">Vibrar al activar el botón de pulsar para hablar</string>
     <string name="pref_show_log_messages">Ver mensajes de log en el historial de chat</string>
     <string name="pref_title_audio_icons">Eventos de sonido</string>
     <string name="pref_title_rx_tx_audio_icon">Conmutar transmisión de voz</string>
     <string name="pref_summary_rx_tx_audio_icon">Reproducir sonido cuando el botón de transmisión es presionado</string>
+    <string name="pref_title_vox_triggered_icon">Disparación de activación por voz</string>
+    <string name="pref_summary_vox_triggered_icon">Reproducir sonido cuando activación por voz se dispara</string>
     <string name="pref_title_personal_message_audio_icon">Mensaje privado</string>
     <string name="pref_summary_personal_message_audio_icon">Reproducir sonido al recibir un mensaje privado</string>
     <string name="pref_title_channel_message_audio_icon">Mensaje en el canal</string>
@@ -53,6 +55,8 @@
     <string name="pref_summary_server_lost_audio_icon">Reproducir sonido al perder la conexión con el servidor</string>
     <string name="pref_title_files_update_audio_icon">Actualizaciones en la lista de archivos</string>
     <string name="pref_summary_files_update_audio_icon">Reproducir sonido al añadir o eliminar archivos</string>
+    <string name="pref_title_transmitready_icon">Conmutación del modo exclusivo</string>
+    <string name="pref_summary_transmitready_icon">Reproducir sonido cuando transmisión está lista en "Sin Interrupciones" canal</string>
     <string name="pref_header_connection">Conexión</string>
     <string name="pref_title_sub_txtmsg">Mensajes de texto</string>
     <string name="pref_summary_sub_txtmsg">Subscribirse a mensajes de texto d los usuarios</string>
@@ -90,6 +94,8 @@
     <string name="pref_summary_speakerphone_checkbox">Cambia de auriculares a altavoces integrados en el teléfono</string>
     <string name="pref_title_voice_processing_checkbox">Activar preprocesado de voz</string>
     <string name="pref_summary_voice_processing_checkbox">Usar cancelación de ruido y control de ganancia automático</string>
+    <string name="pref_title_public_servers">Mostrar servidores públicos</string>
+    <string name="pref_summary_public_servers">Incluir servidores públicos en la lista de servidores</string>
 
     <string name="text_tts_loggedin">Ha entrado</string>
     <string name="text_tts_loggedout">Ha salido</string>
@@ -223,6 +229,12 @@
     <string name="speaker_volume_description">El volumen del altavoz es %1$s</string>
     <string name="mic_gain_description">La ganancia del micrófono es %1$s</string>
 
+    <string name="voice_activation_on">Encender activación por voz</string>
+    <string name="voice_activation_off">Apagar activación por voz</string>
+    <string name="decvoxlevel">Disminuir el nivel de activación por voz</string>
+    <string name="incvoxlevel">Aumentar el nivel de activación por voz</string>
+    <string name="vox_level_description">El nivel de activación por voz es %1$s</string>
+
     <string name="text_samplerate">Velocidad de muestreo</string>
     <string name="text_ignore_silence">Ignorar silencios (DTX)</string>
     <string name="text_audchan">Canales de audio</string>
@@ -263,5 +275,14 @@
     <string name="text_desktop_session">Sesión de escritorio</string>
     <string name="text_webcam_session">Sesión de cámara web</string>
     <string name="text_mediafile_session">Sesión de archivo multimedia</string>
+
+    <string name="permission_audioinput">Grabación y reproducción de audio será imposible</string>
+    <string name="permission_audiomodify">Grabación y reproducción de audio será imposible</string>
+    <string name="permission_filerx">Descargación de archivos será imposible</string>
+    <string name="permission_filetx">Cargación e importación de archivos será imposible</string>
+    <string name="permission_internet">Cliente será incapaz de conectar a servidores</string>
+    <string name="permission_vibrate">Vibración al pulsar para hablar será imposible</string>
+    <string name="permission_wake_lock">Conexión con el servidor podrá perdirse cuando la pantalla está apagada</string>
+    <string name="permission_read_phone_state">Detección de llamadas telefónicas será imposible</string>
 
 </resources>

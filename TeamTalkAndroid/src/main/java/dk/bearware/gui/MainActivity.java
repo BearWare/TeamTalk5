@@ -97,6 +97,7 @@ import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+import android.view.inputmethod.InputMethodManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -432,12 +433,13 @@ implements TeamTalkConnectionListener,
         super.onStop();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        if(ttclient != null) {
+
+        if (mConnection.isBound()) {
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, ttclient.getSoundOutputVolume());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, ttclient.getSoundInputGainLevel());
             editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, ttclient.getVoiceActivationLevel());
-            editor.commit();
+            editor.apply();
         }
 
         // Cleanup resources
@@ -452,7 +454,7 @@ implements TeamTalkConnectionListener,
             }
 
             // Unbind from the service
-            if(mConnection.isBound()) {
+            if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
                 onServiceDisconnected(ttservice);
                 ttservice.disablePhoneCallReaction();
@@ -570,6 +572,10 @@ implements TeamTalkConnectionListener,
 
         @Override
         public void onPageSelected(int position) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            View v = getCurrentFocus();
+            if (v != null)
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             accessibilityAssistant.setVisiblePage(position);
         }
 
@@ -919,13 +925,13 @@ implements TeamTalkConnectionListener,
                     // show parent channel shortcut
                     if (convertView == null ||
                         convertView.findViewById(R.id.parentname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel_back, null);
+                        convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
                 }
                 else {
 
                     if (convertView == null ||
                         convertView.findViewById(R.id.channelname) == null)
-                        convertView = inflater.inflate(R.layout.item_channel, null);
+                        convertView = inflater.inflate(R.layout.item_channel, parent, false);
 
                     ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
                     TextView name = (TextView) convertView.findViewById(R.id.channelname);
@@ -975,7 +981,7 @@ implements TeamTalkConnectionListener,
             else if(item instanceof User) {
                 if (convertView == null ||
                     convertView.findViewById(R.id.nickname) == null)
-                    convertView = inflater.inflate(R.layout.item_user, null);
+                    convertView = inflater.inflate(R.layout.item_user, parent, false);
                 ImageView usericon = (ImageView) convertView.findViewById(R.id.usericon);
                 TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
                 TextView status = (TextView) convertView.findViewById(R.id.status);
@@ -1453,12 +1459,11 @@ implements TeamTalkConnectionListener,
                         ttservice.setMute(!ttservice.isMute());
                         adjustMuteButton((ImageButton) v);
 
-                        int level = ttclient.getSoundOutputVolume();
-                        level = Utils.refVolumeToPercent(level);
-                        if(ttservice.isMute()) {
-                            level = 0;
-                        }
+                        int level = ttservice.isMute() ?
+                            0 :
+                            Utils.refVolumeToPercent(ttclient.getSoundOutputVolume());
                         volLevel.setText(level + "%");
+                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
                     }
                 }
             });

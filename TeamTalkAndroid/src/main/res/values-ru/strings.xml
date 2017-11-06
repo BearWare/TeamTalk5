@@ -40,8 +40,8 @@
     <string name="pref_title_audio_icons">Звуковая Индикация Событий</string>
     <string name="pref_title_rx_tx_audio_icon">Включение и выключение передачи</string>
     <string name="pref_summary_rx_tx_audio_icon">Звуковое оповещение о включении / выключении передачи голоса</string>
-    <string name="pref_title_vox_triggered_icon">Включение и выключение режима голосовой активации</string>
-    <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении режима голосовой активации</string>
+    <string name="pref_title_vox_triggered_icon">Срабатывание голосовой активации</string>
+    <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении передачи при голосовой активации</string>
     <string name="pref_title_personal_message_audio_icon">Личное сообщение</string>
     <string name="pref_summary_personal_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
     <string name="pref_title_channel_message_audio_icon">Сообщение в канале</string>

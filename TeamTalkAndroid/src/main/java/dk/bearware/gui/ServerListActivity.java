@@ -67,7 +67,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -113,7 +112,15 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
+            ttservice.registerCommandListener(this);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mConnection.isBound())
+            ttservice.unregisterCommandListener(this);
     }
 
     @Override
@@ -327,7 +334,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             if(convertView == null)
-                convertView = inflater.inflate(R.layout.item_serverentry, null);
+                convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
             
             ImageView img = (ImageView) convertView.findViewById(R.id.servericon);
             TextView name = (TextView) convertView.findViewById(R.id.server_name);
