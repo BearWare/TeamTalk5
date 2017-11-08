@@ -30,6 +30,7 @@ public class ServerEntry {
                                KEY_UDPPORT = "udpport",
                                KEY_USERNAME = "username",
                                KEY_PASSWORD = "password",
+                               KEY_FACEBOOK = "fblogin",
                                KEY_NICKNAME = "nickname",
                                KEY_CHANNEL = "channel",
                                KEY_CHANPASSWD = "chanpasswd",
@@ -45,6 +46,8 @@ public class ServerEntry {
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;
     public boolean public_server = false;
+
+    public boolean isFacebookLogin() { return username.equals(AppInfo.WEBLOGIN_FACEBOOK); }
 //    
 //    public void putBundle(Bundle bundle) {
 //        bundle.putString(KEY_SERVERNAME, servername);

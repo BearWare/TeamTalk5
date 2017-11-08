@@ -40,6 +40,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.gson.Gson;
 
 import dk.bearware.AudioCodec;
@@ -53,6 +60,7 @@ import dk.bearware.User;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,6 +73,7 @@ import android.graphics.Rect;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 public class Utils {
@@ -101,9 +110,13 @@ public class Utils {
     }
 
     public static void setEditTextPreference(Preference preference, String text, String summary) {
+        setEditTextPreference(preference, text, summary, false);
+    }
+
+    public static void setEditTextPreference(Preference preference, String text, String summary, boolean forcesummary) {
         EditTextPreference textpref = (EditTextPreference) preference;
         textpref.setText(text);
-        if (summary.length() > 0)
+        if (summary.length() > 0 || forcesummary)
             textpref.setSummary(summary);
     }
 
@@ -316,6 +329,16 @@ public class Utils {
         }
         
         return servers;
+    }
+
+    public static void facebookLogin(Activity activity, FacebookCallback<LoginResult> callback) {
+
+        CallbackManager callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, callback);
+
+        Vector<String> permission = new Vector<>();
+        permission.add("public_profile");
+        LoginManager.getInstance().logInWithReadPermissions(activity, permission);
     }
     
     public static int refVolume(double percent)

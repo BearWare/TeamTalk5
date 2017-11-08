@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamTalk 5</string>
+    <string name="app_name">TeamTalk</string>
     <string name="title_activity_server_list">TeamTalk 5 Servers</string>
     <string name="action_settings">Settings</string>
     <string name="action_exit">Exit</string>
@@ -170,6 +170,7 @@
     <string name="err_retrieve_public_server_list">Failed to retrieve public server list</string>
     <string name="err_send_text_message">Failed to send text message</string>
     <string name="err_connection">Connection failed</string>
+    <string name="err_facebooklogin">Facebook login failed</string>
 
     <string name="action_new_channel">New Channel</string>
     <string name="action_save">Save</string>
@@ -188,6 +189,7 @@
     <string name="pref_title_authentication">Authentication</string>
     <string name="pref_title_username">Username</string>
     <string name="pref_title_password">Password</string>
+    <string name="pref_title_facebook">Facebook Login</string>
     <string name="pref_title_join_channel">Join Channel</string>
     <string name="pref_title_channel">Channel</string>
     <string name="pref_title_channel_password">Channel Password</string>
@@ -284,4 +286,8 @@
     <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
+
+    <string name="facebook_app_id">611833262539381</string>
+    <string name="fb_login_protocol_scheme">fb611833262539381</string>
+
 </resources>
