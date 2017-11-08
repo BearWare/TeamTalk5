@@ -331,11 +331,7 @@ public class Utils {
         return servers;
     }
 
-    public static void facebookLogin(Activity activity, FacebookCallback<LoginResult> callback) {
-
-        CallbackManager callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, callback);
-
+    public static void facebookLogin(Activity activity) {
         Vector<String> permission = new Vector<>();
         permission.add("public_profile");
         LoginManager.getInstance().logInWithReadPermissions(activity, permission);

@@ -51,8 +51,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 public class ServerEntryActivity
@@ -65,7 +67,9 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
     ServerEntry serverentry;
-    
+
+    CallbackManager callbackManager = CallbackManager.Factory.create();
+
     @SuppressWarnings("deprecation")
     @Deprecated
     @Override
@@ -171,16 +175,28 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_connect : {
                 serverentry = getServerEntry();
 
                 if(serverentry.isFacebookLogin()) {
-                    Utils.facebookLogin(this, new FacebookCallback<LoginResult>() {
+
+                    LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
                             String token = loginResult.getAccessToken().getToken();
+
+                            Log.d(TAG, String.format("Facebook login succeeded. Access token: %s", token));
+
+                            Log.d(TAG, "Success from thread " + Thread.currentThread().getId());
+
                             serverentry.password = AppInfo.WEBLOGIN_FACEBOOK_PASSWDPREFIX + token;
                             ttservice.setServerEntry(serverentry);
                             if (!ttservice.reconnect())
@@ -190,6 +206,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
                         @Override
                         public void onCancel() {
+                            Log.d(TAG, String.format("Facebook login was cancelled."));
                             Toast.makeText(ServerEntryActivity.this,
                                     R.string.err_facebooklogin, Toast.LENGTH_LONG).show();
                         }
@@ -198,8 +215,12 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
                         public void onError(FacebookException error) {
                             Toast.makeText(ServerEntryActivity.this,
                                     R.string.err_facebooklogin, Toast.LENGTH_LONG).show();
+                            Log.d(TAG, String.format("Facebook login failed. Exception: %s", error.toString()));
                         }
                     });
+
+                    Log.d(TAG, "Login from thread " + Thread.currentThread().getId());
+                    Utils.facebookLogin(this);
                 }
                 else {
                     ttservice.setServerEntry(serverentry);
