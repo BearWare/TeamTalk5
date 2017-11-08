@@ -33,6 +33,9 @@ public class AppInfo {
     public static final String APPVERSION_POSTFIX = "";
     public static final String OSTYPE = "Android";
 
+    public static final String WEBLOGIN_FACEBOOK = "facebook";
+    public static final String WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token=";
+
     public static String getVersion(Context context) {
         String version = "";
         try {

@@ -80,6 +80,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+
 public class ServerListActivity
 extends ListActivity
 implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, CommandListener, Comparator<ServerEntry> {

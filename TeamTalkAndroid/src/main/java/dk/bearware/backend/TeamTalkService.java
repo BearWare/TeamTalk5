@@ -78,6 +78,8 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 public class TeamTalkService extends Service
 implements CommandListener, UserListener, ConnectionListener, ClientListener {
 

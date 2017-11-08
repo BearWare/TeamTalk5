@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         jcenter() // or mavenCentral()
+        mavenCentral()
     }
 
     dependencies {
@@ -11,7 +12,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 25 // Facebook needs minimum 25
     buildToolsVersion '23.0.3'
 
     defaultConfig {
@@ -45,14 +46,17 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:support-v13:23.4.0'
+    compile 'com.android.support:support-v13:25.3.1'
     compile files('libs/TeamTalk5.jar')
+
+    // Facebook login
+    compile 'com.facebook.android:facebook-login:[4,5)'
 
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     testCompile files('libs/TeamTalk5Test.jar')
 
-    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support:support-annotations:25.3.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     // Optional -- Hamcrest library
