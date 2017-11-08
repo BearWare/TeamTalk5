@@ -80,7 +80,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, fbcallback);
 
         ServerEntry entry = Utils.getServerEntry(this.getIntent());
         if(entry != null) {
@@ -190,7 +189,12 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             case R.id.action_connect : {
                 serverentry = getServerEntry();
 
+                //unregister so delayed facebook login will not cancel new login session
+                LoginManager.getInstance().unregisterCallback(callbackManager);
                 if(serverentry.isFacebookLogin()) {
+                    LoginManager.getInstance().registerCallback(callbackManager,
+                            Utils.createFacebookLogin(this, ttservice, serverentry));
+
                     Utils.facebookLogin(this);
                 }
                 else {
@@ -218,45 +222,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         }
         return true;
     }
-
-    FacebookCallback<LoginResult> fbcallback = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
-            String token = loginResult.getAccessToken().getToken();
-
-            Log.d(TAG, String.format("Facebook login succeeded. Access token: %s", token));
-
-            serverentry.password = AppInfo.WEBLOGIN_FACEBOOK_PASSWDPREFIX + token;
-            ttservice.setServerEntry(serverentry);
-
-            new CountDownTimer(1, 1) {
-                @Override
-                public void onFinish() {
-                    if (!ttservice.reconnect())
-                        Toast.makeText(ServerEntryActivity.this,
-                                R.string.err_connection, Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onTick(long millisUntilFinished) {
-                }
-            }.start();
-        }
-
-        @Override
-        public void onCancel() {
-            Log.d(TAG, String.format("Facebook login was cancelled."));
-            Toast.makeText(ServerEntryActivity.this,
-                    R.string.err_facebooklogin, Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void onError(FacebookException error) {
-            Toast.makeText(ServerEntryActivity.this,
-                    R.string.err_facebooklogin, Toast.LENGTH_LONG).show();
-            Log.d(TAG, String.format("Facebook login failed. Exception: %s", error.toString()));
-        }
-    };
 
     @SuppressWarnings("deprecation")
     @Deprecated

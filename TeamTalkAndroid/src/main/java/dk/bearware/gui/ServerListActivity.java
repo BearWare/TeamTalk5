@@ -80,7 +80,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 public class ServerListActivity
 extends ListActivity
@@ -89,6 +91,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
+    CallbackManager callbackManager;
     
     private ServerListAdapter adapter;
 
@@ -97,6 +100,8 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        callbackManager = CallbackManager.Factory.create();
 
         adapter = new ServerListAdapter(this.getBaseContext());
         setListAdapter(adapter);
@@ -188,6 +193,9 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         switch(requestCode) {
             case REQUEST_NEWSERVER : {
                 if(resultCode == RESULT_OK) {
@@ -291,9 +299,21 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     public void onListItemClick(ListView l, View v, int position, long id) {
         serverentry = servers.get(position);
 
-        ttservice.setServerEntry(serverentry);
-        if (!ttservice.reconnect())
-            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+        //unregister so delayed facebook login will not cancel new login session
+        LoginManager.getInstance().unregisterCallback(callbackManager);
+
+        if(serverentry.isFacebookLogin()) {
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    Utils.createFacebookLogin(this, ttservice, serverentry));
+
+            Utils.facebookLogin(this);
+        }
+        else {
+            ttservice.setServerEntry(serverentry);
+
+            if (!ttservice.reconnect())
+                Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
