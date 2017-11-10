@@ -199,9 +199,6 @@
              <property name="editable">
               <bool>true</bool>
              </property>
-             <property name="currentText">
-              <string/>
-             </property>
             </widget>
            </item>
           </layout>
