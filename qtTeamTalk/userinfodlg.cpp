@@ -51,20 +51,27 @@ void UserInfoDlg::updateUser()
     if(!TT_GetUserStatistics(ttInst, m_userid, &stats))
         return;
 
-    ui.userid->setText(QString::number(user.nUserID));
+    if(ui.userid->text() != QString::number(user.nUserID))
+        ui.userid->setText(QString::number(user.nUserID));
+
     if(ui.nickname->text() != _Q(user.szNickname))
         ui.nickname->setText(_Q(user.szNickname));
+
+    QString status;
     switch(user.nStatusMode & STATUSMODE_MODE)
     {
     case STATUSMODE_AVAILABLE :
-        ui.statusmode->setText(tr("Available")); break;
+        status = tr("Available"); break;
     case STATUSMODE_AWAY :
-        ui.statusmode->setText(tr("Away")); break;
+        status = tr("Away"); break;
     case STATUSMODE_QUESTION :
-        ui.statusmode->setText(tr("Question")); break;
+        status = tr("Question"); break;
     default :
-        ui.statusmode->setText(tr("Unknown")); break;
+        status = tr("Unknown"); break;
     }
+    
+    if(ui.statusmode->text() != status)
+        ui.statusmode->setText(status);
 
     if(ui.statusmsg->text() != _Q(user.szStatusMsg))
         ui.statusmsg->setText(_Q(user.szStatusMsg));
@@ -72,15 +79,19 @@ void UserInfoDlg::updateUser()
         ui.username->setText(_Q(user.szUsername));
     if(ui.clientname->text() != _Q(user.szClientName))
         ui.clientname->setText(_Q(user.szClientName));
+
     switch(user.uUserType)
     {
     case USERTYPE_ADMIN :
-        ui.usertype->setText(tr("Administrator"));break;
+        status = tr("Administrator");break;
     case USERTYPE_DEFAULT :
-        ui.usertype->setText(tr("Default")); break;
+        status = tr("Default"); break;
     default:
-        ui.usertype->setText(tr("Unknown")); break;
+        status = tr("Unknown"); break;
     }
+
+    if(ui.usertype->text() != status)
+        ui.usertype->setText(status);
 
     if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
     {
@@ -89,6 +100,7 @@ void UserInfoDlg::updateUser()
     }
     else
         ui.ipaddr->setText(QString());
+
     if(ui.version->text() != getVersion(user))
         ui.version->setText(getVersion(user));
 
