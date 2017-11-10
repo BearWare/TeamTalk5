@@ -7,7 +7,7 @@
 
 #if defined(Q_OS_WIN32)
 #include <QAxWidget>
-#else
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
 #include <QWebEngineView>
 #endif
 
@@ -24,7 +24,7 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
             this, SLOT( slotNavigateComplete(IDispatch*, QVariant&)));
     webView->dynamicCall( "Navigate(const QString&)", WEBLOGIN_FACEBOOK_URL);
     ui.horizontalLayout->addWidget(webView);
-#else
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     QWebEngineView *webView = new QWebEngineView(this);
     webView->setObjectName(QStringLiteral("webView"));
 
