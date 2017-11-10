@@ -93,13 +93,8 @@ void UserInfoDlg::updateUser()
     if(ui.usertype->text() != status)
         ui.usertype->setText(status);
 
-    if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
-    {
-        if(ui.ipaddr->text() != _Q(user.szIPAddress))
-            ui.ipaddr->setText(_Q(user.szIPAddress));
-    }
-    else
-        ui.ipaddr->setText(QString());
+    if(ui.ipaddr->text() != _Q(user.szIPAddress))
+        ui.ipaddr->setText(_Q(user.szIPAddress));
 
     if(ui.version->text() != getVersion(user))
         ui.version->setText(getVersion(user));
