@@ -2,6 +2,9 @@ package dk.bearware;
 
 import junit.framework.TestCase;
 import java.util.Vector;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
@@ -859,6 +862,38 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
     }
 
+    public void test_fileUpload() throws IOException {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+
+        // writing string to a file encoded as modified UTF-8
+        DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("file.txt"));
+        dataOut.writeUTF("hello");
+        dataOut.close();
+
+        int cmdid = client1.doSendFile(client1.getMyChannelID(), "file.txt");
+        assertTrue("upload issued", cmdid>0);
+        new RunServer(server).interleave();
+        new RunServer(server).interleave();
+
+        TTMessage msg = new TTMessage();
+        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+    }
+
     public void _test_99_runServer() {
 
         TeamTalkSrv server = newServerInstance();
@@ -887,6 +922,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.nMaxUsers = 10;
         chan.audiocodec = new AudioCodec(true);
         chan.audiocfg = new AudioConfig(true);
+        chan.nDiskQuota = DEFAULT_CHANNEL_QUOTA;
 
         assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
