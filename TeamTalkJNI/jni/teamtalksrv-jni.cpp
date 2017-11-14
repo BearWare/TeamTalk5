@@ -605,7 +605,7 @@ extern "C" {
 
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
-        jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, file_obj);
+        jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
         assert(com_obj);
     }
     void logFileDownloadedCallback(IN TTSInstance* lpTTSInstance,
@@ -627,7 +627,7 @@ extern "C" {
 
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
-        jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, file_obj);
+        jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
         assert(com_obj);
     }
     void logFileDeletedCallback(IN TTSInstance* lpTTSInstance,
@@ -649,7 +649,7 @@ extern "C" {
 
         jobject cb_obj = logger_refs[lpTTSInstance];
         assert(cb_obj);
-        jobject com_obj = env->CallObjectMethod(cb_obj, method, user_obj, file_obj);
+        jobject com_obj = env->CallObjectMethod(cb_obj, method, file_obj, user_obj);
         assert(com_obj);
     }
     void logServerUpdatedCallback(IN TTSInstance* lpTTSInstance,

@@ -870,7 +870,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.szPassword = PASSWORD;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.szNote = "An example user account with limited user-rights";
-        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES | UserRight.USERRIGHT_DOWNLOAD_FILES;
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
@@ -888,10 +888,27 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         int cmdid = client1.doSendFile(client1.getMyChannelID(), "file.txt");
         assertTrue("upload issued", cmdid>0);
         new RunServer(server).interleave();
-        new RunServer(server).interleave();
 
         TTMessage msg = new TTMessage();
         assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        assertTrue("file transfer done", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg));
+
+        new RunServer(server).interleave();
+
+        cmdid = client1.doRecvFile(client1.getMyChannelID(), msg.remotefile.nFileID, "hest.txt");
+        assertTrue("download issued", cmdid>0);
+
+        new RunServer(server).interleave();
+
+        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        cmdid = client1.doDeleteFile(client1.getMyChannelID(), msg.remotefile.nFileID);
+        assertTrue("delete issued", cmdid>0);
+
+        new RunServer(server).interleave();
+
+        assertTrue("file transfer rm", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE, DEF_WAIT, msg));
     }
 
     public void _test_99_runServer() {
