@@ -36,19 +36,19 @@ CUserInfoDlg::~CUserInfoDlg()
 void CUserInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_STATIC_SUSERID, m_nUserID);
-    DDX_Text(pDX, IDC_STATIC_SNICKNAME, m_szNick);
+    DDX_Text(pDX, IDC_EDIT_USERID, m_nUserID);
+    DDX_Text(pDX, IDC_EDIT_NICKNAME, m_szNick);
     DDX_Text(pDX, IDC_STATIC_VOICELOSS, m_szPacketloss);
-    DDX_Text(pDX, IDC_STATIC_SCLIENTVER, m_szVersion);
-    DDX_Text(pDX, IDC_STATIC_SUSERNAME, m_szUsername);
-    DDX_Text(pDX, IDC_STATIC_SUSERTYPE, m_szUserType);
-    DDX_Text(pDX, IDC_STATIC_SIPADDR, m_szIPAddr);
+    DDX_Text(pDX, IDC_EDIT_CLIENTVER, m_szVersion);
+    DDX_Text(pDX, IDC_EDIT_USERNAME, m_szUsername);
+    DDX_Text(pDX, IDC_EDIT_USERTYPE, m_szUserType);
+    DDX_Text(pDX, IDC_EDIT_IPADDR, m_szIPAddr);
     DDX_Text(pDX, IDC_STATIC_MFVIDEOLOSS, m_szMFVideoLoss);
     DDX_Text(pDX, IDC_STATIC_MFAUDIOLOSS, m_szMFAudioLoss);
     DDX_Control(pDX, IDC_STATIC_VOICELOSS, m_wndVoiceLoss);
     DDX_Control(pDX, IDC_STATIC_MFAUDIOLOSS, m_wndMFAudioLoss);
     DDX_Control(pDX, IDC_STATIC_MFVIDEOLOSS, m_wndMFVideoLoss);
-    DDX_Text(pDX, IDC_STATIC_SCLIENTNAME, m_szClientName);
+    DDX_Text(pDX, IDC_EDIT_CLIENTNAME, m_szClientName);
 }
 
 

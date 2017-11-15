@@ -307,8 +307,7 @@
 #define IDC_EDIT_AWAYMESSAGE            1115
 #define IDC_STATIC_3DDESCRIP            1117
 #define IDC_RADIO_QUESTION              1118
-#define IDC_STATIC_SUSERID              1119
-#define IDC_STATIC_SNICKNAME            1121
+#define IDC_EDIT_USERID                 1119
 #define IDC_STATIC_IPADDR               1123
 #define IDC_EDIT_TOTALTX                1124
 #define IDC_EDIT_LOCALTCPPORT           1126
@@ -317,7 +316,7 @@
 #define IDC_EDIT_VOICE                  1129
 #define IDC_EDIT_MAXBITRATE             1130
 #define IDC_CHECK_RECONNECT             1131
-#define IDC_STATIC_SCLIENTVER           1132
+#define IDC_EDIT_CLIENTVER              1132
 #define IDC_RICHEDIT_MESSAGE            1135
 #define IDC_EDIT_VIDEOTX                1137
 #define IDC_RICHEDIT_HISTORY            1138
@@ -373,10 +372,10 @@
 #define IDC_STATIC_FONTNAME             1212
 #define IDC_STATIC_SOUNDSYSDESCRIP      1213
 #define IDC_STATIC_TESTDESCRIP          1215
-#define IDC_STATIC_SUSERTYPE            1216
+#define IDC_EDIT_USERTYPE               1216
 #define IDC_CHECK_CHANNELSTEMP          1217
 #define IDC_CHECK_CHANNELSPERMANENT     1218
-#define IDC_STATIC_SIPADDR              1220
+#define IDC_EDIT_IPADDR                 1220
 #define IDC_CHECK_ALWAYSONTOP           1221
 #define IDC_STATIC_COOR                 1222
 #define IDC_STATIC_ROOM                 1223
@@ -386,7 +385,6 @@
 #define IDC_STATIC_AUTHOR               1228
 #define IDC_STATIC_GRPCHANNEL           1230
 #define IDC_BUTTON_SEND                 1231
-#define IDC_STATIC_SUSERNAME            1232
 #define IDC_VERT_SPLITTER               1233
 #define IDC_STATIC_VERSION              1234
 #define IDC_STATIC_WIZWELCOME           1236
@@ -655,7 +653,7 @@
 #define IDC_BUTTON_IMPORTTTILE          1538
 #define IDC_CHECK_SHOWUSERNAME          1539
 #define IDC_STATIC_CLIENTNAME           1540
-#define IDC_STATIC_SCLIENTNAME          1541
+#define IDC_EDIT_CLIENTNAME             1541
 #define IDC_TREE_TTS                    1542
 #define IDC_STATIC_TTS                  1543
 #define IDC_TREE_SOUNDEVENTS            1544
