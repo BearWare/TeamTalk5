@@ -87,6 +87,9 @@
 #define WEBLOGIN_FACEBOOK_PASSWDPREFIX      "code="
 #define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX   "@facebook.com"
 #define WEBLOGIN_FACEBOOK_PROFILE_URL       "https://facebook.com/"
+#define WEBLOGIN_FACEBOOK_LOGOUT_URL        "https://www.facebook.com/logout.php?"
+#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT
+
 
 #if QT_VERSION >= 0x050000
 #if defined(Q_OS_WIN32)

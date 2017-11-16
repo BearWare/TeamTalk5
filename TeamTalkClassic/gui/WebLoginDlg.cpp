@@ -15,6 +15,7 @@ IMPLEMENT_DYNAMIC(CWebLoginDlg, CDialogEx)
 
 CWebLoginDlg::CWebLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_WEBLOGIN, pParent)
+    , m_bCancelled(FALSE)
 {
 #ifndef _WIN32_WCE
 	EnableActiveAccessibility();
@@ -35,6 +36,7 @@ void CWebLoginDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CWebLoginDlg, CDialogEx)
     ON_WM_SIZE()
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -80,11 +82,22 @@ void CWebLoginDlg::NavigateComplete2Explorer1(LPDISPATCH pDisp, VARIANT* URL)
     if(std::regex_search(url, sm, std::regex("&code=([A-Za-z0-9\\-_]*)")) && sm.size())
     {
         m_szPassword = STR_UTF8(sm[1]);
-        TRACE(_T("Facebook URL: %s\n"), STR_UTF8(url));
     }
 
-    if(m_szPassword.GetLength())
-        OnOK();
+    if(std::regex_search(url, sm, std::regex("#access_token=([A-Za-z0-9\\-_]*)")) && sm.size())
+    {
+        m_szToken = STR_UTF8(sm[1]);
+    }
+    
+    if(m_szPassword.GetLength() && !m_bCancelled)
+    {
+        SetTimer(1, 1000, NULL);
+    }
+
+    if(m_bCancelled && CString(URL->bstrVal) == WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT)
+    {
+        CDialogEx::OnCancel();
+    }
 }
 
 
@@ -93,4 +106,40 @@ void CWebLoginDlg::OnSize(UINT nType, int cx, int cy)
     CDialogEx::OnSize(nType, cx, cy);
 
     m_resizer.Move();
+}
+
+
+void CWebLoginDlg::OnCancel()
+{
+    KillTimer(1);
+
+    if(m_bCancelled)
+    {
+        CDialogEx::OnCancel();
+        return;
+    }
+
+    m_bCancelled = TRUE;
+
+    if(MessageBox(_T("Do Facebook logout?"), _T("Facebook Login"), MB_YESNO) == IDYES)
+    {
+        CString szUrl = WEBLOGIN_FACEBOOK_LOGOUT_URL;
+        szUrl += _T("next=") WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT;
+        szUrl += _T("&access_token=") + m_szToken;
+        m_wndWebBrowser.Navigate(szUrl, NULL, NULL, NULL, NULL);
+    }
+    else
+    {
+        if(m_szPassword.GetLength())
+            OnOK();
+        else
+            CDialogEx::OnCancel();
+    }
+}
+
+
+void CWebLoginDlg::OnTimer(UINT_PTR nIDEvent)
+{
+    CDialogEx::OnTimer(nIDEvent);
+    OnOK();
 }

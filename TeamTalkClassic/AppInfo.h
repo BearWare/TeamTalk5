@@ -57,3 +57,5 @@
 #define WEBLOGIN_FACEBOOK_PASSWDPREFIX      _T("code=")
 #define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX   _T("@facebook.com")
 #define WEBLOGIN_FACEBOOK_PROFILE_URL       _T("https://facebook.com/")
+#define WEBLOGIN_FACEBOOK_LOGOUT_URL        _T("https://www.facebook.com/logout.php?")
+#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT

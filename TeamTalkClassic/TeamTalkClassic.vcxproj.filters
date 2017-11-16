@@ -315,11 +315,11 @@
     <ClCompile Include="gui\CodecLimitTab.cpp">
       <Filter>Source Files\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="gui\WebLoginDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="explorer1.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\WebLoginDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -599,11 +599,11 @@
     <ClInclude Include="gui\CodecLimitTab.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="gui\WebLoginDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="explorer1.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\WebLoginDlg.h">
+      <Filter>Header Files\Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,8 +16,11 @@ public:
     WebLoginDlg(QWidget *parent = 0);
     ~WebLoginDlg();
 
-    QString m_password;
+    QString m_password, m_token;
+
 private slots:
+    void navigate(const QString& url);
+
 #if defined(Q_OS_WIN32)
     void slotNavigateComplete(IDispatch*, QVariant&);
 #endif
@@ -26,6 +29,17 @@ private slots:
 
 private:
     Ui::WebLoginDlg ui;
+#if defined(Q_OS_WIN32)
+    class QAxWidget* m_webView;
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    class QWebEngineView* m_webView;
+#endif
+    int m_timerid;
+    bool m_cancelled;
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    void timerEvent(QTimerEvent *event);
 };
 
 #endif // WEBLOGINDLG_H

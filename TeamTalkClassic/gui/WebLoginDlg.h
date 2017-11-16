@@ -16,17 +16,21 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DIALOG_WEBLOGIN };
 
-    CString m_szPassword;
+    CString m_szPassword, m_szToken;
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
 
     CResizer m_resizer;
+    BOOL m_bCancelled;
 public:
     virtual BOOL OnInitDialog();
     CExplorer1 m_wndWebBrowser;
     DECLARE_EVENTSINK_MAP()
     void NavigateComplete2Explorer1(LPDISPATCH pDisp, VARIANT* URL);
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    virtual void OnCancel();
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
 };
