@@ -23,6 +23,8 @@
 #include "appinfo.h"
 #include "common.h"
 
+#include <QDesktopServices>
+
 extern TTInstance* ttInst;
 
 UserInfoDlg::UserInfoDlg(int userid, QWidget * parent/* = 0*/)
@@ -34,6 +36,8 @@ UserInfoDlg::UserInfoDlg(int userid, QWidget * parent/* = 0*/)
 
     startTimer(250);
     updateUser();
+
+    connect(ui.profileBtn, SIGNAL(clicked(bool)), SLOT(slotProfile(bool)));
 }
 
 void UserInfoDlg::timerEvent(QTimerEvent *)
@@ -44,11 +48,7 @@ void UserInfoDlg::timerEvent(QTimerEvent *)
 void UserInfoDlg::updateUser()
 {
     User user;
-    UserStatistics stats;
     if(!TT_GetUser(ttInst, m_userid, &user))
-        return;
-
-    if(!TT_GetUserStatistics(ttInst, m_userid, &stats))
         return;
 
     if(ui.userid->text() != QString::number(user.nUserID))
@@ -77,6 +77,11 @@ void UserInfoDlg::updateUser()
         ui.statusmsg->setText(_Q(user.szStatusMsg));
     if(ui.username->text() != _Q(user.szUsername))
         ui.username->setText(_Q(user.szUsername));
+
+    QStringList tokens = _Q(user.szUsername).split(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX);
+    if(tokens.size() && tokens[0] == _Q(user.szUsername))
+        ui.profileBtn->hide();
+
     if(ui.clientname->text() != _Q(user.szClientName))
         ui.clientname->setText(_Q(user.szClientName));
 
@@ -99,8 +104,22 @@ void UserInfoDlg::updateUser()
     if(ui.version->text() != getVersion(user))
         ui.version->setText(getVersion(user));
 
+    UserStatistics stats;
+    if(!TT_GetUserStatistics(ttInst, m_userid, &stats))
+        return;
+
     ui.voicepacketloss->setText(QString("%1/%2").arg(stats.nVoicePacketsLost).arg(stats.nVoicePacketsRecv+stats.nVoicePacketsLost));
     ui.vidpacketloss->setText(QString("%1/%2").arg(stats.nVideoCaptureFramesLost).arg(stats.nVideoCaptureFramesRecv+stats.nVideoCaptureFramesLost));
     ui.mediaaudpacketloss->setText(QString("%1/%2").arg(stats.nMediaFileAudioPacketsLost).arg(stats.nMediaFileAudioPacketsRecv+stats.nMediaFileAudioPacketsLost));
     ui.mediavidpacketloss->setText(QString("%1/%2").arg(stats.nMediaFileVideoFramesLost).arg(stats.nMediaFileVideoFramesRecv+stats.nMediaFileVideoFramesLost));
+}
+
+void UserInfoDlg::slotProfile(bool)
+{
+    QStringList tokens = ui.username->text().split(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX);
+    if(tokens.size())
+    {
+        QString url = QString("%1%2").arg(WEBLOGIN_FACEBOOK_PROFILE_URL).arg(tokens[0]);
+        QDesktopServices::openUrl(QUrl(url));
+    }
 }

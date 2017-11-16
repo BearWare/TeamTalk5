@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>267</width>
+    <width>359</width>
     <height>386</height>
    </rect>
   </property>
@@ -17,9 +17,6 @@
    <locale language="C" country="AnyCountry"/>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <property name="fieldGrowthPolicy">
-    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -71,10 +68,38 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="username">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="username">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="profileBtn">
+       <property name="text">
+        <string>Profile</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_11">
      <property name="text">
-      <string/>
+      <string>Client name</string>
      </property>
+     <property name="buddy">
+      <cstring>clientname</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="clientname">
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -248,23 +273,6 @@
    </item>
    <item row="12" column="1">
     <widget class="QLineEdit" name="mediavidpacketloss"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_11">
-     <property name="text">
-      <string>Client name</string>
-     </property>
-     <property name="buddy">
-      <cstring>clientname</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="clientname">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

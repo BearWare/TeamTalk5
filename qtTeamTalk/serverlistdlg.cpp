@@ -140,7 +140,11 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.udpportEdit->setText(QString::number(entry.udpport));
     ui.cryptChkBox->setChecked(entry.encrypted);
     ui.usernameBox->lineEdit()->setText(entry.username);
-    ui.passwordEdit->setText(entry.password);
+    if(entry.username == WEBLOGIN_FACEBOOK)
+        ui.passwordEdit->setText("");
+    else
+        ui.passwordEdit->setText(entry.password);
+    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 
@@ -343,4 +347,8 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
                              .arg(ui.tcpportEdit->text()));
     else
         ui.nameEdit->setText(QString());
+
+    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK);
+    if(username == WEBLOGIN_FACEBOOK)
+        ui.passwordEdit->setText("");
 }

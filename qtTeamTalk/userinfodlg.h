@@ -38,6 +38,9 @@ private:
     int m_userid;
      Ui::UserInfoDlg ui;
      void updateUser();
+
+private slots:
+     void slotProfile(bool checked = false);
 };
 
 

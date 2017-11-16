@@ -665,6 +665,7 @@
 #define IDC_STATIC_CMDLIMIT             1550
 #define IDC_COMBO_USERNAME              1551
 #define IDC_EXPLORER1                   1552
+#define IDC_BUTTON_PROFILE              1553
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -776,7 +777,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        305
 #define _APS_NEXT_COMMAND_VALUE         32950
-#define _APS_NEXT_CONTROL_VALUE         1553
+#define _APS_NEXT_CONTROL_VALUE         1554
 #define _APS_NEXT_SYMED_VALUE           302
 #endif
 #endif

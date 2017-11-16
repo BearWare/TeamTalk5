@@ -518,6 +518,8 @@ void CHostManagerDlg::OnCbnEditchangeComboUsername()
     CString szUsername;
     m_wndUsername.GetWindowText(szUsername);
     m_wndPassword.EnableWindow(szUsername != WEBLOGIN_FACEBOOK);
+    if(szUsername == WEBLOGIN_FACEBOOK)
+        m_wndPassword.SetWindowText(_T(""));
 }
 
 void CHostManagerDlg::OnCbnKillfocusComboUsername()

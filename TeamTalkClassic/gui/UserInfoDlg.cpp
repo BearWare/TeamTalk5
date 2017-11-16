@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "UserInfoDlg.h"
+#include <AppInfo.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -49,12 +50,14 @@ void CUserInfoDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_MFAUDIOLOSS, m_wndMFAudioLoss);
     DDX_Control(pDX, IDC_STATIC_MFVIDEOLOSS, m_wndMFVideoLoss);
     DDX_Text(pDX, IDC_EDIT_CLIENTNAME, m_szClientName);
+    DDX_Control(pDX, IDC_BUTTON_PROFILE, m_wndProfileBtn);
 }
 
 
 BEGIN_MESSAGE_MAP(CUserInfoDlg, CDialog)
     ON_BN_CLICKED(IDOK, &CUserInfoDlg::OnBnClickedOk)
     ON_WM_TIMER()
+    ON_BN_CLICKED(IDC_BUTTON_PROFILE, &CUserInfoDlg::OnBnClickedButtonProfile)
 END_MESSAGE_MAP()
 
 
@@ -69,6 +72,10 @@ BOOL CUserInfoDlg::OnInitDialog()
     UpdateStats();
 
     SetTimer(0, 1000, NULL);
+
+    m_wndProfileBtn.ShowWindow(
+        m_szUsername.Right(_tcslen(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX)) == WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX?
+        SW_SHOW : SW_HIDE);
     return TRUE;
 }
 
@@ -101,3 +108,13 @@ void CUserInfoDlg::UpdateStats()
     }
 }
 
+void CUserInfoDlg::OnBnClickedButtonProfile()
+{
+    int nStart = 0;
+    CString szProfileid = m_szUsername.Tokenize(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, nStart);
+    if(!szProfileid.IsEmpty())
+    {
+        CString szUrl = WEBLOGIN_FACEBOOK_PROFILE_URL + szProfileid;
+        HINSTANCE i = ShellExecute(this->m_hWnd, _T("open"), szUrl, _T(""), _T(""), SW_SHOW);
+    }
+}
