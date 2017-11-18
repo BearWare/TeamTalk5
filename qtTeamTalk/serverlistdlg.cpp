@@ -241,7 +241,7 @@ void ServerListDlg::slotConnect()
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
                 return;
-            entry.password = WEBLOGIN_FACEBOOK_PASSWDPREFIX + dlg.m_password;
+            entry.password = dlg.m_password;
         }
 
         addLatestHost(entry);

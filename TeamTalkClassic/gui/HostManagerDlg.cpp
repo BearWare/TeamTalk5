@@ -350,7 +350,7 @@ void CHostManagerDlg::OnBnClickedOk()
             CWebLoginDlg dlg;
             if(dlg.DoModal() == IDOK)
             {
-                m_wndPassword.SetWindowText(WEBLOGIN_FACEBOOK_PASSWDPREFIX + dlg.m_szPassword);
+                m_wndPassword.SetWindowText(dlg.m_szPassword);
                 OnOK();
             }
         }

@@ -81,7 +81,7 @@ void CWebLoginDlg::NavigateComplete2Explorer1(LPDISPATCH pDisp, VARIANT* URL)
     std::smatch sm;
     if(std::regex_search(url, sm, std::regex("&code=([A-Za-z0-9\\-_]*)")) && sm.size())
     {
-        m_szPassword = STR_UTF8(sm[1]);
+        m_szPassword = WEBLOGIN_FACEBOOK_PASSWDPREFIX + STR_UTF8(sm[1]);
     }
 
     if(std::regex_search(url, sm, std::regex("#access_token=([A-Za-z0-9\\-_]*)")) && sm.size())

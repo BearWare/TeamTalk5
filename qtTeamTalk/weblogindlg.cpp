@@ -74,7 +74,7 @@ void WebLoginDlg::slotUrlChanged(const QUrl &url)
         QRegExp rxcode("&code=([A-Za-z0-9\\-_]*)");
         if(rxcode.indexIn(urlstr) >= 0)
         {
-            m_password = rxcode.cap(1);
+            m_password = WEBLOGIN_FACEBOOK_PASSWDPREFIX + rxcode.cap(1);
             m_timerid = startTimer(1000);
             // Web control has focus so hitting escape has no effect. 
             // Therefore set focus to dialog.
