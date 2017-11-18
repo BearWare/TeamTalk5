@@ -2605,6 +2605,98 @@ namespace TeamTalkTest.NET
             //VoiceTxRx(ttclient, 3600000, 30000, 125000);
         }
 
+        [TestMethod]
+        public void TestManyVoiceStreams()
+        {
+            const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
+            const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                                         UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
+            MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
+
+            List<TeamTalkBase> clients = new List<TeamTalkBase>();
+            int users = 5, voicetx = 3;
+
+            for (int i = 0; i < users; i++)
+            {
+                TeamTalkBase ttclient = NewClientInstance();
+                clients.Add(ttclient);
+
+                Connect(ttclient);
+                //InitSound(ttclient);
+                InitSound(ttclient, SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
+                    SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, true);
+                Login(ttclient, NICKNAME, USERNAME, PASSWORD);
+                JoinRoot(ttclient);
+
+                Assert.IsTrue(WaitCmdSuccess(ttclient, ttclient.DoSubscribe(ttclient.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+            }
+
+            for (int r = 0; r < 10000; r++)
+            {
+                for (int i = 0; i < voicetx; i++)
+                {
+                    Assert.IsTrue(clients[i].EnableVoiceTransmission(true));
+                    foreach (TeamTalkBase eventclient in clients)
+                    {
+                        Assert.IsTrue(WaitForEvent(eventclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT));
+                        WaitForEvent(eventclient, ClientEvent.CLIENTEVENT_NONE, 0); // drain
+                    }
+                }
+
+                WaitForEvent(clients[0], ClientEvent.CLIENTEVENT_NONE, 2000); // wait
+
+                foreach(TeamTalkBase ttclient in clients)
+                {
+                    Assert.IsTrue(WaitCmdComplete(ttclient, ttclient.DoLeaveChannel(), DEF_WAIT), "leave root complete");
+                    JoinRoot(ttclient);
+                }
+
+                for (int i = 0; i < voicetx; i++)
+                {
+                    Assert.IsTrue(clients[i].EnableVoiceTransmission(false));
+                    foreach (TeamTalkBase eventclient in clients)
+                    {
+                        Assert.IsTrue(WaitForEvent(eventclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT));
+                        WaitForEvent(eventclient, ClientEvent.CLIENTEVENT_NONE, 0); // drain
+                    }
+                }
+
+                foreach (TeamTalkBase ttclient in clients)
+                    WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100);
+            }
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Assert.IsTrue(clients[i].EnableVoiceTransmission(true));
+            //    foreach (TeamTalkBase e in clients)
+            //    {
+            //        Assert.IsTrue(WaitForEvent(e, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT));
+            //        WaitForEvent(e, ClientEvent.CLIENTEVENT_NONE, 0); // drain
+            //    }
+            //}
+
+            //foreach (TeamTalkBase c in clients)
+            //{
+            //    foreach (TeamTalkBase e in clients)
+            //    {
+            //        Assert.IsTrue(WaitCmdSuccess(c, c.DoUnsubscribe(e.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+            //    }
+            //}
+
+            //foreach (TeamTalkBase c in clients)
+            //{
+            //    WaitForEvent(c, ClientEvent.CLIENTEVENT_NONE, 3000);
+            //}
+
+            //foreach (TeamTalkBase c in clients)
+            //{
+            //    foreach (TeamTalkBase e in clients)
+            //    {
+            //        Assert.IsTrue(WaitCmdSuccess(c, c.DoSubscribe(e.UserID, Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+            //    }
+            //}
+        }
+
         void VoiceTxRx(TeamTalkBase ttclient, int TEST_DURATION, int VOICE_TX_DURATION, int SILENCE_DURATION)
         {
             Debug.WriteLine("Total Duration {0} {1} {2}", TEST_DURATION, VOICE_TX_DURATION, SILENCE_DURATION);
@@ -2661,9 +2753,18 @@ namespace TeamTalkTest.NET
 
         private void InitSound(TeamTalkBase ttclient)
         {
-            int devin = 0, devout = 0;
+            InitSound(ttclient, -1, -1, false);
+        }
+
+        private void InitSound(TeamTalkBase ttclient, int devin, int devout, bool duplex)
+        {
+            int inn = 0, outt = 0;
             Assert.IsTrue(TeamTalkBase.GetDefaultSoundDevicesEx(SoundSystem.SOUNDSYSTEM_WASAPI,
-                                                 ref devin, ref devout), "Get default DSound devices");
+                                                 ref inn, ref outt), "Get default DSound devices");
+            if (devin < 0)
+                devin = inn;
+            if (devout < 0)
+                devout = outt;
 
             SpeexDSP spxdsp = new SpeexDSP();
             spxdsp.bEnableAGC = true;
@@ -2677,18 +2778,25 @@ namespace TeamTalkTest.NET
             spxdsp.nEchoSuppress = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS;
             spxdsp.nEchoSuppressActive = SpeexDSPConstants.DEFAULT_ECHO_SUPPRESS_ACTIVE;
 
-            Assert.IsTrue(ttclient.InitSoundInputDevice(devin), "Init sound input");
-            Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_READY), "Input ready");
+            if(duplex)
+            {
+                Assert.IsTrue(ttclient.InitSoundDuplexDevices(devin, devout), "Duplex init");
+            }
+            else
+            {
+                Assert.IsTrue(ttclient.InitSoundInputDevice(devin), "Init sound input");
+                Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_READY), "Input ready");
 
-            Assert.IsTrue(ttclient.InitSoundOutputDevice(devout), "Init sound output");
-            Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDOUTPUT_READY), "Output ready");
+                Assert.IsTrue(ttclient.InitSoundOutputDevice(devout), "Init sound output");
+                Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDOUTPUT_READY), "Output ready");
+            }
         }
 
         private static void Connect(TeamTalkBase ttclient)
         {
             Assert.IsTrue(ttclient.Connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED), "connect call");
 
-            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000), "wait connect");
+            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, DEF_WAIT), "wait connect");
         }
 
         private static void Login(TeamTalkBase ttclient, string nick, string username, string passwd)
