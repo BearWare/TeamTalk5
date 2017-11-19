@@ -7,7 +7,6 @@
 #include "TeamTalkDlg.h"
 #include "GenerateTTFileDlg.h"
 #include "AppInfo.h"
-#include "WebLoginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -343,21 +342,7 @@ void CHostManagerDlg::OnBnClickedOk()
     }
     else
     {
-        CString szUsername;
-        m_wndUsername.GetWindowText(szUsername);
-        if(szUsername == WEBLOGIN_FACEBOOK)
-        {
-            CWebLoginDlg dlg;
-            if(dlg.DoModal() == IDOK)
-            {
-                m_wndPassword.SetWindowText(dlg.m_szPassword);
-                OnOK();
-            }
-        }
-        else
-        {
-            OnOK();
-        }
+        OnOK();
     }
 }
 

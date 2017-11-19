@@ -57,6 +57,7 @@
 #include "gui/UserDesktopDlg.h"
 #include "gui/DesktopShareDlg.h"
 #include "gui/StreamMediaDlg.h"
+#include "gui/WebLoginDlg.h"
 
 #include "wizard/WizMasterSheet.h"
 #include "wizard/WizWelcomePage.h"
@@ -888,6 +889,15 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
     if(m_nReconnectTimerID)
         KillTimer(m_nReconnectTimerID);
     m_nReconnectTimerID = 0;
+
+    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK)
+    {
+        CWebLoginDlg dlg;
+        if(dlg.DoModal() == IDOK)
+        {
+            m_host.szPassword = STR_UTF8(dlg.m_szPassword);
+        }
+    }
 
     int cmd = TT_DoLoginEx(ttInst, 
         STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()), 
