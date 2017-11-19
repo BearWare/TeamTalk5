@@ -44,6 +44,7 @@
 #include "uservideodlg.h"
 #include "userdesktopdlg.h"
 #include "appinfo.h"
+#include "weblogindlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -755,6 +756,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         ZERO_STRUCT(m_clientstats);
 
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+
+        if(m_host.username.compare(WEBLOGIN_FACEBOOK, Qt::CaseInsensitive) == 0)
+        {
+            WebLoginDlg dlg(this);
+            if(dlg.exec() != QDialog::Accepted)
+                return;
+            m_host.password = dlg.m_password;
+        }
 
         int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                                  _W(m_host.password), _W(QString(APPNAME_SHORT)));
