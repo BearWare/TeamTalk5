@@ -58,6 +58,7 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK_TRANSMITAUDIOFILE, m_wndTransmitAudFiles);
     DDX_Control(pDX, IDC_CHECK_TRANSMITVIDEOFILE, m_wndTransmitVidFiles);
     DDX_Control(pDX, IDC_TAB_USERACCOUNT, m_wndTabCtrl);
+    DDX_Control(pDX, IDC_CHECK_CHANGENICKNAME, m_wndChangeNickname);
 }
 
 
@@ -108,7 +109,13 @@ BOOL CUserAccountsDlg::OnInitDialog()
 
     ListAccounts();
 
-    OnBnClickedButtonNew();
+    if(m_uad == UAD_READONLY && m_accounts.size() == 1)
+    {
+        m_wndAccounts.SetCurSel(0);
+        ShowUserAccount(m_accounts[0]);
+    }
+    else
+        OnBnClickedButtonNew();
 
     m_bResizeReady = TRUE;
 
@@ -156,6 +163,8 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
     account.uUserType = (m_wndAdminUser.GetCheck() == BST_CHECKED)? USERTYPE_ADMIN : USERTYPE_DEFAULT;
     if(m_wndDoubleLogin.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_MULTI_LOGIN;
+    if(m_wndChangeNickname.GetCheck() == BST_UNCHECKED)
+        account.uUserRights |= USERRIGHT_LOCKED_NICKNAME;
     if(m_wndViewAllUsers.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
     if(m_wndPermChannels.GetCheck() == BST_CHECKED)
@@ -277,6 +286,7 @@ void CUserAccountsDlg::UpdateControls()
     BOOL bWrite = m_uad == UAD_READWRITE;
     BOOL bCheck = m_wndDefaultUser.GetCheck() == BST_CHECKED && bWrite;
     m_wndDoubleLogin.EnableWindow(bCheck);
+    m_wndChangeNickname.EnableWindow(bCheck);
     m_wndViewAllUsers.EnableWindow(bCheck);
     m_wndPermChannels.EnableWindow(bCheck);
     m_wndTempChannels.EnableWindow(bCheck);
@@ -319,6 +329,7 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
     m_wndDefaultUser.SetCheck((useraccount.uUserType & USERTYPE_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
 
     m_wndDoubleLogin.SetCheck((useraccount.uUserRights & USERRIGHT_MULTI_LOGIN)?BST_CHECKED:BST_UNCHECKED);
+    m_wndChangeNickname.SetCheck((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) ? BST_UNCHECKED : BST_CHECKED);
     m_wndViewAllUsers.SetCheck((useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS)?BST_CHECKED:BST_UNCHECKED);
     m_wndPermChannels.SetCheck((useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS)?BST_CHECKED:BST_UNCHECKED);
     m_wndTempChannels.SetCheck((useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL)?BST_CHECKED:BST_UNCHECKED);

@@ -83,4 +83,5 @@ public:
     CAbuseTab m_wndAbuseTab;
     afx_msg void OnSize(UINT nType, int cx, int cy);
     BOOL m_bResizeReady;
+    CButton m_wndChangeNickname;
 };

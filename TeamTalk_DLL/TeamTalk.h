@@ -1198,7 +1198,17 @@ extern "C" {
         USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO  = 0x00010000,
         /** @brief User is allowed to stream video files to channel.
          * @see TT_StartStreamingMediaFileToChannel() */
-        USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO  = 0x00020000
+        USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO  = 0x00020000,
+        /** @brief User's nick name is locked.
+         * TT_DoChangeNickname() cannot be used and TT_DoLogin() 
+         * will ignore szNickname parameter. 
+         * @see TT_DoLogin()
+         * @see TT_DoLoginEx()
+         * @see TT_DoChangeNickname() */
+        USERRIGHT_LOCKED_NICKNAME           = 0x00040000,
+        /** @brief User's status is locked. TT_DoChangeStatus()
+        * cannot be used. */
+        USERRIGHT_LOCKED_STATUS             = 0x00080000,
     } UserRight;
 
     /** 
@@ -4698,6 +4708,8 @@ extern "C" {
      * The event #CLIENTEVENT_CMD_USER_UPDATE will be posted if the
      * update was successful.
      *
+     * Command will be rejected if #USERRIGHT_LOCKED_NICKNAME is set.
+     *
      * Possible errors:
      * - #CMDERR_NOT_LOGGEDIN
      *
@@ -4717,8 +4729,11 @@ extern "C" {
      * The event #CLIENTEVENT_CMD_USER_UPDATE will be posted if the update
      * was successful.
      *
+     * Command will be rejected if #USERRIGHT_LOCKED_STATUS is set.
+     *
      * Possible errors:
      * - #CMDERR_NOT_LOGGEDIN
+     * - #CMDERR_NOT_AUTHORIZED
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
