@@ -1,6 +1,7 @@
 #pragma once
 #include "MyTab.h"
 #include "Resizer.h"
+#include "afxwin.h"
 
 
 // CChannelOpTab dialog
@@ -32,4 +33,6 @@ public:
     afx_msg void OnBnClickedButtonAddchannel();
     afx_msg void OnBnClickedButtonDelchannel();
 
+    CButton m_btnAddChan;
+    CButton m_btnRmChan;
 };

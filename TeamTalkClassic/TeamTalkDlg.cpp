@@ -1112,7 +1112,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
     }
     case CMD_COMPLETE_LISTACCOUNTS :
     {
-        CUserAccountsDlg dlg(this);
+        CUserAccountsDlg dlg(this, UAD_READWRITE);
         dlg.m_accounts = m_useraccounts;
         dlg.DoModal();
         m_useraccounts.clear();
@@ -5588,14 +5588,27 @@ void CTeamTalkDlg::OnServerServerproperties()
 
 void CTeamTalkDlg::OnUpdateServerListuseraccounts(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable((bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN));
+    pCmdUI->Enable((bool)(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED));
 }
 
 void CTeamTalkDlg::OnServerListuseraccounts()
 {
-    int id = TT_DoListUserAccounts(ttInst, 0, 100000);
-    if(id>0)
-        m_commands[id] = CMD_COMPLETE_LISTACCOUNTS;
+    if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+    {
+        int id = TT_DoListUserAccounts(ttInst, 0, 100000);
+        if(id>0)
+            m_commands[id] = CMD_COMPLETE_LISTACCOUNTS;
+    }
+    else
+    {
+        CUserAccountsDlg dlg(this, UAD_READONLY);
+
+        UserAccount ua;
+        ZERO_STRUCT(ua);
+        TT_GetMyUserAccount(ttInst, &ua);
+        dlg.m_accounts.push_back(ua);
+        dlg.DoModal();
+    }
 }
 
 void CTeamTalkDlg::OnUpdateServerOnlineusers(CCmdUI *pCmdUI)

@@ -25,6 +25,8 @@ void CChannelOpTab::DoDataExchange(CDataExchange* pDX)
     CMyTab::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST_AVAILCHANNELS, m_wndAvailChannels);
     DDX_Control(pDX, IDC_LIST_SELECTEDCHANNELS, m_wndSelChannels);
+    DDX_Control(pDX, IDC_BUTTON_ADDCHANNEL, m_btnAddChan);
+    DDX_Control(pDX, IDC_BUTTON_DELCHANNEL, m_btnRmChan);
 }
 
 

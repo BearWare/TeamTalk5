@@ -14,8 +14,9 @@ extern TTInstance* ttInst;
 
 IMPLEMENT_DYNAMIC(CUserAccountsDlg, CDialog)
 
-CUserAccountsDlg::CUserAccountsDlg(CWnd* pParent /*=NULL*/)
+CUserAccountsDlg::CUserAccountsDlg(CWnd* pParent /*=NULL*/, UserAccountsDisplay uad /*= UAD_READWRITE*/)
 	: CDialog(CUserAccountsDlg::IDD, pParent)
+    , m_uad(uad)
     , m_bResizeReady(FALSE)
 {
 
@@ -267,34 +268,47 @@ void CUserAccountsDlg::OnEnChangeEditPassword()
 void CUserAccountsDlg::UpdateControls()
 {
     CString s;
-    BOOL bEnabled = TRUE;
     m_wndUsername.GetWindowText(s);
     m_wndPassword.GetWindowText(s);
 
     CString szUsername;
     m_wndUsername.GetWindowText(szUsername);
 
-    m_wndDoubleLogin.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndViewAllUsers.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndPermChannels.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTempChannels.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndUserBcast.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndKickUsers.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndBanUsers.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndMoveUsers.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndChannelOp.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndUploadFiles.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndDownloadFiles.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndSrvProp.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitVoice.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitVideo.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitAudFiles.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitVidFiles.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitDesktops.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
-    m_wndTransmitDesktopInput.EnableWindow(m_wndDefaultUser.GetCheck() == BST_CHECKED);
+    BOOL bWrite = m_uad == UAD_READWRITE;
+    BOOL bCheck = m_wndDefaultUser.GetCheck() == BST_CHECKED && bWrite;
+    m_wndDoubleLogin.EnableWindow(bCheck);
+    m_wndViewAllUsers.EnableWindow(bCheck);
+    m_wndPermChannels.EnableWindow(bCheck);
+    m_wndTempChannels.EnableWindow(bCheck);
+    m_wndUserBcast.EnableWindow(bCheck);
+    m_wndKickUsers.EnableWindow(bCheck);
+    m_wndBanUsers.EnableWindow(bCheck);
+    m_wndMoveUsers.EnableWindow(bCheck);
+    m_wndChannelOp.EnableWindow(bCheck);
+    m_wndUploadFiles.EnableWindow(bCheck);
+    m_wndDownloadFiles.EnableWindow(bCheck);
+    m_wndSrvProp.EnableWindow(bCheck);
+    m_wndTransmitVoice.EnableWindow(bCheck);
+    m_wndTransmitVideo.EnableWindow(bCheck);
+    m_wndTransmitAudFiles.EnableWindow(bCheck);
+    m_wndTransmitVidFiles.EnableWindow(bCheck);
+    m_wndTransmitDesktops.EnableWindow(bCheck);
+    m_wndTransmitDesktopInput.EnableWindow(bCheck);
 
-    m_btnAdd.EnableWindow(bEnabled);
-    m_btnDel.EnableWindow(m_wndAccounts.GetCurSel()>=0);
+    m_wndUsername.SetReadOnly(!bWrite);
+    m_wndPassword.SetReadOnly(!bWrite);
+    m_wndNote.SetReadOnly(!bWrite);
+    m_wndAdminUser.EnableWindow(bWrite);
+    m_wndDefaultUser.EnableWindow(bWrite);
+    m_wndInitChannel.EnableWindow(bWrite);
+    m_wndChanOpTab.m_btnAddChan.EnableWindow(bWrite);
+    m_wndChanOpTab.m_btnRmChan.EnableWindow(bWrite);
+    m_wndCodecTab.m_wndBitrate.EnableWindow(bWrite);
+    m_wndAbuseTab.m_wndCmdLimit.EnableWindow(bWrite);
+
+    m_btnNew.EnableWindow(bWrite);
+    m_btnAdd.EnableWindow(bWrite);
+    m_btnDel.EnableWindow(m_wndAccounts.GetCurSel() >= 0 && bWrite);
 }
 
 void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
