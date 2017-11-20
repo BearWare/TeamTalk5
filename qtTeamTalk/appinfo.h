@@ -79,7 +79,7 @@
 #define TTFILE_VERSION      "5.0"
 #define TTLINK_PREFIX       "tt:"
 
-#define WEBLOGIN_FACEBOOK                   "facebook"
+#define WEBLOGIN_FACEBOOK_USERNAME          "facebook"
 #define WEBLOGIN_FACEBOOK_CLIENTID          "611833262539381"
 #define WEBLOGIN_FACEBOOK_REDIRECT          "https://www.facebook.com/connect/login_success.html"
 #define WEBLOGIN_FACEBOOK_URL               ("https://www.facebook.com/v2.10/dialog/oauth?client_id=" WEBLOGIN_FACEBOOK_CLIENTID \

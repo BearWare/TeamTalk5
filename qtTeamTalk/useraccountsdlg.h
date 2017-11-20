@@ -53,12 +53,18 @@ private:
     useraccounts_t m_users;
 };
 
+enum UserAccountsDisplay
+{
+    UAD_READWRITE,
+    UAD_READONLY,
+};
+
 class UserAccountsDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent = 0);
+    UserAccountsDlg(const useraccounts_t& useraccounts, UserAccountsDisplay uad, QWidget* parent = 0);
 
 public slots:
     void slotCmdSuccess(int cmdid);
@@ -74,7 +80,9 @@ private:
 
     AbusePrevention m_abuse;
     void lockUI(bool locked);
+    void showUserAccount(const UserAccount& useraccount);
     void updateUserRights(const UserAccount& useraccount);
+    UserAccountsDisplay m_uad;
 
 private slots:
     void slotClearUser();
@@ -87,6 +95,8 @@ private slots:
 
     void slotAddOpChannel();
     void slotRemoveOpChannel();
+
+    void slotUsernameChanged(const QString& text);
 };
 
 #endif

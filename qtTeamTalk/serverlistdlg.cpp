@@ -44,7 +44,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.cryptChkBox->hide();
 #endif
 
-    ui.usernameBox->addItem(WEBLOGIN_FACEBOOK);
+    ui.usernameBox->addItem(WEBLOGIN_FACEBOOK_USERNAME);
 
     connect(ui.addupdButton, SIGNAL(clicked()),
             SLOT(slotAddUpdServer()));
@@ -139,11 +139,11 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.udpportEdit->setText(QString::number(entry.udpport));
     ui.cryptChkBox->setChecked(entry.encrypted);
     ui.usernameBox->lineEdit()->setText(entry.username);
-    if(entry.username == WEBLOGIN_FACEBOOK)
+    if(entry.username == WEBLOGIN_FACEBOOK_USERNAME)
         ui.passwordEdit->setText("");
     else
         ui.passwordEdit->setText(entry.password);
-    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK);
+    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 
@@ -339,7 +339,7 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
     else
         ui.nameEdit->setText(QString());
 
-    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK);
-    if(username == WEBLOGIN_FACEBOOK)
+    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK_USERNAME);
+    if(username == WEBLOGIN_FACEBOOK_USERNAME)
         ui.passwordEdit->setText("");
 }

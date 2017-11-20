@@ -757,7 +757,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
 
-        if(m_host.username.compare(WEBLOGIN_FACEBOOK, Qt::CaseInsensitive) == 0)
+        if(m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0)
         {
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
@@ -1345,7 +1345,7 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
         {
             if(!m_useraccountsdlg)
             {
-                m_useraccountsdlg = new UserAccountsDlg(m_useraccounts);
+                m_useraccountsdlg = new UserAccountsDlg(m_useraccounts, UAD_READWRITE);
                 connect(this, SIGNAL(cmdSuccess(int)), m_useraccountsdlg, 
                         SLOT(slotCmdSuccess(int)));
                 connect(this, SIGNAL(cmdError(int, int)), m_useraccountsdlg, 
@@ -3943,10 +3943,30 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
    
 void MainWindow::slotServerUserAccounts(bool /*checked =false */)
 {
-    //don't display dialog box until we get the result
-    int cmdid = TT_DoListUserAccounts(ttInst, 0, 1000000);
-    if(cmdid>0)
-        m_commands.insert(cmdid, CMD_COMPLETE_LISTACCOUNTS);
+    if(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN)
+    {
+        //don't display dialog box until we get the result
+        int cmdid = TT_DoListUserAccounts(ttInst, 0, 1000000);
+        if(cmdid>0)
+            m_commands.insert(cmdid, CMD_COMPLETE_LISTACCOUNTS);
+    }
+    else
+    {
+        if(!m_useraccountsdlg)
+        {
+            useraccounts_t useraccounts(1);
+            TT_GetMyUserAccount(ttInst, &useraccounts[0]);
+
+            m_useraccountsdlg = new UserAccountsDlg(useraccounts, UAD_READONLY);
+            connect(m_useraccountsdlg, SIGNAL(finished(int)),
+                SLOT(slotClosedUserAccountsDlg(int)));
+            m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
+            m_useraccountsdlg->show();
+            m_useraccounts.clear();
+        }
+        else
+            m_useraccountsdlg->activateWindow();
+    }
 }
 
 void MainWindow::slotServerBannedUsers(bool /*checked =false */)
@@ -4323,7 +4343,7 @@ void MainWindow::slotUpdateUI()
     ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || me_admin));
 
     //Server-menu items
-    ui.actionUserAccounts->setEnabled(auth && me_admin);
+    ui.actionUserAccounts->setEnabled(auth);
     ui.actionBannedUsers->setEnabled(auth && me_admin);
     ui.actionOnlineUsers->setEnabled(auth);
     ui.actionBroadcastMessage->setEnabled(auth && me_admin);

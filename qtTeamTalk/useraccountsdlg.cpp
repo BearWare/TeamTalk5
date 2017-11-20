@@ -162,10 +162,11 @@ enum
     LIMITCMD_CUSTOM         = 4
 };
 
-UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent/* = 0*/)
+UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccountsDisplay uad, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
     , m_add_cmdid(0)
     , m_del_cmdid(0)
+    , m_uad(uad)
     , m_add_user()
     , m_abuse()
 {
@@ -224,11 +225,19 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
     connect(ui.closeBtn, SIGNAL(clicked()), SLOT(close()));
     connect(ui.defaultuserBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
     connect(ui.adminBtn, SIGNAL(clicked()), SLOT(slotUserTypeChanged()));
+    connect(ui.usernameEdit, SIGNAL(textChanged(const QString&)), SLOT(slotUsernameChanged(const QString&)));
 
     connect(ui.usersTreeView, SIGNAL(clicked(const QModelIndex&)), 
             SLOT(slotUserSelected(const QModelIndex&)));
 
-    slotClearUser();
+    if(m_uad == UAD_READONLY)
+    {
+        if(useraccounts.size() == 1)
+            showUserAccount(useraccounts[0]);
+        lockUI(true);
+    }
+    else
+        slotClearUser();
 }
 
 void UserAccountsDlg::slotCmdSuccess(int cmdid)
@@ -275,14 +284,102 @@ void UserAccountsDlg::lockUI(bool locked)
     ui.channelComboBox->setEnabled(!locked);
     ui.opchannelsListWidget->setEnabled(!locked);
     ui.opchanComboBox->setEnabled(!locked);
+    ui.addopBtn->setEnabled(!locked);
+    ui.rmopBtn->setEnabled(!locked);
     ui.audmaxbpsSpinBox->setEnabled(!locked);
+    ui.limitcmdComboBox->setEnabled(!locked);
+    ui.groupBox_4->setEnabled(!locked);
     ui.addButton->setEnabled(!locked);
     ui.delButton->setEnabled(!locked);
+    ui.newButton->setEnabled(!locked);
+}
+
+void UserAccountsDlg::showUserAccount(const UserAccount& useraccount)
+{
+    ui.usernameEdit->setText(_Q(useraccount.szUsername));
+    ui.passwordEdit->setText(_Q(useraccount.szPassword));
+    if(useraccount.uUserType & USERTYPE_ADMIN)
+        ui.adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
+    if(useraccount.uUserType & USERTYPE_DEFAULT)
+        ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
+
+    ui.noteEdit->setPlainText(_Q(useraccount.szNote));
+    ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
+
+    // User Rights
+    updateUserRights(useraccount);
+
+    // Tab - Channel Operator
+
+    ui.opchannelsListWidget->clear();
+    for(int c = 0; c<TT_CHANNELS_OPERATOR_MAX; c++)
+    {
+        TTCHAR chanpath[TT_STRLEN];
+        if(useraccount.autoOperatorChannels[c] &&
+            TT_GetChannelPath(ttInst,
+                useraccount.autoOperatorChannels[c],
+                chanpath))
+            ui.opchannelsListWidget->addItem(_Q(chanpath));
+    }
+
+    // Tab - Audio codec limit
+
+    ui.audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
+
+    // Tab - abuse prevention
+
+    m_abuse = useraccount.abusePrevent;
+    int i;
+    switch(useraccount.abusePrevent.nCommandsLimit)
+    {
+    case 0:
+        i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
+        break;
+    case 10:
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 10000:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_10SEC);
+            break;
+        case 60000:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_MINUTE);
+            break;
+        default:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+        break;
+    case 60:
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 60000:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_60_PER_MINUTE);
+            break;
+        default:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+        break;
+    default:
+        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
+        {
+        case 0:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
+            break;
+        default:
+            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+            break;
+        }
+    }
+
+    if(i >= 0)
+        ui.limitcmdComboBox->setCurrentIndex(i);
 }
 
 void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
 {
     ui.multiloginBox->setChecked(useraccount.uUserRights & USERRIGHT_MULTI_LOGIN);
+    ui.chnickBox->setChecked((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE);
     ui.viewallusersBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS);
     ui.permchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS);
     ui.tempchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL);
@@ -302,6 +399,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.transmitvideofileBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
 
     ui.multiloginBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
+    ui.chnickBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.viewallusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.permchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.tempchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
@@ -365,6 +463,10 @@ void UserAccountsDlg::slotAddUser()
         m_add_user.uUserRights |= USERRIGHT_MULTI_LOGIN;
     else
         m_add_user.uUserRights &= ~USERRIGHT_MULTI_LOGIN;
+    if(ui.chnickBox->isChecked())
+        m_add_user.uUserRights &= ~USERRIGHT_LOCKED_NICKNAME;
+    else
+        m_add_user.uUserRights |= USERRIGHT_LOCKED_NICKNAME;
     if(ui.viewallusersBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
     else
@@ -481,86 +583,7 @@ void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
         ui.delButton->setEnabled(false);
         return;
     }
-    const UserAccount& useraccount = m_model->getUsers()[i];
-    ui.usernameEdit->setText(_Q(useraccount.szUsername));
-    ui.passwordEdit->setText(_Q(useraccount.szPassword));
-    if(useraccount.uUserType & USERTYPE_ADMIN) 
-        ui.adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
-    if(useraccount.uUserType & USERTYPE_DEFAULT)
-        ui.defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
-
-    ui.noteEdit->setPlainText(_Q(useraccount.szNote));
-    ui.channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
-
-    // User Rights
-    updateUserRights(useraccount);
-
-    // Tab - Channel Operator
-
-    ui.opchannelsListWidget->clear();
-    for(int c=0;c<TT_CHANNELS_OPERATOR_MAX;c++)
-    {
-        TTCHAR chanpath[TT_STRLEN];
-        if(useraccount.autoOperatorChannels[c] &&
-           TT_GetChannelPath(ttInst,
-                             useraccount.autoOperatorChannels[c],
-                             chanpath))
-           ui.opchannelsListWidget->addItem(_Q(chanpath));
-    }
-
-    // Tab - Audio codec limit
-
-    ui.audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
-
-    // Tab - abuse prevention
-
-    m_abuse = useraccount.abusePrevent;
-
-    switch(useraccount.abusePrevent.nCommandsLimit)
-    {
-    case 0 :
-        i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
-        break;
-    case 10 :
-        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
-        {
-        case 10000 :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_10SEC);
-            break;
-        case 60000 :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_10_PER_MINUTE);
-            break;
-        default :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
-            break;
-        }
-        break;
-    case 60 :
-        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
-        {
-        case 60000 :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_60_PER_MINUTE);
-            break;
-        default :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
-            break;
-        }
-        break;
-    default :
-        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
-        {
-        case 0 :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_DISABLED);
-            break;
-        default :
-            i = ui.limitcmdComboBox->findData(LIMITCMD_CUSTOM);
-            break;
-        }
-    }
-
-    if(i>=0)
-        ui.limitcmdComboBox->setCurrentIndex(i);
-
+    showUserAccount(m_model->getUsers()[i]);
     ui.delButton->setEnabled(true);
 }
 
@@ -652,4 +675,10 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
     default :
         Q_ASSERT(0);
     }
+}
+
+void UserAccountsDlg::slotUsernameChanged(const QString& text)
+{
+    ui.passwordEdit->setReadOnly(text == WEBLOGIN_FACEBOOK_USERNAME ||
+        text.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX));
 }
