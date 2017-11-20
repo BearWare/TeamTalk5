@@ -40,18 +40,20 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
 RESOURCES += resources.qrc
 
 win32 {
-      DEFINES += _CRT_SECURE_NO_WARNINGS
-      RC_FILE = mainwindow.rc
-      QT += axcontainer
+    DEFINES += _CRT_SECURE_NO_WARNINGS
+    RC_FILE = mainwindow.rc
+    QT += axcontainer
 }
 
 x11 {
-     LIBS += -lX11
+    LIBS += -lX11
 }
-
+ 
 linux {
-     LIBS += -lX11
-     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras webenginewidgets
+    LIBS += -lX11
+     
+    # QWebEngineView introduced in Qt 5.4
+    greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras webenginewidgets
 }
 
 mac {
@@ -60,11 +62,17 @@ mac {
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
 
+    # QWebEngineView introduced in Qt 5.4
     greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
 }
 
 *-g++* {
     QMAKE_CXXFLAGS += -std=c++0x
+}
+
+# QWebView introduced in Qt 4.4
+equals(QT_MAJOR_VERSION, 4) {
+    greaterThan(QT_MINOR_VERSION, 3): QT += webkit
 }
 
 # install

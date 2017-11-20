@@ -166,9 +166,9 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
     , m_add_cmdid(0)
     , m_del_cmdid(0)
-    , m_uad(uad)
     , m_add_user()
     , m_abuse()
+    , m_uad(uad)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));

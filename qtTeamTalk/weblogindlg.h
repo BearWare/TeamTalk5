@@ -4,10 +4,6 @@
 #include <QDialog>
 #include "ui_weblogin.h"
 
-#if defined(Q_OS_WIN32)
-#include <QAxWidget>
-#endif
-
 class WebLoginDlg : public QDialog
 {
     Q_OBJECT
@@ -33,6 +29,8 @@ private:
     class QAxWidget* m_webView;
 #elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     class QWebEngineView* m_webView;
+#elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
+    class QWebView* m_webView;
 #endif
     int m_timerid;
     bool m_cancelled;

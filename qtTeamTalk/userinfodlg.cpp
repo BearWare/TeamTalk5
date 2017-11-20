@@ -23,6 +23,7 @@
 #include "appinfo.h"
 #include "common.h"
 
+#include <QUrl>
 #include <QDesktopServices>
 
 extern TTInstance* ttInst;
