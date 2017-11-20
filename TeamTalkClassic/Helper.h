@@ -77,6 +77,7 @@ CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
 void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);
 CString GetDisplayName(const User& user);
+BOOL EndsWith(const CString& szText, LPCTSTR szEnd);
 
 CString GetLogTimeStamp();
 CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName);

@@ -890,7 +890,7 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
         KillTimer(m_nReconnectTimerID);
     m_nReconnectTimerID = 0;
 
-    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK)
+    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK_USERNAME)
     {
         CWebLoginDlg dlg;
         if(dlg.DoModal() == IDOK)

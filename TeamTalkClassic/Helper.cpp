@@ -413,6 +413,11 @@ CString GetDisplayName(const User& user)
     return LimitText(user.szNickname);
 }
 
+BOOL EndsWith(const CString& szText, LPCTSTR szEnd)
+{
+    return szText.Right(_tcslen(szEnd)) == szEnd;
+}
+
 // The horror... initguid.h must be included before oleacc.h but oleacc.h is included
 // by afxwin.h which has to be the first include file in a MFC project...
 #undef INITGUID

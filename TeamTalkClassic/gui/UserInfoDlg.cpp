@@ -73,8 +73,7 @@ BOOL CUserInfoDlg::OnInitDialog()
 
     SetTimer(0, 1000, NULL);
 
-    m_wndProfileBtn.ShowWindow(
-        m_szUsername.Right(_tcslen(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX)) == WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX?
+    m_wndProfileBtn.ShowWindow(EndsWith(m_szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX)?
         SW_SHOW : SW_HIDE);
     return TRUE;
 }

@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "../Resource.h"
 #include "UserAccountsDlg.h"
+#include "AppInfo.h"
 #include <vector>
 
 using namespace std;
@@ -306,7 +307,7 @@ void CUserAccountsDlg::UpdateControls()
     m_wndTransmitDesktopInput.EnableWindow(bCheck);
 
     m_wndUsername.SetReadOnly(!bWrite);
-    m_wndPassword.SetReadOnly(!bWrite);
+    m_wndPassword.SetReadOnly(!bWrite || szUsername == WEBLOGIN_FACEBOOK_USERNAME || EndsWith(szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX));
     m_wndNote.SetReadOnly(!bWrite);
     m_wndAdminUser.EnableWindow(bWrite);
     m_wndDefaultUser.EnableWindow(bWrite);

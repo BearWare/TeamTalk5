@@ -115,7 +115,7 @@ BOOL CHostManagerDlg::OnInitDialog()
 
     m_wndDelete.EnableWindow(FALSE);
 
-    m_wndUsername.AddString(WEBLOGIN_FACEBOOK);
+    m_wndUsername.AddString(WEBLOGIN_FACEBOOK_USERNAME);
 
     if(m_bPubServers)
         ShowPublicServers();
@@ -502,8 +502,8 @@ void CHostManagerDlg::OnCbnEditchangeComboUsername()
 {
     CString szUsername;
     m_wndUsername.GetWindowText(szUsername);
-    m_wndPassword.EnableWindow(szUsername != WEBLOGIN_FACEBOOK);
-    if(szUsername == WEBLOGIN_FACEBOOK)
+    m_wndPassword.EnableWindow(szUsername != WEBLOGIN_FACEBOOK_USERNAME);
+    if(szUsername == WEBLOGIN_FACEBOOK_USERNAME)
         m_wndPassword.SetWindowText(_T(""));
 }
 
