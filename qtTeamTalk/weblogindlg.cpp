@@ -74,7 +74,6 @@ void WebLoginDlg::slotNavigateComplete(IDispatch*, QVariant& url)
 void WebLoginDlg::slotUrlChanged(const QUrl &url)
 {
     QString urlstr = url.toString();
-    qDebug() << urlstr;
     if (urlstr.startsWith(WEBLOGIN_FACEBOOK_REDIRECT))
     {
         QRegExp rxtoken("#access_token=([A-Za-z0-9\\-_]*)");
