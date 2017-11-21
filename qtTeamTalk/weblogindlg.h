@@ -18,7 +18,7 @@ private slots:
     void navigate(const QString& url);
 
 #if defined(Q_OS_WIN32)
-    void slotNavigateComplete(IDispatch*, QVariant&);
+    void slotNavigateComplete(struct IDispatch*, QVariant&);
 #endif
 
     void slotUrlChanged(const QUrl &url);
