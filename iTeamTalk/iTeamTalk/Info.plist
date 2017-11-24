@@ -32,28 +32,33 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.2.4</string>
+	<string>5.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>CFBundleURLIconFile</key>
-			<string>TeamTalk_64x64</string>
-			<key>CFBundleURLName</key>
-			<string>dk.bearware.teamtalkhost</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tt</string>
+				<string>fb611833262539381</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>611833262539381</string>
+	<key>FacebookDisplayName</key>
+	<string>TeamTalk</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -126,30 +131,5 @@
 			</dict>
 		</dict>
 	</array>
-    
-    <!-- Facebook section start -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb611833262539381</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>611833262539381</string>
-    <key>FacebookDisplayName</key>
-    <string>TeamTalk</string>
-    
-    
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-    <!-- Facebook section stop -->
 </dict>
 </plist>
