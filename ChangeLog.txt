@@ -11,7 +11,7 @@ Server:
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
 
-Version 5.2.4, unreleased
+Version 5.2.4, released 2017/11/08
 iOS client:
 - Updated UI to iOS 11
 - Corrected accessibility hint for TX button
