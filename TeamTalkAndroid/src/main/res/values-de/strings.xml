@@ -38,13 +38,14 @@
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_default_nickname">Unbekannt</string>
     <string name="pref_title_keep_screen_on">Bildschirm während der Verbindung aktiviert lassen</string>
-    <string name="pref_title_voice_act">Sprachaktivierung</string>
     <string name="pref_title_vibrate">Bei PTT vibrieren</string>
     <string name="pref_show_log_messages">Lognachrichten im Chatverlauf anzeigen</string>
     <string name="pref_title_audio_icons">Klangereignisse</string>
     <string name="pref_title_rx_tx_audio_icon">Sprachübertragung umschalten</string>
     <string name="pref_summary_rx_tx_audio_icon">Klang abspielen, wenn TX-Schalter gedrückt wird</string>
     <string name="pref_title_personal_message_audio_icon">Privatnachricht</string>
+    <string name="pref_title_vox_triggered_icon">Sprachaktivierung ausgelöst</string>
+    <string name="pref_summary_vox_triggered_icon">Klang abspielen, wenn Sprachaktivierung ausgelöst wird</string>
     <string name="pref_summary_personal_message_audio_icon">Klang bei Empfang einer Privatnachricht abspielen</string>
     <string name="pref_title_channel_message_audio_icon">Raumnachricht</string>
     <string name="pref_summary_channel_message_audio_icon">Klang bei Empfang einer Raumnachricht abspielen</string>
@@ -54,6 +55,8 @@
     <string name="pref_summary_server_lost_audio_icon">Klang abspielen, wenn die Serververbindung unterbrochen wird</string>
     <string name="pref_title_files_update_audio_icon">Dateiliste aktualisiert</string>
     <string name="pref_summary_files_update_audio_icon">Klang abspielen, wenn Dateien hochgeladen oder gelöscht werden</string>
+    <string name="pref_title_transmitready_icon">Exklusiver Modus umgeschaltet</string>
+    <string name="pref_summary_transmitready_icon">Klang bei Sprechbereitschaft in unterbrechungsfreien Räumen abspielen</string>
     <string name="pref_header_connection">Verbindung</string>
     <string name="pref_title_sub_txtmsg">Textnachrichten</string>
     <string name="pref_summary_sub_txtmsg">Textnachrichten von Benutzern empfangen</string>
@@ -91,7 +94,9 @@
     <string name="pref_summary_speakerphone_checkbox">Schaltet zwischen Telefonhörer und Lautsprecher um</string>
     <string name="pref_title_voice_processing_checkbox">Sprachvorverarbeitung</string>
     <string name="pref_summary_voice_processing_checkbox">Echo-Unterdrückung und automatische Mikrofonpegel-Kontrolle</string>
-    
+    <string name="pref_title_public_servers">Zeige öffentliche Server</string>
+    <string name="pref_summary_public_servers">Öffentliche Server in der Serverliste anzeigen</string>
+
     <string name="text_tts_loggedin">hat sich angemeldet</string>
     <string name="text_tts_loggedout">hat sich abgemeldet</string>
     <string name="text_tts_joined_chan">hat den Raum betreten</string>
@@ -213,16 +218,22 @@
     <string name="channel_remove_confirmation">Soll der Raum %1$s wirklich entfernt werden?</string>
     <string name="version_update">Neue TeamTalk-Version verfügbar: %1$s?</string>
     <string name="decvolume">Lautstärke verringern</string>
-	<string name="incvolume">Lautstärke erhöhen</string>
-	<string name="speaker_mute">Lautsprecher stumm</string>
-	<string name="speaker_unmute">Lautsprecher ein</string>
-	<string name="mic_mute">Mikrofon stumm</string>
-	<string name="mic_unmute">Mikrofon ein</string>
-	<string name="decgain">Mikrofonpegel verringern</string>
-	<string name="incgain">Mikrofonpegel erhöhen</string>
-	
+    <string name="incvolume">Lautstärke erhöhen</string>
+    <string name="speaker_mute">Lautsprecher stumm</string>
+    <string name="speaker_unmute">Lautsprecher ein</string>
+    <string name="mic_mute">Mikrofon stumm</string>
+    <string name="mic_unmute">Mikrofon ein</string>
+    <string name="decgain">Mikrofonpegel verringern</string>
+    <string name="incgain">Mikrofonpegel erhöhen</string>
+
     <string name="speaker_volume_description">Lautstärkepegel ist %1$s</string>
     <string name="mic_gain_description">Mikrofonpegel ist %1$s</string>
+
+    <string name="voice_activation_on">Sprachaktivierung einschalten</string>
+    <string name="voice_activation_off">Sprachaktivierung ausschalten</string>
+    <string name="decvoxlevel">Spracherkennungspegel verringern</string>
+    <string name="incvoxlevel">Spracherkennungspegel erhöhen</string>
+    <string name="vox_level_description">Spracherkennungspegel ist %1$s</string>
 
     <string name="text_samplerate">Samplingrate</string>
     <string name="text_ignore_silence">Stille ignorieren (DTX)</string>
@@ -265,4 +276,12 @@
     <string name="text_webcam_session">Webcamsitzung</string>
     <string name="text_mediafile_session">Medienübertragung</string>
 
+    <string name="permission_audioinput">Audio-Aufnahme und Wiedergabe werden nicht verfügbar sein</string>
+    <string name="permission_audiomodify">Audio-Aufnahme und Wiedergabe werden nicht verfügbar sein</string>
+    <string name="permission_filerx">Herunterladen von Dateien wird nicht verfügbar sein</string>
+    <string name="permission_filetx">Hochladen und Importieren von Dateien wird nicht verfügbar sein</string>
+    <string name="permission_internet">Client wird sich nicht mit Servern verbinden können</string>
+    <string name="permission_vibrate">Vibration bei Push-to-talk wird nicht verfügbar sein</string>
+    <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
+    <string name="permission_read_phone_state">Erkennung eingehender Telefonate wird nicht möglich sein</string>
 </resources>
