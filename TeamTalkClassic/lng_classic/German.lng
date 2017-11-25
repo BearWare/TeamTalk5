@@ -128,6 +128,7 @@
     <item id="264">%s hat den Raum %s betreten</item>
     <item id="265">%s hat den Raum %s verlassen</item>
     <item id="266">Root</item>
+    <item id="267">Keine Soundkarte</item>
     <item id="268">Neuer Benutzer</item>
     <item id="269">Benutzer entfernt</item>
     <item id="270">Neue Nachricht</item>
@@ -141,6 +142,26 @@
     <item id="278">Dateien aktualisiert</item>
     <item id="279">Übertragung komplett</item>
     <item id="280">Sprechen beendet</item>
+    <item id="281">Sprachaktivierung umgeschaltet</item>
+    <item id="282">Sprachaktivierung beendet</item>
+    <item id="283">Unterbrechungsfreie Übertragung bereit</item>
+    <item id="284">Unterbrechungsfreie Übertragung beendet</item>
+    <item id="285">Sprachaktivierung einschalten</item>
+    <item id="286">Sprachaktivierung ausschalten</item>
+    <item id="287">Sprachaktivierung aus Menü einschalten</item>
+    <item id="288">Sprachaktivierung aus Menü ausschalten</item>
+    <item id="289">Raum-Operator</item>
+    <item id="290">Codec-Begrenzungen</item>
+    <item id="291">Missbrauchsschutz</item>
+    <item id="292">Ausgeschaltet</item>
+    <item id="293">10 Befehle in 10 Sekunden</item>
+    <item id="294">10 Befehle in 1 Minute</item>
+    <item id="295">60 Befehle in 1 minute</item>
+    <item id="296">Benutzerdefiniert</item>
+    <item id="297">Befehle begrenzen</item>
+    <item id="298">Anzahl erlaubter Befehle (0 = ausgeschaltet)</item>
+    <item id="299">Zeitfenster für erlaubte %d Befehle (in Sekunden)</item>
+    <item id="300">Anonym</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1011">Hosteigenschaften</item>
     <item id="1012">TCP-Port</item>
@@ -438,6 +459,10 @@
     <item id="1539">Zeige Benutzername anstelle des Nicknamens</item>
     <item id="1540">Client-Name</item>
     <item id="1543">Sprachausgaben-Ereignisse ein- oder ausschalten</item>
+    <item id="1546">Benutzerkonto-Eigenschaften</item>
+    <item id="1547">Überflutungsschutz</item>
+    <item id="1548">Verhindert beispielsweise das Spammen mit Textnachrichten eines Benutzers, indem die Anzahl Befehle in einem Zeitfenster begrenzt wird.</item>
+    <item id="1550">Befehle begrenzen</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
