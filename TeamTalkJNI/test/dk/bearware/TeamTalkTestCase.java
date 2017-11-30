@@ -4,8 +4,11 @@ import junit.framework.TestCase;
 import java.util.Vector;
 import java.util.List;
 import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.File;
+import java.net.Socket;
 
 import dk.bearware.AudioBlock;
 import dk.bearware.AudioFileFormat;
@@ -1778,5 +1781,50 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("banned account", ClientError.CMDERR_SERVER_BANNED, msg.clienterrormsg.nErrorNo);
 
         assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+    }
+
+    public void testDisconnect() throws IOException{
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue("get srvprop", ttadmin.getServerProperties(srvprop));
+        srvprop.nUserTimeout = 60;
+
+        assertTrue("Disconnect hard", ttadmin.disconnect());
+
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        assertTrue("DoQuit", ttadmin.doQuit()>0);
+
+        assertTrue("Wait con lost", waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_CON_LOST, DEF_WAIT));
+
+        assertTrue("Disconnect quit", ttadmin.disconnect());
+
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        srvprop.nUserTimeout = 1;
+
+        assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+
+        assertTrue("Disconnect after tmo", ttadmin.disconnect());
+
+        Socket s = new Socket(IPADDR, TCPPORT);
+        BufferedReader stream = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        String welcome = stream.readLine();
+        assertTrue("welcome msg", welcome.startsWith(SYSTEMID));
+
+        boolean closed = false;
+        try {
+            closed = stream.readLine() == null;
+        }
+        catch(IOException e) {
+            closed = true;
+        }
+        assertTrue("Closed socket", closed);
     }
 }
