@@ -13,7 +13,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";
     public static String IPADDR = "127.0.0.1";
 
-    public static int TCPPORT = 10333, UDPPORT = 10333;
+    public static int TCPPORT = 0, UDPPORT = 0;
 
     public static String SYSTEMID = "teamtalk";
 
@@ -49,6 +49,17 @@ public class TeamTalkTestCaseBase extends TestCase {
         prop = System.getProperty("dk.bearware.encrypted");
         if(prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
+
+        if(TCPPORT == 0 && UDPPORT == 0) {
+            if(this.ENCRYPTED) {
+                TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
+                UDPPORT = Constants.DEFAULT_UDP_PORT_ENCRYPTED;
+            }
+            else {
+                TCPPORT = Constants.DEFAULT_TCP_PORT;
+                UDPPORT = Constants.DEFAULT_UDP_PORT;
+            }
+        }
     }
 
     protected void tearDown() throws Exception {

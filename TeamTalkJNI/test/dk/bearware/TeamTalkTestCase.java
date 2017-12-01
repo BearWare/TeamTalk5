@@ -41,7 +41,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         // TTMessage msg = new TTMessage();
-        // assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
+        // assertTrue("Wait desktop window", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
 
         // DesktopWindow wnd = ttclient.acquireUserDesktopWindow(msg.nSource);
 
@@ -52,8 +52,8 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
         
-        assertTrue(ttclient.setSoundOutputVolume(100));
-        assertTrue(ttclient.setSoundOutputMute(true));
+        assertTrue("Set output vol", ttclient.setSoundOutputVolume(100));
+        assertTrue("Set output mute", ttclient.setSoundOutputMute(true));
     }
     
     public void test_03_Connect() {
@@ -1298,7 +1298,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("init output dev, so we can hear recorded wavfile", ttclient.initSoundOutputDevice(outdev.value));
 
-        assertTrue(ttclient.startStreamingMediaFileToChannel("MyWaveFile.wav", new VideoCodec()));
+        assertTrue("Stream MyWaveFile.wav",  ttclient.startStreamingMediaFileToChannel("MyWaveFile.wav", new VideoCodec()));
 
         assertTrue("get initial streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
@@ -1351,7 +1351,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         spxdsp.bEnableAGC = true;
         spxdsp.bEnableDenoise = true;
         spxdsp.bEnableEchoCancellation = true;
-        assertTrue(ttclient.setSoundInputPreprocess(spxdsp));
+        assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
 
         TTMessage msg = new TTMessage();
 
@@ -1376,7 +1376,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         ttclient = newClientInstance();
         initSound(ttclient);
-        assertTrue(ttclient.setSoundInputPreprocess(new SpeexDSP()));
+        assertTrue("input preprocess default", ttclient.setSoundInputPreprocess(new SpeexDSP()));
 
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
@@ -1780,10 +1780,10 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("wait login error", waitCmdError(ttclient, cmdid, DEF_WAIT, msg));
         assertEquals("banned account", ClientError.CMDERR_SERVER_BANNED, msg.clienterrormsg.nErrorNo);
 
-        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+        assertTrue("unban success", waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
     }
 
-    public void testDisconnect() throws IOException{
+    public void testDisconnect() throws IOException {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
@@ -1792,6 +1792,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ServerProperties srvprop = new ServerProperties();
         assertTrue("get srvprop", ttadmin.getServerProperties(srvprop));
         srvprop.nUserTimeout = 60;
+        assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
 
         assertTrue("Disconnect hard", ttadmin.disconnect());
 
@@ -1815,8 +1816,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         Socket s = new Socket(IPADDR, TCPPORT);
         BufferedReader stream = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        String welcome = stream.readLine();
-        assertTrue("welcome msg", welcome.startsWith(SYSTEMID));
+        if(!ENCRYPTED)
+        {
+            String welcome = stream.readLine();
+            assertTrue("welcome msg", welcome.startsWith(SYSTEMID));
+        }
 
         boolean closed = false;
         try {
