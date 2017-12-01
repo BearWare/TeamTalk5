@@ -137,7 +137,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
         server.interleave();
 
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, DEF_WAIT));
     }
 
     protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd) {

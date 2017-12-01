@@ -870,7 +870,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.szPassword = PASSWORD;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.szNote = "An example user account with limited user-rights";
-        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES | UserRight.USERRIGHT_DOWNLOAD_FILES;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES | UserRight.USERRIGHT_DOWNLOAD_FILES | UserRight.USERRIGHT_MULTI_LOGIN;
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();

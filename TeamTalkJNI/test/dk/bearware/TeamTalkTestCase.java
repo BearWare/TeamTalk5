@@ -262,7 +262,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
-                         UserRight.USERRIGHT_TRANSMIT_DESKTOP;
+                         UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
@@ -276,7 +276,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
         wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
 
-        assertTrue(ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
+        assertTrue("send desktop window", ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
 
         TTMessage msg = new TTMessage();
 
@@ -284,23 +284,24 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
                            DEF_WAIT, msg) && msg.nBytesRemain > 0) {
         }
 
-        assertTrue(msg.nBytesRemain == 0);
+        assertTrue("All bytes transferred", msg.nBytesRemain == 0);
 
-        assertFalse(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_TX_DESKTOP));
+        assertFalse("no tx desktop flag", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_TX_DESKTOP));
 
-        assertTrue(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_DESKTOP_ACTIVE));
+        assertTrue("Desktop active", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_DESKTOP_ACTIVE));
 
-        assertTrue(ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_DESKTOP)>0);
+        assertTrue("Subscribe to own", ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_DESKTOP)>0);
 
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
+        assertTrue("Wait for desktop window", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
 
         DesktopWindow wnd2 = ttclient.acquireUserDesktopWindow(msg.nSource);
 
-        assertEquals(wnd2.nWidth, wnd.nWidth);
-        assertEquals(wnd2.nHeight, wnd.nHeight);
-        assertEquals(wnd2.frameBuffer.length, wnd.frameBuffer.length);
+        assertEquals("width", wnd2.nWidth, wnd.nWidth);
+        assertEquals("height", wnd2.nHeight, wnd.nHeight);
+        assertEquals("length", wnd2.frameBuffer.length, wnd.frameBuffer.length);
 
-        assertTrue(ttclient.closeDesktopWindow());
+        assertTrue("Close desktop", ttclient.closeDesktopWindow());
+        }
     }
 
     public void test_10_VideoCaptureDevs() {
