@@ -1581,7 +1581,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1608"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Client ist mit dem Server nicht kompatibel, daher kann die Aktion nicht ausgeführt werden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1611"/>
@@ -1784,7 +1784,8 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="5246"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Setup-Information.
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5315"/>
@@ -3443,7 +3444,7 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="346"/>
         <location filename="../preferencesdlg.cpp" line="347"/>
         <source>No Sound Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Audiogerät</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="396"/>
@@ -4861,7 +4862,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Textdarstellung</translation>
     </message>
     <message>
         <source>Text Apperance</source>
