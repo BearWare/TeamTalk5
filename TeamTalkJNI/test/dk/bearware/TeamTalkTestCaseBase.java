@@ -212,12 +212,21 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }
 
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, int waittimeout, TTMessage msg)
-    {
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+                                          int waittimeout, TTMessage msg) {
+        return waitForEvent(ttclient, nClientEvent, waittimeout, msg, nop);
+    }
+
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+                                          int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
-        while (ttclient.getMessage(tmp, waittimeout) && tmp.nClientEvent != nClientEvent)
-        {
+        
+        do {
+            ttclient.getMessage(tmp, 0);
+
+            interleave.interleave();
+
             if(DEBUG_OUTPUT) {
                 System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
                 if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
@@ -227,6 +236,21 @@ public class TeamTalkTestCaseBase extends TestCase {
             if(System.currentTimeMillis() - start >= waittimeout)
                 break;
         }
+        while (tmp.nClientEvent != nClientEvent);
+
+        // while (ttclient.getMessage(tmp, 0) && tmp.nClientEvent != nClientEvent)
+        // {
+        //     interleave.interleave();
+
+        //     if(DEBUG_OUTPUT) {
+        //         System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
+        //         if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
+        //             System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
+        //         }
+        //     }
+        //     if(System.currentTimeMillis() - start >= waittimeout)
+        //         break;
+        // }
 
         if (tmp.nClientEvent == nClientEvent)
         {
@@ -279,11 +303,15 @@ public class TeamTalkTestCaseBase extends TestCase {
         return false;
     }
     
-    protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid, int waittimeout)
-    {
+    protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid, int waittimeout) {
+        return waitCmdSuccess(ttclient, cmdid, waittimeout, nop);
+    }
+
+    protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid, 
+                                            int waittimeout, ServerInterleave interleave) {
         TTMessage msg = new TTMessage();
 
-        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, waittimeout, msg))
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SUCCESS, waittimeout, msg, interleave))
         {
             if (msg.nSource == cmdid)
                 return true;

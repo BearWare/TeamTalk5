@@ -4,23 +4,27 @@ import junit.framework.TestCase;
 import java.util.Vector;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.File;
+import java.util.Arrays;
 
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
-    String FILESTORAGE_FOLDER = "./";
-    long MAX_DISKUSAGE = 1000000000, DEFAULT_CHANNEL_QUOTA = 10000000;
+    String FILESTORAGE_FOLDER = "./filestorage";
+    long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         PROEDITION = true;
 
-        IPADDR = "127.0.0.1";
-        TCPPORT = 12456;
-        UDPPORT = 12456;
+        File storagedir = new File(FILESTORAGE_FOLDER);
+        if (!storagedir.exists())
+            storagedir.mkdir();
 
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = ADMIN_USERNAME;
@@ -28,7 +32,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.uUserType = UserType.USERTYPE_ADMIN;
         useraccount.szNote = "An example administrator user account with all user-rights";
         useraccount.uUserRights = UserRight.USERRIGHT_ALL;
-        
+          
         useraccounts.add(useraccount);
 
     }
@@ -862,7 +866,89 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
     }
 
-    public void test_fileUpload() throws IOException {
+    private void uploadDownloadTest(TeamTalkSrv server, UserAccount ua, 
+                                    String NICKNAME, int filesize) {
+
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, ua.szUsername, ua.szPassword);
+        joinRoot(server, client1);
+
+        String uploadfilename = "uploadfile.txt";
+        String downloadfilename = "downloadfile.txt";
+
+        // writing string to a file encoded as modified UTF-8
+        try {
+            int size = filesize, written = 0;
+            DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(uploadfilename));
+            byte c = 'A';
+            byte[] buff = new byte[1024];
+            while(written < size) {
+                int todo = Math.min(buff.length, size - written);
+                for(int i=0;i<todo;i++) {
+                    buff[i] = c++;
+                    if(c > 'z') {
+                        c = 'A';
+                    }
+                }
+                dataOut.write(buff, 0, todo);
+                written += todo;
+            }
+            dataOut.close();
+        }
+        catch(IOException e) {
+            assertTrue("Failed to create file.txt: " + e, false);
+        }
+
+        int cmdid = client1.doSendFile(client1.getMyChannelID(), uploadfilename);
+        assertTrue("upload issued", cmdid>0);
+
+        interleave.interleave();
+
+        TTMessage msg = new TTMessage();
+        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        assertTrue("file upload done", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
+
+        RemoteFile fileinfo = msg.remotefile;
+
+        cmdid = client1.doRecvFile(client1.getMyChannelID(), fileinfo.nFileID, downloadfilename);
+        assertTrue("download issued", cmdid>0);
+
+        interleave.interleave();
+
+        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        assertTrue("file download begin event", waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave));
+        assertEquals("file download begin", FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus);
+
+        assertTrue("file download end event", waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave));
+
+        assertEquals("file download finished", FileTransferStatus.FILETRANSFER_FINISHED, msg.filetransfer.nStatus);
+        cmdid = client1.doDeleteFile(client1.getMyChannelID(), fileinfo.nFileID);
+        assertTrue("delete issued", cmdid>0);
+
+        assertTrue("file rm", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE, DEF_WAIT, msg, interleave));
+
+        try {
+            DataInputStream uploaded = new DataInputStream(new FileInputStream(uploadfilename));
+            DataInputStream downloaded = new DataInputStream(new FileInputStream(downloadfilename));
+            byte[] upbuff = new byte[1024], downbuff = new byte[1024];
+            int inup = 1, indown = 1;
+            while(inup > 0 || indown > 0) {
+                inup = uploaded.read(upbuff);
+                indown = downloaded.read(downbuff);
+                assertTrue("uploaded same as downloaded", Arrays.equals(upbuff, downbuff));
+            }
+        }
+        catch(IOException e) {
+            assertTrue("Failed to compare file" + e, false);
+        }
+    }
+
+    public void test_fileUpload() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
         UserAccount useraccount = new UserAccount();
@@ -875,40 +961,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance();
 
-        TeamTalkBase client1 = newClientInstance();
-        connect(server, client1);
-        login(server, client1, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(server, client1);
-
-        // writing string to a file encoded as modified UTF-8
-        DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("file.txt"));
-        dataOut.writeUTF("hello");
-        dataOut.close();
-
-        int cmdid = client1.doSendFile(client1.getMyChannelID(), "file.txt");
-        assertTrue("upload issued", cmdid>0);
-        new RunServer(server).interleave();
-
-        TTMessage msg = new TTMessage();
-        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
-
-        assertTrue("file transfer done", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg));
-
-        new RunServer(server).interleave();
-
-        cmdid = client1.doRecvFile(client1.getMyChannelID(), msg.remotefile.nFileID, "hest.txt");
-        assertTrue("download issued", cmdid>0);
-
-        new RunServer(server).interleave();
-
-        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
-
-        cmdid = client1.doDeleteFile(client1.getMyChannelID(), msg.remotefile.nFileID);
-        assertTrue("delete issued", cmdid>0);
-
-        new RunServer(server).interleave();
-
-        assertTrue("file transfer rm", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE, DEF_WAIT, msg));
+        uploadDownloadTest(server, useraccount, NICKNAME, 7);
+        uploadDownloadTest(server, useraccount, NICKNAME, 77);
+        uploadDownloadTest(server, useraccount, NICKNAME, 7777);
+        uploadDownloadTest(server, useraccount, NICKNAME, 777777);
+        uploadDownloadTest(server, useraccount, NICKNAME, 7777777);
+        uploadDownloadTest(server, useraccount, NICKNAME, 77777777);
     }
 
     public void _test_99_runServer() {

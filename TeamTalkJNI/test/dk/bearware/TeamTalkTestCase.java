@@ -304,7 +304,6 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("length", wnd2.frameBuffer.length, wnd.frameBuffer.length);
 
         assertTrue("Close desktop", ttclient.closeDesktopWindow());
-        }
     }
 
     public void test_10_VideoCaptureDevs() {
