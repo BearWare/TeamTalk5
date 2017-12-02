@@ -353,7 +353,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             }
         };
 
-    public void test_01_UserLogin() {
+    public void test_UserLogin() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -392,7 +392,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Login success", cmdid, msg.nSource);
     }
 
-    public void test_02_CreateAccount() {
+    public void test_CreateAccount() {
 
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
@@ -438,7 +438,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Account note", srv_ua.szNote, useraccount.szNote);
     }
 
-    public void test_03_DeleteAccount() {
+    public void test_DeleteAccount() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -492,7 +492,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         
     }
 
-    public void test_04_banUser() {
+    public void test_banUser() {
 
         UserAccount useraccount = new UserAccount();
         
@@ -556,7 +556,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         
     }
 
-    public void test_05_systemID() {
+    public void test_systemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
         while(server.runEventLoop(100));
@@ -585,7 +585,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_06_wrongSystemID() {
+    public void test_wrongSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
         while(server.runEventLoop(100));
@@ -599,7 +599,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_07_moveUser() {
+    public void test_moveUser() {
         UserAccount useraccount = new UserAccount();
         
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
@@ -651,7 +651,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
 
-    public void test_08_channelUpdates() {
+    public void test_channelUpdates() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
@@ -691,7 +691,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_09_kickUser() {
+    public void test_kickUser() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
@@ -749,7 +749,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
-    public void test_10_sendMessage() {
+    public void test_sendMessage() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
         UserAccount useraccount = new UserAccount();
@@ -969,7 +969,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         uploadDownloadTest(server, useraccount, NICKNAME, 77777777);
     }
 
-    public void _test_99_runServer() {
+    public void test_runServer() {
 
         TeamTalkSrv server = newServerInstance();
 

@@ -18,11 +18,9 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static String SYSTEMID = "teamtalk";
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
-
+    public static String VIDEODEVICEID = "", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
 
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
-    public static final String UPLOADFILE = "filename.txt";
-    public static final String DOWNLOADFILE = "filename.txt";
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
@@ -49,6 +47,10 @@ public class TeamTalkTestCaseBase extends TestCase {
         prop = System.getProperty("dk.bearware.encrypted");
         if(prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
+
+        prop = System.getProperty("dk.bearware.videodevid");
+        if(prop != null && !prop.isEmpty())
+            this.VIDEODEVICEID = prop;
 
         if(TCPPORT == 0 && UDPPORT == 0) {
             if(this.ENCRYPTED) {

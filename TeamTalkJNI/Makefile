@@ -41,6 +41,7 @@ JAVAPROP+=-Ddk.bearware.sndinputid=$(INPUTDEVICEID)
 JAVAPROP+=-Ddk.bearware.sndoutputid=$(OUTPUTDEVICEID)
 JAVAPROP+=-Ddk.bearware.proedition=$(PROEDITION)
 JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED) 
+JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVID) 
 
 help:
 	@echo "Targets:"
