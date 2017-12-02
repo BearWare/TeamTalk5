@@ -3,7 +3,7 @@
     <item id="102">TeamTalk&amp;设置 向导</item>
     <item id="104">Dis&amp;连接\tF2</item>
     <item id="105">%s 加入频道</item>
-    <item id="106">%s 左 通道</item>
+    <item id="106">%s 退出频道</item>
     <item id="107">&amp;连接\tF2</item>
     <item id="108">创建频道</item>
     <item id="109">更新频道</item>
@@ -24,7 +24,7 @@
     <item id="124">测试选择项目</item>
     <item id="125">停止</item>
     <item id="126">默认</item>
-    <item id="127">左 通道%s</item>
+    <item id="127">退出频道%s</item>
     <item id="128">&gt;参数选项</item>
     <item id="129">幫助(&amp;H)</item>
     <item id="130">新昵称</item>
@@ -126,7 +126,7 @@
     <item id="262">用户离开当前频道</item>
     <item id="263">谁可以在一个信道发送的用户的最大数量是 %d</item>
     <item id="264">%s 加入频道 %s</item>
-    <item id="265">%s 左声道 %s</item>
+    <item id="265">%s 退出频道 %s</item>
     <item id="266">根</item>
     <item id="267">没有声音设备</item>
     <item id="268">新用户</item>
