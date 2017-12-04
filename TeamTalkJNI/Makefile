@@ -87,7 +87,18 @@ help:
 	@echo ""
 	@echo "Example:"
 	@echo "$$ export $(LIBPATHNAME)=SDK_ROOT/TeamTalk_DLL:SDK_ROOT/TeamTalkJNI/libs"
-
+	@echo ""
+	@echo "Useful environment variables:"
+	@echo "  INPUTDEVICEID"
+	@echo "    1978 = virtual sound device, 0 = default audio device."
+	@echo "  OUTPUTDEVICEID"
+	@echo "    1978 = virtual sound device, 0 = default audio device."
+	@echo "  PROEDITION"
+	@echo "    0 = Standard Edition (TeamTalk5-jni), 1 = Professional Edition (TeamTalk5Pro-jni)"
+	@echo "  ENCRYPTED"
+	@echo "    0 = Non-encrypted, 1 = Encrypted"
+	@echo "  VIDEODEVID"
+	@echo "    None = Disable video capure unit tests"
 
 native:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5DLIBS) -shared teamtalk-jni.cpp ttconvert-jni.cpp -o $(TT5DLL) -Wno-unused-value
