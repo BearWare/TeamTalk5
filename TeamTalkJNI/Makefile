@@ -5,6 +5,7 @@ INCLUDE += -I/usr/lib/jvm/java-7-openjdk-armhf/include #Raspberry
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-i386/include #Debian i386
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-amd64/include #Debian amd64
 INCLUDE += -I/usr/lib/jvm/java-8-openjdk-i386/include #Debian 9, i386
+INCLUDE += -I/usr/lib/jvm/java-8-openjdk-i386/include/linux # jni_md.h
 INCLUDE += -I/usr/lib/jvm/java-8-openjdk-amd64/include #Debian 9, amd64
 INCLUDE += -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers #Mac OS
 INCLUDE += -I/usr/lib/java/include # Slackware-14.1
