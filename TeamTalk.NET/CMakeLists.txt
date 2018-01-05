@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project (TeamTalk5.NET)
-
-enable_language (CSharp)
+project (TeamTalk5.NET LANGUAGES CSharp)
 
 if (MSVC)
   option (TEAMTALKSTD "Build TeamTalk 5 .NET DLL for TeamTalk 5 Standard Edition" ON)
