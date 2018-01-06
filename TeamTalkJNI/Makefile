@@ -110,10 +110,10 @@ nativepro:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 macnative: native
-	install_name_tool -change libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib $(TT5DLL)
+	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib $(TT5DLL)
 
 macnativepro: nativepro
-	install_name_tool -change libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
+	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
 
 java:
 	cd src && javac $(SRCTARGET) -g ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class

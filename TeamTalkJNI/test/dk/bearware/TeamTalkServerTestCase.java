@@ -969,7 +969,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         uploadDownloadTest(server, useraccount, NICKNAME, 77777777);
     }
 
-    public void test_runServer() {
+    public void _test_runServer() {
 
         TeamTalkSrv server = newServerInstance();
 
