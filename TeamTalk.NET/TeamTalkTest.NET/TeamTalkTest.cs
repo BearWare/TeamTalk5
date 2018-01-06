@@ -34,6 +34,9 @@ namespace TeamTalkTest.NET
 
         public TeamTalkTest()
         {
+            string pwd = System.IO.Directory.GetCurrentDirectory();
+            System.Diagnostics.Debug.WriteLine("Running Test Case from " + pwd);
+            Console.WriteLine("Running Test Case from " + pwd);
             TeamTalkBase.SetLicenseInformation("", "");
         }
 
@@ -2952,7 +2955,11 @@ namespace TeamTalkTest.NET
 
         TeamTalkBase NewClientInstance()
         {
+#if ENABLE_ENCRYPTION
+            TeamTalkBase ttclient = new TeamTalk5Pro(true);
+#else
             TeamTalkBase ttclient = new TeamTalk5(true);
+#endif
             ttclients.Add(ttclient);
             return ttclient;
         }

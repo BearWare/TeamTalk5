@@ -4,6 +4,10 @@ INCLUDE += -I/usr/lib/jvm/java-7-openjdk/include #Mac OS
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-armhf/include #Raspberry
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-i386/include #Debian i386
 INCLUDE += -I/usr/lib/jvm/java-7-openjdk-amd64/include #Debian amd64
+INCLUDE += -I/usr/lib/jvm/java-8-openjdk-i386/include #Debian 9, i386
+INCLUDE += -I/usr/lib/jvm/java-8-openjdk-i386/include/linux # jni_md.h
+INCLUDE += -I/usr/lib/jvm/java-8-openjdk-amd64/include #Debian 9, amd64
+INCLUDE += -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux #Debian 9, amd64
 INCLUDE += -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers #Mac OS
 INCLUDE += -I/usr/lib/java/include # Slackware-14.1
 
@@ -107,10 +111,10 @@ nativepro:
 	cd jni && g++ -O0 -g $(INCLUDE) $(CPPFLAGS) $(TT5PRODLIBS) -shared teamtalk-jni.cpp teamtalksrv-jni.cpp ttconvert-jni.cpp -o $(TT5PRODLL) -Wno-unused-value
 
 macnative: native
-	install_name_tool -change libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib $(TT5DLL)
+	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib $(TT5DLL)
 
 macnativepro: nativepro
-	install_name_tool -change libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
+	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib $(TT5PRODLL)
 
 java:
 	cd src && javac $(SRCTARGET) -g ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
