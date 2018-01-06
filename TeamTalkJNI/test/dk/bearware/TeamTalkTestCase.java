@@ -1110,7 +1110,7 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         chan.szPassword = longstr;
         chan.szTopic = longstr;
         
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
         
         chan.nChannelID = ttclient.getMyChannelID();
         
@@ -1122,13 +1122,13 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
             Thread.sleep(500);
         }
         
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
-        assertTrue(msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);
+        assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
+        assertTrue("Queue overflow", msg.clienterrormsg.nErrorNo == ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW);
         
         int cmdid = ttclient.doLeaveChannel();
         assertTrue("Update again after overflow", cmdid>0);
         
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LEFT, DEF_WAIT, msg));
+        assertTrue("Expect user-left message", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_LEFT, DEF_WAIT, msg));
         assertEquals("message queue lives again", ttclient.getMyUserID(), msg.user.nUserID);
         
     }
