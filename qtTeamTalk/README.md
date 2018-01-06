@@ -7,6 +7,7 @@ To try a compiled version of the this application go [here](http://bearware.dk/?
 The following dependencies must be installed on Debian 9 in order to
 build the TeamTalk Qt Client application:
 
+* qt5-default
 * qtbase5-dev
 * libqt5x11extras5-dev
 * qtmultimedia5-dev
