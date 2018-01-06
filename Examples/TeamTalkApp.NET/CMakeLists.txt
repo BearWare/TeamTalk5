@@ -89,19 +89,19 @@ set (APP_SOURCES
 
 
 if (MSVC)
-  option (TEAMTALKSTD "Build TeamTalkApp.NET for TeamTalk 5 Standard Edition" ON)
-  option (TEAMTALKPRO "Build TeamTalkProApp.NET for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALKCLIENT_DOTNET_EXAMPLE "Build TeamTalkApp.NET for TeamTalk 5 Standard Edition" ON)
+  option (BUILD_TEAMTALKCLIENTPRO_DOTNET_EXAMPLE "Build TeamTalkProApp.NET for TeamTalk 5 Professional Edition" ON)
 
   csharp_set_windows_forms_properties (${APP_FORMS_SOURCES} ${APP_DESIGNER_SOURCES})
   
-  if (TEAMTALKSTD)
+  if (BUILD_TEAMTALKCLIENT_DOTNET_EXAMPLE)
     add_executable (TeamTalk5App.NET WIN32 ${APP_SOURCES})
     set_property (TARGET TeamTalk5App.NET PROPERTY VS_DOTNET_REFERENCES
       "System" "System.Data" "System.Deployment" "System.Drawing" "System.Windows.Forms" "System.Xml")
     target_link_libraries (TeamTalk5App.NET TeamTalk5.NET)
   endif()
 
-  if (TEAMTALKPRO)
+  if (BUILD_TEAMTALKCLIENTPRO_DOTNET_EXAMPLE)
     add_executable (TeamTalk5ProApp.NET WIN32 ${APP_SOURCES})
     set_property (TARGET TeamTalk5ProApp.NET PROPERTY VS_DOTNET_REFERENCES
       "System" "System.Data" "System.Deployment" "System.Drawing" "System.Windows.Forms" "System.Xml")

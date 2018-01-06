@@ -83,44 +83,45 @@ set (JAVA_SOURCES
 
 if (MSVC)
   add_definitions (-DUNICODE -D_UNICODE)
-
-  if (BUILD_TEAMTALK5JNI_LIB)
-    add_library (TeamTalk5-jni SHARED
-      jni/teamtalk-jni.cpp
-      jni/ttconvert-jni.cpp
-      jni/ttconvert-jni.h)
-    target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
-
-    
-  endif()
-
-  if (BUILD_TEAMTALK5PROJNI_LIB)
-    add_library (TeamTalk5Pro-jni SHARED
-      jni/teamtalk-jni.cpp
-      jni/teamtalksrv-jni.cpp
-      jni/ttconvert-jni.cpp
-      jni/ttconvert-jni.h)
-    target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
-  endif()
-
-  find_package (Java)
-  include (UseJava)
-  
-  option (BUILD_TEAMTALK5_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK5PRO_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
-  
-  if (BUILD_TEAMTALK5_JAR)
-    add_jar (TeamTalk5JAR
-      SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5.java
-      OUTPUT_NAME TeamTalk5
-      OUTPUT_DIR libs)
-  endif()
-
-  if (BUILD_TEAMTALK5PRO_JAR)
-    add_jar (TeamTalk5ProJAR
-      SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5Pro.java src/dk/bearware/TeamTalk5Srv.java src/dk/bearware/TeamTalkSrv.java
-      OUTPUT_NAME TeamTalk5Pro
-      OUTPUT_DIR libs)
-  endif()
-
 endif()
+
+if (BUILD_TEAMTALK5JNI_LIB)
+  add_library (TeamTalk5-jni SHARED
+    jni/teamtalk-jni.cpp
+    jni/ttconvert-jni.cpp
+    jni/ttconvert-jni.h)
+  target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
+  
+endif()
+
+if (BUILD_TEAMTALK5PROJNI_LIB)
+  add_library (TeamTalk5Pro-jni SHARED
+    jni/teamtalk-jni.cpp
+    jni/teamtalksrv-jni.cpp
+    jni/ttconvert-jni.cpp
+    jni/ttconvert-jni.h)
+  target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
+endif()
+
+find_package (Java)
+include (UseJava)
+
+option (BUILD_TEAMTALK5_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
+option (BUILD_TEAMTALK5PRO_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
+
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.5" "-target" "1.5")
+
+if (BUILD_TEAMTALK5_JAR)
+  add_jar (TeamTalk5JAR
+    SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5.java
+    OUTPUT_NAME TeamTalk5
+    OUTPUT_DIR libs)
+endif()
+
+if (BUILD_TEAMTALK5PRO_JAR)
+  add_jar (TeamTalk5ProJAR
+    SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5Pro.java src/dk/bearware/TeamTalk5Srv.java src/dk/bearware/TeamTalkSrv.java
+    OUTPUT_NAME TeamTalk5Pro
+    OUTPUT_DIR libs)
+endif()
+

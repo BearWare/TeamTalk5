@@ -5,8 +5,8 @@ include (ttclassic.cmake)
 
 if (MSVC)
 
-  option (TEAMTALKSTD "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
-  option (TEAMTALKPRO "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALKCLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
+  option (BUILD_TEAMTALKCLIENTPRO_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)
   
   set(CMAKE_MFC_FLAG 1)
 
@@ -41,20 +41,20 @@ if (MSVC)
 
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     add_definitions (-D_WIN64)
-    if (TEAMTALKSTD)
+    if (BUILD_TEAMTALKCLIENT_MFC_EXAMPLE)
       add_executable (TeamTalk5Classic WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS}
         ${TINYXML_SOURCES} ${TINYXML_HEADERS} res/TeamTalk_amd64.manifest)
     endif()
-    if (TEAMTALKPRO)
+    if (BUILD_TEAMTALKCLIENTPRO_MFC_EXAMPLE)
       add_executable (TeamTalk5ClassicPro WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS}
         ${TINYXML_SOURCES}  ${TINYXML_HEADERS} res/TeamTalk_amd64.manifest)
     endif()
   else()
-    if (TEAMTALKSTD)
+    if (BUILD_TEAMTALKCLIENT_MFC_EXAMPLE)
       add_executable (TeamTalk5Classic WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS}
         ${TINYXML_SOURCES} ${TINYXML_HEADERS} res/TeamTalk.manifest)
     endif()
-    if (TEAMTALKPRO)
+    if (BUILD_TEAMTALKCLIENTPRO_MFC_EXAMPLE)
       add_executable (TeamTalk5ClassicPro WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS}
         ${TINYXML_SOURCES} ${TINYXML_HEADERS} res/TeamTalk.manifest)
     endif()
