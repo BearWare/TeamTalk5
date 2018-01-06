@@ -103,9 +103,7 @@ if (MSVC)
     target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
   endif()
 
-else()
-  
-  find_package(Java)
+  find_package (Java)
   include (UseJava)
   
   option (BUILD_TEAMTALK5_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
