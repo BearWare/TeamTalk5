@@ -4,9 +4,9 @@ project (TeamTalk5ProServer.NET)
 enable_language (CSharp)
 
 if (MSVC)
-  option (BUILD_TEAMTALKSERVER_DOTNET_EXAMPLE "Build TeamTalk5ProServer.NET for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALKPRO_SERVER_DOTNET_EXAMPLE "Build TeamTalk5ProServer.NET for TeamTalk 5 Professional Edition" ON)
 
-  if (BUILD_TEAMTALKSERVER_DOTNET_EXAMPLE)
+  if (BUILD_TEAMTALKPRO_SERVER_DOTNET_EXAMPLE)
     add_executable (TeamTalk5ProServer.NET Properties/AssemblyInfo.cs
       Program.cs ServerCallback.cs ServerLogger.cs)
     set_property(TARGET TeamTalk5ProServer.NET PROPERTY VS_DOTNET_REFERENCES "System")

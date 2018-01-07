@@ -10,8 +10,8 @@ endif()
 include_directories (../TeamTalk_DLL ${JNI_INCLUDE_DIRS})
 link_directories (../TeamTalk_DLL)
 
-option (BUILD_TEAMTALK5JNI_LIB "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
-option (BUILD_TEAMTALK5PROJNI_LIB "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
+option (BUILD_TEAMTALK_LIBRARY_JNI "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
+option (BUILD_TEAMTALKPRO_LIBRARY_JNI "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
 
 set (JAVA_SOURCES
   src/dk/bearware/AbusePrevention.java
@@ -85,7 +85,7 @@ if (MSVC)
   add_definitions (-DUNICODE -D_UNICODE)
 endif()
 
-if (BUILD_TEAMTALK5JNI_LIB)
+if (BUILD_TEAMTALK_LIBRARY_JNI)
   add_library (TeamTalk5-jni SHARED
     jni/teamtalk-jni.cpp
     jni/ttconvert-jni.cpp
@@ -94,7 +94,7 @@ if (BUILD_TEAMTALK5JNI_LIB)
   
 endif()
 
-if (BUILD_TEAMTALK5PROJNI_LIB)
+if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
   add_library (TeamTalk5Pro-jni SHARED
     jni/teamtalk-jni.cpp
     jni/teamtalksrv-jni.cpp
@@ -106,19 +106,19 @@ endif()
 find_package (Java)
 include (UseJava)
 
-option (BUILD_TEAMTALK5_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
-option (BUILD_TEAMTALK5PRO_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
+option (BUILD_TEAMTALK_LIBRARY_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
+option (BUILD_TEAMTALKPRO_LIBRARY_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
 
 set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.5" "-target" "1.5")
 
-if (BUILD_TEAMTALK5_JAR)
+if (BUILD_TEAMTALK_LIBRARY_JAR)
   add_jar (TeamTalk5JAR
     SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5.java
     OUTPUT_NAME TeamTalk5
     OUTPUT_DIR libs)
 endif()
 
-if (BUILD_TEAMTALK5PRO_JAR)
+if (BUILD_TEAMTALKPRO_LIBRARY_JAR)
   add_jar (TeamTalk5ProJAR
     SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5Pro.java src/dk/bearware/TeamTalk5Srv.java src/dk/bearware/TeamTalkSrv.java
     OUTPUT_NAME TeamTalk5Pro
