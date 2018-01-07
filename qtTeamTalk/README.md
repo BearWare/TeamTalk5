@@ -21,3 +21,11 @@ Afterwards run the following command:
 Followed by:
 
 ```# make```
+
+## Build dependencies on Ubuntu 16 xenial
+
+Cannot build due to missing webengineview.
+
+* qt5-default
+* libqt5x11extras5-dev
+* qtmultimedia5-dev

@@ -52,7 +52,7 @@ public:
         {
             TTMessage ttmsg;
             INT32 wait_ms = 0;
-            if(TT_GetMessage(ttInst, &ttmsg, &wait_ms))
+            if(TT_GetMessage(ttInst, &ttmsg, &wait_ms) && m_mainwindow)
                 m_mainwindow->processTTMessage(ttmsg);
         }
         return QApplication::winEventFilter(msg, result);
@@ -144,8 +144,8 @@ public:
                 if(keyevent->state & XCB_MOD_MASK_SHIFT)
                     mods |= ShiftMask;
 
-                qDebug() << "Hotkeys are not working in Qt5";
-                m_mainwindow->keysActive(keycode, mods, type == XCB_KEY_PRESS);
+                if(m_mainwindow)
+                    m_mainwindow->keysActive(keycode, mods, type == XCB_KEY_PRESS);
                 break;
             }
             }
