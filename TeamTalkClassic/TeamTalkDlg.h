@@ -254,7 +254,7 @@ protected:
     std::vector<UserAccount> m_useraccounts;
     std::vector<BannedUser> m_bannedusers;
 
-    int m_nMoveUserID;
+    std::set<int> m_moveusers;
 
     //from tt instance
     afx_msg LRESULT OnClientEvent(WPARAM wParam, LPARAM lParam);

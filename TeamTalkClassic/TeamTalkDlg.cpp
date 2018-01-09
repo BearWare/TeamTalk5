@@ -111,7 +111,6 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_bPreferencesOpen(FALSE)
 , m_bSpeech(FALSE)
 , m_xmlSettings(TT_XML_ROOTNAME)
-, m_nMoveUserID(0)
 , m_nLastMoveChannel(0)
 , m_nStatusMode(STATUSMODE_AVAILABLE)
 , m_bSendDesktopOnCompletion(FALSE)
@@ -265,6 +264,7 @@ void CTeamTalkDlg::Disconnect()
     m_users.clear();
     m_useraccounts.clear();
     m_bannedusers.clear();
+    m_moveusers.clear();
 
     UpdateWindowTitle();
 }
@@ -5639,22 +5639,31 @@ void CTeamTalkDlg::OnUpdateAdvancedStoreformove(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnAdvancedStoreformove()
 {
-    m_nMoveUserID = m_wndTree.GetSelectedUser();
+    int nMoveUserID = m_wndTree.GetSelectedUser();
+    if (nMoveUserID)
+        m_moveusers.insert(nMoveUserID);
+
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedMoveuser(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable(m_nMoveUserID>0 && m_wndTree.GetSelectedChannel(true));
+    pCmdUI->Enable(m_moveusers.size() && m_wndTree.GetSelectedChannel(true));
 }
 
 void CTeamTalkDlg::OnAdvancedMoveuser()
 {
-    TT_DoMoveUser(ttInst, m_nMoveUserID, m_wndTree.GetSelectedChannel(true));
+    int nChanID = m_wndTree.GetSelectedChannel(true);
+    std::for_each(m_moveusers.begin(), m_moveusers.end(),
+        [nChanID](int nUserID)
+    {
+        TT_DoMoveUser(ttInst, nUserID, nChanID);
+    });
+    m_moveusers.clear();
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedMoveuserdialog(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable(m_wndTree.GetSelectedUser()>0);
+    pCmdUI->Enable(m_wndTree.GetSelectedUser()>0 || m_moveusers.size());
 }
 
 void CTeamTalkDlg::OnAdvancedMoveuserdialog()
@@ -5671,11 +5680,20 @@ void CTeamTalkDlg::OnAdvancedMoveuserdialog()
 
     TT_GetChannelPath(ttInst, m_nLastMoveChannel, szChan);
     dlg.m_szChannel = szChan;
-    int userid = m_wndTree.GetSelectedUser();
     if(dlg.DoModal() == IDOK &&
        (m_nLastMoveChannel = TT_GetChannelIDFromPath(ttInst, dlg.m_szChannel)) )
     {
-        TT_DoMoveUser(ttInst, userid, m_nLastMoveChannel);
+        int userid = m_wndTree.GetSelectedUser();
+        if(userid)
+            m_moveusers.insert(userid);
+
+        int nChannelID = m_nLastMoveChannel;
+        std::for_each(m_moveusers.begin(), m_moveusers.end(),
+            [nChannelID](int nUserID)
+        {
+            TT_DoMoveUser(ttInst, nUserID, nChannelID);
+        });
+        m_moveusers.clear();
     }
 }
 
