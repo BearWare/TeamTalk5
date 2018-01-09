@@ -3849,10 +3849,14 @@ void CTeamTalkDlg::OnUpdateUsersMessages(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnUsersMessages()
 {
-    User user = {0};
     int nUserID = m_wndTree.GetSelectedUser();
+    OnUsersMessages(nUserID);
+}
 
-    if( m_wndTree.GetUser(nUserID, user))
+void CTeamTalkDlg::OnUsersMessages(int nUserID)
+{
+    User user = { 0 };
+    if(m_wndTree.GetUser(nUserID, user))
     {
         CMessageDlg* pMsgDlg = GetUsersMessageSession(user.nUserID, TRUE);
         User myself;
@@ -3860,7 +3864,7 @@ void CTeamTalkDlg::OnUsersMessages()
         {
             pMsgDlg->m_bShowTimeStamp = m_xmlSettings.GetMessageTimeStamp();
             pMsgDlg->ShowWindow(SW_SHOW);
-            ::PostMessage(pMsgDlg->m_hWnd, WM_SETFOCUS,0,0);
+            ::PostMessage(pMsgDlg->m_hWnd, WM_SETFOCUS, 0, 0);
         }
     }
 }
@@ -5618,7 +5622,7 @@ void CTeamTalkDlg::OnUpdateServerOnlineusers(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnServerOnlineusers()
 {
-    COnlineUsersDlg dlg;
+    COnlineUsersDlg dlg(this);
     dlg.DoModal();
 }
 

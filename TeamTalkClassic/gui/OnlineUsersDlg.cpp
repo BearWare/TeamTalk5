@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "OnlineUsersDlg.h"
+#include "TeamTalkDlg.h"
 #include <vector>
 
 extern TTInstance* ttInst;
@@ -12,8 +13,9 @@ extern TTInstance* ttInst;
 
 IMPLEMENT_DYNAMIC(COnlineUsersDlg, CDialog)
 
-COnlineUsersDlg::COnlineUsersDlg(CWnd* pParent /*=NULL*/)
+COnlineUsersDlg::COnlineUsersDlg(CTeamTalkDlg* pParent /*=NULL*/)
 	: CDialog(COnlineUsersDlg::IDD, pParent)
+    , m_pParent(pParent)
 {
 #ifndef _WIN32_WCE
 	EnableActiveAccessibility();
@@ -39,6 +41,7 @@ BEGIN_MESSAGE_MAP(COnlineUsersDlg, CDialog)
     ON_COMMAND(ID_POPUP_OP, &COnlineUsersDlg::OnPopupOp)
     ON_COMMAND(ID_POPUP_COPYUSERINFORMATION, &COnlineUsersDlg::OnPopupCopyuserinformation)
     ON_WM_SIZE()
+    ON_COMMAND(ID_POPUP_MESSAGES, &COnlineUsersDlg::OnPopupMessages)
 END_MESSAGE_MAP()
 
 
@@ -214,6 +217,11 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
             CloseClipboard();
         }
     }
+    break;
+    case ID_POPUP_MESSAGES :
+        if(m_pParent)
+            m_pParent->OnUsersMessages(nUserID);
+        break;
     }
 }
 
@@ -237,6 +245,10 @@ void COnlineUsersDlg::OnPopupCopyuserinformation()
     MenuCommand(ID_POPUP_COPYUSERINFORMATION);
 }
 
+void COnlineUsersDlg::OnPopupMessages()
+{
+    MenuCommand(ID_POPUP_MESSAGES);
+}
 
 void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)
 {
@@ -245,3 +257,4 @@ void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)
     // TODO: Group box overlaps listbox for some reason...
     //m_resizer.Move();
 }
+

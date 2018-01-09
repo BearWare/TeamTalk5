@@ -21,7 +21,7 @@ class COnlineUsersDlg : public CDialog
 	DECLARE_DYNAMIC(COnlineUsersDlg)
 
 public:
-	COnlineUsersDlg(CWnd* pParent = NULL);   // standard constructor
+	COnlineUsersDlg(class CTeamTalkDlg* pParent = NULL);   // standard constructor
 	virtual ~COnlineUsersDlg();
 
 // Dialog Data
@@ -36,6 +36,7 @@ protected:
     CResizer m_resizer;
 
     void MenuCommand(UINT uCmd);
+    class CTeamTalkDlg* m_pParent;
 public:
     CListCtrl m_wndUsers;
     virtual BOOL OnInitDialog();
@@ -46,4 +47,5 @@ public:
     afx_msg void OnPopupOp();
     afx_msg void OnPopupCopyuserinformation();
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnPopupMessages();
 };

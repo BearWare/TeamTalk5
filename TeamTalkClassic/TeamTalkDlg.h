@@ -130,6 +130,8 @@ public:
 
     void CloseMessageSessions();
     CMessageDlg* GetUsersMessageSession(int nUserID, BOOL bCreateNew, BOOL* lpbNew = NULL);
+    void OnUsersMessages(int nUserID);
+
     void OpenVideoSession(int nUserID);
     void CloseVideoSession(int nUserID);
     void CloseDesktopSession(int nUserID);

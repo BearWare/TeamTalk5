@@ -1671,6 +1671,7 @@ BEGIN
         MENUITEM "&Kick\tCtrl+K",               ID_POPUP_KICK
         MENUITEM "Kick and &Ban\tCtrl+Shift+K", ID_POPUP_KICKANDBAN
         MENUITEM "&Op\tCtrl+O",                 ID_POPUP_OP
+        MENUITEM "&Messages\tCtrl+E",           ID_POPUP_MESSAGES
     END
 END
 
