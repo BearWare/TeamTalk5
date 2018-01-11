@@ -10,6 +10,8 @@ Accessible Windows client:
 Server:
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
+Android client:
+- Added Indonesian language thanks to Muhammad Gagah
 
 Version 5.2.4, released 2017/11/08
 iOS client:
