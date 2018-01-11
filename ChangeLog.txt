@@ -4,12 +4,15 @@
 Version 5.3, unreleased
 Default Qt client
 - Abuse prevention tab in user account administration
+- Windows client no longer supports Windows XP
 Accessible Windows client:
 - Abuse prevention tab in user account administration
 - Tell operator state using Ctrl+G
+- Windows client no longer supports Windows XP
 Server:
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
+- Windows server no longer supports Windows XP
 Android client:
 - Added Indonesian language thanks to Muhammad Gagah
 
