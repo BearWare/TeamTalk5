@@ -50,7 +50,7 @@ dependencies {
     compile files('libs/TeamTalk5.jar')
 
     // Facebook login
-    compile 'com.facebook.android:facebook-login:[4,5)'
+    compile 'com.facebook.android:facebook-android-sdk:4.26.0'
 
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
