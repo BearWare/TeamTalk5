@@ -5,11 +5,12 @@ Version 5.3, unreleased
 Default Qt client
 - Facebook web-login for Facebook enabled TeamTalk servers
 - Abuse prevention tab in user account administration
-- Windows client no longer supports Windows XP
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
-- Windows client updated to Qt v5.8
-- Linux clients updated to Qt v5.7 (PTT behaviour changed)
+- TeamTalk client for Windows no longer supports Windows XP
+- TeamTalk clients for Windows updated to Qt v5.8
+- TeamTalk clients for Debian Linux updated to Debian GNU/Linux 9 (stretch) and Qt v5.7 (PTT behaviour changed)
+- TeamTalk client for Mac requires minimum macOS 10.9 (Mavericks)
 Accessible Windows client:
 - Facebook web-login for Facebook enabled TeamTalk servers
 - Abuse prevention tab in user account administration
@@ -17,9 +18,9 @@ Accessible Windows client:
 - Send text message from Online Users dialog
 - Move multiple users (Store for Move menu-item)
 - Arabic, German, Turkish, Chinese
-- Windows client no longer supports Windows XP
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
+- Windows XP is no longer supported
 Android client:
 - Facebook web-login for Facebook enabled TeamTalk servers
 - Added Indonesian language thanks to Muhammad Gagah
@@ -32,7 +33,9 @@ Server:
 - Facebook user authentication
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
-- Windows server no longer supports Windows XP
+- TeamTalk server for Windows no longer supports Windows XP
+- TeamTalk server for Debian Linux updated to Debian GNU/Linux 9 (stretch)
+- TeamTalk server Raspberry Pi updated to Raspbian GNU/Linux 9 (stretch)
 
 Version 5.2.4, released 2017/11/08
 iOS client:
