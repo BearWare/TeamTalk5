@@ -255,7 +255,7 @@
     <string name="err_invalid_username">Nama Pengguna Tidak Sah</string>
     <string name="err_incorrect_server_password">Sandi Server Salah</string>
     <string name="err_incorrect_channel_password">Sandi Saluran Salah</string>
-    <string name="err_invalid_account"Akun Tidak Sah></string>
+    <string name="err_invalid_account">Akun Tidak Sah></string>
     <string name="err_max_server_users_exceeded">Server Penuh</string>
     <string name="err_max_channel_users_exceeded">Saluran Penuh</string>
     <string name="err_server_banned">Alamat IP anda telah dilarang</string>
