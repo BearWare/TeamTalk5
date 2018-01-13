@@ -2,3 +2,4 @@
 ./*.bat
 TAGS
 teamtalkd
+CMakeFiles
