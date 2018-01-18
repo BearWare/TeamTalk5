@@ -107,6 +107,7 @@ namespace teamtalk {
     {
     public:
         ClientXML(const std::string& rootname) : XMLDocument(rootname, TEAMTALK_XML_VERSION){}
+        virtual bool SaveFile();
 
         /******** <main> ********/
         bool SetWindowPlacement(int x, int y, int cx, int cy);

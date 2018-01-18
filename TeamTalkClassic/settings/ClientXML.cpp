@@ -28,6 +28,11 @@
 using namespace std;
 namespace teamtalk {
 
+    bool ClientXML::SaveFile()
+    {
+        SetFileVersion(TEAMTALK_XML_VERSION);
+        return XMLDocument::SaveFile();
+    }
 
     TiXmlElement* ClientXML::GetRootElement()
     {

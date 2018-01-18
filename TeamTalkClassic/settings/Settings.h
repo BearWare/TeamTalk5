@@ -67,7 +67,7 @@ namespace teamtalk {
 
         virtual bool CreateFile(const std::string& filename);
         bool LoadFile(const std::string& filename);
-        bool SaveFile();
+        virtual bool SaveFile();
         bool HasErrors();
         std::string GetError();
         bool Parse(const std::string& xml);
