@@ -618,7 +618,7 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_UPDATE_COMMAND_UI(ID_USERS_VOLUME, OnUpdateUsersVolume)
     ON_COMMAND(ID_USERS_KICKCHANNEL, OnUsersKickFromChannel)
     ON_UPDATE_COMMAND_UI(ID_USERS_KICKANDBAN, &CTeamTalkDlg::OnUpdateUsersKickandban)
-    ON_COMMAND(ID_USERS_KICKANDBAN, &CTeamTalkDlg::OnUsersKickFromChannelandban)
+    ON_COMMAND(ID_USERS_KICKANDBAN, &CTeamTalkDlg::OnUsersKickandban)
     ON_UPDATE_COMMAND_UI(ID_USERS_KICKCHANNEL, &CTeamTalkDlg::OnUpdateUsersKickchannel)
     ON_COMMAND(ID_USERS_MUTEALL, OnUsersMuteVoiceall)
     ON_UPDATE_COMMAND_UI(ID_USERS_MUTEALL, OnUpdateUsersMuteVoiceall)
@@ -754,7 +754,9 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_ADVANCED_ALLOWALLDESKTOPTRANSMISSION, &CTeamTalkDlg::OnAdvancedAllowalldesktoptransmission)
     ON_UPDATE_COMMAND_UI(ID_CHANNELINFO_SPEAKCHANNELSTATE, &CTeamTalkDlg::OnUpdateChannelinfoSpeakchannelstate)
     ON_COMMAND(ID_CHANNELINFO_SPEAKCHANNELSTATE, &CTeamTalkDlg::OnChannelinfoSpeakchannelstate)
-    END_MESSAGE_MAP()
+        ON_UPDATE_COMMAND_UI(ID_KICK_KICKANDBANFROMCHANNEL, &CTeamTalkDlg::OnUpdateKickKickandbanfromchannel)
+        ON_COMMAND(ID_KICK_KICKANDBANFROMCHANNEL, &CTeamTalkDlg::OnKickKickandbanfromchannel)
+        END_MESSAGE_MAP()
 
 
 // CTeamTalkDlg message handlers
@@ -1125,7 +1127,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
         if(dlg.DoModal() == IDOK)
         {
             for(int i=0;i<dlg.m_vecUnBanned.size();i++)
-                TT_DoUnBanUser(ttInst, dlg.m_vecUnBanned[i].szIPAddress, 0);
+                TT_DoUnBanUserEx(ttInst, &dlg.m_vecUnBanned[i]);
         }
         m_bannedusers.clear();
         break;
@@ -3951,6 +3953,17 @@ void CTeamTalkDlg::OnUsersKickFromChannel()
     }
 }
 
+void CTeamTalkDlg::OnUpdateKickKickandbanfromchannel(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_wndTree.GetSelectedUser()>0 ? TRUE : FALSE);
+}
+
+void CTeamTalkDlg::OnKickKickandbanfromchannel()
+{
+    TT_DoBanUserEx(ttInst, m_wndTree.GetSelectedUser(), BANTYPE_CHANNEL | BANTYPE_IPADDR);
+    TT_DoKickUser(ttInst, m_wndTree.GetSelectedUser(), m_wndTree.GetSelectedChannel(true));
+}
+
 void CTeamTalkDlg::OnUpdateUsersKickfromserver(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(m_wndTree.GetSelectedUser()>0? TRUE : FALSE);
@@ -3963,6 +3976,18 @@ void CTeamTalkDlg::OnUsersKickfromserver()
     {
         TT_DoKickUser(ttInst, i->nUserID, 0);
     }
+}
+
+void CTeamTalkDlg::OnUpdateUsersKickandban(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_wndTree.GetSelectedUser()>0);
+}
+
+void CTeamTalkDlg::OnUsersKickandban()
+{
+    int nUserID = m_wndTree.GetSelectedUser();
+    TT_DoBanUser(ttInst, nUserID, 0);
+    TT_DoKickUser(ttInst, nUserID, 0);
 }
 
 void CTeamTalkDlg::OnUpdateUsersOp(CCmdUI *pCmdUI)
@@ -5712,18 +5737,6 @@ void CTeamTalkDlg::OnServerListbannedusers()
     int cmdid = TT_DoListBans(ttInst, 0, 0, 1000000);
     if(cmdid>0)
         m_commands[cmdid] = CMD_COMPLETE_LISTBANS;
-}
-
-void CTeamTalkDlg::OnUpdateUsersKickandban(CCmdUI *pCmdUI)
-{
-    pCmdUI->Enable(m_wndTree.GetSelectedUser()>0);
-}
-
-void CTeamTalkDlg::OnUsersKickFromChannelandban()
-{
-    int nUserID = m_wndTree.GetSelectedUser();
-    TT_DoBanUser(ttInst, nUserID, 0);
-    TT_DoKickUser(ttInst, nUserID, 0);
 }
 
 void CTeamTalkDlg::OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI)

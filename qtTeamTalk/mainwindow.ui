@@ -1095,6 +1095,8 @@
       <string>&amp;Kick</string>
      </property>
      <addaction name="actionKickFromChannel"/>
+     <addaction name="actionKickAndBanFromChannel"/>
+     <addaction name="separator"/>
      <addaction name="actionKickFromServer"/>
      <addaction name="actionKickBan"/>
     </widget>
@@ -1946,6 +1948,14 @@
     <string>R&amp;eset Preferences to Default</string>
    </property>
   </action>
+  <action name="actionKickAndBanFromChannel">
+   <property name="text">
+    <string>Kick and Ban From &amp;Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -2007,6 +2017,7 @@
   <tabstop>desktopsendButton</tabstop>
  </tabstops>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

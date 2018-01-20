@@ -325,10 +325,12 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotUsersOp(bool)));
     connect(ui.actionKickFromChannel, SIGNAL(triggered(bool)),
             SLOT(slotUsersKickFromChannel(bool)));
+    connect(ui.actionKickAndBanFromChannel, SIGNAL(triggered(bool)),
+        SLOT(slotUsersKickBanFromChannel(bool)));
     connect(ui.actionKickFromServer, SIGNAL(triggered(bool)),
             SLOT(slotUsersKickFromServer(bool)));
     connect(ui.actionKickBan, SIGNAL(triggered(bool)),
-            SLOT(slotUsersKickBan(bool)));
+            SLOT(slotUsersKickBanFromServer(bool)));
     connect(ui.actionMuteAll, SIGNAL(triggered(bool)),
             SLOT(slotUsersMuteVoiceAll(bool)));
     connect(ui.actionMediaStorage, SIGNAL(triggered(bool)),
@@ -3495,16 +3497,22 @@ void MainWindow::slotUsersKickFromChannel(bool /*checked =false */)
         slotUsersKick(u.nUserID, u.nChannelID);
 }
 
+void MainWindow::slotUsersKickBanFromChannel(bool /*checked =false */)
+{
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+        slotUsersKickBan(u.nUserID, u.nChannelID);
+}
+
 void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
 {
     foreach(User u, ui.channelsWidget->getSelectedUsers())
         slotUsersKick(u.nUserID, 0);
 }
 
-void MainWindow::slotUsersKickBan(bool /*checked =false */)
+void MainWindow::slotUsersKickBanFromServer(bool /*checked =false */)
 {
     foreach(User u, ui.channelsWidget->getSelectedUsers())    
-        slotUsersKickBan(u.nUserID, u.nChannelID);
+        slotUsersKickBan(u.nUserID, 0);
 }
 
 void MainWindow::slotUsersSubscriptionsUserMsg(bool checked /*=false */)
@@ -4196,11 +4204,11 @@ void MainWindow::slotUsersKick(int userid, int chanid)
     TT_DoKickUser(ttInst, userid, chanid);
 }
 
-void MainWindow::slotUsersKickBan(int userid, int /*chanid*/)
+void MainWindow::slotUsersKickBan(int userid, int chanid)
 {
     //ban first since the user will otherwise have disappeared
-    TT_DoBanUser(ttInst, userid, 0);
-    TT_DoKickUser(ttInst, userid, 0);
+    TT_DoBanUser(ttInst, userid, chanid != 0? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
+    TT_DoKickUser(ttInst, userid, chanid);
 }
 
 void MainWindow::slotTreeSelectionChanged()

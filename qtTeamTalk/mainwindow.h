@@ -289,8 +289,9 @@ private slots:
     void slotUsersVolume(bool checked=false);
     void slotUsersOp(bool checked=false);
     void slotUsersKickFromChannel(bool checked=false);
+    void slotUsersKickBanFromChannel(bool checked = false);
     void slotUsersKickFromServer(bool checked=false);
-    void slotUsersKickBan(bool checked=false);
+    void slotUsersKickBanFromServer(bool checked=false);
     void slotUsersSubscriptionsUserMsg(bool checked=false);
     void slotUsersSubscriptionsChannelMsg(bool checked=false);
     void slotUsersSubscriptionsBCastMsg(bool checked=false);

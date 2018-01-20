@@ -513,7 +513,7 @@
     <item id="32877">&amp;Store for Move\tCtrl+Alt+X</item>
     <item id="32878">&amp;Move User\tCtrl+Alt+V</item>
     <item id="32882">&amp;Banned Users\tCtrl+Shift+B</item>
-    <item id="32885">Kick and &amp;Ban\tCtrl+Shift+K</item>
+    <item id="32885">Kick and &amp;Ban From Server\tCtrl+Shift+K</item>
     <item id="32888">Recor&amp;d Conversations\tCtrl+Alt+A</item>
     <item id="32890">Move User &amp;Dialog\tCtrl+Alt+M</item>
     <item id="32892">&amp;User Messages\tCtrl+1</item>
@@ -564,4 +564,6 @@
     <item id="32947">Allow All Deskto&amp;p Transmission\tCtrl+Alt+Shift+E</item>
     <item id="32948">Allow All Medi&amp;a File Transmission\tCtrl+Alt+Shift+R</item>
     <item id="32949">Spea&amp;k Channel State\tCtrl+Shift+G</item>
+    <item id="32950">&amp;Messages\tCtrl+E</item>
+    <item id="32951">"Kick and Ban From &amp;Channel\tCtrl+B</item>
 </language>

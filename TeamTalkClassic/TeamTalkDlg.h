@@ -438,7 +438,7 @@ public:
     afx_msg void OnServerListbannedusers();
     afx_msg void OnUpdateUsersKickchannel(CCmdUI *pCmdUI);
     afx_msg void OnUpdateUsersKickandban(CCmdUI *pCmdUI);
-    afx_msg void OnUsersKickFromChannelandban();
+    afx_msg void OnUsersKickandban();
     afx_msg void OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI);
     afx_msg void OnUsersStoreconversationstodisk();
     afx_msg void OnUpdateAdvancedMoveuserdialog(CCmdUI *pCmdUI);
@@ -521,5 +521,7 @@ public:
     afx_msg void OnAdvancedAllowalldesktoptransmission();
     afx_msg void OnUpdateChannelinfoSpeakchannelstate(CCmdUI *pCmdUI);
     afx_msg void OnChannelinfoSpeakchannelstate();
+    afx_msg void OnUpdateKickKickandbanfromchannel(CCmdUI *pCmdUI);
+    afx_msg void OnKickKickandbanfromchannel();
 };
 

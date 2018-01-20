@@ -772,6 +772,7 @@
 #define ID_ADVANCED_ALLOWALLMEDIAFILETRANSMISSION 32948
 #define ID_CHANNELINFO_SPEAKCHANNELSTATE 32949
 #define ID_POPUP_MESSAGES               32950
+#define ID_KICK_KICKANDBANFROMCHANNEL   32951
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
@@ -779,7 +780,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        305
-#define _APS_NEXT_COMMAND_VALUE         32951
+#define _APS_NEXT_COMMAND_VALUE         32953
 #define _APS_NEXT_CONTROL_VALUE         1555
 #define _APS_NEXT_SYMED_VALUE           302
 #endif

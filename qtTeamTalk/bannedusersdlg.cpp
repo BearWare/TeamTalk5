@@ -154,7 +154,7 @@ void BannedUsersDlg::slotClose()
 {
     bannedusers_t users = m_unbannedmodel->getUsers();
     for(int i=0;i<users.size();i++)
-        TT_DoUnBanUser(ttInst, users[i].szIPAddress, 0);
+        TT_DoUnBanUserEx(ttInst, &users[i]);
 }
 
 void BannedUsersDlg::slotUnbanUser()
