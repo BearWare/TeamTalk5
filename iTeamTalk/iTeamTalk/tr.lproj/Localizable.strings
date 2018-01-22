@@ -205,7 +205,7 @@
 "Log message" = "Günlük iletisi";
 
 /* log entry */
-"Logged on to server" = "Sunucuda oturum açıldı";
+"Logged on to server" = "Sunucuya oturum açıldı";
 
 /* preferences */
 "Master Volume" = "Ana Düzey";
@@ -254,7 +254,7 @@
 "Name" = "Ad";
 
 /* preferences */
-"Name displayed in channel list" = "Kanal listesinde görünen ad";
+"Name displayed in channel list" = "Kanal listesinde görüntülenen ad";
 
 /* Dialog message */
 "New Server" = "Yeni Sunucu";
@@ -332,13 +332,13 @@
 "Play sound when voice transmission is toggled" = "Ses iletim durumu değiştiğinde ses oynat";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Yeni iletiler alındığında metin iletisi penceresini aç";
+"Pop up text message when new messages are received" = "Yeni iletiler alındığında metin iletisi penceresi aç";
 
 /* serverlist */
 "Preferences" = "Tercihler";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Return tuşuna basılınca metin iletisi gönderilir";
+"Pressing Return-key sends text message" = "Return tuşuna basarak metin iletisini gönderir";
 
 /* text message type */
 "Private message" = "Özel ileti";
@@ -356,7 +356,7 @@
 "Proximity sensor" = "Yakınlık algılayıcısı";
 
 /* serverlist */
-"Public server" = "Genel sunucu";
+"Public server" = "Kamu sunucusu";
 
 /* preferences */
 "Push to Talk lock" = "Bas konuş kilidi";
@@ -419,10 +419,10 @@
 "Server List Entry" = "Sunucu Listesi Girişi";
 
 /* preferences */
-"Show Public Servers" = "Genel Sunucuları Göster";
+"Show Public Servers" = "Kamu Sunucularını Göster";
 
 /* preferences */
-"Show public servers in server list" = "Sunucu listesinde genel sunucuları göster";
+"Show public servers in server list" = "Sunucu listesinde kamu sunucularını göster";
 
 /* preferences */
 "Show text messages instantly" = "Metin iletilerini anında göster";
