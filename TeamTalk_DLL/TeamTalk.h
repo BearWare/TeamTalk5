@@ -1346,14 +1346,16 @@ extern "C" {
      * @see BannedUser */
     typedef enum BanType
     {
-        /** @brief Ban not set. */
-        BANTYPE_NONE                = 0x0,
-        /** @brief Ban@c szIPAddress specified in #BannedUser. */
-        BANTYPE_IPADDR              = 0x1,
-        /** @brief Ban @c szChannel specified in #BannedUser. */
-        BANTYPE_CHANNEL             = 0x2,
+        /** @brief Ban type not set. */
+        BANTYPE_NONE                = 0x00,
+        /** @brief The ban applies to the channel specified in the @c
+         * szChannel of #BannedUser. Otherwise the ban applies to the
+         * entire server. */
+        BANTYPE_CHANNEL             = 0x01,
+        /** @brief Ban @c szIPAddress specified in #BannedUser. */
+        BANTYPE_IPADDR              = 0x02,
         /** @brief Ban @c szUsername specified in #BannedUser. */
-        BANTYPE_USERNAME            = 0x4
+        BANTYPE_USERNAME            = 0x04
     } BanType;
 
     /** @brief A mask of types of bans that apply. @see #BanType */

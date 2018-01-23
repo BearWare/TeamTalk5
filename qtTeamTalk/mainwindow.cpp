@@ -402,6 +402,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             SLOT(slotChannelsJoinChannel(bool)));
     connect(ui.actionViewChannelInfo, SIGNAL(triggered(bool)),
             SLOT(slotChannelsViewChannelInfo(bool)));
+    connect(ui.actionBannedUsersInChannel, SIGNAL(triggered(bool)),
+            SLOT(slotChannelsListBans(bool)));
 
     connect(ui.actionStreamMediaFileToChannel, SIGNAL(triggered(bool)),
             SLOT(slotChannelsStreamMediaFile(bool)));
@@ -1328,11 +1330,22 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
             //unsubscribe
             cmdJoinedChannel(TT_GetMyChannelID(ttInst));
             break;
-        case CMD_COMPLETE_LISTBANS :
+        case CMD_COMPLETE_LIST_CHANNELBANS :
+        case CMD_COMPLETE_LIST_SERVERBANS :
         {
             if(!m_bannedusersdlg)
             {
-                m_bannedusersdlg = new BannedUsersDlg(m_bannedusers);
+                QString chanpath;
+                if (*ite == CMD_COMPLETE_LIST_CHANNELBANS)
+                {
+                    int chanid = ui.channelsWidget->selectedChannel(true);
+                    TTCHAR path[TT_STRLEN] = {0};
+                    TT_GetChannelPath(ttInst, chanid, path);
+                    chanpath = _Q(path);
+                }
+                m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
+                if (chanpath.size())
+                    m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
                 connect(m_bannedusersdlg, SIGNAL(finished(int)),
                         SLOT(slotClosedBannedUsersDlg(int)));
                 m_bannedusersdlg->setAttribute(Qt::WA_DeleteOnClose);
@@ -3880,6 +3893,15 @@ void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
     }
 }
 
+void MainWindow::slotChannelsListBans(bool /*checked=false*/)
+{
+    //don't display dialog box until we get the result
+    int chanid = ui.channelsWidget->selectedChannel(true);
+    int cmdid = TT_DoListBans(ttInst, chanid, 0, 1000000);
+    if(cmdid>0)
+        m_commands.insert(cmdid, CMD_COMPLETE_LIST_CHANNELBANS);
+}
+
 void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
 {
     if(!checked)
@@ -3993,7 +4015,7 @@ void MainWindow::slotServerBannedUsers(bool /*checked =false */)
     //don't display dialog box until we get the result
     int cmdid = TT_DoListBans(ttInst, 0, 0, 1000000);
     if(cmdid>0)
-        m_commands.insert(cmdid, CMD_COMPLETE_LISTBANS);
+        m_commands.insert(cmdid, CMD_COMPLETE_LIST_SERVERBANS);
 }
 
 void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
@@ -4245,6 +4267,7 @@ void MainWindow::slotUpdateUI()
     int mychannel = TT_GetMyChannelID(ttInst);
     int filescount = ui.filesView->selectedFiles().size();
     ClientFlags statemask = TT_GetFlags(ttInst);
+    UserRights userrights = TT_GetMyUserRights(ttInst);
     bool auth = (statemask & CLIENT_AUTHORIZED);
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
@@ -4296,8 +4319,8 @@ void MainWindow::slotUpdateUI()
     ui.actionVolume->setEnabled(userid>0);
     ui.actionOp->setEnabled(userid>0);
     ui.actionKickFromChannel->setEnabled(userid>0);
-    ui.actionKickFromServer->setEnabled(userid>0 && (m_myuseraccount.uUserRights & USERRIGHT_KICK_USERS));
-    ui.actionKickBan->setEnabled(userid>0 && (m_myuseraccount.uUserRights & USERRIGHT_BAN_USERS));
+    ui.actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
+    ui.actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
     ui.actionDesktopAccessAllow->setEnabled(userid>0);
 
     ui.actionUserMessages->setEnabled(userid>0);
@@ -4320,8 +4343,8 @@ void MainWindow::slotUpdateUI()
     ui.actionLowerVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice > SOUND_VOLUME_MIN);
     ui.actionIncreaseMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile < SOUND_VOLUME_MAX);
     ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
-    ui.actionStoreForMove->setEnabled(userid>0 && me_admin);
-    ui.actionMoveUser->setEnabled(m_moveusers.size() && me_admin);
+    ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
+    ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
 
     //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
     ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
@@ -4341,6 +4364,7 @@ void MainWindow::slotUpdateUI()
 
     ui.actionJoinChannel->setEnabled(chanid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
+    ui.actionBannedUsersInChannel->setEnabled(chanid>0);
     ui.actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
     ui.actionUpdateChannel->setEnabled(chanid>0);
     ui.actionDeleteChannel->setEnabled(chanid>0);
@@ -4353,19 +4377,19 @@ void MainWindow::slotUpdateUI()
 
     //Users-menu items dependent on Channel
     ui.actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
-    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || me_admin));
+    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));
-    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || me_admin));
+    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowDesktopTransmission->setChecked(userCanDesktopTx(userid, chan));
-    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || me_admin));
+    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
     ui.actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
-    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || me_admin));
+    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || (userrights & USERRIGHT_MODIFY_CHANNELS)));
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);
-    ui.actionBannedUsers->setEnabled(auth && me_admin);
+    ui.actionBannedUsers->setEnabled(me_op || (userrights & USERRIGHT_BAN_USERS));
     ui.actionOnlineUsers->setEnabled(auth);
-    ui.actionBroadcastMessage->setEnabled(auth && me_admin);
+    ui.actionBroadcastMessage->setEnabled(auth && (userrights & USERRIGHT_TEXTMESSAGE_BROADCAST));
     ui.actionServerProperties->setEnabled(auth);
     ui.actionSaveConfiguration->setEnabled(auth && me_admin);
     ui.actionServerStatistics->setEnabled(auth && me_admin);

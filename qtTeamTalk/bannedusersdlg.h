@@ -54,16 +54,18 @@ class BannedUsersDlg : public QDialog
     Q_OBJECT
 
 public:
-    BannedUsersDlg(const bannedusers_t& bannedusers, QWidget * parent = 0);
+    BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent = 0);
 
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
+    QString m_chanpath;
+
 private slots:
     void slotClose();
     void slotUnbanUser();
     void slotBanUser();
-    void slotBanIPAddress();
+    void slotNewBan();
 };
 
 #endif

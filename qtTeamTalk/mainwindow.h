@@ -57,7 +57,8 @@ enum CommandComplete
     CMD_COMPLETE_LOGIN,
     CMD_COMPLETE_JOINCHANNEL,
     CMD_COMPLETE_LEAVECHANNEL,
-    CMD_COMPLETE_LISTBANS,
+    CMD_COMPLETE_LIST_SERVERBANS,
+    CMD_COMPLETE_LIST_CHANNELBANS,
     CMD_COMPLETE_LISTACCOUNTS,
     CMD_COMPLETE_SUBSCRIBE,
     CMD_COMPLETE_UNSUBSCRIBE
@@ -324,6 +325,7 @@ private slots:
     void slotChannelsDeleteChannel(bool checked=false);
     void slotChannelsJoinChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
+    void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
     void slotChannelsUploadFile(bool checked=false);
     void slotChannelsDownloadFile(bool checked=false);

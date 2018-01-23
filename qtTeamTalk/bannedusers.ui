@@ -27,7 +27,7 @@
        <property name="title">
         <string>Banned Users</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
         <item>
          <widget class="QTreeView" name="bannedTreeView">
           <property name="font">
@@ -52,20 +52,13 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Ban IP-address</string>
-            </property>
-            <property name="buddy">
-             <cstring>ipaddrEdit</cstring>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="bantypeBox"/>
           </item>
           <item>
-           <widget class="QLineEdit" name="ipaddrEdit"/>
+           <widget class="QLineEdit" name="banEdit"/>
           </item>
           <item>
-           <widget class="QToolButton" name="banipBtn">
+           <widget class="QToolButton" name="newbanBtn">
             <property name="toolTip">
              <string>Add to list of banned users</string>
             </property>
@@ -169,12 +162,12 @@
  </widget>
  <tabstops>
   <tabstop>bannedTreeView</tabstop>
-  <tabstop>ipaddrEdit</tabstop>
-  <tabstop>banipBtn</tabstop>
-  <tabstop>unbannedTreeView</tabstop>
+  <tabstop>bantypeBox</tabstop>
+  <tabstop>banEdit</tabstop>
+  <tabstop>newbanBtn</tabstop>
   <tabstop>rightButton</tabstop>
   <tabstop>leftButton</tabstop>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>unbannedTreeView</tabstop>
  </tabstops>
  <resources/>
  <connections>

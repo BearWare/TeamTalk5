@@ -47,11 +47,11 @@ QVariant BannedUsersModel::headerData ( int section, Qt::Orientation orientation
         if(orientation == Qt::Horizontal)
             switch(section)
         {
-            case COLUMN_INDEX_NICKNAME: return "Nickname";
-            case COLUMN_INDEX_USERNAME: return "Username";
-            case COLUMN_INDEX_BANTIME: return "Ban Time";
-            case COLUMN_INDEX_CHANPATH: return "Channel";
-            case COLUMN_INDEX_IPADDRESS: return "IP-address";
+            case COLUMN_INDEX_NICKNAME: return tr("Nickname");
+            case COLUMN_INDEX_USERNAME: return tr("Username");
+            case COLUMN_INDEX_BANTIME: return tr("Ban Time");
+            case COLUMN_INDEX_CHANPATH: return tr("Channel");
+            case COLUMN_INDEX_IPADDRESS: return tr("IP-address");
         }
     }
     return QVariant();
@@ -125,8 +125,9 @@ void BannedUsersModel::delBannedUser(int index)
     this->endResetModel();
 }
 
-BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, QWidget * parent/* = 0*/)
+BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
+    , m_chanpath(chanpath)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -144,7 +145,9 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, QWidget * paren
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
         ui.unbannedTreeView->resizeColumnToContents(i);
 
-    connect(ui.banipBtn, SIGNAL(clicked()), SLOT(slotBanIPAddress()));
+    ui.bantypeBox->addItem(tr("IP-address"), BanTypes(BANTYPE_IPADDR));
+    ui.bantypeBox->addItem(tr("Username"), BanTypes(BANTYPE_USERNAME));
+    connect(ui.newbanBtn, SIGNAL(clicked()), SLOT(slotNewBan()));
     connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotClose()));
     connect(ui.leftButton, SIGNAL(clicked()), SLOT(slotBanUser()));
     connect(ui.rightButton, SIGNAL(clicked()), SLOT(slotUnbanUser()));
@@ -175,14 +178,24 @@ void BannedUsersDlg::slotBanUser()
     m_unbannedmodel->delBannedUser(index);
 }
 
-void BannedUsersDlg::slotBanIPAddress()
+void BannedUsersDlg::slotNewBan()
 {
-    if(TT_DoBanIPAddress(ttInst, _W(ui.ipaddrEdit->text()), 0)>0)
+    BannedUser ban;
+    ZERO_STRUCT(ban);
+    ban.uBanTypes = BanTypes(ui.bantypeBox->currentData().toInt());
+    if (m_chanpath.size())
     {
-        BannedUser user;
-        ZERO_STRUCT(user);
-        COPY_TTSTR(user.szIPAddress, ui.ipaddrEdit->text());
-        ui.ipaddrEdit->setText("");
-        m_bannedmodel->addBannedUser(user, true);
+        ban.uBanTypes |= BANTYPE_CHANNEL;
+        COPY_TTSTR(ban.szChannelPath, m_chanpath);
+    }
+    if (ui.bantypeBox->currentData().toInt() & BANTYPE_IPADDR)
+        COPY_TTSTR(ban.szIPAddress, ui.banEdit->text());
+    if (ui.bantypeBox->currentData().toInt() & BANTYPE_USERNAME)
+        COPY_TTSTR(ban.szUsername, ui.banEdit->text());
+    ui.banEdit->setText("");
+
+    if(TT_DoBanUserProperties(ttInst, &ban) > 0)
+    {
+        m_bannedmodel->addBannedUser(ban, true);
     }
 }
