@@ -207,6 +207,7 @@
 #define IDS_CMDTIMEFRAME                299
 #define IDS_ANONYMOUS                   300
 #define IDD_DIALOG_WEBLOGIN             301
+#define IDD_DIALOG_BANTYPE              302
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -666,8 +667,8 @@
 #define IDC_COMBO_USERNAME              1551
 #define IDC_EXPLORER1                   1552
 #define IDC_BUTTON_PROFILE              1553
-#define IDC_CHECK1                      1554
 #define IDC_CHECK_CHANGENICKNAME        1554
+#define IDC_COMBO_BANTYPE               1555
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -773,16 +774,16 @@
 #define ID_CHANNELINFO_SPEAKCHANNELSTATE 32949
 #define ID_POPUP_MESSAGES               32950
 #define ID_KICK_KICKANDBANFROMCHANNEL   32951
-#define ID_CHANNELS_BANNEDUSERSINCHANNEL 32952
+#define ID_CHANNELS_BANNEDUSERSINCHANNEL 32953
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        305
-#define _APS_NEXT_COMMAND_VALUE         32953
-#define _APS_NEXT_CONTROL_VALUE         1555
-#define _APS_NEXT_SYMED_VALUE           302
+#define _APS_NEXT_RESOURCE_VALUE        306
+#define _APS_NEXT_COMMAND_VALUE         32954
+#define _APS_NEXT_CONTROL_VALUE         1556
+#define _APS_NEXT_SYMED_VALUE           303
 #endif
 #endif

@@ -47,6 +47,8 @@ BOOL CWebLoginDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
+    TRANSLATE(*this, IDD);
+
     static CResizer::CBorderInfo s_bi[] = {
 
         { IDC_EXPLORER1,

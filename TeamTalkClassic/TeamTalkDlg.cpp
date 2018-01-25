@@ -58,6 +58,7 @@
 #include "gui/DesktopShareDlg.h"
 #include "gui/StreamMediaDlg.h"
 #include "gui/WebLoginDlg.h"
+#include "gui/BanTypeDlg.h"
 
 #include "wizard/WizMasterSheet.h"
 #include "wizard/WizWelcomePage.h"
@@ -118,6 +119,10 @@ CTeamTalkDlg::CTeamTalkDlg(CWnd* pParent /*=NULL*/)
 , m_nCurrentCmdID(0)
 , m_bResetSettings(FALSE)
 {
+#ifndef _WIN32_WCE
+    EnableActiveAccessibility();
+#endif
+
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     m_host.nTcpPort = DEFAULT_TEAMTALK_TCPPORT;
     m_host.nUdpPort = DEFAULT_TEAMTALK_UDPPORT;
@@ -3963,8 +3968,12 @@ void CTeamTalkDlg::OnUpdateKickKickandbanfromchannel(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnKickKickandbanfromchannel()
 {
-    TT_DoBanUserEx(ttInst, m_wndTree.GetSelectedUser(), BANTYPE_CHANNEL | BANTYPE_IPADDR);
-    TT_DoKickUser(ttInst, m_wndTree.GetSelectedUser(), m_wndTree.GetSelectedChannel(true));
+    CBanTypeDlg dlg;
+    if(dlg.DoModal() == IDOK)
+    {
+        TT_DoBanUserEx(ttInst, m_wndTree.GetSelectedUser(), BANTYPE_CHANNEL | dlg.m_uBanTypes);
+        TT_DoKickUser(ttInst, m_wndTree.GetSelectedUser(), m_wndTree.GetSelectedChannel(true));
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersKickfromserver(CCmdUI *pCmdUI)
@@ -3989,8 +3998,13 @@ void CTeamTalkDlg::OnUpdateUsersKickandban(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnUsersKickandban()
 {
     int nUserID = m_wndTree.GetSelectedUser();
-    TT_DoBanUser(ttInst, nUserID, 0);
-    TT_DoKickUser(ttInst, nUserID, 0);
+
+    CBanTypeDlg dlg;
+    if(dlg.DoModal() == IDOK)
+    {
+        TT_DoBanUserEx(ttInst, nUserID, dlg.m_uBanTypes);
+        TT_DoKickUser(ttInst, nUserID, 0);
+    }
 }
 
 void CTeamTalkDlg::OnUpdateUsersOp(CCmdUI *pCmdUI)

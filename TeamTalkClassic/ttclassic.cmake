@@ -4,6 +4,7 @@ set (TTCLASSIC_SOURCES
   gui/AbuseTab.cpp
   gui/AdvancedPage.cpp
   gui/BannedDlg.cpp
+  gui/BanTypeDlg.cpp
   gui/BitmapSlider.cpp
   gui/ChangeStatusDlg.cpp
   gui/ChannelDlg.cpp
@@ -109,6 +110,7 @@ set (TTCLASSIC_HEADERS
   gui/AbuseTab.h
   gui/AdvancedPage.h
   gui/BannedDlg.h
+  gui/BanTypeDlg.h
   gui/BitmapSlider.h
   gui/ChangeStatusDlg.h
   gui/ChannelDlg.h
