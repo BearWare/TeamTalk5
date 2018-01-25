@@ -168,7 +168,7 @@ BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
 
 BOOL CanToggleTransmitUsers(int nChannelID)
 {
-    bool bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
+    BOOL bEnableChan = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     return TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), nChannelID) ||
           bEnableChan;
 }
@@ -223,7 +223,7 @@ int RefVolume(double percent)
         return 0;
 
     double d = 82.832 * exp(0.0508 * percent) - 50;
-    return d;
+    return int(d);
 }
 
 int RefVolumeToPercent(int volume)
@@ -233,7 +233,7 @@ int RefVolumeToPercent(int volume)
 
     double d = (volume + 50) / 82.832;
     d = log(d) / 0.0508;
-    return d + .5;
+    return int(d + .5);
 }
 
 int RefGain(double percent)
@@ -241,7 +241,7 @@ int RefGain(double percent)
     if(percent == 0)
         return 0;
 
-    return 82.832 * std::exp(0.0508 * percent) - 50;
+    return int(82.832 * std::exp(0.0508 * percent) - 50);
 }
 
 CString GetVersion(const User& user)

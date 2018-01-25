@@ -60,7 +60,7 @@
 #define RECONNECT_TIMEOUT 7000
 #define VUMETER_UPDATE_TIMEOUT 50
 
-enum
+enum : UINT_PTR
 {
     TIMER_VOICELEVEL_ID = 1,
     TIMER_ONESECOND_ID,
@@ -92,7 +92,8 @@ enum CommmandComplete
     CMD_COMPLETE_LOGIN,
     CMD_COMPLETE_JOIN,
     CMD_COMPLETE_LISTACCOUNTS,
-    CMD_COMPLETE_LISTBANS,
+    CMD_COMPLETE_LIST_SERVERBANS,
+    CMD_COMPLETE_LIST_CHANNELBANS,
     CMD_COMPLETE_SUBSCRIBE,
     CMD_COMPLETE_UNSUBSCRIBE,
     CMD_COMPLETE_SERVERSTATS
@@ -523,5 +524,7 @@ public:
     afx_msg void OnChannelinfoSpeakchannelstate();
     afx_msg void OnUpdateKickKickandbanfromchannel(CCmdUI *pCmdUI);
     afx_msg void OnKickKickandbanfromchannel();
+    afx_msg void OnUpdateChannelsBannedusersinchannel(CCmdUI *pCmdUI);
+    afx_msg void OnChannelsBannedusersinchannel();
 };
 

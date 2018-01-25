@@ -96,6 +96,7 @@ public:
     CButton m_wndImportBtn;
     afx_msg void OnCbnEditchangeComboUsername();
     afx_msg void OnCbnKillfocusComboUsername();
+    afx_msg void OnEnSetfocusEditEntryname();
 };
 
 //{{AFX_INSERT_LOCATION}}

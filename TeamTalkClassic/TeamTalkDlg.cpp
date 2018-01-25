@@ -285,13 +285,13 @@ void CTeamTalkDlg::UpdateWindowTitle()
 
 LRESULT CTeamTalkDlg::OnMessageDlgClosed(WPARAM wParam, LPARAM lParam)
 {
-    mapuserdlg_t::iterator ite = m_mUserDlgs.find(wParam);
+    mapuserdlg_t::iterator ite = m_mUserDlgs.find(int(wParam));
     if(ite != m_mUserDlgs.end())
     {
-        m_wndTree.SetUserMessages(wParam, ite->second->m_messages);
+        m_wndTree.SetUserMessages(int(wParam), ite->second->m_messages);
         m_mUserDlgs.erase(ite);
     }
-    m_wndTree.SetUserMessage(wParam, FALSE);
+    m_wndTree.SetUserMessage(int(wParam), FALSE);
 
     return TRUE;
 }
@@ -756,6 +756,8 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_CHANNELINFO_SPEAKCHANNELSTATE, &CTeamTalkDlg::OnChannelinfoSpeakchannelstate)
         ON_UPDATE_COMMAND_UI(ID_KICK_KICKANDBANFROMCHANNEL, &CTeamTalkDlg::OnUpdateKickKickandbanfromchannel)
         ON_COMMAND(ID_KICK_KICKANDBANFROMCHANNEL, &CTeamTalkDlg::OnKickKickandbanfromchannel)
+        ON_UPDATE_COMMAND_UI(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel)
+        ON_COMMAND(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnChannelsBannedusersinchannel)
         END_MESSAGE_MAP()
 
 
@@ -1120,7 +1122,8 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
         m_useraccounts.clear();
     }
     break;
-    case CMD_COMPLETE_LISTBANS :
+    case CMD_COMPLETE_LIST_SERVERBANS:
+    case CMD_COMPLETE_LIST_CHANNELBANS :
     {
         CBannedDlg dlg;
         dlg.m_vecBanned = m_bannedusers;
@@ -5353,7 +5356,6 @@ LRESULT CTeamTalkDlg::OnFileTransferDlgClosed(WPARAM wParam, LPARAM lParam)
     return TRUE;
 }
 
-
 void CTeamTalkDlg::OnUpdateChannelsUploadfile(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(TT_GetMyChannelID(ttInst)>0);
@@ -5736,7 +5738,20 @@ void CTeamTalkDlg::OnServerListbannedusers()
 {
     int cmdid = TT_DoListBans(ttInst, 0, 0, 1000000);
     if(cmdid>0)
-        m_commands[cmdid] = CMD_COMPLETE_LISTBANS;
+        m_commands[cmdid] = CMD_COMPLETE_LIST_SERVERBANS;
+}
+
+void CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(TRUE);
+}
+
+void CTeamTalkDlg::OnChannelsBannedusersinchannel()
+{
+    int nChannelID = m_wndTree.GetSelectedChannel(TRUE);
+    int cmdid = TT_DoListBans(ttInst, nChannelID, 0, 1000000);
+    if(cmdid>0)
+        m_commands[cmdid] = CMD_COMPLETE_LIST_CHANNELBANS;
 }
 
 void CTeamTalkDlg::OnUpdateUsersStoreconversationstodisk(CCmdUI *pCmdUI)

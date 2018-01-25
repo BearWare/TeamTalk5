@@ -565,5 +565,6 @@
     <item id="32948">Allow All Medi&amp;a File Transmission\tCtrl+Alt+Shift+R</item>
     <item id="32949">Spea&amp;k Channel State\tCtrl+Shift+G</item>
     <item id="32950">&amp;Messages\tCtrl+E</item>
-    <item id="32951">"Kick and Ban From &amp;Channel\tCtrl+B</item>
+    <item id="32951">Kick and Ban From &amp;Channel\tCtrl+B</item>
+    <item id="32952">&amp;Banned Users in Channel\tCtrl+Alt+B</item>
 </language>

@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CHostManagerDlg, CDialog)
 //    ON_CBN_SELCHANGE(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnSelchangeComboUsername)
 //    ON_CBN_EDITUPDATE(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnEditupdateComboUsername)
     ON_CBN_KILLFOCUS(IDC_COMBO_USERNAME, &CHostManagerDlg::OnCbnKillfocusComboUsername)
+    ON_EN_SETFOCUS(IDC_EDIT_ENTRYNAME, &CHostManagerDlg::OnEnSetfocusEditEntryname)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -510,4 +511,19 @@ void CHostManagerDlg::OnCbnEditchangeComboUsername()
 void CHostManagerDlg::OnCbnKillfocusComboUsername()
 {
     OnCbnEditchangeComboUsername();
+}
+
+
+void CHostManagerDlg::OnEnSetfocusEditEntryname()
+{
+    CString szName, szHost, szUsername, szPort;
+    m_wndEntryName.GetWindowText(szName);
+    m_wndHostAddress.GetWindowText(szHost);
+    m_wndUsername.GetWindowText(szUsername);
+    m_wndHostPort.GetWindowText(szPort);
+    if (szName.IsEmpty() && szHost.GetLength() && szUsername.GetLength() && szPort.GetLength())
+    {
+        szName.Format(_T("%s@%s:%s"), szUsername, szHost, szPort);
+        m_wndEntryName.SetWindowText(szName);
+    }
 }
