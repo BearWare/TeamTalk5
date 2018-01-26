@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_name">TeamTalk 5</string>
+  <string name="app_name">TeamTalk</string>
   <string name="title_activity_server_list">TeamTalk 5 Sunucuları</string>
   <string name="action_settings">Ayarlar</string>
   <string name="action_exit">Çıkış</string>
@@ -16,12 +16,12 @@
   <string name="title_activity_preferences">Tercihler</string>
   <string name="action_createchannel">Oluştur</string>
   <string name="action_updatechannel">Güncelleştir</string>
-  <string name="text_con_failed">Sunucuya bağlanılamadı. Yeniden deneniyor...</string>
+  <string name="text_con_failed">Sunucuya bağlanma başarısız. Yeniden deneniyor...</string>
   <string name="text_con_lost">Sunucu bağlantısı kaybedildi</string>
   <string name="text_con_success">Sunucuya bağlanıldı</string>
-  <string name="text_con_cmderr">Komut sonuçlandırılamadı</string>
-  <string name="text_cmderr_login">Oturum açma komutu sonuçlandırılamadı</string>
-  <string name="text_cmd_loggedin">Sunucuda oturum açıldı</string>
+  <string name="text_con_cmderr">Komutu sonuçlandırma başarısız</string>
+  <string name="text_cmderr_login">Oturum açma komutunu sonuçlandırma başarısız</string>
+  <string name="text_cmd_loggedin">Sunucuya oturum açıldı</string>
   <string name="text_cmd_joinchan">Katılınan kanal:</string>
   <string name="text_cmd_leftchan">Ayrılınan kanal:</string>
   <string name="text_cmd_joinroot">Kök kanala katılındı</string>
@@ -72,7 +72,7 @@
   <string name="pref_title_sub_mediafile">Ortam Dosyası</string>
   <string name="pref_summary_sub_mediafile">Ortam dosyası akışlarına abone ol</string>
   <string name="pref_header_tts">Metin Okuma</string>
-  <string name="pref_title_server_login">Kullanıcının sunucuda oturum açması</string>
+  <string name="pref_title_server_login">Kullanıcının sunucuya oturum açması</string>
   <string name="pref_summary_server_login">Oturum açan kullanıcının adını duyur</string>
   <string name="pref_title_server_logout">Kullanıcının sunucu oturumunu kapatması</string>
   <string name="pref_summary_server_logout">Oturumu kapatan kullanıcının adını duyur</string>
@@ -93,8 +93,8 @@
   <string name="pref_summary_speakerphone_checkbox">Ahizeden hoparlörlere geç</string>
   <string name="pref_title_voice_processing_checkbox">Ses önişlemeyi etkinleştir</string>
   <string name="pref_summary_voice_processing_checkbox">Yankı iptali ve otomatik kazanç denetimi kullan</string>
-  <string name="pref_title_public_servers">Genel sunucuları göster</string>
-  <string name="pref_summary_public_servers">Sunucu Listesi\'ne genel sunucuları kat</string>
+  <string name="pref_title_public_servers">Kamu sunucularını göster</string>
+  <string name="pref_summary_public_servers">Sunucu Listesi\'ne kamu sunucularını kat</string>
   <string name="text_tts_loggedin">oturum açtı</string>
   <string name="text_tts_loggedout">oturumu kapattı</string>
   <string name="text_tts_joined_chan">kanala katıldı</string>
@@ -155,11 +155,12 @@
   <string name="message_text">İleti Metni</string>
   <string name="time_date">Saat Tarih</string>
   <string name="name">Ad</string>
-  <string name="err_init_sound_input">Ses giriş aygıtı başlatılamadı</string>
-  <string name="err_init_sound_output">Ses çıkış aygıtı başlatılamadı</string>
-  <string name="err_retrieve_public_server_list">Genel sunucu listesi alınamadı</string>
-  <string name="err_send_text_message">Metin iletisi gönderilemedi</string>
-  <string name="err_connection">Bağlanılamadı</string>
+  <string name="err_init_sound_input">Ses giriş aygıtını başlatma başarısız</string>
+  <string name="err_init_sound_output">Ses çıkış aygıtını başlatma başarısız</string>
+  <string name="err_retrieve_public_server_list">Kamu sunucusu listesini getirme başarısız</string>
+  <string name="err_send_text_message">Metin iletisini gönderme başarısız</string>
+  <string name="err_connection">Bağlantı başarısız</string>
+  <string name="err_facebooklogin">Facebook oturumu açma başarısız</string>
   <string name="action_new_channel">Yeni Kanal</string>
   <string name="action_save">Kaydet</string>
   <string name="action_connect">Bağlan</string>
@@ -176,6 +177,7 @@
   <string name="pref_title_authentication">Yetkilendirme</string>
   <string name="pref_title_username">Kullanıcı Adı</string>
   <string name="pref_title_password">Parola</string>
+  <string name="pref_title_facebook">Facebook Oturumu Açma</string>
   <string name="pref_title_join_channel">Kanala Katıl</string>
   <string name="pref_title_channel">Kanal</string>
   <string name="pref_title_channel_password">Kanal Parolası</string>
@@ -185,13 +187,13 @@
   <string name="channel_password_prompt">Kanal parolasını girin</string>
   <string name="button_download">İndir</string>
   <string name="download_succeeded">%1$s dosyası başarıyla indirildi ve %2$s konumuna kaydedildi</string>
-  <string name="download_failed">%1$s dosyası indirilemedi</string>
+  <string name="download_failed">%1$s dosyasını indirme başarısız</string>
   <string name="upload_succeeded">%1$s dosyası başarıyla karşıya yüklendi</string>
-  <string name="upload_failed">%1$s dosyası karşıya yüklenemedi</string>
+  <string name="upload_failed">%1$s dosyasını karşıya yükleme başarısız</string>
   <string name="alert_file_override">%1$s dosyası zaten var, değiştirilsin mi?</string>
-  <string name="err_file_delete">%1$s dosyası silinemedi</string>
-  <string name="err_channel_remove">%1$s kanalı silinemedi</string>
-  <string name="err_download_path">%1$s indirme yolu kullanım dışı</string>
+  <string name="err_file_delete">%1$s dosyası silinemiyor</string>
+  <string name="err_channel_remove">%1$s kanalı silinemiyor</string>
+  <string name="err_download_path">%1$s indirme yolu kullanılamaz</string>
   <string name="download_progress">%1$d%% indirildi</string>
   <string name="upload_progress_title">%1$s karşıya yükleniyor</string>
   <string name="upload_progress">%1$d%%, İptal etmek için tıklayın</string>
@@ -213,6 +215,11 @@
   <string name="incgain">Mikrofon kazancını artır</string>
   <string name="speaker_volume_description">Hoparlör düzeyi %1$s</string>
   <string name="mic_gain_description">Mikrofon kazancı %1$s</string>
+  <string name="voice_activation_on">Ses etkinleştirmeyi aç</string>
+  <string name="voice_activation_off">Ses etkinleştirmeyi kapat</string>
+  <string name="decvoxlevel">Ses etkinleştirme düzeyini azalt</string>
+  <string name="incvoxlevel">Ses etkinleştirme düzeyini artır</string>
+  <string name="vox_level_description">Ses etkinleştirme düzeyi %1$s</string>
   <string name="text_samplerate">Örnekleme hızı</string>
   <string name="text_ignore_silence">Sessizliği yoksay (DTX)</string>
   <string name="text_audchan">Ses kanalları</string>
@@ -220,7 +227,7 @@
   <string name="text_maxbitrate">En fazla bit hızı</string>
   <string name="text_txinterval">İletim aralığı</string>
   <string name="text_quality">Kalite</string>
-  <string name="text_publicserver">Genel sunucu</string>
+  <string name="text_publicserver">Kamu sunucusu</string>
   <string name="text_localserver">Yerel sunucu</string>
   <string name="text_passwdprot">Parola korumalı</string>
   <string name="text_translator">Ozancan Karataş tarafından çevrilmiştir</string>
@@ -241,7 +248,7 @@
   <string name="err_max_channels_exceeded">Çok fazla kanal var</string>
   <string name="err_channel_already_exists">Kanal zaten var</string>
   <string name="err_user_not_found">Kullanıcı bulunamadı</string>
-  <string name="err_openfile_failed">Sunucu dosyayı açamadı</string>
+  <string name="err_openfile_failed">Sunucu dosyayı açmada başarısız</string>
   <string name="err_filesharing_disabled">Sunucu dosya aktarımına izin vermiyor</string>
   <string name="err_channel_has_users">Kanal boş değil</string>
   <string name="personal_message_notification">%1$s kullanıcısından yeni ileti</string>
@@ -251,12 +258,14 @@
   <string name="text_desktop_session">Masaüstü oturumu</string>
   <string name="text_webcam_session">Web kamerası oturumu</string>
   <string name="text_mediafile_session">Ortam dosyası oturumu</string>
-  <string name="permission_audioinput">Ses kaydı ve kayıttan yürütme kullanım dışı olacak</string>
-  <string name="permission_audiomodify">Ses kaydı ve kayıttan yürütme kullanım dışı olacak</string>
-  <string name="permission_filerx">Dosyaları indirme kullanım dışı olacak</string>
-  <string name="permission_filetx">Karşıya yükleme ve dosyaları içe aktarma kullanım dışı olacak</string>
-  <string name="permission_internet">İstemci sunuculara bağlanamayacak</string>
-  <string name="permission_vibrate">Bas konuş sırasında titreşim kullanım dışı olacak</string>
+  <string name="permission_audioinput">Ses kaydı ve kayıttan yürütme kullanılamaz olacak</string>
+  <string name="permission_audiomodify">Ses kaydı ve kayıttan yürütme kullanılamaz olacak</string>
+  <string name="permission_filerx">Dosyaları indirme kullanılamaz olacak</string>
+  <string name="permission_filetx">Karşıya yükleme ve dosyaları içe aktarma kullanılamaz olacak</string>
+  <string name="permission_internet">İstemci sunuculara bağlanamaz olacak</string>
+  <string name="permission_vibrate">Bas konuş sırasında titreşim kullanılamaz olacak</string>
   <string name="permission_wake_lock">Ekran karardığında sunucu bağlantısı kaybedilebilir</string>
-  <string name="permission_read_phone_state">Gelen telefon aramasını algıla</string>
+  <string name="permission_read_phone_state">Gelen telefon araması algılaması olanaksız olacak</string>
+  <string name="facebook_app_id">611833262539381</string>
+  <string name="fb_login_protocol_scheme">fb611833262539381</string>
 </resources>
