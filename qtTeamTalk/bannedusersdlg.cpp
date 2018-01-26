@@ -145,8 +145,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
         ui.unbannedTreeView->resizeColumnToContents(i);
 
-    ui.bantypeBox->addItem(tr("IP-address"), BanTypes(BANTYPE_IPADDR));
-    ui.bantypeBox->addItem(tr("Username"), BanTypes(BANTYPE_USERNAME));
+    ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
+    ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
     connect(ui.newbanBtn, SIGNAL(clicked()), SLOT(slotNewBan()));
     connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotClose()));
     connect(ui.leftButton, SIGNAL(clicked()), SLOT(slotBanUser()));

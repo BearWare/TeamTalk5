@@ -1122,6 +1122,7 @@
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
     <addaction name="actionDeleteChannel"/>
+    <addaction name="separator"/>
     <addaction name="actionBannedUsersInChannel"/>
     <addaction name="separator"/>
     <addaction name="actionStreamMediaFileToChannel"/>
@@ -1959,7 +1960,7 @@
   </action>
   <action name="actionBannedUsersInChannel">
    <property name="text">
-    <string>Banned Users in Channel</string>
+    <string>Banned Users From Channel</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+B</string>

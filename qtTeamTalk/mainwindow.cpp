@@ -4228,9 +4228,18 @@ void MainWindow::slotUsersKick(int userid, int chanid)
 
 void MainWindow::slotUsersKickBan(int userid, int chanid)
 {
-    //ban first since the user will otherwise have disappeared
-    TT_DoBanUser(ttInst, userid, chanid != 0? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
-    TT_DoKickUser(ttInst, userid, chanid);
+    QStringList items = { tr("IP-address"), tr("Username") };
+    bool ok = false;
+    QString choice = QInputDialog::getItem(this, tr("Ban User From Channel"), tr("Ban user's"), items, 0, false, &ok);
+    if (ok)
+    {
+        //ban first since the user will otherwise have disappeared
+        if (choice == items[0])
+            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
+        else
+            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME);
+        TT_DoKickUser(ttInst, userid, chanid);
+    }
 }
 
 void MainWindow::slotTreeSelectionChanged()

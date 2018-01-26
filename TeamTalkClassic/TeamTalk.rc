@@ -1621,7 +1621,8 @@ BEGIN
         MENUITEM "&Create Channel\tF7",         ID_CHANNELS_CREATECHANNEL
         MENUITEM "U&pdate Channel\tShift+F7",   ID_CHANNELS_UPDATECHANNEL
         MENUITEM "D&elete Channel\tF8",         ID_CHANNELS_DELETECHANNEL
-        MENUITEM "&Banned Users in Channel\tCtrl+Alt+B", ID_CHANNELS_BANNEDUSERSINCHANNEL
+        MENUITEM SEPARATOR
+        MENUITEM "&Banned Users From Channel\tCtrl+Alt+B", ID_CHANNELS_BANNEDUSERSINCHANNEL
         MENUITEM SEPARATOR
         MENUITEM "&Upload File\tShift+F5",      ID_CHANNELS_UPLOADFILE
         MENUITEM "&Download File\tShift+F6",    ID_CHANNELS_DOWNLOADFILE
