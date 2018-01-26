@@ -2077,11 +2077,18 @@ bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
 
 void MainWindow::updateWindowTitle()
 {
+    QString profilename, title;
+    if(ttSettings)
+        profilename = ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString();
+
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
-        setWindowTitle(QString("%1 - %2").arg(_Q(m_mychannel.szName)).arg(APPTITLE));
+        title = QString("%1 - %2").arg(_Q(m_mychannel.szName)).arg(APPTITLE);
     else
-        setWindowTitle(APPTITLE);
+        title = APPTITLE;
+    if(profilename.size())
+        title = QString("%1 - %2").arg(title).arg(profilename);
+    setWindowTitle(title);
 }
 
 #if defined(Q_OS_WIN32)
@@ -3102,12 +3109,84 @@ void MainWindow::checkAppUpdate()
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
+    QString inipath = ttSettings->fileName();
+
+    // check if we are creating a new profile from a profile
+    if(ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString().size())
+    {
+        inipath.remove(QRegExp(".\\d{1,2}$"));
+    }
+
+    // load existing profiles
+    QMap<QString, QString> profiles;
+    QStringList profilenames;
+    const int MAX_PROFILES = 16;
+    int freeno = -1;
+    for (int i = 1;i <= MAX_PROFILES;i++)
+    {
+        QString inifile = QString("%1.%2").arg(inipath).arg(i);
+        if(QFile::exists(inifile))
+        {
+            QSettings settings(inifile, QSettings::IniFormat, this);
+            QString name = settings.value(SETTINGS_GENERAL_PROFILENAME).toString();
+            profilenames.push_back(name);
+            profiles[name] = inifile;
+        }
+        else if(freeno < 0)
+            freeno = i;
+    }
+    
+
+    const QString newprofile = tr("New Profile"), delprofile = tr("Delete Profile");
+    if(profiles.size() < MAX_PROFILES)
+        profilenames.push_back(newprofile);
+    if(profiles.size() > 0)
+        profilenames.push_back(delprofile);
+
+    bool ok = false;
+    QString choice = QInputDialog::getItem(this, tr("New Client Instance"), 
+        tr("Select profile"), profilenames, 0, false, &ok);
+
+    if(choice == delprofile)
+    {
+        profilenames.removeAll(newprofile);
+        profilenames.removeAll(delprofile);
+
+        QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
+            tr("Delete profile"), profilenames, 0, false, &ok);
+        if(ok)
+            QFile::remove(profiles[choice]);
+        return;
+    }
+    else if(choice == newprofile)
+    {
+        QString newname = QInputDialog::getText(this,
+            tr("New Profile"), tr("Profile name"), QLineEdit::Normal,
+            QString("Profile %1").arg(freeno), &ok);
+        if(ok && newname.size())
+        {
+            inipath = QString("%1.%2").arg(inipath).arg(freeno);
+            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QFile::copy(defpath, inipath);
+            QSettings settings(inipath, QSettings::IniFormat, this);
+            settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+        }
+        else return;
+    }
+    else 
+    {
+        inipath = profiles[choice];
+    }
+
     QString path = QApplication::applicationFilePath();
+    QStringList args = { "-noconnect" };
+    args.push_back(QString("-cfg"));
+    args.push_back(inipath);
+
 #if defined(_DEBUG)
-    QProcess::startDetached(path, (QStringList() << "-noconnect"));
+    QProcess::startDetached(path, args);
 #else
-    QProcess::startDetached(path, (QStringList() << "-noconnect"),
-                            QApplication::applicationDirPath());
+    QProcess::startDetached(path, args, QApplication::applicationDirPath());
 #endif
 }
 

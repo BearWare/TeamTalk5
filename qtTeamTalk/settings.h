@@ -38,6 +38,7 @@
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
 #define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
+#define SETTINGS_GENERAL_PROFILENAME                "general_/profilename"
 
 #define SETTINGS_DISPLAY_MESSAGEPOPUP               "display/msgpopup"
 #define SETTINGS_DISPLAY_VIDEOPOPUP                 "display/videopopup"
