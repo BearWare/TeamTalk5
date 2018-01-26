@@ -33,6 +33,8 @@ typedef QVector<BannedUser> bannedusers_t;
 
 class BannedUsersModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 public:
     BannedUsersModel(QObject* parent);
     QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
