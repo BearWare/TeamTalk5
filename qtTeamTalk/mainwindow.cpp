@@ -2455,7 +2455,7 @@ bool MainWindow::sendDesktopWindow()
     {
     case DESKTOPSHARE_DESKTOP :
 #if defined(Q_OS_DARWIN)
-        //TODO: MacOS, entire desktop
+        //TODO: macOS, entire desktop
         m_nCGShareWnd = kCGNullWindowID;
 #endif
         break;
@@ -2476,7 +2476,7 @@ bool MainWindow::sendDesktopWindow()
         m_nWindowShareWnd = winid;
     }
 #elif defined(Q_OS_DARWIN)
-    //TODO: MacOS, active window
+    //TODO: macOS, active window
         m_nCGShareWnd = kCGNullWindowID;
 #endif
     break;
@@ -2704,7 +2704,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
         }
      }
 #else
-        qDebug() << "Ignoring desktop input. Share specific window not supported on Mac OS";
+        qDebug() << "Ignoring desktop input. Share specific window not supported on macOS";
         return;
 #endif
      break;

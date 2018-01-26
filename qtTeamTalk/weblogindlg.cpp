@@ -107,7 +107,7 @@ void WebLoginDlg::keyPressEvent(QKeyEvent *event)
         m_cancelled = true;
 
         QMessageBox::StandardButton answer = QMessageBox::question(this,
-            tr("Facebook Login"), tr("Do Facebook logout??"),
+            tr("Facebook Login"), tr("Do Facebook logout?"),
             QMessageBox::Yes | QMessageBox::No);
 
         if(answer == QMessageBox::Yes)

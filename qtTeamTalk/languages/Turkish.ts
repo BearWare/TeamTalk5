@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -590,7 +588,7 @@
     <message>
         <location filename="../filetransferdlg.cpp" line="64"/>
         <source>File transfer failed.</source>
-        <translation>Dosya aktarılamadı.</translation>
+        <translation>Dosya aktarımı başarısız.</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="101"/>
@@ -605,7 +603,7 @@
     <message>
         <location filename="../filetransferdlg.cpp" line="148"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>&quot;%1&quot; açılamadı. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
+        <translation>&quot;%1&quot; açılamıyor. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
     </message>
 </context>
 <context>
@@ -767,7 +765,7 @@
     <message>
         <location filename="../generatettfiledlg.cpp" line="182"/>
         <source>Unable to save file</source>
-        <translation>Dosya kaydedilemedi</translation>
+        <translation>Dosya kaydedilemiyor</translation>
     </message>
 </context>
 <context>
@@ -1691,7 +1689,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="715"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
-        <translation>%1 Windows Güvenlik Duvarı ayrıcalıklarından kaldırılamadı.</translation>
+        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalıklarından kaldırma başarısız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="731"/>
@@ -1706,18 +1704,18 @@
     <message>
         <location filename="../mainwindow.cpp" line="773"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 konumuna bağlanıldı TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="787"/>
         <location filename="../mainwindow.cpp" line="1568"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 konumuna bağlanılamadı TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="799"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 bağlantısı kaybedildi TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 bağlantısı kaybedildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="837"/>
@@ -1743,35 +1741,35 @@
         <location filename="../mainwindow.cpp" line="1009"/>
         <location filename="../mainwindow.cpp" line="3928"/>
         <source>Failed to download file %1</source>
-        <translation>%1 dosyası indirilemedi</translation>
+        <translation>%1 dosyasını indirme başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <location filename="../mainwindow.cpp" line="4401"/>
         <source>Failed to upload file %1</source>
-        <translation>%1 dosyası karşıya yüklenemedi</translation>
+        <translation>%1 dosyasını karşıya yükleme başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <location filename="../mainwindow.cpp" line="1523"/>
         <source>Failed to initialize sound input device</source>
-        <translation>Ses giriş aygıtı başlatılamadı</translation>
+        <translation>Ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1030"/>
         <location filename="../mainwindow.cpp" line="1528"/>
         <source>Failed to initialize sound output device</source>
-        <translation>Ses çıkış aygıtı başlatılamadı</translation>
+        <translation>Ses çıkış aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1032"/>
         <source>Failed to initialize audio codec</source>
-        <translation>Ses kodlayıcı/çözücüsü başlatılamadı</translation>
+        <translation>Ses kodlayıcı/çözücüsünü başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1035"/>
         <source>Failed to initialize audio configuration</source>
-        <translation>Ses yapılandırması başlatılamadı</translation>
+        <translation>Ses yapılandırmasını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1038"/>
@@ -1827,7 +1825,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1258"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation>%1 ses dosyası %2 için yazılamadı</translation>
+        <translation>%1 ses dosyasını %2 için yazma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1263"/>
@@ -1842,12 +1840,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1458"/>
         <source>Cannot join channel %1</source>
-        <translation>%1 kanalına katılınamadı</translation>
+        <translation>%1 kanalına katılınamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation>Çift yönlü ses kipi başlatılamadı</translation>
+        <translation>İkili ses kipini başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1539"/>
@@ -1862,12 +1860,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1552"/>
         <source>Failed to initialize default sound devices</source>
-        <translation>Varsayılan ses aygıtları başlatılamadı</translation>
+        <translation>Varsayılan ses aygıtlarını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 konumuna bağlanılıyor TCP bağlantı noktası %2 UDP bağlantı noktası %3</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanılıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1608"/>
@@ -1878,7 +1876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1617"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>Bu istemci sunucuyla uyumlu olmadığından eylem yürütülemedi.</translation>
+        <translation>Bu istemci sunucuyla uyumlu değil, bu yüzden eylem yürütülemiyor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1620"/>
@@ -1951,7 +1949,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>İstemci şu anda oturum açmadığından eylem yürütülemedi</translation>
+        <translation>Eylem yürütülemiyor çünkü istemci şu anda oturum açmış değil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1683"/>
@@ -2031,7 +2029,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2091"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>%1 Windows Güvenlik Duvarı ayrıcalıklarına eklenemedi.</translation>
+        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalıklarına ekleme başarısız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2217"/>
@@ -2067,7 +2065,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2362"/>
         <source>Failed to start recording</source>
-        <translation>Kayıt başlatılamadı</translation>
+        <translation>Kaydı başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2366"/>
@@ -2082,7 +2080,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>Failed to stream media file %1</source>
-        <translation>%1 ortam dosyası akıtılamadı</translation>
+        <translation>%1 ortam dosyasını akıtma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
@@ -2092,7 +2090,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2926"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
-        <translation>Kısayol tuşu kaydedilemedi. Lütfen başka tuş birleşimi deneyin.</translation>
+        <translation>Kısayol tuşunu kaydetme başarısız. Lütfen başka tuş birleşimi deneyin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
@@ -2113,28 +2111,28 @@
     <message>
         <location filename="../mainwindow.cpp" line="3356"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>Video kodlayıcı/çözücüsü yapılandırılamadı. &apos;Tercihler&apos;den ayarları denetleyin</translation>
+        <translation>Video kodlayıcı/çözücüsünü yapılandırma başarısız. &apos;Tercihler&apos;den ayarları denetleyin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3401"/>
         <source>Failed to open X11 display.</source>
-        <translation>X11 görünümü açılamadı.</translation>
+        <translation>X11 görünümünü açma başarısız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3420"/>
         <source>Failed to start desktop sharing</source>
-        <translation>Masaüstü paylaşımı başlatılamadı</translation>
+        <translation>Masaüstü paylaşımını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3784"/>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Failed to issue command to create channel</source>
-        <translation>Kanal oluşturmak için komut sonuçlandırılamadı</translation>
+        <translation>Kanal oluşturma komutunu sonuçlandırma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3807"/>
         <source>Failed to issue command to update channel</source>
-        <translation>Kanalı güncelleştirmek için komut sonuçlandırılamadı</translation>
+        <translation>Kanal güncelleştirme komutunu sonuçlandırma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3820"/>
@@ -2144,7 +2142,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3826"/>
         <source>Failed to issue command to delete channel</source>
-        <translation>Kanalı silmek için komut sonuçlandırılamadı</translation>
+        <translation>Kanal silme komutunu sonuçlandırma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3847"/>
@@ -2155,7 +2153,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3862"/>
         <source>Failed to issue command to join channel</source>
-        <translation>Kanala katılmak için komut sonuçlandırılamadı</translation>
+        <translation>Kanala katılma komutunu sonuçlandırma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3899"/>
@@ -2190,17 +2188,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4087"/>
         <source>Cannot find %1</source>
-        <translation>%1 bulunamadı</translation>
+        <translation>%1 bulunamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4094"/>
         <source>Cannot remove %1</source>
-        <translation>%1 kaldırılamadı</translation>
+        <translation>%1 kaldırılamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4101"/>
         <source>Failed to copy %1 to %2</source>
-        <translation>%1 %2 üzerine kopyalanamadı</translation>
+        <translation>%1 öğesini %2 üzerine kopyalama başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4330"/>
@@ -2335,7 +2333,7 @@
         <location filename="../mainwindow.cpp" line="5247"/>
         <location filename="../mainwindow.cpp" line="5256"/>
         <source>Failed to load file %1</source>
-        <translation>%1 dosyası yüklenemedi</translation>
+        <translation>%1 dosyasını yükleme başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5266"/>
@@ -2345,7 +2343,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5277"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Ana bilgisayar bilgileri %1 üzerinden çıkartılamadı</translation>
+        <translation>Ana bilgisayar bilgilerini %1 üzerinden çıkartma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5285"/>
@@ -2356,12 +2354,7 @@
         <location filename="../mainwindow.cpp" line="5286"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -2553,12 +2546,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="189"/>
         <source>Set away status after</source>
-        <translation>Sonra uzakta durumunu ayarla</translation>
+        <translation>Uzakta durumunu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>etkisizlik saniyesi (0 etkisizleştirildi demektir)</translation>
+        <translation>etkisizlik saniyesinden sonra ayarla (0 etkisizleştirildi demektir)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="231"/>
@@ -2609,7 +2602,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="329"/>
         <source>Start minimized</source>
-        <translation>Küçülterek başlat</translation>
+        <translation>Küçültüp başlat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="336"/>
@@ -2639,7 +2632,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="371"/>
         <source>Show last to talk in yellow</source>
-        <translation>Konuşma sonunda sarı göster</translation>
+        <translation>Konuşma sonu için sarı göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="378"/>
@@ -2858,7 +2851,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation>Çift yönlü kipi etkinleştir (yankı iptali için gereklidir)</translation>
+        <translation>İkili kipini etkinleştir (yankı iptali için gereklidir)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
@@ -3025,7 +3018,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1677"/>
         <source>Image Format</source>
-        <translation>Görsel Biçimi</translation>
+        <translation>Görüntü Biçimi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1684"/>
@@ -3098,12 +3091,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="700"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>%1 Windows Güvenlik Duvarı ayrıcalık listesine eklenemedi</translation>
+        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesine ekleme başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="707"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>%1 Windows Güvenlik Duvarı ayrıcalık listesinden kaldırılamadı</translation>
+        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalık listesinden kaldırma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="761"/>
@@ -3116,17 +3109,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="762"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation>Çift yönlü ses kipi başlatılamadı</translation>
+        <translation>İkili ses kipini başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="779"/>
         <source>Failed to initialize new sound input device</source>
-        <translation>Yeni ses giriş aygıtı başlatılamadı</translation>
+        <translation>Yeni ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="790"/>
         <source>Failed to initialize new sound output device</source>
-        <translation>Yeni ses çıkış aygıtı başlatılamadı</translation>
+        <translation>Yeni ses çıkış aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="951"/>
@@ -3139,7 +3132,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferencesdlg.cpp" line="964"/>
         <location filename="../preferencesdlg.cpp" line="1474"/>
         <source>Failed to initialize video device</source>
-        <translation>Video aygıtı başlatılamadı</translation>
+        <translation>Video aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1019"/>
@@ -3165,12 +3158,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1083"/>
         <source>Failed to restart sound systems. Please restart application.</source>
-        <translation>Ses sistemleri yeniden başlatılamadı. Lütfen uygulamayı yeniden başlatın.</translation>
+        <translation>Ses sistemlerini yeniden başlatma başarısız. Lütfen uygulamayı yeniden başlatın.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1131"/>
         <source>Failed to initialize new sound devices</source>
-        <translation>Yeni ses aygıtları başlatılamadı</translation>
+        <translation>Yeni ses aygıtlarını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1432"/>
@@ -3211,7 +3204,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="35"/>
         <source>Include public servers (green ones)</source>
-        <translation>Genel sunucuları kat (yeşil olanlar)</translation>
+        <translation>Kamu sunucularını kat (yeşil olanlar)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="44"/>
@@ -3446,7 +3439,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverproperties.ui" line="407"/>
         <source>Max logins per IP-address</source>
-        <translation>IP adresi başına en fazla oturum açma</translation>
+        <translation>IP adresi başına en fazla oturum</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -3765,7 +3758,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Temel Hesap Özellikleri</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="226"/>
@@ -3801,7 +3794,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="310"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodlayıcı/Çözücü Sınırlamaları</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
@@ -3821,24 +3814,24 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="369"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished"></translation>
+        <translation>Taciz Önleme</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="375"/>
         <source>Flood Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>Sel Koruması</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="381"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıyı, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, örn. istenmeyen metin iletileri göndermesini önleyin.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="393"/>
         <location filename="../useraccountsdlg.cpp" line="662"/>
         <location filename="../useraccountsdlg.cpp" line="668"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonuçlandırılan komutları sınırla</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="430"/>
@@ -3863,7 +3856,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="524"/>
         <source>User can change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı takma ad değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="531"/>
@@ -3958,27 +3951,27 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkisizleştirildi</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished"></translation>
+        <translation>10 komut, 10 sn.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="206"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>1 dakikada 10 komut</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="207"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>1 dakikada 60 komut</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="208"/>
         <source>Custom specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel belirtilen</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="448"/>
@@ -3993,12 +3986,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="663"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>İzin vermek için komutların sayısı (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="669"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 komuta izin vermek için zaman aralığı (saniye cinsinden)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="220"/>
@@ -4071,7 +4064,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../userdesktopwidget.cpp" line="239"/>
         <location filename="../userdesktopwidget.cpp" line="256"/>
         <source>&amp;Save to Image File</source>
-        <translation>Görsel Dosyasına &amp;Kaydet</translation>
+        <translation>Görüntü Dosyasına &amp;Kaydet</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="245"/>
@@ -4096,7 +4089,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../userdesktopwidget.cpp" line="256"/>
         <source>Failed to save file.</source>
-        <translation>Dosya kaydedilemedi.</translation>
+        <translation>Dosyayı kaydetme başarısız.</translation>
     </message>
 </context>
 <context>
@@ -4105,12 +4098,12 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../userimagewidget.cpp" line="198"/>
         <location filename="../userimagewidget.cpp" line="208"/>
         <source>&amp;Save to Image File</source>
-        <translation>Görsel Dosyasına &amp;Kaydet</translation>
+        <translation>Görüntü Dosyasına &amp;Kaydet</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="199"/>
         <source>&amp;Flip image</source>
-        <translation>Görseli &amp;çevir</translation>
+        <translation>Görüntüyü &amp;çevir</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="205"/>
@@ -4125,7 +4118,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../userimagewidget.cpp" line="208"/>
         <source>Failed to save file.</source>
-        <translation>Dosya kaydedilemedi.</translation>
+        <translation>Dosyayı kaydetme başarısız.</translation>
     </message>
 </context>
 <context>
@@ -4153,7 +4146,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../userinfo.ui" line="85"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="111"/>
@@ -4316,7 +4309,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../uservolumedlg.cpp" line="78"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>Kullanıcının düzeyi değiştirilemedi</translation>
+        <translation>Kullanıcının düzeyini değiştirme başarısız</translation>
     </message>
 </context>
 <context>
@@ -4431,17 +4424,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../weblogin.ui" line="14"/>
         <source>Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Oturumu Açma</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Facebook Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook Oturumu Açma</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Do Facebook logout??</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook oturumu kapatılsın mı?</translation>
     </message>
 </context>
 </TS>

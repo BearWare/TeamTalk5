@@ -217,7 +217,7 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
     if(close_dlg && m_hotkey[0] != (INT32)MAC_NO_KEY && m_hotkey[1] == (INT32)MAC_NO_KEY)
     {
         QMessageBox::information(this, tr("Invalid key combination"),
-                                 tr("Mac OS does not support only modifier keys, "
+                                 tr("macOS does not support only modifier keys, "
                                     "i.e. Cmd, Option and Shift must be used in "
                                     "combination with other non-modifier keys."));
 

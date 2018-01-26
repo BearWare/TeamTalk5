@@ -6,7 +6,7 @@
 "0EG-eF-WzS.title" = "Metin İletisi";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
-"0QA-gn-V1p.text" = "Blank";
+"0QA-gn-V1p.text" = "Boş";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Gönder";
@@ -15,7 +15,7 @@
 "4RU-K7-Yga.accessibilityHint" = "Özel metin iletisi gönder";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Metin İletileşmesi";
+"4RU-K7-Yga.accessibilityLabel" = "Metin İletisi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Kullanıcıya ileti";
@@ -24,31 +24,31 @@
 "79c-sV-yxb.title" = "Metin Okuma Sesi";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
-"9GN-82-2nL.text" = "Blank";
+"9GN-82-2nL.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
-"ALe-1e-Au1.text" = "Blank";
+"ALe-1e-Au1.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "Blank";
+"B8t-mo-k8g.text" = "Boş";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
 "BLM-fs-qcG.title" = "Geri";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Özel metin iletileşmesi";
+"DHN-DJ-cUp.accessibilityLabel" = "Özel metin iletisi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Kullanıcıya ileti";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
-"EHj-xt-HhD.text" = "Blank";
+"EHj-xt-HhD.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
-"Fu9-tA-eYj.text" = "Blank";
+"Fu9-tA-eYj.text" = "Boş";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
-"JW6-jf-mbs.text" = "Blank";
+"JW6-jf-mbs.text" = "Boş";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
 "JzB-tm-tld.normalTitle" = "Düzenle";
@@ -78,7 +78,7 @@
 "Rrg-2O-NzF.normalTitle" = "OPUS Kodlayıcı/Çözücüsünü Kullan";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
-"Uc0-gP-wr1.text" = "Blank";
+"Uc0-gP-wr1.text" = "Boş";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
 "V6G-Gm-l2U.normalTitle" = "İlet";
@@ -87,7 +87,7 @@
 "VWP-v4-bY8.title" = "Sesi Seç";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
-"WCf-u5-KkQ.text" = "Blank";
+"WCf-u5-KkQ.text" = "Boş";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
 "WFB-kl-uoS.normalTitle" = "Kullanıcıyı Uzaklaştır";
@@ -96,10 +96,10 @@
 "WRa-tI-lpY.normalTitle" = "Kullanıcıyı Uzaklaştır ve Engelle";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Blank";
+"Wbh-f7-64c.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
-"WcB-pN-blB.text" = "Blank";
+"WcB-pN-blB.text" = "Boş";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Bağlantıyı kes";
@@ -108,7 +108,7 @@
 "ZFj-Rn-XZn.title" = "Masaüstleri";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
-"ZSZ-bY-VqA.text" = "Blank";
+"ZSZ-bY-VqA.text" = "Boş";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
 "aX2-rZ-yEl.title" = "Kanallar";
@@ -132,13 +132,13 @@
 "gA8-TJ-0RU.title" = "Sohbet Kanalı";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Bu kanal için olan seçenekleri genişletmek için çift dokunun.";
+"hqu-CX-Vn4.accessibilityHint" = "Bu kanala özgü seçenekleri genişletmek için çift dokunun.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "İletiler";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
-"kRp-LE-RFh.text" = "Blank";
+"kRp-LE-RFh.text" = "Boş";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "Kanala Katıl";
@@ -147,7 +147,7 @@
 "m1N-Js-NXn.normalTitle" = "Sunucuyu Sil";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
-"nVj-7w-Sta.text" = "Blank";
+"nVj-7w-Sta.text" = "Boş";
 
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
 "pQJ-c1-GEL.title" = "Sunucu Listesi";
@@ -162,7 +162,7 @@
 "vIN-Uc-3Ms.title" = "Tercihler";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
-"w6E-jf-09e.text" = "Blank";
+"w6E-jf-09e.text" = "Boş";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
-"ydT-LM-DrB.text" = "Blank";
+"ydT-LM-DrB.text" = "Boş";
