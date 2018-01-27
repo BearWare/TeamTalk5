@@ -463,6 +463,23 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    bool ClientXML::SetProfileName(const std::string& szProfilename)
+    {
+        TiXmlElement* pParent = GetGeneralElement();
+        if(pParent)
+        {
+            PutString(*pParent, "profile-name", szProfilename);
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    std::string ClientXML::GetProfileName()
+    {
+        return GetValue("general/profile-name");
+    }
+
     bool ClientXML::SetGender(int nGender)
     {
         TiXmlElement* pParent = GetGeneralElement();

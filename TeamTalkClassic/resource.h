@@ -208,6 +208,8 @@
 #define IDS_ANONYMOUS                   300
 #define IDD_DIALOG_WEBLOGIN             301
 #define IDD_DIALOG_BANTYPE              302
+#define IDS_NEWPROFILE                  303
+#define IDS_DELETEPROFILE               304
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -774,7 +776,8 @@
 #define ID_CHANNELINFO_SPEAKCHANNELSTATE 32949
 #define ID_POPUP_MESSAGES               32950
 #define ID_KICK_KICKANDBANFROMCHANNEL   32951
-#define ID_CHANNELS_BANNEDUSERSINCHANNEL 32953
+#define ID_CHANNELS_BANNEDUSERSINCHANNEL 32952
+#define ID_CLIENT_NEWCLIENTINSTANCE     32953
 #define TT_MAX_ID                       0xFFFF
 
 // Next default values for new objects

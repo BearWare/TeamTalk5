@@ -71,6 +71,7 @@
 
 #include <string>
 #include <iterator>
+#include <regex>
 
 using namespace std;
 using namespace teamtalk;
@@ -763,6 +764,7 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
         ON_COMMAND(ID_KICK_KICKANDBANFROMCHANNEL, &CTeamTalkDlg::OnKickKickandbanfromchannel)
         ON_UPDATE_COMMAND_UI(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel)
         ON_COMMAND(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnChannelsBannedusersinchannel)
+        ON_COMMAND(ID_CLIENT_NEWCLIENTINSTANCE, &CTeamTalkDlg::OnClientNewclientinstance)
         END_MESSAGE_MAP()
 
 
@@ -3139,70 +3141,6 @@ void CTeamTalkDlg::OnUpdateFileConnect(CCmdUI *pCmdUI)
 void CTeamTalkDlg::OnFileConnect()
 {
     OnFileHostmanager();
-    return;
-/*
-    //clear join channels
-    m_host.szChannel.clear();
-    m_host.szChPasswd.clear();
-
-    if( (TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0)
-    {
-        CConnectDlg dlg;
-        for(int i=m_xmlSettings.GetLatestHostEntryCount()-1; i>=0; i--)
-        {
-            HostEntry entry;
-            m_xmlSettings.GetLatestHostEntry(i,entry);
-            dlg.m_vecHosts.push_back(entry);
-        }
-        if(m_xmlSettings.GetLatestHostEntryCount()==0)
-        {
-            dlg.m_nTcpPort = DEFAULT_TEAMTALK_TCPPORT;
-            dlg.m_nUdpPort = DEFAULT_TEAMTALK_UDPPORT;
-        }
-        if(dlg.DoModal()==IDOK)
-        {
-            m_host = HostEntry();
-            m_host.szAddress = STR_UTF8( dlg.m_szHostAddress.GetBuffer() );
-            m_host.nTcpPort = dlg.m_nTcpPort;
-            m_host.nUdpPort = dlg.m_nUdpPort;
-            m_host.bEncrypted = dlg.m_bEncrypted;
-            m_host.szUsername = STR_UTF8( dlg.m_szUsername.GetBuffer() );
-            m_host.szPassword = STR_UTF8( dlg.m_szPassword.GetBuffer() );
-            m_host.szChannel = STR_UTF8( dlg.m_szChannel.GetBuffer() );
-            m_host.szChPasswd = STR_UTF8( dlg.m_szChPasswd.GetBuffer());
-
-            m_xmlSettings.RemoveLatestHostEntry(m_host);
-            m_xmlSettings.AddLatestHostEntry(m_host);
-
-            for(size_t i=0;i<dlg.m_delHosts.size();i++)
-                m_xmlSettings.RemoveLatestHostEntry(dlg.m_delHosts[i]);
-
-            //remove lastly used
-            if(m_xmlSettings.GetLatestHostEntryCount()>5)
-            {
-                HostEntry tmp = m_host;
-                m_xmlSettings.GetLatestHostEntry(0, tmp);
-                m_xmlSettings.RemoveLatestHostEntry(tmp);
-            }
-
-            m_xmlSettings.SaveFile();
-
-            Connect(dlg.m_szHostAddress, dlg.m_nTcpPort, dlg.m_nUdpPort, dlg.m_bEncrypted);
-        }
-    }
-    else
-    {
-        if(m_nReconnectTimerID)
-            KillTimer(m_nReconnectTimerID);
-        m_nReconnectTimerID = 0;
-        Disconnect();
-        CString s;
-        s.Format(_T("Disconnected from %s TCP port %d UDP port %d"), 
-            STR_UTF8(m_host.szAddress.c_str()), m_host.nTcpPort, 
-            m_host.nUdpPort);
-        AddStatusText(s);
-    }
-*/
 }
 
 void CTeamTalkDlg::OnFilePreferences()
@@ -6723,4 +6661,104 @@ void CTeamTalkDlg::OnHelpResetpreferencestodefault()
         TRANSLATE_ITEM(IDS_RESTARTAPPLICATION, szMsg);
         MessageBox(szMsg, szTitle, MB_OK);
     }
+}
+
+void CTeamTalkDlg::OnClientNewclientinstance()
+{
+    TCHAR buff[MAX_PATH] = _T("");
+    GetModuleFileName(NULL, buff, MAX_PATH);
+
+    std::string filename = m_xmlSettings.GetFileName();
+    CString szIniPath = STR_UTF8(filename);
+
+    // check if we are creating a new profile from a profile
+    if(m_xmlSettings.GetProfileName().size())
+    {
+        std::smatch sm;
+        if(std::regex_search(filename, sm, std::regex("(.\\d{1,2})$")) && sm.size())
+        {
+            szIniPath = szIniPath.Left(szIniPath.GetLength() - sm[1].str().size());;
+        }
+    }
+
+    // load existing profiles
+    std::map<CString, CString> profiles;
+    CStringList profilenames;
+    const int MAX_PROFILES = 16;
+    int freeno = -1;
+    for(int i = 1; i <= MAX_PROFILES; i++)
+    {
+        CString szIniFile;
+        szIniFile.Format(_T("%s.%d"), szIniPath, i);
+        ClientXML settings(TT_XML_ROOTNAME);
+        if(settings.LoadFile(STR_LOCAL(szIniFile)))
+        {
+            CString szName = STR_UTF8(settings.GetProfileName());
+            profilenames.AddTail(szName);
+            profiles[szName] = szIniFile;
+        }
+        else if(freeno < 0)
+            freeno = i;
+    }
+
+    CString szNewProfile = _T("New Profile"), szDelProfile = _T("Delete Profile");
+    szNewProfile.LoadString(IDS_NEWPROFILE);
+    szDelProfile.LoadString(IDS_DELETEPROFILE);
+    TRANSLATE_ITEM(IDS_NEWPROFILE, szNewProfile);
+    TRANSLATE_ITEM(IDS_DELETEPROFILE, szDelProfile);
+
+    if(profiles.size() < MAX_PROFILES)
+        profilenames.AddTail(szNewProfile);
+    if(profiles.size() > 0)
+        profilenames.AddTail(szDelProfile);
+
+
+#if 0
+    bool ok = false;
+    QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
+        tr("Select profile"), profilenames, 0, false, &ok);
+
+    if(choice == delprofile)
+    {
+        profilenames.removeAll(newprofile);
+        profilenames.removeAll(delprofile);
+
+        QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
+            tr("Delete profile"), profilenames, 0, false, &ok);
+        if(ok && ttSettings->fileName() != profiles[choice])
+            QFile::remove(profiles[choice]);
+        return;
+    }
+    else if(choice == newprofile)
+    {
+        QString newname = QInputDialog::getText(this,
+            tr("New Profile"), tr("Profile name"), QLineEdit::Normal,
+            QString("Profile %1").arg(freeno), &ok);
+        if(ok && newname.size())
+        {
+            inipath = QString("%1.%2").arg(inipath).arg(freeno);
+            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QFile::copy(defpath, inipath);
+            QSettings settings(inipath, QSettings::IniFormat, this);
+            settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+        }
+        else return;
+    }
+    else
+    {
+        inipath = profiles[choice];
+    }
+
+    QString path = QApplication::applicationFilePath();
+    QStringList args = { "-noconnect" };
+    args.push_back(QString("-cfg"));
+    args.push_back(inipath);
+
+#if defined(_DEBUG)
+    QProcess::startDetached(path, args);
+#else
+    QProcess::startDetached(path, args, QApplication::applicationDirPath());
+#endif
+
+#endif
 }

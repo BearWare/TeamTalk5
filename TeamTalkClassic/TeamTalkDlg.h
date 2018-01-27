@@ -526,5 +526,6 @@ public:
     afx_msg void OnKickKickandbanfromchannel();
     afx_msg void OnUpdateChannelsBannedusersinchannel(CCmdUI *pCmdUI);
     afx_msg void OnChannelsBannedusersinchannel();
+    afx_msg void OnClientNewclientinstance();
 };
 

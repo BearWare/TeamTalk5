@@ -1451,6 +1451,7 @@ BEGIN
     "W",            ID_ADVANCED_ALLOWVIDEOTRANSMISSION, VIRTKEY, CONTROL, ALT, NOINVERT
     "W",            ID_ADVANCED_ALLOWALLVIDEOTRANSMISSION, VIRTKEY, SHIFT, CONTROL, ALT, NOINVERT
     "X",            ID_ADVANCED_STOREFORMOVE, VIRTKEY, CONTROL, ALT, NOINVERT
+    "N",            ID_CLIENT_NEWCLIENTINSTANCE, VIRTKEY, CONTROL, NOINVERT
 END
 
 IDR_ACCELERATOR3 ACCELERATORS
@@ -1520,6 +1521,8 @@ IDR_MENU_MAIN MENU
 BEGIN
     POPUP "C&lient"
     BEGIN
+        MENUITEM "&New Client Instance\tCtrl+N", ID_CLIENT_NEWCLIENTINSTANCE
+        MENUITEM SEPARATOR
         MENUITEM "&Connect\tF2",                ID_FILE_CONNECT
         MENUITEM SEPARATOR
         MENUITEM "&Preferences\tF4",            ID_FILE_PREFERENCES
@@ -1979,6 +1982,8 @@ BEGIN
     IDS_USER                "User"
     IDS_DESKTOPINPUT_REQUEST "%s is requesting desktop access"
     IDS_DESKTOPINPUT_RETRACT "%s has retracted desktop access"
+    IDS_NEWPROFILE          "New profile"
+    IDS_DELETEPROFILE       "Delete profile"
     IDS_CHANNEL             "Channel"
     IDS_VOICELEVEL          "Voice Level"
 END
