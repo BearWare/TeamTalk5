@@ -4,6 +4,9 @@
 Version 5.3, unreleased
 Default Qt client
 - Facebook web-login for Facebook enabled TeamTalk servers
+- Profiles for running multiple TeamTalk clients (Ctrl+N)
+- Ban users from channel
+- Ban option for username and/or IP-address
 - Abuse prevention tab in user account administration
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
@@ -13,6 +16,9 @@ Default Qt client
 - TeamTalk client for Mac requires minimum macOS 10.9 (Mavericks)
 Accessible Windows client:
 - Facebook web-login for Facebook enabled TeamTalk servers
+- Profiles for running multiple TeamTalk clients (Ctrl+N)
+- Ban users from channel
+- Ban option for username and/or IP-address
 - Abuse prevention tab in user account administration
 - Tell operator state using Ctrl+G
 - Send text message from Online Users dialog
@@ -31,6 +37,8 @@ iOS client:
 - OPUS audio codec updated to v1.2.1
 Server:
 - Facebook user authentication
+- Ban users from channel
+- Ban option for username and/or IP-address
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
 - TeamTalk server for Windows no longer supports Windows XP
