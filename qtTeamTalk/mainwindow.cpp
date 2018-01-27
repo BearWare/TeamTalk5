@@ -3154,7 +3154,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 
         QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
             tr("Delete profile"), profilenames, 0, false, &ok);
-        if(ok)
+        if(ok && ttSettings->fileName() != profiles[choice])
             QFile::remove(profiles[choice]);
         return;
     }
@@ -3166,8 +3166,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         if(ok && newname.size())
         {
             inipath = QString("%1.%2").arg(inipath).arg(freeno);
-            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
-            QFile::copy(defpath, inipath);
+            QFile::copy(ttSettings->fileName(), inipath);
             QSettings settings(inipath, QSettings::IniFormat, this);
             settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
         }
