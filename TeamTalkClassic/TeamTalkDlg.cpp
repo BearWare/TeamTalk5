@@ -88,7 +88,6 @@ extern BOOL bShowUsernames;
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define MENUTEXT(str) (str.Replace(_T("&"), _T("")))
 // CTeamTalkDlg dialog
 
 IMPLEMENT_DYNAMIC(CTeamTalkDlg, CDialogExx);
@@ -277,6 +276,8 @@ void CTeamTalkDlg::Disconnect()
 
 void CTeamTalkDlg::UpdateWindowTitle()
 {
+    CString szProfileName = STR_UTF8(m_xmlSettings.GetProfileName());
+
     Channel chan = {0};
     TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &chan);
 
@@ -286,6 +287,10 @@ void CTeamTalkDlg::UpdateWindowTitle()
         szTitle.Format(_T("%s - %s"), LimitText(chan.szName), APPTITLE);
     else
         szTitle.Format(_T("%s"), APPTITLE);
+
+    if(szProfileName.GetLength())
+        szTitle += _T(" - ") + szProfileName;
+
     SetWindowText(szTitle);
 }
 
@@ -6648,10 +6653,8 @@ void CTeamTalkDlg::OnHelpResetpreferencestodefault()
     szMsg.LoadString(IDS_RESETPREFERENCES);
     TRANSLATE_ITEM(IDS_RESETPREFERENCES, szMsg);
 
-    szTitle = _T("Reset Preferences");
-    TRANSLATE_ITEM(ID_HELP_RESETPREFERENCESTODEFAULT, szTitle);
-    MENUTEXT(szTitle);
-
+    szTitle = ExtractMenuText(ID_HELP_RESETPREFERENCESTODEFAULT,
+                              _T("Reset Preferences"));
     if(MessageBox(szMsg, szTitle, MB_YESNO) == IDYES)
     {
         m_bResetSettings = TRUE;
@@ -6665,9 +6668,6 @@ void CTeamTalkDlg::OnHelpResetpreferencestodefault()
 
 void CTeamTalkDlg::OnClientNewclientinstance()
 {
-    TCHAR buff[MAX_PATH] = _T("");
-    GetModuleFileName(NULL, buff, MAX_PATH);
-
     std::string filename = m_xmlSettings.GetFileName();
     CString szIniPath = STR_UTF8(filename);
 
@@ -6701,64 +6701,78 @@ void CTeamTalkDlg::OnClientNewclientinstance()
             freeno = i;
     }
 
-    CString szNewProfile = _T("New Profile"), szDelProfile = _T("Delete Profile");
-    szNewProfile.LoadString(IDS_NEWPROFILE);
-    szDelProfile.LoadString(IDS_DELETEPROFILE);
-    TRANSLATE_ITEM(IDS_NEWPROFILE, szNewProfile);
-    TRANSLATE_ITEM(IDS_DELETEPROFILE, szDelProfile);
+    const CString szNewProfile = LoadText(IDS_NEWPROFILE, _T("New Profile")),
+        szDelProfile = LoadText(IDS_DELETEPROFILE, _T("Delete Profile")),
+        szTitle = ExtractMenuText(ID_CLIENT_NEWCLIENTINSTANCE,
+                                  _T("New Client Instance")),
+        szSelect = LoadText(IDS_SELECTPROFILE, _T("Select profile")),
+        szProfileName = LoadText(IDS_PROFILENAME, _T("Profile name"));
 
     if(profiles.size() < MAX_PROFILES)
         profilenames.AddTail(szNewProfile);
     if(profiles.size() > 0)
         profilenames.AddTail(szDelProfile);
 
+    BOOL bOk = FALSE;
+    CInputDlg profileDlg(szTitle, szSelect);
+    profileDlg.m_inputList.AddHead(&profilenames);
+    
+    if (profileDlg.DoModal() != IDOK)
+        return;
 
-#if 0
-    bool ok = false;
-    QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
-        tr("Select profile"), profilenames, 0, false, &ok);
-
-    if(choice == delprofile)
+    if(profileDlg.m_szInput == szDelProfile)
     {
-        profilenames.removeAll(newprofile);
-        profilenames.removeAll(delprofile);
+        RemoveString(profilenames, szNewProfile);
+        RemoveString(profilenames, szDelProfile);
 
-        QString choice = QInputDialog::getItem(this, tr("New Client Instance"),
-            tr("Delete profile"), profilenames, 0, false, &ok);
-        if(ok && ttSettings->fileName() != profiles[choice])
-            QFile::remove(profiles[choice]);
+        CInputDlg delDlg(szTitle, szDelProfile);
+        delDlg.m_inputList.AddHead(&profilenames);
+        if (delDlg.DoModal() != IDOK)
+            return;
+
+        if (STR_UTF8(m_xmlSettings.GetFileName()) != profiles[delDlg.m_szInput])
+        {
+            DeleteFile(profiles[delDlg.m_szInput]);
+        }
         return;
     }
-    else if(choice == newprofile)
+    else if(profileDlg.m_szInput == szNewProfile)
     {
-        QString newname = QInputDialog::getText(this,
-            tr("New Profile"), tr("Profile name"), QLineEdit::Normal,
-            QString("Profile %1").arg(freeno), &ok);
-        if(ok && newname.size())
+        CString szNewProfileName;
+        szNewProfileName.Format(_T("%s %d"), szNewProfile, freeno);
+
+        CInputDlg newDlg(szNewProfile, szProfileName, szNewProfileName);
+        if(newDlg.DoModal() != IDOK)
+            return;
+
+        if(newDlg.m_szInput.GetLength())
         {
-            inipath = QString("%1.%2").arg(inipath).arg(freeno);
-            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
-            QFile::copy(defpath, inipath);
-            QSettings settings(inipath, QSettings::IniFormat, this);
-            settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+            CString szOldCfg = szIniPath;
+            szIniPath.Format(_T("%s.%d"), szOldCfg, freeno);
+            CopyFile(szOldCfg, szIniPath, FALSE);
+            ClientXML settings(TT_XML_ROOTNAME);
+            if(settings.LoadFile(STR_LOCAL(szIniPath)))
+            {
+                settings.SetProfileName(STR_UTF8(newDlg.m_szInput));
+                settings.SaveFile();
+            }
         }
         else return;
     }
     else
     {
-        inipath = profiles[choice];
+        szIniPath = profiles[profileDlg.m_szInput];
     }
 
-    QString path = QApplication::applicationFilePath();
-    QStringList args = { "-noconnect" };
-    args.push_back(QString("-cfg"));
-    args.push_back(inipath);
+    TCHAR szBuff[MAX_PATH] = _T("");
+    GetModuleFileName(NULL, szBuff, MAX_PATH);
+    CString szCmdLine;
+    szCmdLine.Format(_T("%s -cfg \"%s\""), szBuff, szIniPath);
+    STARTUPINFO info;
+    ZERO_STRUCT(info);
+    PROCESS_INFORMATION processInfo;
+    ZERO_STRUCT(processInfo);
 
-#if defined(_DEBUG)
-    QProcess::startDetached(path, args);
-#else
-    QProcess::startDetached(path, args, QApplication::applicationDirPath());
-#endif
-
-#endif
+    if (!CreateProcess(szBuff, szCmdLine.GetBuffer(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &info, &processInfo))
+        MessageBox(szTitle, _T("Failed to execute: ") + szCmdLine);
 }

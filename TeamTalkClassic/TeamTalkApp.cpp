@@ -185,34 +185,34 @@ BOOL CTeamTalkApp::InitInstance()
 
     CString szArg;
     //trim command line params for "
-    if(hRunningTT && !info.m_args.IsEmpty())
+    if(hRunningTT && info.m_args.GetCount() == 1)
     {
-        MsgCmdLine    msg = {0};
-        for(POSITION pos=info.m_args.GetHeadPosition();pos != NULL;)
+        BOOL bTTUrl = FALSE;
+        MsgCmdLine msg = { 0 };
+        for(POSITION pos = info.m_args.GetHeadPosition(); pos != NULL;)
         {
             szArg = info.m_args.GetNext(pos);
-            if(szArg == _T("wizard"))
-                continue;
             _tcsncat(msg.szPath, szArg.GetBuffer(), MAX_PATH);
             _tcsncat(msg.szPath, _T("¤"), MAX_PATH);
+            bTTUrl |= StartsWith(szArg, TTURL, FALSE);
+            bTTUrl |= EndsWith(szArg, _T( TTFILE_EXT ), FALSE);
         }
 
-        COPYDATASTRUCT    cds;
-        cds.dwData = 0;
-        cds.cbData = sizeof( msg );
-        cds.lpData = &msg;
+        if(bTTUrl)
+        {
+            COPYDATASTRUCT    cds;
+            cds.dwData = 0;
+            cds.cbData = sizeof(msg);
+            cds.lpData = &msg;
 
-        ::SendMessage( hRunningTT, WM_COPYDATA,    0, (LPARAM) &cds );
-        return FALSE;
+            ::SendMessage(hRunningTT, WM_COPYDATA, 0, (LPARAM)&cds);
+            return FALSE;
+        }
     }
 
     szArg.Empty();
     CTeamTalkDlg dlg;
-    for(POSITION pos=info.m_args.GetHeadPosition();pos != NULL;)
-    {
-        szArg = info.m_args.GetNext(pos);
-        dlg.m_cmdArgs.AddTail(szArg);
-    }
+    dlg.m_cmdArgs.AddHead(&info.m_args);
 
     m_pMainWnd = &dlg;
     INT_PTR nResponse = dlg.DoModal();

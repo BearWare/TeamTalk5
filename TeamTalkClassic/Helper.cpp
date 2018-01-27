@@ -329,6 +329,30 @@ CString StripAmpersand(const CString& szText)
     return szResult;
 }
 
+CString ExtractMenuText(int nID, CString szText)
+{
+    TRANSLATE_ITEM(nID, szText);
+    szText.Replace(_T("&"), _T(""));
+    int i = szText.ReverseFind('\t');
+    if(i >= 0)
+        szText = szText.Left(i);
+    return szText;
+}
+
+CString LoadText(int nID, CString szInitial)
+{
+    szInitial.LoadString(nID);
+    TRANSLATE_ITEM(nID, szInitial);
+    return szInitial;
+}
+
+void RemoveString(CStringList& strList, const CString& szStr)
+{
+    POSITION pos;
+    while((pos = strList.Find(szStr)) != NULL)
+        strList.RemoveAt(pos);
+}
+
 CString GetLogTimeStamp()
 {
     CTime tm = CTime::GetCurrentTime();
@@ -413,9 +437,14 @@ CString GetDisplayName(const User& user)
     return LimitText(user.szNickname);
 }
 
-BOOL EndsWith(const CString& szText, LPCTSTR szEnd)
+BOOL EndsWith(const CString& szText, LPCTSTR szEnd, BOOL bCaseSensitive)
 {
-    return szText.Right(_tcslen(szEnd)) == szEnd;
+    return bCaseSensitive? szText.Right(_tcslen(szEnd)) == szEnd : szText.Right(_tcslen(szEnd)).CompareNoCase(szEnd) == 0;
+}
+
+BOOL StartsWith(const CString& szText, LPCTSTR szStart, BOOL bCaseSensitive)
+{
+    return bCaseSensitive ? szText.Left(_tcslen(szStart)) == szStart : szText.Left(_tcslen(szStart)).CompareNoCase(szStart) == 0;
 }
 
 // The horror... initguid.h must be included before oleacc.h but oleacc.h is included

@@ -9,7 +9,9 @@ class CInputDlg : public CDialog
     DECLARE_DYNAMIC(CInputDlg)
 
 public:
-    CInputDlg(CString title, CString message, LPCTSTR lpszInitialInput = NULL, CWnd* pParent = NULL);   // standard constructor
+    CInputDlg(CString szTitle, CString szMessage,
+              LPCTSTR lpszInitialInput = NULL,
+              CWnd* pParent = NULL);   // standard constructor
     virtual ~CInputDlg();
 
 // Dialog Data
@@ -24,9 +26,11 @@ protected:
 public:
     CString m_szInput;
     CString GetInputString(){return m_szInput;}
+    CStringList m_inputList;
 protected:
     virtual void OnOK();
 public:
     CEdit m_wndInput;
     virtual BOOL OnInitDialog();
+    CComboBox m_wndInputCombo;
 };

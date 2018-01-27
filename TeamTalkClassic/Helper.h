@@ -75,9 +75,13 @@ HTREEITEM GetItemDataItem(CTreeCtrl& wnd, DWORD_PTR dwItemData);
 void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
+CString ExtractMenuText(int nID, CString szText);
+CString LoadText(int nID, CString szInitial);
+void RemoveString(CStringList& strList, const CString& szStr);
 void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);
 CString GetDisplayName(const User& user);
-BOOL EndsWith(const CString& szText, LPCTSTR szEnd);
+BOOL EndsWith(const CString& szText, LPCTSTR szEnd, BOOL bCaseSensitive = TRUE);
+BOOL StartsWith(const CString& szText, LPCTSTR szStart, BOOL bCaseSensitive = TRUE);
 
 CString GetLogTimeStamp();
 CString GetLogFileName(LPCTSTR szFolder, LPCTSTR szName);

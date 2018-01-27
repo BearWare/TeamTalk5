@@ -123,6 +123,7 @@ namespace teamtalk {
         if(m_xmlDocument.LoadFile(filename.c_str()))
         {
             m_filename = filename;
+            m_rootname = GetRootElement()? GetRootElement()->Value() : "";
             return true;
         }
         return false;

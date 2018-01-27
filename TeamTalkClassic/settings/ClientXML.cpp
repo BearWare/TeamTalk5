@@ -477,7 +477,7 @@ namespace teamtalk {
     
     std::string ClientXML::GetProfileName()
     {
-        return GetValue("general/profile-name");
+        return GetValue(m_rootname + "/general/profile-name");
     }
 
     bool ClientXML::SetGender(int nGender)
