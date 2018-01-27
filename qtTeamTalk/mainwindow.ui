@@ -1963,7 +1963,7 @@
     <string>Banned Users From Channel</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+B</string>
+    <string>Ctrl+Alt+Shift+B</string>
    </property>
   </action>
  </widget>
