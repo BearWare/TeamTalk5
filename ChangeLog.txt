@@ -34,6 +34,7 @@ Server:
 - Fixed brute force login prevention using ban feature
 - Limit number of issued commands by clients
 - TeamTalk server for Windows no longer supports Windows XP
+- TeamTalk server for Mac requires minimum macOS 10.9 (Mavericks)
 - TeamTalk server for Debian Linux updated to Debian GNU/Linux 9 (stretch)
 - TeamTalk server Raspberry Pi updated to Raspbian GNU/Linux 9 (stretch)
 
