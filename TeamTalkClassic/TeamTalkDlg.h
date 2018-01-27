@@ -195,8 +195,8 @@ protected:
     CSystemTray* m_pTray;
 
     BOOL m_bBoostBugComp;
-    UINT m_nLastRecvBytes;
-    UINT m_nLastSentBytes;
+    INT64 m_nLastRecvBytes;
+    INT64 m_nLastSentBytes;
     BOOL m_bTempMixerInput;
     UINT m_nLastMixerInput;
     CFont m_Font;
@@ -228,7 +228,7 @@ protected:
     chanpasswd_t m_channelPasswords;
 
     std::queue<CString> m_qStatusMsgs;
-    UINT m_nStatusTimerID;
+    UINT_PTR m_nStatusTimerID;
     int m_nStatusMode;
     CString m_szAwayMessage;
     BOOL m_bResizeReady;

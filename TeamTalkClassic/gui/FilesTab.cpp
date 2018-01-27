@@ -63,11 +63,11 @@ void CFilesTab::AddFile(int nChannelID, int nFileID)
         GetIndexFromFileID(nFileID) == -1)
     {
         int itemIndex = m_wndFiles.InsertItem(count, remotefile.szFileName, 0);
-        unsigned int size = remotefile.nFileSize / 1024;
+        INT64 size = remotefile.nFileSize / 1024;
         if(remotefile.nFileSize > 0 && remotefile.nFileSize < 1024)
             size = 1;
         CString num;
-        num.Format(_T("%u KB"), size);
+        num.Format(_T("%u KB"), UINT(size));
         m_wndFiles.SetItem(itemIndex, 1, LVIF_TEXT, num, 0, 0, 0, 0, 0);
         m_wndFiles.SetItemData(itemIndex, nFileID);
     }
@@ -119,7 +119,7 @@ std::vector<int> CFilesTab::GetSelectedFiles()
     for(int i=0;i<count;i++)
     {
         if(m_wndFiles.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED)
-            fileids.push_back(m_wndFiles.GetItemData(i));
+            fileids.push_back(INT32(m_wndFiles.GetItemData(i)));
     }
     return fileids;
 }

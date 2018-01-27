@@ -91,7 +91,7 @@ void CMediaStorageDlg::OnBnClickedButtonBrowse()
 
 void CMediaStorageDlg::OnBnClickedOk()
 {
-    m_uAFF = m_wndAFF.GetItemData(m_wndAFF.GetCurSel());
+    m_uAFF = UINT(m_wndAFF.GetItemData(m_wndAFF.GetCurSel()));
     OnOK();
 }
 

@@ -74,7 +74,7 @@ protected:
 
     CArray<HICON, HICON> m_IconList;
     static UINT  m_nIDEvent;
-    UINT         m_uIDTimer;
+    UINT_PTR     m_uIDTimer;
     int          m_nCurrentIcon;
     COleDateTime m_StartTime;
     int          m_nAnimationPeriod;

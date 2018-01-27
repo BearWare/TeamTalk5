@@ -50,7 +50,7 @@ public:
     CString m_szChannelTopic;
     CString m_szOpPasswd;
     BOOL m_bStaticChannel;
-    UINT m_nDiskQuota;
+    INT64 m_nDiskQuota;
     UINT m_nMaxUsers;
     BOOL m_bSingleTxChannel;
     BOOL m_bClassRoom;

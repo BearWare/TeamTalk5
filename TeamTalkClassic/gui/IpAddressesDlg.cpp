@@ -144,7 +144,7 @@ int CIpAddressesDlg::GetIPs( CStringArray &arrIPS )
     }
   }
   //return the array count
-  return arrIPS.GetSize();
+  return int(arrIPS.GetSize());
 }
 
 UINT CIpAddressesDlg::CStringIPToUINT(CString szIPAddress)

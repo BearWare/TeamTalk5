@@ -240,7 +240,7 @@ void CGenerateTTFileDlg::OnBnClickedButtonSavettfile()
 
 void CGenerateTTFileDlg::OnCbnSelchangeComboVidcodec()
 {
-    DWORD i = m_wndVidCodec.GetItemData(m_wndVidCodec.GetCurSel());
+    DWORD_PTR i = m_wndVidCodec.GetItemData(m_wndVidCodec.GetCurSel());
     m_wndVidBitrate.EnableWindow(i == WEBM_VP8_CODEC);
     m_wndVidBitrateSpinCtrl.EnableWindow(i == WEBM_VP8_CODEC);
 }

@@ -87,7 +87,7 @@ LRESULT CPositionUsersDlg::OnUserButtonDragged(WPARAM wParam, LPARAM lParam)
 {
     CRect client;
     GetClientRect(&client);
-    map_userbtn_t::iterator ite = m_mapUserBtn.find(wParam);
+    map_userbtn_t::iterator ite = m_mapUserBtn.find(int(wParam));
     if( ite != m_mapUserBtn.end())
     {
         CUserButton* pBtn = (*ite).second;
@@ -114,7 +114,7 @@ LRESULT CPositionUsersDlg::OnUserButtonDragged(WPARAM wParam, LPARAM lParam)
 
             pBtn->MoveWindow(rect.left, rect.top, rect.Width(), rect.Height());
 
-            UpdatePosition(wParam, pBtn);
+            UpdatePosition(int(wParam), pBtn);
         }
     }
     else
@@ -136,9 +136,9 @@ void CPositionUsersDlg::UpdatePosition(int nUserID, CUserButton* pBtn)
     CPoint center(client.left + client.Width()/2, client.top + client.Height()/2);
     CPoint btnPoint( rect.left+rect.Width()/2, rect.top+rect.Height()/2);
 
-    float a = btnPoint.x - center.x;
+    float a = float(btnPoint.x - center.x);
     a /= 100.0f;
-    float b = center.y - btnPoint.y;
+    float b = float(center.y - btnPoint.y);
     b /= 100.0f;
     float c = a*a+b*b;
     c = sqrt(c);
@@ -180,9 +180,9 @@ void CPositionUsersDlg::PositionButton(CUserButton* pBtn, int nUserID)
             pBtn->GetWindowRect(btnRect);
             int nWidth = btnRect.Width();
             int nHeight = btnRect.Height();
-            btnRect.left = center.x + (user.soundPositionVoice[0]*100.0f) - nWidth/2;
+            btnRect.left = LONG(center.x + (user.soundPositionVoice[0]*100.0f) - nWidth/2);
             btnRect.right = btnRect.left + nWidth;
-            btnRect.top = center.y + (user.soundPositionVoice[1]*100.0f*(-1)) - nHeight/2;
+            btnRect.top = LONG(center.y + (user.soundPositionVoice[1]*100.0f*(-1)) - nHeight/2);
             btnRect.bottom = btnRect.top + nHeight;
             pBtn->MoveWindow(btnRect.left, btnRect.top, btnRect.Width(), btnRect.Height());
         }
@@ -194,7 +194,7 @@ void CPositionUsersDlg::PositionButton(CUserButton* pBtn, int nUserID)
 }
 void CPositionUsersDlg::OnBnClickedButtonDefault()
 {
-    bool bPos = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_AUTO3DPOSITION);
+    BOOL bPos = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_AUTO3DPOSITION) != CLIENT_CLOSED;
     TT_Enable3DSoundPositioning(ttInst, TRUE);
     TT_AutoPositionUsers(ttInst);
     PositionUsers();

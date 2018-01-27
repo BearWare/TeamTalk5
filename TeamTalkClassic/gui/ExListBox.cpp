@@ -73,10 +73,10 @@ BOOL CExListBox::OnToolTipText( UINT id, NMHDR * pNMHDR, LRESULT * pResult )
 	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 	CString strTipText;
-	UINT nID = pNMHDR->idFrom;
+	UINT_PTR nID = pNMHDR->idFrom;
 
 	
-	GetText( nID ,strTipText);
+	GetText(int(nID) ,strTipText);
 
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)

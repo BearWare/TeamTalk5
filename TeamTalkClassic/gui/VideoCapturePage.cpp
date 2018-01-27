@@ -109,7 +109,7 @@ BOOL CVideoCapturePage::OnInitDialog()
         if(m_videodevices[i].szDeviceID == m_szVidDevID)
         {
             m_wndVidDev.SetCurSel(iDev);
-            m_nVidDev = i;
+            m_nVidDev = int(i);
         }
     }
 
@@ -146,7 +146,7 @@ void CVideoCapturePage::OnBnClickedButtonVidtest()
     TT_CloseVideoCaptureDevice(ttInst);
 
     int iDev = m_wndVidDev.GetCurSel();
-    int iFormat = m_wndVidRes.GetItemData(m_wndVidRes.GetCurSel());
+    int iFormat = int(m_wndVidRes.GetItemData(m_wndVidRes.GetCurSel()));
     if(TT_InitVideoCaptureDevice(ttInst, m_videodevices[iDev].szDeviceID,
        &m_videodevices[iDev].videoFormats[iFormat]))
     {
@@ -237,7 +237,7 @@ void CVideoCapturePage::OnOK()
     if(m_videodevices.size())
     {
         m_szVidDevID = m_videodevices[iDev].szDeviceID;
-        m_nCapFormatIndex = m_wndVidRes.GetItemData(m_wndVidRes.GetCurSel());
+        m_nCapFormatIndex = int(m_wndVidRes.GetItemData(m_wndVidRes.GetCurSel()));
         m_capformat = m_videodevices[iDev].videoFormats[m_nCapFormatIndex];
     }
     CPropertyPage::OnOK();

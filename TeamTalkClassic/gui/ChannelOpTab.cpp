@@ -104,7 +104,7 @@ void CChannelOpTab::OnBnClickedButtonAddchannel()
     int i = m_wndAvailChannels.GetCurSel();
     if(i == LB_ERR)
         return;
-    int nItemData = m_wndAvailChannels.GetItemData(i);
+    DWORD_PTR nItemData = m_wndAvailChannels.GetItemData(i);
     CString szChan;
     m_wndAvailChannels.GetText(i, szChan);
     i = m_wndSelChannels.AddString(szChan);

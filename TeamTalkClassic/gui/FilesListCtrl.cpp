@@ -35,7 +35,7 @@ void CFilesListCtrl::OnDropFiles(HDROP hDropInfo)
 {
     TCHAR szFilePath[MAX_PATH] = {0};
     UINT count = DragQueryFile(hDropInfo, 0xFFFFFFFF, szFilePath, MAX_PATH);
-    for(int i=0;i<count;i++)
+    for(UINT i=0;i<count;i++)
     {
         DragQueryFile(hDropInfo, i, szFilePath, MAX_PATH);
         m_Files.AddTail(szFilePath);

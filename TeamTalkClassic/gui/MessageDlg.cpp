@@ -198,7 +198,7 @@ void CMessageDlg::AppendMessage(const TextMessage& msg, BOOL bStore/* = TRUE*/)
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
     cf.crTextColor    = RGB(0, 0, 0); 
-    m_richHistory.SetSel(0, _tcslen(msg.szMessage));
+    m_richHistory.SetSel(0, long(_tcslen(msg.szMessage)));
     m_richHistory.SetSelectionCharFormat(cf); 
 
     //insert enter

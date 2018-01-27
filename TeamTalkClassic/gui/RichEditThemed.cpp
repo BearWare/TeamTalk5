@@ -73,11 +73,11 @@ CRichEditThemed::CRichEditThemed(HWND hRichEdit) : m_hRichEdit(hRichEdit), m_bTh
 {
     //Subclass the richedit control, this way, the caller doesn't have to relay the messages by itself
     m_aInstances[hRichEdit] = this;
-#ifdef _WIN64
-    m_pOriginalWndProc = (WNDPROC)SetWindowLong(hRichEdit, GWLP_WNDPROC, (LONG)&RichEditStyledProc);
-#else
-    m_pOriginalWndProc = (WNDPROC)SetWindowLong(hRichEdit, GWL_WNDPROC, (LONG)&RichEditStyledProc);
-#endif
+//#ifdef _WIN64
+//    m_pOriginalWndProc = (WNDPROC)SetWindowLong(hRichEdit, GWLP_WNDPROC, (LONG)&RichEditStyledProc);
+//#else
+//    m_pOriginalWndProc = (WNDPROC)SetWindowLong(hRichEdit, GWL_WNDPROC, (LONG)&RichEditStyledProc);
+//#endif
     //Check the current state of the richedit control
     ZeroMemory(&m_rcClientPos, sizeof(RECT));
     VerifyThemedBorderState();
@@ -194,13 +194,13 @@ LRESULT CALLBACK CRichEditThemed::RichEditStyledProc(HWND hwnd, UINT uMsg, WPARA
             if(IsWindow(hwnd))
             {
                 
-#ifdef _WIN64
-                if((WNDPROC)GetWindowLong(hwnd, GWLP_WNDPROC) == &RichEditStyledProc)
-                    SetWindowLong(hwnd, GWLP_WNDPROC, (LONG)pObj->m_pOriginalWndProc);
-#else
-                if((WNDPROC)GetWindowLong(hwnd, GWL_WNDPROC) == &RichEditStyledProc)
-                    SetWindowLong(hwnd, GWL_WNDPROC, (LONG)pObj->m_pOriginalWndProc);
-#endif
+//#ifdef _WIN64
+//                if((WNDPROC)GetWindowLong(hwnd, GWLP_WNDPROC) == &RichEditStyledProc)
+//                    SetWindowLong(hwnd, GWLP_WNDPROC, (LONG)pObj->m_pOriginalWndProc);
+//#else
+//                if((WNDPROC)GetWindowLong(hwnd, GWL_WNDPROC) == &RichEditStyledProc)
+//                    SetWindowLong(hwnd, GWL_WNDPROC, (LONG)pObj->m_pOriginalWndProc);
+//#endif
             }
 
             //Send the message now so that we can safely delete the object afterward

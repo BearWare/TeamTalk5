@@ -139,7 +139,7 @@ void CUserDesktopDlg::OnTimer(UINT_PTR nIDEvent)
 
         while(m_SendInputQueue.size())
         {
-            int n_send = min(m_SendInputQueue.size(), TT_DESKTOPINPUT_MAX);
+            int n_send = min(int(m_SendInputQueue.size()), TT_DESKTOPINPUT_MAX);
             if(TT_SendDesktopInput(ttInst, m_nUserID, &m_SendInputQueue[0], n_send))
                 m_SendInputQueue.erase(m_SendInputQueue.begin(), m_SendInputQueue.begin()+n_send);
             else break;
@@ -232,8 +232,8 @@ void CUserDesktopDlg::QueueMouseEvent(const CPoint& point, UINT32 uKeyCode,
     DesktopInput input;
     ZERO_STRUCT(input);
     input.uKeyCode = uKeyCode;
-    input.uMousePosX = point.x;
-    input.uMousePosY = point.y;
+    input.uMousePosX = UINT16(point.x);
+    input.uMousePosY = UINT16(point.y);
     input.uKeyState = keystate;
     TranslateAndQueue(input);
 }

@@ -422,15 +422,15 @@ BOOL CDialogExx::OnToolTipText(UINT, NMHDR* pNMHDR, LRESULT* pResult)
     TCHAR szFullText[256];
     CString strTipText;
     CString strPromtpText;
-    UINT nID = pNMHDR->idFrom;
+    UINT_PTR nID = pNMHDR->idFrom;
 
     if (pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND) ||
         pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
-        nID = ((UINT)(WORD)::GetDlgCtrlID((HWND)nID));
+        nID = ::GetDlgCtrlID((HWND)nID);
     }
 
     if ((nID != 0) && (nID != ID_VIEW_STATUS_BAR)) {
-        AfxLoadString(nID, szFullText);
+        AfxLoadString(UINT(nID), szFullText);
         AfxExtractSubString(strTipText, szFullText, 1, '\n');
         AfxExtractSubString(strPromtpText, szFullText, 0, '\n');
 

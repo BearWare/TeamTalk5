@@ -86,13 +86,13 @@ BOOL CWizSoundSysPage::OnInitDialog()
     if(m_nOutputDevice == -1)
     {
         m_OutputDriversCombo.SetCurSel(0);
-        m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
+        m_nOutputDevice = int(m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel()));
     }
 
     if(m_nInputDevice == -1)
     {
         m_InputDriversCombo.SetCurSel(0);
-        m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
+        m_nInputDevice = int(m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel()));
     }
 
     OnCbnSelchangeComboOutputdriver();
@@ -139,12 +139,12 @@ void CWizSoundSysPage::OnBnClickedRadioDirectsound()
 
 void CWizSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
-    m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
+    m_nInputDevice = int(m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel()));
 }
 
 void CWizSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
-    m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
+    m_nOutputDevice = int(m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel()));
 }
 
 void CWizSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
@@ -181,7 +181,7 @@ void CWizSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     if(!bFound && m_OutputDriversCombo.GetCount())
     {
         m_OutputDriversCombo.SetCurSel(0);
-        m_nOutputDevice = m_OutputDriversCombo.GetItemData(0);
+        m_nOutputDevice = int(m_OutputDriversCombo.GetItemData(0));
     }
 
     //fill input
@@ -209,7 +209,7 @@ void CWizSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     if(!bFound && m_InputDriversCombo.GetCount())
     {
         m_InputDriversCombo.SetCurSel(0);
-        m_nInputDevice = m_InputDriversCombo.GetItemData(0);
+        m_nInputDevice = int(m_InputDriversCombo.GetItemData(0));
     }
     OnCbnSelchangeComboOutputdriver();
     OnCbnSelchangeComboInputdriver();

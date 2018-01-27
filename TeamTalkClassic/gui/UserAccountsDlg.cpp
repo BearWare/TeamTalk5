@@ -209,7 +209,7 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
         if(i<m_wndChanOpTab.m_wndSelChannels.GetCount())
         {
             ASSERT(m_wndChanOpTab.m_wndSelChannels.GetItemData(i));
-            account.autoOperatorChannels[i] = m_wndChanOpTab.m_wndSelChannels.GetItemData(i);
+            account.autoOperatorChannels[i] = INT32(m_wndChanOpTab.m_wndSelChannels.GetItemData(i));
         }
         else
             account.autoOperatorChannels[i] = 0;

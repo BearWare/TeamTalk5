@@ -148,7 +148,7 @@ void CSoundEventsPage::OnTimer(UINT_PTR nIDEvent)
     CPropertyPage::OnTimer(nIDEvent);
     KillTimer(nIDEvent);
 
-    DWORD dwItemData = SOUNDEVENT_NONE;
+    DWORD_PTR dwItemData = SOUNDEVENT_NONE;
     if(m_wndTree.GetSelectedItem())
         dwItemData = m_wndTree.GetItemData(m_wndTree.GetSelectedItem());
 

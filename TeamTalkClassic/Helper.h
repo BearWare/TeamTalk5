@@ -76,7 +76,7 @@ void PlayWaveFile(LPCTSTR szFilePath, BOOL bAsync);
 CString LimitText(const CString& szName);
 CString StripAmpersand(const CString& szText);
 CString ExtractMenuText(int nID, CString szText);
-CString LoadText(int nID, CString szInitial);
+CString LoadText(int nID, CString szInitial = _T(""));
 void RemoveString(CStringList& strList, const CString& szStr);
 void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, StreamTypes uStreamType, CCmdUI *pCmdUI);
 CString GetDisplayName(const User& user);

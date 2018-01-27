@@ -400,7 +400,6 @@ int CSessionTreeCtrl::GetSelectedUser() const
         if(IsUser(img))
         {
             int nUserID = (GetItemData(h) & ID_ITEMDATA);
-            int c = m_users.size();
             ASSERT(m_users.find(nUserID) != m_users.end());
             return nUserID;
         }
@@ -688,7 +687,7 @@ void CSessionTreeCtrl::OnTvnItemexpanded(NMHDR *pNMHDR, LRESULT *pResult)
     LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 
     HTREEITEM hItem = pNMTreeView->itemNew.hItem;
-    int nChannelID = GetItemData(hItem);
+    int nChannelID = int(GetItemData(hItem));
     if(nChannelID & CHANNEL_ITEMDATA)
     {
         nChannelID &= ID_ITEMDATA;

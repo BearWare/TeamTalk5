@@ -101,7 +101,7 @@ BOOL COnlineUsersDlg::OnInitDialog()
     {
         users.resize(nUsers);
         TT_GetServerUsers(ttInst, &users[0], &nUsers);
-        for(size_t i=0;i<nUsers;i++)
+        for(int i=0;i<nUsers;i++)
         {
             CString s;
             s.Format(_T("%d"), users[i].nUserID);
@@ -153,7 +153,7 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
     for(int i=0;i<count;i++)
     {
         if(m_wndUsers.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED)
-            nUserID = m_wndUsers.GetItemData(i);
+            nUserID = INT32(m_wndUsers.GetItemData(i));
     }
 
     User user = {0};

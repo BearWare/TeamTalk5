@@ -189,11 +189,11 @@ BOOL CResizeCtrl::SetEnabled( BOOL enable )
         if( FALSE == enable )
         {
             ASSERT( m_prevWndProc );
-#ifdef _WIN64
-            ::SetWindowLong( m_hWndParent, GWLP_WNDPROC, reinterpret_cast<LONG>( m_prevWndProc ) );
-#else
-            ::SetWindowLong( m_hWndParent, GWL_WNDPROC, reinterpret_cast<LONG>( m_prevWndProc ) );
-#endif
+//#ifdef _WIN64
+//            ::SetWindowLong( m_hWndParent, GWLP_WNDPROC, reinterpret_cast<LONG>( m_prevWndProc ) );
+//#else
+//            ::SetWindowLong( m_hWndParent, GWL_WNDPROC, reinterpret_cast<LONG>( m_prevWndProc ) );
+//#endif
             m_prevWndProc = NULL;
             ::RemoveProp( m_hWndParent, m_szResizeProperty );
             if( m_hasResizingBorder == FALSE )
@@ -219,13 +219,13 @@ BOOL CResizeCtrl::SetEnabled( BOOL enable )
             m_size.cy = rect.Height();
 
             ::SetProp( m_hWndParent, m_szResizeProperty, reinterpret_cast<HANDLE>(this) );
-#ifdef _WIN64
-            m_prevWndProc = reinterpret_cast<WNDPROC>( ::GetWindowLong( m_hWndParent, GWLP_WNDPROC ) );
-            ::SetWindowLong( m_hWndParent, GWLP_WNDPROC, reinterpret_cast<LONG>( wndProc ) );
-#else
-            m_prevWndProc = reinterpret_cast<WNDPROC>( ::GetWindowLong( m_hWndParent, GWL_WNDPROC ) );
-            ::SetWindowLong( m_hWndParent, GWL_WNDPROC, reinterpret_cast<LONG>( wndProc ) );
-#endif
+//#ifdef _WIN64
+//            m_prevWndProc = reinterpret_cast<WNDPROC>( ::GetWindowLong( m_hWndParent, GWLP_WNDPROC ) );
+//            ::SetWindowLong( m_hWndParent, GWLP_WNDPROC, reinterpret_cast<LONG>( wndProc ) );
+//#else
+//            m_prevWndProc = reinterpret_cast<WNDPROC>( ::GetWindowLong( m_hWndParent, GWL_WNDPROC ) );
+//            ::SetWindowLong( m_hWndParent, GWL_WNDPROC, reinterpret_cast<LONG>( wndProc ) );
+//#endif
         }
         m_enabled = enable;
         if( m_gripEnabled )
@@ -367,7 +367,7 @@ BOOL CResizeCtrl::Remove(HWND hWndCtl)
     if( !::IsWindow( hWndCtl))
         return FALSE;
 
-    int upperBound = m_array->GetUpperBound ();
+    INT_PTR upperBound = m_array->GetUpperBound ();
     for( int current = 0; current <= upperBound; current++ )
     {
         if( m_array->GetAt( current ).handle == hWndCtl )
@@ -452,7 +452,7 @@ void CResizeCtrl::Resize(int cx, int cy)
     if( FALSE == m_inResize )
     {
         m_inResize     = TRUE;
-        int upperBound = m_array->GetUpperBound();
+        INT_PTR upperBound = m_array->GetUpperBound();
         if( upperBound >= 0 )
         {
             int deltaX = cx - m_size.cx;
@@ -689,7 +689,7 @@ BOOL CResizeCtrl::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, LRE
                 ::GetCursorPos( &mousePostion );
                 ::GetWindowRect( m_hWndParent, &currentRect );
 
-                m_hitCode  = wParam;
+                m_hitCode  = int(wParam);
                 m_delta.cx = 
                     m_delta.cy = 0;
 

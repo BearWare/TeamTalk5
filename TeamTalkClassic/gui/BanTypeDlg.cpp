@@ -61,5 +61,5 @@ void CBanTypeDlg::OnOK()
 {
     CDialogEx::OnOK();
 
-    m_uBanTypes = m_wndBanType.GetItemData(m_wndBanType.GetCurSel());
+    m_uBanTypes = BanTypes(m_wndBanType.GetItemData(m_wndBanType.GetCurSel()));
 }

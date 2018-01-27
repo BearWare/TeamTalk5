@@ -122,7 +122,7 @@ void CGeneralPage::OnBnClickedSetupKeys()
     if(m_bPush && m_Hotkey.size())
     {
         TT_HotKey_Unregister(ttInst, HOTKEY_PUSHTOTALK_ID);
-        TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &m_Hotkey[0], m_Hotkey.size());
+        TT_HotKey_Register(ttInst, HOTKEY_PUSHTOTALK_ID, &m_Hotkey[0], INT32(m_Hotkey.size()));
     }
 }
 

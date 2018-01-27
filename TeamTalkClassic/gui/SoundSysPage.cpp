@@ -164,7 +164,7 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     bool bFound = false;
     for(int i=0;i<m_OutputDriversCombo.GetCount() && m_szOutputDeviceID.GetLength() && !bFound;++i)
     {
-        if(m_szOutputDeviceID == m_SoundDevices[m_OutputDriversCombo.GetItemData(i)].szDeviceID)
+        if(m_szOutputDeviceID == m_SoundDevices[int(m_OutputDriversCombo.GetItemData(i))].szDeviceID)
         {
             m_OutputDriversCombo.SetCurSel(i);
             bFound = true;
@@ -184,7 +184,7 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     if(!bFound && m_OutputDriversCombo.GetCount())
     {
         m_OutputDriversCombo.SetCurSel(0);
-        m_nOutputDevice = m_OutputDriversCombo.GetItemData(0);
+        m_nOutputDevice = int(m_OutputDriversCombo.GetItemData(0));
     }
 
     //fill input
@@ -208,7 +208,7 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     bFound = false;
     for(int i=0;i<m_InputDriversCombo.GetCount() && m_szInputDeviceID.GetLength() && !bFound;++i)
     {
-        if(m_szInputDeviceID == m_SoundDevices[m_InputDriversCombo.GetItemData(i)].szDeviceID)
+        if(m_szInputDeviceID == m_SoundDevices[int(m_InputDriversCombo.GetItemData(i))].szDeviceID)
         {
             m_InputDriversCombo.SetCurSel(i);
             bFound = true;
@@ -226,7 +226,7 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
     if(!bFound && m_InputDriversCombo.GetCount())
     {
         m_InputDriversCombo.SetCurSel(0);
-        m_nInputDevice = m_InputDriversCombo.GetItemData(0);
+        m_nInputDevice = int(m_InputDriversCombo.GetItemData(0));
     }
 
     m_DxButton.SetCheck(nSoundSystem == SOUNDSYSTEM_DSOUND? BST_CHECKED : BST_UNCHECKED);
@@ -239,7 +239,7 @@ void CSoundSysPage::ShowDrivers(SoundSystem nSoundSystem)
 
 void CSoundSysPage::OnCbnSelchangeComboInputdriver()
 {
-    m_nInputDevice = m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel());
+    m_nInputDevice = int(m_InputDriversCombo.GetItemData(m_InputDriversCombo.GetCurSel()));
     if(m_SoundDevices.find(m_nInputDevice) != m_SoundDevices.end())
         m_szInputDeviceID = m_SoundDevices[m_nInputDevice].szDeviceID;
     else
@@ -250,7 +250,7 @@ void CSoundSysPage::OnCbnSelchangeComboInputdriver()
 
 void CSoundSysPage::OnCbnSelchangeComboOutputdriver()
 {
-    m_nOutputDevice = m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel());
+    m_nOutputDevice = int(m_OutputDriversCombo.GetItemData(m_OutputDriversCombo.GetCurSel()));
     if(m_SoundDevices.find(m_nOutputDevice) != m_SoundDevices.end())
         m_szOutputDeviceID = m_SoundDevices[m_nOutputDevice].szDeviceID;
     else

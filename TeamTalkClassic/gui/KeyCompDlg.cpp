@@ -54,14 +54,14 @@ LRESULT CKeyCompDlg::OnKeyStroke(WPARAM wParam, LPARAM lParam)
 {
     if(lParam)
     {
-        m_setDownKeys.insert(wParam);
-        m_Hotkey.push_back(wParam);
+        m_setDownKeys.insert(UINT(wParam));
+        m_Hotkey.push_back(UINT(wParam));
         ShowKeys();
 
     }
     else
     {
-        m_setUpKeys.insert(wParam);
+        m_setUpKeys.insert(UINT(wParam));
         if(m_setDownKeys.size() == m_setUpKeys.size() && m_setUpKeys.size() != 0)
             PostMessage(WM_COMMAND, IDOK);
     }

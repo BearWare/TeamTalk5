@@ -179,7 +179,7 @@ BOOL CDIBitmap :: Load( CFile* pFile )
         delete [] m_pPixels;
         m_pInfo = 0;
         m_pPixels = 0;
-        DWORD       dwStart = pFile->GetPosition();
+        ULONGLONG dwStart = pFile->GetPosition();
         //
         // Check to make sure we have a bitmap. The first two bytes must
         // be 'B' and 'M'.

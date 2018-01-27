@@ -132,7 +132,7 @@ BOOL CFileTransferDlg::UpdateTransferInfo()
         CString szProgress;
         szProgress.Format(_T("%I64d/%I64d - %.2f %%"), transfer.nTransferred, m_nTotalSize, percent);
         m_wndTransferred.SetWindowText(szProgress);
-        m_wndProgressBar.SetPos(percent);
+        m_wndProgressBar.SetPos(int(percent));
 
         DWORD nTotalTime = (::GetTickCount() - m_nStartTime) / 1000;
         CString szThroughput;
