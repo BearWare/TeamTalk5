@@ -176,7 +176,7 @@ BOOL CanToggleTransmitUsers(int nChannelID)
 messages_t GetMessages(int nFromUserID, const messages_t& messages)
 {
     messages_t result;
-    for(int i=0;i<messages.size();i++)
+    for(size_t i=0;i<messages.size();i++)
     {
         if(messages[i].nFromUserID == nFromUserID)
             result.push_back(messages[i]);

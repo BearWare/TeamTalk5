@@ -108,7 +108,7 @@ CString CKeyCompDlg::GetHotkeyString(teamtalk::HotKey hotkey)
         return s;
 
     TTCHAR key[TT_STRLEN] = {0};
-    int i;
+    size_t i;
     for(i=0;i<hotkey.size()-1;i++)
     {
         TT_HotKey_GetKeyString(ttInst, hotkey[i], key);

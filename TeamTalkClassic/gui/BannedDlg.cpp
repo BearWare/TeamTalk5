@@ -87,7 +87,7 @@ void CBannedDlg::Update()
 
     CString szUser;
 
-    for(int i=0;i<m_vecBanned.size();i++)
+    for(size_t i=0;i<m_vecBanned.size();i++)
     {
         BannedUser& ban = m_vecBanned[i];
         szUser.Format(_T("%s, %s, %s, %s"), ban.szNickname, ban.szUsername, 
@@ -95,7 +95,7 @@ void CBannedDlg::Update()
         m_wndBanned.AddString(szUser);
     }
 
-    for(int i=0;i<m_vecUnBanned.size();i++)
+    for(size_t i=0;i<m_vecUnBanned.size();i++)
     {
         BannedUser& ban = m_vecUnBanned[i];
         szUser.Format(_T("%s, %s, %s, %s"), ban.szNickname, ban.szUsername, 

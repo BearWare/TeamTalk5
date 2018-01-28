@@ -79,7 +79,7 @@ BOOL CMessageDlg::OnInitDialog()
 
     if(IsAlive())
     {
-        for(int i=0;i<m_messages.size();i++)
+        for(size_t i=0;i<m_messages.size();i++)
             AppendMessage(m_messages[i], FALSE);
 
         CString s;

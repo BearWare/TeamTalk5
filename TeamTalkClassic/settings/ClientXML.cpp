@@ -2775,7 +2775,7 @@ namespace teamtalk {
         if(entry.hotkey.size())
         {
             TiXmlElement hotkey("win-hotkey");
-            for(int i=0;i<entry.hotkey.size();i++)
+            for(size_t i=0;i<entry.hotkey.size();i++)
             {
                 TiXmlElement newelement("key");
                 TiXmlText text(i2str(entry.hotkey[i]).c_str());

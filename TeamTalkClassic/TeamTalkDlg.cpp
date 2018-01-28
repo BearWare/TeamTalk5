@@ -1141,7 +1141,7 @@ void CTeamTalkDlg::OnCommandProc(const TTMessage& msg)
         dlg.m_vecBanned = m_bannedusers;
         if(dlg.DoModal() == IDOK)
         {
-            for(int i=0;i<dlg.m_vecUnBanned.size();i++)
+            for(size_t i=0;i<dlg.m_vecUnBanned.size();i++)
                 TT_DoUnBanUserEx(ttInst, &dlg.m_vecUnBanned[i]);
         }
         m_bannedusers.clear();
@@ -1970,7 +1970,7 @@ void CTeamTalkDlg::OnUserDesktopInput(const TTMessage& msg)
     if(!::GetWindowRect(GetSharedDesktopWindowHWND(), offset))
         return;
 
-    for(int i=0;i<inputs.size();i++)
+    for(size_t i=0;i<inputs.size();i++)
     {
         //calculate absolute offset
         if(inputs[i].uMousePosX != TT_DESKTOPINPUT_MOUSEPOS_IGNORE &&
@@ -5323,9 +5323,9 @@ void CTeamTalkDlg::OnChannelsDownloadfile()
         std::vector<RemoteFile> remotefiles;
         remotefiles.resize(nCount);
         TT_GetChannelFiles(ttInst, nChannelID, &remotefiles[0], &nCount);
-        for(int i=0;i<fileids.size();i++)
+        for(size_t i=0;i<fileids.size();i++)
         {
-            int j;
+            size_t j;
             for(j=0;j<remotefiles.size();j++)
             {
                 if(remotefiles[j].nFileID == fileids[i])
@@ -5357,7 +5357,7 @@ void CTeamTalkDlg::OnChannelsDeletefile()
 {
     int nChannelID = m_wndTree.GetMyChannelID();
     std::vector<int> fileids = m_tabFiles.GetSelectedFiles();
-    for(int i=0;i<fileids.size();i++)
+    for(size_t i=0;i<fileids.size();i++)
         TT_DoDeleteFile(ttInst, TT_GetMyChannelID(ttInst), fileids[i]);
 }
 

@@ -103,10 +103,10 @@ void CMyEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
   {
     if(nChar == VK_UP)
     {
-      if(m_nLastIndex+1<m_vecMsgs.size())
+      if(m_nLastIndex + 1 < int(m_vecMsgs.size()))
         m_nLastIndex++;
 
-      if(m_nLastIndex>=0 && m_nLastIndex<m_vecMsgs.size())
+      if(m_nLastIndex>=0 && m_nLastIndex < int(m_vecMsgs.size()))
         SetWindowText(m_vecMsgs[m_nLastIndex]);
     }
     else if(nChar == VK_DOWN)
@@ -114,7 +114,7 @@ void CMyEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
       if(m_nLastIndex-1 >= -1)
         m_nLastIndex--;
 
-      if(m_nLastIndex>=0 && m_nLastIndex<m_vecMsgs.size())
+      if(m_nLastIndex>=0 && m_nLastIndex < int(m_vecMsgs.size()))
         SetWindowText(m_vecMsgs[m_nLastIndex]);
       else
         SetWindowText(_T(""));
