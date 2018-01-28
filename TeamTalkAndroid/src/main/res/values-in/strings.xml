@@ -32,18 +32,18 @@
     <string name="text_cmd_servername">Nama Server: </string>
     <string name="text_cmd_servermotd">Pesan hari ini: </string>
     <string name="pref_cat_subscriptions">Langganan</string>
-    <string name="pref_cat_tts">konfigurasikan suara pembaca pesan</string>
+    <string name="pref_cat_tts">konfigurasikan suara pembaca layar</string>
     <string name="pref_cat_soundtest">Uji Suara</string>
     <string name="pref_header_general">Umum</string>
     <string name="pref_title_nickname">Nama Panggilan</string>
     <string name="pref_default_nickname">TanpaNama</string>
     <string name="pref_title_keep_screen_on">Layar tetap menyala ketika terhubung</string>
-    <string name="pref_title_vibrate">bergetar jika tombol PTT ditekan</string>
+    <string name="pref_title_vibrate">bergetar jika tombol bicara ditekan</string>
     <string name="pref_show_log_messages">Tampilkan log di dalam riwayat pesan</string>
     <string name="pref_title_audio_icons">Suara Tindakan</string>
     <string name="pref_title_rx_tx_audio_icon">Suara transmisi toggle</string>
-    <string name="pref_summary_rx_tx_audio_icon">Mainkan suara ketika tombol PTT ditekan</string>
-    <string name="pref_title_vox_triggered_icon">Voice aktivasi otomatis</string>
+    <string name="pref_summary_rx_tx_audio_icon">Mainkan suara ketika tombol bicara ditekan</string>
+    <string name="pref_title_vox_triggered_icon">Aktivasi suara otomatis</string>
     <string name="pref_summary_vox_triggered_icon">Mainkan suara ketika suara aktivasi otomatis</string>
     <string name="pref_title_personal_message_audio_icon">Pesan pribadi</string>
     <string name="pref_summary_personal_message_audio_icon">Mainkan suara ketika menerima pesan pribadi</string>
@@ -84,7 +84,7 @@
     <string name="pref_title_personal_message">Pesan pribadi</string>
     <string name="pref_title_broadcast_message">Pesan Broadcast</string>
     <string name="pref_summary_message">Mengumumkan nama pengirim</string>
-    <string name="pref_title_mute_speakers">Pengeras suara diam ketika menekan tombol PTT</string>
+    <string name="pref_title_mute_speakers">Pengeras suara diam ketika menekan tombol bicara</string>
     <string name="pref_summary_mute_speakers">Aktifkan ini untuk menghindari echo dari pengeras suara</string>
     <string name="pref_title_show_usernames">Tampilkan nama pengguna</string>
     <string name="pref_summary_show_usernames">tampilkan nama pengguna bukan nama panggilan</string>
@@ -97,8 +97,8 @@
     <string name="pref_title_public_servers">Tampilkan publik server</string>
     <string name="pref_summary_public_servers">Termasuk semua server di Daftar Server</string>
 
-    <string name="text_tts_loggedin">telah masuk</string>
-    <string name="text_tts_loggedout">telah keluar</string>
+    <string name="text_tts_loggedin">telah masuk ke server</string>
+    <string name="text_tts_loggedout">telah keluar dari server</string>
     <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">telah meninggalkan saluran</string>
     <string name="text_tts_personal_message">Pesan pribadi dari pengguna %1$s</string>
@@ -112,7 +112,7 @@
     <string name="title_section_noaudio">Tidak ada suara</string>
     <string name="opus_application">Aplekasi</string>
     
-    <string name="button_tx">PTT</string>
+    <string name="button_tx">Bicara</string>
     <string name="button_remove">Hapus</string>
     <string name="button_edit">Edit</string>
     <string name="action_ban">melarang</string>
@@ -174,7 +174,7 @@
 
     <string name="action_new_channel">Buat saluran baru</string>
     <string name="action_save">Simpan</string>
-    <string name="action_connect">Hubungkan</string>
+    <string name="action_connect">Sambungkan</string>
     <string name="action_new_server">Server Baru</string>
     <string name="action_refresh">Segarkan</string>
     <string name="action_import_serverlist">mengimpor dari file</string>
@@ -189,7 +189,7 @@
     <string name="pref_title_authentication">Otentikasi</string>
     <string name="pref_title_username">Nama pengguna</string>
     <string name="pref_title_password">Kata sandi</string>
-    <string name="pref_title_facebook">Masuk Ke Facebook</string>
+    <string name="pref_title_facebook">Masuk Dengan Facebook</string>
     <string name="pref_title_join_channel">Gabung saluran</string>
     <string name="pref_title_channel">Saluran</string>
     <string name="pref_title_channel_password">Kata sandi saluran</string>
@@ -228,14 +228,14 @@
     <string name="decgain">Kurangi volume microphone gain</string>
     <string name="incgain">Tingkatkan volume microphone gain</string>
 
-    <string name="speaker_volume_description">Pengeras suara %1$s</string>
+    <string name="speaker_volume_description">Pengeras suara: %1$s</string>
     <string name="mic_gain_description">Volume Microphone: %1$s</string>
 
     <string name="voice_activation_on">Hidupkan aktivasi suara</string>
     <string name="voice_activation_off">Matikan aktivasi suara</string>
     <string name="decvoxlevel">Kurangi tingkat aktivasi suara</string>
     <string name="incvoxlevel">Tingkatkan tingkat aktivasi suara</string>
-    <string name="vox_level_description">Tingkat aktivasi suara %1$s</string>
+    <string name="vox_level_description">Tingkat aktivasi suara: %1$s</string>
 
     <string name="text_samplerate">Tingkat sample</string>
     <string name="text_ignore_silence">Mengabaikan diam (DTX)</string>
@@ -272,7 +272,7 @@
 
     <string name="personal_message_notification">pesan baru dari pengguna %1$s</string>
     <string name="personal_message_notification_hint">Klik untuk membaca dan membalasnya</string>
-    <string name="user_state_now_speaking">%1$s berbicara</string>
+    <string name="user_state_now_speaking">%1$s Sedang berbicara</string>
     <string name="text_waitstream">menunggu untuk vidio stream</string>
     <string name="text_desktop_session">Desktop session</string>
     <string name="text_webcam_session">Webcam session</string>
