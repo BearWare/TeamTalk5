@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+# Relative paths are not supported pre-2.8.1, target_link_libraries seems to require 3.0.2
+cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5JNI)
 
 find_package(JNI)
