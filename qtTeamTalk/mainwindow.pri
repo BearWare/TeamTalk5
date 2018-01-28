@@ -66,10 +66,6 @@ mac {
     greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
 }
 
-*-g++* {
-    QMAKE_CXXFLAGS += -std=c++0x
-}
-
 # QWebView introduced in Qt 4.4
 equals(QT_MAJOR_VERSION, 4) {
     greaterThan(QT_MINOR_VERSION, 3): QT += webkit
@@ -84,6 +80,8 @@ INSTALLS += target sources
 INCLUDEPATH += $${TEAMTALK_INCLUDE}
 
 QT += xml network
+
+CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
