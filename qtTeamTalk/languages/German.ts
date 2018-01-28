@@ -1113,24 +1113,24 @@
         <translation type="obsolete">P2P-Videoübertragung ausgeschaltet!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5150"/>
+        <location filename="../mainwindow.cpp" line="5149"/>
         <source>%1 joined channel</source>
         <translation>%1 hat den Raum betreten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5172"/>
+        <location filename="../mainwindow.cpp" line="5171"/>
         <source>%1 left channel</source>
         <translation>%1 hat den Raum verlassen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
-        <location filename="../mainwindow.cpp" line="4037"/>
+        <location filename="../mainwindow.cpp" line="4036"/>
         <source>Failed to download file %1</source>
         <translation>Konnte die Datei %1 nicht herunterladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1017"/>
-        <location filename="../mainwindow.cpp" line="4521"/>
+        <location filename="../mainwindow.cpp" line="4520"/>
         <source>Failed to upload file %1</source>
         <translation>Konnte die Datei %1 nicht hochladen</translation>
     </message>
@@ -1406,7 +1406,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2245"/>
-        <location filename="../mainwindow.cpp" line="3651"/>
+        <location filename="../mainwindow.cpp" line="3650"/>
         <source>%1 granted desktop access</source>
         <translation>%1 hat Desktopzugriff gestattet</translation>
     </message>
@@ -1421,32 +1421,32 @@
         <translation>Fehler beim Streamen der Mediendatei %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3514"/>
+        <location filename="../mainwindow.cpp" line="3513"/>
         <source>Failed to start desktop sharing</source>
         <translation>Fehler beim Starten der Desktopübertragung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4052"/>
+        <location filename="../mainwindow.cpp" line="4051"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Möchtest du &quot;%1&quot; wirklich löschen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4056"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Möchtest du wirklich %1 Datei(en) löschen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5305"/>
+        <location filename="../mainwindow.cpp" line="5304"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5307"/>
+        <location filename="../mainwindow.cpp" line="5306"/>
         <source>Video (%1)</source>
         <translation>Video (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5315"/>
+        <location filename="../mainwindow.cpp" line="5314"/>
         <source>Desktops (%1)</source>
         <translation>Desktops (%1)</translation>
     </message>
@@ -1461,47 +1461,47 @@
         <translation>&amp;Wiederherstellen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5191"/>
-        <location filename="../mainwindow.cpp" line="5200"/>
-        <location filename="../mainwindow.cpp" line="5209"/>
-        <location filename="../mainwindow.cpp" line="5218"/>
-        <location filename="../mainwindow.cpp" line="5227"/>
-        <location filename="../mainwindow.cpp" line="5236"/>
-        <location filename="../mainwindow.cpp" line="5245"/>
-        <location filename="../mainwindow.cpp" line="5254"/>
-        <location filename="../mainwindow.cpp" line="5263"/>
-        <location filename="../mainwindow.cpp" line="5272"/>
-        <location filename="../mainwindow.cpp" line="5281"/>
+        <location filename="../mainwindow.cpp" line="5190"/>
+        <location filename="../mainwindow.cpp" line="5199"/>
+        <location filename="../mainwindow.cpp" line="5208"/>
+        <location filename="../mainwindow.cpp" line="5217"/>
+        <location filename="../mainwindow.cpp" line="5226"/>
+        <location filename="../mainwindow.cpp" line="5235"/>
+        <location filename="../mainwindow.cpp" line="5244"/>
+        <location filename="../mainwindow.cpp" line="5253"/>
+        <location filename="../mainwindow.cpp" line="5262"/>
+        <location filename="../mainwindow.cpp" line="5271"/>
+        <location filename="../mainwindow.cpp" line="5280"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 hat den Empfang von &quot;%2&quot; geändert auf: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5195"/>
-        <location filename="../mainwindow.cpp" line="5204"/>
-        <location filename="../mainwindow.cpp" line="5213"/>
-        <location filename="../mainwindow.cpp" line="5222"/>
-        <location filename="../mainwindow.cpp" line="5231"/>
-        <location filename="../mainwindow.cpp" line="5240"/>
-        <location filename="../mainwindow.cpp" line="5249"/>
-        <location filename="../mainwindow.cpp" line="5258"/>
-        <location filename="../mainwindow.cpp" line="5267"/>
-        <location filename="../mainwindow.cpp" line="5276"/>
-        <location filename="../mainwindow.cpp" line="5285"/>
+        <location filename="../mainwindow.cpp" line="5194"/>
+        <location filename="../mainwindow.cpp" line="5203"/>
+        <location filename="../mainwindow.cpp" line="5212"/>
+        <location filename="../mainwindow.cpp" line="5221"/>
+        <location filename="../mainwindow.cpp" line="5230"/>
+        <location filename="../mainwindow.cpp" line="5239"/>
+        <location filename="../mainwindow.cpp" line="5248"/>
+        <location filename="../mainwindow.cpp" line="5257"/>
+        <location filename="../mainwindow.cpp" line="5266"/>
+        <location filename="../mainwindow.cpp" line="5275"/>
+        <location filename="../mainwindow.cpp" line="5284"/>
         <source>On</source>
         <translation>An</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5195"/>
-        <location filename="../mainwindow.cpp" line="5204"/>
-        <location filename="../mainwindow.cpp" line="5213"/>
-        <location filename="../mainwindow.cpp" line="5222"/>
-        <location filename="../mainwindow.cpp" line="5231"/>
-        <location filename="../mainwindow.cpp" line="5240"/>
-        <location filename="../mainwindow.cpp" line="5249"/>
-        <location filename="../mainwindow.cpp" line="5258"/>
-        <location filename="../mainwindow.cpp" line="5267"/>
-        <location filename="../mainwindow.cpp" line="5276"/>
-        <location filename="../mainwindow.cpp" line="5285"/>
+        <location filename="../mainwindow.cpp" line="5194"/>
+        <location filename="../mainwindow.cpp" line="5203"/>
+        <location filename="../mainwindow.cpp" line="5212"/>
+        <location filename="../mainwindow.cpp" line="5221"/>
+        <location filename="../mainwindow.cpp" line="5230"/>
+        <location filename="../mainwindow.cpp" line="5239"/>
+        <location filename="../mainwindow.cpp" line="5248"/>
+        <location filename="../mainwindow.cpp" line="5257"/>
+        <location filename="../mainwindow.cpp" line="5266"/>
+        <location filename="../mainwindow.cpp" line="5275"/>
+        <location filename="../mainwindow.cpp" line="5284"/>
         <source>Off</source>
         <translation>Aus</translation>
     </message>
@@ -1527,7 +1527,7 @@
         <translation>Hotkey konnte nicht registriert werden. Bitte versuche es mit einer anderen Tastenkombination.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3376"/>
+        <location filename="../mainwindow.cpp" line="3375"/>
         <source>Specify new nickname</source>
         <translation>Neuen Nicknamen angeben</translation>
     </message>
@@ -1544,8 +1544,8 @@
         <translation type="obsolete">Fehler beim streamen der Datei %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3884"/>
-        <location filename="../mainwindow.cpp" line="3893"/>
+        <location filename="../mainwindow.cpp" line="3883"/>
+        <location filename="../mainwindow.cpp" line="3892"/>
         <source>Failed to issue command to create channel</source>
         <translation>Fehler beim Ausführen des Kommandos zur Raumerstellung</translation>
     </message>
@@ -1688,138 +1688,138 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3450"/>
+        <location filename="../mainwindow.cpp" line="3449"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Videocodec konnte nicht konfiguriert werden. Bitte prüfe die Einstellungen.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3495"/>
+        <location filename="../mainwindow.cpp" line="3494"/>
         <source>Failed to open X11 display.</source>
         <translation>Fehler beim Öffnen der X11-Anzeige.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3907"/>
+        <location filename="../mainwindow.cpp" line="3906"/>
         <source>Failed to issue command to update channel</source>
         <translation>Fehler beim Ausführen des Kommandos zur Raumbearbeitung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3920"/>
+        <location filename="../mainwindow.cpp" line="3919"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Möchtest du den Raum &quot;%1&quot; wirklich löschen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3926"/>
+        <location filename="../mainwindow.cpp" line="3925"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Fehler beim Ausführen des Kommandos zur Raumlöschung</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3947"/>
-        <location filename="../mainwindow.cpp" line="4297"/>
+        <location filename="../mainwindow.cpp" line="3946"/>
+        <location filename="../mainwindow.cpp" line="4296"/>
         <source>Specify password</source>
         <translation>Passwort angeben</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3962"/>
+        <location filename="../mainwindow.cpp" line="3961"/>
         <source>Failed to issue command to join channel</source>
         <translation>Fehler beim Ausführen des Kommandos zum Betreten eines Raums</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4008"/>
+        <location filename="../mainwindow.cpp" line="4007"/>
         <source>Open File</source>
         <translation>Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4028"/>
+        <location filename="../mainwindow.cpp" line="4027"/>
         <source>Save File</source>
         <translation>Datei speichern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4145"/>
+        <location filename="../mainwindow.cpp" line="4144"/>
         <source>Message to broadcast:</source>
         <translation>Zu sendende Nachricht:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4187"/>
+        <location filename="../mainwindow.cpp" line="4186"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>Sollen die bestehenden Einstellungen wirklich gelöscht werden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4196"/>
+        <location filename="../mainwindow.cpp" line="4195"/>
         <source>Cannot find %1</source>
         <translation>%1 wurde nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4203"/>
+        <location filename="../mainwindow.cpp" line="4202"/>
         <source>Cannot remove %1</source>
         <translation>%1 kann nicht entfernt werden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4210"/>
+        <location filename="../mainwindow.cpp" line="4209"/>
         <source>Failed to copy %1 to %2</source>
         <translation>Fehler beim Kopieren von %1 nach %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4310"/>
+        <location filename="../mainwindow.cpp" line="4309"/>
         <source>IP-address</source>
         <translation type="unfinished">IP-Adresse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4310"/>
+        <location filename="../mainwindow.cpp" line="4309"/>
         <source>Username</source>
         <translation type="unfinished">Benutzername</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4312"/>
+        <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban User From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4312"/>
+        <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban user&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4449"/>
+        <location filename="../mainwindow.cpp" line="4448"/>
         <source>&amp;Leave Channel</source>
         <translation>Raum ver&amp;lassen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4675"/>
+        <location filename="../mainwindow.cpp" line="4674"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Es können maximal %1 Benutzer übertragen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4711"/>
+        <location filename="../mainwindow.cpp" line="4710"/>
         <source>You can now transmit audio!</source>
         <translation>Du kannst keine Audiodaten senden!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4713"/>
+        <location filename="../mainwindow.cpp" line="4712"/>
         <source>You can no longer transmit audio!</source>
         <translation>Du kannst keine weiteren Audiodaten senden!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4721"/>
+        <location filename="../mainwindow.cpp" line="4720"/>
         <source>You can now transmit video!</source>
         <translation>Du kannst keine Videodaten senden!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4723"/>
+        <location filename="../mainwindow.cpp" line="4722"/>
         <source>You can no longer transmit video!</source>
         <translation>Du kannst keine weiteren Videodaten senden!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4731"/>
+        <location filename="../mainwindow.cpp" line="4730"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Du kannst jetzt Desktopfenster übertragen!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4733"/>
+        <location filename="../mainwindow.cpp" line="4732"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Du kannst keine Desktopfenster mehr übertragen!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4743"/>
+        <location filename="../mainwindow.cpp" line="4742"/>
         <source>Start Webcam</source>
         <translation>Webcam starten</translation>
     </message>
@@ -1830,14 +1830,14 @@ Should these settings be applied?</source>
 Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3440"/>
-        <location filename="../mainwindow.cpp" line="4744"/>
+        <location filename="../mainwindow.cpp" line="3439"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Das Videogerät ist nicht ordnungsgemäß konfiguriert. Bitte überprüfe die Einstellungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4766"/>
-        <location filename="../mainwindow.cpp" line="4818"/>
+        <location filename="../mainwindow.cpp" line="4765"/>
+        <location filename="../mainwindow.cpp" line="4817"/>
         <source>Myself</source>
         <translation>Ich</translation>
     </message>
@@ -1846,42 +1846,42 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">%1 hat den Empfang von &quot;%2&quot; von dir auf %3 gesetzt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5366"/>
-        <location filename="../mainwindow.cpp" line="5375"/>
-        <location filename="../mainwindow.cpp" line="5385"/>
-        <location filename="../mainwindow.cpp" line="5396"/>
+        <location filename="../mainwindow.cpp" line="5365"/>
+        <location filename="../mainwindow.cpp" line="5374"/>
+        <location filename="../mainwindow.cpp" line="5384"/>
+        <location filename="../mainwindow.cpp" line="5395"/>
         <source>Load File</source>
         <translation>Datei laden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5367"/>
-        <location filename="../mainwindow.cpp" line="5376"/>
+        <location filename="../mainwindow.cpp" line="5366"/>
+        <location filename="../mainwindow.cpp" line="5375"/>
         <source>Failed to load file %1</source>
         <translation>Fehler beim Laden der Datei %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5386"/>
+        <location filename="../mainwindow.cpp" line="5385"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Die Datei &quot;%1&quot; ist mit %2 nicht kompatibel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5397"/>
+        <location filename="../mainwindow.cpp" line="5396"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Konnte Host-Informationen von %1 nicht extrahieren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5405"/>
+        <location filename="../mainwindow.cpp" line="5404"/>
         <source>Load %1 File</source>
         <translation>Lade %1 Datei</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5406"/>
+        <location filename="../mainwindow.cpp" line="5405"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5475"/>
+        <location filename="../mainwindow.cpp" line="5474"/>
         <source>New version available: %1</source>
         <translation>Neue Version verfügbar: %1</translation>
     </message>
@@ -1968,7 +1968,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="630"/>
-        <location filename="../mainwindow.cpp" line="5313"/>
+        <location filename="../mainwindow.cpp" line="5312"/>
         <source>Desktops</source>
         <translation>Desktops</translation>
     </message>
@@ -2166,7 +2166,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1316"/>
-        <location filename="../mainwindow.cpp" line="4451"/>
+        <location filename="../mainwindow.cpp" line="4450"/>
         <source>&amp;Join Channel</source>
         <translation>Raum &amp;betreten</translation>
     </message>
@@ -2353,6 +2353,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Banned Users From Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1966"/>
+        <source>Ctrl+Alt+Shift+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2764,7 +2769,6 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
-        <location filename="../mainwindow.ui" line="1966"/>
         <source>Ctrl+Alt+B</source>
         <translation></translation>
     </message>
