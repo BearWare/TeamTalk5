@@ -66,7 +66,7 @@ void CConnectDlg::DisplayHosts()
 {
     m_wndHostAddress.ResetContent();
 
-    for(int i=0;i<m_vecHosts.size();i++)
+    for(size_t i=0;i<m_vecHosts.size();i++)
         m_wndHostAddress.AddString( STR_UTF8(m_vecHosts[i].szAddress.c_str()));
 
     if(m_vecHosts.size()>0)
@@ -119,7 +119,7 @@ BOOL CConnectDlg::OnInitDialog()
 void CConnectDlg::OnCbnSelchangeComboHostaddress()
 {
     int index = m_wndHostAddress.GetCurSel();
-    if(index != CB_ERR && index<m_vecHosts.size())
+    if(index != CB_ERR && index < int(m_vecHosts.size()))
     {
         CString s;s.Format(_T("%d"),m_vecHosts[index].nTcpPort);
         m_wndHostPort.SetWindowText(s);
@@ -163,7 +163,7 @@ void CConnectDlg::OnBnClickedButtonDelentry()
     int index = m_wndHostAddress.GetCurSel();
     if(index == CB_ERR)
         return;
-    if(index < m_vecHosts.size())
+    if(index < int(m_vecHosts.size()))
     {
         m_delHosts.push_back(m_vecHosts[index]);
         m_vecHosts.erase(m_vecHosts.begin()+index);

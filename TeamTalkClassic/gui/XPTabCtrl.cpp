@@ -380,7 +380,7 @@ void CXPTabCtrl::OnTabSelChanging(NMHDR* pNMHDR, LRESULT* pResult)    // selecte
     *pResult=0L;
 
     //hide current tab window
-    if(!m_vecTabs.empty() && GetCurSel() < m_vecTabs.size())
+    if(!m_vecTabs.empty() && GetCurSel() < int(m_vecTabs.size()))
     {
         m_vecTabs[GetCurSel()]->ShowWindow(SW_HIDE);
     }
@@ -402,7 +402,7 @@ void CXPTabCtrl::OnTabSelChanged(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult=1L;
 
     //hide current tab window
-    if(!m_vecTabs.empty() && GetCurSel() < m_vecTabs.size())
+    if(!m_vecTabs.empty() && GetCurSel() < int(m_vecTabs.size()))
     {
         m_vecTabs[GetCurSel()]->ShowWindow(SW_SHOW);
     }
@@ -491,7 +491,7 @@ void CXPTabCtrl::OnSize(UINT nType, int cx, int cy)
 
 void CXPTabCtrl::ResizeItems()
 {
-    if(!m_vecTabs.empty() && GetCurSel()<m_vecTabs.size())
+    if(!m_vecTabs.empty() && GetCurSel() < int(m_vecTabs.size()))
     {
         CWnd* pWnd = m_vecTabs[GetCurSel()];
         CRect rectTab;

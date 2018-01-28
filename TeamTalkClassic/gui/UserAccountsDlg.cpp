@@ -94,7 +94,7 @@ BOOL CUserAccountsDlg::OnInitDialog()
         vector<Channel> channels;
         channels.resize(nCount);
         TT_GetServerChannels(ttInst, &channels[0], &nCount);
-        for(size_t i=0;i<nCount;i++)
+        for(int i=0;i<nCount;i++)
         {
             TTCHAR szPath[TT_STRLEN];
             if((channels[i].uChannelType & CHANNEL_PERMANENT) &&

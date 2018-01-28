@@ -127,7 +127,7 @@ void CSessionTreeCtrl::UpdMyChannel(int nChannelID)
             hIteItem = GetNextSiblingItem(hIteItem);
         }
 
-        for(int i=0;i<vecItems.size();i++)
+        for(size_t i=0;i<vecItems.size();i++)
             UserItemMinus(vecItems[i], UserTalking);
     }
 
