@@ -55,7 +55,6 @@ private:
     mapitem_t m_mItems;
     XMLLanguages m_language;
     CString m_szLanguage;
-    static Languages* m_pInstance;
 };
 
 #define TRANSLATE Languages::Instance()->Translate

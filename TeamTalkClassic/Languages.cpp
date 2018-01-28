@@ -37,23 +37,16 @@ Languages::Languages()
 
 Languages::~Languages()
 {
-    m_pInstance = NULL;
 }
-
-Languages* Languages::m_pInstance = NULL;
 
 Languages* Languages::Instance(LPCTSTR szLangFile /*= 0*/)
 {
-    if(!m_pInstance)
-    {
-        m_pInstance = new Languages();
-        static std::auto_ptr< Languages > ptr(m_pInstance);
-    }
+    static Languages lng;
     
     if(szLangFile)
-        m_pInstance->LoadLanguage(szLangFile);
+        lng.LoadLanguage(szLangFile);
 
-    return m_pInstance;
+    return &lng;
 }
 
 BOOL Languages::LoadLanguage(CString szLangFile)

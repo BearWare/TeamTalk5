@@ -44,6 +44,7 @@
 #include <map>
 #include <queue>
 #include <set>
+#include <memory>
 
 #include "afxcmn.h"
 #include "afxwin.h"
@@ -352,7 +353,7 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    std::auto_ptr<CHttpRequest> m_httpUpdate;
+    std::unique_ptr<CHttpRequest> m_httpUpdate;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);
