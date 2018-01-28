@@ -92,6 +92,9 @@ if (BUILD_TEAMTALK_LIBRARY_JNI)
     jni/ttconvert-jni.cpp
     jni/ttconvert-jni.h)
   target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
+
+  set_target_properties (TeamTalk5-jni PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY libs)
   
 endif()
 
@@ -102,6 +105,10 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
     jni/ttconvert-jni.cpp
     jni/ttconvert-jni.h)
   target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
+
+  set_target_properties (TeamTalk5Pro-jni PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY libs)
+
 endif()
 
 find_package (Java)
