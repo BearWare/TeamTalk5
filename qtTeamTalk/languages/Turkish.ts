@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="149"/>
         <source>Ban Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adını Engelle</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="63"/>
@@ -63,27 +63,27 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="50"/>
         <source>Nickname</source>
-        <translation type="unfinished">Takma ad</translation>
+        <translation>Takma Ad</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="51"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adı</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="52"/>
         <source>Ban Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Engellenme Zamanı</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP adresi</translation>
+        <translation>IP Adresi</translation>
     </message>
 </context>
 <context>
@@ -844,11 +844,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="220"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mac OS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS, değiştirici tuşları tek başına desteklemediğinden Cmd, Option ve Shift diğer değiştirici olmayan tuşlarla birleştirilerek kullanılmalıdır.</translation>
+        <translation>macOS değiştirici tuşları tek başına desteklemediğinden Cmd, Option ve Shift diğer değiştirici olmayan tuşlarla birleştirilerek kullanılmalıdır.</translation>
     </message>
 </context>
 <context>
@@ -1722,22 +1718,22 @@
     <message>
         <location filename="../mainwindow.ui" line="1955"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzaklaştır ve &amp;Kanaldan Engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1958"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Banned Users From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldan Engellenen Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
         <source>Ctrl+Alt+Shift+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="718"/>
@@ -1899,7 +1895,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Banned Users in Channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Kanalından Engellenen Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
@@ -2165,33 +2161,33 @@
         <location filename="../mainwindow.cpp" line="3140"/>
         <location filename="../mainwindow.cpp" line="3164"/>
         <source>New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni Profil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3140"/>
         <source>Delete Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3147"/>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>New Client Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni İstemci Örneği</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3148"/>
         <source>Select profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3156"/>
         <source>Delete profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3164"/>
         <source>Profile name</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil adı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3375"/>
@@ -2299,22 +2295,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP adresi</translation>
+        <translation>IP adresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban User From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıyı Kanaldan Engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban user&apos;s</source>
-        <translation type="unfinished"></translation>
+        <translation>Engellenecek kullanıcının</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4448"/>
@@ -2470,12 +2466,7 @@
         <location filename="../mainwindow.cpp" line="5405"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -4555,11 +4546,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Do Facebook logout?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Do Facebook logout??</source>
-        <translation type="vanished">Facebook oturumu kapatılsın mı?</translation>
+        <translation>Facebook oturumu kapatılsın mı?</translation>
     </message>
 </context>
 </TS>
