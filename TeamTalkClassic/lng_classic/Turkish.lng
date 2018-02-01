@@ -162,6 +162,12 @@
     <item id="298">komut sayısı (0 = devre dışı)</item>
     <item id="299">komut verme süresi %d</item>
     <item id="300">anonim</item>
+    <item id="301">Web Girişi</item>
+    <item id="302">Yasaklı Kullanıcı Özellikleri</item>
+    <item id="303">Yeni profil</item>
+    <item id="304">Profili sil</item>
+    <item id="305">Profil Seç</item>
+    <item id="306">Profil adı</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
     <item id="1011">Host Özellikleri</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
@@ -172,14 +178,14 @@
     <item id="1020">Kanal&apos;daki kullanıcı sayısını göster</item>
     <item id="1021">3d Ses Kullanıcıları</item>
     <item id="1022">Ses Aktivasyonunu Devre dışı Bırak</item>
-    <item id="1024">Hızlı bir sunucu rehber&apos;i başlatarak sunucuya nasıl bağlanılacağını öğren</item>
+    <item id="1024">Hızlı bir sunucu rehber&apos;i başlatarak sunucuya nasıl bağlanılacağını öğrenin</item>
     <item id="1025">Varsayılan: 10333</item>
     <item id="1028">Ses Yükseltme</item>
     <item id="1030">&amp;Bağlan</item>
     <item id="1035">Kullanıcı Kimliği</item>
     <item id="1036">Kullanıcı Adı</item>
     <item id="1042">Bu Kurulum Sihirbazı TeamTalk uygulamasını yapılandırma sürecinde size yardım edecektir. Devam etmek için Ileri, kurulumdan çıkmak için Iptal&apos;i seçin.</item>
-    <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol et</item>
+    <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol edin</item>
     <item id="1045"></item>
     <item id="1047">Dosya Boyutu</item>
     <item id="1048">Kanal güncelleme zamanını göster</item>
@@ -218,7 +224,7 @@
     <item id="1111">Tüm tuşlar bırakıldığında bu iletişim kutusunu kapat</item>
     <item id="1112">&amp;Uzakta</item>
     <item id="1114">Geçmiş</item>
-    <item id="1117">Seçili bir ses kartınız varsa, 3d Ses efektlerini ve diğer kullanıcıların konumlarını duymak için seçin. Not En iyi deneyim için kulaklık kullanmalısınız.</item>
+    <item id="1117">Seçili bir ses kartınız varsa, 3d Ses efektlerini ve diğer kullanıcıların konumlarını duymak için seçin. Not: En iyi deneyim için kulaklık kullanmalısınız.</item>
     <item id="1118">Meşgul</item>
     <item id="1122">Şifre Korumalı</item>
     <item id="1123">IP Adresi</item>
@@ -565,4 +571,8 @@
     <item id="32947">&amp;Tüm Kullanıcıların masaüstü etkinleştirmesine izin ver\tCtrl+Alt+Shift+E</item>
     <item id="32948">&amp;Tüm kullanıcıların medya yayınlamasına izin ver\tCtrl+Alt+Shift+R</item>
     <item id="32949">&amp;Kanal durumunu söyle\tCtrl+Shift+G</item>
+    <item id="32950">&amp;Mesaj Gönder\tCtrl+E</item>
+    <item id="32951">&amp;Kanaldan at ve yasakla\tCtrl+B</item>
+    <item id="32952">&amp;Kanaldan Yasaklanmış Kullanıcılar\tCtrl+Alt+Shift+B</item>
+    <item id="32953">&amp;Yeni Istemci\tCtrl+N</item>
 </language>
