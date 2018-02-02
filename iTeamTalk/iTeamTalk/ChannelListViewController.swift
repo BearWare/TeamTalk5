@@ -587,7 +587,14 @@ class ChannelListViewController :
             let channel = channels[chanid]
             
             let chanDetail = segue.destination as! ChannelDetailViewController
+
             chanDetail.channel = channel!
+            
+            if fromTTString((channel?.szPassword)!).isEmpty {
+                if let passwd = self.chanpasswds[chanid] {
+                    toTTString(passwd, dst: &chanDetail.channel.szPassword)
+                }
+            }
         }
         else if segue.identifier == "New TextMessage" {
 

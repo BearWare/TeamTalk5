@@ -63,6 +63,9 @@ class TextMessageViewController :
         }
     }
 
+    func showLogMessages() -> Bool {
+        return userid == 0
+    }
     
     func dismissKeyboard() {
         if msgTextView.isFirstResponder {

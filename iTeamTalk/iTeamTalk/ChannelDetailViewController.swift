@@ -183,6 +183,7 @@ class ChannelDetailViewController :
         if channel.bPassword == TRUE {
             let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"), message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self, cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
             alert.alertViewStyle = .secureTextInput
+            alert.textField(at: 0)?.text = self.passwdfield?.text
             alert.show()
         }
         else {
