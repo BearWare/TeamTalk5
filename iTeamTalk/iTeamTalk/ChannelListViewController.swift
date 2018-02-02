@@ -228,7 +228,7 @@ class ChannelListViewController :
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
             let user = chanusers[user_index]
             let name = getDisplayName(user)
-            let statusmsg = fromTTString(user.szStatusMsg)
+            let statusmsg = String(cString: UnsafeRawPointer([user.szStatusMsg]).assumingMemoryBound(to: CChar.self))
             
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
@@ -298,8 +298,8 @@ class ChannelListViewController :
             
             channel = subchans[chan_index]
             
-            title = fromTTString(srvprop.szServerName)
-            subtitle = fromTTString(channel.szTopic)
+            title = String(cString: UnsafeRawPointer([srvprop.szServerName]).assumingMemoryBound(to: CChar.self))
+            subtitle = String(cString: UnsafeRawPointer([channel.szTopic]).assumingMemoryBound(to: CChar.self))
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -318,10 +318,10 @@ class ChannelListViewController :
             
             title = NSLocalizedString("Parent channel", comment: "channel list")
             if channel.nParentID == 0 {
-                subtitle = fromTTString(srvprop.szServerName)
+                subtitle = String(cString: UnsafeRawPointer([srvprop.szServerName]).assumingMemoryBound(to: CChar.self))
             }
             else {
-                subtitle = fromTTString(channel.szName)
+                subtitle = String(cString: UnsafeRawPointer([channel.szName]).assumingMemoryBound(to: CChar.self))
             }
             
             textcolor = UIColor.gray
@@ -342,8 +342,8 @@ class ChannelListViewController :
             channel = subchans[chan_index]
             
             let user_count = getUsersCount(channel.nChannelID)
-            title = fromTTString(channel.szName) + " (\(user_count))"
-            subtitle = fromTTString(channel.szTopic)
+            title = String(cString: UnsafeRawPointer([channel.szName]).assumingMemoryBound(to: CChar.self)) + " (\(user_count))"
+            subtitle = String(cString: UnsafeRawPointer([channel.szTopic]).assumingMemoryBound(to: CChar.self))
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
