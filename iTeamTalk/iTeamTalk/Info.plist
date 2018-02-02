@@ -43,6 +43,18 @@
 				<string>fb611833262539381</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>TeamTalk_64x64</string>
+			<key>CFBundleURLName</key>
+			<string>dk.bearware.teamtalkhost</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tt</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
