@@ -142,6 +142,69 @@
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_mute_media" />
 
+    <Switch
+        android:id="@+id/user_subscribetxtmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_txtmsg" />
+
+    <Switch
+        android:id="@+id/user_subscribechanmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_chanmsg" />
+
+    <Switch
+        android:id="@+id/user_subscribebcastmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_bcastmsg" />
+
+    <Switch
+        android:id="@+id/user_subscribevoiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_voice" />
+
+    <Switch
+        android:id="@+id/user_subscribevidSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_vid" />
+
+    <Switch
+        android:id="@+id/user_subscribedeskSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_desk" />
+
+    <Switch
+        android:id="@+id/user_subscribemediaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_media" />
+
     <Space
         android:layout_height="match_parent"
         android:layout_columnSpan="2" />

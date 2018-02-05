@@ -22,6 +22,7 @@
 package dk.bearware.gui;
 
 import dk.bearware.StreamType;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.SoundLevel;
@@ -124,6 +125,13 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         final SeekBar mediaVol = (SeekBar) findViewById(R.id.user_vol_mediaSeekBar);
         final Button defMfBtn = (Button) findViewById(R.id.defMfVolBtn);
         final Switch mediaMute = (Switch) findViewById(R.id.user_mutemediaSwitch);
+        final Switch subscribeTxtmsg = (Switch) findViewById(R.id.user_subscribetxtmsgSwitch);
+        final Switch subscribeChanmsg = (Switch) findViewById(R.id.user_subscribechanmsgSwitch);
+        final Switch subscribeBcastmsg = (Switch) findViewById(R.id.user_subscribebcastmsgSwitch);
+        final Switch subscribeVoice = (Switch) findViewById(R.id.user_subscribevoiceSwitch);
+        final Switch subscribeVid = (Switch) findViewById(R.id.user_subscribevidSwitch);
+        final Switch subscribeDesk = (Switch) findViewById(R.id.user_subscribedeskSwitch);
+        final Switch subscribeMedia = (Switch) findViewById(R.id.user_subscribemediaSwitch);
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
@@ -134,6 +142,13 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
         mediaVol.setProgress(Utils.refVolumeToPercent(user.nVolumeMediaFile));
         voiceMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_VOICE) != 0);
         mediaMute.setChecked((user.uUserState & UserState.USERSTATE_MUTE_MEDIAFILE) != 0);
+        subscribeTxtmsg.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_USER_MSG) != 0);
+        subscribeChanmsg.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG) != 0);
+        subscribeBcastmsg.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG) != 0);
+        subscribeVoice.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_VOICE) != 0);
+        subscribeVid.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) != 0);
+        subscribeDesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_DESKTOP) != 0);
+        subscribeMedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE) != 0);
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -183,10 +198,59 @@ public class UserPropActivity extends Activity implements TeamTalkConnectionList
                     ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
                 else if(btn == mediaMute)
                     ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
+                else if(btn == subscribeTxtmsg)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
+                    }
+                else if(btn == subscribeChanmsg)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
+                    }
+                else if(btn == subscribeBcastmsg)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
+                    }
+                else if(btn == subscribeVoice)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
+                    }
+                else if(btn == subscribeVid)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
+                    }
+                else if(btn == subscribeDesk)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
+                    }
+                else if(btn == subscribeMedia)
+                    if (checked) {
+                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
+                    } else {
+                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
+                    }
             }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);
+        subscribeTxtmsg.setOnCheckedChangeListener(muteListener);
+        subscribeChanmsg.setOnCheckedChangeListener(muteListener);
+        subscribeBcastmsg.setOnCheckedChangeListener(muteListener);
+        subscribeVoice.setOnCheckedChangeListener(muteListener);
+        subscribeVid.setOnCheckedChangeListener(muteListener);
+        subscribeDesk.setOnCheckedChangeListener(muteListener);
+        subscribeMedia.setOnCheckedChangeListener(muteListener);
     }
 
     @Override

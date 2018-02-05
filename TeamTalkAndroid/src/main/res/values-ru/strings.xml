@@ -138,6 +138,13 @@
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
     <string name="user_prop_title_mute_media">Выключить Проигрывание Медиафайлов</string>
+    <string name="user_prop_title_subscribe_txtmsg">Сообщения пользователя</string>
+    <string name="user_prop_title_subscribe_chanmsg">Сообщения канала</string>
+    <string name="user_prop_title_subscribe_bcastmsg">Сетевые сообщения</string>
+    <string name="user_prop_title_subscribe_voice">Голос</string>
+    <string name="user_prop_title_subscribe_vid">Видео</string>
+    <string name="user_prop_title_subscribe_desk">Рабочий стол</string>
+    <string name="user_prop_title_subscribe_media">Поток медиа файла</string>
 
     <string name="label_connection">Соединение:</string>
     <string name="stat_online">Активно</string>

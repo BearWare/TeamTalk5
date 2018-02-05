@@ -146,6 +146,13 @@
     <string name="user_prop_title_mute_voice">Mute Voice</string>
     <string name="user_prop_title_media_volume">Media File Volume</string>
     <string name="user_prop_title_mute_media">Mute Media File</string>
+    <string name="user_prop_title_subscribe_txtmsg">Subscribe to user messages</string>
+    <string name="user_prop_title_subscribe_chanmsg">Subscribe to channel messages</string>
+    <string name="user_prop_title_subscribe_bcastmsg">Subscribe to broadcast messages</string>
+    <string name="user_prop_title_subscribe_voice">Subscribe to voice</string>
+    <string name="user_prop_title_subscribe_vid">Subscribe to video</string>
+    <string name="user_prop_title_subscribe_desk">Subscribe to desktop</string>
+    <string name="user_prop_title_subscribe_media">Subscribe to media</string>
 
     <string name="label_connection">Connection:</string>
     <string name="stat_online">Online</string>

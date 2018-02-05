@@ -664,9 +664,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         if(!pref.getBoolean(Preferences.PREF_SUB_VIDCAP, true))
             def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
         if(!pref.getBoolean(Preferences.PREF_SUB_DESKTOP, true))
-            def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
-        if(!pref.getBoolean(Preferences.PREF_SUB_MEDIAFILE, true))
             def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
+        if(!pref.getBoolean(Preferences.PREF_SUB_MEDIAFILE, true))
+            def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
 
         if((user.uLocalSubscriptions & def_unsub) != 0) {
             int cmdid = ttclient.doUnsubscribe(user.nUserID, def_unsub);
