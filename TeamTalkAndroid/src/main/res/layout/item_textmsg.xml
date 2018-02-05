@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/msg_text"
+            android:autoLink="web"
             android:layout_marginLeft="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
