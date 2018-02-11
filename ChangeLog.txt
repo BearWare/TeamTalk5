@@ -30,6 +30,8 @@ Accessible Windows client:
 - Windows XP is no longer supported
 Android client:
 - Facebook web-login for Facebook enabled TeamTalk servers
+- Toggle subscriptions in User Information activity
+- URLs in text messages are now clickable
 - Added Indonesian language thanks to Muhammad Gagah
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
