@@ -317,7 +317,7 @@ var unreadmessages = Set<INT32>()
 
 // types of responses
 enum Command {
-    case loginCmd, joinCmd, moveCmd, kickCmd
+    case loginCmd, joinCmd, moveCmd, kickCmd, banCmd
 }
 
 func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {

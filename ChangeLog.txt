@@ -37,6 +37,7 @@ Android client:
 - WebM (VPX) video codec updated to v1.6.1
 iOS client:
 - Facebook web-login for Facebook enabled TeamTalk servers
+- Ban user from channel with accessible action
 - OPUS audio codec updated to v1.2.1
 Server:
 - Facebook user authentication

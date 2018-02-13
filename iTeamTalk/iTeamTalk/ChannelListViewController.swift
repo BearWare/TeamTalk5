@@ -267,6 +267,12 @@ class ChannelListViewController :
                     let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
                     actions.append(action_kick)
                 }
+                
+                if (myuseraccount.uUserRights & USERRIGHT_BAN_USERS.rawValue) != 0 || op {
+                    let action_ban = MyCustomAction(name: NSLocalizedString("Ban user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.banUser(_:)), tag: cell.tag)
+                    actions.append(action_ban)
+                }
+
                 cell.accessibilityCustomActions = actions
             } else {
                 // Fallback on earlier versions
@@ -465,6 +471,18 @@ class ChannelListViewController :
     }
 
     @objc @available(iOS 8.0, *)
+    func banUser(_ action: UIAccessibilityCustomAction) -> Bool {
+        if let ac = action as? MyCustomAction {
+            
+            cmdid = TT_DoBanUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            activeCommands[cmdid] = .banCmd
+            cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            activeCommands[cmdid] = .kickCmd
+        }
+        return true
+    }
+
+    @objc @available(iOS 8.0, *)
     func joinThisChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             if let channel = channels[INT32(ac.tag)] {
@@ -537,6 +555,8 @@ class ChannelListViewController :
         case .kickCmd :
             fallthrough
         case .joinCmd :
+            fallthrough
+        case .banCmd :
             fallthrough
         case .moveCmd :
             break
