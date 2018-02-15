@@ -204,7 +204,6 @@ BOOL CTeamTalkApp::InitInstance()
             cds.dwData = 0;
             cds.cbData = sizeof(msg);
             cds.lpData = &msg;
-
             ::SendMessage(hRunningTT, WM_COPYDATA, 0, (LPARAM)&cds);
             return FALSE;
         }
