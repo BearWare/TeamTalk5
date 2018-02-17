@@ -10,11 +10,11 @@ if (MSVC)
   
   set(CMAKE_MFC_FLAG 1)
 
-  include_directories (./ ../TeamTalk_DLL tinyxml tolk/src)
+  include_directories (./ ../../Library/TeamTalk_DLL tinyxml tolk/src)
 
   add_definitions (-DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -DENABLE_TOLK -wd4800)
 
-  link_directories (../TeamTalk_DLL tolk/bin/$(PlatformName))
+  link_directories (../../Library/TeamTalk_DLL tolk/bin/$(PlatformName))
 
   foreach (flag_var
       CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
