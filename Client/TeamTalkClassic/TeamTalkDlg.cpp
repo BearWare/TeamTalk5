@@ -6737,7 +6737,7 @@ void CTeamTalkDlg::OnClientNewclientinstance()
     TCHAR szBuff[MAX_PATH] = _T("");
     GetModuleFileName(NULL, szBuff, MAX_PATH);
     CString szCmdLine;
-    szCmdLine.Format(_T("%s -cfg \"%s\""), szBuff, szIniPath);
+    szCmdLine.Format(_T(" -cfg \"%s\""), szIniPath);
     STARTUPINFO info;
     ZERO_STRUCT(info);
     PROCESS_INFORMATION processInfo;
