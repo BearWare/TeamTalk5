@@ -5773,11 +5773,14 @@ extern "C" {
     /**
      * @brief Store user's audio to disk.
      * 
-     * Set the path of where to store audio from a user to disk. To
-     * store in MP3 format instead of .wav format ensure that the LAME
-     * MP3 encoder file lame_enc.dll is placed in the same directory
-     * as the SDKs DLL files. To stop recording set @a szFolderPath
-     * to an empty string and @a uAFF to #AFF_NONE.
+     * Set the path of where to store audio from a user to disk.
+     * Event #CLIENTEVENT_USER_RECORD_MEDIAFILE is triggered when
+     * recording starts/stops.
+     *
+     * To store in MP3 format instead of .wav format ensure that the
+     * LAME MP3 encoder file lame_enc.dll is placed in the same
+     * directory as the SDKs DLL files. To stop recording set @a
+     * szFolderPath to an empty string and @a uAFF to #AFF_NONE.
      *
      * To store audio of users not in current channel of the client
      * instance check out the section @ref spying.
@@ -5804,7 +5807,7 @@ extern "C" {
      * #AFF_NONE will cancel/reset the current recording.
      * @return FALSE if path is invalid, otherwise TRUE.
      * @see User
-     * @see CLIENTEVENT_USER_AUDIOFILE */
+     * @see CLIENTEVENT_USER_RECORD_MEDIAFILE */
     TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
                                                      IN INT32 nUserID,
                                                      IN const TTCHAR* szFolderPath,
