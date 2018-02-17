@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 project (ttserverlog)
 
-include_directories (../../TeamTalk_DLL)
-link_directories (../../TeamTalk_DLL)
+include_directories (../../Library/TeamTalk_DLL)
+link_directories (../../Library/TeamTalk_DLL)
 
 option (BUILD_TEAMTALK_CLIENT_LOG_EXAMPLE "Build ttserverlog for TeamTalk 5 Standard Edition" ON)
 option (BUILD_TEAMTALKPRO_CLIENT_LOG_EXAMPLE "Build ttproserverlog for TeamTalk 5 Professional Edition" ON)
