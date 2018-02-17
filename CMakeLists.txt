@@ -22,7 +22,7 @@ if (MSVC)
   if (BUILD_TEAMTALK_EXAMPLES)
     add_subdirectory (Client/TeamTalkClassic)
     add_subdirectory (Client/TeamTalkApp.NET)
-    add_subdirectory (Client/TeamTalkServer.NET)
+    add_subdirectory (Server/TeamTalkServer.NET)
     add_subdirectory (Client/ttserverlog.NET)
   endif()
   
