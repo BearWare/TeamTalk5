@@ -2301,6 +2301,11 @@ extern "C" {
          * there are users in a channel. */
         CMDERR_CHANNEL_HAS_USERS = 3015,
 
+        /** @brief The login service is currently unavailable.
+         *
+         * Added in TeamTalk v5.3 to support web-logins. */
+        CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
+
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
          * ERRORS IN THE CLIENT INSTANCE. */
 
