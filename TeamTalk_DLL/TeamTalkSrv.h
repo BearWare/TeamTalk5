@@ -91,7 +91,7 @@ extern "C" {
                                           IN VOID* lpUserData,
                                           OUT ClientErrorMsg* lpClientErrorMsg,
                                           IN const User* lpUser, 
-                                          IN int nNewStatusMode,
+                                          IN INT32 nNewStatusMode,
                                           IN const TTCHAR* szNewStatusMsg);
     /**
      * @brief Callback when a user is requesting to create a new user
