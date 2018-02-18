@@ -24,7 +24,8 @@ Accessible Windows client:
 - Tell operator state using Ctrl+G
 - Send text message from Online Users dialog
 - Move multiple users (Store for Move menu-item)
-- Arabic, German, Turkish, Chinese
+- French language now supported
+- Arabic, German, Turkish, Chinese updated
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
 - Windows XP is no longer supported
