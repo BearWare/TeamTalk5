@@ -8,6 +8,7 @@ Default Qt client
 - Ban users from channel
 - Ban option for username and/or IP-address
 - Option to ban subnets using wildcards, e.g. 192.168.0.*
+- Option to lock nickname (Facebook name)
 - Abuse prevention tab in user account administration
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
@@ -20,6 +21,7 @@ Accessible Windows client:
 - Profiles for running multiple TeamTalk clients (Ctrl+N)
 - Ban users from channel
 - Ban option for username and/or IP-address
+- Option to lock nickname (Facebook name)
 - Abuse prevention tab in user account administration
 - Tell operator state using Ctrl+G
 - Send text message from Online Users dialog
