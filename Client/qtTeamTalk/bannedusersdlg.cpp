@@ -194,7 +194,7 @@ void BannedUsersDlg::slotNewBan()
         COPY_TTSTR(ban.szUsername, ui.banEdit->text());
     ui.banEdit->setText("");
 
-    if(TT_DoBanUserProperties(ttInst, &ban) > 0)
+    if(TT_DoBan(ttInst, &ban) > 0)
     {
         m_bannedmodel->addBannedUser(ban, true);
     }

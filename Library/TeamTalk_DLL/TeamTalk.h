@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.3.0.4915"
+#define TEAMTALK_VERSION "5.3.0.4917"
 
 
 #if defined(WIN32)
@@ -1342,7 +1342,9 @@ extern "C" {
     } ServerStatistics;
 
     /**
-     * @brief Way to ban a user.
+     * @brief Way to ban a user from either login or joining a
+     * channel.
+     *
      * @see BannedUser */
     typedef enum BanType
     {
@@ -2196,6 +2198,13 @@ extern "C" {
          * #UserAccount.commandsPerMSec.  @see TT_CHANNELID_MAX */
         CMDERR_COMMAND_FLOOD = 2014,
 
+        /** @brief Banned from joining a channel.
+         * 
+         * @see TT_DoJoinChannel()
+         * @see TT_DoJoinChannelByID()
+         * @see TT_DoBanUser() */
+        CMDERR_CHANNEL_BANNED = 2015,
+
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
 
         /** @brief Client instance has not been authenticated.
@@ -2291,6 +2300,11 @@ extern "C" {
          * @see TT_DoUpdateChannel #AudioCodec cannot be changed while
          * there are users in a channel. */
         CMDERR_CHANNEL_HAS_USERS = 3015,
+
+        /** @brief The login service is currently unavailable.
+         *
+         * Added in TeamTalk v5.3 to support web-logins. */
+        CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
 
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
          * ERRORS IN THE CLIENT INSTANCE. */
@@ -5259,19 +5273,51 @@ extern "C" {
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
-     * @see TT_DoKickUser
-     * @see TT_DoListBans
-     * @see TT_DoBanIPAddress */
+     * @see TT_DoKickUser()
+     * @see TT_DoListBans()
+     * @see TT_DoBanIPAddress()
+     * @see TT_DoBan()
+     * @see TT_DoBanUser()
+     * @see TT_DoBanUserEx() */
     TEAMTALKDLL_API INT32 TT_DoBanUser(IN TTInstance* lpTTInstance,
                                        IN INT32 nUserID,
                                        IN INT32 nChannelID);
 
+    /** 
+     * @brief Ban the user with @c nUserID using the ban types specified.
+     *
+     * If @c uBanTypes contains #BANTYPE_USERNAME then the username cannot join
+     * the channel where @n nUserID is currently present.
+     *
+     * If @c uBanTypes contains #BANTYPE_IPADDR then the IP-address cannot join
+     * the channel where @n nUserID is currently present.
+     *
+     * @see TT_DoListBans()
+     * @see TT_DoBan() */
     TEAMTALKDLL_API INT32 TT_DoBanUserEx(IN TTInstance* lpTTInstance,
                                          IN INT32 nUserID,
                                          IN BanTypes uBanTypes);
-
-    TEAMTALKDLL_API INT32 TT_DoBanUserProperties(IN TTInstance* lpTTInstance,
-                                                 IN const BannedUser* lpBannedUser);
+    
+    /**
+     * @brief Ban the properties specified in @c lpBannedUser.
+     *
+     * The @c uBanTypes specifies what the ban applies to.  If
+     * #BANTYPE_CHANNEL is specified in the @c uBanTypes of @c
+     * lpBannedUser then the ban applies to joining a channel,
+     * TT_DoJoinChannel(). Otherwise the ban applies to login,
+     * TT_DoLogin().
+     *
+     * If #BANTYPE_IPADDR is specified then the IP-address must be set
+     * in @c szIPAddress and any IP-address matching will receive
+     * #CMDERR_SERVER_BANNED or #CMDERR_CHANNEL_BANNED for
+     * TT_DoLogin() or TT_DoJoinChannel(). If instead
+     * #BANTYPE_USERNAME is specified then @c szUsername must be set
+     * and the same rule applies as for IP-addresses.
+     *
+     * @see TT_DoListBans()
+     * @see TT_DoBanUserEx() */
+    TEAMTALKDLL_API INT32 TT_DoBan(IN TTInstance* lpTTInstance,
+                                   IN const BannedUser* lpBannedUser);
 
     /**
      * @brief Issue a ban command on an IP-address user. 
@@ -5773,11 +5819,14 @@ extern "C" {
     /**
      * @brief Store user's audio to disk.
      * 
-     * Set the path of where to store audio from a user to disk. To
-     * store in MP3 format instead of .wav format ensure that the LAME
-     * MP3 encoder file lame_enc.dll is placed in the same directory
-     * as the SDKs DLL files. To stop recording set @a szFolderPath
-     * to an empty string and @a uAFF to #AFF_NONE.
+     * Set the path of where to store audio from a user to disk.
+     * Event #CLIENTEVENT_USER_RECORD_MEDIAFILE is triggered when
+     * recording starts/stops.
+     *
+     * To store in MP3 format instead of .wav format ensure that the
+     * LAME MP3 encoder file lame_enc.dll is placed in the same
+     * directory as the SDKs DLL files. To stop recording set @a
+     * szFolderPath to an empty string and @a uAFF to #AFF_NONE.
      *
      * To store audio of users not in current channel of the client
      * instance check out the section @ref spying.
@@ -5804,7 +5853,7 @@ extern "C" {
      * #AFF_NONE will cancel/reset the current recording.
      * @return FALSE if path is invalid, otherwise TRUE.
      * @see User
-     * @see CLIENTEVENT_USER_AUDIOFILE */
+     * @see CLIENTEVENT_USER_RECORD_MEDIAFILE */
     TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDir(IN TTInstance* lpTTInstance,
                                                      IN INT32 nUserID,
                                                      IN const TTCHAR* szFolderPath,

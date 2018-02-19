@@ -18,7 +18,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_SERVER_VERSION "5.3.0.4915"
+#define TEAMTALK_SERVER_VERSION "5.3.0.4917"
 
 #ifdef __cplusplus
 extern "C" {
@@ -91,7 +91,7 @@ extern "C" {
                                           IN VOID* lpUserData,
                                           OUT ClientErrorMsg* lpClientErrorMsg,
                                           IN const User* lpUser, 
-                                          IN int nNewStatusMode,
+                                          IN INT32 nNewStatusMode,
                                           IN const TTCHAR* szNewStatusMsg);
     /**
      * @brief Callback when a user is requesting to create a new user

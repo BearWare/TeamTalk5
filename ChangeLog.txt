@@ -1,13 +1,14 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.3, unreleased
+Version 5.3, released 2018/02/18
 Default Qt client
 - Facebook web-login for Facebook enabled TeamTalk servers
 - Profiles for running multiple TeamTalk clients (Ctrl+N)
 - Ban users from channel
 - Ban option for username and/or IP-address
 - Option to ban subnets using wildcards, e.g. 192.168.0.*
+- Option to lock nickname (Facebook name)
 - Abuse prevention tab in user account administration
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
@@ -20,11 +21,13 @@ Accessible Windows client:
 - Profiles for running multiple TeamTalk clients (Ctrl+N)
 - Ban users from channel
 - Ban option for username and/or IP-address
+- Option to lock nickname (Facebook name)
 - Abuse prevention tab in user account administration
 - Tell operator state using Ctrl+G
 - Send text message from Online Users dialog
 - Move multiple users (Store for Move menu-item)
-- Arabic, German, Turkish, Chinese
+- French language now supported
+- Arabic, German, Turkish, Chinese updated
 - OPUS audio codec updated to v1.2.1
 - WebM (VPX) video codec updated to v1.6.1
 - Windows XP is no longer supported
