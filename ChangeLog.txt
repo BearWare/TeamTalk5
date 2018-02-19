@@ -1,7 +1,7 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.3, unreleased
+Version 5.3, released 2018/02/18
 Default Qt client
 - Facebook web-login for Facebook enabled TeamTalk servers
 - Profiles for running multiple TeamTalk clients (Ctrl+N)
