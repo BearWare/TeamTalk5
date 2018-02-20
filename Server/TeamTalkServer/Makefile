@@ -1,4 +1,4 @@
-TEAMTALK_LIB=../../TeamTalk_DLL
+TEAMTALK_LIB=../../Library/TeamTalk_DLL
 TEAMTALK_INCLUDE=$(TEAMTALK_LIB)
 
 OS=$(shell uname)

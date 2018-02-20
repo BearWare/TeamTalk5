@@ -1,4 +1,4 @@
-TEAMTALK_ROOT=$(PWD)/..
+TEAMTALK_ROOT=$(PWD)/../..
 
 #locations of 'hamcrest-core' and 'junit'
 HAMCRESTCORE_JAR ?= $(PWD)/hamcrest-core-1.3.jar
@@ -16,7 +16,7 @@ CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar
 
 # DYLD_LIBRARY_PATH has been removed in Mac OS Sierra, so use
 # -Djava.library.path instead
-LIBPATH=$(TEAMTALK_ROOT)/TeamTalk_DLL:$(TEAMTALK_ROOT)/TeamTalkJNI/libs
+LIBPATH=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL:$(TEAMTALK_ROOT)/Library/TeamTalkJNI/libs
 
 SRCTARGET=-source 1.5 -target 1.5
 
@@ -67,7 +67,7 @@ help:
 	@echo "and libTeamTalk5Pro-jni.$(SHARED_EXT)"
 	@echo ""
 	@echo "Example:"
-	@echo "$$ export $(LIBPATHNAME)=SDK_ROOT/TeamTalk_DLL:SDK_ROOT/TeamTalkJNI/libs"
+	@echo "$$ export $(LIBPATHNAME)=SDK_ROOT/Library/TeamTalk_DLL:SDK_ROOT/Library/TeamTalkJNI/libs"
 	@echo ""
 	@echo "Useful environment variables:"
 	@echo "  INPUTDEVICEID"
@@ -82,10 +82,10 @@ help:
 	@echo "    None = Disable video capure unit tests"
 
 macnative:
-	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5.dylib libs/libTeamTalk5-jni.dylib
+	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.dylib libs/libTeamTalk5-jni.dylib
 
 macnativepro:
-	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/TeamTalk_DLL/libTeamTalk5Pro.dylib libs/libTeamTalk5Pro-jni.dylib
+	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.dylib libs/libTeamTalk5Pro-jni.dylib
 
 java:
 	cd src && javac $(SRCTARGET) -g ./dk/bearware/*.java ./dk/bearware/events/*.java && jar cf ../libs/TeamTalk5.jar ./dk/bearware/*.class ./dk/bearware/events/*.class
