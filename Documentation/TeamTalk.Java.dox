@@ -791,9 +791,9 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = modules-net.txt \
-                         ../TeamTalk.NET/TeamTalk.cs \
-                         ../TeamTalk.NET/TeamTalkSrv.cs \
-                         ../TeamTalk.NET/TeamTalkSrvBase.cs \
+                         ../Library/TeamTalk.NET/TeamTalk.cs \
+                         ../Library/TeamTalk.NET/TeamTalkSrv.cs \
+                         ../Library/TeamTalk.NET/TeamTalkSrvBase.cs \
                          keytranslate.txt \
                          mainpage.txt \
                          sdkcontent-java.txt \

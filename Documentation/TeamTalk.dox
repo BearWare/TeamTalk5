@@ -791,8 +791,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = modules-capi.txt \
-                         ../TeamTalk_DLL/TeamTalk.h \
-                         ../TeamTalk_DLL/TeamTalkSrv.h \
+                         ../Library/TeamTalk_DLL/TeamTalk.h \
+                         ../Library/TeamTalk_DLL/TeamTalkSrv.h \
                          keytranslate.txt \
                          mainpage.txt \
                          sdkcontent-capi.txt \
