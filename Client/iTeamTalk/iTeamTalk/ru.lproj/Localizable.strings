@@ -68,6 +68,9 @@
 /* server entry */
 "Authentication" = "Аутентификация";
 
+/* channel list */
+"Ban user" = "Ban user";
+
 /* codec detail */
 "Bitrate" = "Битрейт";
 
@@ -160,6 +163,12 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Включение Особого Режима";
+
+/* server entry */
+"Facebook Login" = "Facebook Login";
+
+/* Dialog message */
+"Facebook login was cancelled" = "Facebook login was cancelled";
 
 /* preferences
    user detail */
@@ -464,9 +473,6 @@
    create channel */
 "Stereo" = "Стерео";
 
-/* channel list */
-"Stop transmit" = "Остановить передачу";
-
 /* user detail */
 "Subscriptions" = "Подписки";
 
@@ -498,10 +504,16 @@
 "Translator" = "Переводчик";
 
 /* channel list */
-"Transmit" = "Передача";
+"Transmit inactive" = "Transmit inactive";
 
 /* codec detail */
 "Transmit Interval" = "Интервал Передачи";
+
+/* channel list */
+"Transmitting" = "Transmitting";
+
+/* Dialog message */
+"Try again?" = "Try again?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Выключать экран, когда телефон находится возле уха";

@@ -68,6 +68,9 @@
 /* server entry */
 "Authentication" = "Authenticatie";
 
+/* channel list */
+"Ban user" = "Ban user";
+
 /* codec detail */
 "Bitrate" = "Bitsnelheid";
 
@@ -160,6 +163,12 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
+/* server entry */
+"Facebook Login" = "Facebook Login";
+
+/* Dialog message */
+"Facebook login was cancelled" = "Facebook login was cancelled";
 
 /* preferences
    user detail */
@@ -464,9 +473,6 @@
    create channel */
 "Stereo" = "Stereo";
 
-/* channel list */
-"Stop transmit" = "Uitzenden stoppen";
-
 /* user detail */
 "Subscriptions" = "Ontvangst";
 
@@ -498,10 +504,16 @@
 "Translator" = "Translator";
 
 /* channel list */
-"Transmit" = "Uitzenden";
+"Transmit inactive" = "Transmit inactive";
 
 /* codec detail */
 "Transmit Interval" = "Uitzendinterval";
+
+/* channel list */
+"Transmitting" = "Transmitting";
+
+/* Dialog message */
+"Try again?" = "Try again?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Scherm uitschakelen wanneer telefoon dichtbij oor gehouden wordt";

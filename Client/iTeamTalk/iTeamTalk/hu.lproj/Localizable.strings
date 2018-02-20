@@ -68,6 +68,9 @@
 /* server entry */
 "Authentication" = "Hitelesítés";
 
+/* channel list */
+"Ban user" = "Ban user";
+
 /* codec detail */
 "Bitrate" = "Bitrate";
 
@@ -160,6 +163,12 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
+/* server entry */
+"Facebook Login" = "Facebook Login";
+
+/* Dialog message */
+"Facebook login was cancelled" = "Facebook login was cancelled";
 
 /* preferences
    user detail */
@@ -464,9 +473,6 @@
    create channel */
 "Stereo" = "Sztereó";
 
-/* channel list */
-"Stop transmit" = "Továbbítás végzése";
-
 /* user detail */
 "Subscriptions" = "Feliratkozások";
 
@@ -498,10 +504,16 @@
 "Translator" = "Translator";
 
 /* channel list */
-"Transmit" = "Továbbítás";
+"Transmit inactive" = "Transmit inactive";
 
 /* codec detail */
 "Transmit Interval" = "Továbbítási fok";
+
+/* channel list */
+"Transmitting" = "Transmitting";
+
+/* Dialog message */
+"Try again?" = "Try again?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Kijelző kikapcsolása füli érintkezéskor";

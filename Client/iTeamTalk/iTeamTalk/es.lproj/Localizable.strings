@@ -68,6 +68,9 @@
 /* server entry */
 "Authentication" = "Autenticación";
 
+/* channel list */
+"Ban user" = "Ban user";
+
 /* codec detail */
 "Bitrate" = "Taza de bits";
 
@@ -160,6 +163,12 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+
+/* server entry */
+"Facebook Login" = "Facebook Login";
+
+/* Dialog message */
+"Facebook login was cancelled" = "Facebook login was cancelled";
 
 /* preferences
    user detail */
@@ -464,9 +473,6 @@
    create channel */
 "Stereo" = "Estéreo";
 
-/* channel list */
-"Stop transmit" = "Detener transmisión";
-
 /* user detail */
 "Subscriptions" = "Subscripciones";
 
@@ -498,10 +504,16 @@
 "Translator" = "Translator";
 
 /* channel list */
-"Transmit" = "Transmitir";
+"Transmit inactive" = "Transmit inactive";
 
 /* codec detail */
 "Transmit Interval" = "Intervalo de transmisión";
+
+/* channel list */
+"Transmitting" = "Transmitting";
+
+/* Dialog message */
+"Try again?" = "Try again?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Apagar la pantalla al sostener el teléfono cerca del oído";
