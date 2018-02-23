@@ -7,14 +7,22 @@ if (MSVC)
 
   option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
   option (BUILD_TEAMTALKPRO_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)
+
+  option (ENABLE_TOLK "Build TeamTalk 5 Classic with Tolk" ON)
   
   set(CMAKE_MFC_FLAG 1)
 
   include_directories (./ ../../Library/TeamTalk_DLL tinyxml tolk/src)
 
-  add_definitions (-DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -DENABLE_TOLK -wd4800)
+  add_definitions (-DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -wd4800)
 
   link_directories (../../Library/TeamTalk_DLL tolk/bin/$(PlatformName))
+
+  if (ENABLE_TOLK)
+    include_directories (tolk/src)
+    add_definitions (-DENABLE_TOLK)
+    link_directories (tolk/bin/$(PlatformName))
+  endif()
 
   foreach (flag_var
       CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
@@ -60,7 +68,18 @@ if (MSVC)
     endif()
   endif()
 
-  target_link_libraries (TeamTalk5Classic TeamTalk5 Tolk)
-  target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro Tolk)
-  target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_ENCRYPTION)
+  if (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE)
+    target_link_libraries (TeamTalk5Classic TeamTalk5)
+    if (ENABLE_TOLK)
+      target_link_libraries (TeamTalk5Classic Tolk)
+    endif()
+  endif()
+
+  if (BUILD_TEAMTALKPRO_CLIENT_MFC_EXAMPLE)
+    target_link_libraries (TeamTalk5ClassicPro TeamTalk5Pro)
+    if (ENABLE_TOLK)
+      target_link_libraries (TeamTalk5ClassicPro Tolk)
+    endif()
+    target_compile_options (TeamTalk5ClassicPro PUBLIC -DENABLE_ENCRYPTION)
+  endif()
 endif()
