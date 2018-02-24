@@ -5363,15 +5363,25 @@ extern "C" {
      * @return Returns command ID which will be passed in 
      * #CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
      * command. -1 is returned in case of error.
+     *
+     * @see TT_DoUnBanUserEx()
      * @see TT_DoBanUser
      * @see TT_DoListBans
      * @see TT_DoBanIPAddress */
     TEAMTALKDLL_API INT32 TT_DoUnBanUser(IN TTInstance* lpTTInstance,
                                          IN const TTCHAR* szIPAddress,
                                          IN INT32 nChannelID);
-
+    /**
+     * @brief Unban the properties specified in #BannedUser.
+     *
+     * The uBanTypes in #BannedUser determines which properties should have
+     * their ban remove. E.g. uBanTypes = #BANTYPE_USERNAME and 
+     * @c szUsername = "guest" will remove all bans where the username
+     * is "guest".
+     *
+     * @see TT_DoBan() */
     TEAMTALKDLL_API INT32 TT_DoUnBanUserEx(IN TTInstance* lpTTInstance,
-                                        IN const BannedUser* lpBannedUser);
+                                           IN const BannedUser* lpBannedUser);
 
     /**
      * @brief Issue a command to list the banned users.

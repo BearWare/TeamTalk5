@@ -427,6 +427,11 @@ namespace c_tt
         public static extern int TT_DoBanUser(IntPtr lpTTInstance,
                                               int nUserID, int nChannelID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int TT_DoBanUserEx(IntPtr lpTTInstance,
+                                                int nUserID, BearWare.BanType uBanTypes);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int TT_DoBan(IntPtr lpTTInstance, ref BearWare.BannedUser lpBannedUser);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoBanIPAddress(IntPtr lpTTInstance,
                                                    [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress,
                                                    int nChannelID);
@@ -434,6 +439,9 @@ namespace c_tt
         public static extern int TT_DoUnBanUser(IntPtr lpTTInstance,
                                                 [MarshalAs(UnmanagedType.LPWStr)] string szIPAddress,
                                                 int nChannelID);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int TT_DoUnBanUserEx(IntPtr lpTTInstance,
+                                                  ref BearWare.BannedUser lpBannedUser);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoListBans(IntPtr lpTTInstance, int nChannelID, int nIndex, int nCount);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

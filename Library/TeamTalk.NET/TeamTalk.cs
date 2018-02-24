@@ -1266,8 +1266,18 @@ namespace BearWare
         /** @brief User is allowed to stream video files to channel.
          * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
         USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO          = 0x00020000,
-         /** @brief User with all rights.*/
-        USERRIGHT_ALL                               = 0xFFFFFFFF
+        /** @brief User's nick name is locked.
+          * TeamTalkBase.DoChangeNickname() cannot be used and TeamTalkBase.DoLogin() 
+          * will ignore szNickname parameter. 
+          * @see TeamTalkBase.DoLogin()
+          * @see TeamTalkBase.DoLoginEx()
+          * @see TeamTalkBase.DoChangeNickname() */
+        USERRIGHT_LOCKED_NICKNAME                   = 0x00040000,
+        /** @brief User's status is locked. TeamTalkBase.DoChangeStatus()
+          * cannot be used. */
+        USERRIGHT_LOCKED_STATUS                     = 0x00080000,
+        /** @brief User with all rights.*/
+        USERRIGHT_ALL = 0xFFFFFFFF
     }
 
     /** 
@@ -1403,8 +1413,29 @@ namespace BearWare
     }
 
     /**
+      * @brief Way to ban a user from either login or joining a
+      * channel.
+      *
+      * @see BannedUser */
+    [Flags]
+    public enum BanType : uint
+    {
+        /** @brief Ban type not set. */
+        BANTYPE_NONE = 0x00,
+        /** @brief The ban applies to the channel specified in the @c
+         * szChannel of #BannedUser. Otherwise the ban applies to the
+         * entire server. */
+        BANTYPE_CHANNEL = 0x01,
+        /** @brief Ban @c szIPAddress specified in #BannedUser. */
+        BANTYPE_IPADDR = 0x02,
+        /** @brief Ban @c szUsername specified in #BannedUser. */
+        BANTYPE_USERNAME = 0x04
+    };
+
+    /**
      * @brief A struct containing the properties of a banned user.
-     * @see TeamTalkBase.DoListBans() */
+     * @see TeamTalkBase.DoListBans() 
+     * @see TT_DoBanUserEx() */
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BannedUser
     {
@@ -1414,15 +1445,17 @@ namespace BearWare
         /** @brief Channel where user was located when banned. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szChannelPath;
-        /** @brief Date and time when user was banned. */
+        /** @brief Date and time when user was banned. Read-only property. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szBanTime;
-        /** @brief Nickname of banned user. */
+        /** @brief Nickname of banned user. Read-only property.  */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szNickname;
         /** @brief Username of banned user. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szUsername;
+        /** @brief The type of ban that applies to this banned user. */
+        public BanType uBanTypes;
     }
 
     /** @ingroup users
@@ -2351,6 +2384,13 @@ namespace BearWare
          * #UserAccount.commandsPerMSec.  @see TT_CHANNELID_MAX */
         CMDERR_COMMAND_FLOOD = 2014,
 
+        /** @brief Banned from joining a channel.
+         * 
+         * @see TT_DoJoinChannel()
+         * @see TT_DoJoinChannelByID()
+         * @see TT_DoBanUser() */
+        CMDERR_CHANNEL_BANNED = 2015,
+
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
 
         /** @brief Client instance has not been authenticated.
@@ -2358,7 +2398,7 @@ namespace BearWare
          * TeamTalkBase.DoLogin() has not been issued successfully or
          * TeamTalkBase.DoLogout() could not be performed because client
          * instance is already logged in.*/
-        CMDERR_NOT_LOGGEDIN                     = 3000,
+        CMDERR_NOT_LOGGEDIN = 3000,
 
         /** @brief Already logged in.
          *
@@ -2447,6 +2487,11 @@ namespace BearWare
          * there are users in a channel. */
         CMDERR_CHANNEL_HAS_USERS                = 3015,
 
+        /** @brief The login service is currently unavailable.
+         *
+         * Added in TeamTalk v5.3 to support web-logins. */
+        CMDERR_LOGINSERVICE_UNAVAILABLE = 3016,
+
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
          * ERRORS IN THE CLIENT INSTANCE. */
 
@@ -2454,7 +2499,7 @@ namespace BearWare
          *
          * This can e.g. happen when joining a channel and the sound
          * device has been unplugged. */
-        INTERR_SNDINPUT_FAILURE                 = 10000,
+        INTERR_SNDINPUT_FAILURE = 10000,
         /** @brief A sound output device failed.
          *
          * This can e.g. happen when joining a channel and the sound
@@ -5260,8 +5305,11 @@ namespace BearWare
          * The event #OnCmdUserUpdate will be posted if the
          * update was successful.
          *
+         * Command will be rejected if #UserRight.USERRIGHT_LOCKED_NICKNAME is set.
+         *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param szNewNick is the new nick name to use.
          * @return Returns command ID which will be passed in 
@@ -5278,8 +5326,11 @@ namespace BearWare
          * The event #OnCmdUserUpdate will be posted if the update
          * was successful.
          *
+         * Command will be rejected if #UserRight.USERRIGHT_LOCKED_STATUS is set.
+         *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param nStatusMode The value for the status mode.
          * @param szStatusMessage The user's message associated with the status 
@@ -5746,16 +5797,61 @@ namespace BearWare
          * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user to ban.
-         * @param nChannelID Set to zero.
+         * @param nChannelID Set to 0 to ban from logging in. Otherwise specify
+         * user's current channel.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
-         * @see DoKickUser
-         * @see DoListBans */
+         * @see DoKickUser()
+         * @see DoListBans()
+         * @see DoBanIPAddress()
+         * @see DoBan()
+         * @see DoBanUser()
+         * @see DoBanUserEx() */
         public int DoBanUser(int nUserID, int nChannelID)
         {
             return TTDLL.TT_DoBanUser(m_ttInst, nUserID, nChannelID);
         }
+
+        /** 
+         * @brief Ban the user with @c nUserID using the ban types specified.
+         *
+         * If @c uBanTypes contains #BANTYPE_USERNAME then the username cannot join
+         * the channel where @n nUserID is currently present.
+         *
+         * If @c uBanTypes contains #BANTYPE_IPADDR then the IP-address cannot join
+         * the channel where @n nUserID is currently present.
+         *
+         * @see TT_DoListBans()
+         * @see TT_DoBan() */
+        public int DoBanUserEx(int nUserID, BanType uBanTypes)
+        {
+            return TTDLL.TT_DoBanUserEx(m_ttInst, nUserID, uBanTypes);
+        }
+
+        /**
+         * @brief Ban the properties specified in @c lpBannedUser.
+         *
+         * The @c uBanTypes specifies what the ban applies to.  If
+         * #BanType.BANTYPE_CHANNEL is specified in the @c uBanTypes of @c
+         * lpBannedUser then the ban applies to joining a channel,
+         * DoJoinChannel(). Otherwise the ban applies to login,
+         * DoLogin().
+         *
+         * If #BANTYPE_IPADDR is specified then the IP-address must be set
+         * in @c szIPAddress and any IP-address matching will receive
+         * #CMDERR_SERVER_BANNED or #CMDERR_CHANNEL_BANNED for
+         * TT_DoLogin() or TT_DoJoinChannel(). If instead
+         * #BANTYPE_USERNAME is specified then @c szUsername must be set
+         * and the same rule applies as for IP-addresses.
+         *
+         * @see TT_DoListBans()
+         * @see TT_DoBanUserEx() */
+        public int DoBan(BannedUser lpBannedUser)
+        {
+            return TTDLL.TT_DoBan(m_ttInst, ref lpBannedUser);
+        }
+
         /**
          * @brief Issue a ban command on an IP-address user. 
          *
@@ -5805,6 +5901,21 @@ namespace BearWare
         {
             return TTDLL.TT_DoUnBanUser(m_ttInst, szIPAddress, nChannelID);
         }
+
+        /**
+         * @brief Unban the properties specified in #BannedUser.
+         *
+         * The uBanTypes in #BannedUser determines which properties should have
+         * their ban remove. E.g. uBanTypes = #BanType.BANTYPE_USERNAME and 
+         * @c szUsername = "guest" will remove all bans where the username
+         * is "guest".
+         *
+         * @see DoBan() */
+        public int DoUnBanUserEx(BannedUser lpBannedUser)
+        {
+            return TTDLL.TT_DoUnBanUserEx(m_ttInst, ref lpBannedUser);
+        }
+
         /**
          * @brief Issue a command to list the banned users.
          *
@@ -6265,11 +6376,14 @@ namespace BearWare
         /**
          * @brief Store user's audio to disk.
          * 
-         * Set the path of where to store audio from a channel to disk. To
-         * store in MP3 format instead of .wav format ensure that the LAME
-         * MP3 encoder file lame_enc.dll is placed in the same directory
-         * as the SDKs DLL files. To stop recording set @a szFolderPath
-         * to an empty string and @a uAFF to #AudioFileFormat #AudioFileFormat.AFF_NONE.
+         * Set the path of where to store audio from a user to disk.
+         * Event #OnUserRecordMediaFile is triggered when
+         * recording starts/stops.
+         *
+         * To store in MP3 format instead of .wav format ensure that the
+         * LAME MP3 encoder file lame_enc.dll is placed in the same
+         * directory as the SDKs DLL files. To stop recording set @c
+         * szFolderPath to an empty string and @a uAFF to #AudioFileFormat.AFF_NONE.
          *
          * To store audio of other channels than the client instance check
          * out the section @ref spying.
@@ -6293,8 +6407,9 @@ namespace BearWare
          * @param uAFF The #AudioFileFormat to use for storing audio files. Passing
          * #AudioFileFormat #AudioFileFormat.AFF_NONE will cancel/reset the current recording.
          * @return FALSE if path is invalid, otherwise TRUE.
+         * 
          * @see BearWare.User
-         * @see OnUserAudioFile */
+         * @see OnUserRecordMediaFile */
         public bool SetUserMediaStorageDir(int nUserID, string szFolderPath, string szFileNameVars,
                                        AudioFileFormat uAFF)
         {
