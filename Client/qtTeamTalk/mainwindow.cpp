@@ -150,6 +150,18 @@ MainWindow::MainWindow(const QString& cfgfile)
                                    QSettings::UserScope,
                                    QApplication::organizationName(),
                                    QApplication::applicationName(), this);
+
+        if (!QFile::exists(ttSettings->fileName()))
+        {
+            //copy settings from defaults file
+            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QSettings defaultSettings(defpath, QSettings::IniFormat, this);
+            QStringList keys = defaultSettings.allKeys();
+            foreach(QString key, keys)
+            {
+                ttSettings->setValue(key, defaultSettings.value(key));
+            }
+        }
     }
 
     ui.setupUi(this);

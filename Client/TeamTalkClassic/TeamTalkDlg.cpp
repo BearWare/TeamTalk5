@@ -2383,10 +2383,21 @@ BOOL CTeamTalkDlg::OnInitDialog()
                 CreateDirectory(szCfgDir, NULL);
         }
 
-        // Create settings file in current directory if it cannot be created in cfg-folder
-        if(!m_xmlSettings.CreateFile(ansiXml))
-            m_xmlSettings.CreateFile( SETTINGS_FILE );
-        bRunWizard = TRUE;
+        BOOL bIniCreated = FALSE;
+        CString szDefPath = GetExecutableFolder() + _T("\\") + _T(SETTINGS_DEFAULT_FILE);
+        if (FileExists(szDefPath))
+        {
+            CopyFile(szDefPath, STR_UTF8(ansiXml), FALSE);
+            bIniCreated = m_xmlSettings.LoadFile(ansiXml);
+        }
+        
+        if(!bIniCreated)
+        {
+            // Create settings file in current directory if it cannot be created in cfg-folder
+            if(!m_xmlSettings.CreateFile(ansiXml))
+                m_xmlSettings.CreateFile(SETTINGS_FILE);
+            bRunWizard = TRUE;
+        }
     }
 
     nTextLimit = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
