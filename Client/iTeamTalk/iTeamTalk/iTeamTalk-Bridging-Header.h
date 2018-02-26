@@ -36,7 +36,7 @@
  * folder ../../TeamTalk_DLL/lib/ios
  */
 
-#import "../../TeamTalk_DLL/TeamTalk.h"
+#import "../../../Library/TeamTalk_DLL/TeamTalk.h"
 
 Channel* getChannel(TTMessage* m);
 User* getUser(TTMessage* m);
