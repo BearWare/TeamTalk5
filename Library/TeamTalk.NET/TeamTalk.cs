@@ -1423,12 +1423,12 @@ namespace BearWare
         /** @brief Ban type not set. */
         BANTYPE_NONE = 0x00,
         /** @brief The ban applies to the channel specified in the @c
-         * szChannel of #BannedUser. Otherwise the ban applies to the
+         * szChannel of #BearWare.BannedUser. Otherwise the ban applies to the
          * entire server. */
         BANTYPE_CHANNEL = 0x01,
-        /** @brief Ban @c szIPAddress specified in #BannedUser. */
+        /** @brief Ban @c szIPAddress specified in #BearWare.BannedUser. */
         BANTYPE_IPADDR = 0x02,
-        /** @brief Ban @c szUsername specified in #BannedUser. */
+        /** @brief Ban @c szUsername specified in #BearWare.BannedUser. */
         BANTYPE_USERNAME = 0x04
     };
 
@@ -1476,7 +1476,7 @@ namespace BearWare
     /**
      * @brief Properties to prevent server abuse.
      * 
-     * The AbusePrevention-struct is part of #UserAccount and can be
+     * The AbusePrevention-struct is part of #BearWare.UserAccount and can be
      * used to limit the number of commands a user can issue to the 
      * server.
      * 
@@ -2381,7 +2381,7 @@ namespace BearWare
         /** @brief Command flooding prevented by server.
          *
          * Commands are issued faster than allowed by the server. See
-         * #UserAccount.commandsPerMSec.  @see TT_CHANNELID_MAX */
+         * #BearWare.UserAccount @c commandsPerMSec.  @see TT_CHANNELID_MAX */
         CMDERR_COMMAND_FLOOD = 2014,
 
         /** @brief Banned from joining a channel.
@@ -5903,9 +5903,9 @@ namespace BearWare
         }
 
         /**
-         * @brief Unban the properties specified in #BannedUser.
+         * @brief Unban the properties specified in #BearWare.BannedUser.
          *
-         * The uBanTypes in #BannedUser determines which properties should have
+         * The uBanTypes in #BearWare.BannedUser determines which properties should have
          * their ban remove. E.g. uBanTypes = #BanType.BANTYPE_USERNAME and 
          * @c szUsername = "guest" will remove all bans where the username
          * is "guest".
