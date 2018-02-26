@@ -2195,7 +2195,7 @@ extern "C" {
         /** @brief Command flooding prevented by server.
          *
          * Commands are issued faster than allowed by the server. See
-         * #UserAccount.commandsPerMSec.  @see TT_CHANNELID_MAX */
+         * #UserAccount @c commandsPerMSec.  @see TT_CHANNELID_MAX */
         CMDERR_COMMAND_FLOOD = 2014,
 
         /** @brief Banned from joining a channel.
