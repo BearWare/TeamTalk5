@@ -47,7 +47,7 @@
  *   - Windows
  *
  * This sample application is located in the SDK's folder:
- * - @c Examples/Java/jTeamTalk
+ * - @c Client/jTeamTalk
  *
  * This example is a TeamTalk client application which runs as a
  * console application.
@@ -70,13 +70,13 @@
  *   - Android
  *
  * This sample application is located in the SDK's folder:
- * - @c Examples/Java/TeamTalkAndroid
+ * - @c Client/TeamTalkAndroid
  *
  * This is a TeamTalk client example for Android. The easiest way to
  * get this example running is to use Android Studio 2.1 or later.
  *
  * In Android Studio navigate to the TeamTalkAndroid project located
- * in @c Examples/Java/TeamTalkAndroid.
+ * in @c Client/TeamTalkAndroid.
 
  * @image html as_openproject.png
  *
@@ -86,12 +86,12 @@
  *
  * The TeamTalk 5 JNI library (@c libTeamTalk5-jni.so) for the example
  * project is located in @c
- * Examples/Java/TeamTalkAndroid/src/main/jniLibs/armeabi-v7a. This is
+ * Client/TeamTalkAndroid/src/main/jniLibs/armeabi-v7a. This is
  * the same file as is located in @c
  * Library/TeamTalkJNI/libs/armeabi-v7a
  *
  * The TeamTalk 5 jar file which loads the TeamTalk 5 JNI library is
- * located in @c Examples/Java/TeamTalkAndroid/libs. This is the same
+ * located in @c Client/TeamTalkAndroid/libs. This is the same
  * file as is located in @c Library/TeamTalkJNI/libs and the source
  * code for the jar file is located in @c Library/TeamTalkJNI/src
  *
@@ -105,7 +105,7 @@
  *   - Windows
  *
  * This sample application is located in the SDK's folder:
- * - @c Examples/NET/TeamTalkApp.NET
+ * - @c Client/TeamTalkApp.NET
  *
  * This example shows how to connect to a server and join channels
  * where it's possible to stream audio and video data to other users.
@@ -146,7 +146,7 @@
  *   - Windows
  *
  * This sample application is located in the SDK's folder:
- * - @c Examples/NET/ttserverlog.net
+ * - @c Client/ttserverlog.net
  *
  * This is a simple console application which stores all audio sent to
  * the server to a specific directory on disk. It also displays all
@@ -169,7 +169,7 @@
  *   - Windows
  *
  * This sample application is located in the SDK's folder:
- * - @c Examples/C-API/qtTeamTalk
+ * - @c Client/qtTeamTalk
  *
  * This guide explains how to build the TeamTalk Qt client example
  * using Qt Creator and the Qt SDK for Windows 32-bit MinGW. The Qt
@@ -178,8 +178,8 @@
  * includes Qt Creator.
  *
  * Once installed start Qt Creator and open the project file:
- * @c Examples/C-API/qtTeamTalk/teamtalk5.pro or @c
- * Examples/C-API/qtTeamTalk/teamtalk5pro.pro for the Professional
+ * @c Client/qtTeamTalk/teamtalk5.pro or @c
+ * Client/qtTeamTalk/teamtalk5pro.pro for the Professional
  * Edition of the SDK.
  *
  * Qt Creator will now ask to configure the project:
@@ -215,7 +215,7 @@
  *   - Windows
  *
  * This sample application is located in folder:
- * - @c Examples/C-API/ttserverlog
+ * - @c Client/ttserverlog
  *
  * This is a simple console application which stores all audio sent to
  * the server to a specific directory on disk. It also displays all
@@ -233,7 +233,7 @@
  *   - iOS
  *
  * This sample application is located in folder:
- * - @c Examples/C-API/iTeamTalk
+ * - @c Client/iTeamTalk
  * 
  * This is the TeamTalk 5 client application which can also be found
  * in the App Store. Open the project in Xcode.
@@ -248,7 +248,7 @@
  *   - Windows
  *
  * This sample application is located in folder:
- * - @c Examples/Java/jTeamTalkServer
+ * - @c Server/jTeamTalkServer
  *
  * This sample application shows how to run a TeamTalk server which
  * authenticates users and is able to log client events on the server.
@@ -264,7 +264,7 @@
  *   - Windows
  *
  * This sample application is located in folder:
- * - @c Examples/NET/TeamTalkServer.NET
+ * - @c Server/TeamTalkServer.NET
  *
  * This sample application shows how to run a TeamTalk server which
  * authenticates users and is able to log client events on the server.
@@ -280,7 +280,7 @@
  *   - Windows
  *
  * This sample application is located in folder:
- * - @c Examples/C-API/TeamTalkServer
+ * - @c Server/TeamTalkServer
  *
  * This is an example of programming a TeamTalk server. To use the
  * TeamTalk server API include the file @c TeamTalkSrv.h instead of
