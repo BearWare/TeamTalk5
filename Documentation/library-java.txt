@@ -13,7 +13,7 @@
  * @section teamtalkjni TeamTalkJNI project
  *
  * All TeamTalk's projects for Java depend on the @b TeamTalkJNI
- * project located in @c Library/Java/TeamTalkJNI.
+ * project located in @c Library/TeamTalkJNI.
  *
  * The TeamTalkJNI project contains the following wrapper classes for
  * the TeamTalk JNI DLL:
@@ -39,7 +39,7 @@
  * therefore this step is unnescessary.
  *
  * To build TeamTalk JNI DLL go to the folder @c
- * Library/Java/TeamTalkJNI and run @c make. Follow the instructions
+ * Library/TeamTalkJNI and run @c make. Follow the instructions
  * by the Makefile on what to build for your platform. Note that
  * building the JNI wrapper requires that the Java SDK is installed
  * and that jni.h is in the compiler's include path.
