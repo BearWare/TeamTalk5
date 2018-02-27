@@ -6,6 +6,9 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v53arelease
+ * - @ref v53aapi
+ *
  * @ref v52drelease
  * - @ref v52dbugfixes
  * 
@@ -165,6 +168,27 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v53arelease TeamTalk 5 SDK v. 5.3a release
+ *
+ * @subsection v53aapi API changes in v5.3a
+ *
+ * - Added #BearWare.UserRight to lock nickname: #UserRight.USERRIGHT_LOCKED_NICKNAME.
+ * - Added #BearWare.UserRight to lock status: #UserRight.USERRIGHT_LOCKED_STATUS.
+ * - New #BearWare.BanType enumeration to support new ban types on channel and username.
+ * - Added @c uBanTypes to #BearWare.BannedUser.
+ * - New #BearWare.AbusePrevention structure to #BearWare.UserAccount to prevent flooding.
+ * - Added @c abusePrevent to #BearWare.UserAccount.
+ * - Added #BearWare.ClientError to indicate flooding: #ClientError.CMDERR_COMMAND_FLOOD
+ * - Added #BearWare.ClientError to indicate channel ban: #ClientError.CMDERR_CHANNEL_BANNED
+ * - Added #BearWare.ClientError to indicate login service unavailable: #ClientError.CMDERR_LOGINSERVICE_UNAVAILABLE.
+ *   - Used for Facebook login in TeamTalk application
+ * - New function TeamTalkBase.DoBanUserEx() for banning a user using #BearWare.BanType.
+ * - New function TeamTalkBase.DoBan() for banning properties, i.e. #BearWare.BannedUser.
+ *   - User doesn't have to be logged in to issue this ban.
+ * - New function TeamTalkBase.DoUnBanUserEx() for removing a bans.
  *
  * <hr>
  *

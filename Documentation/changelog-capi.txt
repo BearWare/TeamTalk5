@@ -4,6 +4,9 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v53arelease
+ * - @ref v53aapi
+ *
  * @ref v52drelease
  * - @ref v52dbugfixes
  *
@@ -163,6 +166,27 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v53arelease TeamTalk 5 SDK v. 5.3a release
+ *
+ * @subsection v53aapi API changes in v5.3a
+ *
+ * - Added #UserRight to lock nickname: #USERRIGHT_LOCKED_NICKNAME.
+ * - Added #UserRight to lock status: #USERRIGHT_LOCKED_STATUS.
+ * - New #BanType enumeration to support new ban types on channel and username.
+ * - Added @c uBanTypes to #BannedUser.
+ * - New #AbusePrevention structure to #UserAccount to prevent flooding.
+ * - Added @c abusePrevent to #UserAccount.
+ * - Added #ClientError to indicate flooding: #CMDERR_COMMAND_FLOOD
+ * - Added #ClientError to indicate channel ban: #CMDERR_CHANNEL_BANNED
+ * - Added #ClientError to indicate login service unavailable: #CMDERR_LOGINSERVICE_UNAVAILABLE.
+ *   - Used for Facebook login in TeamTalk application
+ * - New function TT_DoBanUserEx() for banning a user using #BanType.
+ * - New function TT_DoBan() for banning properties, i.e. #BannedUser.
+ *   - User doesn't have to be logged in to issue this ban.
+ * - New function TT_DoUnBanUserEx() for removing a bans.
  *
  * <hr>
  *
