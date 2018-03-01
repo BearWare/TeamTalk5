@@ -464,6 +464,9 @@
    create channel */
 "Stereo" = "Стерео";
 
+/* channel list */
+"Stop transmit" = "Остановить передачу";
+
 /* user detail */
 "Subscriptions" = "Подписки";
 
@@ -495,10 +498,7 @@
 "Translator" = "Переводчик";
 
 /* channel list */
-"Transmitting" = "Передача";
-
-/* channel list */
-"Transmit inactive" = "Передача неактивна";
+"Transmit" = "Передача";
 
 /* codec detail */
 "Transmit Interval" = "Интервал Передачи";
