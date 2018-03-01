@@ -535,7 +535,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     {
         jclass cls_obj = env->FindClass("dk/bearware/BannedUser");
         jobject newObj = newObject(env, cls_obj);
-        setBannedUser(env, msg.banneduser, newObj);
+        setBannedUser(env, msg.banneduser, newObj, N2J);
         env->SetObjectField(pMsg, fid_ban, newObj);        
     }
     break;
@@ -1250,7 +1250,7 @@ void setFileTransfer(JNIEnv* env, const FileTransfer& filetx, jobject lpFileTran
     env->SetBooleanField(lpFileTransfer, fid_inbound, filetx.bInbound);
 }
 
-void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser)
+void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConvert conv)
 {
    jclass cls_ban = env->GetObjectClass(lpBannedUser);
 
@@ -1259,18 +1259,34 @@ void setBannedUser(JNIEnv* env, const BannedUser& banned, jobject lpBannedUser)
    jfieldID fid_time = env->GetFieldID(cls_ban, "szBanTime", "Ljava/lang/String;");
    jfieldID fid_nick = env->GetFieldID(cls_ban, "szNickname", "Ljava/lang/String;");
    jfieldID fid_username = env->GetFieldID(cls_ban, "szUsername", "Ljava/lang/String;");
+   jfieldID fid_bantype = env->GetFieldID(cls_ban, "uBanTypes", "I");
 
    assert(fid_ipaddr);
    assert(fid_chan);
    assert(fid_time);
    assert(fid_nick);
    assert(fid_username);
+   assert(fid_bantype);
 
-   env->SetObjectField(lpBannedUser, fid_ipaddr, NEW_JSTRING(env, banned.szIPAddress));
-   env->SetObjectField(lpBannedUser, fid_chan, NEW_JSTRING(env, banned.szChannelPath));
-   env->SetObjectField(lpBannedUser, fid_time, NEW_JSTRING(env, banned.szBanTime));
-   env->SetObjectField(lpBannedUser, fid_nick, NEW_JSTRING(env, banned.szNickname));
-   env->SetObjectField(lpBannedUser, fid_username, NEW_JSTRING(env, banned.szUsername));
+   if (conv == N2J)
+   {
+       env->SetObjectField(lpBannedUser, fid_ipaddr, NEW_JSTRING(env, banned.szIPAddress));
+       env->SetObjectField(lpBannedUser, fid_chan, NEW_JSTRING(env, banned.szChannelPath));
+       env->SetObjectField(lpBannedUser, fid_time, NEW_JSTRING(env, banned.szBanTime));
+       env->SetObjectField(lpBannedUser, fid_nick, NEW_JSTRING(env, banned.szNickname));
+       env->SetObjectField(lpBannedUser, fid_username, NEW_JSTRING(env, banned.szUsername));
+       env->SetIntField(lpBannedUser, fid_bantype, banned.uBanTypes);
+   }
+   else
+   {
+       ZERO_STRUCT(banned);
+       TT_STRCPY(banned.szIPAddress, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_ipaddr)));
+       TT_STRCPY(banned.szChannelPath, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_chan)));
+       TT_STRCPY(banned.szBanTime, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_time)));
+       TT_STRCPY(banned.szNickname, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_nick)));
+       TT_STRCPY(banned.szUsername, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_username)));
+       banned.uBanTypes = env->GetIntField(lpBannedUser, fid_bantype);
+   }
 }
 
 void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientErrorMsg, JConvert conv)
