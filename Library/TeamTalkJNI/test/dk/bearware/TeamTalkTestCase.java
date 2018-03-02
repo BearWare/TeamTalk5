@@ -994,25 +994,68 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_ListBannedUsers() {
-        TeamTalkBase ttclient = newClientInstance();
-        connect(ttclient);
-        login(ttclient, "test_09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
-        
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, "test_09_ListBannedUsers", ADMIN_USERNAME, ADMIN_PASSWORD);
+
         User user = new User();
-        assertTrue(ttclient.getUser(ttclient.getMyUserID(), user));
+        assertTrue("get self", ttadmin.getUser(ttadmin.getMyUserID(), user));
         String IPADDR = "10.2.3.4";
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient.getMyUserID(), 0), DEF_WAIT));
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doBanIPAddress(IPADDR, 0), DEF_WAIT));
+        assertTrue("wait ban", waitCmdSuccess(ttadmin, ttadmin.doBanUser(ttadmin.getMyUserID(), 0), DEF_WAIT));
+        assertTrue("wait ip ban", waitCmdSuccess(ttadmin, ttadmin.doBanIPAddress(IPADDR, 0), DEF_WAIT));
 
         TTMessage msg = new TTMessage();
 
-        assertTrue(ttclient.doListBans(0, 0, 100)>0);
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
+        assertTrue("list bans", ttadmin.doListBans(0, 0, 100)>0);
+        assertTrue("wait ban list", waitForEvent(ttadmin, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
         BannedUser ban = msg.banneduser;
         assertTrue(ban.szIPAddress.length()>0);
         
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUser(IPADDR, 0), DEF_WAIT));
+        assertTrue("unban user IP", waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+        assertTrue("unban specified IP", waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(IPADDR, 0), DEF_WAIT));
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        Channel chan = buildDefaultChannel(ttadmin, "BanTest");
+        assertTrue("join new channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("admin join", waitCmdSuccess(ttadmin, ttadmin.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("ban admin", waitCmdSuccess(ttclient, ttclient.doBanUserEx(ttadmin.getMyUserID(), BanType.BANTYPE_CHANNEL | BanType.BANTYPE_USERNAME), DEF_WAIT));
+
+        assertTrue("list bans", ttclient.doListBans(ttclient.getMyChannelID(), 0, 100)>0);
+        assertTrue("wait ban list", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
+        ban = msg.banneduser;
+        assertTrue(ban.szIPAddress.length()>0);
+        assertEquals("Ban type same", BanType.BANTYPE_CHANNEL | BanType.BANTYPE_USERNAME, ban.uBanTypes);
+
+        joinRoot(ttadmin);
+
+        TeamTalkBase ttclient2 = newClientInstance();
+        connect(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue("ttclient2 join", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("admin leave", waitCmdSuccess(ttadmin, ttadmin.doLeaveChannel(), DEF_WAIT));
+        assertTrue("admin join denied", waitCmdError(ttadmin, ttadmin.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("unban", waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT));
+
+        assertTrue("admin join", waitCmdSuccess(ttadmin, ttadmin.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("ban admin", waitCmdSuccess(ttclient, ttclient.doBan(ban), DEF_WAIT));
+
+        assertTrue("admin leave", waitCmdSuccess(ttadmin, ttadmin.doLeaveChannel(), DEF_WAIT));
+        assertTrue("admin join denied", waitCmdError(ttadmin, ttadmin.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+        
     }
     
     public void test_ChannelSwitch() throws InterruptedException{

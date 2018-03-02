@@ -21,12 +21,10 @@
 
 package dk.bearware;
 
-public class BannedUser
+public interface BanType
 {
-    public String szIPAddress;
-    public String szChannelPath;
-    public String szBanTime;
-    public String szNickname;
-    public String szUsername;
-    public int uBanTypes = 0;
+    public static final int BANTYPE_NONE                = 0x00;
+    public static final int BANTYPE_CHANNEL             = 0x01;
+    public static final int BANTYPE_IPADDR              = 0x02;
+    public static final int BANTYPE_USERNAME            = 0x04;
 }

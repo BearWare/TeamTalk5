@@ -45,6 +45,8 @@ public class ClientError {
     public static final int CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED = 2011;
     public static final int CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED = 2012;
     public static final int CMDERR_MAX_CHANNELS_EXCEEDED            = 2013;
+    public static final int CMDERR_COMMAND_FLOOD                    = 2014;
+    public static final int CMDERR_CHANNEL_BANNED                   = 2015;
 
     public static final int CMDERR_NOT_LOGGEDIN                     = 3000;
     public static final int CMDERR_ALREADY_LOGGEDIN                 = 3001;
@@ -61,6 +63,7 @@ public class ClientError {
     public static final int CMDERR_FILE_ALREADY_EXISTS              = 3012;
     public static final int CMDERR_FILESHARING_DISABLED             = 3013;
     public static final int CMDERR_CHANNEL_HAS_USERS                = 3015;
+    public static final int CMDERR_LOGINSERVICE_UNAVAILABLE         = 3016;
 
     public static final int INTERR_SNDINPUT_FAILURE                 = 10000;
     public static final int INTERR_SNDOUTPUT_FAILURE                = 10001;

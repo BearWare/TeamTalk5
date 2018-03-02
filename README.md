@@ -62,10 +62,11 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * **TeamTalkApp.NET** (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#
   * Requires **TeamTalk.NET** project for DLL dependency
-* **iTeamTalk** (dependency: **TeamTalk_DLL**)
+* **iTeamTalk** (dependency: **TeamTalk_DLL**, **FacebookSDK**)
   * TeamTalk 5 iOS client application written in Swift
   * Requires **TeamTalk_DLL** project for bridging header
-  * Open project in Xcode
+  * Requires **[FacebookSDK](https://developers.facebook.com/docs/ios)**
+  * Open project in [Xcode](https://developer.apple.com/xcode/)
 * **TeamTalkAndroid** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 Android client application written in Java
   * Open project in [Android Studio](https://developer.android.com/studio/intro/index.html)
@@ -82,6 +83,7 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
         * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Professional Edition)
 * **ttphpadmin**
   * Console PHP-script for administrating a TeamTalk 5 server.
+  * Run ```php ttphpadmin.php```
 
 ## TeamTalk 5 Servers
 Sample applications for writing a TeamTalk 5 server are located in the Examples folder. Building a TeamTalk 5 server requires TeamTalk 5 Professional Edition.

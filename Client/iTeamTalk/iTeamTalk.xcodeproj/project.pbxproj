@@ -110,7 +110,7 @@
 		254B7A741B99E68800BE0DEF /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		254B7A751B99E68800BE0DEF /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		254B7A781B99E69200BE0DEF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../TeamTalk_DLL/libTeamTalk5.a; sourceTree = "<group>"; };
+		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../../Library/TeamTalk_DLL/libTeamTalk5.a; sourceTree = "<group>"; };
 		254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iTeamTalk-Bridging-Header.h"; sourceTree = "<group>"; };
 		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
 		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
@@ -130,8 +130,8 @@
 		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../libraries/ios/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../libraries/ios/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		25DF9A011C5E00E100469BA8 /* License.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
 		25E4DC2D1BF7347200EC5A8C /* on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = on.mp3; sourceTree = "<group>"; };
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
@@ -616,13 +616,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = "~/libraries/ios/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = "FacebookSDK";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					../TeamTalk_DLL/,
+					../../Library/TeamTalk_DLL/,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -642,13 +642,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = "~/libraries/ios/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = "FacebookSDK";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					../TeamTalk_DLL/,
+					../../Library/TeamTalk_DLL/,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

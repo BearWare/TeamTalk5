@@ -1074,6 +1074,25 @@ extern "C" {
         return TT_DoBanUser(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID, nChannelID);
     }
 
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanUserEx(JNIEnv* env,
+                                                                     jobject thiz,
+                                                                     jlong lpTTInstance,
+                                                                     jint nUserID,
+                                                                     jint uBanTypes)
+    {
+        return TT_DoBanUserEx(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID, uBanTypes);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBan(JNIEnv* env,
+                                                               jobject thiz,
+                                                               jlong lpTTInstance,
+                                                               jobject lpBannedUser)
+    {
+        BannedUser ban;
+        setBannedUser(env, ban, lpBannedUser, J2N);
+        return TT_DoBan(reinterpret_cast<TTInstance*>(lpTTInstance), &ban);
+    }
+
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanIPAddress(JNIEnv* env,
                                                                         jobject thiz,
                                                                         jlong lpTTInstance,
@@ -1096,6 +1115,17 @@ extern "C" {
 
         return TT_DoUnBanUser(reinterpret_cast<TTInstance*>(lpTTInstance), 
                               ttstr(env, szIPAddress), nChannelID);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUnBanUserEx(JNIEnv* env,
+                                                                       jobject thiz,
+                                                                       jlong lpTTInstance,
+                                                                       jobject lpBannedUser)
+    {
+        THROW_NULLEX(env, lpBannedUser, -1);
+        BannedUser ban;
+        setBannedUser(env, ban, lpBannedUser, J2N);
+        return TT_DoUnBanUserEx(reinterpret_cast<TTInstance*>(lpTTInstance), &ban);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doListBans(JNIEnv* env,

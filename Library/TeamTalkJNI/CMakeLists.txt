@@ -23,6 +23,7 @@ set (JAVA_SOURCES
   src/dk/bearware/AudioFileFormat.java
   src/dk/bearware/AudioFormat.java
   src/dk/bearware/BannedUser.java
+  src/dk/bearware/BanType.java
   src/dk/bearware/BitmapFormat.java
   src/dk/bearware/Channel.java
   src/dk/bearware/ChannelType.java
