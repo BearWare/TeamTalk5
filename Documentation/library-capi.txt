@@ -47,14 +47,14 @@
  *
  * @section ttdllios TeamTalk DLL on iOS
  *
- * Here's a guide on how to set up an iOS project in xCode which uses
+ * Here's a guide on how to set up an iOS project in Xcode which uses
  * the TeamTalk library.
  *
- * @subsection xcodesetup xCode project setup
+ * @subsection xcodesetup Xcode project setup
  *
- * First create a new xCode project, in this case "MyTeamTalkClient".
+ * First create a new Xcode project, in this case "MyTeamTalkClient".
  *
- * @image html xcode_init.png "xCode project"
+ * @image html xcode_init.png "Xcode project"
  *
  * @subsubsection xcodedeps Add library dependencies
  *
@@ -76,9 +76,9 @@
  *
  * @image html xcode_ttlib.png "Add TeamTalk static libray"
  *
- * The xCode project should now look as follows:
+ * The Xcode project should now look as follows:
  *
- * @image html xcode_proj.png "xCode project with dependencies set"
+ * @image html xcode_proj.png "Xcode project with dependencies set"
  *
  * @subsection xcodesearch Setup header file
  *
@@ -92,11 +92,11 @@
  *
  * @image html xcode_include.png "TeamTalk SDK include path"
  *
- * @subsection xcodebuild Compile xCode project
+ * @subsection xcodebuild Compile Xcode project
  *
- * The xCode project is now ready to compile. Here's an example where
+ * The Xcode project is now ready to compile. Here's an example where
  * the TeamTalk library's version number is printed:
  *
- * @image html xcode_example.png "xCode project ready"
+ * @image html xcode_example.png "Xcode project ready"
  *
  */

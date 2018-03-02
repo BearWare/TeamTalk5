@@ -59,7 +59,7 @@
  * Edition and on each platform:
  *
  * - <b>Common to all platforms</b>
- *   - @c TeamTalk5.jar
+ *   - @c TeamTalk5Pro.jar
  *     - Java classes for @c TeamTalk5Pro-jni.dll.
  *     - Read section @ref buildjnidll on how to build this.
  *     - Located in the folder @c Library/TeamTalkJNI/libs
