@@ -244,6 +244,9 @@
     <string name="incvoxlevel">Increase voice activation level</string>
     <string name="vox_level_description">Voice activation level is %1$s</string>
 
+    <string name="tx_on">Transmitting</string>
+    <string name="tx_off">Transmit inactive</string>
+
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
     <string name="text_audchan">Audio channels</string>
