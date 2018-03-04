@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS language="tr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -25,7 +23,7 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="148"/>
         <source>Ban IP-address</source>
-        <translation>IP adresini engelle</translation>
+        <translation>IP Adresini Engelle</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="149"/>
@@ -670,7 +668,7 @@
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation>Yetkilendirme (isteğe bağlı)</translation>
+        <translation>Doğrulama (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
@@ -973,7 +971,7 @@
         <location filename="../mainwindow.ui" line="939"/>
         <location filename="../mainwindow.ui" line="942"/>
         <source>Upload</source>
-        <translation>Karşıya yükle</translation>
+        <translation>Yükle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="962"/>
@@ -1208,7 +1206,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1378"/>
         <source>Up&amp;load File</source>
-        <translation>Karşıya Dosya &amp;Yükle</translation>
+        <translation>Dosya &amp;Yükle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1381"/>
@@ -1802,7 +1800,7 @@
         <location filename="../mainwindow.cpp" line="1017"/>
         <location filename="../mainwindow.cpp" line="4520"/>
         <source>Failed to upload file %1</source>
-        <translation>%1 dosyasını karşıya yükleme başarısız</translation>
+        <translation>%1 dosyasını yükleme başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1032"/>
@@ -1979,7 +1977,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Command not authorized</source>
-        <translation>Komut yetkili değil</translation>
+        <translation>Komuta yetkili değil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1683"/>
@@ -2295,12 +2293,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>IP-address</source>
-        <translation>IP adresi</translation>
+        <translation>IP Adresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>Username</source>
-        <translation>Kullanıcı adı</translation>
+        <translation>Kullanıcı Adı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
@@ -2744,7 +2742,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="371"/>
         <source>Show last to talk in yellow</source>
-        <translation>Konuşma sonu için sarı göster</translation>
+        <translation>Son konuşanı sarı göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="378"/>
@@ -2823,12 +2821,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="576"/>
         <source>Join root channel upon connection</source>
-        <translation>Bağlantıdan sonra kök kanala katıl</translation>
+        <translation>Bağlantıda kök kanala katıl</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="583"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>Bağlantıdan sonra sunucunun en fazla yükünü sorgula</translation>
+        <translation>Bağlantıda sunucunun en fazla yükünü sorgula</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="590"/>
@@ -2839,7 +2837,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="597"/>
         <location filename="../preferences.ui" line="600"/>
         <source>Default Subscriptions upon Connection</source>
-        <translation>Bağlantıdan Sonraki Varsayılan Abonelikler</translation>
+        <translation>Bağlantıdaki Varsayılan Abonelikler</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="608"/>
@@ -3090,7 +3088,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1496"/>
         <source>Enable/disable mute all</source>
-        <translation>Tümünü sustur&apos;u etkinleştir/etkisizleştir</translation>
+        <translation>Tümünü susturmayı etkinleştir/etkisizleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1523"/>
@@ -3363,12 +3361,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="167"/>
         <source>Authentication (optional)</source>
-        <translation>Yetkilendirme (isteğe bağlı)</translation>
+        <translation>Doğrulama (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="170"/>
         <source>Authentication</source>
-        <translation>Yetkilendirme</translation>
+        <translation>Doğrulama</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="176"/>
@@ -3385,7 +3383,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlist.ui" line="210"/>
         <location filename="../serverlist.ui" line="213"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>Yetkilendirmeden sonra belirtilen kanala katıl (isteğe bağlı)</translation>
+        <translation>Doğrulamadan sonra belirtilen kanala katıl (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="219"/>
@@ -3958,7 +3956,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="443"/>
         <source>User can upload files</source>
-        <translation>Kullanıcı dosyaları karşıya yükleyebilir</translation>
+        <translation>Kullanıcı dosyaları yükleyebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="456"/>
@@ -4536,12 +4534,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../weblogin.ui" line="14"/>
         <source>Web Login</source>
-        <translation>Web Oturumu Açma</translation>
+        <translation>Web Oturumu</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Facebook Login</source>
-        <translation>Facebook Oturumu Açma</translation>
+        <translation>Facebook Oturumu</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
