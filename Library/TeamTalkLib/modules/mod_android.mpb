@@ -1,0 +1,25 @@
+project : mod_opensles {
+
+specific(make,gnuace) {
+
+  includes += $(TTLIBS_ROOT)/libogg-1.1.4/include
+
+  pure_libs += $(TTLIBS_ROOT)/libogg-1.1.4/lib/libogg.la
+
+}
+
+verbatim(gnuace,local) {
+  CPPFLAGS += -Wno-switch -Wno-reorder -Wno-unused-parameter
+  CPPFLAGS += -Wno-unused-variable
+
+  CPPFLAGS += -Wno-non-virtual-dtor
+  CPPFLAGS += -DHAVE_STDINT_H=1 //make speexdsp happy
+}
+
+Header_Files {
+}
+
+Source_Files {
+}
+
+}

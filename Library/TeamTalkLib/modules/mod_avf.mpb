@@ -1,0 +1,21 @@
+project : mod_ffmpeg3 {
+
+  macros += ENABLE_VIDCAP ENABLE_AVF
+
+specific(make,gnuace) {
+
+}
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/AVFCapture.h
+  $(TEAMTALKLIB_ROOT)/vidcap/FFMpeg3Capture.h
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/AVFCapture.mm
+  $(TEAMTALKLIB_ROOT)/vidcap/FFMpeg3Capture.cpp
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.cpp
+}
+
+}

@@ -1,0 +1,18 @@
+project {
+
+  macros += ENABLE_HTTP_AUTH
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+
+  includes +=  $(TTLIBS_ROOT)/ACE/ACE/protocols
+
+  libs += ACE_INets
+}
+
+
+specific(make,gnuace) {
+
+  pure_libs += $(TTLIBS_ROOT)/ACE/lib/libACE_INet.a
+}
+
+}

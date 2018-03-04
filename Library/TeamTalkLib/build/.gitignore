@@ -1,0 +1,13 @@
+*Makefile*
+build_*
+.depend*
+*.vcxproj*
+Release
+Win32
+x64
+arm64
+armv7
+i386
+x86_64
+InstallDir
+Output

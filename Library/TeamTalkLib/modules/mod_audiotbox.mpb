@@ -1,0 +1,15 @@
+project : mod_soundsystem {
+
+  macros += ENABLE_AUDIOTOOLKIT
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/AudioTbox.h
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/AudioTbox.mm
+}
+}
+

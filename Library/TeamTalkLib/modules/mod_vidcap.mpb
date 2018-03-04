@@ -1,0 +1,30 @@
+project {
+
+  macros += ENABLE_VIDCAP ENABLE_LIBVIDCAP
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+
+  includes += $(TTLIBS_ROOT)/libvidcap-dsbaseclasses/include
+
+  libpaths += $(TTLIBS_ROOT)/libvidcap-dsbaseclasses/lib/$(PlatformName)
+
+  libs += libvidcap
+}
+
+specific(make,gnuace){
+  includes += $(TTLIBS_ROOT)/libvidcap-0.2.1/include
+
+  pure_libs += $(TTLIBS_ROOT)/libvidcap-0.2.1/lib/libvidcap.a
+}
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.h
+  $(TEAMTALKLIB_ROOT)/vidcap/LibVidCap.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.cpp
+  $(TEAMTALKLIB_ROOT)/vidcap/LibVidCap.cpp
+}
+
+}

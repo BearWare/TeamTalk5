@@ -1,0 +1,41 @@
+project : mod_ttclient {
+
+  includes += $(TEAMTALKLIB_ROOT) $(TEAMTALK_ROOT)/Library/TeamTalk_DLL 
+
+  dllout = $(TEAMTALK_ROOT)/Library/TeamTalk_DLL
+  libout = $(TEAMTALK_ROOT)/Library/TeamTalk_DLL
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+
+  macros += TEAMTALKDLL_EXPORTS
+
+  intermediate_dir = $(PlatformName)/$(ConfigurationName)
+
+}
+
+Resource_Files {
+  $(TEAMTALKLIB_ROOT)/bin/dll/ttdll.rc
+}
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/bin/dll/Convert.h
+  $(TEAMTALKLIB_ROOT)/bin/dll/TTClientMsg.h
+
+  conditional(vc8,vc10,vc11,vc12,vc14) {
+    $(TEAMTALKLIB_ROOT)/bin/dll/resource.h
+  }
+
+  $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/TeamTalk.h
+
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/bin/dll/Convert.cpp
+  $(TEAMTALKLIB_ROOT)/bin/dll/TeamTalk.cpp
+  $(TEAMTALKLIB_ROOT)/bin/dll/TTClientMsg.cpp
+
+}
+
+}

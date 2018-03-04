@@ -1,0 +1,15 @@
+project : mod_soundsystem {
+
+  macros += ENABLE_AUDIOUNIT
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/AudioUnit.h
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/AudioUnit.mm
+}
+}
+

@@ -1,0 +1,18 @@
+project {
+
+specific(vc8,vc10,vc11,vc12) {
+
+  includes += $(TTLIBS_ROOT)/zlib-1.2.5
+  libpaths += $(TTLIBS_ROOT)/zlib-1.2.5/lib/$(PlatformName)
+  
+  libs += zlib
+}  
+
+specific(make,gnuace) {
+
+  //desktop share deps zlib
+  lit_libs += z
+}
+
+}
+

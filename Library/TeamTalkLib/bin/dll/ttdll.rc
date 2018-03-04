@@ -1,0 +1,141 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "windows.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#include <TeamTalkDefs.h>
+
+/////////////////////////////////////////////////////////////////////////////
+// Danish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
+#ifdef _WIN32
+LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION TEAMTALK_RC_VERSION
+ PRODUCTVERSION TEAMTALK_RC_VERSION
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040604b0"
+        BEGIN
+#ifdef ENABLE_ENCRYPTION
+            VALUE "Comments", "TeamTalk 5 Conferencing DLL"
+            VALUE "CompanyName", "BearWare.dk"
+#ifdef _WIN64
+            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for x64"
+#elif defined(_WIN32_WCE)
+            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for ARM"
+#else
+            VALUE "FileDescription", "TeamTalk Encrypted Dynamic Link Library for x86"
+#endif
+            VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
+            VALUE "InternalName", "TeamTalk"
+            VALUE "LegalCopyright", "Copyright (C) 2006-2016, BearWare.dk. All rights reserved."
+            VALUE "OriginalFilename", "TeamTalk5Pro.dll"
+            VALUE "ProductName", "TeamTalk Encrypted Dynamic Link Library"
+            VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
+#else
+            VALUE "Comments", "TeamTalk 5 Conferencing DLL"
+            VALUE "CompanyName", "BearWare.dk"
+#ifdef _WIN64
+            VALUE "FileDescription", "TeamTalk Dynamic Link Library for x64"
+#elif defined(_WIN32_WCE)
+            VALUE "FileDescription", "TeamTalk Dynamic Link Library for ARM"
+#else
+            VALUE "FileDescription", "TeamTalk Dynamic Link Library for x86"
+#endif
+            VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
+            VALUE "InternalName", "TeamTalk"
+            VALUE "LegalCopyright", "Copyright (C) 2006-2016, BearWare.dk. All rights reserved."
+            VALUE "OriginalFilename", "TeamTalk5.dll"
+            VALUE "ProductName", "TeamTalk Dynamic Link Library"
+            VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
+#endif
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x406, 1200
+    END
+END
+
+#endif    // Danish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

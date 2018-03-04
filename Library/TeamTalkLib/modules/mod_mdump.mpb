@@ -1,0 +1,29 @@
+project {
+
+  macros += ENABLE_MINIDUMP
+
+Header_Files {
+    $(TEAMTALKLIB_ROOT)/win32/mdump.h
+}
+
+Source_Files {
+    $(TEAMTALKLIB_ROOT)/win32/mdump.cpp
+}
+
+// 1. On the left side of the project's property page, click C/C++. By
+// default, this displays General settings. On the right side of the
+// project's property page, set Debug Information Format to Program
+// Database (/Zi).
+
+// 2. On the left side of the property page, expand Linker, and then
+// click Debugging. On the right side of the property page, set Generate
+// Debug Info to Yes (/DEBUG).
+
+// 3. Click Optimization, and set References to Eliminate Unreferenced
+// Data (/OPT:REF).
+
+// 4. Set Enable COMDAT Folding to Remove Redundant COMDATs
+// (/OPT:ICF).
+
+}
+

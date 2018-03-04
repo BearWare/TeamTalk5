@@ -1,0 +1,16 @@
+project {
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/myace/MyACE.h
+  $(TEAMTALKLIB_ROOT)/myace/TimerHandler.h
+}
+  
+Inline_Files {
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/myace/MyACE.cpp
+  $(TEAMTALKLIB_ROOT)/myace/TimerHandler.cpp
+}
+  
+}

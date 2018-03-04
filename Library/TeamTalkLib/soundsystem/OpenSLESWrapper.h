@@ -1,0 +1,153 @@
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ * 
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
+
+#ifndef OPENSLESWRAPPER_H
+#define OPENSLESWRAPPER_H
+
+#include <SLES/OpenSLES.h>
+#include <SLES/OpenSLES_Android.h>
+
+#include "SoundSystemBase.h"
+
+#include <map>
+#include <vector>
+
+#define ANDROID_INPUT_BUFFERS 3
+#define ANDROID_OUTPUT_BUFFERS 3
+
+namespace soundsystem {
+
+    struct SLInputStreamer : InputStreamer
+    {
+        SLObjectItf recorderObject;
+        SLRecordItf recorderRecord;
+        SLAndroidSimpleBufferQueueItf recorderBufferQueue;
+        ACE_Recursive_Thread_Mutex mutex;
+
+        std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
+        ACE_UINT32 buf_index;
+        SLInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys)
+            : InputStreamer(r, sg, fs, sr, chs, sndsys)
+            , recorderObject(NULL)
+            , recorderRecord(NULL)
+            , recorderBufferQueue(NULL), buf_index(0) { }
+    };
+
+    struct SLOutputStreamer : OutputStreamer
+    {
+        SLObjectItf playerObject;
+        SLPlayItf playerPlay;
+        SLAndroidSimpleBufferQueueItf playerBufferQueue;
+        ACE_Recursive_Thread_Mutex mutex;
+
+        std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
+        ACE_UINT32 buf_index;
+        SLOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys)
+            : OutputStreamer(p, sg, fs, sr, chs, sndsys)
+            , playerObject(NULL)
+            , playerPlay(NULL)
+            , playerBufferQueue(NULL), buf_index(0) { }
+        
+    };
+
+    struct SLSoundGroup : SoundGroup
+    {
+        SLObjectItf outputMixObject;
+        SLSoundGroup() : outputMixObject(NULL) { }
+    };
+
+    typedef SoundSystemBase< SLSoundGroup, SLInputStreamer, SLOutputStreamer, DuplexStreamer > SSB;
+    class OpenSLESWrapper : public SSB
+    {
+    private:
+        OpenSLESWrapper();
+        OpenSLESWrapper(const OpenSLESWrapper& aud);
+        const OpenSLESWrapper& operator = (const OpenSLESWrapper& aud);
+        virtual ~OpenSLESWrapper();
+
+    protected:
+        
+        bool Init();
+        void Close();
+        void FillDevices(sounddevices_t& sounddevs);
+
+        soundgroup_t NewSoundGroup();
+        void RemoveSoundGroup(soundgroup_t sndgrp);
+
+        // input
+        inputstreamer_t NewStream(StreamCapture* capture, 
+                                  int inputdeviceid, int sndgrpid, 
+                                  int samplerate, int channels,
+                                  int framesize);
+        bool StartStream(inputstreamer_t streamer);
+        bool StopStream(inputstreamer_t streamer);
+        void CloseStream(inputstreamer_t streamer);
+
+        // output
+        outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
+                                   int sndgrpid, int samplerate, int channels, 
+                                   int framesize);
+        void CloseStream(outputstreamer_t streamer);
+
+        bool StartStream(outputstreamer_t streamer);
+        bool StopStream(outputstreamer_t streamer);
+        bool IsStreamStopped(outputstreamer_t streamer);
+
+        // duplex
+        duplexstreamer_t NewStream(StreamDuplex* duplex, int inputdeviceid,
+                                   int outputdeviceid, int sndgrpid,
+                                   int samplerate, int input_channels, 
+                                   int output_channels, int framesize)  { return duplexstreamer_t(); }
+        void CloseStream(duplexstreamer_t streamer) { }
+        bool StartStream(duplexstreamer_t streamer) { return false; }
+        bool AddDuplexOutputStream(StreamDuplex* duplex,
+                                   StreamPlayer* player)  { return false; }
+        bool RemoveDuplexOutputStream(StreamDuplex* duplex,
+                                      StreamPlayer* player)  { return false; }
+
+
+    public:
+
+        static OpenSLESWrapper* getInstance();
+
+        bool GetDefaultDevices(int& inputdeviceid,
+                               int& outputdeviceid);
+        bool GetDefaultDevices(SoundAPI sndsys,
+                               int& inputdeviceid,
+                               int& outputdeviceid);
+        
+    private:
+
+        // engine interfaces
+        SLObjectItf m_engineObject;
+        SLEngineItf m_engineEngine;
+    };
+
+    typedef SSB::soundgroup_t soundgroup_t;
+    typedef SSB::inputstreamer_t inputstreamer_t;
+    typedef SSB::outputstreamer_t outputstreamer_t;
+    typedef SSB::duplexstreamer_t duplexstreamer_t;
+
+}
+
+#endif

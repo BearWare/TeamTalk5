@@ -1,0 +1,21 @@
+project {
+
+  macros += ENABLE_SOUNDSYSTEM
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundLoopback.h
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystem.h
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystemBase.h
+
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundLoopback.cpp
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystem.cpp
+  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystemBase.cpp
+
+}
+}
+

@@ -1,0 +1,16 @@
+project(tt5dll_android) : ttdll, \
+                        mod_opus, \
+                        mod_speex, \
+                        mod_vpx, \
+                        mod_httpauth, \
+                        mod_android {
+
+  sharedname   = TeamTalk5
+
+specific(make,gnuace) {
+  obj_dir = build_TeamTalk5Android/TeamTalk_DLL/
+
+}
+
+}
+

@@ -1,0 +1,7 @@
+if (MSVC)
+    set ( OPENSSL_INCLUDE_DIR ${TTLIBS_ROOT}/openssl/include )
+    set ( OPENSSL_STATIC_LIB ${TTLIBS_ROOT}/openssl/libssl.lib ${TTLIBS_ROOT}/openssl/libcrypto.lib crypt32.lib)
+else()
+  set ( OPENSSL_STATIC_LIB ${TTLIBS_ROOT}/openssl/lib/libssl.a ${TTLIBS_ROOT}/openssl/lib/libcrypto.a )
+  set ( OPENSSL_INCLUDE_DIR ${TTLIBS_ROOT}/openssl/include )
+endif()

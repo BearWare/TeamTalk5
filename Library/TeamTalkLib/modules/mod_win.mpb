@@ -1,0 +1,17 @@
+project : ace_unicode {
+
+    lit_libs += winmm
+	
+Header_Files {
+    $(TEAMTALKLIB_ROOT)/win32/HotKey.h
+    $(TEAMTALKLIB_ROOT)/win32/Mixer.h
+    $(TEAMTALKLIB_ROOT)/win32/WinFirewall.h
+}
+
+Source_Files {
+    $(TEAMTALKLIB_ROOT)/win32/HotKey.cpp
+    $(TEAMTALKLIB_ROOT)/win32/Mixer.cpp
+    $(TEAMTALKLIB_ROOT)/win32/WinFirewall.cpp
+}
+
+}

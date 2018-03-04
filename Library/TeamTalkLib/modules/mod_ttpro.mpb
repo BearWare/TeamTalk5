@@ -1,0 +1,26 @@
+project : vc_warnings {
+
+  macros += ENABLE_TEAMTALKPRO
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/AcceptHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/DesktopCache.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerChannel.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerNode.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerUser.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerUser.h
+  $(TEAMTALKLIB_ROOT)/bin/dll/ServerMonitor.h
+  $(TEAMTALK_ROOT)/TeamTalk_DLLTeamTalkSrv.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/AcceptHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/DesktopCache.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerChannel.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerNode.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerUser.cpp
+  $(TEAMTALKLIB_ROOT)/bin/dll/TeamTalkSrv.cpp
+  $(TEAMTALKLIB_ROOT)/bin/dll/ServerMonitor.cpp
+}
+
+}

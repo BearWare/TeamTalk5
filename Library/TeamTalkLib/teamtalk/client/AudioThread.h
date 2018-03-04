@@ -1,0 +1,126 @@
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ * 
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
+
+#if !defined(AUDIOTHREAD_H)
+#define AUDIOTHREAD_H
+
+#include <ace/Task.h>
+#include <ace/Thread_Semaphore.h> 
+#include <ace/Bound_Ptr.h>
+
+#if defined(ENABLE_SPEEX)
+#include <codec/SpeexEncoder.h>
+#include <codec/SpeexPreprocess.h>
+#endif
+#if defined(ENABLE_OPUS)
+#include <codec/OpusEncoder.h>
+#endif
+
+#include <codec/MediaUtil.h>
+#include <teamtalk/Common.h>
+
+#define GAIN_MAX 32000
+#define GAIN_NORMAL 1000
+#define GAIN_MIN 0
+
+class AudioEncListener
+{
+public:
+    virtual void EncodedAudioFrame(const teamtalk::AudioCodec& codec,
+                                   const char* enc_data, int enc_len,
+                                   const std::vector<int>& enc_frame_sizes,
+                                   const media::AudioFrame& org_frame) = 0;
+};
+
+class AudioThread : protected ACE_Task<ACE_MT_SYNCH>
+{
+public:
+    AudioThread();
+    virtual ~AudioThread();
+
+    bool StartEncoder(AudioEncListener* listener, 
+                      const teamtalk::AudioCodec& codec, 
+                      bool spawn_thread);
+    void StopEncoder();
+
+    void EnableTone(int frequency) { m_tone_frequency = frequency; }
+
+    void QueueAudio(const media::AudioFrame& audframe);
+    void QueueAudio(ACE_Message_Block* mb_audio);
+    bool IsVoiceActive() const;
+
+    ACE_Recursive_Thread_Mutex m_preprocess_lock;
+#if defined(ENABLE_SPEEX)
+    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+#endif
+    int m_voicelevel;
+    int m_voiceactlevel;
+    ACE_Time_Value m_voiceact_delay;
+    //voice gain
+    int m_gainlevel;    //GAIN_NORMAL == disabled
+
+    //real maximum is 100 (when all samples are 32768)
+    static const int VU_METER_MAX = 100;
+    static const int VU_METER_MIN = 0;
+
+    const teamtalk::AudioCodec& codec() const { return m_codec; }
+
+    void ProcessQueue(ACE_Time_Value* tm);
+private:
+    int close(u_long);
+    int svc(void);
+
+    void ProcessAudioFrame(media::AudioFrame& audblock);
+#if defined(ENABLE_SPEEX)
+    void PreprocessAudioFrame(media::AudioFrame& audblock);
+    const char* ProcessSpeex(const media::AudioFrame& audblock,
+                             std::vector<int>& enc_frame_sizes);
+#endif
+#if defined(ENABLE_OPUS)
+    const char* ProcessOPUS(const media::AudioFrame& audblock,
+                            std::vector<int>& env_frame_sizes);
+#endif
+    AudioEncListener* m_listener;
+#if defined(ENABLE_SPEEX)
+    SpeexEncoder* m_speex;
+#endif
+#if defined(ENABLE_OPUS)
+    OpusEncode* m_opus;
+#endif
+    std::vector<char> m_encbuf;
+    std::vector<short> m_echobuf;
+    teamtalk::AudioCodec m_codec;
+
+    //encoder state has been reset
+    bool m_enc_cleared;
+
+    //voice activation
+    ACE_Time_Value m_lastActive;
+
+    ACE_UINT32 m_tone_sample_index, m_tone_frequency;
+    void GenerateTone(media::AudioFrame& audblock);
+};
+
+typedef ACE_Strong_Bound_Ptr< AudioThread, ACE_Null_Mutex > audio_thread_t;
+
+#endif

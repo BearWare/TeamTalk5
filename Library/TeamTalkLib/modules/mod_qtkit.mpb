@@ -1,0 +1,19 @@
+project {
+
+  macros += ENABLE_VIDCAP ENABLE_QTKIT
+
+specific(make,gnuace) {
+  linkflags += "-framework QTKit" "-framework Cocoa"
+}
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/QTVidCap.h
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/QTVidCap.mm
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.cpp
+}
+
+}

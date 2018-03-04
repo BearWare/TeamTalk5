@@ -1,0 +1,154 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "windows.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#include <TeamTalkDefs.h>
+
+/////////////////////////////////////////////////////////////////////////////
+// Danish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
+#ifdef _WIN32
+LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION TEAMTALK_RC_VERSION
+ PRODUCTVERSION TEAMTALK_RC_VERSION
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040604b0"
+        BEGIN
+            VALUE "CompanyName", "BearWare.dk"
+#ifdef ENABLE_ENCRYPTION
+
+#ifdef BUILD_NT_SERVICE
+            VALUE "FileDescription", "TeamTalk Encrypted Conferencing NT Service"
+#else
+            VALUE "FileDescription", "TeamTalk Encrypted Conferencing Server"
+#endif
+
+#else
+#ifdef BUILD_NT_SERVICE
+            VALUE "FileDescription", "TeamTalk Conferencing NT Service"
+#else
+            VALUE "FileDescription", "TeamTalk Conferencing Server"
+#endif
+#endif
+            VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
+#ifdef ENABLE_ENCRYPTION
+#ifdef BUILD_NT_SERVICE
+            VALUE "InternalName", "tt5prosvc.exe"
+#else
+            VALUE "InternalName", "tt5prosrv.exe"
+#endif
+#else
+#ifdef BUILD_NT_SERVICE
+            VALUE "InternalName", "tt5svc.exe"
+#else
+            VALUE "InternalName", "tt5srv.exe"
+#endif
+#endif
+            VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
+#ifdef ENABLE_ENCRYPTION
+#ifdef BUILD_NT_SERVICE
+            VALUE "OriginalFilename", "tt5prosvc.exe"
+#else
+            VALUE "OriginalFilename", "tt5prosrv.exe"
+#endif
+#else
+#ifdef BUILD_NT_SERVICE
+            VALUE "OriginalFilename", "tt5svc.exe"
+#else
+            VALUE "OriginalFilename", "tt5srv.exe"
+#endif
+#endif
+#ifdef ENABLE_ENCRYPTION
+#ifdef BUILD_NT_SERVICE
+            VALUE "ProductName", "TeamTalk Professional Conferencing NT Service"
+#else
+            VALUE "ProductName", "TeamTalk Professional Conferencing Server"
+#endif
+#else
+#ifdef BUILD_NT_SERVICE
+            VALUE "ProductName", "TeamTalk Conferencing NT Service"
+#else
+            VALUE "ProductName", "TeamTalk Conferencing Server"
+#endif
+#endif
+            VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x406, 1200
+    END
+END
+
+#endif    // Danish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

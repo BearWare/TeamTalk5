@@ -1,0 +1,7 @@
+project {
+
+  macros += DISABLE_SPEEX_AGC
+
+  specific(make,gnuace) {
+  }
+}

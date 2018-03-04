@@ -1,0 +1,25 @@
+project {
+
+  //depends: libssl-dev
+
+  macros += ENABLE_ENCRYPTION
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+  libpaths += $(OPENSSL_ROOT)/out32
+  macros += TEAMTALKDLL_EXPORTS
+  includes += $(OPENSSL_ROOT)/inc32
+  lit_libs += libeay32 ssleay32
+  libs += ACE_SSLs
+  
+  Debug::ignore_default_library_names += libcmt
+}
+
+specific(make,gnuace) {
+
+  includes += $(TTLIBS_ROOT)/openssl/include
+  pure_libs += $(TTLIBS_ROOT)/openssl/lib/libcrypto.a
+  pure_libs += $(TTLIBS_ROOT)/openssl/lib/libssl.a
+  pure_libs += $(TTLIBS_ROOT)/ACE/lib/libACE_SSL.a 
+
+}
+}

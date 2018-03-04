@@ -1,0 +1,21 @@
+project : mod_ffmpeg3 {
+
+  macros += ENABLE_VIDCAP ENABLE_V4L2
+
+specific(make,gnuace) {
+
+}
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/FFMpeg3Capture.h
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.h
+  $(TEAMTALKLIB_ROOT)/vidcap/V4L2Capture.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/vidcap/FFMpeg3Capture.cpp
+  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.cpp
+  $(TEAMTALKLIB_ROOT)/vidcap/V4L2Capture.cpp
+}
+
+}

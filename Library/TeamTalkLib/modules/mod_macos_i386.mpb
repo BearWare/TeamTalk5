@@ -1,0 +1,11 @@
+project : mod_macos {
+
+specific(make,gnuace) {
+
+  //MacOS X i386 compiler switches. Disable for x86_x64 builds
+  compilerflags += -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -mmacosx-version-min=10.5
+  linkflags += -arch i386
+  linkflags += "-framework CoreVideo" "-framework QuickTime"
+
+}
+}

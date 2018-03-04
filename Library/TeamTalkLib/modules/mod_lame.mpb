@@ -1,0 +1,15 @@
+project {
+
+  macros += ENABLE_MP3
+
+  includes += $(TTLIBS_ROOT)/lame-3.97/Dll 
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/codec/LameMP3.h
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/codec/LameMP3.cpp
+}
+
+}

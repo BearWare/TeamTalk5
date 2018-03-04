@@ -1,0 +1,17 @@
+project(tt5dll_ios) : ttdll, \
+                    mod_ios, \
+                    mod_audiounit, \
+                    mod_httpauth, \
+                    mod_opus, \
+                    mod_speex, \
+                    mod_vpx {
+
+  sharedname   = TeamTalk5
+
+specific(make,gnuace) {
+  obj_dir = build_TeamTalk5iOS/TeamTalk_DLL/
+
+}
+
+}
+

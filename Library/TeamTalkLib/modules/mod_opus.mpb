@@ -1,0 +1,36 @@
+project {
+
+  macros += ENABLE_OPUS
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+  includes += $(TTLIBS_ROOT)/opus/include
+
+  libpaths += $(TTLIBS_ROOT)/opus/lib/$(PlatformName)
+
+  libs += opus
+
+}
+
+specific(make, gnuace) {
+
+  includes += $(TTLIBS_ROOT)/opus/include
+
+  pure_libs += $(TTLIBS_ROOT)/opus/lib/libopus.a
+
+}
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OpusEncoder.h
+  $(TEAMTALKLIB_ROOT)/codec/OpusDecoder.h
+
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OpusEncoder.cpp
+  $(TEAMTALKLIB_ROOT)/codec/OpusDecoder.cpp
+
+}
+
+}

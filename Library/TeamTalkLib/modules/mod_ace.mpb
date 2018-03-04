@@ -1,0 +1,34 @@
+project  {
+
+  macros += ACE_AS_STATIC_LIBS
+  //Look in $ACE_ROOT/MPC/templates/makedll.mpt for compiler switches
+
+specific(vc8,vc10,vc11,vc12,vc14) {
+  includes += $(TTLIBS_ROOT)/ACE/ACE
+  libpaths += $(TTLIBS_ROOT)/ACE/ACE/lib/$(PlatformName)
+  libs += ACEs
+}
+
+specific(make,gnuace) {
+
+  includes += $(TTLIBS_ROOT)/ACE/include
+
+  pure_libs += $(TTLIBS_ROOT)/ACE/lib/libACE.a
+
+  Debug::macros += _DEBUG DEBUG
+  Release::macros += NDEBUG
+
+}
+specific(vc8) {
+
+  Debug::runtime_library = 1
+  Release::runtime_library = 0
+}
+
+specific(vc10,vc11,vc12,vc14) {
+
+  Debug::runtime_library = MultiThreadedDebug
+  Release::runtime_library = MultiThreaded
+}
+
+}

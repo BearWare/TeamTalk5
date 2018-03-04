@@ -1,0 +1,9 @@
+; TeamTalk.def : Declares the module parameters for the DLL.
+
+LIBRARY      "TeamTalk5"
+
+DESCRIPTION "TeamTalk voice conferencing client"
+
+EXPORTS
+    ; Explicit exports can go here
+    

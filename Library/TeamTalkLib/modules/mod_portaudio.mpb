@@ -1,0 +1,42 @@
+project : mod_soundsystem {
+
+  macros += ENABLE_PORTAUDIO
+
+specific(vc8,vc10,vc11,vc12) {
+
+  includes += $(TTLIBS_ROOT)/portaudio-19_mods/include 
+
+  libpaths += $(TTLIBS_ROOT)/portaudio-19_mods/lib/$(PlatformName)
+
+  libs += pastatic
+}
+
+specific(vc14) {
+
+  includes += $(TTLIBS_ROOT)/portaudio/include 
+
+  libpaths += $(TTLIBS_ROOT)/portaudio/lib/$(PlatformName)
+
+  libs += pastatic
+}
+
+
+specific(make,gnuace) {
+
+  includes += $(TTLIBS_ROOT)/portaudio/include
+
+  pure_libs += $(TTLIBS_ROOT)/portaudio/lib/libportaudio.a
+
+}
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/PortAudioWrapper.h
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/soundsystem/PortAudioWrapper.cpp
+}
+}
+

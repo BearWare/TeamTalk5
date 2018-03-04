@@ -1,0 +1,26 @@
+project {
+
+  //depends: libopus-dev
+
+  macros += ENABLE_OPUS
+
+specific(make, gnuace) {
+  includes += /usr/include
+  lit_libs += opus
+}
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OpusEncoder.h
+  $(TEAMTALKLIB_ROOT)/codec/OpusDecoder.h
+
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OpusEncoder.cpp
+  $(TEAMTALKLIB_ROOT)/codec/OpusDecoder.cpp
+
+}
+
+}

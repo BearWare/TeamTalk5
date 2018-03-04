@@ -1,0 +1,14 @@
+project {
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/mystd/MyStd.h
+}
+  
+Inline_Files {
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/mystd/MyStd.cpp
+}
+  
+}

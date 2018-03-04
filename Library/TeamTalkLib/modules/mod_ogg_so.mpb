@@ -1,0 +1,23 @@
+project {
+
+  //depends: libogg-dev
+  macros += ENABLE_OGG
+
+specific(make, gnuace) {
+
+  lit_libs += ogg
+
+}
+
+Header_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OggOutput.h
+}
+
+Source_Files {
+
+  $(TEAMTALKLIB_ROOT)/codec/OggOutput.cpp
+
+}
+
+}

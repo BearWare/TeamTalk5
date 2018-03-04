@@ -1,0 +1,45 @@
+project : vc_warnings, mod_myace, mod_mystd {
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/TeamTalkDefs.h
+  $(TEAMTALKLIB_ROOT)/settings/Settings.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Channel.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/CodecCommon.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Commands.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Common.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/DesktopSession.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Log.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHelper.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketLayout.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/StreamHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/ttassert.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/User.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/AcceptHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/DesktopCache.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerChannel.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerNode.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerUser.h  
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/settings/Settings.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Channel.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/CodecCommon.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Commands.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Common.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/DesktopSession.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHelper.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketLayout.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/StreamHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/ttassert.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/User.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/AcceptHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/DesktopCache.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerChannel.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerNode.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/server/ServerUser.cpp  
+}
+
+}

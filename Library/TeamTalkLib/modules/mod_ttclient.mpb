@@ -1,0 +1,78 @@
+project : vc_warnings, mod_ace, mod_myace, mod_mystd, mod_zlib {
+
+specific(vc8,vc10,vc11,vc12) {
+
+  // Debug::lib_modifier = 
+  // Release::lib_modifier =
+
+  lit_libs += strmiids comsuppw winmm Msdmo
+
+}
+
+Header_Files {
+  $(TEAMTALKLIB_ROOT)/codec/AudioResampler.h
+  $(TEAMTALKLIB_ROOT)/codec/BmpFile.h
+  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.h
+  $(TEAMTALKLIB_ROOT)/codec/MediaUtil.h
+  $(TEAMTALKLIB_ROOT)/codec/WaveFile.h
+  $(TEAMTALKLIB_ROOT)/TeamTalkDefs.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Channel.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/CodecCommon.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Commands.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Common.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/DesktopSession.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/Log.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHelper.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketLayout.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/StreamHandler.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/ttassert.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/User.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioContainer.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioThread.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientChannel.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientNode.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientUser.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/FileNode.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/StreamPlayers.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/VideoThread.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/VoiceLogger.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioMuxer.h
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/DesktopShare.h
+}
+  
+Inline_Files {
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketLayout.inl
+}
+
+Source_Files {
+  $(TEAMTALKLIB_ROOT)/codec/AudioResampler.cpp
+  $(TEAMTALKLIB_ROOT)/codec/BmpFile.cpp
+  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.cpp
+  $(TEAMTALKLIB_ROOT)/codec/MediaUtil.cpp
+  $(TEAMTALKLIB_ROOT)/codec/WaveFile.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Channel.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/CodecCommon.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Commands.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/Common.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/DesktopSession.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketHelper.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/PacketLayout.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/StreamHandler.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/ttassert.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/User.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioContainer.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioThread.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientChannel.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientNode.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/ClientUser.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/FileNode.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/StreamPlayers.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/VideoThread.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/VoiceLogger.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/AudioMuxer.cpp
+  $(TEAMTALKLIB_ROOT)/teamtalk/client/DesktopShare.cpp
+}
+  
+}
