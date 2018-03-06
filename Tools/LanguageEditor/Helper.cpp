@@ -1,28 +1,24 @@
- /*
- * Copyright (c) 2002-2016, BearWare.dk
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
  * 
+ * Contact Information:
+ *
  * Bjoern D. Rasmussen
- * Bedelundvej 79
- * DK-9830 Taars
+ * Kirketoften 5
+ * DK-8260 Viby J
  * Denmark
  * Email: contact@bearware.dk
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code may not be modified or redistributed without the
- * copyright owner's written consent.
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
  */
 
 
