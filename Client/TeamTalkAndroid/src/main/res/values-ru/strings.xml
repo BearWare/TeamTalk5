@@ -233,6 +233,9 @@
     <string name="incvoxlevel">Повысить порог голосовой активации</string>
     <string name="vox_level_description">Порог голосовой активации %1$s</string>
 
+    <string name="tx_on">Идет передача</string>
+    <string name="tx_off">Передача неактивна</string>
+
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>
     <string name="text_audchan">Аудио каналы</string>

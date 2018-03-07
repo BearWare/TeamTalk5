@@ -1267,6 +1267,7 @@ implements TeamTalkConnectionListener,
 
     private void adjustTxState(boolean txEnabled) {
         findViewById(R.id.transmit_voice).setBackgroundColor(txEnabled ? Color.GREEN : Color.RED);
+        findViewById(R.id.transmit_voice).setContentDescription(txEnabled ? getString(R.string.tx_on) : getString(R.string.tx_off));
 
         if ((curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID)) {
             accessibilityAssistant.lockEvents();
