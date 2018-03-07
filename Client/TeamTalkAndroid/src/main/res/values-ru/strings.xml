@@ -108,10 +108,12 @@
     <string name="button_tx">Речь</string>
     <string name="button_remove">Удалить</string>
     <string name="button_edit">Редактировать</string>
-    <string name="action_ban">Запретить</string>
+    <string name="action_banchan">Запретить вход в текущий канал</string>
+    <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
-    <string name="action_kick">Выгнать</string>
+    <string name="action_kickchan">Выгнать с текущего канала</string>
+    <string name="action_kicksrv">Выгнать с сервера</string>
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_upload">Выложить Файл</string>
@@ -214,6 +216,8 @@
     <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
     <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
     <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
+    <string name="ban_confirmation">Вы действительно намерены забанить пользователя %1$s?</string>
+    <string name="kick_confirmation">Вы действительно намерены выгнать пользователя %1$s?</string>
     <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
     <string name="decvolume">Уменьшить громкость</string>
     <string name="incvolume">Увеличить громкость</string>
@@ -232,6 +236,9 @@
     <string name="decvoxlevel">Понизить порог голосовой активации</string>
     <string name="incvoxlevel">Повысить порог голосовой активации</string>
     <string name="vox_level_description">Порог голосовой активации %1$s</string>
+
+    <string name="tx_on">Идет передача</string>
+    <string name="tx_off">Передача неактивна</string>
 
     <string name="text_samplerate">Частота квантования</string>
     <string name="text_ignore_silence">Игнорировать паузы (DTX)</string>

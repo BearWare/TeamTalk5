@@ -504,13 +504,13 @@
 "Translator" = "Переводчик";
 
 /* channel list */
-"Transmit inactive" = "Transmit inactive";
+"Transmit inactive" = "Передача неактивна";
 
 /* codec detail */
 "Transmit Interval" = "Интервал Передачи";
 
 /* channel list */
-"Transmitting" = "Transmitting";
+"Transmitting" = "Передача";
 
 /* Dialog message */
 "Try again?" = "Try again?";

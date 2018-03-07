@@ -115,10 +115,12 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
-    <string name="action_ban">Ban</string>
+    <string name="action_banchan">Ban from current channel</string>
+    <string name="action_bansrv">Ban from server</string>
     <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
-    <string name="action_kick">Kick</string>
+    <string name="action_kickchan">Kick from current channel</string>
+    <string name="action_kicksrv">Kick from server</string>
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
     <string name="action_upload">Upload File</string>
@@ -225,6 +227,8 @@
     <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from the server?</string>
     <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
     <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
+    <string name="ban_confirmation">Do you really wish to ban user %1$s?</string>
+    <string name="kick_confirmation">Do you really wish to kick user %1$s?</string>
     <string name="version_update">New TeamTalk version available: %1$s?</string>
     <string name="decvolume">Decrease volume</string>
     <string name="incvolume">Increase volume</string>
@@ -243,6 +247,9 @@
     <string name="decvoxlevel">Decrease voice activation level</string>
     <string name="incvoxlevel">Increase voice activation level</string>
     <string name="vox_level_description">Voice activation level is %1$s</string>
+
+    <string name="tx_on">Transmitting</string>
+    <string name="tx_off">Transmit inactive</string>
 
     <string name="text_samplerate">Sample rate</string>
     <string name="text_ignore_silence">Ignore silence (DTX)</string>
