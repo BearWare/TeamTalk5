@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2017, BearWare.dk
+ * Copyright (c) 2005-2018, BearWare.dk
  * 
  * Contact Information:
  *
@@ -11,11 +11,13 @@
  * Phone: +45 20 20 54 59
  * Web: http://www.bearware.dk
  *
- * This source code is part of the TeamTalk 5 Conferencing System
- * owned by BearWare.dk. Unauthorized use is prohibited. No changes
- * are allowed to this file without the copyright owner's written
- * consent. Using this file requires a source code license issued by
- * BearWare.dk.
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
  *
  */
 

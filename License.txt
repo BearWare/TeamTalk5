@@ -1,0 +1,69 @@
+TEAMTALK 5 SDK LICENSE AGREEMENT
+--------------------------------
+
+Use of the files in the TeamTalk 5 SDK is not permitted until you have
+carefully read this license agreement. By using any of the files in
+the TeamTalk 5 SDK you agree to be bound by the terms and conditions
+stated in this this agreement.
+
+If in doubt regarding the content of this agreement please email
+contact@bearware.dk.
+
+
+DEFINITIONS
+
+"TeamTalk 5 SDK" is a software product owned by BearWare.dk. "License
+Key" is a unique code issued by BearWare.dk, or one of its resellers,
+to identify you (either an individual or a single entity) as a license
+owner. "End-user application" means the software being developed by
+you which will be using files included with the TeamTalk 5 SDK.
+
+
+COPYRIGHT
+
+BearWare.dk is the copyright holder of the TeamTalk 5 SDK and its
+accompanying compiled units, documentation and sample code.
+
+
+TERMS AND CONDITIONS
+
+The following terms and conditions apply for the use of the TeamTalk
+5 SDK:
+
+A. Each License Key authorizes one (1) developer to install the
+   TeamTalk 5 SDK on multiple computers for development and
+   testing. Additional License Keys must be acquired for each
+   additional software developer who installs the TeamTalk 5 SDK.
+
+B. The owner of a License Key is authorized to develop multiple
+   end-user applications which use the TeamTalk 5 SDK.
+
+C. The owner of a License Key is authorized to redistribute unlimited
+   copies of their end-user applications.
+
+D. The owner of a License Key is authorized to run multiple TeamTalk
+   servers in support of their end-user applications.
+
+E. The owner of a License Key is entitled to free updates of all minor
+   versions of the TeamTalk 5 SDK.
+
+F. Copyright, trademark or any other proprietary notices may not be
+   removed from files in the TeamTalk 5 SDK.
+
+
+LIMITED WARRANTY
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER "AS IS" AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Copyright (c) 2009, BearWare.dk.
