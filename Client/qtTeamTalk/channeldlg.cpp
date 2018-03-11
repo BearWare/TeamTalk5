@@ -125,6 +125,9 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         //set AGC
         m_channel.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG;
         m_channel.audiocfg.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+
+        m_channel.transmitUsers[0][TT_CLASSROOM_USERID_INDEX] = TT_CLASSROOM_FREEFORALL;
+        m_channel.transmitUsers[0][TT_CLASSROOM_STREAMTYPE_INDEX] = STREAMTYPE_CLASSROOM_ALL;
         break;
     case CHANNEL_UPDATE :
     {

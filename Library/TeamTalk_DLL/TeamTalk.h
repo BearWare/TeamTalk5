@@ -115,6 +115,9 @@ extern "C" {
      * transmit. */
 #define TT_CLASSROOM_FREEFORALL 0xFFF
 
+#define TT_CLASSROOM_USERID_INDEX 0
+#define TT_CLASSROOM_STREAMTYPE_INDEX 1
+
     /** @ingroup channels
      * @def TT_CHANNELS_OPERATOR_MAX
      * The maximum number of channels where a user can automatically become
@@ -1121,6 +1124,15 @@ extern "C" {
          * mouse input being transmitted. @see
          * TT_SendDesktopInput() */
         STREAMTYPE_DESKTOPINPUT             = 0x0020,
+
+        /** @brief Shortcut to allow both audio and video media files. */
+        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
+                                              STREAMTYPE_MEDIAFILE_VIDEO,
+        /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
+        STREAMTYPE_CLASSROOM_ALL        = STREAMTYPE_VOICE |
+                                          STREAMTYPE_VIDEOCAPTURE |
+                                          STREAMTYPE_DESKTOP |
+                                          STREAMTYPE_MEDIAFILE
     } StreamType;
 
     /** @brief Mask of #StreamType. */

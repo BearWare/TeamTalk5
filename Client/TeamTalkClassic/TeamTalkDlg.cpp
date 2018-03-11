@@ -4154,6 +4154,9 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         m_host.szChannel = STR_UTF8(szPath);
         m_host.szChPasswd = STR_UTF8(dlg.m_szChannelPassword);
 
+        chan.transmitUsers[0][TT_CLASSROOM_USERID_INDEX] = TT_CLASSROOM_FREEFORALL;
+        chan.transmitUsers[0][TT_CLASSROOM_STREAMTYPE_INDEX] = STREAMTYPE_CLASSROOM_ALL;
+
         if(bEnableChan)
             TT_DoMakeChannel(ttInst, &chan);
         else
