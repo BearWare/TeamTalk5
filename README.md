@@ -72,9 +72,9 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
     * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the TeamTalk 5 Java library to *TeamTalkAndroid/libs* directory:
     * TeamTalk5.jar
-      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
-    * TeamTalk5Test.jar (optional, only for unit-tests)
-      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
+      * Located in ```Library/TeamTalkJNI/libs``` (Standard Edition)
+    * TeamTalk5Pro.jar
+      * Located in ```Library/TeamTalkJNI/libs``` (Professional Edition)
   * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/armeabi-v7a*
     * libTeamTalk5-jni.so
         * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Standard Edition)
