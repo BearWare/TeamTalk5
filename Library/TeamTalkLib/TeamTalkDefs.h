@@ -29,7 +29,7 @@
 #define TEAMTALK_RC_FILEVERSION     "5, 3, 1, 4920"
 #define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
 #define TEAMTALK_LIB_NAME "TeamTalk5Pro"
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
