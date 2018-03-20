@@ -66,4 +66,6 @@ public:
     int m_nTextLen;
     CSpinButtonCtrl m_wndSpinTextLen;
     BOOL m_bShowUsername;
+    CComboBox m_wndSorting;
+    int m_nSorting;
 };

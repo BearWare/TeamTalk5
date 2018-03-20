@@ -210,6 +210,10 @@ namespace teamtalk {
         bool SetShowPublicServers(bool bEnable);
         bool GetShowPublicServers();
 
+        // must match SortOrder in channel's tree
+        bool SetSortOrder(int nSorting);
+        int GetSortOrder();
+
         /******** </window> *******/
 
 

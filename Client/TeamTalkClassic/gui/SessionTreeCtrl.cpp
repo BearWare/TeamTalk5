@@ -49,8 +49,7 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CSessionTreeCtrl, CTreeCtrl)
 
 
-static int CALLBACK 
-MyCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+static int CALLBACK SortTree(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     // lParamSort contains a pointer to the tree control.
     // The lParam of an item is just its handle, 
@@ -66,9 +65,23 @@ MyCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
         HTREEITEM hItem1 = pTreeCtrl->GetChannelItem(lParam1 & ID_ITEMDATA);
         HTREEITEM hItem2 = pTreeCtrl->GetChannelItem(lParam2 & ID_ITEMDATA);
         ASSERT(hItem1 && hItem2);
-        CString szItem1 = pTreeCtrl->GetItemText(hItem1);
-        CString szItem2 = pTreeCtrl->GetItemText(hItem2);
-        return szItem1.CompareNoCase(szItem2);
+        switch (pTreeCtrl->GetSortOrder())
+        {
+        case SORT_TREE_POLULATED :
+        {
+            int nChanID1 = (ID_ITEMDATA & pTreeCtrl->GetItemData(hItem1));
+            int nChanID2 = (ID_ITEMDATA & pTreeCtrl->GetItemData(hItem2));
+            size_t nCount1 = pTreeCtrl->GetUsers(nChanID1).size();
+            size_t nCount2 = pTreeCtrl->GetUsers(nChanID2).size();
+            if (nCount1 != nCount2)
+                return nCount1 > nCount2? -1 : 1;
+        }
+        case SORT_TREE_ASCENDING :
+        default :
+            CString szItem1 = pTreeCtrl->GetItemText(hItem1);
+            CString szItem2 = pTreeCtrl->GetItemText(hItem2);
+            return szItem1.CompareNoCase(szItem2);
+        }
     }
     else if( (lParam1 & USER_ITEMDATA) && (lParam2 & USER_ITEMDATA) )
     {
@@ -865,6 +878,11 @@ void CSessionTreeCtrl::ShowUserCount(BOOL bShow)
     }
 }
 
+void CSessionTreeCtrl::SetSortOrder(SortOrder order)
+{
+    m_sortOrder = order;
+}
+
 BOOL CSessionTreeCtrl::GetChannel(int nChannelID, Channel& outChan) const
 {
     Channel chan = {0};
@@ -1108,7 +1126,7 @@ void CSessionTreeCtrl::SortItem(HTREEITEM hParentItem)
     // Sort the tree control's items using my
     // callback procedure.
     tvs.hParent = hParentItem;
-    tvs.lpfnCompare = MyCompareProc;
+    tvs.lpfnCompare = SortTree;
     tvs.lParam = (LPARAM) this;
     VERIFY(SortChildrenCB(&tvs));
 }

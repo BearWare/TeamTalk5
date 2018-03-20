@@ -1128,6 +1128,27 @@ namespace teamtalk {
         return bEnabled;
     }
 
+    bool ClientXML::SetSortOrder(int nSorting)
+    {
+        TiXmlElement* pParent = GetWindowElement();
+        if(pParent)
+        {
+            PutInteger(*pParent, "sort-channels", nSorting);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    int ClientXML::GetSortOrder()
+    {
+        string value = GetValue(m_rootname + "/window/sort-channels");
+        if(value.size())
+            return str2i(value);
+        return 0;
+    }
+
+
     /***********************************/
     /*********** <client> **************/
     /***********************************/

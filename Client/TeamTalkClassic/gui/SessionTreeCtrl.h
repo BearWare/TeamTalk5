@@ -103,6 +103,12 @@ enum ChannelStates
     ChannelMessage,
 };
 
+enum SortOrder 
+{
+    SORT_TREE_ASCENDING,
+    SORT_TREE_POLULATED,
+};
+
 class CSessionTreeCtrl : public CTreeCtrl
 {
     DECLARE_DYNAMIC(CSessionTreeCtrl)
@@ -167,6 +173,8 @@ public:
 
     BOOL IsShowingUserCount() const;
     void ShowUserCount(BOOL bShow);
+    void SetSortOrder(SortOrder order);
+    SortOrder GetSortOrder() const { return m_sortOrder; }
 
     // Generated message map functions
 protected:
@@ -189,6 +197,7 @@ protected:
     users_t m_users;
     msgmap_t m_messages;
     BOOL m_bShowUserCount;
+    SortOrder m_sortOrder = SORT_TREE_ASCENDING;
     int m_nMyChannel;
 
     //drag/drop stuff

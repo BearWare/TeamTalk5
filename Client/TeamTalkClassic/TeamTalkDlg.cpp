@@ -2540,6 +2540,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //show user count in treectrl
     m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
 
+    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
+
     //show username instead of nickname
     bShowUsernames = m_xmlSettings.GetShowUsernames();
 
@@ -3235,6 +3237,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
     windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
     windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
+    windowpage.m_nSorting = m_xmlSettings.GetSortOrder();
 
     ///////////////////////
     // client settings
@@ -3445,9 +3448,11 @@ void CTeamTalkDlg::OnFilePreferences()
             KillTimer(TIMER_VOICELEVEL_ID);
         m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
+        m_wndTree.SetSortOrder((SortOrder)windowpage.m_nSorting);
         m_xmlSettings.SetCheckApplicationUpdates(windowpage.m_bCheckUpdates);
         m_xmlSettings.SetMaxTextLength(windowpage.m_nTextLen);
-        if(nTextLimit != windowpage.m_nTextLen || bShowUsernames != windowpage.m_bShowUsername)
+        if(nTextLimit != windowpage.m_nTextLen || bShowUsernames != windowpage.m_bShowUsername||
+            m_xmlSettings.GetSortOrder() != windowpage.m_nSorting)
         {
             nTextLimit = windowpage.m_nTextLen;
             bShowUsernames = windowpage.m_bShowUsername;
@@ -3459,6 +3464,8 @@ void CTeamTalkDlg::OnFilePreferences()
             for(channels_t::const_iterator i=chans.begin();i!=chans.end();i++)
                 m_wndTree.UpdateChannel(i->second);
         }
+        m_xmlSettings.SetSortOrder(windowpage.m_nSorting);
+
         //////////////////////////////////////////////////
         //    write settings for Client Page to ini file
         //////////////////////////////////////////////////
