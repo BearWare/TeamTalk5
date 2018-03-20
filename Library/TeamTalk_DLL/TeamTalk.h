@@ -115,8 +115,28 @@ extern "C" {
      * transmit. */
 #define TT_CLASSROOM_FREEFORALL 0xFFF
 
+     /** @ingroup channels
+      * User ID index in @c transmitUsers of #Channel */
 #define TT_CLASSROOM_USERID_INDEX 0
+
+      /** @ingroup channels
+      * #StreamTypes index in @c transmitUsers of #Channel */
 #define TT_CLASSROOM_STREAMTYPE_INDEX 1
+
+    /** @ingroup channels 
+     * @def TT_TRANSMITUSERS_FREEFORALL
+     * Same as #TT_CLASSROOM_FREEFORALL */
+#define TT_TRANSMITUSERS_FREEFORALL 0xFFF
+
+    /** @ingroup channels 
+     * @def TT_TRANSMITUSERID_INDEX
+     * Same as #TT_CLASSROOM_USERID_INDEX */
+#define TT_TRANSMITUSERID_INDEX 0
+
+     /** @ingroup channels
+     * @def TT_TRANSMITSTREAMTYPE_INDEX
+     * Same as #TT_CLASSROOM_STREAMTYPE_INDEX */
+#define TT_TRANSMITSTREAMTYPE_INDEX 1
 
     /** @ingroup channels
      * @def TT_CHANNELS_OPERATOR_MAX
@@ -1965,9 +1985,6 @@ extern "C" {
          * #CHANNEL_SOLO_TRANSMIT. Read-only property. */
         INT32 transmitUsersQueue[TT_TRANSMITQUEUE_MAX];
     } Channel;
-
-#define TT_TRANSMITUSERID_INDEX 0
-#define TT_TRANSMITSTREAMTYPE_INDEX 1
 
 
     /** @brief Status of a file transfer. @see FileTransfer */
