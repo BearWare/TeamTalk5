@@ -83,6 +83,10 @@ class ChannelListViewController :
     var unreadTimer : Timer?
     // list of channels and users
     @IBOutlet weak var tableView: UITableView!
+    // users being displayed in table-view
+    var displayUsers = [User]()
+    // channels (subchannels) being displayed in table-view
+    var displayChans = [Channel]()
     // PTT button
     @IBOutlet weak var txButton: UIButton!
     // timeout for PTT lock
@@ -161,7 +165,7 @@ class ChannelListViewController :
         return chanusers.count
     }
     
-    func getDisplayItems() -> ([Channel], [User]) {
+    func updateDisplayItems()  {
         let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
         
@@ -172,7 +176,9 @@ class ChannelListViewController :
         let cu = chanusers.sorted() {
             getDisplayName($0).caseInsensitiveCompare(getDisplayName($1)) == ComparisonResult.orderedAscending
         }
-        return (sc, cu)
+        
+        displayChans = sc
+        displayUsers = cu
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -181,9 +187,9 @@ class ChannelListViewController :
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let (subchans, chanusers) = getDisplayItems()
+        updateDisplayItems()
         
-        var n_items = subchans.count + chanusers.count
+        var n_items = displayChans.count + displayUsers.count
         
         if curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0 {
             n_items += 1 // +1 for 'Join this channel'
@@ -197,8 +203,6 @@ class ChannelListViewController :
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let (subchans, chanusers) = getDisplayItems()
-
         //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
 
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
@@ -207,7 +211,7 @@ class ChannelListViewController :
         // for some absurd reason UITableView::numberOfRowsInSection() and UITableView::cellForRowAt()
         // can be interleaved when calling UITableView::reloadData() so row-count and data to be 
         // displayed (self.channels and self.users) are out of sync
-        var display_rows = subchans.count + chanusers.count
+        var display_rows = displayChans.count + displayUsers.count
         if show_join {
             display_rows += 1
         }
@@ -231,11 +235,11 @@ class ChannelListViewController :
             return cell
         }
         
-        if user_index < chanusers.count {
+        if user_index < displayUsers.count {
             
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
-            let user = chanusers[user_index]
+            let user = displayUsers[user_index]
             let name = getDisplayName(user)
             let statusmsg = String(cString: UnsafeRawPointer([user.szStatusMsg]).assumingMemoryBound(to: CChar.self))
             
@@ -291,7 +295,7 @@ class ChannelListViewController :
         }
 
         // current index for channels
-        var chan_index = indexPath.row - chanusers.count
+        var chan_index = indexPath.row - displayUsers.count
         if show_join {
             chan_index -= 1
         }
@@ -309,9 +313,9 @@ class ChannelListViewController :
             
             // display only the root channel
             
-            assert(subchans.count == 1) //only sub channel should be the root channel
+            assert(displayChans.count == 1) //only sub channel should be the root channel
             
-            channel = subchans[chan_index]
+            channel = displayChans[chan_index]
             
             title = String(cString: UnsafeRawPointer([srvprop.szServerName]).assumingMemoryBound(to: CChar.self))
             subtitle = String(cString: UnsafeRawPointer([channel.szTopic]).assumingMemoryBound(to: CChar.self))
@@ -352,9 +356,9 @@ class ChannelListViewController :
             }
 
             assert(chan_index >= 0)
-            assert(chan_index < subchans.count)
+            assert(chan_index < displayChans.count)
             
-            channel = subchans[chan_index]
+            channel = displayChans[chan_index]
             
             let user_count = getUsersCount(channel.nChannelID)
             title = String(cString: UnsafeRawPointer([channel.szName]).assumingMemoryBound(to: CChar.self)) + " (\(user_count))"
