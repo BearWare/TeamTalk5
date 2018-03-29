@@ -165,7 +165,14 @@ class ChannelListViewController :
         let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
         
-        return (subchans, chanusers)
+        let sc = subchans.sorted() {
+            String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
+                .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending
+        }
+        let cu = chanusers.sorted() {
+            getDisplayName($0).caseInsensitiveCompare(getDisplayName($1)) == ComparisonResult.orderedAscending
+        }
+        return (sc, cu)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
