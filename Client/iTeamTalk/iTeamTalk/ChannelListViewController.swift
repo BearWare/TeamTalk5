@@ -169,16 +169,28 @@ class ChannelListViewController :
         let subchans : [Channel] = channels.values.filter({$0.nParentID == self.curchannel.nChannelID})
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
         
-        let sc = subchans.sorted() {
-            String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
-                .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending
+        let settings = UserDefaults.standard
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        switch chansort {
+        case ChanSort.POPULARITY.hashValue :
+            displayChans = subchans.sorted() {
+                let aid = $0.nChannelID
+                let bid = $1.nChannelID
+                let au = users.values.filter({$0.nChannelID == aid})
+                let bu = users.values.filter({$0.nChannelID == bid})
+                return au.count > bu.count
+            }
+        case ChanSort.ASCENDING.hashValue :
+            fallthrough
+        default :
+            displayChans = subchans.sorted() {
+                String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
+                    .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending
+            }
         }
-        let cu = chanusers.sorted() {
+        displayUsers = chanusers.sorted() {
             getDisplayName($0).caseInsensitiveCompare(getDisplayName($1)) == ComparisonResult.orderedAscending
         }
-        
-        displayChans = sc
-        displayUsers = cu
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

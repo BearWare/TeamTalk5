@@ -34,6 +34,7 @@ let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
 let PREF_DISPLAY_PUBSERVERS = "display_publicservers_preference"
+let PREF_DISPLAY_SORTCHANNELS = "display_sortchannels_preference"
 
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
@@ -73,7 +74,7 @@ let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
 
 class PreferencesViewController : UIViewController, UITableViewDataSource,
-    UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
+UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
     
     @IBOutlet weak var tableView: UITableView!
    
@@ -180,6 +181,14 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         showusernameswitch.addTarget(self, action: #selector(PreferencesViewController.showusernameChanged(_:)), for: .valueChanged)
         display_items.append(showusernamecell)
         
+        let sortchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let options = [ NSLocalizedString("Ascending", comment: "preferences"), NSLocalizedString("Popularity", comment: "preferences")]
+        let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort channels", comment: "preferences"), values: options)
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        sortchansegctl.selectedSegmentIndex = chansort
+        sortchancell.detailTextLabel!.text = NSLocalizedString("Order of channels in Channel List", comment: "preferences")
+        sortchansegctl.addTarget(self, action: #selector(PreferencesViewController.channelSortChanged(_:)), for: .valueChanged)
+        display_items.append(sortchancell)
         
         // sound preferences
         
@@ -717,12 +726,15 @@ class PreferencesViewController : UIViewController, UITableViewDataSource,
         defaults.set(sender.isOn, forKey: PREF_JOINROOTCHANNEL)
     }
     
-    
+    @objc func channelSortChanged(_ segctrl: UISegmentedControl) {
+        let defaults = UserDefaults.standard
+        defaults.set(segctrl.selectedSegmentIndex, forKey: PREF_DISPLAY_SORTCHANNELS)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Select Voice" {
         }
     }
-
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return SECTIONS_COUNT
