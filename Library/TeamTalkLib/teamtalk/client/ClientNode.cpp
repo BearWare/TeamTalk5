@@ -5060,14 +5060,15 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
         newchan->SetChannelType(chanprop.chantype);
     if(GetProperty(properties, TT_USERDATA, chanprop.userdata))
         newchan->SetUserData(chanprop.userdata);
-    if(GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers))
-        newchan->SetVoiceUsers(chanprop.voiceusers);
-    if(GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers))
-        newchan->SetVideoUsers(chanprop.videousers);
-    if(GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers))
-        newchan->SetDesktopUsers(chanprop.desktopusers);
-    if(GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers))
-        newchan->SetMediaFileUsers(chanprop.mediafileusers);
+
+    GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers);
+    newchan->SetVoiceUsers(chanprop.voiceusers);
+    GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers);
+    newchan->SetVideoUsers(chanprop.videousers);
+    GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers);
+    newchan->SetDesktopUsers(chanprop.desktopusers);
+    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers);
+    newchan->SetMediaFileUsers(chanprop.mediafileusers);
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
@@ -5122,16 +5123,19 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
         chan->SetAudioCodec(chanprop.audiocodec);
     if(GetProperty(properties, TT_AUDIOCFG, chanprop.audiocfg))
         chan->SetAudioConfig(chanprop.audiocfg);
-    if(GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers))
-        chan->SetVoiceUsers(chanprop.voiceusers);
-    if(GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers))
-        chan->SetVideoUsers(chanprop.videousers);
-    if(GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers))
-        chan->SetDesktopUsers(chanprop.desktopusers);
-    if(GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers))
-        chan->SetMediaFileUsers(chanprop.mediafileusers);
     if(GetProperty(properties, TT_TRANSMITQUEUE, chanprop.transmitqueue))
         chan->SetTransmitQueue(chanprop.transmitqueue);
+
+    // as of protocol v5.4 the server only forwards transmit users if
+    // it's not empty
+    GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers);
+    chan->SetVoiceUsers(chanprop.voiceusers);
+    GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers);
+    chan->SetVideoUsers(chanprop.videousers);
+    GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers);
+    chan->SetDesktopUsers(chanprop.desktopusers);
+    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers);
+    chan->SetMediaFileUsers(chanprop.mediafileusers);
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;

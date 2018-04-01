@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.3")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.4")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
