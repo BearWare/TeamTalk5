@@ -1500,6 +1500,15 @@ void CTeamTalkDlg::OnChannelAdd(const TTMessage& msg)
     m_wndTree.AddChannel(chan);
 }
 
+int TransmitToggled(StreamTypes uPrev, StreamTypes uCur, StreamTypes uTypes)
+{
+    if ((uCur & uTypes) && (uPrev & uTypes) != (uCur & uTypes))
+        return 1;
+    if((uCur & uTypes) == STREAMTYPE_NONE && (uPrev & uTypes) != (uCur & uTypes))
+        return -1;
+    return 0;
+}
+
 void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
 {
     ASSERT(msg.ttType == __CHANNEL);
@@ -1546,8 +1555,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         else
             szName = GetDisplayName(user);
 
-        if((ii->second & STREAMTYPE_VOICE) &&
-           ((newTransmit[userid] & STREAMTYPE_VOICE) == 0))
+        if(TransmitToggled(ii->second, newTransmit[userid], STREAMTYPE_VOICE) < 0)
         {
             szMsg.Format(_T("%s can no longer transmit voice!"),
                          szName);
@@ -1555,8 +1563,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
-           ((newTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0))
+        if(TransmitToggled(ii->second, newTransmit[userid], STREAMTYPE_VIDEOCAPTURE) < 0)
         {
             szMsg.Format(_T("%s can no longer transmit video input!"),
                          szName);
@@ -1564,8 +1571,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_DESKTOP) &&
-            ((newTransmit[userid] & STREAMTYPE_DESKTOP) == 0))
+        if(TransmitToggled(ii->second, newTransmit[userid], STREAMTYPE_DESKTOP) < 0)
         {
             szMsg.Format(_T("%s can no longer transmit shared desktops!"),
                          szName);
@@ -1573,8 +1579,7 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
-           ((newTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0))
+        if(TransmitToggled(ii->second, newTransmit[userid], (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) < 0)
         {
             szMsg.Format(_T("%s can no longer transmit media files!"), szName);
             AddStatusText(szMsg);
@@ -1594,32 +1599,28 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         else
             szName = GetDisplayName(user);
 
-        if((ii->second & STREAMTYPE_VOICE) &&
-           ((oldTransmit[userid] & STREAMTYPE_VOICE) == 0 ))
+        if(TransmitToggled(oldTransmit[userid], ii->second, STREAMTYPE_VOICE) > 0)
         {
             szMsg.Format(_T("%s can now transmit voice!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
-           ((oldTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0 ))
+        if(TransmitToggled(oldTransmit[userid], ii->second, STREAMTYPE_VIDEOCAPTURE) > 0)
         {
             szMsg.Format(_T("%s can now transmit video input!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_DESKTOP) &&
-            ((oldTransmit[userid] & STREAMTYPE_DESKTOP) == 0 ))
+        if(TransmitToggled(oldTransmit[userid], ii->second, STREAMTYPE_DESKTOP) > 0)
         {
             szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
-           ((oldTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0 ))
+        if(TransmitToggled(oldTransmit[userid], ii->second, (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) > 0)
         {
             szMsg.Format(_T("%s can now transmit media files!"), szName);
             AddStatusText(szMsg);
