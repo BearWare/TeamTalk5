@@ -2300,7 +2300,8 @@ void ClientNode::SendPackets()
                 audpkt->SetChannel(m_mychannel->GetChannelID());
             }
 
-            bool no_record = (m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING);
+            bool no_record = (m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) &&
+                (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
             //store in voicelog
             if(m_local_voicelog->GetAudioFolder().length() && !no_record)
                 voicelogger().AddVoicePacket(*m_local_voicelog, *m_mychannel, *audpkt);

@@ -161,6 +161,7 @@ namespace teamtalk {
                                                           USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO,
         USERRIGHT_LOCKED_NICKNAME                       = 0x00040000,
         USERRIGHT_LOCKED_STATUS                         = 0x00080000,
+        USERRIGHT_RECORD_VOICE                          = 0x00100000,
 
         USERRIGHT_DEFAULT = USERRIGHT_MULTI_LOGIN |
                             USERRIGHT_VIEW_ALL_USERS |
@@ -174,8 +175,8 @@ namespace teamtalk {
                             USERRIGHT_TRANSMIT_MEDIAFILE,
                                
 
-        USERRIGHT_ALL                       = 0x0003FFFF,
-        USERRIGHT_KNOWN_MASK                = 0x000FFFFF
+        USERRIGHT_ALL                       = 0x0013FFFF,
+        USERRIGHT_KNOWN_MASK                = 0x001FFFFF
     };
     
     typedef ACE_UINT32 UserRights;

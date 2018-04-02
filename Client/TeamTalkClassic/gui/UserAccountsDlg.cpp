@@ -83,6 +83,7 @@ void CUserAccountsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK_TRANSMITVIDEOFILE, m_wndTransmitVidFiles);
     DDX_Control(pDX, IDC_TAB_USERACCOUNT, m_wndTabCtrl);
     DDX_Control(pDX, IDC_CHECK_CHANGENICKNAME, m_wndChangeNickname);
+    DDX_Control(pDX, IDC_CHECK_RECORDVOICE, m_wndRecordVoice);
 }
 
 
@@ -223,6 +224,8 @@ void CUserAccountsDlg::OnBnClickedButtonAdd()
         account.uUserRights |= USERRIGHT_TRANSMIT_DESKTOP;
     if(m_wndTransmitDesktopInput.GetCheck() == BST_CHECKED)
         account.uUserRights |= USERRIGHT_TRANSMIT_DESKTOPINPUT;
+    if(m_wndRecordVoice.GetCheck() == BST_CHECKED)
+        account.uUserRights |= USERRIGHT_RECORD_VOICE;
 
     m_wndInitChannel.GetWindowText(account.szInitChannel, TT_STRLEN);
     m_wndNote.GetWindowText(account.szNote, TT_STRLEN);
@@ -328,6 +331,7 @@ void CUserAccountsDlg::UpdateControls()
     m_wndTransmitVidFiles.EnableWindow(bCheck);
     m_wndTransmitDesktops.EnableWindow(bCheck);
     m_wndTransmitDesktopInput.EnableWindow(bCheck);
+    m_wndRecordVoice.EnableWindow(bCheck);
 
     m_wndUsername.SetReadOnly(!bWrite);
     m_wndPassword.SetReadOnly(!bWrite || szUsername == WEBLOGIN_FACEBOOK_USERNAME || EndsWith(szUsername, WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX));
@@ -370,7 +374,8 @@ void CUserAccountsDlg::ShowUserAccount(const UserAccount& useraccount)
     m_wndTransmitAudFiles.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO)?BST_CHECKED:BST_UNCHECKED);
     m_wndTransmitVidFiles.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO)?BST_CHECKED:BST_UNCHECKED);
     m_wndTransmitDesktops.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOP)?BST_CHECKED:BST_UNCHECKED);
-    m_wndTransmitDesktopInput.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOPINPUT)?BST_CHECKED:BST_UNCHECKED);
+    m_wndTransmitDesktopInput.SetCheck((useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOPINPUT) ? BST_CHECKED : BST_UNCHECKED);
+    m_wndRecordVoice.SetCheck((useraccount.uUserRights & USERRIGHT_RECORD_VOICE)?BST_CHECKED:BST_UNCHECKED);
 
     m_wndNote.SetWindowText(useraccount.szNote);
     int nChan = m_wndInitChannel.FindString(-1, useraccount.szInitChannel);

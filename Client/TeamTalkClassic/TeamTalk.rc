@@ -141,20 +141,22 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,269,190,10
     CONTROL         "User can upload files",IDC_CHECK_UPLOADFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,151,204,10
     CONTROL         "User can download files",IDC_CHECK_DOWNLOADFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,164,204,10
-    CONTROL         "User can update server properties",IDC_CHECK_UPDATESERVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,177,204,10
+    CONTROL         "User can record voice in all channels",IDC_CHECK_RECORDVOICE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,178,204,10
     CONTROL         "User can transmit voice data (microphone)",IDC_CHECK_TRANSMITVOICE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,190,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,191,204,10
     CONTROL         "User can transmit video data (webcam)",IDC_CHECK_TRANSMITVIDEOCAPTURE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,203,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,204,204,10
     CONTROL         "User can transmit audio files (wav, mp3 files)",IDC_CHECK_TRANSMITAUDIOFILE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,216,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,217,204,10
     CONTROL         "User can transmit video files (avi, mp4 files)",IDC_CHECK_TRANSMITVIDEOFILE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,229,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,230,204,10
     CONTROL         "User can transmit desktop sessions (shared desktop)",IDC_CHECK_TRANSMITDESKTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,242,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,243,204,10
     CONTROL         "User can get remote access to desktop sessions",IDC_CHECK_TRANSMITDESKTOPINPUT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,255,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,256,204,10
+    CONTROL         "User can update server properties",IDC_CHECK_UPDATESERVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,269,204,10
     PUSHBUTTON      "&Add",IDC_BUTTON_ADD,341,291,42,14
     PUSHBUTTON      "&Clear",IDC_BUTTON_NEW,283,291,42,14
     DEFPUSHBUTTON   "C&lose",IDOK,506,290,50,16

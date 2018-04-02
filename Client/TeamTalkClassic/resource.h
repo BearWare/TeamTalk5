@@ -677,6 +677,7 @@
 #define IDC_COMBO_BANTYPE               1555
 #define IDC_COMBO_INPUT                 1556
 #define IDC_COMBO_SORTCHANNELS          1557
+#define IDC_CHECK_RECORDVOICE           1558
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -792,7 +793,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        308
 #define _APS_NEXT_COMMAND_VALUE         32954
-#define _APS_NEXT_CONTROL_VALUE         1558
+#define _APS_NEXT_CONTROL_VALUE         1559
 #define _APS_NEXT_SYMED_VALUE           303
 #endif
 #endif

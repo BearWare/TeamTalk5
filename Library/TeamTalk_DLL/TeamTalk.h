@@ -1241,6 +1241,9 @@ extern "C" {
         /** @brief User's status is locked. TT_DoChangeStatus()
         * cannot be used. */
         USERRIGHT_LOCKED_STATUS             = 0x00080000,
+        /** @brief User can record voice in all channels. Even channels
+         * with #CHANNEL_NO_RECORDING. */
+        USERRIGHT_RECORD_VOICE              = 0x00100000,
     } UserRight;
 
     /** 

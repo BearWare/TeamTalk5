@@ -107,4 +107,5 @@ public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     BOOL m_bResizeReady;
     CButton m_wndChangeNickname;
+    CButton m_wndRecordVoice;
 };
