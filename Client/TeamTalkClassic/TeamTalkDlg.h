@@ -167,7 +167,7 @@ public:
     HWND GetSharedDesktopWindowHWND();
     BOOL SendDesktopWindow();
     void RestartSendDesktopWindowTimer();
-    void ToggleClassroom(int nUserID, StreamTypes uStreamTypes);
+    void ToggleTransmitUsers(int nUserID, StreamTypes uStreamTypes);
     void PlaySoundEvent(SoundEvent event);
 
     void RunAppUpdate();
