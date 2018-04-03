@@ -1046,6 +1046,10 @@ void RunWizard(ServerXML& xmlSettings)
                 userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_DOWNLOAD_FILES?true:false)?
                     (userrights | USERRIGHT_DOWNLOAD_FILES) : (userrights & ~USERRIGHT_DOWNLOAD_FILES);
 
+                cout << "User can record conversations in channels that don't allow it: ";
+                userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_RECORD_VOICE?true:false)?
+                    (userrights | USERRIGHT_RECORD_VOICE) : (userrights & ~USERRIGHT_RECORD_VOICE);
+
                 cout << "User can update server properties: ";
                 userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_UPDATE_SERVERPROPERTIES?true:false)?
                     (userrights | USERRIGHT_UPDATE_SERVERPROPERTIES) : (userrights & ~USERRIGHT_UPDATE_SERVERPROPERTIES);
