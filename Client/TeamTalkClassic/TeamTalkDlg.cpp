@@ -4205,7 +4205,7 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
     dlg.m_bClassRoom = (chan.uChannelType & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT;
     dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT;
     dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT;
-    dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING);
+    dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
 
     dlg.m_codec = chan.audiocodec;
     dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;

@@ -427,16 +427,11 @@ namespace teamtalk {
                     m_voiceusers.find(userid) == m_voiceusers.end() &&
                     m_voiceusers.find(TRANSMITUSERS_FREEFORALL) == m_voiceusers.end())
                     return false;
-
-                if (m_voiceusers.find(userid | TRANSMITUSERS_DENY) != m_voiceusers.end())
-                    return false;
                 break;
             case STREAMTYPE_VIDEOCAPTURE :
                 if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_videousers.find(userid) == m_videousers.end() &&
                     m_videousers.find(TRANSMITUSERS_FREEFORALL) == m_videousers.end())
-                    return false;
-                if (m_videousers.find(userid | TRANSMITUSERS_DENY) != m_videousers.end())
                     return false;
                 break;
             case STREAMTYPE_DESKTOP :
@@ -444,16 +439,12 @@ namespace teamtalk {
                     m_desktopusers.find(userid) == m_desktopusers.end() &&
                     m_desktopusers.find(TRANSMITUSERS_FREEFORALL) == m_desktopusers.end())
                     return false;
-                if (m_desktopusers.find(userid | TRANSMITUSERS_DENY) != m_desktopusers.end())
-                    return false;
                 break;
             case STREAMTYPE_MEDIAFILE_AUDIO :
             case STREAMTYPE_MEDIAFILE_VIDEO :
                 if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_mediafileusers.find(userid) == m_mediafileusers.end() &&
                     m_mediafileusers.find(TRANSMITUSERS_FREEFORALL) == m_mediafileusers.end())
-                    return false;
-                if (m_mediafileusers.find(userid | TRANSMITUSERS_DENY) != m_mediafileusers.end())
                     return false;
                 break;
             }

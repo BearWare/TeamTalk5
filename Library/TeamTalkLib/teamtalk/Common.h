@@ -629,7 +629,6 @@ namespace teamtalk {
     int GetAudioFileFormatBitrate(AudioFileFormat aff);
 
 #define TRANSMITUSERS_FREEFORALL 0xFFF
-#define TRANSMITUSERS_DENY   0x1000
 
 #define PACKETNO_GEQ(a,b) ((int16_t)((a)-(b)) >= 0)
 #define STREAMID_GT(a,b) ((int8_t)((a)-(b)) > 0)
