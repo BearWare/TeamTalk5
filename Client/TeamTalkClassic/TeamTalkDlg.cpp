@@ -5721,13 +5721,6 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
 {
     UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
 
-    if(uStorageMode != AUDIOSTORAGE_NONE)
-    {
-        UpdateAudioStorage(FALSE);
-        m_xmlSettings.SetAudioLogStorageMode(AUDIOSTORAGE_NONE);
-        return;
-    }
-
     CMediaStorageDlg dlg;
     dlg.m_szAudioDir = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
     dlg.m_uAFF = m_xmlSettings.GetAudioLogStorageFormat();
@@ -5737,8 +5730,9 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
     dlg.m_szChanLogDir = STR_UTF8(m_xmlSettings.GetChanTextLogStorage());
     dlg.m_szUserTxtDir = STR_UTF8(m_xmlSettings.GetUserTextLogStorage());
 
-    if(dlg.DoModal() == IDOK)
+    switch (dlg.DoModal())
     {
+    case IDOK:
         m_xmlSettings.SetAudioLogStorage(STR_UTF8(dlg.m_szAudioDir));
         m_xmlSettings.SetAudioLogStorageFormat(dlg.m_uAFF);
         uStorageMode = AUDIOSTORAGE_NONE;
@@ -5753,6 +5747,15 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
         UpdateChannelLog();
 
         UpdateAudioStorage(TRUE);
+        break;
+    case IDCLOSE :
+        if(uStorageMode != AUDIOSTORAGE_NONE)
+        {
+            UpdateAudioStorage(FALSE);
+            m_xmlSettings.SetAudioLogStorageMode(AUDIOSTORAGE_NONE);
+            return;
+        }
+        break;
     }
 }
 

@@ -58,4 +58,5 @@ public:
     CString m_szChanLogDir;
     CEdit m_wndUserTxtDir;
     CString m_szUserTxtDir;
+    afx_msg void OnBnClickedClose();
 };
