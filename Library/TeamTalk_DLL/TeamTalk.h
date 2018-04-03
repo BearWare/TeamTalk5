@@ -1124,35 +1124,35 @@ extern "C" {
     typedef enum StreamType
     {
         /** @brief No stream. */
-        STREAMTYPE_NONE                     = 0x0000,
+        STREAMTYPE_NONE                     = 0x00000000,
         /** @brief Voice stream type which is audio recorded from a
          * sound input device. @see TT_InitSoundInputDevice() */
-        STREAMTYPE_VOICE                    = 0x0001,
+        STREAMTYPE_VOICE                    = 0x00000001,
         /** @brief Video capture stream type which is video recorded
          * from a webcam. @see TT_InitVideoCaptureDevice() */
-        STREAMTYPE_VIDEOCAPTURE             = 0x0002,
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
         /** @brief Audio stream type from a media file which is being
          * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x0004,
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
         /** @brief Video stream type from a media file which is being
          * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x0008,
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
         /** @brief Desktop window stream type which is a window (or
          * bitmap) being transmitted. @see TT_SendDesktopWindow() */
-        STREAMTYPE_DESKTOP                  = 0x0010,
+        STREAMTYPE_DESKTOP                  = 0x00000010,
         /** @brief Desktop input stream type which is keyboard or
          * mouse input being transmitted. @see
          * TT_SendDesktopInput() */
-        STREAMTYPE_DESKTOPINPUT             = 0x0020,
-
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
         /** @brief Shortcut to allow both audio and video media files. */
         STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
                                               STREAMTYPE_MEDIAFILE_VIDEO,
+
         /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
-        STREAMTYPE_CLASSROOM_ALL        = STREAMTYPE_VOICE |
-                                          STREAMTYPE_VIDEOCAPTURE |
-                                          STREAMTYPE_DESKTOP |
-                                          STREAMTYPE_MEDIAFILE
+        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
+                                              STREAMTYPE_VIDEOCAPTURE |
+                                              STREAMTYPE_DESKTOP |
+                                              STREAMTYPE_MEDIAFILE,
     } StreamType;
 
     /** @brief Mask of #StreamType. */

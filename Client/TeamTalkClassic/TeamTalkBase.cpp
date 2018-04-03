@@ -142,7 +142,7 @@ transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmit
 
 BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
 {
-    int* begin = &chan.transmitUsers[0][0];
+    int* begin = &chan.transmitUsers[0][TT_TRANSMITUSERID_INDEX];
     int* end = &chan.transmitUsers[0][TT_TRANSMITUSERS_MAX];
     int* p = std::find(begin, end, nUserID);
     if(p == end)

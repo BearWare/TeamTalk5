@@ -420,25 +420,35 @@ namespace teamtalk {
 
         bool CanTransmit(int userid, StreamType txtype)
         {
-            if(m_chantype & CHANNEL_CLASSROOM)
+            switch (txtype)
             {
-                if((txtype & STREAMTYPE_VOICE) && 
+            case STREAMTYPE_VOICE :
+                if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_voiceusers.find(userid) == m_voiceusers.end() &&
-                    m_voiceusers.find(CLASSROOM_FREEFORALL) == m_voiceusers.end())
+                    m_voiceusers.find(TRANSMITUSERS_FREEFORALL) == m_voiceusers.end())
                     return false;
-                if((txtype & STREAMTYPE_VIDEOCAPTURE) && 
+                break;
+            case STREAMTYPE_VIDEOCAPTURE :
+                if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_videousers.find(userid) == m_videousers.end() &&
-                    m_videousers.find(CLASSROOM_FREEFORALL) == m_videousers.end())
+                    m_videousers.find(TRANSMITUSERS_FREEFORALL) == m_videousers.end())
                     return false;
-                if((txtype & STREAMTYPE_DESKTOP) && 
+                break;
+            case STREAMTYPE_DESKTOP :
+                if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_desktopusers.find(userid) == m_desktopusers.end() &&
-                    m_desktopusers.find(CLASSROOM_FREEFORALL) == m_desktopusers.end())
+                    m_desktopusers.find(TRANSMITUSERS_FREEFORALL) == m_desktopusers.end())
                     return false;
-                if((txtype & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) && 
+                break;
+            case STREAMTYPE_MEDIAFILE_AUDIO :
+            case STREAMTYPE_MEDIAFILE_VIDEO :
+                if ((m_chantype & CHANNEL_CLASSROOM) &&
                     m_mediafileusers.find(userid) == m_mediafileusers.end() &&
-                    m_mediafileusers.find(CLASSROOM_FREEFORALL) == m_mediafileusers.end())
+                    m_mediafileusers.find(TRANSMITUSERS_FREEFORALL) == m_mediafileusers.end())
                     return false;
+                break;
             }
+
             return true;
         }
 
