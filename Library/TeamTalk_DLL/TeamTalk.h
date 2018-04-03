@@ -128,8 +128,6 @@ extern "C" {
      * Same as #TT_CLASSROOM_FREEFORALL */
 #define TT_TRANSMITUSERS_FREEFORALL 0xFFF
 
-#define TT_TRANSMITUSERS_DENY 0x00001000
-
     /** @ingroup channels 
      * @def TT_TRANSMITUSERID_INDEX
      * Same as #TT_CLASSROOM_USERID_INDEX */
