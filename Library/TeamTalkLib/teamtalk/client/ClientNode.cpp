@@ -1696,8 +1696,10 @@ void ClientNode::ReceivedPacket(const char* packet_data, int packet_size,
                      ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
+        bool no_record = (m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) &&
+            (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if(!user.null())
-            user->AddVoicePacket(*decrypt_pkt, m_soundprop, voicelogger());
+            user->AddVoicePacket(*decrypt_pkt, m_soundprop, voicelogger(), !no_record);
     }
     break;
 #endif
@@ -1708,8 +1710,10 @@ void ClientNode::ReceivedPacket(const char* packet_data, int packet_size,
                      ACE_TEXT("Received voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
+        bool no_record = (m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) &&
+            (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if(!user.null())
-            user->AddVoicePacket(audio_pkt, m_soundprop, voicelogger());
+            user->AddVoicePacket(audio_pkt, m_soundprop, voicelogger(), !no_record);
         break;
     }
 #ifdef ENABLE_ENCRYPTION

@@ -113,7 +113,7 @@ namespace teamtalk {
 
         void AddVoicePacket(const VoicePacket& audpkt,
                             const struct SoundProperties& sndprop,
-                            class VoiceLogger& voice_logger);
+                            class VoiceLogger& voice_logger, bool allowrecord);
         void AddAudioFilePacket(const AudioFilePacket& audpkt,
                                 const struct SoundProperties& sndprop);
         void AddVideoCapturePacket(const VideoCapturePacket& p,

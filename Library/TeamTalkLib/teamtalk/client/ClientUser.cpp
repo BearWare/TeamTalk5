@@ -242,7 +242,7 @@ int ClientUser::TimerDesktopDelayedAck()
 
 void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
                                 const struct SoundProperties& sndprop,
-                                VoiceLogger& voice_logger)
+                                VoiceLogger& voice_logger, bool allowrecord)
 {
     ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
 
@@ -270,11 +270,10 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     assert(m_voice_player->GetAudioCodec() == chan->GetAudioCodec());
     audiopacket_t reassem_pkt = m_voice_player->QueuePacket(audpkt);
 
-    bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING);
-    m_voice_player->SetNoRecording(no_record);
+    m_voice_player->SetNoRecording(!allowrecord);
 
     //store in voicelog
-    if(GetAudioFolder().length() && !no_record)
+    if(GetAudioFolder().length() && allowrecord)
     {
         if(audpkt.HasFragments())
         {
