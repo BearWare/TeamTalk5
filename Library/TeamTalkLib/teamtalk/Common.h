@@ -277,15 +277,15 @@ namespace teamtalk {
 
     enum StreamType //ensure DLL compliance
     {
-        STREAMTYPE_NONE                     = 0x0000,
-        STREAMTYPE_VOICE                    = 0x0001,
-        STREAMTYPE_VIDEOCAPTURE             = 0x0002,
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x0004,
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x0008,
+        STREAMTYPE_NONE                     = 0x00000000,
+        STREAMTYPE_VOICE                    = 0x00000001,
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
         STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
                                               STREAMTYPE_MEDIAFILE_VIDEO,
-        STREAMTYPE_DESKTOP                  = 0x0010,
-        STREAMTYPE_DESKTOPINPUT             = 0x0020,
+        STREAMTYPE_DESKTOP                  = 0x00000010,
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
     };
 
     typedef ACE_UINT32 StreamTypes;
@@ -628,7 +628,8 @@ namespace teamtalk {
     int SumFrameSizes(const std::vector<int>& in);
     int GetAudioFileFormatBitrate(AudioFileFormat aff);
 
-#define CLASSROOM_FREEFORALL 0xFFF
+#define TRANSMITUSERS_FREEFORALL 0xFFF
+#define TRANSMITUSERS_DENY   0x1000
 
 #define PACKETNO_GEQ(a,b) ((int16_t)((a)-(b)) >= 0)
 #define STREAMID_GT(a,b) ((int8_t)((a)-(b)) > 0)

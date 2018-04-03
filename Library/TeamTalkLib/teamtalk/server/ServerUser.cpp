@@ -1396,13 +1396,14 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);    
     AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if(channel.GetChannelType() & CHANNEL_CLASSROOM)
-    {
+    if (channel.GetVoiceUsers().size())
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
+    if (channel.GetVideoUsers().size())
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
+    if (channel.GetDesktopUsers().size())
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
+    if (channel.GetMediaFileUsers().size())
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
-    }
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1443,13 +1444,15 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);
     AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if(channel.GetChannelType() & CHANNEL_CLASSROOM)
-    {
+    if (channel.GetVoiceUsers().size())
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
+    if (channel.GetVideoUsers().size())
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
+    if (channel.GetDesktopUsers().size())
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
+    if (channel.GetMediaFileUsers().size())
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
-    }
+
     if(channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
     {
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);

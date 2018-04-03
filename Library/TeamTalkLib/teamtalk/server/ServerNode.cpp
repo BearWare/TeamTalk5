@@ -3518,7 +3518,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
             if(chanprop.desktopusers.find(*ii) == chanprop.desktopusers.end())
             {
                 serveruser_t src_user = GetUser(*ii);
-                //TTASSERT(!src_user.null()); userid can be CLASSROOM_FREEFORALL (0xFFF)
+                //TTASSERT(!src_user.null()); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
                 if(src_user.null() || src_user->GetDesktopSession().null())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
