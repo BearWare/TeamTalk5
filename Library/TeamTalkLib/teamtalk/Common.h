@@ -547,6 +547,12 @@ namespace teamtalk {
             memset(&audiocodec, 0, sizeof(audiocodec));
             audiocodec.codec = CODEC_NO_CODEC;
             chantype = CHANNEL_DEFAULT;
+
+            // ensure we can use std::map<>.at()
+            transmitusers[STREAMTYPE_VOICE] = std::set<int>();
+            transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
+            transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
+            transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
         }
     };
 

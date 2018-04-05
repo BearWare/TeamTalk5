@@ -44,38 +44,45 @@ namespace teamtalk {
     template < typename CHANNEL, typename USER >
     class Channel
     {
-    private:
-        // prevent copying
-        Channel(const Channel& ch);
-        const Channel& operator = (const Channel& ch);
     public:
         typedef ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel_t;
         typedef ACE_Strong_Bound_Ptr< USER, ACE_Null_Mutex  > user_t;
         typedef std::vector< channel_t > channels_t;
         typedef std::vector< user_t > users_t;
 
-        Channel(int channelid)    //create a root
+    private:
+        // prevent copying
+        Channel(const Channel& ch);
+        const Channel& operator = (const Channel& ch);
+
+        Channel(channel_t& parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
             : m_protected(false)
             , m_maxusers(MAX_USERS_IN_CHANNEL)
             , m_channelid(channelid)
-            , m_chantype(CHANNEL_DEFAULT | CHANNEL_PERMANENT)
             , m_userdata(0)
+            , m_maxdiskusage(0)
+            , m_chantype(chantype)
+            , m_parent(parent)
+            , m_name(name)
         {
             m_audiocodec.codec = CODEC_NO_CODEC;
+
+            // ensure we can use std::map<>.at()
+            m_transmitusers[STREAMTYPE_VOICE] = std::set<int>();
+            m_transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
+            m_transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
+            m_transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
+        }
+
+    public:
+        Channel(int channelid)    //create a root
+            : Channel(channel_t(), channelid, CHANNEL_DEFAULT | CHANNEL_PERMANENT, ACE_TString())
+        {
             //MYTRACE("New channel: %s\n", m_name.c_str());
         }
-        Channel(channel_t& parent, 
-            int channelid, 
-            const ACE_TString& name)    //create a sub channel
-            : m_name(name)
-            , m_protected(false)
-            , m_maxusers(MAX_USERS_IN_CHANNEL)
-            , m_channelid(channelid)
-            , m_chantype(CHANNEL_DEFAULT)
-            , m_parent(parent)
-            , m_userdata(0)
+        Channel(channel_t& parent, int channelid, const ACE_TString& name)    //create a sub channel
+            : Channel(parent, channelid, CHANNEL_DEFAULT, name)
         {
-            m_audiocodec.codec = CODEC_NO_CODEC;
             //MYTRACE("New channel: %s\n", name.c_str());
         }
         virtual ~Channel()
