@@ -3447,10 +3447,10 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetAudioConfig(chanprop.audiocfg);
     chan->SetChannelType(chanprop.chantype);
     chan->SetUserData(chanprop.userdata);
-    chan->SetVoiceUsers(chanprop.voiceusers);
-    chan->SetVideoUsers(chanprop.videousers);
-    chan->SetDesktopUsers(chanprop.desktopusers);
-    chan->SetMediaFileUsers(chanprop.mediafileusers);
+    chan->SetVoiceUsers(chanprop.transmitusers.at(STREAMTYPE_VOICE));
+    chan->SetVideoUsers(chanprop.transmitusers.at(STREAMTYPE_VIDEOCAPTURE));
+    chan->SetDesktopUsers(chanprop.transmitusers.at(STREAMTYPE_DESKTOP));
+    chan->SetMediaFileUsers(chanprop.transmitusers.at(STREAMTYPE_MEDIAFILE));
 
     //forward new channel to all connected users
     const ServerChannel::users_t& users = GetAuthorizedUsers();
@@ -3506,16 +3506,16 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
         chan->SetAudioCodec(chanprop.audiocodec);
     chan->SetAudioConfig(chanprop.audiocfg);
     chan->SetPassword(chanprop.passwd);
-    chan->SetVoiceUsers(chanprop.voiceusers);
-    chan->SetVideoUsers(chanprop.videousers);
+    chan->SetVoiceUsers(chanprop.transmitusers.at(STREAMTYPE_VOICE));
+    chan->SetVideoUsers(chanprop.transmitusers.at(STREAMTYPE_VIDEOCAPTURE));
     //close active desktop sessions
-    if(chan->GetDesktopUsers() != chanprop.desktopusers)
+    if(chan->GetDesktopUsers() != chanprop.transmitusers.at(STREAMTYPE_DESKTOP))
     {
         const ServerChannel::users_t& users = chan->GetUsers();
         set<int>::const_iterator ii = chan->GetDesktopUsers().begin();
         for(;ii!=chan->GetDesktopUsers().end();ii++)
         {
-            if(chanprop.desktopusers.find(*ii) == chanprop.desktopusers.end())
+            if(chanprop.transmitusers.at(STREAMTYPE_DESKTOP).find(*ii) == chanprop.transmitusers.at(STREAMTYPE_DESKTOP).end())
             {
                 serveruser_t src_user = GetUser(*ii);
                 //TTASSERT(!src_user.null()); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
@@ -3527,8 +3527,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
             }
         }
     }
-    chan->SetDesktopUsers(chanprop.desktopusers);
-    chan->SetMediaFileUsers(chanprop.mediafileusers);
+    chan->SetDesktopUsers(chanprop.transmitusers.at(STREAMTYPE_DESKTOP));
+    chan->SetMediaFileUsers(chanprop.transmitusers.at(STREAMTYPE_MEDIAFILE));
     chan->SetTransmitQueue(chanprop.transmitqueue);
 
     UpdateChannel(*chan);

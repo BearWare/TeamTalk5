@@ -506,6 +506,8 @@ namespace teamtalk {
 
     typedef ACE_UINT32 ChannelTypes;
 
+    typedef std::map< StreamType, std::set<int> > transmitusers_t;
+
     struct ChannelProp
     {
         ACE_TString name;
@@ -524,12 +526,16 @@ namespace teamtalk {
         ChannelTypes chantype;
         ACE_UINT32 chankey;
         int userdata;
-        std::set<int> voiceusers;
-        std::set<int> videousers;
-        std::set<int> desktopusers;
-        std::set<int> mediafileusers;
+        transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
         bannedusers_t bans;
+        std::set<int> GetTransmitUsers(StreamType st)
+        {
+            if(transmitusers.find(st) != transmitusers.end())
+                return transmitusers.at(st);
+            return std::set<int>();
+        }
+
         ChannelProp()
         {
             bProtected = false;

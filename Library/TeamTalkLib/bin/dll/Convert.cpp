@@ -976,23 +976,23 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
 
     std::set<int> userids;
     std::set<int>::iterator ii;
-    userids.insert(chanprop.voiceusers.begin(), chanprop.voiceusers.end());
-    userids.insert(chanprop.videousers.begin(), chanprop.videousers.end());
-    userids.insert(chanprop.desktopusers.begin(), chanprop.desktopusers.end());
-    userids.insert(chanprop.mediafileusers.begin(), chanprop.mediafileusers.end());
+    userids.insert(chanprop.transmitusers.at(teamtalk::STREAMTYPE_VOICE).begin(), chanprop.transmitusers.at(teamtalk::STREAMTYPE_VOICE).end());
+    userids.insert(chanprop.transmitusers.at(teamtalk::STREAMTYPE_VIDEOCAPTURE).begin(), chanprop.transmitusers.at(teamtalk::STREAMTYPE_VIDEOCAPTURE).end());
+    userids.insert(chanprop.transmitusers.at(teamtalk::STREAMTYPE_DESKTOP).begin(), chanprop.transmitusers.at(teamtalk::STREAMTYPE_DESKTOP).end());
+    userids.insert(chanprop.transmitusers.at(teamtalk::STREAMTYPE_MEDIAFILE).begin(), chanprop.transmitusers.at(teamtalk::STREAMTYPE_MEDIAFILE).end());
     
     ACE_OS::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
     size_t i=0;
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
         result.transmitUsers[i][0] = *ii;
-        if(chanprop.voiceusers.find(*ii) != chanprop.voiceusers.end())
+        if(chanprop.transmitusers.at(teamtalk::STREAMTYPE_VOICE).find(*ii) != chanprop.transmitusers.at(teamtalk::STREAMTYPE_VOICE).end())
             result.transmitUsers[i][1] |= STREAMTYPE_VOICE;
-        if(chanprop.videousers.find(*ii) != chanprop.videousers.end())
+        if(chanprop.transmitusers.at(teamtalk::STREAMTYPE_VIDEOCAPTURE).find(*ii) != chanprop.transmitusers.at(teamtalk::STREAMTYPE_VIDEOCAPTURE).end())
             result.transmitUsers[i][1] |= STREAMTYPE_VIDEOCAPTURE;
-        if(chanprop.desktopusers.find(*ii) != chanprop.desktopusers.end())
+        if(chanprop.transmitusers.at(teamtalk::STREAMTYPE_DESKTOP).find(*ii) != chanprop.transmitusers.at(teamtalk::STREAMTYPE_DESKTOP).end())
             result.transmitUsers[i][1] |= STREAMTYPE_DESKTOP;
-        if(chanprop.mediafileusers.find(*ii) != chanprop.mediafileusers.end())
+        if(chanprop.transmitusers.at(teamtalk::STREAMTYPE_MEDIAFILE).find(*ii) != chanprop.transmitusers.at(teamtalk::STREAMTYPE_MEDIAFILE).end())
             result.transmitUsers[i][1] |= STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO;
     }
 
@@ -1028,13 +1028,13 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
     {
         int userid = channel.transmitUsers[i][0];
         if(channel.transmitUsers[i][1] & STREAMTYPE_VOICE)
-            chanprop.voiceusers.insert(userid);
+            chanprop.transmitusers[teamtalk::STREAMTYPE_VOICE].insert(userid);
         if(channel.transmitUsers[i][1] & STREAMTYPE_VIDEOCAPTURE)
-            chanprop.videousers.insert(userid);
+            chanprop.transmitusers[teamtalk::STREAMTYPE_VIDEOCAPTURE].insert(userid);
         if(channel.transmitUsers[i][1] & STREAMTYPE_DESKTOP)
-            chanprop.desktopusers.insert(userid);
+            chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
         if(channel.transmitUsers[i][1] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO))
-            chanprop.mediafileusers.insert(userid);
+            chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
     }
 
     for(int i=0;i<TT_TRANSMITQUEUE_MAX;i++)

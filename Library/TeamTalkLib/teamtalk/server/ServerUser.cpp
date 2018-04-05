@@ -615,10 +615,10 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
     GetProperty(properties, TT_AUDIOCFG, chanprop.audiocfg);
     GetProperty(properties, TT_CHANNELTYPE, chanprop.chantype);
     GetProperty(properties, TT_USERDATA, chanprop.userdata);
-    GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers);
-    GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers);
-    GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers);
-    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers);
+    GetProperty(properties, TT_VOICEUSERS, chanprop.transmitusers[STREAMTYPE_VOICE]);
+    GetProperty(properties, TT_VIDEOUSERS, chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE]);
+    GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
+    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_PASSWORD, chanprop.passwd);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
@@ -690,10 +690,10 @@ ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
     GetProperty(properties, TT_AUDIOCFG, chanprop.audiocfg);
     GetProperty(properties, TT_CHANNELTYPE, chanprop.chantype);
     GetProperty(properties, TT_USERDATA, chanprop.userdata);
-    GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers);
-    GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers);
-    GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers);
-    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers);
+    GetProperty(properties, TT_VOICEUSERS, chanprop.transmitusers[STREAMTYPE_VOICE]);
+    GetProperty(properties, TT_VIDEOUSERS, chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE]);
+    GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
+    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -722,17 +722,17 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     GetProperty(properties, TT_CHANNELTYPE, chanprop.chantype);
     GetProperty(properties, TT_USERDATA, chanprop.userdata);
     if(HasProperty(properties, TT_VOICEUSERS))
-        chanprop.voiceusers.clear();
-    GetProperty(properties, TT_VOICEUSERS, chanprop.voiceusers);
+        chanprop.transmitusers[STREAMTYPE_VOICE].clear();
+    GetProperty(properties, TT_VOICEUSERS, chanprop.transmitusers[STREAMTYPE_VOICE]);
     if(HasProperty(properties, TT_VIDEOUSERS))
-        chanprop.videousers.clear();
-    GetProperty(properties, TT_VIDEOUSERS, chanprop.videousers);
+        chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE].clear();
+    GetProperty(properties, TT_VIDEOUSERS, chanprop.transmitusers[STREAMTYPE_VIDEOCAPTURE]);
     if(HasProperty(properties, TT_DESKTOPUSERS))
-        chanprop.desktopusers.clear();
-    GetProperty(properties, TT_DESKTOPUSERS, chanprop.desktopusers);
+        chanprop.transmitusers[STREAMTYPE_DESKTOP].clear();
+    GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
     if(HasProperty(properties, TT_MEDIAFILEUSERS))
-        chanprop.mediafileusers.clear();
-    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.mediafileusers);
+        chanprop.transmitusers[STREAMTYPE_MEDIAFILE].clear();
+    GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
 
     if(GetUserRights() & USERRIGHT_MODIFY_CHANNELS)
     {

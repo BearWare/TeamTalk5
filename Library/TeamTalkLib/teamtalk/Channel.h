@@ -201,19 +201,19 @@ namespace teamtalk {
         std::set<int> ClearTransmitUser(int userid, bool recursive = false)
         {
             std::set<int> chanids;
-            if(m_voiceusers.find(userid) != m_voiceusers.end())
+            if(m_transmitusers[STREAMTYPE_VOICE].find(userid) != m_transmitusers[STREAMTYPE_VOICE].end())
                 chanids.insert(GetChannelID());
-            else if(m_videousers.find(userid) != m_videousers.end())
+            else if(m_transmitusers[STREAMTYPE_VIDEOCAPTURE].find(userid) != m_transmitusers[STREAMTYPE_VIDEOCAPTURE].end())
                 chanids.insert(GetChannelID());
-            else if(m_desktopusers.find(userid) != m_desktopusers.end())
+            else if(m_transmitusers[STREAMTYPE_DESKTOP].find(userid) != m_transmitusers[STREAMTYPE_DESKTOP].end())
                 chanids.insert(GetChannelID());
-            else if(m_mediafileusers.find(userid) != m_mediafileusers.end())
+            else if(m_transmitusers[STREAMTYPE_MEDIAFILE].find(userid) != m_transmitusers[STREAMTYPE_MEDIAFILE].end())
                 chanids.insert(GetChannelID());
 
-            m_voiceusers.erase(userid);
-            m_videousers.erase(userid);
-            m_desktopusers.erase(userid);
-            m_mediafileusers.erase(userid);
+            m_transmitusers[STREAMTYPE_VOICE].erase(userid);
+            m_transmitusers[STREAMTYPE_VIDEOCAPTURE].erase(userid);
+            m_transmitusers[STREAMTYPE_DESKTOP].erase(userid);
+            m_transmitusers[STREAMTYPE_MEDIAFILE].erase(userid);
 
             if(recursive)
             {
@@ -406,48 +406,26 @@ namespace teamtalk {
             return count;
         }
 
-        void SetVoiceUsers(const std::set<int>& userids) { m_voiceusers = userids; }
-        const std::set<int>& GetVoiceUsers() const { return m_voiceusers; }
+        void SetVoiceUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_VOICE] = userids; }
+        const std::set<int>& GetVoiceUsers() const { return m_transmitusers.at(STREAMTYPE_VOICE); }
 
-        void SetVideoUsers(const std::set<int>& userids) { m_videousers = userids; }
-        const std::set<int>& GetVideoUsers() const { return m_videousers; }
+        void SetVideoUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_VIDEOCAPTURE] = userids; }
+        const std::set<int>& GetVideoUsers() const { return m_transmitusers.at(STREAMTYPE_VIDEOCAPTURE); }
 
-        void SetDesktopUsers(const std::set<int>& userids) { m_desktopusers = userids; }
-        const std::set<int>& GetDesktopUsers() const { return m_desktopusers; }
+        void SetDesktopUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_DESKTOP] = userids; }
+        const std::set<int>& GetDesktopUsers() const { return m_transmitusers.at(STREAMTYPE_DESKTOP); }
 
-        void SetMediaFileUsers(const std::set<int>& userids) { m_mediafileusers = userids; }
-        const std::set<int>& GetMediaFileUsers() const { return m_mediafileusers; }
+        void SetMediaFileUsers(const std::set<int>& userids) { m_transmitusers[STREAMTYPE_MEDIAFILE] = userids; }
+        const std::set<int>& GetMediaFileUsers() const { return m_transmitusers.at(STREAMTYPE_MEDIAFILE); }
 
         bool CanTransmit(int userid, StreamType txtype)
         {
-            switch (txtype)
-            {
-            case STREAMTYPE_VOICE :
-                if ((m_chantype & CHANNEL_CLASSROOM) &&
-                    m_voiceusers.find(userid) == m_voiceusers.end() &&
-                    m_voiceusers.find(TRANSMITUSERS_FREEFORALL) == m_voiceusers.end())
-                    return false;
-                break;
-            case STREAMTYPE_VIDEOCAPTURE :
-                if ((m_chantype & CHANNEL_CLASSROOM) &&
-                    m_videousers.find(userid) == m_videousers.end() &&
-                    m_videousers.find(TRANSMITUSERS_FREEFORALL) == m_videousers.end())
-                    return false;
-                break;
-            case STREAMTYPE_DESKTOP :
-                if ((m_chantype & CHANNEL_CLASSROOM) &&
-                    m_desktopusers.find(userid) == m_desktopusers.end() &&
-                    m_desktopusers.find(TRANSMITUSERS_FREEFORALL) == m_desktopusers.end())
-                    return false;
-                break;
-            case STREAMTYPE_MEDIAFILE_AUDIO :
-            case STREAMTYPE_MEDIAFILE_VIDEO :
-                if ((m_chantype & CHANNEL_CLASSROOM) &&
-                    m_mediafileusers.find(userid) == m_mediafileusers.end() &&
-                    m_mediafileusers.find(TRANSMITUSERS_FREEFORALL) == m_mediafileusers.end())
-                    return false;
-                break;
-            }
+            const std::set<int>& txusers = m_transmitusers[txtype];
+
+            if ((m_chantype & CHANNEL_CLASSROOM) &&
+                txusers.find(userid) == txusers.end() &&
+                txusers.find(TRANSMITUSERS_FREEFORALL) == txusers.end())
+                return false;
 
             return true;
         }
@@ -508,10 +486,7 @@ namespace teamtalk {
             prop.audiocodec = m_audiocodec;
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
-            prop.voiceusers = m_voiceusers;
-            prop.videousers = m_videousers;
-            prop.desktopusers = m_desktopusers;
-            prop.mediafileusers = m_mediafileusers;
+            prop.transmitusers= m_transmitusers;
             prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
@@ -553,10 +528,7 @@ namespace teamtalk {
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;
         //classroom transmission
-        std::set<int> m_voiceusers;
-        std::set<int> m_videousers;
-        std::set<int> m_desktopusers;
-        std::set<int> m_mediafileusers;
+        transmitusers_t m_transmitusers;
         //solo transmission
         std::vector<int> m_transmitqueue;
         bannedusers_t m_bans;
