@@ -4694,14 +4694,14 @@ void MainWindow::slotTransmitUsersChanged(int channelid,
     QMap<int,StreamTypes>::const_iterator i = transmitUsers.begin();
     while(i != transmitUsers.end())
     {
-        chan.transmitUsers[j][TT_TRANSMITUSERID_INDEX] = i.key();
-        chan.transmitUsers[j][TT_TRANSMITSTREAMTYPE_INDEX] = i.value();
+        chan.transmitUsers[j][TT_TRANSMITUSERS_USERID_INDEX] = i.key();
+        chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = i.value();
         i++;j++;
     }
     if(j<TT_TRANSMITUSERS_MAX)
     {
-        chan.transmitUsers[j][TT_TRANSMITUSERID_INDEX] = 0;
-        chan.transmitUsers[j][TT_TRANSMITSTREAMTYPE_INDEX] = STREAMTYPE_NONE;
+        chan.transmitUsers[j][TT_TRANSMITUSERS_USERID_INDEX] = 0;
+        chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = STREAMTYPE_NONE;
     }
     TT_DoUpdateChannel(ttInst, &chan);
 }

@@ -989,15 +989,15 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     size_t i=0;
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
-        result.transmitUsers[i][TT_TRANSMITUSERID_INDEX] = *ii;
+        result.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] = *ii;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE).count(*ii))
-            result.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] |= STREAMTYPE_VOICE;
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VOICE;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VIDEOCAPTURE).count(*ii))
-            result.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] |= STREAMTYPE_VIDEOCAPTURE;
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VIDEOCAPTURE;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_DESKTOP).count(*ii))
-            result.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
         if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).count(*ii))
-            result.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
+            result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
     }
 
     for(i=0;i<TT_TRANSMITQUEUE_MAX;i++)
@@ -1028,16 +1028,16 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
     chanprop.topic = channel.szTopic;
     Convert(channel.audiocfg, chanprop.audiocfg);
 
-    for(int i=0;i<TT_TRANSMITUSERS_MAX && channel.transmitUsers[i][TT_TRANSMITUSERID_INDEX];i++)
+    for(int i=0;i<TT_TRANSMITUSERS_MAX && channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];i++)
     {
-        int userid = channel.transmitUsers[i][TT_TRANSMITUSERID_INDEX];
-        if(channel.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & STREAMTYPE_VOICE)
+        int userid = channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];
+        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VOICE)
             chanprop.transmitusers[teamtalk::STREAMTYPE_VOICE].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & STREAMTYPE_VIDEOCAPTURE)
+        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VIDEOCAPTURE)
             chanprop.transmitusers[teamtalk::STREAMTYPE_VIDEOCAPTURE].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & STREAMTYPE_DESKTOP)
+        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_DESKTOP)
             chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE))
+        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE))
             chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
     }
 

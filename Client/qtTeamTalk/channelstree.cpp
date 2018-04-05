@@ -67,9 +67,9 @@ const char userMimeType[] = "application/user";
 bool userCanTx(int userid, StreamTypes stream_type, const int transmitUsers[][2], int max_userids = TT_TRANSMITUSERS_MAX)
 {
     int i=0;
-    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERID_INDEX])
+    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX])
     {
-        if(transmitUsers[i][TT_TRANSMITUSERID_INDEX] == userid && (transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & stream_type))
+        if(transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == userid && (transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
             return true;
         else i++;
     }
@@ -137,10 +137,10 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
                   int max_userids = TT_TRANSMITUSERS_MAX)
 {
     int i=0;
-    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERID_INDEX] != 0)
+    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] != 0)
     {
-        if(transmitUsers[i][TT_TRANSMITUSERID_INDEX] == TT_CLASSROOM_FREEFORALL &&
-           (transmitUsers[i][TT_TRANSMITSTREAMTYPE_INDEX] & stream_type))
+        if(transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == TT_CLASSROOM_FREEFORALL &&
+           (transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
             return true;
         i++;
     }
