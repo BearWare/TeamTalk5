@@ -66,7 +66,7 @@ public:
     QVector<int> getUsers() const;
     users_t getUsers(int channelid) const;
 
-    void getClassRoomUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
+    void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
 
     void reset();
 
@@ -84,7 +84,7 @@ signals:
     void fileDropped(const QString&);
 
     //chanid, voiceUsers, videoUsers, desktopUsers
-    void classroomChanged(int, const QMap<int, StreamTypes>&);
+    void transmitusersChanged(int, const QMap<int, StreamTypes>&);
 
 protected:
     void timerEvent(QTimerEvent* event);

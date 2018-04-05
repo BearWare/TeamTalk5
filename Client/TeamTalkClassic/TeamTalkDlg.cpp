@@ -6208,12 +6208,12 @@ void CTeamTalkDlg::OnUpdateAdvancedAllowallmediafiletransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
                                 m_wndTree.GetSelectedChannel(true),
-                                STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, pCmdUI);
+                                STREAMTYPE_MEDIAFILE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowallmediafiletransmission()
 {
-    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_MEDIAFILE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI)
