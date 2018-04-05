@@ -4049,10 +4049,10 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop)
         AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
         AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
         AppendProperty(TT_USERDATA, chanprop.userdata, command);
-        AppendProperty(TT_VOICEUSERS, chanprop.transmitusers.at(STREAMTYPE_VOICE), command);
-        AppendProperty(TT_VIDEOUSERS, chanprop.transmitusers.at(STREAMTYPE_VIDEOCAPTURE), command);
-        AppendProperty(TT_DESKTOPUSERS, chanprop.transmitusers.at(STREAMTYPE_DESKTOP), command);
-        AppendProperty(TT_MEDIAFILEUSERS, chanprop.transmitusers.at(STREAMTYPE_MEDIAFILE), command);
+        AppendProperty(TT_VOICEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VOICE), command);
+        AppendProperty(TT_VIDEOUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE), command);
+        AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
+        AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     }
     else //already exists
     {
@@ -4251,10 +4251,10 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
     AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
     AppendProperty(TT_USERDATA, chanprop.userdata, command);
-    AppendProperty(TT_VOICEUSERS, chanprop.transmitusers.at(STREAMTYPE_VOICE), command);
-    AppendProperty(TT_VIDEOUSERS, chanprop.transmitusers.at(STREAMTYPE_VIDEOCAPTURE), command);
-    AppendProperty(TT_DESKTOPUSERS, chanprop.transmitusers.at(STREAMTYPE_DESKTOP), command);
-    AppendProperty(TT_MEDIAFILEUSERS, chanprop.transmitusers.at(STREAMTYPE_MEDIAFILE), command);
+    AppendProperty(TT_VOICEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VOICE), command);
+    AppendProperty(TT_VIDEOUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE), command);
+    AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
+    AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -4278,10 +4278,10 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
     AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
     AppendProperty(TT_USERDATA, chanprop.userdata, command);
-    AppendProperty(TT_VOICEUSERS, chanprop.transmitusers.at(STREAMTYPE_VOICE), command);
-    AppendProperty(TT_VIDEOUSERS, chanprop.transmitusers.at(STREAMTYPE_VIDEOCAPTURE), command);
-    AppendProperty(TT_DESKTOPUSERS, chanprop.transmitusers.at(STREAMTYPE_DESKTOP), command);
-    AppendProperty(TT_MEDIAFILEUSERS, chanprop.transmitusers.at(STREAMTYPE_MEDIAFILE), command);
+    AppendProperty(TT_VOICEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VOICE), command);
+    AppendProperty(TT_VIDEOUSERS, chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE), command);
+    AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
+    AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 

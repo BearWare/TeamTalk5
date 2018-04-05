@@ -529,7 +529,7 @@ namespace teamtalk {
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
         bannedusers_t bans;
-        std::set<int> GetTransmitUsers(StreamType st)
+        std::set<int> GetTransmitUsers(StreamType st) const
         {
             if(transmitusers.find(st) != transmitusers.end())
                 return transmitusers.at(st);
