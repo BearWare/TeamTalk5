@@ -11,7 +11,6 @@
     <item id="111">개설된 채널 업데이트</item>
     <item id="112">예</item>
     <item id="113">아니오</item>
-    <item id="114"></item>
     <item id="115">음속어</item>
     <item id="116">Streaming</item>
     <item id="117">데스크톱</item>
@@ -33,10 +32,8 @@
     <item id="133">classroom 채널에 입장함 %s</item>
     <item id="134">파일</item>
     <item id="135">대화</item>
-    <item id="136"></item>
     <item id="137">사용자</item>
     <item id="138">%s가 데스크톱 접근 요청 중</item>
-    <item id="139"></item>
     <item id="140">서버 속성</item>
     <item id="141">사용자 계정</item>
     <item id="142">채널</item>
@@ -46,8 +43,6 @@
     <item id="147">대화를 디스크에 저장</item>
     <item id="148">비디오 캡처</item>
     <item id="150">데스크톱 공유</item>
-    <item id="151"></item>
-    <item id="154"></item>
     <item id="155">.tt File 만들기</item>
     <item id="201">메시지</item>
     <item id="205">상태 변경</item>
@@ -62,7 +57,6 @@
     <item id="243">Host 관리자</item>
     <item id="247">내 IP 주소는?</item>
     <item id="249">키 조합</item>
-    <item id="251"></item>
     <item id="254">단축키</item>
     <item id="256">차단된 사용자</item>
     <item id="268">새 사용자</item>

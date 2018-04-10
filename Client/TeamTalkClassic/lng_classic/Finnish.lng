@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
-    <item id="102"></item>
     <item id="104">Katkaise</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">Yhdistä</item>
     <item id="108">Luo kanava</item>
     <item id="109">Päivitä Kanava</item>
@@ -11,7 +8,6 @@
     <item id="111">Päivitä olemassa olevaa kanavaa</item>
     <item id="112">Kyllä</item>
     <item id="113">Ei</item>
-    <item id="121"></item>
     <item id="122">Äänikortti tukee 3D ääntä</item>
     <item id="123">Äänikortti ei tue 3D ääntä</item>
     <item id="124">Testi valittu</item>
