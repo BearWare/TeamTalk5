@@ -62,6 +62,7 @@
 #include "gui/StreamMediaDlg.h"
 #include "gui/WebLoginDlg.h"
 #include "gui/BanTypeDlg.h"
+#include "gui/SendLiveContentDlg.h"
 
 #include "wizard/WizMasterSheet.h"
 #include "wizard/WizWelcomePage.h"
@@ -273,6 +274,7 @@ void CTeamTalkDlg::Disconnect()
     m_useraccounts.clear();
     m_bannedusers.clear();
     m_moveusers.clear();
+    m_liveContent.clear();
 
     UpdateWindowTitle();
 }
@@ -773,6 +775,10 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
         ON_UPDATE_COMMAND_UI(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnUpdateChannelsBannedusersinchannel)
         ON_COMMAND(ID_CHANNELS_BANNEDUSERSINCHANNEL, &CTeamTalkDlg::OnChannelsBannedusersinchannel)
         ON_COMMAND(ID_CLIENT_NEWCLIENTINSTANCE, &CTeamTalkDlg::OnClientNewclientinstance)
+        ON_UPDATE_COMMAND_UI(ID_MESSAGES_SENDLIVECONTENT, &CTeamTalkDlg::OnUpdateMessagesSendlivecontent)
+        ON_COMMAND(ID_MESSAGES_SENDLIVECONTENT, &CTeamTalkDlg::OnMessagesSendlivecontent)
+        ON_UPDATE_COMMAND_UI(ID_MESSAGES_OPENLIVECONTENT, &CTeamTalkDlg::OnUpdateMessagesOpenlivecontent)
+        ON_COMMAND(ID_MESSAGES_OPENLIVECONTENT, &CTeamTalkDlg::OnMessagesOpenlivecontent)
         END_MESSAGE_MAP()
 
 
@@ -1841,27 +1847,34 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         CStringList tokens;
         GetCustomCommand(textmsg.szMessage, tokens);
         POSITION pos = tokens.GetHeadPosition();
-        if(tokens.GetCount()>1 &&
-            tokens.GetNext(pos) == TT_INTCMD_DESKTOP_ACCESS)
+        if(tokens.GetCount() > 1)
         {
-            CString szText, szFormat;
-            if(tokens.GetNext(pos) != _T("0"))
+            CString szCmd = tokens.GetNext(pos);
+            if(szCmd == TT_INTCMD_DESKTOP_ACCESS)
             {
-                szFormat = LoadText(IDS_DESKTOPINPUT_REQUEST);
-                szText.Format(szFormat, GetDisplayName(user));
-                if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                CString szText, szFormat;
+                if(tokens.GetNext(pos) != _T("0"))
                 {
-                    AddVoiceMessage(szText);
+                    szFormat = LoadText(IDS_DESKTOPINPUT_REQUEST);
+                    szText.Format(szFormat, GetDisplayName(user));
+                    if(m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_DESKTOPINPUT)
+                    {
+                        AddVoiceMessage(szText);
+                    }
+                    PlaySoundEvent(SOUNDEVENT_USER_DESKTOP_ACCESS);
                 }
-                PlaySoundEvent(SOUNDEVENT_USER_DESKTOP_ACCESS);
+                else
+                {
+                    szFormat = LoadText(IDS_DESKTOPINPUT_RETRACT);
+                    SubscribeCommon(textmsg.nFromUserID, SUBSCRIBE_DESKTOPINPUT, FALSE);
+                    szText.Format(szFormat, GetDisplayName(user));
+                }
+                AddStatusText(szText);
             }
-            else
+            else if (szCmd == TT_INTCMD_LIVEURL || szCmd == TT_INTCMD_LIVEDOWNLOAD)
             {
-                szFormat = LoadText(IDS_DESKTOPINPUT_RETRACT);
-                SubscribeCommon(textmsg.nFromUserID, SUBSCRIBE_DESKTOPINPUT, FALSE);
-                szText.Format(szFormat, GetDisplayName(user));
+                m_liveContent.push_back(textmsg);
             }
-            AddStatusText(szText);
         }
     }
     break;
@@ -4887,7 +4900,7 @@ void CTeamTalkDlg::Translate()
 
     CString szFile, szMe, szUsers, szChannels, szServer, szHelp,
         szAdvanced, szMute, szKick, szSubscriptions, szUserInfo,
-        szChanInfo;
+        szChanInfo, szMessages;
 
     szFile.LoadString(ID_FILE);
     szMe.LoadString(ID_ME);
@@ -4897,6 +4910,7 @@ void CTeamTalkDlg::Translate()
     szHelp.LoadString(ID_HELP);
 
     szUserInfo.LoadString(ID_USERS_USERINFO);
+    szMessages = LoadText(ID_USERS_MESSAGES);
     szAdvanced.LoadString(ID_ADVANCED);
     szMute.LoadString(ID_MUTE);
     szKick.LoadString(ID_KICK);
@@ -4929,6 +4943,7 @@ void CTeamTalkDlg::Translate()
     CMenu* sub = menu.GetSubMenu(2);
 
     sub->ModifyMenu(0, MF_BYPOSITION | MF_STRING, 0, szUserInfo);
+    sub->ModifyMenu(1, MF_BYPOSITION | MF_STRING, 0, szMessages);
     sub->ModifyMenu(5, MF_BYPOSITION | MF_STRING, 0, szMute);
     sub->ModifyMenu(6, MF_BYPOSITION | MF_STRING, 0, szKick);
     sub->ModifyMenu(7, MF_BYPOSITION | MF_STRING, 0, szSubscriptions);
@@ -6779,4 +6794,119 @@ void CTeamTalkDlg::OnClientNewclientinstance()
 
     if (!CreateProcess(szBuff, szCmdLine.GetBuffer(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &info, &processInfo))
         MessageBox(szTitle, _T("Failed to execute: ") + szCmdLine);
+}
+
+
+void CTeamTalkDlg::OnUpdateMessagesSendlivecontent(CCmdUI *pCmdUI)
+{
+    int nChanID = m_wndTree.GetSelectedChannel(TRUE);
+    BOOL bEnable = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), nChanID) ||
+        (TT_GetMyUserRights(ttInst) && USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE;
+    pCmdUI->Enable(bEnable);
+}
+
+
+void CTeamTalkDlg::OnMessagesSendlivecontent()
+{
+    int nUserID = m_wndTree.GetSelectedUser();
+    if(!nUserID)
+        nUserID = TT_USERID_MAX;
+
+    int nChanID = m_wndTree.GetSelectedChannel(TRUE);
+    
+    CSendLiveContentDlg dlg(this);
+    dlg.m_users = m_wndTree.GetUsers(nChanID);
+    dlg.m_nUserID = nUserID;
+    int nFiles = 0;
+    TT_GetChannelFiles(ttInst, nChanID, NULL, &nFiles);
+    dlg.m_files.resize(nFiles);
+    if (nFiles)
+        TT_GetChannelFiles(ttInst, nChanID, &dlg.m_files[0], &nFiles);
+
+    if (dlg.DoModal() == IDOK && ((dlg.m_szFileName.GetLength() && !dlg.m_bURL) || dlg.m_szUrl.GetLength()))
+    {
+        for (auto i : dlg.m_users)
+        {
+            TextMessage msg;
+            ZERO_STRUCT(msg);
+            msg.nMsgType = MSGTYPE_CUSTOM;
+            msg.nToUserID = i.first;
+            if (dlg.m_bURL)
+                _tcsncpy(msg.szMessage, MakeCustomCommand(TT_INTCMD_LIVEURL,
+                dlg.m_szUrl), TT_STRLEN);
+            else
+                _tcsncpy(msg.szMessage, MakeCustomCommand(TT_INTCMD_LIVEDOWNLOAD,
+                    dlg.m_szFileName), TT_STRLEN);
+
+            TT_DoTextMessage(ttInst, &msg);
+        }
+    }
+}
+
+void CTeamTalkDlg::OnUpdateMessagesOpenlivecontent(CCmdUI *pCmdUI)
+{
+    pCmdUI->Enable(m_liveContent.size()>0);
+}
+
+void CTeamTalkDlg::OnMessagesOpenlivecontent()
+{
+    CStringList tokens;
+    GetCustomCommand(m_liveContent[0].szMessage, tokens);
+    User user = m_wndTree.GetUsers()[m_liveContent[0].nFromUserID];
+    POSITION pos = tokens.GetHeadPosition();
+    if (tokens.GetCount()>1)
+    {
+        if (tokens.GetHead() == TT_INTCMD_LIVEURL)
+        {
+            tokens.RemoveHead();
+            CString szText, szUrl = tokens.GetHead();
+            szUrl = szUrl.Left(nTextLimit);
+
+            szText.Format(LoadText(IDS_LIVEURLOPEN), GetDisplayName(user), szUrl);
+            if (MessageBox(szText, ExtractMenuText(ID_MESSAGES_OPENLIVECONTENT, _T("Open Live URL")), MB_YESNO) == IDYES)
+            {
+                CString szUrl = tokens.GetHead();
+                if (std::regex_search(szUrl.GetBuffer(), std::wregex(_T("^http[s]?://"))) ||
+                    std::regex_search(szUrl.GetBuffer(), std::wregex(_T("^") TTURL )))
+                {
+                    HINSTANCE i = ShellExecute(this->m_hWnd, _T("open"), szUrl, _T(""), _T(""), SW_SHOW);
+                }
+                else
+                {
+                    MessageBox(_T("Invalid URL"), ExtractMenuText(ID_MESSAGES_OPENLIVECONTENT, _T("Open Live URL")));
+                }
+            }
+        }
+        if(tokens.GetHead() == TT_INTCMD_LIVEDOWNLOAD)
+        {
+            tokens.RemoveHead();
+            int nChanID = TT_GetMyChannelID(ttInst);
+            int nFiles = 100;
+            TT_GetChannelFiles(ttInst, nChanID, NULL, &nFiles);
+            std::vector<RemoteFile> files;
+            files.resize(nFiles);
+            if (nFiles)
+                TT_GetChannelFiles(ttInst, nChanID, &files[0], &nFiles);
+
+            auto i = std::find_if(files.begin(), files.end(), [&](RemoteFile file)
+            {
+                return tokens.GetHead() == file.szFileName;
+            });
+
+            CString szText;
+            szText.Format(LoadText(IDS_LIVEDOWNLOADREQ), GetDisplayName(user), tokens.GetHead());
+            if (i != files.end() &&
+                MessageBox(szText, ExtractMenuText(ID_MESSAGES_OPENLIVECONTENT, _T("Open Live URL")), MB_YESNO) == IDYES)
+            {
+                TCHAR szFilters[] = _T("All Files (*.*)|*.*||");
+                CFileDialog fileDlg(FALSE, NULL, i->szFileName, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+                if(fileDlg.DoModal() == IDOK)
+                {
+                    if(!TT_DoRecvFile(ttInst, nChanID, i->nFileID, fileDlg.GetPathName()))
+                        MessageBox(_T("Failed to download file."), ExtractMenuText(ID_MESSAGES_OPENLIVECONTENT, _T("Open Live URL")));
+                }
+            }
+        }
+    }
+    m_liveContent.erase(m_liveContent.begin());
 }

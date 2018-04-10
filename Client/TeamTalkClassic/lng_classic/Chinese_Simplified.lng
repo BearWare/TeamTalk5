@@ -484,7 +484,7 @@
     <item id="32835">&amp;查看用户信息\tCtrl+I</item>
     <item id="32837">&amp;创建频道\tF7</item>
     <item id="32838">&amp;加入频道\tCtrl+J</item>
-    <item id="32839">&amp;所有消息\tCtrl+E</item>
+    <item id="32839">&amp;所有消息</item>
     <item id="32840">剪切</item>
     <item id="32841">复制</item>
     <item id="32842">清除所有</item>

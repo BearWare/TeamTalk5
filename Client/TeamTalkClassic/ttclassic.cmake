@@ -42,6 +42,7 @@ set (TTCLASSIC_SOURCES
   gui/Resizer.cpp
   gui/RichEditThemed.cpp
   gui/RoomBox.cpp
+  gui/SendLiveContentDlg.cpp
   gui/ServerPropertiesDlg.cpp
   gui/ServerStatisticsDlg.cpp
   gui/SessionTreeCtrl.cpp
@@ -148,6 +149,7 @@ set (TTCLASSIC_HEADERS
   gui/Resizer.h
   gui/RichEditThemed.h
   gui/RoomBox.h
+  gui/SendLiveContentDlg.h
   gui/ServerPropertiesDlg.h
   gui/ServerStatisticsDlg.h
   gui/SessionTreeCtrl.h

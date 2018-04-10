@@ -492,7 +492,7 @@
     <item id="32835">&amp;View User Info\tCtrl+I</item>
     <item id="32837">&amp;Create Channel\tF7</item>
     <item id="32838">&amp;Join Channel\tCtrl+J</item>
-    <item id="32839">&amp;Messages\tCtrl+E</item>
+    <item id="32839">&amp;Messages</item>
     <item id="32840">Cut</item>
     <item id="32841">Copy</item>
     <item id="32842">Clear all</item>
@@ -576,4 +576,8 @@
     <item id="32951">Kick and Ban From &amp;Channel\tCtrl+B</item>
     <item id="32952">&amp;Banned Users From Channel\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;New Client Instance\tCtrl+N</item>
+    <item id="32954">&amp;Private Text Message\tCtrl+E</item>
+    <item id="32955">Send &amp;Live Content\tCtrl+F11</item>
+    <item id="32956">&amp;Open Live Content\tF11</item>
+
 </language>
