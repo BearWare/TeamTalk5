@@ -399,7 +399,7 @@
     <item id="32835">&amp;Felhasználó adatainak mutatása\tCtrl+I</item>
     <item id="32837">Szoba &amp;létrehozása\tF7</item>
     <item id="32838">&amp;Csatlakozás szobához\tCtrl+J</item>
-    <item id="32839">&amp;Üzenetek</item>
+    <item id="32839">&amp;Üzenetek\tCtrl+E</item>
     <item id="32840">Kivágás</item>
     <item id="32841">Másolás</item>
     <item id="32842">Összes törlése</item>

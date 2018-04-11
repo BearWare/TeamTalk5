@@ -191,7 +191,7 @@
     <item id="32835">查看使用者資訊(&amp;V)\tCtrl+I</item>
     <item id="32837">創建頻道(&amp;C)\tF7</item>
     <item id="32838">加入頻道(&amp;J)\tCtrl+J</item>
-    <item id="32839">所有訊息(&amp;M)</item>
+    <item id="32839">所有訊息(&amp;M)\tCtrl+E</item>
     <item id="32847">所有頻道(&amp;C)</item>
     <item id="32848">所有用戶(&amp;U)</item>
     <item id="32850">本地(&amp;M)</item>

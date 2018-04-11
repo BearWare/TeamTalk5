@@ -300,7 +300,7 @@
     <item id="32835">&amp;Ver información de usuario\tCtrl+I</item>
     <item id="32837">&amp;Crear canal\tF7</item>
     <item id="32838">&amp;Unirse al canal\tCtrl+J</item>
-    <item id="32839">&amp;Mensajes</item>
+    <item id="32839">&amp;Mensajes\tCtrl+E</item>
     <item id="32840">Cortar</item>
     <item id="32841">Copiar</item>
     <item id="32842">Borrar todo</item>

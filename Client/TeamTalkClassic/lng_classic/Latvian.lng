@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">At&amp;vienoties\tF2</item>
+    <item id="105"></item>
+    <item id="106"></item>
     <item id="107">&amp;Savienot\tF2</item>
     <item id="108">Izveidot kanālu</item>
     <item id="109">Atjaunināt kanālu</item>
@@ -19,6 +21,8 @@
     <item id="131">Mainīt segvārdu</item>
     <item id="134">Datnes</item>
     <item id="135">Tērzēšana</item>
+    <item id="147"></item>
+    <item id="148"></item>
     <item id="201">Ziņas</item>
     <item id="205">Mainīt stāvokli</item>
     <item id="207">Kanāla informācija</item>
@@ -190,7 +194,7 @@
     <item id="32835">&amp;Skatīt lietotāja info\tCtrl+I</item>
     <item id="32837">&amp;Izveidot kanālu\tF7</item>
     <item id="32838">&amp;Pievienoties kanālam\tCtrl+J</item>
-    <item id="32839">&amp;Ziņas</item>
+    <item id="32839">&amp;Ziņas\tCtrl+E</item>
     <item id="32847">&amp;Kanāls</item>
     <item id="32848">&amp;Lietotājs</item>
     <item id="32850">&amp;Es</item>

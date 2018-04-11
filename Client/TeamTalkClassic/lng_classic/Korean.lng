@@ -348,7 +348,7 @@
     <item id="32835">사용자 정보 보기\tCtrl+I &amp;V</item>
     <item id="32837">채널 만들기\tF7 &amp;C</item>
     <item id="32838">채널 입장\tCtrl+J &amp;J</item>
-    <item id="32839">메시지 &amp;M</item>
+    <item id="32839">메시지\tCtrl+E &amp;M</item>
     <item id="32840">잘라내기</item>
     <item id="32841">복사</item>
     <item id="32842">모두 초기화</item>

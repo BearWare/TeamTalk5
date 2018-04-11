@@ -318,8 +318,6 @@ typedef unsigned SoundEvents;
 //message type MSGTYPE_CUSTOM
 #define TT_INTCMD_TYPING_TEXT         _T("typing")
 #define TT_INTCMD_DESKTOP_ACCESS      _T("desktopaccess")
-#define TT_INTCMD_LIVEURL             _T("liveurl")
-#define TT_INTCMD_LIVEDOWNLOAD        _T("livedownload")
 
 CString MakeCustomCommand(LPCTSTR szCmd, LPCTSTR szValue);
 void GetCustomCommand(const CString& szMessage, CStringList& result);
