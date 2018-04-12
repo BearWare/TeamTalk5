@@ -707,8 +707,8 @@ int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nic
     {
         QTreeWidgetItem* child = parent->child(i);
         QString childName = child->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-        if( (child->type() & USER_TYPE) &&
-            nick.compare(childName, Qt::CaseInsensitive)<0)
+        if((child->type() & CHANNEL_TYPE) || ((child->type() & USER_TYPE) &&
+            nick.compare(childName, Qt::CaseInsensitive) < 0))
             break;
     }
     return i;
@@ -1202,8 +1202,8 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
         {
             item = parent->child(i);
             QString itemName = item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-            if( (item->type() & CHANNEL_TYPE) == 0 ||
-                name.compare(itemName, Qt::CaseInsensitive)<0)
+            if( (item->type() & CHANNEL_TYPE) ||
+                name.compare(itemName, Qt::CaseInsensitive) < 0)
                 break;
         }
         if(i==0)
