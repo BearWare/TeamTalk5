@@ -425,6 +425,17 @@ int CSessionTreeCtrl::GetSelectedChannel(bool bIncludeUserChan/* = false*/) cons
     return 0;
 }
 
+Channel CSessionTreeCtrl::GetSelChannel() const
+{
+    int nChanID = GetSelectedChannel(TRUE);
+    if (GetChannels().find(nChanID) != GetChannels().end())
+        return GetChannels().at(nChanID);
+
+    Channel chan;
+    ZERO_STRUCT(chan);
+    return chan;
+}
+
 int CSessionTreeCtrl::GetSelectedUser() const
 {
     HTREEITEM h = GetSelectedItem();
@@ -933,7 +944,7 @@ messages_t CSessionTreeCtrl::GetUserMessages(int nUserID) const
     return msgs;
 }
 
-const channels_t& CSessionTreeCtrl::GetChannels()
+const channels_t& CSessionTreeCtrl::GetChannels() const
 {
     return m_channels;
 }

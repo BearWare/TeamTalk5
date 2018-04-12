@@ -133,9 +133,9 @@ users_t GetChannelUsers(const users_t& users, int nChannelID)
 
 transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmitUsers)
 {
-    for(int i=0;i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][0];i++)
+    for(int i=0;i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];i++)
     {
-        transmitUsers[chan.transmitUsers[i][0]] = chan.transmitUsers[i][1];
+        transmitUsers[chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX]] = chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX];
     }
     return transmitUsers;
 }

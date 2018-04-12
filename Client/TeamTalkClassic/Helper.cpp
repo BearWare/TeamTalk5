@@ -410,26 +410,24 @@ void WriteLogMsg(CFile& file, LPCTSTR szMsg)
     file.Write(utf8.c_str(), (UINT)utf8.size());
 }
 
-void UpdateAllowTransmitMenuItem(int nUserID, int nChannelID, 
+void UpdateAllowTransmitMenuItem(int nUserID, const Channel& chan, 
                                  StreamTypes uStreamType, CCmdUI *pCmdUI)
 {
-    User user;
-    Channel chan;
     BOOL b = FALSE;
     
-    if (TT_GetChannel(ttInst, nChannelID, &chan) &&
-       (chan.uChannelType & CHANNEL_CLASSROOM) && 
-       (nUserID == TT_CLASSROOM_FREEFORALL || TT_GetUser(ttInst, nUserID, &user)))
+    transmitusers_t users;
+    b = (GetTransmitUsers(chan, users)[nUserID] & uStreamType);
+
+    if (chan.uChannelType & CHANNEL_CLASSROOM)
     {
-        transmitusers_t users;
-        b = (GetTransmitUsers(chan, users)[nUserID] & uStreamType); 
-        pCmdUI->Enable(CanToggleTransmitUsers(nChannelID));
+        pCmdUI->Enable(CanToggleTransmitUsers(chan.nChannelID));
+        pCmdUI->SetCheck(b);
     }
     else
     {
-        pCmdUI->Enable(FALSE);
+        pCmdUI->Enable(CanToggleTransmitUsers(chan.nChannelID) && nUserID != TT_CLASSROOM_FREEFORALL);
+        pCmdUI->SetCheck(!b && nUserID != TT_CLASSROOM_FREEFORALL);
     }
-    pCmdUI->SetCheck(b);
 }
 
 CString GetDisplayName(const User& user)
