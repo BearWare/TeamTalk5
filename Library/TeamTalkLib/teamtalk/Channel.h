@@ -434,6 +434,10 @@ namespace teamtalk {
                 txusers.find(TRANSMITUSERS_FREEFORALL) == txusers.end())
                 return false;
 
+            if ((m_chantype & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT &&
+                txusers.find(userid) != txusers.end())
+                return false;
+
             return true;
         }
 

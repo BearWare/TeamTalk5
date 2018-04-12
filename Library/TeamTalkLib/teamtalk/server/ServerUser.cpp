@@ -1396,13 +1396,15 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);    
     AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if (channel.GetVoiceUsers().size())
+    // If class-room channel type then we must forward the channel due 
+    // to compatibility of TeamTalk TCP protocol v5.3
+    if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if (channel.GetVideoUsers().size())
+    if (channel.GetVideoUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if (channel.GetDesktopUsers().size())
+    if (channel.GetDesktopUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if (channel.GetMediaFileUsers().size())
+    if (channel.GetMediaFileUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     command += ACE_TString(EOL);
 
@@ -1444,13 +1446,13 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);
     AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if (channel.GetVoiceUsers().size())
+    if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if (channel.GetVideoUsers().size())
+    if (channel.GetVideoUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if (channel.GetDesktopUsers().size())
+    if (channel.GetDesktopUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if (channel.GetMediaFileUsers().size())
+    if (channel.GetMediaFileUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
 
     if(channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
