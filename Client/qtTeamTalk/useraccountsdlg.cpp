@@ -392,6 +392,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.chanopBox->setChecked(useraccount.uUserRights & USERRIGHT_OPERATOR_ENABLE);
     ui.uploadfilesBox->setChecked(useraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.downloadfilesBox->setChecked(useraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+    ui.recordBox->setChecked(useraccount.uUserRights & USERRIGHT_RECORD_VOICE);
     ui.srvpropBox->setChecked(useraccount.uUserRights & USERRIGHT_UPDATE_SERVERPROPERTIES);
     ui.transmitvoiceBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_VOICE);
     ui.transmitvideoBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_VIDEOCAPTURE);
@@ -412,6 +413,7 @@ void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
     ui.chanopBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.uploadfilesBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.downloadfilesBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
+    ui.recordBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.srvpropBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.transmitvoiceBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
     ui.transmitvideoBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
@@ -509,6 +511,10 @@ void UserAccountsDlg::slotAddUser()
         m_add_user.uUserRights |= USERRIGHT_DOWNLOAD_FILES;
     else
         m_add_user.uUserRights &= ~USERRIGHT_DOWNLOAD_FILES;
+    if(ui.recordBox->isChecked())
+        m_add_user.uUserRights |= USERRIGHT_RECORD_VOICE;
+    else
+        m_add_user.uUserRights &= ~USERRIGHT_RECORD_VOICE;
     if(ui.srvpropBox->isChecked())
         m_add_user.uUserRights |= USERRIGHT_UPDATE_SERVERPROPERTIES;
     else

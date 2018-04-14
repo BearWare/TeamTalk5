@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(CMediaStorageDlg, CDialog)
     ON_BN_CLICKED(IDOK, &CMediaStorageDlg::OnBnClickedOk)
     ON_BN_CLICKED(IDC_BUTTON_CHANLOGBROWSE, &CMediaStorageDlg::OnBnClickedButtonChanlogbrowse)
     ON_BN_CLICKED(IDC_BUTTON_USER2USERBROWSE, &CMediaStorageDlg::OnBnClickedButtonUser2userbrowse)
+    ON_BN_CLICKED(IDCLOSE, &CMediaStorageDlg::OnBnClickedClose)
 END_MESSAGE_MAP()
 
 
@@ -131,4 +132,10 @@ void CMediaStorageDlg::OnBnClickedButtonUser2userbrowse()
     TCHAR szSaveDir[MAX_PATH];
     if(BrowseForFolder(m_hWnd, m_szUserTxtDir, szSaveDir))
         m_wndUserTxtDir.SetWindowText(szSaveDir);
+}
+
+
+void CMediaStorageDlg::OnBnClickedClose()
+{
+    EndDialog(IDCLOSE);
 }

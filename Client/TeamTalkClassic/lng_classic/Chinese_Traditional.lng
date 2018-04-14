@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <language version="1.0">
-    <item id="102"></item>
     <item id="104">斷開連接(&amp;C)\tF2</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">連接(&amp;C)\tF2</item>
     <item id="108">建立頻道</item>
     <item id="109">更新頻道</item>
@@ -11,23 +8,17 @@
     <item id="111">更新現有頻道</item>
     <item id="112">是</item>
     <item id="113">否</item>
-    <item id="121"></item>
     <item id="122">輸出設備支援 3D sound</item>
     <item id="123">輸出設備不支援 3D sound</item>
     <item id="124">測試</item>
     <item id="125">停止</item>
     <item id="126">預設</item>
-    <item id="127"></item>
     <item id="128">參數選擇</item>
     <item id="129">幫助(&amp;H)</item>
     <item id="130">新昵稱</item>
     <item id="131">更改昵稱</item>
-    <item id="133"></item>
     <item id="134">檔案</item>
     <item id="135">聊天</item>
-    <item id="136"></item>
-    <item id="138"></item>
-    <item id="139"></item>
     <item id="201">訊息</item>
     <item id="205">更新狀態</item>
     <item id="207">頻道訊息</item>

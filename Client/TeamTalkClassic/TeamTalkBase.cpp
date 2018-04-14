@@ -133,16 +133,16 @@ users_t GetChannelUsers(const users_t& users, int nChannelID)
 
 transmitusers_t& GetTransmitUsers(const Channel& chan, transmitusers_t& transmitUsers)
 {
-    for(int i=0;i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][0];i++)
+    for(int i=0;i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];i++)
     {
-        transmitUsers[chan.transmitUsers[i][0]] = chan.transmitUsers[i][1];
+        transmitUsers[chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX]] = chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX];
     }
     return transmitUsers;
 }
 
 BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
 {
-    int* begin = &chan.transmitUsers[0][0];
+    int* begin = &chan.transmitUsers[0][TT_TRANSMITUSERS_USERID_INDEX];
     int* end = &chan.transmitUsers[0][TT_TRANSMITUSERS_MAX];
     int* p = std::find(begin, end, nUserID);
     if(p == end)
@@ -155,15 +155,15 @@ BOOL ToggleTransmitUser(Channel& chan, int nUserID, StreamTypes streams)
         else
         {
             *p = nUserID;
-            p[TT_TRANSMITSTREAMTYPE_INDEX] = streams;
+            p[TT_TRANSMITUSERS_STREAMTYPE_INDEX] = streams;
         }
     }
     else
     {
-        if(p[TT_TRANSMITSTREAMTYPE_INDEX] & streams)
-            p[TT_TRANSMITSTREAMTYPE_INDEX] &= ~streams;
+        if(p[TT_TRANSMITUSERS_STREAMTYPE_INDEX] & streams)
+            p[TT_TRANSMITUSERS_STREAMTYPE_INDEX] &= ~streams;
         else
-            p[TT_TRANSMITSTREAMTYPE_INDEX] |= streams;
+            p[TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= streams;
     }
     return TRUE;
 }

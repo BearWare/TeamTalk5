@@ -164,6 +164,16 @@ func newTableCellSegCtrl(_ cell: UITableViewCell, label: String, values: [String
     return field
 }
 
+func newTableCellPicker(_ cell: UITableViewCell, label: String) -> UIPickerView {
+    cell.selectionStyle = .none
+    cell.textLabel?.text = label
+    let picker = UIPickerView()
+    cell.accessoryView = picker
+
+    return picker
+}
+
+
 func newTableCellStepper(_ cell: UITableViewCell, label: String,
                          min: Double, max: Double,
                          step: Double, initial: Double) -> UIStepper {
@@ -224,6 +234,12 @@ func removeFromTTMessages(_ p: TeamTalkEventHandler) {
             i += 1
         }
     }
+}
+
+enum ChanSort {
+    case ASCENDING
+    case POPULARITY
+    case COUNT
 }
 
 enum MsgType {

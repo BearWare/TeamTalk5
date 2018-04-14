@@ -103,6 +103,12 @@ enum ChannelStates
     ChannelMessage,
 };
 
+enum SortOrder 
+{
+    SORT_TREE_ASCENDING,
+    SORT_TREE_POLULATED,
+};
+
 class CSessionTreeCtrl : public CTreeCtrl
 {
     DECLARE_DYNAMIC(CSessionTreeCtrl)
@@ -152,13 +158,14 @@ public:
     void SetChannelMessage(int nChannelID, BOOL bMessaged);
 
     int GetSelectedChannel(bool bIncludeUserChan = false) const;
+    Channel GetSelChannel() const;
     int GetSelectedUser() const;
     std::vector<User> GetSelectedUsers() const;
 
     BOOL GetChannel(int nChannelID, Channel& outChan) const;
     BOOL GetUser(int nUserID, User& outUser) const;
 
-    const channels_t& GetChannels();
+    const channels_t& GetChannels() const;
     users_t GetUsers(int nChannelID = -1) const; //nChannelID = -1 -> all users
     users_t GetOperators(int nChannelID) const;
 
@@ -167,6 +174,8 @@ public:
 
     BOOL IsShowingUserCount() const;
     void ShowUserCount(BOOL bShow);
+    void SetSortOrder(SortOrder order);
+    SortOrder GetSortOrder() const { return m_sortOrder; }
 
     // Generated message map functions
 protected:
@@ -189,6 +198,7 @@ protected:
     users_t m_users;
     msgmap_t m_messages;
     BOOL m_bShowUserCount;
+    SortOrder m_sortOrder = SORT_TREE_ASCENDING;
     int m_nMyChannel;
 
     //drag/drop stuff

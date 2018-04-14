@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Pre&amp;kinit\F2</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">&amp;Poveži\tF2</item>
     <item id="108">Ustvari kanal</item>
     <item id="109">Nadgradi kanal</item>
@@ -22,7 +20,6 @@
     <item id="201">Obvestilo</item>
     <item id="205">Spremeni status</item>
     <item id="207">O kanalu</item>
-    <item id="212"></item>
     <item id="215">Osnovno</item>
     <item id="220">Napredno</item>
     <item id="223">Zvokovni dogodki</item>

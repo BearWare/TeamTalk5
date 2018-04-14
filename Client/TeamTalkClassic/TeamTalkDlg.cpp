@@ -1500,6 +1500,18 @@ void CTeamTalkDlg::OnChannelAdd(const TTMessage& msg)
     m_wndTree.AddChannel(chan);
 }
 
+int TransmitToggled(const Channel& chan, StreamTypes uPrev, StreamTypes uCur, StreamTypes uTypes)
+{
+    int ret;
+    if ((uCur & uTypes) && (uPrev & uTypes) != (uCur & uTypes))
+        ret = 1;
+    else if((uCur & uTypes) == STREAMTYPE_NONE && (uPrev & uTypes) != (uCur & uTypes))
+        ret = -1;
+    else
+        ret = 0;
+    return (chan.uChannelType & CHANNEL_CLASSROOM) ? ret : -ret;
+}
+
 void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
 {
     ASSERT(msg.ttType == __CHANNEL);
@@ -1524,14 +1536,15 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         PlaySoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
 
     // remaining is for class room channel
-    if((chan.uChannelType & CHANNEL_CLASSROOM) == 0 ||
-       TT_GetMyChannelID(ttInst) != chan.nChannelID)
+    if(TT_GetMyChannelID(ttInst) != chan.nChannelID)
         return;
 
     transmitusers_t oldTransmit, newTransmit;
     transmitusers_t::iterator ii;
     GetTransmitUsers(oldchan, oldTransmit);
     GetTransmitUsers(chan, newTransmit);
+
+    StreamTypes uAll = newTransmit[TT_CLASSROOM_FREEFORALL];
 
     User user;
     CString szMsg, szFormat;
@@ -1540,14 +1553,14 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         CString szName;
         int userid = ii->first;
         if(userid == TT_CLASSROOM_FREEFORALL)
-            szName = _T("Everyone");
+            szName = LoadText(IDS_EVERYONE);
         else if(!m_wndTree.GetUser(userid, user))
             continue;
         else
             szName = GetDisplayName(user);
 
-        if((ii->second & STREAMTYPE_VOICE) &&
-           ((newTransmit[userid] & STREAMTYPE_VOICE) == 0))
+        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_VOICE) < 0/* &&
+           (uAll & STREAMTYPE_VOICE) == STREAMTYPE_NONE*/)
         {
             szMsg.Format(_T("%s can no longer transmit voice!"),
                          szName);
@@ -1555,8 +1568,8 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
-           ((newTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0))
+        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_VIDEOCAPTURE) < 0/* &&
+           (uAll & STREAMTYPE_VIDEOCAPTURE) == STREAMTYPE_NONE*/)
         {
             szMsg.Format(_T("%s can no longer transmit video input!"),
                          szName);
@@ -1564,8 +1577,8 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_DESKTOP) &&
-            ((newTransmit[userid] & STREAMTYPE_DESKTOP) == 0))
+        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_DESKTOP) < 0/* &&
+           (uAll & STREAMTYPE_DESKTOP) == STREAMTYPE_NONE*/)
         {
             szMsg.Format(_T("%s can no longer transmit shared desktops!"),
                          szName);
@@ -1573,8 +1586,8 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
-           ((newTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0))
+        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_MEDIAFILE) < 0/* &&
+           (uAll & STREAMTYPE_MEDIAFILE) == STREAMTYPE_NONE*/)
         {
             szMsg.Format(_T("%s can no longer transmit media files!"), szName);
             AddStatusText(szMsg);
@@ -1588,38 +1601,34 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         CString szName;
         int userid = ii->first;
         if(userid == TT_CLASSROOM_FREEFORALL)
-            szName = _T("Everyone");
+            szName = LoadText(IDS_EVERYONE);
         else if(!m_wndTree.GetUser(userid, user))
             continue;
         else
             szName = GetDisplayName(user);
 
-        if((ii->second & STREAMTYPE_VOICE) &&
-           ((oldTransmit[userid] & STREAMTYPE_VOICE) == 0 ))
+        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_VOICE) > 0)
         {
             szMsg.Format(_T("%s can now transmit voice!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_VIDEOCAPTURE) &&
-           ((oldTransmit[userid] & STREAMTYPE_VIDEOCAPTURE) == 0 ))
+        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_VIDEOCAPTURE) > 0)
         {
             szMsg.Format(_T("%s can now transmit video input!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & STREAMTYPE_DESKTOP) &&
-            ((oldTransmit[userid] & STREAMTYPE_DESKTOP) == 0 ))
+        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_DESKTOP) > 0)
         {
             szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
                 AddVoiceMessage(szMsg);
         }
-        if((ii->second & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) &&
-           ((oldTransmit[userid] & (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO)) == 0 ))
+        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_MEDIAFILE) > 0)
         {
             szMsg.Format(_T("%s can now transmit media files!"), szName);
             AddStatusText(szMsg);
@@ -2540,6 +2549,8 @@ BOOL CTeamTalkDlg::OnInitDialog()
     //show user count in treectrl
     m_wndTree.ShowUserCount(m_xmlSettings.GetShowUserCount());
 
+    m_wndTree.SetSortOrder((SortOrder)m_xmlSettings.GetSortOrder());
+
     //show username instead of nickname
     bShowUsernames = m_xmlSettings.GetShowUsernames();
 
@@ -3235,6 +3246,7 @@ void CTeamTalkDlg::OnFilePreferences()
     windowpage.m_bCheckUpdates = m_xmlSettings.GetCheckApplicationUpdates();
     windowpage.m_nTextLen = m_xmlSettings.GetMaxTextLength(DEFAULT_MAX_STRING_LENGTH);
     windowpage.m_bShowUsername = m_xmlSettings.GetShowUsernames();
+    windowpage.m_nSorting = m_xmlSettings.GetSortOrder();
 
     ///////////////////////
     // client settings
@@ -3445,9 +3457,11 @@ void CTeamTalkDlg::OnFilePreferences()
             KillTimer(TIMER_VOICELEVEL_ID);
         m_wndVUProgress.ShowWindow(m_xmlSettings.GetVuMeterUpdate()?SW_SHOW : SW_HIDE);
 
+        m_wndTree.SetSortOrder((SortOrder)windowpage.m_nSorting);
         m_xmlSettings.SetCheckApplicationUpdates(windowpage.m_bCheckUpdates);
         m_xmlSettings.SetMaxTextLength(windowpage.m_nTextLen);
-        if(nTextLimit != windowpage.m_nTextLen || bShowUsernames != windowpage.m_bShowUsername)
+        if(nTextLimit != windowpage.m_nTextLen || bShowUsernames != windowpage.m_bShowUsername||
+            m_xmlSettings.GetSortOrder() != windowpage.m_nSorting)
         {
             nTextLimit = windowpage.m_nTextLen;
             bShowUsernames = windowpage.m_bShowUsername;
@@ -3459,6 +3473,8 @@ void CTeamTalkDlg::OnFilePreferences()
             for(channels_t::const_iterator i=chans.begin();i!=chans.end();i++)
                 m_wndTree.UpdateChannel(i->second);
         }
+        m_xmlSettings.SetSortOrder(windowpage.m_nSorting);
+
         //////////////////////////////////////////////////
         //    write settings for Client Page to ini file
         //////////////////////////////////////////////////
@@ -4154,6 +4170,9 @@ void CTeamTalkDlg::OnChannelsCreatechannel()
         m_host.szChannel = STR_UTF8(szPath);
         m_host.szChPasswd = STR_UTF8(dlg.m_szChannelPassword);
 
+        chan.transmitUsers[0][TT_CLASSROOM_USERID_INDEX] = TT_CLASSROOM_FREEFORALL;
+        chan.transmitUsers[0][TT_CLASSROOM_STREAMTYPE_INDEX] = STREAMTYPE_CLASSROOM_ALL;
+
         if(bEnableChan)
             TT_DoMakeChannel(ttInst, &chan);
         else
@@ -4188,7 +4207,7 @@ void CTeamTalkDlg::OnChannelsUpdatechannel()
     dlg.m_bClassRoom = (chan.uChannelType & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT;
     dlg.m_bOpRecvOnly = (chan.uChannelType & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT;
     dlg.m_bNoVoiceAct = (chan.uChannelType & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT;
-    dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING);
+    dlg.m_bNoRecord = (chan.uChannelType & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
 
     dlg.m_codec = chan.audiocodec;
     dlg.m_bEnableAGC = chan.audiocfg.bEnableAGC;
@@ -5704,13 +5723,6 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
 {
     UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
 
-    if(uStorageMode != AUDIOSTORAGE_NONE)
-    {
-        UpdateAudioStorage(FALSE);
-        m_xmlSettings.SetAudioLogStorageMode(AUDIOSTORAGE_NONE);
-        return;
-    }
-
     CMediaStorageDlg dlg;
     dlg.m_szAudioDir = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
     dlg.m_uAFF = m_xmlSettings.GetAudioLogStorageFormat();
@@ -5720,8 +5732,9 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
     dlg.m_szChanLogDir = STR_UTF8(m_xmlSettings.GetChanTextLogStorage());
     dlg.m_szUserTxtDir = STR_UTF8(m_xmlSettings.GetUserTextLogStorage());
 
-    if(dlg.DoModal() == IDOK)
+    switch (dlg.DoModal())
     {
+    case IDOK:
         m_xmlSettings.SetAudioLogStorage(STR_UTF8(dlg.m_szAudioDir));
         m_xmlSettings.SetAudioLogStorageFormat(dlg.m_uAFF);
         uStorageMode = AUDIOSTORAGE_NONE;
@@ -5736,6 +5749,15 @@ void CTeamTalkDlg::OnUsersStoreconversationstodisk()
         UpdateChannelLog();
 
         UpdateAudioStorage(TRUE);
+        break;
+    case IDCLOSE :
+        if(uStorageMode != AUDIOSTORAGE_NONE)
+        {
+            UpdateAudioStorage(FALSE);
+            m_xmlSettings.SetAudioLogStorageMode(AUDIOSTORAGE_NONE);
+            return;
+        }
+        break;
     }
 }
 
@@ -6007,7 +6029,7 @@ void CTeamTalkDlg::OnSubscriptionsInterceptmediafilestream()
     SubscribeToggle(m_wndTree.GetSelectedUser(), SUBSCRIBE_INTERCEPT_MEDIAFILE);
 }
 
-void CTeamTalkDlg::ToggleClassroom(int nUserID, StreamTypes uStreamTypes)
+void CTeamTalkDlg::ToggleTransmitUsers(int nUserID, StreamTypes uStreamTypes)
 {
     Channel chan;
     if(!TT_GetChannel(ttInst, m_wndTree.GetSelectedChannel(true), &chan))
@@ -6015,12 +6037,10 @@ void CTeamTalkDlg::ToggleClassroom(int nUserID, StreamTypes uStreamTypes)
 
     if(!ToggleTransmitUser(chan, nUserID, uStreamTypes))
     {
-        CString szCaption, szFmt, szText;
-        szCaption.LoadString(IDS_CLASSROOMCHANNEL);
-        szFmt.LoadString(IDS_MAX_TX_USERS);
-        TRANSLATE_ITEM(IDS_MAX_TX_USERS, szFmt);
+        CString szCaption = LoadText(IDS_CLASSROOMCHANNEL),
+            szFmt = LoadText(IDS_MAX_TX_USERS), szText;
         szText.Format(szFmt, TT_TRANSMITUSERS_MAX);
-        MessageBox(szCaption, szText, MB_OK);
+        MessageBox(szText, szCaption, MB_OK);
         return;
     }
 
@@ -6115,97 +6135,97 @@ void CTeamTalkDlg::RunAppUpdate()
 void CTeamTalkDlg::OnUpdateAdvancedAllowvoicetransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(), 
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_VOICE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowvoicetransmission()
 {
-    ToggleClassroom(m_wndTree.GetSelectedUser(), STREAMTYPE_VOICE);
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_VOICE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowvideotransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(),
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_VIDEOCAPTURE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowvideotransmission()
 {
-    ToggleClassroom(m_wndTree.GetSelectedUser(), STREAMTYPE_VIDEOCAPTURE);
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_VIDEOCAPTURE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowdesktoptransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(),
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_DESKTOP, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowdesktoptransmission()
 {
-    ToggleClassroom(m_wndTree.GetSelectedUser(), STREAMTYPE_DESKTOP);
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_DESKTOP);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowmediafiletransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(m_wndTree.GetSelectedUser(),
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
         STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowmediafiletransmission()
 {
-    ToggleClassroom(m_wndTree.GetSelectedUser(), STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+    ToggleTransmitUsers(m_wndTree.GetSelectedUser(), STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowallvoicetransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_VOICE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowallvoicetransmission()
 {
-    ToggleClassroom(TT_CLASSROOM_FREEFORALL, STREAMTYPE_VOICE);
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_VOICE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowallvideotransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_VIDEOCAPTURE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowallvideotransmission()
 {
-    ToggleClassroom(TT_CLASSROOM_FREEFORALL, STREAMTYPE_VIDEOCAPTURE);
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_VIDEOCAPTURE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowallmediafiletransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
-                                m_wndTree.GetSelectedChannel(true),
-                                STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, pCmdUI);
+                                m_wndTree.GetSelChannel(),
+                                STREAMTYPE_MEDIAFILE, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowallmediafiletransmission()
 {
-    ToggleClassroom(TT_CLASSROOM_FREEFORALL, STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_MEDIAFILE);
 }
 
 void CTeamTalkDlg::OnUpdateAdvancedAllowalldesktoptransmission(CCmdUI *pCmdUI)
 {
     UpdateAllowTransmitMenuItem(TT_CLASSROOM_FREEFORALL, 
-                                m_wndTree.GetSelectedChannel(true),
+                                m_wndTree.GetSelChannel(),
                                 STREAMTYPE_DESKTOP, pCmdUI);
 }
 
 void CTeamTalkDlg::OnAdvancedAllowalldesktoptransmission()
 {
-    ToggleClassroom(TT_CLASSROOM_FREEFORALL, STREAMTYPE_DESKTOP);
+    ToggleTransmitUsers(TT_CLASSROOM_FREEFORALL, STREAMTYPE_DESKTOP);
 }
 
 void CTeamTalkDlg::OnUpdateServerServerstatistics(CCmdUI *pCmdUI)

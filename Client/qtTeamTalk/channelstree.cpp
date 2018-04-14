@@ -64,36 +64,36 @@ extern TTInstance* ttInst;
 
 const char userMimeType[] = "application/user";
 
-bool userCanTx(int userid, StreamTypes stream_type, const int transmitUsers[][2], int max_userids = TT_TRANSMITUSERS_MAX)
+bool userCanTx(int userid, StreamTypes stream_type, const Channel& chan)
 {
     int i=0;
-    while(i<max_userids && transmitUsers[i][0])
+    while(i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX])
     {
-        if(transmitUsers[i][0] == userid && (transmitUsers[i][1] & stream_type))
-            return true;
+        if(chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == userid && (chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
+            return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
         else i++;
     }
-    return false;
+    return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT;
 }
 
 bool userCanVoiceTx(int userid, const Channel& chan)
 {
-    return userCanTx(userid, STREAMTYPE_VOICE, chan.transmitUsers);
+    return userCanTx(userid, STREAMTYPE_VOICE, chan);
 }
 
 bool userCanVideoTx(int userid, const Channel& chan)
 {
-    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers);
+    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan);
 }
 
 bool userCanDesktopTx(int userid, const Channel& chan)
 {
-    return userCanTx(userid, STREAMTYPE_DESKTOP, chan.transmitUsers);
+    return userCanTx(userid, STREAMTYPE_DESKTOP, chan);
 }
 
 bool userCanMediaFileTx(int userid, const Channel& chan)
 {
-    return userCanTx(userid, STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, chan.transmitUsers);
+    return userCanTx(userid, STREAMTYPE_MEDIAFILE, chan);
 }
 
 channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive /*= false*/)
@@ -137,10 +137,10 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
                   int max_userids = TT_TRANSMITUSERS_MAX)
 {
     int i=0;
-    while(i<max_userids && transmitUsers[i][0] != 0)
+    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] != 0)
     {
-        if(transmitUsers[i][0] == TT_CLASSROOM_FREEFORALL &&
-           (transmitUsers[i][1] & stream_type))
+        if(transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == TT_CLASSROOM_FREEFORALL &&
+           (transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
             return true;
         i++;
     }
@@ -304,7 +304,7 @@ users_t ChannelsTree::getUsers(int channelid) const
     return users;
 }
 
-void ChannelsTree::getClassRoomUsers(int channelid,
+void ChannelsTree::getTransmitUsers(int channelid,
                                      QMap<int, StreamTypes>& transmitUsers)
 {
     QTreeWidgetItem* parent = getChannelItem(channelid);
@@ -319,7 +319,7 @@ void ChannelsTree::getClassRoomUsers(int channelid,
     if(parent->checkState(COLUMN_DESKTOP) == Qt::Checked)
         transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_DESKTOP;
     if(parent->checkState(COLUMN_MEDIAFILE) == Qt::Checked)
-        transmitUsers[TT_CLASSROOM_FREEFORALL] |= (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+        transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_MEDIAFILE;
     
     int childCount = parent->childCount();
     QTreeWidgetItem* child;
@@ -336,7 +336,7 @@ void ChannelsTree::getClassRoomUsers(int channelid,
         if((bool)child->checkState(COLUMN_DESKTOP))
             transmitUsers[child->data(COLUMN_ITEM, Qt::UserRole).toInt()] |= STREAMTYPE_DESKTOP;
         if((bool)child->checkState(COLUMN_MEDIAFILE))
-            transmitUsers[child->data(COLUMN_ITEM, Qt::UserRole).toInt()] |= (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+            transmitUsers[child->data(COLUMN_ITEM, Qt::UserRole).toInt()] |= STREAMTYPE_MEDIAFILE;
     }
 }
 
@@ -707,8 +707,8 @@ int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nic
     {
         QTreeWidgetItem* child = parent->child(i);
         QString childName = child->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-        if( (child->type() & USER_TYPE) &&
-            nick.compare(childName, Qt::CaseInsensitive)<0)
+        if((child->type() & CHANNEL_TYPE) || ((child->type() & USER_TYPE) &&
+            nick.compare(childName, Qt::CaseInsensitive) < 0))
             break;
     }
     return i;
@@ -724,6 +724,8 @@ void ChannelsTree::updateChannelItem(int channelid)
 void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 {
     m_ignore_item_changes = true;
+
+    int mychanid = TT_GetMyChannelID(ttInst);
 
     if(item->type() & CHANNEL_TYPE)
     {
@@ -792,7 +794,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
 
         //set speaker or webcam icon
-        if(ite->uChannelType & CHANNEL_CLASSROOM)
+        if(ite->nChannelID == mychanid)
         {
             item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
             item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
@@ -804,7 +806,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                                                 channelid);
             opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
 
-            if(opadmin)
+            if(opadmin && (ite->uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
             {
                 item->setCheckState(COLUMN_VOICE, 
                                     isFreeForAll(STREAMTYPE_VOICE, ite->transmitUsers)?
@@ -816,7 +818,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                                     isFreeForAll(STREAMTYPE_DESKTOP, ite->transmitUsers)?
                                     Qt::Checked:Qt::Unchecked);
                 item->setCheckState(COLUMN_MEDIAFILE, 
-                                    isFreeForAll(STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO, ite->transmitUsers)?
+                                    isFreeForAll(STREAMTYPE_MEDIAFILE, ite->transmitUsers)?
                                     Qt::Checked:Qt::Unchecked);
             }
             else
@@ -1012,7 +1014,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
 
         //set checkboxes if it's a CHANNEL_CLASSROOM
-        if(chan.uChannelType & CHANNEL_CLASSROOM)
+        if(chan.nChannelID == mychanid)
         {
             bool opadmin = TT_IsChannelOperator(ttInst, 
                                                 TT_GetMyUserID(ttInst), 
@@ -1075,8 +1077,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                     item->setIcon(COLUMN_DESKTOP,
                     QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
 
-                if(txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE_AUDIO | 
-                                               STREAMTYPE_MEDIAFILE_VIDEO, chan.transmitUsers))
+                if(txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers))
                     item->setIcon(COLUMN_MEDIAFILE,
                     QIcon(QString::fromUtf8(":/images/images/oksign.png")));
                 else
@@ -1169,8 +1170,8 @@ void ChannelsTree::slotItemChanged(QTreeWidgetItem* item, int column)
     else return;
 
     QMap<int, StreamTypes> transmitUsers;
-    getClassRoomUsers(channelid, transmitUsers);
-    emit(classroomChanged(channelid, transmitUsers));
+    getTransmitUsers(channelid, transmitUsers);
+    emit(transmitusersChanged(channelid, transmitUsers));
 }
 
 void ChannelsTree::slotServerUpdate(const ServerProperties& /*srvprop*/)
@@ -1201,8 +1202,8 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
         {
             item = parent->child(i);
             QString itemName = item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-            if( (item->type() & CHANNEL_TYPE) == 0 ||
-                name.compare(itemName, Qt::CaseInsensitive)<0)
+            if( (item->type() & CHANNEL_TYPE) ||
+                name.compare(itemName, Qt::CaseInsensitive) < 0)
                 break;
         }
         if(i==0)

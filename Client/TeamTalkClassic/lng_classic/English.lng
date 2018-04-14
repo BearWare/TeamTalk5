@@ -168,6 +168,8 @@
     <item id="304">Delete profile</item>
     <item id="305">Select profile</item>
     <item id="306">Profile name</item>
+    <item id="307">Ascending</item>
+    <item id="308">Population</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>

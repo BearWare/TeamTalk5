@@ -369,7 +369,7 @@ private slots:
     void slotNewTextMessage(const TextMessage& textmsg);
     void slotNewMyselfTextMessage(const TextMessage& textmsg);
     void slotTextMessageClosed(int userid);
-    void slotClassroomChanged(int channelid, const QMap<int,StreamTypes>&);
+    void slotTransmitUsersChanged(int channelid, const QMap<int,StreamTypes>&);
     void slotChannelUpdate(const Channel& chan);
     void slotInitVideo();
     void slotAddUserVideo();

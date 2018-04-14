@@ -49,6 +49,7 @@ CWindowPage::CWindowPage()
     , m_bVuMeter(FALSE)
     , m_nTextLen(TT_STRLEN)
     , m_bShowUsername(FALSE)
+    , m_nSorting(0)
 {
     m_bTray = FALSE;
     m_bStartMinimized = FALSE;
@@ -81,6 +82,8 @@ void CWindowPage::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SPIN_TEXTLEN, m_wndSpinTextLen);
     DDV_MinMaxInt(pDX, m_nTextLen, 1, TT_STRLEN);
     DDX_Check(pDX, IDC_CHECK_SHOWUSERNAME, m_bShowUsername);
+    DDX_Control(pDX, IDC_COMBO_SORTCHANNELS, m_wndSorting);
+    DDX_CBIndex(pDX, IDC_COMBO_SORTCHANNELS, m_nSorting);
 }
 
 void CWindowPage::ShowFont()
@@ -142,6 +145,13 @@ void CWindowPage::OnBnClickedButtonFont()
 BOOL CWindowPage::OnInitDialog()
 {
     CPropertyPage::OnInitDialog();
+
+    CString szAsc = LoadText(IDS_ASCENDING, _T("Ascending"));
+    CString szPop = LoadText(IDS_POPULATED, _T("Population"));
+
+    m_wndSorting.AddString(szAsc);
+    m_wndSorting.AddString(szPop);
+    m_wndSorting.SetCurSel(m_nSorting);
 
     TRANSLATE(*this, IDD);
 

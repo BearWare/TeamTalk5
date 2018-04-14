@@ -734,13 +734,13 @@ namespace teamtalk{
 
                 TiXmlElement txusersElement("transmit-users");
                 PutBoolean(txusersElement, "voice-tx-all",
-                           chan.voiceusers.find(CLASSROOM_FREEFORALL) != chan.voiceusers.end());
+                           chan.transmitusers[STREAMTYPE_VOICE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_VOICE].end());
                 PutBoolean(txusersElement, "videocapture-tx-all",
-                           chan.videousers.find(CLASSROOM_FREEFORALL) != chan.videousers.end());
+                           chan.transmitusers[STREAMTYPE_VIDEOCAPTURE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_VIDEOCAPTURE].end());
                 PutBoolean(txusersElement, "mediafile-tx-all",
-                           chan.mediafileusers.find(CLASSROOM_FREEFORALL) != chan.mediafileusers.end());
+                           chan.transmitusers[STREAMTYPE_MEDIAFILE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_MEDIAFILE].end());
                 PutBoolean(txusersElement, "desktopshare-tx-all",
-                           chan.desktopusers.find(CLASSROOM_FREEFORALL) != chan.desktopusers.end());
+                           chan.transmitusers[STREAMTYPE_DESKTOP].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_DESKTOP].end());
                 ReplaceElement(xmlChan, txusersElement);
 
                 //save channel files
@@ -903,13 +903,13 @@ namespace teamtalk{
                 if(txusersElement)
                 {
                     if(GetBoolean(*txusersElement, "voice-tx-all", b) && b)
-                        newchan.voiceusers.insert(CLASSROOM_FREEFORALL);
+                        newchan.transmitusers[STREAMTYPE_VOICE].insert(TRANSMITUSERS_FREEFORALL);
                     if(GetBoolean(*txusersElement, "videocapture-tx-all", b) && b)
-                        newchan.videousers.insert(CLASSROOM_FREEFORALL);
+                        newchan.transmitusers[STREAMTYPE_VIDEOCAPTURE].insert(TRANSMITUSERS_FREEFORALL);
                     if(GetBoolean(*txusersElement, "mediafile-tx-all", b) && b)
-                        newchan.mediafileusers.insert(CLASSROOM_FREEFORALL);
+                        newchan.transmitusers[STREAMTYPE_MEDIAFILE].insert(TRANSMITUSERS_FREEFORALL);
                     if(GetBoolean(*txusersElement, "desktopshare-tx-all", b) && b)
-                        newchan.desktopusers.insert(CLASSROOM_FREEFORALL);
+                        newchan.transmitusers[STREAMTYPE_DESKTOP].insert(TRANSMITUSERS_FREEFORALL);
                 }
 
                 //get files

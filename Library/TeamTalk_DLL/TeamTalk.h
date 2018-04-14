@@ -115,6 +115,29 @@ extern "C" {
      * transmit. */
 #define TT_CLASSROOM_FREEFORALL 0xFFF
 
+     /** @ingroup channels
+      * User ID index in @c transmitUsers of #Channel */
+#define TT_CLASSROOM_USERID_INDEX 0
+
+      /** @ingroup channels
+      * #StreamTypes index in @c transmitUsers of #Channel */
+#define TT_CLASSROOM_STREAMTYPE_INDEX 1
+
+    /** @ingroup channels 
+     * @def TT_TRANSMITUSERS_FREEFORALL
+     * Same as #TT_CLASSROOM_FREEFORALL */
+#define TT_TRANSMITUSERS_FREEFORALL 0xFFF
+
+    /** @ingroup channels 
+     * @def TT_TRANSMITUSERS_USERID_INDEX
+     * Same as #TT_CLASSROOM_USERID_INDEX */
+#define TT_TRANSMITUSERS_USERID_INDEX 0
+
+     /** @ingroup channels
+     * @def TT_TRANSMITUSERS_STREAMTYPE_INDEX
+     * Same as #TT_CLASSROOM_STREAMTYPE_INDEX */
+#define TT_TRANSMITUSERS_STREAMTYPE_INDEX 1
+
     /** @ingroup channels
      * @def TT_CHANNELS_OPERATOR_MAX
      * The maximum number of channels where a user can automatically become
@@ -1101,26 +1124,35 @@ extern "C" {
     typedef enum StreamType
     {
         /** @brief No stream. */
-        STREAMTYPE_NONE                     = 0x0000,
+        STREAMTYPE_NONE                     = 0x00000000,
         /** @brief Voice stream type which is audio recorded from a
          * sound input device. @see TT_InitSoundInputDevice() */
-        STREAMTYPE_VOICE                    = 0x0001,
+        STREAMTYPE_VOICE                    = 0x00000001,
         /** @brief Video capture stream type which is video recorded
          * from a webcam. @see TT_InitVideoCaptureDevice() */
-        STREAMTYPE_VIDEOCAPTURE             = 0x0002,
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
         /** @brief Audio stream type from a media file which is being
          * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x0004,
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
         /** @brief Video stream type from a media file which is being
          * streamed. @see TT_StartStreamingMediaFileToChannel() */
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x0008,
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
         /** @brief Desktop window stream type which is a window (or
          * bitmap) being transmitted. @see TT_SendDesktopWindow() */
-        STREAMTYPE_DESKTOP                  = 0x0010,
+        STREAMTYPE_DESKTOP                  = 0x00000010,
         /** @brief Desktop input stream type which is keyboard or
          * mouse input being transmitted. @see
          * TT_SendDesktopInput() */
-        STREAMTYPE_DESKTOPINPUT             = 0x0020,
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
+        /** @brief Shortcut to allow both audio and video media files. */
+        STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
+                                              STREAMTYPE_MEDIAFILE_VIDEO,
+
+        /** @brief Shortcut to allow voice, media files, desktop and webcamera. */
+        STREAMTYPE_CLASSROOM_ALL            = STREAMTYPE_VOICE |
+                                              STREAMTYPE_VIDEOCAPTURE |
+                                              STREAMTYPE_DESKTOP |
+                                              STREAMTYPE_MEDIAFILE,
     } StreamType;
 
     /** @brief Mask of #StreamType. */
@@ -1209,6 +1241,9 @@ extern "C" {
         /** @brief User's status is locked. TT_DoChangeStatus()
         * cannot be used. */
         USERRIGHT_LOCKED_STATUS             = 0x00080000,
+        /** @brief User can record voice in all channels. Even channels
+         * with #CHANNEL_NO_RECORDING. */
+        USERRIGHT_RECORD_VOICE              = 0x00100000,
     } UserRight;
 
     /** 
@@ -1953,9 +1988,6 @@ extern "C" {
          * #CHANNEL_SOLO_TRANSMIT. Read-only property. */
         INT32 transmitUsersQueue[TT_TRANSMITQUEUE_MAX];
     } Channel;
-
-#define TT_TRANSMITUSERID_INDEX 0
-#define TT_TRANSMITSTREAMTYPE_INDEX 1
 
 
     /** @brief Status of a file transfer. @see FileTransfer */

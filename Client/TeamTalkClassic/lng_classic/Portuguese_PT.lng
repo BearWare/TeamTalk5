@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
     <item id="104">Desli&amp;gar\tF2</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">&amp;Ligar a servidor\tF2</item>
     <item id="108">Criar Canal</item>
     <item id="109">Actualizar canal</item>
@@ -21,8 +19,6 @@
     <item id="131">Alterar pseudónimo</item>
     <item id="134">Ficheiros</item>
     <item id="135">Chat</item>
-    <item id="151"></item>
-    <item id="154"></item>
     <item id="201">Mensagens</item>
     <item id="205">Mudar estado</item>
     <item id="207">Informação do canal</item>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
-    <item id="102"></item>
     <item id="104">Huỷ kết nối (&amp;c)\tF2</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">(&amp;C)Kết nối\tF2</item>
     <item id="108">Tạo kênh</item>
     <item id="109">Cập nhật kênh</item>

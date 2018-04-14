@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <language version="1.0">
-    <item id="102"></item>
     <item id="104">Od&amp;pojiť\tF2</item>
-    <item id="105"></item>
-    <item id="106"></item>
     <item id="107">&amp;Pripojiť\tF2</item>
     <item id="108">Vytvoriť miestnosť</item>
     <item id="109">Aktualizovať miestnosť</item>
@@ -22,7 +19,6 @@
     <item id="131">Zmeniť prezývku</item>
     <item id="134">Súbory</item>
     <item id="135">Chat</item>
-    <item id="155"></item>
     <item id="201">Správy</item>
     <item id="205">Zmeniť stav</item>
     <item id="207">Informácie o miestnosti</item>

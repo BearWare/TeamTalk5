@@ -186,7 +186,6 @@
     <item id="1036">Kullanıcı Adı</item>
     <item id="1042">Bu Kurulum Sihirbazı TeamTalk uygulamasını yapılandırma sürecinde size yardım edecektir. Devam etmek için Ileri, kurulumdan çıkmak için Iptal&apos;i seçin.</item>
     <item id="1044">www.bearware.dk sitesine bağlanarak, En son TeamTalk sunucularını kontrol edin</item>
-    <item id="1045"></item>
     <item id="1047">Dosya Boyutu</item>
     <item id="1048">Kanal güncelleme zamanını göster</item>
     <item id="1051">Kanallara katılmak için Çift tıkla</item>
@@ -250,7 +249,6 @@
     <item id="1167">&amp;Ekle/Güncelle</item>
     <item id="1169">&amp;Yeni</item>
     <item id="1170">&amp;TT Dosyası Oluştur</item>
-    <item id="1172"></item>
     <item id="1175">Seçili Ayarları Test et</item>
     <item id="1181">Kısayol tuşuna basıldığında Geçici karıştırıcı aygıdını etkinleştir</item>
     <item id="1185">Mikrofon hatalarında bana yardım et</item>
@@ -335,10 +333,7 @@
     <item id="1347">Sessizliği Görünmez</item>
     <item id="1349">Bit değeri</item>
     <item id="1350">Maksimum bit değeri</item>
-    <item id="1351"></item>
-    <item id="1352"></item>
     <item id="1362">Aktarım aralığı</item>
-    <item id="1363"></item>
     <item id="1364">Tüm kullanıcıların seslerini tek bir dosyada topla</item>
     <item id="1365">Tüm kullanıcıların seslerini ayrı dosyalarda kaydet</item>
     <item id="1369">Video yakalama aygıdı</item>
@@ -357,10 +352,6 @@
     <item id="1394">TCP Bağlantı noktası</item>
     <item id="1395">UDP Bağlantı Noktası</item>
     <item id="1396">Ses kodu için maksimum bit değeri</item>
-    <item id="1397"></item>
-    <item id="1398"></item>
-    <item id="1399"></item>
-    <item id="1400"></item>
     <item id="1401">Ses aktarımı</item>
     <item id="1402">Video aktarımı</item>
     <item id="1403">Toplam aktarım</item>
@@ -385,15 +376,10 @@
     <item id="1425">Görüntü Ayarları</item>
     <item id="1426">Pencere Paylaş</item>
     <item id="1427">Renk Modu</item>
-    <item id="1428"></item>
     <item id="1429">Toplam Aktarım</item>
     <item id="1430">Ses aktarım</item>
     <item id="1431">Video aktarım</item>
-    <item id="1432"></item>
-    <item id="1433"></item>
-    <item id="1434"></item>
     <item id="1435">Medya yayını</item>
-    <item id="1436"></item>
     <item id="1437">Kaldır</item>
     <item id="1438">Masaüstü Toplam Aktarım</item>
     <item id="1440">Kullanıcı masaüstü paylaşımı oturumu yapabilir</item>
@@ -409,14 +395,11 @@
     <item id="1464">Giriş örnekleme Hızı</item>
     <item id="1465">Şifreli sunucu</item>
     <item id="1468">Sunucu Bilgisini Kaydet</item>
-    <item id="1469"></item>
     <item id="1473">Günün Mesajı</item>
-    <item id="1474"></item>
     <item id="1475">Ses Formatı</item>
     <item id="1476">Video Formatı</item>
     <item id="1477">Medya dosyası özellikleri</item>
     <item id="1478">Medya dosyası aktarımı</item>
-    <item id="1480"></item>
     <item id="1481">Varsayılan Kullanıcı</item>
     <item id="1482">Kullanıcı uzak masaüstü oturumu yapabilir</item>
     <item id="1483">Kullanıcı Diğer kullanıcıları kapalı sunucuya atabilir</item>
@@ -440,7 +423,6 @@
     <item id="1506">Medya dosyası</item>
     <item id="1507">Sunucu kötüye kullanımı</item>
     <item id="1510">Kullanıcı Zirvesi</item>
-    <item id="1511"></item>
     <item id="1512">Kullanıcı Hizmeti</item>
     <item id="1513">Medya Yayını</item>
     <item id="1514">Mikrofon düzeyini otomatik ayarla, Mikrofon otomatik olarak ayarlanır</item>

@@ -161,6 +161,7 @@ namespace teamtalk {
                                                           USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO,
         USERRIGHT_LOCKED_NICKNAME                       = 0x00040000,
         USERRIGHT_LOCKED_STATUS                         = 0x00080000,
+        USERRIGHT_RECORD_VOICE                          = 0x00100000,
 
         USERRIGHT_DEFAULT = USERRIGHT_MULTI_LOGIN |
                             USERRIGHT_VIEW_ALL_USERS |
@@ -174,8 +175,8 @@ namespace teamtalk {
                             USERRIGHT_TRANSMIT_MEDIAFILE,
                                
 
-        USERRIGHT_ALL                       = 0x0003FFFF,
-        USERRIGHT_KNOWN_MASK                = 0x000FFFFF
+        USERRIGHT_ALL                       = 0x0013FFFF,
+        USERRIGHT_KNOWN_MASK                = 0x001FFFFF
     };
     
     typedef ACE_UINT32 UserRights;
@@ -276,15 +277,15 @@ namespace teamtalk {
 
     enum StreamType //ensure DLL compliance
     {
-        STREAMTYPE_NONE                     = 0x0000,
-        STREAMTYPE_VOICE                    = 0x0001,
-        STREAMTYPE_VIDEOCAPTURE             = 0x0002,
-        STREAMTYPE_MEDIAFILE_AUDIO          = 0x0004,
-        STREAMTYPE_MEDIAFILE_VIDEO          = 0x0008,
+        STREAMTYPE_NONE                     = 0x00000000,
+        STREAMTYPE_VOICE                    = 0x00000001,
+        STREAMTYPE_VIDEOCAPTURE             = 0x00000002,
+        STREAMTYPE_MEDIAFILE_AUDIO          = 0x00000004,
+        STREAMTYPE_MEDIAFILE_VIDEO          = 0x00000008,
         STREAMTYPE_MEDIAFILE                = STREAMTYPE_MEDIAFILE_AUDIO |
                                               STREAMTYPE_MEDIAFILE_VIDEO,
-        STREAMTYPE_DESKTOP                  = 0x0010,
-        STREAMTYPE_DESKTOPINPUT             = 0x0020,
+        STREAMTYPE_DESKTOP                  = 0x00000010,
+        STREAMTYPE_DESKTOPINPUT             = 0x00000020,
     };
 
     typedef ACE_UINT32 StreamTypes;
@@ -505,6 +506,8 @@ namespace teamtalk {
 
     typedef ACE_UINT32 ChannelTypes;
 
+    typedef std::map< StreamType, std::set<int> > transmitusers_t;
+
     struct ChannelProp
     {
         ACE_TString name;
@@ -523,12 +526,16 @@ namespace teamtalk {
         ChannelTypes chantype;
         ACE_UINT32 chankey;
         int userdata;
-        std::set<int> voiceusers;
-        std::set<int> videousers;
-        std::set<int> desktopusers;
-        std::set<int> mediafileusers;
+        transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
         bannedusers_t bans;
+        std::set<int> GetTransmitUsers(StreamType st) const
+        {
+            if(transmitusers.find(st) != transmitusers.end())
+                return transmitusers.at(st);
+            return std::set<int>();
+        }
+
         ChannelProp()
         {
             bProtected = false;
@@ -540,6 +547,12 @@ namespace teamtalk {
             memset(&audiocodec, 0, sizeof(audiocodec));
             audiocodec.codec = CODEC_NO_CODEC;
             chantype = CHANNEL_DEFAULT;
+
+            // ensure we can use std::map<>.at()
+            transmitusers[STREAMTYPE_VOICE] = std::set<int>();
+            transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
+            transmitusers[STREAMTYPE_DESKTOP] = std::set<int>();
+            transmitusers[STREAMTYPE_MEDIAFILE] = std::set<int>();
         }
     };
 
@@ -627,7 +640,7 @@ namespace teamtalk {
     int SumFrameSizes(const std::vector<int>& in);
     int GetAudioFileFormatBitrate(AudioFileFormat aff);
 
-#define CLASSROOM_FREEFORALL 0xFFF
+#define TRANSMITUSERS_FREEFORALL 0xFFF
 
 #define PACKETNO_GEQ(a,b) ((int16_t)((a)-(b)) >= 0)
 #define STREAMID_GT(a,b) ((int8_t)((a)-(b)) > 0)

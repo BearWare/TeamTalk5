@@ -141,20 +141,22 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,146,269,190,10
     CONTROL         "User can upload files",IDC_CHECK_UPLOADFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,151,204,10
     CONTROL         "User can download files",IDC_CHECK_DOWNLOADFILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,164,204,10
-    CONTROL         "User can update server properties",IDC_CHECK_UPDATESERVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,177,204,10
+    CONTROL         "User can record voice in all channels",IDC_CHECK_RECORDVOICE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,178,204,10
     CONTROL         "User can transmit voice data (microphone)",IDC_CHECK_TRANSMITVOICE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,190,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,191,204,10
     CONTROL         "User can transmit video data (webcam)",IDC_CHECK_TRANSMITVIDEOCAPTURE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,203,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,204,204,10
     CONTROL         "User can transmit audio files (wav, mp3 files)",IDC_CHECK_TRANSMITAUDIOFILE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,216,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,217,204,10
     CONTROL         "User can transmit video files (avi, mp4 files)",IDC_CHECK_TRANSMITVIDEOFILE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,229,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,230,204,10
     CONTROL         "User can transmit desktop sessions (shared desktop)",IDC_CHECK_TRANSMITDESKTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,242,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,243,204,10
     CONTROL         "User can get remote access to desktop sessions",IDC_CHECK_TRANSMITDESKTOPINPUT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,255,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,256,204,10
+    CONTROL         "User can update server properties",IDC_CHECK_UPDATESERVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,351,269,204,10
     PUSHBUTTON      "&Add",IDC_BUTTON_ADD,341,291,42,14
     PUSHBUTTON      "&Clear",IDC_BUTTON_NEW,283,291,42,14
     DEFPUSHBUTTON   "C&lose",IDOK,506,290,50,16
@@ -283,25 +285,27 @@ BEGIN
     LTEXT           "No font selected",IDC_STATIC_FONTNAME,71,37,150,8
     PUSHBUTTON      "...",IDC_BUTTON_FONT,226,34,15,14
     CONTROL         "Start minimized",IDC_CHECK_STARTMINIMIZED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,51,117,16
-    CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,114,16
     CONTROL         "Minimize to tray",IDC_CHECK_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,72,117,16
-    CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
     CONTROL         "Always on top",IDC_CHECK_ALWAYSONTOP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,93,117,16
-    CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
     CONTROL         "Double-click for joining channels",IDC_CHECK_DBCLICKJOIN,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,114,117,16
-    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,114,114,16
     CONTROL         "Enable VU-meter updates",IDC_CHECK_VUMETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,135,112,10
-    CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,135,114,10
     CONTROL         "Show username instead of nickname",IDC_CHECK_SHOWUSERNAME,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,150,110,16
-    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,150,77,8
-    EDITTEXT        IDC_EDIT_LIMITTEXT,208,147,35,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,147,11,14
+    CONTROL         "Show number of users in channels",IDC_CHECK_SHOWUSERCOUNT,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,171,114,16
+    CONTROL         "Clear channels when quitting",IDC_CHECK_QUITCLEAR,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,51,114,16
+    CONTROL         "Popup message dialog on incoming message",IDC_CHECK_POPUPMSG,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,72,114,16
+    CONTROL         "Timestamp on messages",IDC_CHECK_MSGTIMESTAMP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,134,93,114,16
+    CONTROL         "Check for program updates",IDC_CHECK_CHECKUPDATES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,117,114,10
+    LTEXT           "Maximum text length",IDC_STATIC_LIMITTEXT,134,136,77,8
+    EDITTEXT        IDC_EDIT_LIMITTEXT,208,133,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_TEXTLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,232,133,11,14
+    LTEXT           "Sort channels",IDC_STATIC,134,154,59,8
+    COMBOBOX        IDC_COMBO_SORTCHANNELS,195,152,48,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_TAB_CHAT DIALOGEX 0, 0, 176, 142
@@ -781,8 +785,8 @@ BEGIN
     LTEXT           "Folder for user-to-user log files",IDC_STATIC_USER2USERLOGFOLDER,12,128,117,8
     EDITTEXT        IDC_EDIT_TEXTLOGFOLDER,130,125,120,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BUTTON_USER2USERBROWSE,253,125,19,14
-    DEFPUSHBUTTON   "OK",IDOK,222,151,50,16
-    PUSHBUTTON      "Cancel",IDCANCEL,12,151,50,16
+    DEFPUSHBUTTON   "&Start",IDOK,222,151,50,16
+    PUSHBUTTON      "S&top",IDCLOSE,12,151,50,16
 END
 
 IDD_PROPPAGE_VIDEOCAPTURE DIALOGEX 0, 0, 260, 240
@@ -1799,6 +1803,16 @@ BEGIN
     0
 END
 
+IDD_PROPPAGE_WINDOWPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIALOG_STORECONVERSATIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2013,6 +2027,9 @@ BEGIN
     IDS_DELETEPROFILE       "Delete profile"
     IDS_SELECTPROFILE       "Select profile"
     IDS_PROFILENAME         "Profile name"
+    IDS_ASCENDING           "Ascending"
+    IDS_POPULATED           "Population"
+    IDS_EVERYONE            "Everyone"
 END
 
 STRINGTABLE

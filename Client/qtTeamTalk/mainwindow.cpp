@@ -229,8 +229,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.channelsWidget, SIGNAL(fileDropped(const QString&)),
             SLOT(slotLoadTTFile(const QString&)));
     connect(ui.channelsWidget,
-            SIGNAL(classroomChanged(int, const QMap<int,StreamTypes>&)),
-            SLOT(slotClassroomChanged(int, const QMap<int,StreamTypes>&)));
+            SIGNAL(transmitusersChanged(int, const QMap<int,StreamTypes>&)),
+            SLOT(slotTransmitUsersChanged(int, const QMap<int,StreamTypes>&)));
     /* Video-tab (video-grid) */
     connect(this, SIGNAL(newVideoCaptureFrame(int,int)), ui.videogridWidget, 
             SLOT(slotNewVideoFrame(int,int)));
@@ -3770,12 +3770,12 @@ void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
     if(userid>0 && channelid>0)
     {
         QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getClassRoomUsers(channelid, transmitUsers);
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
         if(checked)
             transmitUsers[userid] |= STREAMTYPE_VOICE;
         else
             transmitUsers[userid] &= ~STREAMTYPE_VOICE;
-        slotClassroomChanged(channelid, transmitUsers);
+        slotTransmitUsersChanged(channelid, transmitUsers);
     }
 }
 
@@ -3786,12 +3786,12 @@ void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
     if(userid>0 && channelid>0)
     {
         QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getClassRoomUsers(channelid, transmitUsers);
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
         if(checked)
             transmitUsers[userid] |= STREAMTYPE_VIDEOCAPTURE;
         else
             transmitUsers[userid] &= ~STREAMTYPE_VIDEOCAPTURE;
-        slotClassroomChanged(channelid, transmitUsers);
+        slotTransmitUsersChanged(channelid, transmitUsers);
     }
 }
 
@@ -3802,12 +3802,12 @@ void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
     if(userid>0 && channelid>0)
     {
         QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getClassRoomUsers(channelid, transmitUsers);
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
         if(checked)
             transmitUsers[userid] |= STREAMTYPE_DESKTOP;
         else
             transmitUsers[userid] &= ~STREAMTYPE_DESKTOP;
-        slotClassroomChanged(channelid, transmitUsers);
+        slotTransmitUsersChanged(channelid, transmitUsers);
     }
 }
 
@@ -3818,12 +3818,12 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
     if(userid>0 && channelid>0)
     {
         QMap<int,StreamTypes> transmitUsers;
-        ui.channelsWidget->getClassRoomUsers(channelid, transmitUsers);
+        ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
         if(checked)
-            transmitUsers[userid] |= (STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
+            transmitUsers[userid] |= STREAMTYPE_MEDIAFILE;
         else
-            transmitUsers[userid] &= ~(STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO);
-        slotClassroomChanged(channelid, transmitUsers);
+            transmitUsers[userid] &= ~STREAMTYPE_MEDIAFILE;
+        slotTransmitUsersChanged(channelid, transmitUsers);
     }
 }
 
@@ -4674,7 +4674,7 @@ void MainWindow::slotTextMessageClosed(int userid)
     }
 }
 
-void MainWindow::slotClassroomChanged(int channelid, 
+void MainWindow::slotTransmitUsersChanged(int channelid, 
                                       const QMap<int,StreamTypes>& transmitUsers)
 {
     Channel chan;
@@ -4694,14 +4694,14 @@ void MainWindow::slotClassroomChanged(int channelid,
     QMap<int,StreamTypes>::const_iterator i = transmitUsers.begin();
     while(i != transmitUsers.end())
     {
-        chan.transmitUsers[j][0] = i.key();
-        chan.transmitUsers[j][1] = i.value();
+        chan.transmitUsers[j][TT_TRANSMITUSERS_USERID_INDEX] = i.key();
+        chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = i.value();
         i++;j++;
     }
     if(j<TT_TRANSMITUSERS_MAX)
     {
-        chan.transmitUsers[j][0] = 0;
-        chan.transmitUsers[j][1] = STREAMTYPE_NONE;
+        chan.transmitUsers[j][TT_TRANSMITUSERS_USERID_INDEX] = 0;
+        chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = STREAMTYPE_NONE;
     }
     TT_DoUpdateChannel(ttInst, &chan);
 }

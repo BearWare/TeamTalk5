@@ -3447,10 +3447,10 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetAudioConfig(chanprop.audiocfg);
     chan->SetChannelType(chanprop.chantype);
     chan->SetUserData(chanprop.userdata);
-    chan->SetVoiceUsers(chanprop.voiceusers);
-    chan->SetVideoUsers(chanprop.videousers);
-    chan->SetDesktopUsers(chanprop.desktopusers);
-    chan->SetMediaFileUsers(chanprop.mediafileusers);
+    chan->SetVoiceUsers(chanprop.GetTransmitUsers(STREAMTYPE_VOICE));
+    chan->SetVideoUsers(chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE));
+    chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
+    chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
 
     //forward new channel to all connected users
     const ServerChannel::users_t& users = GetAuthorizedUsers();
@@ -3506,19 +3506,19 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
         chan->SetAudioCodec(chanprop.audiocodec);
     chan->SetAudioConfig(chanprop.audiocfg);
     chan->SetPassword(chanprop.passwd);
-    chan->SetVoiceUsers(chanprop.voiceusers);
-    chan->SetVideoUsers(chanprop.videousers);
+    chan->SetVoiceUsers(chanprop.GetTransmitUsers(STREAMTYPE_VOICE));
+    chan->SetVideoUsers(chanprop.GetTransmitUsers(STREAMTYPE_VIDEOCAPTURE));
     //close active desktop sessions
-    if(chan->GetDesktopUsers() != chanprop.desktopusers)
+    if(chan->GetDesktopUsers() != chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP))
     {
         const ServerChannel::users_t& users = chan->GetUsers();
         set<int>::const_iterator ii = chan->GetDesktopUsers().begin();
         for(;ii!=chan->GetDesktopUsers().end();ii++)
         {
-            if(chanprop.desktopusers.find(*ii) == chanprop.desktopusers.end())
+            if(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP).count(*ii))
             {
                 serveruser_t src_user = GetUser(*ii);
-                //TTASSERT(!src_user.null()); userid can be CLASSROOM_FREEFORALL (0xFFF)
+                //TTASSERT(!src_user.null()); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
                 if(src_user.null() || src_user->GetDesktopSession().null())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
@@ -3527,8 +3527,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
             }
         }
     }
-    chan->SetDesktopUsers(chanprop.desktopusers);
-    chan->SetMediaFileUsers(chanprop.mediafileusers);
+    chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
+    chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetTransmitQueue(chanprop.transmitqueue);
 
     UpdateChannel(*chan);
