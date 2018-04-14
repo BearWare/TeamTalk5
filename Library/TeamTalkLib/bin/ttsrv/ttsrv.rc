@@ -101,7 +101,7 @@ BEGIN
             VALUE "InternalName", "tt5srv.exe"
 #endif
 #endif
-            VALUE "LegalCopyright", "Copyright (c) 2002-2016, BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (c) 2002-2018, BearWare.dk.  All rights reserved."
 #ifdef ENABLE_ENCRYPTION
 #ifdef BUILD_NT_SERVICE
             VALUE "OriginalFilename", "tt5prosvc.exe"

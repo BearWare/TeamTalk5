@@ -57,7 +57,7 @@ BEGIN
 #endif
             VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
             VALUE "InternalName", "TeamTalk"
-            VALUE "LegalCopyright", "Copyright (C) 2006-2016, BearWare.dk. All rights reserved."
+            VALUE "LegalCopyright", "Copyright (C) 2006-2018, BearWare.dk. All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5Pro.dll"
             VALUE "ProductName", "TeamTalk Encrypted Dynamic Link Library"
             VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
@@ -73,7 +73,7 @@ BEGIN
 #endif
             VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
             VALUE "InternalName", "TeamTalk"
-            VALUE "LegalCopyright", "Copyright (C) 2006-2016, BearWare.dk. All rights reserved."
+            VALUE "LegalCopyright", "Copyright (C) 2006-2018, BearWare.dk. All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.dll"
             VALUE "ProductName", "TeamTalk Dynamic Link Library"
             VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION

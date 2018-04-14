@@ -33,7 +33,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BearWare.dk")]
 [assembly: AssemblyProduct("TeamTalkApp.NET")]
-[assembly: AssemblyCopyright("Copyright (c) 2005-2017, BearWare.dk")]
+[assembly: AssemblyCopyright("Copyright (c) 2005-2018, BearWare.dk")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
