@@ -55,7 +55,7 @@ namespace teamtalk {
         Channel(const Channel& ch);
         const Channel& operator = (const Channel& ch);
 
-        Channel(channel_t& parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
+        Channel(channel_t parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
             : m_protected(false)
             , m_maxusers(MAX_USERS_IN_CHANNEL)
             , m_channelid(channelid)
