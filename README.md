@@ -28,23 +28,22 @@ To build the TeamTalk client or server projects you must first download the
 
 ## TeamTalk 5 Libraries
 Projects wrapping the client DLL file in the TeamTalk SDK.
-* **TeamTalk_DLL**
-  * TeamTalk 5 C-API DLL project 
+* **TeamTalkLib**
+  * Source code for building TeamTalk 5 DLL and server executables
+  * Read License.txt for terms of use
+  * Build using [CMake](http://www.cmake.org)
+* **TeamTalk_DLL** (dependency: **TeamTalkLib**)
+  * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/C-API/)
+  * Build using TeamTalkLib or download TeamTalk 5 SDK
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
-* **TeamTalkJNI**
+* **TeamTalkJNI** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
     * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/Java/)
-  * Import in Eclipse using [Android SDK](http://developer.android.com/sdk/index.html)
-  * Requires ARM-v7a JNI shared object in sub-folder *TeamTalkJNI/libs/armeabi-v7a*
-    * Based on Android API Level 16
-  * The following features are currently *not* supported in the JNI API:
-    * Video capture (webcam)
-    * Media file streaming
 
 ## TeamTalk 5 Clients
 Projects containing client applications which use the TeamTalk 5 client DLL.
@@ -73,9 +72,9 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
     * ... or build using [ant](http://ant.apache.org), run the following command: ```android update project -p . -s -t android-17```
   * Copy the TeamTalk 5 Java library to *TeamTalkAndroid/libs* directory:
     * TeamTalk5.jar
-      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
-    * TeamTalk5Test.jar (optional, only for unit-tests)
-      * Located in ```Library/TeamTalkJNI/libs``` folder of the TeamTalk 5 SDK for Android
+      * Located in ```Library/TeamTalkJNI/libs``` (Standard Edition)
+    * TeamTalk5Pro.jar
+      * Located in ```Library/TeamTalkJNI/libs``` (Professional Edition)
   * Copy the TeamTalk 5 JNI shared library to *TeamTalkAndroid/src/main/jniLibs/armeabi-v7a*
     * libTeamTalk5-jni.so
         * Located in ```Library/TeamTalkJNI/libs/armeabi-v7a``` (Standard Edition)
@@ -87,12 +86,12 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 
 ## TeamTalk 5 Servers
 Sample applications for writing a TeamTalk 5 server are located in the Examples folder. Building a TeamTalk 5 server requires TeamTalk 5 Professional Edition.
-* **TeamTalkServer**
+* **TeamTalkServer** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 server application written in C++
   * Requires **TeamTalk_DLL** project for DLL dependency
-* **TeamTalkServer.NET**
+* **TeamTalkServer.NET** (dependency: **TeamTalk.NET**)
   * TeamTalk 5 server application written in C#
   * Requires **TeamTalk_DLL** and **TeamTalk.NET** projects for DLL dependencies
-* **jTeamTalkServer**
+* **jTeamTalkServer** (dependency: **TeamTalkJNI**)
   * TeamTalk 5 server application written in Java
   * Requires **TeamTalk_DLL** and **TeamTalkJNI** for DLL dependencies
