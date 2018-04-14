@@ -71,6 +71,10 @@ public class TeamTalkTestCaseBase extends TestCase {
         if(prop != null && !prop.isEmpty())
             this.ENCRYPTED = Integer.parseInt(prop) != 0;
 
+        prop = System.getProperty("dk.bearware.serverip");
+        if(prop != null && !prop.isEmpty())
+            this.IPADDR = prop;
+
         prop = System.getProperty("dk.bearware.videodevid");
         if(prop != null && !prop.isEmpty())
             this.VIDEODEVICEID = prop;

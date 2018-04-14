@@ -4,7 +4,7 @@
 /*
  * BearWare.dk TeamTalk 5 SDK.
  *
- * Copyright 2005-2017, BearWare.dk.
+ * Copyright 2005-2018, BearWare.dk.
  *
  * Read the License.txt file included with the TeamTalk 5 SDK for
  * terms of use.
