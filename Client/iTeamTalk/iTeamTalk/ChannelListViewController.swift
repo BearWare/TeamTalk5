@@ -752,7 +752,7 @@ class ChannelListViewController :
         
     }
     
-    @objc func timerUnread() {
+    @objc func timerUnreadBlinker(_ timer: Timer) {
         let cells = tableView.visibleCells
         for c in cells {
             if c.reuseIdentifier == "UserTableCell"  {
@@ -967,7 +967,13 @@ class ChannelListViewController :
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
-                        unreadTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ChannelListViewController.timerUnread), userInfo: nil, repeats: true)
+                        if #available(iOS 10.0, *) {
+                            self.unreadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {s in self.timerUnreadBlinker(s)})
+                        } else {
+                            self.unreadTimer = Timer(timeInterval: 1.0, target: self,
+                                                     selector: #selector(ChannelListViewController.timerUnreadBlinker(_:)),
+                                                     userInfo: nil, repeats: true)
+                        }
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)                    
                 }
