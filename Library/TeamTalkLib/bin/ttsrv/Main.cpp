@@ -670,7 +670,7 @@ void PrintCommandArgs()
     cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
     cout << "Compiled on " __DATE__ " " __TIME__ "." << endl;
     cout << endl;
-    cout << "Copyright (c) 2002-2016, BearWare.dk" << endl;
+    cout << "Copyright (c) 2002-2018, BearWare.dk" << endl;
     cout << endl;
     cout << "Usage: " << TEAMTALK_EXE << " [OPTIONS]" << endl << endl;
 #if defined(BUILD_NT_SERVICE)

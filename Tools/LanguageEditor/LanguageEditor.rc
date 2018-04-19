@@ -106,7 +106,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Application Translator Version 1.1",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2005-2016 BearWare.dk",IDC_STATIC,40,25,178,9
+    LTEXT           "Copyright (C) 2005-2018 BearWare.dk",IDC_STATIC,40,25,178,9
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
     LTEXT           "Written by Bjoern D. Rasmussen",IDC_STATIC,41,40,118,8
 END
@@ -164,7 +164,7 @@ BEGIN
             VALUE "FileDescription", "TODO: <File description>"
             VALUE "FileVersion", "1.0.0.1"
             VALUE "InternalName", "LanguageEditor.exe"
-            VALUE "LegalCopyright", "Copyright (C) 2005-2016 BearWare.dk.  All rights reserved."
+            VALUE "LegalCopyright", "Copyright (C) 2005-2018 BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "LanguageEditor.exe"
             VALUE "ProductName", "TODO: <Product name>"
             VALUE "ProductVersion", "1.0.0.1"
