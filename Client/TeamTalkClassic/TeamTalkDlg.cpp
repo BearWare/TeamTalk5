@@ -4797,6 +4797,7 @@ LRESULT CTeamTalkDlg::OnTeamTalkLink(WPARAM wParam, LPARAM lParam)
         if(i != -1)
         {
             szHostStr = szHostStr.Left(i);
+            entry.szAddress = STR_UTF8(szHostStr);
             while(i < m_szTTLink.GetLength() && m_szTTLink[i] != '?')
                 i++;
             if(i+1 < m_szTTLink.GetLength() && m_szTTLink[i] == '?')
