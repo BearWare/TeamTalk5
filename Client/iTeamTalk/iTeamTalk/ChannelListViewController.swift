@@ -178,7 +178,9 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
-                return au.count > bu.count
+                return au.count == bu.count ?
+                    String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
+                .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending : au.count > bu.count
             }
         case ChanSort.ASCENDING.hashValue :
             fallthrough
