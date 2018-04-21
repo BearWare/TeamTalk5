@@ -2028,7 +2028,7 @@ BEGIN
     IDS_SELECTPROFILE       "Select profile"
     IDS_PROFILENAME         "Profile name"
     IDS_ASCENDING           "Ascending"
-    IDS_POPULATED           "Population"
+    IDS_POPULATED           "Popularity"
     IDS_EVERYONE            "Everyone"
 END
 
