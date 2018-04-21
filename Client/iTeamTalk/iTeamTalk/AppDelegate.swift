@@ -86,9 +86,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    func application(_ app: UIApplication,
+                     open url: URL, 
+                     options opt: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 
         let urlStr = url.absoluteString
+//        print ("URL: " + url.absoluteString)
         if urlStr.starts(with: AppInfo.TTLINK_PREFIX) || url.isFileURL {
             let nav = self.window?.rootViewController as! UINavigationController
             nav.popToRootViewController(animated: true)
@@ -96,11 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             svc.openUrl(url)
         }
         else {
-            print ("URL: " + url.absoluteString)
             let handled = FBSDKApplicationDelegate.sharedInstance()
-                .application(application, open: url,
-                             sourceApplication: sourceApplication,
-                             annotation: annotation)
+                .application(app, open: url, options: opt)
         }
         
         return true
