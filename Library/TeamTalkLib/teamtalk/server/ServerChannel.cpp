@@ -51,7 +51,11 @@ ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString
 bool ServerChannel::CanTransmit(int userid, StreamType txtype)
 {
     if(!PARENT::CanTransmit(userid, txtype))
+    {
+        // If transmitter is head we have to trigger channel update
+        ClearFromTransmitQueue(userid);
         return false;
+    }
 
     if((m_chantype & CHANNEL_SOLO_TRANSMIT) &&
        (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
