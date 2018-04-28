@@ -984,6 +984,9 @@ namespace teamtalk{
     /********** <serverbans> ************/
     void ServerXML::AddUserBan(const BannedUser& ban)
     {
+        // prevent duplicates
+        while(RemoveUserBan(ban));
+
         TiXmlElement* parent = GetServerBansElement();
 
         TiXmlElement element("serverban");
@@ -996,7 +999,7 @@ namespace teamtalk{
     {
         int i = 0, c = GetUserBanCount();
         BannedUser tmp;
-        while(GetUserBan(i, tmp) && !tmp.Match(ban)) i++;
+        while(GetUserBan(i, tmp) && !tmp.Same(ban)) i++;
 
         TiXmlElement* item = GetServerBansElement();
         if(i < c && item)

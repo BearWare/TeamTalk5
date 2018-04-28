@@ -1096,7 +1096,23 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("kick admin", waitCmdSuccess(ttclient, ttclient.doKickUser(ttadmin.getMyUserID(), ttclient.getMyChannelID()), DEF_WAIT));
 
         assertTrue("admin join denied", waitCmdError(ttadmin, ttadmin.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
-        
+
+        // ensure no duplicate bans
+        chan = buildDefaultChannel(ttclient, "BanTest1");
+        assertTrue("join new channel", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("ttclient2 join BanTest1", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("ban client2 once", waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient2.getMyUserID(), ttclient.getMyChannelID()), DEF_WAIT));
+        assertTrue("ban client2 twice", waitCmdSuccess(ttclient, ttclient.doBanUser(ttclient2.getMyUserID(), ttclient.getMyChannelID()), DEF_WAIT));
+
+        assertTrue("list bans (expect 1)", ttclient.doListBans(ttclient.getMyChannelID(), 0, 100)>0);
+
+        assertTrue("wait ban list", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
+        msg = new TTMessage();
+        assertTrue("wait done msg", ttclient.getMessage(msg, DEF_WAIT));
+        assertEquals("done msg, only one ban expected", msg.nClientEvent, ClientEvent.CLIENTEVENT_CMD_SUCCESS);
+
     }
     
     public void test_ChannelSwitch() throws InterruptedException{

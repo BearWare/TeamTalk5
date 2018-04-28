@@ -451,7 +451,7 @@ namespace teamtalk {
             return m_transmitqueue;
         }
 
-        void AddUserBan(const BannedUser& ban) { m_bans.push_back(ban); }
+        void AddUserBan(const BannedUser& ban) { RemoveUserBan(ban); m_bans.push_back(ban); }
 
         bool IsBanned(const BannedUser& testban) const
         {
@@ -468,7 +468,7 @@ namespace teamtalk {
             auto i = std::find_if(m_bans.begin(), m_bans.end(),
                                   [ban](BannedUser testban)
                                   {
-                                      return ban.Match(testban);
+                                      return ban.Same(testban);
                                   });
             if(i != m_bans.end())
                 m_bans.erase(i);

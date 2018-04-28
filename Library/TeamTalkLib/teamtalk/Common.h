@@ -248,6 +248,18 @@ namespace teamtalk {
         ACE_TString username;
         BannedUser() : bantype(BANTYPE_NONE) { bantime = ACE_OS::gettimeofday(); }
 
+        bool Same(const BannedUser& user) const
+        {
+            bool same = user.bantype == this->bantype;
+            if (bantype & BANTYPE_IPADDR)
+                same &= user.ipaddr == this->ipaddr;
+            if (bantype & BANTYPE_CHANNEL)
+                same &= user.chanpath == this->chanpath;
+            if (bantype & BANTYPE_USERNAME)
+                same &= user.username == this->username;
+            return same;
+        }
+
         bool Match(const BannedUser& user) const
         {
             bool match = true;
