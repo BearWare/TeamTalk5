@@ -1878,9 +1878,9 @@ namespace teamtalk
     DesktopAckPacket::DesktopAckPacket(const DesktopAckPacket& packet)
         : FieldPacket(packet) {}
 
-    bool DesktopAckPacket::GetSessionInfo(uint16_t& owner_userid,
-                                          uint8_t& session_id, 
-                                          uint32_t& upd_time) const
+    bool DesktopAckPacket::GetSessionInfo(uint16_t* owner_userid,
+                                          uint8_t* session_id, 
+                                          uint32_t* upd_time) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_ACK);
         if(!ptr)
@@ -1891,9 +1891,15 @@ namespace teamtalk
             return false;
 
         const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-        session_id = get_uint8(field_ptr); field_ptr += 1;
-        owner_userid = get_uint16(field_ptr); field_ptr += 2;
-        upd_time = get_uint32(field_ptr); field_ptr += 4;
+        if (session_id)
+            *session_id = get_uint8(field_ptr);
+        field_ptr += 1;
+        if (owner_userid)
+            *owner_userid = get_uint16(field_ptr);
+        field_ptr += 2;
+        if (upd_time)
+            *upd_time = get_uint32(field_ptr);
+        field_ptr += 4;
         return true;
     }
 
@@ -2108,10 +2114,10 @@ namespace teamtalk
     {
     }
 
-    bool DesktopCursorPacket::GetSessionCursor(uint16_t& dest_userid, 
-                                               uint8_t& session_id,
-                                               int16_t& x,
-                                               int16_t& y) const
+    bool DesktopCursorPacket::GetSessionCursor(uint16_t* dest_userid, 
+                                               uint8_t* session_id,
+                                               int16_t* x,
+                                               int16_t* y) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_MY_CURSORPOS);
         if(ptr)
@@ -2120,11 +2126,19 @@ namespace teamtalk
             if(field_size < sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t))
                 return false;
 
-            dest_userid = 0;
+            if (dest_userid)
+                *dest_userid = 0;
+
             const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-            session_id = get_uint8(field_ptr); field_ptr += 1;
-            x = get_uint16(field_ptr); field_ptr += 2;
-            y = get_uint16(field_ptr); field_ptr += 2;
+            if (session_id)
+                *session_id = get_uint8(field_ptr);
+            field_ptr += 1;
+            if (x)
+                *x = get_uint16(field_ptr);
+            field_ptr += 2;
+            if (y)
+                *y = get_uint16(field_ptr);
+            field_ptr += 2;
             return true;
         }
         ptr = FindField(FIELDTYPE_REMOTE_CURSORPOS);
@@ -2135,10 +2149,18 @@ namespace teamtalk
                 return false;
 
             const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-            dest_userid = get_uint16(field_ptr); field_ptr += 2;
-            session_id = get_uint8(field_ptr); field_ptr += 1;
-            x = get_uint16(field_ptr); field_ptr += 2;
-            y = get_uint16(field_ptr); field_ptr += 2;
+            if (dest_userid)
+                *dest_userid = get_uint16(field_ptr);
+            field_ptr += 2;
+            if (session_id)
+                *session_id = get_uint8(field_ptr);
+            field_ptr += 1;
+            if (x)
+                *x = get_uint16(field_ptr);
+            field_ptr += 2;
+            if (y)
+                *y = get_uint16(field_ptr);
+            field_ptr += 2;
             return true;
         }
         return false;
@@ -2146,10 +2168,8 @@ namespace teamtalk
 
     uint16_t DesktopCursorPacket::GetDestUserID() const
     {
-        uint8_t session_id;
-        int16_t x, y;
         uint16_t dest_userid;
-        if(GetSessionCursor(dest_userid, session_id, x, y))
+        if(GetSessionCursor(&dest_userid, 0, 0, 0))
             return dest_userid;
         return INVALID_DEST_USERID;
     }
@@ -2211,8 +2231,8 @@ namespace teamtalk
     {
     }
 
-    bool DesktopInputPacket::GetSessionInfo(uint8_t& session_id,
-                                            uint8_t& packetno) const
+    bool DesktopInputPacket::GetSessionInfo(uint8_t* session_id,
+                                            uint8_t* packetno) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_REMOTE_INPUT);
         if(ptr)
@@ -2223,8 +2243,12 @@ namespace teamtalk
 
             const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
 
-            get_uint8_ptr(session_id, field_ptr, field_ptr);
-            get_uint8_ptr(packetno, field_ptr, field_ptr);
+            if (session_id)
+                *session_id = get_uint8(field_ptr);
+            field_ptr += 1;
+            if (packetno)
+                *packetno = get_uint8(field_ptr);
+            field_ptr += 1;
             return true;
         }
         return false;
@@ -2233,17 +2257,15 @@ namespace teamtalk
     uint8_t DesktopInputPacket::GetSessionID() const
     {
         uint8_t session_id = 0;
-        uint8_t packetno = 0;
-        GetSessionInfo(session_id, packetno);
+        GetSessionInfo(&session_id, 0);
         return session_id;
     }
 
     uint8_t DesktopInputPacket::GetPacketNo(bool* found/* = NULL*/) const
     {
-        uint8_t session_id = 0;
         uint8_t packetno = 0;
-        found? *found = GetSessionInfo(session_id, packetno) 
-             : GetSessionInfo(session_id, packetno);
+        found? *found = GetSessionInfo(0, &packetno) 
+             : GetSessionInfo(0, &packetno);
         return packetno;
     }
 
@@ -2321,8 +2343,8 @@ namespace teamtalk
 #endif
     }
 
-    bool DesktopInputAckPacket::GetSessionInfo(uint8_t& session_id,
-                                               uint8_t& packetno) const
+    bool DesktopInputAckPacket::GetSessionInfo(uint8_t* session_id,
+                                               uint8_t* packetno) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_DESKTOPINPUT_ACK);
         if(!ptr)
@@ -2333,25 +2355,27 @@ namespace teamtalk
             return false;
 
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
-        get_uint8_ptr(session_id, field_ptr, field_ptr);
-        get_uint8_ptr(packetno, field_ptr, field_ptr);
+        if (session_id)
+            *session_id = get_uint8(field_ptr);
+        field_ptr += 1;
+        if (packetno)
+            *packetno = get_uint8(field_ptr);
+        field_ptr += 1;
         return true;
     }
 
     uint8_t DesktopInputAckPacket::GetSessionID() const
     {
         uint8_t session_id = 0;
-        uint8_t packetno = 0;
-        GetSessionInfo(session_id, packetno);
+        GetSessionInfo(&session_id, 0);
         return session_id;
     }
 
     uint8_t DesktopInputAckPacket::GetPacketNo(bool* found/* = NULL*/) const
     {
-        uint8_t session_id = 0;
         uint8_t packetno = 0;
-        found? *found = GetSessionInfo(session_id, packetno) :
-               GetSessionInfo(session_id, packetno);
+        found? *found = GetSessionInfo(0, &packetno) :
+               GetSessionInfo(0, &packetno);
         return packetno;
     }
 

@@ -1003,10 +1003,9 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
     //if(ack_packet.GetPacketSize()> ack_size)
     //    ack_size = ack_packet.GetPacketSize();
 
-    uint16_t owner_userid;
     uint8_t session_id;
     uint32_t time_ack;
-    if(!ack_packet.GetSessionInfo(owner_userid, session_id, time_ack))
+    if(!ack_packet.GetSessionInfo(0, &session_id, &time_ack))
         return false;
 
     TTASSERT(m_session_id == session_id);

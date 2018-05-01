@@ -461,6 +461,8 @@ namespace teamtalk {
         uint16_t GetPacketSize() const;
         bool ValidatePacket() const;
 
+        virtual uint8_t GetStreamID() const { return 0; }
+
 #ifdef ENABLE_ENCRYPTION
         const std::set<uint8_t>& GetCryptSections() const { return m_crypt_sections; }
 #endif
@@ -667,7 +669,9 @@ namespace teamtalk {
                     const char* enc_data, uint16_t enc_len, 
                     uint16_t fragmentno);
 
-        uint8_t GetStreamID(uint32_t* packet_no = NULL, uint16_t* fragno = NULL,
+        uint8_t GetStreamID() const { return GetStreamID(0); }
+
+        uint8_t GetStreamID(uint32_t* packet_no, uint16_t* fragno = NULL,
                             uint16_t* fragcnt = NULL, uint16_t* width = NULL,
                             uint16_t* height = NULL) const;
         uint32_t GetPacketNo() const;
@@ -752,6 +756,8 @@ namespace teamtalk {
         bool UpdatePacketCount(uint16_t pkt_upd_count);
 
         uint8_t GetSessionID() const;
+
+        uint8_t GetStreamID() const { return GetSessionID(); }
 
         //returns INVALID_PACKET_INDEX on error
         uint16_t GetPacketIndex() const;
@@ -848,8 +854,16 @@ namespace teamtalk {
 
         DesktopAckPacket(const DesktopAckPacket& packet);
 
-        bool GetSessionInfo(uint16_t& owner_userid, uint8_t& session_id, 
-                            uint32_t& upd_time) const;
+        bool GetSessionInfo(uint16_t* owner_userid, uint8_t* session_id, 
+                            uint32_t* upd_time) const;
+
+        uint8_t GetStreamID() const
+        {
+            uint8_t sessionid = 0;
+            if (GetSessionInfo(0, &sessionid, 0))
+                return sessionid;
+            return sessionid;
+         }
 
         bool GetPacketsAcked(std::set<uint16_t>& packets_ack) const;
 
@@ -884,6 +898,8 @@ namespace teamtalk {
 
         uint8_t GetSessionID() const;
 
+        uint8_t GetStreamID() const { return GetSessionID(); }
+
     private:
        enum
         {
@@ -911,8 +927,16 @@ namespace teamtalk {
 
         DesktopCursorPacket(const DesktopCursorPacket& packet);
 
-        bool GetSessionCursor(uint16_t& dest_userid, uint8_t& session_id, 
-                              int16_t& x, int16_t& y) const;
+        bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id, 
+                              int16_t* x, int16_t* y) const;
+
+        uint8_t GetStreamID() const
+        {
+            uint8_t streamid = 0;
+            GetSessionCursor(0, &streamid, 0, 0);
+            return streamid;
+        }
+            
 
         static const uint16_t INVALID_DEST_USERID = -1;
 
@@ -945,8 +969,9 @@ namespace teamtalk {
 
         DesktopInputPacket(const DesktopInputPacket& packet);
 
-        bool GetSessionInfo(uint8_t& session_id, uint8_t& packetno) const;
+        bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
         uint8_t GetSessionID() const;
+        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
@@ -978,9 +1003,10 @@ namespace teamtalk {
         DesktopInputAckPacket(const DesktopInputAckPacket& packet)
             : FieldPacket(packet) { }
 
-        bool GetSessionInfo(uint8_t& session_id, uint8_t& packetno) const;
+        bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
 
         uint8_t GetSessionID() const;
+        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
     private:

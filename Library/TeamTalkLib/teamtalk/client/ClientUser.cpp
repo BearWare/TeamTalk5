@@ -704,11 +704,9 @@ void ClientUser::AddPacket(const DesktopCursorPacket& p,
     bool is_set = false;
     uint32_t tm = GetLastTimeStamp(p, &is_set);
 
-    uint8_t session_id;
-    uint16_t dest_userid;
     int16_t x, y;
 
-    if(p.GetSessionCursor(dest_userid, session_id, x, y) &&
+    if(p.GetSessionCursor(0, 0, &x, &y) &&
        (W32_GT(p.GetTime(), tm) || !is_set))
     {
         DesktopInput input;

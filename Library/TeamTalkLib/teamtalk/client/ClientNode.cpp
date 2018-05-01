@@ -2043,10 +2043,9 @@ void ClientNode::ReceivedDesktopPacket(ClientUser& user,
 
 void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
 {
-    uint16_t owner_userid;
     uint8_t session_id;
     uint32_t time_ack;
-    if(!ack_pkt.GetSessionInfo(owner_userid, session_id, time_ack))
+    if(!ack_pkt.GetSessionInfo(0, &session_id, &time_ack))
         return;
 
     if(!m_desktop_tx.null() &&
@@ -2141,8 +2140,7 @@ void ClientNode::ReceivedDesktopCursorPacket(const DesktopCursorPacket& csr_pkt)
     clientchannel_t chan = GetChannel(csr_pkt.GetChannel());
     uint16_t dest_userid;
     uint8_t session_id;
-    int16_t x, y;
-    if(!chan.null() && csr_pkt.GetSessionCursor(dest_userid, session_id, x, y))
+    if(!chan.null() && csr_pkt.GetSessionCursor(&dest_userid, &session_id, 0, 0))
     {
         if(dest_userid == 0)
         {
@@ -2201,7 +2199,7 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
 
     uint8_t session_id;
     uint8_t packetno;
-    if(!ack_pkt.GetSessionInfo(session_id, packetno))
+    if(!ack_pkt.GetSessionInfo(&session_id, &packetno))
         return;
 
     MYTRACE(ACE_TEXT("Received desktop input ACK for user #%d, session %d, pkt %u. Remain: %u\n"),

@@ -1861,7 +1861,7 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE);
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, packet.GetStreamID());
 
     if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
        txqueue != chan.GetTransmitQueue())
@@ -1892,7 +1892,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_AUDIO);
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_AUDIO, packet.GetStreamID());
 
     if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
        txqueue != chan.GetTransmitQueue())
@@ -1922,7 +1922,7 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, packet.GetStreamID()))
         return;
 
     vector<ACE_INET_Addr> addrs;
@@ -1949,7 +1949,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_VIDEO);
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_VIDEO, packet.GetStreamID());
     
     if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
        txqueue != chan.GetTransmitQueue())
@@ -2000,7 +2000,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetStreamID()))
        return;
 
     uint8_t prev_session_id = 0;
@@ -2132,7 +2132,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     uint8_t session_id; 
     uint32_t upd_time;
 
-    if(!packet.GetSessionInfo(owner_userid, session_id, upd_time))
+    if(!packet.GetSessionInfo(&owner_userid, &session_id, &upd_time))
         return;
 
     desktop_transmitter_t dtx = user.GetDesktopTransmitter(owner_userid);
@@ -2328,7 +2328,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetStreamID()))
        return;
     
 #ifdef _DEBUG
@@ -2341,7 +2341,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
     uint8_t session_id;
     uint16_t dest_userid;
     int16_t x, y;
-    if(!packet.GetSessionCursor(dest_userid, session_id, x, y))
+    if(!packet.GetSessionCursor(&dest_userid, &session_id, &x, &y))
         return;
 
     desktop_cache_t session = user.GetDesktopSession();
@@ -3574,7 +3574,7 @@ void ServerNode::UpdateSoloTransmitChannels()
          sweeper.pop();
 
          size_t txq = chan->GetTransmitQueue().size();
-         chan->CanTransmit(0, STREAMTYPE_VOICE);
+         chan->CanTransmit(0, STREAMTYPE_VOICE, 0);
          chan->ClearFromTransmitQueue(0);
          if(txq != chan->GetTransmitQueue().size())
              UpdateChannel(*chan, chan->GetUsers());
