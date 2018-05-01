@@ -1202,7 +1202,7 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
         {
             item = parent->child(i);
             QString itemName = item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
-            if( (item->type() & CHANNEL_TYPE) ||
+            if( (item->type() & CHANNEL_TYPE) &&
                 name.compare(itemName, Qt::CaseInsensitive) < 0)
                 break;
         }
