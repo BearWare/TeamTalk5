@@ -71,6 +71,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -82,6 +83,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -1829,10 +1831,15 @@ implements TeamTalkConnectionListener,
                 ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
             Intent action = new Intent(this, TextMessageActivity.class);
             Notification.Builder notification = new Notification.Builder(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel mChannel = new NotificationChannel("TT_PM", "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(mChannel);
+            }
             notification.setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.personal_message_notification, senderName))
                 .setContentText(getString(R.string.personal_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                .setChannelId("TT_PM")
                 .setAutoCancel(true);
             notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
             break;

@@ -61,6 +61,7 @@ import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -177,6 +178,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     CountDownTimer eventTimer;
     Notification.Builder widget = null;
+    NotificationManager notificationManager;
     SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
 
     private String getNotificationText() {
@@ -193,11 +195,21 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 widget = new Notification.Builder(this);
+                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel mChannel = new NotificationChannel("TeamtalkConnection", "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
+                    mChannel.enableVibration(false);
+                    mChannel.setVibrationPattern(null);
+                    mChannel.enableLights(false);
+                    mChannel.setSound(null, null);
+                    notificationManager.createNotificationChannel(mChannel);
+                }
                 widget.setSmallIcon(R.drawable.teamtalk_green)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, PendingIntent.FLAG_UPDATE_CURRENT))
                     .setOngoing(true)
                     .setAutoCancel(false)
+                .setChannelId("TeamtalkConnection")
                     .setContentText(getNotificationText());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                     widget.setShowWhen(false);

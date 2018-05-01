@@ -1,30 +1,30 @@
 buildscript {
     repositories {
-        jcenter() // or mavenCentral()
-        mavenCentral()
+        jcenter()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:3.1.2'
     }
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25 // Facebook needs minimum 25
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 27 // Facebook needs minimum 25
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 27
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
     }
 
@@ -36,7 +36,9 @@ android {
     }
 
     repositories {
-        maven { url 'http://repo1.maven.org/maven2' }
+        jcenter()
+        maven { url 'https://maven.google.com/' }
+        maven { url 'https://jitpack.io' }
     }
 
     lintOptions {
@@ -45,26 +47,26 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:support-v13:25.3.1'
-    compile files('libs/TeamTalk5.jar')
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.android.support:support-v13:27.1.1'
+    implementation files('libs/TeamTalk5.jar')
 
     // Facebook login
-    compile 'com.facebook.android:facebook-android-sdk:4.26.0'
+    implementation 'com.facebook.android:facebook-android-sdk:4.26.0'
 
     // Required -- JUnit 4 framework
-    testCompile 'junit:junit:4.12'
-    testCompile files('libs/TeamTalk5Test.jar')
+    testImplementation 'junit:junit:4.12'
+    testImplementation files('libs/TeamTalk5Test.jar')
 
-    androidTestCompile 'com.android.support:support-annotations:25.3.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test:rules:0.5'
     // Optional -- Hamcrest library
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
     // Optional -- UI testing with Espresso
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     // Optional -- UI testing with UI Automator
-    //androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
-    androidTestCompile files('libs/TeamTalk5Test.jar')
+    //androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    androidTestImplementation files('libs/TeamTalk5Test.jar')
 }
 
