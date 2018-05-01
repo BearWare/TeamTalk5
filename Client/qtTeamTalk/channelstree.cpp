@@ -1157,9 +1157,6 @@ void ChannelsTree::slotItemChanged(QTreeWidgetItem* item, int column)
             return;
 
         const Channel& chan = cIte.value();
-        if((chan.uChannelType & CHANNEL_CLASSROOM) != CHANNEL_CLASSROOM)
-            return;
-
         channelid = chan.nChannelID;
     }
     else if(item->type() == CHANNEL_TYPE)

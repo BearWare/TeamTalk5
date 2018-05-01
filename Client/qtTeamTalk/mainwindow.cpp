@@ -4695,7 +4695,10 @@ void MainWindow::slotTransmitUsersChanged(int channelid,
     while(i != transmitUsers.end())
     {
         chan.transmitUsers[j][TT_TRANSMITUSERS_USERID_INDEX] = i.key();
-        chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = i.value();
+        if (chan.uChannelType & CHANNEL_CLASSROOM)
+            chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = i.value();
+        else
+            chan.transmitUsers[j][TT_TRANSMITUSERS_STREAMTYPE_INDEX] = ~i.value();
         i++;j++;
     }
     if(j<TT_TRANSMITUSERS_MAX)
@@ -4709,8 +4712,7 @@ void MainWindow::slotTransmitUsersChanged(int channelid,
 void MainWindow::slotChannelUpdate(const Channel& chan)
 {
     Channel oldchan;
-    if(!ui.channelsWidget->getChannel(chan.nChannelID, oldchan) ||
-       (chan.uChannelType & CHANNEL_CLASSROOM) == 0)
+    if(!ui.channelsWidget->getChannel(chan.nChannelID, oldchan))
         return;
     
     //specific to classroom channel
