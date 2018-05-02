@@ -24,10 +24,7 @@
 #if !defined(ACCEPTHANDLER_H)
 #define ACCEPTHANDLER_H
 
-#include <ace/Reactor.h>
-#include <ace/Svc_Handler.h>
 #include <ace/Acceptor.h>
-#include <ace/INET_Addr.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Acceptor.h>
 
