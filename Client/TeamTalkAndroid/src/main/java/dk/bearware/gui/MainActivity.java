@@ -82,6 +82,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -241,6 +242,18 @@ implements TeamTalkConnectionListener,
         mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
 
         setupButtons();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final MediaPlayer mMediaPlayer;
+            mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silence);
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mMediaPlayer.release();
+                }
+            });
+            mMediaPlayer.start();
+        }
     }
 
     @Override
