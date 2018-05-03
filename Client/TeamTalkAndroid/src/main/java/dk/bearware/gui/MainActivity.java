@@ -1852,8 +1852,10 @@ implements TeamTalkConnectionListener,
                 .setContentTitle(getString(R.string.personal_message_notification, senderName))
                 .setContentText(getString(R.string.personal_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
-                .setChannelId("TT_PM")
                 .setAutoCancel(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notification.setChannelId("TT_PM");
+			}
             notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
             break;
         case TextMsgType.MSGTYPE_CUSTOM:

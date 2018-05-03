@@ -209,8 +209,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, PendingIntent.FLAG_UPDATE_CURRENT))
                     .setOngoing(true)
                     .setAutoCancel(false)
-                .setChannelId("TeamtalkConnection")
                     .setContentText(getNotificationText());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    widget.setChannelId("TeamtalkConnection");
+			    }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                     widget.setShowWhen(false);
                 startForeground(UI_WIDGET_ID, widget.build());
