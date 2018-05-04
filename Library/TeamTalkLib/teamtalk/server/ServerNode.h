@@ -106,6 +106,8 @@ namespace teamtalk {
     struct ServerProperties : public ServerProp
     {
         ACE_TString filesroot; //files root directory            
+        std::vector<ACE_INET_Addr> tcpaddrs;
+        std::vector<ACE_INET_Addr> udpaddrs;
 
         ServerProperties()
             {
@@ -145,7 +147,7 @@ namespace teamtalk {
                    ACE_Reactor* timerReactor,
                    ACE_Reactor* tcpReactor, 
                    ACE_Reactor* udpReactor, 
-                   ServerNodeListener* pListener = NULL);
+                   ServerNodeListener* listener = NULL);
 
         virtual ~ServerNode();
 
@@ -163,82 +165,84 @@ namespace teamtalk {
         bool IsEncrypted() const;
 
         //send udp packet
-        int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr);
-        int SendPackets(const FieldPacket& packet, const std::vector< ACE_INET_Addr >& vecaddr);
+        int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
+        int SendPacket(const FieldPacket& packet, const ServerUser& user);
+        int SendPackets(const FieldPacket& packet, const ServerChannel::users_t& users);
 
         //UDP packet handling functions
-        void ReceivedPacket(const char* packet_data, int packet_size, 
-                            const ACE_INET_Addr& addr);
+        void ReceivedPacket(PacketHandler* ph,
+                            const char* packet_data, int packet_size, 
+                            const ACE_INET_Addr& remoteaddr);
         void ReceivedHelloPacket(ServerUser& user, const HelloPacket& packet, 
-                                 const ACE_INET_Addr& addr);
+                                 const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedKeepAlivePacket(ServerUser& user, const KeepAlivePacket& packet, 
-                                     const ACE_INET_Addr& addr);
+                                     const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedFieldPacket(ServerUser& user, 
                                  const FieldPacket& packet, 
-                                 const ACE_INET_Addr& addr);
+                                 const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 
         //broadcast either an audio packet or a crypt audio packet
         void ReceivedVoicePacket(ServerUser& user, 
                                  const FieldPacket& packet, 
-                                 const ACE_INET_Addr& addr);
+                                 const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedAudioFilePacket(ServerUser& user, 
                                      const FieldPacket& packet, 
-                                     const ACE_INET_Addr& addr);
+                                     const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedVideoCapturePacket(ServerUser& user, 
                                  const FieldPacket& packet, 
-                                 const ACE_INET_Addr& addr);
+                                 const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedVideoFilePacket(ServerUser& user, 
                                      const FieldPacket& packet, 
-                                     const ACE_INET_Addr& addr);
+                                     const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopPacket(ServerUser& user, 
                                    const CryptDesktopPacket& crypt_pkt, 
-                                   const ACE_INET_Addr& addr);
+                                   const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopPacket(ServerUser& user, 
                                    const DesktopPacket& packet, 
-                                   const ACE_INET_Addr& addr);
+                                   const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopAckPacket(ServerUser& user, 
                                       const CryptDesktopAckPacket& crypt_pkt, 
-                                      const ACE_INET_Addr& addr);
+                                      const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopAckPacket(ServerUser& user, 
                                       const DesktopAckPacket& packet, 
-                                      const ACE_INET_Addr& addr);
+                                      const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopNakPacket(ServerUser& user, 
                                       const CryptDesktopNakPacket& crypt_pkt, 
-                                      const ACE_INET_Addr& addr);
+                                      const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopNakPacket(ServerUser& user, 
                                       const DesktopNakPacket& packet, 
-                                      const ACE_INET_Addr& addr);
+                                      const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopCursorPacket(ServerUser& user, 
                                          const CryptDesktopCursorPacket& crypt_pkt, 
-                                         const ACE_INET_Addr& addr);
+                                         const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopCursorPacket(ServerUser& user, 
                                          const DesktopCursorPacket& packet, 
-                                         const ACE_INET_Addr& addr);
+                                         const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopInputPacket(ServerUser& user, 
                                         const CryptDesktopInputPacket& crypt_pkt, 
-                                        const ACE_INET_Addr& addr);
+                                        const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopInputPacket(ServerUser& user, 
                                         const DesktopInputPacket& packet, 
-                                        const ACE_INET_Addr& addr);
+                                        const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #ifdef ENABLE_ENCRYPTION
         void ReceivedDesktopInputAckPacket(ServerUser& user, 
                                            const CryptDesktopInputAckPacket& crypt_pkt, 
-                                           const ACE_INET_Addr& addr);
+                                           const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 #endif
         void ReceivedDesktopInputAckPacket(ServerUser& user, 
                                            const DesktopInputAckPacket& packet, 
-                                           const ACE_INET_Addr& addr);
+                                           const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 
         //server properties
         void SetServerProperties(const ServerProperties& srvprop);
@@ -359,15 +363,14 @@ namespace teamtalk {
         //get the destination channel of a packet
         serverchannel_t GetPacketChannel(ServerUser& user,
                                          const FieldPacket& packet,
-                                         const ACE_INET_Addr& addr);
+                                         const ACE_INET_Addr& remoteaddr,
+                                         const ACE_INET_Addr& localaddr);
         //get destination IP-addresses and users of packet
-        void GetPacketDestinations(const ServerUser& user,
-                                   const ServerChannel& channel,
-                                   const FieldPacket& packet,
-                                   Subscriptions subscrip_check,
-                                   Subscriptions intercept_check,
-                                   std::vector<ACE_INET_Addr>& addrs,
-                                   std::list<serveruser_t>* dest_users = NULL);
+        ServerChannel::users_t GetPacketDestinations(const ServerUser& user,
+                                                     const ServerChannel& channel,
+                                                     const FieldPacket& packet,
+                                                     Subscriptions subscrip_check,
+                                                     Subscriptions intercept_check);
         //send desktop ack packet (client desktop -> server)
         bool SendDesktopAckPacket(int userid);
         //process desktop transmitter (server -> client)
@@ -392,14 +395,15 @@ namespace teamtalk {
         int m_userid_counter;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
-        CryptAcceptor m_crypt_acceptor;
+        std::vector< std::shared_ptr<CryptAcceptor> > m_crypt_acceptors;
 #endif
-        DefaultAcceptor m_def_acceptor;
+        std::vector< std::shared_ptr<DefaultAcceptor> > m_def_acceptors;
 
         std::map<ACE_HANDLE, serveruser_t> m_streamhandles;
 
         //socket for udp traffic
-        PacketHandler m_packethandler;
+        std::vector< std::shared_ptr<PacketHandler> > m_packethandlers;
+        
         //mutex for clients
         ACE_Recursive_Thread_Mutex m_sendmutex;
         //the channels
@@ -425,7 +429,7 @@ namespace teamtalk {
         int m_filetx_id_counter, m_file_id_counter;
 
         std::map<ACE_thread_t, ACE_Reactor*> m_reactors;
-        ACE_Reactor* m_timer_reactor;
+        ACE_Reactor* m_timer_reactor, *m_tcp_reactor, *m_udp_reactor;
 
         //server stats
         ServerStats m_stats;

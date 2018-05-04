@@ -473,8 +473,12 @@ void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* 
     m_settings.SetMediaFileTxLimit(properties.mediafiletxlimit);
     m_settings.SetDesktopTxLimit(properties.desktoptxlimit);
     m_settings.SetTotalTxLimit(properties.totaltxlimit);
-    m_settings.SetHostTcpPort(properties.tcpaddr.get_port_number());
-    m_settings.SetHostUdpPort(properties.udpaddr.get_port_number());
+    TTASSERT(properties.tcpaddrs.size());
+    if (properties.tcpaddrs.size())
+        m_settings.SetHostTcpPort(properties.tcpaddrs[0].get_port_number());
+    TTASSERT(properties.udpaddrs.size());
+    if (properties.udpaddrs.size())
+        m_settings.SetHostUdpPort(properties.udpaddrs[0].get_port_number());
 
     m_settings.SetMaxDiskUsage(properties.maxdiskusage);
     m_settings.SetDefaultDiskQuota(properties.diskquota);
@@ -886,16 +890,23 @@ namespace teamtalk {
 
         u_short tcpport = xmlSettings.GetHostTcpPort() == UNDEFINED? DEFAULT_TCPPORT : xmlSettings.GetHostTcpPort();
         u_short udpport = xmlSettings.GetHostUdpPort() == UNDEFINED? DEFAULT_UDPPORT : xmlSettings.GetHostUdpPort();
-        ACE_TString bindip = Utf8ToUnicode(xmlSettings.GetBindIP().c_str());
-        if(bindip.length())
+        std::vector<std::string> bindips = xmlSettings.GetBindIPs();
+        if (bindips.empty())
+            bindips.push_back("");
+        for (auto ip : bindips)
         {
-            properties.tcpaddr = ACE_INET_Addr(tcpport, bindip.c_str());
-            properties.udpaddr = ACE_INET_Addr(udpport, bindip.c_str());
-        }
-        else
-        {
-            properties.tcpaddr = ACE_INET_Addr(tcpport);
-            properties.udpaddr = ACE_INET_Addr(udpport);
+            if(ip.length())
+            {
+                ACE_INET_Addr tcpaddr(tcpport, Utf8ToUnicode(ip.c_str()));
+                ACE_INET_Addr udpaddr(udpport, Utf8ToUnicode(ip.c_str()));
+                properties.tcpaddrs.push_back(tcpaddr);
+                properties.udpaddrs.push_back(udpaddr);
+            }
+            else
+            {
+                properties.tcpaddrs.push_back(ACE_INET_Addr(tcpport));
+                properties.udpaddrs.push_back(ACE_INET_Addr(udpport));
+            }
         }
 
 #if defined(ENABLE_ENCRYPTION)

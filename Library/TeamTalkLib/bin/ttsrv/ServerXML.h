@@ -55,8 +55,8 @@ namespace teamtalk {
         bool SetMessageOfTheDay(std::string szMsg);
         std::string GetMessageOfTheDay();
 
-        bool SetBindIP(std::string ip);
-        std::string GetBindIP();
+        bool SetBindIPs(std::vector<std::string> ips);
+        std::vector<std::string> GetBindIPs();
 
         bool SetHostTcpPort(int nHostTcpPort);
         int GetHostTcpPort();

@@ -48,8 +48,6 @@ namespace teamtalk {
         int max_logins_per_ipaddr;
         ACE_INT64 diskquota; //max bytes for each channel to store files
         ACE_INT64 maxdiskusage; //max bytes to use for storage of files
-        ACE_INET_Addr tcpaddr;
-        ACE_INET_Addr udpaddr;
         int usertimeout;
         int voicetxlimit;
         int videotxlimit;

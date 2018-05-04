@@ -211,6 +211,8 @@ namespace teamtalk {
         ACE_TString protocol;
         int packetprotocol;
         ACE_TString motd_raw;
+        ACE_INET_Addr tcpaddr;
+        ACE_INET_Addr udpaddr;
         ServerInfo()
         {
             packetprotocol = 0;
