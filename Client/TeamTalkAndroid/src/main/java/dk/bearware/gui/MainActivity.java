@@ -1756,9 +1756,11 @@ implements TeamTalkConnectionListener,
                 accessibilityAssistant.lockEvents();
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
-                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
-                    String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                if (ttclient.getMyChannelID() == user.nChannelID) {
+                    if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
+                        String name = Utils.getDisplayName(getBaseContext(), user);
+                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                    }
                 }
                 accessibilityAssistant.unlockEvents();
             }
@@ -1799,9 +1801,11 @@ implements TeamTalkConnectionListener,
             
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
-            if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
-                String name = Utils.getDisplayName(getBaseContext(), user);
-                ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+            if (ttclient.getMyChannelID() == channelid) {
+                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
+                    String name = Utils.getDisplayName(getBaseContext(), user);
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                }
             }
             accessibilityAssistant.unlockEvents();
         }
