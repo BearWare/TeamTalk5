@@ -125,6 +125,7 @@ PacketHandler::PacketHandler(ACE_Reactor* r)
 
 PacketHandler::~PacketHandler()
 {
+    MYTRACE(ACE_TEXT("~PacketHandler()\n"));
 }
 
 bool PacketHandler::open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
@@ -214,7 +215,6 @@ int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 
 int PacketHandler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask mask)
 {
-    TTASSERT(false);
     return 0;
 }
 
