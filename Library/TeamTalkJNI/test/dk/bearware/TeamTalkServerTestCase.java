@@ -394,24 +394,22 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        while(server.runEventLoop(0));
+        ServerInterleave interleave = new RunServer(server);
 
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
 
         int cmdid = client1.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client", cmdid > 0);
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
         //check that the client gets back the same user account we created in the server
-        assertTrue("wait login", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg));
+        assertTrue("wait login", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, interleave));
         assertEquals("Account identity", useraccount.szUsername, msg.useraccount.szUsername);
         assertEquals("Account type", useraccount.uUserType, msg.useraccount.uUserType);
         assertEquals("Account rights", useraccount.uUserRights, msg.useraccount.uUserRights);
         assertEquals("Account note", useraccount.szNote, msg.useraccount.szNote);
 
-        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
         assertEquals("Login success", cmdid, msg.nSource);
     }
 
@@ -420,19 +418,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
 
+        ServerInterleave interleave = new RunServer(server);
+
         assertTrue("Connect client", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        while(server.runEventLoop(0));
-
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
 
         int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client", cmdid > 0);
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
-        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         UserAccount useraccount = new UserAccount();
         
@@ -448,11 +444,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         int n_accounts = useraccounts.size();
 
-        while(server.runEventLoop(100));
+        waitCmdSuccess(client1, cmdid, 1000, interleave);
 
         assertEquals("One more account", useraccounts.size(), n_accounts + 1);
-
-        waitCmdSuccess(client1, cmdid, 1000);
 
         UserAccount srv_ua = getUserAccount(useraccount.szUsername);
         assertEquals("Account identity", srv_ua.szUsername, useraccount.szUsername);
@@ -478,13 +472,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client1 = newClientInstance();
         TeamTalkBase client2 = newClientInstance();
 
+        ServerInterleave interleave = new RunServer(server);
+        
         assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
         assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        while(server.runEventLoop(0));
-
-        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
-        waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
+        waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
 
         int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
@@ -492,27 +486,20 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client2", cmdid > 0);
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
-        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         int n_accounts = useraccounts.size();
         cmdid = client1.doDeleteUserAccount(ADMIN_USERNAME);
 
-        while(server.runEventLoop(100));
+        waitCmdSuccess(client1, cmdid, 1000, interleave);
 
         assertEquals("One less account", useraccounts.size(), n_accounts - 1);
 
-        waitCmdSuccess(client1, cmdid, 1000);
-
         cmdid = client2.doDeleteUserAccount(ADMIN_USERNAME);
 
-        while(server.runEventLoop(100));
-
-        waitCmdError(client2, cmdid, 1000);
-        
+        waitCmdError(client2, cmdid, 1000, interleave);
     }
 
     public void test_banUser() {
@@ -532,13 +519,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client1 = newClientInstance();
         TeamTalkBase client2 = newClientInstance();
 
+        ServerInterleave interleave = new RunServer(server);
         assertTrue("Connect client1", client1.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
         assertTrue("Connect client2", client2.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        while(server.runEventLoop(0));
-
-        assertTrue("wait connect", waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
-        assertTrue("wait connect", waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000));
+        assertTrue("wait connect", waitForEvent(client1, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave));
+        assertTrue("wait connect", waitForEvent(client2, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave));
 
         int cmdid = client1.doLogin(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD);
         assertTrue("Login client1", cmdid > 0);
@@ -546,34 +532,26 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         cmdid = client2.doLogin(getCurrentMethod(), useraccount.szUsername, useraccount.szPassword);
         assertTrue("Login client2", cmdid > 0);
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
-        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         int n_banned = banned_ipaddr.size();
         cmdid = client1.doBanUser(client2.getMyUserID(), 0);
 
-        while(server.runEventLoop(100));
-
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
 
         cmdid = client1.doUnBanUser(banned_ipaddr.get(0), 0);
 
-        while(server.runEventLoop(100));
-
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         assertEquals("Banned user", n_banned, banned_ipaddr.size());
 
         cmdid = client1.doBanIPAddress("11.22.33.44", 0);
 
-        while(server.runEventLoop(100));
-
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
+        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
         
@@ -582,24 +560,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void test_systemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
-        while(server.runEventLoop(100));
+        ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client = newClientInstance();
         assertTrue("Connect", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, "foobar"));
 
-        while(server.runEventLoop(100));
-
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000);
+        waitForEvent(client, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
 
         int cmdid = client.doLoginEx(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
         assertTrue("Login client", cmdid > 0);
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
-        assertTrue("wait success", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg));
-
-        while(server.runEventLoop(100));
+        assertTrue("wait success", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
 
         User user = new User();
         assertTrue("Get user", client.getUser(client.getMyUserID(), user));
@@ -611,14 +583,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void test_wrongSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
-        while(server.runEventLoop(100));
+        ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client = newClientInstance();
         assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        while(server.runEventLoop(100));
-
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000);
+        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
 
     }
 
@@ -641,6 +611,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
         TeamTalkBase client2 = newClientInstance();
+
+        ServerInterleave interleave = new RunServer(server);
+
         connect(server, client1);
         connect(server, client2);
         login(server, client1, NICKNAME, USERNAME, PASSWORD);
@@ -656,20 +629,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         int cmdid = client1.doJoinChannel(chan);
 
-        while(server.runEventLoop(100));
-
-        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
 
         cmdid = client2.doJoinChannelByID(client2.getRootChannelID(), "");
-        while(server.runEventLoop(100));
 
-        assertTrue("join channel", waitCmdSuccess(client2, cmdid, DEF_WAIT));
+        assertTrue("join channel", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
         cmdid = client2.doMoveUser(client1.getMyUserID(), client2.getMyChannelID());
 
-        while(server.runEventLoop(100));
-
-        assertTrue("move user", waitCmdSuccess(client2, cmdid, DEF_WAIT));
+        assertTrue("move user", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
@@ -688,6 +656,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance();
         TeamTalkBase client1 = newClientInstance();
+
+        ServerInterleave interleave = new RunServer(server);
+
         connect(server, client1);
         login(server, client1, NICKNAME, USERNAME, PASSWORD);
 
@@ -701,17 +672,16 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
-        while(server.runEventLoop(100));
+        interleave.interleave();
 
         chan.szName = "foo2";
         assertEquals("Update sub channel", ClientError.CMDERR_SUCCESS, server.updateChannel(chan));
         
-        while(server.runEventLoop(100));
+        interleave.interleave();
 
         assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
         
-        while(server.runEventLoop(100));
-
+        interleave.interleave();
     }
 
     public void test_kickUser() {
@@ -727,6 +697,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client1 = newClientInstance();
         connect(server, client1);
@@ -737,9 +708,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client2);
         login(server, client2, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
-        assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), client1.getMyChannelID())>0);
-
-        while(server.runEventLoop(100));
+        int cmdid = client2.doKickUser(client1.getMyUserID(), client1.getMyChannelID());
+        assertTrue("kick success", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
         Channel chan = new Channel();
         chan.nChannelID = 2;
@@ -751,25 +721,23 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
-        while(server.runEventLoop(100));
+        waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, interleave);
 
-        int cmdid = client1.doJoinChannelByID(chan.nChannelID, "");
+        cmdid = client1.doJoinChannelByID(chan.nChannelID, "");
         assertTrue("Join new channel", cmdid>0);
 
-        while(server.runEventLoop(100));
+        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
 
-        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+        assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
 
-        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
-
-        while(server.runEventLoop(100));
-
+        assertTrue("remove channel event", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE,
+                                                        DEF_WAIT, new TTMessage(), interleave));
+    
         assertEquals("No channel", 0, client1.getMyChannelID());
 
         assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), 0)>0);
 
-        while(server.runEventLoop(100));
-
+        interleave.interleave();
     }
 
     public void test_sendMessage() {
@@ -784,13 +752,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client1 = newClientInstance();
         connect(server, client1);
         login(server, client1, NICKNAME, USERNAME, PASSWORD);
         joinRoot(server, client1);
-
-        while(server.runEventLoop(100));
 
         TextMessage textmsg = new TextMessage();
 
@@ -804,10 +771,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("send message", 0, server.sendTextMessage(textmsg));
 
-        while(server.runEventLoop(100));
-
         TTMessage msg = new TTMessage();
-        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+        assertTrue("wait text msg", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
 
         assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
         assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
@@ -819,8 +784,6 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("send message", 0, server.sendTextMessage(textmsg));
 
-        while(server.runEventLoop(100));
-
         // channel message
 
         textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
@@ -829,9 +792,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("send message", 0, server.sendTextMessage(textmsg));
 
-        while(server.runEventLoop(100));
-
-        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
 
         assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
         assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
@@ -843,9 +804,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("send message", 0, server.sendTextMessage(textmsg));
 
-        while(server.runEventLoop(100));
-
-        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
 
         assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
         assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
@@ -863,6 +822,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client1 = newClientInstance();
         connect(server, client1);
@@ -872,20 +832,16 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         int cmdid = client1.doChangeNickname("This is crap");
         assertTrue("Issue change nickname", cmdid>0);
 
-        new RunServer(server).interleave();
-
         TTMessage msg = new TTMessage();
-        assertTrue("Change nick error", waitCmdError(client1, cmdid, DEF_WAIT, msg));
+        assertTrue("Change nick error", waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave));
 
         assertEquals("Error message", 4567, msg.clienterrormsg.nErrorNo);
 
         cmdid = client1.doChangeStatus(45, "This is also crap");
         assertTrue("Issue change status", cmdid>0);
 
-        new RunServer(server).interleave();
-
         msg = new TTMessage();
-        assertTrue("Change status error", waitCmdError(client1, cmdid, DEF_WAIT, msg));
+        assertTrue("Change status error", waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave));
         assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
     }
 
@@ -928,10 +884,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         int cmdid = client1.doSendFile(client1.getMyChannelID(), uploadfilename);
         assertTrue("upload issued", cmdid>0);
 
-        interleave.interleave();
-
         TTMessage msg = new TTMessage();
-        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
 
         assertTrue("file upload done", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
 
@@ -940,9 +894,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         cmdid = client1.doRecvFile(client1.getMyChannelID(), fileinfo.nFileID, downloadfilename);
         assertTrue("download issued", cmdid>0);
 
-        interleave.interleave();
-
-        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
 
         assertTrue("file download begin event", waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave));
         assertEquals("file download begin", FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus);
@@ -1042,7 +994,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
 
         public void interleave() {
-            while(server.runEventLoop(100));
+            int ms = 100;
+            while(server.runEventLoop(ms)) {
+                ms = 0;
+            }
         }
     }
 
