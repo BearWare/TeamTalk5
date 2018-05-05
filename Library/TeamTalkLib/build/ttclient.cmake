@@ -49,6 +49,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioContainer.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioThread.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientChannel.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/client/Client.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNode.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientUser.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/FileNode.h

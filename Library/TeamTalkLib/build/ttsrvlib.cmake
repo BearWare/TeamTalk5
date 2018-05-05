@@ -24,6 +24,7 @@ set ( TTSRVLIB_HEADERS
   ${TEAMTALKLIB_ROOT}/teamtalk/server/AcceptHandler.h
   ${TEAMTALKLIB_ROOT}/teamtalk/server/DesktopCache.h
   ${TEAMTALKLIB_ROOT}/teamtalk/server/ServerChannel.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/server/Server.h
   ${TEAMTALKLIB_ROOT}/teamtalk/server/ServerNode.h
   ${TEAMTALKLIB_ROOT}/teamtalk/server/ServerUser.h )
 
