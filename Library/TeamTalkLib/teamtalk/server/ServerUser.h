@@ -24,6 +24,8 @@
 #if !defined(SERVERUSER_H)
 #define SERVERUSER_H
 
+#include "Server.h"
+
 #include <ace/Bound_Ptr.h> 
 #include <ace/Null_Mutex.h> 
 #include <ace/Recursive_Thread_Mutex.h>
@@ -48,7 +50,6 @@ namespace teamtalk {
         
     typedef ACE_Strong_Bound_Ptr< ServerChannel, ACE_Null_Mutex > serverchannel_t;
     typedef ACE_Strong_Bound_Ptr< ServerUser, ACE_Null_Mutex > serveruser_t;
-
 
     class ServerUser : public User
     {
@@ -100,8 +101,9 @@ namespace teamtalk {
         int GetUserData() const { return m_account.userdata; }
         const ACE_TString& GetInitialChannel() const { return m_account.init_channel; }
 
-        void SetUdpAddress(const ACE_INET_Addr& addr){ m_udpaddr = addr; }
+        void SetUdpAddress(const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr){ m_udpaddr = remoteaddr; m_localudpaddr = localaddr; }
         const ACE_INET_Addr& GetUdpAddress() const { return m_udpaddr; }
+        const ACE_INET_Addr& GetLocalUdpAddress() const { return m_localudpaddr; }
 
         void SetStreamProtocol(const ACE_TString& protocol){m_stream_protocol=protocol;}
         const ACE_TString& GetStreamProtocol() const { return m_stream_protocol; }
@@ -129,8 +131,8 @@ namespace teamtalk {
         void ForwardFiles(const serverchannel_t& root, bool recursive);
 
         //server --> client commands
-        void DoWelcome(const ServerProperties& properties);
-        void DoServerUpdate(const ServerProperties& properties);
+        void DoWelcome(const ServerSettings& properties);
+        void DoServerUpdate(const ServerSettings& properties);
         //also stores user account
         void DoAccepted(const UserAccount& useraccount);
         void DoLoggedOut();
@@ -244,7 +246,7 @@ namespace teamtalk {
         //success call to HandleLogin
         UserAccount m_account;
 
-        ACE_INET_Addr m_udpaddr;
+        ACE_INET_Addr m_udpaddr, m_localudpaddr;
 
         ACE_TString m_stream_protocol;
         ServerNode& m_servernode;

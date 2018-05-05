@@ -44,7 +44,8 @@ namespace teamtalk {
     class PacketListener
     {
     public:
-        virtual void ReceivedPacket(const char* data_buf, int data_len, 
+        virtual void ReceivedPacket(class PacketHandler* ph,
+                                    const char* data_buf, int data_len, 
                                     const ACE_INET_Addr& addr) = 0;
         virtual void SendPackets(){}
     };
@@ -86,10 +87,13 @@ namespace teamtalk {
         //Returns a reference to the underlying dgram socket.
         ACE_SOCK_Dgram& sock_i();
 
+        ACE_INET_Addr GetLocalAddr() const { return m_localaddr; }
+
     private:
         ACE_SOCK_Dgram sock_;
+        ACE_INET_Addr m_localaddr;
         packetlisteners_t m_setListeners;
-        char* m_buffer;
+        std::vector<char> m_buffer;
     };
 }
 

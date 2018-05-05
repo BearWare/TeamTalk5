@@ -88,7 +88,7 @@ public:
                        const teamtalk::RemoteFile& file);
 
     void OnServerUpdated(const teamtalk::ServerUser& user,
-                         const teamtalk::ServerProperties& srvprop);
+                         const teamtalk::ServerSettings& srvprop);
     void OnSaveConfiguration(teamtalk::ServerNode& servernode,
                              const teamtalk::ServerUser* user = NULL);
 

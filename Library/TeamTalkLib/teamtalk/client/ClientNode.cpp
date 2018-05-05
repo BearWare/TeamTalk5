@@ -1619,7 +1619,8 @@ bool ClientNode::CancelFileTransfer(int transferid)
     return false;
 }
 
-void ClientNode::ReceivedPacket(const char* packet_data, int packet_size, 
+void ClientNode::ReceivedPacket(PacketHandler* ph,
+                                const char* packet_data, int packet_size, 
                                 const ACE_INET_Addr& addr)
 {
     ASSERT_REACTOR_THREAD(m_reactor);

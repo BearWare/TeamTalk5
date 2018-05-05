@@ -24,6 +24,7 @@
 #if !defined(CLIENTNODE_H)
 #define CLIENTNODE_H
 
+#include "Client.h"
 #include "ClientChannel.h"
 #include "ClientUser.h"
 #include "AudioThread.h"
@@ -193,27 +194,16 @@ namespace teamtalk {
         bool udp_ping_dirty;
         bool tcp_ping_dirty;
         ClientStats()
-            {
-                udpbytes_sent = udpbytes_recv = 
+        {
+            udpbytes_sent = udpbytes_recv = 
                 voicebytes_sent = voicebytes_recv = 
                 vidcapbytes_sent = vidcapbytes_recv = 
                 desktopbytes_sent = desktopbytes_recv = 
                 mediafile_audio_bytes_sent = mediafile_audio_bytes_recv = 
                 mediafile_video_bytes_sent = mediafile_video_bytes_recv = 0;
-                udpping_time = tcpping_time = -1;
-                tcp_silence_sec = udp_silence_sec = 0;
-                tcp_ping_dirty = udp_ping_dirty = true;
-            }
-    };
-
-    struct ServerInfo : public ServerProp
-    {
-        ACE_TString protocol;
-        int packetprotocol;
-        ACE_TString motd_raw;
-        ServerInfo()
-        {
-            packetprotocol = 0;
+            udpping_time = tcpping_time = -1;
+            tcp_silence_sec = udp_silence_sec = 0;
+            tcp_ping_dirty = udp_ping_dirty = true;
         }
     };
 
@@ -254,6 +244,7 @@ namespace teamtalk {
 
     //forward decl.
     class ClientListener;
+    typedef ACE_Strong_Bound_Ptr< class FileNode, ACE_Null_Mutex > filenode_t;
 
     class ClientNode
         : public ACE_Task<ACE_MT_SYNCH>
@@ -463,7 +454,8 @@ namespace teamtalk {
         useraccounts_t GetUserAccounts(bool clear);
 
         //PacketListener - reactor thread
-        void ReceivedPacket(const char* packet_data, int packet_size, 
+        void ReceivedPacket(PacketHandler* ph,
+                            const char* packet_data, int packet_size, 
                             const ACE_INET_Addr& addr);
         void SendPackets(); //send packets - reactor thread
 

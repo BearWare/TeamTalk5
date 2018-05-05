@@ -246,7 +246,7 @@ TEAMTALKDLL_API INT32 TTS_SetChannelFilesRoot(IN TTSInstance* lpTTSInstance,
     INT32 ret = pServerNode->SetFileSharing(szFilesRoot) ? CMDERR_SUCCESS : CMDERR_FILE_NOT_FOUND;
     if(ret == CMDERR_SUCCESS)
     {
-        teamtalk::ServerProperties sprop = pServerNode->GetServerProperties();
+        teamtalk::ServerSettings sprop = pServerNode->GetServerProperties();
         sprop.maxdiskusage = nMaxDiskUsage;
         sprop.diskquota = nDefaultChannelQuota;
         pServerNode->SetServerProperties(sprop);
@@ -260,7 +260,7 @@ TEAMTALKDLL_API INT32 TTS_UpdateServer(IN TTSInstance* lpTTSInstance,
     ServerNode* pServerNode;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
-    teamtalk::ServerProperties sprop = pServerNode->GetServerProperties();
+    teamtalk::ServerSettings sprop = pServerNode->GetServerProperties();
 
     Convert(*lpServerProperties, sprop);
     return pServerNode->UpdateServer(sprop).errorno;
@@ -365,17 +365,20 @@ TEAMTALKDLL_API TTBOOL TTS_StartServerSysID(IN TTSInstance* lpTTSInstance,
     ServerNode* pServerNode;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
-    teamtalk::ServerProperties p = pServerNode->GetServerProperties();
+    teamtalk::ServerSettings p = pServerNode->GetServerProperties();
 
+    p.tcpaddrs.clear();
+    p.udpaddrs.clear();
+    
     if(szBindIPAddr && ACE_OS::strlen(szBindIPAddr))
     {
-        p.tcpaddr = ACE_INET_Addr(nTcpPort, szBindIPAddr);
-        p.udpaddr = ACE_INET_Addr(nUdpPort, szBindIPAddr);
+        p.tcpaddrs.push_back(ACE_INET_Addr(nTcpPort, szBindIPAddr));
+        p.udpaddrs.push_back(ACE_INET_Addr(nUdpPort, szBindIPAddr));
     }
     else
     {
-        p.tcpaddr = ACE_INET_Addr(nTcpPort);
-        p.udpaddr = ACE_INET_Addr(nUdpPort);
+        p.tcpaddrs.push_back(ACE_INET_Addr(nTcpPort));
+        p.udpaddrs.push_back(ACE_INET_Addr(nUdpPort));
     }
 
     pServerNode->SetServerProperties(p);

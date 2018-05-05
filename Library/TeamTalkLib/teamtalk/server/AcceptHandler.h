@@ -61,6 +61,11 @@ public:
     {
     }
 
+    virtual ~Acceptor()
+    {
+        MYTRACE(ACE_TEXT("~Acceptor()\n"));
+    }
+
     void SetListener(typename STREAMHANDLER::StreamListener_t * lsn)
     {
         m_listener = lsn;

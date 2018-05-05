@@ -599,7 +599,7 @@ ErrorMsg ServerUser::HandleKeepAlive(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
 {
-    const ServerProperties& srvprop = m_servernode.GetServerProperties();
+    const ServerSettings& srvprop = m_servernode.GetServerProperties();
     
     ChannelProp chanprop;
     GetProperty(properties, TT_CHANNELID, chanprop.channelid);
@@ -777,7 +777,7 @@ ErrorMsg ServerUser::HandleMoveUser(const mstrings_t& properties)
 ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
 {
     //extract properties
-    ServerProperties srvprop = m_servernode.GetServerProperties();
+    ServerSettings srvprop = m_servernode.GetServerProperties();
 
     GetProperty(properties, TT_AUTOSAVE, srvprop.autosave);
     GetProperty(properties, TT_MOTDRAW, srvprop.motd);
@@ -791,12 +791,22 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     GetProperty(properties, TT_DESKTOPTXLIMIT, srvprop.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, srvprop.totaltxlimit);
 
-    int tcpport = srvprop.tcpaddr.get_port_number();
-    int udpport = srvprop.udpaddr.get_port_number();
+    int tcpport = 0;
+    TTASSERT(srvprop.tcpaddrs.size());
+    if (srvprop.tcpaddrs.size())
+        srvprop.tcpaddrs[0].get_port_number();
+    
+    int udpport = 0;
+    TTASSERT(srvprop.udpaddrs.size());
+    if (srvprop.udpaddrs.size())
+        udpport = srvprop.udpaddrs[0].get_port_number();
+    
     GetProperty(properties, TT_TCPPORT, tcpport);
     GetProperty(properties, TT_UDPPORT, udpport);
-    srvprop.tcpaddr.set_port_number(tcpport);
-    srvprop.udpaddr.set_port_number(udpport);
+    for (auto& a : srvprop.tcpaddrs)
+        a.set_port_number(tcpport);
+    for (auto& a : srvprop.udpaddrs)
+        a.set_port_number(udpport);
 
     GetProperty(properties, TT_USERTIMEOUT, srvprop.usertimeout);
 
@@ -1175,7 +1185,7 @@ void ServerUser::DoError(ErrorMsg cmderr)
     }
 }
 
-void ServerUser::DoWelcome(const ServerProperties& properties)
+void ServerUser::DoWelcome(const ServerSettings& properties)
 {
     ACE_TString command = properties.systemid;
     AppendProperty(TT_USERID, GetUserID(), command);
@@ -1190,7 +1200,7 @@ void ServerUser::DoWelcome(const ServerProperties& properties)
     TransmitCommand(command);
 }
 
-void ServerUser::DoServerUpdate(const ServerProperties& properties)
+void ServerUser::DoServerUpdate(const ServerSettings& properties)
 {
     TTASSERT(IsAuthorized());
 
@@ -1206,8 +1216,10 @@ void ServerUser::DoServerUpdate(const ServerProperties& properties)
         AppendProperty(TT_MOTDRAW, properties.motd, command);
         AppendProperty(TT_MAXLOGINATTEMPTS, properties.maxloginattempts, command);
         AppendProperty(TT_AUTOSAVE, properties.autosave, command);
-        AppendProperty(TT_TCPPORT, properties.tcpaddr.get_port_number(), command);
-        AppendProperty(TT_UDPPORT, properties.udpaddr.get_port_number(), command);
+        if (properties.tcpaddrs.size())
+            AppendProperty(TT_TCPPORT, properties.tcpaddrs[0].get_port_number(), command);
+        if (properties.udpaddrs.size())
+            AppendProperty(TT_UDPPORT, properties.udpaddrs[0].get_port_number(), command);
     }
     AppendProperty(TT_VOICETXLIMIT, properties.voicetxlimit, command);
     AppendProperty(TT_VIDEOTXLIMIT, properties.videotxlimit, command);

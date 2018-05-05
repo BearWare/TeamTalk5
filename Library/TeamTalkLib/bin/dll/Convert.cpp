@@ -21,12 +21,9 @@
  *
  */
 
-#if defined(WIN32)
-#include <ace/config.h>
-#endif
-
 #include "Convert.h"
 
+#include <ace/OS.h>
 #include <ace/ACE.h>
 #include <myace/MyACE.h>
 
@@ -1186,7 +1183,7 @@ void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)
     result.abuse.cmd_msec = useraccount.abusePrevent.nCommandsIntervalMSec;
 }
 
-void Convert(const teamtalk::ServerProp& srvprop, ServerProperties& result)
+void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result)
 {
     result.nMaxUsers = srvprop.maxusers;
     result.nMaxLoginAttempts = srvprop.maxloginattempts;
@@ -1201,8 +1198,6 @@ void Convert(const teamtalk::ServerProp& srvprop, ServerProperties& result)
     result.nMaxTotalTxPerSecond = srvprop.totaltxlimit;
     result.bAutoSave = srvprop.autosave;
     result.nMaxUsers = srvprop.maxusers;
-    result.nTcpPort = srvprop.tcpaddr.get_port_number();
-    result.nUdpPort = srvprop.udpaddr.get_port_number();
     result.nUserTimeout = srvprop.usertimeout;
     ACE_OS::strsncpy(result.szServerVersion, srvprop.version.c_str(), TT_STRLEN);
 }
@@ -1210,12 +1205,28 @@ void Convert(const teamtalk::ServerProp& srvprop, ServerProperties& result)
 void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
 {
     ZERO_STRUCT(result);
-    Convert(static_cast<const teamtalk::ServerProp&>(srvprop), result);
+    Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
     ACE_OS::strsncpy(result.szMOTDRaw, srvprop.motd_raw.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szServerProtocolVersion, srvprop.protocol.c_str(), TT_STRLEN);
+    result.nTcpPort = srvprop.tcpaddr.get_port_number();
+    result.nUdpPort = srvprop.udpaddr.get_port_number();
 }
 
-void Convert(const ServerProperties& srvprop, teamtalk::ServerProp& result)
+#if defined(ENABLE_TEAMTALKPRO)
+void Convert(const teamtalk::ServerSettings& srvprop, ServerProperties& result)
+{
+    ZERO_STRUCT(result);
+    Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
+    ACE_OS::strsncpy(result.szServerProtocolVersion, TEAMTALK_PROTOCOL_VERSION, TT_STRLEN);
+
+    if (srvprop.tcpaddrs.size())
+        result.nTcpPort = srvprop.tcpaddrs[0].get_port_number();
+    if (srvprop.udpaddrs.size())
+        result.nUdpPort = srvprop.udpaddrs[0].get_port_number();
+}
+#endif
+
+void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result)
 {
     result.servername = srvprop.szServerName;
     result.motd = srvprop.szMOTD;
@@ -1228,16 +1239,29 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerProp& result)
     result.desktoptxlimit = srvprop.nMaxDesktopTxPerSecond;
     result.totaltxlimit = srvprop.nMaxTotalTxPerSecond;
     result.autosave = srvprop.bAutoSave;
-    result.tcpaddr.set_port_number(srvprop.nTcpPort);
-    result.udpaddr.set_port_number(srvprop.nUdpPort);
     result.usertimeout = srvprop.nUserTimeout;
 }
 
 void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
 {
-    Convert(srvprop, static_cast<teamtalk::ServerProp&>(result));
+    Convert(srvprop, static_cast<teamtalk::ServerProperties&>(result));
+    
+    result.tcpaddr.set_port_number(srvprop.nTcpPort);
+    result.udpaddr.set_port_number(srvprop.nUdpPort);
     result.motd_raw = srvprop.szMOTDRaw;
 }
+
+#if defined(ENABLE_TEAMTALKPRO)
+void Convert(const ServerProperties& srvprop, teamtalk::ServerSettings& result)
+{
+    Convert(srvprop, static_cast<teamtalk::ServerProperties&>(result));
+    
+    for (auto& addr : result.tcpaddrs)
+        addr.set_port_number(srvprop.nTcpPort);
+    for (auto& addr : result.udpaddrs)
+        addr.set_port_number(srvprop.nUdpPort);
+}
+#endif
 
 ClientErrorMsg& Convert(const teamtalk::ErrorMsg& cmderr, ClientErrorMsg& result)
 {

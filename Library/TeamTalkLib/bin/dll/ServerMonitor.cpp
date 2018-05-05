@@ -334,7 +334,7 @@ void ServerMonitor::OnFileDeleted(const teamtalk::ServerUser& user,
 }
 
 void ServerMonitor::OnServerUpdated(const teamtalk::ServerUser& user,
-                                    const teamtalk::ServerProperties& srvprop)
+                                    const teamtalk::ServerSettings& srvprop)
 {
     User suser;
     ServerProperties sprop;

@@ -247,6 +247,11 @@ public class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+                                          int waittimeout, ServerInterleave interleave) {
+        return waitForEvent(ttclient, nClientEvent, waittimeout, new TTMessage(), interleave);
+    }
+    
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
                                           int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
@@ -350,8 +355,15 @@ public class TeamTalkTestCaseBase extends TestCase {
     }
 
     protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, TTMessage msg) {
+        return waitCmdError(ttclient, cmdid, waittimeout, msg, nop);
+    }
+    
+    protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, ServerInterleave interleave) {
+        return waitCmdError(ttclient, cmdid, waittimeout, new TTMessage(), interleave);
+    }
+    protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, TTMessage msg, ServerInterleave interleave) {
 
-        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, waittimeout, msg))
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, waittimeout, msg, interleave))
         {
             if (msg.nSource == cmdid)
                 return true;

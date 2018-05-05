@@ -215,25 +215,46 @@ namespace teamtalk{
         return "";
     }
 
-    bool ServerXML::SetBindIP(std::string ip)
+    bool ServerXML::SetBindIPs(std::vector<std::string> ips)
     {
         TiXmlElement* parent = GetGeneralElement();
         if(parent)
         {
-            PutString(*parent, "bind-ip", ip);
+            for (auto child = parent->FirstChildElement("bind-ip");
+                 child; child = parent->FirstChildElement("bind-ip"))
+            {
+                parent->RemoveChild(child);
+            }
+            
+            for (auto ip : ips)
+            {
+                TiXmlElement bind("bind-ip");
+                PutElementText(bind, ip);
+                AppendElement(*parent, bind);
+            }
             return true;
         }
         else
             return false;
     }
 
-    std::string ServerXML::GetBindIP()
+    std::vector<std::string> ServerXML::GetBindIPs()
     {
-        string s;
+        string ip;
+        std::vector<std::string> ips;
+        
         TiXmlElement* parent = GetGeneralElement();
         if(parent)
-            GetString(*parent, "bind-ip", s);
-        return s;
+        {
+            for (auto child = parent->FirstChildElement("bind-ip");
+                 child; child = child->NextSiblingElement("bind-ip"))
+            {
+                GetElementText(*child, ip);
+                if (std::find(ips.begin(), ips.end(), ip) == ips.end())
+                    ips.push_back(ip);
+            }
+        }
+        return ips;
     }
 
     bool ServerXML::SetHostTcpPort(int nHostTcpPort)

@@ -67,7 +67,7 @@ namespace teamtalk {
         void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
         void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
 
-        void OnServerUpdated(const ServerUser& user, const ServerProperties& srvprop);
+        void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop);
         void OnSaveConfiguration(ServerNode& servernode, const ServerUser* user);
 
         void OnShutdown(const ServerStats& stats);
@@ -99,10 +99,10 @@ namespace teamtalk {
 
     bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile);
 
-    bool ReadServerProperties(ServerXML& xmlSettings, ServerProperties& properties,
+    bool ReadServerProperties(ServerXML& xmlSettings, ServerSettings& properties,
                               statchannels_t& channels);
 
-    bool ConfigureServer(ServerNode& servernode, const ServerProperties& properties,
+    bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
                          const statchannels_t& channels);
 
     void ConvertChannels(const serverchannel_t& root, teamtalk::statchannels_t& channels, bool onlystatic = false);

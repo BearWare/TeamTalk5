@@ -120,17 +120,18 @@ PacketHandler::PacketHandler(ACE_Reactor* r)
 : ACE_Event_Handler(r, HI_PRIORITY)
 {
     TTASSERT(r);
-    m_buffer = new char[PACKETBUFFER];
+    m_buffer.resize(PACKETBUFFER);
 }
 
 PacketHandler::~PacketHandler()
 {
-    delete [] m_buffer;
+    MYTRACE(ACE_TEXT("~PacketHandler()\n"));
+    close();
 }
 
 bool PacketHandler::open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
 {
-    int ret = sock_.open(addr);
+    int ret = sock_.open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
 
     TTASSERT(reactor());
 
@@ -149,6 +150,9 @@ bool PacketHandler::open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
         ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_SNDBUF, 
             reinterpret_cast<const char*>(&send_buf), sizeof(send_buf));
         TTASSERT(ret == 0);
+
+        ret = sock_.get_local_addr(m_localaddr);
+        TTASSERT(ret >= 0);
     }
 
     return ret == 0;
@@ -160,6 +164,8 @@ bool PacketHandler::close()
     {
         reactor()->remove_handler(this, PacketHandler::ALL_EVENTS_MASK | PacketHandler::DONT_CALL);
         //MYTRACE("PacketHandler %d closed\n", get_handle());
+
+        m_localaddr = ACE_INET_Addr();
         int ret = sock_.close();
         return ret == 0;
     }
@@ -184,12 +190,12 @@ int PacketHandler::handle_input(ACE_HANDLE)
     //receive the data
     ACE_INET_Addr addr;
 
-    ssize_t ret = sock_i().recv(m_buffer, PACKETBUFFER, addr);
+    ssize_t ret = sock_i().recv(&m_buffer[0], m_buffer.size(), addr);
     if(ret > 0)
     {    
         packetlisteners_t::iterator ite;
         for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
-            (*ite)->ReceivedPacket(m_buffer, (int)ret, addr);
+            (*ite)->ReceivedPacket(this, &m_buffer[0], (int)ret, addr);
     }
     else
     {
@@ -210,7 +216,6 @@ int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 
 int PacketHandler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask mask)
 {
-    TTASSERT(false);
     return 0;
 }
 

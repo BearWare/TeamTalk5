@@ -28,7 +28,7 @@
 namespace teamtalk
 {
 
-    ServerProp::ServerProp()
+    ServerProperties::ServerProperties()
     {
         systemid = SERVER_WELCOME;
         autosave = false;

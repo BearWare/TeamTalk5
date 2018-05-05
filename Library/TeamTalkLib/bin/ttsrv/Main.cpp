@@ -303,7 +303,7 @@ int RunServer(
     ServerGuard srvguard(xmlSettings);
     ServerNode servernode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, &srvguard);
 
-    ServerProperties prop = servernode.GetServerProperties();
+    ServerSettings prop = servernode.GetServerProperties();
 
     statchannels_t channels;
     if(!ReadServerProperties(xmlSettings, prop, channels))
@@ -317,13 +317,25 @@ int RunServer(
 
     //check for override options
     if(tcpport > 0)
-        prop.tcpaddr = ACE_INET_Addr((u_short)tcpport, prop.tcpaddr.get_host_addr());
+    {
+        ACE_INET_Addr addr((u_short)tcpport, prop.tcpaddrs.size() ? prop.tcpaddrs[0].get_host_addr() : NULL);
+        prop.tcpaddrs.clear();
+        prop.tcpaddrs.push_back(addr);
+    }
     if(udpport > 0)
-        prop.udpaddr = ACE_INET_Addr((u_short)tcpport, prop.udpaddr.get_host_addr());
+    {
+        ACE_INET_Addr addr((u_short)udpport, prop.udpaddrs.size() ? prop.udpaddrs[0].get_host_addr(): NULL);
+        prop.udpaddrs.clear();
+        prop.udpaddrs.push_back(addr);
+    }
     if(bindip.length())
     {
-        prop.tcpaddr = ACE_INET_Addr(prop.tcpaddr.get_port_number(), bindip.c_str());
-        prop.udpaddr = ACE_INET_Addr(prop.udpaddr.get_port_number(), bindip.c_str());
+        ACE_INET_Addr tcpaddr(prop.tcpaddrs.size() ? prop.tcpaddrs[0].get_port_number() : tcpport, bindip.c_str());
+        prop.tcpaddrs.clear();
+        prop.tcpaddrs.push_back(tcpaddr);
+        ACE_INET_Addr udpaddr(prop.udpaddrs.size() ? prop.udpaddrs[0].get_port_number() : udpport, bindip.c_str());
+        prop.udpaddrs.clear();
+        prop.udpaddrs.push_back(udpaddr);
     }
 
     if(!ConfigureServer(servernode, prop, channels))
@@ -348,13 +360,13 @@ int RunServer(
             ACE_OS::snprintf(error_msg, 1024,
             ACE_TEXT("Unable to launch server using TCP port %d UDP port %d.\n")
             ACE_TEXT("Make sure the ports are not currently in use."),
-            (int)prop.tcpaddr.get_port_number(), (int)prop.udpaddr.get_port_number());
+            (int)prop.tcpaddrs[0].get_port_number(), (int)prop.udpaddrs[0].get_port_number());
         else
             ACE_OS::snprintf(error_msg, 1024,
             ACE_TEXT("Unable to launch server using IP-address %s TCP port %d UDP port %d.\n")
             ACE_TEXT("Make sure the ports are not currently in use."),
-            prop.tcpaddr.get_host_addr(), (int)prop.tcpaddr.get_port_number(),
-            (int)prop.udpaddr.get_port_number());
+            prop.tcpaddrs[0].get_host_addr(), (int)prop.tcpaddrs[0].get_port_number(),
+            (int)prop.udpaddrs[0].get_port_number());
 
         TT_SYSLOG(error_msg);
         return -1;
@@ -441,6 +453,9 @@ int RunServer(
     TT_LOG(ACE_TEXT("Stopped ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("."));
 
     ACE_Thread_Manager::instance ()->wait ();
+
+    udpReactor.close();
+    tcpReactor.close();
 
     ACE::fini();
 
@@ -776,7 +791,8 @@ void RunWizard(ServerXML& xmlSettings)
     cout << endl;
     cout << "Configuring file: " << xmlSettings.GetFileName() << endl;
 
-    ACE_TString servername, motd, filesroot, bindip;
+    ACE_TString servername, motd, filesroot;
+    std::vector<std::string> bindips;
     ACE_TString certfile, keyfile;
     int maxusers, max_logins_per_ip = 0;
     bool autosave = true;
@@ -786,7 +802,7 @@ void RunWizard(ServerXML& xmlSettings)
     servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
     motd = Utf8ToUnicode(xmlSettings.GetMessageOfTheDay().c_str());
     filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
-    bindip = Utf8ToUnicode(xmlSettings.GetBindIP().c_str());
+    bindips = xmlSettings.GetBindIPs();;
     tcpport = xmlSettings.GetHostTcpPort()==UNDEFINED?DEFAULT_TCPPORT:xmlSettings.GetHostTcpPort();
     udpport = xmlSettings.GetHostUdpPort()==UNDEFINED?DEFAULT_UDPPORT:xmlSettings.GetHostUdpPort();
 
@@ -874,14 +890,33 @@ void RunWizard(ServerXML& xmlSettings)
     tcpport = printGetInt(tcpport);
     cout << "Server should bind to the following UDP port: ";
     udpport = printGetInt(udpport);
-    cout << "Bind to a specific IP-address? (required for IPv6 and often on Linux boxes)" << endl;
-    if(printGetBool(bindip.length()))
+    cout << "Bind to specific IP-addresses? (required for IPv6) ";
+    if (printGetBool(bindips.size()))
     {
-        cout << "Specify the IP-address to bind to (IPv6 type \"::\" for interfaces):" << endl;
-        bindip = LocalToUnicode(printGetString(UnicodeToLocal(bindip).c_str()).c_str());
+        while (true)
+        {
+            if (bindips.size())
+            {
+                cout << "Currently binding to IP-addresses:" << endl;
+                for (auto ip : bindips)
+                {
+                    cout << "\t- " << (ip.empty()? "0.0.0.0" : ip) << endl;
+                }
+                
+                cout << "Specify additional IP-addresses? ";
+                if (!printGetBool(bindips.empty()))
+                    break;
+            }
+            
+            cout << "Specify the IP-address to bind to (IPv6 type \"::\" for all interfaces): " << endl;
+            std::string ip = printGetString("0.0.0.0");
+            bindips.push_back(ip);
+        }
     }
     else
-        bindip.clear();
+    {
+        bindips.clear();
+    }
 
 #ifdef ENABLE_ENCRYPTION
     cout << "Should server run in encrypted mode? ";
@@ -1161,7 +1196,9 @@ void RunWizard(ServerXML& xmlSettings)
 
     cout << "Server will bind to TCP port " << tcpport << endl;
     cout << "Server will bind to UDP port " << udpport << endl;
-    cout << "Server will bind to IP-address: " << bindip << endl;
+    cout << "Server will bind to IP-address: " << endl;
+    for (auto ip : bindips)
+        cout << "\t- " << ip << endl;
 
     cout << endl;
     if(max_login_attempts)
@@ -1195,7 +1232,7 @@ void RunWizard(ServerXML& xmlSettings)
         xmlSettings.SetFilesRoot(UnicodeToLocal(filesroot).c_str());
         xmlSettings.SetMaxDiskUsage(maxdiskusage);
         xmlSettings.SetDefaultDiskQuota(diskquota);
-        xmlSettings.SetBindIP(UnicodeToUtf8(bindip).c_str());
+        xmlSettings.SetBindIPs(bindips);
         xmlSettings.SetHostTcpPort(tcpport);
         xmlSettings.SetHostUdpPort(udpport);
 #if defined(ENABLE_ENCRYPTION)
