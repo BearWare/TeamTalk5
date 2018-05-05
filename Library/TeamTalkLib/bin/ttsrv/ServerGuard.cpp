@@ -446,7 +446,7 @@ void ServerGuard::OnFileDeleted(const ServerUser& user, const ServerChannel& cha
     TT_LOG(oss.str().c_str());
 }
 
-void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerProperties& srvprop)
+void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop)
 {
     tostringstream oss;
     oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
@@ -459,7 +459,7 @@ void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerProperties
 
 void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* user = NULL)
 {
-    ServerProperties properties = servernode.GetServerProperties();
+    ServerSettings properties = servernode.GetServerProperties();
 
     m_settings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
     m_settings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
@@ -869,7 +869,7 @@ namespace teamtalk {
     }
 
 
-    bool ReadServerProperties(ServerXML& xmlSettings, ServerProperties& properties,
+    bool ReadServerProperties(ServerXML& xmlSettings, ServerSettings& properties,
                               statchannels_t& channels)
     {
         properties.servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
@@ -938,7 +938,7 @@ namespace teamtalk {
         return true;
     }
 
-    bool ConfigureServer(ServerNode& servernode, const ServerProperties& properties,
+    bool ConfigureServer(ServerNode& servernode, const ServerSettings& properties,
                          const statchannels_t& channels)
     {
         GUARD_OBJ(&servernode, servernode.lock());

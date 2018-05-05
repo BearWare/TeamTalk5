@@ -32,7 +32,7 @@ using namespace teamtalk;
 #define FILEBUFFERSIZE 0x10000
 
 FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
-                   const ACE_INET_Addr& addr, const ServerProp& srvprop,
+                   const ACE_INET_Addr& addr, const ServerProperties& srvprop,
                    const teamtalk::FileTransfer& transfer, 
                    FileTransferListener* listener)
 : m_reactor(reactor)

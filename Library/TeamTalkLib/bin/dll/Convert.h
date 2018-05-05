@@ -62,10 +62,17 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result);
 void Convert(const teamtalk::UserAccount& useraccount,UserAccount& result);
 void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result);
 
-void Convert(const teamtalk::ServerProp& srvprop, ServerProperties& result);
+void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result);
 void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result);
-void Convert(const ServerProperties& srvprop, teamtalk::ServerProp& result);
+#if defined(ENABLE_TEAMTALKPRO)
+void Convert(const teamtalk::ServerSettings& srvprop, ServerProperties& result);
+#endif
+void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result);
 void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result);
+#if defined(ENABLE_TEAMTALKPRO)
+void Convert(const ServerProperties& srvprop, teamtalk::ServerSettings& result);
+#endif
+
 ClientErrorMsg& Convert(const teamtalk::ErrorMsg& cmderr, ClientErrorMsg& result);
 teamtalk::ErrorMsg& Convert(const ClientErrorMsg& cmderr, teamtalk::ErrorMsg& result);
 

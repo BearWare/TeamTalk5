@@ -24,6 +24,8 @@
 #if !defined(SERVERUSER_H)
 #define SERVERUSER_H
 
+#include "Server.h"
+
 #include <ace/Bound_Ptr.h> 
 #include <ace/Null_Mutex.h> 
 #include <ace/Recursive_Thread_Mutex.h>
@@ -129,8 +131,8 @@ namespace teamtalk {
         void ForwardFiles(const serverchannel_t& root, bool recursive);
 
         //server --> client commands
-        void DoWelcome(const ServerProperties& properties);
-        void DoServerUpdate(const ServerProperties& properties);
+        void DoWelcome(const ServerSettings& properties);
+        void DoServerUpdate(const ServerSettings& properties);
         //also stores user account
         void DoAccepted(const UserAccount& useraccount);
         void DoLoggedOut();

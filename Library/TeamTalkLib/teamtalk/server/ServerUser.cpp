@@ -599,7 +599,7 @@ ErrorMsg ServerUser::HandleKeepAlive(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
 {
-    const ServerProperties& srvprop = m_servernode.GetServerProperties();
+    const ServerSettings& srvprop = m_servernode.GetServerProperties();
     
     ChannelProp chanprop;
     GetProperty(properties, TT_CHANNELID, chanprop.channelid);
@@ -777,7 +777,7 @@ ErrorMsg ServerUser::HandleMoveUser(const mstrings_t& properties)
 ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
 {
     //extract properties
-    ServerProperties srvprop = m_servernode.GetServerProperties();
+    ServerSettings srvprop = m_servernode.GetServerProperties();
 
     GetProperty(properties, TT_AUTOSAVE, srvprop.autosave);
     GetProperty(properties, TT_MOTDRAW, srvprop.motd);
@@ -1185,7 +1185,7 @@ void ServerUser::DoError(ErrorMsg cmderr)
     }
 }
 
-void ServerUser::DoWelcome(const ServerProperties& properties)
+void ServerUser::DoWelcome(const ServerSettings& properties)
 {
     ACE_TString command = properties.systemid;
     AppendProperty(TT_USERID, GetUserID(), command);
@@ -1200,7 +1200,7 @@ void ServerUser::DoWelcome(const ServerProperties& properties)
     TransmitCommand(command);
 }
 
-void ServerUser::DoServerUpdate(const ServerProperties& properties)
+void ServerUser::DoServerUpdate(const ServerSettings& properties)
 {
     TTASSERT(IsAuthorized());
 

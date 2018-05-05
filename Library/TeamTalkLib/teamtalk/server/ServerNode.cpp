@@ -86,12 +86,12 @@ ACE_Lock& ServerNode::lock()
     return m_timer_reactor->lock();
 }
 
-void ServerNode::SetServerProperties(const ServerProperties& srvprop)
+void ServerNode::SetServerProperties(const ServerSettings& srvprop)
 {
     m_properties = srvprop;
 }
 
-const ServerProperties& ServerNode::GetServerProperties() const
+const ServerSettings& ServerNode::GetServerProperties() const
 {
     //TODO: should also be guarded with lock (read from ServerUser)
     return m_properties;
@@ -624,19 +624,17 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
                                      session.update_id,
                                      session.session_id);
             nak_pkt.SetChannel(chan->GetChannelID());
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
             if(m_crypt_acceptors.size())
             {
                 CryptDesktopNakPacket crypt_pkt(nak_pkt, chan->GetEncryptKey());
                 SendPacket(crypt_pkt, *dest_user);
             }
             else
+#endif
             {
                 SendPacket(nak_pkt, *dest_user);
             }
-#else
-            SendPacket(nak_pkt, *dest_user);
-#endif
             return 0;
         }
         return -1;
@@ -712,19 +710,17 @@ bool ServerNode::SendDesktopAckPacket(int userid)
     DesktopAckPacket ack_pkt(0, GETTIMESTAMP(), user.GetUserID(), 
                              session_id, time_ack, recv_single, recv_range);
     ack_pkt.SetChannel(chan.GetChannelID());
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     if(m_crypt_acceptors.size())
     {
         CryptDesktopAckPacket crypt_pkt(ack_pkt, chan.GetEncryptKey());
         SendPacket(crypt_pkt, user);
     }
     else
+#endif
     {
         SendPacket(ack_pkt, user);
     }
-#else
-    SendPacket(ack_pkt, user);
-#endif
     //set<uint16_t>::const_iterator ii=recv_packets.begin();
     //MYTRACE(ACE_TEXT("Received packets in upd %u: "), time_ack);
     //while(ii != recv_packets.end())
@@ -780,7 +776,7 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
     for(;dpi != rtx_packets.end();dpi++)
     {
         TTASSERT(chan->GetChannelID() == (*dpi)->GetChannel());
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
         {
             CryptDesktopPacket crypt_pkt(*(*dpi), chan->GetEncryptKey());
@@ -788,18 +784,11 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
                 break;
         }
         else
+#endif
         {
             if(SendPacket(*(*dpi), *dest_user) <= 0)
                 break;
         }
-#else
-        if(SendPacket(*(*dpi), *dest_user) <= 0)
-        {
-//             MYTRACE(ACE_TEXT("Desktop RTX due to RTO packet %d to #%d\n"), 
-//                     (*dpi)->GetPacketIndex(), dest_user->GetUserID());
-            break;
-        }
-#endif
     }
     return true;
 }
@@ -857,7 +846,7 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
     desktoppackets_t::iterator dpi = tx_packets.begin();
     while(dpi != tx_packets.end())
     {
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
         {
             CryptDesktopPacket crypt_pkt(*(*dpi), chan.GetEncryptKey());
@@ -865,18 +854,11 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
                 break;
         }
         else
+#endif
         {
             if(SendPacket(*(*dpi), dest_user) <= 0)
                 break;
         }
-#else
-        if(SendPacket(*(*dpi), dest_user) <= 0)
-        {
-            //MYTRACE(ACE_TEXT("Desktop tx packet %d to #%d\n"), 
-            //    (*dpi)->GetPacketIndex(), dest_user.GetUserID());
-            break;
-        }
-#endif
         dpi++;
     }
 
@@ -1507,7 +1489,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         ReceivedKeepAlivePacket(*user, KeepAlivePacket(packet_data, packet_size),
                                 remoteaddr, localaddr);
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VOICE_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_VOICE)
             ReceivedVoicePacket(*user, CryptVoicePacket(packet_data, packet_size), 
@@ -1521,7 +1503,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                 remoteaddr, localaddr);
         m_stats.voice_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO)
             ReceivedAudioFilePacket(*user, CryptAudioFilePacket(packet_data, packet_size), 
@@ -1535,7 +1517,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VIDEO_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_VIDEOCAPTURE)
             ReceivedVideoCapturePacket(*user, CryptVideoCapturePacket(packet_data, packet_size), 
@@ -1549,7 +1531,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                        remoteaddr, localaddr);
         m_stats.vidcap_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO)
             ReceivedVideoFilePacket(*user, CryptVideoFilePacket(packet_data, packet_size), 
@@ -1563,7 +1545,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOP_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOP)
             ReceivedDesktopPacket(*user,
@@ -1579,7 +1561,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                   remoteaddr, localaddr);
         m_stats.desktop_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOP_ACK_CRYPT :
         ReceivedDesktopAckPacket(*user,
                                  CryptDesktopAckPacket(packet_data, packet_size), 
@@ -1593,7 +1575,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                  remoteaddr, localaddr);
         m_stats.desktop_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOP_NAK_CRYPT :
         ReceivedDesktopNakPacket(*user,
                                  CryptDesktopNakPacket(packet_data, packet_size), 
@@ -1607,7 +1589,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                  remoteaddr, localaddr);
         m_stats.desktop_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOPCURSOR_CRYPT :
         ReceivedDesktopCursorPacket(*user,
                                     CryptDesktopCursorPacket(packet_data, packet_size),
@@ -1621,7 +1603,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                     remoteaddr, localaddr);
         m_stats.desktop_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOPINPUT_CRYPT :
         if(user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOPINPUT)
             ReceivedDesktopInputPacket(*user,
@@ -1637,7 +1619,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
                                        remoteaddr, localaddr);
         m_stats.desktop_bytesreceived += packet_size;
         break;
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
         ReceivedDesktopInputAckPacket(*user,
                                       CryptDesktopInputAckPacket(packet_data, packet_size),
@@ -1988,7 +1970,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     SendPackets(packet, users);
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopPacket(ServerUser& user, 
                                        const CryptDesktopPacket& crypt_pkt, 
                                        const ACE_INET_Addr& remoteaddr,
@@ -2116,7 +2098,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     }
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopAckPacket(ServerUser& user, 
                                           const CryptDesktopAckPacket& crypt_pkt, 
                                           const ACE_INET_Addr& remoteaddr,
@@ -2134,7 +2116,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     DesktopAckPacket& packet = *tmp_pkt;
     packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopAckPacket(user, packet, addr);
+    ReceivedDesktopAckPacket(user, packet, remoteaddr, localaddr);
 }
 #endif
 
@@ -2176,7 +2158,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     {
         DesktopNakPacket nak_pkt(owner_userid, upd_time, session_id);
         nak_pkt.SetChannel(chan.GetChannelID());
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
         {
             CryptDesktopNakPacket crypt_pkt(nak_pkt, chan.GetEncryptKey());
@@ -2208,22 +2190,19 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     desktoppackets_t::iterator dpi = tx_packets.begin();
     while(dpi != tx_packets.end())
     {
-#ifdef ENABLE_ENCRYPTION
-        if(m_crypt_acceptor.size())
+#if defined(ENABLE_ENCRYPTION)
+        if(m_crypt_acceptors.size())
         {
             CryptDesktopPacket crypt_pkt(*(*dpi), chan.GetEncryptKey());
             if(SendPacket(crypt_pkt, user) <= 0)
                 break;
         }
         else
+#endif
         {
             if(SendPacket(*(*dpi), user) <= 0)
                 break;
         }
-#else
-        if(SendPacket(*(*dpi), user) <= 0)
-            break;
-#endif
 
         dpi++;
     }
@@ -2254,7 +2233,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     }
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopNakPacket(ServerUser& user, 
                                           const CryptDesktopNakPacket& crypt_pkt, 
                                           const ACE_INET_Addr& remoteaddr,
@@ -2272,7 +2251,7 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
     DesktopNakPacket& packet = *tmp_pkt;
     packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopNakPacket(user, packet, addr);
+    ReceivedDesktopNakPacket(user, packet, remoteaddr, localaddr);
 }
 #endif
 
@@ -2305,22 +2284,20 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
                              packet.GetSessionID(), packet.GetTime(),
                              set<uint16_t>(), packet_range_t());
     ack_pkt.SetChannel(chan.GetChannelID());
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     if(m_crypt_acceptors.size())
     {
         CryptDesktopAckPacket crypt_ackpkt(ack_pkt, chan.GetEncryptKey());
         SendPacket(crypt_ackpkt, user);
     }
     else
+#endif
     {
         SendPacket(ack_pkt, user);
     }
-#else
-    SendPacket(ack_pkt, user);
-#endif
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user, 
                                              const CryptDesktopCursorPacket& crypt_pkt, 
                                              const ACE_INET_Addr& remoteaddr,
@@ -2338,7 +2315,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
     DesktopCursorPacket& packet = *tmp_pkt;
     packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopCursorPacket(user, packet, addr);
+    ReceivedDesktopCursorPacket(user, packet, remoteaddr, localaddr);
 }
 #endif
 
@@ -2382,21 +2359,20 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_DESKTOP,
                                                          SUBSCRIBE_INTERCEPT_DESKTOP);
 
-#ifdef ENABLE_ENCRYPTION
-    if(m_crypt_acceptor.size())
+#if defined(ENABLE_ENCRYPTION)
+    if(m_crypt_acceptors.size())
     {
         CryptDesktopCursorPacket crypt_pkt(packet, chan.GetEncryptKey());
         SendPacket(crypt_pkt, user);
     }
     else
-#else
+#endif
     {
         SendPackets(packet, users);
     }
-#endif
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopInputPacket(ServerUser& user, 
                                             const CryptDesktopInputPacket& crypt_pkt, 
                                             const ACE_INET_Addr& remoteaddr,
@@ -2414,7 +2390,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
     DesktopInputPacket& packet = *tmp_pkt;
     packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopInputPacket(user, packet, addr);
+    ReceivedDesktopInputPacket(user, packet, remoteaddr, localaddr);
 }
 #endif
 
@@ -2445,21 +2421,20 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
                                                          SUBSCRIBE_DESKTOPINPUT,
                                                          SUBSCRIBE_NONE);
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
     if(m_crypt_acceptors.size())
     {
         CryptDesktopInputPacket crypt_pkt(packet, chan.GetEncryptKey());
         SendPackets(crypt_pkt, users);
     }
     else
-#else
+#endif
     {
         SendPackets(packet, users);
     }
-#endif
 }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user, 
                                                const CryptDesktopInputAckPacket& crypt_pkt, 
                                                const ACE_INET_Addr& remoteaddr,
@@ -2477,7 +2452,7 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
     DesktopInputAckPacket& packet = *tmp_pkt;
     packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopInputAckPacket(user, packet, addr);
+    ReceivedDesktopInputAckPacket(user, packet, remoteaddr, localaddr);
 }
 #endif
 
@@ -2496,18 +2471,17 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
     serveruser_t dest_user = GetUser(dest_userid);
     if(!dest_user.null())
     {
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
         {
             CryptDesktopInputAckPacket crypt_pkt(packet, chan.GetEncryptKey());
-            SendPacket(crypt_pkt, dest_user);
+            SendPacket(crypt_pkt, *dest_user);
         }
         else
-#else
+#endif
         {
             SendPacket(packet, *dest_user);
         }
-#endif
     }
 }
 
@@ -3359,7 +3333,7 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 }
 
-ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerProperties& properties)
+ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properties)
 {
     GUARD_OBJ(this, lock());
 
@@ -3390,7 +3364,7 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-ErrorMsg ServerNode::UpdateServer(const ServerProperties& properties)
+ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties)
 {
     SetServerProperties(properties);
 

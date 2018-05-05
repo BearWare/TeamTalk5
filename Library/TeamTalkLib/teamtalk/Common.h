@@ -36,7 +36,7 @@
 
 namespace teamtalk {
 
-    struct ServerProp
+    struct ServerProperties
     {
         ACE_TString systemid;
         ACE_TString version;
@@ -54,7 +54,7 @@ namespace teamtalk {
         int mediafiletxlimit;
         int desktoptxlimit;
         int totaltxlimit;
-        ServerProp();
+        ServerProperties();
     };
 
     struct ServerStats

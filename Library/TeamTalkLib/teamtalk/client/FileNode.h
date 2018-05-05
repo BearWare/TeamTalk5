@@ -24,30 +24,19 @@
 #if !defined(FILENODE_H)
 #define FILENODE_H
 
+#include "Client.h"
+
 #include <ace/Select_Reactor.h>
-#include <ace/Connector.h> 
 #include <ace/FILE_IO.h>
 #include <ace/Bound_Ptr.h> 
 #include <ace/Null_Mutex.h> 
 #include <ace/SString.h>
 
-#if defined(ENABLE_ENCRYPTION)
-#include <ace/SSL/SSL_SOCK_Connector.h>
-#else
-#include <ace/SOCK_Connector.h>
-#endif
-
-
-#include <teamtalk/StreamHandler.h>
 #include <teamtalk/Commands.h>
 #include <myace/TimerHandler.h>
 
-namespace teamtalk {
 
-    typedef ACE_Connector<DefaultStreamHandler::StreamHandler_t, ACE_SOCK_CONNECTOR> connector_t;
-#if defined(ENABLE_ENCRYPTION)
-    typedef ACE_Connector<CryptStreamHandler::StreamHandler_t, ACE_SSL_SOCK_Connector> crypt_connector_t;
-#endif
+namespace teamtalk {
 
     class FileTransferListener
     {
@@ -68,7 +57,7 @@ namespace teamtalk {
 
     public:
         FileNode(ACE_Reactor& reactor, bool encrypted,
-                 const ACE_INET_Addr& addr, const ServerProp& srvprop,
+                 const ACE_INET_Addr& addr, const ServerProperties& srvprop,
                  const teamtalk::FileTransfer& transfer, 
                  FileTransferListener* listener);
         virtual ~FileNode();
@@ -130,7 +119,7 @@ namespace teamtalk {
 
         long m_timerid;
         ACE_INET_Addr m_remoteAddr;
-        ServerProp m_srvprop;
+        ServerProperties m_srvprop;
         bool m_binarymode;
         ACE_CString m_readbuffer, m_sendbuffer;
         std::vector<char> m_filebuffer;
@@ -147,8 +136,6 @@ namespace teamtalk {
         ACE_FILE_IO m_file;
 
     };
-
-    typedef ACE_Strong_Bound_Ptr< FileNode, ACE_Null_Mutex > filenode_t;
 }
 
 #endif

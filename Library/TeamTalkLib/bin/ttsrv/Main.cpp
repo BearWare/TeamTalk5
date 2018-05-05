@@ -303,7 +303,7 @@ int RunServer(
     ServerGuard srvguard(xmlSettings);
     ServerNode servernode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, &srvguard);
 
-    ServerProperties prop = servernode.GetServerProperties();
+    ServerSettings prop = servernode.GetServerProperties();
 
     statchannels_t channels;
     if(!ReadServerProperties(xmlSettings, prop, channels))

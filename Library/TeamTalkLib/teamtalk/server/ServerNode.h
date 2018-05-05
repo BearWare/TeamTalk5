@@ -24,6 +24,8 @@
 #if !defined(SERVERNODE_H)
 #define SERVERNODE_H
 
+#include "Server.h"
+
 // ACE
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Guard_T.h>
@@ -102,22 +104,6 @@ namespace teamtalk {
     class ServerNodeListener;
     class ServerUser;
     class ServerChannel;
-
-    struct ServerProperties : public ServerProp
-    {
-        ACE_TString filesroot; //files root directory            
-        std::vector<ACE_INET_Addr> tcpaddrs;
-        std::vector<ACE_INET_Addr> udpaddrs;
-
-        ServerProperties()
-            {
-                autosave = false;
-                maxusers = MAX_USERS;
-                diskquota = 0;
-                maxdiskusage = 0;
-                usertimeout = USER_TIMEOUT;
-            }
-    };
 
     union timer_userdata
     {
@@ -245,8 +231,8 @@ namespace teamtalk {
                                            const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
 
         //server properties
-        void SetServerProperties(const ServerProperties& srvprop);
-        const ServerProperties& GetServerProperties() const;
+        void SetServerProperties(const ServerSettings& srvprop);
+        const ServerSettings& GetServerProperties() const;
         const ServerStats& GetServerStats() const;
         ACE_TString GetMessageOfTheDay(int ignore_userid = 0);
         bool SetFileSharing(const ACE_TString& rootdir);
@@ -331,10 +317,10 @@ namespace teamtalk {
         ErrorMsg UserUnsubscribe(int userid, int subuserid, Subscriptions subscrip);
 
         ErrorMsg UserUpdateChannel(int userid, const ChannelProp& chanprop);
-        ErrorMsg UserUpdateServer(int userid, const ServerProperties& properties);
+        ErrorMsg UserUpdateServer(int userid, const ServerSettings& properties);
         ErrorMsg UserSaveServerConfig(int userid);
 
-        ErrorMsg UpdateServer(const ServerProperties& properties);
+        ErrorMsg UpdateServer(const ServerSettings& properties);
 
         ErrorMsg MakeChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
         ErrorMsg UpdateChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
@@ -436,7 +422,7 @@ namespace teamtalk {
         //listener for changes
         ServerNodeListener* m_srvguard;
         //server's properties
-        ServerProperties m_properties;
+        ServerSettings m_properties;
     };
 
     class ServerNodeListener
@@ -473,7 +459,7 @@ namespace teamtalk {
         virtual void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
         virtual void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
 
-        virtual void OnServerUpdated(const ServerUser& user, const ServerProperties& srvprop) = 0;
+        virtual void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) = 0;
         virtual void OnSaveConfiguration(ServerNode& servernode, const ServerUser* user = NULL) = 0;
 
         virtual void OnShutdown(const ServerStats& stats) = 0;
