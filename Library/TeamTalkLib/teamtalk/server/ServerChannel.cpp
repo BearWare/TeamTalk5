@@ -56,14 +56,26 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
 
     if(!PARENT::CanTransmit(userid, txtype))
     {
-        // If transmitter is head we have to trigger channel update
-        ClearFromTransmitQueue(userid);
+        if (m_chantype & CHANNEL_SOLO_TRANSMIT)
+        {
+            // If transmitter is head we have to trigger channel update
+            ClearFromTransmitQueue(userid);
+
+            // If transmitter has been disallowed by channel update
+            // then block the previous stream
+            int streamkey = STREAMKEY(userid, STREAMTYPE_VOICE);
+            m_blockStreams[streamkey] = m_activeStreams[streamkey];
+            streamkey = STREAMKEY(userid, STREAMTYPE_MEDIAFILE);
+            m_blockStreams[streamkey] = m_activeStreams[streamkey];
+        }
         return false;
     }
 
     if((m_chantype & CHANNEL_SOLO_TRANSMIT) &&
        (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
     {
+        //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
+
         /* Don't allow user to transmit until a new stream (id) is started */
         if (userid && m_blockStreams[STREAMKEY(userid, txtype)] == streamid)
             return false;
@@ -73,24 +85,23 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
         if(ite == m_transmitqueue.end())
             m_transmitqueue.push_back(userid);
 
-        // MYTRACE(" %d -> %d. StreamID: %d\n", userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
-
         m_lastUserPacket[userid] = ACE_OS::gettimeofday();
 
         /* Can transmit if head of queue, transmitted within the last 500 ms and started new stream */
         TTASSERT(m_transmitqueue.size());
-        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(*m_transmitqueue.begin());
+        int first = *m_transmitqueue.begin();
+        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(first);
         if( itePkt->second + ACE_Time_Value(0, 500000) >= ACE_OS::gettimeofday())
         {
-            return userid == *m_transmitqueue.begin();
+            return userid == first;
         }
         else
         {
-            m_lastUserPacket.erase(*m_transmitqueue.begin());
+            m_lastUserPacket.erase(first);
 
-            int streamkey = STREAMKEY(*m_transmitqueue.begin(), STREAMTYPE_VOICE);
+            int streamkey = STREAMKEY(first, STREAMTYPE_VOICE);
             m_blockStreams[streamkey] = m_activeStreams[streamkey];
-            streamkey = STREAMKEY(*m_transmitqueue.begin(), STREAMTYPE_MEDIAFILE);
+            streamkey = STREAMKEY(first, STREAMTYPE_MEDIAFILE);
             m_blockStreams[streamkey] = m_activeStreams[streamkey];
 
             m_transmitqueue.erase(m_transmitqueue.begin());

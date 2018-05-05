@@ -1544,14 +1544,18 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
     GetTransmitUsers(oldchan, oldTransmit);
     GetTransmitUsers(chan, newTransmit);
 
-    StreamTypes uAll = newTransmit[TT_CLASSROOM_FREEFORALL];
-
     User user;
     CString szMsg, szFormat;
-    for(ii=oldTransmit.begin();ii!=oldTransmit.end();ii++)
+
+    std::set<int> modified;
+    for(auto id : oldTransmit)
+        modified.insert(id.first);
+    for(auto id : newTransmit)
+        modified.insert(id.first);
+
+    for (auto userid : modified)
     {
         CString szName;
-        int userid = ii->first;
         if(userid == TT_CLASSROOM_FREEFORALL)
             szName = LoadText(IDS_EVERYONE);
         else if(!m_wndTree.GetUser(userid, user))
@@ -1559,78 +1563,49 @@ void CTeamTalkDlg::OnChannelUpdate(const TTMessage& msg)
         else
             szName = GetDisplayName(user);
 
-        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_VOICE) < 0/* &&
-           (uAll & STREAMTYPE_VOICE) == STREAMTYPE_NONE*/)
+        int ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VOICE);
+        if(ret != 0)
         {
-            szMsg.Format(_T("%s can no longer transmit voice!"),
-                         szName);
+            if (ret < 0)
+                szMsg.Format(_T("%s can no longer transmit voice!"), szName);
+            else
+                szMsg.Format(_T("%s can now transmit voice!"), szName);
+
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
                 AddVoiceMessage(szMsg);
         }
-        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_VIDEOCAPTURE) < 0/* &&
-           (uAll & STREAMTYPE_VIDEOCAPTURE) == STREAMTYPE_NONE*/)
+        ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_VIDEOCAPTURE);
+        if(ret != 0)
         {
-            szMsg.Format(_T("%s can no longer transmit video input!"),
-                         szName);
+            if (ret < 0)
+                szMsg.Format(_T("%s can no longer transmit video input!"), szName);
+            else
+                szMsg.Format(_T("%s can now transmit video input!"), szName);
+
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
                 AddVoiceMessage(szMsg);
         }
-        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_DESKTOP) < 0/* &&
-           (uAll & STREAMTYPE_DESKTOP) == STREAMTYPE_NONE*/)
+        ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_DESKTOP);
+        if(ret != 0)
         {
-            szMsg.Format(_T("%s can no longer transmit shared desktops!"),
-                         szName);
+            if (ret < 0)
+                szMsg.Format(_T("%s can no longer transmit shared desktops!"), szName);
+            else
+                szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
+
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
                 AddVoiceMessage(szMsg);
         }
-        if(TransmitToggled(chan, ii->second, newTransmit[userid], STREAMTYPE_MEDIAFILE) < 0/* &&
-           (uAll & STREAMTYPE_MEDIAFILE) == STREAMTYPE_NONE*/)
+        ret = TransmitToggled(chan, oldTransmit[userid], newTransmit[userid], STREAMTYPE_MEDIAFILE);
+        if(ret != 0)
         {
-            szMsg.Format(_T("%s can no longer transmit media files!"), szName);
-            AddStatusText(szMsg);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_MEDIAFILE_TX)
-                AddVoiceMessage(szMsg);
-        }
-    }
-
-    for(ii=newTransmit.begin();ii!=newTransmit.end();ii++)
-    {
-        CString szName;
-        int userid = ii->first;
-        if(userid == TT_CLASSROOM_FREEFORALL)
-            szName = LoadText(IDS_EVERYONE);
-        else if(!m_wndTree.GetUser(userid, user))
-            continue;
-        else
-            szName = GetDisplayName(user);
-
-        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_VOICE) > 0)
-        {
-            szMsg.Format(_T("%s can now transmit voice!"), szName);
-            AddStatusText(szMsg);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VOICE_TX)
-                AddVoiceMessage(szMsg);
-        }
-        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_VIDEOCAPTURE) > 0)
-        {
-            szMsg.Format(_T("%s can now transmit video input!"), szName);
-            AddStatusText(szMsg);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_VIDEO_TX)
-                AddVoiceMessage(szMsg);
-        }
-        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_DESKTOP) > 0)
-        {
-            szMsg.Format(_T("%s can now transmit shared desktops!"), szName);
-            AddStatusText(szMsg);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_DESKTOP_TX)
-                AddVoiceMessage(szMsg);
-        }
-        if(TransmitToggled(chan, oldTransmit[userid], ii->second, STREAMTYPE_MEDIAFILE) > 0)
-        {
-            szMsg.Format(_T("%s can now transmit media files!"), szName);
+            if (ret < 0)
+                szMsg.Format(_T("%s can no longer transmit media files!"), szName);
+            else
+                szMsg.Format(_T("%s can now transmit media files!"), szName);
             AddStatusText(szMsg);
             if (m_xmlSettings.GetEventTTSEvents() & TTS_CLASSROOM_MEDIAFILE_TX)
                 AddVoiceMessage(szMsg);
