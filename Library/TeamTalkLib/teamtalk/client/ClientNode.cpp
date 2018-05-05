@@ -3634,11 +3634,27 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     if(m_flags & CLIENT_CONNECTION)
         return false;
 
-    m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, hostaddr.c_str());
-    m_serverinfo.udpaddr = m_serverinfo.tcpaddr;
-    m_serverinfo.udpaddr.set_port_number(udpport);
+    //Detect if remote host is IPv4 or IPv6. Check IPv4 first since
+    //IPv6 seems to hang on Windows 7 for a long time before trying IPv4
+    int address_family = AF_INET;
+    m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, 
+                                         hostaddr.c_str(),
+                                         address_family);
 
-    if (m_serverinfo.tcpaddr.is_any() || m_serverinfo.udpaddr.is_any())
+    if(m_serverinfo.tcpaddr.is_any())
+    {
+        address_family = AF_INET6;
+        m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, 
+                                             hostaddr.c_str(),
+                                             address_family);
+    }
+
+    m_serverinfo.udpaddr = ACE_INET_Addr(udpport,
+                                         hostaddr.c_str(),
+                                         address_family);
+
+    if( m_serverinfo.tcpaddr.is_any() || 
+        m_serverinfo.udpaddr.is_any() )
     {
         m_serverinfo.tcpaddr = ACE_INET_Addr();
         m_serverinfo.udpaddr = ACE_INET_Addr();
@@ -3647,17 +3663,29 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
 
     //Setup local IP and port. If remote server is IPv6 we also run IPv6.
     ACE_INET_Addr localTcpAddr;
-    if (localaddr.length()) //whether to bind to IP
+    if(localaddr.length()) //whether to bind to IP
     {
-        localTcpAddr = ACE_INET_Addr(local_tcpport, localaddr.c_str());
-        m_localUdpAddr = ACE_INET_Addr(local_udpport, localaddr.c_str());
+        localTcpAddr = ACE_INET_Addr(local_tcpport, localaddr.c_str(), 
+                                     address_family);
+        m_localUdpAddr = ACE_INET_Addr(local_udpport, localaddr.c_str(), 
+                                       address_family);
     }
     else
     {
-        if (local_tcpport)
-            localTcpAddr.set_port_number(local_tcpport);
-        if (local_udpport)
-            m_localUdpAddr.set_port_number(local_udpport);
+        //bind to ADDR_ANY (or :: for IPv6)
+        if(address_family == AF_INET6)
+        {
+            localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_TEXT("::"), 
+                                         address_family);
+            m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_TEXT("::"), 
+                                           address_family);
+        }
+        else
+        {
+            //defaults to IPv4
+            localTcpAddr = ACE_INET_Addr(local_tcpport);
+            m_localUdpAddr = ACE_INET_Addr(local_udpport);
+        }
     }
 
     //welcome message to look for

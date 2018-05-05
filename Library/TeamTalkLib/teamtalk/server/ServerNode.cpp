@@ -78,7 +78,7 @@ ServerNode::ServerNode(const ACE_TString& version,
 
 ServerNode::~ServerNode()
 {
-    StopServer();
+    StopServer(true);
 }
 
 ACE_Lock& ServerNode::lock()
@@ -979,17 +979,13 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
     }
     else
     {
-#if defined(ENABLE_ENCRYPTION)
-        m_crypt_acceptors.clear();
-#endif
-        m_def_acceptors.clear();
-        m_packethandlers.clear();
+        StopServer(false);
     }
 
     return tcpport && udpport;
 }
 
-void ServerNode::StopServer()
+void ServerNode::StopServer(bool docallback)
 {
     GUARD_OBJ(this, lock());
 
@@ -1036,7 +1032,8 @@ void ServerNode::StopServer()
     }
     m_def_acceptors.clear();
 
-    m_srvguard->OnShutdown(m_stats);
+    if (docallback)
+        m_srvguard->OnShutdown(m_stats);
 }
 
 serveruser_t ServerNode::GetUser(int userid)

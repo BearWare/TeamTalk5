@@ -260,7 +260,7 @@ namespace teamtalk {
 
         //launch server
         bool StartServer(bool encrypted, const ACE_TString& sysid);
-        void StopServer();
+        void StopServer(bool docallback = true);
 
         int StartTimer(ServerTimer timer, timer_userdata userdata, 
                        const ACE_Time_Value& delay, 
