@@ -22,6 +22,7 @@
  */
 
 #include "AcceptHandler.h"
+#include <ace/OS.h>
 
 #if defined(ENABLE_ENCRYPTION)
 int My_SSL_SOCK_Acceptor::accept (ACE_SSL_SOCK_Stream &new_stream,
@@ -39,6 +40,19 @@ int My_SSL_SOCK_Acceptor::accept (ACE_SSL_SOCK_Stream &new_stream,
     return 0;
 }
 #endif
+
+int My_SOCK_Acceptor::shared_open(const ACE_Addr &local_sap,
+    int protocol_family,
+    int backlog)
+{
+    int zero = 0;
+    ACE_OS::setsockopt(this->get_handle(),
+        IPPROTO_IPV6,
+        IPV6_V6ONLY,
+        (char *)&zero,
+        sizeof(zero));
+    return ACE_SOCK_Acceptor::shared_open(local_sap, protocol_family, backlog);
+}
 
 
 //

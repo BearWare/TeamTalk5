@@ -49,6 +49,14 @@ public:
 };
 #endif
 
+class My_SOCK_Acceptor : public ACE_SOCK_Acceptor
+{
+protected:
+    int shared_open(const ACE_Addr &local_sap,
+        int protocol_family,
+        int backlog);
+};
+
 template < typename STREAMHANDLER, typename MYACCEPTOR >
 class Acceptor : public ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >
 {
@@ -88,7 +96,7 @@ private:
     typename STREAMHANDLER::StreamListener_t * m_listener;
 };
 
-typedef Acceptor< DefaultStreamHandler, ACE_SOCK_ACCEPTOR > DefaultAcceptor;
+typedef Acceptor< DefaultStreamHandler, My_SOCK_Acceptor > DefaultAcceptor;
 
 #if defined(ENABLE_ENCRYPTION)
 typedef Acceptor< CryptStreamHandler, My_SSL_SOCK_Acceptor > CryptAcceptor;
