@@ -21,8 +21,11 @@
  *
  */
 
-#include "Convert.h"
+#if defined(WIN32)
+#include <ace/config.h>
+#endif
 
+#include "Convert.h"
 #include <ace/OS.h>
 #include <ace/ACE.h>
 #include <myace/MyACE.h>
