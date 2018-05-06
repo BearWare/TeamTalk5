@@ -3636,14 +3636,13 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
 
     //Detect if remote host is IPv4 or IPv6. Check IPv4 first since
     //IPv6 seems to hang on Windows 7 for a long time before trying IPv4
-    int address_family = AF_INET;
-    m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, 
-                                         hostaddr.c_str(),
-                                         address_family);
+    
+    int address_family = ACE_INET_Addr(tcpport, hostaddr.c_str()).get_type() == AF_INET6? AF_INET6 : AF_INET;
+    m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, hostaddr.c_str(), address_family);
 
     if(m_serverinfo.tcpaddr.is_any())
     {
-        address_family = AF_INET6;
+        address_family = address_family == AF_INET6? AF_INET : AF_INET6;
         m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, 
                                              hostaddr.c_str(),
                                              address_family);
@@ -3683,8 +3682,8 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         else
         {
             //defaults to IPv4
-            localTcpAddr = ACE_INET_Addr(local_tcpport);
-            m_localUdpAddr = ACE_INET_Addr(local_udpport);
+            localTcpAddr = ACE_INET_Addr(local_tcpport, INADDR_ANY);
+            m_localUdpAddr = ACE_INET_Addr(local_udpport, INADDR_ANY);
         }
     }
 
