@@ -41,19 +41,24 @@ int My_SSL_SOCK_Acceptor::accept (ACE_SSL_SOCK_Stream &new_stream,
 }
 #endif
 
+/*
+ doesn't work, shared_open() is not virtual
 int My_SOCK_Acceptor::shared_open(const ACE_Addr &local_sap,
-    int protocol_family,
-    int backlog)
+                                  int protocol_family,
+                                  int backlog)
 {
+    int v, n = sizeof(v), ret;
+    ret = ACE_OS::getsockopt(this->get_handle(), IPPROTO_IPV6, IPV6_V6ONLY, (char*)&v, &n);
+
+    MYTRACE(ACE_TEXT("IPV6_V6ONLY = %d, ret=%d\n"), v, ret);
+    
     int zero = 0;
-    ACE_OS::setsockopt(this->get_handle(),
-        IPPROTO_IPV6,
-        IPV6_V6ONLY,
-        (char *)&zero,
-        sizeof(zero));
+    ACE_OS::setsockopt(this->get_handle(), IPPROTO_IPV6,
+                       IPV6_V6ONLY, (char *)&zero, sizeof(zero));
     return ACE_SOCK_Acceptor::shared_open(local_sap, protocol_family, backlog);
 }
 
+*/
 
 //
 //int Acceptor::accept_svc_handler (SSLStreamHandler* svc_handler)

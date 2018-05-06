@@ -49,6 +49,7 @@ public:
 };
 #endif
 
+/*
 class My_SOCK_Acceptor : public ACE_SOCK_Acceptor
 {
 protected:
@@ -56,6 +57,7 @@ protected:
         int protocol_family,
         int backlog);
 };
+*/
 
 template < typename STREAMHANDLER, typename MYACCEPTOR >
 class Acceptor : public ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >
@@ -87,7 +89,6 @@ public:
         //     m_pListener->NewClient(*svc_handler);
 
         return ret;
-
     }
 
     //virtual int accept_svc_handler (SSLStreamHandler* svc_handler);
@@ -96,7 +97,7 @@ private:
     typename STREAMHANDLER::StreamListener_t * m_listener;
 };
 
-typedef Acceptor< DefaultStreamHandler, My_SOCK_Acceptor > DefaultAcceptor;
+typedef Acceptor< DefaultStreamHandler, ACE_SOCK_ACCEPTOR > DefaultAcceptor;
 
 #if defined(ENABLE_ENCRYPTION)
 typedef Acceptor< CryptStreamHandler, My_SSL_SOCK_Acceptor > CryptAcceptor;
