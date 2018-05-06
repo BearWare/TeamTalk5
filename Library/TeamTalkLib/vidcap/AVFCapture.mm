@@ -26,60 +26,10 @@
 #import <AVFoundation/AVFoundation.h>
 
 #include <memory>
-#include <sstream>
 
 using namespace vidcap;
 using namespace media;
 
-class AFVideoInput : public FFMpegVideoInput
-{
-public:
-    AFVideoInput(MediaStreamListener* listener,
-                 const VidCapDevice& viddevice,
-                 const media::VideoFormat& fmt)
-        : FFMpegVideoInput(listener, viddevice, fmt) {
-    }
-    
-    // FFMpegStreamer override
-    bool SetupInput(AVInputFormat *iformat,
-                    AVDictionary *options,
-                    AVFormatContext*& fmt_ctx,
-                    AVCodecContext*& aud_dec_ctx,
-                    AVCodecContext*& vid_dec_ctx,
-                    int& audio_stream_index,
-                    int& video_stream_index) {
-
-        iformat = av_find_input_format(m_dev.api.c_str());
-        int fps = 1;
-        if (m_media_in.video_fps_denominator)
-        {
-            fps = m_media_in.video_fps_numerator / m_media_in.video_fps_denominator;
-            fps = std::max(1, fps);
-        }
-
-        std::ostringstream os;
-        os << fps;
-        av_dict_set(&options, "framerate", os.str().c_str(), 0);
-
-        os.str("");
-        os << m_media_in.video_width << "x" << m_media_in.video_height;
-        av_dict_set(&options, "video_size", os.str().c_str(), 0);
-
-        av_dict_set(&options, "pixel_format", "0rgb", 0);
-        av_dict_set_int(&options, "video_device_index", atoi(m_dev.deviceid.c_str()), 0);
-
-        return FFMpegVideoInput::SetupInput(iformat, options, fmt_ctx,
-                                            aud_dec_ctx, vid_dec_ctx,
-                                            audio_stream_index,
-                                            video_stream_index);
-    }
-    media::VideoFormat GetVideoFormat()
-    {
-        media::VideoFormat fmt = m_vidfmt;
-        fmt.fourcc = FOURCC_RGB32;
-        return fmt;
-    }
-};
 
 AVFCapture::AVFCapture()
 {
@@ -93,7 +43,7 @@ FFMpegVideoInput* AVFCapture::createStreamer(MediaStreamListener* listener,
                                              const VidCapDevice& viddevice,
                                              const media::VideoFormat& fmt)
 {
-    return new AFVideoInput(listener, viddevice, fmt);
+    return new AVFVideoInput(listener, viddevice, fmt);
 }
 
 vidcap_devices_t AVFCapture::GetDevices()
