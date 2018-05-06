@@ -3682,8 +3682,8 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         else
         {
             //defaults to IPv4
-            localTcpAddr = ACE_INET_Addr(local_tcpport, INADDR_ANY);
-            m_localUdpAddr = ACE_INET_Addr(local_udpport, INADDR_ANY);
+            localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_UINT32(INADDR_ANY));
+            m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_UINT32(INADDR_ANY));
         }
     }
 
