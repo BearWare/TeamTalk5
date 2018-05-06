@@ -66,6 +66,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -132,6 +133,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             ttservice.unregisterCommandListener(this);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -154,6 +156,38 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
                 Log.e(TAG, "Failed to bind to TeamTalk service");
             else
                 startService(intent);
+        }
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            ServerEntry entry = new ServerEntry();
+            String host = uri.getHost();
+            //if (host != "") {
+                //entry.servername = host;
+                //entry.ipaddr = host;
+            //}
+            String tcpPort = uri.getQueryParameter("tcpport");
+            //if (tcpPort != "") {
+                //entry.tcpport = Integer.parseInt(tcpPort);
+            //} else {
+                //entry.tcpport = 10333;
+            //}
+            String udpPort = uri.getQueryParameter("udpport");
+            //if (udpPort != "") {
+                //entry.udpport = Integer.parseInt(udpPort);
+            //} else {
+                //entry.udpport = 10333;
+            //}
+            String userName = uri.getQueryParameter("username");
+            //if (userName != "") {
+                //entry.username = userName;
+            //}
+            String password = uri.getQueryParameter("password");
+            //if (password != "") {
+                //entry.password = password;
+            //}
+            Toast.makeText(this, host + " " + tcpPort + " " + udpPort + " " + userName + " " + password, Toast.LENGTH_LONG).show();
+            ttservice.setServerEntry(entry);
         }
     }
 
