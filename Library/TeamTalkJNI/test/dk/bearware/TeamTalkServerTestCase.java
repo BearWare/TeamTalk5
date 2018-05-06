@@ -994,9 +994,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
 
         public void interleave() {
-            int ms = 100;
-            while(server.runEventLoop(ms)) {
-                ms = 0;
+            while(server.runEventLoop(0)) {
             }
         }
     }
