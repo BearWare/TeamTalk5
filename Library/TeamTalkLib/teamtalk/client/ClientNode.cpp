@@ -3636,55 +3636,52 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
 
     //Detect if remote host is IPv4 or IPv6. Check IPv4 first since
     //IPv6 seems to hang on Windows 7 for a long time before trying IPv4
-    
-    int address_family = ACE_INET_Addr(tcpport, hostaddr.c_str()).get_type() == AF_INET6? AF_INET6 : AF_INET;
-    m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, hostaddr.c_str(), address_family);
-
-    if(m_serverinfo.tcpaddr.is_any())
-    {
-        address_family = address_family == AF_INET6? AF_INET : AF_INET6;
-        m_serverinfo.tcpaddr = ACE_INET_Addr(tcpport, 
-                                             hostaddr.c_str(),
-                                             address_family);
-    }
-
-    m_serverinfo.udpaddr = ACE_INET_Addr(udpport,
-                                         hostaddr.c_str(),
-                                         address_family);
-
-    if( m_serverinfo.tcpaddr.is_any() || 
-        m_serverinfo.udpaddr.is_any() )
-    {
-        m_serverinfo.tcpaddr = ACE_INET_Addr();
-        m_serverinfo.udpaddr = ACE_INET_Addr();
-        return false;
-    }
-
-    //Setup local IP and port. If remote server is IPv6 we also run IPv6.
+    std::vector<ACE_INET_Addr> addrs = DetermineHostAddress(hostaddr, tcpport);
     ACE_INET_Addr localTcpAddr;
-    if(localaddr.length()) //whether to bind to IP
+    for(auto addr : addrs)
     {
-        localTcpAddr = ACE_INET_Addr(local_tcpport, localaddr.c_str(), 
-                                     address_family);
-        m_localUdpAddr = ACE_INET_Addr(local_udpport, localaddr.c_str(), 
-                                       address_family);
-    }
-    else
-    {
-        //bind to ADDR_ANY (or :: for IPv6)
-        if(address_family == AF_INET6)
+        m_serverinfo.tcpaddr = addr;
+        int address_family = m_serverinfo.tcpaddr.get_type();
+        m_serverinfo.udpaddr = ACE_INET_Addr(udpport, hostaddr.c_str(), address_family);
+
+        if(m_serverinfo.tcpaddr.is_any() || m_serverinfo.udpaddr.is_any())
         {
-            localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_TEXT("::"), 
-                                         address_family);
-            m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_TEXT("::"), 
-                                           address_family);
+            m_serverinfo.tcpaddr = ACE_INET_Addr();
+            m_serverinfo.udpaddr = ACE_INET_Addr();
+            continue;
+        }
+
+        //Setup local IP and port. If remote server is IPv6 we also run IPv6.
+        if(localaddr.length()) //whether to bind to IP
+        {
+            localTcpAddr = ACE_INET_Addr(local_tcpport, localaddr.c_str(),
+                address_family);
+            m_localUdpAddr = ACE_INET_Addr(local_udpport, localaddr.c_str(),
+                address_family);
         }
         else
         {
-            //defaults to IPv4
-            localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_UINT32(INADDR_ANY));
-            m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_UINT32(INADDR_ANY));
+            //bind to ADDR_ANY (or :: for IPv6)
+            if(address_family == AF_INET6)
+            {
+                localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_TEXT("::"),
+                    address_family);
+                m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_TEXT("::"),
+                    address_family);
+            }
+            else
+            {
+                //defaults to IPv4
+                localTcpAddr = ACE_INET_Addr(local_tcpport, ACE_UINT32(INADDR_ANY));
+                m_localUdpAddr = ACE_INET_Addr(local_udpport, ACE_UINT32(INADDR_ANY));
+            }
         }
+    }
+
+    if (m_serverinfo.tcpaddr.is_any())
+    {
+        Disconnect(); //clean up
+        return false;
     }
 
     //welcome message to look for
@@ -3705,8 +3702,6 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         m_def_stream->SetListener(this);
     }
 
-    m_flags |= CLIENT_CONNECTING;
-
     int ret;
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
@@ -3725,20 +3720,21 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
                                   localTcpAddr);
     }
 
+
     int err = ACE_OS::last_error();
     MYTRACE( ACE_TEXT("Last error: %d. Would block is %d\n"), err, EWOULDBLOCK);
-    if(ret != -1 || (ret == -1 && err == EWOULDBLOCK))
+    if(ret == 0 || (ret == -1 && err == EWOULDBLOCK))
     {
-        bool bUdpPort = m_packethandler.open(m_localUdpAddr,
-                                             UDP_SOCKET_RECV_BUF_SIZE, 
-                                             UDP_SOCKET_SEND_BUF_SIZE);
-        TTASSERT(bUdpPort);
-        if(bUdpPort)
+        if(m_packethandler.open(m_localUdpAddr, UDP_SOCKET_RECV_BUF_SIZE,
+                                UDP_SOCKET_SEND_BUF_SIZE))
         {
             m_packethandler.AddListener(this);
 
             StartTimer(TIMER_ONE_SECOND_ID, 0, ACE_Time_Value(1),
                        ACE_Time_Value(1));
+
+            m_flags |= CLIENT_CONNECTING;
+
             return true;
         }
     }
@@ -3812,6 +3808,7 @@ void ClientNode::Disconnect()
     LoggedOut();
 
     m_flags &= ~(CLIENT_CONNECTING | CLIENT_CONNECTED);
+
     m_serverinfo = ServerInfo();
     m_localUdpAddr = ACE_INET_Addr();
 }
