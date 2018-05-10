@@ -42,12 +42,14 @@ import org.xml.sax.InputSource;
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.Constants;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
 import dk.bearware.gui.R;
@@ -95,7 +97,8 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
     CallbackManager callbackManager;
-    
+    ServerEntry serverentry;
+
     private ServerListAdapter adapter;
 
     public static final String TAG = "bearware";
@@ -123,6 +126,38 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
             ttservice.registerCommandListener(this);
+        }
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            ServerEntry entry = new ServerEntry();
+            String host = uri.getHost();
+            if (host != "") {
+                entry.servername = host;
+                entry.ipaddr = host;
+            }
+            String tcpPort = uri.getQueryParameter("tcpport");
+            if (tcpPort != "") {
+                entry.tcpport = Integer.parseInt(tcpPort);
+            } else {
+                entry.tcpport = Constants.DEFAULT_TCP_PORT;
+            }
+            String udpPort = uri.getQueryParameter("udpport");
+            if (udpPort != "") {
+                entry.udpport = Integer.parseInt(udpPort);
+            } else {
+                entry.udpport = Constants.DEFAULT_UDP_PORT;
+            }
+            String userName = uri.getQueryParameter("username");
+            if (userName != "") {
+                entry.username = userName;
+            }
+            String password = uri.getQueryParameter("password");
+            if (password != "") {
+                entry.password = password;
+            }
+            this.serverentry = entry;
         }
     }
 
@@ -157,38 +192,6 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             else
                 startService(intent);
         }
-        Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri uri = intent.getData();
-            ServerEntry entry = new ServerEntry();
-            String host = uri.getHost();
-            //if (host != "") {
-                //entry.servername = host;
-                //entry.ipaddr = host;
-            //}
-            String tcpPort = uri.getQueryParameter("tcpport");
-            //if (tcpPort != "") {
-                //entry.tcpport = Integer.parseInt(tcpPort);
-            //} else {
-                //entry.tcpport = 10333;
-            //}
-            String udpPort = uri.getQueryParameter("udpport");
-            //if (udpPort != "") {
-                //entry.udpport = Integer.parseInt(udpPort);
-            //} else {
-                //entry.udpport = 10333;
-            //}
-            String userName = uri.getQueryParameter("username");
-            //if (userName != "") {
-                //entry.username = userName;
-            //}
-            String password = uri.getQueryParameter("password");
-            //if (password != "") {
-                //entry.password = password;
-            //}
-            Toast.makeText(this, host + " " + tcpPort + " " + udpPort + " " + userName + " " + password, Toast.LENGTH_LONG).show();
-            ttservice.setServerEntry(entry);
-        }
     }
 
     @Override
@@ -219,8 +222,6 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
 
         Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
-
-    ServerEntry serverentry;
 
     static final int REQUEST_EDITSERVER = 1;
     static final int REQUEST_NEWSERVER = 2;
@@ -625,9 +626,18 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
         ttclient = service.getTTInstance();
 
         service.registerCommandListener(this);
-        
-        refreshServerList();
-        
+
+        if (this.serverentry != null) {
+            ttservice.setServerEntry(serverentry);
+
+            if (!ttservice.reconnect())
+                Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+
+        }
+        else {
+            refreshServerList();
+        }
+
         String version = AppInfo.getVersion(this);
                 
         TextView tv_version = (TextView)findViewById(R.id.version_textview);
