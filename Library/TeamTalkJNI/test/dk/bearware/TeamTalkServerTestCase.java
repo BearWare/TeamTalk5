@@ -39,11 +39,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     String FILESTORAGE_FOLDER = "./filestorage";
     long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
+    String SERVERBINDIP;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         PROEDITION = true;
+
+        String prop = System.getProperty("dk.bearware.serverbindip");
+        if(prop != null && !prop.isEmpty())
+            this.SERVERBINDIP = prop;
+        else
+            this.SERVERBINDIP = IPADDR;
 
         File storagedir = new File(FILESTORAGE_FOLDER);
         if (!storagedir.exists())
@@ -977,9 +984,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
         if(systemid.isEmpty())
-            assertTrue("Start server", server.startServer(IPADDR, TCPPORT, UDPPORT, ENCRYPTED));
+            assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
         else
-            assertTrue("Start server", server.startServerSysID(IPADDR, TCPPORT, UDPPORT, ENCRYPTED, systemid));
+            assertTrue("Start server", server.startServerSysID(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED, systemid));
 
         servers.add(server);
 

@@ -28,6 +28,7 @@ JAVAPROP+=-Ddk.bearware.proedition=$(PROEDITION)
 JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED) 
 JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVICEID) 
 JAVAPROP+=-Ddk.bearware.serverip=$(SERVERIP)
+JAVAPROP+=-Ddk.bearware.serverbindip=$(SERVERBINDIP)
 
 help:
 	@echo "Targets:"
@@ -82,7 +83,9 @@ help:
 	@echo "  VIDEODEVICEID"
 	@echo "    None = Disable video capure unit tests"
 	@echo "  SERVERIP"
-	@echo "    Server's hostname/IP-address"
+	@echo "    Client should connect to this hostname/IP-address"
+	@echo "  SERVERBINDIP"
+	@echo "    Server should bind to this IP-address. Unspecified means same as SERVERIP"
 
 macnative:
 	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.dylib libs/libTeamTalk5-jni.dylib
