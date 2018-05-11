@@ -627,16 +627,16 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
 
         service.registerCommandListener(this);
 
-        if (this.serverentry != null) {
+        if (serverentry != null) {
             ttservice.setServerEntry(serverentry);
 
             if (!ttservice.reconnect())
                 Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
 
+            this.serverentry = null;
         }
-        else {
-            refreshServerList();
-        }
+
+        refreshServerList();
 
         String version = AppInfo.getVersion(this);
                 
