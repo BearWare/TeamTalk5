@@ -377,6 +377,8 @@ namespace teamtalk {
                      u_short tcpport, u_short udpport, const ACE_TString& sysid,
                      const ACE_TString& localaddr,
                      u_short local_tcpport = 0, u_short local_udpport = 0);
+        bool Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
+                     const ACE_INET_Addr& localtcpaddr, const ACE_INET_Addr& localudpaddr);
         void Disconnect();
 
         //StreamListener
@@ -678,7 +680,7 @@ namespace teamtalk {
         uint16_t m_current_cmdid; 
 
         //local UDP sockets to use (stored in case UDP socket must be recreated)
-        ACE_INET_Addr m_localUdpAddr;
+        ACE_INET_Addr m_localTcpAddr, m_localUdpAddr;
 
         //query MTU (timestamp -> MTU packet)
         typedef std::map<uint32_t, ka_mtu_packet_t> mtu_packets_t;

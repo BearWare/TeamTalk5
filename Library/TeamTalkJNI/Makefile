@@ -26,7 +26,7 @@ JAVAPROP+=-Ddk.bearware.sndinputid=$(INPUTDEVICEID)
 JAVAPROP+=-Ddk.bearware.sndoutputid=$(OUTPUTDEVICEID)
 JAVAPROP+=-Ddk.bearware.proedition=$(PROEDITION)
 JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED) 
-JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVID) 
+JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVICEID) 
 JAVAPROP+=-Ddk.bearware.serverip=$(SERVERIP)
 
 help:
@@ -79,8 +79,10 @@ help:
 	@echo "    0 = Standard Edition (TeamTalk5-jni), 1 = Professional Edition (TeamTalk5Pro-jni)"
 	@echo "  ENCRYPTED"
 	@echo "    0 = Non-encrypted, 1 = Encrypted"
-	@echo "  VIDEODEVID"
+	@echo "  VIDEODEVICEID"
 	@echo "    None = Disable video capure unit tests"
+	@echo "  SERVERIP"
+	@echo "    Server's hostname/IP-address"
 
 macnative:
 	install_name_tool -change @rpath/libTeamTalk5.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.dylib libs/libTeamTalk5-jni.dylib
