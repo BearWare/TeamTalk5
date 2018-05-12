@@ -70,7 +70,7 @@ namespace teamtalk {
         PacketHandler(ACE_Reactor* r);
         virtual ~PacketHandler();
 
-        bool open(const ACE_INET_Addr &addr, int recv_buf, int send_buf);
+        bool open(const ACE_Addr &addr, int recv_buf, int send_buf);
         bool close();
 
         void AddListener(teamtalk::PacketListener* pListener);

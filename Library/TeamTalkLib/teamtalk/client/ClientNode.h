@@ -378,7 +378,7 @@ namespace teamtalk {
                      const ACE_TString& localaddr,
                      u_short local_tcpport = 0, u_short local_udpport = 0);
         bool Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
-                     const ACE_INET_Addr& localtcpaddr, const ACE_INET_Addr& localudpaddr);
+                     const ACE_INET_Addr* localtcpaddr);
         void Disconnect();
 
         //StreamListener

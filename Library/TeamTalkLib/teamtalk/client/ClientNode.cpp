@@ -3634,11 +3634,16 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     if(m_flags & CLIENT_CONNECTION)
         return false;
 
+    bool binding_tcp = localaddr.length() || local_tcpport;
+    bool binding_udp = localaddr.length() || local_udpport;
+    
     std::vector<ACE_INET_Addr> addrs = DetermineHostAddress(hostaddr, tcpport);
-    ACE_INET_Addr remoteTcpAddr, remoteUdpAddr, localTcpAddr, localUdpAddr;
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses\n"), addrs.size());
+    MYTRACE(ACE_TEXT("Resolved %d IP-addresses\n"), int(addrs.size()));
+    
     for(auto addr : addrs)
     {
+        ACE_INET_Addr remoteTcpAddr, remoteUdpAddr, localTcpAddr, localUdpAddr;
+        
         //welcome message to look for
         m_serverinfo.systemid = sysid;
     
@@ -3646,7 +3651,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         remoteTcpAddr = remoteUdpAddr = addr;
         remoteUdpAddr.set_port_number(udpport);
 #if !defined(UNICODE)
-        MYTRACE(ACE_TEXT("Trying %s:%d\n"), addr.get_host_addr(), addr.get_port_number());
+        MYTRACE(ACE_TEXT("Trying %s:%d type %d\n"), addr.get_host_addr(), addr.get_port_number(), addr.get_type());
 #endif
         if(remoteTcpAddr.is_any() || remoteUdpAddr.is_any())
         {
@@ -3661,7 +3666,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
             localUdpAddr = ACE_INET_Addr(local_udpport, localaddr.c_str(),
                                          address_family);
         }
-        else
+        else if (binding_tcp || binding_udp)
         {
             //bind to ADDR_ANY (or :: for IPv6)
             if(address_family == AF_INET6)
@@ -3681,7 +3686,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
 
         m_serverinfo.udpaddr = remoteUdpAddr;
 
-        if (Connect(encrypted, remoteTcpAddr, localTcpAddr, localUdpAddr))
+        if (Connect(encrypted, remoteTcpAddr, binding_tcp? &localTcpAddr : NULL))
         {
             m_localTcpAddr = localTcpAddr;
             m_localUdpAddr = localUdpAddr;
@@ -3710,53 +3715,39 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
 }
 
 bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
-                         const ACE_INET_Addr& localtcpaddr,
-                         const ACE_INET_Addr& localudpaddr)
+                         const ACE_INET_Addr* localtcpaddr)
 {
-    
+    int ret;
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
         ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(&m_reactor), false);
         m_crypt_stream->SetListener(this);
+        //ACE_Synch_Options options = ACE_Synch_Options::defaults;
+        //ACE only supports OpenSSL on blocking sockets
+        ACE_Synch_Options options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
+        if (localtcpaddr)
+            ret = m_crypt_connector.connect(m_crypt_stream, hosttcpaddr, 
+                                            options, *localtcpaddr);
+        else
+            ret = m_crypt_connector.connect(m_crypt_stream, hosttcpaddr, 
+                                            options);
     }
     else
 #endif
     {
         ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(&m_reactor), false);
         m_def_stream->SetListener(this);
-    }
-
-    int ret;
-#if defined(ENABLE_ENCRYPTION)
-    if(encrypted)
-    {
-        //ACE_Synch_Options options = ACE_Synch_Options::defaults;
-        //ACE only supports OpenSSL on blocking sockets
-        ACE_Synch_Options options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
-        ret = m_crypt_connector.connect(m_crypt_stream, hosttcpaddr, 
-                                        options, localtcpaddr);
-    }
-    else
-#endif
-    {
         ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
-        ret = m_connector.connect(m_def_stream, hosttcpaddr, options, localtcpaddr);
+        if (localtcpaddr)
+            ret = m_connector.connect(m_def_stream, hosttcpaddr, options, *localtcpaddr);
+        else
+            ret = m_connector.connect(m_def_stream, hosttcpaddr, options);
     }
-
 
     int err = ACE_OS::last_error();
     MYTRACE( ACE_TEXT("Last error: %d. Would block is %d\n"), err, EWOULDBLOCK);
-    if(ret == 0 || (ret == -1 && err == EWOULDBLOCK))
-    {
-        if(m_packethandler.open(localudpaddr, UDP_SOCKET_RECV_BUF_SIZE,
-                                UDP_SOCKET_SEND_BUF_SIZE))
-        {
-            m_packethandler.AddListener(this);
-            return true;
-        }
-    }
-    return false;
+    return ret == 0 || (ret == -1 && err == EWOULDBLOCK);
 }
 
 void ClientNode::Disconnect()
@@ -4500,6 +4491,48 @@ int ClientNode::TransmitCommand(const ACE_TString& command, int cmdid)
 void ClientNode::OnOpened()
 {
     MYTRACE( ACE_TEXT("Connected successfully on TCP\n") );
+
+    ACE_INET_Addr localaddr;
+    if (m_localUdpAddr == ACE_INET_Addr())
+    {
+#if defined(ENABLE_ENCRYPTION)
+        if (m_crypt_stream)
+        {
+            int ret = m_crypt_stream->peer().peer().get_local_addr(localaddr);
+            TTASSERT(ret == 0);
+            localaddr.set_port_number(0);
+        }
+#endif
+        if (m_def_stream)
+        {
+            int ret = m_def_stream->peer().get_local_addr(localaddr);
+            TTASSERT(ret == 0);
+            localaddr.set_port_number(0);
+        }
+    }
+    else
+        localaddr = m_localUdpAddr;
+    
+    MYTRACE(ACE_TEXT("UDP bind: %s. %d\n"), InetAddrToString(localaddr).c_str(), localaddr.get_type());
+
+    if (m_packethandler.open(localaddr, UDP_SOCKET_RECV_BUF_SIZE,
+                             UDP_SOCKET_SEND_BUF_SIZE))
+    {
+        m_packethandler.AddListener(this);
+    }
+    else
+    {
+#if defined(ENABLE_ENCRYPTION)
+        if (m_crypt_stream)
+        {
+            m_crypt_stream->close();
+        }
+#endif
+        if (m_def_stream)
+        {
+            m_def_stream->close();
+        }
+    }
 }
 
 #if defined(ENABLE_ENCRYPTION)
@@ -4536,10 +4569,6 @@ void ClientNode::OnClosed()
         //Disconnect and clean up clientnode
         if(m_listener)
             m_listener->OnConnectFailed();
-    }
-    else
-    {
-        MYTRACE(ACE_TEXT("Error: Closed connection in non-connected state\n"));
     }
 }
 

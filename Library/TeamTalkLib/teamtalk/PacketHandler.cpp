@@ -129,7 +129,7 @@ PacketHandler::~PacketHandler()
     close();
 }
 
-bool PacketHandler::open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
+bool PacketHandler::open(const ACE_Addr &addr, int recv_buf, int send_buf)
 {
     int ret = sock_.open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
 
