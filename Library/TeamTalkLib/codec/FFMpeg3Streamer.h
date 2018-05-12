@@ -33,17 +33,6 @@
 
 // compatible with ffmpeg tag n1.1.13
 
-extern "C" {
-#include <libavutil/rational.h>
-#include <libavcodec/avcodec.h>
-#include <libavdevice/avdevice.h>
-#include <libavformat/avformat.h>
-#include <libavfilter/avfiltergraph.h>
-#include <libavfilter/buffersink.h>
-#include <libavfilter/buffersrc.h>
-#include <libavutil/opt.h>
-}
-
 void InitAVConv();
 
 bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
@@ -63,11 +52,11 @@ public:
     virtual bool AddStartTime() const { return true; }
 
 protected:
-    virtual bool SetupInput(AVInputFormat *iformat,
-                            AVDictionary *options,
-                            AVFormatContext*& fmt_ctx,
-                            AVCodecContext*& aud_dec_ctx,
-                            AVCodecContext*& vid_dec_ctx,
+    virtual bool SetupInput(struct AVInputFormat *iformat,
+                            struct AVDictionary *options,
+                            struct AVFormatContext*& fmt_ctx,
+                            struct AVCodecContext*& aud_dec_ctx,
+                            struct AVCodecContext*& vid_dec_ctx,
                             int& audio_stream_index,
                             int& video_stream_index);
 

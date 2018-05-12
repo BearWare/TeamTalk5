@@ -27,7 +27,10 @@
 #include <linux/videodev2.h>
 
 extern "C" {
+#include <libavdevice/avdevice.h>
+#include <libavformat/avformat.h>
 #include <libavutil/avstring.h>
+#include <libavutil/opt.h>
 }
 
 #include <memory>

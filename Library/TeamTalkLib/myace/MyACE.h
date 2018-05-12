@@ -30,9 +30,10 @@
 #include <ace/Guard_T.h>
 #include <ace/Timer_Queue_Adapters.h>
 #include <ace/Timer_Heap.h>
+#include <ace/SString.h>
+#include <ace/INET_Addr.h>
 #include <vector>
 #include <set>
-#include <ace/SString.h>
 
 //reactor event task
 ACE_THR_FUNC_RETURN event_loop (void *arg);
@@ -173,4 +174,5 @@ struct w16_less_comp
         { return W16_LT(a,b); }
 };
 
+std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
 #endif /* MYACE_H */

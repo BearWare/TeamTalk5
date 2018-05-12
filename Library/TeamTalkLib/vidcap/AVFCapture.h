@@ -24,7 +24,7 @@
 #if !defined(AVFCAPTURE_H)
 #define AVFCAPTURE_H
 
-#include "FFMpeg3Capture.h"
+#include "AVFVideoInput.h"
 
 namespace vidcap {
 

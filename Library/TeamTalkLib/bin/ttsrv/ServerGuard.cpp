@@ -897,8 +897,13 @@ namespace teamtalk {
         {
             if(ip.length())
             {
+#if defined(WIN32)
+                ACE_INET_Addr tcpaddr(tcpport, Utf8ToUnicode(ip.c_str()).c_str());
+                ACE_INET_Addr udpaddr(udpport, Utf8ToUnicode(ip.c_str()).c_str());
+#else
                 ACE_INET_Addr tcpaddr(tcpport, Utf8ToUnicode(ip.c_str()));
                 ACE_INET_Addr udpaddr(udpport, Utf8ToUnicode(ip.c_str()));
+#endif
                 properties.tcpaddrs.push_back(tcpaddr);
                 properties.udpaddrs.push_back(udpaddr);
             }

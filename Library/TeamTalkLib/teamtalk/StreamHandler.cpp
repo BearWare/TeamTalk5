@@ -84,11 +84,6 @@ int CryptStreamHandler::handle_output(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
         return process_ssl(ssl);
 }
 
-int CryptStreamHandler::handle_close(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
-{
-    return super::handle_close(fd);
-}
-
 int CryptStreamHandler::process_ssl(SSL* ssl)
 {
     if (!SSL_in_accept_init (ssl))

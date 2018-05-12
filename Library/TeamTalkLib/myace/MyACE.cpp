@@ -23,6 +23,7 @@
 
 #include "MyACE.h"
 #include <ace/ACE.h>
+#include <ace/OS.h>
 #include <ace/UTF16_Encoding_Converter.h>
 #include <ace/OS_NS_ctype.h>
 
@@ -561,3 +562,71 @@ uint32_t GETTIMESTAMP()
 #endif
 }
 #endif
+
+std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
+{
+    bool encode = true;
+    addrinfo hints;
+    ACE_OS::memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    // The ai_flags used to contain AI_ADDRCONFIG as well but that prevented
+    // lookups from completing if there is no, or only a loopback, IPv6
+    // interface configured. See Bugzilla 4211 for more info.
+
+    hints.ai_flags = AI_V4MAPPED;
+#if defined(ACE_HAS_IPV6) && defined(AI_ALL)
+    // Without AI_ALL, Windows machines exhibit inconsistent behaviors on
+    // difference machines we have tested.
+    hints.ai_flags |= AI_ALL;
+#endif
+
+    // Note - specify the socktype here to avoid getting multiple entries
+    // returned with the same address for different socket types or
+    // protocols. If this causes a problem for some reason (an address that's
+    // available for TCP but not UDP, or vice-versa) this will need to change
+    // back to unrestricted hints and weed out the duplicate addresses by
+    // searching this->inet_addrs_ which would slow things down.
+    hints.ai_socktype = SOCK_STREAM;
+
+    addrinfo *res = 0;
+
+    const int error = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), 0, &hints, &res);
+
+    if(error)
+    {
+        errno = error;
+        return std::vector<ACE_INET_Addr>();
+    }
+
+    std::vector<ACE_INET_Addr> result;
+
+    for(addrinfo *curr = res; curr; curr = curr->ai_next)
+    {
+        union ip46
+        {
+            sockaddr_in  in4_;
+#if defined (ACE_HAS_IPV6)
+            sockaddr_in6 in6_;
+#endif /* ACE_HAS_IPV6 */
+        };
+
+        ip46 addr;
+        ACE_OS::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
+#ifdef ACE_HAS_IPV6
+        if(curr->ai_family == AF_INET6)
+        {
+            addr.in6_.sin6_port = encode ? ACE_NTOHS(port) : port;
+            result.push_back(ACE_INET_Addr(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_)));
+        }
+        else
+#endif
+        {
+            addr.in4_.sin_port = encode ? ACE_NTOHS(port) : port;
+            result.push_back(ACE_INET_Addr(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_)));
+        }
+    }
+
+    ACE_OS::freeaddrinfo(res);
+
+    return result;
+}

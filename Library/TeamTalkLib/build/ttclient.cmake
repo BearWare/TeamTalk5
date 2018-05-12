@@ -27,8 +27,6 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/TeamTalkDefs.h
   ${TEAMTALKLIB_ROOT}/codec/AudioResampler.h
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.h
-  ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.h
-  ${TEAMTALKLIB_ROOT}/codec/MediaUtil.h
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.h
   ${TEAMTALKLIB_ROOT}/myace/MyACE.h
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.h
@@ -49,6 +47,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioContainer.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioThread.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientChannel.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/client/Client.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientNode.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/ClientUser.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/FileNode.h
@@ -65,8 +64,6 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.cpp
   ${TEAMTALKLIB_ROOT}/codec/AudioResampler.cpp
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.cpp
-  ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.cpp
-  ${TEAMTALKLIB_ROOT}/codec/MediaUtil.cpp
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/CodecCommon.cpp

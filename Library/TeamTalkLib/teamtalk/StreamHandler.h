@@ -248,8 +248,6 @@ public:
     //Callback to handle any output received
     virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
 
-    virtual int handle_close(ACE_HANDLE fd = ACE_INVALID_HANDLE);
-
     static void AddSSLContext(ACE_Reactor* r, ACE_SSL_Context* c);
 
 protected:
