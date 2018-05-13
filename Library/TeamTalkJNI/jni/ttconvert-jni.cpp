@@ -301,6 +301,8 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
+        //TODO: transmitusers not implemented... so far 
+        memset(chan.transmitUsers, 0, sizeof(chan.transmitUsers));
     }
 
     setAudioCodec(env, chan.audiocodec, env->GetObjectField(lpChannel, fid_codec), conv);

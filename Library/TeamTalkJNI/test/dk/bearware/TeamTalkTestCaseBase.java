@@ -171,9 +171,14 @@ public class TeamTalkTestCaseBase extends TestCase {
         connect(ttclient, systemID, nop);
     }
 
-    protected static void connect(TeamTalkBase ttclient, String systemID, ServerInterleave server)
+    protected static void connect(TeamTalkBase ttclient, String systemID, ServerInterleave server) {
+        connect(ttclient, systemID, IPADDR, TCPPORT, UDPPORT, server);
+    }
+    
+    protected static void connect(TeamTalkBase ttclient, String systemID,
+                                  String hostaddr, int tcpport, int udpport, ServerInterleave server)
     {
-        assertTrue("connect call", ttclient.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, systemID));
+        assertTrue("connect call", ttclient.connectSysID(hostaddr, tcpport, udpport, 0, 0, ENCRYPTED, systemID));
 
         assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, DEF_WAIT, server));
     }

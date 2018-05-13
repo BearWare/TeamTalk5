@@ -43,8 +43,8 @@ namespace teamtalk {
         ACE_TString protocol;
         int packetprotocol;
         ACE_TString motd_raw;
-        ACE_INET_Addr tcpaddr;
-        ACE_INET_Addr udpaddr;
+        std::vector<ACE_INET_Addr> hostaddrs;
+        ACE_INET_Addr udpaddr; // same as hostaddrs[0] but port number may be different
         ServerInfo()
         {
             packetprotocol = 0;

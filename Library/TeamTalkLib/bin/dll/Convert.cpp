@@ -1211,8 +1211,11 @@ void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
     Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
     ACE_OS::strsncpy(result.szMOTDRaw, srvprop.motd_raw.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szServerProtocolVersion, srvprop.protocol.c_str(), TT_STRLEN);
-    result.nTcpPort = srvprop.tcpaddr.get_port_number();
-    result.nUdpPort = srvprop.udpaddr.get_port_number();
+    if (srvprop.hostaddrs.size())
+    {
+        result.nTcpPort = srvprop.hostaddrs[0].get_port_number();
+        result.nUdpPort = srvprop.udpaddr.get_port_number();
+    }
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -1248,9 +1251,12 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result
 void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
 {
     Convert(srvprop, static_cast<teamtalk::ServerProperties&>(result));
-    
-    result.tcpaddr.set_port_number(srvprop.nTcpPort);
-    result.udpaddr.set_port_number(srvprop.nUdpPort);
+
+    if (result.hostaddrs.size())
+    {
+        result.hostaddrs[0].set_port_number(srvprop.nTcpPort);
+        result.udpaddr.set_port_number(srvprop.nUdpPort);
+    }
     result.motd_raw = srvprop.szMOTDRaw;
 }
 

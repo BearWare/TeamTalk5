@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
 import java.util.Arrays;
+import java.net.InetAddress;
 
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
@@ -951,6 +952,33 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         uploadDownloadTest(server, useraccount, NICKNAME, 77777777);
     }
 
+    public void test_DnsResolve() throws Exception {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount);
+
+        for (InetAddress a : InetAddress.getAllByName("localhost"))
+        {
+            System.out.println(a + " Binding to " + a.getHostAddress());
+            if (a.isLinkLocalAddress())
+                continue; // e.g. cannot bind to fe80:0:0:0:0:0:0:1%1
+            
+            TeamTalkSrv s = newServerInstance(SYSTEMID, a.getHostAddress());
+            TeamTalkBase c = newClientInstance();
+            connect(s, c, SYSTEMID, "localhost", TCPPORT, UDPPORT);
+            login(s, c, NICKNAME, USERNAME, PASSWORD);
+            joinRoot(s, c);
+            c.disconnect();
+            s.stopServer();
+        }
+    }
+
     public void _test_runServer() {
 
         TeamTalkSrv server = newServerInstance();
@@ -965,6 +993,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public TeamTalkSrv newServerInstance(String systemid) {
+        return newServerInstance(systemid, SERVERBINDIP);
+    }
+    
+    public TeamTalkSrv newServerInstance(String systemid, String bindip) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         if(ENCRYPTED)
@@ -984,9 +1016,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
 
         if(systemid.isEmpty())
-            assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+            assertTrue("Start server", server.startServer(bindip, TCPPORT, UDPPORT, ENCRYPTED));
         else
-            assertTrue("Start server", server.startServerSysID(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED, systemid));
+            assertTrue("Start server", server.startServerSysID(bindip, TCPPORT, UDPPORT, ENCRYPTED, systemid));
 
         servers.add(server);
 
@@ -1013,9 +1045,14 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
     {
-        connect(ttclient, SYSTEMID, new RunServer(server));
+        connect(server, ttclient, systemID, IPADDR, TCPPORT, UDPPORT);
     }
 
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID,
+                                  String hostaddr, int tcpport, int udpport) {
+        connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
+    }
+    
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
                                 String nick, String username, String passwd) {
         login(server, ttclient, nick, username, passwd, "");

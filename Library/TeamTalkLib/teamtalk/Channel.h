@@ -80,7 +80,7 @@ namespace teamtalk {
         {
             //MYTRACE("New channel: %s\n", m_name.c_str());
         }
-        Channel(channel_t& parent, int channelid, const ACE_TString& name)    //create a sub channel
+        Channel(channel_t parent, int channelid, const ACE_TString& name)    //create a sub channel
             : Channel(parent, channelid, CHANNEL_DEFAULT, name)
         {
             //MYTRACE("New channel: %s\n", name.c_str());
@@ -497,7 +497,7 @@ namespace teamtalk {
             prop.audiocodec = m_audiocodec;
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
-            prop.transmitusers= m_transmitusers;
+            prop.transmitusers = m_transmitusers;
             prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
