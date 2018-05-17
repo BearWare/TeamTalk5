@@ -54,7 +54,7 @@
     <item id="155">Générer un fichier .tt</item>
     <item id="156">Volume général</item>
     <item id="157">Niveau du microphone</item>
-    <item id="158">Niveau d&apos;activation de la voix</item>
+    <item id="158">Sensibilité de l&apos;activation vocale</item>
     <item id="159">Message de canal de %s. %s.</item>
     <item id="160">Message privé de %s. %s.</item>
     <item id="161">Synthèse vocale</item>
@@ -162,6 +162,12 @@
     <item id="298">Nombre de commandes à autoriser (0 = désactivé)</item>
     <item id="299">Délai pour autoriser %d commandes (en secondes)</item>
     <item id="300">Annonyme</item>
+    <item id="301">Connexion Web</item>
+    <item id="302">Propriétés de l&apos;utilisateur banni</item>
+    <item id="303">Nouveau profil</item>
+    <item id="304">Supprimer le profil</item>
+    <item id="305">Choisissez un profil</item>
+    <item id="306">Nom du profil</item>
     <item id="1009">Connexion automatique au canal principal lors de la connexion</item>
     <item id="1011">Propriétés de l&apos;hôte</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
@@ -564,4 +570,8 @@
     <item id="32947">Autoriser la transmission de bureau pour tout le monde\tCtrl+Alt+Shift+E</item>
     <item id="32948">Autoriser la transmission de fichiers multimédias pour tout le monde\tCtrl+Alt+Shift+R</item>
     <item id="32949">état de la parole du canal\tCtrl+Shift+G</item>
+    <item id="32950">Messages\tCtrl+E</item>
+    <item id="32951">Exclure et bannir du canal\tCtrl+B</item>
+    <item id="32952">Utilisateurs bannis du canal\tCtrl+Alt+Shift+B</item>
+    <item id="32953">Nouvelle instance du client\tCtrl+N</item>
 </language>
