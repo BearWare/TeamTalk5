@@ -71,6 +71,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -81,7 +82,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -239,6 +242,18 @@ implements TeamTalkConnectionListener,
         mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
 
         setupButtons();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final MediaPlayer mMediaPlayer;
+            mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silence);
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mMediaPlayer.release();
+                }
+            });
+            mMediaPlayer.start();
+        }
     }
 
     @Override
@@ -1741,9 +1756,11 @@ implements TeamTalkConnectionListener,
                 accessibilityAssistant.lockEvents();
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
-                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
-                    String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                if (ttclient.getMyChannelID() == user.nChannelID) {
+                    if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
+                        String name = Utils.getDisplayName(getBaseContext(), user);
+                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                    }
                 }
                 accessibilityAssistant.unlockEvents();
             }
@@ -1784,9 +1801,11 @@ implements TeamTalkConnectionListener,
             
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
-            if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
-                String name = Utils.getDisplayName(getBaseContext(), user);
-                ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+            if (ttclient.getMyChannelID() == channelid) {
+                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
+                    String name = Utils.getDisplayName(getBaseContext(), user);
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                }
             }
             accessibilityAssistant.unlockEvents();
         }
@@ -1829,11 +1848,18 @@ implements TeamTalkConnectionListener,
                 ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName));
             Intent action = new Intent(this, TextMessageActivity.class);
             Notification.Builder notification = new Notification.Builder(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel mChannel = new NotificationChannel("TT_PM", "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(mChannel);
+            }
             notification.setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.personal_message_notification, senderName))
                 .setContentText(getString(R.string.personal_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
                 .setAutoCancel(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notification.setChannelId("TT_PM");
+			}
             notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
             break;
         case TextMsgType.MSGTYPE_CUSTOM:
