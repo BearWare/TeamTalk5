@@ -64,6 +64,7 @@ void CFilesTab::ResizeHeader()
         int sizeWidth = rect.Width() / 3;
         m_wndFiles.SetColumnWidth(0, rect.Width()-sizeWidth);
         m_wndFiles.SetColumnWidth(1, sizeWidth);
+        //m_wndFiles.SetColumnWidth(2, sizeWidth);
         first = false;
     }
     else
@@ -71,6 +72,7 @@ void CFilesTab::ResizeHeader()
         int sizeWidth = m_wndFiles.GetColumnWidth(1);
         m_wndFiles.SetColumnWidth(0, rect.Width()-sizeWidth);
         m_wndFiles.SetColumnWidth(1, sizeWidth);
+        m_wndFiles.SetColumnWidth(2, sizeWidth);
     }
 }
 
@@ -92,6 +94,7 @@ void CFilesTab::AddFile(int nChannelID, int nFileID)
         CString num;
         num.Format(_T("%u KB"), UINT(size));
         m_wndFiles.SetItem(itemIndex, 1, LVIF_TEXT, num, 0, 0, 0, 0, 0);
+        m_wndFiles.SetItem(itemIndex, 2, LVIF_TEXT, remotefile.szUsername, 0, 0, 0, 0, 0);
         m_wndFiles.SetItemData(itemIndex, nFileID);
     }
 }
@@ -175,6 +178,7 @@ BOOL CFilesTab::OnInitDialog()
 
     m_wndFiles.InsertColumn(0, _T("Name"));
     m_wndFiles.InsertColumn(1, _T("Size"), LVCFMT_RIGHT);
+    m_wndFiles.InsertColumn(2, _T("User"), LVCFMT_RIGHT);
 
     //ResizeHeader();
     return TRUE;  // return TRUE unless you set the focus to a control
