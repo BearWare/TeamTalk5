@@ -11,7 +11,7 @@
     <message>
         <location filename="../about.ui" line="93"/>
         <source>Translated by Bjoern D. Rasmussen</source>
-        <translation>Übersetzt von Steffen Schultz (schulle3o@yahoo.de)</translation>
+        <translation>Übersetzt von Steffen Schultz (steffenschultz@mailbox.org)</translation>
     </message>
 </context>
 <context>
