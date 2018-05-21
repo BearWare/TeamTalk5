@@ -83,7 +83,7 @@ help:
 	@echo "  VIDEODEVICEID"
 	@echo "    None = Disable video capure unit tests"
 	@echo "  SERVERIP"
-	@echo "    Client should connect to this hostname/IP-address"
+	@echo "    Client should connect to this hostname/IP-address. Default is 127.0.0.1"
 	@echo "  SERVERBINDIP"
 	@echo "    Server should bind to this IP-address. Unspecified means same as SERVERIP"
 

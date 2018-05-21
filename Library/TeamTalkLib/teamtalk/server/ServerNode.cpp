@@ -1840,7 +1840,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
                 !channel.UserExists(admins[i]->GetUserID()) &&
                 admins[i]->GetPacketProtocol() >= pp_min)
             {
-                result.push_back(users[i]);
+                result.push_back(admins[i]);
             }
         }
     }
