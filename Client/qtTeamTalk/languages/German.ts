@@ -73,7 +73,7 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="149"/>
         <source>Ban Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzername sperren</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="63"/>
@@ -106,27 +106,27 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="50"/>
         <source>Nickname</source>
-        <translation type="unfinished">Nickname</translation>
+        <translation>Nickname</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="51"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="52"/>
         <source>Ban Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Sperrzeit</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="53"/>
         <source>Channel</source>
-        <translation type="unfinished">Raum</translation>
+        <translation>Raum</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP-Adresse</translation>
+        <translation>IP-Adresse</translation>
     </message>
 </context>
 <context>
@@ -1026,7 +1026,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="220"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>MacOS unterstützt keine alleinstehenden Modifier-Tasten, daher können CMD, Option und Shift nur in Verbindung mit anderen Tasten verwendet werden.</translation>
     </message>
     <message>
         <source>Mac OS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
@@ -1618,7 +1618,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Banned Users in Channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesperrte Nutzer im Raum %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1632"/>
@@ -1659,33 +1659,33 @@
         <location filename="../mainwindow.cpp" line="3140"/>
         <location filename="../mainwindow.cpp" line="3164"/>
         <source>New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Profil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3140"/>
         <source>Delete Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil löschen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3147"/>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>New Client Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Programmfenster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3148"/>
         <source>Select profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil wählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3156"/>
         <source>Delete profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil löschen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3164"/>
         <source>Profile name</source>
-        <translation type="unfinished"></translation>
+        <translation>Profilname</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3449"/>
@@ -1761,22 +1761,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP-Adresse</translation>
+        <translation>IP-Adresse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4309"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban User From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer für den Raum sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban user&apos;s</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4448"/>
@@ -2343,22 +2343,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1955"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum werfen und sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1958"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Banned Users From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Für diesen Raum gesperrte Benutzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
         <source>Ctrl+Alt+Shift+B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1724"/>
@@ -4403,7 +4403,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Grundlegende Account-Eigenschaften</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="226"/>
@@ -4439,7 +4439,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="310"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec-Begrenzungen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="316"/>
@@ -4459,24 +4459,24 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="369"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished"></translation>
+        <translation>Missbrauchsschutz</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="375"/>
         <source>Flood Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>Flooding-Schutz</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="381"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verhindert beispielsweise Spam durch Textnachrichten, indem das Absenden von Kommandos auf einen bestimmten Zeitrahmen begrenzt wird.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="393"/>
         <location filename="../useraccountsdlg.cpp" line="662"/>
         <location filename="../useraccountsdlg.cpp" line="668"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Übermittelte Befehle begrenzen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="430"/>
@@ -4501,7 +4501,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="524"/>
         <source>User can change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann seinen Nicknamen ändern</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="531"/>
@@ -4605,27 +4605,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished"></translation>
+        <translation>10 Befehle in 10 Sekunden</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="206"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>10 Befehle in 1 Minute</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="207"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>60 Befehle in 1 Minute</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="208"/>
         <source>Custom specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="448"/>
@@ -4640,12 +4640,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="663"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl erlaubter Befehle (0 = ausgeschaltet)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="669"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeitrahmen um %1 Befehle zu senden (in Sekunden)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="220"/>
@@ -4808,7 +4808,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="85"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="111"/>
@@ -5106,17 +5106,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../weblogin.ui" line="14"/>
         <source>Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Web-Login</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Facebook Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook-Login</translation>
     </message>
     <message>
         <location filename="../weblogindlg.cpp" line="110"/>
         <source>Do Facebook logout?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Facebook ausloggen</translation>
     </message>
 </context>
 </TS>

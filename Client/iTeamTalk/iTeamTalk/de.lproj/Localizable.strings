@@ -69,13 +69,13 @@
 "Authentication" = "Anmeldung";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Ban user" = "Benutzer sperren";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Steffen Schultz, schulle3o@yahoo.de";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Steffen Schultz, steffenschultz@mailbox.org";
 
 /* text message type */
 "Broadcast message" = "Servernachricht";
@@ -165,10 +165,10 @@
 "Exclusive Mode Toggled" = "Exklusiver Modus umgeschaltet";
 
 /* server entry */
-"Facebook Login" = "Facebook Login";
+"Facebook Login" = "Facebook-Login";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
+"Facebook login was cancelled" = "Facebook-Login abgebrochen";
 
 /* preferences
    user detail */
@@ -504,16 +504,16 @@
 "Translator" = "Übersetzer";
 
 /* channel list */
-"Transmit inactive" = "Transmit inactive";
+"Transmit inactive" = "Übertragung inaktiv";
 
 /* codec detail */
 "Transmit Interval" = "Übertragungsintervall";
 
 /* channel list */
-"Transmitting" = "Transmitting";
+"Transmitting" = "Übertrage";
 
 /* Dialog message */
-"Try again?" = "Try again?";
+"Try again?" = "Erneut versuchen?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Bildschirm ausschalten, wenn Telefon ans Ohr gehalten wird";
