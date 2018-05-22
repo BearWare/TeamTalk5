@@ -7,21 +7,37 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "windows.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-#include <TeamTalkDefs.h>
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
-// Danish resources
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "TeamTalk.ico"
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Danish (Denmark) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
-#ifdef _WIN32
 LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -55,8 +71,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION TEAMTALK_RC_VERSION
- PRODUCTVERSION TEAMTALK_RC_VERSION
+ FILEVERSION 5,3,2,4931
+ PRODUCTVERSION 5,3,2,4931
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,63 +88,13 @@ BEGIN
         BLOCK "040604b0"
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
-#ifdef ENABLE_ENCRYPTION
-
-#ifdef BUILD_NT_SERVICE
-            VALUE "FileDescription", "TeamTalk Encrypted Conferencing NT Service"
-#else
-            VALUE "FileDescription", "TeamTalk Encrypted Conferencing Server"
-#endif
-
-#else
-#ifdef BUILD_NT_SERVICE
-            VALUE "FileDescription", "TeamTalk Conferencing NT Service"
-#else
             VALUE "FileDescription", "TeamTalk Conferencing Server"
-#endif
-#endif
-            VALUE "FileVersion", TEAMTALK_RC_FILEVERSION
-#ifdef ENABLE_ENCRYPTION
-#ifdef BUILD_NT_SERVICE
-            VALUE "InternalName", "tt5prosvc.exe"
-#else
-            VALUE "InternalName", "tt5prosrv.exe"
-#endif
-#else
-#ifdef BUILD_NT_SERVICE
-            VALUE "InternalName", "tt5svc.exe"
-#else
+            VALUE "FileVersion", "5, 3, 2, 4931"
             VALUE "InternalName", "tt5srv.exe"
-#endif
-#endif
             VALUE "LegalCopyright", "Copyright (c) 2002-2018, BearWare.dk.  All rights reserved."
-#ifdef ENABLE_ENCRYPTION
-#ifdef BUILD_NT_SERVICE
-            VALUE "OriginalFilename", "tt5prosvc.exe"
-#else
-            VALUE "OriginalFilename", "tt5prosrv.exe"
-#endif
-#else
-#ifdef BUILD_NT_SERVICE
-            VALUE "OriginalFilename", "tt5svc.exe"
-#else
             VALUE "OriginalFilename", "tt5srv.exe"
-#endif
-#endif
-#ifdef ENABLE_ENCRYPTION
-#ifdef BUILD_NT_SERVICE
-            VALUE "ProductName", "TeamTalk Professional Conferencing NT Service"
-#else
-            VALUE "ProductName", "TeamTalk Professional Conferencing Server"
-#endif
-#else
-#ifdef BUILD_NT_SERVICE
-            VALUE "ProductName", "TeamTalk Conferencing NT Service"
-#else
             VALUE "ProductName", "TeamTalk Conferencing Server"
-#endif
-#endif
-            VALUE "ProductVersion", TEAMTALK_RC_FILEVERSION
+            VALUE "ProductVersion", "5, 3, 2, 4931"
         END
     END
     BLOCK "VarFileInfo"
@@ -137,7 +103,7 @@ BEGIN
     END
 END
 
-#endif    // Danish resources
+#endif    // Danish (Denmark) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
