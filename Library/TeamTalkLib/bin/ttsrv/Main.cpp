@@ -1229,7 +1229,7 @@ void RunWizard(ServerXML& xmlSettings)
         xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(motd).c_str());
         xmlSettings.SetMaxUsers(maxusers);
         xmlSettings.SetAutoSave(autosave);
-        xmlSettings.SetFilesRoot(UnicodeToLocal(filesroot).c_str());
+        xmlSettings.SetFilesRoot(UnicodeToUtf8(filesroot).c_str());
         xmlSettings.SetMaxDiskUsage(maxdiskusage);
         xmlSettings.SetDefaultDiskQuota(diskquota);
         xmlSettings.SetBindIPs(bindips);
