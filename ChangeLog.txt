@@ -12,12 +12,14 @@ Accessible Windows client
 - Option to enable/disable user's voice/video/desktop/media-file stream
 - Try to connect to all resolved hosts (i.e. localhost both on 127.0.0.1 and ::1)
 - Sort channels ascending or popularity
+- File owner column in files tab
 iOS client
 - Sort channels ascending or popularity
 - Fixed Tmobile clients not able to connect to servers when using data
 Server
 - Added user-right to record in channel where it's not allowed
 - Bind to multiple IP-addresses
+- Icon for console server on Windows 
 
 Version 5.3, released 2018/02/18
 Default Qt client
