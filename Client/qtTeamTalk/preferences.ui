@@ -479,6 +479,9 @@
                 <property name="text">
                  <string>Maximum text length in channel list</string>
                 </property>
+                <property name="buddy">
+                 <cstring>maxtextSpinBox</cstring>
+                </property>
                </widget>
               </item>
               <item>
