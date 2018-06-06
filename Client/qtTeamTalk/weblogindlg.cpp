@@ -25,6 +25,7 @@
 #include "appinfo.h"
 
 #include <QUrl>
+#include <QIcon>
 #include <QRegExp>
 #include <QDebug>
 #include <QKeyEvent>
