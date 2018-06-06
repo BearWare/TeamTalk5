@@ -153,6 +153,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.buttonBox, SIGNAL(accepted()), SLOT(slotClose()));
     connect(ui.leftButton, SIGNAL(clicked()), SLOT(slotBanUser()));
     connect(ui.rightButton, SIGNAL(clicked()), SLOT(slotUnbanUser()));
+    connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
+    connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
 }
 
 void BannedUsersDlg::slotClose()
