@@ -168,6 +168,8 @@
     <item id="304">Profili sil</item>
     <item id="305">Profil Seç</item>
     <item id="306">Profil adı</item>
+    <item id="307">Kullanıcı yoğunluğuna göre</item>
+    <item id="308">popülerliğine göre</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
     <item id="1011">Host Özellikleri</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
@@ -272,8 +274,8 @@
     <item id="1209">TeamTalk, Ses aktarımı için 2 yöntem destekler. Bas konuş, ya da ses aktivasyonu</item>
     <item id="1211">Ses Sistemi Ayarları</item>
     <item id="1212">Seçili yazı tipi yok</item>
-    <item id="1213">Burada kullanmak istediğiniz mikrofon/hoparlör aygıtlarını seçebilirsiniz</item>
-    <item id="1215">&quot;Seçili ayarları test et&quot; tıklayarak, seçili mikrofon/hoparlör aygıdını kontrol edebilirsiniz.</item>
+    <item id="1213">Burada kullanmak istediğiniz mikrofon/hoparlör aygıtlarını seçebilirsiniz. doğrudan ses seçeneği, Windows varsayılana göre daha düşük gecikme sağlar ve kesinlikle tavsiye edilir.</item>
+    <item id="1215">&quot;Seçili ayarları test et&quot; tıklayarak, seçtiğiniz mikrofon/hoparlör aygıdını kontrol edebilirsiniz.</item>
     <item id="1217">Kullanıcılar Kanal Oluşturabilir</item>
     <item id="1218">Kullanıcılar tüm kanalları düzenleyebilir</item>
     <item id="1221">Her zaman üstte</item>
@@ -308,7 +310,7 @@
     <item id="1294">Maksimum kullanıcı</item>
     <item id="1295">Kanal&apos;a Katıl (İsteğe Bağlı)</item>
     <item id="1296">Kullanıcı Zaman Aşımı</item>
-    <item id="1298">Ses kodu</item>
+    <item id="1298">Ses Kodu</item>
     <item id="1299">Aktif Hesaplar</item>
     <item id="1303">Yalnız Bir Kullanıcı için izin ver</item>
     <item id="1304">Sunucuda depolanan kalıcı kanal</item>
@@ -326,7 +328,7 @@
     <item id="1330">Yasaklanmış</item>
     <item id="1331">Yasağı kaldır</item>
     <item id="1332">Program güncellemelerini denetle</item>
-    <item id="1333">p2p bağlantı etkinleştir</item>
+    <item id="1333">p2p modunu etkinleştir</item>
     <item id="1334">Kamu sunucuları dahil</item>
     <item id="1335">Kullanıcı birden çok kez giriş yapabilir</item>
     <item id="1339">Yayınlar operatör kontrolünde</item>
@@ -339,8 +341,8 @@
     <item id="1352"></item>
     <item id="1362">Aktarım aralığı</item>
     <item id="1363"></item>
-    <item id="1364">Tüm kullanıcıların seslerini tek bir dosyada topla</item>
-    <item id="1365">Tüm kullanıcıların seslerini ayrı dosyalarda kaydet</item>
+    <item id="1364">Tüm kullanıcıların seslerini tek bir dosyada kaydet</item>
+    <item id="1365">her kullanıcının sesini farklı dosyalarda kaydet</item>
     <item id="1369">Video yakalama aygıdı</item>
     <item id="1374">Seçili ayarları test et</item>
     <item id="1379">Masaüstünü paylaş</item>
@@ -415,7 +417,7 @@
     <item id="1475">Ses Formatı</item>
     <item id="1476">Video Formatı</item>
     <item id="1477">Medya dosyası özellikleri</item>
-    <item id="1478">Medya dosyası aktarımı</item>
+    <item id="1478">Medya dosyası</item>
     <item id="1480"></item>
     <item id="1481">Varsayılan Kullanıcı</item>
     <item id="1482">Kullanıcı uzak masaüstü oturumu yapabilir</item>
@@ -455,7 +457,7 @@
     <item id="1527">Önceden tanımlanmış ayarlar geçersiz</item>
     <item id="1528">Cinsiyet</item>
     <item id="1529">Erkek</item>
-    <item id="1530">Bayan</item>
+    <item id="1530">Kadın</item>
     <item id="1531">.TT dosyasını kaydet</item>
     <item id="1534">Maksimum metin uzunluğu</item>
     <item id="1535">Video yakalama ayarları</item>
