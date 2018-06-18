@@ -4,6 +4,9 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v53brelease
+ * - @ref v53bapi
+ *
  * @ref v53arelease
  * - @ref v53aapi
  *
@@ -166,6 +169,32 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v53brelease TeamTalk 5 SDK v. 5.3b release
+ *
+ * @subsection v53bapi API changes in v5.3b
+ *
+ * The @c transmitUsers array of #Channel now also applies to
+ * #CHANNEL_DEFAULT but unlike a channel of type #CHANNEL_CLASSROOM
+ * the @c transmitUsers array contains the user ID of those who cannot
+ * talk.
+ *
+ * The following new macros have been introduced to access
+ * the @transmitUsers array:
+ * - #TT_CLASSROOM_USERID_INDEX
+ * - #TT_CLASSROOM_STREAMTYPE_INDEX
+ * - #TT_TRANSMITUSERS_FREEFORALL
+ * - #TT_TRANSMITUSERS_USERID_INDEX
+ * - #TT_TRANSMITUSERS_STREAMTYPE_INDEX
+ *
+ * #StreamType enumeration now contains:
+ * - #STREAMTYPE_MEDIAFILE
+ * - #STREAMTYPE_CLASSROOM_ALL
+ *
+ * #UserRight enumeration now contains:
+ * - #USERRIGHT_RECORD_VOICE
  *
  * <hr>
  *
