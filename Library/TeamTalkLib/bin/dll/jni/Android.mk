@@ -134,7 +134,7 @@ LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL
 LOCAL_MODULE    := TeamTalk5Pro-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp teamtalksrv-jni.cpp
 
-LOCAL_STATIC_LIBRARIES := TeamTalk5Pro Ssl Crypto ACESSL ACEInet ACEInetSSL ACE Speex SpeexDSP Ogg Opus VPX  cpufeatures
+LOCAL_STATIC_LIBRARIES := TeamTalk5Pro ACEInet ACEInetSSL ACE ACESSL Speex SpeexDSP Ogg Opus VPX Ssl Crypto cpufeatures
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
 
