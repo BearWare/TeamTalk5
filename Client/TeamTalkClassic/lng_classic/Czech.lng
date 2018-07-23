@@ -150,6 +150,26 @@
     <item id="286">Vypnout hlasovou aktivaci</item>
     <item id="287">Zapnout hlasovou aktivaci v menu Já</item>
     <item id="288">Vypnout hlasovou aktivaci v menu Já</item>
+    <item id="289">Operátor kanálu</item>
+    <item id="290">Omezení kodeku</item>
+    <item id="291">Zabránění zneužití</item>
+    <item id="292">Vypnuto</item>
+    <item id="293">10 příkazů během 10 sekund</item>
+    <item id="294">10 příkazů během 1 minuty</item>
+    <item id="295">60 příkazů během 1 minuty</item>
+    <item id="296">Vlastní</item>
+    <item id="297">Omezit poslané příkazy</item>
+    <item id="298">Počet povolených příkazů (0 = vypnuto)</item>
+    <item id="299">Časový úsek pro povolení %d příkazů (v sekundách)</item>
+    <item id="300">Anonymní</item>
+    <item id="301">Webové přihlášení</item>
+    <item id="302">Zakázat vlastnosti uživatele</item>
+    <item id="303">Nový profil</item>
+    <item id="304">Odstranit profil</item>
+    <item id="305">Vybrat profil</item>
+    <item id="306">Název profilu</item>
+    <item id="307">Vzestupně</item>
+    <item id="308">Počet uživatelů</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
     <item id="1012">TCP port</item>
@@ -447,6 +467,10 @@
     <item id="1539">Zobrazovat uživatelské jméno místo přezdívky</item>
     <item id="1540">Typ klienta</item>
     <item id="1543">Nastavte události čtené hlasovým výstupem</item>
+    <item id="1546">Vlastnosti uživatelského účtu</item>
+    <item id="1547">Ochrana před záplavou zpráv</item>
+    <item id="1548">Zabraňte uživateli např. v posílání nevyžádaných správ omezením počtu příkazů, které může poslat během určitého časového úseku.</item>
+    <item id="1550">Omezit poslané příkazy</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>
@@ -550,4 +574,8 @@
     <item id="32947">Povolit všem vysílání vzdálené obrazovky\tCtrl+Alt+Shift+E</item>
     <item id="32948">Povolit všem vysílání multimediálních souborů\tCtrl+Alt+Shift+R</item>
     <item id="32949">Oznámit &amp;stav kanálu\tCtrl+Shift+G</item>
+    <item id="32950">&amp;Zprávy\tCtrl+E</item>
+    <item id="32951">Vykopnout a zakázat přístup na &amp;kanál\tCtrl+B</item>
+    <item id="32952">&amp;Zakázaní uživatelé na kanálu\tCtrl+Alt+Shift+B</item>
+    <item id="32953">&amp;Nová instance klienta\tCtrl+N</item>
 </language>
