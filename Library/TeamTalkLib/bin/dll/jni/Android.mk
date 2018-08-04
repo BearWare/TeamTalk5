@@ -58,6 +58,20 @@ LOCAL_MODULE := VPX
 LOCAL_SRC_FILES := libvpx/lib/libvpx.a
 include $(PREBUILT_STATIC_LIBRARY)
 
+#FFmpeg static library
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := FFmpeg
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavdevice.a \
+	ffmpeg-3.1/lib/libavfilter.a \
+	ffmpeg-3.1/lib/libavformat.a \
+	ffmpeg-3.1/lib/libavcodec.a \
+	ffmpeg-3.1/lib/libswresample.a \
+	ffmpeg-3.1/lib/libswscale.a \
+	ffmpeg-3.1/lib/libavutil.a
+
+include $(PREBUILT_STATIC_LIBRARY)
+
 #crypto static library
 include $(CLEAR_VARS)
 
