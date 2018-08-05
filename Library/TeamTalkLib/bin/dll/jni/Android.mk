@@ -58,18 +58,46 @@ LOCAL_MODULE := VPX
 LOCAL_SRC_FILES := libvpx/lib/libvpx.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-#FFmpeg static library
+#FFmpeg avdevice static library
 include $(CLEAR_VARS)
+LOCAL_MODULE := avdevice
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavdevice.a
+include $(PREBUILT_STATIC_LIBRARY)
 
-LOCAL_MODULE := FFmpeg
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavdevice.a \
-	ffmpeg-3.1/lib/libavfilter.a \
-	ffmpeg-3.1/lib/libavformat.a \
-	ffmpeg-3.1/lib/libavcodec.a \
-	ffmpeg-3.1/lib/libswresample.a \
-	ffmpeg-3.1/lib/libswscale.a \
-	ffmpeg-3.1/lib/libavutil.a
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := avfilter
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavfilter.a
+include $(PREBUILT_STATIC_LIBRARY)
 
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := avformat
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavformat.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := avcodec
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavcodec.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := swresample
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libswresample.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := swscale
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libswscale.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+#FFmpeg avdevice static library
+include $(CLEAR_VARS)
+LOCAL_MODULE := avutil
+LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavutil.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #crypto static library
@@ -135,7 +163,7 @@ LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL
 LOCAL_MODULE    := TeamTalk5-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp
 
-LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACE Speex SpeexDSP Ogg Opus VPX cpufeatures
+LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACE Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil cpufeatures
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
 
@@ -148,7 +176,7 @@ LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL
 LOCAL_MODULE    := TeamTalk5Pro-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp teamtalksrv-jni.cpp
 
-LOCAL_STATIC_LIBRARIES := TeamTalk5Pro ACEInet ACEInetSSL ACE ACESSL Speex SpeexDSP Ogg Opus VPX Ssl Crypto cpufeatures
+LOCAL_STATIC_LIBRARIES := TeamTalk5Pro ACEInet ACEInetSSL ACE ACESSL Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil Ssl Crypto cpufeatures
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
 

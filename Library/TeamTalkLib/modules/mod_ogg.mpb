@@ -5,8 +5,8 @@ project {
 
 specific(vc8,vc10,vc11,vc12) {
 
-  includes += $(TTLIBS_ROOT)/libogg/include
-  libpaths += $(TTLIBS_ROOT)/libogg/lib/$(PlatformName) 
+  includes += $(TTLIBS_ROOT)/ogg/include
+  libpaths += $(TTLIBS_ROOT)/ogg/lib/$(PlatformName) 
 
   libs += ogg
 
@@ -22,8 +22,8 @@ specific(vc14) {
 }
 
 specific(make, gnuace) {
-  includes += $(TTLIBS_ROOT)/libogg/include
-  pure_libs += $(TTLIBS_ROOT)/libogg/lib/libogg.a
+  includes += $(TTLIBS_ROOT)/ogg/include
+  pure_libs += $(TTLIBS_ROOT)/ogg/lib/libogg.a
 }
 
 Header_Files {

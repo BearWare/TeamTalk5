@@ -2,10 +2,6 @@ project : mod_opensles {
 
 specific(make,gnuace) {
 
-  includes += $(TTLIBS_ROOT)/libogg-1.1.4/include
-
-  pure_libs += $(TTLIBS_ROOT)/libogg-1.1.4/lib/libogg.la
-
 }
 
 verbatim(gnuace,local) {

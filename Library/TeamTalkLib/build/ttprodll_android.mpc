@@ -2,6 +2,8 @@ project(tt5prodll_android) : ttdll, \
                            mod_android, \
                            mod_opus, \
                            mod_speex, \
+                           mod_ogg, \
+                           mod_ffmpeg3, \
                            mod_httpauth, \
                            mod_crypt_static, \
                            mod_vpx, \
