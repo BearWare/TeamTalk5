@@ -124,6 +124,7 @@
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
     <string name="action_upload">Upload File</string>
+    <string name="action_stream">Stream a media file</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>
 
