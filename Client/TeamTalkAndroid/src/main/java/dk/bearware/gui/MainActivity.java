@@ -1856,6 +1856,10 @@ implements TeamTalkConnectionListener,
             Notification.Builder notification = new Notification.Builder(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel mChannel = new NotificationChannel("TT_PM", "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                mChannel.enableVibration(false);
+                mChannel.setVibrationPattern(null);
+                mChannel.enableLights(false);
+                mChannel.setSound(null, null);
                 notificationManager.createNotificationChannel(mChannel);
             }
             notification.setSmallIcon(R.drawable.message)
