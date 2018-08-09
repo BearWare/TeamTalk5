@@ -15,10 +15,6 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_upload"/>
     <item
-        android:id="@+id/action_stream"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_stream"/>
-    <item
         android:id="@+id/action_edit"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_edit"/>
