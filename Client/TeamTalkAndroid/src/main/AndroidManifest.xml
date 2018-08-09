@@ -72,6 +72,10 @@
             android:name=".ChannelPropActivity"
             android:label="@string/title_activity_channel_prop" >
         </activity>
+        <activity
+            android:name=".StreamMediaActivity"
+            android:label="@string/title_activity_stream_media" >
+        </activity>
 
         <service android:name="dk.bearware.backend.TeamTalkService" android:stopWithTask="true" />
 

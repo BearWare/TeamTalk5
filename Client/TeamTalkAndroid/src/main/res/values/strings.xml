@@ -15,6 +15,7 @@
     <string name="title_activity_user_prop">User Properties</string>
     <string name="title_activity_text_message">Text Message</string>
     <string name="title_activity_preferences">Preferences</string>
+    <string name="title_activity_stream_media">Stream media file to channel</string>
     <string name="action_createchannel">Create</string>
     <string name="action_updatechannel">Update</string>
     <string name="text_con_failed">Failed to connect to server. Retrying...</string>
@@ -125,6 +126,8 @@
     <string name="action_select">Select For Move</string>
     <string name="action_upload">Upload File</string>
     <string name="action_stream">Stream a media file</string>
+    <string name="button_select_media_file">Browse</string>
+    <string name="button_stream_media_file">Stream</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Send</string>
 
@@ -181,6 +184,7 @@
     <string name="err_send_text_message">Failed to send text message</string>
     <string name="err_connection">Connection failed</string>
     <string name="err_facebooklogin">Facebook login failed</string>
+    <string name="err_stream_media">Failed to stream a media file</string>
 
     <string name="action_new_channel">New Channel</string>
     <string name="action_save">Save</string>
