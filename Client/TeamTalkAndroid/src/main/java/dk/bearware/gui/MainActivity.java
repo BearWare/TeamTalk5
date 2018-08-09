@@ -36,6 +36,7 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
+import dk.bearware.Codec;
 import dk.bearware.DesktopInput;
 import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
@@ -49,6 +50,7 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
+import dk.bearware.VideoCodec;
 import dk.bearware.data.Permissions;
 import dk.bearware.events.ClientListener;
 import dk.bearware.events.CommandListener;
@@ -156,7 +158,8 @@ implements TeamTalkConnectionListener,
     public final int REQUEST_EDITCHANNEL = 1,
                      REQUEST_NEWCHANNEL = 2,
                      REQUEST_EDITUSER = 3,
-                     REQUEST_SELECT_FILE = 4;
+                     REQUEST_SELECT_FILE = 4,
+                     REQUEST_STREAM_MEDIA = 5;
 
     // The channel currently being displayed
     Channel curchannel;
@@ -271,6 +274,7 @@ implements TeamTalkConnectionListener,
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
         menu.findItem(R.id.action_upload).setEnabled(isMyChannel).setVisible(isMyChannel);
+        menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -285,6 +289,12 @@ implements TeamTalkConnectionListener,
             case R.id.action_upload : {
                 if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
                     startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_SELECT_FILE);
+                }
+            }
+            break;
+            case R.id.action_stream : {
+                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                    startActivityForResult(new Intent(this, FilePickerActivity.class), REQUEST_STREAM_MEDIA);
                 }
             }
             break;
@@ -511,6 +521,11 @@ implements TeamTalkConnectionListener,
             else {
                 Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
             }
+        } else if ((requestCode == REQUEST_STREAM_MEDIA) && (resultCode == RESULT_OK)) {
+            String path = data.getStringExtra(FilePickerActivity.SELECTED_FILE);
+            VideoCodec videocodec = new VideoCodec();
+            videocodec.nCodec = Codec.NO_CODEC;
+            ttclient.startStreamingMediaFileToChannel(path, videocodec);
         }
     }
 
