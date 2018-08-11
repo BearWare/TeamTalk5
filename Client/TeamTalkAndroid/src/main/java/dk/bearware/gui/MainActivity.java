@@ -290,8 +290,13 @@ implements TeamTalkConnectionListener,
             }
             break;
             case R.id.action_stream : {
-                Intent intent = new Intent(MainActivity.this, StreamMediaActivity.class);
-                startActivity(intent);
+                int flags = ttclient.getFlags();
+                if ((flags & ClientFlag.CLIENT_STREAM_AUDIO) == ClientFlag.CLIENT_STREAM_AUDIO || (flags & ClientFlag.CLIENT_STREAM_VIDEO) == ClientFlag.CLIENT_STREAM_VIDEO) {
+                    ttclient.stopStreamingMediaFileToChannel();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, StreamMediaActivity.class);
+                    startActivity(intent);
+                }
             }
             break;
             case R.id.action_edit : {

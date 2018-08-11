@@ -130,8 +130,10 @@ extends Activity implements TeamTalkConnectionListener {
                                     Toast.makeText(StreamMediaActivity.this,
                                     R.string.err_stream_media,
                                     Toast.LENGTH_LONG).show();
+                                } else {
+                                    finish();
                                 }
-                        break;
+                                break;
                 }
             }
         };
