@@ -11,3 +11,5 @@ i386
 x86_64
 InstallDir
 Output
+armeabi-v7a
+arm64-v8a

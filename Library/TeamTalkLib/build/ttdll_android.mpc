@@ -1,7 +1,9 @@
 project(tt5dll_android) : ttdll, \
                         mod_opus, \
+                        mod_ogg, \
                         mod_speex, \
                         mod_vpx, \
+                        mod_ffmpeg3, \
                         mod_httpauth, \
                         mod_android {
 

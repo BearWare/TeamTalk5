@@ -36,7 +36,7 @@ public class MyTest extends TeamTalkTestCaseBase {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "tt5eu.bearware.dk";
+        this.IPADDR = "tt5us.bearware.dk";
         this.TCPPORT = 10335;
         this.UDPPORT = 10335;
     }
@@ -65,4 +65,20 @@ public class MyTest extends TeamTalkTestCaseBase {
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT);
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
     }
+
+    public void test_StreamMedia() {
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, getCurrentMethod(), "guest", "guest");
+        joinRoot(ttclient);
+
+        assertTrue("Stream media file", ttclient.startStreamingMediaFileToChannel("http://hi5.streamingsoundtracks.com", new VideoCodec()));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 20000);
+
+        assertTrue("Stop media stream", ttclient.stopStreamingMediaFileToChannel());
+    }
+
+
 }
