@@ -45,6 +45,7 @@ import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.MediaFileStatus;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
@@ -906,6 +907,15 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
 
     @Override
     public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
+        User myself = users.get(ttclient.getMyUserID());
+        switch (mediafileinfo.nStatus) {
+            case MediaFileStatus.MFS_STARTED :
+                ttclient.doChangeStatus(myself.nStatusMode | TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE, myself.szStatusMsg);
+                break;
+            default :
+                ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE, myself.szStatusMsg);
+                break;
+        }
     }
 
 }
