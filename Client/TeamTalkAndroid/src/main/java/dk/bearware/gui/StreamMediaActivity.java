@@ -33,7 +33,9 @@ import dk.bearware.data.Permissions;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +51,7 @@ extends Activity implements TeamTalkConnectionListener {
     public static final String TAG = "bearware";
     public static final int REQUEST_STREAM_MEDIA = 1;
     private EditText file_path;
+    private static final String lastMedia = "last_media_file";
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
@@ -59,6 +62,8 @@ extends Activity implements TeamTalkConnectionListener {
         
         setContentView(R.layout.activity_stream_media);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        file_path = (EditText)this.findViewById(R.id.file_path_txt);
+        file_path.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(lastMedia, ""));
     }
 
     @Override
@@ -106,7 +111,6 @@ extends Activity implements TeamTalkConnectionListener {
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
-        file_path = (EditText)this.findViewById(R.id.file_path_txt);
         Button browse_btn = (Button)this.findViewById(R.id.media_file_select_btn);
         Button stream_btn = (Button)this.findViewById(R.id.media_file_stream_btn);
         
@@ -124,6 +128,12 @@ extends Activity implements TeamTalkConnectionListener {
                         String path = file_path.getText().toString();
                             if(path.isEmpty())
                                 return;
+                            if(path.startsWith("https://")) {
+                                Toast.makeText(StreamMediaActivity.this,
+                                "Https links are not yet supported",
+                                Toast.LENGTH_LONG).show();
+                                return;
+                            }
                                 VideoCodec videocodec = new VideoCodec();
                                 videocodec.nCodec = Codec.NO_CODEC;
                                 if (!ttclient.startStreamingMediaFileToChannel(path, videocodec)) {
@@ -131,6 +141,8 @@ extends Activity implements TeamTalkConnectionListener {
                                     R.string.err_stream_media,
                                     Toast.LENGTH_LONG).show();
                                 } else {
+                                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                                    editor.putString(lastMedia, path).apply();
                                     finish();
                                 }
                                 break;
