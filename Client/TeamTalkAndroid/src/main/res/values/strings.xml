@@ -58,6 +58,10 @@
     <string name="pref_summary_files_update_audio_icon">Play sound when files are added or removed</string>
     <string name="pref_title_transmitready_icon">Exclusive mode toggled</string>
     <string name="pref_summary_transmitready_icon">Play sound when transmit ready in "No Interruptions" channel</string>
+    <string name="pref_title_userjoin_icon">User joinned channel</string>
+    <string name="pref_summary_userjoin_icon">Play sound when user joins to the current channel</string>
+    <string name="pref_title_userleft_icon">User left channel</string>
+    <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>

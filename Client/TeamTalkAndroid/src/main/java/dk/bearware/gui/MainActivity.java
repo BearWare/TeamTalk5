@@ -190,7 +190,9 @@ implements TeamTalkConnectionListener,
               SOUND_VOXON = 8,
               SOUND_VOXOFF = 9,
               SOUND_TXREADY = 10,
-              SOUND_TXSTOP = 11;
+              SOUND_TXSTOP = 11,
+              SOUND_USERJOIN = 12,
+              SOUND_USERLEFT = 13;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -438,6 +440,12 @@ implements TeamTalkConnectionListener,
         if (prefs.getBoolean("transmitready_icon", true)) {
             sounds.put(SOUND_TXREADY, audioIcons.load(getApplicationContext(), R.raw.txqueue_start, 1));
             sounds.put(SOUND_TXSTOP, audioIcons.load(getApplicationContext(), R.raw.txqueue_stop, 1));
+        }
+        if (prefs.getBoolean("userjoin_icon", true)) {
+            sounds.put(SOUND_USERJOIN, audioIcons.load(getApplicationContext(), R.raw.user_join, 1));
+        }
+        if (prefs.getBoolean("userleft_icon", true)) {
+            sounds.put(SOUND_USERLEFT, audioIcons.load(getApplicationContext(), R.raw.user_left, 1));
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
@@ -1768,6 +1776,8 @@ implements TeamTalkConnectionListener,
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
                 if (ttclient.getMyChannelID() == user.nChannelID) {
+                    if (sounds.get(SOUND_USERJOIN) != 0)
+                        audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
                         ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
@@ -1813,6 +1823,8 @@ implements TeamTalkConnectionListener,
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
             if (ttclient.getMyChannelID() == channelid) {
+                    if (sounds.get(SOUND_USERLEFT) != 0)
+                        audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
                     ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));

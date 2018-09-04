@@ -54,6 +54,10 @@
     <string name="pref_summary_files_update_audio_icon">Звуковое оповещение о добавлении или удалении файлов</string>
     <string name="pref_title_transmitready_icon">Включение особого режима</string>
     <string name="pref_summary_transmitready_icon">Звуковое оповещение о готовности к передаче в канале "Не Перебивать Говорящего"</string>
+    <string name="pref_title_userjoin_icon">Пользователь присоединился к каналу</string>
+    <string name="pref_summary_userjoin_icon">Звуковое оповещение о присоединения пользователя к текущему каналу</string>
+    <string name="pref_title_userleft_icon">Пользователь покинул канал</string>
+    <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователя текущего канала</string>
     <string name="pref_header_connection">Настройки Соединения</string>
     <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
     <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>

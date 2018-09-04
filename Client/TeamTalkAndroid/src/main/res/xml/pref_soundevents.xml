@@ -3,6 +3,18 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="userjoin_icon"
+        android:title="@string/pref_title_userjoin_icon"
+        android:summary="@string/pref_summary_userjoin_icon"
+         />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="userleft_icon"
+        android:title="@string/pref_title_userleft_icon"
+        android:summary="@string/pref_summary_userleft_icon"
+         />
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="server_lost_audio_icon"
         android:title="@string/pref_title_server_lost_audio_icon"
         android:summary="@string/pref_summary_server_lost_audio_icon"
