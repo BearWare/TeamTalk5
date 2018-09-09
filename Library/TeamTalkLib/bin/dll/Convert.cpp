@@ -770,8 +770,8 @@ if(!recursive)                                                             \
 }                                                                          \
 } while(0)
 #else
-#define VALID_INT_CODEC
-#define VALID_EXT_CODEC
+#define VALID_INT_CODEC(ret_val, union_codec)
+#define VALID_EXT_CODEC(ret_val, union_codec)
 #endif
 
 
