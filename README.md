@@ -22,15 +22,15 @@ Projects wrapping the client DLL file in the TeamTalk SDK.
 * **TeamTalk_DLL** (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/C-API/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/C-API/)
   * Build using TeamTalkLib or download TeamTalk 5 SDK
 * **TeamTalk.NET** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/NET/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * **TeamTalkJNI** (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.1.4920/docs/Java/)
+    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/v5.3.3.4935/docs/Java/)
 
 ## TeamTalk 5 Clients
 Projects containing client applications which use the TeamTalk 5 client DLL.
