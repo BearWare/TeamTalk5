@@ -302,7 +302,7 @@ class ServerListViewController : UITableViewController,
                 // assume TT url
                 let url_str = url.absoluteString
                 let ns_str = url_str as NSString
-                let url_range = NSMakeRange(0, url_str.characters.count)
+                let url_range = NSMakeRange(0, url_str.count)
 
                 // ip-addr
                 let host = AppInfo.TTLINK_PREFIX + "([^\\??!/]*)/?\\??"
