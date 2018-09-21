@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="S4R-DQ-L7c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="S4R-DQ-L7c">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -81,7 +81,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQn-3b-EwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Dad-6w-4nM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="40" y="457"/>
+            <point key="canvasLocation" x="64" y="411.09445277361323"/>
         </scene>
         <!--Server List-->
         <scene sceneID="D9B-Wh-gUF">
@@ -100,7 +100,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WCf-u5-KkQ">
-                                            <rect key="frame" x="48" y="18" width="212" height="21"/>
+                                            <rect key="frame" x="48" y="16" width="212" height="23"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -164,7 +164,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WhE-le-P48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-360" y="457"/>
+            <point key="canvasLocation" x="-576" y="411.09445277361323"/>
         </scene>
         <!--User Properties-->
         <scene sceneID="jFP-Du-g11">
@@ -250,7 +250,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tpk-Ka-fCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="biV-46-USf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="75" y="2698"/>
+            <point key="canvasLocation" x="120" y="2426.9865067466267"/>
         </scene>
         <!--Select Voice-->
         <scene sceneID="x4v-uz-q7h">
@@ -301,7 +301,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRh-SV-GLi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="560" y="2586"/>
+            <point key="canvasLocation" x="895" y="2435"/>
         </scene>
         <!--Text Message-->
         <scene sceneID="pGq-No-kgc">
@@ -387,7 +387,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Llx-2B-q0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-316" y="2690"/>
+            <point key="canvasLocation" x="-505.60000000000002" y="2419.7901049475263"/>
         </scene>
         <!--Audio Codec View Controller-->
         <scene sceneID="Uo1-0H-6n6">
@@ -507,7 +507,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ApA-0d-8Ad" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yoe-1f-zZe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-693" y="2707"/>
+            <point key="canvasLocation" x="-1108.8" y="2435.0824587706147"/>
         </scene>
         <!--Desktops-->
         <scene sceneID="9aO-yC-f19">
@@ -522,7 +522,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2A-aE-XtG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="225" y="1892"/>
+            <point key="canvasLocation" x="360" y="1701.9490254872564"/>
         </scene>
         <!--Preferences-->
         <scene sceneID="eI5-1N-Xu7">
@@ -564,6 +564,33 @@
                                             <segue destination="VWP-v4-bY8" kind="push" identifier="Select Voice" id="MBX-l5-yib"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TextToSpeech" textLabel="Q0w-pu-giG" detailTextLabel="eJb-Cn-ciJ" style="IBUITableViewCellStyleSubtitle" id="xuM-Wo-fSg">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xuM-Wo-fSg" id="DNL-f6-Fuj">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q0w-pu-giG">
+                                                    <rect key="frame" x="15" y="5" width="104" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Choose events to playback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eJb-Cn-ciJ">
+                                                    <rect key="frame" x="15" y="25.5" width="152.5" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="5K7-Hd-4h7" kind="push" id="Z4w-kl-asA"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -577,7 +604,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLV-XU-1xQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="560" y="1892"/>
+            <point key="canvasLocation" x="1058" y="1701"/>
         </scene>
         <!--Channels-->
         <scene sceneID="adC-xy-Py5">
@@ -738,7 +765,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8If-87-PAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="1892"/>
+            <point key="canvasLocation" x="-726.39999999999998" y="1701.9490254872564"/>
         </scene>
         <!--Chat Channel-->
         <scene sceneID="VKx-Z9-0Fs">
@@ -821,7 +848,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SJM-R2-yub" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-116" y="1892"/>
+            <point key="canvasLocation" x="-185.59999999999999" y="1701.9490254872564"/>
         </scene>
         <!--Main Tab Controller-->
         <scene sceneID="nMB-QH-G9E">
@@ -853,7 +880,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jq9-SM-k9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-385" y="1168"/>
+            <point key="canvasLocation" x="-616" y="1050.6746626686659"/>
         </scene>
         <!--Channel Detail-->
         <scene sceneID="MNq-qd-bZ1">
@@ -966,7 +993,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7q-AK-0Vn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-924" y="1637"/>
+            <point key="canvasLocation" x="-1478.4000000000001" y="1472.5637181409297"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Cv5-YA-G2I">
@@ -983,7 +1010,36 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFv-d6-6BQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-766" y="457"/>
+            <point key="canvasLocation" x="-1225.5999999999999" y="411.09445277361323"/>
+        </scene>
+        <!--Text To Speech Events-->
+        <scene sceneID="Lpg-mQ-YZl">
+            <objects>
+                <tableViewController title="Text To Speech Events" id="5K7-Hd-4h7" customClass="TextToSpeechViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="da0-iG-Eoe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="fzk-Q2-Si9">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzk-Q2-Si9" id="chI-wK-234">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5K7-Hd-4h7" id="zni-Ko-tUW"/>
+                            <outlet property="delegate" destination="5K7-Hd-4h7" id="Y3e-16-kK9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Text To Speech Events" id="RZe-fe-Hd0"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uPg-3q-NPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1754" y="1701"/>
         </scene>
     </scenes>
     <resources>
@@ -995,7 +1051,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="ROh-EA-fdo"/>
         <segue reference="k1y-JH-Jxd"/>
-        <segue reference="7vJ-1u-pQB"/>
+        <segue reference="6dZ-v0-zGz"/>
         <segue reference="MXJ-jt-JpB"/>
     </inferredMetricsTieBreakers>
 </document>

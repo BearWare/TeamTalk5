@@ -43,6 +43,7 @@
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
 		25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA20691BE933310089AD54 /* PreferencesViewController.swift */; };
 		25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25AA206D1BEBCA0A0089AD54 /* off.mp3 */; };
+		25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA014621557109003C836D /* TextToSpeechViewController.swift */; };
 		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
 		25DE1FC01FADAAC800EA77D6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */; };
 		25DE1FC11FADAAC800EA77D6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */; };
@@ -127,6 +128,7 @@
 		25AB78D51C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		25BA014621557109003C836D /* TextToSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechViewController.swift; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */,
 				2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */,
 				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
+				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */,
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
@@ -419,6 +422,7 @@
 				2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */,
 				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
+				25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */,
 				25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
 				2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */,

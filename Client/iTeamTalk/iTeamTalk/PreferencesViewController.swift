@@ -425,42 +425,10 @@ UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
         ttsvolChanged(ttsvolslider)
         ttsevents_items.append(ttsvolcell!)
 
+        let ttsselectcell = tableView.dequeueReusableCell(withIdentifier: "TextToSpeech")
+        ttsevents_items.append(ttsselectcell!)
 
-        let ttsjoinedchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let ttsjoinedchan = settings.object(forKey: PREF_TTSEVENT_JOINEDCHAN) == nil || settings.bool(forKey: PREF_TTSEVENT_JOINEDCHAN)
-        let ttsjoinedchanswitch = newTableCellSwitch(ttsjoinedchancell, label: NSLocalizedString("User joins channel", comment: "preferences"), initial: ttsjoinedchan)
-        ttsjoinedchancell.detailTextLabel!.text = NSLocalizedString("Announce user joining channel", comment: "preferences")
-        ttsjoinedchanswitch.addTarget(self, action: #selector(PreferencesViewController.ttsjoinedchanChanged(_:)), for: .valueChanged)
-        ttsevents_items.append(ttsjoinedchancell)
         
-        let ttsleftchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let ttsleftchan = settings.object(forKey: PREF_TTSEVENT_LEFTCHAN) == nil || settings.bool(forKey: PREF_TTSEVENT_LEFTCHAN)
-        let ttsleftchanswitch = newTableCellSwitch(ttsleftchancell, label: NSLocalizedString("User leaves channel", comment: "preferences"), initial: ttsleftchan)
-        ttsleftchancell.detailTextLabel!.text = NSLocalizedString("Announce user leaving channel", comment: "preferences")
-        ttsleftchanswitch.addTarget(self, action: #selector(PreferencesViewController.ttsleftchanChanged(_:)), for: .valueChanged)
-        ttsevents_items.append(ttsleftchancell)
-
-        let ttsconlostcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let ttsconlost = settings.object(forKey: PREF_TTSEVENT_CONLOST) == nil || settings.bool(forKey: PREF_TTSEVENT_CONLOST)
-        let ttsconlostswitch = newTableCellSwitch(ttsconlostcell, label: NSLocalizedString("Connection lost", comment: "preferences"), initial: ttsconlost)
-        ttsconlostcell.detailTextLabel!.text = NSLocalizedString("Announce lost server connection", comment: "preferences")
-        ttsconlostswitch.addTarget(self, action: #selector(PreferencesViewController.ttsconlostChanged(_:)), for: .valueChanged)
-        ttsevents_items.append(ttsconlostcell)
-        
-        let ttstxtmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let ttstxtmsg = settings.object(forKey: PREF_TTSEVENT_TEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_TEXTMSG)
-        let ttstxtmsgswitch = newTableCellSwitch(ttstxtmsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: ttstxtmsg)
-        ttstxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
-        ttstxtmsgswitch.addTarget(self, action: #selector(PreferencesViewController.ttsprivtxtmsgChanged(_:)), for: .valueChanged)
-        ttsevents_items.append(ttstxtmsgcell)
-
-        let ttschantxtmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let ttschantxtmsg = settings.object(forKey: PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_CHANTEXTMSG)
-        let ttschantxtmsgswitch = newTableCellSwitch(ttschantxtmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: ttschantxtmsg)
-        ttschantxtmsgcell.detailTextLabel!.text = NSLocalizedString("Announce content of text message", comment: "preferences")
-        ttschantxtmsgswitch.addTarget(self, action: #selector(PreferencesViewController.ttschantxtmsgChanged(_:)), for: .valueChanged)
-        ttsevents_items.append(ttschantxtmsgcell)
-
         // version items
         
         let translatorcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
@@ -572,31 +540,6 @@ UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
     @objc func showtextmessagesChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_POPUPTXTMSG)
-    }
-
-    @objc func ttsjoinedchanChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_TTSEVENT_JOINEDCHAN)
-    }
-
-    @objc func ttsleftchanChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_TTSEVENT_LEFTCHAN)
-    }
-
-    @objc func ttsconlostChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_TTSEVENT_CONLOST)
-    }
-    
-    @objc func ttsprivtxtmsgChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_TTSEVENT_TEXTMSG)
-    }
-
-    @objc func ttschantxtmsgChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_TTSEVENT_CHANTEXTMSG)
     }
 
     @objc func proximityChanged(_ sender: UISwitch) {
