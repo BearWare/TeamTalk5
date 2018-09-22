@@ -23,8 +23,7 @@
 
 import UIKit
 
-class UserDetailViewController : UIViewController,
-    UITableViewDataSource, UITableViewDelegate, TeamTalkEvent {
+class UserDetailViewController : UITableViewController, TeamTalkEvent {
     
     @IBOutlet weak var navtitle: UINavigationItem!
     var usernamefield: UITextField?
@@ -50,7 +49,6 @@ class UserDetailViewController : UIViewController,
         SECTION_ACTIONS = 3,
         SECTION_COUNT = 4
     
-    @IBOutlet weak var tableView: UITableView!
     var general_items = [UITableViewCell]()
     var action_items = [UITableViewCell]()
     var volume_items = [UITableViewCell]()
@@ -203,11 +201,11 @@ class UserDetailViewController : UIViewController,
         kick_cmdid = TT_DoKickUser(ttInst, userid, user.nChannelID)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return SECTION_COUNT
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
             return NSLocalizedString("General", comment: "user detail")
@@ -222,7 +220,7 @@ class UserDetailViewController : UIViewController,
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case SECTION_GENERAL :
             return general_items.count
@@ -236,7 +234,7 @@ class UserDetailViewController : UIViewController,
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case SECTION_GENERAL :
             return general_items[indexPath.row]

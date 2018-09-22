@@ -23,7 +23,7 @@
 
 import UIKit
 
-class ServerDetailViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
 
     var server = Server()
 
@@ -42,8 +42,6 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
     var fbloginfield : UISwitch?
     var chanfield : UITextField?
     var chpasswdfield : UITextField?
-    
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -210,11 +208,11 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         tableView.reloadData()
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
             return NSLocalizedString("Server List Entry", comment: "server entry")
@@ -231,7 +229,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
         case 0 :
@@ -249,7 +247,7 @@ class ServerDetailViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case 0 :

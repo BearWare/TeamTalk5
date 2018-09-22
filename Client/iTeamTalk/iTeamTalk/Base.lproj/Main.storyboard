@@ -12,12 +12,8 @@
         <!--Server Entry-->
         <scene sceneID="6wp-uX-it8">
             <objects>
-                <viewController storyboardIdentifier="ServerDetail" id="EDn-nP-gFj" customClass="ServerDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tEX-pL-qfH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Vw-Zk-qL2">
+                <tableViewController storyboardIdentifier="ServerDetail" id="EDn-nP-gFj" customClass="ServerDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                            <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Vw-Zk-qL2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -63,9 +59,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
                     <navigationItem key="navigationItem" title="Server Entry" id="Me4-OJ-iZH">
                         <barButtonItem key="backBarButtonItem" title="Back" id="BLM-fs-qcG"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="QNX-QL-hiu">
@@ -77,7 +70,7 @@
                     <connections>
                         <outlet property="tableView" destination="4Vw-Zk-qL2" id="8Mz-nk-3GA"/>
                     </connections>
-                </viewController>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQn-3b-EwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Dad-6w-4nM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
@@ -169,13 +162,9 @@
         <!--User Properties-->
         <scene sceneID="jFP-Du-g11">
             <objects>
-                <viewController storyboardIdentifier="UserDetail" id="wfd-hi-eX5" customClass="UserDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ofQ-zc-evi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="khk-yB-hku">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                <tableViewController storyboardIdentifier="UserDetail" id="wfd-hi-eX5" customClass="UserDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                            <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="khk-yB-hku">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -238,15 +227,11 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
                     <navigationItem key="navigationItem" title="User Properties" id="N1w-a6-R3D"/>
                     <connections>
                         <outlet property="navtitle" destination="N1w-a6-R3D" id="cUG-UI-8xF"/>
-                        <outlet property="tableView" destination="khk-yB-hku" id="MXk-EM-PKK"/>
                     </connections>
-                </viewController>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tpk-Ka-fCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="biV-46-USf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
@@ -255,12 +240,8 @@
         <!--Select Voice-->
         <scene sceneID="x4v-uz-q7h">
             <objects>
-                <viewController storyboardIdentifier="Select Voice" title="Select Voice" id="VWP-v4-bY8" customClass="SpeechViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YmC-rW-8IW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="H39-jK-G0I">
+                <tableViewController storyboardIdentifier="Select Voice" title="Select Voice" id="VWP-v4-bY8" customClass="SpeechViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                            <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="H39-jK-G0I">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -291,14 +272,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
                     <navigationItem key="navigationItem" title="Text-to-Speech Voice" id="79c-sV-yxb"/>
-                    <connections>
-                        <outlet property="tableView" destination="H39-jK-G0I" id="5aO-hg-AeF"/>
-                    </connections>
-                </viewController>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRh-SV-GLi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="895" y="2435"/>

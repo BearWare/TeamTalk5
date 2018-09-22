@@ -24,9 +24,7 @@
 import UIKit
 import AVFoundation
 
-class SpeechViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    @IBOutlet weak var tableView: UITableView!
+class SpeechViewController : UITableViewController {
     
     var sections = [String]()
     
@@ -87,19 +85,19 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         return voices
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getVoices(sections[section]).count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let language = sections[indexPath.section]
         let localname = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: language)
         let voices = getVoices(language)
@@ -113,7 +111,7 @@ class SpeechViewController : UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let voices = getVoices(sections[indexPath.section])
         let voice = voices[indexPath.row]
         let defaults = UserDefaults.standard
