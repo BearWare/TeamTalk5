@@ -902,13 +902,9 @@
         <!--Channel Detail-->
         <scene sceneID="MNq-qd-bZ1">
             <objects>
-                <viewController storyboardIdentifier="EditChannel" title="Channel Detail" id="PhY-ED-cqF" customClass="ChannelDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YBB-6P-wGg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="mrP-4Y-M0c">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                <tableViewController storyboardIdentifier="EditChannel" title="Channel Detail" id="PhY-ED-cqF" customClass="ChannelDetailViewController" customModule="iTeamTalk" customModuleProvider="target" sceneMemberID="viewController">
+                            <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="mrP-4Y-M0c">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -991,9 +987,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="bee-sO-qqT">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="HBb-gQ-hKr">
@@ -1007,7 +1000,7 @@
                         <outlet property="navitem" destination="bee-sO-qqT" id="NiT-MZ-qhu"/>
                         <outlet property="tableView" destination="mrP-4Y-M0c" id="1rF-px-oK6"/>
                     </connections>
-                </viewController>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7q-AK-0Vn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1478.4000000000001" y="1472.5637181409297"/>
