@@ -135,14 +135,19 @@ func newTableCellSlider(_ cell: UITableViewCell, label: String, min: Float, max:
     return sliderfield
 }
 
-func newTableCellSwitch(_ cell: UITableViewCell, label: String, initial: Bool) -> UISwitch {
+func newTableCellSwitch(_ cell: UITableViewCell, label: String, initial: Bool, tag: Int) -> UISwitch {
     cell.selectionStyle = .none
     cell.textLabel?.text = label
     let switchfield = UISwitch(frame: CGRect.zero)
     switchfield.isOn = initial
+    switchfield.tag = tag
     cell.accessoryView = switchfield
     
     return switchfield
+}
+
+func newTableCellSwitch(_ cell: UITableViewCell, label: String, initial: Bool) -> UISwitch {
+    return newTableCellSwitch(cell, label: label, initial: initial, tag: 0)
 }
 
 func newTableCellBtn(_ cell: UITableViewCell, label: String, btntext: String) -> UIButton {
@@ -376,6 +381,7 @@ func getDisplayName(_ user: User) -> String {
     if settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME) {
         return limitText(String(cString: UnsafeRawPointer([user.szUsername]).assumingMemoryBound(to: CChar.self)))
     }
+
     return limitText(String(cString: UnsafeRawPointer([user.szNickname]).assumingMemoryBound(to: CChar.self)))
 }
 

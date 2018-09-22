@@ -71,6 +71,8 @@ let PREF_TTSEVENT_TEXTMSG = "tts_usertxtmsg_preference"
 let PREF_TTSEVENT_CHANTEXTMSG = "tts_chantxtmsg_preference"
 let PREF_TTSEVENT_RATE = "tts_rate_preference"
 let PREF_TTSEVENT_VOL = "tts_volume_preference"
+let PREF_TTSEVENT_USERLOGIN = "tts_user_login"
+let PREF_TTSEVENT_USERLOGOUT = "tts_user_logout"
 
 
 class PreferencesViewController : UITableViewController, UITextFieldDelegate, TeamTalkEvent {

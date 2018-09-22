@@ -877,16 +877,36 @@ class ChannelListViewController :
             let user = getUser(&m).pointee
             users[user.nUserID] = user
             
-            if currentCmdId == 0 && user.nChannelID == curchannel.nChannelID {
-                self.tableView.reloadData()
+            if currentCmdId == 0 {
+                if user.nChannelID == curchannel.nChannelID {
+                    self.tableView.reloadData()
+                }
+                if TT_GetMyUserID(ttInst) != user.nUserID {
+                    let defaults = UserDefaults.standard
+                    
+                    if defaults.object(forKey: PREF_TTSEVENT_USERLOGIN) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGIN) {
+                        let name = getDisplayName(user)
+                        newUtterance(name + " " + NSLocalizedString("has logged on", comment: "TTS EVENT"))
+                    }
+                }
             }
             
         case CLIENTEVENT_CMD_USER_LOGGEDOUT :
             let user = getUser(&m).pointee
             users.removeValue(forKey: user.nUserID)
 
-            if currentCmdId == 0 && user.nChannelID == curchannel.nChannelID {
-                self.tableView.reloadData()
+            if currentCmdId == 0 {
+                if user.nChannelID == curchannel.nChannelID {
+                    self.tableView.reloadData()
+                }
+                if TT_GetMyUserID(ttInst) != user.nUserID {
+                    let defaults = UserDefaults.standard
+                    
+                    if defaults.object(forKey: PREF_TTSEVENT_USERLOGOUT) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGOUT) {
+                        let name = getDisplayName(user)
+                        newUtterance(name + " " + NSLocalizedString("has logged out", comment: "TTS EVENT"))
+                    }
+                }
             }
             
         case CLIENTEVENT_CMD_USER_JOINED :

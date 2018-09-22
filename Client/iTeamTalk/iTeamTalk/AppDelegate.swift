@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             svc.openUrl(url)
         }
         else {
-            let handled = FBSDKApplicationDelegate.sharedInstance()
+            FBSDKApplicationDelegate.sharedInstance()
                 .application(app, open: url, options: opt)
         }
         

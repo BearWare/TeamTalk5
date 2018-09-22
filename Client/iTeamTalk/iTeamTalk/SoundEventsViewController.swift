@@ -32,65 +32,57 @@ class SoundEventsViewController : UITableViewController {
         super.viewDidLoad()
         
         let srvlostcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let srvlostswitch = newTableCellSwitch(srvlostcell, label: NSLocalizedString("Server Connection Lost", comment: "preferences"), initial: getSoundFile(.srv_LOST) != nil)
+        let srvlostswitch = newTableCellSwitch(srvlostcell, label: NSLocalizedString("Server Connection Lost", comment: "preferences"), initial: getSoundFile(.srv_LOST) != nil, tag: Sounds.srv_LOST.rawValue)
         srvlostcell.detailTextLabel!.text = NSLocalizedString("Play sound when connection is dropped", comment: "preferences")
-        srvlostswitch.tag = Sounds.srv_LOST.rawValue
         srvlostswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(srvlostswitch)
         soundevents_items.append(srvlostcell)
         
         let voicetxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let voicetxswitch = newTableCellSwitch(voicetxcell, label: NSLocalizedString("Voice Transmission Toggled", comment: "preferences"), initial: getSoundFile(.tx_ON) != nil)
+        let voicetxswitch = newTableCellSwitch(voicetxcell, label: NSLocalizedString("Voice Transmission Toggled", comment: "preferences"), initial: getSoundFile(.tx_ON) != nil, tag: Sounds.tx_ON.rawValue)
         voicetxcell.detailTextLabel!.text = NSLocalizedString("Play sound when voice transmission is toggled", comment: "preferences")
-        voicetxswitch.tag = Sounds.tx_ON.rawValue
         voicetxswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(voicetxswitch)
         soundevents_items.append(voicetxcell)
         
         let usermsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let usermsgswitch = newTableCellSwitch(usermsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: getSoundFile(.user_MSG) != nil)
+        let usermsgswitch = newTableCellSwitch(usermsgcell, label: NSLocalizedString("Private Text Message", comment: "preferences"), initial: getSoundFile(.user_MSG) != nil, tag: Sounds.user_MSG.rawValue)
         usermsgcell.detailTextLabel!.text = NSLocalizedString("Play sound when private text message is received", comment: "preferences")
-        usermsgswitch.tag = Sounds.user_MSG.rawValue
         usermsgswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(usermsgswitch)
         soundevents_items.append(usermsgcell)
         
         let chanmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let chanmsgswitch = newTableCellSwitch(chanmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: getSoundFile(.chan_MSG) != nil)
+        let chanmsgswitch = newTableCellSwitch(chanmsgcell, label: NSLocalizedString("Channel Text Message", comment: "preferences"), initial: getSoundFile(.chan_MSG) != nil, tag: Sounds.chan_MSG.rawValue)
         chanmsgcell.detailTextLabel!.text = NSLocalizedString("Play sound when channel text message is received", comment: "preferences")
-        chanmsgswitch.tag = Sounds.chan_MSG.rawValue
         chanmsgswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(chanmsgswitch)
         soundevents_items.append(chanmsgcell)
         
         let joinedchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let joinedchanswitch = newTableCellSwitch(joinedchancell, label: NSLocalizedString("User Joins Channel", comment: "preferences"), initial: getSoundFile(.joined_CHAN) != nil)
+        let joinedchanswitch = newTableCellSwitch(joinedchancell, label: NSLocalizedString("User Joins Channel", comment: "preferences"), initial: getSoundFile(.joined_CHAN) != nil, tag: Sounds.joined_CHAN.rawValue)
         joinedchancell.detailTextLabel!.text = NSLocalizedString("Play sound when a user joins the channel", comment: "preferences")
-        joinedchanswitch.tag = Sounds.joined_CHAN.rawValue
         joinedchanswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(joinedchanswitch)
         soundevents_items.append(joinedchancell)
         
         let leftchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let leftchanswitch = newTableCellSwitch(leftchancell, label: NSLocalizedString("User Leaves Channel", comment: "preferences"), initial: getSoundFile(.left_CHAN) != nil)
+        let leftchanswitch = newTableCellSwitch(leftchancell, label: NSLocalizedString("User Leaves Channel", comment: "preferences"), initial: getSoundFile(.left_CHAN) != nil, tag: Sounds.left_CHAN.rawValue)
         leftchancell.detailTextLabel!.text = NSLocalizedString("Play sound when a user leaves the channel", comment: "preferences")
-        leftchanswitch.tag = Sounds.left_CHAN.rawValue
         leftchanswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(leftchanswitch)
         soundevents_items.append(leftchancell)
         
         let voxtriggercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let voxtriggerswitch = newTableCellSwitch(voxtriggercell, label: NSLocalizedString("Voice Activation Triggered", comment: "preferences"), initial: getSoundFile(.voxtriggered_ON) != nil)
+        let voxtriggerswitch = newTableCellSwitch(voxtriggercell, label: NSLocalizedString("Voice Activation Triggered", comment: "preferences"), initial: getSoundFile(.voxtriggered_ON) != nil, tag: Sounds.voxtriggered_ON.rawValue)
         voxtriggercell.detailTextLabel!.text = NSLocalizedString("Play sound when voice activation is triggered", comment: "preferences")
-        voxtriggerswitch.tag = Sounds.voxtriggered_ON.rawValue
         voxtriggerswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(voxtriggerswitch)
         soundevents_items.append(voxtriggercell)
         
         let transmitcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let transmitswitch = newTableCellSwitch(transmitcell, label: NSLocalizedString("Exclusive Mode Toggled", comment: "preferences"), initial: getSoundFile(.transmit_ON) != nil)
+        let transmitswitch = newTableCellSwitch(transmitcell, label: NSLocalizedString("Exclusive Mode Toggled", comment: "preferences"), initial: getSoundFile(.transmit_ON) != nil, tag: Sounds.transmit_ON.rawValue)
         transmitcell.detailTextLabel!.text = NSLocalizedString("Play sound when transmit ready in \"No Interruptions\" channel", comment: "preferences")
-        transmitswitch.tag = Sounds.transmit_ON.rawValue
         transmitswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(transmitswitch)
         soundevents_items.append(transmitcell)
