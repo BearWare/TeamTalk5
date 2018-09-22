@@ -366,6 +366,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             }
             
         case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
+            let account = getUserAccount(&m).pointee
+            if fromTTString(account.szInitChannel).isEmpty == false {
+                server.channel = fromTTString(account.szInitChannel)
+            }
             break
             
         case CLIENTEVENT_CMD_ERROR :
