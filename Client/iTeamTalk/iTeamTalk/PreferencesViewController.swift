@@ -73,11 +73,8 @@ let PREF_TTSEVENT_RATE = "tts_rate_preference"
 let PREF_TTSEVENT_VOL = "tts_volume_preference"
 
 
-class PreferencesViewController : UIViewController, UITableViewDataSource,
-UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
+class PreferencesViewController : UITableViewController, UITextFieldDelegate, TeamTalkEvent {
     
-    @IBOutlet weak var tableView: UITableView!
-   
     var nicknamefield : UITextField?
     
     var users = Set<INT32>()
@@ -592,11 +589,11 @@ UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return SECTIONS_COUNT
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case SECTION_GENERAL :
             return NSLocalizedString("General", comment: "preferences")
@@ -619,7 +616,7 @@ UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case SECTION_GENERAL :
             return general_items.count
@@ -642,7 +639,7 @@ UITableViewDelegate, UITextFieldDelegate, TeamTalkEvent {
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case SECTION_GENERAL :
