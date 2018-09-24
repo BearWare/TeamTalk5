@@ -54,12 +54,12 @@ class ChannelDetailViewController :
         }
         
         let namecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: fromTTString(channel.szName))
+        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "create channel"), initial: String(cString: getChannelString(NAME, &channel)))
         namefield?.delegate = self
         chan_items.append(namecell)
         
         let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: fromTTString(channel.szPassword))
+        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "create channel"), initial: String (cString: getChannelString(PASSWORD, &channel)))
         passwdfield?.delegate = self
         passwdfield?.autocorrectionType = .no
         passwdfield?.spellCheckingType = .no
@@ -67,7 +67,7 @@ class ChannelDetailViewController :
         chan_items.append(passwdcell)
         
         let topiccell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: fromTTString(channel.szTopic))
+        topicfield = newTableCellTextField(topiccell, label: NSLocalizedString("Topic", comment: "create channel"), initial: String(cString: getChannelString(TOPIC, &channel)))
         topicfield?.delegate = self
         chan_items.append(topiccell)
         

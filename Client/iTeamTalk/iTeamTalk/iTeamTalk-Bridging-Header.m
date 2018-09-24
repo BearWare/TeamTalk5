@@ -88,4 +88,38 @@ TTCHAR* fromStringWrap(StringWrap* wrap) {
     return &wrap->buf[0];
 }
 
+const TTCHAR* getUserString(UExt e, const User* u) {
+    switch (e) {
+        case NICKNAME :
+            return u->szNickname;
+        case USERNAME :
+            return u->szUsername;
+        case STATUSMSG :
+            return u->szStatusMsg;
+        case IPADDR :
+            return u->szIPAddress;
+    }
+    return "";
+}
 
+const TTCHAR* getChannelString(CExt e, const Channel* c) {
+    switch (e) {
+        case NAME :
+            return c->szName;
+        case PASSWORD :
+            return c->szPassword;
+        case OPPASSWORD :
+            return c->szOpPassword;
+        case TOPIC :
+            return c->szTopic;
+    }
+    return "";
+}
+
+const TTCHAR* getTextMessageString(MExt e, const TextMessage * const m) {
+    switch (e) {
+        case MESSAGE :
+            return m->szMessage;
+    }
+    return "";
+}

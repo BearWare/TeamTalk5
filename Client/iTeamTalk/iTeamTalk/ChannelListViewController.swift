@@ -447,7 +447,7 @@ class ChannelListViewController :
             title = fromTTString(srvprop.szServerName)
         }
         else {
-            title = fromTTString(curchannel.szName)
+            title = String(cString: getChannelString(NAME, &curchannel))
         }
         
         self.tabBarController?.navigationItem.title = title
@@ -551,23 +551,24 @@ class ChannelListViewController :
             
         case .loginCmd :
             let flags = TT_GetFlags(ttInst)
-            
+
             if (flags & CLIENT_AUTHORIZED.rawValue) != 0 {
                 
                 if rejoinchannel.nChannelID > 0 {
                     // if we were previously in a channel then rejoin
-                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : fromTTString(rejoinchannel.szPassword)
+                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] :
+                        String(cString: getChannelString(PASSWORD, &rejoinchannel))
                     if chanpasswds[rejoinchannel.nChannelID] == nil {
                         // if channel password is from initial login (Server-struct) then we need to store it
-                       chanpasswds[rejoinchannel.nChannelID] = fromTTString(rejoinchannel.szPassword)
+                       chanpasswds[rejoinchannel.nChannelID] = String(cString: getChannelString(PASSWORD, &rejoinchannel))
                     }
                     toTTString(passwd!, dst: &rejoinchannel.szPassword)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
-                else if fromTTString(rejoinchannel.szName).isEmpty == false {
+                else if String(cString: getChannelString(NAME, &rejoinchannel)).isEmpty == false {
                     // join from initial login
-                    let passwd = fromTTString(rejoinchannel.szPassword)
+                    let passwd = String(cString: getChannelString(PASSWORD, &rejoinchannel))
                     toTTString(passwd, dst: &rejoinchannel.szPassword)
                     cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
@@ -631,15 +632,16 @@ class ChannelListViewController :
                 // Fallback on earlier versions
             }
 
-            let channel = channels[chanid]
-            
-            let chanDetail = segue.destination as! ChannelDetailViewController
-
-            chanDetail.channel = channel!
-            
-            if fromTTString((channel?.szPassword)!).isEmpty {
-                if let passwd = self.chanpasswds[chanid] {
-                    toTTString(passwd, dst: &chanDetail.channel.szPassword)
+            if var channel = channels[chanid] {
+                
+                let chanDetail = segue.destination as! ChannelDetailViewController
+                
+                chanDetail.channel = channel
+                
+                if String(cString: getChannelString(PASSWORD, &channel)).isEmpty {
+                    if let passwd = self.chanpasswds[chanid] {
+                        toTTString(passwd, dst: &chanDetail.channel.szPassword)
+                    }
                 }
             }
         }
@@ -920,7 +922,7 @@ class ChannelListViewController :
                 
                 //store password if it's from initial login (Server-struct)
                 if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
-                   chanpasswds[user.nChannelID] = fromTTString(rejoinchannel.szPassword)
+                   chanpasswds[user.nChannelID] = String(cString: getChannelString(PASSWORD, &rejoinchannel))
                 }
                 rejoinchannel = channels[user.nChannelID]! //join this on connection lost
 

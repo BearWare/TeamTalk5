@@ -264,6 +264,7 @@ struct MyTextMessage {
     
     init(m: TextMessage, nickname: String, msgtype: MsgType) {
         message = String(cString: UnsafeRawPointer([m.szMessage]).assumingMemoryBound(to: CChar.self))
+        //message = String(cString: getTextMessageString(MESSAGE, UnsafePointer<TextMessage>(&m)))
         self.nickname = nickname
         self.msgtype = msgtype
     }

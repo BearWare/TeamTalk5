@@ -286,7 +286,7 @@ class TextMessageViewController :
                         channame = NSLocalizedString("root channel", comment: "log entry")
                     }
                     else {
-                        channame = fromTTString(channel.szName)
+                        channame = String(cString: getChannelString(NAME, &channel))
                     }
                     let txt = String(format: NSLocalizedString("Joined %@", comment: "log entry"), channame)
                     logmsg = MyTextMessage(logmsg: txt)

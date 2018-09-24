@@ -53,3 +53,25 @@ typedef struct StringWrap {
 
 void convertTuple(const char* str, StringWrap* wrap);
 TTCHAR* fromStringWrap(StringWrap* wrap);
+
+typedef enum {
+    NICKNAME,
+    USERNAME,
+    STATUSMSG,
+    IPADDR
+} UExt;
+
+typedef enum {
+    NAME,
+    PASSWORD,
+    TOPIC,
+    OPPASSWORD
+} CExt;
+
+typedef enum {
+    MESSAGE
+} MExt;
+
+const TTCHAR* getUserString(UExt e, const User* u);
+const TTCHAR* getChannelString(CExt e, const Channel* c);
+const TTCHAR* getTextMessageString(MExt e, const TextMessage * const m);
