@@ -171,6 +171,12 @@ BOOL CTextToSpeechPage::OnInitDialog()
     m_wndTree.SetItemData(m_wndTree.InsertItem(szText, hClassroom), TTS_CLASSROOM_MEDIAFILE_TX);
     m_wndTree.Expand(hClassroom, TVE_EXPAND);
 
+    HTREEITEM hFile = m_wndTree.InsertItem(_T("File events"));
+    m_wndTree.SetItemData(hFile, TTS_FILE_ALL);
+    m_wndTree.SetItemData(m_wndTree.InsertItem(_T("File added"), hFile), TTS_FILE_ADD);
+    m_wndTree.SetItemData(m_wndTree.InsertItem(_T("File removed"), hFile), TTS_FILE_REMOVE);
+    m_wndTree.Expand(hFile, TVE_EXPAND);
+
     m_wndTree.EnsureVisible(hUser);
     // The MFC tree control stinks so we have to schedule a timer to do updates...
     SetTimer(1, 0, NULL);
