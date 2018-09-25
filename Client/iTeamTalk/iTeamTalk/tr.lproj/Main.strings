@@ -126,7 +126,7 @@
 "ch0-Xf-hyX.normalTitle" = "Bu kanala katıl";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
-"dcU-Nq-ioW.title" = "Sunucuya Bağlanılıyor";
+"dcU-Nq-ioW.title" = "Sunucuya Bağlanıyor";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "Sohbet Kanalı";
