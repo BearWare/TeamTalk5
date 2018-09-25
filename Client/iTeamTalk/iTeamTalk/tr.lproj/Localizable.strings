@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
@@ -54,10 +54,22 @@
 "Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
 
 /* preferences */
+"Announce user logged onto server" = "Announce user logged onto server";
+
+/* preferences */
+"Announce user logged out of server" = "Announce user logged out of server";
+
+/* text to speech */
+"Announcements" = "Announcements";
+
+/* preferences */
 "App Version" = "Uygulama Sürümü";
 
 /* codec detail */
 "Application" = "Uygulama";
+
+/* preferences */
+"Ascending" = "Ascending";
 
 /* codec detail */
 "Audio Channels" = "Ses Kanalları";
@@ -179,6 +191,12 @@
 
 /* TTS EVENT */
 "has left the channel" = "kanaldan ayrıldı";
+
+/* TTS EVENT */
+"has logged on" = "has logged on";
+
+/* TTS EVENT */
+"has logged out" = "has logged out";
 
 /* preferences */
 "Headset TX Toggle" = "Kulaklıktan İletim Durumu Değişimi";
@@ -302,6 +320,9 @@
 /* codec detail */
 "OPUS Codec" = "OPUS Kodlayıcı/Çözücüsü";
 
+/* preferences */
+"Order of channels in Channel List" = "Order of channels in Channel List";
+
 /* channel list */
 "Parent channel" = "Üst kanal";
 
@@ -342,6 +363,9 @@
 
 /* preferences */
 "Pop up text message when new messages are received" = "Yeni iletiler alındığında metin iletisi penceresi aç";
+
+/* preferences */
+"Popularity" = "Popularity";
 
 /* serverlist */
 "Preferences" = "Tercihler";
@@ -446,6 +470,10 @@
 "Silent" = "Sessiz";
 
 /* preferences */
+"Sort channels" = "Sort channels";
+
+/* preferences
+   text to speech */
 "Sound Events" = "Ses Olayları";
 
 /* preferences */
@@ -546,6 +574,12 @@
 /* preferences */
 "User Leaves Channel" = "Kullanıcının Kanaldan Ayrılması";
 
+/* preferences */
+"User logged in" = "User logged in";
+
+/* preferences */
+"User logged out" = "User logged out";
+
 /* preferences
    user detail */
 "User Messages" = "Kullanıcı İletileri";
@@ -589,7 +623,7 @@
 "Voice Volume" = "Ses Düzeyi";
 
 /* codec detail */
-"VoIP" = "VoIP";
+"VoIP" = "Konuşma";
 
 /* user detail */
 "Volume Controls" = "Düzey Denetimleri";

@@ -54,10 +54,22 @@
 "Announce user leaving channel" = "الإعلان بأن المستخدم غادر القناة";
 
 /* preferences */
+"Announce user logged onto server" = "Announce user logged onto server";
+
+/* preferences */
+"Announce user logged out of server" = "Announce user logged out of server";
+
+/* text to speech */
+"Announcements" = "Announcements";
+
+/* preferences */
 "App Version" = "إصدار التطبيق";
 
 /* codec detail */
 "Application" = "الوضعية";
+
+/* preferences */
+"Ascending" = "Ascending";
 
 /* codec detail */
 "Audio Channels" = "قنوات الصوت";
@@ -179,6 +191,12 @@
 
 /* TTS EVENT */
 "has left the channel" = "غادر القناة";
+
+/* TTS EVENT */
+"has logged on" = "has logged on";
+
+/* TTS EVENT */
+"has logged out" = "has logged out";
 
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
@@ -302,6 +320,9 @@
 /* codec detail */
 "OPUS Codec" = "ترميز OPUS";
 
+/* preferences */
+"Order of channels in Channel List" = "Order of channels in Channel List";
+
 /* channel list */
 "Parent channel" = "الرجوع لقناة ";
 
@@ -342,6 +363,9 @@
 
 /* preferences */
 "Pop up text message when new messages are received" = "إنبثاق الرسالة    عندما تتلقى رسالة نصية";
+
+/* preferences */
+"Popularity" = "Popularity";
 
 /* serverlist */
 "Preferences" = "تفضيلات";
@@ -446,6 +470,10 @@
 "Silent" = "صامت";
 
 /* preferences */
+"Sort channels" = "Sort channels";
+
+/* preferences
+   text to speech */
 "Sound Events" = "أحداث الصوت";
 
 /* preferences */
@@ -545,6 +573,12 @@
 
 /* preferences */
 "User Leaves Channel" = "يغادر المستخدم القناة";
+
+/* preferences */
+"User logged in" = "User logged in";
+
+/* preferences */
+"User logged out" = "User logged out";
 
 /* preferences
    user detail */

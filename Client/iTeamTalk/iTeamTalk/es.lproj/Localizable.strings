@@ -54,10 +54,22 @@
 "Announce user leaving channel" = "Anunciar cuando un usuario salga de un canal";
 
 /* preferences */
+"Announce user logged onto server" = "Announce user logged onto server";
+
+/* preferences */
+"Announce user logged out of server" = "Announce user logged out of server";
+
+/* text to speech */
+"Announcements" = "Announcements";
+
+/* preferences */
 "App Version" = "App Version";
 
 /* codec detail */
 "Application" = "Aplicación";
+
+/* preferences */
+"Ascending" = "Ascending";
 
 /* codec detail */
 "Audio Channels" = "Canales de audio";
@@ -179,6 +191,12 @@
 
 /* TTS EVENT */
 "has left the channel" = "ha salido del  canal";
+
+/* TTS EVENT */
+"has logged on" = "has logged on";
+
+/* TTS EVENT */
+"has logged out" = "has logged out";
 
 /* preferences */
 "Headset TX Toggle" = "Usar los auriculares para conmutar el estado del botón TX";
@@ -302,6 +320,9 @@
 /* codec detail */
 "OPUS Codec" = "Códec OPUS";
 
+/* preferences */
+"Order of channels in Channel List" = "Order of channels in Channel List";
+
 /* channel list */
 "Parent channel" = "Canal superior";
 
@@ -342,6 +363,9 @@
 
 /* preferences */
 "Pop up text message when new messages are received" = "Mostrar ventana emergente cuando se reciban mensajes nuevos";
+
+/* preferences */
+"Popularity" = "Popularity";
 
 /* serverlist */
 "Preferences" = "Preferencias";
@@ -446,6 +470,10 @@
 "Silent" = "Silencio";
 
 /* preferences */
+"Sort channels" = "Sort channels";
+
+/* preferences
+   text to speech */
 "Sound Events" = "Eventos de sonido";
 
 /* preferences */
@@ -545,6 +573,12 @@
 
 /* preferences */
 "User Leaves Channel" = "El usuario sale del canal";
+
+/* preferences */
+"User logged in" = "User logged in";
+
+/* preferences */
+"User logged out" = "User logged out";
 
 /* preferences
    user detail */

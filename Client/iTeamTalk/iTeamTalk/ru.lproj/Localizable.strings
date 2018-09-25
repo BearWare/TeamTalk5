@@ -54,10 +54,22 @@
 "Announce user leaving channel" = "Объявить пользователь покинул канал";
 
 /* preferences */
+"Announce user logged onto server" = "Announce user logged onto server";
+
+/* preferences */
+"Announce user logged out of server" = "Announce user logged out of server";
+
+/* text to speech */
+"Announcements" = "Announcements";
+
+/* preferences */
 "App Version" = "Версия Приложения";
 
 /* codec detail */
 "Application" = "Приложение";
+
+/* preferences */
+"Ascending" = "Ascending";
 
 /* codec detail */
 "Audio Channels" = "Аудио Каналы";
@@ -179,6 +191,12 @@
 
 /* TTS EVENT */
 "has left the channel" = "покинул канал";
+
+/* TTS EVENT */
+"has logged on" = "has logged on";
+
+/* TTS EVENT */
+"has logged out" = "has logged out";
 
 /* preferences */
 "Headset TX Toggle" = "Включение Передачи Гарнитурой";
@@ -302,6 +320,9 @@
 /* codec detail */
 "OPUS Codec" = "Кодек OPUS";
 
+/* preferences */
+"Order of channels in Channel List" = "Order of channels in Channel List";
+
 /* channel list */
 "Parent channel" = "Родительский канал";
 
@@ -342,6 +363,9 @@
 
 /* preferences */
 "Pop up text message when new messages are received" = "Всплывающее текстовое сообщение при получении новых сообщений";
+
+/* preferences */
+"Popularity" = "Popularity";
 
 /* serverlist */
 "Preferences" = "Параметры";
@@ -446,6 +470,10 @@
 "Silent" = "Молчит";
 
 /* preferences */
+"Sort channels" = "Sort channels";
+
+/* preferences
+   text to speech */
 "Sound Events" = "Озвучивание Событий";
 
 /* preferences */
@@ -545,6 +573,12 @@
 
 /* preferences */
 "User Leaves Channel" = "Пользователь Покидает Канал";
+
+/* preferences */
+"User logged in" = "User logged in";
+
+/* preferences */
+"User logged out" = "User logged out";
 
 /* preferences
    user detail */
