@@ -72,6 +72,21 @@ typedef enum {
     MESSAGE
 } MExt;
 
+typedef enum {
+    SERVERNAME
+} SExt;
+
+typedef enum {
+    ERRMESSAGE
+} CEExt;
+
+typedef enum {
+    INITCHANNEL
+} UAExt;
+
 const TTCHAR* getUserString(UExt e, const User* u);
 const TTCHAR* getChannelString(CExt e, const Channel* c);
-const TTCHAR* getTextMessageString(MExt e, const TextMessage * const m);
+const TTCHAR* getTextMessageString(MExt e, const TextMessage* m);
+const TTCHAR* getServerPropertiesString(SExt e, const ServerProperties* s);
+const TTCHAR* getClientErrorMsgString(CEExt e, const ClientErrorMsg* m);
+const TTCHAR* getUserAccountString(UAExt e, const UserAccount* u);

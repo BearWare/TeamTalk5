@@ -262,8 +262,8 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
         case CLIENTEVENT_CMD_ERROR :
             
             if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
-                let errmsg = getClientErrorMsg(&m).pointee
-                let s = fromTTString(errmsg.szErrorMsg)
+                var errmsg = getClientErrorMsg(&m).pointee
+                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
                     let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: s, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "user detail"), style: UIAlertActionStyle.default, handler: nil))

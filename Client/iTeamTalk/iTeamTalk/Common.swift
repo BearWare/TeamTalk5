@@ -263,8 +263,8 @@ struct MyTextMessage {
     var msgtype : MsgType
     
     init(m: TextMessage, nickname: String, msgtype: MsgType) {
-        message = String(cString: UnsafeRawPointer([m.szMessage]).assumingMemoryBound(to: CChar.self))
-        //message = String(cString: getTextMessageString(MESSAGE, UnsafePointer<TextMessage>(&m)))
+        var m = m
+        message = String(cString: getTextMessageString(MESSAGE, &m))
         self.nickname = nickname
         self.msgtype = msgtype
     }
@@ -378,12 +378,13 @@ func limitText(_ s: String) -> String {
 }
 
 func getDisplayName(_ user: User) -> String {
+    var user = user
     let settings = UserDefaults.standard
     if settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME) {
-        return limitText(String(cString: UnsafeRawPointer([user.szUsername]).assumingMemoryBound(to: CChar.self)))
+        return limitText(String(cString: getUserString(USERNAME, &user)))
     }
 
-    return limitText(String(cString: UnsafeRawPointer([user.szNickname]).assumingMemoryBound(to: CChar.self)))
+    return limitText(String(cString: getUserString(NICKNAME, &user)))
 }
 
 enum Sounds : Int {

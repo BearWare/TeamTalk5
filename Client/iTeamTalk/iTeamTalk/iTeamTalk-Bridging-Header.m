@@ -116,10 +116,33 @@ const TTCHAR* getChannelString(CExt e, const Channel* c) {
     return "";
 }
 
-const TTCHAR* getTextMessageString(MExt e, const TextMessage * const m) {
+const TTCHAR* getTextMessageString(MExt e, const TextMessage* m) {
     switch (e) {
         case MESSAGE :
             return m->szMessage;
+    }
+    return "";
+}
+
+const TTCHAR* getServerPropertiesString(SExt e, const ServerProperties* s) {
+    switch (e) {
+        case SERVERNAME :
+            return s->szServerName;
+    }
+    return "";
+}
+
+const TTCHAR* getClientErrorMsgString(CEExt e, const ClientErrorMsg* m) {
+    switch (e) {
+        case ERRMESSAGE :
+            return m->szErrorMsg;
+    }
+    return "";
+}
+
+const TTCHAR* getUserAccountString(UAExt e, const UserAccount* u) {
+    switch (e) {
+        case INITCHANNEL : return u->szInitChannel;
     }
     return "";
 }

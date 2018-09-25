@@ -253,9 +253,9 @@ class ChannelListViewController :
             
             let cellIdentifier = "UserTableCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
-            let user = displayUsers[user_index]
+            var user = displayUsers[user_index]
             let name = getDisplayName(user)
-            let statusmsg = String(cString: UnsafeRawPointer([user.szStatusMsg]).assumingMemoryBound(to: CChar.self))
+            let statusmsg = String(cString: getUserString(STATUSMSG, &user))
             
             cell.nicknameLabel.text = name
             cell.statusmsgLabel.text = statusmsg
@@ -331,8 +331,8 @@ class ChannelListViewController :
             
             channel = displayChans[chan_index]
             
-            title = String(cString: UnsafeRawPointer([srvprop.szServerName]).assumingMemoryBound(to: CChar.self))
-            subtitle = String(cString: UnsafeRawPointer([channel.szTopic]).assumingMemoryBound(to: CChar.self))
+            title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
+            subtitle = String(cString: getChannelString(TOPIC, &channel))
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -351,10 +351,10 @@ class ChannelListViewController :
             
             title = NSLocalizedString("Parent channel", comment: "channel list")
             if channel.nParentID == 0 {
-                subtitle = String(cString: UnsafeRawPointer([srvprop.szServerName]).assumingMemoryBound(to: CChar.self))
+                subtitle = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
             }
             else {
-                subtitle = String(cString: UnsafeRawPointer([channel.szName]).assumingMemoryBound(to: CChar.self))
+                subtitle = String(cString: getChannelString(NAME, &channel))
             }
             
             textcolor = UIColor.gray
@@ -375,8 +375,8 @@ class ChannelListViewController :
             channel = displayChans[chan_index]
             
             let user_count = getUsersCount(channel.nChannelID)
-            title = String(cString: UnsafeRawPointer([channel.szName]).assumingMemoryBound(to: CChar.self)) + " (\(user_count))"
-            subtitle = String(cString: UnsafeRawPointer([channel.szTopic]).assumingMemoryBound(to: CChar.self))
+            title = String(cString: getChannelString(NAME, &channel)) + " (\(user_count))"
+            subtitle = String(cString: getChannelString(TOPIC, &channel))
             
             if channel.bPassword != 0 {
                 cell.chanimage.image = UIImage(named: "channel_pink.png")
@@ -444,7 +444,7 @@ class ChannelListViewController :
     func updateTitle() {
         var title = ""
         if curchannel.nParentID == 0 {
-            title = fromTTString(srvprop.szServerName)
+            title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
         }
         else {
             title = String(cString: getChannelString(NAME, &curchannel))
@@ -809,8 +809,8 @@ class ChannelListViewController :
             }
         case CLIENTEVENT_CMD_ERROR :
             if activeCommands[m.nSource] != nil {
-                let errmsg = getClientErrorMsg(&m).pointee
-                let s = fromTTString(errmsg.szErrorMsg)
+                var errmsg = getClientErrorMsg(&m).pointee
+                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
                     let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: s, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertActionStyle.default, handler: nil))
@@ -1022,8 +1022,8 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                let errmsg = getClientErrorMsg(&m).pointee
-                let s = fromTTString(errmsg.szErrorMsg)
+                var errmsg = getClientErrorMsg(&m).pointee
+                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
                     let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertActionStyle.default, handler: nil))

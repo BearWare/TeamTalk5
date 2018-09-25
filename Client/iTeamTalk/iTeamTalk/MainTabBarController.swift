@@ -366,18 +366,17 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             }
             
         case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-            let account = getUserAccount(&m).pointee
-            if fromTTString(account.szInitChannel).isEmpty == false {
-                server.channel = fromTTString(account.szInitChannel)
+            var account = getUserAccount(&m).pointee
+            let initchan = String(cString: getUserAccountString(INITCHANNEL, &account))
+            if initchan.isEmpty == false {
+                server.channel = initchan
             }
             break
             
         case CLIENTEVENT_CMD_ERROR :
-            let errmsg = getClientErrorMsg(&m).pointee
-            print(fromTTString(errmsg.szErrorMsg))
-            
             if m.nSource == cmdid {
-                let s = fromTTString(errmsg.szErrorMsg)
+                var errmsg = getClientErrorMsg(&m).pointee
+                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
                     let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: s, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "message dialog"), style: UIAlertActionStyle.default, handler: nil))
