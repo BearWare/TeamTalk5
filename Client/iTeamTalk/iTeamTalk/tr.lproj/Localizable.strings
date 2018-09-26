@@ -575,10 +575,10 @@
 "User Leaves Channel" = "Kullanıcının Kanaldan Ayrılması";
 
 /* preferences */
-"User logged in" = "Kullanıcı oturum açtı";
+"User logged in" = "Kullanıcının oturum açması";
 
 /* preferences */
-"User logged out" = "Kullanıcı oturumu kapattı";
+"User logged out" = "Kullanıcının oturumu kapatması";
 
 /* preferences
    user detail */
