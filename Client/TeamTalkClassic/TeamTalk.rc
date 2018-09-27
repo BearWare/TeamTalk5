@@ -2030,6 +2030,8 @@ BEGIN
     IDS_ASCENDING           "Ascending"
     IDS_POPULATED           "Popularity"
     IDS_EVERYONE            "Everyone"
+    IDS_FILEADDED           "%s added file %s"
+    IDS_FILEREMOVED         "%s removed file %s"
 END
 
 STRINGTABLE

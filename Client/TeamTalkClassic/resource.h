@@ -215,6 +215,8 @@
 #define IDS_ASCENDING                   307
 #define IDS_POPULATED                   308
 #define IDS_EVERYONE                    309
+#define IDS_FILEADDED                   310
+#define IDS_FILEREMOVED                 311
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
