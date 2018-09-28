@@ -2032,6 +2032,9 @@ BEGIN
     IDS_EVERYONE            "Everyone"
     IDS_FILEADDED           "%s added file %s"
     IDS_FILEREMOVED         "%s removed file %s"
+    IDS_FILEEVENTS          "File events"
+    IDS_FILEADD             "File added"
+    IDS_FILERM              "File removed"
 END
 
 STRINGTABLE
