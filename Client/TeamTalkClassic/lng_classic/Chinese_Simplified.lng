@@ -170,6 +170,9 @@
     <item id="306">个人资料名称</item>
     <item id="307">升序</item>
     <item id="308">流行</item>
+    <item id="309">每人</item>
+    <item id="310">%s 增加文件 %s</item>
+    <item id="311">%s 删除文件 %s</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1011">主机属性</item>
     <item id="1012">主机TCP端口</item>
