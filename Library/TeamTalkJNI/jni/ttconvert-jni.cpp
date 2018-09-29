@@ -239,7 +239,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
     jfieldID fid_maxusers = env->GetFieldID(cls_chan, "nMaxUsers", "I");
     jfieldID fid_codec = env->GetFieldID(cls_chan, "audiocodec", "Ldk/bearware/AudioCodec;");
     jfieldID fid_audcfg = env->GetFieldID(cls_chan, "audiocfg", "Ldk/bearware/AudioConfig;");
-    // jfieldID fid_txusers = env->GetFieldID(cls_chan, "transmitUsers", "[[I");
+    jfieldID fid_txusers = env->GetFieldID(cls_chan, "transmitUsers", "[[I");
     jfieldID fid_queueusers = env->GetFieldID(cls_chan, "transmitUsersQueue", "[I");
 
     assert(fid_parentid);
@@ -255,7 +255,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
     assert(fid_quota);
     assert(fid_oppasswd);
     assert(fid_maxusers);
-    // assert(fid_txusers);
+    assert(fid_txusers);
     assert(fid_queueusers);
 
     if(conv == N2J)
@@ -281,6 +281,16 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         env->SetObjectField(lpChannel, fid_audcfg, newObj);
 
         jintArray intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
+        jobjectArray outer = env->NewObjectArray(TT_TRANSMITQUEUE_MAX, env->FindClass("[I"), intArr);
+        for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
+            intArr = env->NewIntArray(2);
+            env->SetIntArrayRegion(intArr, 0, 2, chan.transmitUsers[i]);
+            env->SetObjectArrayElement(outer, i, intArr);
+            env->DeleteLocalRef(intArr);
+        }
+        env->SetObjectField(lpChannel, fid_txusers, outer);
+        
+        intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
         jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
         env->SetObjectField(lpChannel, fid_queueusers, intArr);
@@ -297,12 +307,17 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         chan.nDiskQuota = env->GetLongField(lpChannel, fid_quota);
         TT_STRCPY(chan.szOpPassword, ttstr(env, (jstring)env->GetObjectField(lpChannel, fid_oppasswd)));
         chan.nMaxUsers = env->GetIntField(lpChannel, fid_maxusers);
+        memset(chan.transmitUsers, 0, sizeof(chan.transmitUsers));
+        jobjectArray outer = jobjectArray(env->GetObjectField(lpChannel, fid_txusers));
+        for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
+            jintArray intArr = jintArray(env->GetObjectArrayElement(outer, i));
+            env->GetIntArrayRegion(intArr, 0, 2, chan.transmitUsers[i]);
+            env->DeleteLocalRef(intArr);
+        }
         jintArray intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
         jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
-        //TODO: transmitusers not implemented... so far 
-        memset(chan.transmitUsers, 0, sizeof(chan.transmitUsers));
     }
 
     setAudioCodec(env, chan.audiocodec, env->GetObjectField(lpChannel, fid_codec), conv);

@@ -38,10 +38,7 @@ public class Channel
     public int nMaxUsers = 0;
     public AudioCodec audiocodec = new AudioCodec();
     public AudioConfig audiocfg = new AudioConfig();
-/* 
-   TODO: https://github.com/BearWare/TeamTalk5/issues/19
     public int[][] transmitUsers = new int[Constants.TT_TRANSMITUSERS_MAX][2];
-*/
     public int[] transmitUsersQueue = new int[Constants.TT_TRANSMITQUEUE_MAX];
 
     public Channel() {
