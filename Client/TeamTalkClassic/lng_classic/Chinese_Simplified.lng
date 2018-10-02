@@ -172,7 +172,7 @@
     <item id="308">流行</item>
     <item id="309">每人</item>
     <item id="310">%s 增加文件 %s</item>
-    <item id="311">%s 删除文件 %s</item>
+    <item id="311">删除文件 %s</item>
     <item id="312">文件事件</item>
     <item id="313">文件已添加</item>
     <item id="314">文件被删除</item>

@@ -1687,15 +1687,13 @@ void CTeamTalkDlg::OnFileAdd(const TTMessage& msg)
 void CTeamTalkDlg::OnFileRemove(const TTMessage& msg)
 {
     const RemoteFile& remotefile = msg.remotefile;
-    User user;
     m_tabFiles.RemoveFile(remotefile.nChannelID, remotefile.nFileID);
 
     if(remotefile.nChannelID == TT_GetMyChannelID(ttInst))
     {
         PlaySoundEvent(SOUNDEVENT_FILES_UPDATED);
-        TT_GetUserByUsername(ttInst, remotefile.szUsername, &user);
         CString szMsg;
-        szMsg.Format(LoadText(IDS_FILEREMOVED), GetDisplayName(user), remotefile.szFileName);
+        szMsg.Format(LoadText(IDS_FILEREMOVED), remotefile.szFileName);
         AddStatusText(szMsg);
         if (m_xmlSettings.GetEventTTSEvents() & TTS_FILE_REMOVE)
             AddVoiceMessage(szMsg);
