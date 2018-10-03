@@ -50,6 +50,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
     public static final String MEDIAFILE_AUDIO = "music.wav";
     public static final String MEDIAFILE = "video.avi";
+    public static final String HTTPS_MEDIAFILE = "https://www.bearware.dk/test/giana.wma";
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
     
     protected void setUp() throws Exception {
@@ -254,9 +255,9 @@ public class TeamTalkTestCaseBase extends TestCase {
                                           int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
-        
+        boolean gotmsg;
         do {
-            ttclient.getMessage(tmp, 0);
+            gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
 
@@ -269,7 +270,7 @@ public class TeamTalkTestCaseBase extends TestCase {
             if(System.currentTimeMillis() - start >= waittimeout)
                 break;
         }
-        while (tmp.nClientEvent != nClientEvent);
+        while (!gotmsg || tmp.nClientEvent != nClientEvent);
 
         // while (ttclient.getMessage(tmp, 0) && tmp.nClientEvent != nClientEvent)
         // {
