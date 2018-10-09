@@ -43,6 +43,7 @@ import dk.bearware.SpeexDSP;
 import dk.bearware.StreamType;
 import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.WindowsHelper;
 
 public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
@@ -1971,5 +1972,24 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
         srvprop.nUserTimeout = orgValue;
         assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+    }
+
+    public void testKeyTranslate() {
+        TeamTalkBase ttadmin = newClientInstance();
+        DesktopInput[] inputs = new DesktopInput[2], outputs = new DesktopInput[2];
+        for (int i=0;i<inputs.length;++i) {
+            inputs[i] = new DesktopInput();
+            inputs[i].uMousePosY = 100;
+            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+            outputs[i] = new DesktopInput();
+        }
+        assertTrue("Key translate", WindowsHelper.desktopInputKeyTranslate(TTKeyTranslate.TTKEY_WINKEYCODE_TO_TTKEYCODE,
+                                                                           inputs, outputs) >= 0);
+        assertEquals("Coordinate", inputs[0].uMousePosY, outputs[0].uMousePosY);
+        assertEquals("Keystate", inputs[0].uKeyState, outputs[0].uKeyState);
+        assertEquals("Coordinate", inputs[1].uMousePosY, outputs[1].uMousePosY);
+        assertEquals("Keystate", inputs[1].uKeyState, outputs[1].uKeyState);
+
+        assertTrue("move mouse", PlatformHelper.desktopInputExecute(outputs) >= 0);
     }
 }

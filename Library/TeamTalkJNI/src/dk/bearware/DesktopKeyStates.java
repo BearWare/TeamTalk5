@@ -23,5 +23,8 @@
 
 package dk.bearware;
 
-public class WindowsHelper extends PlatformHelper {
+public interface DesktopKeyStates {
+    public static final int DESKTOPKEYSTATE_NONE       = 0x00000000;
+    public static final int DESKTOPKEYSTATE_DOWN       = 0x00000001;
+    public static final int DESKTOPKEYSTATE_UP         = 0x00000002;
 }
