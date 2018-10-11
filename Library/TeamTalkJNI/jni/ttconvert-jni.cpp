@@ -28,6 +28,8 @@
 #include <string>
 using namespace std;
 
+#define TRANSMITUSER_ARRAY_SIZE 2
+
 #if defined(WIN32)
 const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N)
 {
@@ -283,8 +285,9 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         jintArray intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
         jobjectArray outer = env->NewObjectArray(TT_TRANSMITQUEUE_MAX, env->FindClass("[I"), intArr);
         for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
-            intArr = env->NewIntArray(2);
-            env->SetIntArrayRegion(intArr, 0, 2, chan.transmitUsers[i]);
+            intArr = env->NewIntArray(TRANSMITUSER_ARRAY_SIZE);
+            jint tmp[TRANSMITUSER_ARRAY_SIZE];
+            env->SetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, TO_JINT_ARRAY(chan.transmitUsers[i], tmp, TRANSMITUSER_ARRAY_SIZE));
             env->SetObjectArrayElement(outer, i, intArr);
             env->DeleteLocalRef(intArr);
         }
@@ -311,7 +314,9 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         jobjectArray outer = jobjectArray(env->GetObjectField(lpChannel, fid_txusers));
         for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
             jintArray intArr = jintArray(env->GetObjectArrayElement(outer, i));
-            env->GetIntArrayRegion(intArr, 0, 2, chan.transmitUsers[i]);
+            jint tmp[TRANSMITUSER_ARRAY_SIZE];
+            env->GetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, tmp);
+            TO_INT32_ARRAY(tmp, chan.transmitUsers[i], TRANSMITUSER_ARRAY_SIZE);
             env->DeleteLocalRef(intArr);
         }
         jintArray intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
