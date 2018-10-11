@@ -43,6 +43,7 @@ import dk.bearware.SpeexDSP;
 import dk.bearware.StreamType;
 import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.WindowsHelper;
 
 public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
@@ -508,6 +509,43 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
+    public void test_MediaStreaming_https() {
+        
+        TeamTalkBase ttclient = newClientInstance();
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(HTTPS_MEDIAFILE, mfi));
+        
+        VideoCodec vidcodec = new VideoCodec();
+
+        assertTrue("Start", ttclient.startStreamingMediaFileToChannel(HTTPS_MEDIAFILE, vidcodec));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        assertEquals("Filename match", msg.mediafileinfo.szFileName, mfi.szFileName);
+        assertEquals("Found duration", msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
+
+        assertTrue("Wait USER_STATECHANGE", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
+    }
+    
+    
+    
     public void test_MediaStorage_WaveOutput() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
@@ -1934,5 +1972,24 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
         srvprop.nUserTimeout = orgValue;
         assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+    }
+
+    public void testKeyTranslate() {
+        TeamTalkBase ttadmin = newClientInstance();
+        DesktopInput[] inputs = new DesktopInput[2], outputs = new DesktopInput[2];
+        for (int i=0;i<inputs.length;++i) {
+            inputs[i] = new DesktopInput();
+            inputs[i].uMousePosY = 100;
+            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+            outputs[i] = new DesktopInput();
+        }
+        assertTrue("Key translate", WindowsHelper.desktopInputKeyTranslate(TTKeyTranslate.TTKEY_WINKEYCODE_TO_TTKEYCODE,
+                                                                           inputs, outputs) >= 0);
+        assertEquals("Coordinate", inputs[0].uMousePosY, outputs[0].uMousePosY);
+        assertEquals("Keystate", inputs[0].uKeyState, outputs[0].uKeyState);
+        assertEquals("Coordinate", inputs[1].uMousePosY, outputs[1].uMousePosY);
+        assertEquals("Keystate", inputs[1].uKeyState, outputs[1].uKeyState);
+
+        assertTrue("move mouse", PlatformHelper.desktopInputExecute(outputs) >= 0);
     }
 }

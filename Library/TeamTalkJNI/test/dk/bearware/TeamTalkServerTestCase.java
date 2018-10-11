@@ -1020,6 +1020,51 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    public void test_transmitUsers() {
+        
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client = newClientInstance();
+        initSound(client);
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(client, "Some channel");
+        chan.uChannelType |= ChannelType.CHANNEL_CLASSROOM;
+        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+
+        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+
+        assertTrue("subscribe voice", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave));
+
+        assertTrue(client.enableVoiceTransmission(true));
+        
+        assertTrue("enable aud cb", client.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+
+        assertFalse("no voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave));
+        
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
+        chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] = StreamType.STREAMTYPE_VOICE;
+
+        assertTrue("update channel", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+        
+        assertEquals("Tx user ID set", client.getMyUserID(), chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX]);
+        assertEquals("Tx streamtype set", StreamType.STREAMTYPE_VOICE, chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX]);
+
+        assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
+    }
+    
     public void _test_runServer() {
 
         TeamTalkSrv server = newServerInstance();

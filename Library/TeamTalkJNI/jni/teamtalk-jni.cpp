@@ -1676,8 +1676,39 @@ extern "C" {
                                         uStreamTypes, nFrequency);
     }
 
-//TODO: TT_DesktopInput_KeyTranslate
-//TODO: TT_DesktopInput_Execute
+    JNIEXPORT jint JNICALL Java_dk_bearware_PlatformHelper_desktopInputKeyTranslate(JNIEnv* env,
+                                                                                    jclass,
+                                                                                    jint nTranslate,
+                                                                                    jobjectArray lpDesktopInputs,
+                                                                                    jobjectArray lpTranslatedDesktopInputs)
+    {
+        if (env->GetArrayLength(lpDesktopInputs) != env->GetArrayLength(lpTranslatedDesktopInputs))
+            return -1;
+
+        jint len = env->GetArrayLength(lpDesktopInputs);
+        std::vector<DesktopInput> inputs(len), outputs(len);
+        for(size_t i=0;i<len;i++) {
+            setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
+        }
+        size_t ret = TT_DesktopInput_KeyTranslate(TTKeyTranslate(nTranslate), &inputs[0], &outputs[0], len);
+        for (size_t i=0;i<len;++i) {
+            setDesktopInput(env, outputs[i], env->GetObjectArrayElement(lpTranslatedDesktopInputs, i), N2J);
+        }
+        return ret;
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_PlatformHelper_desktopInputExecute(JNIEnv* env,
+                                                                               jclass,
+                                                                               jobjectArray lpDesktopInputs)
+    {
+        jint len = env->GetArrayLength(lpDesktopInputs);
+        std::vector<DesktopInput> inputs(len);
+        for(size_t i=0;i<len;i++) {
+            setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
+        }
+        return TT_DesktopInput_Execute(&inputs[0], len);
+    }
+    
 //TODO: TT_HotKey_*
                                                                               
 } //extern "C"
