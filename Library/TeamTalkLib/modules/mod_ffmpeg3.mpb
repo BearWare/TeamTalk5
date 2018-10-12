@@ -4,15 +4,15 @@ project {
 
 specific(make,gnuace){
 
-  includes += $(TTLIBS_ROOT)/ffmpeg-3.1/include
+  includes += $(TTLIBS_ROOT)/ffmpeg/include
 
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libavutil.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libswscale.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libswresample.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libavcodec.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libavformat.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libavfilter.a
-  pure_libs += $(TTLIBS_ROOT)/ffmpeg-3.1/lib/libavdevice.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libavutil.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libswscale.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libswresample.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libavcodec.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libavformat.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libavfilter.a
+  pure_libs += $(TTLIBS_ROOT)/ffmpeg/lib/libavdevice.a
 
   //FFMPEG complains if this is not specified
   macros += __STDC_CONSTANT_MACROS 
