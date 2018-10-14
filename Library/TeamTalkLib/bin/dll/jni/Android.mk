@@ -61,43 +61,43 @@ include $(PREBUILT_STATIC_LIBRARY)
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := avdevice
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavdevice.a
+LOCAL_SRC_FILES := ffmpeg/lib/libavdevice.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := avfilter
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavfilter.a
+LOCAL_SRC_FILES := ffmpeg/lib/libavfilter.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := avformat
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavformat.a
+LOCAL_SRC_FILES := ffmpeg/lib/libavformat.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := avcodec
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavcodec.a
+LOCAL_SRC_FILES := ffmpeg/lib/libavcodec.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := swresample
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libswresample.a
+LOCAL_SRC_FILES := ffmpeg/lib/libswresample.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := swscale
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libswscale.a
+LOCAL_SRC_FILES := ffmpeg/lib/libswscale.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #FFmpeg avdevice static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := avutil
-LOCAL_SRC_FILES := ffmpeg-3.1/lib/libavutil.a
+LOCAL_SRC_FILES := ffmpeg/lib/libavutil.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 #crypto static library
