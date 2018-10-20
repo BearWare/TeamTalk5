@@ -20,26 +20,33 @@
  * TeamTalk SDK distribution.
  *
  */
+ 
+#if !defined(MFSTREAMER_H)
+#define MFSTREAMER_H
 
-#if !defined(MYSTD_H)
-#define MYSTD_H
+#include <codec/MediaStreamer.h>
 
-#include <string>
-#include <vector>
-#include <stdint.h>
+#include <thread>
+#include <ace/Future.h>
 
-typedef std::vector<std::string> stdstrings_t;
+bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
-std::string i2str(int i);
-int str2i(const std::string& szInt);
+class MFStreamer : public MediaStreamer
+{
+public:
+    MFStreamer(MediaStreamListener* listener);
+    ~MFStreamer();
 
-std::string i2str(int64_t i);
-int64_t str2i64(const std::string& szInt);
+    bool OpenFile(const MediaFileProp& in_prop,
+                  const MediaStreamOutput& out_prop);
+    void Close();
 
-std::string str2lower(const std::string& str);
+    bool StartStream();
 
-bool strcmpnocase(const std::string& str1, const std::string& str2);
-stdstrings_t stdtokenize(const std::string& source, const std::string& delimeters);
+private:
+    void Run();
 
+    std::shared_ptr< std::thread > m_thread;
+    ACE_Future<bool> m_open, m_start;
+};
 #endif
-

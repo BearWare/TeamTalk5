@@ -162,6 +162,16 @@ if (MSVC)
     list (APPEND CODEC_COMPILE_FLAGS -DENABLE_VIDCAP -DENABLE_LIBVIDCAP )
   endif()
   
+  option (MEDIAFOUNDATION "Build Media Foundation Streaming classes" ON)
+
+  if (MEDIAFOUNDATION)
+    list (APPEND CODEC_COMPILE_FLAGS -DWINVER=0x0601) #_WIN32_WINNT_WIN7
+    list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/codec/MFStreamer.h)
+    list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.h)
+    list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/codec/MFStreamer.cpp)
+    list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.cpp)
+	list (APPEND CODEC_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi)
+  endif()
 endif()
 
 if (MSVC)
