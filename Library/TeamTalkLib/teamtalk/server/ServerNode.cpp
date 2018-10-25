@@ -1893,7 +1893,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_AUDIO, packet.GetStreamID());
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, packet.GetStreamID());
 
     if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
        txqueue != chan.GetTransmitQueue())
@@ -1950,7 +1950,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE_VIDEO, packet.GetStreamID());
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, packet.GetStreamID());
     
     if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
        txqueue != chan.GetTransmitQueue())

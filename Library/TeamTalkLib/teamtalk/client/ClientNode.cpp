@@ -2330,7 +2330,7 @@ void ClientNode::SendPackets()
             //only transmit if we're in a channel, transmitting,
             //allowed to transmit and there's active users
             if(m_mychannel.null() || 
-               !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE_AUDIO))
+               !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE))
                 break;
 
             TTASSERT(audpkt->GetStreamID() == m_mediafile_stream_id);
@@ -2398,7 +2398,7 @@ void ClientNode::SendPackets()
                 //there's active users
                 if(m_mychannel.null() || 
                    (m_flags & CLIENT_STREAM_VIDEOFILE) == 0 ||
-                   !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE_VIDEO))
+                   !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE))
                     break;
 
                 TTASSERT(vidpkt->GetStreamID());
