@@ -104,9 +104,15 @@ void UserDesktopWidget::refreshTimeout()
         return;
 
 #ifndef USE_TT_PAINT
+    bool newsession = false;
     DesktopWindow* wnd = TT_AcquireUserDesktopWindow(ttInst, m_userid);
     if(wnd)
+    {
+        if (m_desktop_window)
+            newsession = wnd->nSessionID != m_desktop_window->nSessionID;
+        
         TT_ReleaseUserDesktopWindow(ttInst, m_desktop_window);
+    }
     m_desktop_window = wnd;
     if(!m_desktop_window)
     {
@@ -147,7 +153,9 @@ void UserDesktopWidget::refreshTimeout()
         }
         m_image.setColorTable(colors);
     }
-    m_img_offset = QPoint(0,0);
+
+    if (newsession)
+        m_img_offset = QPoint(0,0);
 
     //TODO: Qt swaps red and blue. Very ineffective way of getting around this.
     if(fmt == QImage::Format_RGB888)

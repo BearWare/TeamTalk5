@@ -508,6 +508,43 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
+    public void test_MediaStreaming_https() {
+        
+        TeamTalkBase ttclient = newClientInstance();
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(HTTPS_MEDIAFILE, mfi));
+        
+        VideoCodec vidcodec = new VideoCodec();
+
+        assertTrue("Start", ttclient.startStreamingMediaFileToChannel(HTTPS_MEDIAFILE, vidcodec));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        assertEquals("Filename match", msg.mediafileinfo.szFileName, mfi.szFileName);
+        assertEquals("Found duration", msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
+
+        assertTrue("Wait USER_STATECHANGE", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
+    }
+    
+    
+    
     public void test_MediaStorage_WaveOutput() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();

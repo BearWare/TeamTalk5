@@ -1,7 +1,24 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.3.2, unreleased
+Version 5.3.3, unreleased
+Default Qt client
+- Shared desktop now remains in same position after desktop update
+- Double click to ban/unban in Banned Users dialog
+- Stream HTTPS on macOS and Linux
+Accessible Windows client
+- Text-to-speech event for new file and removed file
+iOS client
+- Separate view controller for Text-To-Speech announcements
+- Separate view controller for sound events
+- Announce user log in/out
+- Join user account's initial channel
+Android client:
+- Stream HTTP URLs as media files
+- Sound event for users joining and leaving
+- Notification on incoming text message
+
+Version 5.3.2, released 2018/05/25
 Default Qt client
 - Users now arranged before channels in tree view
 - Option to enable/disable user's voice/video/desktop/media-file stream
