@@ -52,6 +52,10 @@ struct MediaFileProp
     : audio_channels(0), audio_samplerate(0)
     , video_width(0), video_height(0), video_fps_numerator(0)
     , video_fps_denominator(0), duration_ms(0), filename(fname) { }
+
+    bool IsValid() const { return HasAudio() || HasVideo(); }
+    bool HasAudio() const { return audio_channels > 0 && audio_samplerate > 0; }
+    bool HasVideo() const { return video_width > 0 && video_height > 0 && video_fps_numerator > 0 && video_fps_denominator > 0; }
 };
 
 struct MediaStreamOutput
@@ -115,6 +119,8 @@ public:
 
 protected:
     void Reset();
+    void InitBuffers();
+    void Flush(uint32_t starttime);
 
     MediaFileProp m_media_in;
     MediaStreamOutput m_media_out;

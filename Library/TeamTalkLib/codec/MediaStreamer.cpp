@@ -69,6 +69,51 @@ void MediaStreamer::Reset()
     m_media_in = MediaFileProp();
     m_media_out = MediaStreamOutput();
     m_stop = false;
+    
+    m_audio_frames.close();
+    m_video_frames.close();
+}
+
+void MediaStreamer::InitBuffers()
+{
+    assert(m_media_out.audio || m_media_out.video);
+
+    const int BUF_SECS = 3;
+
+    if (m_media_out.audio)
+    {
+        size_t buffer_size = PCM16_BYTES(m_media_out.audio_samplerate *
+            BUF_SECS, m_media_out.audio_channels);
+
+        m_audio_frames.low_water_mark(buffer_size);
+        m_audio_frames.high_water_mark(buffer_size);
+    }
+
+    if (m_media_out.video)
+    {
+        int bmp_size = m_media_in.video_width * m_media_in.video_height * 4;
+        int media_frame_size = bmp_size + sizeof(media::VideoFrame);
+        size_t fps = m_media_in.video_fps_numerator / std::max(1, m_media_in.video_fps_numerator);
+
+        size_t buffer_size = fps * BUF_SECS * media_frame_size;
+        m_video_frames.low_water_mark(buffer_size);
+        m_video_frames.high_water_mark(buffer_size);
+    }
+
+    int ret = m_audio_frames.activate();
+    assert(ret >= 0);
+    ret = m_video_frames.activate();
+    assert(ret >= 0);
+}
+
+void MediaStreamer::Flush(uint32_t starttime)
+{
+    size_t b = m_audio_frames.message_bytes(), l = m_audio_frames.message_length();
+    while(!m_stop &&
+        (m_audio_frames.message_length() || m_video_frames.message_length()))
+    {
+        ProcessAVQueues(starttime, 0, true);
+    }
 }
 
 bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, int wait_ms, 
@@ -96,12 +141,23 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
     ACE_Time_Value tv;
     ACE_Message_Block* mb;
     if(m_audio_frames.peek_dequeue_head(mb, &tv) < 0)
+    {
+        MYTRACE(ACE_TEXT("Queue empty\n"));
         return 0;
+    }
 
     AudioFrame* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
+    MYTRACE(ACE_TEXT("Checking %u. msg q size %u, bytes %u\n"), 
+        first_frame->timestamp, m_audio_frames.message_length(), m_audio_frames.message_bytes());
+
     if (W32_GT(first_frame->timestamp, GETTIMESTAMP() - starttime))
+    {
+        MYTRACE(ACE_TEXT("No data at %u\n"), GETTIMESTAMP() - starttime);
         return 0;
-    
+    }
+    MYTRACE(ACE_TEXT("Processing %u, msg q size %u, msg cnt; %u\n"), 
+        first_frame->timestamp, m_audio_frames.message_length(), m_audio_frames.message_count());
+
     // calculate if we can build a frame. 'message_length()' is data available
     // in message queue which has been written but hasn't been read yet.
     // 'message_bytes()' is total amount of data allocated in the message queue.
@@ -116,7 +172,10 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
                                            m_media_out.audio_channels);
     
     if(audio_bytes < required_audio_bytes && !flush)
+    {
+        MYTRACE(ACE_TEXT("Insufficent data\n"));
         return 0;
+    }
 
     int audio_block_size = required_audio_bytes + sizeof(AudioFrame);
     ACE_Message_Block* out_mb;
@@ -148,6 +207,7 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
             assert((int)write_bytes >= 0);
             mb->rd_ptr(mb->length());
             //assert(mb->rd_ptr() == mb->end());
+            mb->rd_ptr(mb->base());
             if(m_audio_frames.dequeue(mb, &tv) >= 0)
                 mb->release();
         }
@@ -160,6 +220,9 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
         }
     }
     while(write_bytes > 0 && m_audio_frames.peek_dequeue_head(mb, &tv) >= 0);
+
+    MYTRACE(ACE_TEXT("Writebytes %u, q size %u, msg cnt; %u\n"), 
+        write_bytes, m_audio_frames.message_length(), m_audio_frames.message_count());
 
     //write bytes should only be greater than 0 if flushing
     if(write_bytes)
