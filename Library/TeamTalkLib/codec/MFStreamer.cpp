@@ -23,278 +23,33 @@
 
 #include "MFStreamer.h"
 
-#include <mfapi.h>
-#include <mfidl.h>
-#include <mfreadwrite.h>
+#include <assert.h>
 #include <shlwapi.h> //QITAB
 #include <atlbase.h>
-#include <assert.h>
 
-#if 0
-bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
-{
-    HRESULT hr = MFStartup(MF_VERSION);
-    if (FAILED(hr))
-        return false;
 
-    CComPtr<IMFSourceResolver> pSourceResolver;
-    MF_OBJECT_TYPE ObjectType = MF_OBJECT_INVALID;
-    CComPtr<IUnknown> pSource;
-    CComPtr<IMFMediaSource> pMediaSource;
-    CComPtr<IMFSourceReader> pSourceReader;
-    CComPtr<IMFAttributes> pAttributes;
-    CComPtr<IMFMediaType> pType;
-
-    hr = MFCreateSourceResolver(&pSourceResolver);
-    if(FAILED(hr))
-        return false;
-
-    hr = pSourceResolver->CreateObjectFromURL(
-        filename.c_str(), // URL of the source.
-        MF_RESOLUTION_MEDIASOURCE,  // Create a source object.
-        NULL,                       // Optional property store.
-        &ObjectType,        // Receives the created object type. 
-        &pSource            // Receives a pointer to the media source.
-    );
-
-    // Get the IMFMediaSource interface from the media source.
-    hr = pSource->QueryInterface(IID_PPV_ARGS(&pMediaSource));
-    if (FAILED(hr))
-        return false;
-
-    hr = MFCreateAttributes(&pAttributes, 2);
-    if (FAILED(hr))
-        return false;
-
-    hr = MFCreateSourceReaderFromMediaSource(pMediaSource, pAttributes, &pSourceReader);
-    if (FAILED(hr))
-        return false;
-
-    // Get native media type of device
-    DWORD dwMediaTypeIndex = 0;
-    if (SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM,
-                  dwMediaTypeIndex, &pType)))
-    {
-        UINT32 c = 0;
-        if (c = MFGetAttributeUINT32(pType, MF_MT_AUDIO_NUM_CHANNELS, -1) >= 0)
-            fileprop.audio_channels = c;
-        if (c = MFGetAttributeUINT32(pType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1) >= 0)
-            fileprop.audio_samplerate = c;
-        fileprop.filename = filename;
-    }
-
-    dwMediaTypeIndex = 0;
-    if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-                 dwMediaTypeIndex, &pType)))
-    {
-        UINT32 w = 0, h = 0;
-        hr = MFGetAttributeSize(pType, MF_MT_FRAME_SIZE, &w, &h);
-        if (SUCCEEDED(hr))
-        {
-            fileprop.video_width = w;
-            fileprop.video_height = h;
-        }
-
-        UINT32 numerator = 0, denominator = 0;
-        hr = MFGetAttributeRatio(pType, MF_MT_FRAME_RATE, &numerator, &denominator);
-        if (SUCCEEDED(hr))
-        {
-            fileprop.video_fps_denominator = denominator;
-            fileprop.video_fps_numerator = numerator;
-        }
-        fileprop.filename = filename;
-    }
-    
-    return fileprop.audio_channels>0 || fileprop.video_width>0;
-}
-#endif
-
-class MyStreamer : public IMFSourceReaderCallback
-{
-    long m_nRefCount = 1;
-    MediaStreamListener* m_listener = nullptr;
-    CComPtr<IMFSourceResolver> m_pSourceResolver;
-    MF_OBJECT_TYPE m_objectType = MF_OBJECT_INVALID;
-    CComPtr<IUnknown> m_pSource;
-    CComPtr<IMFMediaSource> m_pMediaSource;
-    CComPtr<IMFSourceReader> m_pSourceReader;
-    CComPtr<IMFAttributes> m_pAttributes;
-    CComPtr<IMFMediaType> m_pAudioType, m_pVideoType;
-    MediaFileProp m_fileprop;
-    ACE_Future<bool> m_completed;
-
-    void Reset()
-    {
-        m_fileprop = MediaFileProp();
-        m_pAudioType.Release();
-        m_pVideoType.Release();
-        m_pAttributes.Release();
-        m_pSourceReader.Release();
-        m_pMediaSource.Release();
-        m_pSource.Release();
-        m_objectType = MF_OBJECT_INVALID;
-        m_pSourceResolver.Release();
-    }
-
+static class MFInit {
 public:
-    MyStreamer(MediaStreamListener* lsn = nullptr) : m_listener(lsn)
+    MFInit()
     {
         HRESULT hr = MFStartup(MF_VERSION);
         assert(SUCCEEDED(hr));
     }
-
-    ~MyStreamer()
+    ~MFInit()
     {
-        HRESULT hr = MFShutdown();
-        assert(SUCCEEDED(hr));
+        //HRESULT hr = MFShutdown();
+        //assert(SUCCEEDED(hr));
     }
-    
-    bool LoadFile(const ACE_TString& filename)
-    {
-        HRESULT hr = MFCreateSourceResolver(&m_pSourceResolver);
-        if(FAILED(hr))
-            return false;
-
-        hr = m_pSourceResolver->CreateObjectFromURL(
-            filename.c_str(), // URL of the source.
-            MF_RESOLUTION_MEDIASOURCE,  // Create a source object.
-            NULL,                       // Optional property store.
-            &m_objectType,        // Receives the created object type. 
-            &m_pSource            // Receives a pointer to the media source.
-        );
-
-        // Get the IMFMediaSource interface from the media source.
-        hr = m_pSource->QueryInterface(IID_PPV_ARGS(&m_pMediaSource));
-        if(FAILED(hr))
-            return false;
-
-        hr = MFCreateAttributes(&m_pAttributes, 2);
-        if (FAILED(hr))
-            return false;
-
-        hr = m_pAttributes->SetUnknown(MF_SOURCE_READER_ASYNC_CALLBACK, this);
-        if (FAILED(hr))
-            return false;
-
-        hr = MFCreateSourceReaderFromMediaSource(m_pMediaSource, m_pAttributes, &m_pSourceReader);
-        if(FAILED(hr))
-            return false;
-
-        // Get native media type of device
-        DWORD dwMediaTypeIndex = 0;
-        if(SUCCEEDED(m_pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM,
-            dwMediaTypeIndex, &m_pAudioType)))
-        {
-            UINT32 c = 0;
-            if(c = MFGetAttributeUINT32(m_pAudioType, MF_MT_AUDIO_NUM_CHANNELS, -1) >= 0)
-                m_fileprop.audio_channels = c;
-            if(c = MFGetAttributeUINT32(m_pAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1) >= 0)
-                m_fileprop.audio_samplerate = c;
-            m_fileprop.filename = filename;
-        }
-
-        dwMediaTypeIndex = 0;
-        if(SUCCEEDED(m_pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-            dwMediaTypeIndex, &m_pVideoType)))
-        {
-            UINT32 w = 0, h = 0;
-            hr = MFGetAttributeSize(m_pVideoType, MF_MT_FRAME_SIZE, &w, &h);
-            if(SUCCEEDED(hr))
-            {
-                m_fileprop.video_width = w;
-                m_fileprop.video_height = h;
-            }
-
-            UINT32 numerator = 0, denominator = 0;
-            hr = MFGetAttributeRatio(m_pVideoType, MF_MT_FRAME_RATE, &numerator, &denominator);
-            if(SUCCEEDED(hr))
-            {
-                m_fileprop.video_fps_denominator = denominator;
-                m_fileprop.video_fps_numerator = numerator;
-            }
-            m_fileprop.filename = filename;
-        }
-
-        return m_fileprop.audio_channels>0 || m_fileprop.video_width>0;
-    }
-
-    const MediaFileProp& GetMediaFileProp() const
-    {
-        return m_fileprop;
-    }
-
-    bool StartStream(const MediaStreamOutput& out_prop)
-    {
-        int success = 0;
-        if (out_prop.audio && m_pSourceReader)
-            success += SUCCEEDED(m_pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM,
-                0, NULL, NULL, NULL, NULL))? 1 : 0;
-        if (out_prop.video && m_pSourceReader)
-            success += SUCCEEDED(m_pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-                0, NULL, NULL, NULL, NULL))? 1 : 0;
-        return success;
-    }
-
-    // IUnknown methods
-    STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
-    {
-        static const QITAB qit[] =
-        {
-            QITABENT(MyStreamer, IMFSourceReaderCallback),
-            { 0 },
-        };
-        return QISearch(this, qit, riid, ppv);
-    }
-
-    STDMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&m_nRefCount); }
-    STDMETHODIMP_(ULONG) Release()
-    {
-        ULONG uCount = InterlockedDecrement(&m_nRefCount);
-        if(uCount == 0)
-            delete this;
-        return uCount;
-    }
-    // IMFSourceReaderCallback methods
-    STDMETHODIMP OnReadSample(HRESULT hrStatus,
-                              DWORD dwStreamIndex,
-                              DWORD dwStreamFlags,
-                              LONGLONG llTimestamp,
-                              IMFSample *pSample)
-    {
-        if (dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
-        {
-        }
-
-        if (dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR))
-        {
-            m_completed.set(true);
-        }
-        return S_OK;
-    }
-        
-    STDMETHODIMP OnEvent(DWORD dwStreamIndex, IMFMediaEvent *pEvent)
-    {
-        return S_OK;
-    }
-
-    STDMETHODIMP OnFlush(DWORD dwStreamIndex)
-    {
-        return S_OK;
-    }
-
-    void WaitCompleted()
-    {
-        bool complete;
-        m_completed.get(complete);
-    }
-};
+} init;
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
-    MyStreamer s;
-    if (s.LoadFile(filename))
+    MediaFileProp prop;
+    prop.filename = filename;
+    MFStreamer s(NULL);
+    if (s.OpenFile(prop, MediaStreamOutput()))
     {
-        fileprop = s.GetMediaFileProp();
+        fileprop = s.GetMediaInput();
         return true;
     }
     return false;
@@ -308,6 +63,8 @@ MFStreamer::MFStreamer(MediaStreamListener* listener)
 MFStreamer::~MFStreamer()
 {
     Close();
+    InterlockedDecrement(&m_nRefCount);
+    assert(m_nRefCount == 0);
 }
 
 bool MFStreamer::OpenFile(const MediaFileProp& in_prop,
@@ -327,14 +84,20 @@ bool MFStreamer::OpenFile(const MediaFileProp& in_prop,
 
 void MFStreamer::Close()
 {
-    m_media_in = MediaFileProp();
-    m_media_out = MediaStreamOutput();
-
     if (m_thread.get())
     {
         m_stop = true;
+        m_start.set(false);
+        m_stream_callbacks.set(STREAMENDED);
+
         m_thread->join();
+        m_thread.reset();
     }
+    Reset();
+
+    m_open.cancel();
+    m_start.cancel();
+    m_stream_callbacks.cancel();
 }
 
 bool MFStreamer::StartStream()
@@ -345,23 +108,310 @@ bool MFStreamer::StartStream()
 
 void MFStreamer::Run()
 {
-    MyStreamer s(m_listener);
-
-    if (!s.LoadFile(m_media_in.filename))
-    {
-        m_open.set(false);
-        return;
-    }
-    m_open.set(true);
-
+    HRESULT hr;
+    CComPtr<IMFSourceResolver> pSourceResolver;
+    MF_OBJECT_TYPE objectType = MF_OBJECT_INVALID;
+    CComPtr<IUnknown> pSource;
+    CComPtr<IMFMediaSource> pMediaSource;
+    CComPtr<IMFSourceReader> pSourceReader;
+    CComPtr<IMFAttributes> pAttributes;
+    CComPtr<IMFMediaType> pAudioType, pVideoType;
+    DWORD dwAudioTypeIndex = 0, dwVideoTypeIndex = 0;
+    DWORD dwVideoStreamIndex, dwAudioStreamIndex;
     bool start = false;
+    const int BUF_SECS = 3;
+
+    hr = MFCreateSourceResolver(&pSourceResolver);
+    if(FAILED(hr))
+        goto fail_open;
+
+    hr = pSourceResolver->CreateObjectFromURL(
+        m_media_in.filename.c_str(), // URL of the source.
+        MF_RESOLUTION_MEDIASOURCE,  // Create a source object.
+        NULL,                       // Optional property store.
+        &objectType,        // Receives the created object type. 
+        &pSource            // Receives a pointer to the media source.
+    );
+
+    // Get the IMFMediaSource interface from the media source.
+    hr = pSource->QueryInterface(IID_PPV_ARGS(&pMediaSource));
+    if(FAILED(hr))
+        goto fail_open;
+
+    hr = MFCreateAttributes(&pAttributes, 2);
+    if(FAILED(hr))
+        goto fail_open;
+
+    hr = pAttributes->SetUnknown(MF_SOURCE_READER_ASYNC_CALLBACK, this);
+    if(FAILED(hr))
+        goto fail_open;
+
+    hr = MFCreateSourceReaderFromMediaSource(pMediaSource, pAttributes, &pSourceReader);
+    if(FAILED(hr))
+        goto fail_open;
+
+    // Get native media type of device
+    if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM,
+        dwAudioTypeIndex, &pAudioType)))
+    {
+        UINT32 c = 0;
+        if ((c = MFGetAttributeUINT32(pAudioType, MF_MT_AUDIO_NUM_CHANNELS, -1)) >= 0)
+            m_media_in.audio_channels = c;
+        if((c = MFGetAttributeUINT32(pAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1)) >= 0)
+            m_media_in.audio_samplerate = c;
+    }
+
+    if (m_media_in.HasAudio() && m_media_out.audio)
+    {
+        hr = pAudioType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_media_out.audio_channels);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_media_out.audio_samplerate);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_BLOCK, m_media_out.audio_samples);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioType);
+        if(FAILED(hr))
+            goto fail_open;
+    }
+
+    if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+        dwVideoTypeIndex, &pVideoType)))
+    {
+        UINT32 w = 0, h = 0;
+        hr = MFGetAttributeSize(pVideoType, MF_MT_FRAME_SIZE, &w, &h);
+        if(SUCCEEDED(hr))
+        {
+            m_media_in.video_width = w;
+            m_media_in.video_height = h;
+        }
+
+        UINT32 numerator = 0, denominator = 0;
+        hr = MFGetAttributeRatio(pVideoType, MF_MT_FRAME_RATE, &numerator, &denominator);
+        if(SUCCEEDED(hr))
+        {
+            m_media_in.video_fps_denominator = denominator;
+            m_media_in.video_fps_numerator = numerator;
+        }
+    }
+
+    if (m_media_in.IsValid())
+    {
+        m_open.set(m_media_in.IsValid());
+    }
+    else
+    {
+        goto fail_open;
+    }
+
     m_start.get(start);
 
     if (!start)
         return;
 
-    s.StartStream(m_media_out);
+    ACE_UINT32 start_time = GETTIMESTAMP();
 
-    s.WaitCompleted();
+    if (m_listener && !m_stop)
+        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
+
+    InitBuffers();
+
+    assert(m_audio_frames.state() == msg_queue_t::ACTIVATED);
+    assert(m_video_frames.state() == msg_queue_t::ACTIVATED);
+
+    if (m_media_in.HasAudio() && m_media_out.audio)
+    {
+        dwAudioStreamIndex = MF_SOURCE_READER_FIRST_AUDIO_STREAM;
+        hr = pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM,
+                                       0, &dwAudioStreamIndex, NULL, NULL, NULL);
+        if (FAILED(hr))
+        {
+            if (m_listener)
+                m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
+            return;
+        }
+    }
+
+    if (m_media_in.HasVideo() && m_media_out.video)
+    {
+        hr = pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+                                       0, &dwVideoStreamIndex, NULL, NULL, NULL);
+        if(FAILED(hr))
+        {
+            if (m_listener)
+                m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
+            return;
+        }
+    }
+
+    int timeout_msec = 1000;
+    if (m_media_out.audio && m_media_out.audio_samples > 0 && m_media_out.audio_samplerate > 0)
+        timeout_msec = m_media_out.audio_samples * 1000 / m_media_out.audio_samplerate;
+    if (m_media_out.video)
+    {
+        double fps = m_media_in.video_fps_numerator / std::max(1, m_media_in.video_fps_numerator);
+        timeout_msec = 1000. / fps;
+    }
+
+    bool error = false, complete = false;
+    DWORD streamid;
+    while(!m_stop && !error && !complete && m_stream_callbacks.get(streamid) >= 0)
+    {
+        //ensure we can reuse semaphore
+        m_stream_callbacks.cancel();
+
+        switch (streamid)
+        {
+        case STREAMERROR :
+            error = true;
+            break;
+        case STREAMENDED :
+            complete = true;
+            Flush(start_time);
+            break;
+        default :
+            while(!m_stop && !error)
+            {
+                if(ProcessAVQueues(start_time, 0, false))
+                {
+                    // keep processing as long as we have enough data
+                }
+                else
+                {
+                    if(ProcessAVQueues(start_time, 1, false) == 0)
+                    {
+                        hr = pSourceReader->ReadSample(streamid, 0, NULL, NULL, NULL, NULL);
+                        error = FAILED(hr);
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    assert(m_audio_frames.message_length() == 0);
+
+    if(m_listener && !m_stop)
+        m_listener->MediaStreamStatusCallback(this, m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
+
+    return;
+
+fail_open:
+    m_open.set(false);
+}
+
+// IMFSourceReaderCallback
+STDMETHODIMP MFStreamer::QueryInterface(REFIID riid, void** ppv)
+{
+    static const QITAB qit[] =
+    {
+        QITABENT(MFStreamer, IMFSourceReaderCallback),
+        { 0 },
+    };
+    return QISearch(this, qit, riid, ppv);
+}
+
+STDMETHODIMP_(ULONG) MFStreamer::AddRef() { return InterlockedIncrement(&m_nRefCount); }
+STDMETHODIMP_(ULONG) MFStreamer::Release()
+{
+    ULONG uCount = InterlockedDecrement(&m_nRefCount);
+    assert(uCount >= 0);
+    return uCount;
+}
+
+STDMETHODIMP MFStreamer::OnReadSample(HRESULT hrStatus,
+    DWORD dwStreamIndex,
+    DWORD dwStreamFlags,
+    LONGLONG llTimestamp,
+    IMFSample *pSample)
+{
+    HRESULT hr;
+
+    if(pSample)
+    {
+        DWORD dwBufCount;
+        hr = pSample->GetBufferCount(&dwBufCount);
+        assert(SUCCEEDED(hr));
+        LONGLONG sampletime = 0;
+        hr = pSample->GetSampleTime(&sampletime);
+        assert(SUCCEEDED(hr));
+
+        sampletime /= 10000;
+
+        for(DWORD i = 0; i<dwBufCount; i++)
+        {
+            CComPtr<IMFMediaBuffer> pMediaBuffer;
+            hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+            assert(SUCCEEDED(hr));
+            BYTE* pBuffer = NULL;
+            DWORD dwCurLen, dwMaxSize;
+            hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                ACE_Message_Block* mb;
+                ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
+
+                media::AudioFrame media_frame;
+                media_frame.timestamp = ACE_UINT32(sampletime);
+                media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
+                assert(m_media_out.audio_channels > 0);
+                media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio_channels;
+                media_frame.input_channels = m_media_out.audio_channels;
+                media_frame.input_samplerate = m_media_out.audio_samplerate;
+                int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
+                assert(ret >= 0);
+                ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
+                assert(ret >= 0);
+                MYTRACE(ACE_TEXT("Enqueued %u, size %u\n"), media_frame.timestamp, dwCurLen);
+                ACE_Time_Value tv;
+                if (m_audio_frames.enqueue(mb, &tv) < 0)
+                    mb->release();
+            }
+            hr = pMediaBuffer->Unlock();
+            assert(SUCCEEDED(hr));
+        }
+    }
+    if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
+    {
+    }
+
+    if(dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM))
+    {
+        dwStreamIndex = STREAMENDED;
+    }
+
+    if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
+    {
+        dwStreamIndex = STREAMERROR;
+    }
+
+    m_stream_callbacks.set(dwStreamIndex);
+
+    return S_OK;
+}
+
+STDMETHODIMP MFStreamer::OnEvent(DWORD dwStreamIndex, IMFMediaEvent *pEvent)
+{
+    return S_OK;
+}
+
+STDMETHODIMP MFStreamer::OnFlush(DWORD dwStreamIndex)
+{
+    return S_OK;
 }
 

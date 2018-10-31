@@ -29,10 +29,17 @@
 #include <thread>
 #include <ace/Future.h>
 
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
 class MFStreamer : public MediaStreamer
+                 , public IMFSourceReaderCallback
 {
+    long m_nRefCount = 1;
+
 public:
     MFStreamer(MediaStreamListener* listener);
     ~MFStreamer();
@@ -43,10 +50,29 @@ public:
 
     bool StartStream();
 
+    // IMFSourceReaderCallback
+    STDMETHODIMP QueryInterface(REFIID riid, void** ppv);
+    STDMETHODIMP_(ULONG) AddRef();
+    STDMETHODIMP_(ULONG) Release();
+    STDMETHODIMP OnReadSample(HRESULT hrStatus,
+                              DWORD dwStreamIndex,
+                              DWORD dwStreamFlags,
+                              LONGLONG llTimestamp,
+                              IMFSample *pSample);
+    STDMETHODIMP OnEvent(DWORD dwStreamIndex, IMFMediaEvent *pEvent);
+    STDMETHODIMP OnFlush(DWORD dwStreamIndex);
+
 private:
     void Run();
 
     std::shared_ptr< std::thread > m_thread;
     ACE_Future<bool> m_open, m_start;
+    ACE_Future<DWORD> m_stream_callbacks;
+    enum : DWORD
+    {
+        STREAMERROR = 0x8FFFFFFF,
+        STREAMENDED = 0x9FFFFFFF,
+
+    };
 };
 #endif
