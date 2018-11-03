@@ -1,4 +1,4 @@
-
+﻿
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "主标签控制器";
 
@@ -93,7 +93,7 @@
 "WFB-kl-uoS.normalTitle" = "踢出用户";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "踢出和禁止用户";
+"WRa-tI-lpY.normalTitle" = "踢出并禁止用户";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
 "Wbh-f7-64c.text" = "空白";
@@ -159,7 +159,7 @@
 "vC1-lW-BtX.normalTitle" = "删除频道";
 
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
-"vIN-Uc-3Ms.title" = "选项";
+"vIN-Uc-3Ms.title" = "首选项";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "空白";

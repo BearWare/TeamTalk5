@@ -2,7 +2,7 @@
 "%@ joined channel" = "%@ 加入频道";
 
 /* log entry */
-"%@ left channel" = "%@ 左频道";
+"%@ left channel" = "%@ 离开频道";
 
 /* preferences */
 "%d %% - Default" = "%d %% - 默认";
@@ -69,7 +69,7 @@
 "Application" = "应用";
 
 /* preferences */
-"Ascending" = "上升";
+"Ascending" = "升序";
 
 /* codec detail */
 "Audio Channels" = "音频频道";
@@ -120,7 +120,7 @@
 "Channel. %d users" = "Channel. %d 用户";
 
 /* create channel */
-"Commands" = "Commands";
+"Commands" = "命令";
 
 /* serverlist */
 "Connect to server" = "连接到服务器";
@@ -143,7 +143,7 @@
 "Default Subscriptions" = "默认订阅";
 
 /* serverlist */
-"Delete server from list" = "从列表删除服务器";
+"Delete server from list" = "从列表中删除服务器";
 
 /* preferences
    user detail */
@@ -153,10 +153,10 @@
 "Display" = "显示";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "双击并按住即可传输语音。三次敲击快速锁定传输语音。";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "双击并按住传输语音。快速三击以锁定传输。";
 
 /* preferences */
-"Double tap to lock TX button" = "双击以锁定TX按钮";
+"Double tap to lock TX button" = "双击传输语音";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -174,10 +174,10 @@
 "Error" = "错误";
 
 /* preferences */
-"Exclusive Mode Toggled" = "独占模式切换";
+"Exclusive Mode Toggled" = "已开启独占模式";
 
 /* server entry */
-"Facebook Login" = "Facebook登入";
+"Facebook Login" = "Facebook登陆";
 
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook登录被取消";
@@ -199,7 +199,7 @@
 "has logged out" = "已退出";
 
 /* preferences */
-"Headset TX Toggle" = "切换耳机TX";
+"Headset TX Toggle" = "耳机传输开关";
 
 /* server entry */
 "Host address" = "主机地址";
@@ -223,10 +223,10 @@
 "Joined %@" = "加入 %@";
 
 /* channel list */
-"Kick user" = "踢用户";
+"Kick user" = "踢出用户";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "限制频道列表中的名称长度 %d 字符";
+"Limit length of names in channel list to %d characters" = "限制频道列表中的名称长度为 %d 字符";
 
 /* text message type */
 "Log message" = "记录消息";
@@ -252,7 +252,7 @@
 "Media file vs. voice volume" = "媒体文件与语音音量";
 
 /* preferences */
-"Microphone Gain" = "麦克风增强";
+"Microphone Gain" = "麦克风增益";
 
 /* codec detail
    create channel */
@@ -290,11 +290,11 @@
 "Nickname" = "昵称";
 
 /* Dialog message */
-"No" = "没有";
+"No" = "否";
 
 /* codec detail
    create channel */
-"No Audio" = "没有音频";
+"No Audio" = "无音频";
 
 /* create channel */
 "No Audio Recording" = "没有录音";
@@ -303,13 +303,13 @@
 "No Interruptions" = "没有中断";
 
 /* channel list */
-"No password" = "没有密码";
+"No password" = "无密码";
 
 /* create channel */
 "No Voice Activation" = "没有语音激活";
 
 /* default nickname */
-"Noname" = "没有名称";
+"Noname" = "匿名";
 
 /* Dialog
    Dialog message
@@ -332,7 +332,7 @@
 "Password" = "密码";
 
 /* channel list */
-"Password protected" = "密码保护";
+"Password protected" = "密码受保护";
 
 /* create channel */
 "Permanent Channel" = "永久频道";
@@ -341,7 +341,7 @@
 "Play sound when a user joins the channel" = "用户加入频道时播放声音";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "用户退出频道时播放声音";
+"Play sound when a user leaves the channel" = "用户离开频道时播放声音";
 
 /* preferences */
 "Play sound when channel text message is received" = "收到频道消息时播放声音";
@@ -353,7 +353,7 @@
 "Play sound when private text message is received" = "收到私人消息时播放声音";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "在“无中断”频道中发送准备就绪时播放声音";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "在“无中断”频道中传输准备就绪时播放声音";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "触发语音激活时播放声音";
@@ -362,16 +362,16 @@
 "Play sound when voice transmission is toggled" = "切换语音传输时播放声音";
 
 /* preferences */
-"Pop up text message when new messages are received" = "收到新邮件时弹出短信";
+"Pop up text message when new messages are received" = "收到新信息时弹出消息";
 
 /* preferences */
-"Popularity" = "声望";
+"Popularity" = "人气";
 
 /* serverlist */
-"Preferences" = "选项";
+"Preferences" = "首选项";
 
 /* preferences */
-"Pressing Return-key sends text message" = "按Return键发送信息";
+"Pressing Return-key sends text message" = "按回车键发送消息";
 
 /* text message type */
 "Private message" = "私人消息";
@@ -386,13 +386,13 @@
 "Private text message from %@. %@" = "私人消息来自%@. %@";
 
 /* preferences */
-"Proximity sensor" = "接近传感器";
+"Proximity sensor" = "距离传感器";
 
 /* serverlist */
 "Public server" = "公共服务器";
 
 /* preferences */
-"Push to Talk lock" = "锁定按键通话";
+"Push to Talk lock" = "锁定按键说话";
 
 /* codec detail */
 "Quality" = "质量";
@@ -419,7 +419,7 @@
 "Receive webcam streams by default" = "默认接收网络摄像头流";
 
 /* preferences */
-"Return Sends Message" = "返回发送消息";
+"Return Sends Message" = "回车发送消息";
 
 /* channel list */
 "Return to previous channel" = "返回上一个频道";
@@ -434,10 +434,10 @@
 "Save Server" = "保存服务器";
 
 /* Dialog message */
-"Save server to server list?" = "将服务器保存到服务器列表";
+"Save server to server list?" = "将服务器保存至服务器列表吗？";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "选择要使用的文字转语音TTS";
+"Select the text-to-speech voice to use" = "选择要使用的TTS";
 
 /* text message */
 "Send empty message to close keyboard" = "发送空消息以关闭键盘";
@@ -470,7 +470,7 @@
 "Silent" = "无声";
 
 /* preferences */
-"Sort channels" = "排序频道";
+"Sort channels" = "频道排序";
 
 /* preferences
    text to speech */
@@ -505,7 +505,7 @@
 "Subscriptions" = "订阅";
 
 /* channel list */
-"Talking" = "发言";
+"Talking" = "正在发言";
 
 /* server entry */
 "TCP Port" = "TCP 端口";
@@ -538,7 +538,7 @@
 "Transmit Interval" = "传输间隔";
 
 /* channel list */
-"Transmitting" = "传输";
+"Transmitting" = "正在传输";
 
 /* Dialog message */
 "Try again?" = "再试一次?";
@@ -557,7 +557,7 @@
 "Use echo cancellation and automatic gain control" = "使用回声消除和自动增益控制";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "使用iPhone的扬声器代替耳机";
+"Use iPhone's speaker instead of earpiece" = "使用 iPhone 的扬声器代替听筒";
 
 /* channel list */
 "User" = "用户";
@@ -617,7 +617,7 @@
 "Voice Preprocessing" = "语音预处理";
 
 /* preferences */
-"Voice Transmission Toggled" = "语音传输切换";
+"Voice Transmission Toggled" = "语音传输已开启";
 
 /* user detail */
 "Voice Volume" = "语音音量";
