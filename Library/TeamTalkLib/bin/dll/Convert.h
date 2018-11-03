@@ -100,6 +100,7 @@ void Convert(const teamtalk::ClientUserStats& stats, UserStatistics& result);
 void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result);
 
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result);
+void Convert(const DesktopInput& input, teamtalk::DesktopInput& result);
 
 void Convert(const std::set<int>& intset, int* int_array, int max_elements);
 void Convert(const int* int_array, int max_elements, std::set<int>& intset);
