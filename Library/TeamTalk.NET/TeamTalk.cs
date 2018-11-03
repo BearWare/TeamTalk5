@@ -1268,6 +1268,9 @@ namespace BearWare
         /** @brief User is allowed to stream video files to channel.
          * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
         USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO          = 0x00020000,
+        /** @brief User is allowed to media files to channel.
+         * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
+        USERRIGHT_TRANSMIT_MEDIAFILE = USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO | USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO,
         /** @brief User's nick name is locked.
           * TeamTalkBase.DoChangeNickname() cannot be used and TeamTalkBase.DoLogin() 
           * will ignore szNickname parameter. 

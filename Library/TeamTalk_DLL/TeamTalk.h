@@ -1231,6 +1231,9 @@ extern "C" {
         /** @brief User is allowed to stream video files to channel.
          * @see TT_StartStreamingMediaFileToChannel() */
         USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO  = 0x00020000,
+        /** @brief User is allowed to stream media files to channel.
+         * @see TT_StartStreamingMediaFileToChannel() */
+        USERRIGHT_TRANSMIT_MEDIAFILE = USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO | USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO,
         /** @brief User's nick name is locked.
          * TT_DoChangeNickname() cannot be used and TT_DoLogin() 
          * will ignore szNickname parameter. 
