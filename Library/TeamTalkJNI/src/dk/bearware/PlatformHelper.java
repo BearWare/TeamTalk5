@@ -23,5 +23,10 @@
 
 package dk.bearware;
 
-public class WindowsHelper extends PlatformHelper {
+public class PlatformHelper {
+    public native static int desktopInputKeyTranslate(int nTranslate,
+                                                      DesktopInput[] lpDesktopInputs,
+                                                      DesktopInput[] lpTranslatedDesktopInputs);
+        
+    public native static int desktopInputExecute(DesktopInput[] lpDesktopInputs);
 }

@@ -34,6 +34,7 @@ public interface UserListener {
     public void onUserMediaFileVideo(int nUserID, int nStreamID);
     public void onUserDesktopWindow(int nUserID, int nStreamID);
     public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput);
+    public void onUserDesktopInput(int nUserID, DesktopInput desktopinput);
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo);
     public void onUserAudioBlock(int nUserID, int nStreamType);
 }

@@ -1501,6 +1501,15 @@ void Convert(const teamtalk::DesktopInput& input, DesktopInput& result)
     result.uKeyState = input.keystate;
 }
 
+void Convert(const DesktopInput& input, teamtalk::DesktopInput& result)
+{
+    result.x = input.uMousePosX;
+    result.y = input.uMousePosY;
+    result.keycode = input.uKeyCode;
+    result.keystate = input.uKeyState;
+}
+
+
 void Convert(const std::set<int>& intset, int* int_array, int max_elements)
 {
     std::set<int>::const_iterator ite = intset.begin();

@@ -1,14 +1,14 @@
 
-set (FFMPEG_INCLUDE_DIR ${TTLIBS_ROOT}/ffmpeg-3.1/include)
+set (FFMPEG_INCLUDE_DIR ${TTLIBS_ROOT}/ffmpeg/include)
 
 set (FFMPEG_STATIC_LIB 
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libavdevice.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libavfilter.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libavformat.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libavcodec.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libswresample.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libswscale.a
-  ${TTLIBS_ROOT}/ffmpeg-3.1/lib/libavutil.a)
+  ${TTLIBS_ROOT}/ffmpeg/lib/libavdevice.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libavfilter.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libavformat.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libavcodec.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libswresample.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libswscale.a
+  ${TTLIBS_ROOT}/ffmpeg/lib/libavutil.a)
 
 set (FFMPEG_COMPILE_FLAGS -D__STDC_CONSTANT_MACROS)
 

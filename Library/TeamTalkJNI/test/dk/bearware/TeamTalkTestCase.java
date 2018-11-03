@@ -43,6 +43,7 @@ import dk.bearware.SpeexDSP;
 import dk.bearware.StreamType;
 import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.WindowsHelper;
 
 public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
@@ -1971,5 +1972,69 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
         srvprop.nUserTimeout = orgValue;
         assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+    }
+
+    public void testKeyTranslate() {
+        TeamTalkBase ttadmin = newClientInstance();
+        DesktopInput[] inputs = new DesktopInput[2], outputs = new DesktopInput[2];
+        for (int i=0;i<inputs.length;++i) {
+            inputs[i] = new DesktopInput();
+            inputs[i].uMousePosY = 100;
+            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+            outputs[i] = new DesktopInput();
+        }
+        assertTrue("Key translate", WindowsHelper.desktopInputKeyTranslate(TTKeyTranslate.TTKEY_WINKEYCODE_TO_TTKEYCODE,
+                                                                           inputs, outputs) >= 0);
+        assertEquals("Coordinate", inputs[0].uMousePosY, outputs[0].uMousePosY);
+        assertEquals("Keystate", inputs[0].uKeyState, outputs[0].uKeyState);
+        assertEquals("Coordinate", inputs[1].uMousePosY, outputs[1].uMousePosY);
+        assertEquals("Keystate", inputs[1].uKeyState, outputs[1].uKeyState);
+
+        assertTrue("move mouse", PlatformHelper.desktopInputExecute(outputs) >= 0);
+    }
+
+    public void testDesktopInput() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_TRANSMIT_DESKTOP |
+            UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient1 = newClientInstance(), ttclient2 = newClientInstance();
+
+        connect(ttclient1);
+        login(ttclient1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient1);
+        
+        connect(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient2);
+
+        // init a desktop session for desktop input
+        DesktopWindow wnd = new DesktopWindow();
+        wnd.nWidth = 128;
+        wnd.nHeight = 128;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        assertTrue("send desktop window", ttclient1.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
+
+        assertTrue("Wait for desktop window", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT));
+        
+        assertTrue("subscribe desktopinput", waitCmdSuccess(ttclient1,
+                                                            ttclient1.doSubscribe(ttclient2.getMyUserID(),
+                                                                                  Subscription.SUBSCRIBE_DESKTOPINPUT),
+                                                            DEF_WAIT));
+        
+        DesktopInput[] inputs = new DesktopInput[2];
+        for (int i=0;i<inputs.length;++i) {
+            inputs[i] = new DesktopInput();
+            inputs[i].uMousePosY = 100;
+            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        }
+
+        assertTrue("send desktop input", ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
+
+        assertTrue("get desktop input", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT));
     }
 }

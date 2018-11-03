@@ -23,5 +23,5 @@
 
 package dk.bearware;
 
-public class WindowsHelper extends PlatformHelper {
+public class MacOSHelper extends PlatformHelper {
 }
