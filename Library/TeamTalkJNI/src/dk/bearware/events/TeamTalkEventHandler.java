@@ -309,6 +309,16 @@ public class TeamTalkEventHandler {
                     l.onUserDesktopCursor(nUserID, desktopinput);
             }
             break;
+            case ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT : {
+                assert (pMsg.ttType == TTType.__DESKTOPINPUT);
+
+                int nUserID = pMsg.nSource;
+                DesktopInput desktopinput = pMsg.desktopinput;
+
+                for(UserListener l : userListener)
+                    l.onUserDesktopInput(nUserID, desktopinput);
+            }
+            break;
             case ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE : {
                 assert (pMsg.ttType == TTType.__NONE);
 

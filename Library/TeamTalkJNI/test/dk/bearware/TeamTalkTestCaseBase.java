@@ -272,20 +272,6 @@ public class TeamTalkTestCaseBase extends TestCase {
         }
         while (!gotmsg || tmp.nClientEvent != nClientEvent);
 
-        // while (ttclient.getMessage(tmp, 0) && tmp.nClientEvent != nClientEvent)
-        // {
-        //     interleave.interleave();
-
-        //     if(DEBUG_OUTPUT) {
-        //         System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
-        //         if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
-        //             System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
-        //         }
-        //     }
-        //     if(System.currentTimeMillis() - start >= waittimeout)
-        //         break;
-        // }
-
         if (tmp.nClientEvent == nClientEvent)
         {
             if (DEBUG_OUTPUT)
