@@ -6,8 +6,10 @@ Default Qt client
 - Shared desktop now remains in same position after desktop update
 - Double click to ban/unban in Banned Users dialog
 - Stream HTTPS on macOS and Linux
+- Fixed issue where media files could now be played in class room channels
 Accessible Windows client
 - Text-to-speech event for new file and removed file
+- Fixed issue where media files could now be played in class room channels
 iOS client
 - Separate view controller for Text-To-Speech announcements
 - Separate view controller for sound events
@@ -17,6 +19,8 @@ Android client:
 - Stream HTTP URLs as media files
 - Sound event for users joining and leaving
 - Notification on incoming text message
+Server
+- Fixed issue where media files could now be played in class room channels
 
 Version 5.3.2, released 2018/05/25
 Default Qt client
