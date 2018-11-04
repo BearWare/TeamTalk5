@@ -26,6 +26,10 @@
 #include <assert.h>
 #include <shlwapi.h> //QITAB
 #include <atlbase.h>
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
 
 
 static class MFInit {
@@ -63,8 +67,6 @@ MFStreamer::MFStreamer(MediaStreamListener* listener)
 MFStreamer::~MFStreamer()
 {
     Close();
-    InterlockedDecrement(&m_nRefCount);
-    assert(m_nRefCount == 0);
 }
 
 bool MFStreamer::OpenFile(const MediaFileProp& in_prop,
@@ -88,7 +90,6 @@ void MFStreamer::Close()
     {
         m_stop = true;
         m_start.set(false);
-        m_stream_callbacks.set(STREAMENDED);
 
         m_thread->join();
         m_thread.reset();
@@ -97,7 +98,6 @@ void MFStreamer::Close()
 
     m_open.cancel();
     m_start.cancel();
-    m_stream_callbacks.cancel();
 }
 
 bool MFStreamer::StartStream()
@@ -118,6 +118,7 @@ void MFStreamer::Run()
     CComPtr<IMFMediaType> pAudioType, pVideoType;
     DWORD dwAudioTypeIndex = 0, dwVideoTypeIndex = 0;
     DWORD dwVideoStreamIndex, dwAudioStreamIndex;
+    LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
     bool start = false;
     const int BUF_SECS = 3;
 
@@ -139,10 +140,6 @@ void MFStreamer::Run()
         goto fail_open;
 
     hr = MFCreateAttributes(&pAttributes, 2);
-    if(FAILED(hr))
-        goto fail_open;
-
-    hr = pAttributes->SetUnknown(MF_SOURCE_READER_ASYNC_CALLBACK, this);
     if(FAILED(hr))
         goto fail_open;
 
@@ -206,6 +203,14 @@ void MFStreamer::Run()
             m_media_in.video_fps_denominator = denominator;
             m_media_in.video_fps_numerator = numerator;
         }
+
+        hr = pVideoType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_ARGB32);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
+        if(FAILED(hr))
+            goto fail_open;
     }
 
     if (m_media_in.IsValid())
@@ -235,26 +240,19 @@ void MFStreamer::Run()
     if (m_media_in.HasAudio() && m_media_out.audio)
     {
         dwAudioStreamIndex = MF_SOURCE_READER_FIRST_AUDIO_STREAM;
-        hr = pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM,
-                                       0, &dwAudioStreamIndex, NULL, NULL, NULL);
-        if (FAILED(hr))
-        {
-            if (m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
-            return;
-        }
+    }
+    else
+    {
+        llAudioTimestamp = -1;
     }
 
     if (m_media_in.HasVideo() && m_media_out.video)
     {
-        hr = pSourceReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-                                       0, &dwVideoStreamIndex, NULL, NULL, NULL);
-        if(FAILED(hr))
-        {
-            if (m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
-            return;
-        }
+        dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
+    }
+    else
+    {
+        llVideoTimestamp = -1;
     }
 
     int timeout_msec = 1000;
@@ -267,40 +265,82 @@ void MFStreamer::Run()
     }
 
     bool error = false, complete = false;
-    DWORD streamid;
-    while(!m_stop && !error && !complete && m_stream_callbacks.get(streamid) >= 0)
+    while(!m_stop && !error && !complete)
     {
-        //ensure we can reuse semaphore
-        m_stream_callbacks.cancel();
-
-        switch (streamid)
+        // first process audio
+        if (llAudioTimestamp <= llVideoTimestamp || llVideoTimestamp < 0)
         {
-        case STREAMERROR :
-            error = true;
-            break;
-        case STREAMENDED :
-            complete = true;
-            Flush(start_time);
-            break;
-        default :
-            while(!m_stop && !error)
+            CComPtr<IMFSample> pSample;
+            DWORD dwStreamFlags = 0;
+            hr = pSourceReader->ReadSample(dwAudioStreamIndex, 0, NULL, &dwStreamFlags, &llAudioTimestamp, &pSample);
+            error = FAILED(hr);
+            
+            //if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
+            //{
+            //}
+            complete = (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM);
+            error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
+
+            if(error || complete)
+                continue;
+
+            DWORD dwBufCount = 0;
+            if (pSample)
             {
-                if(ProcessAVQueues(start_time, 0, false))
+                hr = pSample->GetBufferCount(&dwBufCount);
+                assert(SUCCEEDED(hr));
+            }
+
+            for(DWORD i = 0; i<dwBufCount; i++)
+            {
+                CComPtr<IMFMediaBuffer> pMediaBuffer;
+                hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+                assert(SUCCEEDED(hr));
+                BYTE* pBuffer = NULL;
+                DWORD dwCurLen, dwMaxSize;
+                hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+                assert(SUCCEEDED(hr));
+                if(SUCCEEDED(hr))
                 {
-                    // keep processing as long as we have enough data
-                }
-                else
-                {
-                    if(ProcessAVQueues(start_time, 1, false) == 0)
+                    ACE_Message_Block* mb;
+                    ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
+
+                    media::AudioFrame media_frame;
+                    media_frame.timestamp = ACE_UINT32(llAudioTimestamp / 10000);
+                    media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
+                    assert(m_media_out.audio_channels > 0);
+                    media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio_channels;
+                    media_frame.input_channels = m_media_out.audio_channels;
+                    media_frame.input_samplerate = m_media_out.audio_samplerate;
+                    int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
+                    assert(ret >= 0);
+                    ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
+                    assert(ret >= 0);
+                    MYTRACE(ACE_TEXT("Enqueued %u, size %u\n"), media_frame.timestamp, dwCurLen);
+                    ACE_Time_Value tv;
+                    ret = m_audio_frames.enqueue(mb, &tv);
+                    assert (ret >= 0);
+                    if(ret < 0)
                     {
-                        hr = pSourceReader->ReadSample(streamid, 0, NULL, NULL, NULL, NULL);
-                        error = FAILED(hr);
-                        break;
+                        mb->release();
                     }
                 }
+                hr = pMediaBuffer->Unlock();
+                assert(SUCCEEDED(hr));
             }
-            break;
         }
+
+        if (llVideoTimestamp <= llAudioTimestamp || llAudioTimestamp < 0)
+        {
+        }
+
+        while(!m_stop && !error && ProcessAVQueues(start_time, timeout_msec, false));
+    }
+
+    if (complete)
+    {
+        Flush(start_time);
+        assert(m_audio_frames.message_count() == 0);
     }
 
     assert(m_audio_frames.message_length() == 0);
@@ -313,105 +353,3 @@ void MFStreamer::Run()
 fail_open:
     m_open.set(false);
 }
-
-// IMFSourceReaderCallback
-STDMETHODIMP MFStreamer::QueryInterface(REFIID riid, void** ppv)
-{
-    static const QITAB qit[] =
-    {
-        QITABENT(MFStreamer, IMFSourceReaderCallback),
-        { 0 },
-    };
-    return QISearch(this, qit, riid, ppv);
-}
-
-STDMETHODIMP_(ULONG) MFStreamer::AddRef() { return InterlockedIncrement(&m_nRefCount); }
-STDMETHODIMP_(ULONG) MFStreamer::Release()
-{
-    ULONG uCount = InterlockedDecrement(&m_nRefCount);
-    assert(uCount >= 0);
-    return uCount;
-}
-
-STDMETHODIMP MFStreamer::OnReadSample(HRESULT hrStatus,
-    DWORD dwStreamIndex,
-    DWORD dwStreamFlags,
-    LONGLONG llTimestamp,
-    IMFSample *pSample)
-{
-    HRESULT hr;
-
-    if(pSample)
-    {
-        DWORD dwBufCount;
-        hr = pSample->GetBufferCount(&dwBufCount);
-        assert(SUCCEEDED(hr));
-        LONGLONG sampletime = 0;
-        hr = pSample->GetSampleTime(&sampletime);
-        assert(SUCCEEDED(hr));
-
-        sampletime /= 10000;
-
-        for(DWORD i = 0; i<dwBufCount; i++)
-        {
-            CComPtr<IMFMediaBuffer> pMediaBuffer;
-            hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
-            assert(SUCCEEDED(hr));
-            BYTE* pBuffer = NULL;
-            DWORD dwCurLen, dwMaxSize;
-            hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-            assert(SUCCEEDED(hr));
-            if (SUCCEEDED(hr))
-            {
-                ACE_Message_Block* mb;
-                ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
-
-                media::AudioFrame media_frame;
-                media_frame.timestamp = ACE_UINT32(sampletime);
-                media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
-                assert(m_media_out.audio_channels > 0);
-                media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio_channels;
-                media_frame.input_channels = m_media_out.audio_channels;
-                media_frame.input_samplerate = m_media_out.audio_samplerate;
-                int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
-                assert(ret >= 0);
-                ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
-                assert(ret >= 0);
-                MYTRACE(ACE_TEXT("Enqueued %u, size %u\n"), media_frame.timestamp, dwCurLen);
-                ACE_Time_Value tv;
-                if (m_audio_frames.enqueue(mb, &tv) < 0)
-                    mb->release();
-            }
-            hr = pMediaBuffer->Unlock();
-            assert(SUCCEEDED(hr));
-        }
-    }
-    if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
-    {
-    }
-
-    if(dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM))
-    {
-        dwStreamIndex = STREAMENDED;
-    }
-
-    if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
-    {
-        dwStreamIndex = STREAMERROR;
-    }
-
-    m_stream_callbacks.set(dwStreamIndex);
-
-    return S_OK;
-}
-
-STDMETHODIMP MFStreamer::OnEvent(DWORD dwStreamIndex, IMFMediaEvent *pEvent)
-{
-    return S_OK;
-}
-
-STDMETHODIMP MFStreamer::OnFlush(DWORD dwStreamIndex)
-{
-    return S_OK;
-}
-
