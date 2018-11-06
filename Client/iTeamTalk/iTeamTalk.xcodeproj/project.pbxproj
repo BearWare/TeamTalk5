@@ -89,7 +89,6 @@
 		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		252EB82C21921FE60026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Main.strings; sourceTree = "<group>"; };
-		252EB82D21921FE60026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		252EB82E21921FE70026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
 		253343BE1C8C85CF00B43A9A /* Splash-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-568h.png"; path = "iTeamTalk/Splash-568h.png"; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -483,8 +482,7 @@
 		254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				254B7A561B98BAA300BE0DEF /* Base */,
-				252EB82D21921FE60026A2D0 /* zh */,
+				254B7A561B98BAA300BE0DEF /* Base */
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
