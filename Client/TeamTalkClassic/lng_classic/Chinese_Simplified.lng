@@ -55,10 +55,10 @@
     <item id="156">主音量</item>
     <item id="157">麦克风增益</item>
     <item id="158">语音激活级别</item>
-    <item id="159">频道消息来自%s. %s.</item>
-    <item id="160">私人消息来自%s. %s.</item>
-    <item id="161">文本-到-语音</item>
-    <item id="162">广播消息来自%s. %s.</item>
+    <item id="159">%s. %s.</item>
+    <item id="160">私人消息：%s. %s.</item>
+    <item id="161">文字转语音</item>
+    <item id="162">广播消息：%s. %s.</item>
     <item id="163">%s登陆到服务器</item>
     <item id="164">%s退出服务器</item>
     <item id="165">用户事件</item>
@@ -144,7 +144,7 @@
     <item id="280">所有人停止说话</item>
     <item id="281">语音激活</item>
     <item id="282">语音激活停止</item>
-    <item id="283">在“无中断”通道中发送就绪</item>
+    <item id="283">在“无中断”通道中传输就绪</item>
     <item id="284">传输在“无中断”通道中停止</item>
     <item id="285">启用语音激活</item>
     <item id="286">禁用语音激活</item>
@@ -303,11 +303,11 @@
     <item id="1264">&amp;注册按键</item>
     <item id="1266">&amp;注册按键</item>
     <item id="1267">全部静音</item>
-    <item id="1268">提高语音增益</item>
+    <item id="1268">提高麦克风增益</item>
     <item id="1270">&amp;注册按键</item>
     <item id="1272">&amp;注册按键</item>
     <item id="1276">&amp;注册按键</item>
-    <item id="1277">降低语音增益</item>
+    <item id="1277">降低麦克风增益</item>
     <item id="1278">键盘快捷键</item>
     <item id="1284">&amp;打开</item>
     <item id="1287">管理员密码</item>
@@ -466,7 +466,7 @@
     <item id="1531">&amp;保存.TT文件</item>
     <item id="1534">最大文本长度</item>
     <item id="1535">视频采集设置</item>
-    <item id="1537">媒体文件与语音音量</item>
+    <item id="1537">媒体文件相对于语音的音量</item>
     <item id="1538">&amp;打开.tt文件(&amp;i)</item>
     <item id="1539">&amp;显示用户名而非昵称</item>
     <item id="1540">客户端名称</item>
@@ -486,7 +486,7 @@
     <item id="32819">&amp;用户手册\tF1</item>
     <item id="32820">&amp;关于</item>
     <item id="32821">&amp;首选项\tF4</item>
-    <item id="32822">&amp;退出\tCtrl+W</item>
+    <item id="32822">&amp;退出</item>
     <item id="32823">使用按键说话\tCtrl+Shift+T</item>
     <item id="32824">使用语音激活\tCtrl+Shift+A</item>
     <item id="32826">更改&amp;状态\tF6</item>

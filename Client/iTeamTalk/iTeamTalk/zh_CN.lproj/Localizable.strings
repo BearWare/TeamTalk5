@@ -104,7 +104,7 @@
 "Channel message" = "频道消息";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "频道消息来自%@. %@";
+"Channel message from %@. %@" = "%@. %@";
 
 /* preferences
    user detail */
@@ -249,7 +249,7 @@
 "Media File Volume" = "媒体文件音量";
 
 /* preferences */
-"Media file vs. voice volume" = "媒体文件与语音音量";
+"Media file vs. voice volume" = "媒体文件相比于语音的音量";
 
 /* preferences */
 "Microphone Gain" = "麦克风增益";
@@ -262,7 +262,7 @@
 "Move user" = "移动用户";
 
 /* channel list */
-"Move users here" = "将用户移动到这里";
+"Move users here" = "移动用户至此";
 
 /* codec detail */
 "Music" = "音乐";
@@ -274,14 +274,14 @@
 "Mute Media File" = "静音媒体文件";
 
 /* user detail */
-"Mute Voice" = "静音语音";
+"Mute Voice" = "语音静音";
 
 /* create channel
    server entry */
 "Name" = "名称";
 
 /* preferences */
-"Name displayed in channel list" = "名称显示在频道列表中";
+"Name displayed in channel list" = "显示在频道列表中的名称";
 
 /* Dialog message */
 "New Server" = "新服务器";
@@ -294,22 +294,22 @@
 
 /* codec detail
    create channel */
-"No Audio" = "无音频";
+"No Audio" = "无声";
 
 /* create channel */
-"No Audio Recording" = "没有录音";
+"No Audio Recording" = "禁止录音";
 
 /* create channel */
-"No Interruptions" = "没有中断";
+"No Interruptions" = "无中断";
 
 /* channel list */
 "No password" = "无密码";
 
 /* create channel */
-"No Voice Activation" = "没有语音激活";
+"No Voice Activation" = "禁止语音激活";
 
 /* default nickname */
-"Noname" = "匿名";
+"Noname" = "无名";
 
 /* Dialog
    Dialog message
@@ -321,10 +321,10 @@
 "OPUS Codec" = "OPUS编解码器";
 
 /* preferences */
-"Order of channels in Channel List" = "频道列表中的频道顺序";
+"Order of channels in Channel List" = "频道列表中的顺序";
 
 /* channel list */
-"Parent channel" = "家长频道";
+"Parent channel" = "母频道";
 
 /* create channel
    Dialog message
@@ -332,7 +332,7 @@
 "Password" = "密码";
 
 /* channel list */
-"Password protected" = "密码受保护";
+"Password protected" = "密码保护";
 
 /* create channel */
 "Permanent Channel" = "永久频道";
@@ -383,7 +383,7 @@
 "Private Text Message" = "私人消息";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "私人消息来自%@. %@";
+"Private text message from %@. %@" = "私人消息：%@. %@";
 
 /* preferences */
 "Proximity sensor" = "距离传感器";
@@ -410,19 +410,19 @@
 "Receive media file streams by default" = "默认接收流媒体文件";
 
 /* preferences */
-"Receive text messages by default" = "默认接收消息";
+"Receive text messages by default" = "默认接收私人消息";
 
 /* preferences */
 "Receive voice streams by default" = "默认接收语音流";
 
 /* preferences */
-"Receive webcam streams by default" = "默认接收网络摄像头流";
+"Receive webcam streams by default" = "默认接收视频流";
 
 /* preferences */
 "Return Sends Message" = "回车发送消息";
 
 /* channel list */
-"Return to previous channel" = "返回上一个频道";
+"Return to previous channel" = "返回之前的频道";
 
 /* log entry */
 "root channel" = "根频道";
@@ -464,7 +464,7 @@
 "Show usernames" = "显示用户名";
 
 /* preferences */
-"Show usernames instead of nicknames" = "显示用户名而不是昵称";
+"Show usernames instead of nicknames" = "显示用户名而非昵称";
 
 /* channel list */
 "Silent" = "无声";
@@ -489,13 +489,13 @@
 "Speech Rate" = "语速";
 
 /* preferences */
-"Speech Volume" = "语音音量";
+"Speech Volume" = "音量";
 
 /* codec detail */
-"Speex Codec" = "语音解码器";
+"Speex Codec" = "Speex 编解码器";
 
 /* codec detail */
-"Speex Variable Bitrate Codec" = "Speex可变比特率编解码器";
+"Speex Variable Bitrate Codec" = "Speex 可变比特率编解码器";
 
 /* codec detail
    create channel */
@@ -511,7 +511,7 @@
 "TCP Port" = "TCP 端口";
 
 /* preferences */
-"Text To Speech Events" = "文本到语音事件";
+"Text To Speech Events" = "文字转语音事件";
 
 /* preferences */
 "The rate of the speaking voice is %.1f" = "语音合成器速度维 %.1f";
@@ -548,7 +548,7 @@
 
 /* text field hint
    text message */
-"Type text here" = "在此输入文本";
+"Type text here" = "在此输入文字";
 
 /* server entry */
 "UDP Port" = "UDP 端口";
@@ -630,7 +630,7 @@
 
 /* preferences
    user detail */
-"WebCam" = "摄像头";
+"WebCam" = "视频";
 
 /* Dialog message */
 "Yes" = "是";
