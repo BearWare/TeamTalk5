@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ 加入频道";
 
 /* log entry */
@@ -134,7 +134,7 @@
 "Connection lost" = "连接丢失";
 
 /* View Title */
-"Create Channel" = “创建频道";
+"Create Channel" = "创建频道";
 
 /* main-tab */
 "Create new channel" = "创建新频道";
