@@ -200,11 +200,17 @@ void MFStreamer::Run()
         hr = MFGetAttributeRatio(pVideoType, MF_MT_FRAME_RATE, &numerator, &denominator);
         if(SUCCEEDED(hr))
         {
-            m_media_in.video_fps_denominator = denominator;
             m_media_in.video_fps_numerator = numerator;
+            m_media_in.video_fps_denominator = denominator;
+        }
+        else
+        {
+            m_media_in.video_fps_numerator = 30;
+            m_media_in.video_fps_denominator = 1;
+            MYTRACE(ACE_TEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
         }
 
-        hr = pVideoType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_ARGB32);
+        hr = pVideoType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32);
         if(FAILED(hr))
             goto fail_open;
 
@@ -260,15 +266,15 @@ void MFStreamer::Run()
         timeout_msec = m_media_out.audio_samples * 1000 / m_media_out.audio_samplerate;
     if (m_media_out.video)
     {
-        double fps = m_media_in.video_fps_numerator / std::max(1, m_media_in.video_fps_numerator);
-        timeout_msec = 1000. / fps;
+        double fps = std::max(1, m_media_in.video_fps_numerator) / std::max(1, m_media_in.video_fps_denominator);
+        timeout_msec = std::min(1000. / fps, double(timeout_msec));
     }
 
-    bool error = false, complete = false;
-    while(!m_stop && !error && !complete)
+    bool error = false;
+    while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         // first process audio
-        if (llAudioTimestamp <= llVideoTimestamp || llVideoTimestamp < 0)
+        if (llVideoTimestamp < 0 || (llAudioTimestamp >= 0 && llAudioTimestamp <= llVideoTimestamp))
         {
             CComPtr<IMFSample> pSample;
             DWORD dwStreamFlags = 0;
@@ -278,10 +284,11 @@ void MFStreamer::Run()
             //if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
             //{
             //}
-            complete = (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM);
+            if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+                llAudioTimestamp = -1;
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
 
-            if(error || complete)
+            if(error || llAudioTimestamp < 0)
                 continue;
 
             DWORD dwBufCount = 0;
@@ -330,14 +337,60 @@ void MFStreamer::Run()
             }
         }
 
-        if (llVideoTimestamp <= llAudioTimestamp || llAudioTimestamp < 0)
+        if (llAudioTimestamp < 0 || (llVideoTimestamp >= 0 && llVideoTimestamp <= llAudioTimestamp))
         {
+            CComPtr<IMFSample> pSample;
+            DWORD dwStreamFlags = 0;
+            hr = pSourceReader->ReadSample(dwVideoStreamIndex, 0, NULL, &dwStreamFlags, &llVideoTimestamp, &pSample);
+            error = FAILED(hr);
+
+            if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+                llVideoTimestamp = -1;
+            error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
+
+            if(error || llVideoTimestamp < 0)
+                continue;
+
+            DWORD dwBufCount = 0;
+            if(pSample)
+            {
+                hr = pSample->GetBufferCount(&dwBufCount);
+                assert(SUCCEEDED(hr));
+            }
+
+            for(DWORD i = 0; i<dwBufCount; i++)
+            {
+                CComPtr<IMFMediaBuffer> pMediaBuffer;
+                hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+                assert(SUCCEEDED(hr));
+                BYTE* pBuffer = NULL;
+                DWORD dwCurLen, dwMaxSize;
+                hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+                assert(SUCCEEDED(hr));
+                if(SUCCEEDED(hr))
+                {
+                    media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
+                        dwCurLen, m_media_in.video_width, m_media_in.video_height,
+                        media::FOURCC_RGB32, false);
+                    media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
+                    ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
+                    ACE_Time_Value tv;
+                    int ret = m_video_frames.enqueue(mb, &tv);
+                    assert(ret >= 0);
+                    if(ret < 0)
+                    {
+                        mb->release();
+                    }
+                }
+                hr = pMediaBuffer->Unlock();
+                assert(SUCCEEDED(hr));
+            }
         }
 
         while(!m_stop && !error && ProcessAVQueues(start_time, timeout_msec, false));
     }
 
-    if (complete)
+    if (!error && !m_stop)
     {
         Flush(start_time);
         assert(m_audio_frames.message_count() == 0);

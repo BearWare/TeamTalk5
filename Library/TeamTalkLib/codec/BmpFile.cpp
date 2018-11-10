@@ -28,6 +28,10 @@
 #include <ace/ACE.h>
 #include <assert.h>
 
+
+#if defined(ACE_WIN32)
+typedef BITMAPFILEHEADER BitmapFileHeader;
+#else
 struct BitmapFileHeader
 {
     ACE_UINT16 bfType;
@@ -35,12 +39,12 @@ struct BitmapFileHeader
     ACE_UINT16 bfReserved1;
     ACE_UINT16 bfReserved2;
     ACE_UINT32 bfOffBits;
-#ifdef ACE_WIN32
-};
-#else
 } __attribute__((packed));
 #endif
 
+#if defined(WIN32)
+typedef BITMAPINFOHEADER BitmapInfoHeader;
+#else
 struct BitmapInfoHeader
 {
     ACE_UINT32 biSize;
@@ -55,6 +59,7 @@ struct BitmapInfoHeader
     ACE_UINT32 biClrUsed;
     ACE_UINT32 biClrImportant;
 };
+#endif
 
 void WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
                  const char* data, int size)
