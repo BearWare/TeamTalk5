@@ -13,6 +13,7 @@
     <string name="title_activity_user_prop">Свойства Пользователя</string>
     <string name="title_activity_text_message">Текстовое Сообщение</string>
     <string name="title_activity_preferences">Настройки</string>
+    <string name="title_activity_stream_media">Трансляция медиафайла в канале</string>
     <string name="action_createchannel">Создать</string>
     <string name="action_updatechannel">Обновить</string>
     <string name="text_con_failed">Не удалось подключиться к серверу. Попробуем еще...</string>
@@ -55,9 +56,9 @@
     <string name="pref_title_transmitready_icon">Включение особого режима</string>
     <string name="pref_summary_transmitready_icon">Звуковое оповещение о готовности к передаче в канале "Не Перебивать Говорящего"</string>
     <string name="pref_title_userjoin_icon">Пользователь присоединился к каналу</string>
-    <string name="pref_summary_userjoin_icon">Звуковое оповещение о присоединения пользователя к текущему каналу</string>
+    <string name="pref_summary_userjoin_icon">Звуковое оповещение о присоединении пользователя к текущему каналу</string>
     <string name="pref_title_userleft_icon">Пользователь покинул канал</string>
-    <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователя текущего канала</string>
+    <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователем текущего канала</string>
     <string name="pref_header_connection">Настройки Соединения</string>
     <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
     <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>
@@ -121,6 +122,9 @@
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_upload">Выложить Файл</string>
+    <string name="action_stream">Трансляция медиафайла</string>
+    <string name="button_select_media_file">Просмотр</string>
+    <string name="button_stream_media_file">Трансляция</string>
     <string name="button_msg">Сообщение</string>
     <string name="button_send">Отослать</string>
 
@@ -174,6 +178,8 @@
     <string name="err_retrieve_public_server_list">Не удалось получить список публичных серверов</string>
     <string name="err_send_text_message">Не удалось отослать текстовое сообщение</string>
     <string name="err_connection">Не удалось установить соединение</string>
+    <string name="err_facebooklogin">Не удалось зарегистрироваться в Facebook</string>
+    <string name="err_stream_media">Не удалось запустить трансляцию медиафайла</string>
 
     <string name="action_new_channel">Новый Канал</string>
     <string name="action_save">Сохранить</string>
@@ -192,6 +198,7 @@
     <string name="pref_title_authentication">Идентификация</string>
     <string name="pref_title_username">Имя Пользователя</string>
     <string name="pref_title_password">Пароль</string>
+    <string name="pref_title_facebook">Регистрация в Facebook</string>
     <string name="pref_title_join_channel">Подключить Канал</string>
     <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
