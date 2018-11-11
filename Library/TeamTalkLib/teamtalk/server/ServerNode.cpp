@@ -3142,11 +3142,15 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 
         if((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
         {
-            if(!banchan.null() && !banchan->IsOperator(userid))
+            if(!banchan.null() && banchan->IsOperator(userid))
+                err = m_srvguard->AddUserBan(*banner, ban);
+            else
                 return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
         }
-
-        err = m_srvguard->AddUserBan(*banner, ban);
+        else
+        {
+            err = m_srvguard->AddUserBan(*banner, ban);
+        }
 
         if(!banchan.null() && err.success())
             AddBannedUserToChannel(ban);
@@ -3161,6 +3165,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
 {
     GUARD_OBJ(this, lock());
+    ErrorMsg err;
 
     serveruser_t user = GetUser(userid);
     if(user.null())
@@ -3176,15 +3181,20 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
 
     if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
-        if(!banchan.null() && !banchan->IsOperator(userid))
+        if(!banchan.null() && banchan->IsOperator(userid))
+            err = m_srvguard->RemoveUserBan(*user, ban);
+        else
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
+    else
+    {
+        err = m_srvguard->RemoveUserBan(*user, ban);
+    }
 
-    if(!banchan.null())
+    if(err.success() && !banchan.null())
         banchan->RemoveUserBan(ban);
 
-    ErrorMsg err = m_srvguard->RemoveUserBan(*user, ban);
-    if(err.errorno == TT_CMDERR_SUCCESS)
+    if(err.success())
     {
         m_srvguard->OnUserUnbanned(*user, ban);
         if(IsAutoSaving())

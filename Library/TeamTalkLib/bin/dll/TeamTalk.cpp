@@ -3317,7 +3317,10 @@ TEAMTALKDLL_API INT32 TT_DoUpdateServer(IN TTInstance* lpTTInstance,
 
     if(lpServerProperties)
     {
-        teamtalk::ServerInfo serverprop;
+        teamtalk::ServerInfo serverprop, tmp;
+        // need to get host information to fill out new TCP/UDP ports
+        if (pClientNode->GetServerInfo(tmp))
+            serverprop.hostaddrs = tmp.hostaddrs;
         Convert(*lpServerProperties, serverprop);
         return pClientNode->DoUpdateServer(serverprop);
     }

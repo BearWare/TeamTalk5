@@ -1235,7 +1235,7 @@ namespace BearWare
         /** @brief User is allowed to create permanent channels which
          * are stored in the server's configuration file.
          * @see TeamTalkBase.DoMakeChannel() */
-        USERRIGHT_MODIFY_CHANNELS          = 0x00000008,
+        USERRIGHT_MODIFY_CHANNELS                   = 0x00000008,
         /** @brief User can broadcast text message of type 
          * #TextMsgType.MSGTYPE_BROADCAST to all users. */
         USERRIGHT_TEXTMESSAGE_BROADCAST             = 0x00000010,
@@ -1293,7 +1293,7 @@ namespace BearWare
          * with #ChannelType.CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE                      = 0x00100000,
         /** @brief User with all rights.*/
-        USERRIGHT_ALL = 0xFFFFFFFF
+        USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
     }
 
     /** 

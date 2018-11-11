@@ -801,12 +801,17 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     if (srvprop.udpaddrs.size())
         udpport = srvprop.udpaddrs[0].get_port_number();
     
-    GetProperty(properties, TT_TCPPORT, tcpport);
-    GetProperty(properties, TT_UDPPORT, udpport);
-    for (auto& a : srvprop.tcpaddrs)
-        a.set_port_number(tcpport);
-    for (auto& a : srvprop.udpaddrs)
-        a.set_port_number(udpport);
+    if (GetProperty(properties, TT_TCPPORT, tcpport))
+    {
+        for(auto& a : srvprop.tcpaddrs)
+            a.set_port_number(tcpport);
+    }
+
+    if (GetProperty(properties, TT_UDPPORT, udpport))
+    {
+        for(auto& a : srvprop.udpaddrs)
+            a.set_port_number(udpport);
+    }
 
     GetProperty(properties, TT_USERTIMEOUT, srvprop.usertimeout);
 
