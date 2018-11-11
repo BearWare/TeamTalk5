@@ -25,7 +25,8 @@ Android client:
 - Notification on incoming text message
 - Chinese language
 Server
-- Fixed issue where media files could now be played in class room channels
+- Fixed issue where media files could not be played in class room channels
+- Fixed security issue where IP-address or username could be banned without the ban user-right enabled
 
 Version 5.3.2, released 2018/05/25
 Default Qt client
