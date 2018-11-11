@@ -583,7 +583,8 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     
     @objc func channelSortChanged(_ segctrl: UISegmentedControl) {
         let defaults = UserDefaults.standard
-        defaults.set(segctrl.selectedSegmentIndex, forKey: PREF_DISPLAY_SORTCHANNELS)
+        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.hashValue : ChanSort.POPULARITY.hashValue,
+                     forKey: PREF_DISPLAY_SORTCHANNELS)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

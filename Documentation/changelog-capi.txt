@@ -179,7 +179,7 @@
  * The @c transmitUsers array of #Channel now also applies to
  * #CHANNEL_DEFAULT but unlike a channel of type #CHANNEL_CLASSROOM
  * the @c transmitUsers array contains the user ID of those who cannot
- * talk.
+ * talk. Basically the opposite of classrooms.
  *
  * The following new macros have been introduced to access
  * the @transmitUsers array:
@@ -195,6 +195,7 @@
  *
  * #UserRight enumeration now contains:
  * - #USERRIGHT_RECORD_VOICE
+ * - #USERRIGHT_TRANSMIT_MEDIAFILE
  *
  * <hr>
  *

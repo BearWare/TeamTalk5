@@ -103,45 +103,8 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        let def = NotificationCenter.default
-        
-        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        def.addObserver(self, selector: #selector(ServerDetailViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    @objc func keyboardWillShow(_ notify: Notification) {
-        moveForKeyboard(notify, up: true)
-    }
-    
-    @objc func keyboardWillHide(_ notify: Notification) {
-        moveForKeyboard(notify, up: false)
-    }
-
-    func moveForKeyboard(_ notify: Notification, up: Bool) {
-        if let userInfo = notify.userInfo {
-            if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
-                
-                let selfFrame = self.view.frame
-                var newTableFrame = tableView.frame
-                
-                if up {
-                    newTableFrame.size.height = selfFrame.height - keyboardFrame.height
-                }
-                else {
-                    var tabBarHeight : CGFloat = 0.0
-                    if self.tabBarController != nil {
-                        tabBarHeight = (self.tabBarController?.tabBar.frame.size.height)!
-                    }
-                    
-                    newTableFrame.size.height = selfFrame.height - tabBarHeight
-                }
-                
-                tableView.frame = newTableFrame
-            }
-        }
-    }
-
     func refreshAuthorizationItems(facebook: Bool) {
         self.authItems.removeAll()
         
@@ -188,15 +151,6 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         server.channel = chanfield!.text!
         server.chanpasswd = chpasswdfield!.text!
     }
-    
-    func textFieldDidBeginEditing(_ textfield: UITextField) {
-        let cell = textfield.superview as! UITableViewCell
-        tableView.scrollToRow(at: tableView.indexPath(for: cell)!, at: .top, animated: true)
-    }
-    
-    //    func textFieldShouldEndEditing(textfield: UITextField) -> Bool {
-    //        return true
-    //    }
     
     func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
         textfield.resignFirstResponder()

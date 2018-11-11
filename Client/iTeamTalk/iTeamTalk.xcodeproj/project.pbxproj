@@ -88,6 +88,8 @@
 		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
 		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		252EB82C21921FE60026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Main.strings; sourceTree = "<group>"; };
+		252EB82E21921FE70026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
 		253343BE1C8C85CF00B43A9A /* Splash-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-568h.png"; path = "iTeamTalk/Splash-568h.png"; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				da,
 				nl,
 				ar,
+				zh,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -471,6 +474,7 @@
 				251B426A1C5D4A31009650EA /* da */,
 				252BDD5F1C85F90600102B5E /* nl */,
 				251997F01EB911FA003C94B1 /* ar */,
+				252EB82C21921FE60026A2D0 /* zh */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -478,7 +482,7 @@
 		254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				254B7A561B98BAA300BE0DEF /* Base */,
+				254B7A561B98BAA300BE0DEF /* Base */
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -498,6 +502,7 @@
 				251B426B1C5D4A31009650EA /* da */,
 				252BDD611C85F90600102B5E /* nl */,
 				251997F21EB911FB003C94B1 /* ar */,
+				252EB82E21921FE70026A2D0 /* zh */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
