@@ -41,7 +41,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static String SYSTEMID = "teamtalk";
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
-    public static String VIDEODEVICEID = "", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
 
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
