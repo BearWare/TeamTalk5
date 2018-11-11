@@ -460,7 +460,7 @@ teamtalk::ErrorMsg ServerMonitor::AddUserBan(const teamtalk::ServerUser& banner,
 }
 
 teamtalk::ErrorMsg ServerMonitor::AddUserBan(const teamtalk::ServerUser& banner, 
-                                               const teamtalk::BannedUser& ban)
+                                             const teamtalk::BannedUser& ban)
 {
     ClientErrorMsg err;
     ZERO_STRUCT(err);
