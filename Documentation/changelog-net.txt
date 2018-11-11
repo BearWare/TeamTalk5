@@ -6,6 +6,9 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v53brelease
+ * - @ref v53bapi
+ *
  * @ref v53arelease
  * - @ref v53aapi
  *
@@ -168,6 +171,33 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v53brelease TeamTalk 5 SDK v. 5.3b release
+ *
+ * @subsection v53bapi API changes in v5.3b
+ *
+ * The @c transmitUsers array of #BearWare.Channel now also applies to
+ * #ChannelType.CHANNEL_DEFAULT but unlike a channel of type #ChannelType.CHANNEL_CLASSROOM
+ * the @c transmitUsers array contains the user ID of those who cannot
+ * talk. Basically the opposite of classrooms.
+ *
+ * The following new macros have been introduced to access
+ * the @transmitUsers array:
+ * - #BearWare.TeamTalkBase.TT_CLASSROOM_USERID_INDEX
+ * - #BearWare.TeamTalkBase.TT_CLASSROOM_STREAMTYPE_INDEX
+ * - #BearWare.TeamTalkBase.TT_TRANSMITUSERS_FREEFORALL
+ * - #BearWare.TeamTalkBase.TT_TRANSMITUSERS_USERID_INDEX
+ * - #BearWare.TeamTalkBase.TT_TRANSMITUSERS_STREAMTYPE_INDEX
+ *
+ * #StreamType enumeration now contains:
+ * - #StreamType.STREAMTYPE_MEDIAFILE
+ * - #StreamType.STREAMTYPE_CLASSROOM_ALL
+ *
+ * #UserRight enumeration now contains:
+ * - #UserRight.USERRIGHT_RECORD_VOICE
+ * - #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE
  *
  * <hr>
  *

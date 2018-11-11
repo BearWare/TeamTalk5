@@ -118,7 +118,7 @@ include (UseJava)
 option (BUILD_TEAMTALK_LIBRARY_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
 option (BUILD_TEAMTALKPRO_LIBRARY_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
 
-set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.5" "-target" "1.5")
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.6" "-target" "1.6")
 
 if (BUILD_TEAMTALK_LIBRARY_JAR)
   add_jar (TeamTalk5JAR
