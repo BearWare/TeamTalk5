@@ -48,19 +48,19 @@
 "Announce lost server connection" = "Ansage bei Verbindungsverlust";
 
 /* preferences */
-"Announce user joining channel" = "Ansage wenn Benutzer Raum betritt";
+"Announce user joining channel" = "Ansagen, wenn Benutzer Raum betritt";
 
 /* preferences */
-"Announce user leaving channel" = "Ansage wenn Benutzer Raum verlässt";
+"Announce user leaving channel" = "Ansagen, wenn Benutzer Raum verlässt";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "Ansagen, wenn sich ein Benutzer angemeldet hat";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "Ansagen, wenn sich ein Benutzer abgemeldet hat";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "Ansagen";
 
 /* preferences */
 "App Version" = "App-Version";
@@ -69,7 +69,7 @@
 "Application" = "Anwendung";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "Aufsteigend";
 
 /* codec detail */
 "Audio Channels" = "Audiokanäle";
@@ -193,10 +193,10 @@
 "has left the channel" = "hat den Raum verlassen";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "hat sich angemeldet";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "hat sich abgemeldet";
 
 /* preferences */
 "Headset TX Toggle" = "Headset-Übertragung umschalten";
@@ -321,7 +321,7 @@
 "OPUS Codec" = "OPUS-Codec";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "Anordnung der Räume in Raumliste";
 
 /* channel list */
 "Parent channel" = "Übergeordneter Raum";
@@ -365,7 +365,7 @@
 "Pop up text message when new messages are received" = "Pop-Up beim Empfang neuer Textnachrichten";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "Beliebtheit";
 
 /* serverlist */
 "Preferences" = "Voreinstellungen";
@@ -470,7 +470,7 @@
 "Silent" = "Still";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort channels" = "Räume sortieren";
 
 /* preferences
    text to speech */
@@ -575,10 +575,10 @@
 "User Leaves Channel" = "Benutzer verlässt Raum";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "Benutzer angemeldet";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User logged out" = "Benutzer abgemeldet";
 
 /* preferences
    user detail */

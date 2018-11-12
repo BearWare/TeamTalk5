@@ -166,6 +166,16 @@
     <item id="302">Gesperrte Benutzer</item>
     <item id="303">Neues Profil</item>
     <item id="304">Profil löschen</item>
+    <item id="305">Profil wählen</item>
+    <item id="306">Profilname</item>
+    <item id="307">Aufsteigend</item>
+    <item id="308">Beliebtheit</item>
+    <item id="309">Jeder</item>
+    <item id="310">%s hat die Datei %s hinzugefügt</item>
+    <item id="311">Datei %s entfernt</item>
+    <item id="312">Dateiereignisse</item>
+    <item id="313">Datei hinzugefügt</item>
+    <item id="314">Datei entfernt</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1011">Hosteigenschaften</item>
     <item id="1012">TCP-Port</item>
@@ -573,4 +583,8 @@
     <item id="32947">Erlaube alle Desktopübertragungen\tCtrl+Alt+Shift+E</item>
     <item id="32948">Erlaube alle Medienübertragungen\tCtrl+Alt+Shift+R</item>
     <item id="32949">Raumstatus &amp;vorlesen\tCtrl+Shift+G</item>
+    <item id="32950">&amp;Nachrichten\tCtrl+E</item>
+    <item id="32951">Aus Raum &amp;werfen und sperren\tCtrl+B</item>
+    <item id="32952">Im Raum gesperrte &amp;Benutzer\tCtrl+Alt+Shift+B</item>
+    <item id="32953">&amp;Neue Client-Instanz\tCtrl+N</item>
 </language>
