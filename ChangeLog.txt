@@ -3,9 +3,10 @@
 ----------------------------------------------
 Version 5.3.4, unreleased
 iOS client
+- Fixed sort channels by popularity
 - Chinese translation
 
-Version 5.3.3, unreleased
+Version 5.3.3, released 2018/11/15
 Default Qt client
 - Shared desktop now remains in same position after desktop update
 - Double click to ban/unban in Banned Users dialog
