@@ -183,7 +183,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let sortchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let options = [ NSLocalizedString("Ascending", comment: "preferences"), NSLocalizedString("Popularity", comment: "preferences")]
         let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort channels", comment: "preferences"), values: options)
-        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
         sortchansegctl.selectedSegmentIndex = chansort
         sortchancell.detailTextLabel!.text = NSLocalizedString("Order of channels in Channel List", comment: "preferences")
         sortchansegctl.addTarget(self, action: #selector(PreferencesViewController.channelSortChanged(_:)), for: .valueChanged)
@@ -583,7 +583,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     
     @objc func channelSortChanged(_ segctrl: UISegmentedControl) {
         let defaults = UserDefaults.standard
-        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.hashValue : ChanSort.POPULARITY.hashValue,
+        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.rawValue : ChanSort.POPULARITY.rawValue,
                      forKey: PREF_DISPLAY_SORTCHANNELS)
     }
 

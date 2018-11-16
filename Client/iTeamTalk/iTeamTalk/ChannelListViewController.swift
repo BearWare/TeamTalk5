@@ -170,9 +170,9 @@ class ChannelListViewController :
         let chanusers : [User] = users.values.filter({$0.nChannelID == self.curchannel.nChannelID})
         
         let settings = UserDefaults.standard
-        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.hashValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
         switch chansort {
-        case ChanSort.POPULARITY.hashValue :
+        case ChanSort.POPULARITY.rawValue :
             displayChans = subchans.sorted() {
                 let aid = $0.nChannelID
                 let bid = $1.nChannelID
@@ -182,7 +182,7 @@ class ChannelListViewController :
                     String(cString: UnsafeRawPointer([$0.szName]).assumingMemoryBound(to: CChar.self))
                 .caseInsensitiveCompare(String(cString: UnsafeRawPointer([$1.szName]).assumingMemoryBound(to: CChar.self))) == ComparisonResult.orderedAscending : au.count > bu.count
             }
-        case ChanSort.ASCENDING.hashValue :
+        case ChanSort.ASCENDING.rawValue :
             fallthrough
         default :
             displayChans = subchans.sorted() {
