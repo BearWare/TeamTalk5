@@ -18,7 +18,7 @@ CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR):$(PWD)/libs/TeamTalk5.jar
 # -Djava.library.path instead
 LIBPATH=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL:$(TEAMTALK_ROOT)/Library/TeamTalkJNI/libs
 
-SRCTARGET=-source 1.5 -target 1.5
+SRCTARGET=-source 1.6 -target 1.6
 
 # Override default settings in dk.bearware.TeamTalkTestCaseBase
 JAVAPROP=-Djava.library.path=$(LIBPATH)
@@ -73,15 +73,15 @@ help:
 	@echo ""
 	@echo "Useful environment variables:"
 	@echo "  INPUTDEVICEID"
-	@echo "    1978 = virtual sound device, 0 = default audio device."
+	@echo "    1978 = virtual sound device, -1 = default audio device. Default is -1."
 	@echo "  OUTPUTDEVICEID"
-	@echo "    1978 = virtual sound device, 0 = default audio device."
+	@echo "    1978 = virtual sound device, -1 = default audio device. Default is -1."
 	@echo "  PROEDITION"
 	@echo "    0 = Standard Edition (TeamTalk5-jni), 1 = Professional Edition (TeamTalk5Pro-jni). Default is 0."
 	@echo "  ENCRYPTED"
 	@echo "    0 = Non-encrypted, 1 = Encrypted. Default is 0."
 	@echo "  VIDEODEVICEID"
-	@echo "    None = Disable video capure unit tests."
+	@echo "    None = Disable video capure unit tests. Default is None."
 	@echo "  SERVERIP"
 	@echo "    Client should connect to this hostname/IP-address. Default is 127.0.0.1"
 	@echo "  SERVERBINDIP"

@@ -2828,11 +2828,7 @@ TEAMTALKDLL_API TTBOOL TT_SendDesktopInput(IN TTInstance* lpTTInstance,
     for(int m=0;m<TT_DESKTOPINPUT_MAX && m<nDesktopInputCount;m++)
     {
         teamtalk::DesktopInput input;
-        input.x = lpDesktopInputs[m].uMousePosX;
-        input.y = lpDesktopInputs[m].uMousePosY;
-        input.keycode = lpDesktopInputs[m].uKeyCode;
-        input.keystate = lpDesktopInputs[m].uKeyState;
-
+        Convert(lpDesktopInputs[m], input);
         inputs.push_back(input);
     }
     return pClientNode->SendDesktopInput(nUserID, inputs);
@@ -3321,7 +3317,10 @@ TEAMTALKDLL_API INT32 TT_DoUpdateServer(IN TTInstance* lpTTInstance,
 
     if(lpServerProperties)
     {
-        teamtalk::ServerInfo serverprop;
+        teamtalk::ServerInfo serverprop, tmp;
+        // need to get host information to fill out new TCP/UDP ports
+        if (pClientNode->GetServerInfo(tmp))
+            serverprop.hostaddrs = tmp.hostaddrs;
         Convert(*lpServerProperties, serverprop);
         return pClientNode->DoUpdateServer(serverprop);
     }

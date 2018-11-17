@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -41,7 +41,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static String SYSTEMID = "teamtalk";
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
-    public static String VIDEODEVICEID = "", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
 
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
@@ -52,7 +52,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final String MEDIAFILE = "video.avi";
     public static final String HTTPS_MEDIAFILE = "https://www.bearware.dk/test/giana.wma";
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
-    
+
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -94,7 +94,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
     protected void tearDown() throws Exception {
         super.tearDown();
-        
+
         for(TeamTalkBase ttclient : ttclients) {
             ttclient.disconnect();
             if((ttclient.getFlags() & ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) == ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) {
@@ -109,13 +109,13 @@ public class TeamTalkTestCaseBase extends TestCase {
         }
         ttclients.clear();
     }
-     
+
     protected void initSound(TeamTalkBase ttclient) {
         initSound(ttclient, false);
     }
 
     protected void initSound(TeamTalkBase ttclient, boolean duplex) {
-        
+
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
         assertTrue("get sound devs", ttclient.getSoundDevices(devs));
         System.out.println("---- Sound Devices ----");
@@ -138,7 +138,7 @@ public class TeamTalkTestCaseBase extends TestCase {
             assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
             assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
         }
-        
+
         SpeexDSP spxdsp = new SpeexDSP(true), spxdsp2 = new SpeexDSP();
         assertTrue("set Speex DSP", ttclient.setSoundInputPreprocess(spxdsp));
 
@@ -175,7 +175,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static void connect(TeamTalkBase ttclient, String systemID, ServerInterleave server) {
         connect(ttclient, systemID, IPADDR, TCPPORT, UDPPORT, server);
     }
-    
+
     protected static void connect(TeamTalkBase ttclient, String systemID,
                                   String hostaddr, int tcpport, int udpport, ServerInterleave server)
     {
@@ -192,7 +192,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         login(ttclient, nick, username, passwd, clientname, nop);
     }
 
-    protected static void login(TeamTalkBase ttclient, String nick, String username, 
+    protected static void login(TeamTalkBase ttclient, String nick, String username,
                                 String passwd, String clientname, ServerInterleave server)
     {
         int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
@@ -233,25 +233,43 @@ public class TeamTalkTestCaseBase extends TestCase {
         assertTrue("root exists", ttclient.getRootChannelID() > 0);
 
         int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
-        
+
         assertTrue("do join root", cmdid > 0);
-        
+
         assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, 1000, server));
-        
+
         assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
     }
 
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TTMessage msg) {
         return waitForEvent(ttclient, nClientEvent, waittimeout, msg, nop);
     }
 
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, ServerInterleave interleave) {
         return waitForEvent(ttclient, nClientEvent, waittimeout, new TTMessage(), interleave);
     }
-    
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, 
+/*
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
+                                          int waittimeout, TeamTalkEventHandler eventhandler,
+                                          ServerInterleave interleave) {
+        
+        long start = System.currentTimeMillis();
+        TTMessage tmp = new TTMessage();
+        boolean gotmsg;
+        do {
+            gotmsg = eventhandler.processEvent(ttclient, waittimeout);
+
+            interleave.interleave();
+
+            if(System.currentTimeMillis() - start >= waittimeout)
+                break;
+        }
+        while (!gotmsg || tmp.nClientEvent != nClientEvent);
+    }
+*/
+    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
         TTMessage tmp = new TTMessage();
@@ -271,20 +289,6 @@ public class TeamTalkTestCaseBase extends TestCase {
                 break;
         }
         while (!gotmsg || tmp.nClientEvent != nClientEvent);
-
-        // while (ttclient.getMessage(tmp, 0) && tmp.nClientEvent != nClientEvent)
-        // {
-        //     interleave.interleave();
-
-        //     if(DEBUG_OUTPUT) {
-        //         System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
-        //         if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
-        //             System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
-        //         }
-        //     }
-        //     if(System.currentTimeMillis() - start >= waittimeout)
-        //         break;
-        // }
 
         if (tmp.nClientEvent == nClientEvent)
         {
@@ -317,7 +321,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         }
         return tmp.nClientEvent == nClientEvent;
     }
-    
+
 
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent, int waittimeout)  {
         TTMessage msg = new TTMessage();
@@ -327,7 +331,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitCmdComplete(TeamTalkBase ttclient, int cmdid, int waittimeout) {
         return waitCmdComplete(ttclient, cmdid, waittimeout, nop);
     }
-    
+
     protected static boolean waitCmdComplete(TeamTalkBase ttclient, int cmdid, int waittimeout, ServerInterleave interleave) {
         TTMessage msg = new TTMessage();
 
@@ -338,12 +342,12 @@ public class TeamTalkTestCaseBase extends TestCase {
         }
         return false;
     }
-    
+
     protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid, int waittimeout) {
         return waitCmdSuccess(ttclient, cmdid, waittimeout, nop);
     }
 
-    protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid, 
+    protected static boolean waitCmdSuccess(TeamTalkBase ttclient, int cmdid,
                                             int waittimeout, ServerInterleave interleave) {
         TTMessage msg = new TTMessage();
 
@@ -359,7 +363,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, TTMessage msg) {
         return waitCmdError(ttclient, cmdid, waittimeout, msg, nop);
     }
-    
+
     protected static boolean waitCmdError(TeamTalkBase ttclient, int cmdid, int waittimeout, ServerInterleave interleave) {
         return waitCmdError(ttclient, cmdid, waittimeout, new TTMessage(), interleave);
     }
@@ -383,7 +387,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name) {
         return buildDefaultChannel(ttclient, name, Codec.OPUS_CODEC);
     }
-    
+
     protected static Channel buildDefaultChannel(TeamTalkBase ttclient, String name, int codec) {
         Channel chan = new Channel();
         chan.nParentID = ttclient.getRootChannelID();
@@ -425,7 +429,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         ttclients.add(ttclient);
         return ttclient;
     }
-    
+
     public static String getCurrentMethod()
     {
         return Thread.currentThread().getStackTrace()[2].getMethodName();
@@ -434,7 +438,7 @@ public class TeamTalkTestCaseBase extends TestCase {
     static boolean hasFlag(int flags, int flag) {
         return (flags & flag) == flag;
     }
-    
+
     static void printSoundDevice(SoundDevice dev) {
         System.out.println("Sound dev " + Integer.toString(dev.nDeviceID) + ":");
         System.out.println("\tName:" + dev.szDeviceName);
@@ -448,5 +452,5 @@ public class TeamTalkTestCaseBase extends TestCase {
             System.out.print(Integer.toString(dev.outputSampleRates[j]) + ", ");
         System.out.println("");
         System.out.println("\tDefault sample rate: " + Integer.toString(dev.nDefaultSampleRate));
-    }    
+    }
 }
