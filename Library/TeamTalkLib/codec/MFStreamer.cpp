@@ -326,7 +326,7 @@ void MFStreamer::Run()
                     MYTRACE(ACE_TEXT("Enqueued %u, size %u\n"), media_frame.timestamp, dwCurLen);
                     ACE_Time_Value tv;
                     ret = m_audio_frames.enqueue(mb, &tv);
-                    assert (ret >= 0);
+                    MYTRACE_COND(ret < 0, ACE_TEXT("Skipped audio frame. Buffer full\n"));
                     if(ret < 0)
                     {
                         mb->release();
@@ -376,7 +376,7 @@ void MFStreamer::Run()
                     ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
                     ACE_Time_Value tv;
                     int ret = m_video_frames.enqueue(mb, &tv);
-                    assert(ret >= 0);
+                    MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
                     if(ret < 0)
                     {
                         mb->release();
