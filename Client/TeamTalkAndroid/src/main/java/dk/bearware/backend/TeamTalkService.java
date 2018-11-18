@@ -857,6 +857,11 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
     }
 
     @Override
+    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
+
+    }
+
+    @Override
     public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
     }
 
