@@ -55,6 +55,10 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
         eventsLocked = false;
     }
 
+    public boolean isServiceActive() {
+        return accessibilityService.isEnabled();
+    }
+
     public boolean isUiUpdateDiscouraged() {
         return discourageUiUpdates && accessibilityService.isEnabled();
     }

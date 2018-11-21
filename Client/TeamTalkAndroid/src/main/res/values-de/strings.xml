@@ -15,6 +15,7 @@
     <string name="title_activity_user_prop">Benutzereigenschaften</string>
     <string name="title_activity_text_message">Textnachricht</string>
     <string name="title_activity_preferences">Voreinstellungen</string>
+    <string name="title_activity_stream_media">Mediendatei in Raum streamen</string>
     <string name="action_createchannel">Erstellen</string>
     <string name="action_updatechannel">Bearbeiten</string>
     <string name="text_con_failed">Fehler beim Verbinden zum Server. Nächster Versuch...</string>
@@ -57,6 +58,10 @@
     <string name="pref_summary_files_update_audio_icon">Klang abspielen, wenn Dateien hochgeladen oder gelöscht werden</string>
     <string name="pref_title_transmitready_icon">Exklusiver Modus umgeschaltet</string>
     <string name="pref_summary_transmitready_icon">Klang bei Sprechbereitschaft in unterbrechungsfreien Räumen abspielen</string>
+    <string name="pref_title_userjoin_icon">Benutzer hat Raum betreten</string>
+    <string name="pref_summary_userjoin_icon">Klang abspielen, wenn Benutzer den aktuellen Raum betritt</string>
+    <string name="pref_title_userleft_icon">Benutzer hat Raum verlassen</string>
+    <string name="pref_summary_userleft_icon">Klang abspielen, wenn Benutzer den aktuellen Raum verlässt</string>
     <string name="pref_header_connection">Verbindung</string>
     <string name="pref_title_sub_txtmsg">Textnachrichten</string>
     <string name="pref_summary_sub_txtmsg">Textnachrichten von Benutzern empfangen</string>
@@ -115,13 +120,18 @@
     <string name="button_tx">TX</string>
     <string name="button_remove">Entfernen</string>
     <string name="button_edit">Bearbeiten</string>
-    <string name="action_ban">Sperren</string>
+    <string name="action_banchan">Im aktuellen Raum sperren</string>
+    <string name="action_bansrv">Für den Server sperren</string>
     <string name="action_edit">Raum bearbeiten</string>
     <string name="action_join">Betreten</string>
-    <string name="action_kick">Kick</string>
+    <string name="action_kickchan">Aus aktuellem Raum werfen</string>
+    <string name="action_kicksrv">Vom Server werfen</string>
     <string name="action_move">Hierher verschieben</string>
     <string name="action_select">Zum Verschieben wählen</string>
     <string name="action_upload">Datei hochladen</string>
+    <string name="action_stream">Stream a media file</string>
+    <string name="button_select_media_file">Durchsuchen</string>
+    <string name="button_stream_media_file">Streamen</string>
     <string name="button_msg">Msg</string>
     <string name="button_send">Senden</string>
 
@@ -146,6 +156,13 @@
     <string name="user_prop_title_mute_voice">Sprache stummschalten</string>
     <string name="user_prop_title_media_volume">Medienlautstärke</string>
     <string name="user_prop_title_mute_media">Mediendatei stummschalten</string>
+    <string name="user_prop_title_subscribe_txtmsg">Benutzernachrichten empfangen</string>
+    <string name="user_prop_title_subscribe_chanmsg">Raumnachrichten empfangen</string>
+    <string name="user_prop_title_subscribe_bcastmsg">Servernachrichten empfangen</string>
+    <string name="user_prop_title_subscribe_voice">Sprache empfangen</string>
+    <string name="user_prop_title_subscribe_vid">Video empfangen</string>
+    <string name="user_prop_title_subscribe_desk">Desktop empfangen</string>
+    <string name="user_prop_title_subscribe_media">Medien empfangen</string>
 
     <string name="label_connection">Verbindung:</string>
     <string name="stat_online">Online</string>
@@ -170,6 +187,8 @@
     <string name="err_retrieve_public_server_list">Fehler beim Abrufen der öffentlichen Serverliste</string>
     <string name="err_send_text_message">Fehler beim Senden der Textnachricht</string>
     <string name="err_connection">Verbindung fehlgeschlagen</string>
+    <string name="err_facebooklogin">Facebook-Login fehlgeschlagen</string>
+    <string name="err_stream_media">Fehler beim Streamen einer Mediendatei</string>
 
     <string name="action_new_channel">Neuer Raum</string>
     <string name="action_save">Speichern</string>
@@ -188,6 +207,7 @@
     <string name="pref_title_authentication">Anmeldung</string>
     <string name="pref_title_username">Benutzername</string>
     <string name="pref_title_password">Passwort</string>
+    <string name="pref_title_facebook">Facebook-Login</string>
     <string name="pref_title_join_channel">Raum betreten</string>
     <string name="pref_title_channel">Raum</string>
     <string name="pref_title_channel_password">Raumpasswort</string>
@@ -216,6 +236,8 @@
     <string name="remote_file_remove_confirmation">Soll die Datei %1$s wirklich vom Server gelöscht werden?</string>
     <string name="server_remove_confirmation">Soll %1$s wirklich aus der Serverliste entfernt werden?</string>
     <string name="channel_remove_confirmation">Soll der Raum %1$s wirklich entfernt werden?</string>
+    <string name="ban_confirmation">Soll der Benutzer %1$s wirklich gesperrt werden?</string>
+    <string name="kick_confirmation">Soll der Benutzer %1$s wirklich vom Server geworfen werden?</string>
     <string name="version_update">Neue TeamTalk-Version verfügbar: %1$s?</string>
     <string name="decvolume">Lautstärke verringern</string>
     <string name="incvolume">Lautstärke erhöhen</string>
@@ -234,6 +256,9 @@
     <string name="decvoxlevel">Spracherkennungspegel verringern</string>
     <string name="incvoxlevel">Spracherkennungspegel erhöhen</string>
     <string name="vox_level_description">Spracherkennungspegel ist %1$s</string>
+
+    <string name="tx_on">Übertrage</string>
+    <string name="tx_off">Übertragung inaktiv</string>
 
     <string name="text_samplerate">Samplingrate</string>
     <string name="text_ignore_silence">Stille ignorieren (DTX)</string>
@@ -284,4 +309,8 @@
     <string name="permission_vibrate">Vibration bei Push-to-talk wird nicht verfügbar sein</string>
     <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
     <string name="permission_read_phone_state">Erkennung eingehender Telefonate wird nicht möglich sein</string>
+
+    <string name="facebook_app_id">611833262539381</string>
+    <string name="fb_login_protocol_scheme">fb611833262539381</string>
+
 </resources>

@@ -4781,10 +4781,18 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_DESKTOPTXLIMIT, m_serverinfo.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, m_serverinfo.totaltxlimit);
 
-    // int tcpport = m_serverinfo.tcpaddr.get_port_number();
-    // int udpport = m_serverinfo.udpaddr.get_port_number();
-    // GetProperty(properties, TT_TCPPORT, tcpport);
-    // GetProperty(properties, TT_UDPPORT, udpport);
+    if(m_serverinfo.hostaddrs.size())
+    {
+        int tcpport = m_serverinfo.hostaddrs[0].get_port_number();
+        int udpport = m_serverinfo.udpaddr.get_port_number();
+        if (GetProperty(properties, TT_TCPPORT, tcpport))
+        {
+            for (auto& a : m_serverinfo.hostaddrs)
+                a.set_port_number(tcpport);
+        }
+        if (GetProperty(properties, TT_UDPPORT, udpport))
+            m_serverinfo.udpaddr.set_port_number(udpport);
+    }
     GetProperty(properties, TT_MOTD, m_serverinfo.motd);
     GetProperty(properties, TT_MOTDRAW, m_serverinfo.motd_raw);
     GetProperty(properties, TT_VERSION, m_serverinfo.version);

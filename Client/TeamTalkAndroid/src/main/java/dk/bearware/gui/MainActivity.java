@@ -1360,18 +1360,22 @@ implements TeamTalkConnectionListener,
         }
     }
 
+    private interface OnButtonInteractionListener extends OnTouchListener, OnClickListener {
+    }
+
     private void setupButtons() {
         
         final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
-        tx_btn.setOnTouchListener(new OnTouchListener() {
-            
+
+        OnButtonInteractionListener txButtonListener = new OnButtonInteractionListener() {
+
             boolean tx_state = false;
             long tx_down_start = 0;
-            
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 boolean tx = event.getAction() != MotionEvent.ACTION_UP;
-                
+
                 if(tx != tx_state) {
 
                     if(!tx) {
@@ -1382,7 +1386,7 @@ implements TeamTalkConnectionListener,
                         else {
                             tx_down_start = System.currentTimeMillis();
                         }
-                        
+
                         //Log.i(TAG, "TX is now: " + tx + " diff " + (System.currentTimeMillis() - tx_down_start));
                     }
 
@@ -1393,7 +1397,24 @@ implements TeamTalkConnectionListener,
                 tx_state = tx;
                 return true;
             }
-        });
+
+            @Override
+            public void onClick(View v) {
+                if(System.currentTimeMillis() - tx_down_start < 800) {
+                    tx_state = true;
+                    tx_down_start = 0;
+                }
+                else {
+                    tx_state = false;
+                    tx_down_start = System.currentTimeMillis();
+                }
+                if (ttservice.isVoiceActivationEnabled())
+                    ttservice.enableVoiceActivation(false);
+                ttservice.enableVoiceTransmission(tx_state);
+            }
+        };
+
+        tx_btn.setOnTouchListener(txButtonListener);
         
         final ImageButton decVol = (ImageButton) findViewById(R.id.volDec);
         final ImageButton incVol = (ImageButton) findViewById(R.id.volInc);
@@ -1402,7 +1423,7 @@ implements TeamTalkConnectionListener,
         final TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
         final TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
         
-        OnTouchListener listener = new OnTouchListener() {
+        OnButtonInteractionListener tuningButtonListener = new OnButtonInteractionListener() {
             Handler handler = new Handler();
             Runnable runnable;
 
@@ -1431,7 +1452,13 @@ implements TeamTalkConnectionListener,
                 }
                 return false;
             }
-            
+
+            @Override
+            public void onClick(View v) {
+                if(ttclient != null)
+                    adjustLevel(v);
+            }
+
             boolean adjustLevel(View view) {
                 if(view == decVol) {
 
@@ -1532,10 +1559,19 @@ implements TeamTalkConnectionListener,
                 return false;
             }
         };
-        decVol.setOnTouchListener(listener);
-        incVol.setOnTouchListener(listener);
-        decMike.setOnTouchListener(listener);
-        incMike.setOnTouchListener(listener);
+
+        decVol.setOnTouchListener(tuningButtonListener);
+        incVol.setOnTouchListener(tuningButtonListener);
+        decMike.setOnTouchListener(tuningButtonListener);
+        incMike.setOnTouchListener(tuningButtonListener);
+
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && accessibilityAssistant.isServiceActive()) {
+            tx_btn.setOnClickListener(txButtonListener);
+            decVol.setOnClickListener(tuningButtonListener);
+            incVol.setOnClickListener(tuningButtonListener);
+            decMike.setOnClickListener(tuningButtonListener);
+            incMike.setOnClickListener(tuningButtonListener);
+        }
 
         ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
         speakerBtn.setOnClickListener(new OnClickListener() {
@@ -2019,6 +2055,11 @@ implements TeamTalkConnectionListener,
 
     @Override
     public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
+    }
+
+    @Override
+    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
+
     }
 
     @Override

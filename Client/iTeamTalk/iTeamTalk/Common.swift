@@ -241,8 +241,8 @@ func removeFromTTMessages(_ p: TeamTalkEventHandler) {
     }
 }
 
-enum ChanSort {
-    case ASCENDING
+enum ChanSort : Int {
+    case ASCENDING = 0
     case POPULARITY
     case COUNT
 }

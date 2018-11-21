@@ -1915,6 +1915,13 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoUnBanUser(BANIPADDR, 0), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoListBans(0, 0, 200), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoNewUserAccount(account), DEF_WAIT));
+            BannedUser ban = new BannedUser();
+            ban.uBanTypes = BanType.BANTYPE_USERNAME;
+            ban.szUsername = "hest";
+            Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoBan(ban), DEF_WAIT));
+            ban.uBanTypes = BanType.BANTYPE_IPADDR;
+            ban.szIPAddress = "192.168.2.2";
+            Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoBan(ban), DEF_WAIT));
 
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoLeaveChannel(), DEF_WAIT));
             Assert.IsTrue(WaitCmdError(ttclient2, ttclient2.DoMakeChannel(chan), DEF_WAIT));
@@ -2064,8 +2071,17 @@ namespace TeamTalkTest.NET
 
             foreach (UserRight u in (UserRight[])Enum.GetValues(typeof(UserRight)))
             {
-                if (u != UserRight.USERRIGHT_NONE && u != UserRight.USERRIGHT_ALL)
-                    Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+                switch (u)
+                {
+                    case UserRight.USERRIGHT_NONE :
+                    case UserRight.USERRIGHT_ALL :
+                    case UserRight.USERRIGHT_LOCKED_NICKNAME :
+                    case UserRight.USERRIGHT_LOCKED_STATUS :
+                        break;
+                    default:
+                       Assert.IsTrue(a.uUserRights.HasFlag(u), "Testing " + u);
+                        break;
+                }
             }
         }
 
