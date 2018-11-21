@@ -39,10 +39,10 @@
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
 #if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
+#include <avstream/VideoCapture.h>
 #endif
 
-#include <codec/MediaStreamer.h>
+#include <avstream/MediaStreamer.h>
 
 // ACE
 #include <ace/Reactor.h>

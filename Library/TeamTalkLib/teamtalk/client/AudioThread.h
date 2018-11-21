@@ -30,7 +30,9 @@
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexEncoder.h>
-#include <codec/SpeexPreprocess.h>
+#endif
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexPreprocess.h>
 #endif
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>

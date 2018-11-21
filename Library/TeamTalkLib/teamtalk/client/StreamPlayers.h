@@ -47,7 +47,7 @@
 #if defined(ENABLE_VPX)
 #include <codec/VpxDecoder.h>
 #endif
-#include <codec/AudioResampler.h>
+#include <avstream/AudioResampler.h>
 #include "VideoThread.h"
 
 #define STOPPED_TALKING_DELAY 500 //msec

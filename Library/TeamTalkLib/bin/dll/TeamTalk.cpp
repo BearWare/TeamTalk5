@@ -57,7 +57,7 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
+#include <avstream/VideoCapture.h>
 #endif
 
 #ifdef NDEBUG

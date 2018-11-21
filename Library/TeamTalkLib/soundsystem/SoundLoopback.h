@@ -30,11 +30,11 @@
 #include "SoundSystem.h"
 #endif
 
-#if defined(ENABLE_SPEEX)
-#include <codec/SpeexPreprocess.h>
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexPreprocess.h>
 #endif
 
-#include <codec/AudioResampler.h>
+#include <avstream/AudioResampler.h>
 
 #include <vector>
 #include <queue>

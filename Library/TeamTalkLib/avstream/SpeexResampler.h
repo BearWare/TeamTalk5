@@ -24,9 +24,10 @@
 #if !defined(SPEEXRESAMPLER_H)
 #define SPEEXRESAMPLER_H
 
+#include "AudioResampler.h"
+
 #include <speex/speex_resampler.h>
 #include <vector>
-#include <codec/AudioResampler.h>
 
 class SpeexResampler : public AudioResampler
 {

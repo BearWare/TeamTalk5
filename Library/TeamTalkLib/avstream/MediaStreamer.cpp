@@ -33,7 +33,7 @@
 #include "FFMpeg3Streamer.h"
 #endif
 
-#include "MediaUtil.h"
+#include <codec/MediaUtil.h>
 
 #include <assert.h>
 

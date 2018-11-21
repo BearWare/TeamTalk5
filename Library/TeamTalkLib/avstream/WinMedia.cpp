@@ -22,15 +22,17 @@
  */
 
 #include "WinMedia.h"
+#include "AudioResampler.h"
+
+#include <codec/MediaUtil.h>
+#include <codec/WaveFile.h>
 
 #include <atlbase.h>
 #include <DShow.h>
 #include <initguid.h>
 #include <streams.h>
 #include <assert.h>
-#include <codec/AudioResampler.h>
-#include <codec/MediaUtil.h>
-#include <codec/WaveFile.h>
+
 
 bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {

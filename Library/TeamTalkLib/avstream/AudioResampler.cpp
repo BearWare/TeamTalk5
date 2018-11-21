@@ -23,8 +23,8 @@
 
 #include "AudioResampler.h"
 
-#if defined(ENABLE_SPEEX)
-#include <codec/SpeexResampler.h>
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexResampler.h>
 #endif
 
 #if defined(ACE_WIN32)
