@@ -166,8 +166,10 @@ if (MSVC)
 
   if (MEDIAFOUNDATION)
     list (APPEND CODEC_COMPILE_FLAGS -DWINVER=0x0601) #_WIN32_WINNT_WIN7
+    list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/vidcap/MFCapture.h)
     list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/codec/MFStreamer.h)
     list (APPEND CODEC_HEADERS ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.h)
+    list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/vidcap/MFCapture.cpp)
     list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/codec/MFStreamer.cpp)
     list (APPEND CODEC_SOURCES ${TEAMTALKLIB_ROOT}/codec/MediaStreamer.cpp)
 	list (APPEND CODEC_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi)

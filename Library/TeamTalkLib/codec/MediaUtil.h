@@ -46,11 +46,18 @@ namespace media
         int fps_denominator;
         FourCC fourcc;
 
+        VideoFormat(int w, int h, int fps_num, int fps_denom, FourCC cc)
+        : width(w)
+        , height(h)
+        , fps_numerator(fps_num)
+        , fps_denominator(fps_denom)
+        , fourcc(cc) {}
+
         VideoFormat()
-            {
-                width = height = fps_numerator = fps_denominator = 0;
-                fourcc = FOURCC_NONE;
-            }
+        {
+            width = height = fps_numerator = fps_denominator = 0;
+            fourcc = FOURCC_NONE;
+        }
         bool operator==(const VideoFormat& fmt)
             {
                 return memcmp(&fmt, this, sizeof(*this)) == 0;
