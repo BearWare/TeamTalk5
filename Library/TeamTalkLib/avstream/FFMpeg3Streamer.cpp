@@ -25,7 +25,7 @@
 
 #include <inttypes.h>
 #include <myace/MyACE.h>
-#include "MediaUtil.h"
+#include <codec/MediaUtil.h>
 
 #include <assert.h>
 

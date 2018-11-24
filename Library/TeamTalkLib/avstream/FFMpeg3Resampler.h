@@ -24,8 +24,9 @@
 #if !defined(FFMPEGRESAMPLER_H)
 #define FFMPEGRESAMPLER_H
 
+#include "AudioResampler.h"
+
 #include <vector>
-#include <codec/AudioResampler.h>
 
 class FFMPEGResampler : public AudioResampler
 {
