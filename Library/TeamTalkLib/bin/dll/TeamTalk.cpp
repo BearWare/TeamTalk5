@@ -56,9 +56,7 @@ HINSTANCE hInstance = NULL;
 #include <soundsystem/SoundLoopback.h>
 #endif
 
-#if defined(ENABLE_VIDCAP)
 #include <avstream/VideoCapture.h>
-#endif
 
 #ifdef NDEBUG
 #pragma message("Compiling TeamTalk version " TEAMTALK_VERSION " = " TEAMTALK_VERSION)
@@ -865,7 +863,6 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     if(!lpnHowMany)
         return FALSE;
 
-#if defined(ENABLE_VIDCAP)
     vidcap_devices_t devs = VIDCAP->GetDevices();
     if(!lpVideoDevices)
     {
@@ -901,9 +898,6 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     }
     *lpnHowMany = (INT32)lessDevs;
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitVideoCaptureDevice(IN TTInstance* lpTTInstance,

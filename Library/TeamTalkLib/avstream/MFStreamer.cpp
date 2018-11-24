@@ -157,6 +157,10 @@ void MFStreamer::Run()
         if((c = MFGetAttributeUINT32(pAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1)) >= 0)
             m_media_in.audio_samplerate = c;
     }
+    else
+    {
+        m_media_out.audio = false;
+    }
 
     if (m_media_in.HasAudio() && m_media_out.audio)
     {
@@ -217,6 +221,10 @@ void MFStreamer::Run()
         hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
         if(FAILED(hr))
             goto fail_open;
+    }
+    else
+    {
+        m_media_out.video = false;
     }
 
     if (m_media_in.IsValid())
@@ -396,7 +404,7 @@ void MFStreamer::Run()
         assert(m_audio_frames.message_count() == 0);
     }
 
-    assert(m_audio_frames.message_length() == 0);
+    assert(m_stop || m_audio_frames.message_length() == 0);
 
     if(m_listener && !m_stop)
         m_listener->MediaStreamStatusCallback(this, m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);

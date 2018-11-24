@@ -32,6 +32,42 @@
 
 using namespace vidcap;
 
+media::FourCC ConvertNativeType(const GUID& native_subtype)
+{
+    if(native_subtype == MFVideoFormat_RGB32)
+    {
+        return media::FOURCC_RGB32;
+    }
+    else if(native_subtype == MFVideoFormat_I420)
+    {
+        return media::FOURCC_I420;
+    }
+    else if(native_subtype == MFVideoFormat_YUY2)
+    {
+        return media::FOURCC_YUY2;
+    }
+    else if(native_subtype == MFVideoFormat_H264)
+    {
+        return media::FOURCC_NONE;
+    }
+    else if(native_subtype == MFVideoFormat_RGB24)
+    {
+        return media::FOURCC_NONE;
+    }
+    else if(native_subtype == MFVideoFormat_NV12)
+    {
+        return media::FOURCC_NONE;
+    }
+    else if(native_subtype == MFVideoFormat_MJPG)
+    {
+        return media::FOURCC_NONE;
+    }
+    else
+    {
+        return media::FOURCC_NONE;
+    }
+}
+
 MFCapture::~MFCapture()
 {
     std::lock_guard<std::mutex> lck(m_mutex);
@@ -80,9 +116,9 @@ vidcap_devices_t MFCapture::GetDevices()
 
         // Get native media type of device
         CComPtr<IMFMediaType> pType;
-        DWORD dwStreamIndex = 0;
+        DWORD dwMediaTypeIndex = 0;
         while(SUCCEEDED(pReader->GetNativeMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-                        dwStreamIndex, &pType)))
+                        dwMediaTypeIndex, &pType)))
         {
             media::VideoFormat fmt;
 
@@ -106,43 +142,13 @@ vidcap_devices_t MFCapture::GetDevices()
             hr = pType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
             if (SUCCEEDED(hr))
             {
-                if(native_subtype == MFVideoFormat_RGB32)
+                fmt.fourcc = ConvertNativeType(native_subtype);
+                if(fmt.fourcc != media::FOURCC_NONE)
                 {
-                    fmt.fourcc = media::FOURCC_RGB32;
                     dev.vidcapformats.push_back(fmt);
-                }
-                else if(native_subtype == MFVideoFormat_I420)
-                {
-                    fmt.fourcc = media::FOURCC_I420;
-                    dev.vidcapformats.push_back(fmt);
-                }
-                else if(native_subtype == MFVideoFormat_YUY2)
-                {
-                    fmt.fourcc = media::FOURCC_YUY2;
-                    dev.vidcapformats.push_back(fmt);
-                }
-                else if(native_subtype == MFVideoFormat_H264)
-                {
-                    fmt.fourcc = fmt.fourcc;
-                }
-                else if (native_subtype == MFVideoFormat_RGB24)
-                {
-                    fmt.fourcc = fmt.fourcc;
-                }
-                else if(native_subtype == MFVideoFormat_NV12)
-                {
-                    fmt.fourcc = fmt.fourcc;
-                }
-                else if(native_subtype == MFVideoFormat_MJPG)
-                {
-                    fmt.fourcc = fmt.fourcc;
-                }
-                else
-                {
-                    fmt.fourcc = fmt.fourcc;
                 }
             }
-            dwStreamIndex++;
+            dwMediaTypeIndex++;
             pType.Release();
         }
 
@@ -227,7 +233,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     CComPtr<IMFAttributes> pReaderAttributes;
     CComPtr<IMFSourceReader> pReader;
     CComPtr<IMFMediaType> pType;
-    DWORD dwStreamIndex = 0;
+    DWORD dwMediaTypeIndex = 0;
     CComPtr<IMFAttributes> pAttributes;
     unsigned devid = ACE_OS::atoi(session->deviceid.c_str());
 
@@ -266,17 +272,45 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         goto fail;
 
     // Get native media type of device
-    if (FAILED(pReader->GetNativeMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM, dwStreamIndex, &pType)))
+    while(SUCCEEDED(pReader->GetNativeMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM, dwMediaTypeIndex, &pType)))
+    {
+        UINT32 w = 0, h = 0;
+        hr = MFGetAttributeSize(pType, MF_MT_FRAME_SIZE, &w, &h);
+        UINT32 numerator = 0, denominator = 0;
+        hr = MFGetAttributeRatio(pType, MF_MT_FRAME_RATE, &numerator, &denominator);
+        GUID native_subtype = { 0 };
+        hr = pType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
+        if(SUCCEEDED(hr))
+        {
+            if(w == session->vidfmt.width && h == session->vidfmt.height &&
+                session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
+                session->vidfmt.fourcc == ConvertNativeType(native_subtype))
+            {
+                break;
+            }
+        }
+        dwMediaTypeIndex++;
+        pType.Release();
+    }
+
+    if (!pType.p)
         goto fail;
 
-    if (FAILED(MFSetAttributeSize(pType, MF_MT_FRAME_SIZE, session->vidfmt.width, session->vidfmt.height)))
-        goto fail;
+    //if (FAILED(MFSetAttributeSize(pType, MF_MT_FRAME_SIZE, session->vidfmt.width, session->vidfmt.height)))
+    //    goto fail;
 
-    if (FAILED(MFSetAttributeRatio(pType, MF_MT_FRAME_RATE, session->vidfmt.fps_numerator, session->vidfmt.fps_denominator)))
-        goto fail;
+    //if (FAILED(MFSetAttributeRatio(pType, MF_MT_FRAME_RATE, session->vidfmt.fps_numerator, session->vidfmt.fps_denominator)))
+    //    goto fail;
 
-    if (FAILED(pType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32)))
-        goto fail;
+    //GUID native_subtype = { 0 };
+    //hr = pType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
+
+    //if (FAILED(pType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32)))
+    //    goto fail;
+
+    //pReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pType);
+    //if(FAILED(hr))
+    //    goto fail;
 
     session->vidfmt.fourcc = media::FOURCC_RGB32;
 
@@ -318,6 +352,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
+                assert(dwCurLen == RGB32_BYTES(session->vidfmt.width, session->vidfmt.height));
                 media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
                     dwCurLen, session->vidfmt.width, session->vidfmt.height,
                     session->vidfmt.fourcc, false);

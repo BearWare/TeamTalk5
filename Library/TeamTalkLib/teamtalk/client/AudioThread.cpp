@@ -165,7 +165,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
     if(!sample_rate || !callback_samples || !enc_size)
         return false;
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     if(channels == 2)
     {
         if(!m_preprocess_left.Initialize(sample_rate, callback_samples) ||
@@ -234,10 +234,12 @@ void AudioThread::StopEncoder()
     TTASSERT(ret >= 0);
     wait();
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.Close();
     m_preprocess_right.Close();
+#endif
 
+#if defined(ENABLE_SPEEX)
     if(m_speex)
         m_speex->Close();
     delete m_speex;
@@ -413,7 +415,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     }
 }
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
 void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
 {
     wguard_t g(m_preprocess_lock);

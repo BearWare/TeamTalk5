@@ -38,9 +38,7 @@
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
-#if defined(ENABLE_VIDCAP)
 #include <avstream/VideoCapture.h>
-#endif
 
 #include <avstream/MediaStreamer.h>
 
@@ -256,9 +254,7 @@ namespace teamtalk {
         , public TimerListener
         , public AudioEncListener
         , public VideoEncListener
-#if defined(ENABLE_VIDCAP)
         , public vidcap::VideoCaptureListener
-#endif
 #if defined(ENABLE_SOUNDSYSTEM)
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
@@ -431,11 +427,9 @@ namespace teamtalk {
                                 const short* prev_output_buffer, 
                                 int n_samples);
 #endif
-#if defined(ENABLE_VIDCAP)
         //VideoCapture listener - separate thread
         bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                     ACE_Message_Block* mb_video);
-#endif
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                       media::VideoFrame& video_frame,

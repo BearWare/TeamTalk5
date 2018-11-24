@@ -71,4 +71,6 @@ namespace vidcap {
 
 }
 
+typedef ACE_Singleton<vidcap::MFCapture, ACE_Null_Mutex> MFCaptureSingleton;
+
 #endif

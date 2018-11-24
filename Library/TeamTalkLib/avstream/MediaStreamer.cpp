@@ -23,6 +23,9 @@
 
 #include "MediaStreamer.h"
 
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include "MFStreamer.h"
+#endif
 #if defined(ENABLE_DSHOW)
 #include "WinMedia.h"
 #endif
@@ -41,7 +44,9 @@ using namespace media;
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
-#if defined(ENABLE_DSHOW)
+#if defined(ENABLE_MEDIAFOUNDATION)
+    return GetMFMediaFileProp(filename, fileprop);
+#elif defined(ENABLE_DSHOW)
     return GetDSMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_FFMPEG1) || defined(ENABLE_FFMPEG3)
     return GetAVMediaFileProp(filename, fileprop);
@@ -54,7 +59,9 @@ media_streamer_t MakeMediaStreamer(MediaStreamListener* listener)
     media_streamer_t streamer;
     MediaStreamer* tmp_streamer = NULL;
 
-#ifdef ENABLE_DSHOW
+#if defined(ENABLE_MEDIAFOUNDATION)
+    ACE_NEW_RETURN(tmp_streamer, MFStreamer(listener), media_streamer_t());
+#elif defined(ENABLE_DSHOW)
     ACE_NEW_RETURN(tmp_streamer, DSWrapperThread(listener), media_streamer_t());
 #elif defined(ENABLE_FFMPEG1) || defined(ENABLE_FFMPEG3)
     ACE_NEW_RETURN(tmp_streamer, FFMpegStreamer(listener), media_streamer_t());
@@ -116,8 +123,7 @@ void MediaStreamer::Flush(uint32_t starttime)
     }
 }
 
-bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, int wait_ms, 
-                                    bool flush)
+bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, int wait_ms, bool flush)
 {
     bool need_audio = m_media_out.audio ? ProcessAudioFrame(starttime, flush) == 0 : false;
     bool need_video = m_media_out.video ? ProcessVideoFrame(starttime) == 0 : false;
@@ -125,6 +131,7 @@ bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, int wait_ms,
     //go to sleep if there is already enough data buffered
     if(!need_audio && !need_video)
     {
+        wait_ms /= 2;
         MYTRACE(ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
         ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
         return true;
@@ -143,9 +150,6 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
         MYTRACE(ACE_TEXT("Queue empty\n"));
         return 0;
     }
-
-    static auto x = 0;
-    x++;
 
     // calculate if we can build a frame. 'message_length()' is data available
     // in message queue which has been written but hasn't been read yet.
@@ -170,11 +174,15 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
         return 0;
     }
 
+
+    uint32_t queue_duration = PCM16_BYTES(m_media_out.audio_samplerate, m_media_out.audio_channels);
+    queue_duration = queued_audio_bytes * 1000 / queue_duration;
+
     // check if head is already ahead of time
     AudioFrame* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
-    MYTRACE(ACE_TEXT("Checking %u. Duration: %u. msg q size %u, bytes %u\n"), 
-            first_frame->timestamp, GETTIMESTAMP() - starttime, 
-            m_audio_frames.message_length(), m_audio_frames.message_bytes());
+    MYTRACE(ACE_TEXT("Checking %u. Duration: %u. Queue duration: %u, bytes %u\n"), 
+            first_frame->timestamp, GETTIMESTAMP() - starttime, queue_duration,
+            m_audio_frames.message_length());
 
     if (W32_GT(first_frame->timestamp, GETTIMESTAMP() - starttime) && !flush)
     {

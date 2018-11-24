@@ -24,7 +24,7 @@
 #if !defined(MFSTREAMER_H)
 #define MFSTREAMER_H
 
-#include <codec/MediaStreamer.h>
+#include "MediaStreamer.h"
 
 #include <thread>
 #include <ace/Future.h>

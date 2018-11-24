@@ -44,9 +44,7 @@ using namespace media;
 #if defined(ENABLE_SOUNDSYSTEM)
 using namespace soundsystem;
 #endif
-#if defined(ENABLE_VIDCAP)
 using namespace vidcap;
-#endif
 
 #define GEN_NEXT_ID(id) (++id==0?++id:id)
 
@@ -1285,7 +1283,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
     else
 #endif
     {
-        TTASSERT(m_def_stream);
+        MYTRACE_COND(!m_def_stream, ACE_TEXT("Sending UDP data on closed connected\n"));
         if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
@@ -1484,7 +1482,6 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
 }
 #endif
 
-#if defined(ENABLE_VIDCAP)
 bool ClientNode::OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                         ACE_Message_Block* mb_video)
 {
@@ -1502,7 +1499,6 @@ bool ClientNode::OnVideoCaptureCallback(media::VideoFrame& video_frame,
 
     return false;
 }
-#endif
 
 bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
                                           media::VideoFrame& video_frame,
@@ -3176,8 +3172,6 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     if(m_flags & CLIENT_VIDEOCAPTURE_READY)
         return false;
 
-#if defined(ENABLE_VIDCAP)
-
     //start capture thread which will convert image formats
     VideoCodec codec;
     codec.codec = CODEC_NO_CODEC;
@@ -3198,17 +3192,12 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     m_flags |= CLIENT_VIDEOCAPTURE_READY;
 
     return true;
-#else
-    return false;
-#endif
 }
 
 void ClientNode::CloseVideoCapture()
 {
     ASSERT_REACTOR_LOCKED(this);
-#if defined(ENABLE_VIDCAP)
     VIDCAP->StopVideoCapture(this);
-#endif
     CloseVideoCaptureSession();
 
     m_flags &= ~CLIENT_VIDEOCAPTURE_READY;
@@ -3221,7 +3210,6 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     if(m_flags & CLIENT_TX_VIDEOCAPTURE)
         return false;
 
-#if defined(ENABLE_VIDCAP)
     VideoFormat cap_format;
     if(!VIDCAP->GetVideoCaptureFormat(this, cap_format))
         return false;
@@ -3239,8 +3227,6 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     m_flags |= CLIENT_TX_VIDEOCAPTURE;
 
     return true;
-#endif
-    return false;
 }
 
 void ClientNode::CloseVideoCaptureSession()

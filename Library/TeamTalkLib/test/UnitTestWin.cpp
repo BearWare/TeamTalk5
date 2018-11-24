@@ -1,10 +1,10 @@
 #include "CppUnitTest.h"
 
-#include <codec/MFStreamer.h>
+#include <avstream/MFStreamer.h>
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 
-#include <vidcap/MFCapture.h>
+#include <avstream/MFCapture.h>
 
 #include <mutex>
 #include <condition_variable>
@@ -63,6 +63,7 @@ namespace UnitTest
             } listener;
 
             ACE_TString url = L"https://bearware.dk/temp/giana_10sec.wma";
+            //ACE_TString url = L"z:\\Media\\giana.wav";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -71,7 +72,7 @@ namespace UnitTest
             out_prop.audio = true;
             out_prop.audio_channels = 2;
             out_prop.audio_samplerate = 48000;
-            out_prop.audio_samples = 48000 * .12;
+            out_prop.audio_samples = 48000 * .04;
 
             listener.setOutput(out_prop);
             
