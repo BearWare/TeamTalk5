@@ -89,6 +89,7 @@ class MediaStreamer;
 class MediaStreamListener
 {
 public:
+    virtual ~MediaStreamListener() {}
     virtual bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                           media::VideoFrame& video_frame,
                                           ACE_Message_Block* mb_video) = 0;

@@ -169,6 +169,12 @@ namespace UnitTest
 
                     Logger::WriteMessage(os.str().c_str());
                     Assert::AreEqual(int(media::FOURCC_RGB32), int(video_frame.fourcc));
+
+                    os.str(L"");
+                    static int n_bmp = 0;
+                    os << L"video_" << ++n_bmp << L".bmp";
+                    WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 4, video_frame.frame, video_frame.frame_length);
+
                     return false;
                 }
 

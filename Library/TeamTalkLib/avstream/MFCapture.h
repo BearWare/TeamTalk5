@@ -37,7 +37,9 @@ namespace vidcap {
     class MFCapture : public VideoCapture
     {
     public:
-        ~MFCapture();
+        MFCapture(const MFCapture&) = delete;
+        MFCapture() {}
+        virtual ~MFCapture();
 
         vidcap_devices_t GetDevices();
 
@@ -53,6 +55,7 @@ namespace vidcap {
     private:
         struct CaptureSession
         {
+            CaptureSession(const CaptureSession&) = delete;
             CaptureSession(ACE_TString id, const media::VideoFormat& fmt)
             : deviceid(id), vidfmt(fmt) {}
 
