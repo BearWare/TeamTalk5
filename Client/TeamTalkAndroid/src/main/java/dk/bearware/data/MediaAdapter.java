@@ -475,7 +475,12 @@ implements UserListener {
 	public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
 	}
 
-	@Override
+    @Override
+    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
+
+    }
+
+    @Override
 	public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
 	}
 
