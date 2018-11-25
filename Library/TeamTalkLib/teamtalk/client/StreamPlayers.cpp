@@ -74,9 +74,7 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 AudioPlayer::~AudioPlayer()
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     assert(SOUNDSYSTEM->IsStreamStopped(this));
-#endif
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
@@ -171,7 +169,6 @@ void AudioPlayer::Reset()
     //how long the player has been inactive.
 }
 
-#if defined(ENABLE_SOUNDSYSTEM)
 bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                  short* output_buffer, int output_samples)
 {
@@ -272,7 +269,6 @@ void AudioPlayer::StreamPlayerCbEnded()
     //MYTRACE(ACE_TEXT("Stream callback ended for #%d. Played: %u. Cur pkt: %d, max pkt: %d\n"),
     //        m_userid, m_samples_played, m_play_pkt_no, m_max_packet);
 }
-#endif
 
 int AudioPlayer::GetNumAudioBlocks(bool reset)
 {

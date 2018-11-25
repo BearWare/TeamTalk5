@@ -1,20 +1,18 @@
 project {
 
-  macros += ENABLE_SOUNDSYSTEM
-
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundLoopback.h
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystem.h
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystemBase.h
+  $(TEAMTALKLIB_ROOT)/avstream/SoundLoopback.h
+  $(TEAMTALKLIB_ROOT)/avstream/SoundSystem.h
+  $(TEAMTALKLIB_ROOT)/avstream/SoundSystemBase.h
 
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundLoopback.cpp
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystem.cpp
-  $(TEAMTALKLIB_ROOT)/soundsystem/SoundSystemBase.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/SoundLoopback.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/SoundSystem.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/SoundSystemBase.cpp
 
 }
 }

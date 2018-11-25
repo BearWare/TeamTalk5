@@ -106,7 +106,7 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
                                  output_channels);
         MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
     }
-#elif defined(ENABLE_SPEEX)
+#elif defined(ENABLE_SPEEXDSP)
 #if defined(ACE_WIN32) && defined(ENABLE_DMORESAMPLER)
     else
 #endif

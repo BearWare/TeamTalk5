@@ -255,10 +255,8 @@ namespace teamtalk {
         , public AudioEncListener
         , public VideoEncListener
         , public vidcap::VideoCaptureListener
-#if defined(ENABLE_SOUNDSYSTEM)
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
-#endif
         , public MediaStreamListener
         , public FileTransferListener
         , public EventSuspender
@@ -418,7 +416,6 @@ namespace teamtalk {
                                const char* enc_data, int enc_len,
                                ACE_UINT32 packet_no,
                                ACE_UINT32 timestamp);
-#if defined(ENABLE_SOUNDSYSTEM)
         //PortAudio listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);
@@ -426,7 +423,7 @@ namespace teamtalk {
                                 const short* input_buffer, 
                                 const short* prev_output_buffer, 
                                 int n_samples);
-#endif
+
         //VideoCapture listener - separate thread
         bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                     ACE_Message_Block* mb_video);

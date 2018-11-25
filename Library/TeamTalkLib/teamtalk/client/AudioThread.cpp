@@ -348,7 +348,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
         SOFTGAIN((audblock.input_buffer), audblock.input_samples, 
                  audblock.input_channels, m_gainlevel / (float)GAIN_NORMAL);
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     PreprocessAudioFrame(audblock);
 #endif
 
