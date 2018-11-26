@@ -22,6 +22,7 @@
 */
 
 #include "MFCapture.h"
+#include "MFTransform.h"
 
 #include <mfapi.h>
 #include <mfidl.h>
@@ -31,46 +32,6 @@
 #include <assert.h>
 
 using namespace vidcap;
-
-media::FourCC ConvertNativeType(const GUID& native_subtype)
-{
-    if(native_subtype == MFVideoFormat_RGB32)
-    {
-        return media::FOURCC_RGB32;
-    }
-    else if(native_subtype == MFVideoFormat_ARGB32)
-    {
-        return media::FOURCC_RGB32;
-    }
-    else if(native_subtype == MFVideoFormat_I420)
-    {
-        return media::FOURCC_I420;
-    }
-    else if(native_subtype == MFVideoFormat_YUY2)
-    {
-        return media::FOURCC_YUY2;
-    }
-    else if(native_subtype == MFVideoFormat_H264)
-    {
-        return media::FOURCC_NONE;
-    }
-    else if(native_subtype == MFVideoFormat_RGB24)
-    {
-        return media::FOURCC_NONE;
-    }
-    else if(native_subtype == MFVideoFormat_NV12)
-    {
-        return media::FOURCC_NONE;
-    }
-    else if(native_subtype == MFVideoFormat_MJPG)
-    {
-        return media::FOURCC_NONE;
-    }
-    else
-    {
-        return media::FOURCC_NONE;
-    }
-}
 
 MFCapture::~MFCapture()
 {
@@ -242,12 +203,10 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     CComPtr<IMFAttributes> pReaderAttributes;
     CComPtr<IMFSourceReader> pReader;
     CComPtr<IMFMediaType> pInputType;
-    DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM, dwInputID = 0, dwOutputID = 0;
+    DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    IMFActivate **pMFTs;
-    CComPtr<IMFTransform> pMFT;
-    UINT32 cMFTs = 0;
-    MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
+    std::unique_ptr<MFTransform> transform;
+    MFT_REGISTER_TYPE_INFO toutinfo;
     unsigned devid = ACE_OS::atoi(session->deviceid.c_str());
 
     hr = MFCreateAttributes(&pAttributes, 1);
@@ -297,8 +256,6 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
                 session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
                 session->vidfmt.fourcc == ConvertNativeType(native_subtype))
             {
-                tininfo.guidMajorType = MFMediaType_Video;
-                tininfo.guidSubtype = native_subtype;
                 break;
             }
         }
@@ -311,69 +268,13 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
 
     if (session->vidfmt.fourcc != media::FOURCC_RGB32)
     {
-        toutinfo.guidMajorType = MFMediaType_Video;
-        toutinfo.guidSubtype = MFVideoFormat_ARGB32;
-
-        hr = MFTEnumEx(MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &pMFTs, &cMFTs);
-        if (FAILED(hr) || cMFTs == 0)
-            goto fail;
-
-        hr = pMFTs[0]->ActivateObject(IID_PPV_ARGS(&pMFT));
-        if(FAILED(hr))
-            goto fail;
-
-        hr = pMFT->GetStreamIDs(1, &dwInputID, 1, &dwOutputID);
-        if(hr == E_NOTIMPL)
-        {
-            // The stream identifiers are zero-based.
-            dwInputID = 0;
-            dwOutputID = 0;
-            hr = S_OK;
-        }
-        if(FAILED(hr))
-            goto fail;
-
-        hr = pMFT->SetInputType(dwInputID, pInputType, 0);
-        if(FAILED(hr))
-            goto fail;
-
-        LONG stride = 0;
-        UINT32 size = 0;
-        hr = MFGetStrideForBitmapInfoHeader(toutinfo.guidSubtype.Data1, session->vidfmt.width, &stride);
-        if(FAILED(hr))
-            goto fail;
-        hr = MFCalculateImageSize(toutinfo.guidSubtype, session->vidfmt.width, session->vidfmt.height, &size);
-        if(FAILED(hr))
-            goto fail;
-
-        CComPtr<IMFMediaType> pOutputType;
-        hr = MFCreateMediaType(&pOutputType);
-        if(FAILED(hr))
-            goto fail;
-        hr = pInputType->CopyAllItems(pOutputType);
-        if(FAILED(hr))
-            goto fail;
-        hr = MFSetAttributeSize(pOutputType, MF_MT_FRAME_SIZE, session->vidfmt.width, session->vidfmt.height);
-        if(FAILED(hr))
-            goto fail;
-        hr = pOutputType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_ARGB32);
-        if(FAILED(hr))
-            goto fail;
-        hr = pOutputType->SetUINT32(MF_MT_DEFAULT_STRIDE, stride);
-        if(FAILED(hr))
-            goto fail;
-        hr = pOutputType->SetUINT32(MF_MT_SAMPLE_SIZE, size);
-        if(FAILED(hr))
-            goto fail;
-        hr = pMFT->SetOutputType(dwOutputID, pOutputType, 0);
-        if(FAILED(hr))
+        transform = MFTransform::Create(pInputType, MFVideoFormat_ARGB32);
+        if (!transform.get())
             goto fail;
     }
-    else
-    {
-        toutinfo.guidMajorType = MFMediaType_Video;
-        toutinfo.guidSubtype = MFVideoFormat_ARGB32;
-    }
+
+    toutinfo.guidMajorType = MFMediaType_Video;
+    toutinfo.guidSubtype = MFVideoFormat_ARGB32;
 
     session->opened.set(true);
 
@@ -397,38 +298,12 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         DWORD dwBufCount = 0;
         if(pSample)
         {
-            if (pMFT.p)
+            if (transform.get())
             {
-                CComPtr<IMFSample> pTransformedSample;
-
-                hr = pMFT->ProcessInput(dwInputID, pSample, 0);
-                assert(SUCCEEDED(hr));
-
-                //pSample.Release();
-
-                MFT_OUTPUT_STREAM_INFO mftStreamInfo = { 0 };
-                hr = pMFT->GetOutputStreamInfo(dwOutputID, &mftStreamInfo);
-                assert(SUCCEEDED(hr));
-
-                hr = MFCreateSample(&pTransformedSample);
-                assert(SUCCEEDED(hr));
-                CComPtr<IMFMediaBuffer> pBufferOut;
-                hr = MFCreateMemoryBuffer(mftStreamInfo.cbSize, &pBufferOut);
-                assert(SUCCEEDED(hr));
-                hr = pTransformedSample->AddBuffer(pBufferOut);
-                assert(SUCCEEDED(hr));
-
-                MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
-                mftOutputData.pSample = pTransformedSample;
-                mftOutputData.dwStreamID = dwOutputID;
-
-                DWORD dwStatus;
-                hr = pMFT->ProcessOutput(0, 1, &mftOutputData, &dwStatus);
-                assert(SUCCEEDED(hr));
-                hr = pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_FLUSH, dwInputID);
-                assert(SUCCEEDED(hr));
-
-                pSample = pTransformedSample;
+                if (!transform->SubmitSample(pSample))
+                    pSample.Release();
+                else
+                    pSample = transform->RetrieveSample();
             }
 
             if (pSample.p)
@@ -449,7 +324,6 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                assert(dwCurLen == RGB32_BYTES(session->vidfmt.width, session->vidfmt.height));
                 media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
                     dwCurLen, session->vidfmt.width, session->vidfmt.height,
                     ConvertNativeType(toutinfo.guidSubtype), false);
@@ -467,8 +341,6 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
 fail:
     if(cDevices)
         CoTaskMemFree(ppDevices);
-    if (cMFTs)
-        CoTaskMemFree(pMFTs);
 
     session->opened.set(false);
 }
