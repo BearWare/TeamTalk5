@@ -146,7 +146,7 @@ int VideoThread::svc(void)
     TTASSERT(m_listener);
     ACE_Message_Block* mb;
 
-    while(getq(mb)>=0)
+    while(getq(mb) >= 0)
     {
         const VideoFrame* vid = reinterpret_cast<const VideoFrame*>(mb->rd_ptr());
         VideoFrame vid_tmp = *vid;

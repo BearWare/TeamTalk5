@@ -3,6 +3,7 @@
 #include <avstream/MFStreamer.h>
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
+#include <codec/VpxEncoder.h>
 
 #include <avstream/MFCapture.h>
 
@@ -218,6 +219,79 @@ namespace UnitTest
             os << L"foo";
 
             // cap.StopVideoCapture(&listener);
+        }
+
+
+        TEST_METHOD(TestVideoEncode)
+        {
+            VpxEncoder encoder;
+
+            class MyListener : public vidcap::VideoCaptureListener
+            {
+                VpxEncoder& encoder;
+            public:
+                MyListener (VpxEncoder& enc) : encoder(enc) {}
+                bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
+                    ACE_Message_Block* mb_video)
+                {
+                    std::wostringstream os;
+                    os << L"Got video frame " << video_frame.width << L"x" << video_frame.height << std::endl;
+
+                    Logger::WriteMessage(os.str().c_str());
+
+                    switch (video_frame.fourcc)
+                    {
+                    case media::FOURCC_I420 :
+                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, video_frame.frame_length, VPX_IMG_FMT_I420, 0, VPX_DL_BEST_QUALITY)));
+                        break;
+                    case media::FOURCC_RGB32 :
+                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, video_frame.frame_length, VPX_IMG_FMT_ARGB, 0, VPX_DL_BEST_QUALITY)));
+                        break;
+                    }
+
+                    return false;
+                }
+
+            } listener(encoder);
+
+            vidcap::MFCapture cap;
+            auto devs = cap.GetDevices();
+            std::wostringstream os;
+            for(auto a : devs)
+            {
+                os << L"Device: " << a.devicename.c_str();
+                Logger::WriteMessage(os.str().c_str());
+                for(auto f : a.vidcapformats)
+                {
+                    os.str(L"");
+                    os << L"\t" << f.width << L"x" << f.height;
+                    os << "@ " << (f.fps_numerator / f.fps_denominator);
+                    switch(f.fourcc)
+                    {
+                    case media::FOURCC_I420:
+                        os << L" - I420";
+                        break;
+                    case media::FOURCC_RGB32:
+                        os << L" - RGB32";
+                        break;
+                    case media::FOURCC_YUY2:
+                        os << L" - YUY2";
+                        break;
+                    }
+                    os << std::endl;
+                    Logger::WriteMessage(os.str().c_str());
+                }
+            }
+            media::VideoFormat fmt(640, 480, 30, 1, media::FOURCC_I420);
+
+            Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024*1024, fmt.fps_numerator/fmt.fps_denominator));
+            Assert::IsTrue(cap.StartVideoCapture(L"0", fmt, &listener));
+
+            std::mutex mtx;
+            std::unique_lock<std::mutex> lck(mtx);
+            std::condition_variable cv;
+            cv.wait_for(lck, std::chrono::seconds(10));
+            os << L"foo";
         }
     };
 }
