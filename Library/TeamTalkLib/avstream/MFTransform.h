@@ -31,14 +31,22 @@
 
 #include <memory>
 
-media::FourCC ConvertNativeType(const GUID& native_subtype);
+media::FourCC ConvertSubType(const GUID& native_subtype);
+const GUID& ConvertFourCC(media::FourCC fcc);
 
+typedef std::unique_ptr<class MFTransform> mftransform_t;
 class MFTransform
 {
 public:
     virtual ~MFTransform() {}
-    static std::unique_ptr<MFTransform> Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
+    static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
+    static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
+
     virtual bool SubmitSample(CComPtr<IMFSample>& pInSample) = 0;
     virtual CComPtr<IMFSample> RetrieveSample() = 0;
+
+    virtual bool SubmitSample(const media::VideoFrame& frame) = 0;
+    virtual ACE_Message_Block* RetrieveSample(const media::VideoFormat& fmt) = 0;
+
 };
 #endif

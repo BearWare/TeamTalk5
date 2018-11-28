@@ -192,7 +192,7 @@ void MFStreamer::Run()
     }
 
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-        dwVideoTypeIndex, &pVideoType)))
+                                                   dwVideoTypeIndex, &pVideoType)))
     {
         UINT32 w = 0, h = 0;
         hr = MFGetAttributeSize(pVideoType, MF_MT_FRAME_SIZE, &w, &h);
@@ -221,8 +221,12 @@ void MFStreamer::Run()
         if(FAILED(hr))
             goto fail_open;
 
-        if (ConvertNativeType(native_subtype) != media::FOURCC_I420)
+        if (ConvertSubType(native_subtype) != media::FOURCC_I420)
+        {
             transform = MFTransform::Create(pVideoType, MFVideoFormat_I420);
+            if (!transform.get())
+                goto fail_open;
+        }
     }
     else
     {
