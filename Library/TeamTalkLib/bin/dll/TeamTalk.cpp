@@ -1937,6 +1937,8 @@ int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat,
 
         switch(outputFormat)
         {
+        case BMP_NONE :
+            return -1;
         case BMP_RGB8_PALETTE : //BMP_RGB8_PALETTE -> BMP_RGB8_PALETTE
         case BMP_RGB16_555 : //BMP_RGB8_PALETTE -> BMP_RGB16_555
         case BMP_RGB24 : //BMP_RGB8_PALETTE -> BMP_RGB24
@@ -3005,6 +3007,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
 {
     switch(nType)
     {
+    case __NONE :
+        return 0;
     case __AUDIOCODEC :
         return sizeof(AudioCodec);
     case __BANNEDUSER :

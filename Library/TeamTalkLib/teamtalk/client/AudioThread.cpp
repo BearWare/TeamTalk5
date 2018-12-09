@@ -386,7 +386,9 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             enc_data = ProcessOPUS(audblock, enc_frame_sizes);
 #endif
             break;
-
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+            break;
         }
         if(enc_data)
         {

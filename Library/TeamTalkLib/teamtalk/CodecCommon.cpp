@@ -83,6 +83,8 @@ namespace teamtalk
                GetAudioCodecChannels(codec) > 2)
                 return false;
             return true;
+        case CODEC_WEBM_VP8 :
+            break;
         }
         return false;
     }

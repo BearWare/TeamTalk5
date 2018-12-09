@@ -413,6 +413,9 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
             break;
         case STREAMTYPE_MEDIAFILE_AUDIO :
             break;
+        default :
+            TTASSERT(0);
+            break;
         }
 
         while(m_stream_id &&
@@ -498,6 +501,11 @@ SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
     case CODEC_SPEEX_VBR :
         b = m_Decoder.Initialize(codec.speex_vbr.bandmode);
         break;
+    case CODEC_NO_CODEC :
+    case CODEC_OPUS :
+    case CODEC_WEBM_VP8 :
+        TTASSERT(0);
+        break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize Speex decoder\n"));
 }
@@ -548,6 +556,12 @@ OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
     {
     case CODEC_OPUS :
         b = m_decoder.Open(codec.opus.samplerate, codec.opus.channels);
+        break;
+    case CODEC_SPEEX :
+    case CODEC_SPEEX_VBR :
+    case CODEC_WEBM_VP8 :
+    case CODEC_NO_CODEC :
+        TTASSERT(0);
         break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize OPUS decoder\n"));
