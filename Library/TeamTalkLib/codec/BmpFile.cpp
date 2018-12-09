@@ -95,6 +95,7 @@ void WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
     bmpfile.send(&bmphdr, BMPHDR_SIZE);
     bmpfile.send(&bmiHeader, BMIHEADER_SIZE);
 
-    bmpfile.send(data, size);
+    ssize_t written = bmpfile.send(data, size);
+    assert(written == size);
     bmpfile.close();
 }

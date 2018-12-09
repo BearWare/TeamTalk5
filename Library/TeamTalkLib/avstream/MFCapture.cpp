@@ -82,7 +82,7 @@ vidcap_devices_t MFCapture::GetDevices()
         // Get native media type of device
         CComPtr<IMFMediaType> pInputType;
         DWORD dwMediaTypeIndex = 0;
-        while(SUCCEEDED(pReader->GetNativeMediaType((DWORD)MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+        while(SUCCEEDED(pReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
                         dwMediaTypeIndex, &pInputType)))
         {
             media::VideoFormat fmt;
@@ -107,7 +107,7 @@ vidcap_devices_t MFCapture::GetDevices()
             hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
             if (SUCCEEDED(hr))
             {
-                fmt.fourcc = ConvertNativeType(native_subtype);
+                fmt.fourcc = ConvertSubType(native_subtype);
                 if(fmt.fourcc != media::FOURCC_NONE)
                 {
                     dev.vidcapformats.push_back(fmt);
@@ -205,8 +205,6 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     CComPtr<IMFMediaType> pInputType;
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    std::unique_ptr<MFTransform> transform;
-    MFT_REGISTER_TYPE_INFO toutinfo;
     unsigned devid = ACE_OS::atoi(session->deviceid.c_str());
 
     hr = MFCreateAttributes(&pAttributes, 1);
@@ -254,7 +252,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         {
             if (w == session->vidfmt.width && h == session->vidfmt.height &&
                 session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
-                session->vidfmt.fourcc == ConvertNativeType(native_subtype))
+                session->vidfmt.fourcc == ConvertSubType(native_subtype))
             {
                 break;
             }
@@ -265,16 +263,6 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
 
     if (!pInputType.p)
         goto fail;
-
-    if (session->vidfmt.fourcc != media::FOURCC_RGB32)
-    {
-        transform = MFTransform::Create(pInputType, MFVideoFormat_ARGB32);
-        if (!transform.get())
-            goto fail;
-    }
-
-    toutinfo.guidMajorType = MFMediaType_Video;
-    toutinfo.guidSubtype = MFVideoFormat_ARGB32;
 
     session->opened.set(true);
 
@@ -298,19 +286,8 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         DWORD dwBufCount = 0;
         if(pSample)
         {
-            if (transform.get())
-            {
-                if (!transform->SubmitSample(pSample))
-                    pSample.Release();
-                else
-                    pSample = transform->RetrieveSample();
-            }
-
-            if (pSample.p)
-            {
-                hr = pSample->GetBufferCount(&dwBufCount);
-                assert(SUCCEEDED(hr));
-            }
+            hr = pSample->GetBufferCount(&dwBufCount);
+            assert(SUCCEEDED(hr));
         }
 
         for(DWORD i = 0; i<dwBufCount; i++)
@@ -318,6 +295,9 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             CComPtr<IMFMediaBuffer> pMediaBuffer;
             hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
             assert(SUCCEEDED(hr));
+            if (FAILED(hr))
+                break;
+
             BYTE* pBuffer = NULL;
             DWORD dwCurLen, dwMaxSize;
             hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
@@ -326,7 +306,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             {
                 media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
                     dwCurLen, session->vidfmt.width, session->vidfmt.height,
-                    ConvertNativeType(toutinfo.guidSubtype), false);
+                    session->vidfmt.fourcc, false);
                 media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
                 ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
                 ACE_Time_Value tv;

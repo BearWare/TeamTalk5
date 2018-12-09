@@ -22,6 +22,7 @@
  */
 
 #include "MFStreamer.h"
+#include "MFTransform.h"
 
 #include <assert.h>
 #include <shlwapi.h> //QITAB
@@ -119,6 +120,7 @@ void MFStreamer::Run()
     DWORD dwAudioTypeIndex = 0, dwVideoTypeIndex = 0;
     DWORD dwVideoStreamIndex, dwAudioStreamIndex;
     LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
+    std::unique_ptr<MFTransform> transform;
     bool start = false;
     const int BUF_SECS = 3;
 
@@ -190,7 +192,7 @@ void MFStreamer::Run()
     }
 
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-        dwVideoTypeIndex, &pVideoType)))
+                                                   dwVideoTypeIndex, &pVideoType)))
     {
         UINT32 w = 0, h = 0;
         hr = MFGetAttributeSize(pVideoType, MF_MT_FRAME_SIZE, &w, &h);
@@ -214,13 +216,17 @@ void MFStreamer::Run()
             MYTRACE(ACE_TEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
         }
 
-        hr = pVideoType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32);
+        GUID native_subtype = { 0 };
+        hr = pVideoType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
-        if(FAILED(hr))
-            goto fail_open;
+        if (ConvertSubType(native_subtype) != media::FOURCC_I420)
+        {
+            transform = MFTransform::Create(pVideoType, MFVideoFormat_I420);
+            if (!transform.get())
+                goto fail_open;
+        }
     }
     else
     {
@@ -359,6 +365,12 @@ void MFStreamer::Run()
             if(error || llVideoTimestamp < 0)
                 continue;
 
+            if (pSample && transform.get())
+            {
+                transform->SubmitSample(pSample);
+                pSample = transform->RetrieveSample();
+            }
+
             DWORD dwBufCount = 0;
             if(pSample)
             {
@@ -379,7 +391,7 @@ void MFStreamer::Run()
                 {
                     media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
                         dwCurLen, m_media_in.video_width, m_media_in.video_height,
-                        media::FOURCC_RGB32, false);
+                        media::FOURCC_I420, false);
                     media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
                     ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
                     ACE_Time_Value tv;
