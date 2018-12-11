@@ -36,6 +36,7 @@ namespace media
         FOURCC_YUY2   = 101,
         FOURCC_RGB32  = 102,
         FOURCC_RGB24  = 103,
+        FOURCC_NV12   = 104,
     };
 
 /* Remember to updated DLL header file when modifying this */
@@ -53,6 +54,9 @@ namespace media
         , fps_numerator(fps_num)
         , fps_denominator(fps_denom)
         , fourcc(cc) {}
+
+        VideoFormat(int w, int h, FourCC cc)
+            : VideoFormat(w, h, 0, 0, cc) {}
 
         VideoFormat()
         {
@@ -117,6 +121,19 @@ namespace media
         }
         VideoFrame(const VideoFormat& fmt, char* buf, int len)
         : VideoFrame(buf, len, fmt.width, fmt.height, fmt.fourcc, false) {}
+        VideoFrame(ACE_Message_Block* mb)
+        {
+            VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+            frame = frm->frame;
+            frame_length = frm->frame_length;
+            width = frm->width;
+            height = frm->height;
+            fourcc = frm->fourcc;
+            top_down = frm->top_down;
+            key_frame = frm->key_frame;
+            stream_id = frm->stream_id;
+            timestamp = frm->timestamp;
+        }
     };
 
 }

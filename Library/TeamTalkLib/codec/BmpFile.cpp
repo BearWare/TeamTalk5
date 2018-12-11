@@ -61,12 +61,13 @@ struct BitmapInfoHeader
 };
 #endif
 
-void WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
+const int BMPHDR_SIZE = 14;
+const int BMIHEADER_SIZE = 40;
+
+bool WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
                  const char* data, int size)
 {
     BitmapFileHeader bmphdr = {0};
-    const int BMPHDR_SIZE = 14;
-    const int BMIHEADER_SIZE = 40;
 
     assert(BMPHDR_SIZE == sizeof(bmphdr));
 
@@ -90,12 +91,77 @@ void WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
     ACE_FILE_Connector con;
     ACE_FILE_IO bmpfile;
     int ret = con.connect(bmpfile, ACE_FILE_Addr(filename.c_str()),
-                          0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC);
+                          0, ACE_Addr::sap_any, 0, 
+#if defined(WIN32)
+                          O_BINARY |
+#endif
+                          O_RDWR | O_CREAT | O_TRUNC);
 
     bmpfile.send(&bmphdr, BMPHDR_SIZE);
     bmpfile.send(&bmiHeader, BMIHEADER_SIZE);
 
     ssize_t written = bmpfile.send(data, size);
-    assert(written == size);
     bmpfile.close();
+    return written == size;
+}
+
+std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt)
+{
+    std::vector<char> buff;
+    BitmapFileHeader bmphdr = { 0 };
+    BitmapInfoHeader bmiHeader = { 0 };
+
+    assert(BMPHDR_SIZE == sizeof(bmphdr));
+    assert(BMIHEADER_SIZE == sizeof(bmiHeader));
+
+    ACE_FILE_Connector con;
+    ACE_FILE_IO bmpfile;
+    int ret = con.connect(bmpfile, ACE_FILE_Addr(filename.c_str()),
+        0, ACE_Addr::sap_any, 0,
+#if defined(WIN32)
+        O_BINARY |
+#endif
+        O_RDONLY);
+
+    if (ret < 0)
+        return buff;
+
+    if (bmpfile.recv(&bmphdr, sizeof(BitmapFileHeader)) != sizeof(BitmapFileHeader))
+        return buff;
+
+    if (bmpfile.recv(&bmiHeader, sizeof(bmiHeader)) != sizeof(bmiHeader))
+        return buff;
+
+    if(bmiHeader.biCompression != 0 /* BI_RGB */)
+        return buff;
+
+    switch (bmiHeader.biBitCount)
+    {
+    case 24 :
+        fmt = media::VideoFormat(bmiHeader.biWidth, bmiHeader.biHeight, media::FOURCC_RGB24);
+        break;
+    case 32 :
+        fmt = media::VideoFormat(bmiHeader.biWidth, bmiHeader.biHeight, media::FOURCC_RGB32);
+        break;
+    default :
+        return buff;
+    }
+
+    if (bmpfile.seek(BMPHDR_SIZE + bmiHeader.biSize, SEEK_SET) != BMPHDR_SIZE + bmiHeader.biSize)
+        return buff;
+
+    ACE_OFF_T startpos = bmpfile.tell();
+    if (bmiHeader.biSizeImage == 0)
+    {
+        if(bmpfile.seek(0, SEEK_END) > 0) {
+            bmiHeader.biSizeImage = ACE_UINT32(bmpfile.tell());
+            bmiHeader.biSizeImage -= startpos;
+        }
+    }
+    bmpfile.seek(startpos, SEEK_SET);
+
+    buff.resize(bmiHeader.biSizeImage);
+    bmpfile.recv(&buff[0], bmiHeader.biSizeImage);
+
+    return buff;
 }

@@ -103,6 +103,9 @@ vidcap_devices_t MFCapture::GetDevices()
                 fmt.fps_denominator = denominator;
             }
 
+            UINT32 samplesize;
+            hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
+
             GUID native_subtype = { 0 };
             hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
             if (SUCCEEDED(hr))
@@ -235,6 +238,9 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     if(FAILED(hr))
         goto fail;
 
+    hr = pReaderAttributes->SetUINT32(MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING, TRUE);
+    MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to enable video processing\n"));
+
     hr = MFCreateSourceReaderFromMediaSource(pSource, pReaderAttributes, &pReader);
     if(FAILED(hr))
         goto fail;
@@ -246,6 +252,8 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
         UINT32 numerator = 0, denominator = 0;
         hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
+        UINT32 samplesize;
+        hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
         GUID native_subtype = { 0 };
         hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
         if (SUCCEEDED(hr))
@@ -270,10 +278,10 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     while (!session->stop)
     {
         CComPtr<IMFSample> pSample;
-        DWORD dwStreamFlags = 0;
+        DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
         LONGLONG llVideoTimestamp = 0;
 
-        hr = pReader->ReadSample(dwVideoStreamIndex, 0, NULL, &dwStreamFlags, &llVideoTimestamp, &pSample);
+        hr = pReader->ReadSample(dwVideoStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llVideoTimestamp, &pSample);
         if (FAILED(hr))
             break;
 

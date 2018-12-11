@@ -58,7 +58,7 @@ media::FourCC ConvertSubType(const GUID& native_subtype)
     }
     else if(native_subtype == MFVideoFormat_NV12)
     {
-        return media::FOURCC_NONE;
+        return media::FOURCC_NV12;
     }
     else if(native_subtype == MFVideoFormat_MJPG)
     {
@@ -82,6 +82,8 @@ const GUID& ConvertFourCC(media::FourCC fcc)
         return MFVideoFormat_YUY2;
     case media::FOURCC_RGB24 :
         return MFVideoFormat_RGB24;
+    case media::FOURCC_NV12 :
+        return MFVideoFormat_NV12;
     default:
         return GUID_NULL;
     }
@@ -182,9 +184,12 @@ public:
         if(FAILED(hr))
             return;
 
-        hr = MFSetAttributeRatio(pOutputType, MF_MT_FRAME_RATE, numerator, denominator);
-        if(FAILED(hr))
-            return;
+        if (numerator > 0 && denominator > 0)
+        {
+            hr = MFSetAttributeRatio(pOutputType, MF_MT_FRAME_RATE, numerator, denominator);
+            if(FAILED(hr))
+                return;
+        }
 
         LONG stride = 0;
         hr = MFGetStrideForBitmapInfoHeader(toutinfo.guidSubtype.Data1, w, &stride);
@@ -401,6 +406,7 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
     //hr = pInputType->SetUINT32(MF_MT_INTERLACE_MODE, 2);
     //if(FAILED(hr))
     //    goto fail;
+
     //hr = MFSetAttributeRatio(pInputType, MF_MT_PIXEL_ASPECT_RATIO, 1, 1);
     //if(FAILED(hr))
     //    goto fail;
