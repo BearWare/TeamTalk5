@@ -3537,12 +3537,15 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
         else if(lpDesktopInputs[i].uKeyCode != TT_DESKTOPINPUT_KEYCODE_IGNORE &&
                 lpDesktopInputs[i].uKeyState != DESKTOPKEYSTATE_NONE)
         {
+
             input.type = INPUT_KEYBOARD;
             input.ki.dwExtraInfo = GetMessageExtraInfo();
             //input.ki.wVk = lpDesktopInputs[i].uKeyCode;
             input.ki.wScan = lpDesktopInputs[i].uKeyCode;
             input.ki.dwFlags = KEYEVENTF_SCANCODE;
-            
+            if (lpDesktopInputs[i].uKeyCode & 0x100)
+                input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+
             if(lpDesktopInputs[i].uKeyState == DESKTOPKEYSTATE_UP)
                 input.ki.dwFlags |= KEYEVENTF_KEYUP;
 
