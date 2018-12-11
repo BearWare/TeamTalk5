@@ -319,6 +319,8 @@ namespace teamtalk {
             codec.opus.vbr_constraint = codec_type[9];
             codec.opus.frame_size = codec_type[10];
             return true;
+        case CODEC_WEBM_VP8 :
+            break;
         }
         return false;
     }

@@ -345,6 +345,9 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
                 return 0;
             }
         break; /* BMP_RGB32 */
+        case BMP_NONE :
+            TTASSERT(0);
+            return 0;
         }
         while(rgbdest_pos<rgbdest_end)
             dst_bitmap[rgbdest_pos++] = 0;

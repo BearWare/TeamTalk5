@@ -1577,6 +1577,10 @@ void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
         StartUserTimer(USER_TIMER_REMOVE_FILETRANSFER_ID, transfer.transferid,
                        transfer.transferid, ACE_Time_Value::zero);
         break;
+    case FILETRANSFER_CLOSED :
+    case FILETRANSFER_ACTIVE :
+        TTASSERT(0);
+        break;
     }
     m_listener->OnFileTransferStatus(transfer);
 }
@@ -3908,6 +3912,10 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
         break;
     case TTChannelMsg :
         AppendProperty(TT_CHANNELID, msg.channelid, command);
+        break;
+    case TTNoneMsg :
+    case TTBroadcastMsg :
+        TTASSERT(0);
         break;
     }
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);

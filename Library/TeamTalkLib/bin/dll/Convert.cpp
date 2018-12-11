@@ -1145,6 +1145,11 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result)
 {
     switch(vidcodec.nCodec)
     {
+    case SPEEX_CODEC :
+    case SPEEX_VBR_CODEC :
+    case OPUS_CODEC :
+    case NO_CODEC :
+        break;
     case WEBM_VP8_CODEC :
         result.codec = teamtalk::CODEC_WEBM_VP8;
         result.webm_vp8.rc_target_bitrate = vidcodec.webm_vp8.nRcTargetBitrate;
