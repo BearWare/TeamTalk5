@@ -24,6 +24,7 @@ namespace UnitTest
 
     public:
 
+#if defined(ENABLE_MEDIAFOUNDATION)
         TEST_METHOD(TestAudioStream)
         {
 
@@ -444,5 +445,7 @@ namespace UnitTest
             mb->release();
 
         }
+#endif
+
     };
 }
