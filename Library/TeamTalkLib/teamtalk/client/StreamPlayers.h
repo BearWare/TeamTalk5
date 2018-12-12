@@ -28,9 +28,7 @@
 
 #include <myace/MyACE.h>
 
-#if defined(ENABLE_SOUNDSYSTEM)
-#include <soundsystem/SoundSystem.h>
-#endif
+#include <avstream/SoundSystem.h>
 
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketLayout.h>
@@ -47,7 +45,7 @@
 #if defined(ENABLE_VPX)
 #include <codec/VpxDecoder.h>
 #endif
-#include <codec/AudioResampler.h>
+#include <avstream/AudioResampler.h>
 #include "VideoThread.h"
 
 #define STOPPED_TALKING_DELAY 500 //msec
@@ -84,9 +82,7 @@ namespace teamtalk {
     };
 
     class AudioPlayer
-#if defined(ENABLE_SOUNDSYSTEM)
         : public soundsystem::StreamPlayer
-#endif
     {
     public:
         AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
@@ -97,11 +93,10 @@ namespace teamtalk {
         //returns reassembled AudioPacket if 'new_audpkt' has fragments
         audiopacket_t QueuePacket(const AudioPacket& new_audpkt);
 
-#if defined(ENABLE_SOUNDSYSTEM)
         virtual bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                     short* output_buffer, int n_samples);
         virtual void StreamPlayerCbEnded();
-#endif
+
         bool PlayBuffer(short* output_buffer, int n_samples);
         virtual bool DecodeFrame(const encframe& enc_frame,
                                  short* output_buffer, int n_samples) = 0;

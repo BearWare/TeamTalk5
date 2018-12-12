@@ -74,9 +74,7 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 AudioPlayer::~AudioPlayer()
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     assert(SOUNDSYSTEM->IsStreamStopped(this));
-#endif
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
@@ -171,7 +169,6 @@ void AudioPlayer::Reset()
     //how long the player has been inactive.
 }
 
-#if defined(ENABLE_SOUNDSYSTEM)
 bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                  short* output_buffer, int output_samples)
 {
@@ -272,7 +269,6 @@ void AudioPlayer::StreamPlayerCbEnded()
     //MYTRACE(ACE_TEXT("Stream callback ended for #%d. Played: %u. Cur pkt: %d, max pkt: %d\n"),
     //        m_userid, m_samples_played, m_play_pkt_no, m_max_packet);
 }
-#endif
 
 int AudioPlayer::GetNumAudioBlocks(bool reset)
 {
@@ -417,6 +413,9 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
             break;
         case STREAMTYPE_MEDIAFILE_AUDIO :
             break;
+        default :
+            TTASSERT(0);
+            break;
         }
 
         while(m_stream_id &&
@@ -502,6 +501,11 @@ SpeexPlayer::SpeexPlayer(int sndgrpid, int userid, StreamType stream_type,
     case CODEC_SPEEX_VBR :
         b = m_Decoder.Initialize(codec.speex_vbr.bandmode);
         break;
+    case CODEC_NO_CODEC :
+    case CODEC_OPUS :
+    case CODEC_WEBM_VP8 :
+        TTASSERT(0);
+        break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize Speex decoder\n"));
 }
@@ -552,6 +556,12 @@ OpusPlayer::OpusPlayer(int sndgrpid, int userid, StreamType stream_type,
     {
     case CODEC_OPUS :
         b = m_decoder.Open(codec.opus.samplerate, codec.opus.channels);
+        break;
+    case CODEC_SPEEX :
+    case CODEC_SPEEX_VBR :
+    case CODEC_WEBM_VP8 :
+    case CODEC_NO_CODEC :
+        TTASSERT(0);
         break;
     }
     MYTRACE_COND(!b, ACE_TEXT("Failed to initialize OPUS decoder\n"));

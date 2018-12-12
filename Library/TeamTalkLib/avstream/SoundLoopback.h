@@ -25,26 +25,21 @@
 #define SOUNDLOOPBACK_H
 
 #include <myace/MyACE.h>
-
-#if defined(ENABLE_SOUNDSYSTEM)
 #include "SoundSystem.h"
+
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexPreprocess.h>
 #endif
 
-#if defined(ENABLE_SPEEX)
-#include <codec/SpeexPreprocess.h>
-#endif
-
-#include <codec/AudioResampler.h>
+#include <avstream/AudioResampler.h>
 
 #include <vector>
 #include <queue>
 
 class SoundLoopback
-#if defined(ENABLE_SOUNDSYSTEM)
     : public soundsystem::StreamDuplex
     , public soundsystem::StreamCapture
     , public soundsystem::StreamPlayer
-#endif
 {
 public:
     SoundLoopback();
@@ -52,7 +47,7 @@ public:
 
     bool StartTest(int inputdevid, int outputdevid,
                    int samplerate, int channels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                    , bool enable_agc, const SpeexAGC& agc,
                    bool denoise, int denoise_level,
                    bool enable_aec, const SpeexAEC& aec
@@ -61,7 +56,7 @@ public:
 
     bool StartDuplexTest(int inputdevid, int outputdevid,
                          int samplerate, int channels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                          , bool enable_agc, const SpeexAGC& agc,
                          bool denoise, int denoise_level,
                          bool enable_aec, const SpeexAEC& aec
@@ -69,7 +64,6 @@ public:
                          );
     bool StopTest();
 
-#if defined(ENABLE_SOUNDSYSTEM)
     void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                          const short* buffer, int samples);
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
@@ -82,10 +76,9 @@ public:
     void StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                         const short* input_buffer, 
                         short* output_buffer, int samples);
-#endif
 
 private:
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     bool SetAGC(int samplerate, int samples, int channels,
                 bool enable_agc,
                 const SpeexAGC& agc,
@@ -95,7 +88,7 @@ private:
 #endif
     bool m_active;
     int m_soundgrpid;
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
     std::vector<short> m_resample_buffer, m_preprocess_buffer_left, 

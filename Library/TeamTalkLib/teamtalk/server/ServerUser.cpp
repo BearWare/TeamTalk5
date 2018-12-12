@@ -1540,6 +1540,9 @@ void ServerUser::DoTextMessage(const ServerUser& fromuser, const TextMessage& ms
     case TTCustomMsg :
         AppendProperty(TT_DESTUSERID, msg.to_userid, command);
         break;
+    case TTBroadcastMsg :
+    case TTNoneMsg :
+        break;
     }
     command += ACE_TString(EOL);
 
@@ -1564,6 +1567,9 @@ void ServerUser::DoTextMessage(const TextMessage& msg)
     case TTUserMsg :
     case TTCustomMsg :
         AppendProperty(TT_DESTUSERID, msg.to_userid, command);
+        break;
+    case TTNoneMsg :
+    case TTBroadcastMsg :
         break;
     }
     command += ACE_TString(EOL);

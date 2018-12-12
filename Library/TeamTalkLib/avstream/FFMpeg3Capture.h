@@ -25,7 +25,7 @@
 #define FFMPEG3CAPTURE_H
 
 #include "VideoCapture.h"
-#include <codec/FFMpeg3Streamer.h>
+#include "FFMpeg3Streamer.h"
 #include <myace/MyACE.h>
 
 #include <ace/Bound_Ptr.h>

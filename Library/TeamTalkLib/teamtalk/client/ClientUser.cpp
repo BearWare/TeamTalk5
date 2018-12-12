@@ -28,12 +28,9 @@
 #include <teamtalk/Commands.h>
 #include <teamtalk/CodecCommon.h>
 
-#if defined(ENABLE_SOUNDSYSTEM)
-using namespace soundsystem;
-#endif
-
 using namespace std;
 using namespace teamtalk;
+using namespace soundsystem;
 
 #define TIMEOUT_STOP_AUDIO_PLAYBACK          30000    //msec for timeout of when to stop stream
 #define TIMEOUT_STOP_VIDEOFILE_PLAYBACK      5000
@@ -57,13 +54,8 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
                        , m_desktop_input_tx_pktno(0)
                        , m_snddev_error(false)
                        , m_snd_duplexmode(false)
-#if defined(ENABLE_SOUNDSYSTEM)
                        , m_voice_volume(VOLUME_DEFAULT)
                        , m_audiofile_volume(VOLUME_DEFAULT)
-#else
-                       , m_voice_volume(0)
-                       , m_audiofile_volume(0)
-#endif
                        , m_voice_mute(false)
                        , m_audiofile_mute(false)
                        , m_voice_stopped_delay(STOPPED_TALKING_DELAY)
@@ -288,13 +280,11 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     //         (int)audpkt.GetPacketNumber(), audpkt.GetTime(), GETTIMESTAMP());
     if(!m_snd_duplexmode)
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         if( SOUNDSYSTEM->IsStreamStopped(m_voice_player.get()) )
         {
             SOUNDSYSTEM->StartStream(m_voice_player.get());
             MYTRACE(ACE_TEXT("Starting voice stream for #%d\n"), GetUserID());
         }
-#endif
     }
 }
 
@@ -331,13 +321,11 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     audiopacket_t reassem_pkt = m_audiofile_player->QueuePacket(audpkt);
     if(!m_snd_duplexmode)
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         if( SOUNDSYSTEM->IsStreamStopped(m_audiofile_player.get()) )
         {
             SOUNDSYSTEM->StartStream(m_audiofile_player.get());
             MYTRACE(ACE_TEXT("Starting media audio stream for #%d\n"), GetUserID());
         }
-#endif
     }
 }
 
@@ -847,17 +835,13 @@ void ClientUser::SetVolume(StreamType stream_type, int volume)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_voice_player.null())
             SOUNDSYSTEM->SetVolume(m_voice_player.get(), volume);
-#endif
         m_voice_volume = volume;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_audiofile_player.null())
             SOUNDSYSTEM->SetVolume(m_audiofile_player.get(), volume);
-#endif
         m_audiofile_volume = volume;
         break;
     default :
@@ -884,17 +868,13 @@ void ClientUser::SetMute(StreamType stream_type, bool mute)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_voice_player.null())
             SOUNDSYSTEM->SetMute(m_voice_player.get(), mute);
-#endif
         m_voice_mute = mute;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_audiofile_player.null())
             SOUNDSYSTEM->SetMute(m_audiofile_player.get(), mute);
-#endif
         m_audiofile_mute = mute;
         break;
     default :
@@ -921,25 +901,21 @@ void ClientUser::SetPosition(StreamType stream_type, float x, float y, float z)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_voice_player.null())
         {
             SOUNDSYSTEM->SetPosition(m_voice_player.get(), x, y, z);
             SOUNDSYSTEM->SetAutoPositioning(m_voice_player.get(), false);
         }
-#endif
         m_voice_position[0] = x;
         m_voice_position[1] = y;
         m_voice_position[2] = z;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-#if defined(ENABLE_SOUNDSYSTEM)
         if(!m_audiofile_player.null())
         {
             SOUNDSYSTEM->SetPosition(m_audiofile_player.get(), x, y, z);
             SOUNDSYSTEM->SetAutoPositioning(m_audiofile_player.get(), false);
         }
-#endif
         m_audiofile_position[0] = x;
         m_audiofile_position[1] = y;
         m_audiofile_position[2] = z;
@@ -1035,18 +1011,14 @@ void ClientUser::ResetVoicePlayer()
 
     if(m_snd_duplexmode)
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         bool b = SOUNDSYSTEM->RemoveDuplexOutputStream(m_clientnode, 
                                                        m_voice_player.get());
         assert(b);
-#endif
     }
     else
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         bool b = SOUNDSYSTEM->CloseOutputStream(m_voice_player.get());
         assert(b);
-#endif
     }
 
     m_voice_player.reset();
@@ -1071,18 +1043,14 @@ void ClientUser::ResetAudioFilePlayer()
 
     if(m_snd_duplexmode)
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         bool b = SOUNDSYSTEM->RemoveDuplexOutputStream(m_clientnode, 
                                                        m_audiofile_player.get());
         assert(b);
-#endif
     }
     else
     {
-#if defined(ENABLE_SOUNDSYSTEM)
         bool b = SOUNDSYSTEM->CloseOutputStream(m_audiofile_player.get());
         assert(b);
-#endif
     }
     m_audiofile_player.reset();
     m_audiofile_active = false;
@@ -1117,7 +1085,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     audio_resampler_t resampler;
 
     int output_samplerate = 0, output_channels = 0, output_samples = 0;
-#if defined(ENABLE_SOUNDSYSTEM)
     if(!SOUNDSYSTEM->SupportsOutputFormat(sndprop.outputdeviceid,
                                           codec_channels, 
                                           codec_samplerate))
@@ -1143,7 +1110,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
             return audio_player_t();
     }
     else
-#endif
     {
         output_samplerate = codec_samplerate;
         output_channels = codec_channels;
@@ -1192,7 +1158,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     m_snd_duplexmode = duplex_mode;
 
-#if defined(ENABLE_SOUNDSYSTEM)
     //only launch in duplex mode if it's "my" channel
     if(m_snd_duplexmode)
     {
@@ -1225,9 +1190,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         }
     }
     return ret;
-#else
-    return ret;
-#endif
 }
 
 bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,

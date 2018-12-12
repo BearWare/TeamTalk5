@@ -192,6 +192,12 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
     case SOUND_API_WDMKS :
         hostapiIndex = Pa_HostApiTypeIdToHostApiIndex(paWDMKS);
         break;
+    case SOUND_API_OPENSLES_ANDROID :
+    case SOUND_API_AUDIOUNIT :
+    case SOUND_API_AUDIOTOOLKIT :
+    case SOUND_API_NOSOUND :
+        assert(0);
+        return false;
     }
     if(hostapiIndex == paHostApiNotFound)
         return false;

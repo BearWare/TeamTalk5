@@ -123,17 +123,20 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         }
         break;
 #endif
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+            break;
         }
     }
     break;
 #endif
 
-#if defined(ENABLE_MP3)
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
     case AFF_MP3_256KBIT_FORMAT :
+#if defined(ENABLE_MP3)
     {
         LameMP3* lamemp3;
         ACE_NEW(lamemp3, LameMP3());
@@ -146,8 +149,8 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             return;
         }
     }
-    break;
 #endif
+    break;
     case AFF_WAVE_FORMAT :
     {
         WaveFile* wavfile;
@@ -162,6 +165,9 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         }
     }
     break;
+    case AFF_NONE:
+        assert(0);
+        return;
     }
 
     switch(codec.codec)
@@ -182,6 +188,10 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             return;
 #endif
         m_flush = ACE_OS::gettimeofday();
+        break;
+    case CODEC_NO_CODEC :
+    case CODEC_WEBM_VP8 :
+        TTASSERT(0);
         break;
     }
 
@@ -367,6 +377,10 @@ void VoiceLog::WritePacket(int packet_no)
 #endif /* ENABLE_OPUSTOOLS */
         break;
 #endif /* ENABLE_OGG */
+    case CODEC_NO_CODEC :
+    case CODEC_WEBM_VP8 :
+        assert(0);
+        break;
     }
 
     if(ite != m_mFlushPackets.end())
@@ -635,6 +649,10 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         case CODEC_OPUS :
             aff = from_user.GetAudioFileFormat();
             filename += ACE_TEXT(".ogg");
+            break;
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+            break;
         }
         break;
 #if defined(ENABLE_MP3)

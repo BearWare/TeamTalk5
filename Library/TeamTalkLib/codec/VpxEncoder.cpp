@@ -23,7 +23,7 @@
 
 #include "VpxEncoder.h"
 #include <assert.h>
-#include <codec/MediaUtil.h>
+#include "MediaUtil.h"
 #include <vpx/vp8cx.h>
 #define enc_interface vpx_codec_vp8_cx()
 
@@ -77,6 +77,24 @@ void VpxEncoder::Close()
     memset(&m_codec, 0, sizeof(m_codec));
     m_iter = NULL;
     m_frame_index = 0;
+}
+
+vpx_codec_err_t VpxEncoder::Encode(const char* imgbuf, int imglen, vpx_img_fmt fmt,
+                                   unsigned long tm, int enc_deadline)
+{
+    vpx_codec_err_t ret;
+    vpx_image_t* img;
+
+    assert(m_codec.iface);
+    img = vpx_img_alloc(NULL, fmt, m_cfg.g_w, m_cfg.g_h, 1);
+    assert(img);
+
+    ret = vpx_codec_encode(&m_codec, img, m_frame_index++, 1 /*duration*/,
+        0, enc_deadline);
+    assert(ret == VPX_CODEC_OK);
+    vpx_img_free(img);
+
+    return ret;
 }
 
 vpx_codec_err_t VpxEncoder::EncodeRGB32(const char* imgbuf, int imglen, bool bottom_up_bmp,

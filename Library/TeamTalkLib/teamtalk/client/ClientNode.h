@@ -38,11 +38,9 @@
 #include <teamtalk/StreamHandler.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
-#if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
-#endif
+#include <avstream/VideoCapture.h>
 
-#include <codec/MediaStreamer.h>
+#include <avstream/MediaStreamer.h>
 
 // ACE
 #include <ace/Reactor.h>
@@ -256,13 +254,9 @@ namespace teamtalk {
         , public TimerListener
         , public AudioEncListener
         , public VideoEncListener
-#if defined(ENABLE_VIDCAP)
         , public vidcap::VideoCaptureListener
-#endif
-#if defined(ENABLE_SOUNDSYSTEM)
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
-#endif
         , public MediaStreamListener
         , public FileTransferListener
         , public EventSuspender
@@ -422,7 +416,6 @@ namespace teamtalk {
                                const char* enc_data, int enc_len,
                                ACE_UINT32 packet_no,
                                ACE_UINT32 timestamp);
-#if defined(ENABLE_SOUNDSYSTEM)
         //PortAudio listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);
@@ -430,12 +423,10 @@ namespace teamtalk {
                                 const short* input_buffer, 
                                 const short* prev_output_buffer, 
                                 int n_samples);
-#endif
-#if defined(ENABLE_VIDCAP)
+
         //VideoCapture listener - separate thread
         bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                     ACE_Message_Block* mb_video);
-#endif
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                       media::VideoFrame& video_frame,

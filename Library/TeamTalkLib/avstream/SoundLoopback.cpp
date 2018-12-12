@@ -26,44 +26,37 @@
 #include <assert.h>
 
 using namespace std;
-#if defined(ENABLE_SOUNDSYSTEM)
 using namespace soundsystem;
-#endif
 
 #define CALLBACK_FRAMESIZE(samplerate) (int)(samplerate * 0.04)
 
 SoundLoopback::SoundLoopback()
     : m_active(false)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     m_soundgrpid = SOUNDSYSTEM->OpenSoundGroup();
-#endif
 }
 
 SoundLoopback::~SoundLoopback()
 {
     if(m_active)
         StopTest();
-#if defined(ENABLE_SOUNDSYSTEM)
     SOUNDSYSTEM->RemoveSoundGroup(m_soundgrpid);
-#endif
 }
 
 bool SoundLoopback::StartTest(int inputdevid, int outputdevid, 
                               int samplerate, int channels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                               , bool enable_agc, const SpeexAGC& agc,
                               bool denoise, int denoise_level,
                               bool enable_aec, const SpeexAEC& aec
 #endif
                               )
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     assert(!m_active);
     if(m_active)
         return false;
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     if(enable_aec)
         return false;
 #endif
@@ -107,7 +100,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         m_resample_buffer.resize(output_samples * output_channels);
     }
     
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, output_samples, channels, 
                enable_agc, agc, denoise, denoise_level, enable_aec, aec))
     {
@@ -140,22 +133,17 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 
     m_active = true;
     return m_active;
-#else
-    return false;
-#endif
 }
 
 bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     int samplerate, int channels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                                     , bool enable_agc, const SpeexAGC& agc,
                                     bool denoise, int denoise_level,
                                     bool enable_aec, const SpeexAEC& aec
 #endif
                                     )
 {
-#if defined(ENABLE_SOUNDSYSTEM)
-
     DeviceInfo in_dev;
     if(!SOUNDSYSTEM->GetDevice(inputdevid, in_dev) ||
        in_dev.default_samplerate == 0)
@@ -177,7 +165,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
         m_resample_buffer.resize(samples * channels);
     }
     
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, samples, channels, enable_agc, agc, 
               denoise, denoise_level, enable_aec, aec))
     {
@@ -194,20 +182,16 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
         return false;
     }
     return true;
-#else
-    return false;
-#endif
 }
 
 
 bool SoundLoopback::StopTest()
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     bool b = SOUNDSYSTEM->CloseDuplexStream(this);
     b |= SOUNDSYSTEM->CloseInputStream(this);
     b |= SOUNDSYSTEM->CloseOutputStream(this);
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.Close();
     m_preprocess_right.Close();
 #endif
@@ -219,12 +203,8 @@ bool SoundLoopback::StopTest()
         m_buf_queue.pop();
     m_active = false;
     return b;
-#else
-    return false;
-#endif
 }
 
-#if defined(ENABLE_SOUNDSYSTEM)
 void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                                     const short* buffer, int samples)
 {
@@ -269,7 +249,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         }
     }
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
     if(output_channels == 2)
         m_preprocess_right.Preprocess(&m_preprocess_buffer_right[0]);
@@ -345,7 +325,7 @@ void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& stream
     {
         assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         if(m_preprocess_left.IsEchoCancel())
         {
             m_preprocess_left.EchoCancel(tmp_input_buffer, prev_output_buffer, 
@@ -359,7 +339,7 @@ void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& stream
     }
     else if(output_channels == 2)
     {
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         if(m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel())
         {
             vector<short> in_leftchan(output_samples), in_rightchan(output_samples);
@@ -400,7 +380,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     {
         assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
 #endif
         memcpy(output_buffer, &m_preprocess_buffer_left[0], 
@@ -411,7 +391,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
         assert((int)m_preprocess_buffer_right.size() == streamer.framesize);
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
         m_preprocess_right.Preprocess(&m_preprocess_buffer_right[0]);
 #endif
@@ -420,9 +400,8 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                     output_buffer, streamer.framesize);
     }
 }
-#endif
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
 bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
                            bool enable_agc,
                            const SpeexAGC& agc,

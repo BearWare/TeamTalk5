@@ -31,12 +31,12 @@ specific(make,gnuace) {
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/PortAudioWrapper.h
+  $(TEAMTALKLIB_ROOT)/avstream/PortAudioWrapper.h
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/PortAudioWrapper.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/PortAudioWrapper.cpp
 }
 }
 

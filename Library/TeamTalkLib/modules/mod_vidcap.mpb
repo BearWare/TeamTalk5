@@ -1,6 +1,6 @@
 project {
 
-  macros += ENABLE_VIDCAP ENABLE_LIBVIDCAP
+  macros += ENABLE_LIBVIDCAP
 
 specific(vc8,vc10,vc11,vc12,vc14) {
 
@@ -18,13 +18,13 @@ specific(make,gnuace){
 }
 
 Header_Files {
-  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.h
-  $(TEAMTALKLIB_ROOT)/vidcap/LibVidCap.h
+  $(TEAMTALKLIB_ROOT)/avstream/VideoCapture.h
+  $(TEAMTALKLIB_ROOT)/avstream/LibVidCap.h
 }
 
 Source_Files {
-  $(TEAMTALKLIB_ROOT)/vidcap/VideoCapture.cpp
-  $(TEAMTALKLIB_ROOT)/vidcap/LibVidCap.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/VideoCapture.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/LibVidCap.cpp
 }
 
 }

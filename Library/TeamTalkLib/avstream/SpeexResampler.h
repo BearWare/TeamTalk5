@@ -21,28 +21,33 @@
  *
  */
 
-#if !defined(FFMPEGRESAMPLER_H)
-#define FFMPEGRESAMPLER_H
+#if !defined(SPEEXRESAMPLER_H)
+#define SPEEXRESAMPLER_H
 
+#include "AudioResampler.h"
+
+#include <speex/speex_resampler.h>
 #include <vector>
-#include <codec/AudioResampler.h>
 
-class FFMPEGResampler : public AudioResampler
+class SpeexResampler : public AudioResampler
 {
 public:
-    FFMPEGResampler();
-    virtual ~FFMPEGResampler();
+    SpeexResampler();
+    virtual ~SpeexResampler();
     
-    bool Init(int input_samplerate, int input_channels, 
-              int output_samplerate, int output_channels);
+    bool Init(int quality, int input_samplerate, int input_channels, 
+             int output_samplerate, int output_channels);
     void Close();
 
     //return number of samples written to 'output_samples'
     int Resample(const short* input_samples, int input_samples_size,
                  short* output_samples, int output_samples_size);
 
+
 private:
-    struct SwrContext* m_ctx;
+    SpeexResamplerState* m_state;
+    int m_input_channels, m_output_channels;
+    std::vector<short> m_tmp_buffer;
 };
 
 #endif
