@@ -115,29 +115,49 @@ void MediaStreamer::InitBuffers()
 
 void MediaStreamer::Flush(uint32_t starttime)
 {
-    size_t b = m_audio_frames.message_bytes(), l = m_audio_frames.message_length();
     while(!m_stop &&
         (m_audio_frames.message_length() || m_video_frames.message_length()))
     {
-        ProcessAVQueues(starttime, 0, true);
+        ProcessAVQueues(starttime, true);
     }
 }
 
-bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, int wait_ms, bool flush)
+bool MediaStreamer::NeedAudio(uint32_t starttime)
 {
-    bool need_audio = m_media_out.audio ? ProcessAudioFrame(starttime, flush) == 0 : false;
-    bool need_video = m_media_out.video ? ProcessVideoFrame(starttime) == 0 : false;
+    return m_media_out.audio ? ProcessAudioFrame(starttime, false) == 0 : false;
+}
 
+bool MediaStreamer::NeedVideo(uint32_t starttime)
+{
+    return m_media_out.video ? ProcessVideoFrame(starttime) == 0 : false;
+}
+
+bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, bool flush)
+{
+    assert(m_media_out.audio || m_media_out.video);
+    
     //go to sleep if there is already enough data buffered
-    if(!need_audio && !need_video)
+    if (!NeedAudio(starttime) && !NeedVideo(starttime))
     {
+        int wait_ms = 1000;
+        if (m_media_out.audio && m_media_out.audio_samples > 0 && m_media_out.audio_samplerate > 0)
+        {
+            wait_ms = m_media_out.audio_samples * 1000 / m_media_out.audio_samplerate;
+        }
+        
+        if (m_media_out.video)
+        {
+            double fps = std::max(1, m_media_in.video_fps_numerator) / std::max(1, m_media_in.video_fps_denominator);
+            wait_ms = std::min(1000. / fps, double(wait_ms));
+        }
+
         wait_ms /= 2;
         MYTRACE(ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
         ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
         return true;
     }
 
-    return !need_audio && !need_video;
+    return false;
 }
 
 ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
@@ -190,7 +210,8 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
         return first_frame->timestamp;
     }
     MYTRACE(ACE_TEXT("Processing %u, msg q size %u, msg cnt; %u\n"), 
-            first_frame->timestamp, unsigned(m_audio_frames.message_length()), unsigned(m_audio_frames.message_count()));
+            first_frame->timestamp, unsigned(m_audio_frames.message_length()),
+            unsigned(m_audio_frames.message_count()));
 
     // ready to submit new data
     int audio_block_size = required_audio_bytes + sizeof(AudioFrame);
@@ -228,6 +249,10 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
                 mb->release();
                 mb = NULL;
             }
+            MYTRACE(ACE_TEXT("Done block: Writebytes %u, q size %u, msg cnt: %u\n"), 
+                    write_bytes, unsigned(m_audio_frames.message_length()),
+                    unsigned(m_audio_frames.message_count()));
+            
             assert((write_bytes == 0 && m_audio_frames.message_count() == 0 || write_bytes > 0 && m_audio_frames.message_count()) || flush);
         }
         else
@@ -241,8 +266,9 @@ ACE_UINT32 MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
     }
     while(write_bytes > 0 && m_audio_frames.peek_dequeue_head(mb, &tv) >= 0);
 
-    MYTRACE(ACE_TEXT("Writebytes %u, q size %u, msg cnt; %u\n"), 
-            write_bytes, unsigned(m_audio_frames.message_length()), unsigned(m_audio_frames.message_count()));
+    MYTRACE(ACE_TEXT("Writebytes %u, q size %u, msg cnt: %u\n"), 
+            write_bytes, unsigned(m_audio_frames.message_length()),
+            unsigned(m_audio_frames.message_count()));
 
     assert(write_bytes == 0 || flush);
 
@@ -292,6 +318,8 @@ ACE_UINT32 MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime)
                 mb->release();
                 mb = NULL;
             }
+            MYTRACE(ACE_TEXT("Video time %u, duration %u\n"),
+                    media_frame->timestamp, GETTIMESTAMP() - starttime);
         }
         else
         {

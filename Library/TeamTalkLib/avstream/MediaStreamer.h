@@ -122,6 +122,8 @@ protected:
     void Reset();
     void InitBuffers();
     void Flush(uint32_t starttime);
+    bool NeedAudio(uint32_t starttime);
+    bool NeedVideo(uint32_t starttime);
 
     MediaFileProp m_media_in;
     MediaStreamOutput m_media_out;
@@ -129,8 +131,7 @@ protected:
     bool m_stop;
     
     //return 'true' if it should be called again
-    bool ProcessAVQueues(ACE_UINT32 starttime, 
-                         int wait_ms, bool flush);
+    bool ProcessAVQueues(ACE_UINT32 starttime, bool flush);
 
     msg_queue_t m_audio_frames;
     msg_queue_t m_video_frames;

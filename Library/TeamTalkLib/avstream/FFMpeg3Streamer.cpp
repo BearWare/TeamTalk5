@@ -287,9 +287,6 @@ int FFMpegStreamer::svc()
     AVFrame* vid_frame = av_frame_alloc();
     AVFrame* filt_frame = av_frame_alloc();
 
-    int audio_wait_ms = 0;
-    int video_wait_ms = 0;
-    const int BUF_SECS = 3;
     int ret;
     bool go = false;
 
@@ -316,24 +313,14 @@ int FFMpegStreamer::svc()
             m_open.set(false);
             goto end;
         }
-        
-        if(m_media_out.audio_samplerate>0)
-        {
-            audio_wait_ms = (1000 * m_media_out.audio_samples) / m_media_out.audio_samplerate;
-            
-            int media_bytes = m_media_out.audio_samplerate * m_media_out.audio_channels * sizeof(short);
-            media_bytes += sizeof(AudioFrame);
-            media_bytes *= BUF_SECS;
-            m_audio_frames.high_water_mark(media_bytes); //keep BUF_SECS seconds of audio data
-
-            MYTRACE(ACE_TEXT("MediaStreamer audio buffer size %u\n"),
-                    (unsigned int)m_audio_frames.high_water_mark());
-        }
     }
     else
+    {
         audio_stream_index = -1; //disable audio processing
-
-    if(m_media_out.video && video_stream_index >= 0)
+        m_media_out.audio = false;
+    }
+    
+    if (m_media_out.video && video_stream_index >= 0)
     {
         video_filter_graph = createVideoFilterGraph(fmt_ctx, vid_dec_ctx,
                                                     vid_buffersink_ctx,
@@ -344,28 +331,18 @@ int FFMpegStreamer::svc()
             m_open.set(false);
             goto end;
         }
-
-        //resize buffer
-        int video_frame_size = m_media_in.video_width * m_media_in.video_height * 4;
-        double video_fps = (double)m_media_in.video_fps_numerator / (double)m_media_in.video_fps_denominator;
-        video_fps = std::min(video_fps, 60.0);
-        if(video_fps > .0)
-            video_wait_ms = 1000 / video_fps;
-
-        int media_frame_size = video_frame_size + sizeof(VideoFrame);
-        m_video_frames.high_water_mark(media_frame_size * video_fps * BUF_SECS); //keep BUF_SECS seconds of video data
-
-        MYTRACE(ACE_TEXT("Media stream video buffer for dim. %dx%d %g. Size set to %d bytes\n"),
-                m_media_in.video_width, m_media_in.video_height, video_fps,
-                (int)m_video_frames.high_water_mark());
-
     }
     else
+    {
         video_stream_index = -1;
+        m_media_out.video = false;
+    }
 
     //open and ready to go
     m_open.set(true);
 
+    InitBuffers();
+    
     //wait for start signal
     MYTRACE(ACE_TEXT("FFMpeg3 waiting to start streaming: %s\n"), m_media_in.filename.c_str());
     m_start.get(go);
@@ -375,15 +352,9 @@ int FFMpegStreamer::svc()
     if(!m_stop && m_listener)
         m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
 
-    ACE_UINT32 start_time, wait_ms, start_offset;
+    ACE_UINT32 start_time, start_offset;
     start_time = GETTIMESTAMP();
     start_offset = -1;
-    if(audio_wait_ms && video_wait_ms)
-        wait_ms = std::min(audio_wait_ms, video_wait_ms);
-    else if(audio_wait_ms)
-        wait_ms = audio_wait_ms;
-    else if(video_wait_ms)
-        wait_ms = video_wait_ms;
 
     /* read all packets */
     AVPacket packet;
@@ -416,7 +387,7 @@ int FFMpegStreamer::svc()
 
                 if (ProcessAudioBuffer(aud_buffersink_ctx, filt_frame,
                                        fmt_ctx->streams[audio_stream_index],
-                                       start_time, wait_ms, start_offset) < 0)
+                                       start_time, start_offset) < 0)
                 {
                     goto fail;
                 }
@@ -444,7 +415,7 @@ int FFMpegStreamer::svc()
 
                 if (ProcessVideoBuffer(vid_buffersink_ctx, filt_frame, 
                                        fmt_ctx->streams[video_stream_index],
-                                       start_time, wait_ms, start_offset) < 0)
+                                       start_time, start_offset) < 0)
                 {
                     goto fail;
                 }
@@ -452,16 +423,10 @@ int FFMpegStreamer::svc()
         } // stream index
         av_packet_unref(&packet);
 
-//         MYTRACE(ACE_TEXT("Video frame queue size %u usage %u/%u.\nAudio frame queue size %u usage %u/%u\n"),
-//                 m_video_frames.message_count(),
-//                 m_video_frames.message_bytes(), m_video_frames.high_water_mark(),
-//                 m_audio_frames.message_count(),
-//                 m_audio_frames.message_bytes(), m_audio_frames.high_water_mark());
+        while(!m_stop && ProcessAVQueues(start_time, false));
+
     } // while
 
-    while(!m_stop &&
-          (m_video_frames.message_bytes() || m_audio_frames.message_bytes()))
-        ProcessAVQueues(start_time, wait_ms, true);
 
     //don't do callback if thread is asked to quit
     if(m_listener && !m_stop)
@@ -498,73 +463,60 @@ int FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
                                        AVFrame* filt_frame,
                                        AVStream* aud_stream,
                                        ACE_UINT32 start_time,
-                                       ACE_UINT32 wait_ms,
                                        ACE_UINT32& start_offset)
 {
 
     /* pull filtered audio from the filtergraph */
-    while (!m_stop)
+
+    int ret = av_buffersink_get_frame(aud_buffersink_ctx, filt_frame);
+    if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+        return 1;
+    
+    if(ret < 0)
+        return -1;
+
+    int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
+    double frame_sec = frame_tm * av_q2d(aud_stream->time_base);
+    ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
+
+    if (AddStartTime())
     {
-        int ret = av_buffersink_get_frame(aud_buffersink_ctx, filt_frame);
-        if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-            return 1;
-        if(ret < 0)
-            return -1;
+        // initial frame should be timestamp = 0 msec
+        if (start_offset == -1)
+            start_offset = frame_timestamp;
+        frame_timestamp -= start_offset;
+    }
 
-        int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
-        double frame_sec = frame_tm * av_q2d(aud_stream->time_base);
-        ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
+    int n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
+    short* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
 
-        if (AddStartTime())
+    ACE_Message_Block* mb;
+    ACE_NEW_NORETURN(mb, 
+                     ACE_Message_Block(sizeof(AudioFrame) +
+                                       PCM16_BYTES(filt_frame->nb_samples, n_channels)));
+    if(mb)
+    {
+        AudioFrame media_frame;
+        media_frame.timestamp = frame_timestamp;
+        media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
+        media_frame.input_samples = filt_frame->nb_samples;
+        media_frame.input_channels = m_media_out.audio_channels;
+        media_frame.input_samplerate = m_media_out.audio_samplerate;
+
+        mb->copy(reinterpret_cast<const char*>(&media_frame), 
+                 sizeof(media_frame));
+        mb->copy(reinterpret_cast<const char*>(audio_data), 
+                 PCM16_BYTES(filt_frame->nb_samples, n_channels));
+
+        ACE_Time_Value tm;
+        if (m_audio_frames.enqueue(mb, &tm) < 0)
         {
-            // initial frame should be timestamp = 0 msec
-            if (start_offset == -1)
-                start_offset = frame_timestamp;
-            frame_timestamp -= start_offset;
+            mb->release();
+            MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media_frame.timestamp);
         }
-
-        int n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
-        short* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
-
-        ACE_Message_Block* mb;
-        ACE_NEW_NORETURN(mb, 
-                         ACE_Message_Block(sizeof(AudioFrame) +
-                                           PCM16_BYTES(filt_frame->nb_samples, n_channels)));
-        if(mb)
-        {
-            AudioFrame media_frame;
-            media_frame.timestamp = frame_timestamp;
-            media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
-            media_frame.input_samples = filt_frame->nb_samples;
-            media_frame.input_channels = m_media_out.audio_channels;
-            media_frame.input_samplerate = m_media_out.audio_samplerate;
-
-            mb->copy(reinterpret_cast<const char*>(&media_frame), 
-                     sizeof(media_frame));
-            mb->copy(reinterpret_cast<const char*>(audio_data), 
-                     PCM16_BYTES(filt_frame->nb_samples, n_channels));
-
-            int push = -1;
-            ACE_Time_Value tm;
-            while(!m_stop && (push = m_audio_frames.enqueue(mb, &tm)) < 0)
-            {
-//                                 MYTRACE(ACE_TEXT("Audio frame queue full. Waiting to insert frame %u\n"),
-//                                         media_frame.timestamp);
-                ProcessAVQueues(start_time, wait_ms, false);
-            }
-
-            if(push < 0)
-            {
-                mb->release();
-                MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media_frame.timestamp);
-            }
-//                             MYTRACE_COND(push >= 0, 
-//                                          ACE_TEXT("Insert audio frame %u\n"), media_frame.timestamp);
-            if(!m_stop)
-                ProcessAVQueues(start_time, wait_ms, false);
-        } // mb
-        av_frame_unref(filt_frame);
-    } // while
+    } // mb
+        
+    av_frame_unref(filt_frame);
 
     return 0;
 }
@@ -573,97 +525,77 @@ int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                                        AVFrame* filt_frame,
                                        AVStream* vid_stream,
                                        ACE_UINT32 start_time,
-                                       ACE_UINT32 wait_ms,
                                        ACE_UINT32& start_offset)
 {
     assert(W32_LEQ(start_time, GETTIMESTAMP()));
 
     /* pull filtered pictures from the filtergraph */
-    while (!m_stop)
+
+    int ret = av_buffersink_get_frame(vid_buffersink_ctx, filt_frame);
+    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+        return 1;
+    if (ret < 0)
+        return -1;
+
+    int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
+    double frame_sec = frame_tm * av_q2d(vid_stream->time_base);
+    ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
+
+    if (AddStartTime())
     {
-        int ret = av_buffersink_get_frame(vid_buffersink_ctx, filt_frame);
-        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-            return 1;
-        if (ret < 0)
-            return -1;
-
-        int64_t frame_tm = av_frame_get_best_effort_timestamp(filt_frame);
-        double frame_sec = frame_tm * av_q2d(vid_stream->time_base);
-        ACE_UINT32 frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
-
-        if (AddStartTime())
-        {
-            // initial frame should be timestamp = 0 msec
-            if (start_offset == -1)
-                start_offset = frame_timestamp;
-            frame_timestamp -= start_offset;
-        }
-        else
-        {
-            MYTRACE_COND(!W32_GEQ(frame_timestamp, start_time),
-                         ACE_TEXT("Frame time: %u, start time: %u, diff: %d\n"),
-                         frame_timestamp, start_time, int(frame_timestamp - start_time));
+        // initial frame should be timestamp = 0 msec
+        if (start_offset == -1)
+            start_offset = frame_timestamp;
+        frame_timestamp -= start_offset;
+    }
+    else
+    {
+        MYTRACE_COND(!W32_GEQ(frame_timestamp, start_time),
+                     ACE_TEXT("Frame time: %u, start time: %u, diff: %d\n"),
+                     frame_timestamp, start_time, int(frame_timestamp - start_time));
             
-            if (start_offset == -1)
-            {
-                // the first couple of frames we get might be from before 'start_time'
-                if (W32_LT(frame_timestamp, start_time))
-                {
-                    MYTRACE(ACE_TEXT("Dropped video frame timestamped %u because it's before start time %u\n"),
-                            frame_timestamp, start_time);
-                    av_frame_unref(filt_frame);
-                    continue;
-                }
-                start_offset = 0;
-            }
-            assert(W32_GEQ(GETTIMESTAMP(), frame_timestamp));
-            frame_timestamp -= start_time;
-        }
-
-        static int n_vidframe = 0;
-        ACE_UINT32 ticks = GETTIMESTAMP();
-        MYTRACE(ACE_TEXT("Video frame %d at tick %u, frame time: %u, diff: %u, pts: %.3f.\n"),
-                n_vidframe++, ticks, frame_timestamp, ticks - frame_timestamp, frame_sec);
-
-        int bmp_size = filt_frame->height * filt_frame->linesize[0];
-        VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),
-                               bmp_size, filt_frame->width, filt_frame->height,
-                               media::FOURCC_RGB32, true);
-        media_frame.timestamp = frame_timestamp;
-
-        ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-        assert(filt_frame->width == m_media_in.video_width);
-        assert(filt_frame->height == m_media_in.video_height);
-        if(mb)
+        if (start_offset == -1)
         {
-            int push = -1;
-            ACE_Time_Value tm;
-            // keep trying to push until video frame queue is drained
-            while(!m_stop && (push = m_video_frames.enqueue(mb, &tm)) < 0)
+            // the first couple of frames we get might be from before 'start_time'
+            if (W32_LT(frame_timestamp, start_time))
             {
-                // MYTRACE(ACE_TEXT("Video frame queue full. Waiting to insert frame %u\n"),
-                //         media_frame.timestamp);
-                ProcessAVQueues(start_time, wait_ms, false);
+                MYTRACE(ACE_TEXT("Dropped video frame timestamped %u because it's before start time %u\n"),
+                        frame_timestamp, start_time);
+                av_frame_unref(filt_frame);
+                return 1;
             }
-
-            if(push < 0)
-            {
-                mb->release();
-                MYTRACE(ACE_TEXT("Dropped video frame %u\n"), media_frame.timestamp);
-            }
-            // MYTRACE_COND(push >= 0,
-            //              ACE_TEXT("Insert video frame %u\n"), media_frame.timestamp);
+            start_offset = 0;
         }
+        assert(W32_GEQ(GETTIMESTAMP(), frame_timestamp));
+        frame_timestamp -= start_time;
+    }
 
-        // process whatever video we have queued
-        if(!m_stop)
-            ProcessAVQueues(start_time, wait_ms, false);
+    static int n_vidframe = 0;
+    ACE_UINT32 ticks = GETTIMESTAMP();
+    MYTRACE(ACE_TEXT("Video frame %d at tick %u, frame time: %u, diff: %u, pts: %.3f.\n"),
+            n_vidframe++, ticks, frame_timestamp, ticks - frame_timestamp, frame_sec);
 
-        av_frame_unref(filt_frame);
-        //break loop if video buffer is full
-        if(mb == NULL)
-            break;
-    } // while
+    int bmp_size = filt_frame->height * filt_frame->linesize[0];
+    VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),
+                           bmp_size, filt_frame->width, filt_frame->height,
+                           media::FOURCC_RGB32, true);
+    media_frame.timestamp = frame_timestamp;
+
+    ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
+    assert(filt_frame->width == m_media_in.video_width);
+    assert(filt_frame->height == m_media_in.video_height);
+    if(mb)
+    {
+        ACE_Time_Value tm;
+        if (m_video_frames.enqueue(mb, &tm) < 0)
+        {
+            MYTRACE(ACE_TEXT("Dropped video frame %u\n"), media_frame.timestamp);
+            mb->release();
+        }
+            
+    }
+
+    av_frame_unref(filt_frame);
 
     return 0;
 }
