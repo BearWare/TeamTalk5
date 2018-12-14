@@ -68,11 +68,17 @@ struct MediaStreamOutput
     int audio_samples;
 
     MediaStreamOutput()
-    : audio(false)
-    , video(false)
-    , audio_channels(0)
-    , audio_samplerate(0)
-    , audio_samples(0) {}
+    : MediaStreamOutput(false, false, 0, 0, 0) {}
+
+    MediaStreamOutput(bool audio_output, bool video_output,
+                      int audio_channels_output,
+                      int audio_samplerate_output,
+                      int audio_samples_output)
+        : audio(audio_output)
+        , video(video_output)
+        , audio_channels(audio_channels_output)
+        , audio_samplerate(audio_samplerate_output)
+        , audio_samples(audio_samples_output) {}
 };
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);

@@ -102,11 +102,11 @@ public:
         media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-
-        if(m_video_queue.enqueue(mb) < 0)
+        ACE_Time_Value tvzero;
+        if(m_video_queue.enqueue(mb, &tvzero) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("DSWrapper video buffer closed\n"));
+            MYTRACE(ACE_TEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
         }
 
         return S_OK;
@@ -203,33 +203,10 @@ public:
         media_frame.input_channels = m_media_out.audio_channels;
         media_frame.input_samplerate = m_media_out.audio_samplerate;
 
-        //static WaveFile ff_org;
-        //static WaveFile ff_resam;
-        //static int x = 0;
-        //if(ff_org.FileName().length() == 0)
-        //{
-        //    ff_org.NewFile(ACE_TEXT("C:\\temp\\sample_org.wav"), m_media_in.audio_samplerate,
-        //                   m_media_in.audio_channels);
-        //}
-        //if(ff_resam.FileName().length() == 0)
-        //{
-        //    ff_resam.NewFile(ACE_TEXT("C:\\temp\\sample_resam.wav"), m_media_out.audio_samplerate,
-        //        m_media_out.audio_channels);
-        //}
-        //ff_org.AppendSamples(input_buffer, input_samples_total);
-
         int output_resampled = m_resampler->Resample(input_buffer, 
                                                      input_samples_total,
                                                      media_frame.input_buffer,
                                                      output_samples_total);
-
-        //MYTRACE_COND(output_resampled != output_samples_total,
-        //        ACE_TEXT("Missing %d samples after %d samples\n"), 
-        //        output_samples_total - output_resampled,
-        //        x + output_resampled);
-        //x += output_samples_total;
-
-        //ff_resam.AppendSamples(media_frame.input_buffer, output_resampled);
 
         size_t resampled_bytes = PCM16_BYTES(output_resampled,
                                              m_media_out.audio_channels);
@@ -239,7 +216,8 @@ public:
         mb->wr_ptr(resampled_bytes); //advance past resampled output
 
         //store audio
-        if(m_audio_queue.enqueue(mb) < 0)
+        ACE_Time_Value tvzero;
+        if(m_audio_queue.enqueue(mb, & tvzero) < 0)
         {
             MYTRACE(ACE_TEXT("DSWrapper audio buffer closed\n"));
             mb->release();
@@ -362,8 +340,6 @@ int DSWrapperThread::svc()
     CComPtr<IMediaEventEx> pMediaEvent;
     CComPtr<IMediaFilter> pMediaFilter;
     audio_resampler_t resampler;
-    int audio_ms = 0, video_ms = 0;
-    const int BUF_SECS = 3;
 
     MSG msg = {0};
 
@@ -381,7 +357,6 @@ int DSWrapperThread::svc()
     hr = pGraph->AddSourceFilter(m_media_in.filename.c_str(), L"Source", &pSrcFilter);
     if(FAILED(hr))
         goto fail_open;
-
 
     if(!m_media_out.audio)
         goto no_audio;
@@ -428,20 +403,18 @@ int DSWrapperThread::svc()
         resampler = MakeAudioResampler(pwav->nChannels, pwav->nSamplesPerSec,
                                        m_media_out.audio_channels,
                                        m_media_out.audio_samplerate);
-
-        if(m_media_out.audio_samplerate)
-            audio_ms = m_media_out.audio_samples * 1000 / m_media_out.audio_samplerate;
-
-        //make audio_queue and audio_time_queue the same size
-        size_t buffer_size = PCM16_BYTES(m_media_out.audio_samplerate *
-                                         BUF_SECS, m_media_out.audio_channels);
-        m_audio_frames.low_water_mark(buffer_size);
-        m_audio_frames.high_water_mark(buffer_size);
     }
-    else goto no_audio;
+    else
+    {
+        m_media_out.audio = false;
+        goto no_audio;
+    }
 
     if(resampler.null())
+    {
+        m_media_out.audio = false;
         goto no_audio;
+    }
 
 no_audio:
 
@@ -479,7 +452,7 @@ no_audio:
         pVih = reinterpret_cast<VIDEOINFOHEADER*>(mt_vid.Format());
         BITMAPINFOHEADER bmp_hdr;  // info header of frames of the video
         memcpy(&bmp_hdr, &pVih->bmiHeader, sizeof(bmp_hdr));
-        video_ms = (int)(pVih->AvgTimePerFrame / 10000);
+        int video_ms = (int)(pVih->AvgTimePerFrame / 10000);
 /* Example of connect/disconnect pins
         CComPtr<IPin> pVideoGrabPin, pVideoSrcPin;
         hr = GetPin(pVideoGrabberFilter, PINDIR_INPUT, &pVideoGrabPin);
@@ -497,19 +470,18 @@ no_audio:
         else
             m_media_in.video_fps_numerator = 1;
         m_media_in.video_fps_denominator = 1;
-
-        int bmp_size = bmp_hdr.biWidth * bmp_hdr.biHeight * 4;
-        int media_frame_size = bmp_size + sizeof(media::VideoFrame);
-        size_t buffer_size = media_frame_size *
-                             m_media_in.video_fps_numerator * BUF_SECS;
-        m_video_frames.low_water_mark(buffer_size);
-        m_video_frames.high_water_mark(buffer_size);
     }
     else
+    {
+        m_media_out.video = false;
         goto no_video;
+    }
 
     if(FAILED(hr))
+    {
+        m_media_out.video = false;
         goto no_video;
+    }
 
 no_video:
 
@@ -570,6 +542,8 @@ no_video:
     if(!go)
         goto end;
 
+    InitBuffers();
+
     assert(m_audio_frames.state() == msg_queue_t::ACTIVATED);
     assert(m_video_frames.state() == msg_queue_t::ACTIVATED);
 
@@ -583,15 +557,6 @@ no_video:
     if(FAILED(hr))
         goto fail_playback;
 
-    ACE_UINT32 audio_time = 0;
-    int audio_callbacks = 0;
-
-    long timeoutMs = 1000;
-    if(audio_ms)
-        timeoutMs = audio_ms;
-    if(video_ms && video_ms <= audio_ms)
-        timeoutMs = video_ms;
-
     bool cancel = false;
     while(!m_stop && !cancel)
     {
@@ -600,7 +565,7 @@ no_video:
 
         LONG ev = 0;
         LONG_PTR p1 = 0, p2 = 0;
-        while(pMediaEvent->GetEvent(&ev, &p1, &p2, timeoutMs) == S_OK)
+        while(pMediaEvent->GetEvent(&ev, &p1, &p2, 0) == S_OK)
         {
             switch(ev)
             {
@@ -617,19 +582,14 @@ no_video:
             assert(SUCCEEDED(hr));
         }
 
-        while(!m_stop && ProcessAVQueues(start_time, timeoutMs, false));
+        while(!m_stop && ProcessAVQueues(start_time, false));
     }
 
     if(m_stop)
     {
-        m_audio_frames.close();
-        m_video_frames.close();
-
         hr = pMediaControl->Stop();
         assert(SUCCEEDED(hr));
     }
-
-    Flush(start_time);
 
     //check that we have not been stopped from the outside, since a callback
     //would then result in a deadlock

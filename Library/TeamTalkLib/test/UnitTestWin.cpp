@@ -447,5 +447,64 @@ namespace UnitTest
         }
 #endif
 
+#if defined(ENABLE_DSHOW)
+        TEST_METHOD(TestDirectShow)
+        {
+            ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
+            MediaFileProp in_prop;
+            Assert::IsTrue(GetMediaFileProp(url, in_prop));
+
+            class MyClass : public MediaStreamListener
+            {
+                media::VideoFormat m_fmt;
+
+            public:
+                MyClass(const media::VideoFormat& fmt) : m_fmt(fmt)
+                {
+                }
+
+                bool MediaStreamVideoCallback(MediaStreamer* streamer,
+                    media::VideoFrame& video_frame,
+                    ACE_Message_Block* mb_video)
+                {
+                    static int x = 0;
+                    std::wostringstream os;
+                    os << L"Video frame #" << ++x << L" at " << video_frame.timestamp << std::endl;
+                    Logger::WriteMessage(os.str().c_str());
+
+                    return false;
+                }
+                bool MediaStreamAudioCallback(MediaStreamer* streamer,
+                    media::AudioFrame& audio_frame,
+                    ACE_Message_Block* mb_audio)
+                {
+                    return false;
+                }
+                void MediaStreamStatusCallback(MediaStreamer* streamer,
+                    const MediaFileProp& mfp,
+                    MediaStreamStatus status)
+                {
+                    switch(status)
+                    {
+                    case MEDIASTREAM_STARTED:
+                        break;
+                    case MEDIASTREAM_ERROR:
+                        break;
+                    case MEDIASTREAM_FINISHED:
+                        cv.notify_all();
+                        break;
+                    }
+                }
+
+            } listener(media::VideoFormat(in_prop.video_width, in_prop.video_height, media::FOURCC_NONE));
+            
+            media_streamer_t streamer = MakeMediaStreamer(&listener);
+            Assert::IsTrue(streamer->OpenFile(in_prop, MediaStreamOutput(true, true, 2, 48000, 4800)));
+            Assert::IsTrue(streamer->StartStream());
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+        }
+#endif
     };
 }
