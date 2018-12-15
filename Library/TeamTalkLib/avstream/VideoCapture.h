@@ -46,6 +46,7 @@ namespace vidcap {
     class VideoCaptureListener
     {
     public:
+        virtual ~VideoCaptureListener(){}
         // return true to take overship of 'mb_video'. 'mb_video' may be NULL
         virtual bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                             ACE_Message_Block* mb_video) = 0;
@@ -54,6 +55,7 @@ namespace vidcap {
     class VideoCapture
     {
     public:
+        virtual ~VideoCapture(){}
         virtual vidcap_devices_t GetDevices() = 0;
     
         virtual bool StartVideoCapture(const ACE_TString& deviceid,

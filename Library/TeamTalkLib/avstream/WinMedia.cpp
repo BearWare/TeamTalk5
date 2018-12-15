@@ -22,15 +22,17 @@
  */
 
 #include "WinMedia.h"
+#include "AudioResampler.h"
+
+#include <codec/MediaUtil.h>
+#include <codec/WaveFile.h>
 
 #include <atlbase.h>
 #include <DShow.h>
 #include <initguid.h>
 #include <streams.h>
 #include <assert.h>
-#include <codec/AudioResampler.h>
-#include <codec/MediaUtil.h>
-#include <codec/WaveFile.h>
+
 
 bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
@@ -627,13 +629,7 @@ no_video:
         assert(SUCCEEDED(hr));
     }
 
-    while(!m_stop &&
-          (m_audio_frames.message_bytes() || m_video_frames.message_bytes()))
-        ProcessAVQueues(start_time, timeoutMs, true);
-
-    //probably not nescessary since callbacks should have ended
-    m_audio_frames.close();
-    m_video_frames.close();
+    Flush(start_time);
 
     //check that we have not been stopped from the outside, since a callback
     //would then result in a deadlock

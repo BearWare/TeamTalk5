@@ -30,7 +30,9 @@
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexEncoder.h>
-#include <codec/SpeexPreprocess.h>
+#endif
+#if defined(ENABLE_SPEEXDSP)
+#include <avstream/SpeexPreprocess.h>
 #endif
 #if defined(ENABLE_OPUS)
 #include <codec/OpusEncoder.h>
@@ -70,7 +72,7 @@ public:
     bool IsVoiceActive() const;
 
     ACE_Recursive_Thread_Mutex m_preprocess_lock;
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
     int m_voicelevel;
@@ -91,8 +93,10 @@ private:
     int svc(void);
 
     void ProcessAudioFrame(media::AudioFrame& audblock);
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     void PreprocessAudioFrame(media::AudioFrame& audblock);
+#endif
+#if defined(ENABLE_SPEEX)
     const char* ProcessSpeex(const media::AudioFrame& audblock,
                              std::vector<int>& enc_frame_sizes);
 #endif

@@ -191,6 +191,20 @@ typedef std::map<ACE_UINT32, ACE_UINT32> key_map_t;
 key_map_t tt_keymap, local_keymap;
 
 #if defined(WIN32)
+
+/* 0-15	The repeat count for the current message. The value
+* is the number of times the keystroke is autorepeated as
+* a result of the user holding down the key. If the
+* keystroke is held long enough, multiple messages are sent.
+* However, the repeat count is not cumulative.
+*
+* 16 - 23	The scan code.The value depends on the OEM.
+*
+* 24	Indicates whether the key is an extended key, such
+* as the right - hand ALT and CTRL keys that appear on an
+* enhanced 101 - or 102 - key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
+*/
+
 void FillKeys()
 {
     tt_keymap[TTKEY_ESCAPE] = TTKEY_ESCAPE;
@@ -1145,6 +1159,11 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result)
 {
     switch(vidcodec.nCodec)
     {
+    case SPEEX_CODEC :
+    case SPEEX_VBR_CODEC :
+    case OPUS_CODEC :
+    case NO_CODEC :
+        break;
     case WEBM_VP8_CODEC :
         result.codec = teamtalk::CODEC_WEBM_VP8;
         result.webm_vp8.rc_target_bitrate = vidcodec.webm_vp8.nRcTargetBitrate;

@@ -56,5 +56,11 @@
         </array>
       </dict>
     </array>
+    
+    <key>com.apple.private.tcc.allow</key>
+    <array>
+      <string>kTCCServiceMicrophone</string>
+      <string>kTCCServiceCamera</string>
+    </array>
   </dict>
 </plist>

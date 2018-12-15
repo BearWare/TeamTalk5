@@ -41,12 +41,8 @@
 using namespace teamtalk;
 using namespace std;
 using namespace media;
-#if defined(ENABLE_SOUNDSYSTEM)
 using namespace soundsystem;
-#endif
-#if defined(ENABLE_VIDCAP)
 using namespace vidcap;
-#endif
 
 #define GEN_NEXT_ID(id) (++id==0?++id:id)
 
@@ -103,9 +99,7 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
     m_reactor_wait.acquire();
 #endif
 
-#if defined(ENABLE_SOUNDSYSTEM)
     m_soundprop.soundgroupid = SOUNDSYSTEM->OpenSoundGroup();
-#endif
 }
 
 ClientNode::~ClientNode()
@@ -129,9 +123,7 @@ ClientNode::~ClientNode()
     audiomuxer().StopThread();
 
     AUDIOCONTAINER::instance()->ReleaseAllAudio(m_soundprop.soundgroupid);
-#if defined(ENABLE_SOUNDSYSTEM)
     SOUNDSYSTEM->RemoveSoundGroup(m_soundprop.soundgroupid);
-#endif
     MYTRACE_COND(m_user_vidcapframes.size(), 
         ACE_TEXT("Not all video frames has been extracted\n"));
 
@@ -1019,7 +1011,6 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
        m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID)
         return;
 
-#if defined(ENABLE_SOUNDSYSTEM)
     int input_samplerate = 0, input_channels = 0, input_samples = 0;
     if(!SOUNDSYSTEM->SupportsInputFormat(m_soundprop.inputdeviceid,
                                        codec_channels, codec_samplerate))
@@ -1099,19 +1090,17 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
                                         ACE_TEXT("Failed to open sound input device"));
     }
-#endif
 }
 
 void ClientNode::CloseAudioCapture()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-#if defined(ENABLE_SOUNDSYSTEM)
     if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
         SOUNDSYSTEM->CloseDuplexStream(this);
     else
         SOUNDSYSTEM->CloseInputStream(this);
-#endif
+
     audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, NULL, 
                                 m_soundprop.samples_transmitted, true,
                                 0, 0);
@@ -1138,7 +1127,7 @@ bool ClientNode::UpdateSoundInputPreprocess()
 
     int channels = GetAudioCodecChannels(m_voice_thread.codec());
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     //set AGC
     bool ret = true;
     wguard_t gp(m_voice_thread.m_preprocess_lock);
@@ -1285,7 +1274,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
     else
 #endif
     {
-        TTASSERT(m_def_stream);
+        MYTRACE_COND(!m_def_stream, ACE_TEXT("Sending UDP data on closed connected\n"));
         if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
@@ -1380,7 +1369,6 @@ void ClientNode::EncodedAudioFrame(const teamtalk::AudioCodec& codec,
     }
 }
 
-#if defined(ENABLE_SOUNDSYSTEM)
 void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                                  const short* buffer, int n_samples)
 {
@@ -1482,9 +1470,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
 
     QueueAudioFrame(audframe);
 }
-#endif
 
-#if defined(ENABLE_VIDCAP)
 bool ClientNode::OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                         ACE_Message_Block* mb_video)
 {
@@ -1502,7 +1488,6 @@ bool ClientNode::OnVideoCaptureCallback(media::VideoFrame& video_frame,
 
     return false;
 }
-#endif
 
 bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
                                           media::VideoFrame& video_frame,
@@ -1591,6 +1576,10 @@ void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
         //using transfer id as user id
         StartUserTimer(USER_TIMER_REMOVE_FILETRANSFER_ID, transfer.transferid,
                        transfer.transferid, ACE_Time_Value::zero);
+        break;
+    case FILETRANSFER_CLOSED :
+    case FILETRANSFER_ACTIVE :
+        TTASSERT(0);
         break;
     }
     m_listener->OnFileTransferStatus(transfer);
@@ -2705,12 +2694,8 @@ bool ClientNode::InitSoundInputDevice(int inputdevice)
     if(m_flags & CLIENT_SNDINPUT_READY)
         return false;
 
-#if defined(ENABLE_SOUNDSYSTEM)
     if(!SOUNDSYSTEM->CheckInputDevice(inputdevice))
         return false;
-#else
-    return false;
-#endif
 
     rguard_t g_snd(lock_sndprop());
     TTASSERT(m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID);
@@ -2734,12 +2719,8 @@ bool ClientNode::InitSoundOutputDevice(int outputdevice)
 
     if(m_flags & CLIENT_SNDOUTPUT_READY)
         return false;
-#if defined(ENABLE_SOUNDSYSTEM)
     if(!SOUNDSYSTEM->CheckOutputDevice(outputdevice))
         return false;
-#else
-    return false;
-#endif
 
     rguard_t g_snd(lock_sndprop());
 
@@ -2762,14 +2743,10 @@ bool ClientNode::InitSoundDuplexDevices(int inputdeviceid,
     if((m_flags & CLIENT_SNDINPUT_READY) ||
        (m_flags & CLIENT_SNDOUTPUT_READY))
         return false; //already enabled
-#if defined(ENABLE_SOUNDSYSTEM)
     if(!SOUNDSYSTEM->CheckInputDevice(inputdeviceid))
         return false;
     if(!SOUNDSYSTEM->CheckOutputDevice(outputdeviceid))
         return false;
-#else
-    return false;
-#endif
 
     rguard_t g_snd(lock_sndprop());
 
@@ -2852,20 +2829,12 @@ bool ClientNode::CloseSoundDuplexDevices()
 bool ClientNode::SetSoundOutputVolume(int volume)
 {
     rguard_t g_snd(lock_sndprop());
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->SetMasterVolume(m_soundprop.soundgroupid, volume);
-#else
-    return false;
-#endif
 }
 int ClientNode::GetSoundOutputVolume()
 {
     rguard_t g_snd(lock_sndprop());
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->GetMasterVolume(m_soundprop.soundgroupid);
-#else
-    return false;
-#endif
 }
 
 void ClientNode::EnableVoiceTransmission(bool enable)
@@ -2931,11 +2900,7 @@ bool ClientNode::EnableAutoPositioning(bool enable)
         m_flags |= CLIENT_SNDOUTPUT_AUTO3DPOSITION;
     else
         m_flags &= ~CLIENT_SNDOUTPUT_AUTO3DPOSITION;
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->SetAutoPositioning(m_soundprop.soundgroupid, enable);
-#else
-    return false;
-#endif
 }
 bool ClientNode::AutoPositionUsers()
 {
@@ -2943,11 +2908,7 @@ bool ClientNode::AutoPositionUsers()
 
     if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
         return false;
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->AutoPositionPlayers(m_soundprop.soundgroupid, true);
-#else
-    return false;
-#endif
 }
 void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                           bool enable)
@@ -2971,11 +2932,7 @@ bool ClientNode::MuteAll(bool muteall)
         m_flags &= ~CLIENT_SNDOUTPUT_MUTE;
 
     rguard_t g_snd(lock_sndprop());
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->MuteAll(m_soundprop.soundgroupid, muteall);
-#else
-    return false;
-#endif
 }
 
 void ClientNode::SetVoiceGainLevel(int gainlevel)
@@ -3176,8 +3133,6 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     if(m_flags & CLIENT_VIDEOCAPTURE_READY)
         return false;
 
-#if defined(ENABLE_VIDCAP)
-
     //start capture thread which will convert image formats
     VideoCodec codec;
     codec.codec = CODEC_NO_CODEC;
@@ -3198,17 +3153,12 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     m_flags |= CLIENT_VIDEOCAPTURE_READY;
 
     return true;
-#else
-    return false;
-#endif
 }
 
 void ClientNode::CloseVideoCapture()
 {
     ASSERT_REACTOR_LOCKED(this);
-#if defined(ENABLE_VIDCAP)
     VIDCAP->StopVideoCapture(this);
-#endif
     CloseVideoCaptureSession();
 
     m_flags &= ~CLIENT_VIDEOCAPTURE_READY;
@@ -3221,7 +3171,6 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     if(m_flags & CLIENT_TX_VIDEOCAPTURE)
         return false;
 
-#if defined(ENABLE_VIDCAP)
     VideoFormat cap_format;
     if(!VIDCAP->GetVideoCaptureFormat(this, cap_format))
         return false;
@@ -3239,8 +3188,6 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     m_flags |= CLIENT_TX_VIDEOCAPTURE;
 
     return true;
-#endif
-    return false;
 }
 
 void ClientNode::CloseVideoCaptureSession()
@@ -3965,6 +3912,10 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
         break;
     case TTChannelMsg :
         AppendProperty(TT_CHANNELID, msg.channelid, command);
+        break;
+    case TTNoneMsg :
+    case TTBroadcastMsg :
+        TTASSERT(0);
         break;
     }
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);

@@ -4,12 +4,12 @@ project : mod_soundsystem {
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/AudioUnit.h
+  $(TEAMTALKLIB_ROOT)/avstream/AudioUnit.h
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/AudioUnit.mm
+  $(TEAMTALKLIB_ROOT)/avstream/AudioUnit.mm
 }
 }
 

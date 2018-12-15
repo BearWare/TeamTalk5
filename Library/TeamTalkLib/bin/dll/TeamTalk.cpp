@@ -52,13 +52,9 @@ HINSTANCE hInstance = NULL;
 #include <queue>
 #include <iostream>
 
-#if defined(ENABLE_SOUNDSYSTEM)
-#include <soundsystem/SoundLoopback.h>
-#endif
+#include <avstream/SoundLoopback.h>
 
-#if defined(ENABLE_VIDCAP)
-#include <vidcap/VideoCapture.h>
-#endif
+#include <avstream/VideoCapture.h>
 
 #ifdef NDEBUG
 #pragma message("Compiling TeamTalk version " TEAMTALK_VERSION " = " TEAMTALK_VERSION)
@@ -199,12 +195,9 @@ typedef std::set<ClientInstance*> clients_t;
 clients_t clients;
 ACE_Recursive_Thread_Mutex clients_mutex;
 
-#if defined(ENABLE_SOUNDSYSTEM)
 typedef std::set<SoundLoopback*> soundloops_t;
 ACE_Recursive_Thread_Mutex soundloops_mutex;
 soundloops_t soundloops;
-#endif
-
 
 #if defined(WIN32)
 BOOL APIENTRY DllMain(HANDLE hModule, 
@@ -400,7 +393,6 @@ TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID, 
                                                OUT INT32* lpnOutputDeviceID)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     int input, output;
     if(SOUNDSYSTEM->GetDefaultDevices(input, output))
     {
@@ -412,7 +404,7 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID,
 
         return TRUE;
     }
-#endif
+
     return FALSE;
 }
 
@@ -420,7 +412,6 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem,
                                                  OUT INT32* lpnInputDeviceID, 
                                                  OUT INT32* lpnOutputDeviceID)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     int input, output;
     if(SOUNDSYSTEM->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
     {
@@ -432,7 +423,7 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem,
 
         return TRUE;
     }
-#endif
+
     return FALSE;
 }
 
@@ -443,7 +434,6 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
     if(!lpnHowMany)
         return FALSE;
 
-#if defined(ENABLE_SOUNDSYSTEM)
     std::vector< soundsystem::DeviceInfo > devices;
     SOUNDSYSTEM->GetSoundDevices(devices);
     if(!pSoundDevices)
@@ -498,18 +488,11 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
     }
     *lpnHowMany = (INT32)lessDevs;
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem()
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     return SOUNDSYSTEM->RestartSoundSystem();
-#else
-    return FALSE;
-#endif
 }
 
 TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID, 
@@ -522,14 +505,14 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
     bool agc_enable = false, denoise_enable = false, aec_enable = false;
     int noisesuppressdb = 0;
 
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
     SpeexAGC agc;
     SpeexAEC aec;
 #endif
 
     if(lpSpeexDSP)
     {
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
         agc_enable = lpSpeexDSP->bEnableAGC;
         agc.gain_level = (float)lpSpeexDSP->nGainLevel;
         agc.max_increment = lpSpeexDSP->nMaxIncDBSec;
@@ -549,7 +532,6 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
 #endif
     }
 
-#if defined(ENABLE_SOUNDSYSTEM)
     SoundLoopback* pSoundLoopBack;
     ACE_NEW_RETURN(pSoundLoopBack, SoundLoopback(), NULL);
 
@@ -559,7 +541,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         b = pSoundLoopBack->StartDuplexTest(nInputDeviceID, 
                                             nOutputDeviceID, 
                                             nSampleRate, nChannels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                                             , agc_enable, agc,
                                             denoise_enable, 
                                             noisesuppressdb,
@@ -573,7 +555,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         b = pSoundLoopBack->StartTest(nInputDeviceID, 
                                        nOutputDeviceID, 
                                        nSampleRate, nChannels
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_SPEEXDSP)
                                        , agc_enable, agc,
                                        denoise_enable, 
                                        noisesuppressdb,
@@ -594,13 +576,10 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID,
         soundloops.insert(pSoundLoopBack);
     }
     return pSoundLoopBack;
-#endif
-    return NULL;
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {
-#if defined(ENABLE_SOUNDSYSTEM)
     wguard_t g(soundloops_mutex);
     SoundLoopback* pSoundLoopBack = reinterpret_cast<SoundLoopback*>(lpTTSoundLoop);
     if(soundloops.find(pSoundLoopBack) != soundloops.end())
@@ -610,7 +589,7 @@ TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
         soundloops.erase(pSoundLoopBack);
         return b;
     }
-#endif
+
     return FALSE;
 }
 
@@ -865,7 +844,6 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     if(!lpnHowMany)
         return FALSE;
 
-#if defined(ENABLE_VIDCAP)
     vidcap_devices_t devs = VIDCAP->GetDevices();
     if(!lpVideoDevices)
     {
@@ -901,9 +879,6 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     }
     *lpnHowMany = (INT32)lessDevs;
     return TRUE;
-#else
-    return FALSE;
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_InitVideoCaptureDevice(IN TTInstance* lpTTInstance,
@@ -1962,6 +1937,8 @@ int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat,
 
         switch(outputFormat)
         {
+        case BMP_NONE :
+            return -1;
         case BMP_RGB8_PALETTE : //BMP_RGB8_PALETTE -> BMP_RGB8_PALETTE
         case BMP_RGB16_555 : //BMP_RGB8_PALETTE -> BMP_RGB16_555
         case BMP_RGB24 : //BMP_RGB8_PALETTE -> BMP_RGB24
@@ -3030,6 +3007,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
 {
     switch(nType)
     {
+    case __NONE :
+        return 0;
     case __AUDIOCODEC :
         return sizeof(AudioCodec);
     case __BANNEDUSER :
@@ -3537,12 +3516,15 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
         else if(lpDesktopInputs[i].uKeyCode != TT_DESKTOPINPUT_KEYCODE_IGNORE &&
                 lpDesktopInputs[i].uKeyState != DESKTOPKEYSTATE_NONE)
         {
+
             input.type = INPUT_KEYBOARD;
             input.ki.dwExtraInfo = GetMessageExtraInfo();
             //input.ki.wVk = lpDesktopInputs[i].uKeyCode;
             input.ki.wScan = lpDesktopInputs[i].uKeyCode;
             input.ki.dwFlags = KEYEVENTF_SCANCODE;
-            
+            if (lpDesktopInputs[i].uKeyCode & 0x100)
+                input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+
             if(lpDesktopInputs[i].uKeyState == DESKTOPKEYSTATE_UP)
                 input.ki.dwFlags |= KEYEVENTF_KEYUP;
 

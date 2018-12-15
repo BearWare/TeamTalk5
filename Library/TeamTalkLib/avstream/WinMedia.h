@@ -24,12 +24,12 @@
 #ifndef WINDOWS_MEDIA_H
 #define WINDOWS_MEDIA_H
 
+#include "MediaStreamer.h"
+
 #include <ace/Task.h>
 #include <ace/Bound_Ptr.h>
 #include <ace/Future.h>
 #include <ace/Semaphore.h>
-
-#include <codec/MediaStreamer.h>
 
 bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 

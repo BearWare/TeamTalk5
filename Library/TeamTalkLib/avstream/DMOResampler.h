@@ -29,7 +29,7 @@
 #include <wmcodecdsp.h>
 #include <dmort.h>
 
-#include <codec/AudioResampler.h>
+#include "AudioResampler.h"
 
 enum SampleFormat
 {

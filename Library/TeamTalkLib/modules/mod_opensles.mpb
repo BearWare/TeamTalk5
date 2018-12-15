@@ -4,12 +4,12 @@ project : mod_soundsystem {
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/OpenSLESWrapper.h
+  $(TEAMTALKLIB_ROOT)/avstream/OpenSLESWrapper.h
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/soundsystem/OpenSLESWrapper.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/OpenSLESWrapper.cpp
 }
 }
 

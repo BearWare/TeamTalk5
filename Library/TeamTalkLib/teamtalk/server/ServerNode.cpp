@@ -4075,6 +4075,8 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
         }
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
+    case TTNoneMsg :
+        break;
     }
     return ErrorMsg(TT_CMDERR_INCOMPATIBLE_PROTOCOLS);
 }

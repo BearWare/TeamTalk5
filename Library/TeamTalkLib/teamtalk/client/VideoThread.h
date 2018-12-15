@@ -33,7 +33,7 @@
 #include <codec/VpxEncoder.h>
 #endif
 
-#include <vidcap/VideoCapture.h>
+#include <avstream/VideoCapture.h>
 
 #include <teamtalk/Common.h>
 

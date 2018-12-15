@@ -24,7 +24,7 @@
 #pragma once
 
 #define COMPANYNAME             _T("BearWare.dk")
-#define APPVERSION_SHORT        _T("5.3.4")
+#define APPVERSION_SHORT        _T("5.3.5")
 #define APPVERSION              _T( TEAMTALK_VERSION ) _T(" - Unreleased")
 
 #ifdef ENABLE_ENCRYPTION
