@@ -127,9 +127,8 @@ public:
 protected:
     void Reset();
     void InitBuffers();
-    void Flush(uint32_t starttime);
-    bool NeedAudio(uint32_t starttime);
-    bool NeedVideo(uint32_t starttime);
+    ACE_UINT32 GetMinimumFrameDurationMSec() const;
+    int GetQueuedAudioDataSize();
 
     MediaFileProp m_media_in;
     MediaStreamOutput m_media_out;
@@ -143,8 +142,8 @@ protected:
     msg_queue_t m_video_frames;
 
 private:
-    ACE_UINT32 ProcessAudioFrame(ACE_UINT32 starttime, bool flush);
-    ACE_UINT32 ProcessVideoFrame(ACE_UINT32 starttime);
+    bool ProcessAudioFrame(ACE_UINT32 starttime, bool flush);
+    bool ProcessVideoFrame(ACE_UINT32 starttime);
 };
 
 typedef ACE_Strong_Bound_Ptr< MediaStreamer, ACE_Null_Mutex > media_streamer_t;

@@ -1,8 +1,14 @@
 #include "CppUnitTest.h"
 
+#if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFStreamer.h>
 #include <avstream/MFCapture.h>
 #include <avstream/MFTransform.h>
+#endif
+#if defined(ENABLE_DSHOW)
+#include <avstream/WinMedia.h>
+#endif
+
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -24,10 +30,8 @@ namespace UnitTest
 
     public:
 
-#if defined(ENABLE_MEDIAFOUNDATION)
         TEST_METHOD(TestAudioStream)
         {
-
             class : public MediaStreamListener
             {
                 WaveFile wavfile;
@@ -65,8 +69,10 @@ namespace UnitTest
                 }
             } listener;
 
-            ACE_TString url = L"https://bearware.dk/temp/giana_10sec.wma";
-            //ACE_TString url = L"z:\\Media\\giana.wav";
+            //ACE_TString url = L"https://bearware.dk/temp/giana_10sec.wma";
+            ACE_TString url = L"z:\\Media\\giana_10sec.wma";
+            //ACE_TString url = L"z:\\Media\\tone.wav";
+            //ACE_TString url = L"z:\\Media\\darwin2_441khz.wav";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -79,7 +85,12 @@ namespace UnitTest
 
             listener.setOutput(out_prop);
             
+#if defined(ENABLE_DSHOW)
+            DSWrapperThread streamer(&listener);
+#endif
+#if defined(ENABLE_MEDIAFOUNDATION)
             MFStreamer streamer(&listener);
+#endif
 
             Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
 
@@ -104,7 +115,12 @@ namespace UnitTest
                 {
                     static int n_bmp = 0;
                     std::wostringstream os;
-                    os << L"video_" << ++n_bmp << L".bmp";
+                    
+                    os << L"video_";
+                    os.fill('0');
+                    os.width(20);
+                    os << ++n_bmp;
+                    os << L".bmp";
                     WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 4, video_frame.frame, video_frame.frame_length);
 
                     return false;
@@ -134,8 +150,8 @@ namespace UnitTest
                 }
             } listener;
 
-            ACE_TString url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            //ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
+            //ACE_TString url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
+            ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -149,8 +165,12 @@ namespace UnitTest
 
             listener.setOutput(out_prop);
 
+#if defined(ENABLE_MEDIAFOUNDATION)
             MFStreamer streamer(&listener);
-
+#endif
+#if defined(ENABLE_DSHOW)
+            DSWrapperThread streamer(&listener);
+#endif
             Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
@@ -159,6 +179,7 @@ namespace UnitTest
             cv.wait(lk);
         }
 
+#if defined(ENABLE_MEDIAFOUNDATION)
         void VideoCaptureTest(const media::VideoFormat& fmt)
         {
             class MyClass : public vidcap::VideoCaptureListener

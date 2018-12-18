@@ -151,6 +151,7 @@ void MergeStereo(const std::vector<short>& left_chan,
                  short* output_buffer, int output_samples);
 
 #define PCM16_BYTES(samples, channels) (samples * channels * sizeof(short))
+#define PCM16_DURATION(bytes, channels, samplerate) (((bytes/channels/sizeof(short)) * 1000) / samplerate)
 
 #define RGB32_BYTES(w, h) (h * w * 4)
 

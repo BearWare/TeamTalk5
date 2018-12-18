@@ -102,11 +102,25 @@ public:
         media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
+        MYTRACE(ACE_TEXT("Video frame submitting %u. Frames: %u\n"),
+                media_frame.timestamp, unsigned(m_video_queue.message_count()));
+
         ACE_Time_Value tvzero;
-        if(m_video_queue.enqueue(mb, &tvzero) < 0)
+        if(m_video_queue.enqueue(mb/*, &tvzero*/) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //ACE_Message_Block* tmp;
+            //if (m_video_queue.dequeue_tail(tmp, &tvzero) >= 0)
+            //{
+            //    MYTRACE(ACE_TEXT("Video replaced tail. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //    tmp->release();
+            //}
+
+            //if (m_video_queue.enqueue(mb) < 0)
+            //{
+            //    mb->release();
+            //    MYTRACE(ACE_TEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //}
         }
 
         return S_OK;
@@ -215,9 +229,11 @@ public:
         mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
         mb->wr_ptr(resampled_bytes); //advance past resampled output
 
+        MYTRACE(ACE_TEXT("Audio - Frame submitting %u. . Frames: %u\n"), media_frame.timestamp, unsigned(m_audio_queue.message_count()));
+
         //store audio
         ACE_Time_Value tvzero;
-        if(m_audio_queue.enqueue(mb, & tvzero) < 0)
+        if (m_audio_queue.enqueue(mb/*, &tvzero*/) < 0)
         {
             MYTRACE(ACE_TEXT("DSWrapper audio buffer closed\n"));
             mb->release();
@@ -565,7 +581,7 @@ no_video:
 
         LONG ev = 0;
         LONG_PTR p1 = 0, p2 = 0;
-        while(pMediaEvent->GetEvent(&ev, &p1, &p2, 0) == S_OK)
+        while ((hr = pMediaEvent->GetEvent(&ev, &p1, &p2, 0)) == S_OK)
         {
             switch(ev)
             {
@@ -582,11 +598,14 @@ no_video:
             assert(SUCCEEDED(hr));
         }
 
-        while(!m_stop && ProcessAVQueues(start_time, false));
+        while(!m_stop && ProcessAVQueues(start_time, cancel));
     }
 
     if(m_stop)
     {
+        m_audio_frames.close();
+        m_video_frames.close();
+
         hr = pMediaControl->Stop();
         assert(SUCCEEDED(hr));
     }
