@@ -59,6 +59,7 @@ linux {
 mac {
     CONFIG += accessibility
     QTPLUGIN += qtaccessiblewidgets
+    # Use 'iconutil' to convert between icns and pngs
     ICON = images/teamtalk.icns
     LIBS += -framework IOKit -framework Carbon
 
