@@ -65,6 +65,7 @@ mac {
 
     # QWebEngineView introduced in Qt 5.4
     greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
+
 }
 
 # QWebView introduced in Qt 4.4

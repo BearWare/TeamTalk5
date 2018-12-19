@@ -45,9 +45,9 @@
 #define APPINIFILE          (QApplication::applicationName() + ".ini")
 
 #if defined(Q_OS_DARWIN)
-#define APPDEFAULTINIFILE   (("/../Resources/Config/") + (QApplication::applicationName() + ".ini"))
+#define APPDEFAULTINIFILE   (QApplication::applicationDirPath() + "/../Resources/Config/" + (QApplication::applicationName() + ".ini"))
 #else
-#define APPDEFAULTINIFILE   (QApplication::applicationName() + ".ini.default")
+#define APPDEFAULTINIFILE   (QApplication::applicationDirPath() + "/" + QApplication::applicationName() + ".ini.default")
 #endif
 
 #if defined(Q_OS_DARWIN)

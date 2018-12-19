@@ -156,7 +156,7 @@ MainWindow::MainWindow(const QString& cfgfile)
         if (!QFile::exists(ttSettings->fileName()))
         {
             //copy settings from defaults file
-            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QString defpath = QString(APPDEFAULTINIFILE);
             QSettings defaultSettings(defpath, QSettings::IniFormat, this);
             QStringList keys = defaultSettings.allKeys();
             foreach(QString key, keys)
@@ -4201,7 +4201,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
         QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         QString cfgpath = ttSettings->fileName();
-        QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+        QString defpath = QString(APPDEFAULTINIFILE);
 
         if(!QFile::exists(defpath))
         {
