@@ -12,10 +12,8 @@
     <string>5.0</string>
     <key>CFBundleName</key>
     <string>TeamTalk5</string>
-    <key>CFBundleShortVersionString</key>
-    <string>5.0</string>
-    <key>CFBundleVersion</key>
-    <string>1.0</string>
+    <key>CFBundleShortVersionString</key><string>5.3.5</string>
+    <key>CFBundleVersion</key><string>5.3.5</string>
     <key>CFBundleIconFile</key>
     <string>teamtalk.icns</string>
     <key>CFBundlePackageType</key>
