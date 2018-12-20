@@ -70,8 +70,7 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
 
     ui.horizontalLayout->addWidget(m_webView);
 #endif
-    //navigate(WEBLOGIN_FACEBOOK_URL);
-    navigate("http://www.google.com");
+    navigate(WEBLOGIN_FACEBOOK_URL);
 }
 
 WebLoginDlg::~WebLoginDlg()
@@ -83,7 +82,6 @@ void WebLoginDlg::navigate(const QString& url)
 #if defined(Q_OS_WIN32)
     m_webView->dynamicCall("Navigate(const QString&)", url);
 #elif defined(QT_WEBENGINEWIDGETS_LIB)
-    qDebug() << "Navigating to " << url;
     m_webView->load(QUrl(url));
 #elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
     m_webView->load(QUrl(url));
@@ -100,7 +98,6 @@ void WebLoginDlg::slotNavigateComplete(IDispatch*, QVariant& url)
 void WebLoginDlg::slotUrlChanged(const QUrl &url)
 {
     QString urlstr = url.toString();
-    qDebug() << "URL changed to " << urlstr;
     if (urlstr.startsWith(WEBLOGIN_FACEBOOK_REDIRECT))
     {
         QRegExp rxtoken("#access_token=([A-Za-z0-9\\-_]*)");
