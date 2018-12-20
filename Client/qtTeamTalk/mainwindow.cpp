@@ -1570,16 +1570,16 @@ void MainWindow::Connect()
         if(!TT_GetDefaultSoundDevices(&inputid, &outputid))
         {
             addStatusMsg(tr("Unable to get default sound devices"));
-            return;
         }
-
-        if(!TT_InitSoundInputDevice(ttInst, inputid) ||
-           !TT_InitSoundOutputDevice(ttInst, outputid))
+        else
         {
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-            addStatusMsg(tr("Failed to initialize default sound devices"));
-            return;
+            if(!TT_InitSoundInputDevice(ttInst, inputid) ||
+               !TT_InitSoundOutputDevice(ttInst, outputid))
+            {
+                TT_CloseSoundInputDevice(ttInst);
+                TT_CloseSoundOutputDevice(ttInst);
+                addStatusMsg(tr("Failed to initialize default sound devices"));
+            }
         }
     }
 
