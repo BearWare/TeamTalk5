@@ -33,7 +33,7 @@
 
 #if defined(Q_OS_WIN32)
 #include <QAxWidget>
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
 #include <QWebEngineView>
 #elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
 #include <QtWebKit>
@@ -53,7 +53,7 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
     connect(m_webView, SIGNAL(NavigateComplete2(IDispatch*, QVariant&)),
             this, SLOT( slotNavigateComplete(IDispatch*, QVariant&)));
     ui.horizontalLayout->addWidget(m_webView);
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
     m_webView = new QWebEngineView(this);
     m_webView->setObjectName(QStringLiteral("webView"));
 
@@ -70,7 +70,8 @@ WebLoginDlg::WebLoginDlg(QWidget *parent) :
 
     ui.horizontalLayout->addWidget(m_webView);
 #endif
-    navigate(WEBLOGIN_FACEBOOK_URL);
+    //navigate(WEBLOGIN_FACEBOOK_URL);
+    navigate("http://www.google.com");
 }
 
 WebLoginDlg::~WebLoginDlg()
@@ -81,7 +82,8 @@ void WebLoginDlg::navigate(const QString& url)
 {
 #if defined(Q_OS_WIN32)
     m_webView->dynamicCall("Navigate(const QString&)", url);
-#elif (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#elif defined(QT_WEBENGINEWIDGETS_LIB)
+    qDebug() << "Navigating to " << url;
     m_webView->load(QUrl(url));
 #elif (QT_VERSION >= QT_VERSION_CHECK(4, 4, 0))
     m_webView->load(QUrl(url));
@@ -98,6 +100,7 @@ void WebLoginDlg::slotNavigateComplete(IDispatch*, QVariant& url)
 void WebLoginDlg::slotUrlChanged(const QUrl &url)
 {
     QString urlstr = url.toString();
+    qDebug() << "URL changed to " << urlstr;
     if (urlstr.startsWith(WEBLOGIN_FACEBOOK_REDIRECT))
     {
         QRegExp rxtoken("#access_token=([A-Za-z0-9\\-_]*)");
