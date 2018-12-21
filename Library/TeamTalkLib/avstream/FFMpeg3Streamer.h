@@ -67,13 +67,11 @@ private:
                            struct AVFrame* filt_frame,
                            struct AVStream* aud_stream,
                            ACE_UINT32 start_time,
-                           ACE_UINT32 wait_ms,
                            ACE_UINT32& start_offset);
     int ProcessVideoBuffer(struct AVFilterContext* vid_buffersink_ctx,
                            struct AVFrame* filt_frame,
                            struct AVStream* vid_stream,
                            ACE_UINT32 start_time,
-                           ACE_UINT32 wait_ms,
                            ACE_UINT32& start_offset);
 
     typedef ACE_Future<bool> fileopen_t;

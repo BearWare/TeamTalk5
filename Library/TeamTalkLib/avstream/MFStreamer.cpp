@@ -122,7 +122,6 @@ void MFStreamer::Run()
     LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
     std::unique_ptr<MFTransform> transform;
     bool start = false;
-    const int BUF_SECS = 3;
 
     hr = MFCreateSourceResolver(&pSourceResolver);
     if(FAILED(hr))
@@ -273,15 +272,6 @@ void MFStreamer::Run()
     else
     {
         llVideoTimestamp = -1;
-    }
-
-    int timeout_msec = 1000;
-    if (m_media_out.audio && m_media_out.audio_samples > 0 && m_media_out.audio_samplerate > 0)
-        timeout_msec = m_media_out.audio_samples * 1000 / m_media_out.audio_samplerate;
-    if (m_media_out.video)
-    {
-        double fps = std::max(1, m_media_in.video_fps_numerator) / std::max(1, m_media_in.video_fps_denominator);
-        timeout_msec = std::min(1000. / fps, double(timeout_msec));
     }
 
     bool error = false;

@@ -1,8 +1,14 @@
 #include "CppUnitTest.h"
 
+#if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFStreamer.h>
 #include <avstream/MFCapture.h>
 #include <avstream/MFTransform.h>
+#endif
+#if defined(ENABLE_DSHOW)
+#include <avstream/WinMedia.h>
+#endif
+
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -24,10 +30,8 @@ namespace UnitTest
 
     public:
 
-#if defined(ENABLE_MEDIAFOUNDATION)
         TEST_METHOD(TestAudioStream)
         {
-
             class : public MediaStreamListener
             {
                 WaveFile wavfile;
@@ -65,8 +69,10 @@ namespace UnitTest
                 }
             } listener;
 
-            ACE_TString url = L"https://bearware.dk/temp/giana_10sec.wma";
-            //ACE_TString url = L"z:\\Media\\giana.wav";
+            //ACE_TString url = L"https://bearware.dk/temp/giana_10sec.wma";
+            ACE_TString url = L"z:\\Media\\giana_10sec.wma";
+            //ACE_TString url = L"z:\\Media\\tone.wav";
+            //ACE_TString url = L"z:\\Media\\darwin2_441khz.wav";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -79,7 +85,12 @@ namespace UnitTest
 
             listener.setOutput(out_prop);
             
+#if defined(ENABLE_DSHOW)
+            DSWrapperThread streamer(&listener);
+#endif
+#if defined(ENABLE_MEDIAFOUNDATION)
             MFStreamer streamer(&listener);
+#endif
 
             Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
 
@@ -104,7 +115,12 @@ namespace UnitTest
                 {
                     static int n_bmp = 0;
                     std::wostringstream os;
-                    os << L"video_" << ++n_bmp << L".bmp";
+                    
+                    os << L"video_";
+                    os.fill('0');
+                    os.width(20);
+                    os << ++n_bmp;
+                    os << L".bmp";
                     WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 4, video_frame.frame, video_frame.frame_length);
 
                     return false;
@@ -134,8 +150,8 @@ namespace UnitTest
                 }
             } listener;
 
-            ACE_TString url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            //ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
+            //ACE_TString url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
+            ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -149,8 +165,12 @@ namespace UnitTest
 
             listener.setOutput(out_prop);
 
+#if defined(ENABLE_MEDIAFOUNDATION)
             MFStreamer streamer(&listener);
-
+#endif
+#if defined(ENABLE_DSHOW)
+            DSWrapperThread streamer(&listener);
+#endif
             Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
@@ -159,6 +179,7 @@ namespace UnitTest
             cv.wait(lk);
         }
 
+#if defined(ENABLE_MEDIAFOUNDATION)
         void VideoCaptureTest(const media::VideoFormat& fmt)
         {
             class MyClass : public vidcap::VideoCaptureListener
@@ -447,5 +468,64 @@ namespace UnitTest
         }
 #endif
 
+#if defined(ENABLE_DSHOW)
+        TEST_METHOD(TestDirectShow)
+        {
+            ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
+            MediaFileProp in_prop;
+            Assert::IsTrue(GetMediaFileProp(url, in_prop));
+
+            class MyClass : public MediaStreamListener
+            {
+                media::VideoFormat m_fmt;
+
+            public:
+                MyClass(const media::VideoFormat& fmt) : m_fmt(fmt)
+                {
+                }
+
+                bool MediaStreamVideoCallback(MediaStreamer* streamer,
+                    media::VideoFrame& video_frame,
+                    ACE_Message_Block* mb_video)
+                {
+                    static int x = 0;
+                    std::wostringstream os;
+                    os << L"Video frame #" << ++x << L" at " << video_frame.timestamp << std::endl;
+                    Logger::WriteMessage(os.str().c_str());
+
+                    return false;
+                }
+                bool MediaStreamAudioCallback(MediaStreamer* streamer,
+                    media::AudioFrame& audio_frame,
+                    ACE_Message_Block* mb_audio)
+                {
+                    return false;
+                }
+                void MediaStreamStatusCallback(MediaStreamer* streamer,
+                    const MediaFileProp& mfp,
+                    MediaStreamStatus status)
+                {
+                    switch(status)
+                    {
+                    case MEDIASTREAM_STARTED:
+                        break;
+                    case MEDIASTREAM_ERROR:
+                        break;
+                    case MEDIASTREAM_FINISHED:
+                        cv.notify_all();
+                        break;
+                    }
+                }
+
+            } listener(media::VideoFormat(in_prop.video_width, in_prop.video_height, media::FOURCC_NONE));
+            
+            media_streamer_t streamer = MakeMediaStreamer(&listener);
+            Assert::IsTrue(streamer->OpenFile(in_prop, MediaStreamOutput(true, true, 2, 48000, 4800)));
+            Assert::IsTrue(streamer->StartStream());
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+        }
+#endif
     };
 }

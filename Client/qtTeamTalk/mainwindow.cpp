@@ -156,7 +156,7 @@ MainWindow::MainWindow(const QString& cfgfile)
         if (!QFile::exists(ttSettings->fileName()))
         {
             //copy settings from defaults file
-            QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+            QString defpath = QString(APPDEFAULTINIFILE);
             QSettings defaultSettings(defpath, QSettings::IniFormat, this);
             QStringList keys = defaultSettings.allKeys();
             foreach(QString key, keys)
@@ -1570,16 +1570,16 @@ void MainWindow::Connect()
         if(!TT_GetDefaultSoundDevices(&inputid, &outputid))
         {
             addStatusMsg(tr("Unable to get default sound devices"));
-            return;
         }
-
-        if(!TT_InitSoundInputDevice(ttInst, inputid) ||
-           !TT_InitSoundOutputDevice(ttInst, outputid))
+        else
         {
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-            addStatusMsg(tr("Failed to initialize default sound devices"));
-            return;
+            if(!TT_InitSoundInputDevice(ttInst, inputid) ||
+               !TT_InitSoundOutputDevice(ttInst, outputid))
+            {
+                TT_CloseSoundInputDevice(ttInst);
+                TT_CloseSoundOutputDevice(ttInst);
+                addStatusMsg(tr("Failed to initialize default sound devices"));
+            }
         }
     }
 
@@ -4201,7 +4201,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
         QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         QString cfgpath = ttSettings->fileName();
-        QString defpath = QApplication::applicationDirPath() + "/" + QString(APPDEFAULTINIFILE);
+        QString defpath = QString(APPDEFAULTINIFILE);
 
         if(!QFile::exists(defpath))
         {
