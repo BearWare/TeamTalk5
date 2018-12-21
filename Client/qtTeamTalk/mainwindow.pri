@@ -65,15 +65,14 @@ mac {
 
 mac | linux {
     nowebengine {
+        # QWebView introduced in Qt 4.4
+        QT += webkitwidgets
     } else {
     
-        # QWebView introduced in Qt 4.4
-        equals(QT_MAJOR_VERSION, 4) {
-            greaterThan(QT_MINOR_VERSION, 3): QT += webkit
-        }
-        
         # QWebEngineView introduced in Qt 5.4
-        greaterThan(QT_MAJOR_VERSION, 4): QT += webenginewidgets
+        greaterThan(QT_MAJOR_VERSION, 4) {
+            QT += webenginewidgets
+        }
     }
 
 }
