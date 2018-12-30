@@ -20,15 +20,15 @@ specific(make,gnuace){
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg1Streamer.h
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg1Resampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg1Streamer.h
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg1Resampler.h
 
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg1Streamer.cpp             
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg1Resampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg1Streamer.cpp             
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg1Resampler.cpp
 }
   
 }

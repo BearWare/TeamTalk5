@@ -10,9 +10,10 @@ specific(vc8,vc10,vc11,vc12) {
 }
 
 Header_Files {
-  $(TEAMTALKLIB_ROOT)/codec/AudioResampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/AudioResampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.h
+  $(TEAMTALKLIB_ROOT)/avstream/VideoCapture.h
   $(TEAMTALKLIB_ROOT)/codec/BmpFile.h
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.h
   $(TEAMTALKLIB_ROOT)/codec/MediaUtil.h
   $(TEAMTALKLIB_ROOT)/codec/WaveFile.h
   $(TEAMTALKLIB_ROOT)/TeamTalkDefs.h
@@ -46,9 +47,10 @@ Inline_Files {
 }
 
 Source_Files {
-  $(TEAMTALKLIB_ROOT)/codec/AudioResampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/AudioResampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/VideoCapture.cpp
   $(TEAMTALKLIB_ROOT)/codec/BmpFile.cpp
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.cpp
   $(TEAMTALKLIB_ROOT)/codec/MediaUtil.cpp
   $(TEAMTALKLIB_ROOT)/codec/WaveFile.cpp
   $(TEAMTALKLIB_ROOT)/teamtalk/Channel.cpp

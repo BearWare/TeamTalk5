@@ -14,9 +14,9 @@ Header_Files {
   $(TEAMTALKLIB_ROOT)/codec/SpeexDecoder.h
   $(TEAMTALKLIB_ROOT)/codec/SpeexEncoder.h
   $(TEAMTALKLIB_ROOT)/codec/SpeexJitterBuf.h
-  $(TEAMTALKLIB_ROOT)/codec/SpeexPreprocess.h
-  $(TEAMTALKLIB_ROOT)/codec/SpeexResampler.h
-
+  $(TEAMTALKLIB_ROOT)/avstream/SpeexPreprocess.h
+  $(TEAMTALKLIB_ROOT)/avstream/SpeexResampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/AudioResampler.h
 }
 
 Source_Files {
@@ -24,9 +24,9 @@ Source_Files {
   $(TEAMTALKLIB_ROOT)/codec/SpeexDecoder.cpp
   $(TEAMTALKLIB_ROOT)/codec/SpeexEncoder.cpp
   $(TEAMTALKLIB_ROOT)/codec/SpeexJitterBuf.cpp
-  $(TEAMTALKLIB_ROOT)/codec/SpeexPreprocess.cpp
-  $(TEAMTALKLIB_ROOT)/codec/SpeexResampler.cpp
-
+  $(TEAMTALKLIB_ROOT)/avstream/SpeexPreprocess.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/SpeexResampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/AudioResampler.cpp
 }
 
 }

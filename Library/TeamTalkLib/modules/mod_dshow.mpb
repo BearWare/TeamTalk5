@@ -17,15 +17,15 @@ specific(vc8) {
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/WinMedia.h
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.h
+  $(TEAMTALKLIB_ROOT)/avstream/WinMedia.h
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.h
   
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/WinMedia.cpp
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/WinMedia.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.cpp
 }
   
 }
