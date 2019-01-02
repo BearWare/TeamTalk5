@@ -521,8 +521,6 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
 }
 
 #if defined(ENABLE_HTTP_AUTH)
-#include <ace/INet/HTTP_URL.h>
-#include <ace/INet/HTTP_ClientRequestHandler.h>
 
 void ServerGuard::HttpLogin(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
 {
@@ -1126,26 +1124,5 @@ namespace teamtalk {
         if(!logfile.good())
             logfile.clear();
     }
-
-#if defined(ENABLE_HTTP_AUTH)
-    int HttpRequest(const ACE_CString& url, std::string& doc)
-    {
-        ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
-        assert(url_safe.get());
-        if(url_safe.get() == 0)
-            return -1;
-
-        ACE::HTTP::URL& http_url = *dynamic_cast<ACE::HTTP::URL*> (url_safe.get());
-
-        ACE::HTTP::ClientRequestHandler http;
-        ACE::INet::URLStream urlin = http_url.open(http);
-        
-        ostringstream oss;
-        oss << urlin->rdbuf();
-        doc = oss.str();
-
-        return http.response().get_status().is_ok()?1:0;
-    }
-#endif /* ENABLE_HTTP_AUTH */
 
 }
