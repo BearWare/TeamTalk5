@@ -5,11 +5,11 @@ project {
   lit_libs += Msdmo strmiids
   
 Header_Files {
-  $(TEAMTALKLIB_ROOT)/codec/DMOResampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/DMOResampler.h
 }
 
 Source_Files {
-  $(TEAMTALKLIB_ROOT)/codec/DMOResampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/DMOResampler.cpp
 }
   
 }

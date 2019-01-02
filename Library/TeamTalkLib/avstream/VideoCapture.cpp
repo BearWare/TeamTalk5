@@ -39,6 +39,9 @@
 #include "V4L2Capture.h"
 #define VIDCAP_INST V4L2Singleton::instance()
 #else
+
+using namespace vidcap;
+
 class : public VideoCapture
 {
 public:

@@ -21,17 +21,17 @@ specific(make,gnuace){
 
 Header_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg3Streamer.h
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg3Resampler.h
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.h
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg3Streamer.h
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg3Resampler.h
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.h
 
 }
 
 Source_Files {
 
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg3Streamer.cpp             
-  $(TEAMTALKLIB_ROOT)/codec/FFMpeg3Resampler.cpp
-  $(TEAMTALKLIB_ROOT)/codec/MediaStreamer.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg3Streamer.cpp             
+  $(TEAMTALKLIB_ROOT)/avstream/FFMpeg3Resampler.cpp
+  $(TEAMTALKLIB_ROOT)/avstream/MediaStreamer.cpp
 
 }
   
