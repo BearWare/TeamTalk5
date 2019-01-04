@@ -658,6 +658,13 @@ int HttpRequest(const ACE_CString& url, std::string& doc)
     doc = oss.str();
 
     ACE::HTTP::Status status = http.response().get_status();
-    MYTRACE_COND(!status.is_ok(), Utf8ToUnicode(doc.c_str()).c_str());
+    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+#if defined(UNICODE)
+                 Utf8ToUnicode(doc.c_str()).c_str()
+#else
+                 doc.c_str()
+#endif
+        );
+    
     return status.is_ok() ? 1 : 0;
 }
