@@ -79,16 +79,16 @@
     <string name="pref_summary_sub_mediafile">订阅媒体文件流</string>
     <string name="pref_header_tts">文字转语音</string>
     <string name="pref_title_server_login">用户登录服务器</string>
-    <string name="pref_summary_server_login">朗读登录用户的名字</string>
+    <string name="pref_summary_server_login">播报登录用户的名字</string>
     <string name="pref_title_server_logout">用户退出服务器</string>
-    <string name="pref_summary_server_logout">朗读退出用户的名字</string>
+    <string name="pref_summary_server_logout">播报退出用户的名字</string>
     <string name="pref_title_channel_join">用户加入频道</string>
-    <string name="pref_summary_channel_join">朗读加入频道用户的名字</string>
+    <string name="pref_summary_channel_join">播报加入频道用户的名字</string>
     <string name="pref_title_channel_leave">用户离开频道</string>
-    <string name="pref_summary_channel_leave">朗读离开频道用户的名字</string>
+    <string name="pref_summary_channel_leave">播报离开频道用户的名字</string>
     <string name="pref_title_personal_message">私人消息</string>
     <string name="pref_title_broadcast_message">广播消息</string>
-    <string name="pref_summary_message">朗读发送者的名字</string>
+    <string name="pref_summary_message">播报发送者的名字</string>
     <string name="pref_title_mute_speakers">按下语音传输按钮时静音扬声器</string>
     <string name="pref_summary_mute_speakers">启用此选项可避免扬声器发出回声</string>
     <string name="pref_title_show_usernames">显示用户名</string>
@@ -104,8 +104,8 @@
 
     <string name="text_tts_loggedin">已登录</string>
     <string name="text_tts_loggedout">已退出</string>
-    <string name="text_tts_joined_chan">已加入频道</string>
-    <string name="text_tts_left_chan">已离开频道</string>
+    <string name="text_tts_joined_chan">加入频道</string>
+    <string name="text_tts_left_chan">离开频道</string>
     <string name="text_tts_personal_message">个人消息来自%1$s</string>
     <string name="text_tts_broadcast_message">广播消息来自%1$s</string>
     <string name="pref_header_soundsystem">声音系统</string>
