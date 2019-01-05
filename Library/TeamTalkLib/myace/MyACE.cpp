@@ -27,6 +27,14 @@
 #include <ace/UTF16_Encoding_Converter.h>
 #include <ace/OS_NS_ctype.h>
 
+#include <ace/INet/HTTP_URL.h>
+#include <ace/INet/HTTP_ClientRequestHandler.h>
+
+#if defined(ENABLE_ENCRYPTION)
+#include <ace/INet/HTTPS_URL.h>
+#include <ace/INet/HTTPS_SessionFactory.h>
+#endif
+
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -629,4 +637,34 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     ACE_OS::freeaddrinfo(res);
 
     return result;
+}
+
+int HttpRequest(const ACE_CString& url, std::string& doc)
+{
+#if defined(ENABLE_ENCRYPTION)
+    // HTTPS session factory is not instantiated unless specified explicitly
+    ACE::HTTPS::SessionFactory_Impl::registerHTTPS();
+#endif
+
+    ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    if(url_safe.get() == 0)
+        return -1;
+
+    ACE::HTTP::ClientRequestHandler http;
+    ACE::INet::URLStream urlin = url_safe.get()->open(http);
+
+    ostringstream oss;
+    oss << urlin->rdbuf();
+    doc = oss.str();
+
+    ACE::HTTP::Status status = http.response().get_status();
+    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+#if defined(UNICODE)
+                 Utf8ToUnicode(doc.c_str()).c_str()
+#else
+                 doc.c_str()
+#endif
+        );
+    
+    return status.is_ok() ? 1 : 0;
 }

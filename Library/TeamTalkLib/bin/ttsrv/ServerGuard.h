@@ -110,10 +110,5 @@ namespace teamtalk {
     void MakeStaticChannels(ServerNode& servernode, const statchannels_t& channels);
 
     void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
-
-#if defined(ENABLE_HTTP_AUTH)
-    int HttpRequest(const ACE_CString& url, std::string& doc);
-#endif
-
 }
 #endif

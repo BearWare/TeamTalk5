@@ -331,7 +331,7 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll()
 {
 #if defined(USE_MINIDUMP)
-    static MiniDumper mdump(ACE_TEXT("TeamTalk4.dll"));
+    static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
 #endif
 
 #ifdef ENABLE_ENCRYPTION
@@ -1082,7 +1082,7 @@ TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
     if(!szHostAddress)
         return FALSE;
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 szSystemID, ACE_TEXT(""), nLocalTcpPort, 
                                 nLocalUdpPort);
