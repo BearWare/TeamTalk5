@@ -167,6 +167,12 @@ LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACE Speex SpeexDSP Ogg Opus VPX avde
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
 
+# x86 platform causes linker error: "warning: shared library text
+# segment is not shareable" which is treated as error. The following
+# statement will prevent linker warnings treated as error.
+# Alternatively use: LOCAL_LDLIBS += -Wl,--no-warn-shared-textrel
+LOCAL_DISABLE_FATAL_LINKER_WARNINGS := true
+
 include $(BUILD_SHARED_LIBRARY)
 
 #TeamTalk Pro JNI shared library
@@ -179,6 +185,8 @@ LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp teamtalksrv-jni.cpp
 LOCAL_STATIC_LIBRARIES := TeamTalk5Pro ACEInet ACEInetSSL ACE ACESSL Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil Ssl Crypto cpufeatures
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
+
+LOCAL_DISABLE_FATAL_LINKER_WARNINGS := true
 
 include $(BUILD_SHARED_LIBRARY)
 
