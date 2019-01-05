@@ -159,13 +159,13 @@ include $(PREBUILT_STATIC_LIBRARY)
 LOCAL_PATH := ./
 
 include $(CLEAR_VARS)
-LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL
+LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC
 LOCAL_MODULE    := TeamTalk5-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp
 
 LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACE Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil cpufeatures
 
-LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
+LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog -DPIC -fPIC
 
 # x86 platform causes linker error: "warning: shared library text
 # segment is not shareable" which is treated as error. The following
@@ -186,7 +186,7 @@ LOCAL_STATIC_LIBRARIES := TeamTalk5Pro ACEInet ACEInetSSL ACE ACESSL Speex Speex
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog
 
-LOCAL_DISABLE_FATAL_LINKER_WARNINGS := true
+# LOCAL_DISABLE_FATAL_LINKER_WARNINGS := true
 
 include $(BUILD_SHARED_LIBRARY)
 
