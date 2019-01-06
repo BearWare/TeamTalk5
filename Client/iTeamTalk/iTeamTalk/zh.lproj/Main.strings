@@ -1,9 +1,9 @@
-﻿
+
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "主标签控制器";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
-"0EG-eF-WzS.title" = "文本消息";
+"0EG-eF-WzS.title" = "消息";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "空白";
@@ -15,7 +15,7 @@
 "4RU-K7-Yga.accessibilityHint" = "发送私人消息";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "文本消息";
+"4RU-K7-Yga.accessibilityLabel" = "消息";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "用户消息";
@@ -57,16 +57,16 @@
 "LPL-JY-xBM.normalTitle" = "发送";
 
 /* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
-"Me4-OJ-iZH.title" = "输入服务器";
+"Me4-OJ-iZH.title" = "服务器信息";
 
 /* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
 "N1w-a6-R3D.title" = "用户属性";
 
 /* Class = "UIViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
-"NA0-UK-wve.title" = "选项";
+"NA0-UK-wve.title" = "首选项";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "连接按钮";
+"PaV-2Q-pt4.accessibilityLabel" = "连接";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "连接";
@@ -75,13 +75,13 @@
 "PhY-ED-cqF.title" = "频道详情";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
-"Rrg-2O-NzF.normalTitle" = "使用OPUS编解码器";
+"Rrg-2O-NzF.normalTitle" = "OPUS 编解码器";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "空白";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.normalTitle" = "TX";
+"V6G-Gm-l2U.normalTitle" = "传输";
 
 /* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "选择语音";
@@ -90,10 +90,10 @@
 "WCf-u5-KkQ.text" = "空白";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
-"WFB-kl-uoS.normalTitle" = "踢出用户";
+"WFB-kl-uoS.normalTitle" = "踢出";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "踢出并禁止用户";
+"WRa-tI-lpY.normalTitle" = "踢出并禁止";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
 "Wbh-f7-64c.text" = "空白";
@@ -114,25 +114,25 @@
 "aX2-rZ-yEl.title" = "频道";
 
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
-"b6N-H7-SIe.normalTitle" = "使用Speex VBR编解码器";
+"b6N-H7-SIe.normalTitle" = "Speex 可变速率编解码器";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "连接";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
-"cGm-Jp-0zI.normalTitle" = "使用Speex Codec编解码器";
+"cGm-Jp-0zI.normalTitle" = "Speex 编解码器";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
 "ch0-Xf-hyX.normalTitle" = "加入频道";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
-"dcU-Nq-ioW.title" = "连接到服务器";
+"dcU-Nq-ioW.title" = "连接";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "频道聊天";
+"gA8-TJ-0RU.title" = "聊天频道";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "双击展开此频道的选项。";
+"hqu-CX-Vn4.accessibilityHint" = "双击展开频道选项";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "消息";
@@ -153,7 +153,7 @@
 "pQJ-c1-GEL.title" = "服务器列表";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = "使用无音频";
+"rNU-2J-hMO.normalTitle" = "无声";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
 "vC1-lW-BtX.normalTitle" = "删除频道";
