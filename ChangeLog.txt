@@ -1,7 +1,15 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
-Version 5.3.4, unreleased
+Version 5.4, unreleased
+Server
+- Linux server now depends on OpenSSL (libssl package)
+
+Version 5.3.5, released 2019/01/01
+Default Qt client
+- Microphone and camera permission prompt on macOS Mojave
+
+Version 5.3.4, released 2018/11/18
 iOS client
 - Fixed sort channels by popularity
 - Chinese translation
