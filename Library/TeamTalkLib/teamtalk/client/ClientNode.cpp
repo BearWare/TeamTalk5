@@ -1579,7 +1579,6 @@ void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
         break;
     case FILETRANSFER_CLOSED :
     case FILETRANSFER_ACTIVE :
-        TTASSERT(0);
         break;
     }
     m_listener->OnFileTransferStatus(transfer);
