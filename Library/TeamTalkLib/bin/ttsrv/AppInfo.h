@@ -21,7 +21,7 @@
  *
  */
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
 
 #define TEAMTALK_SETTINGSFILE "tt5prosrv.xml"
 #define TEAMTALK_LOGFILE "tt5prosrv.log"

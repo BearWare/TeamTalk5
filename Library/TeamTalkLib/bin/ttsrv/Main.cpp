@@ -353,7 +353,11 @@ int RunServer(
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
 #endif
 
+#if defined(ENABLE_TEAMTALKPRO)
     if(!servernode.StartServer(encrypted, SERVER_WELCOME))
+#else
+    if(!servernode.StartServer(false, SERVER_WELCOME))
+#endif
     {
         ACE_TCHAR error_msg[1024];
         if(bindip.length() == 0)
