@@ -919,8 +919,7 @@ namespace teamtalk {
         privfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
 
         ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-        //context->set_mode(ACE_SSL_Context::SSLv3_server);
-        context->set_mode(ACE_SSL_Context::SSLv23_server);
+        context->set_mode(ACE_SSL_Context::SSLv23);
         if(certfile.length() && privfile.length())
         {
             if(context->certificate (UnicodeToLocal(certfile).c_str(), SSL_FILETYPE_PEM)<0)
