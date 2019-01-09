@@ -96,10 +96,12 @@ class MFTransformImpl : public MFTransform
     UINT32 m_cMFTs = 0;
     DWORD m_dwInputID = 0, m_dwOutputID = 0;
     bool m_ready = false;
+    mftransform_t m_endpoint;
 
 public:
-    MFTransformImpl(IMFMediaType* pInputType, const GUID& dest_videoformat)
+    MFTransformImpl(IMFMediaType* pInputType, const GUID& dest_videoformat, bool decoder, MFTransform* endpoint = nullptr)
     {
+        m_endpoint.reset(endpoint);
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
         tininfo.guidMajorType = toutinfo.guidMajorType = MFMediaType_Video;
@@ -117,7 +119,7 @@ public:
         toutinfo.guidSubtype = dest_videoformat;
 
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
-        hr = MFTEnumEx(MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
+        hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
         if(FAILED(hr) || m_cMFTs == 0)
             return;
 
@@ -139,26 +141,6 @@ public:
         hr = m_pMFT->SetInputType(m_dwInputID, pInputType, 0);
         if(FAILED(hr))
             return;
-
-        //DWORD dwIndex = 0;
-        //CComPtr<IMFMediaType> mt;
-        //while(SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwIndex, &mt)))
-        //{
-        //    GUID guid;
-        //    hr = mt->GetGUID(MF_MT_SUBTYPE, &guid);
-        //    if (SUCCEEDED(hr) && dest_videoformat == guid)
-        //    {
-        //        UINT32 c;
-        //        mt->GetCount(&c);
-        //        hr = m_pMFT->SetOutputType(m_dwOutputID, mt, 0);
-        //        if(FAILED(hr))
-        //            return;
-        //        m_ready = true;
-        //        return;
-        //    }
-        //    mt.Release();
-        //    dwIndex++;
-        //}
 
         CComPtr<IMFMediaType> pOutputType;
         hr = MFCreateMediaType(&pOutputType);
@@ -318,6 +300,14 @@ public:
         if(FAILED(hr))
             return CComPtr<IMFSample>();
 
+        if (m_endpoint.get())
+        {
+            if (!m_endpoint->SubmitSample(pOutSample))
+                return CComPtr<IMFSample>();
+
+            pOutSample = m_endpoint->RetrieveSample();
+        }
+
         return pOutSample;
     }
 
@@ -363,9 +353,57 @@ public:
 mftransform_t MFTransform::Create(IMFMediaType* pInputType, const GUID& dest_videoformat)
 {
     std::unique_ptr<MFTransformImpl> result;
-    result.reset(new MFTransformImpl(pInputType, dest_videoformat));
+    result.reset(new MFTransformImpl(pInputType, dest_videoformat, false));
     if (!result->Ready())
+    {
         result.reset();
+
+        // try creating an intermediate transformer
+        HRESULT hr;
+        MFT_REGISTER_TYPE_INFO tininfo;
+        tininfo.guidMajorType = MFMediaType_Video;
+        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &tininfo.guidSubtype);
+        if (FAILED(hr))
+            return result;
+
+        IMFActivate** pMFTs;
+        UINT32 cMFTs = 0;
+        hr = MFTEnumEx(MFT_CATEGORY_VIDEO_DECODER, 0, &tininfo, NULL, &pMFTs, &cMFTs);
+
+        for (UINT32 i = 0; i < cMFTs; ++i)
+        {
+            CComPtr<IMFTransform> pMFT;
+
+            hr = pMFTs[0]->ActivateObject(IID_PPV_ARGS(&pMFT));
+            if (FAILED(hr))
+                continue;
+            
+            DWORD dwInputID = 0, dwOutputID = 0;
+            hr = pMFT->SetInputType(dwInputID, pInputType, 0);
+            if(FAILED(hr))
+                continue;
+
+            DWORD dwIndex = 0;
+            CComPtr<IMFMediaType> pOutputType;
+            while(SUCCEEDED(pMFT->GetOutputAvailableType(dwOutputID, dwIndex, &pOutputType)))
+            {
+                GUID subType;
+                hr = pOutputType->GetGUID(MF_MT_SUBTYPE, &subType);
+                if (SUCCEEDED(hr))
+                {
+                    mftransform_t endpoint = MFTransform::Create(pOutputType, dest_videoformat);
+                    if(endpoint.get())
+                    {
+                        result.reset(new MFTransformImpl(pInputType, subType, true, endpoint.release()));
+                        if(result->Ready())
+                            return result;
+                    }
+                }
+                pOutputType.Release();
+                dwIndex++;
+            }
+        }
+    }
     return result;
 }
 

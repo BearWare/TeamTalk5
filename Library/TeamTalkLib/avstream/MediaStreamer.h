@@ -38,7 +38,8 @@ struct MediaStream
 
     bool IsValid() const { return HasAudio() || HasVideo(); }
     bool HasAudio() const { return audio.IsValid(); }
-    bool HasVideo() const { return video.width > 0 && video.height > 0 && video.fps_numerator > 0 && video.fps_denominator > 0; }
+    // some video format don't have frame rate information, but they're still valid...
+    bool HasVideo() const { return video.IsValid(); /*video.width > 0 && video.height > 0 && video.fps_numerator > 0 && video.fps_denominator > 0;*/ }
 };
 
 struct MediaFileProp : public MediaStream

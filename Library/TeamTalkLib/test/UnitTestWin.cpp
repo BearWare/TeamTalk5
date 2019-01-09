@@ -173,9 +173,9 @@ namespace UnitTest
 
             ACE_TString url;
             url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            url = L"z:\\Media\\MVI_2526.AVI";
+            //url = L"z:\\Media\\MVI_2526.AVI";
             //url = L"z:\\Media\\OOBEMovie.wmv";
-            //url = L"z:\\Media\\OOBEMovie_10sec.wmv";
+            url = L"z:\\Media\\OOBEMovie_10sec.wmv";
             //url = L"z:\\Media\\Seinfeld.avi";
 
             MediaFileProp in_prop;
@@ -184,7 +184,7 @@ namespace UnitTest
 #if defined(ENABLE_DSHOW)
             MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_RGB32);
 #else
-            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_I420);
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_RGB32);
 #endif
             listener.setOutput(out_prop);
 
@@ -436,6 +436,13 @@ namespace UnitTest
 
             WriteBitmap(L"myvideo_rgb32.bmp", rgb32frame_ret->width, rgb32frame_ret->height, 4, rgb32frame_ret->frame, rgb32frame_ret->frame_length);
             mb->release();
+
+            auto transform = MFTransform::Create(media::VideoFormat(640, 480, media::FOURCC_YUY2), media::FOURCC_I420);
+            Assert::IsTrue(transform.get());
+            transform = MFTransform::Create(media::VideoFormat(640, 480, media::FOURCC_RGB24), media::FOURCC_RGB32);
+            Assert::IsTrue(transform.get());
+            transform = MFTransform::Create(media::VideoFormat(640, 480, media::FOURCC_NV12), media::FOURCC_RGB32);
+            Assert::IsTrue(transform.get());
         }
 
         TEST_METHOD(TestFormats)

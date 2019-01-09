@@ -121,6 +121,7 @@ void MFStreamer::Run()
     DWORD dwVideoStreamIndex, dwAudioStreamIndex;
     LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
     bool start = false;
+    mftransform_t transform;
 
     hr = MFCreateSourceResolver(&pSourceResolver);
     if(FAILED(hr))
@@ -225,13 +226,24 @@ void MFStreamer::Run()
         case media::FOURCC_NONE :
             break;
         default :
+            GUID oldSubType;
+            hr = pVideoType->GetGUID(MF_MT_SUBTYPE, &oldSubType);
+            assert(SUCCEEDED(hr));
+
             hr = pVideoType->SetGUID(MF_MT_SUBTYPE, ConvertFourCC(m_media_out.video.fourcc));
             if(FAILED(hr))
                 goto fail_open;
 
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
             if(FAILED(hr))
-                goto fail_open;
+            {
+                hr = pVideoType->SetGUID(MF_MT_SUBTYPE, oldSubType);
+                assert(SUCCEEDED(hr));
+
+                transform = MFTransform::Create(pVideoType, ConvertFourCC(m_media_out.video.fourcc));
+                if (!transform.get())
+                    goto fail_open;
+            }
 
             m_media_out.video.width = int(w);
             m_media_out.video.height = int(h);
@@ -334,8 +346,7 @@ void MFStreamer::Run()
                     media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
                     assert(m_media_out.audio.channels > 0);
                     media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio.channels;
-                    media_frame.input_channels = m_media_out.audio.channels;
-                    media_frame.input_samplerate = m_media_out.audio.samplerate;
+                    media_frame.inputfmt = m_media_out.audio;
                     int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
                     assert(ret >= 0);
                     ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
@@ -371,8 +382,21 @@ void MFStreamer::Run()
             DWORD dwBufCount = 0;
             if(pSample)
             {
-                hr = pSample->GetBufferCount(&dwBufCount);
-                assert(SUCCEEDED(hr));
+                if (transform.get())
+                {
+                    if (!transform->SubmitSample(pSample))
+                    {
+                        MYTRACE(ACE_TEXT("Failed to submit video sample\n"));
+                        continue;
+                    }
+                    pSample = transform->RetrieveSample();
+                }
+
+                if (pSample)
+                {
+                    hr = pSample->GetBufferCount(&dwBufCount);
+                    assert(SUCCEEDED(hr));
+                }
             }
 
             for(DWORD i = 0; i<dwBufCount; i++)
@@ -406,6 +430,8 @@ void MFStreamer::Run()
 
         while(!m_stop && !error && ProcessAVQueues(start_time, false));
     }
+
+    while(!m_stop && !error && ProcessAVQueues(start_time, true));
 
     if (!error && !m_stop)
     {
