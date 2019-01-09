@@ -112,9 +112,11 @@ public:
         assert(majortype == MFMediaType_Video);
         hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
         tininfo.guidSubtype = native_subtype;
+        media::FourCC fcc = ConvertSubType(native_subtype);
 
         toutinfo.guidSubtype = dest_videoformat;
 
+        // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
         hr = MFTEnumEx(MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
         if(FAILED(hr) || m_cMFTs == 0)
             return;

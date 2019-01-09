@@ -3014,13 +3014,10 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
         return false;
 
     MediaStreamOutput media_out;
-    media_out.audio = media_out.video = true;
-    media_out.audio_channels = GetAudioCodecChannels(m_mychannel->GetAudioCodec());
-    media_out.audio_samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
+    media_out.video.fourcc = media::FOURCC_I420;
+    media_out.audio.channels = GetAudioCodecChannels(m_mychannel->GetAudioCodec());
+    media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
-
-    // cannot ask media framework to output audio if channel has no audio
-    media_out.audio &= media_out.audio_channels > 0;
 
     TTASSERT(m_media_streamer.null());
     if(m_media_streamer.null())
@@ -3037,7 +3034,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     file_in = m_media_streamer->GetMediaInput();
 
     //initiate audio part of media file
-    if(file_in.audio_channels)
+    if(file_in.audio.IsValid())
     {
         if(!m_audiofile_thread.StartEncoder(this, m_mychannel->GetAudioCodec(), 
                                             true))
@@ -3050,13 +3047,9 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 
     TTASSERT(m_videofile_thread.null());
     //initiate video part of media file
-    if(file_in.video_width && m_videofile_thread.null())
+    if(file_in.video.IsValid() && m_videofile_thread.null())
     {
-        VideoFormat cap_format;
-        cap_format.width = file_in.video_width;
-        cap_format.height = file_in.video_height;
-        cap_format.fps_numerator = file_in.video_fps_numerator;
-        cap_format.fps_denominator = file_in.video_fps_denominator;
+        VideoFormat cap_format = file_in.video;
         cap_format.fourcc = FOURCC_RGB32;
 
         m_flags |= CLIENT_STREAM_VIDEOFILE;
@@ -3076,7 +3069,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     }
     
     // give up if input file has no video or audio
-    if(file_in.audio_channels == 0 && file_in.video_width == 0)
+    if(file_in.audio.IsValid() == false && file_in.video.IsValid() == false)
     {
         StopStreamingMediaFile();
         return false;
@@ -3103,8 +3096,8 @@ void ClientNode::StopStreamingMediaFile()
 
     if(!m_media_streamer.null())
     {
-        clear_video = m_media_streamer->GetMediaOutput().video;
-        clear_audio = m_media_streamer->GetMediaOutput().audio;
+        clear_video = m_media_streamer->GetMediaOutput().HasVideo();
+        clear_audio = m_media_streamer->GetMediaOutput().HasAudio();
         m_media_streamer->Close();
         m_media_streamer.reset();
     }

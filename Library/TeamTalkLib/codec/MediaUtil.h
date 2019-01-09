@@ -67,6 +67,19 @@ namespace media
             {
                 return memcmp(&fmt, this, sizeof(*this)) == 0;
             }
+
+        bool IsValid() const { return width > 0 && height > 0; }
+    };
+
+    struct AudioFormat
+    {
+        int samplerate = 0;
+        int channels = 0;
+
+        bool IsValid() const { return samplerate > 0 && channels > 0; }
+
+        AudioFormat(int sr, int chans) : samplerate(sr), channels(chans) {}
+        AudioFormat() {}
     };
 
     struct AudioFrame

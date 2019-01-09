@@ -61,7 +61,7 @@ namespace UnitTest
                     switch (status)
                     {
                     case MEDIASTREAM_STARTED :
-                        wavfile.NewFile(L"output.wav", out_prop.audio_samplerate, out_prop.audio_channels);
+                        wavfile.NewFile(L"output.wav", out_prop.audio.samplerate, out_prop.audio.channels);
                         break;
                     case MEDIASTREAM_ERROR :
                         break;
@@ -80,12 +80,7 @@ namespace UnitTest
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
 
-            MediaStreamOutput out_prop;
-            out_prop.audio = true;
-            out_prop.audio_channels = 2;
-            out_prop.audio_samplerate = 48000;
-            out_prop.audio_samples = 48000 * .04;
-
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .04);
             listener.setOutput(out_prop);
             
 #if defined(ENABLE_DSHOW)
@@ -110,6 +105,9 @@ namespace UnitTest
             {
                 WaveFile wavfile;
                 MediaStreamOutput out_prop;
+#if defined(ENABLE_MEDIAFOUNDATION)
+                mftransform_t transform;
+#endif
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
                 bool MediaStreamVideoCallback(MediaStreamer* streamer,
@@ -124,7 +122,27 @@ namespace UnitTest
                     os.width(20);
                     os << ++n_bmp;
                     os << L".bmp";
-                    WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 4, video_frame.frame, video_frame.frame_length);
+                    switch (video_frame.fourcc)
+                    {
+                    case media::FOURCC_RGB24 :
+                        WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 3, video_frame.frame, video_frame.frame_length);
+                    case media::FOURCC_RGB32 :
+                        WriteBitmap(os.str().c_str(), video_frame.width, video_frame.height, 4, video_frame.frame, video_frame.frame_length);
+                        break;
+                    default :
+#if defined(ENABLE_MEDIAFOUNDATION)
+                        if (!transform.get())
+                            transform = MFTransform::Create(media::VideoFormat(video_frame.width, video_frame.height, video_frame.fourcc), media::FOURCC_RGB32);
+                        Assert::IsTrue(transform.get());
+                        Assert::IsTrue(transform->SubmitSample(video_frame), L"Submit frame");
+                        ACE_Message_Block* mb = transform->RetrieveSample(media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32));
+                        Assert::IsTrue(mb != nullptr, L"Transformed frame");
+                        media::VideoFrame frame(mb);
+                        WriteBitmap(os.str().c_str(), frame.width, frame.height, 4, frame.frame, frame.frame_length);
+                        mb->release();
+#endif
+                        break;
+                    }
 
                     return false;
                 }
@@ -142,7 +160,7 @@ namespace UnitTest
                     switch(status)
                     {
                     case MEDIASTREAM_STARTED:
-                        wavfile.NewFile(L"output.wav", out_prop.audio_samplerate, out_prop.audio_channels);
+                        wavfile.NewFile(L"output.wav", out_prop.audio.samplerate, out_prop.audio.channels);
                         break;
                     case MEDIASTREAM_ERROR:
                         break;
@@ -153,19 +171,16 @@ namespace UnitTest
                 }
             } listener;
 
-            //ACE_TString url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            ACE_TString url = L"z:\\Media\\MVI_2526.AVI";
+            ACE_TString url;
+            url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
+            url = L"z:\\Media\\MVI_2526.AVI";
+            //url = L"z:\\Media\\OOBEMovie.wmv";
+            //url = L"z:\\Media\\Seinfeld.avi";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
 
-            MediaStreamOutput out_prop;
-            out_prop.video = true;
-            out_prop.audio = true;
-            out_prop.audio_channels = 2;
-            out_prop.audio_samplerate = 48000;
-            out_prop.audio_samples = 48000 * .12;
-
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_I420);
             listener.setOutput(out_prop);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
