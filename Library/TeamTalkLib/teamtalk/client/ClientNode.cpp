@@ -1196,7 +1196,7 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
         audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, audframe.input_buffer, 
                                     m_soundprop.samples_transmitted, 
                                     false, audframe.input_samples,
-                                    audframe.input_channels);
+                                    audframe.inputfmt.channels);
 
         m_soundprop.samples_transmitted += audframe.input_samples;
     }
@@ -1208,8 +1208,8 @@ void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
     if(AUDIOCONTAINER::instance()->AddAudio(m_soundprop.soundgroupid,
                                             0, STREAMTYPE_VOICE,
                                             m_voice_stream_id, 
-                                            audframe.input_samplerate,
-                                            audframe.input_channels,
+                                            audframe.inputfmt.samplerate,
+                                            audframe.inputfmt.channels,
                                             audframe.input_buffer,
                                             audframe.input_samples,
                                             m_soundprop.samples_recorded))
@@ -1399,10 +1399,10 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     audframe.force_enc = (m_flags & CLIENT_TX_VOICE);
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
     audframe.soundgrpid = m_soundprop.soundgroupid;
-    audframe.input_channels = codec_channels;
+    audframe.inputfmt.channels = codec_channels;
     audframe.input_buffer = const_cast<short*>(capture_buffer);
     audframe.input_samples = codec_samples;
-    audframe.input_samplerate = codec_samplerate;
+    audframe.inputfmt.samplerate = codec_samplerate;
     audframe.userdata = STREAMTYPE_VOICE;
     
     QueueAudioFrame(audframe);
@@ -1458,14 +1458,14 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     audframe.force_enc = (m_flags & CLIENT_TX_VOICE);
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
     audframe.soundgrpid = m_soundprop.soundgroupid;
-    audframe.input_channels = codec_channels;
+    audframe.inputfmt.channels = codec_channels;
     audframe.input_buffer = const_cast<short*>(capture_buffer);
     audframe.input_samples = codec_samples;
-    audframe.input_samplerate = codec_samplerate;
-    audframe.output_channels = codec_channels;
+    audframe.inputfmt.samplerate = codec_samplerate;
+    audframe.outputfmt.channels = codec_channels;
     audframe.output_buffer = playback_buffer;
     audframe.output_samples = codec_samples;
-    audframe.output_samplerate = codec_samplerate;
+    audframe.outputfmt.samplerate = codec_samplerate;
     audframe.userdata = STREAMTYPE_VOICE;
 
     QueueAudioFrame(audframe);
@@ -1527,9 +1527,9 @@ bool ClientNode::MediaStreamAudioCallback(MediaStreamer* streamer,
     AudioCodec codec = m_audiofile_thread.codec();
 
     TTASSERT(audio_frame.input_samples == GetAudioCodecCbSamples(codec));
-    TTASSERT(audio_frame.input_channels);
+    TTASSERT(audio_frame.inputfmt.channels);
     TTASSERT(audio_frame.input_buffer);
-    TTASSERT(audio_frame.input_samplerate);
+    TTASSERT(audio_frame.inputfmt.samplerate);
     TTASSERT(audio_frame.input_samples);
 
     audio_frame.force_enc = true;

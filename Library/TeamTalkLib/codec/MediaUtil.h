@@ -88,10 +88,8 @@ namespace media
         const short* output_buffer; //for echo cancel frame
         int input_samples;
         int output_samples;
-        int input_channels;
-        int output_channels;
-        int input_samplerate;
-        int output_samplerate;
+        AudioFormat inputfmt;
+        AudioFormat outputfmt;
         int soundgrpid;
         ACE_UINT32 userdata;
         bool force_enc; //force encoding of frame
@@ -102,8 +100,6 @@ namespace media
             , output_buffer(NULL)
             {
                 input_samples = output_samples = 0;
-                input_channels = output_channels = 0;
-                input_samplerate = output_samplerate = 0;
                 soundgrpid = 0;
                 userdata = 0;
                 force_enc = voiceact_enc = false;

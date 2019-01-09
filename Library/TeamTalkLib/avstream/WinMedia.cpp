@@ -206,8 +206,7 @@ public:
         media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = output_samples_total; //overwrite later
-        media_frame.input_channels = m_media_out.audio.channels;
-        media_frame.input_samplerate = m_media_out.audio.samplerate;
+        media_frame.inputfmt = m_media_out.audio;
 
         int output_resampled = m_resampler->Resample(input_buffer, 
                                                      input_samples_total,
