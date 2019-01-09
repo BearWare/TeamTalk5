@@ -175,12 +175,17 @@ namespace UnitTest
             url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
             url = L"z:\\Media\\MVI_2526.AVI";
             //url = L"z:\\Media\\OOBEMovie.wmv";
+            //url = L"z:\\Media\\OOBEMovie_10sec.wmv";
             //url = L"z:\\Media\\Seinfeld.avi";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
 
+#if defined(ENABLE_DSHOW)
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_RGB32);
+#else
             MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_I420);
+#endif
             listener.setOutput(out_prop);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -535,10 +540,10 @@ namespace UnitTest
                     }
                 }
 
-            } listener(media::VideoFormat(in_prop.video_width, in_prop.video_height, media::FOURCC_NONE));
+            } listener(media::VideoFormat(in_prop.video.width, in_prop.video.height, media::FOURCC_NONE));
             
             media_streamer_t streamer = MakeMediaStreamer(&listener);
-            Assert::IsTrue(streamer->OpenFile(in_prop, MediaStreamOutput(true, true, 2, 48000, 4800)));
+            Assert::IsTrue(streamer->OpenFile(in_prop, MediaStreamOutput(media::AudioFormat(48000, 2), 4800, media::FOURCC_RGB32)));
             Assert::IsTrue(streamer->StartStream());
 
             std::unique_lock<std::mutex> lk(done);

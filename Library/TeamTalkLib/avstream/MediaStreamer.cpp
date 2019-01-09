@@ -277,7 +277,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
             unsigned(m_audio_frames.message_length()),
             unsigned(m_audio_frames.message_count()));
 
-    assert(write_bytes == 0);
+    assert(flush || write_bytes == 0);
 
     //write bytes should only be greater than 0 if flushing
     if(write_bytes)

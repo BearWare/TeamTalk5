@@ -3014,7 +3014,11 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
         return false;
 
     MediaStreamOutput media_out;
+#if defined(ENABLE_DSHOW)
+    media_out.video.fourcc = media::FOURCC_RGB32;
+#else
     media_out.video.fourcc = media::FOURCC_I420;
+#endif
     media_out.audio.channels = GetAudioCodecChannels(m_mychannel->GetAudioCodec());
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());

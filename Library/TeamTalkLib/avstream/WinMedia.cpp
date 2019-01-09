@@ -38,15 +38,7 @@ bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
     DSWrapperThread ds_thread(NULL);
 
-    MediaStreamOutput output;
-    //just put in any audio output format
-    output.audio = true;
-    output.audio_channels = 2;
-    output.audio_samplerate = 44100;
-    output.audio_samples = 22050;
-    output.video = true;
-
-    if(!ds_thread.OpenFile(filename, output))
+    if (!ds_thread.OpenFile(filename, MediaStreamOutput(media::AudioFormat(44100, 2), 22050, media::FOURCC_RGB32)))
         return false;
 
     fileprop = ds_thread.GetMediaInput();
@@ -96,9 +88,9 @@ public:
 
         media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
                                       nBufferLen,
-                                      m_media_in.video_width,
-                                      m_media_in.video_height,
-                                      media::FOURCC_RGB32, false);
+                                      m_media_in.video.width,
+                                      m_media_in.video.height,
+                                      m_media_out.video.fourcc, false);
         media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
@@ -193,19 +185,19 @@ public:
             return hr;
 
         const short* input_buffer = reinterpret_cast<short*>(pBuffer);
-        assert(m_media_out.audio_channels>0);
-        int input_samples_total = (nBufferLen / sizeof(short)) / m_media_in.audio_channels;
+        assert(m_media_out.HasAudio());
+        int input_samples_total = (nBufferLen / sizeof(short)) / m_media_in.audio.channels;
         
-        int output_samples_total = CalcSamples(m_media_in.audio_samplerate,
+        int output_samples_total = CalcSamples(m_media_in.audio.samplerate,
                                                input_samples_total,
-                                               m_media_out.audio_samplerate);
+                                               m_media_out.audio.samplerate);
 
         //Windows' DMO resampler only wants to work with even number of samples
         if(output_samples_total % 2)
             output_samples_total++;
         //MYTRACE(ACE_TEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
         size_t bytes_total = PCM16_BYTES(output_samples_total,
-                                         m_media_out.audio_channels);
+                                         m_media_out.audio.channels);
         ACE_Message_Block* mb;
         ACE_NEW_RETURN(mb, ACE_Message_Block(bytes_total + sizeof(media::AudioFrame)),
                        S_OK);
@@ -214,8 +206,8 @@ public:
         media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = output_samples_total; //overwrite later
-        media_frame.input_channels = m_media_out.audio_channels;
-        media_frame.input_samplerate = m_media_out.audio_samplerate;
+        media_frame.input_channels = m_media_out.audio.channels;
+        media_frame.input_samplerate = m_media_out.audio.samplerate;
 
         int output_resampled = m_resampler->Resample(input_buffer, 
                                                      input_samples_total,
@@ -223,7 +215,7 @@ public:
                                                      output_samples_total);
 
         size_t resampled_bytes = PCM16_BYTES(output_resampled,
-                                             m_media_out.audio_channels);
+                                             m_media_out.audio.channels);
 
         media_frame.input_samples = output_resampled;
         mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
@@ -374,7 +366,7 @@ int DSWrapperThread::svc()
     if(FAILED(hr))
         goto fail_open;
 
-    if(!m_media_out.audio)
+    if(!m_media_out.HasAudio())
         goto no_audio;
 
     //*** Create audio grabber ***
@@ -403,32 +395,32 @@ int DSWrapperThread::svc()
         WAVEFORMATEX *pwav;
         pwav = reinterpret_cast<WAVEFORMATEX*>(mt_aud.Format());
         
-        m_media_in.audio_channels = pwav->nChannels;
-        m_media_in.audio_samplerate = pwav->nSamplesPerSec;
+        m_media_in.audio.channels = pwav->nChannels;
+        m_media_in.audio.samplerate = pwav->nSamplesPerSec;
 
-        int input_samples = CalcSamples(m_media_out.audio_samplerate,
+        int input_samples = CalcSamples(m_media_out.audio.samplerate,
                                         m_media_out.audio_samples,
                                         pwav->nSamplesPerSec);
         int output_samples = CalcSamples(pwav->nSamplesPerSec,
                                          input_samples,
-                                         m_media_out.audio_samplerate);
+                                         m_media_out.audio.samplerate);
 
         //MYTRACE_COND(output_samples != m_media_out.audio_samples,
         //             ACE_TEXT("WinMedia, unexpected samples output: %d, got %d\n"),
         //             m_media_out.audio_samplerate, output_samples);
         resampler = MakeAudioResampler(pwav->nChannels, pwav->nSamplesPerSec,
-                                       m_media_out.audio_channels,
-                                       m_media_out.audio_samplerate);
+                                       m_media_out.audio.channels,
+                                       m_media_out.audio.samplerate);
     }
     else
     {
-        m_media_out.audio = false;
+        m_media_out.audio = media::AudioFormat();
         goto no_audio;
     }
 
     if(resampler.null())
     {
-        m_media_out.audio = false;
+        m_media_out.audio = media::AudioFormat();
         goto no_audio;
     }
 
@@ -479,30 +471,43 @@ no_audio:
         hr = pVideoGrabber->SetMediaType(&mt_vid);
         hr = pVideoSrcPin->Connect(pVideoGrabPin, &mt_vid);
 */
-        m_media_in.video_width = bmp_hdr.biWidth;
-        m_media_in.video_height = bmp_hdr.biHeight;
+        m_media_in.video.width = bmp_hdr.biWidth;
+        m_media_in.video.height = bmp_hdr.biHeight;
         if(video_ms > 0 && video_ms <= 1000)//TODO: support lower FPS
-            m_media_in.video_fps_numerator = 1000 / video_ms;
+            m_media_in.video.fps_numerator = 1000 / video_ms;
         else
-            m_media_in.video_fps_numerator = 1;
-        m_media_in.video_fps_denominator = 1;
+            m_media_in.video.fps_numerator = 1;
+        m_media_in.video.fps_denominator = 1;
+
+        // VideoGrabberCallback::CheckMediaType() only supports RGB32
+        m_media_in.video.fourcc = media::FOURCC_RGB32;
+
+        switch(m_media_out.video.fourcc)
+        {
+        default:
+        case media::FOURCC_NONE:
+            break;
+        case media::FOURCC_RGB32:
+            m_media_out.video = m_media_in.video;
+            break;
+        }
     }
     else
     {
-        m_media_out.video = false;
+        m_media_out.video = media::VideoFormat();
         goto no_video;
     }
 
     if(FAILED(hr))
     {
-        m_media_out.video = false;
+        m_media_out.video = media::VideoFormat();
         goto no_video;
     }
 
 no_video:
 
     //remove audio filters from graph if audio failed
-    if(m_media_in.audio_channels == 0)
+    if(!m_media_in.HasAudio())
     {
         if(pAudioGrabber.p)
         {
@@ -513,7 +518,7 @@ no_video:
     }
 
     //remove video filters from graph if video failed
-    if(!m_media_in.video_width)
+    if(!m_media_in.HasVideo())
     {
         if(pVideoGrabber.p)
         {
