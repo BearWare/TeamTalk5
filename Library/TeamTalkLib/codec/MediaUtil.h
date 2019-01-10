@@ -31,12 +31,17 @@ namespace media
 /* Remember to updated DLL header file when modifying this */
     enum FourCC
     {
+        /* input/output formats */
         FOURCC_NONE   = 0,
         FOURCC_I420   = 100,
         FOURCC_YUY2   = 101,
         FOURCC_RGB32  = 102,
         FOURCC_RGB24  = 103,
         FOURCC_NV12   = 104,
+
+        // input only formats
+        FOURCC_MJPEG = 200,
+        FOURCC_H264  = 201,
     };
 
 /* Remember to updated DLL header file when modifying this */

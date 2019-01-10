@@ -254,13 +254,13 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
         UINT32 samplesize;
         hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
-        GUID native_subtype = { 0 };
-        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
+        GUID inputSubType = { 0 };
+        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &inputSubType);
         if (SUCCEEDED(hr))
         {
             if (w == session->vidfmt.width && h == session->vidfmt.height &&
                 session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
-                session->vidfmt.fourcc == ConvertSubType(native_subtype))
+                session->vidfmt.fourcc == ConvertSubType(inputSubType))
             {
                 break;
             }

@@ -33,6 +33,7 @@
 
 media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);
+ACE_TString FourCCToString(media::FourCC fcc);
 
 typedef std::unique_ptr<class MFTransform> mftransform_t;
 class MFTransform
@@ -46,7 +47,7 @@ public:
     virtual CComPtr<IMFSample> RetrieveSample() = 0;
 
     virtual bool SubmitSample(const media::VideoFrame& frame) = 0;
-    virtual ACE_Message_Block* RetrieveSample(const media::VideoFormat& fmt) = 0;
+    virtual ACE_Message_Block* RetrieveMBSample() = 0;
 
 };
 #endif
