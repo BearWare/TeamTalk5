@@ -58,14 +58,11 @@ bool FFMpeg3Capture::StartVideoCapture(const ACE_TString& deviceid,
     std::auto_ptr<FFMpegVideoInput> streamer(createStreamer(this, dev, vidfmt));
 
     MediaFileProp in_prop;
-    in_prop.video_width = vidfmt.width;
-    in_prop.video_height = vidfmt.height;
-    in_prop.video_fps_numerator = vidfmt.fps_numerator;
-    in_prop.video_fps_denominator = vidfmt.fps_denominator;
+    in_prop.video = vidfmt;
     in_prop.filename = deviceid;
 
     MediaStreamOutput out_prop;
-    out_prop.video = true;
+    out_prop.video = vidfmt;
 
     if(!streamer->OpenFile(in_prop, out_prop))
         return false;
