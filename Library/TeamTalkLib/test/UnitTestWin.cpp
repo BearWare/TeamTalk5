@@ -7,6 +7,7 @@
 #endif
 #if defined(ENABLE_DSHOW)
 #include <avstream/WinMedia.h>
+#include <avstream/LibVidCap.h>
 #endif
 
 #include <codec/WaveFile.h>
@@ -201,18 +202,23 @@ namespace UnitTest
             cv.wait(lk);
         }
 
-#if defined(ENABLE_MEDIAFOUNDATION)
-        void VideoCaptureTest(const media::VideoFormat& fmt)
+        void VideoCaptureTest(const ACE_TCHAR* szDev, const media::VideoFormat& fmt)
         {
             std::wostringstream os;
             os << L"Testing ";
             os << fmt.width << L"x" << fmt.height;
             os << "@ " << (fmt.fps_numerator / fmt.fps_denominator);
+#if defined(ENABLE_MEDIAFOUNDATION)
             os << L" - " << FourCCToString(fmt.fourcc).c_str();
+#endif
             os << std::endl;
             Logger::WriteMessage(os.str().c_str());
 
+#if defined(ENABLE_MEDIAFOUNDATION)
             std::vector<media::FourCC> transforms = { media::FOURCC_RGB24, media::FOURCC_RGB32 };
+#else
+            std::vector<media::FourCC> transforms = {};
+#endif
             std::set<media::FourCC> outputs;
             outputs.insert(transforms.begin(), transforms.end());
             outputs.insert(fmt.fourcc);
@@ -230,7 +236,7 @@ namespace UnitTest
                 bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                             ACE_Message_Block* /*mb_video*/)
                 {
-                    media::VideoFormat fmt = MFCaptureSingleton::instance()->GetVideoCaptureFormat(this);
+                    media::VideoFormat fmt = GetVideoCapture()->GetVideoCaptureFormat(this);
 
                     std::wostringstream os;
                     os << L"Got video frame ";
@@ -253,7 +259,6 @@ namespace UnitTest
                         break;
                     }
 
-
                     if (std::find(m_receivedfmts.begin(), m_receivedfmts.end(), video_frame.GetVideoFormat()) != m_receivedfmts.end())
                     {
                         if (m_receivedfmts.size() == m_outputs.size())
@@ -267,22 +272,25 @@ namespace UnitTest
 
             } listener(outputs);
 
-            Assert::IsTrue(MFCaptureSingleton::instance()->StartVideoCapture(L"0", fmt, &listener));
+            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(szDev, fmt, &listener));
 
+#if defined(ENABLE_MEDIAFOUNDATION)
             for (auto f : transforms)
                 Assert::IsTrue(MFCaptureSingleton::instance()->RegisterVideoFormat(&listener, f));
+#endif
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
             //cv.wait_for(lck, std::chrono::seconds(10));
             cv.wait(lck);
 
-            Assert::IsTrue(MFCaptureSingleton::instance()->StopVideoCapture(&listener));
+            Assert::IsTrue(GetVideoCapture()->StopVideoCapture(&listener));
         }
 
         TEST_METHOD(TestVideoCapture)
         {
-            auto devs = MFCaptureSingleton::instance()->GetDevices();
+            auto devs = VIDCAP->GetDevices();
+
             std::wostringstream os;
             for(auto dev : devs)
             {
@@ -293,7 +301,9 @@ namespace UnitTest
                     os.str(L"");
                     os << L"\t" << fmt.width << L"x" << fmt.height;
                     os << "@ " << (fmt.fps_numerator / fmt.fps_denominator);
+#if defined(ENABLE_MEDIAFOUNDATION)
                     os << L" - " << FourCCToString(fmt.fourcc).c_str();
+#endif
                     os << std::endl;
                     Logger::WriteMessage(os.str().c_str());
                 }
@@ -307,7 +317,7 @@ namespace UnitTest
 
             for(auto fmt : test_fmts)
             {
-                VideoCaptureTest(fmt);
+                VideoCaptureTest(devs[0].deviceid.c_str(), fmt);
             }
         }
 
@@ -344,8 +354,7 @@ namespace UnitTest
 
             } listener(encoder);
 
-            vidcap::MFCapture cap;
-            auto devs = cap.GetDevices();
+            auto devs = GetVideoCapture()->GetDevices();
             std::wostringstream os;
             for(auto a : devs)
             {
@@ -375,7 +384,7 @@ namespace UnitTest
             media::VideoFormat fmt(640, 480, 30, 1, media::FOURCC_I420);
 
             Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024*1024, fmt.fps_numerator/fmt.fps_denominator));
-            Assert::IsTrue(cap.StartVideoCapture(L"0", fmt, &listener));
+            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(L"0", fmt, &listener));
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
@@ -384,6 +393,7 @@ namespace UnitTest
             os << L"foo";
         }
 
+#if defined(ENABLE_MEDIAFOUNDATION)
         TEST_METHOD(TestTransform)
         {
             std::wostringstream os;

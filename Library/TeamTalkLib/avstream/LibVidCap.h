@@ -49,8 +49,7 @@ public:
 
     bool StopVideoCapture(vidcap::VideoCaptureListener* listener);
 
-    bool GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener,
-                               media::VideoFormat& vidfmt);
+    media::VideoFormat GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener);
 
     //Callbacks for libvidcap
     static int video_capture_callback(vidcap_src* vc_src, void* user_data, 

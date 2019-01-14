@@ -285,31 +285,30 @@ bool LibVidCap::StopVideoCapture(VideoCaptureListener* listener)
     return true;
 }
 
-bool LibVidCap::GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener,
-                                      media::VideoFormat& vidfmt)
+media::VideoFormat LibVidCap::GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener)
 {
     wguard_t g(m_mutex);
 
     vidcaplisteners_t::iterator ii = m_mListeners.find(listener);
     if(ii == m_mListeners.end())
-        return false;
+        return media::VideoFormat();
 
     struct vidcap_fmt_info fmt_info;
     if(vidcap_format_info_get(ii->second, &fmt_info) == 0)
     {
+        media::VideoFormat vidfmt;
         Convert(fmt_info, vidfmt);
-        return true;
+        return vidfmt;
     }
-    return false;
+    return media::VideoFormat();
 }
 
 int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data, 
                                       struct vidcap_capture_info* cap_info)
 {
     VideoCaptureListener* lsn = static_cast<VideoCaptureListener*>(user_data);
-    media::VideoFormat vidfmt;
-    if(lsn && VCSingleton::instance()->GetVideoCaptureFormat(lsn, vidfmt) &&
-       cap_info->video_data && cap_info->video_data_size)
+    media::VideoFormat vidfmt = VCSingleton::instance()->GetVideoCaptureFormat(lsn);
+    if(vidfmt.IsValid() && cap_info->video_data && cap_info->video_data_size)
     {
         ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
         ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
