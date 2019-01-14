@@ -88,8 +88,12 @@ public:
         //        tmp = tmp;
         //}
 
+        UINT32 uFlags = 0;
+        uFlags |= MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT
+                  | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY;
+
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
-        hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
+        hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, uFlags, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
         if(FAILED(hr) || m_cMFTs == 0)
             return;
 

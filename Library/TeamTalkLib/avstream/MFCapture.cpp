@@ -300,6 +300,10 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     if (!pInputType.p)
         goto fail;
 
+    hr = pReader->SetCurrentMediaType(dwVideoStreamIndex, NULL, pInputType);
+    if(FAILED(hr))
+        goto fail;
+
     session->opened.set(true);
 
     bool error = false;
@@ -308,6 +312,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         CComPtr<IMFSample> pSample;
         DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
         LONGLONG llVideoTimestamp = 0;
+        ACE_UINT32 uTimeStamp;
 
         hr = pReader->ReadSample(dwVideoStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llVideoTimestamp, &pSample);
         if (FAILED(hr))
@@ -318,6 +323,9 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
 
         if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
             break;
+
+        uTimeStamp = ACE_UINT32(llVideoTimestamp / 10000);
+        uTimeStamp = GETTIMESTAMP();
 
         DWORD dwBufCount = 0;
         if(pSample)
@@ -342,7 +350,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             {
                 media::VideoFrame media_frame(session->vidfmt, reinterpret_cast<char*>(pBuffer),
                                               dwCurLen);
-                media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
+                media_frame.timestamp = uTimeStamp;
                 ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
                 if (!listener->OnVideoCaptureCallback(media_frame, mb))
                     mb->release();
@@ -360,7 +368,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
                 if(mb)
                 {
                     media::VideoFrame media_frame(mb);
-                    media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
+                    media_frame.timestamp = uTimeStamp;
                     if(!listener->OnVideoCaptureCallback(media_frame, mb))
                         mb->release();
                 }

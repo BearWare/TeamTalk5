@@ -235,12 +235,9 @@ namespace UnitTest
                     std::wostringstream os;
                     os << L"Got video frame ";
                     os << video_frame.width << L"x" << video_frame.height << L"@" << fmt.fps_numerator / fmt.fps_denominator;
-                    os << L" fcc" << video_frame.fourcc << " size " << video_frame.frame_length;
+                    os << L" fcc" << video_frame.fourcc << " size " << video_frame.frame_length << L" diff time " << (GETTIMESTAMP() - video_frame.timestamp);
+                    os << std::endl;
                     Logger::WriteMessage(os.str().c_str());
-
-                    //Assert::AreEqual(int(m_fmt.fourcc), int(video_frame.fourcc));
-                    //Assert::AreEqual(int(m_fmt.width), int(video_frame.width));
-                    //Assert::AreEqual(int(m_fmt.height), int(video_frame.height));
 
                     os.str(L"");
 
@@ -259,8 +256,8 @@ namespace UnitTest
 
                     if (std::find(m_receivedfmts.begin(), m_receivedfmts.end(), video_frame.GetVideoFormat()) != m_receivedfmts.end())
                     {
-                        //if (m_receivedfmts.size() == m_outputs.size())
-                        //    cv.notify_all();
+                        if (m_receivedfmts.size() == m_outputs.size())
+                            cv.notify_all();
                     }
                     else
                         m_receivedfmts.push_back(video_frame.GetVideoFormat());
@@ -277,8 +274,8 @@ namespace UnitTest
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
-            cv.wait_for(lck, std::chrono::seconds(10));
-            //cv.wait(lck);
+            //cv.wait_for(lck, std::chrono::seconds(10));
+            cv.wait(lck);
 
             Assert::IsTrue(MFCaptureSingleton::instance()->StopVideoCapture(&listener));
         }
@@ -306,7 +303,7 @@ namespace UnitTest
 
             std::vector<media::VideoFormat> test_fmts;
             std::copy_if(devs[0].vidcapformats.begin(), devs[0].vidcapformats.end(), 
-                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_YUY2 && f.width == 800; });
+                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_I420; });
 
             for(auto fmt : test_fmts)
             {
@@ -389,10 +386,12 @@ namespace UnitTest
 
         TEST_METHOD(TestTransform)
         {
-            const auto WIDTH=640, HEIGHT=480, FPS_N = 30, FPS_D = 1;
+            std::wostringstream os;
+            const auto WIDTH=1600, HEIGHT=1200, FPS_N = 30, FPS_D = 1;
             media::VideoFormat rgb24fmt(WIDTH, HEIGHT, FPS_N, FPS_D, media::FOURCC_RGB24);
             media::VideoFormat rgb32fmt(WIDTH, HEIGHT, FPS_N, FPS_D, media::FOURCC_RGB32);
             media::VideoFormat i420fmt(WIDTH, HEIGHT, FPS_N, FPS_D, media::FOURCC_I420);
+            media::VideoFormat yuy2fmt(WIDTH, HEIGHT, FPS_N, FPS_D, media::FOURCC_YUY2);
 
             std::vector<char> buff_rgb32(RGB32_BYTES(rgb32fmt.width, rgb32fmt.height));
             for (int y=0; y < rgb32fmt.height / 2; ++y)
@@ -423,6 +422,10 @@ namespace UnitTest
             media::VideoFrame rgb32frame(rgb32fmt, &buff_rgb32[0], buff_rgb32.size());
             rgb32frame.timestamp = 12;
 
+            os.str(L"");
+            os << L"RGB32 " << rgb32frame.width << L"x" << rgb32frame.height << L" is size: " << rgb32frame.frame_length << std::endl;
+            Logger::WriteMessage(os.str().c_str());
+
             // Convert RGB32 to RGB24
             auto mft_rgb32_to_rgb24 = MFTransform::Create(rgb32fmt, media::FOURCC_RGB24);
             Assert::IsTrue(mft_rgb32_to_rgb24.get());
@@ -430,12 +433,15 @@ namespace UnitTest
             //CComPtr<IMFSample> pSample = mft_rgb32_to_rgb24->RetrieveSample();
             ACE_Message_Block* mb = mft_rgb32_to_rgb24->RetrieveMBSample();
             Assert::IsTrue(mb != nullptr);
-            media::VideoFrame rgb24frame_ret(mb);
-            Assert::AreEqual(rgb32fmt.width, rgb24frame_ret.width);
-            Assert::AreEqual(rgb32fmt.height, rgb24frame_ret.height);
-            Assert::AreEqual(int(rgb24fmt.fourcc), int(rgb24frame_ret.fourcc));
-            WriteBitmap(L"myvideo_rgb24.bmp", rgb24frame_ret.GetVideoFormat(),
-                rgb24frame_ret.frame, rgb24frame_ret.frame_length);
+            media::VideoFrame rgb24frame(mb);
+            Assert::AreEqual(rgb32fmt.width, rgb24frame.width);
+            Assert::AreEqual(rgb32fmt.height, rgb24frame.height);
+            Assert::AreEqual(int(rgb24fmt.fourcc), int(rgb24frame.fourcc));
+            WriteBitmap(L"myvideo_rgb24.bmp", rgb24frame.GetVideoFormat(),
+                rgb24frame.frame, rgb24frame.frame_length);
+            os.str(L"");
+            os << L"RGB24 " << rgb24frame.width << L"x" << rgb24frame.height << L" is size: " << rgb24frame.frame_length << std::endl;
+            Logger::WriteMessage(os.str().c_str());
             mb->release();
 
             // Convert RGB32 to I420
@@ -448,6 +454,9 @@ namespace UnitTest
             Assert::AreEqual(rgb32fmt.width, i420frame.width);
             Assert::AreEqual(rgb32fmt.height, i420frame.height);
             Assert::IsTrue(i420frame.fourcc == media::FOURCC_I420);
+            os.str(L"");
+            os << L"I420 " << i420frame.width << L"x" << i420frame.height << L" is size: " << i420frame.frame_length << std::endl;
+            Logger::WriteMessage(os.str().c_str());
 
             // Convert I420 to RGB32
             auto mft_i420_to_rgb32 = MFTransform::Create(i420fmt, media::FOURCC_RGB32);
@@ -460,11 +469,40 @@ namespace UnitTest
             Assert::AreEqual(rgb32fmt.width, rgb32frame_ret.width);
             Assert::AreEqual(rgb32fmt.height, rgb32frame_ret.height);
             Assert::AreEqual(int(rgb32fmt.fourcc), int(rgb32frame_ret.fourcc));
-            WriteBitmap(L"myvideo_rgb32.bmp", rgb32frame_ret.GetVideoFormat(),
+            WriteBitmap(L"myvideo_i420_rgb32.bmp", rgb32frame_ret.GetVideoFormat(),
                         rgb32frame_ret.frame, rgb32frame_ret.frame_length);
             mb->release();
 
-            auto transform = MFTransform::Create(media::VideoFormat(640, 480, media::FOURCC_YUY2), media::FOURCC_I420);
+            // Convert RGB32 to YUY2
+            auto mft_rgb32_to_yuy2 = MFTransform::Create(rgb32fmt, media::FOURCC_YUY2);
+            Assert::IsTrue(mft_rgb32_to_yuy2.get());
+            Assert::IsTrue(mft_rgb32_to_yuy2->SubmitSample(rgb32frame));
+            mb = mft_rgb32_to_yuy2->RetrieveMBSample();
+            Assert::IsTrue(mb != nullptr);
+            media::VideoFrame yuy2frame(mb);
+            Assert::AreEqual(rgb32fmt.width, yuy2frame.width);
+            Assert::AreEqual(rgb32fmt.height, yuy2frame.height);
+            Assert::IsTrue(yuy2frame.fourcc == media::FOURCC_YUY2);
+            os.str(L"");
+            os << L"YUY2 " << yuy2frame.width << L"x" << yuy2frame.height << L" is size: " << yuy2frame.frame_length << std::endl;
+            Logger::WriteMessage(os.str().c_str());
+
+            // Convert YUY2 to RGB32
+            auto mft_yuy2_to_rgb32 = MFTransform::Create(yuy2fmt, media::FOURCC_RGB32);
+            Assert::IsTrue(mft_yuy2_to_rgb32.get());
+            Assert::IsTrue(mft_yuy2_to_rgb32->SubmitSample(yuy2frame));
+            mb->release();
+            mb = mft_yuy2_to_rgb32->RetrieveMBSample();
+            Assert::IsTrue(mb != nullptr);
+            rgb32frame_ret = media::VideoFrame(mb);
+            Assert::AreEqual(rgb32fmt.width, rgb32frame_ret.width);
+            Assert::AreEqual(rgb32fmt.height, rgb32frame_ret.height);
+            Assert::AreEqual(int(rgb32fmt.fourcc), int(rgb32frame_ret.fourcc));
+            WriteBitmap(L"myvideo_yuy2_rgb32.bmp", rgb32frame_ret.GetVideoFormat(),
+                rgb32frame_ret.frame, rgb32frame_ret.frame_length);
+            mb->release();
+
+            auto transform = MFTransform::Create(yuy2fmt, media::FOURCC_I420);
             Assert::IsTrue(transform.get());
             transform = MFTransform::Create(media::VideoFormat(640, 480, media::FOURCC_RGB24), media::FOURCC_RGB32);
             Assert::IsTrue(transform.get());
