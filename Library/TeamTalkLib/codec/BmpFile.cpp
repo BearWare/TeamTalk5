@@ -93,7 +93,6 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
         bmiHeader.biBitCount = 4 * 8;
         break;
     default :
-        assert(0);
         return false;
     }
     bmiHeader.biCompression = 0; //BI_RGB;

@@ -34,6 +34,7 @@
 media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);
 ACE_TString FourCCToString(media::FourCC fcc);
+media::VideoFormat ConvertMediaType(IMFMediaType* pInputType);
 
 typedef std::unique_ptr<class MFTransform> mftransform_t;
 class MFTransform

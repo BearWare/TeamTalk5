@@ -26,6 +26,7 @@
 #include <mfapi.h>
 #include <mfidl.h>
 #include <mfreadwrite.h>
+#include <mferror.h>
 #include <atlbase.h>
 
 #include <assert.h>
@@ -65,6 +66,27 @@ public:
 
         MYTRACE(ACE_TEXT("MFTransform %s -> %s, %dx%d@%u\n"), FourCCToString(ConvertSubType(tininfo.guidSubtype)).c_str(),
             FourCCToString(m_outputfmt.fourcc).c_str(), m_outputfmt.width, m_outputfmt.height, numerator / std::max(denominator, 1u));
+
+        //UINT32 c;
+        //hr = pInputType->GetCount(&c);
+        //assert(SUCCEEDED(hr));
+        //for (DWORD i=0;i<c;++i)
+        //{
+        //    GUID tmp;
+        //    PROPVARIANT prop;
+        //    hr = pInputType->GetItemByIndex(i, &tmp, &prop);
+        //    assert(SUCCEEDED(hr));
+        //    if (tmp == MF_MT_FRAME_SIZE)
+        //       tmp = tmp;
+        //    else if(tmp == MF_MT_FRAME_RATE)
+        //        tmp = tmp;
+        //    else if(tmp == MF_MT_MAJOR_TYPE)
+        //        tmp = tmp;
+        //    else if(tmp == MF_MT_SUBTYPE)
+        //        tmp = tmp;
+        //    else
+        //        tmp = tmp;
+        //}
 
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
         hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, 0, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
@@ -107,11 +129,6 @@ public:
         if(FAILED(hr))
             return;
 
-        UINT32 size = 0;
-        hr = MFCalculateImageSize(toutinfo.guidSubtype, w, h, &size);
-        if(FAILED(hr))
-            return;
-
         hr = MFSetAttributeSize(pOutputType, MF_MT_FRAME_SIZE, w, h);
         if(FAILED(hr))
             return;
@@ -123,18 +140,25 @@ public:
                 return;
         }
 
+        /*
         LONG stride = 0;
         hr = MFGetStrideForBitmapInfoHeader(toutinfo.guidSubtype.Data1, w, &stride);
         if(FAILED(hr))
-            return;
+        return;
 
         hr = pOutputType->SetUINT32(MF_MT_DEFAULT_STRIDE, stride);
+        if(FAILED(hr))
+            return;
+
+        UINT32 size = 0;
+        hr = MFCalculateImageSize(toutinfo.guidSubtype, w, h, &size);
         if(FAILED(hr))
             return;
 
         hr = pOutputType->SetUINT32(MF_MT_SAMPLE_SIZE, size);
         if(FAILED(hr))
             return;
+        */
 
         hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
         if(FAILED(hr))
@@ -239,11 +263,38 @@ public:
         MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
         mftOutputData.pSample = pOutSample;
         mftOutputData.dwStreamID = m_dwOutputID;
+        mftOutputData.dwStatus = 0;
+        mftOutputData.pEvents = nullptr;
 
         DWORD dwStatus;
         hr = m_pMFT->ProcessOutput(0, 1, &mftOutputData, &dwStatus);
-        if(FAILED(hr))
+
+        if (mftOutputData.pEvents)
+            mftOutputData.pEvents->Release();
+
+        switch (hr)
+        {
+        case E_UNEXPECTED:
+            assert(hr != E_UNEXPECTED);
             return CComPtr<IMFSample>();
+        case MF_E_INVALIDSTREAMNUMBER :
+            assert(hr != MF_E_INVALIDSTREAMNUMBER);
+            return CComPtr<IMFSample>();
+        case MF_E_TRANSFORM_NEED_MORE_INPUT :
+            //assert(hr != MF_E_TRANSFORM_NEED_MORE_INPUT);
+            return CComPtr<IMFSample>();
+        case MF_E_TRANSFORM_STREAM_CHANGE :
+            assert(hr != MF_E_TRANSFORM_STREAM_CHANGE);
+            return CComPtr<IMFSample>();
+        case MF_E_TRANSFORM_TYPE_NOT_SET :
+            assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
+            return CComPtr<IMFSample>();
+        case S_OK :
+            break;
+        default :
+            assert(hr == S_OK);
+            return CComPtr<IMFSample>();
+        }
 
         hr = m_pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_FLUSH, m_dwInputID);
         if(FAILED(hr))
@@ -268,11 +319,15 @@ public:
         if (!pSample.p)
             return nullptr;
 
+        ACE_UINT32 timestamp = 0;
         DWORD dwBufCount = 0;
         if(pSample)
         {
             hr = pSample->GetBufferCount(&dwBufCount);
             assert(SUCCEEDED(hr));
+            LONGLONG llSampleTime = 0;
+            if (SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
+                timestamp = (llSampleTime / 10000);
         }
 
         for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
@@ -289,7 +344,9 @@ public:
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                mb = VideoFrameToMsgBlock(media::VideoFrame(m_outputfmt, reinterpret_cast<char*>(pBuffer), dwCurLen));
+                media::VideoFrame frame(media::VideoFrame(m_outputfmt, reinterpret_cast<char*>(pBuffer), dwCurLen));
+                frame.timestamp = timestamp;
+                mb = VideoFrameToMsgBlock(frame);
             }
             hr = pMediaBuffer->Unlock();
             assert(SUCCEEDED(hr));
@@ -501,4 +558,28 @@ ACE_TString FourCCToString(media::FourCC fcc)
     default:
         return ACE_TEXT("NONE");
     }
+}
+
+media::VideoFormat ConvertMediaType(IMFMediaType* pInputType)
+{
+    HRESULT hr;
+    GUID major, subtype;
+    UINT32 w = 0, h = 0;
+    UINT32 numerator = 0, denominator = 0;
+
+    hr = pInputType->GetGUID(MF_MT_MAJOR_TYPE, &major);
+    if (FAILED(hr) || major != MFMediaType_Video)
+        return media::VideoFormat();
+
+    hr = pInputType->GetGUID(MF_MT_SUBTYPE, &subtype);
+    if (FAILED(hr))
+        return media::VideoFormat();
+
+    hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
+    if(FAILED(hr))
+        return media::VideoFormat();
+
+    hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
+    
+    return media::VideoFormat(w, h, numerator, denominator, ConvertSubType(subtype));
 }
