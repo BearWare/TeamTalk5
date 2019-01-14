@@ -49,27 +49,17 @@ namespace vidcap {
 
         bool StopVideoCapture(VideoCaptureListener* listener);
 
+        media::VideoFormat GetVideoCaptureFormat(VideoCaptureListener* listener);
 
-        bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                   media::VideoFormat& vidfmt);
+        bool RegisterVideoFormat(VideoCaptureListener* listener, media::FourCC fcc, bool enable = true);
+
     private:
-        struct CaptureSession
-        {
-            CaptureSession(const CaptureSession&) = delete;
-            CaptureSession(ACE_TString id, const media::VideoFormat& fmt)
-            : deviceid(id), vidfmt(fmt) {}
 
-            ACE_TString deviceid;
-            media::VideoFormat vidfmt;
-            std::shared_ptr<std::thread> capturethread;
-            ACE_Future<bool> opened;
-            bool stop = false;
-        };
+        void Run(struct CaptureSession* session, VideoCaptureListener* listener);
 
-        void Run(CaptureSession* session, VideoCaptureListener* listener);
-
+        typedef std::shared_ptr<struct CaptureSession> capturesession_t;
         std::mutex m_mutex;
-        std::map<VideoCaptureListener*, std::shared_ptr<CaptureSession> > m_sessions;
+        std::map<VideoCaptureListener*, capturesession_t> m_sessions;
     };
 
 }

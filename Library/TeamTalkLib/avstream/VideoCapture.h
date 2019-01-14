@@ -64,10 +64,7 @@ namespace vidcap {
 
         virtual bool StopVideoCapture(VideoCaptureListener* listener) = 0;
 
-
-        virtual bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                           media::VideoFormat& vidfmt) = 0;
-
+        virtual media::VideoFormat GetVideoCaptureFormat(VideoCaptureListener* listener) = 0;
     };
 }
 

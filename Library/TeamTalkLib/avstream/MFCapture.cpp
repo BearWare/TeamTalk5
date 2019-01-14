@@ -23,6 +23,7 @@
 
 #include "MFCapture.h"
 #include "MFTransform.h"
+#include <codec/BmpFile.h>
 
 #include <mfapi.h>
 #include <mfidl.h>
@@ -35,6 +36,8 @@ using namespace vidcap;
 
 MFCapture::~MFCapture()
 {
+    MYTRACE(ACE_TEXT("~MFCapture()\n"));
+
     std::lock_guard<std::mutex> lck(m_mutex);
     while (m_sessions.size())
     {
@@ -85,37 +88,12 @@ vidcap_devices_t MFCapture::GetDevices()
         while(SUCCEEDED(pReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
                         dwMediaTypeIndex, &pInputType)))
         {
-            media::VideoFormat fmt;
-
-            UINT32 w = 0, h = 0;
-            hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
-            if (SUCCEEDED(hr))
+            media::VideoFormat fmt = ConvertMediaType(pInputType);
+            if(fmt.fourcc != media::FOURCC_NONE)
             {
-                fmt.width = w;
-                fmt.height = h;
+                dev.vidcapformats.push_back(fmt);
             }
 
-            UINT32 numerator = 0, denominator = 0;
-            hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
-            if (SUCCEEDED(hr))
-            {
-                fmt.fps_numerator = numerator;
-                fmt.fps_denominator = denominator;
-            }
-
-            UINT32 samplesize;
-            hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
-
-            GUID native_subtype = { 0 };
-            hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
-            if (SUCCEEDED(hr))
-            {
-                fmt.fourcc = ConvertSubType(native_subtype);
-                if(fmt.fourcc != media::FOURCC_NONE)
-                {
-                    dev.vidcapformats.push_back(fmt);
-                }
-            }
             dwMediaTypeIndex++;
             pInputType.Release();
         }
@@ -139,6 +117,44 @@ vidcap_devices_t MFCapture::GetDevices()
     return devs;
 }
 
+namespace vidcap {
+
+    struct CaptureSession
+    {
+        ACE_TString deviceid;
+        media::VideoFormat vidfmt;
+        CComPtr<IMFMediaType> pInputType;
+
+        std::shared_ptr<std::thread> capturethread;
+        ACE_Future<bool> opened;
+        bool stop = false;
+
+        std::map<media::FourCC, mftransform_t> transforms;
+        std::mutex transforms_mtx;
+
+        CaptureSession(const CaptureSession&) = delete;
+        CaptureSession(ACE_TString id, const media::VideoFormat& fmt)
+            : deviceid(id), vidfmt(fmt) {}
+
+        bool CreateTransform(media::FourCC fcc)
+        {
+            std::lock_guard<std::mutex> lck(transforms_mtx);
+            assert(pInputType.p);
+            transforms[fcc] = MFTransform::Create(pInputType, ConvertFourCC(fcc));
+            if (transforms[fcc] != nullptr)
+                return true;
+            transforms.erase(fcc);
+            return false;
+        }
+        void RemoveTransform(media::FourCC fcc)
+        {
+            std::lock_guard<std::mutex> lck(transforms_mtx);
+            transforms.erase(fcc);
+        }
+    };
+
+}
+
 bool MFCapture::StartVideoCapture(const ACE_TString& deviceid,
                                   const media::VideoFormat& vidfmt,
                                   VideoCaptureListener* listener)
@@ -151,19 +167,23 @@ bool MFCapture::StartVideoCapture(const ACE_TString& deviceid,
 
     std::shared_ptr<CaptureSession> session(new CaptureSession(deviceid, vidfmt));
 
+
+    {
+        std::lock_guard<std::mutex> m(m_mutex);
+        m_sessions[listener] = session;
+    }
+
+
     session->capturethread.reset(new std::thread(&MFCapture::Run, this, session.get(), listener));
 
     bool ret = false;
     session->opened.get(ret);
 
-    if (ret)
-    {
-        std::lock_guard<std::mutex> m(m_mutex);
-        m_sessions[listener] = session;
-    }
-    else
+    if (!ret)
     {
         session->capturethread->join();
+
+        m_sessions.erase(listener);
     }
     return ret;
 }
@@ -177,22 +197,40 @@ bool MFCapture::StopVideoCapture(VideoCaptureListener* listener)
             return false;
 
         session = m_sessions[listener];
-        m_sessions.erase(listener);
+        session->stop = true;
     }
     
-    session->stop = true;
-    session->capturethread->join();
+    {
+        session->capturethread->join();
+
+        std::lock_guard<std::mutex> m(m_mutex);
+        m_sessions.erase(listener);
+    }
 
     return true;
 }
 
-bool MFCapture::GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                      media::VideoFormat& vidfmt)
+media::VideoFormat MFCapture::GetVideoCaptureFormat(VideoCaptureListener* listener)
 {
     std::lock_guard<std::mutex> m(m_mutex);
     if(m_sessions.find(listener) != m_sessions.end())
+       return m_sessions[listener]->vidfmt;
+    return media::VideoFormat();
+}
+
+bool MFCapture::RegisterVideoFormat(VideoCaptureListener* listener, media::FourCC fcc, bool enable/* = true*/)
+{
+    std::lock_guard<std::mutex> m(m_mutex);
+
+    auto is = m_sessions.find(listener);
+    if(is == m_sessions.end())
         return false;
-    vidfmt = m_sessions[listener]->vidfmt;
+
+    if (enable)
+        return is->second->CreateTransform(fcc);
+    else
+        is->second->RemoveTransform(fcc);
+    
     return true;
 }
 
@@ -248,23 +286,13 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     // Get native media type of device
     while(SUCCEEDED(pReader->GetNativeMediaType(dwVideoStreamIndex, dwMediaTypeIndex, &pInputType)))
     {
-        UINT32 w = 0, h = 0;
-        hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
-        UINT32 numerator = 0, denominator = 0;
-        hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
-        UINT32 samplesize;
-        hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
-        GUID inputSubType = { 0 };
-        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &inputSubType);
-        if (SUCCEEDED(hr))
+        media::VideoFormat fmt = ConvertMediaType(pInputType);
+        if (session->vidfmt == fmt)
         {
-            if (w == session->vidfmt.width && h == session->vidfmt.height &&
-                session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
-                session->vidfmt.fourcc == ConvertSubType(inputSubType))
-            {
-                break;
-            }
+            session->pInputType = pInputType;
+            break;
         }
+
         dwMediaTypeIndex++;
         pInputType.Release();
     }
@@ -312,17 +340,31 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
-                    dwCurLen, session->vidfmt.width, session->vidfmt.height,
-                    session->vidfmt.fourcc, false);
+                media::VideoFrame media_frame(session->vidfmt, reinterpret_cast<char*>(pBuffer),
+                                              dwCurLen);
                 media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
                 ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                ACE_Time_Value tv;
                 if (!listener->OnVideoCaptureCallback(media_frame, mb))
                     mb->release();
             }
             hr = pMediaBuffer->Unlock();
             assert(SUCCEEDED(hr));
+        }
+
+        std::lock_guard<std::mutex> lck(session->transforms_mtx);
+        for (auto& transform : session->transforms)
+        {
+            if(dwBufCount && transform.second->SubmitSample(pSample))
+            {
+                ACE_Message_Block* mb = transform.second->RetrieveMBSample();
+                if(mb)
+                {
+                    media::VideoFrame media_frame(mb);
+                    media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
+                    if(!listener->OnVideoCaptureCallback(media_frame, mb))
+                        mb->release();
+                }
+            }
         }
     }
 

@@ -124,14 +124,6 @@ ClientNode::~ClientNode()
 
     AUDIOCONTAINER::instance()->ReleaseAllAudio(m_soundprop.soundgroupid);
     SOUNDSYSTEM->RemoveSoundGroup(m_soundprop.soundgroupid);
-    MYTRACE_COND(m_user_vidcapframes.size(), 
-        ACE_TEXT("Not all video frames has been extracted\n"));
-
-    while(m_user_vidcapframes.size())
-    {
-        m_user_vidcapframes.begin()->second->release();
-        m_user_vidcapframes.erase(m_user_vidcapframes.begin());
-    }
 
     MYTRACE( (ACE_TEXT("~ClientNode\n")) );
 }
@@ -3167,8 +3159,8 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     if(m_flags & CLIENT_TX_VIDEOCAPTURE)
         return false;
 
-    VideoFormat cap_format;
-    if(!VIDCAP->GetVideoCaptureFormat(this, cap_format))
+    VideoFormat cap_format = VIDCAP->GetVideoCaptureFormat(this);
+    if(!cap_format.IsValid())
         return false;
 
     m_vidcap_thread.StopEncoder();

@@ -148,6 +148,11 @@ namespace media
             stream_id = frm->stream_id;
             timestamp = frm->timestamp;
         }
+
+        VideoFormat GetVideoFormat() const 
+        {
+            return VideoFormat(width, height, fourcc);
+        }
     };
 
 }

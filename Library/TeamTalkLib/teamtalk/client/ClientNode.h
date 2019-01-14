@@ -642,8 +642,6 @@ namespace teamtalk {
         //encode video from video capture
         VideoThread m_vidcap_thread;
         ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local video frames
-        typedef std::map<int, ACE_Message_Block*> user_video_frames_t;
-        user_video_frames_t m_user_vidcapframes; //cached video frames
         uint8_t m_vidcap_stream_id; //0 means not used
 
         //media streamer
