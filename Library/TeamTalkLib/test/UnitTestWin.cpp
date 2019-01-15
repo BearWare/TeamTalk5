@@ -361,13 +361,23 @@ namespace UnitTest
 
             class MyListener : public vidcap::VideoCaptureListener
             {
+                media::VideoFormat& fmt;
                 VpxEncoder& encoder;
                 VpxDecoder& decoder;
-
+#if defined(ENABLE_MEDIAFOUNDATION)
+                mftransform_t rgb32_transform;
+#endif
                 int encoded = 0, decoded = 0;
 
             public:
-                MyListener (VpxEncoder& enc, VpxDecoder& dec) : encoder(enc), decoder(dec) {}
+                MyListener (media::VideoFormat& format, VpxEncoder& enc, VpxDecoder& dec) : fmt(format), encoder(enc), decoder(dec)
+                {
+#if defined(ENABLE_MEDIAFOUNDATION)
+                    rgb32_transform = MFTransform::Create(media::VideoFormat(format.width, format.height, media::FOURCC_I420), media::FOURCC_RGB32);
+                    Assert::IsTrue(rgb32_transform.get() != nullptr);
+#endif
+                }
+
                 bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                     ACE_Message_Block* mb_video)
                 {
@@ -379,12 +389,12 @@ namespace UnitTest
                     switch (video_frame.fourcc)
                     {
                     case media::FOURCC_I420 :
-                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, VPX_IMG_FMT_I420, 1, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
-                        encoded += 1;
+                        //Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, VPX_IMG_FMT_I420, 1, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
+                        //encoded += 1;
                         break;
                     case media::FOURCC_RGB32 :
-                        //Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.EncodeRGB32(video_frame.frame, video_frame.frame_length, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
-                        //encoded += 1;
+                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.EncodeRGB32(video_frame.frame, video_frame.frame_length, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
+                        encoded += 1;
                         break;
                     case media::FOURCC_NV12 :
                         //Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, VPX_IMG_FMT_NV1, 1, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
@@ -399,19 +409,44 @@ namespace UnitTest
 
                         while(enc_data = encoder.GetEncodedData(len))
                         {
+                            static int dec_img = 0;
                             os.str(L"");
                             Assert::AreEqual(int(VPX_CODEC_OK), decoder.PushDecoder(enc_data, len));
-                            std::vector<char> rgb32_frame(RGB32_BYTES(video_frame.width, video_frame.height));
-                            while(decoder.GetRGB32Image(&rgb32_frame[0], rgb32_frame.size()))
-                            {
-                                decoded += 1;
-                                static int dec_img = 0;
-                                os << L"decode_";
-                                os.fill('0');
-                                os.width(20);
-                                os << ++dec_img << L".bmp";
-                                WriteBitmap(os.str().c_str(), media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32), &rgb32_frame[0], rgb32_frame.size());
-                            }
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+                                media::VideoFrame i420_frame;
+                                do
+                                {
+                                    i420_frame = decoder.GetImage();
+                                    if (i420_frame.IsValid())
+                                    {
+                                        Assert::IsTrue(rgb32_transform->SubmitSample(i420_frame));
+                                        ACE_Message_Block* mb = rgb32_transform->RetrieveMBSample();
+                                        Assert::IsTrue(mb != nullptr);
+
+                                        media::VideoFrame rgb32_frame(mb);
+                                        decoded += 1;
+                                        os << L"decode_i420_";
+                                        os.fill('0');
+                                        os.width(20);
+                                        os << ++dec_img << L".bmp";
+                                        WriteBitmap(os.str().c_str(), rgb32_frame.GetVideoFormat(), rgb32_frame.frame, rgb32_frame.frame_length);
+                                        mb->release();
+                                    }
+                                }
+                                while(i420_frame.IsValid());
+#else
+                                std::vector<char> rgb32_frame(RGB32_BYTES(video_frame.width, video_frame.height));
+                                while(decoder.GetRGB32Image(&rgb32_frame[0], rgb32_frame.size()))
+                                {
+                                    decoded += 1;
+                                    os << L"decode_";
+                                    os.fill('0');
+                                    os.width(20);
+                                    os << ++dec_img << L".bmp";
+                                    WriteBitmap(os.str().c_str(), media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32), &rgb32_frame[0], rgb32_frame.size());
+                                }
+#endif
                         }
                         Assert::AreEqual(encoded, decoded);
                     }
@@ -419,7 +454,7 @@ namespace UnitTest
                     return false;
                 }
 
-            } listener(encoder, decoder);
+            } listener(fmt, encoder, decoder);
 
             Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024, fmt.fps_numerator/fmt.fps_denominator));
             Assert::IsTrue(decoder.Open(fmt.width, fmt.height));

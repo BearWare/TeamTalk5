@@ -123,6 +123,7 @@ namespace media
         bool key_frame;
         int stream_id;
         ACE_UINT32 timestamp;
+
         VideoFrame(char* frm_data, int frm_len,
                    int w, int h, FourCC pic_type, bool top_down_bmp)
         : frame(frm_data), frame_length(frm_len)
@@ -133,8 +134,12 @@ namespace media
         {
             timestamp = GETTIMESTAMP();
         }
+
         VideoFrame(const VideoFormat& fmt, char* buf, int len)
         : VideoFrame(buf, len, fmt.width, fmt.height, fmt.fourcc, false) {}
+
+        VideoFrame() : VideoFrame(nullptr, 0, 0, 0, FOURCC_NONE, false) {}
+
         VideoFrame(ACE_Message_Block* mb)
         {
             VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
@@ -148,6 +153,8 @@ namespace media
             stream_id = frm->stream_id;
             timestamp = frm->timestamp;
         }
+
+        bool IsValid() const { return frame && frame_length && GetVideoFormat().IsValid(); }
 
         VideoFormat GetVideoFormat() const 
         {

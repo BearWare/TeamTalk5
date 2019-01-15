@@ -326,7 +326,7 @@ public:
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                media::VideoFrame frame(media::VideoFrame(m_outputfmt, reinterpret_cast<char*>(pBuffer), dwCurLen));
+                media::VideoFrame frame(m_outputfmt, reinterpret_cast<char*>(pBuffer), dwCurLen);
                 frame.timestamp = timestamp;
                 mb = VideoFrameToMsgBlock(frame);
             }
