@@ -13,6 +13,7 @@
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
+#include <codec/VpxDecoder.h>
 
 #include <myace/MyACE.h>
 
@@ -325,34 +326,9 @@ namespace UnitTest
         TEST_METHOD(TestVideoEncode)
         {
             VpxEncoder encoder;
+            VpxDecoder decoder;
 
-            class MyListener : public vidcap::VideoCaptureListener
-            {
-                VpxEncoder& encoder;
-            public:
-                MyListener (VpxEncoder& enc) : encoder(enc) {}
-                bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
-                    ACE_Message_Block* mb_video)
-                {
-                    std::wostringstream os;
-                    os << L"Got video frame " << video_frame.width << L"x" << video_frame.height << std::endl;
-
-                    Logger::WriteMessage(os.str().c_str());
-
-                    switch (video_frame.fourcc)
-                    {
-                    case media::FOURCC_I420 :
-                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, video_frame.frame_length, VPX_IMG_FMT_I420, 0, VPX_DL_BEST_QUALITY)));
-                        break;
-                    case media::FOURCC_RGB32 :
-                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, video_frame.frame_length, VPX_IMG_FMT_ARGB, 0, VPX_DL_BEST_QUALITY)));
-                        break;
-                    }
-
-                    return false;
-                }
-
-            } listener(encoder);
+            media::VideoFormat fmt(640, 480, 30, 1, media::FOURCC_I420);
 
             auto devs = GetVideoCapture()->GetDevices();
             std::wostringstream os;
@@ -381,16 +357,84 @@ namespace UnitTest
                     Logger::WriteMessage(os.str().c_str());
                 }
             }
-            media::VideoFormat fmt(640, 480, 30, 1, media::FOURCC_I420);
+            Assert::IsTrue(devs.size());
 
-            Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024*1024, fmt.fps_numerator/fmt.fps_denominator));
-            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(L"0", fmt, &listener));
+            class MyListener : public vidcap::VideoCaptureListener
+            {
+                VpxEncoder& encoder;
+                VpxDecoder& decoder;
+
+                int encoded = 0, decoded = 0;
+
+            public:
+                MyListener (VpxEncoder& enc, VpxDecoder& dec) : encoder(enc), decoder(dec) {}
+                bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
+                    ACE_Message_Block* mb_video)
+                {
+                    std::wostringstream os;
+                    os << L"Got video frame " << video_frame.width << L"x" << video_frame.height << std::endl;
+
+                    Logger::WriteMessage(os.str().c_str());
+
+                    switch (video_frame.fourcc)
+                    {
+                    case media::FOURCC_I420 :
+                        Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, VPX_IMG_FMT_I420, 1, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
+                        encoded += 1;
+                        break;
+                    case media::FOURCC_RGB32 :
+                        //Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.EncodeRGB32(video_frame.frame, video_frame.frame_length, !video_frame.top_down, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
+                        //encoded += 1;
+                        break;
+                    case media::FOURCC_NV12 :
+                        //Assert::AreEqual(int(VPX_CODEC_OK), int(encoder.Encode(video_frame.frame, VPX_IMG_FMT_NV1, 1, video_frame.timestamp, VPX_DL_BEST_QUALITY)));
+                        break;
+                    }
+
+
+                    if (encoded != decoded)
+                    {
+                        const char* enc_data;
+                        int len;
+
+                        while(enc_data = encoder.GetEncodedData(len))
+                        {
+                            os.str(L"");
+                            Assert::AreEqual(int(VPX_CODEC_OK), decoder.PushDecoder(enc_data, len));
+                            std::vector<char> rgb32_frame(RGB32_BYTES(video_frame.width, video_frame.height));
+                            while(decoder.GetRGB32Image(&rgb32_frame[0], rgb32_frame.size()))
+                            {
+                                decoded += 1;
+                                static int dec_img = 0;
+                                os << L"decode_";
+                                os.fill('0');
+                                os.width(20);
+                                os << ++dec_img << L".bmp";
+                                WriteBitmap(os.str().c_str(), media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32), &rgb32_frame[0], rgb32_frame.size());
+                            }
+                        }
+                        Assert::AreEqual(encoded, decoded);
+                    }
+
+                    return false;
+                }
+
+            } listener(encoder, decoder);
+
+            Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024, fmt.fps_numerator/fmt.fps_denominator));
+            Assert::IsTrue(decoder.Open(fmt.width, fmt.height));
+
+            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(devs[0].deviceid.c_str(), fmt, &listener));
+
+            Assert::IsTrue(GetVideoCapture()->RegisterVideoFormat(&listener, media::FOURCC_RGB32));
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
             std::condition_variable cv;
             cv.wait_for(lck, std::chrono::seconds(10));
-            os << L"foo";
+            //cv.wait(lck);
+
+            Assert::IsTrue(GetVideoCapture()->StopVideoCapture(&listener));
         }
 
 #if defined(ENABLE_MEDIAFOUNDATION)

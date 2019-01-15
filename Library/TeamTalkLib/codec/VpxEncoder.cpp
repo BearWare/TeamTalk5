@@ -79,15 +79,27 @@ void VpxEncoder::Close()
     m_frame_index = 0;
 }
 
-vpx_codec_err_t VpxEncoder::Encode(const char* imgbuf, int imglen, vpx_img_fmt fmt,
-                                   unsigned long tm, int enc_deadline)
+vpx_codec_err_t VpxEncoder::Encode(const char* imgbuf, vpx_img_fmt fmt, int stride,
+                                   bool bottom_up, unsigned long tm, int enc_deadline)
 {
     vpx_codec_err_t ret;
     vpx_image_t* img;
 
     assert(m_codec.iface);
-    img = vpx_img_alloc(NULL, fmt, m_cfg.g_w, m_cfg.g_h, 1);
-    assert(img);
+
+    /* VPX supported formats 
+    VPX_IMG_FMT_YV12
+    VPX_IMG_FMT_I420
+    VPX_IMG_FMT_VPXI420
+    VPX_IMG_FMT_VPXYV12
+    */
+
+    img = vpx_img_wrap(0, fmt, m_cfg.g_w, m_cfg.g_h, stride, reinterpret_cast<unsigned char*>(const_cast<char*>(imgbuf)));
+
+    if (!bottom_up && img)
+    {
+        vpx_img_flip(img);
+    }
 
     ret = vpx_codec_encode(&m_codec, img, m_frame_index++, 1 /*duration*/,
         0, enc_deadline);
@@ -140,7 +152,9 @@ const char* VpxEncoder::GetEncodedData(int& len)
         }
     }
     else
+    {
         m_iter = NULL;
+    }
 
     return NULL;
 }

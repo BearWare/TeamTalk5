@@ -65,6 +65,8 @@ namespace vidcap {
         virtual bool StopVideoCapture(VideoCaptureListener* listener) = 0;
 
         virtual media::VideoFormat GetVideoCaptureFormat(VideoCaptureListener* listener) = 0;
+
+        virtual bool RegisterVideoFormat(VideoCaptureListener* listener, media::FourCC fcc, bool enable = true) { return false; }
     };
 }
 

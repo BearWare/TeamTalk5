@@ -32,6 +32,8 @@
 #include <assert.h>
 #include <complex>
 
+#define MFT_INIT_FLAGS (MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY)
+
 class MFTransformImpl : public MFTransform
 {
     IMFActivate** m_pMFTs;
@@ -67,33 +69,8 @@ public:
         MYTRACE(ACE_TEXT("MFTransform %s -> %s, %dx%d@%u\n"), FourCCToString(ConvertSubType(tininfo.guidSubtype)).c_str(),
             FourCCToString(m_outputfmt.fourcc).c_str(), m_outputfmt.width, m_outputfmt.height, numerator / std::max(denominator, 1u));
 
-        //UINT32 c;
-        //hr = pInputType->GetCount(&c);
-        //assert(SUCCEEDED(hr));
-        //for (DWORD i=0;i<c;++i)
-        //{
-        //    GUID tmp;
-        //    PROPVARIANT prop;
-        //    hr = pInputType->GetItemByIndex(i, &tmp, &prop);
-        //    assert(SUCCEEDED(hr));
-        //    if (tmp == MF_MT_FRAME_SIZE)
-        //       tmp = tmp;
-        //    else if(tmp == MF_MT_FRAME_RATE)
-        //        tmp = tmp;
-        //    else if(tmp == MF_MT_MAJOR_TYPE)
-        //        tmp = tmp;
-        //    else if(tmp == MF_MT_SUBTYPE)
-        //        tmp = tmp;
-        //    else
-        //        tmp = tmp;
-        //}
-
-        UINT32 uFlags = 0;
-        uFlags |= MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT
-                  | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY;
-
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
-        hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, uFlags, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
+        hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, MFT_INIT_FLAGS, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
         if(FAILED(hr) || m_cMFTs == 0)
             return;
 
@@ -167,6 +144,7 @@ public:
         hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
         if(FAILED(hr))
             return;
+
 
         m_ready = true;
     }
@@ -380,7 +358,7 @@ mftransform_t MFTransform::Create(IMFMediaType* pInputType, const GUID& dest_vid
 
         IMFActivate** pMFTs;
         UINT32 cMFTs = 0;
-        hr = MFTEnumEx(MFT_CATEGORY_VIDEO_DECODER, 0, &tininfo, NULL, &pMFTs, &cMFTs);
+        hr = MFTEnumEx(MFT_CATEGORY_VIDEO_DECODER, MFT_INIT_FLAGS, &tininfo, NULL, &pMFTs, &cMFTs);
 
         for (UINT32 i = 0; i < cMFTs; ++i)
         {

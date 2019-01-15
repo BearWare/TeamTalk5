@@ -304,6 +304,18 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     if(FAILED(hr))
         goto fail;
 
+    //{
+    //    GUID subType;
+    //    UINT32 uStride = 0;
+    //    LONG lStride = 0;
+    //    hr = pInputType->GetUINT32(MF_MT_DEFAULT_STRIDE, &uStride);
+    //    lStride = uStride;
+    //    
+    //    hr = pInputType->GetGUID(MF_MT_SUBTYPE, &subType);
+    //    hr = MFGetStrideForBitmapInfoHeader(subType.Data1, session->vidfmt.width, &lStride);
+    //    hr = hr;
+    //}
+
     session->opened.set(true);
 
     bool error = false;
