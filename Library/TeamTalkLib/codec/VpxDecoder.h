@@ -28,11 +28,14 @@
 #define VPX_CODEC_DISABLE_COMPAT 1
 #endif
 
+#include <codec/MediaUtil.h>
+
 #include <vpx/vpx_decoder.h>
 
 class VpxDecoder
 {
 public:
+    VpxDecoder(const VpxDecoder&) = delete;
     VpxDecoder();
     ~VpxDecoder();
 
@@ -41,8 +44,11 @@ public:
 
     int PushDecoder(const char* frame_data, int frame_len);
     bool GetRGB32Image(char* outbuf, int buflen);
+    media::VideoFrame GetImage();
     const vpx_codec_dec_cfg_t& GetConfig() const { return m_cfg; }
+
 private:
+    vpx_image_t* GetVpxImage();
     vpx_codec_ctx_t m_codec;
     vpx_codec_dec_cfg_t m_cfg;
     vpx_codec_iter_t m_iter;

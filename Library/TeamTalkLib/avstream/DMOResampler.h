@@ -40,6 +40,7 @@ enum SampleFormat
 class DMOResampler : public AudioResampler
 {
 public:
+    DMOResampler(const DMOResampler&) = delete;
     DMOResampler();
     virtual ~DMOResampler();
 

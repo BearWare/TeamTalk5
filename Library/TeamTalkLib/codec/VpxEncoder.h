@@ -33,6 +33,7 @@
 class VpxEncoder
 {
 public:
+    VpxEncoder(const VpxEncoder&) = delete;
     VpxEncoder();
     ~VpxEncoder();
 
