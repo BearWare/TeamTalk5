@@ -45,25 +45,23 @@ namespace vidcap {
 
         bool StartVideoCapture(const ACE_TString& deviceid,
                                const media::VideoFormat& vidfmt,
-                               VideoCaptureListener* listener);
+                               VideoCaptureCallback callback);
 
-        bool StopVideoCapture(VideoCaptureListener* listener);
+        void StopVideoCapture();
 
-        media::VideoFormat GetVideoCaptureFormat(VideoCaptureListener* listener);
+        media::VideoFormat GetVideoCaptureFormat();
 
-        bool RegisterVideoFormat(VideoCaptureListener* listener, media::FourCC fcc, bool enable = true);
+        bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
+        void UnregisterVideoFormat(media::FourCC fcc);
 
     private:
 
-        void Run(struct CaptureSession* session, VideoCaptureListener* listener);
+        void Run(struct CaptureSession* session, ACE_TString deviceid);
 
         typedef std::shared_ptr<struct CaptureSession> capturesession_t;
-        std::mutex m_mutex;
-        std::map<VideoCaptureListener*, capturesession_t> m_sessions;
+        capturesession_t m_session;
     };
 
 }
-
-typedef ACE_Singleton<vidcap::MFCapture, ACE_Null_Mutex> MFCaptureSingleton;
 
 #endif

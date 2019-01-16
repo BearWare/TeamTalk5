@@ -43,6 +43,7 @@ using namespace std;
 using namespace media;
 using namespace soundsystem;
 using namespace vidcap;
+using namespace std::placeholders;
 
 #define GEN_NEXT_ID(id) (++id==0?++id:id)
 
@@ -1463,21 +1464,42 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     QueueAudioFrame(audframe);
 }
 
-bool ClientNode::OnVideoCaptureCallback(media::VideoFrame& video_frame,
-                                        ACE_Message_Block* mb_video)
+bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+                                           ACE_Message_Block* mb_video)
 {
-    bool force_enc = (m_flags & CLIENT_TX_VIDEOCAPTURE);
+    ACE_Time_Value tm_zero;
+    if (m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
+    {
+        //make room by deleting oldest video frame
+        ACE_Message_Block* mb;
+        if(m_local_vidcapframes.dequeue(mb, &tm_zero) >= 0)
+            mb->release();
+        if(m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
+            return false;
+    }
+
+    m_listener->OnUserVideoCaptureFrame(0, m_vidcap_stream_id);
+
+    return true; //took ownership of 'org_frame'
+}
+
+bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+                                            ACE_Message_Block* mb_video)
+{
+    // FOURCC of 'video_frame' must be RGB32 or I420
+
+    if ((m_flags & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED)
+        return false;
+
     if(mb_video)
     {
-        m_vidcap_thread.QueueFrame(mb_video, force_enc);
+        m_vidcap_thread.QueueFrame(mb_video);
         return true;
     }
     else
     {
-        m_vidcap_thread.QueueFrame(video_frame, force_enc);
+        m_vidcap_thread.QueueFrame(video_frame);
     }
-    //TODO: store in 'm_local_vidcapframes' but ensure its RGB32
-
     return false;
 }
 
@@ -1497,7 +1519,7 @@ bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
 //     if((x++ % 200) == 0)
 //         WriteBitmap(i2string(x) + ACE_TString(".bmp"), video_frame.width, video_frame.height, 4,
 //                     video_frame.frame, video_frame.frame_length);
-    m_videofile_thread->QueueFrame(mb_video, true);
+    m_videofile_thread->QueueFrame(mb_video);
 
     return true; //m_video_thread always takes ownership
 }
@@ -3121,13 +3143,6 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     if(m_flags & CLIENT_VIDEOCAPTURE_READY)
         return false;
 
-    //start capture thread which will convert image formats
-    VideoCodec codec;
-    codec.codec = CODEC_NO_CODEC;
-    if(!m_vidcap_thread.StartEncoder(this, cap_format, codec,
-                                     VIDEOCAPTURE_ENCODER_FRAMES_MAX))
-        return false;
-
     //set max buffers for local video frames
     int bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= VIDEOCAPTURE_LOCAL_FRAMES_MAX;
@@ -3135,8 +3150,31 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     m_local_vidcapframes.low_water_mark(bytes);
     m_local_vidcapframes.activate();
 
-    if(!VIDCAP->StartVideoCapture(src_id, cap_format, this))
+    m_vidcap = vidcap::VideoCapture::Create();
+
+    if(!m_vidcap->StartVideoCapture(src_id, cap_format, std::bind([] (media::VideoFrame& video_frame,
+                                                                      ACE_Message_Block* mb_video) { return false; }, _1, _2)))
         return false;
+
+    m_vidcap->UnregisterVideoFormat(cap_format.fourcc);
+
+    if (m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureEncodeCallback, this, _1, _2), media::FOURCC_I420))
+    {
+        MYTRACE(ACE_TEXT("Video capture sends I420 directly to encoder\n"));
+        if (m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureRGB32Callback, this, _1, _2), media::FOURCC_RGB32))
+        {
+            MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to 'm_local_vidcapframes'\n"));
+        }
+    }
+    else if(m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureEncodeCallback, this, _1, _2), media::FOURCC_RGB32))
+    {
+        MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to encoder. Encoder forwards to 'm_local_vidcapframes'\n"));
+    }
+    else
+    {
+        m_vidcap.reset();
+        return false;
+    }
 
     m_flags |= CLIENT_VIDEOCAPTURE_READY;
 
@@ -3146,7 +3184,8 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
 void ClientNode::CloseVideoCapture()
 {
     ASSERT_REACTOR_LOCKED(this);
-    VIDCAP->StopVideoCapture(this);
+    m_vidcap.reset();
+
     CloseVideoCaptureSession();
 
     m_flags &= ~CLIENT_VIDEOCAPTURE_READY;
@@ -3159,7 +3198,10 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     if(m_flags & CLIENT_TX_VIDEOCAPTURE)
         return false;
 
-    VideoFormat cap_format = VIDCAP->GetVideoCaptureFormat(this);
+    if (!m_vidcap.get())
+        return false;
+
+    VideoFormat cap_format = m_vidcap->GetVideoCaptureFormat();
     if(!cap_format.IsValid())
         return false;
 
@@ -3267,21 +3309,11 @@ bool ClientNode::EncodedVideoFrame(const VideoThread* video_encoder,
         ACE_Time_Value tm_zero;
         if(org_frame)
         {
-            VideoFrame* vid_frm = reinterpret_cast<VideoFrame*>(org_frame->rd_ptr());
-            vid_frm->stream_id = m_vidcap_stream_id;
-            if(m_local_vidcapframes.enqueue(org_frame, &tm_zero)<0)
-            {
-                //make room by deleting oldest video frame
-                ACE_Message_Block* mb;
-                if(m_local_vidcapframes.dequeue(mb, &tm_zero)>=0)
-                    mb->release();
-                if(m_local_vidcapframes.enqueue(org_frame, &tm_zero) < 0)
-                    return false;
-            }
+            VideoFrame vid_frm(org_frame);
+            vid_frm.stream_id = m_vidcap_stream_id;
 
-            m_listener->OnUserVideoCaptureFrame(0, m_vidcap_stream_id);
-
-            return true; //took ownership of 'org_frame'
+            if (vid_frm.fourcc == media::FOURCC_RGB32)
+                return VideoCaptureRGB32Callback(vid_frm, org_frame);
         }
 
         return false; //ignored 'org_frame'

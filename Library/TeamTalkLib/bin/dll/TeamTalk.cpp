@@ -814,7 +814,7 @@ TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstanc
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInstance,
-                                                      IN const VideoCodec* lpVideoCodec)
+                                                        IN const VideoCodec* lpVideoCodec)
 {
     ClientNode* pClientNode;
     GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
@@ -839,12 +839,14 @@ TEAMTALKDLL_API TTBOOL TT_StopVideoCaptureTransmission(IN TTInstance* lpTTInstan
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVideoDevices,
-                                               IN OUT INT32* lpnHowMany)
+                                                 IN OUT INT32* lpnHowMany)
 {
     if(!lpnHowMany)
         return FALSE;
 
-    vidcap_devices_t devs = VIDCAP->GetDevices();
+    auto videocapture = VideoCapture::Create();
+
+    vidcap_devices_t devs = videocapture->GetDevices();
     if(!lpVideoDevices)
     {
         *lpnHowMany = (INT32)devs.size();

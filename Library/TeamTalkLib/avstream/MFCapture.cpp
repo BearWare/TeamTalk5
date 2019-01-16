@@ -38,14 +38,7 @@ MFCapture::~MFCapture()
 {
     MYTRACE(ACE_TEXT("~MFCapture()\n"));
 
-    std::lock_guard<std::mutex> lck(m_mutex);
-    while (m_sessions.size())
-    {
-        auto h = m_sessions.begin();
-        m_mutex.unlock();
-        StopVideoCapture(h->first);
-        m_mutex.lock();
-    }
+    StopVideoCapture();
 }
 
 vidcap_devices_t MFCapture::GetDevices()
@@ -121,35 +114,74 @@ namespace vidcap {
 
     struct CaptureSession
     {
-        ACE_TString deviceid;
         media::VideoFormat vidfmt;
         CComPtr<IMFMediaType> pInputType;
 
-        std::shared_ptr<std::thread> capturethread;
+        std::unique_ptr<std::thread> capturethread;
         ACE_Future<bool> opened;
         bool stop = false;
 
         std::map<media::FourCC, mftransform_t> transforms;
-        std::mutex transforms_mtx;
+        std::mutex transforms_mutex;
+
+        std::map<media::FourCC, VideoCapture::VideoCaptureCallback> callbacks;
+        std::mutex cb_mutex;
 
         CaptureSession(const CaptureSession&) = delete;
-        CaptureSession(ACE_TString id, const media::VideoFormat& fmt)
-            : deviceid(id), vidfmt(fmt) {}
-
-        bool CreateTransform(media::FourCC fcc)
+        CaptureSession(const media::VideoFormat& fmt, VideoCapture::VideoCaptureCallback callback)
+            : vidfmt(fmt)
         {
-            std::lock_guard<std::mutex> lck(transforms_mtx);
-            assert(pInputType.p);
-            transforms[fcc] = MFTransform::Create(pInputType, ConvertFourCC(fcc));
-            if (transforms[fcc] != nullptr)
-                return true;
-            transforms.erase(fcc);
+            callbacks[fmt.fourcc] = callback;
+        }
+
+        ~CaptureSession()
+        {
+        }
+
+        bool PerformCallback(media::VideoFrame& video_frame, ACE_Message_Block* mb)
+        {
+            std::lock_guard<std::mutex> lck(cb_mutex);
+
+            if (callbacks.find(video_frame.fourcc) != callbacks.end())
+            {
+                auto m = callbacks[video_frame.fourcc];
+                return m(video_frame, mb);
+            }
             return false;
         }
-        void RemoveTransform(media::FourCC fcc)
+        bool CreateCallback(media::FourCC fcc, VideoCapture::VideoCaptureCallback callback)
         {
-            std::lock_guard<std::mutex> lck(transforms_mtx);
-            transforms.erase(fcc);
+            {
+                std::lock_guard<std::mutex> lck(cb_mutex);
+                if(callbacks.find(fcc) != callbacks.end())
+                    return false;
+            }
+            
+            // don't hold mutex while we create transform since it's a slow process
+            if(fcc != vidfmt.fourcc)
+            {
+                auto transform = MFTransform::Create(pInputType, ConvertFourCC(fcc));
+                if(transform.get() != nullptr)
+                {
+                    std::lock_guard<std::mutex> lck(transforms_mutex);
+                    transforms[fcc].swap(transform);
+                }
+                else return false;
+            }
+
+            std::lock_guard<std::mutex> lck(cb_mutex);
+            callbacks[fcc] = callback;
+            return true;
+        }
+        void RemoveCallback(media::FourCC fcc)
+        {
+            {
+                std::lock_guard<std::mutex> lck(transforms_mutex);
+                transforms.erase(fcc);
+            }
+
+            std::lock_guard<std::mutex> lck(cb_mutex);
+            callbacks.erase(fcc);
         }
     };
 
@@ -157,84 +189,57 @@ namespace vidcap {
 
 bool MFCapture::StartVideoCapture(const ACE_TString& deviceid,
                                   const media::VideoFormat& vidfmt,
-                                  VideoCaptureListener* listener)
+                                  VideoCaptureCallback callback)
 {
-    {
-        std::lock_guard<std::mutex> lck(m_mutex);
-        if (m_sessions.find(listener) != m_sessions.end())
-            return false;
-    }
+    if (m_session.get())
+        return false;
 
-    std::shared_ptr<CaptureSession> session(new CaptureSession(deviceid, vidfmt));
+    m_session.reset(new CaptureSession(vidfmt, callback));
 
-
-    {
-        std::lock_guard<std::mutex> m(m_mutex);
-        m_sessions[listener] = session;
-    }
-
-
-    session->capturethread.reset(new std::thread(&MFCapture::Run, this, session.get(), listener));
+    m_session->capturethread.reset(new std::thread(&MFCapture::Run, this, m_session.get(), deviceid));
 
     bool ret = false;
-    session->opened.get(ret);
+    m_session->opened.get(ret);
 
     if (!ret)
     {
-        session->capturethread->join();
-
-        m_sessions.erase(listener);
+        StopVideoCapture();
     }
     return ret;
 }
 
-bool MFCapture::StopVideoCapture(VideoCaptureListener* listener)
+void MFCapture::StopVideoCapture()
 {
-    std::shared_ptr<CaptureSession> session;
+    if (m_session.get())
     {
-        std::lock_guard<std::mutex> m(m_mutex);
-        if(m_sessions.find(listener) == m_sessions.end())
-            return false;
-
-        session = m_sessions[listener];
-        session->stop = true;
+        m_session->stop = true;
+        m_session->capturethread->join();
     }
-    
-    {
-        session->capturethread->join();
-
-        std::lock_guard<std::mutex> m(m_mutex);
-        m_sessions.erase(listener);
-    }
-
-    return true;
+    m_session.reset();
 }
 
-media::VideoFormat MFCapture::GetVideoCaptureFormat(VideoCaptureListener* listener)
+media::VideoFormat MFCapture::GetVideoCaptureFormat()
 {
-    std::lock_guard<std::mutex> m(m_mutex);
-    if(m_sessions.find(listener) != m_sessions.end())
-       return m_sessions[listener]->vidfmt;
-    return media::VideoFormat();
+    if(!m_session.get())
+        return media::VideoFormat();
+    return m_session->vidfmt;
 }
 
-bool MFCapture::RegisterVideoFormat(VideoCaptureListener* listener, media::FourCC fcc, bool enable/* = true*/)
+bool MFCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
 {
-    std::lock_guard<std::mutex> m(m_mutex);
-
-    auto is = m_sessions.find(listener);
-    if(is == m_sessions.end())
+    if(!m_session.get())
         return false;
 
-    if (enable)
-        return is->second->CreateTransform(fcc);
-    else
-        is->second->RemoveTransform(fcc);
-    
-    return true;
+    return m_session->CreateCallback(fcc, callback);
 }
 
-void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
+void MFCapture::UnregisterVideoFormat(media::FourCC fcc)
+{
+    if(m_session.get())
+        m_session->RemoveCallback(fcc);
+}
+
+void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
 {
     HRESULT hr;
     UINT32 cDevices = 0;
@@ -246,7 +251,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     CComPtr<IMFMediaType> pInputType;
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    unsigned devid = ACE_OS::atoi(session->deviceid.c_str());
+    unsigned devid = ACE_OS::atoi(deviceid.c_str());
 
     hr = MFCreateAttributes(&pAttributes, 1);
     if(FAILED(hr))
@@ -364,14 +369,14 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
                                               dwCurLen);
                 media_frame.timestamp = uTimeStamp;
                 ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                if (!listener->OnVideoCaptureCallback(media_frame, mb))
+                if (!session->PerformCallback(media_frame, mb))
                     mb->release();
             }
             hr = pMediaBuffer->Unlock();
             assert(SUCCEEDED(hr));
         }
 
-        std::lock_guard<std::mutex> lck(session->transforms_mtx);
+        std::lock_guard<std::mutex> lck(session->transforms_mutex);
         for (auto& transform : session->transforms)
         {
             if(dwBufCount && transform.second->SubmitSample(pSample))
@@ -381,7 +386,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
                 {
                     media::VideoFrame media_frame(mb);
                     media_frame.timestamp = uTimeStamp;
-                    if(!listener->OnVideoCaptureCallback(media_frame, mb))
+                    if (!session->PerformCallback(media_frame, mb))
                         mb->release();
                 }
             }

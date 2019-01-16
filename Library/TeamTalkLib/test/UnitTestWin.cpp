@@ -24,6 +24,7 @@
 #include <sstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std::placeholders;
 
 namespace UnitTest
 {
@@ -203,8 +204,10 @@ namespace UnitTest
             cv.wait(lk);
         }
 
-        void VideoCaptureTest(const ACE_TCHAR* szDev, const media::VideoFormat& fmt)
+        void VideoCaptureTest(ACE_TString szDev, const media::VideoFormat& fmt)
         {
+            vidcap::videocapture_t dev = vidcap::VideoCapture::Create();
+
             std::wostringstream os;
             os << L"Testing ";
             os << fmt.width << L"x" << fmt.height;
@@ -224,20 +227,21 @@ namespace UnitTest
             outputs.insert(transforms.begin(), transforms.end());
             outputs.insert(fmt.fourcc);
 
-            class MyClass : public vidcap::VideoCaptureListener
+            class MyClass
             {
                 std::vector<media::VideoFormat> m_receivedfmts;
                 std::set<media::FourCC> m_outputs;
+                vidcap::videocapture_t& m_dev;
 
             public:
-                MyClass(std::set<media::FourCC> outputs) : m_outputs(outputs)
+                MyClass(vidcap::videocapture_t& dev, std::set<media::FourCC> outputs) : m_outputs(outputs), m_dev(dev)
                 {
                 }
 
                 bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
                                             ACE_Message_Block* /*mb_video*/)
                 {
-                    media::VideoFormat fmt = GetVideoCapture()->GetVideoCaptureFormat(this);
+                    media::VideoFormat fmt = m_dev->GetVideoCaptureFormat();
 
                     std::wostringstream os;
                     os << L"Got video frame ";
@@ -271,13 +275,13 @@ namespace UnitTest
                     return false;
                 }
 
-            } listener(outputs);
+            } listener(dev, outputs);
 
-            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(szDev, fmt, &listener));
+            Assert::IsTrue(dev->StartVideoCapture(szDev, fmt, std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2)));
 
 #if defined(ENABLE_MEDIAFOUNDATION)
             for (auto f : transforms)
-                Assert::IsTrue(MFCaptureSingleton::instance()->RegisterVideoFormat(&listener, f));
+                Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), f));
 #endif
 
             std::mutex mtx;
@@ -285,12 +289,12 @@ namespace UnitTest
             //cv.wait_for(lck, std::chrono::seconds(10));
             cv.wait(lck);
 
-            Assert::IsTrue(GetVideoCapture()->StopVideoCapture(&listener));
+            dev->StopVideoCapture();
         }
 
         TEST_METHOD(TestVideoCapture)
         {
-            auto devs = VIDCAP->GetDevices();
+            auto devs = vidcap::VideoCapture::Create()->GetDevices();
 
             std::wostringstream os;
             for(auto dev : devs)
@@ -325,12 +329,13 @@ namespace UnitTest
 
         TEST_METHOD(TestVideoEncode)
         {
+            auto device = vidcap::VideoCapture::Create();
             VpxEncoder encoder;
             VpxDecoder decoder;
 
             media::VideoFormat fmt(640, 480, 30, 1, media::FOURCC_I420);
 
-            auto devs = GetVideoCapture()->GetDevices();
+            auto devs = device->GetDevices();
             std::wostringstream os;
             for(auto a : devs)
             {
@@ -359,7 +364,7 @@ namespace UnitTest
             }
             Assert::IsTrue(devs.size());
 
-            class MyListener : public vidcap::VideoCaptureListener
+            class MyListener
             {
                 media::VideoFormat& fmt;
                 VpxEncoder& encoder;
@@ -459,9 +464,10 @@ namespace UnitTest
             Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024, fmt.fps_numerator/fmt.fps_denominator));
             Assert::IsTrue(decoder.Open(fmt.width, fmt.height));
 
-            Assert::IsTrue(GetVideoCapture()->StartVideoCapture(devs[0].deviceid.c_str(), fmt, &listener));
+            Assert::IsTrue(device->StartVideoCapture(devs[0].deviceid.c_str(), fmt, std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2)));
 
-            Assert::IsTrue(GetVideoCapture()->RegisterVideoFormat(&listener, media::FOURCC_RGB32));
+            Assert::IsTrue(device->RegisterVideoFormat(std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2), media::FOURCC_I420));
+            Assert::IsTrue(device->RegisterVideoFormat(std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2), media::FOURCC_RGB32));
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
@@ -469,7 +475,7 @@ namespace UnitTest
             cv.wait_for(lck, std::chrono::seconds(10));
             //cv.wait(lck);
 
-            Assert::IsTrue(GetVideoCapture()->StopVideoCapture(&listener));
+            device->StopVideoCapture();
         }
 
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -726,6 +732,47 @@ namespace UnitTest
             Assert::AreEqual(response1, response2);
             Assert::AreEqual(1, HttpRequest("https://www.google.com", response3));
 #endif
+        }
+
+        TEST_METHOD(TestTeamTalkVideoCapture)
+        {
+            TTInstance* ttInst = TT_InitTeamTalkPoll();
+            Assert::IsTrue(ttInst != nullptr);
+
+            std::vector<VideoCaptureDevice> devs(100);
+            INT32 nDevs = devs.size();
+            Assert::IsTrue(TT_GetVideoCaptureDevices(&devs[0], &nDevs));
+
+            Assert::IsTrue(TT_InitVideoCaptureDevice(ttInst, devs[0].szDeviceID, &devs[0].videoFormats[0]));
+
+            VideoCodec codec;
+            codec.nCodec = WEBM_VP8_CODEC;
+            codec.webm_vp8.nEncodeDeadline = WEBM_VPX_DL_REALTIME;
+            codec.webm_vp8.nRcTargetBitrate = 1024;
+            Assert::IsTrue(TT_StartVideoCaptureTransmission(ttInst, &codec));
+
+            INT32 nCount = 10;
+            INT32 nWaitMax = 10000;
+            TTMessage msg;
+            while (nCount > 0 && TT_GetMessage(ttInst, &msg, nullptr))
+            {
+                switch (msg.nClientEvent)
+                {
+                case CLIENTEVENT_USER_VIDEOCAPTURE :
+                {
+                    VideoFrame* frame = TT_AcquireUserVideoCaptureFrame(ttInst, msg.nSource);
+                    Assert::IsTrue(frame != nullptr);
+                    nCount--;
+                    std::wostringstream os;
+                    os << L"teamtalk_vidcap" << nCount << L".bmp";
+                    WriteBitmap(os.str().c_str(), media::VideoFormat(frame->nWidth, frame->nHeight, media::FOURCC_RGB32), 
+                        reinterpret_cast<char*>(frame->frameBuffer), frame->nFrameBufferSize);
+                    break;
+                }
+                }
+            }
+
+            Assert::IsTrue(TT_CloseVideoCaptureDevice(ttInst));
         }
     };
 }

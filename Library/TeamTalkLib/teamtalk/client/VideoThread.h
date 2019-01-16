@@ -57,8 +57,8 @@ public:
                       int max_frames_queued);
     void StopEncoder();
 
-    void QueueFrame(const media::VideoFrame& video_frame, bool encode);
-    void QueueFrame(ACE_Message_Block* mb_video, bool encode);
+    void QueueFrame(const media::VideoFrame& video_frame);
+    void QueueFrame(ACE_Message_Block* mb_video);
 
     const teamtalk::VideoCodec& GetCodec() const { return m_codec; }
     const media::VideoFormat& GetVideoFormat() const { return m_cap_format; }

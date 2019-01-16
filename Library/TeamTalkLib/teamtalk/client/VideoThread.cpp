@@ -24,20 +24,8 @@
 #include "VideoThread.h"
 #include <teamtalk/ttassert.h>
 #include <codec/MediaUtil.h>
-#if defined(ENABLE_LIBVIDCAP)
-#include <vidcap/converters.h>
-#endif
 using namespace media;
 using namespace teamtalk;
-
-
-enum {
-    // convert video frame to RGB32
-    MB_CONV_VIDEOFRAME = ACE_Message_Block::MB_USER + 1,
-    // encode video frame
-    MB_ENC_VIDEOFRAME = ACE_Message_Block::MB_USER + 2
-};
-
 
 VideoThread::VideoThread()
 : m_listener(NULL)
@@ -148,91 +136,62 @@ int VideoThread::svc(void)
 
     while(getq(mb) >= 0)
     {
-        const VideoFrame* vid = reinterpret_cast<const VideoFrame*>(mb->rd_ptr());
-        VideoFrame vid_tmp = *vid;
-
-        if(vid->fourcc != FOURCC_RGB32)
+        VideoFrame vid(mb);
+        bool new_ownership = false;
+        switch(m_codec.codec)
         {
-            vid_tmp.frame_length = RGB32_BYTES(m_cap_format.width, m_cap_format.height);
-            ACE_Message_Block* mb_tmp = VideoFrameInMsgBlock(vid_tmp, mb->msg_type());
-            if(!mb_tmp)
+#if defined(ENABLE_VPX)
+        case CODEC_WEBM_VP8 :
+        {
+            vpx_codec_err_t vpxerr = VPX_CODEC_OK;
+            switch (vid.fourcc)
             {
-                mb->release();
-                continue;
-            }
-            switch(vid->fourcc)
-            {
-            case FOURCC_I420 :
-            {
-#if defined(ENABLE_LIBVIDCAP)
-                vidcap_i420_to_rgb32(vid_tmp.width, vid_tmp.height,
-                                     vid->frame, vid_tmp.frame);
-#endif
-            }
-            break;
-            case FOURCC_YUY2 :
-#if defined(ENABLE_LIBVIDCAP)
-                vidcap_yuy2_to_rgb32(vid_tmp.width, vid_tmp.height,
-                                     vid->frame, vid_tmp.frame);
-#endif
+            case media::FOURCC_RGB32 :
+                vpxerr = m_vpx_encoder.EncodeRGB32(vid.frame, vid.frame_length,
+                                                   !vid.top_down, vid.timestamp,
+                                                   m_codec.webm_vp8.encode_deadline);
+                assert(vpxerr == VPX_CODEC_OK);
+                break;
+            case media::FOURCC_I420 :
+                vpxerr = m_vpx_encoder.Encode(vid.frame, VPX_IMG_FMT_I420, 1,
+                                              !vid.top_down, vid.timestamp,
+                                              m_codec.webm_vp8.encode_deadline);
+                assert(vpxerr == VPX_CODEC_OK);
                 break;
             default :
-                TTASSERT(0);
-                mb->release();
-                mb_tmp->release();
-                continue;
+                assert(0/* unsupported format */);
+                break;
             }
-            mb->release();
-            mb = mb_tmp;
-            vid = &vid_tmp;
+
+            int enc_len;
+            const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
+            new_ownership = m_listener->EncodedVideoFrame(this, mb, enc_data, enc_len,
+                                                       m_packet_counter++, vid.timestamp);
+
+            while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)))
+                m_listener->EncodedVideoFrame(this, NULL, enc_data, enc_len,
+                                              m_packet_counter++, vid.timestamp);
         }
-
-        bool b = false;
-        if(mb->msg_type() == MB_ENC_VIDEOFRAME)
-        {
-            switch(m_codec.codec)
-            {
-#if defined(ENABLE_VPX)
-            case CODEC_WEBM_VP8 :
-            {
-                m_vpx_encoder.EncodeRGB32(vid->frame, vid->frame_length,
-                                          !vid->top_down, vid->timestamp, 
-                                          m_codec.webm_vp8.encode_deadline);
-                int enc_len;
-                const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
-                b = m_listener->EncodedVideoFrame(this, mb, enc_data, enc_len,
-                                                  m_packet_counter++, vid->timestamp);
-
-                while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)))
-                    m_listener->EncodedVideoFrame(this, NULL, enc_data, enc_len,
-                                                  m_packet_counter++, vid->timestamp);
-            }
-            break;
+        break;
 #endif
-            default : break;
-            }
+        default : break;
         }
-        else
-            b = m_listener->EncodedVideoFrame(this, mb, 
-                                              NULL, 0, 0,
-                                              vid->timestamp);
-        if(!b)mb->release();
+
+        if(!new_ownership)
+            mb->release();
     }
     return 0;
 }
 
-void VideoThread::QueueFrame(const media::VideoFrame& video_frame, bool encode)
+void VideoThread::QueueFrame(const media::VideoFrame& video_frame)
 {
     ACE_Message_Block* mb = VideoFrameToMsgBlock(video_frame);
     if(mb)
-        QueueFrame(mb, encode);
+        QueueFrame(mb);
 }
 
-void VideoThread::QueueFrame(ACE_Message_Block* mb_video,
-                             bool encode)
+void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
 {
-    mb_video->msg_type(encode?MB_ENC_VIDEOFRAME:MB_CONV_VIDEOFRAME);
-    
     assert(mb_video->rd_ptr() == mb_video->base());
     ACE_Time_Value tm_zero;
     if(this->msg_queue()->enqueue(mb_video, &tm_zero)<0)

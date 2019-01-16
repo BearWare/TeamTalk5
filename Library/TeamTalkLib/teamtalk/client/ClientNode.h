@@ -254,7 +254,6 @@ namespace teamtalk {
         , public TimerListener
         , public AudioEncListener
         , public VideoEncListener
-        , public vidcap::VideoCaptureListener
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
         , public MediaStreamListener
@@ -425,8 +424,11 @@ namespace teamtalk {
                                 int n_samples);
 
         //VideoCapture listener - separate thread
-        bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
-                                    ACE_Message_Block* mb_video);
+        bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+                                       ACE_Message_Block* mb_video);
+        bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+                                        ACE_Message_Block* mb_video);
+
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                       media::VideoFrame& video_frame,
@@ -442,9 +444,6 @@ namespace teamtalk {
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);
         bool CancelFileTransfer(int transferid);
-
-        bannedusers_t GetBannedUsers(bool clear);
-        useraccounts_t GetUserAccounts(bool clear);
 
         //PacketListener - reactor thread
         void ReceivedPacket(PacketHandler* ph,
@@ -573,7 +572,6 @@ namespace teamtalk {
         void ReceivedDesktopCursorPacket(const DesktopCursorPacket& csr_pkt);
         void ReceivedDesktopInputPacket(const DesktopInputPacket& csr_pkt);
         void ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_pkt);
-        void SendDesktopAckPacket(int userid);
         void CloseDesktopSession(bool stop_nak_timer);
 
         void ResetAudioPlayers();
@@ -640,8 +638,9 @@ namespace teamtalk {
         uint16_t m_voice_pkt_counter;
 
         //encode video from video capture
+        vidcap::videocapture_t m_vidcap;
         VideoThread m_vidcap_thread;
-        ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local video frames
+        ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
         uint8_t m_vidcap_stream_id; //0 means not used
 
         //media streamer

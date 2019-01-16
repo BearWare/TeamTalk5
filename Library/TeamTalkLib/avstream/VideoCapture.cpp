@@ -23,26 +23,26 @@
 
 #include "VideoCapture.h"
 
-#if defined(ENABLE_MEDIAFOUNDATION)
-#include "MFCapture.h"
-#define VIDCAP_INST MFCaptureSingleton::instance()
-#elif defined(ENABLE_LIBVIDCAP)
-#include "LibVidCap.h"
-#define VIDCAP_INST VCSingleton::instance()
-#elif defined(ENABLE_QTKIT)
-#include "QTVidCap.h"
-#define VIDCAP_INST QTKitInst::instance()
-#elif defined(ENABLE_AVF)
-#include "AVFCapture.h"
-#define VIDCAP_INST AVFSingleton::instance()
-#elif defined(ENABLE_V4L2)
-#include "V4L2Capture.h"
-#define VIDCAP_INST V4L2Singleton::instance()
-#else
-
 using namespace vidcap;
 
-class : public VideoCapture
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include "MFCapture.h"
+typedef MFCapture videocapturedevice_t;
+#elif defined(ENABLE_LIBVIDCAP)
+#error "Not implemented yet"
+#include "LibVidCap.h"
+#elif defined(ENABLE_QTKIT)
+#error "No longer supported"
+#include "QTVidCap.h"
+#elif defined(ENABLE_AVF)
+#error "Not implemented yet"
+#include "AVFCapture.h"
+#elif defined(ENABLE_V4L2)
+#error "Not implemented yet"
+#include "V4L2Capture.h"
+#else
+
+class NullVideoCapture : public VideoCapture
 {
 public:
     vidcap_devices_t GetDevices() { return vidcap_devices_t(); }
@@ -57,12 +57,11 @@ public:
     bool GetVideoCaptureFormat(VideoCaptureListener* listener,
         media::VideoFormat& vidfmt) { return false; }
 
-} nullvidcap;
-#define VIDCAP_INST (&nullvidcap)
+};
+typedef NullVideoCapture videocapturedevice_t;
 #endif
 
-vidcap::VideoCapture* GetVideoCapture()
+videocapture_t VideoCapture::Create()
 {
-    return VIDCAP_INST;
+    return videocapture_t(new videocapturedevice_t());
 }
-
