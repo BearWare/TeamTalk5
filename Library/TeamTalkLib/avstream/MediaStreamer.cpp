@@ -166,10 +166,17 @@ bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, bool flush)
     if (!need_audio && !need_video)
     {
         ACE_UINT32 wait_ms = GetMinimumFrameDurationMSec();
-        //wait_ms /= 2;
         MYTRACE(ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
         ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
         return true;
+    }
+
+    if (flush)
+    {
+        ACE_UINT32 wait_ms = GetMinimumFrameDurationMSec();
+        MYTRACE(ACE_TEXT("Sleeping %d msec... flushing frames\n"), wait_ms);
+        ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
+        return m_audio_frames.message_count() || m_video_frames.message_count();
     }
 
     return false;

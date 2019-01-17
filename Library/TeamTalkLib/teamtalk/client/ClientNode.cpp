@@ -1526,7 +1526,6 @@ bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
         return false;
 
     VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
-    assert(RGB32_BYTES(cap_format.width, cap_format.height) == video_frame.frame_length);
 
 //     static int x = 1;
 //     if((x++ % 200) == 0)

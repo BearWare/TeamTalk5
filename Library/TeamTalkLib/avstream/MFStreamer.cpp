@@ -410,9 +410,8 @@ void MFStreamer::Run()
                 assert(SUCCEEDED(hr));
                 if(SUCCEEDED(hr))
                 {
-                    media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
-                        dwCurLen, m_media_out.video.width, m_media_out.video.height,
-                        m_media_out.video.fourcc, false);
+                    media::VideoFrame media_frame(m_media_out.video,
+                                                  reinterpret_cast<char*>(pBuffer), dwCurLen);
                     media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
                     ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
                     ACE_Time_Value tv;
