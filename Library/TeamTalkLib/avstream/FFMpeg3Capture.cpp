@@ -30,21 +30,14 @@ using namespace vidcap;
 
 FFMpeg3Capture::FFMpeg3Capture()
 {
-    InitAVConv();
 }
 
 FFMpeg3Capture::~FFMpeg3Capture()
 {
-    for(auto i=m_streams.begin();i!=m_streams.end();++i)
-    {
-        i->first->Close();
-        delete i->first;
-    }
 }
 
-bool FFMpeg3Capture::StartVideoCapture(const ACE_TString& deviceid,
-                                       const media::VideoFormat& vidfmt,
-                                       VideoCaptureListener* listener)
+bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
+                                      const media::VideoFormat& vidfmt)
 {
     vidcap_devices_t devs = GetDevices();
     
@@ -55,7 +48,8 @@ bool FFMpeg3Capture::StartVideoCapture(const ACE_TString& deviceid,
             dev = devs[i];
     }
 
-    std::auto_ptr<FFMpegVideoInput> streamer(createStreamer(this, dev, vidfmt));
+    ffmpegvideoinput_t streamer = createStreamer(this, dev, vidfmt);
+    assert(streamer.get());
 
     MediaFileProp in_prop;
     in_prop.video = vidfmt;
@@ -67,54 +61,65 @@ bool FFMpeg3Capture::StartVideoCapture(const ACE_TString& deviceid,
     if(!streamer->OpenFile(in_prop, out_prop))
         return false;
 
-    if (!streamer->StartStream())
-        return false;
-
-    m_streams[streamer.release()] = listener;
+    m_videoinput.swap(streamer);
+    
     return true;
 }
 
-bool FFMpeg3Capture::StopVideoCapture(VideoCaptureListener* listener)
+bool FFMpeg3Capture::StartVideoCapture()
 {
-    wguard_t g(m_mutex);
-    for(auto i=m_streams.begin();i!=m_streams.end();++i)
+    if (!m_videoinput)
+        return false;
+
+    if (!m_videoinput->StartStream())
     {
-        if (i->second == listener)
-        {
-            i->first->Close();
-            delete i->first;
-            m_streams.erase(i);
-            return true;
-        }
+        StopVideoCapture();
+        return false;
+    }
+
+    return true;
+}
+
+void FFMpeg3Capture::StopVideoCapture()
+{
+    m_videoinput.reset();
+    m_callback = {};
+}
+
+media::VideoFormat FFMpeg3Capture::GetVideoCaptureFormat()
+{
+    if (m_videoinput)
+        return m_videoinput->GetVideoFormat();
+    return media::VideoFormat();
+}
+
+bool FFMpeg3Capture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
+{
+    if (m_videoinput && m_videoinput->GetVideoFormat().fourcc == fcc)
+    {
+        m_callback = callback;
+        return true;
     }
     return false;
 }
 
-bool FFMpeg3Capture::GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                           media::VideoFormat& vidfmt)
+void FFMpeg3Capture::UnregisterVideoFormat(media::FourCC fcc)
 {
-    wguard_t g(m_mutex);
-    for(auto i=m_streams.begin();i!=m_streams.end();++i)
+    if (m_videoinput && m_videoinput->GetVideoFormat().fourcc == fcc)
     {
-        if (i->second == listener)
-        {
-            vidfmt = i->first->GetVideoFormat();
-            return true;
-        }
+        m_callback = {};
     }
-    return false;
 }
 
 bool FFMpeg3Capture::MediaStreamVideoCallback(MediaStreamer* streamer,
                                               media::VideoFrame& video_frame,
                                               ACE_Message_Block* mb_video)
 {
-    wguard_t g(m_mutex);
-    auto i=m_streams.find(dynamic_cast<FFMpegVideoInput*>(streamer));
-    if (i != m_streams.end())
-    {
-        return i->second->OnVideoCaptureCallback(video_frame, mb_video);
-    }
+    assert(m_videoinput.get());
+    
+    if (m_callback)
+        return m_callback(video_frame, mb_video);
+    
     return false;
 }
 

@@ -57,17 +57,18 @@ namespace vidcap {
         static videocapture_t Create();
 
         virtual vidcap_devices_t GetDevices() = 0;
+
+        virtual bool InitVideoCapture(const ACE_TString& deviceid,
+                                      const media::VideoFormat& vidfmt) = 0;
     
-        virtual bool StartVideoCapture(const ACE_TString& deviceid,
-                                       const media::VideoFormat& vidfmt,
-                                       VideoCaptureCallback callback) = 0;
+        virtual bool StartVideoCapture() = 0;
 
         virtual void StopVideoCapture() = 0;
 
         virtual media::VideoFormat GetVideoCaptureFormat() = 0;
 
-        virtual bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) { return false; }
-        virtual void UnregisterVideoFormat(media::FourCC fcc) {}
+        virtual bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) = 0;
+        virtual void UnregisterVideoFormat(media::FourCC fcc) = 0;
     };
 }
 

@@ -24,6 +24,7 @@
 #include "VideoThread.h"
 #include <teamtalk/ttassert.h>
 #include <codec/MediaUtil.h>
+
 using namespace media;
 using namespace teamtalk;
 

@@ -28,18 +28,19 @@ using namespace vidcap;
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include "MFCapture.h"
 typedef MFCapture videocapturedevice_t;
+
 #elif defined(ENABLE_LIBVIDCAP)
 #error "Not implemented yet"
 #include "LibVidCap.h"
-#elif defined(ENABLE_QTKIT)
-#error "No longer supported"
-#include "QTVidCap.h"
+
 #elif defined(ENABLE_AVF)
-#error "Not implemented yet"
 #include "AVFCapture.h"
+typedef AVFCapture videocapturedevice_t;
+
 #elif defined(ENABLE_V4L2)
 #error "Not implemented yet"
 #include "V4L2Capture.h"
+
 #else
 
 class NullVideoCapture : public VideoCapture

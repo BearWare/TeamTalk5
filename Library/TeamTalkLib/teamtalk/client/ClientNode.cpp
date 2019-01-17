@@ -1503,6 +1503,19 @@ bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
     return false;
 }
 
+bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
+                                          ACE_Message_Block* mb_video)
+{
+    if ((m_flags & CLIENT_TX_VIDEOCAPTURE))
+    {
+        return VideoCaptureEncodeCallback(video_frame, mb_video);
+    }
+    else
+    {
+        return VideoCaptureRGB32Callback(video_frame, mb_video);
+    }
+}
+
 bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
                                           media::VideoFrame& video_frame,
                                           ACE_Message_Block* mb_video)
@@ -3143,6 +3156,38 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     if(m_flags & CLIENT_VIDEOCAPTURE_READY)
         return false;
 
+    assert(!m_vidcap);
+    if (m_vidcap)
+        return false;
+
+    videocapture_t session = vidcap::VideoCapture::Create();
+
+    if (!session->InitVideoCapture(src_id, cap_format))
+        return false;
+        
+    if (session->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureEncodeCallback, this, _1, _2), media::FOURCC_I420))
+    {
+        MYTRACE(ACE_TEXT("Video capture sends I420 directly to encoder\n"));
+        if (session->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureRGB32Callback, this, _1, _2), media::FOURCC_RGB32))
+        {
+            MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to 'm_local_vidcapframes'\n"));
+        }
+        else
+        {
+            MYTRACE(ACE_TEXT("Video capture cannot send RGB32', i.e. 'm_local_vidcapframes' is ignored\n"));
+        }
+    }
+    else if (session->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureDualCallback, this, _1, _2), media::FOURCC_RGB32))
+    {
+        MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to encoder. Encoder forwards to 'm_local_vidcapframes'\n"));
+    }
+    else
+    {
+        return false;
+    }
+
+    m_vidcap.swap(session);
+
     //set max buffers for local video frames
     int bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= VIDEOCAPTURE_LOCAL_FRAMES_MAX;
@@ -3150,29 +3195,9 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     m_local_vidcapframes.low_water_mark(bytes);
     m_local_vidcapframes.activate();
 
-    m_vidcap = vidcap::VideoCapture::Create();
-
-    if(!m_vidcap->StartVideoCapture(src_id, cap_format, std::bind([] (media::VideoFrame& video_frame,
-                                                                      ACE_Message_Block* mb_video) { return false; }, _1, _2)))
-        return false;
-
-    m_vidcap->UnregisterVideoFormat(cap_format.fourcc);
-
-    if (m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureEncodeCallback, this, _1, _2), media::FOURCC_I420))
+    if (!m_vidcap->StartVideoCapture())
     {
-        MYTRACE(ACE_TEXT("Video capture sends I420 directly to encoder\n"));
-        if (m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureRGB32Callback, this, _1, _2), media::FOURCC_RGB32))
-        {
-            MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to 'm_local_vidcapframes'\n"));
-        }
-    }
-    else if(m_vidcap->RegisterVideoFormat(std::bind(&ClientNode::VideoCaptureEncodeCallback, this, _1, _2), media::FOURCC_RGB32))
-    {
-        MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to encoder. Encoder forwards to 'm_local_vidcapframes'\n"));
-    }
-    else
-    {
-        m_vidcap.reset();
+        CloseVideoCapture();
         return false;
     }
 
@@ -3198,7 +3223,7 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
     if(m_flags & CLIENT_TX_VIDEOCAPTURE)
         return false;
 
-    if (!m_vidcap.get())
+    if (!m_vidcap)
         return false;
 
     VideoFormat cap_format = m_vidcap->GetVideoCaptureFormat();

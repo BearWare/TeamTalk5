@@ -51,16 +51,19 @@ void InitAVConv()
         static ACE_Recursive_Thread_Mutex mtx;
 
         wguard_t g(mtx);
-        
+
+        if (!ready)
+        {
 #if defined(NDEBUG)
-        av_log_set_level(AV_LOG_QUIET);
+            av_log_set_level(AV_LOG_QUIET);
 #else
-        av_log_set_level(AV_LOG_MAX_OFFSET);
+            av_log_set_level(AV_LOG_MAX_OFFSET);
 #endif
-        avdevice_register_all();
-        av_register_all();
-        avfilter_register_all();
-        ready = true;
+            avdevice_register_all();
+            av_register_all();
+            avfilter_register_all();
+            ready = true;
+        }
     }
 }
 

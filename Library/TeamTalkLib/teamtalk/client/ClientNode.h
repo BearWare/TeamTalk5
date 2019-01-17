@@ -428,6 +428,8 @@ namespace teamtalk {
                                        ACE_Message_Block* mb_video);
         bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
                                         ACE_Message_Block* mb_video);
+        bool VideoCaptureDualCallback(media::VideoFrame& video_frame,
+                                      ACE_Message_Block* mb_video);
 
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(MediaStreamer* streamer,
