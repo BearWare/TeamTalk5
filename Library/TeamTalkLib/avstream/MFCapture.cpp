@@ -118,20 +118,17 @@ namespace vidcap {
         CComPtr<IMFMediaType> pInputType;
 
         std::unique_ptr<std::thread> capturethread;
-        ACE_Future<bool> opened;
+        ACE_Future<bool> opened, started;
         bool stop = false;
 
         std::map<media::FourCC, mftransform_t> transforms;
-        std::mutex transforms_mutex;
 
         std::map<media::FourCC, VideoCapture::VideoCaptureCallback> callbacks;
-        std::mutex cb_mutex;
 
         CaptureSession(const CaptureSession&) = delete;
-        CaptureSession(const media::VideoFormat& fmt, VideoCapture::VideoCaptureCallback callback)
+        CaptureSession(const media::VideoFormat& fmt)
             : vidfmt(fmt)
         {
-            callbacks[fmt.fourcc] = callback;
         }
 
         ~CaptureSession()
@@ -140,8 +137,6 @@ namespace vidcap {
 
         bool PerformCallback(media::VideoFrame& video_frame, ACE_Message_Block* mb)
         {
-            std::lock_guard<std::mutex> lck(cb_mutex);
-
             if (callbacks.find(video_frame.fourcc) != callbacks.end())
             {
                 auto m = callbacks[video_frame.fourcc];
@@ -151,68 +146,70 @@ namespace vidcap {
         }
         bool CreateCallback(media::FourCC fcc, VideoCapture::VideoCaptureCallback callback)
         {
-            {
-                std::lock_guard<std::mutex> lck(cb_mutex);
-                if(callbacks.find(fcc) != callbacks.end())
-                    return false;
-            }
+            assert(callbacks.find(fcc) == callbacks.end());
+            if(callbacks.find(fcc) != callbacks.end())
+                return false;
             
             // don't hold mutex while we create transform since it's a slow process
             if(fcc != vidfmt.fourcc)
             {
                 auto transform = MFTransform::Create(pInputType, ConvertFourCC(fcc));
-                if(transform.get() != nullptr)
+                if (transform)
                 {
-                    std::lock_guard<std::mutex> lck(transforms_mutex);
                     transforms[fcc].swap(transform);
                 }
                 else return false;
             }
 
-            std::lock_guard<std::mutex> lck(cb_mutex);
             callbacks[fcc] = callback;
             return true;
         }
         void RemoveCallback(media::FourCC fcc)
         {
-            {
-                std::lock_guard<std::mutex> lck(transforms_mutex);
-                transforms.erase(fcc);
-            }
-
-            std::lock_guard<std::mutex> lck(cb_mutex);
+            transforms.erase(fcc);
             callbacks.erase(fcc);
         }
     };
 
 }
 
-bool MFCapture::StartVideoCapture(const ACE_TString& deviceid,
-                                  const media::VideoFormat& vidfmt,
-                                  VideoCaptureCallback callback)
+bool MFCapture::InitVideoCapture(const ACE_TString& deviceid,
+                                 const media::VideoFormat& vidfmt)
 {
-    if (m_session.get())
+    if(m_session)
         return false;
 
-    m_session.reset(new CaptureSession(vidfmt, callback));
+    m_session.reset(new CaptureSession(vidfmt));
 
     m_session->capturethread.reset(new std::thread(&MFCapture::Run, this, m_session.get(), deviceid));
 
     bool ret = false;
     m_session->opened.get(ret);
 
-    if (!ret)
+    if(!ret)
     {
         StopVideoCapture();
     }
     return ret;
 }
 
+bool MFCapture::StartVideoCapture()
+{
+    if(!m_session)
+        return false;
+
+    m_session->started.set(true);
+
+    return true;
+}
+
 void MFCapture::StopVideoCapture()
 {
-    if (m_session.get())
+    if (m_session)
     {
         m_session->stop = true;
+        m_session->started.set(false);
+
         m_session->capturethread->join();
     }
     m_session.reset();
@@ -220,14 +217,14 @@ void MFCapture::StopVideoCapture()
 
 media::VideoFormat MFCapture::GetVideoCaptureFormat()
 {
-    if(!m_session.get())
+    if(!m_session)
         return media::VideoFormat();
     return m_session->vidfmt;
 }
 
 bool MFCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
 {
-    if(!m_session.get())
+    if(!m_session)
         return false;
 
     return m_session->CreateCallback(fcc, callback);
@@ -235,7 +232,7 @@ bool MFCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC
 
 void MFCapture::UnregisterVideoFormat(media::FourCC fcc)
 {
-    if(m_session.get())
+    if(m_session)
         m_session->RemoveCallback(fcc);
 }
 
@@ -252,6 +249,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
     unsigned devid = ACE_OS::atoi(deviceid.c_str());
+    bool start = false;
 
     hr = MFCreateAttributes(&pAttributes, 1);
     if(FAILED(hr))
@@ -323,6 +321,11 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
 
     session->opened.set(true);
 
+    session->started.get(start);
+
+    if(!start)
+        goto fail;
+
     bool error = false;
     while (!session->stop)
     {
@@ -376,7 +379,6 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
             assert(SUCCEEDED(hr));
         }
 
-        std::lock_guard<std::mutex> lck(session->transforms_mutex);
         for (auto& transform : session->transforms)
         {
             if(dwBufCount && transform.second->SubmitSample(pSample))

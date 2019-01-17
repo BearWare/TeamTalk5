@@ -43,9 +43,10 @@ namespace vidcap {
 
         vidcap_devices_t GetDevices();
 
-        bool StartVideoCapture(const ACE_TString& deviceid,
-                               const media::VideoFormat& vidfmt,
-                               VideoCaptureCallback callback);
+        bool InitVideoCapture(const ACE_TString& deviceid,
+                              const media::VideoFormat& vidfmt);
+
+        bool StartVideoCapture();
 
         void StopVideoCapture();
 
