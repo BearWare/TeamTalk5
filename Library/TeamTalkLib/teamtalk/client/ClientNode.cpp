@@ -1278,89 +1278,89 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
     //    packet.GetPacketNumber(), packet.GetPacketSize());
 }
 
-//AudioEncListener
-void ClientNode::EncodedAudioFrame(const teamtalk::AudioCodec& codec, 
-                                   const char* enc_data, int enc_length,
-                                   const std::vector<int>& enc_frame_sizes,
-                                   const media::AudioFrame& org_frame)
+
+void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec, 
+                                        const char* enc_data, int enc_length,
+                                        const std::vector<int>& enc_frame_sizes,
+                                        const media::AudioFrame& org_frame)
 {
     TTASSERT(org_frame.userdata);
+    TTASSERT(org_frame.userdata == STREAMTYPE_VOICE);
+    
+    // Can't hold reactor lock here because it can cause a deadlock
 
-    switch(org_frame.userdata)
+    if(enc_length == 0)
     {
-    case STREAMTYPE_VOICE :
-    {
-        // Can't hold reactor lock here because it can cause a deadlock
-
-        if(enc_length == 0)
+        if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) &&
+           (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED))
         {
-            if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) &&
-               (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED))
-            {
-                m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
-                m_listener->OnVoiceActivated(false);
-            }
-            return;
+            m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
+            m_listener->OnVoiceActivated(false);
         }
-        else if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
-                (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED))
-        {
-            m_flags |= CLIENT_SNDINPUT_VOICEACTIVE;
-            m_listener->OnVoiceActivated(true);
-
-            if((m_flags & CLIENT_TX_VOICE) == 0)
-                GEN_NEXT_ID(m_voice_stream_id);
-        }
-        //MYTRACE(ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u\n"),
-        //        m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp);
-
-        VoicePacket* newpacket;
-        if(GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
-        {
-            ACE_NEW(newpacket, 
-                    VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
-                                org_frame.timestamp, m_voice_stream_id, 
-                                m_voice_pkt_counter++, enc_data, enc_length,
-                                ConvertFrameSizes(enc_frame_sizes)));
-        }
-        else
-        {
-            ACE_NEW(newpacket, 
-                    VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
-                                org_frame.timestamp,  m_voice_stream_id, 
-                                m_voice_pkt_counter++, enc_data, enc_length));
-        }
-
-        if(!QueuePacket(newpacket))
-            delete newpacket;
+        return;
     }
-    break;
-    case STREAMTYPE_MEDIAFILE_AUDIO :
+    else if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
+            (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED))
     {
-        assert(GetFlags() & CLIENT_STREAM_AUDIOFILE);
-        AudioFilePacket* newpacket;
-        if(GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
-        {
-            ACE_NEW(newpacket, 
-                    AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
+        m_flags |= CLIENT_SNDINPUT_VOICEACTIVE;
+        m_listener->OnVoiceActivated(true);
+
+        if((m_flags & CLIENT_TX_VOICE) == 0)
+            GEN_NEXT_ID(m_voice_stream_id);
+    }
+    //MYTRACE(ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u\n"),
+    //        m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp);
+
+    VoicePacket* newpacket;
+    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    {
+        ACE_NEW(newpacket, 
+                VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
+                            org_frame.timestamp, m_voice_stream_id, 
+                            m_voice_pkt_counter++, enc_data, enc_length,
+                            ConvertFrameSizes(enc_frame_sizes)));
+    }
+    else
+    {
+        ACE_NEW(newpacket, 
+                VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
+                            org_frame.timestamp,  m_voice_stream_id, 
+                            m_voice_pkt_counter++, enc_data, enc_length));
+    }
+
+    if(!QueuePacket(newpacket))
+        delete newpacket;
+}
+
+void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec, 
+                                       const char* enc_data, int enc_length,
+                                       const std::vector<int>& enc_frame_sizes,
+                                       const media::AudioFrame& org_frame)
+{
+    assert(GetFlags() & CLIENT_STREAM_AUDIOFILE);
+    TTASSERT(org_frame.userdata == STREAMTYPE_MEDIAFILE_AUDIO);
+    
+    AudioFilePacket* newpacket;
+    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    {
+        ACE_NEW(newpacket, 
+                AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
                                 org_frame.timestamp, m_mediafile_stream_id, 
                                 m_audiofile_pkt_counter++, enc_data, enc_length,
                                 ConvertFrameSizes(enc_frame_sizes)));
-        }
-        else
-        {
-            ACE_NEW(newpacket, 
-                    AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
+    }
+    else
+    {
+        ACE_NEW(newpacket, 
+                AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
                                 org_frame.timestamp,  m_mediafile_stream_id, 
                                 m_audiofile_pkt_counter++, enc_data, enc_length));
-        }
+    }
 
-        if(!QueuePacket(newpacket))
-            delete newpacket;
-    }
-    break;
-    }
+    if(!QueuePacket(newpacket))
+        delete newpacket;
 }
+
 
 void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                                  const short* buffer, int n_samples)
@@ -3067,8 +3067,9 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //initiate audio part of media file
     if(file_in.audio.IsValid())
     {
-        if(!m_audiofile_thread.StartEncoder(this, m_mychannel->GetAudioCodec(), 
-                                            true))
+        if(!m_audiofile_thread.StartEncoder(std::bind(&ClientNode::EncodedAudioFileFrame, this,
+                                                      _1, _2, _3, _4, _5),
+                                            m_mychannel->GetAudioCodec(), true))
         {
             StopStreamingMediaFile();
             return false;
@@ -3080,9 +3081,6 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //initiate video part of media file
     if(file_in.video.IsValid() && m_videofile_thread.null())
     {
-        VideoFormat cap_format = file_in.video;
-        cap_format.fourcc = FOURCC_RGB32;
-
         m_flags |= CLIENT_STREAM_VIDEOFILE;
 
         VideoThread* vid_thread;
@@ -3090,8 +3088,8 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
         m_videofile_thread = video_thread_t(vid_thread);
     
         if(!vid_thread ||
-           !vid_thread->StartEncoder(this, cap_format, vid_codec,
-                                     VIDEOFILE_ENCODER_FRAMES_MAX))
+           !vid_thread->StartEncoder(std::bind(&ClientNode::EncodedVideoFileFrame, this, _1, _2, _3, _4, _5),
+                                     m_media_streamer->GetMediaOutput().video, vid_codec, VIDEOFILE_ENCODER_FRAMES_MAX))
         {
             StopStreamingMediaFile();
             return false;
@@ -3232,8 +3230,8 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
 
     m_vidcap_thread.StopEncoder();
 
-    if(!m_vidcap_thread.StartEncoder(this, cap_format, codec,
-                                     VIDEOCAPTURE_ENCODER_FRAMES_MAX))
+    if(!m_vidcap_thread.StartEncoder(std::bind(&ClientNode::EncodedVideoCaptureFrame, this, _1, _2, _3, _4, _5),
+                                     cap_format, codec, VIDEOCAPTURE_ENCODER_FRAMES_MAX))
     {
         CloseVideoCaptureSession();
         return false;
@@ -3265,84 +3263,80 @@ ACE_Message_Block* ClientNode::AcquireVideoCaptureFrame()
     return mb;
 }
 
-bool ClientNode::EncodedVideoFrame(const VideoThread* video_encoder,
-                                   ACE_Message_Block* org_frame,
-                                   const char* enc_data, int enc_len,
-                                   ACE_UINT32 packet_no,
-                                   ACE_UINT32 timestamp)
+bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+                                          const char* enc_data, int enc_len,
+                                          ACE_UINT32 packet_no,
+                                          ACE_UINT32 timestamp)
 {
-    if(video_encoder == m_videofile_thread.get()) //from media file video encoder
+    if(enc_data && (m_flags & CLIENT_AUTHORIZED) &&
+       (m_flags & CLIENT_TX_VIDEOCAPTURE))
     {
-        if(enc_data)
+        uint16_t w = (uint16_t)m_vidcap_thread.GetVideoFormat().width;
+        uint16_t h = (uint16_t)m_vidcap_thread.GetVideoFormat().height;
+        //max supported is uint16 * MAX_PAYLOAD_SIZE
+        videopackets_t packets = BuildVideoPackets(PACKET_KIND_VIDEO,
+                                                   m_myuserid, timestamp,
+                                                   m_mtu_data_size,
+                                                   m_vidcap_stream_id, 
+                                                   packet_no, &w, &h,
+                                                   enc_data, enc_len);
+
+        bool failed = false;
+        for(size_t i=0;i<packets.size();i++)
         {
-            //max supported is uint16 * MAX_PAYLOAD_SIZE
-            uint16_t w = (uint16_t)video_encoder->GetVideoFormat().width;
-            uint16_t h = (uint16_t)video_encoder->GetVideoFormat().height;
-            videopackets_t packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
-                                                       m_myuserid, timestamp,
-                                                       m_mtu_data_size,
-                                                       m_mediafile_stream_id, 
-                                                       packet_no,
-                                                       &w, &h,
-                                                       enc_data, enc_len);
-
-            // MYTRACE(ACE_TEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
-            //         packet_no, (int)packets.size(), enc_len, 
-            //         ACE::crc32(enc_data, enc_len));
-
-            bool failed = false;
-            for(size_t i=0;i<packets.size();i++)
+            if(failed || !QueuePacket(packets[i]))
             {
-                if(failed || !QueuePacket(packets[i]))
-                {
-                    delete packets[i];
-                    failed = true;
-                }
+                delete packets[i];
+                failed = true;
             }
         }
-        return false; //ignored 'org_frame'
     }
-    else  //from capture video encoder
+    //MYTRACE(ACE_TEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
+
+    ACE_Time_Value tm_zero;
+    if(org_frame)
     {
-        TTASSERT(video_encoder == &m_vidcap_thread);
+        VideoFrame vid_frm(org_frame);
+        vid_frm.stream_id = m_vidcap_stream_id;
 
-        if(enc_data && (m_flags & CLIENT_AUTHORIZED) &&
-           (m_flags & CLIENT_TX_VIDEOCAPTURE))
-        {
-            uint16_t w = (uint16_t)video_encoder->GetVideoFormat().width;
-            uint16_t h = (uint16_t)video_encoder->GetVideoFormat().height;
-            //max supported is uint16 * MAX_PAYLOAD_SIZE
-            videopackets_t packets = BuildVideoPackets(PACKET_KIND_VIDEO,
-                                                       m_myuserid, timestamp,
-                                                       m_mtu_data_size,
-                                                       m_vidcap_stream_id, 
-                                                       packet_no, &w, &h,
-                                                       enc_data, enc_len);
-
-            bool failed = false;
-            for(size_t i=0;i<packets.size();i++)
-            {
-                if(failed || !QueuePacket(packets[i]))
-                {
-                    delete packets[i];
-                    failed = true;
-                }
-            }
-        }
-        //MYTRACE(ACE_TEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
-
-        ACE_Time_Value tm_zero;
-        if(org_frame)
-        {
-            VideoFrame vid_frm(org_frame);
-            vid_frm.stream_id = m_vidcap_stream_id;
-
-            if (vid_frm.fourcc == media::FOURCC_RGB32)
-                return VideoCaptureRGB32Callback(vid_frm, org_frame);
-        }
-
-        return false; //ignored 'org_frame'
+        if (vid_frm.fourcc == media::FOURCC_RGB32)
+            return VideoCaptureRGB32Callback(vid_frm, org_frame);
     }
+
+    return false; //ignored 'org_frame'
+}
+
+bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* org_frame,
+                                       const char* enc_data, int enc_len,
+                                       ACE_UINT32 packet_no,
+                                       ACE_UINT32 timestamp)
+{
+    //max supported is uint16 * MAX_PAYLOAD_SIZE
+    uint16_t w = (uint16_t)m_videofile_thread->GetVideoFormat().width;
+    uint16_t h = (uint16_t)m_videofile_thread->GetVideoFormat().height;
+    videopackets_t packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
+                                               m_myuserid, timestamp,
+                                               m_mtu_data_size,
+                                               m_mediafile_stream_id, 
+                                               packet_no,
+                                               &w, &h,
+                                               enc_data, enc_len);
+
+    // MYTRACE(ACE_TEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
+    //         packet_no, (int)packets.size(), enc_len, 
+    //         ACE::crc32(enc_data, enc_len));
+
+    bool failed = false;
+    for(size_t i=0;i<packets.size();i++)
+    {
+        if(failed || !QueuePacket(packets[i]))
+        {
+            delete packets[i];
+            failed = true;
+        }
+    }
+
+    return false; //ignored 'org_frame'
 }
 
 int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
@@ -3783,7 +3777,9 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     if(ValidAudioCodec(codec))
     {
         //set encoder properties
-        if(m_voice_thread.StartEncoder(this, codec, true))
+        if(m_voice_thread.StartEncoder(std::bind(&ClientNode::EncodedAudioVoiceFrame, this,
+                                                 _1, _2, _3, _4, _5),
+                                       codec, true))
         {
             if(!UpdateSoundInputPreprocess()) //set AGC, denoise, etc.
             {

@@ -34,14 +34,7 @@ using namespace std;
 using namespace teamtalk;
 
 AudioThread::AudioThread()
-:  m_listener(NULL)
-#if defined(ENABLE_SPEEX)
-, m_speex(NULL)
-#endif
-#if defined(ENABLE_OPUS)
-, m_opus(NULL)
-#endif
-, m_voicelevel(VU_METER_MIN)
+: m_voicelevel(VU_METER_MIN)
 , m_voiceactlevel(VU_METER_MIN)
 , m_gainlevel(GAIN_NORMAL)
 , m_enc_cleared(true)
@@ -57,7 +50,7 @@ AudioThread::~AudioThread()
 {
 }
 
-bool AudioThread::StartEncoder(AudioEncListener* listener, 
+bool AudioThread::StartEncoder(audioencodercallback_t callback, 
                                const teamtalk::AudioCodec& codec,
                                bool spawn_thread)
 {
@@ -76,7 +69,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
     case CODEC_NO_CODEC :
     {
         m_codec = codec;
-        m_listener = listener;
+        m_callback = callback;
         return true;
     }
     break;
@@ -88,8 +81,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = GetAudioCodecEncSize(codec);
-        TTASSERT(!m_speex);
-        ACE_NEW_RETURN(m_speex, SpeexEncoder(), false);
+        m_speex.reset(new SpeexEncoder());
         if(!m_speex->Initialize(codec.speex.bandmode, 
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 codec.speex.quality))
@@ -110,8 +102,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = MAX_ENC_FRAMESIZE * codec.speex_vbr.frames_per_packet;
-        TTASSERT(!m_speex);
-        ACE_NEW_RETURN(m_speex, SpeexEncoder(), false);
+        m_speex.reset(new SpeexEncoder());
         if(!m_speex->Initialize(codec.speex_vbr.bandmode, 
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 (float)codec.speex_vbr.vbr_quality,
@@ -135,8 +126,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = MAX_ENC_FRAMESIZE;
-        TTASSERT(!m_opus);
-        ACE_NEW_RETURN(m_opus, OpusEncode(), false);
+        m_opus.reset(new OpusEncode());
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels,
                          codec.opus.application) ||
            !m_opus->SetComplexity(codec.opus.complexity) ||
@@ -192,7 +182,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
 
     m_encbuf.resize(enc_size);
     m_codec = codec;
-    m_listener = listener;
+    m_callback = callback;
 
     //allow one second of audio to build up in the queue
 
@@ -240,23 +230,18 @@ void AudioThread::StopEncoder()
 #endif
 
 #if defined(ENABLE_SPEEX)
-    if(m_speex)
-        m_speex->Close();
-    delete m_speex;
-    m_speex = NULL;
+    m_speex.reset();
 #endif
 
 #if defined(ENABLE_OPUS)
-    if(m_opus)
-        m_opus->Close();
-    m_opus = NULL;
+    m_opus.reset();
 #endif
     m_enc_cleared = true;
 
     m_encbuf.clear();
     m_echobuf.clear();
 
-    m_listener = NULL;
+    m_callback = {};
 
     memset(&m_codec, 0, sizeof(m_codec));
     m_codec.codec = teamtalk::CODEC_NO_CODEC;
@@ -323,7 +308,7 @@ bool AudioThread::IsVoiceActive() const
 void AudioThread::ProcessQueue(ACE_Time_Value* tm)
 {
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
-    TTASSERT(m_listener);
+    TTASSERT(m_callback);
     ACE_Message_Block* mb;
     while(getq(mb, tm) >= 0)
     {
@@ -396,8 +381,8 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             for(size_t i=0;i<enc_frame_sizes.size();i++)
                 nbBytes += enc_frame_sizes[i];
 
-            m_listener->EncodedAudioFrame(m_codec, enc_data, nbBytes,
-                                          enc_frame_sizes, audblock);
+            m_callback(m_codec, enc_data, nbBytes,
+                       enc_frame_sizes, audblock);
         }
         m_enc_cleared = false;
     }
@@ -413,7 +398,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             m_enc_cleared = true;
         }
 
-        m_listener->EncodedAudioFrame(m_codec, NULL, 0, std::vector<int>(), audblock);
+        m_callback(m_codec, NULL, 0, std::vector<int>(), audblock);
     }
 }
 

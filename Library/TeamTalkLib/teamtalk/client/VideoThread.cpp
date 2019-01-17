@@ -29,10 +29,7 @@ using namespace media;
 using namespace teamtalk;
 
 VideoThread::VideoThread()
-: m_listener(NULL)
-#if defined(ENABLE_VPX)
-, m_packet_counter(0)
-#endif
+: m_packet_counter(0)
 , m_codec()
 , m_frames_passed(0)
 , m_frames_dropped(0)
@@ -40,7 +37,7 @@ VideoThread::VideoThread()
     m_codec.codec = CODEC_NO_CODEC;
 }
 
-bool VideoThread::StartEncoder(VideoEncListener* listener,
+bool VideoThread::StartEncoder(videoencodercallback_t callback,
                                const media::VideoFormat& cap_format,
                                const teamtalk::VideoCodec& codec,
                                int max_frames_queued)
@@ -49,15 +46,15 @@ bool VideoThread::StartEncoder(VideoEncListener* listener,
     if(this->thr_count() != 0)
         return false;
 
-    TTASSERT(m_listener == NULL);
-
     int bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= max_frames_queued;
     this->msg_queue()->activate();
     this->msg_queue()->high_water_mark(bytes);
     this->msg_queue()->low_water_mark(bytes);
+    
+    assert(cap_format.IsValid());
 
-    m_listener = listener;
+    m_callback = callback;
     m_cap_format = cap_format;
     m_codec = codec;
 
@@ -78,6 +75,10 @@ bool VideoThread::StartEncoder(VideoEncListener* listener,
         int fps = 1;
         if(cap_format.fps_denominator)
             fps = cap_format.fps_numerator / cap_format.fps_denominator;
+
+        MYTRACE(ACE_TEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
+                         cap_format.width, cap_format.height, fps,
+                         m_codec.webm_vp8.rc_target_bitrate);
         
         if(!m_vpx_encoder.Open(cap_format.width, cap_format.height, 
                                m_codec.webm_vp8.rc_target_bitrate, fps))
@@ -117,7 +118,7 @@ void VideoThread::StopEncoder()
 #endif
     default : break;
     }
-    m_listener = NULL;
+    m_callback = {};
     m_packet_counter = 0;
     m_cap_format = VideoFormat();
     m_codec = VideoCodec();
@@ -132,13 +133,14 @@ int VideoThread::close(u_long)
 
 int VideoThread::svc(void)
 {
-    TTASSERT(m_listener);
     ACE_Message_Block* mb;
 
     while(getq(mb) >= 0)
     {
         VideoFrame vid(mb);
         bool new_ownership = false;
+        assert(m_callback);
+        
         switch(m_codec.codec)
         {
 #if defined(ENABLE_VPX)
@@ -166,12 +168,12 @@ int VideoThread::svc(void)
 
             int enc_len;
             const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
-            new_ownership = m_listener->EncodedVideoFrame(this, mb, enc_data, enc_len,
-                                                       m_packet_counter++, vid.timestamp);
+            new_ownership = m_callback(mb, enc_data, enc_len,
+                                       m_packet_counter++, vid.timestamp);
 
             while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)))
-                m_listener->EncodedVideoFrame(this, NULL, enc_data, enc_len,
-                                              m_packet_counter++, vid.timestamp);
+                m_callback(NULL, enc_data, enc_len,
+                           m_packet_counter++, vid.timestamp);
         }
         break;
 #endif
@@ -195,7 +197,7 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
 {
     assert(mb_video->rd_ptr() == mb_video->base());
     ACE_Time_Value tm_zero;
-    if(this->msg_queue()->enqueue(mb_video, &tm_zero)<0)
+    if (this->msg_queue()->enqueue(mb_video, &tm_zero)<0)
     {
         m_frames_dropped++;
         MYTRACE(ACE_TEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),

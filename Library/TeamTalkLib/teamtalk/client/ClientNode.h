@@ -252,8 +252,6 @@ namespace teamtalk {
         , public StreamListener<CryptStreamHandler::StreamHandler_t>
 #endif
         , public TimerListener
-        , public AudioEncListener
-        , public VideoEncListener
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
         , public MediaStreamListener
@@ -404,17 +402,27 @@ namespace teamtalk {
         //TimerListener - reactor thread
         int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
 
-        //AudioEncListener - separate thread
-        void EncodedAudioFrame(const teamtalk::AudioCodec& codec,
-                               const char* enc_data, int enc_length,
-                               const std::vector<int>& enc_frame_sizes,
-                               const media::AudioFrame& org_frame);
-        //VideoEncListener - separate thread
-        bool EncodedVideoFrame(const VideoThread* video_encoder,
-                               ACE_Message_Block* org_frame,
-                               const char* enc_data, int enc_len,
-                               ACE_UINT32 packet_no,
-                               ACE_UINT32 timestamp);
+        //Audio encoder callback - separate thread
+        void EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
+                                    const char* enc_data, int enc_length,
+                                    const std::vector<int>& enc_frame_sizes,
+                                    const media::AudioFrame& org_frame);
+
+        void EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
+                                   const char* enc_data, int enc_length,
+                                   const std::vector<int>& enc_frame_sizes,
+                                   const media::AudioFrame& org_frame);
+        
+        //Video encoder - separate thread
+        bool EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+                                      const char* enc_data, int enc_len,
+                                      ACE_UINT32 packet_no,
+                                      ACE_UINT32 timestamp);
+        bool EncodedVideoFileFrame(ACE_Message_Block* org_frame,
+                                   const char* enc_data, int enc_len,
+                                   ACE_UINT32 packet_no,
+                                   ACE_UINT32 timestamp);
+
         //PortAudio listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                              const short* buffer, int n_samples);

@@ -45,14 +45,10 @@
 #define GAIN_NORMAL 1000
 #define GAIN_MIN 0
 
-class AudioEncListener
-{
-public:
-    virtual void EncodedAudioFrame(const teamtalk::AudioCodec& codec,
-                                   const char* enc_data, int enc_len,
-                                   const std::vector<int>& enc_frame_sizes,
-                                   const media::AudioFrame& org_frame) = 0;
-};
+typedef std::function< void (const teamtalk::AudioCodec& codec,
+                             const char* enc_data, int enc_len,
+                             const std::vector<int>& enc_frame_sizes,
+                             const media::AudioFrame& org_frame) > audioencodercallback_t;
 
 class AudioThread : protected ACE_Task<ACE_MT_SYNCH>
 {
@@ -60,7 +56,7 @@ public:
     AudioThread();
     virtual ~AudioThread();
 
-    bool StartEncoder(AudioEncListener* listener, 
+    bool StartEncoder(audioencodercallback_t callback, 
                       const teamtalk::AudioCodec& codec, 
                       bool spawn_thread);
     void StopEncoder();
@@ -104,12 +100,12 @@ private:
     const char* ProcessOPUS(const media::AudioFrame& audblock,
                             std::vector<int>& env_frame_sizes);
 #endif
-    AudioEncListener* m_listener;
+    audioencodercallback_t m_callback;
 #if defined(ENABLE_SPEEX)
-    SpeexEncoder* m_speex;
+    std::unique_ptr<SpeexEncoder> m_speex;
 #endif
 #if defined(ENABLE_OPUS)
-    OpusEncode* m_opus;
+    std::unique_ptr<OpusEncode> m_opus;
 #endif
     std::vector<char> m_encbuf;
     std::vector<short> m_echobuf;

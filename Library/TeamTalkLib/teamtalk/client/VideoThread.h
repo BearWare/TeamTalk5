@@ -26,16 +26,14 @@
 
 #include <ace/Task.h>
 #include <ace/Message_Block.h>
-#include <ace/Bound_Ptr.h> 
 #include <ace/Null_Mutex.h> 
 
 #if defined(ENABLE_VPX)
 #include <codec/VpxEncoder.h>
 #endif
 
-#include <avstream/VideoCapture.h>
-
 #include <teamtalk/Common.h>
+#include <codec/MediaUtil.h>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
@@ -44,14 +42,17 @@
 #define GET_OGGPACKET_FROM_MB(ogg_pkt, msg_block) \
     memcpy(&ogg_pkt, msg_block->rd_ptr(), sizeof(ogg_pkt))
 
-class VideoEncListener;
+typedef std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
+                             const char* enc_data, int enc_len,
+                             ACE_UINT32 packet_no,
+                             ACE_UINT32 timestamp) > videoencodercallback_t;
 
 class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
 {
 public:
     VideoThread();
 
-    bool StartEncoder(VideoEncListener* listener, 
+    bool StartEncoder(videoencodercallback_t m_callback,
                       const media::VideoFormat& cap_format,
                       const teamtalk::VideoCodec& codec,
                       int max_frames_queued);
@@ -67,7 +68,8 @@ private:
     int close(u_long);
     int svc(void);
 
-    VideoEncListener* m_listener;
+    videoencodercallback_t m_callback;
+    
 #if defined(ENABLE_VPX)
     VpxEncoder m_vpx_encoder;
 #endif
