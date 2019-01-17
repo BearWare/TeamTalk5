@@ -25,6 +25,7 @@
 
 #include <memory>
 #include <sstream>
+#include <assert.h>
 
 using namespace vidcap;
 

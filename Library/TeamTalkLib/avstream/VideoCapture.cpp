@@ -38,8 +38,8 @@ typedef MFCapture videocapturedevice_t;
 typedef AVFCapture videocapturedevice_t;
 
 #elif defined(ENABLE_V4L2)
-#error "Not implemented yet"
 #include "V4L2Capture.h"
+typedef V4L2Capture videocapturedevice_t;
 
 #else
 
