@@ -142,7 +142,8 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
                                       AVCodecContext* vid_dec_ctx,
                                       AVFilterContext*& vid_buffersink_ctx,
                                       AVFilterContext*& vid_buffersrc_ctx,
-                                      int video_stream_index);
+                                      int video_stream_index,
+                                      AVPixelFormat output_pixfmt);
 
 void FillMediaFileProp(AVFormatContext *fmt_ctx,
                        AVCodecContext *aud_dec_ctx, 
@@ -321,12 +322,16 @@ int FFMpegStreamer::svc()
         video_filter_graph = createVideoFilterGraph(fmt_ctx, vid_dec_ctx,
                                                     vid_buffersink_ctx,
                                                     vid_buffersrc_ctx,
-                                                    video_stream_index);
+                                                    video_stream_index,
+                                                    AV_PIX_FMT_RGB32);
         if(!video_filter_graph)
         {
             m_open.set(false);
             goto end;
         }
+
+        m_media_out.video = m_media_in.video;
+        m_media_out.video.fourcc = media::FOURCC_RGB32;
     }
     else
     {
@@ -573,7 +578,7 @@ int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     int bmp_size = filt_frame->height * filt_frame->linesize[0];
     VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),
                            bmp_size, filt_frame->width, filt_frame->height,
-                           media::FOURCC_RGB32, true);
+                           m_media_out.video.fourcc, true);
     media_frame.timestamp = frame_timestamp;
 
     ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
@@ -719,7 +724,8 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
                                       AVCodecContext* vid_dec_ctx,
                                       AVFilterContext*& vid_buffersink_ctx,
                                       AVFilterContext*& vid_buffersrc_ctx,
-                                      int video_stream_index)
+                                      int video_stream_index,
+                                      AVPixelFormat output_pixfmt)
 {
     //init filters
     AVFilterGraph *filter_graph;
@@ -729,7 +735,7 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
     AVFilter *buffersink = avfilter_get_by_name("buffersink");
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
-    const enum AVPixelFormat pix_fmts[] = { AV_PIX_FMT_RGB32, AV_PIX_FMT_NONE };
+    const enum AVPixelFormat pix_fmts[] = { output_pixfmt, AV_PIX_FMT_NONE };
     char filters_descr[100];
 
     snprintf(filters_descr, sizeof(filters_descr), "scale=%d:%d",
