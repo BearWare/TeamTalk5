@@ -165,10 +165,7 @@
 #define SETTINGS_MEDIASTORAGE_CHANLOGFOLDER         "media-storage/channellog-folder"
 #define SETTINGS_MEDIASTORAGE_USERLOGFOLDER         "media-storage/userlog-folder"
 
-#define SETTINGS_STREAMAUDIO_FILENAME               "stream-audio/stream-audio-file"
-#define SETTINGS_STREAMAUDIO_LOOP                   "stream-audio/stream-audio-file-loop"
-
-#define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/stream-media-filename"
+#define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/%1_stream-media-filename"
 #define SETTINGS_STREAMMEDIA_LOOP                   "stream-media/stream-media-file-loop"
 #define SETTINGS_STREAMMEDIA_CODEC                  "stream-media/codec"
 #define SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE        "stream-media/codec/webmvp8-bitrate"

@@ -2804,7 +2804,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
 
 void MainWindow::startStreamMediaFile()
 {
-    QString fileName = ttSettings->value(SETTINGS_STREAMMEDIA_FILENAME).toString();
+    QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
 
     VideoCodec vidcodec;
     vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
