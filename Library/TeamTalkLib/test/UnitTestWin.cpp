@@ -83,7 +83,7 @@ namespace UnitTest
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
 
-            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .04);
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), int(48000 * .04));
             listener.setOutput(out_prop);
             
 #if defined(ENABLE_DSHOW)
@@ -174,19 +174,19 @@ namespace UnitTest
             } listener;
 
             ACE_TString url;
-            url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            url = L"z:\\Media\\MVI_2526.AVI";
+            //url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
+            //url = L"z:\\Media\\MVI_2526.AVI";
             //url = L"z:\\Media\\OOBEMovie.wmv";
             //url = L"z:\\Media\\OOBEMovie_10sec.wmv";
-            //url = L"z:\\Media\\Seinfeld.avi";
+            url = L"z:\\Media\\Seinfeld.avi";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
 
 #if defined(ENABLE_DSHOW)
-            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_RGB32);
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), int(48000 * .12), media::FOURCC_RGB32);
 #else
-            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), 48000 * .12, media::FOURCC_RGB32);
+            MediaStreamOutput out_prop(media::AudioFormat(48000, 2), int(48000 * .12), media::FOURCC_RGB32);
 #endif
             listener.setOutput(out_prop);
 
@@ -277,12 +277,15 @@ namespace UnitTest
 
             } listener(dev, outputs);
 
-            Assert::IsTrue(dev->StartVideoCapture(szDev, fmt, std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2)));
 
+            Assert::IsTrue(dev->InitVideoCapture(szDev, fmt));
+            Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), fmt.fourcc));
 #if defined(ENABLE_MEDIAFOUNDATION)
-            for (auto f : transforms)
+            for(auto f : transforms)
                 Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), f));
 #endif
+            Assert::IsTrue(dev->StartVideoCapture());
+
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
@@ -464,10 +467,13 @@ namespace UnitTest
             Assert::IsTrue(encoder.Open(fmt.width, fmt.height, 1024, fmt.fps_numerator/fmt.fps_denominator));
             Assert::IsTrue(decoder.Open(fmt.width, fmt.height));
 
-            Assert::IsTrue(device->StartVideoCapture(devs[0].deviceid.c_str(), fmt, std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2)));
-
+            Assert::IsTrue(device->InitVideoCapture(devs[0].deviceid.c_str(), fmt));
+            Assert::IsTrue(device->RegisterVideoFormat(std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2), fmt.fourcc));
             Assert::IsTrue(device->RegisterVideoFormat(std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2), media::FOURCC_I420));
             Assert::IsTrue(device->RegisterVideoFormat(std::bind(&MyListener::OnVideoCaptureCallback, &listener, _1, _2), media::FOURCC_RGB32));
+
+            Assert::IsTrue(device->StartVideoCapture());
+
 
             std::mutex mtx;
             std::unique_lock<std::mutex> lck(mtx);
