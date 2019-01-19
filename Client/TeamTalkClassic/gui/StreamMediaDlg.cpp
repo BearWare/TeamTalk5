@@ -30,13 +30,14 @@
 
 extern TTInstance* ttInst;
 
+#define MAX_FILENAMES 10
+
 // CStreamMediaDlg dialog
 
 IMPLEMENT_DYNAMIC(CStreamMediaDlg, CDialog)
 
 CStreamMediaDlg::CStreamMediaDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CStreamMediaDlg::IDD, pParent)
-    , m_szFilename(_T(""))
     , m_nVidCodecBitrate(DEFAULT_WEBM_VP8_BITRATE)
 {
 
@@ -55,8 +56,7 @@ void CStreamMediaDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_AUDIOFORMAT, m_wndAudioFormat);
     DDX_Control(pDX, IDC_STATIC_VIDEOFORMAT, m_wndVideoFormat);
     DDX_Control(pDX, IDC_EDIT_VIDBITRATE, m_wndVideoBitrate);
-    DDX_Control(pDX, IDC_EDIT_FILENAME, m_wndFileName);
-    DDX_Text(pDX, IDC_EDIT_FILENAME, m_szFilename);
+    DDX_Control(pDX, IDC_COMBO_FILENAME, m_wndFilename);
 }
 
 
@@ -73,6 +73,10 @@ BOOL CStreamMediaDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
+    for(POSITION pos = m_fileList.GetHeadPosition(); pos != nullptr;)
+        m_wndFilename.AddString(m_fileList.GetNext(pos));
+    m_wndFilename.SetCurSel(0);
+
     AddString(m_wndVidCodec, _T("WebM VP8"), WEBM_VP8_CODEC);
     SetCurSelItemData(m_wndVidCodec, WEBM_VP8_CODEC);
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
@@ -86,7 +90,7 @@ BOOL CStreamMediaDlg::OnInitDialog()
 void CStreamMediaDlg::UpdateMediaFile()
 {
     CString szFileName;
-    m_wndFileName.GetWindowText(szFileName);
+    m_wndFilename.GetWindowText(szFileName);
 
     MediaFileInfo mediaFile;
     ZERO_STRUCT(mediaFile);
@@ -126,9 +130,35 @@ void CStreamMediaDlg::OnBnClickedButtonBrowse()
 
     if(dlg.DoModal() == IDOK)
     {
-        m_wndFileName.SetWindowText(dlg.GetPathName());
+        m_wndFilename.SetWindowText(dlg.GetPathName());
+        int nIndex = m_wndFilename.FindString(-1, dlg.GetPathName());
+        if (nIndex != CB_ERR)
+            m_wndFilename.DeleteString(nIndex);
+        m_wndFilename.InsertString(0, dlg.GetPathName());
+        if (m_wndFilename.GetCount() > MAX_FILENAMES)
+            m_wndFilename.DeleteString(MAX_FILENAMES);
         UpdateMediaFile();
     }
 
     SetCurrentDirectory(s);
+}
+
+
+void CStreamMediaDlg::OnOK()
+{
+    CDialog::OnOK();
+
+    m_fileList.RemoveAll();
+    CString szFilename;
+
+    m_wndFilename.GetWindowText(szFilename);
+    m_fileList.AddTail(szFilename);
+
+    for (int i=0;i<m_wndFilename.GetCount();++i)
+    {
+        CString s;
+        m_wndFilename.GetLBText(i, s);
+        if (s.CompareNoCase(szFilename) != 0)
+            m_fileList.AddTail(s);
+    }
 }
