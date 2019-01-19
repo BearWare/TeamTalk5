@@ -29,9 +29,6 @@
 #if defined(ENABLE_DSHOW)
 #include "WinMedia.h"
 #endif
-#if defined(ENABLE_FFMPEG1)
-#include "FFMpeg1Streamer.h"
-#endif
 #if defined(ENABLE_FFMPEG3)
 #include "FFMpeg3Streamer.h"
 #endif
@@ -48,7 +45,7 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return GetMFMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_DSHOW)
     return GetDSMediaFileProp(filename, fileprop);
-#elif defined(ENABLE_FFMPEG1) || defined(ENABLE_FFMPEG3)
+#elif defined(ENABLE_FFMPEG3)
     return GetAVMediaFileProp(filename, fileprop);
 #endif
     return false;
@@ -63,7 +60,7 @@ media_streamer_t MakeMediaStreamer(MediaStreamListener* listener)
     ACE_NEW_RETURN(tmp_streamer, MFStreamer(listener), media_streamer_t());
 #elif defined(ENABLE_DSHOW)
     ACE_NEW_RETURN(tmp_streamer, DSWrapperThread(listener), media_streamer_t());
-#elif defined(ENABLE_FFMPEG1) || defined(ENABLE_FFMPEG3)
+#elif defined(ENABLE_FFMPEG3)
     ACE_NEW_RETURN(tmp_streamer, FFMpegStreamer(listener), media_streamer_t());
 #endif
     streamer = media_streamer_t(tmp_streamer);
@@ -279,15 +276,15 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
     }
     while(write_bytes > 0 && m_audio_frames.peek_dequeue_head(mb, &tv) >= 0);
 
-    MYTRACE(ACE_TEXT("Audio %u - Writebytes %u, audio size %d, q size %u, msg cnt: %u\n"),
-            NOW - starttime, write_bytes, GetQueuedAudioDataSize(),
-            unsigned(m_audio_frames.message_length()),
-            unsigned(m_audio_frames.message_count()));
+    //MYTRACE(ACE_TEXT("Audio %u - Writebytes %u, audio size %d, q size %u, msg cnt: %u\n"),
+    //        NOW - starttime, write_bytes, GetQueuedAudioDataSize(),
+    //        unsigned(m_audio_frames.message_length()),
+    //        unsigned(m_audio_frames.message_count()));
 
     assert(flush || write_bytes == 0);
 
     //write bytes should only be greater than 0 if flushing
-    if(write_bytes)
+    if (write_bytes > 0)
     {
         ACE_OS::memset(out_mb->wr_ptr(), 0, write_bytes);
         out_mb->wr_ptr(write_bytes);
@@ -295,7 +292,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
     }
 
     uint32_t timestamp = media_frame->timestamp;
-    bool need_more = GetQueuedAudioDataSize() < required_audio_bytes || W32_LEQ(timestamp, NOW);
+    bool need_more = GetQueuedAudioDataSize() < required_audio_bytes;
     MYTRACE(ACE_TEXT("Audio %u - Submitted %u. Diff: %d. Need more %d\n"), NOW - starttime,
             timestamp - starttime, int((NOW - starttime) - (timestamp - starttime)),
             int(need_more));
@@ -307,7 +304,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
     }
     //'out_mb' should now be considered dead
 
-    return true;
+    return need_more;
 }
 
 bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime)
@@ -370,15 +367,16 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime)
         }
         else
         {
-            MYTRACE(ACE_TEXT("Video - Not video time %u, duration %u. Queue: %u\n"),
-                    media_frame->timestamp, NOW - starttime, unsigned(m_video_frames.message_count()));
+            MYTRACE(ACE_TEXT("Video %u - Not video time %u. Queue: %u\n"),
+                NOW - starttime, media_frame->timestamp, unsigned(m_video_frames.message_count()));
             return false;
         }
     }
+    else
+    {
+        MYTRACE(ACE_TEXT("Video %u - Queue empty\n"), NOW - starttime);
+    }
 
-    MYTRACE(ACE_TEXT("Video %u - No video. Queue: %u\n"), 
-            NOW - starttime,
-            unsigned(m_video_frames.message_count()));
 
-    return true;
+    return m_video_frames.message_count() == 0;
 }

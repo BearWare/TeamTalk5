@@ -145,6 +145,11 @@ public:
         if(FAILED(hr))
             return;
 
+        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_NOTIFY_BEGIN_STREAMING, 0);
+        assert(SUCCEEDED(hr));
+
+        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_NOTIFY_START_OF_STREAM, 0);
+        assert(SUCCEEDED(hr));
 
         m_ready = true;
     }
@@ -157,17 +162,50 @@ public:
 
     bool Ready() const { return m_ready; }
 
-    bool SubmitSample(CComPtr<IMFSample>& pInSample)
+    TransformState SubmitSample(CComPtr<IMFSample>& pInSample)
     {
         assert(Ready());
-
+        
         HRESULT hr;
         hr = m_pMFT->ProcessInput(m_dwInputID, pInSample, 0);
-
-        return SUCCEEDED(hr);
+        MYTRACE_COND(hr == MF_E_NOTACCEPTING, ACE_TEXT("Now enough input to generate output\n"));
+        switch(hr)
+        {
+        case MF_E_NOTACCEPTING :
+            return TRANSFORM_INPUT_BLOCKED; // output ready, so cannot submit
+        case E_INVALIDARG :
+            assert(hr != E_INVALIDARG);
+            return TRANSFORM_ERROR;
+        case MF_E_INVALIDSTREAMNUMBER :
+            assert(hr != MF_E_INVALIDSTREAMNUMBER);
+            return TRANSFORM_ERROR;
+        case MF_E_NO_SAMPLE_DURATION :
+            assert(hr != MF_E_NO_SAMPLE_DURATION);
+            return TRANSFORM_ERROR;
+        case MF_E_NO_SAMPLE_TIMESTAMP :
+            assert(hr != MF_E_NO_SAMPLE_TIMESTAMP);
+            return TRANSFORM_ERROR;
+        case MF_E_TRANSFORM_TYPE_NOT_SET :
+            assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
+            return TRANSFORM_ERROR;
+        case MF_E_UNSUPPORTED_D3D_TYPE :
+            assert(hr != MF_E_UNSUPPORTED_D3D_TYPE);
+            return TRANSFORM_ERROR;
+        case S_OK :
+        {
+            DWORD dwFlags;
+            hr = m_pMFT->GetOutputStatus(&dwFlags);
+            if (SUCCEEDED(hr) && dwFlags == MFT_OUTPUT_STATUS_SAMPLE_READY)
+                return TRANSFORM_IO_SUCCESS;
+            return TRANSFORM_SUBMITTED;
+        }
+        default :
+            assert(hr == S_OK);
+            return TRANSFORM_ERROR;
+        }
     }
 
-    bool SubmitSample(const media::VideoFrame& frame)
+    TransformState SubmitSample(const media::VideoFrame& frame)
     {
         HRESULT hr;
         CComPtr<IMFSample> pSample;
@@ -216,7 +254,7 @@ public:
         return SubmitSample(pSample);
 
     fail:
-        return false;
+        return TRANSFORM_ERROR;
     }
 
     CComPtr<IMFSample> RetrieveSample()
@@ -224,63 +262,86 @@ public:
         assert(Ready());
 
         HRESULT hr;
+
+        DWORD dwStatus, dwFlags;
+        
+        if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
+            return CComPtr<IMFSample>();
+
         CComPtr<IMFSample> pOutSample;
         MFT_OUTPUT_STREAM_INFO mftStreamInfo = { 0 };
         hr = m_pMFT->GetOutputStreamInfo(m_dwOutputID, &mftStreamInfo);
         if (FAILED(hr))
             return CComPtr<IMFSample>();
 
-        hr = MFCreateSample(&pOutSample);
-        if(FAILED(hr))
-            return CComPtr<IMFSample>();
-
-        CComPtr<IMFMediaBuffer> pBufferOut;
-        hr = MFCreateMemoryBuffer(mftStreamInfo.cbSize, &pBufferOut);
-        if(FAILED(hr))
-            return CComPtr<IMFSample>();
-        hr = pOutSample->AddBuffer(pBufferOut);
-        if(FAILED(hr))
-            return CComPtr<IMFSample>();
-
         MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
-        mftOutputData.pSample = pOutSample;
         mftOutputData.dwStreamID = m_dwOutputID;
         mftOutputData.dwStatus = 0;
         mftOutputData.pEvents = nullptr;
 
-        DWORD dwStatus;
-        hr = m_pMFT->ProcessOutput(0, 1, &mftOutputData, &dwStatus);
-
-        if (mftOutputData.pEvents)
-            mftOutputData.pEvents->Release();
-
-        switch (hr)
+        if (mftStreamInfo.dwFlags & (MFT_OUTPUT_STREAM_PROVIDES_SAMPLES | MFT_OUTPUT_STREAM_CAN_PROVIDE_SAMPLES))
         {
-        case E_UNEXPECTED:
-            assert(hr != E_UNEXPECTED);
-            return CComPtr<IMFSample>();
-        case MF_E_INVALIDSTREAMNUMBER :
-            assert(hr != MF_E_INVALIDSTREAMNUMBER);
-            return CComPtr<IMFSample>();
-        case MF_E_TRANSFORM_NEED_MORE_INPUT :
-            //assert(hr != MF_E_TRANSFORM_NEED_MORE_INPUT);
-            return CComPtr<IMFSample>();
-        case MF_E_TRANSFORM_STREAM_CHANGE :
-            assert(hr != MF_E_TRANSFORM_STREAM_CHANGE);
-            return CComPtr<IMFSample>();
-        case MF_E_TRANSFORM_TYPE_NOT_SET :
-            assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
-            return CComPtr<IMFSample>();
-        case S_OK :
-            break;
-        default :
-            assert(hr == S_OK);
-            return CComPtr<IMFSample>();
+            mftOutputData.pSample = nullptr;
         }
+        else
+        {
+            hr = MFCreateSample(&pOutSample);
+            if(FAILED(hr))
+                return CComPtr<IMFSample>();
+
+            CComPtr<IMFMediaBuffer> pBufferOut;
+            if(mftStreamInfo.cbAlignment)
+                hr = MFCreateAlignedMemoryBuffer(mftStreamInfo.cbSize, mftStreamInfo.cbAlignment - 1, &pBufferOut);
+            else
+                hr = MFCreateMemoryBuffer(mftStreamInfo.cbSize, &pBufferOut);
+            assert(SUCCEEDED(hr));
+            if(FAILED(hr))
+                return CComPtr<IMFSample>();
+            hr = pOutSample->AddBuffer(pBufferOut);
+            if(FAILED(hr))
+                return CComPtr<IMFSample>();
+
+            mftOutputData.pSample = pOutSample;
+        }
+
+        do
+        {
+            hr = m_pMFT->ProcessOutput(0, 1, &mftOutputData, &dwStatus);
+
+            if(mftOutputData.pEvents)
+                mftOutputData.pEvents->Release();
+
+            switch(hr)
+            {
+            case E_UNEXPECTED:
+                assert(hr != E_UNEXPECTED);
+                return CComPtr<IMFSample>();
+            case MF_E_INVALIDSTREAMNUMBER:
+                assert(hr != MF_E_INVALIDSTREAMNUMBER);
+                return CComPtr<IMFSample>();
+            case MF_E_TRANSFORM_STREAM_CHANGE:
+                assert(hr != MF_E_TRANSFORM_STREAM_CHANGE);
+                return CComPtr<IMFSample>();
+            case MF_E_TRANSFORM_TYPE_NOT_SET:
+                assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
+                return CComPtr<IMFSample>();
+            case S_OK:
+                break;
+            case MF_E_TRANSFORM_NEED_MORE_INPUT:
+                break;
+            default:
+                assert(hr == S_OK);
+                return CComPtr<IMFSample>();
+            }
+        }
+        while (hr != MF_E_TRANSFORM_NEED_MORE_INPUT);
 
         hr = m_pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_FLUSH, m_dwInputID);
         if(FAILED(hr))
             return CComPtr<IMFSample>();
+
+        if (mftOutputData.pSample != pOutSample)
+            pOutSample = mftOutputData.pSample;
 
         if (m_endpoint.get())
         {
@@ -295,46 +356,62 @@ public:
 
     ACE_Message_Block* RetrieveMBSample()
     {
-        HRESULT hr;
-        ACE_Message_Block* mb = nullptr;
         CComPtr<IMFSample> pSample = RetrieveSample();
         if (!pSample.p)
             return nullptr;
 
-        ACE_UINT32 timestamp = 0;
-        DWORD dwBufCount = 0;
-        if(pSample)
-        {
-            hr = pSample->GetBufferCount(&dwBufCount);
-            assert(SUCCEEDED(hr));
-            LONGLONG llSampleTime = 0;
-            if (SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
-                timestamp = (llSampleTime / 10000);
-        }
-
-        for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
-        {
-            CComPtr<IMFMediaBuffer> pMediaBuffer;
-            hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
-            assert(SUCCEEDED(hr));
-            if(FAILED(hr))
-                break;
-
-            BYTE* pBuffer = NULL;
-            DWORD dwCurLen, dwMaxSize;
-            hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-            assert(SUCCEEDED(hr));
-            if(SUCCEEDED(hr))
-            {
-                media::VideoFrame frame(m_outputfmt, reinterpret_cast<char*>(pBuffer), dwCurLen);
-                frame.timestamp = timestamp;
-                mb = VideoFrameToMsgBlock(frame);
-            }
-            hr = pMediaBuffer->Unlock();
-            assert(SUCCEEDED(hr));
-        }
-        return mb;
+        return ConvertVideoSample(pSample, m_outputfmt);
     }
+
+    CComPtr<IMFSample> ProcessSample(CComPtr<IMFSample>& pInSample)
+    {
+        CComPtr<IMFSample> pOutSample;
+
+        UINT32 uTransform = SubmitSample(pInSample);
+        switch(uTransform)
+        {
+            // input block, try draining and resubmit
+        case TRANSFORM_INPUT_BLOCKED:
+            pOutSample = RetrieveSample();
+            uTransform = SubmitSample(pInSample);
+            switch(uTransform)
+            {
+            case TRANSFORM_IO_SUCCESS:
+                assert(!pOutSample);
+                pOutSample = RetrieveSample();
+                assert(pOutSample);
+                //MYTRACE(ACE_TEXT("Got frame due to blocked input: %d\n"), ++frames);
+                break;
+            case TRANSFORM_SUBMITTED:
+                break;
+            default:
+                assert(0);
+            }
+            break;
+            // input success and output ready
+        case TRANSFORM_IO_SUCCESS:
+            pOutSample = RetrieveSample();
+            assert(pOutSample);
+            //MYTRACE(ACE_TEXT("Got frame from I/O success: %d\n"), ++frames);
+            break;
+        default:
+            MYTRACE_COND(uTransform & TRANSFORM_SUBMITTED, ACE_TEXT("Submitted but no output\n"));
+            MYTRACE_COND(uTransform & TRANSFORM_ERROR, ACE_TEXT("Transform error\n"));
+            break;
+        }
+
+        return pOutSample;
+    }
+
+    ACE_Message_Block* ProcessMBSample(CComPtr<IMFSample>& pInSample)
+    {
+        CComPtr<IMFSample> pOutSample = ProcessSample(pInSample);
+        if (!pOutSample)
+            return nullptr;
+
+        return ConvertVideoSample(pOutSample, m_outputfmt);
+    }
+
 
 };
 
@@ -403,7 +480,6 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
 
     HRESULT hr;
     CComPtr<IMFMediaType> pInputType;
-    UINT32 size;
     LONG stride = 0;
     hr = MFCreateMediaType(&pInputType);
     if (FAILED(hr))
@@ -564,4 +640,43 @@ media::VideoFormat ConvertMediaType(IMFMediaType* pInputType)
     hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
     
     return media::VideoFormat(w, h, numerator, denominator, ConvertSubType(subtype));
+}
+
+ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt)
+{
+    HRESULT hr;
+    ACE_UINT32 timestamp = 0;
+    DWORD dwBufCount = 0;
+    ACE_Message_Block* mb = nullptr;
+    if(pSample)
+    {
+        hr = pSample->GetBufferCount(&dwBufCount);
+        assert(SUCCEEDED(hr));
+        LONGLONG llSampleTime = 0;
+        if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
+            timestamp = ACE_UINT32(llSampleTime / 10000);
+    }
+
+    for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
+    {
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            break;
+
+        BYTE* pBuffer = NULL;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(SUCCEEDED(hr))
+        {
+            media::VideoFrame frame(fmt, reinterpret_cast<char*>(pBuffer), dwCurLen);
+            frame.timestamp = timestamp;
+            mb = VideoFrameToMsgBlock(frame);
+        }
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+    }
+    return mb;
 }

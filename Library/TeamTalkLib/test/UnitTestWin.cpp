@@ -123,7 +123,8 @@ namespace UnitTest
                     os << L"video_";
                     os.fill('0');
                     os.width(20);
-                    os << ++n_bmp;
+                    //os << ++n_bmp;
+                    os << video_frame.timestamp;
                     os << L".bmp";
                     switch (video_frame.fourcc)
                     {
@@ -175,10 +176,11 @@ namespace UnitTest
 
             ACE_TString url;
             //url = L"https://bearware.dk/temp/OOBEMovie_10sec.wmv";
-            //url = L"z:\\Media\\MVI_2526.AVI";
+            url = L"z:\\Media\\MVI_2526.AVI";
             //url = L"z:\\Media\\OOBEMovie.wmv";
             //url = L"z:\\Media\\OOBEMovie_10sec.wmv";
-            url = L"z:\\Media\\Seinfeld.avi";
+            //url = L"z:\\Media\\Seinfeld.avi";
+            //url = L"z:\\Media\\Wildlife.wmv";
 
             MediaFileProp in_prop;
             Assert::IsTrue(GetMediaFileProp(url, in_prop));
@@ -187,6 +189,7 @@ namespace UnitTest
             MediaStreamOutput out_prop(media::AudioFormat(48000, 2), int(48000 * .12), media::FOURCC_RGB32);
 #else
             MediaStreamOutput out_prop(media::AudioFormat(48000, 2), int(48000 * .12), media::FOURCC_RGB32);
+            //MediaStreamOutput out_prop(media::AudioFormat(), int(48000 * .12), media::FOURCC_RGB32);
 #endif
             listener.setOutput(out_prop);
 
@@ -279,9 +282,8 @@ namespace UnitTest
 
 
             Assert::IsTrue(dev->InitVideoCapture(szDev, fmt));
-            Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), fmt.fourcc));
 #if defined(ENABLE_MEDIAFOUNDATION)
-            for(auto f : transforms)
+            for(auto f : outputs)
                 Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), f));
 #endif
             Assert::IsTrue(dev->StartVideoCapture());

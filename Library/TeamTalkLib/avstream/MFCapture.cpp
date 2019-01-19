@@ -354,6 +354,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
             assert(SUCCEEDED(hr));
         }
 
+        // TODO: don't bother creating this frame if there's no callback to the media format
         for(DWORD i = 0; i<dwBufCount; i++)
         {
             CComPtr<IMFMediaBuffer> pMediaBuffer;
@@ -381,14 +382,14 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
 
         for (auto& transform : session->transforms)
         {
-            if(dwBufCount && transform.second->SubmitSample(pSample))
+            if(dwBufCount)
             {
-                ACE_Message_Block* mb = transform.second->RetrieveMBSample();
+                ACE_Message_Block* mb = transform.second->ProcessMBSample(pSample);
                 if(mb)
                 {
                     media::VideoFrame media_frame(mb);
                     media_frame.timestamp = uTimeStamp;
-                    if (!session->PerformCallback(media_frame, mb))
+                    if(!session->PerformCallback(media_frame, mb))
                         mb->release();
                 }
             }
