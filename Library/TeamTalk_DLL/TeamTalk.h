@@ -4505,7 +4505,7 @@ extern "C" {
      * connection. Encryption is only available in the TeamTalk
      * Professional SDK.
      * @param szSystemID The identification of the conferencing system.
-     * The default value is "teamtalk". See TT_StartServerSysID()
+     * The default value is "teamtalk". See TTS_StartServerSysID()
      * @return Returns TRUE if connection process was initiated. */
     TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
                                            IN const TTCHAR* szHostAddress, 
