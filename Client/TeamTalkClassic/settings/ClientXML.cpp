@@ -237,15 +237,15 @@ namespace teamtalk {
         return NULL;
     }
 
-    TiXmlElement* ClientXML::GetOtherElement()
+    TiXmlElement* ClientXML::GetMediaFilesElement()
     {
         TiXmlElement* root = GetRootElement();
         if(root)
         {
-            TiXmlElement* child = root->FirstChildElement("other");
+            TiXmlElement* child = root->FirstChildElement("mediafiles");
             if(!child)
             {
-                TiXmlElement newchild("other");
+                TiXmlElement newchild("mediafiles");
                 child = root->InsertEndChild(newchild)->ToElement();
             }
             return child;
@@ -2720,28 +2720,48 @@ namespace teamtalk {
 
     /**** </latest-hosts> *****/
 
-    /********** <other> *********/
-    bool ClientXML::SetLastMediaFile(const std::string& filename)
+    /********** <mediafiles> *********/
+    bool ClientXML::SetLastMediaFiles(const std::vector<std::string>& filenames)
     {
-        TiXmlElement* pParent = GetOtherElement();
-        if(pParent)
+        TiXmlElement* parent = GetMediaFilesElement();
+        if(parent)
         {
-            PutString(*pParent, "last-media-file", filename);
+            TiXmlElement* child = parent->FirstChildElement();
+            while (child)
+            {
+                parent->RemoveChild(child);
+                child = parent->FirstChildElement();
+            }
+
+            for (auto s : filenames)
+            {
+                TiXmlElement element("last-media-file");
+                PutElementText(element, s);
+                AppendElement(*parent, element);
+            }
             return true;
         }
         else
             return false;
     }
 
-    std::string ClientXML::GetLastMediaFile()
+    std::vector<std::string> ClientXML::GetLastMediaFiles()
     {
-        TiXmlElement* child = GetOtherElement();
-        string s;
-        if(child)
-            GetString(*child, "last-media-file", s);
-        return s;
+        std::vector<std::string> result;
+
+        TiXmlElement* parent = GetMediaFilesElement();
+        TiXmlElement* child = parent->FirstChildElement();
+        while (child)
+        {
+            std::string s;
+            GetElementText(*child, s);
+            if (s.size())
+                result.push_back(s);
+            child = child->NextSiblingElement("last-media-file");
+        }
+        return result;
     }
-    /********** </other> *********/
+    /********** </mediafiles> *********/
 
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)
     {

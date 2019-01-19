@@ -442,10 +442,10 @@ namespace teamtalk {
         bool GetHostManagerEntry(const std::string& entryname, HostEntry& entry);
         /********** </hostmanager> **********/
 
-        /********** <other> *********/
-        bool SetLastMediaFile(const std::string& filename);
-        std::string GetLastMediaFile();
-        /********** </other> *********/
+        /********** <mediafiles> *********/
+        bool SetLastMediaFiles(const std::vector<std::string>& filenames);
+        std::vector<std::string> GetLastMediaFiles();
+        /********** </mediafiles> *********/
     protected:
         TiXmlElement* GetRootElement();
         TiXmlElement* GetMainElement();
@@ -459,7 +459,7 @@ namespace teamtalk {
         TiXmlElement* GetShortCutsElement();
         TiXmlElement* GetHostManagerElement();
         TiXmlElement* GetLatestHostsElement();
-        TiXmlElement* GetOtherElement();
+        TiXmlElement* GetMediaFilesElement();
 
         void PutHotKey(TiXmlElement& parent, const HotKey& hotkey);
         bool GetHotKey( const TiXmlElement& parent, HotKey& hotkey);

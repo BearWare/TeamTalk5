@@ -684,6 +684,7 @@
 #define IDC_COMBO_INPUT                 1556
 #define IDC_COMBO_SORTCHANNELS          1557
 #define IDC_CHECK_RECORDVOICE           1558
+#define IDC_COMBO_FILENAME              1559
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -797,9 +798,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        309
+#define _APS_NEXT_RESOURCE_VALUE        310
 #define _APS_NEXT_COMMAND_VALUE         32954
-#define _APS_NEXT_CONTROL_VALUE         1559
+#define _APS_NEXT_CONTROL_VALUE         1560
 #define _APS_NEXT_SYMED_VALUE           303
 #endif
 #endif

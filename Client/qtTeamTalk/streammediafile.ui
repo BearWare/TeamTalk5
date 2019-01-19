@@ -21,19 +21,20 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0">
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Media file</string>
           </property>
-          <property name="buddy">
-           <cstring>mediafileEdit</cstring>
-          </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="mediafileEdit"/>
+         <widget class="QComboBox" name="mediafileComboBox">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QToolButton" name="toolButton">
@@ -297,7 +298,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>mediafileEdit</tabstop>
+  <tabstop>mediafileComboBox</tabstop>
   <tabstop>toolButton</tabstop>
   <tabstop>refreshBtn</tabstop>
   <tabstop>loopChkBox</tabstop>
@@ -307,6 +308,7 @@
   <tabstop>cancelBtn</tabstop>
  </tabstops>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections>
