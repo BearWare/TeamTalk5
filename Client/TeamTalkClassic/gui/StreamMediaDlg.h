@@ -54,6 +54,7 @@ public:
     CStatic m_wndAudioFormat;
     CStatic m_wndVideoFormat;
     CEdit m_wndVideoBitrate;
-    CEdit m_wndFileName;
-    CString m_szFilename;
+    CStringList m_fileList;
+    CComboBox m_wndFilename;
+    virtual void OnOK();
 };

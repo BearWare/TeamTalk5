@@ -27,9 +27,12 @@
 #include "common.h"
 
 #include <QFileDialog>
+#include <QLineEdit>
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+
+#define MAX_MEDIAFILES 10
 
 StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -43,7 +46,14 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     connect(ui.vidcodecBox, SIGNAL(currentIndexChanged(int)),
             ui.vidcodecStackedWidget, SLOT(setCurrentIndex(int)));
 
-    ui.mediafileEdit->setText(ttSettings->value(SETTINGS_STREAMMEDIA_FILENAME).toString());
+    int i = 0;
+    QString item;
+    while ((item = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i++)).toString()).size())
+    {
+        ui.mediafileComboBox->addItem(item);
+
+    }
+    ui.mediafileComboBox->setCurrentIndex(0);
 
     int vidcodec = ttSettings->value(SETTINGS_STREAMMEDIA_CODEC, DEFAULT_VIDEO_CODEC).toInt();
 
@@ -59,8 +69,22 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
 void StreamMediaFileDlg::slotAccepted()
 {
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_FILENAME,
-                         ui.mediafileEdit->text());
+    QVector<QString> files;
+    for (int i=0;i<ui.mediafileComboBox->count();i++)
+    {
+        files.push_back(ui.mediafileComboBox->itemText(i));
+    }
+    QString filename = ui.mediafileComboBox->lineEdit()->text();
+    files.removeAll(filename);
+    files.push_front(filename);
+    if (files.size() > MAX_MEDIAFILES)
+        files.resize(MAX_MEDIAFILES);
+
+    for (int i = 0; i < files.size(); i++)
+    {
+        ttSettings->setValue(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i), files[i]);
+    }
+
     ttSettings->setValue(SETTINGS_STREAMMEDIA_LOOP,
                          ui.loopChkBox->isChecked());
     int codec_index = ui.vidcodecBox->currentIndex();
@@ -70,7 +94,7 @@ void StreamMediaFileDlg::slotAccepted()
 
 void StreamMediaFileDlg::slotSelectFile()
 {
-    QFileInfo fileinfo(QDir::fromNativeSeparators(ui.mediafileEdit->text()));
+    QFileInfo fileinfo(QDir::fromNativeSeparators(ui.mediafileComboBox->lineEdit()->text()));
 
     QString fileName = QFileDialog::getOpenFileName(this,
                         tr("Open Media File"),
@@ -79,14 +103,15 @@ void StreamMediaFileDlg::slotSelectFile()
     if(fileName.size())
     {
         fileName = QDir::toNativeSeparators(fileName);
-        ui.mediafileEdit->setText(fileName);
+        ui.mediafileComboBox->insertItem(0, fileName);
+        ui.mediafileComboBox->setCurrentIndex(0);
     }
     showMediaFormatInfo();
 }
 
 void StreamMediaFileDlg::showMediaFormatInfo()
 {
-    QString filename = ui.mediafileEdit->text();
+    QString filename = ui.mediafileComboBox->lineEdit()->text();
     QString audio, video;
     MediaFileInfo mediaFile;
     ZERO_STRUCT(mediaFile);
