@@ -23,6 +23,7 @@ if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
 endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+  # Ubuntu: libasound2-dev
   find_library(ASOUND_LIBRARY asound)
   set (PORTAUDIO_LINK_FLAGS ${ASOUND_LIBRARY})
 endif()

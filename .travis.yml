@@ -5,11 +5,17 @@ addons:
   apt:
     packages:
       - libace-dev
+      - libace-ssl-dev
       - libace-inet-dev
       - libace-inet-ssl-dev
-      - libopus-dev
+      - libtinyxml-dev
+      - zlib1g-dev
+      - libssl-dev
+      - openjdk-8-jdk
       - cmake
+      - libopus-dev
+      - libasound2-dev
 
 script:
-  - cmake .
-
+  - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP=OFF -DFFMPEG=OFF -DV4L2=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS=OFF -DLIBVPX=OFF -DSPEEX=OFF -DOGG=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO=OFF -DZLIB_STATIC=OFF .
+  - make

@@ -642,9 +642,14 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
 int HttpRequest(const ACE_CString& url, std::string& doc)
 {
 #if defined(ENABLE_ENCRYPTION)
-    // HTTPS session factory is not instantiated unless specified explicitly
+#if defined(ENABLE_TEAMTALKACE)
+    // Enable SNI enabled HTTPS sessions
     ACE::HTTPS::SessionFactory_Impl::registerHTTPS();
-#endif
+#else
+    // HTTPS session factory is not instantiated unless specified explicitly
+    ACE_Singleton<ACE::HTTPS::SessionFactory_Impl, ACE_SYNCH::NULL_MUTEX>::instance();
+#endif /* ENABLE_TEAMTALKACE */
+#endif /* ENABLE_ENCRYPTION */
 
     ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
     if(url_safe.get() == 0)
