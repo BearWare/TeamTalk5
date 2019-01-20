@@ -12,3 +12,4 @@ addons:
 
 script:
   - cmake .
+  - make
