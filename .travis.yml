@@ -1,0 +1,14 @@
+language: cpp
+
+dist: trusty
+addons:
+  apt:
+    packages:
+      - libace-dev
+      - libace-inet-dev
+      - libace-inet-ssl-dev
+      - libopus-dev
+      - cmake
+
+script:
+  - cmake .
