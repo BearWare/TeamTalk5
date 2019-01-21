@@ -11,14 +11,13 @@ addons:
       - libtinyxml-dev
       - zlib1g-dev
       - libssl-dev
-      - openjdk-8-jdk
-      - cmake
       - libopus-dev
-      - libasound2-dev
       - libspeex-dev
       - libspeexdsp-dev
       - libvpx-dev
       - libogg-dev
+      - portaudio19-dev
+      - libasound2-dev
       - libavcodec-dev
       - libavdevice-dev
       - libavfilter-dev
@@ -27,6 +26,8 @@ addons:
       - libavutil-dev
       - libswresample-dev
       - libswscale-dev
+      - openjdk-8-jdk
+      - cmake
 
 script:
   - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO_STATIC=OFF -DZLIB_STATIC=OFF .
