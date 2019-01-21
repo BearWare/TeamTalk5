@@ -30,14 +30,15 @@ addons:
       - cmake
       - qt5-default
       - qtmultimedia5-dev
-      - qtwebengine5-dev
       - libqt5x11extras5-dev
+      - libqt5webkit5-dev
+#      - qtwebengine5-dev
 
 script:
   - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO_STATIC=OFF -DZLIB_STATIC=OFF .
   - make
-  - cd Client/qtTeamTalk && qmake teamtalk5.pro
+  - cd Client/qtTeamTalk && qmake CONFIG+=nowebengine teamtalk5.pro
   - make -C Client/qtTeamTalk
   - make -C Client/qtTeamTalk clean
-  - cd Client/qtTeamTalk && qmake teamtalk5pro.pro
+  - cd Client/qtTeamTalk && qmake CONFIG+=nowebengine teamtalk5pro.pro
   - make -C Client/qtTeamTalk
