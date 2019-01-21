@@ -11,7 +11,7 @@ else()
 
   if (SPEEX_STATIC)
     set (SPEEX_INCLUDE_DIR ${TTLIBS_ROOT}/speex/include)
-    set (SPEEX_STATIC_LIB ${TTLIBS_ROOT}/speex/lib/libspeex.a)
+    set (SPEEX_LINK_FLAGS ${TTLIBS_ROOT}/speex/lib/libspeex.a)
   else()
     # Ubuntu: libspeex-dev
     find_library(SPEEX_LIBRARY speex)
