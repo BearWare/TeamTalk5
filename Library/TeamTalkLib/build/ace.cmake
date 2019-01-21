@@ -13,7 +13,7 @@ if (MSVC)
   set (ACESSL_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_SSLs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_SSLsd.lib)
   set (ACEINET_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INets.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INetsd.lib)
   set (ACEINETSSL_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLsd.lib)
-  set (ACE_LINK_FLAGS ${ACEINETSSL_STATIC_LIB} ${ACESSL_STATIC_LIB} ${ACEINET_STATIC_LIB})
+  set (ACE_LINK_FLAGS ${ACEINETSSL_STATIC_LIB} ${ACESSL_STATIC_LIB} ${ACEINET_STATIC_LIB} ${ACE_STATIC_LIB})
 else()
 
   option (ACE_STATIC "Build using static ACE libraries" ON)
