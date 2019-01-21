@@ -26,6 +26,7 @@
 #include <ace/OS.h>
 #include <ace/UTF16_Encoding_Converter.h>
 #include <ace/OS_NS_ctype.h>
+#include <ace/Version.h>
 
 #include <ace/INet/HTTP_URL.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
@@ -573,6 +574,20 @@ uint32_t GETTIMESTAMP()
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
 {
+    std::vector<ACE_INET_Addr> result;
+    
+#if ACE_MAJOR_VERSION < 6 || (ACE_MAJOR_VERSION == 6 && ACE_MINOR_VERSION < 4)
+    result.resize(1);
+
+    int address_family = AF_INET;
+    result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
+    if (result[0].is_any())
+    {
+        address_family = AF_INET6;
+        result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
+    }
+    
+#else
     bool encode = true;
     addrinfo hints;
     ACE_OS::memset(&hints, 0, sizeof hints);
@@ -606,7 +621,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
         return std::vector<ACE_INET_Addr>();
     }
 
-    std::vector<ACE_INET_Addr> result;
 
     for(addrinfo *curr = res; curr; curr = curr->ai_next)
     {
@@ -636,6 +650,8 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
 
     ACE_OS::freeaddrinfo(res);
 
+#endif /* ACE_MAJOR_VERSION */
+    
     return result;
 }
 
