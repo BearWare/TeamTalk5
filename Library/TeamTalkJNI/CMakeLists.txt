@@ -95,7 +95,7 @@ if (BUILD_TEAMTALK_LIBRARY_JNI)
   target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
 
   set_target_properties (TeamTalk5-jni PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY libs)
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs")
   
 endif()
 
@@ -108,7 +108,7 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
   target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
 
   set_target_properties (TeamTalk5Pro-jni PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY libs)
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs")
 
 endif()
 
