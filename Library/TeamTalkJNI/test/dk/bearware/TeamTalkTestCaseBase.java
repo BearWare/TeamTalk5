@@ -48,9 +48,9 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-    public static final String MEDIAFILE_AUDIO = "music.wav";
-    public static final String MEDIAFILE = "video.avi";
-    public static final String HTTPS_MEDIAFILE = "https://www.bearware.dk/test/giana.wma";
+    public static final String MEDIAFILE_AUDIO = "";
+    public static final String MEDIAFILE_VIDEO = "";
+    public static final String HTTPS_MEDIAFILE = "";
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 
     public abstract TeamTalkBase newClientInstance();
