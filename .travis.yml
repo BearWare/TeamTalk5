@@ -55,10 +55,12 @@ script:
   - make clean
   - qmake CONFIG+=nowebengine teamtalk5pro.pro
   - make
-# Run JUnit tests
+# Run JUnit custom server tests
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
+# Start TeamTalk servers for JUnit tests
+  - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
