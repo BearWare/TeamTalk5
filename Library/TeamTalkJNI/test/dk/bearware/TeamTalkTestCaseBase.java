@@ -30,7 +30,7 @@ import junit.framework.TestCase;
 public abstract class TeamTalkTestCaseBase extends TestCase {
 
     public static boolean ENCRYPTED = false;
-    public static boolean DEBUG_OUTPUT = true;
+    public static boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
 
     public static String ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin", ADMIN_NICKNAME = "Admin";

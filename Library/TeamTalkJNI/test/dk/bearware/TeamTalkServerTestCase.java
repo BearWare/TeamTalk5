@@ -1069,7 +1069,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
     }
     
-    public void test_runServer() {
+    public void _test_runServer() {
 
         UserAccount useraccount = new UserAccount();
         

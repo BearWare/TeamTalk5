@@ -4592,9 +4592,12 @@ bool ClientNode::ProcessCommand(const ACE_CString& cmdline)
     MYTRACE(ACE_TEXT("SERVER #%d: %s"), m_myuserid, command.c_str());
 
     mstrings_t properties;
-    if(ExtractProperties(command, properties)<0)
+    if (ExtractProperties(command, properties) < 0)
+    {
+        MYTRACE(ACE_TEXT("Failed to extract properties from server command: %s\n"), command.c_str());
         return true;
-
+    }
+    
     //determine which commands will be executed
     if(cmd == SERVER_BEGINCMD) HandleBeginCmd(properties);
     else if(cmd == SERVER_ENDCMD) HandleEndCmd(properties);
