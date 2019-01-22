@@ -1453,35 +1453,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
     }
 
-    // test-case requires a user who is transmitting video capture to root channel
-    public void test_VidcapTest() {
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
-        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
-        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
-
-        TeamTalkBase ttclient = newClientInstance();
-
-        TTMessage msg = new TTMessage();
-
-        connect(ttclient);
-        login(ttclient, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(ttclient);
-     
-        int frames = 0;
-        while(frames < 10) {
-            assertTrue("Get video frame", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
-            long start = System.currentTimeMillis();
-            VideoFrame frm = ttclient.acquireUserVideoCaptureFrame(msg.nSource);
-            if(frm != null) {
-                System.out.println("bearware: Frame "+ frm.nWidth +"x"+ frm.nHeight + " get time " + (System.currentTimeMillis() - start));
-                frames++;
-            }
-            else {
-                System.out.println("bearware: No frame built" + (System.currentTimeMillis() - start));
-            }
-        }
-    }
-
     public void test_SoundDuplex() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
