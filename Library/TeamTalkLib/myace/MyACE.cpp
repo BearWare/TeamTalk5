@@ -132,31 +132,35 @@ ACE_TString i2string(int i)
 
 int string2i(const ACE_TString& int_str)
 {
-    return ACE_OS::atoi(int_str.c_str());
+    try
+    {
+        return std::stoi(int_str.c_str());
+    }
+    catch(...)
+    {
+        return 0;
+    }
 }
 
 ACE_TString i2string(ACE_INT64 i)
 {
 #if defined(UNICODE)
-    wostringstream is;
+    return std::to_wstring(i).c_str();
 #else
-    ostringstream is;
+    return std::to_string(i).c_str();
 #endif
-    is << i;
-    return is.str().c_str();
 }
 
 ACE_INT64 string2i64(const ACE_TString& int_str, int base)
 {
-    ACE_INT64 ret = 0;
-#if defined(UNICODE)
-    wistringstream is(int_str.c_str());
-#else
-    istringstream is(int_str.c_str());
-#endif
-    is >> std::setbase(base);
-    is >> ret;
-    return ret;
+    try
+    {
+        return std::stoll(int_str.c_str(), 0, base);
+    }
+    catch(...)
+    {
+        return 0;
+    }
 }
 
 bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2)
