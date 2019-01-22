@@ -32,21 +32,30 @@ addons:
       - qtmultimedia5-dev
       - libqt5x11extras5-dev
       - libqt5webkit5-dev
-#      - qtwebengine5-dev
+#      - qtwebengine5-dev (ubuntu 18)
+      - junit4
 
 env:
   global:
     - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/Library/TeamTalk_DLL:$TRAVIS_BUILD_DIR/Library/TeamTalkJNI/libs:
+    - INPUTDEVICEID=1978
+    - OUTPUTDEVICEID=1978
 
 script:
+# Build libraries
   - mkdir build
   - cd build
   - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO_STATIC=OFF -DZLIB_STATIC=OFF ..
   - make
-  - cd ..
+# Build Qt clients
+  - cd $TRAVIS_BUILD_DIR
   - cd Client/qtTeamTalk
   - qmake CONFIG+=nowebengine teamtalk5.pro
   - make
   - make clean
   - qmake CONFIG+=nowebengine teamtalk5pro.pro
   - make
+# Run JUnit tests
+  - cd $TRAVIS_BUILD_DIR
+  - cd Library/TeamTalkJNI
+  - make runjunitsrv
