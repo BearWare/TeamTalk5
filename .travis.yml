@@ -59,3 +59,9 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
+  - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
+  - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
+  - cp Library/TeamTalkLib/test/ttservercert.pem Server/
+  - cp Library/TeamTalkLib/test/ttserverkey.pem Server/
+  - Server/tt5srv -d -wd $TRAVIS_BUILD_DIR/Server
+  - Server/tt5prosrv -d -wd $TRAVIS_BUILD_DIR/Server
