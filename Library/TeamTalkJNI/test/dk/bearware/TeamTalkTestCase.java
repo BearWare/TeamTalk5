@@ -45,15 +45,7 @@ import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.WindowsHelper;
 
-public class TeamTalkTestCase extends TeamTalkTestCaseBase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_01_This() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();

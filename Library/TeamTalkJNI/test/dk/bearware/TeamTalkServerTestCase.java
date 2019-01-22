@@ -42,10 +42,14 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
     String SERVERBINDIP;
 
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5Pro();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
+
     protected void setUp() throws Exception {
         super.setUp();
-
-        PROEDITION = true;
 
         String prop = System.getProperty("dk.bearware.serverbindip");
         if(prop != null && !prop.isEmpty())
@@ -1065,7 +1069,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
     }
     
-    public void _test_runServer() {
+    public void test_runServer() {
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
 

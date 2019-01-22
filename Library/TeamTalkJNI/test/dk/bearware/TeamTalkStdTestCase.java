@@ -21,15 +21,14 @@
  *
  */
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+package dk.bearware;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-  dk.bearware.TeamTalkTestCase.class
-})
+public class TeamTalkStdTestCase extends TeamTalkTestCase {
 
-public class TeamTalkTestSuite {
-  // the class remains empty,
-  // used only as a holder for the above annotations
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
+
 }
