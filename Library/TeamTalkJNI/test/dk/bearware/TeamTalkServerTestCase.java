@@ -39,7 +39,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
     String FILESTORAGE_FOLDER = "./filestorage";
-    long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
+    long MAX_DISKUSAGE = 100000000000l, DEFAULT_CHANNEL_QUOTA = 10000000000l;
     String SERVERBINDIP;
 
     public TeamTalkBase newClientInstance() {
