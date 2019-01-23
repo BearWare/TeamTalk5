@@ -23,8 +23,9 @@
 
 #include "Commands.h"
 #include <myace/MyACE.h>
-#include <sstream>
 #include "ttassert.h"
+
+#include <ace/OS_NS_ctype.h> //isdigit
 
 using namespace std;
 
