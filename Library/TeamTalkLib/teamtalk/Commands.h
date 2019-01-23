@@ -291,7 +291,7 @@ namespace teamtalk {
                      const ACE_TString& prop);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_TString& szValue);
+                     const ACE_TString& prop, ACE_TString& value);
 
     bool GetProperty(const mstrings_t& properties, 
                      const ACE_TString& prop, int& value);
@@ -306,7 +306,7 @@ namespace teamtalk {
                      const ACE_TString& prop, std::set<int>& myset);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, bool& bValue);
+                     const ACE_TString& prop, bool& value);
 
     bool GetProperty(const mstrings_t& properties, 
                      const ACE_TString& prop, ACE_INT64& value);
@@ -333,13 +333,7 @@ namespace teamtalk {
 
     //appends a property to a command ACE_TString
     void AppendProperty(const ACE_TString& prop, 
-                        const ACE_TString& szValue, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const int& nValue, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_UINT32& val, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const bool& bValue, ACE_TString& dest_str);
+                        const ACE_TString& value, ACE_TString& dest_str);
     void AppendProperty(const ACE_TString& prop, 
                         const std::vector<int>& vecValues, 
                         ACE_TString& dest_str);

@@ -21,19 +21,16 @@ set (TTCLIENT_COMPILE_FLAGS
 
 set (TTCLIENT_LINK_FLAGS
   ${ACE_LINK_FLAGS}
-  ${ACEINET_STATIC_LIB} 
-  ${ACE_STATIC_LIB}
   ${CODEC_LINK_FLAGS}
   ${AVSTREAM_LINK_FLAGS}
-  ${ZLIB_STATIC_LIB}
+  ${ZLIB_LINK_FLAGS}
   ${SOUNDSYS_LINK_FLAGS}
-  ${ACESSL_STATIC_LIB}
-  ${ACEINETSSL_STATIC_LIB}
   ${OPENSSL_LINK_FLAGS})
 
 set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/TeamTalkDefs.h
   ${TEAMTALKLIB_ROOT}/avstream/AudioResampler.h
+  ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.h
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.h
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.h
   ${TEAMTALKLIB_ROOT}/myace/MyACE.h
@@ -71,6 +68,7 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.cpp
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.cpp
   ${TEAMTALKLIB_ROOT}/avstream/AudioResampler.cpp
+  ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.cpp
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.cpp
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.cpp

@@ -45,15 +45,7 @@ import dk.bearware.TTMessage;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.WindowsHelper;
 
-public class TeamTalkTestCase extends TeamTalkTestCaseBase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_01_This() {
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
@@ -318,7 +310,10 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_VideoCaptureDevs() {
 
-        assertFalse("Video capture tests disabled", VIDEODEVDISABLE.equals(VIDEODEVICEID));
+        if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
+            System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
+            return;
+        }
 
         TeamTalkBase ttclient = newClientInstance();
         Vector<VideoCaptureDevice> devs = new Vector<VideoCaptureDevice>();
@@ -364,8 +359,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_VideoCaptureStream() {
-
-        assertFalse("Video capture tests disabled", VIDEODEVDISABLE.equals(VIDEODEVICEID));
+        
+        if (VIDEODEVICEID.equals(VIDEODEVDISABLE)) {
+            System.err.println("Video capture test skipped due to device id: " + VIDEODEVDISABLE);
+            return;
+        }
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE;
@@ -459,8 +457,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_MediaStreaming() {
-        
-        assertTrue("Mediafile "+MEDIAFILE+" exists", new File(MEDIAFILE).exists());
+
+        if (MEDIAFILE_VIDEO.isEmpty()) {
+            System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_VIDEO);
+            return;
+        }
 
         TeamTalkBase ttclient = newClientInstance();
 
@@ -476,13 +477,13 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         joinRoot(ttclient);
 
         MediaFileInfo mfi = new MediaFileInfo();
-        assertTrue("Get media file info", ttclient.getMediaFileInfo(MEDIAFILE, mfi));
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(MEDIAFILE_VIDEO, mfi));
         
         VideoCodec vidcodec = new VideoCodec();
         vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
         vidcodec.webm_vp8.nRcTargetBitrate = 256;
 
-        assertTrue("Start", ttclient.startStreamingMediaFileToChannel(MEDIAFILE, vidcodec));
+        assertTrue("Start", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, vidcodec));
 
         assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
@@ -510,6 +511,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     public void test_MediaStreaming_https() {
+
+        if (HTTPS_MEDIAFILE.isEmpty()) {
+            System.err.println(getCurrentMethod() + " skipped due to empty HTTPS URL");
+            return;
+        }
         
         TeamTalkBase ttclient = newClientInstance();
 
@@ -911,7 +917,11 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
 
     public void test_AudioBlock() {
-        assertTrue("Media file "+MEDIAFILE_AUDIO+" exists", new File(MEDIAFILE_AUDIO).exists());
+
+        if (MEDIAFILE_AUDIO.isEmpty()) {
+            System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_AUDIO);
+            return;
+        }
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
@@ -1443,36 +1453,8 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
     }
 
-    // test-case requires a user who is transmitting video capture to root channel
-    public void test_VidcapTest() {
-        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
-        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
-        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
-
-        TeamTalkBase ttclient = newClientInstance();
-
-        TTMessage msg = new TTMessage();
-
-        connect(ttclient);
-        login(ttclient, NICKNAME, USERNAME, PASSWORD);
-        joinRoot(ttclient);
-     
-        int frames = 0;
-        while(frames < 10) {
-            assertTrue("Get video frame", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE, DEF_WAIT, msg));
-            long start = System.currentTimeMillis();
-            VideoFrame frm = ttclient.acquireUserVideoCaptureFrame(msg.nSource);
-            if(frm != null) {
-                System.out.println("bearware: Frame "+ frm.nWidth +"x"+ frm.nHeight + " get time " + (System.currentTimeMillis() - start));
-                frames++;
-            }
-            else {
-                System.out.println("bearware: No frame built" + (System.currentTimeMillis() - start));
-            }
-        }
-    }
-
     public void test_SoundDuplex() {
+
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
@@ -1492,8 +1474,6 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
-
-        assertFalse("Wait event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000, msg));
     }
 
     public void test_StoreUserVoiceInFileFormats() {
@@ -1664,11 +1644,21 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("Loop virtual duplex-dev stopped", ttclient.closeSoundLoopbackTest(loop));
 
-        loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, true, new SpeexDSP(true));
-        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
-
-        loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
-        assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+        if (out.value == SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL) {
+            System.err.println("Duplex test skipped due to virtual sound device as output");
+        }
+        else {
+            loop = ttclient.startSoundLoopbackTest(nodev.nDeviceID, out.value, 48000, 1, true, new SpeexDSP(true));
+            assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+        }
+        
+        if (in.value == SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL) {
+            System.err.println("Duplex test skipped due to virtual sound device as input");
+        }
+        else {
+            loop = ttclient.startSoundLoopbackTest(in.value, nodev.nDeviceID, 48000, 1, true, new SpeexDSP(true));
+            assertTrue("Sound loopback virtual duplex-dev cannot be mixed with real dev", loop<=0);
+        }
     }
 
     public void test_VirtualSoundDevice() {
@@ -1871,10 +1861,14 @@ public class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TextMessage txtmsg = new TextMessage();
         txtmsg.nMsgType = TextMsgType.MSGTYPE_USER;
         txtmsg.nToUserID = ttclient.getMyUserID();
-        txtmsg.szMessage = "My text message";
+        txtmsg.szMessage = "My text message that should go through";
 
         assertTrue("do text message", waitCmdSuccess(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
 
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 200);
+        
+        txtmsg.szMessage = "My text message that should be blocked";
+        
         assertTrue("do text message in less than cmd-timeout", waitCmdError(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
 
         waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 2000);

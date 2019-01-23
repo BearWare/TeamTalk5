@@ -27,9 +27,9 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-public class TeamTalkTestCaseBase extends TestCase {
+public abstract class TeamTalkTestCaseBase extends TestCase {
 
-    public static boolean PROEDITION = false, ENCRYPTED = false;
+    public static boolean ENCRYPTED = false;
     public static boolean DEBUG_OUTPUT = false;
     public static final int DEF_WAIT = 15000;
 
@@ -48,10 +48,12 @@ public class TeamTalkTestCaseBase extends TestCase {
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-    public static final String MEDIAFILE_AUDIO = "music.wav";
-    public static final String MEDIAFILE = "video.avi";
-    public static final String HTTPS_MEDIAFILE = "https://www.bearware.dk/test/giana.wma";
+    public static final String MEDIAFILE_AUDIO = "";
+    public static final String MEDIAFILE_VIDEO = "";
+    public static final String HTTPS_MEDIAFILE = "";
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
+
+    public abstract TeamTalkBase newClientInstance();
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -63,10 +65,6 @@ public class TeamTalkTestCaseBase extends TestCase {
         prop = System.getProperty("dk.bearware.sndoutputid");
         if(prop != null && !prop.isEmpty())
             this.OUTPUTDEVICEID = Integer.parseInt(prop);
-
-        prop = System.getProperty("dk.bearware.proedition");
-        if(prop != null && !prop.isEmpty())
-            this.PROEDITION = Integer.parseInt(prop) != 0;
 
         prop = System.getProperty("dk.bearware.encrypted");
         if(prop != null && !prop.isEmpty())
@@ -279,7 +277,7 @@ public class TeamTalkTestCaseBase extends TestCase {
 
             interleave.interleave();
 
-            if(DEBUG_OUTPUT) {
+            if(DEBUG_OUTPUT && gotmsg) {
                 System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
                 if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
                     System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
@@ -293,7 +291,7 @@ public class TeamTalkTestCaseBase extends TestCase {
         if (tmp.nClientEvent == nClientEvent)
         {
             if (DEBUG_OUTPUT)
-                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
+                System.out.println("Success. Event: " + nClientEvent);
 
             msg.nClientEvent = tmp.nClientEvent;
             msg.ttType = tmp.ttType;
@@ -318,6 +316,11 @@ public class TeamTalkTestCaseBase extends TestCase {
             msg.nStreamType = tmp.nStreamType;
             //if assert fails it's because the TTType isn't handled here
             assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__STREAMTYPE);
+        }
+        else
+        {
+            if (DEBUG_OUTPUT)
+                System.out.println("Failed. Event: " + nClientEvent);
         }
         return tmp.nClientEvent == nClientEvent;
     }
@@ -416,18 +419,6 @@ public class TeamTalkTestCaseBase extends TestCase {
                 break;
         }
         return chan;
-    }
-
-    TeamTalkBase newClientInstance()
-    {
-        TeamTalkBase ttclient;
-        if(PROEDITION)
-            ttclient = new TeamTalk5Pro();
-        else
-            ttclient = new TeamTalk5();
-
-        ttclients.add(ttclient);
-        return ttclient;
     }
 
     public static String getCurrentMethod()
