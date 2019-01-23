@@ -719,6 +719,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_MediaStorage_OpusOutput() {
 
+        if (!OPUSTOOLS) {
+            System.err.println(getCurrentMethod() + " skipped due to OPUS tools disabled.");
+            return;
+        }
+        
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
             UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;

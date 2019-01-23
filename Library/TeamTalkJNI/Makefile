@@ -30,6 +30,10 @@ JAVAPROP+=-Ddk.bearware.encrypted=$(ENCRYPTED)
 JAVAPROP+=-Ddk.bearware.videodevid=$(VIDEODEVICEID) 
 JAVAPROP+=-Ddk.bearware.serverip=$(SERVERIP)
 JAVAPROP+=-Ddk.bearware.serverbindip=$(SERVERBINDIP)
+JAVAPROP+=-Ddk.bearware.videofile=$(VIDEOFILE)
+JAVAPROP+=-Ddk.bearware.audiofile=$(AUDIOFILE)
+JAVAPROP+=-Ddk.bearware.httpsfile=$(HTTPSFILE)
+JAVAPROP+=-Ddk.bearware.opustools=$(OPUSTOOLS)
 
 help:
 	@echo "Targets:"
@@ -43,18 +47,25 @@ help:
 	@echo "    - Remove all intermediate files"
 	@echo "  junit"
 	@echo "    - Build TeamTalk5Test.jar"
-	@echo "  junitsrv"
+	@echo "  junitpro"
 	@echo "    - Build TeamTalk5ProTest.jar"
+	@echo "  junitsrv"
+	@echo "    - Build TeamTalk5SrvTest.jar"
 	@echo "  runjunit"
-	@echo "    - Build TeamTalk5Test.jar and run JUnit test-cases"
+	@echo "    - Run JUnit test-cases in TeamTalkStdTestSuite"
+	@echo "  runjunitpro"
+	@echo "    - Run JUnit test-cases in TeamTalkProTestSuite"
 	@echo "  runjunitsrv"
-	@echo "    - Build TeamTalk5SrvTest.jar and run JUnit test-cases"
+	@echo "    - Run JUnit test-cases in TeamTalkSrvTestSuite"
 	@echo "  testcase"
 	@echo "    - Build and run a single test-case in TeamTalkTestCase-class"
-	@echo "  E.g make TARGET=test_04_Auth"
+	@echo "      E.g make TARGET=test_04_Auth testcase"
+	@echo "  testcasepro"
+	@echo "    - Build and run a single test-case in TeamTalkTestCase-class"
+	@echo "      E.g make TARGET=test_04_Auth testcasepro"
 	@echo "  testcasesrv"
 	@echo "    - Build and run a single test-case in TeamTalkServerTestCase-class"
-	@echo "  E.g make TARGET=test_04_Auth"
+	@echo "      E.g make TARGET=test_04_Auth testcasesrv"
 	@echo ""
 	@echo "When running an application which uses the TeamTalk 5 SDK then"
 	@echo "ensure $(LIBPATHNAME) is set up with the path to both "
