@@ -69,7 +69,9 @@ script:
 # Run JUnit suite TeamTalkStdTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
-  - make runjunitsrv
+  - make runjunit
+  - export ENCRYPTED=0
+  - make runjunitpro  
 # Start TeamTalk encrypted server for JUnit tests
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
