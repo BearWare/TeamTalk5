@@ -2495,7 +2495,8 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     if(m_crypt_acceptors.size())
     {
-        CryptDesktopInputPacket crypt_pkt(packet, chan.GetEncryptKey());
+        // create new input packet with encrypted sections
+        CryptDesktopInputPacket crypt_pkt(DesktopInputPacket(packet), chan.GetEncryptKey());
         SendPackets(crypt_pkt, users);
     }
     else

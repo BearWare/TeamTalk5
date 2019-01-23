@@ -2536,25 +2536,25 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOPINPUT :
         {
-            DesktopInputPacket* cursor_pkt = dynamic_cast<DesktopInputPacket*>(p);
-            TTASSERT(cursor_pkt);
-            TTASSERT(cursor_pkt->Finalized());
+            DesktopInputPacket* input_pkt = dynamic_cast<DesktopInputPacket*>(p);
+            TTASSERT(input_pkt);
+            TTASSERT(input_pkt->Finalized());
 
 #ifdef ENABLE_ENCRYPTION
             if(m_crypt_stream)
             {
-                clientchannel_t chan = GetChannel(cursor_pkt->GetChannel());
+                clientchannel_t chan = GetChannel(input_pkt->GetChannel());
                 if(chan.null())
                     break;
-                CryptDesktopInputPacket crypt_pkt(*cursor_pkt, chan->GetEncryptKey());
+                CryptDesktopInputPacket crypt_pkt(*input_pkt, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
             else
 #endif
             {
-                ret = SendPacket(*cursor_pkt, m_serverinfo.udpaddr);
-                TTASSERT(cursor_pkt->ValidatePacket());
+                ret = SendPacket(*input_pkt, m_serverinfo.udpaddr);
+                TTASSERT(input_pkt->ValidatePacket());
             }
 
             //MYTRACE(ACE_TEXT("Sent desktop input packet, %d:%u pkt no: %d\n"),
@@ -2670,6 +2670,10 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
         case PACKET_KIND_DESKTOP_NAK_CRYPT :
         case PACKET_KIND_DESKTOPCURSOR :
         case PACKET_KIND_DESKTOPCURSOR_CRYPT :
+        case PACKET_KIND_DESKTOPINPUT :
+        case PACKET_KIND_DESKTOPINPUT_CRYPT :
+        case PACKET_KIND_DESKTOPINPUT_ACK :
+        case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
             m_clientstats.desktopbytes_sent += ret; break;
         default :
             MYTRACE(ACE_TEXT("Sending unknown packet type %d\n"), packet.GetKind());

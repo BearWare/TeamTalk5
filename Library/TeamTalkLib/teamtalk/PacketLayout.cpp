@@ -414,6 +414,8 @@ namespace teamtalk
         m_crypt_sections = p.GetCryptSections();
 #endif
         m_cleanup = true;
+
+        assert(p.GetKind() == GetKind()); //cannot copy packet of different kind
     }
 
     FieldPacket::FieldPacket(uint8_t kind, const FieldPacket& crypt_pkt,
@@ -2227,8 +2229,11 @@ namespace teamtalk
     }
 
     DesktopInputPacket::DesktopInputPacket(const DesktopInputPacket& packet)
-        : FieldPacket(packet)
+        : DesktopInputPacket(packet.GetSrcUserID(), packet.GetTime(), packet.GetSessionID(),
+                             packet.GetPacketNo(), packet.GetDesktopInput())
     {
+        SetChannel(packet.GetChannel());
+        SetDestUser(packet.GetDestUserID());
     }
 
     bool DesktopInputPacket::GetSessionInfo(uint8_t* session_id,
@@ -2311,6 +2316,14 @@ namespace teamtalk
         }
         return false;
     }
+
+    std::vector<DesktopInput> DesktopInputPacket::GetDesktopInput() const
+    {
+        std::vector<DesktopInput> result;
+        GetDesktopInput(result);
+        return result;
+    }
+
 
     DesktopInputAckPacket::DesktopInputAckPacket(uint16_t src_userid, uint32_t time, 
                                                  uint8_t session_id, uint8_t packetno)

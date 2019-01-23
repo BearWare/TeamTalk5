@@ -975,6 +975,7 @@ namespace teamtalk {
         uint8_t GetPacketNo(bool* found = NULL) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
+        std::vector<DesktopInput> GetDesktopInput() const;
 
     private:
 
