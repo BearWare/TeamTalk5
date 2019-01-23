@@ -2030,5 +2030,13 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("send desktop input", ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
 
         assertTrue("get desktop input", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT));
+
+        assertTrue("send cursor pos", ttclient1.sendDesktopCursorPosition(5, 6));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("get desktop cursor", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR, DEF_WAIT, msg));
+        assertEquals("pos x", 5, msg.desktopinput.uMousePosX);
+        assertEquals("pos y", 6, msg.desktopinput.uMousePosY);
     }
+    
 }

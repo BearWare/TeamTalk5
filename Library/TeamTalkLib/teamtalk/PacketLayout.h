@@ -915,10 +915,6 @@ namespace teamtalk {
         DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
                             uint8_t session_id, int16_t x, int16_t y);
 
-        DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                            uint16_t dest_userid, uint8_t session_id, 
-                            int16_t x, int16_t y);
-
         DesktopCursorPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                             iovec& decrypt_fields)
                             : FieldPacket(kind, crypt_pkt, decrypt_fields){}
@@ -936,8 +932,21 @@ namespace teamtalk {
             GetSessionCursor(0, &streamid, 0, 0);
             return streamid;
         }
-            
 
+        int16_t GetX() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, &v, 0);
+            return v;
+        }
+        
+        int16_t GetY() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, 0, &v);
+            return v;
+        }
+            
         static const uint16_t INVALID_DEST_USERID = -1;
 
         uint16_t GetDestUserID() const;

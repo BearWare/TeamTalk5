@@ -2433,8 +2433,9 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     if(m_crypt_acceptors.size())
     {
-        CryptDesktopCursorPacket crypt_pkt(packet, chan.GetEncryptKey());
-        SendPacket(crypt_pkt, user);
+        // copy crypt sections using copy constructor
+        CryptDesktopCursorPacket crypt_pkt(DesktopCursorPacket(packet), chan.GetEncryptKey());
+        SendPackets(crypt_pkt, users);
     }
     else
 #endif
