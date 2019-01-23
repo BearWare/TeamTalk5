@@ -84,7 +84,8 @@ script:
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
   - cp Library/TeamTalkLib/test/ttserverkey.pem Server/
-  - Server/tt5prosrv -d -c Server/tt5prosrv.xml
+  - Server/tt5prosrv -d -wd Server/
+  - cd Library/TeamTalkJNI
   - export ENCRYPTED=1
   - make runjunitpro
   - killall tt5prosrv
