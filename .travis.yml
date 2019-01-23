@@ -74,7 +74,7 @@ script:
 # Start TeamTalk Pro Server non-encrypted for JUnit tests
   - cd $TRAVIS_BUILD_DIR
   - cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
-  - Server/tt5prosrv -d -wd $TRAVIS_BUILD_DIR/Server -c Server/tt5srv.xml
+  - Server/tt5prosrv -d -c Server/tt5srv.xml
 # Run JUnit suite TeamTalkProTestSuite.java (in non-encrypted mode)
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
