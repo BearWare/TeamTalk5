@@ -135,6 +135,9 @@ void MFStreamer::Run()
         &pSource            // Receives a pointer to the media source.
     );
 
+    if(FAILED(hr))
+        goto fail_open;
+
     // Get the IMFMediaSource interface from the media source.
     hr = pSource->QueryInterface(IID_PPV_ARGS(&pMediaSource));
     if(FAILED(hr))
