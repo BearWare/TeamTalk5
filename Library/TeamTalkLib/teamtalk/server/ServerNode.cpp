@@ -1860,9 +1860,9 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
     uint8_t streamid = 0;
-#if defined(ENABLE_ENCRYPTION)
     switch (packet.GetKind())
     {
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VOICE_CRYPT :
     {
         AudioPacket* p = CryptVoicePacket(packet).Decrypt(chan.GetEncryptKey());
@@ -1871,11 +1871,14 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
             streamid = p->GetStreamID();
         break;
     }
+#endif
     case PACKET_KIND_VOICE :
         streamid = packet.GetStreamID();
         break;
+    default :
+        assert(0);
+        break;
     }
-#endif
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
     bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid);
@@ -1910,9 +1913,9 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
     uint8_t streamid = 0;
     
-#if defined(ENABLE_ENCRYPTION)
     switch (packet.GetKind())
     {
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
     {
         AudioFilePacket* p = CryptAudioFilePacket(packet).Decrypt(chan.GetEncryptKey());
@@ -1921,6 +1924,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
             streamid = p->GetStreamID();
         break;
     }
+#endif
     case PACKET_KIND_MEDIAFILE_AUDIO :
         streamid = packet.GetStreamID();
         break;
@@ -1928,7 +1932,6 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
         assert(packet.GetKind() == PACKET_KIND_MEDIAFILE_AUDIO);
         break;
     }
-#endif
 
     std::vector<int> txqueue = chan.GetTransmitQueue();
     bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
@@ -1962,9 +1965,9 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
     uint8_t streamid = 0;
     
-#if defined(ENABLE_ENCRYPTION)
     switch (packet.GetKind())
     {
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VIDEO_CRYPT :
     {
         VideoCapturePacket* p = CryptVideoCapturePacket(packet).Decrypt(chan.GetEncryptKey());
@@ -1973,11 +1976,11 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
             streamid = p->GetStreamID();
         break;
     }
+#endif
     case PACKET_KIND_VIDEO :
         streamid = packet.GetStreamID();
         break;
     }
-#endif
 
     if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid))
         return;
@@ -2006,9 +2009,9 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
     uint8_t streamid = 0;
 
-#if defined(ENABLE_ENCRYPTION)
     switch (packet.GetKind())
     {
+#if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
     {
         VideoFilePacket* p = CryptVideoFilePacket(packet).Decrypt(chan.GetEncryptKey());
@@ -2017,11 +2020,11 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
             streamid = p->GetStreamID();
         break;
     }
+#endif
     case PACKET_KIND_MEDIAFILE_VIDEO :
         streamid = packet.GetStreamID();
         break;
     }
-#endif
     
     std::vector<int> txqueue = chan.GetTransmitQueue();
     bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
