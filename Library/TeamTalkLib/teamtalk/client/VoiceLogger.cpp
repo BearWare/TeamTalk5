@@ -122,6 +122,8 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             }
         }
         break;
+#else
+        case CODEC_OPUS :
 #endif
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :

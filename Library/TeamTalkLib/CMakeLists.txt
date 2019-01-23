@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Lib)
 
-set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
-set (TEAMTALK_ROOT $ENV{TEAMTALK_ROOT})
+set (TEAMTALK_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
-file(TO_CMAKE_PATH ${TEAMTALK_ROOT} TEAMTALK_ROOT)
+option (BUILD_TEAMTALK_STATIC "Build TeamTalk using static libraries" ON)
+
+if (BUILD_TEAMTALK_STATIC)
+  set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
+endif()
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.1")
   set (CMAKE_CXX_STANDARD 11)
@@ -15,7 +19,7 @@ else()
   endif()
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${TEAMTALK_ROOT}/Library/TeamTalkLib/build)
+list (APPEND CMAKE_MODULE_PATH "${TEAMTALKLIB_ROOT}/build")
 
 include (ttsrv)
 include (ttdll)

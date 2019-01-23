@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<teamtalk version="5.0">
+    <general>
+        <server-name></server-name>
+        <motd></motd>
+        <max-users>1000</max-users>
+        <auto-save>false</auto-save>
+        <bind-ip></bind-ip>
+        <tcpport>10443</tcpport>
+        <udpport>10443</udpport>
+        <certificate-file>ttservercert.pem</certificate-file>
+        <privatekey-file>ttserverkey.pem</privatekey-file>
+        <login-attempts>0</login-attempts>
+        <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
+        <bandwidth-limits>
+            <voicetx-limit>0</voicetx-limit>
+            <vidcaptx-limit>0</vidcaptx-limit>
+            <mediafiletx-limit>0</mediafiletx-limit>
+            <desktoptx-limit>0</desktoptx-limit>
+            <totaltx-limit>0</totaltx-limit>
+        </bandwidth-limits>
+        <user-timeout>60</user-timeout>
+    </general>
+    <file-storage>
+        <files-root>.</files-root>
+        <max-diskusage>512000000000</max-diskusage>
+        <channel-diskquota>51200000</channel-diskquota>
+    </file-storage>
+    <logging>
+        <server-log-maxsize>-1</server-log-maxsize>
+    </logging>
+    <users>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+            <user-type>2</user-type>
+            <user-rights>0</user-rights>
+            <note />
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+
+        <user>
+            <username>guest</username>
+            <password>guest</password>
+            <user-type>1</user-type>
+            <user-rights>259591</user-rights>
+            <note></note>
+            <userdata>0</userdata>
+            <init-channel></init-channel>
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+
+        <user>
+            <username>facebook</username>
+            <password></password>
+            <user-type>1</user-type>
+            <user-rights>259591</user-rights>
+            <note></note>
+            <userdata>0</userdata>
+            <init-channel></init-channel>
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+    </users>
+    <serverbans />
+
+</teamtalk>

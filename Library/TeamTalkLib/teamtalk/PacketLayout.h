@@ -915,10 +915,6 @@ namespace teamtalk {
         DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
                             uint8_t session_id, int16_t x, int16_t y);
 
-        DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                            uint16_t dest_userid, uint8_t session_id, 
-                            int16_t x, int16_t y);
-
         DesktopCursorPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                             iovec& decrypt_fields)
                             : FieldPacket(kind, crypt_pkt, decrypt_fields){}
@@ -936,8 +932,21 @@ namespace teamtalk {
             GetSessionCursor(0, &streamid, 0, 0);
             return streamid;
         }
-            
 
+        int16_t GetX() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, &v, 0);
+            return v;
+        }
+        
+        int16_t GetY() const
+        {
+            int16_t v = 0;
+            GetSessionCursor(0, 0, 0, &v);
+            return v;
+        }
+            
         static const uint16_t INVALID_DEST_USERID = -1;
 
         uint16_t GetDestUserID() const;
@@ -975,6 +984,7 @@ namespace teamtalk {
         uint8_t GetPacketNo(bool* found = NULL) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
+        std::vector<DesktopInput> GetDesktopInput() const;
 
     private:
 
@@ -1028,7 +1038,10 @@ namespace teamtalk {
     public:
         CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
+        CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
         PACKETTYPE* Decrypt(const uint8_t* decryptkey) const;
+
+        uint8_t GetStreamID() const { assert(0); return 0; }
 
         enum
         {
@@ -1041,8 +1054,8 @@ namespace teamtalk {
     typedef CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE> CryptVoicePacket;
     typedef CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO> CryptAudioFilePacket;
 
-    typedef CryptPacket<VideoPacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
-    typedef CryptPacket<VideoPacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
+    typedef CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
+    typedef CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
 
     typedef CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP> CryptDesktopPacket;
 

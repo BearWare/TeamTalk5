@@ -3,17 +3,26 @@ include (ttlib)
 if (MSVC)
   set (PORTAUDIO_INCLUDE_DIR ${TTLIBS_ROOT}/portaudio/include)
 
-  set (PORTAUDIO_STATIC_LIB optimized ${TTLIBS_ROOT}/portaudio/lib/$(PlatformName)/pastatic.lib
+  set (PORTAUDIO_LINK_FLAGS optimized ${TTLIBS_ROOT}/portaudio/lib/$(PlatformName)/pastatic.lib
     debug ${TTLIBS_ROOT}/portaudio/lib/$(PlatformName)/pastaticd.lib)
 
 else()
-  set (PORTAUDIO_INCLUDE_DIR ${TTLIBS_ROOT}/portaudio/include)
-  set (PORTAUDIO_STATIC_LIB ${TTLIBS_ROOT}/portaudio/lib/libportaudio.a)
+
+  option (PORTAUDIO_STATIC "Build portaudio using static libraries" ON)
+
+  if (PORTAUDIO_STATIC)
+    set (PORTAUDIO_INCLUDE_DIR ${TTLIBS_ROOT}/portaudio/include)
+    set (PORTAUDIO_LINK_FLAGS ${TTLIBS_ROOT}/portaudio/lib/libportaudio.a)
+  else()
+    # Ubuntu: portaudio19-dev
+    find_library(PORTAUDIO_LIBRARY portaudio)
+    set (PORTAUDIO_LINK_FLAGS ${PORTAUDIO_LIBRARY})
+  endif()
 endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
   find_library (CARBON_LIBRARY Carbon)
-  set (PORTAUDIO_LINK_FLAGS ${CARBON_LIBRARY})
+  list (APPEND PORTAUDIO_LINK_FLAGS ${CARBON_LIBRARY})
   find_library (AUDIOUNIT_LIBRARY AudioUnit)
   list (APPEND PORTAUDIO_LINK_FLAGS ${AUDIOUNIT_LIBRARY} )
   find_library (COREAUDIO_LIBRARY CoreAudio)
@@ -23,6 +32,7 @@ if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
 endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+  # Ubuntu: libasound2-dev
   find_library(ASOUND_LIBRARY asound)
-  set (PORTAUDIO_LINK_FLAGS ${ASOUND_LIBRARY})
+  list (APPEND PORTAUDIO_LINK_FLAGS ${ASOUND_LIBRARY})
 endif()

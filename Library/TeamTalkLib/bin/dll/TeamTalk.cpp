@@ -1206,7 +1206,7 @@ TEAMTALKDLL_API INT32 TT_DoJoinChannel(IN TTInstance* lpTTInstance,
     if(!lpChannel || !Convert(*lpChannel, prop))
         return -1;
 
-    return pClientNode->DoJoinChannel(prop);
+    return pClientNode->DoJoinChannel(prop, false);
 }
 
 TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
@@ -1220,7 +1220,7 @@ TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
         teamtalk::ChannelProp prop;
         prop.channelid = nChannelID;
         prop.passwd = szPassword;
-        return pClientNode->DoJoinChannel(prop);
+        return pClientNode->DoJoinChannel(prop, true);
     }
     return -1;
 }

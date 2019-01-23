@@ -46,6 +46,7 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
 
     const std::set<uint8_t>& crypt_sections = p.GetCryptSections();
     std::set<uint8_t>::const_iterator c_ii = crypt_sections.begin();
+    assert(crypt_sections.size()); //nothing to encrypt ?!?
 
     int data_len = 0;
     while(c_ii != crypt_sections.end())

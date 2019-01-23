@@ -26,6 +26,7 @@
 #include <ace/OS.h>
 #include <ace/UTF16_Encoding_Converter.h>
 #include <ace/OS_NS_ctype.h>
+#include <ace/Version.h>
 
 #include <ace/INet/HTTP_URL.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
@@ -131,31 +132,35 @@ ACE_TString i2string(int i)
 
 int string2i(const ACE_TString& int_str)
 {
-    return ACE_OS::atoi(int_str.c_str());
+    try
+    {
+        return std::stoi(int_str.c_str());
+    }
+    catch(...)
+    {
+        return 0;
+    }
 }
 
 ACE_TString i2string(ACE_INT64 i)
 {
 #if defined(UNICODE)
-    wostringstream is;
+    return std::to_wstring(i).c_str();
 #else
-    ostringstream is;
+    return std::to_string(i).c_str();
 #endif
-    is << i;
-    return is.str().c_str();
 }
 
 ACE_INT64 string2i64(const ACE_TString& int_str, int base)
 {
-    ACE_INT64 ret = 0;
-#if defined(UNICODE)
-    wistringstream is(int_str.c_str());
-#else
-    istringstream is(int_str.c_str());
-#endif
-    is >> std::setbase(base);
-    is >> ret;
-    return ret;
+    try
+    {
+        return std::stoll(int_str.c_str(), 0, base);
+    }
+    catch(...)
+    {
+        return 0;
+    }
 }
 
 bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2)
@@ -573,6 +578,20 @@ uint32_t GETTIMESTAMP()
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
 {
+    std::vector<ACE_INET_Addr> result;
+    
+#if ACE_MAJOR_VERSION < 6 || (ACE_MAJOR_VERSION == 6 && ACE_MINOR_VERSION < 4)
+    result.resize(1);
+
+    int address_family = AF_INET;
+    result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
+    if (result[0].is_any())
+    {
+        address_family = AF_INET6;
+        result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
+    }
+    
+#else
     bool encode = true;
     addrinfo hints;
     ACE_OS::memset(&hints, 0, sizeof hints);
@@ -606,7 +625,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
         return std::vector<ACE_INET_Addr>();
     }
 
-    std::vector<ACE_INET_Addr> result;
 
     for(addrinfo *curr = res; curr; curr = curr->ai_next)
     {
@@ -636,15 +654,22 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
 
     ACE_OS::freeaddrinfo(res);
 
+#endif /* ACE_MAJOR_VERSION */
+    
     return result;
 }
 
 int HttpRequest(const ACE_CString& url, std::string& doc)
 {
 #if defined(ENABLE_ENCRYPTION)
-    // HTTPS session factory is not instantiated unless specified explicitly
+#if defined(ENABLE_TEAMTALKACE)
+    // Enable SNI enabled HTTPS sessions
     ACE::HTTPS::SessionFactory_Impl::registerHTTPS();
-#endif
+#else
+    // HTTPS session factory is not instantiated unless specified explicitly
+    ACE_Singleton<ACE::HTTPS::SessionFactory_Impl, ACE_SYNCH::NULL_MUTEX>::instance();
+#endif /* ENABLE_TEAMTALKACE */
+#endif /* ENABLE_ENCRYPTION */
 
     ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
     if(url_safe.get() == 0)

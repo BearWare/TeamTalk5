@@ -39,13 +39,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
     String FILESTORAGE_FOLDER = "./filestorage";
-    long MAX_DISKUSAGE = 10000000000l, DEFAULT_CHANNEL_QUOTA = 1000000000;
+    long MAX_DISKUSAGE = 100000000000l, DEFAULT_CHANNEL_QUOTA = 10000000000l;
     String SERVERBINDIP;
+
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5Pro();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
 
     protected void setUp() throws Exception {
         super.setUp();
-
-        PROEDITION = true;
 
         String prop = System.getProperty("dk.bearware.serverbindip");
         if(prop != null && !prop.isEmpty())
@@ -1066,6 +1070,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
     
     public void _test_runServer() {
+
+        UserAccount useraccount = new UserAccount();
+        
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
 
