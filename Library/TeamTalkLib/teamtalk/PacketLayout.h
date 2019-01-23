@@ -1028,7 +1028,10 @@ namespace teamtalk {
     public:
         CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
+        CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
         PACKETTYPE* Decrypt(const uint8_t* decryptkey) const;
+
+        uint8_t GetStreamID() const { assert(0); return 0; }
 
         enum
         {
@@ -1041,8 +1044,8 @@ namespace teamtalk {
     typedef CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE> CryptVoicePacket;
     typedef CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO> CryptAudioFilePacket;
 
-    typedef CryptPacket<VideoPacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
-    typedef CryptPacket<VideoPacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
+    typedef CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
+    typedef CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
 
     typedef CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP> CryptDesktopPacket;
 
