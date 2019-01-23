@@ -462,7 +462,7 @@ namespace teamtalk {
         int DoLogin(const ACE_TString& nickname, const ACE_TString& username, 
                     const ACE_TString& password, const ACE_TString& clientname);
         int DoLogout();
-        int DoJoinChannel(const ChannelProp& chanprop);
+        int DoJoinChannel(const ChannelProp& chanprop, bool forceexisting);
         int DoLeaveChannel();
         int DoChangeNickname(const ACE_TString& newnick);
         int DoChangeStatus(int statusmode, const ACE_TString& statusmsg);

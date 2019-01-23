@@ -3945,13 +3945,13 @@ int ClientNode::DoPing(bool issue_cmdid)
         return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::DoJoinChannel(const ChannelProp& chanprop)
+int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
 {
     ASSERT_REACTOR_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(m_reactor);
 
     ACE_TString command = CLIENT_JOINCHANNEL;
-    if(GetChannel(chanprop.channelid).null()) //new channel
+    if(GetChannel(chanprop.channelid).null() && !forceexisting) //new channel
     {
         AppendProperty(TT_CHANNAME, chanprop.name, command);
         AppendProperty(TT_PARENTID, chanprop.parentid, command);
