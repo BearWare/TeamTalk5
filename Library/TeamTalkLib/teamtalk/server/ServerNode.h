@@ -45,7 +45,7 @@
 #include <string>
 #include <vector>
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
 #define DEFAULT_TCPPORT 10443
 #define DEFAULT_UDPPORT 10443
 #else

@@ -27,7 +27,7 @@
 #define APPVERSION_SHORT        _T("5.4.0")
 #define APPVERSION              _T( TEAMTALK_VERSION ) _T(" - Unreleased")
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 #define APPTITLE                _T("TeamTalk 5 Classic Professional v. ") APPVERSION
 #define APPNAME                 _T("TeamTalk 5 Classic Professional")
 #define APPTITLE_SHORT          _T("TeamTalk5ClassicPro")

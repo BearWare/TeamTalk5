@@ -69,7 +69,7 @@ BEGIN
     BEGIN
         BLOCK "040604b0"
         BEGIN
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk 5 Encrypted Conferencing Client"
             VALUE "FileVersion", "5, 4, 0, 4950"

@@ -133,7 +133,7 @@ BOOL CHostManagerDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-#ifndef ENABLE_ENCRYPTION
+#ifndef ENABLE_TEAMTALKPRO
     m_wndEncrypted.ShowWindow(SW_HIDE);
 #endif
 

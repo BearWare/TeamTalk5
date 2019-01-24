@@ -62,7 +62,7 @@ namespace c_tt
 
     class TTDLL
     {
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
 
         public const string dllname = "TeamTalk5Pro.dll";
         public const string mgtdllname = "TeamTalk5Pro.NET.dll";
