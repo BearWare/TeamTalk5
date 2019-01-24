@@ -3916,8 +3916,9 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
     case TTChannelMsg :
         AppendProperty(TT_CHANNELID, msg.channelid, command);
         break;
+    case TTBroadcastMsg:
+        break;
     case TTNoneMsg :
-    case TTBroadcastMsg :
         TTASSERT(0);
         break;
     }
