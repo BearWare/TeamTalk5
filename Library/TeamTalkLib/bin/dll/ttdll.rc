@@ -45,7 +45,7 @@ BEGIN
     BEGIN
         BLOCK "040604b0"
         BEGIN
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
             VALUE "Comments", "TeamTalk 5 Conferencing DLL"
             VALUE "CompanyName", "BearWare.dk"
 #ifdef _WIN64

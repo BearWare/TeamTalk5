@@ -2987,7 +2987,7 @@ namespace TeamTalkTest.NET
 
         TeamTalkBase NewClientInstance()
         {
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
             TeamTalkBase ttclient = new TeamTalk5Pro(true);
 #else
             TeamTalkBase ttclient = new TeamTalk5(true);

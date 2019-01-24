@@ -1108,7 +1108,7 @@ TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
     if(!szHostAddress || !szBindIPAddr)
         return FALSE;
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
                                 nLocalUdpPort);

@@ -912,7 +912,7 @@ namespace teamtalk {
             }
         }
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
         ACE_TString certfile, privfile;
 
         certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());

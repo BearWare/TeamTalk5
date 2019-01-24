@@ -101,7 +101,7 @@
 
 #define ZERO_STRUCT(a) memset(&a, 0, sizeof(a))
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 
 #define DEFAULT_TCPPORT 10443
 #define DEFAULT_UDPPORT 10443
