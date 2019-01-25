@@ -2048,5 +2048,28 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("pos x", 5, msg.desktopinput.uMousePosX);
         assertEquals("pos y", 6, msg.desktopinput.uMousePosY);
     }
-    
+
+    public void testWebLogin() {
+        String USERNAME = "facebook", PASSWORD = "code=123", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+        
+        connect(ttclient1);
+        connect(ttclient2);
+
+        int cmdid = ttclient1.doLoginEx(NICKNAME, USERNAME, PASSWORD, "");
+        assertTrue("do login 1", cmdid > 0);
+        cmdid = ttclient2.doLoginEx(NICKNAME, USERNAME, PASSWORD, "");
+        assertTrue("do login 2", cmdid > 0);
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait login failure 1", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, msg));
+        assertTrue("wait login failure 2", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, msg));
+
+        ttclient1.disconnect();
+        ttclient2.disconnect();
+        
+    }
+        
 }
