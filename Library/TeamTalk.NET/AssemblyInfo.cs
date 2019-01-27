@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-#if ENABLE_ENCRYPTION
+#if ENABLE_TEAMTALKPRO
 [assembly: AssemblyTitle("TeamTalk 5 Professional .NET DLL")]
 [assembly: AssemblyDescription("TeamTalk 5 Professional .NET Dynamic Link Library")]
 [assembly: AssemblyProduct("TeamTalk 5 Professional .NET Dynamic Link Library")]
@@ -58,5 +58,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("5.3.5.4948")]
+[assembly: AssemblyVersion("5.3.5.4951")]
 

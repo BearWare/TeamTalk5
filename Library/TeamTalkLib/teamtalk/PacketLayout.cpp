@@ -414,6 +414,8 @@ namespace teamtalk
         m_crypt_sections = p.GetCryptSections();
 #endif
         m_cleanup = true;
+
+        assert(p.GetKind() == GetKind()); //cannot copy packet of different kind
     }
 
     FieldPacket::FieldPacket(uint8_t kind, const FieldPacket& crypt_pkt,
@@ -2062,56 +2064,15 @@ namespace teamtalk
 #endif
     }
 
-    DesktopCursorPacket::DesktopCursorPacket(uint16_t src_userid, 
-                                             uint32_t time, 
-                                             uint16_t dest_userid, 
-                                             uint8_t session_id, 
-                                             int16_t x, int16_t y)
-                                : FieldPacket(PACKETHDR_CHANNEL_ONLY,
-                                              PACKET_KIND_DESKTOPCURSOR, 
-                                              src_userid, time)
-    {
-        int alloc_size = 0;
-
-        //FIELDTYPE_REMOTE_CURSORPOS
-        //[destuserid(uint16_t), sessionid(uint8_t), x(uint16_t), y(uint16_t)]
-
-        int field_size = sizeof(uint16_t) + sizeof(uint8_t) + 
-                         sizeof(uint16_t) + sizeof(uint16_t);
-
-        alloc_size += FIELDVALUE_PREFIX + field_size;
-
-        uint8_t* data_buf;
-        ACE_NEW(data_buf, uint8_t[alloc_size]);
-
-        iovec v;
-        v.iov_base = reinterpret_cast<char*>(data_buf);
-        v.iov_len = alloc_size;
-
-        vector<uint8_t> cursor_session(field_size);
-        uint8_t* field_ptr = &cursor_session[0];
-        set_uint16_ptr(field_ptr, dest_userid, field_ptr);
-        set_uint8_ptr(field_ptr, session_id, field_ptr);
-        set_uint16_ptr(field_ptr, x, field_ptr);
-        set_uint16_ptr(field_ptr, y, field_ptr);
-
-        WRITEFIELD_DATA(data_buf, FIELDTYPE_REMOTE_CURSORPOS, &cursor_session[0],
-                        cursor_session.size(), data_buf); 
-
-        m_iovec.push_back(v);
-
-#ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
-#endif
-    }
     DesktopCursorPacket::DesktopCursorPacket(const char* packet, uint16_t packet_size)
         : FieldPacket(packet, packet_size)
     {
     }
 
     DesktopCursorPacket::DesktopCursorPacket(const DesktopCursorPacket& packet)
-        : FieldPacket(packet)
+        : DesktopCursorPacket(packet.GetSrcUserID(), packet.GetTime(), packet.GetStreamID(), packet.GetX(), packet.GetY())
     {
+        SetChannel(packet.GetChannel());
     }
 
     bool DesktopCursorPacket::GetSessionCursor(uint16_t* dest_userid, 
@@ -2227,8 +2188,11 @@ namespace teamtalk
     }
 
     DesktopInputPacket::DesktopInputPacket(const DesktopInputPacket& packet)
-        : FieldPacket(packet)
+        : DesktopInputPacket(packet.GetSrcUserID(), packet.GetTime(), packet.GetSessionID(),
+                             packet.GetPacketNo(), packet.GetDesktopInput())
     {
+        SetChannel(packet.GetChannel());
+        SetDestUser(packet.GetDestUserID());
     }
 
     bool DesktopInputPacket::GetSessionInfo(uint8_t* session_id,
@@ -2311,6 +2275,14 @@ namespace teamtalk
         }
         return false;
     }
+
+    std::vector<DesktopInput> DesktopInputPacket::GetDesktopInput() const
+    {
+        std::vector<DesktopInput> result;
+        GetDesktopInput(result);
+        return result;
+    }
+
 
     DesktopInputAckPacket::DesktopInputAckPacket(uint16_t src_userid, uint32_t time, 
                                                  uint8_t session_id, uint8_t packetno)

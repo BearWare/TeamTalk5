@@ -37,33 +37,55 @@ addons:
 
 env:
   global:
+# Setup shared libraries
     - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/Library/TeamTalk_DLL:$TRAVIS_BUILD_DIR/Library/TeamTalkJNI/libs:
+# TeamTalkJNI JUnit environment variables
     - INPUTDEVICEID=1978
     - OUTPUTDEVICEID=1978
+    - OPUSTOOLS=0
 
 script:
-# Build libraries
+# Build libraries, server binaries and examples
   - mkdir build
   - cd build
   - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO_STATIC=OFF -DZLIB_STATIC=OFF ..
-  - make
+  - make -j4
 # Build Qt clients
   - cd $TRAVIS_BUILD_DIR
   - cd Client/qtTeamTalk
   - qmake CONFIG+=nowebengine teamtalk5.pro
-  - make
+  - make -j4
   - make clean
   - qmake CONFIG+=nowebengine teamtalk5pro.pro
-  - make
-# Run JUnit custom server tests
+  - make -j4
+# Run JUnit suite TeamTalkServerTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
-# Start TeamTalk servers for JUnit tests
+# Start TeamTalk Standard Server non-encrypted for JUnit suite TeamTalkStdTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
+  - Server/tt5srv -d -c Server/tt5srv.xml
+  - cd $TRAVIS_BUILD_DIR
+  - cd Library/TeamTalkJNI
+  - make runjunit
+  - killall tt5srv
+# Start TeamTalk Pro Server non-encrypted for JUnit suite TeamTalkProTestSuite.java
+  - cd $TRAVIS_BUILD_DIR
+  - cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
+  - Server/tt5prosrv -d -c Server/tt5srv.xml
+  - cd $TRAVIS_BUILD_DIR
+  - cd Library/TeamTalkJNI
+  - export ENCRYPTED=0
+  - make runjunitpro
+  - killall tt5prosrv
+# Start TeamTalk Pro Server in encrypted for JUnit suite TeamTalkProTestSuite.java
+  - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
   - cp Library/TeamTalkLib/test/ttserverkey.pem Server/
-  - Server/tt5srv -d -wd $TRAVIS_BUILD_DIR/Server
-  - Server/tt5prosrv -d -wd $TRAVIS_BUILD_DIR/Server
+  - Server/tt5prosrv -d -wd Server/
+  - cd Library/TeamTalkJNI
+  - export ENCRYPTED=1
+  - make runjunitpro
+  - killall tt5prosrv

@@ -349,7 +349,7 @@ int RunServer(
     channels.clear();
 
     bool encrypted = false;
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     encrypted = xmlSettings.GetCertificateFile().size() && xmlSettings.GetPrivateKeyFile().size();
 #endif
 
@@ -818,7 +818,7 @@ void RunWizard(ServerXML& xmlSettings)
     max_login_attempts = xmlSettings.GetMaxLoginAttempts();
     max_logins_per_ip = xmlSettings.GetMaxLoginsPerIP();
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
     keyfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
 #endif
@@ -922,7 +922,7 @@ void RunWizard(ServerXML& xmlSettings)
         bindips.clear();
     }
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
     cout << "Should server run in encrypted mode? ";
     if(printGetBool(certfile.length() && keyfile.length()))
     {
@@ -1214,7 +1214,7 @@ void RunWizard(ServerXML& xmlSettings)
     else
         cout << "Max logins per IP-address: " << "disabled" << endl;
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_TEAMTALKPRO)
     cout << "Server certificate file for encryption: " << certfile << endl;
     cout << "Server private key file for encryption: " << keyfile << endl;
 #endif
@@ -1239,7 +1239,7 @@ void RunWizard(ServerXML& xmlSettings)
         xmlSettings.SetBindIPs(bindips);
         xmlSettings.SetHostTcpPort(tcpport);
         xmlSettings.SetHostUdpPort(udpport);
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
         xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile).c_str());
         xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile).c_str());
 #endif

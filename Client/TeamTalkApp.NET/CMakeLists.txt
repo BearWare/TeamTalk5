@@ -105,7 +105,7 @@ if (MSVC)
     add_executable (TeamTalk5ProApp.NET WIN32 ${APP_SOURCES})
     set_property (TARGET TeamTalk5ProApp.NET PROPERTY VS_DOTNET_REFERENCES
       "System" "System.Data" "System.Deployment" "System.Drawing" "System.Windows.Forms" "System.Xml")
-    target_compile_options (TeamTalk5ProApp.NET PUBLIC "/define:ENABLE_ENCRYPTION")
+    target_compile_options (TeamTalk5ProApp.NET PUBLIC "/define:ENABLE_TEAMTALKPRO")
     target_link_libraries (TeamTalk5ProApp.NET TeamTalk5Pro.NET)
   endif()
 endif()

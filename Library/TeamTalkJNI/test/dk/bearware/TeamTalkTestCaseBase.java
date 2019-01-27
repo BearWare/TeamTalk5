@@ -42,15 +42,18 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
 
     public static int INPUTDEVICEID = -1, OUTPUTDEVICEID = -1;
     public static String VIDEODEVICEID = "None", VIDEODEVDISABLE="None"; //set to "None" to ignore video capture tests
+    public static String MEDIAFILE_AUDIO = "";
+    public static String MEDIAFILE_VIDEO = "";
+    public static String HTTPS_MEDIAFILE = "";
+    public static boolean OPUSTOOLS = true;
 
     public static final String CRYPTO_CERT_FILE = "ttservercert.pem", CRYPTO_KEY_FILE = "ttserverkey.pem";
     public static final String MUXEDMEDIAFILE_WAVE = "muxwavefile.wav";
     public static final String MUXEDMEDIAFILE_SPEEX = "muxwavefile_speex.ogg";
     public static final String MUXEDMEDIAFILE_SPEEX_VBR = "muxwavefile_speex_vbr.ogg";
     public static final String MUXEDMEDIAFILE_OPUS = "muxwavefile_opus.ogg";
-    public static final String MEDIAFILE_AUDIO = "";
-    public static final String MEDIAFILE_VIDEO = "";
-    public static final String HTTPS_MEDIAFILE = "";
+    
+
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 
     public abstract TeamTalkBase newClientInstance();
@@ -78,6 +81,22 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
         if(prop != null && !prop.isEmpty())
             this.VIDEODEVICEID = prop;
 
+        prop = System.getProperty("dk.bearware.videofile");
+        if(prop != null && !prop.isEmpty())
+            this.MEDIAFILE_VIDEO = prop;
+
+        prop = System.getProperty("dk.bearware.audiofile");
+        if(prop != null && !prop.isEmpty())
+            this.MEDIAFILE_AUDIO = prop;
+
+        prop = System.getProperty("dk.bearware.httpsfile");
+        if(prop != null && !prop.isEmpty())
+            this.HTTPS_MEDIAFILE = prop;
+
+        prop = System.getProperty("dk.bearware.opustools");
+        if(prop != null && !prop.isEmpty())
+            this.OPUSTOOLS = Integer.parseInt(prop) != 0;
+        
         if(TCPPORT == 0 && UDPPORT == 0) {
             if(this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;

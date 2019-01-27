@@ -60,7 +60,7 @@ BOOL IsMyselfTalking();
 
 void InitDefaultAudioCodec(AudioCodec& audiocodec);
 
-#ifdef ENABLE_ENCRYPTION
+#ifdef ENABLE_TEAMTALKPRO
 #define DEFAULT_TEAMTALK_TCPPORT 10443
 #define DEFAULT_TEAMTALK_UDPPORT 10443
 #else

@@ -1108,7 +1108,7 @@ TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
     if(!szHostAddress || !szBindIPAddr)
         return FALSE;
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
                                 nLocalUdpPort);
@@ -1204,7 +1204,7 @@ TEAMTALKDLL_API INT32 TT_DoJoinChannel(IN TTInstance* lpTTInstance,
     if(!lpChannel || !Convert(*lpChannel, prop))
         return -1;
 
-    return pClientNode->DoJoinChannel(prop);
+    return pClientNode->DoJoinChannel(prop, false);
 }
 
 TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
@@ -1218,7 +1218,7 @@ TEAMTALKDLL_API INT32 TT_DoJoinChannelByID(IN TTInstance* lpTTInstance,
         teamtalk::ChannelProp prop;
         prop.channelid = nChannelID;
         prop.passwd = szPassword;
-        return pClientNode->DoJoinChannel(prop);
+        return pClientNode->DoJoinChannel(prop, true);
     }
     return -1;
 }

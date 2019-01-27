@@ -2750,6 +2750,9 @@ namespace teamtalk {
         std::vector<std::string> result;
 
         TiXmlElement* parent = GetMediaFilesElement();
+        if (!parent)
+            return result;
+
         TiXmlElement* child = parent->FirstChildElement();
         while (child)
         {

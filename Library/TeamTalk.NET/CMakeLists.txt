@@ -15,7 +15,7 @@ if (MSVC)
     add_library (TeamTalk5Pro.NET SHARED
       AssemblyInfo.cs TeamTalk.cs TeamTalkInterop.cs
       TeamTalkSrv.cs TeamTalkSrvBase.cs TeamTalkSrvInterop.cs)
-    target_compile_options (TeamTalk5Pro.NET PUBLIC "/define:ENABLE_ENCRYPTION")
+    target_compile_options (TeamTalk5Pro.NET PUBLIC "/define:ENABLE_TEAMTALKPRO")
     set_property (TARGET TeamTalk5Pro.NET PROPERTY VS_DOTNET_REFERENCES "System" "System.Drawing" "System.Windows.Forms")
   endif()
 endif()

@@ -5,6 +5,7 @@ project(tt5dll_android) : ttdll, \
                         mod_vpx, \
                         mod_ffmpeg3, \
                         mod_httpauth, \
+                        mod_crypt_static, \
                         mod_android {
 
   sharedname   = TeamTalk5

@@ -42,7 +42,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-#ifndef ENABLE_ENCRYPTION
+#ifndef ENABLE_TEAMTALKPRO
     ui.cryptChkBox->hide();
 #endif
 

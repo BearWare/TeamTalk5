@@ -847,7 +847,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Media File Properties",IDC_STATIC_MEDIAGRP,7,7,220,65
     LTEXT           "Media file",IDC_STATIC_MEDIAFILE,18,23,52,8
-    COMBOBOX        IDC_COMBO_FILENAME,71,21,127,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_FILENAME,71,21,127,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "...",IDC_BUTTON_AUDIOBROWSE,205,20,17,14
     LTEXT           "Audio format:",IDC_STATIC_AUDFMT,18,39,52,8
     LTEXT           "",IDC_STATIC_AUDIOFORMAT,71,39,127,8
@@ -1485,8 +1485,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,3,5,4948
- PRODUCTVERSION 5,3,5,4948
+ FILEVERSION 5,3,5,4951
+ PRODUCTVERSION 5,3,5,4951
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1503,12 +1503,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 3, 5, 4948"
+            VALUE "FileVersion", "5, 3, 5, 4951"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 3, 5, 4948"
+            VALUE "ProductVersion", "5, 3, 5, 4951"
         END
     END
     BLOCK "VarFileInfo"

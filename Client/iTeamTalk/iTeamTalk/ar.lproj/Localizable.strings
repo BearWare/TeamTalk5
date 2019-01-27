@@ -1,14 +1,14 @@
-/* log entry */
+﻿/* log entry */
 "%@ joined channel" = "%@ إنضم للقناة";
 
 /* log entry */
 "%@ left channel" = "%@ غادرَ القناة";
 
 /* preferences */
-"%d %% - Default" = "%d %% - إفتراضي";
+"%d %% - Default" = "%d %% - افتراضي";
 
 /* codec detail */
-"(Active)" = "(نشيط)";
+"(Active)" = "(نشط)";
 
 /* codec detail */
 "12 KHz" = "12 كيلوهرتز";
@@ -32,14 +32,14 @@
 "8 KHz" = "8 كيلوهرتز";
 
 /* serverlist */
-"Access preferences" = "الوصول للإعدادات ";
+"Access preferences" = "الوصول إلى التفضيلات ";
 
 /* server entry
    user detail */
 "Actions" = "الإجراءات";
 
 /* serverlist */
-"Add new server entry" = "Add new server entry";
+"Add new server entry" = "إضافة بيانات خادم جديد";
 
 /* preferences */
 "Announce content of text message" = "الإعلان عن محتوى الرسالة النصية";
@@ -54,13 +54,13 @@
 "Announce user leaving channel" = "الإعلان بأن المستخدم غادر القناة";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "الإعلان بأن المستخدم قد سجل دخوله بالخادم";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "الإعلان بأن المستخدم قد سجل خروجه بالخادم";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "الإعلانات";
 
 /* preferences */
 "App Version" = "إصدار التطبيق";
@@ -69,7 +69,7 @@
 "Application" = "الوضعية";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "زيادة";
 
 /* codec detail */
 "Audio Channels" = "قنوات الصوت";
@@ -81,13 +81,13 @@
 "Authentication" = "المصادقة";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Ban user" = "حظر المستخدم";
 
 /* codec detail */
-"Bitrate" = "معدل ال Bit";
+"Bitrate" = "معدل البت";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Hamad AlqaSar من فريق سيرفر التيم توك العربي , team4tt4ar@gmail.com";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "حمد القصار (Hamad Alqassar) من فريق موقع التيم توك العربي , team4tt4ar@gmail.com";
 
 /* text message type */
 "Broadcast message" = "رسالة عامة";
@@ -104,7 +104,7 @@
 "Channel message" = "رسالة القناة";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "رسالة القناة من %@. %@";
+"Channel message from %@. %@" = "رسالة القناة من %@: %@";
 
 /* preferences
    user detail */
@@ -117,7 +117,7 @@
 "Channel Text Message" = "رسالة   نصية من القناة";
 
 /* channel list */
-"Channel. %d users" = "قناة. %d مستخدمون";
+"Channel. %d users" = "قناة. %d من المستخدمين";
 
 /* create channel */
 "Commands" = "الأوامر";
@@ -134,7 +134,7 @@
 "Connection lost" = "تم فقد الاتصال";
 
 /* View Title */
-"Create Channel" = "إنشاء قناة";
+"Create Channel" = "أنشئ قناة";
 
 /* main-tab */
 "Create new channel" = "إنشاء قناة جديدة";
@@ -150,10 +150,10 @@
 "Desktop" = "سطح المكتب";
 
 /* preferences */
-"Display" = "Display";
+"Display" = "عرض";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "إنقر نقراً مزدوجا ثم ثبت إصبعك للإرسال , إنقر ثلاث نقرات بشكل سريع   لإقفال الإرسال";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "إنقر نقراً مزدوجا ثم ثبت إصبعك لفتح الإرسال , إنقر ثلاث نقرات بشكل سريع   لإقفال الإرسال";
 
 /* preferences */
 "Double tap to lock TX button" = "إنقر نقرتان    لقفل  ال TX button";
@@ -177,10 +177,10 @@
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
 
 /* server entry */
-"Facebook Login" = "Facebook Login";
+"Facebook Login" = "تسجيل الدخول عبر ال Facebook";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
+"Facebook login was cancelled" = "تم إلغاء تسجيل الدخول عبر ال Facebook";
 
 /* preferences
    user detail */
@@ -193,10 +193,10 @@
 "has left the channel" = "غادر القناة";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "قام بتسجيل الدخول";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "قام بتسجيل الخروج";
 
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
@@ -220,19 +220,19 @@
 "Join root channel after login" = "الانضمام إلى القناة الرئيسية بعد تسجيل الدخول";
 
 /* log entry */
-"Joined %@" = "إنضم %@";
+"Joined %@" = "انضم %@";
 
 /* channel list */
 "Kick user" = "طرد المستخدم";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "الحد من طول الأسماء في قائمة القنوات إلى %d أحرف";
+"Limit length of names in channel list to %d characters" = "حد  طول الأسماء في قائمة القنوات إلى %d أحرف";
 
 /* text message type */
 "Log message" = "سجل الرسالة";
 
 /* log entry */
-"Logged on to server" = "تم تسجيل الدخول إلى الخادم";
+"Logged on to server" = "قام بتسجيل الدخول إلى الخادم";
 
 /* preferences */
 "Master Volume" = "الصوت الرئيسي";
@@ -252,7 +252,7 @@
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
 
 /* preferences */
-"Microphone Gain" = "Microphone Gain";
+"Microphone Gain" = "مستوى المايكرفون";
 
 /* codec detail
    create channel */
@@ -262,10 +262,10 @@
 "Move user" = "نقل المستخدم";
 
 /* channel list */
-"Move users here" = "نقل المستخدمون هنا";
+"Move users here" = "نقل المستخدمين هنا";
 
 /* codec detail */
-"Music" = "موسيقى";
+"Music" = "الموسيقى";
 
 /* channel list */
 "Mute" = "كتم";
@@ -281,7 +281,7 @@
 "Name" = "الاسم";
 
 /* preferences */
-"Name displayed in channel list" = "يتم عرض الاسم في قائمة القنوات";
+"Name displayed in channel list" = "الاسم سيكون معروضاً في قائمة القنوات";
 
 /* Dialog message */
 "New Server" = "خادم جديد";
@@ -321,7 +321,7 @@
 "OPUS Codec" = "ترميز OPUS";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "ترتيب القنوات في قائمة القنوات";
 
 /* channel list */
 "Parent channel" = "الرجوع لقناة ";
@@ -344,16 +344,16 @@
 "Play sound when a user leaves the channel" = "إصدار صوت  عندما يغادر  المستخدم  من  القناة";
 
 /* preferences */
-"Play sound when channel text message is received" = "إصدار صوت عند تلقي رسالة نصية من القناة";
+"Play sound when channel text message is received" = "إصدار صوتاً عندما تتلقى رسالة نصية من القناة";
 
 /* preferences */
-"Play sound when connection is dropped" = "إصدار صوت عند قطع الاتصال ";
+"Play sound when connection is dropped" = "إصدار صوتاً عندما ينقطع الاتصال ";
 
 /* preferences */
-"Play sound when private text message is received" = "إصدار صوت عند تلقي رسالة نصية خاصة ";
+"Play sound when private text message is received" = "إصدار صوتاً عندما تتلقى رسالةاً نصيةاً خاصة";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "تشغيل الصوت عند الإرسال في قناة \"لا توجد بها مقاطعات\" ";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
@@ -362,16 +362,16 @@
 "Play sound when voice transmission is toggled" = "إصدار تنبيه عندما تقوم بتبديل الصوت (أخذ المايكرفون)";
 
 /* preferences */
-"Pop up text message when new messages are received" = "إنبثاق الرسالة    عندما تتلقى رسالة نصية";
+"Pop up text message when new messages are received" = "إنبثاق نافذةاً عندما تتلقى رسالة نصية";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "شعبية";
 
 /* serverlist */
 "Preferences" = "تفضيلات";
 
 /* preferences */
-"Pressing Return-key sends text message" = "سوف يأدي الضغط على مفتاح  الرجوع او ال Return , لإرسال رسالة نصية";
+"Pressing Return-key sends text message" = "يؤدي الضغط على مفتاح  الرجوع (Return) , لإرسال رسالةاً نصيةاً";
 
 /* text message type */
 "Private message" = "رسالة خاصة";
@@ -383,7 +383,7 @@
 "Private Text Message" = "رسالة نصية خاصة";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "رسالة نصية خاصة من %@. %@";
+"Private text message from %@. %@" = "رسالة نصية خاصة من %@: %@";
 
 /* preferences */
 "Proximity sensor" = "مستشعر القرب";
@@ -419,7 +419,7 @@
 "Receive webcam streams by default" = "تلقي  بث  كاميرا الويب بشكل افتراضي";
 
 /* preferences */
-"Return Sends Message" = "Return Sends Message";
+"Return Sends Message" = "الرجوع (return) يرسل رسالة";
 
 /* channel list */
 "Return to previous channel" = "الرجوع إلى القناة السابقة";
@@ -434,10 +434,10 @@
 "Save Server" = "حفظ الخادم";
 
 /* Dialog message */
-"Save server to server list?" = "حفظ الخادم إلى قائمة الخوادم?";
+"Save server to server list?" = "هل تريد حفظ الخادم في قائمة الخوادم?";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "إختيار صوت تحويل النص إلى كلام لإستخدامه";
+"Select the text-to-speech voice to use" = "تحديد صوت تحويل النص إلى كلام المراد إستخدامَهُ";
 
 /* text message */
 "Send empty message to close keyboard" = "إرسال رسالة فارغة لإغلاق لوحة المفاتيح";
@@ -470,7 +470,7 @@
 "Silent" = "صامت";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort channels" = "فرز القنوات";
 
 /* preferences
    text to speech */
@@ -483,7 +483,7 @@
 "Speaker Output" = "السماعة الخارجية";
 
 /* preferences */
-"Speech" = "Speech";
+"Speech" = "الصوت";
 
 /* preferences */
 "Speech Rate" = "سرعة الكلام";
@@ -508,7 +508,7 @@
 "Talking" = "يتحدث";
 
 /* server entry */
-"TCP Port" = "TCP Port";
+"TCP Port" = "منفذ TCP";
 
 /* preferences */
 "Text To Speech Events" = "أحداث تحويل النص إلى كلام";
@@ -538,10 +538,10 @@
 "Transmit Interval" = "الفاصل الزمني للإرسال";
 
 /* channel list */
-"Transmitting" = "Transmitting";
+"Transmitting" = "يتم النقل";
 
 /* Dialog message */
-"Try again?" = "Try again?";
+"Try again?" = "أعد المحاولة?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "إيقاف الشاشة عندَ  تقريب الهاتف بالقرب من الأذن ";
@@ -551,7 +551,7 @@
 "Type text here" = "اكتب النص هنا";
 
 /* server entry */
-"UDP Port" = "UDP Port";
+"UDP Port" = "منفذ UDP";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "استخدام إلغاء الصدى والتحكم بالميكروفون بشكل تلقائي";
@@ -575,10 +575,10 @@
 "User Leaves Channel" = "يغادر المستخدم القناة";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "تسجيل دخول المستخدم";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User logged out" = "تسجيل خروج المستخدم";
 
 /* preferences
    user detail */
@@ -589,7 +589,7 @@
 "Username" = "اسم المستخدم";
 
 /* preferences */
-"Version Information" = "معلومات الاصدار";
+"Version Information" = "معلومات الإصدار";
 
 /* channel list */
 "View" = "عرض";
@@ -623,7 +623,7 @@
 "Voice Volume" = "مستوى الصوت";
 
 /* codec detail */
-"VoIP" = "VoIP , الصوت عبر بروتوكول الإنترنت";
+"VoIP" = "VoIP (الصوت عبر بروتوكول الإنترنت)";
 
 /* user detail */
 "Volume Controls" = "عناصر التحكم في مستوى الصوت";
@@ -633,7 +633,7 @@
 "WebCam" = "كاميرا الويب";
 
 /* Dialog message */
-"Yes" = "موافق";
+"Yes" = "نعم";
 
 /* speech */
 "You have selected %@" = " لقد اخترت %@";

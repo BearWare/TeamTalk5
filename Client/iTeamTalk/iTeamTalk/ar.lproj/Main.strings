@@ -1,4 +1,4 @@
-
+﻿
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "وحدة تحكم التبويب الرئيسية";
 
@@ -57,7 +57,7 @@
 "LPL-JY-xBM.normalTitle" = "ارسال";
 
 /* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
-"Me4-OJ-iZH.title" = "دخول الخادم";
+"Me4-OJ-iZH.title" = "الدخول للخادم";
 
 /* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
 "N1w-a6-R3D.title" = "خصائص المستخدم";
