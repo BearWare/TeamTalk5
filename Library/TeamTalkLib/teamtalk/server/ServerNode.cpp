@@ -1270,7 +1270,7 @@ int ServerNode::SendPacket(const FieldPacket& packet,
 {
     int buffers, ret = -1;
     const iovec* vv = packet.GetPacket(buffers);
-
+    TTASSERT(packet.Finalized() || packet.GetKind() == PACKET_KIND_HELLO || packet.GetKind() == PACKET_KIND_KEEPALIVE);
     for (auto& ph : m_packethandlers)
     {
         if (ph->GetLocalAddr() == localaddr)
@@ -2542,7 +2542,7 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
         {
-            CryptDesktopInputAckPacket crypt_pkt(packet, chan.GetEncryptKey());
+            CryptDesktopInputAckPacket crypt_pkt(DesktopInputAckPacket(packet), chan.GetEncryptKey());
             SendPacket(crypt_pkt, *dest_user);
         }
         else

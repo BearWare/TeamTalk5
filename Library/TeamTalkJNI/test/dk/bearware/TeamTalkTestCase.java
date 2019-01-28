@@ -2029,21 +2029,32 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                                                             ttclient1.doSubscribe(ttclient2.getMyUserID(),
                                                                                   Subscription.SUBSCRIBE_DESKTOPINPUT),
                                                             DEF_WAIT));
-        
+        TTMessage msg = new TTMessage();
         DesktopInput[] inputs = new DesktopInput[2];
-        for (int i=0;i<inputs.length;++i) {
-            inputs[i] = new DesktopInput();
-            inputs[i].uMousePosY = 100;
-            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        for (int x=0;x<wnd.nWidth;x++) {
+            inputs[0] = new DesktopInput();
+            inputs[0].uMousePosX = x;
+            inputs[0].uMousePosY = 10;
+            inputs[0].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        
+            inputs[1] = new DesktopInput();
+            inputs[1].uMousePosX = x;
+            inputs[1].uMousePosY = 20;
+            inputs[1].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+
+            assertTrue("send desktop input x="+x, ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
+
+            assertTrue("get desktop input 0", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, msg));
+            assertEquals("input[0] x", x, msg.desktopinput.uMousePosX);
+            assertEquals("input[0] y", 10, msg.desktopinput.uMousePosY);
+
+            assertTrue("get desktop input 1", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, msg));
+            assertEquals("input[1] x", x, msg.desktopinput.uMousePosX);
+            assertEquals("input[1] y", 20, msg.desktopinput.uMousePosY);
         }
-
-        assertTrue("send desktop input", ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
-
-        assertTrue("get desktop input", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT));
 
         assertTrue("send cursor pos", ttclient1.sendDesktopCursorPosition(5, 6));
 
-        TTMessage msg = new TTMessage();
         assertTrue("get desktop cursor", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR, DEF_WAIT, msg));
         assertEquals("pos x", 5, msg.desktopinput.uMousePosX);
         assertEquals("pos y", 6, msg.desktopinput.uMousePosY);

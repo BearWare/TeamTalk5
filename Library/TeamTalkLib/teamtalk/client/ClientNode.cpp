@@ -1665,7 +1665,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     clientchannel_t chan = GetChannel(chanpacket.GetChannel());
     if(chan.null())
     {
-        MYTRACE(ACE_TEXT("Received FieldPacket without a specified channel\n"));
+        MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), int(packet.GetKind()));
         return;
     }
     
@@ -3537,8 +3537,8 @@ bool ClientNode::SendDesktopInput(int userid,
         return false;
     }
 
-    //MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
-    //    pkt->GetPacketNo(), inputs.size());
+    MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
+            (int)pkt->GetPacketNo(), (unsigned)inputs.size());
     //store for tx
     desktopinput_pkt_t tx_pkt(rtx_pkt);
     user->GetDesktopInputTxQueue().push_back(tx_pkt);
