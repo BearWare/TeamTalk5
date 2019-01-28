@@ -1275,7 +1275,16 @@ int ServerNode::SendPacket(const FieldPacket& packet,
     {
         if (ph->GetLocalAddr() == localaddr)
         {
-             ret = ph->sock_i().send(vv, buffers, remoteaddr);
+            if (m_properties.txloss && ((m_stats.packets_sent % m_properties.txloss) == 0))
+            {
+                ret = packet.GetPacketSize();
+                MYTRACE(ACE_TEXT("Simulated TX dropped packet. Kind %d\n"), int(packet.GetKind()));
+            }
+            else
+            {
+                ret = ph->sock_i().send(vv, buffers, remoteaddr);
+            }
+            m_stats.packets_sent++;
         }
     }
     TTASSERT(ret);
@@ -1291,18 +1300,6 @@ int ServerNode::SendPackets(const FieldPacket& packet,
                             const ServerChannel::users_t& users)
 {
     wguard_t g(m_sendmutex);
-
-#if SIMULATE_TX_PACKETLOSS
-    static int dropped = 0, transmitted = 0;
-    transmitted++;
-    if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
-    {
-        dropped++;
-        MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
-            (int)packet.GetKind(), dropped, transmitted);
-        return 0;
-    }
-#endif
 
 #ifdef _DEBUG
     //ensure the same destination doesn't appear twice
@@ -1438,10 +1435,17 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
 {
     GUARD_OBJ(this, lock());
 
-    m_stats.total_bytesreceived += packet_size;
-
+    m_stats.packets_received++;
+    
     FieldPacket packet(packet_data, packet_size);
 
+    if (m_properties.rxloss && ((m_stats.packets_received % m_properties.rxloss) == 0))
+    {
+        MYTRACE(ACE_TEXT("Simulated RX dropped packet. Kind %d\n"), int(packet.GetKind()));
+        return;
+    }
+    
+    m_stats.total_bytesreceived += packet_size;
 //     MYTRACE(ACE_TEXT("Packet %d size %d\n"), packet.GetKind(), packet_size);
     if(!packet.ValidatePacket())
     {
@@ -1452,18 +1456,6 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
     serveruser_t user = GetUser(packet.GetSrcUserID());
     if(user.null())
         return;
-
-#if SIMULATE_RX_PACKETLOSS
-    static int dropped = 0, received = 0;
-    received++;
-    if((ACE_OS::rand() % SIMULATE_RX_PACKETLOSS) == 0)
-    {
-        dropped++;
-        MYTRACE(ACE_TEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
-            (int)packet.GetKind(),(int)packet.GetSrcUserID(), dropped, received);
-        return;
-    }
-#endif
 
     //only allow packet to pass through if it's from the initial IP-address
     if(!remoteaddr.is_ip_equal(user->GetUdpAddress()) && 

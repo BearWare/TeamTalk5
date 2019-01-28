@@ -33,6 +33,7 @@ namespace teamtalk {
         ACE_TString filesroot; //files root directory            
         std::vector<ACE_INET_Addr> tcpaddrs;
         std::vector<ACE_INET_Addr> udpaddrs;
+        int rxloss = 0, txloss = 0;
 
         ServerSettings()
         {
