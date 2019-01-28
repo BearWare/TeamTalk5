@@ -1010,8 +1010,7 @@ namespace teamtalk {
         DesktopInputAckPacket(const char* packet, uint16_t packet_size)
             : FieldPacket(packet, packet_size) { }
 
-        DesktopInputAckPacket(const DesktopInputAckPacket& packet)
-            : FieldPacket(packet) { }
+        DesktopInputAckPacket(const DesktopInputAckPacket& packet);
 
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
 

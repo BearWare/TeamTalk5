@@ -58,13 +58,6 @@
 #define SERVER_KEEPALIVE_DELAY 1  //keep alive delay (secs). Checks
                                   //whether some users are dead
 
-#define SIMULATE_RX_PACKETLOSS 0
-#define SIMULATE_TX_PACKETLOSS 0
-
-#if defined(NDEBUG) && SIMULATE_RX_PACKETLOSS || defined(NDEBUG) && SIMULATE_TX_PACKETLOSS
-#pragma error Packetloss in release mode!!!
-#endif
-
 #define GUARD_OBJ_NAME(name, this_obj, lock)            \
     guard_t name(lock);                                 \
     (this_obj)->m_reactor_thr_id = ACE_Thread::self()

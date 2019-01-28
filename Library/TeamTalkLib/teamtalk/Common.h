@@ -84,6 +84,8 @@ namespace teamtalk {
         int usersservered;
         //uptime
         ACE_Time_Value starttime;
+        
+        ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
 
         ServerStats()
             : total_bytessent(0), total_bytesreceived(0), last_bytessent(0)

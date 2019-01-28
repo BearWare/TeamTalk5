@@ -2315,6 +2315,14 @@ namespace teamtalk
 #endif
     }
 
+    DesktopInputAckPacket::DesktopInputAckPacket(const DesktopInputAckPacket& packet)
+        : DesktopInputAckPacket(packet.GetSrcUserID(), packet.GetTime(),
+                                packet.GetSessionID(), packet.GetPacketNo())
+    {
+        SetChannel(packet.GetChannel());
+        SetDestUser(packet.GetDestUserID());
+    }
+    
     bool DesktopInputAckPacket::GetSessionInfo(uint8_t* session_id,
                                                uint8_t* packetno) const
     {
