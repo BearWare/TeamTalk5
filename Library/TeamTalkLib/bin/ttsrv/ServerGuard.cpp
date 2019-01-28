@@ -30,6 +30,7 @@
 
 #include <sstream>
 #include <queue>
+#include <regex>
 
 #include <teamtalk/Commands.h>
 #include <teamtalk/Log.h>
@@ -568,6 +569,7 @@ void ServerGuard::HttpLogin(ServerNode* servernode, ACE_UINT32 userid, UserAccou
             std::string utf8;
             ret = HttpRequest(url, utf8);
 
+            MYTRACE(utf8.c_str());
             GUARD_OBJ_REACQUIRE(g, servernode);
 
             switch(ret)
@@ -655,10 +657,17 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     }
 
 #if defined(ENABLE_HTTP_AUTH)
-    ACE_TString fbpostfix = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX);
+    ACE_TString fbregex = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+    MYTRACE_COND(std::regex_search(useraccount.username.c_str(), std::regex(fbregex.c_str())),
+                 "Regex match\n");
+                                    
     if (useraccount.username == ACE_TEXT(WEBLOGIN_FACEBOOK_USERNAME) ||
-       (useraccount.username.length() > fbpostfix.length() &&
-        useraccount.username.find(fbpostfix, useraccount.username.length() - fbpostfix.length()) != ACE_TString::npos))
+#if defined(UNICODE)
+        std::wregex_search(useraccount.username.c_str(), std::regex(fbregex.c_str()))
+#else
+        std::regex_search(useraccount.username.c_str(), std::regex(fbregex.c_str()))
+#endif
+       )
     {
         auto i = m_pendinglogin.find(user.GetUserID());
         if(i != m_pendinglogin.end())

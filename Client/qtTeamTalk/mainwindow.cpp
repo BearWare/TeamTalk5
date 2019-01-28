@@ -775,7 +775,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
 
-        if(m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0)
+        if(m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0 ||
+           m_host.username.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, Qt::CaseInsensitive))
         {
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
