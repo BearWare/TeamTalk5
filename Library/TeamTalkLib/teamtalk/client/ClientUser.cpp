@@ -716,17 +716,19 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     bool is_set = false, found = false;
     uint8_t packetno = 0;
     packetno = p.GetPacketNo(&found);
-    if(!found)return;
-
-    //ensure it's not an retransmission (and already processed)
-    MYTRACE_COND(W8_LT(packetno, m_desktop_input_rx_pktno),
-                 ACE_TEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
-                 (int)p.GetSessionID(), p.GetTime(), packetno);
-
-    if(W32_LT(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set &&
-       W8_LT(packetno, m_desktop_input_rx_pktno))
+    assert(found);
+    if(!found)
         return;
 
+    //ensure it's not an retransmission (and already processed)
+    if (W32_LEQ(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set &&
+        W8_LT(packetno, m_desktop_input_rx_pktno))
+    {
+        MYTRACE(ACE_TEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
+                (int)p.GetSessionID(), p.GetTime(), packetno);
+        return;
+    }
+    
     //insert packet into queue
     list<desktopinput_pkt_t>::iterator ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
@@ -734,7 +736,11 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         if(W8_LT(packetno, (*ii)->GetPacketNo()))
             break;
         if((*ii)->GetPacketNo() == packetno) //already have packet
+        {
+            MYTRACE(ACE_TEXT("Duplicate desktop input. Pkt: %d\n"),
+                    int(packetno));
             return;
+        }
         ii++;
     }
 
@@ -743,14 +749,14 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     desktopinput_pkt_t pkt(new_pkt);
     m_desktop_input_rx.insert(ii, pkt);
 
-    //MYTRACE(ACE_TEXT("DesktopInput in queue: "));
-    //ii = m_desktop_input_rx.begin();
-    //while(ii != m_desktop_input_rx.end())
-    //{
-    //    MYTRACE(ACE_TEXT("%u, "), (ACE_UINT32)(*ii)->GetPacketNo());
-    //    ii++;
-    //}
-    //MYTRACE(ACE_TEXT("\n"));
+    MYTRACE(ACE_TEXT("DesktopInput in queue: "));
+    ii = m_desktop_input_rx.begin();
+    while(ii != m_desktop_input_rx.end())
+    {
+       MYTRACE(ACE_TEXT("%u, "), (ACE_UINT32)(*ii)->GetPacketNo());
+       ii++;
+    }
+    MYTRACE(ACE_TEXT(". Next: %d\n"), int(m_desktop_input_rx_pktno));
 
     if(m_desktop_input_rx.size() > DESKTOPINPUT_QUEUE_MAX_SIZE)
     {
@@ -780,6 +786,8 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         for(size_t i=0;i<inputs.size();i++)
             m_listener->OnUserDesktopInput(GetUserID(), inputs[i]);
 
+        MYTRACE(ACE_TEXT("Ejected desktop input pkt: %d\n"),
+                (*m_desktop_input_rx.begin())->GetPacketNo());
         m_desktop_input_rx.erase(m_desktop_input_rx.begin());
     }
 }
