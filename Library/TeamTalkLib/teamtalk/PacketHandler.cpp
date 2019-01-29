@@ -53,13 +53,11 @@ void PacketQueue::Reset()
 void PacketQueue::RemovePackets(PacketKind kind)
 {
     std::queue<FieldPacket*> packets;
-    FieldPacket* p;
+    packet_ptr_t p;
     while((p = GetNextPacket()))
     {
-        if(p->GetKind() == kind)
-            delete p;
-        else
-            packets.push(p);
+        if(p->GetKind() != kind)
+            packets.push(p.release());
     }
     while(packets.size())
     {
@@ -71,13 +69,11 @@ void PacketQueue::RemovePackets(PacketKind kind)
 void PacketQueue::RemoveChannelPackets(uint16_t chanid)
 {
     std::queue<FieldPacket*> packets;
-    FieldPacket* p;
+    packet_ptr_t p;
     while((p = GetNextPacket()))
     {
-        if(p->GetChannel() == chanid)
-            delete p;
-        else
-            packets.push(p);
+        if(p->GetChannel() != chanid)
+            packets.push(p.release());
     }
     while(packets.size())
     {
@@ -86,7 +82,7 @@ void PacketQueue::RemoveChannelPackets(uint16_t chanid)
     }
 }
 
-FieldPacket* PacketQueue::GetNextPacket()
+packet_ptr_t PacketQueue::GetNextPacket()
 {
     FieldPacket* p = NULL;
     ACE_Message_Block* mb;
@@ -96,7 +92,7 @@ FieldPacket* PacketQueue::GetNextPacket()
         memcpy(&p, mb->rd_ptr(), sizeof(p));
         mb->release();
     }
-    return p;
+    return packet_ptr_t(p);
 }
 
 

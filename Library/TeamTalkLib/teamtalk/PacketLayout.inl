@@ -137,11 +137,11 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
 }
 
 template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
-PACKETTYPE* CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::Decrypt(const uint8_t* decryptkey) const
+std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::Decrypt(const uint8_t* decryptkey) const
 {
     const uint8_t* encrypt_ptr = FindField(FIELDTYPE_CRYPTDATA);
     if(!encrypt_ptr)
-        return NULL;
+        return decrypt_pkt_t();
 
     uint16_t encrypt_len = READFIELD_SIZE(encrypt_ptr);
     encrypt_ptr = READFIELD_DATAPTR(encrypt_ptr);
@@ -187,18 +187,16 @@ PACKETTYPE* CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >:
     {
         MYTRACE(ACE_TEXT("Invalid CRC for packet %d from #%d\n"), PACKET_KIND_CRYPT, GetSrcUserID()); 
         delete [] decrypt_buf;
-        return NULL;
+        return decrypt_pkt_t();
     }
     iovec v;
     v.iov_base = decrypt_buf;
     v.iov_len = decrypt_len - 2;
 
-    PACKETTYPE* p;
-    ACE_NEW_NORETURN(p, PACKETTYPE(PACKET_KIND_DECRYPTED, *this, v));
+    decrypt_pkt_t p(new (std::nothrow) PACKETTYPE(PACKET_KIND_DECRYPTED, *this, v));
     if(!p)
     {
         delete [] decrypt_buf;
-        return NULL;
     }
     return p;
 }
