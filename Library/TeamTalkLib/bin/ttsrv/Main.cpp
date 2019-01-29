@@ -181,6 +181,7 @@ ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
 
 bool bDaemon = false;
 bool bNonDaemon = false;
+int rxloss = 0, txloss = 0;
 
 int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 {
@@ -314,6 +315,9 @@ int RunServer(
         TT_SYSLOG(error_msg);
         return -1;
     }
+
+    prop.rxloss = rxloss;
+    prop.txloss = txloss;
 
     //check for override options
     if(tcpport > 0)
@@ -479,13 +483,15 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         ACE_TString str(argv[i]);
         pair<ACE_TString,ACE_TString> newPair;
         newPair.first = str;
-        if( (str == ACE_TEXT("-wd") ||
+        if ((str == ACE_TEXT("-wd") ||
             str == ACE_TEXT("-tcpport") ||
             str == ACE_TEXT("-udpport") ||
             str == ACE_TEXT("-ip") ||
             str == ACE_TEXT("-c") ||
             str == ACE_TEXT("-l") ||
-            str == ACE_TEXT("-pid-file")))
+            str == ACE_TEXT("-pid-file") ||
+            str == ACE_TEXT("-rxloss") ||
+            str == ACE_TEXT("-txloss")))
         {
             if(i+1 >= argc)
             {
@@ -553,6 +559,14 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     if( (ite = args.find(ACE_TEXT("-verbose"))) != args.end())
     {
         verbose = true;
+    }
+    if( (ite = args.find(ACE_TEXT("-rxloss"))) != args.end())
+    {
+        rxloss = ACE_OS::atoi((*ite).second.c_str());
+    }
+    if( (ite = args.find(ACE_TEXT("-txloss"))) != args.end())
+    {
+        txloss = ACE_OS::atoi((*ite).second.c_str());
     }
     if( (ite = args.find(ACE_TEXT("-wd"))) != args.end())
     {

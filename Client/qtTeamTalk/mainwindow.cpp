@@ -1978,8 +1978,10 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             //only update desktop if there's users in the channel
             //(save bandwidth)
+
             users_t users = ui.channelsWidget->getUsers(m_mychannel.nChannelID);
-            if(users.size() > 1 || (users.begin()->uPeerSubscriptions & SUBSCRIBE_DESKTOP))
+            auto sub = std::find_if(users.begin(), users.end(), [] (const User& user) { return user.uPeerSubscriptions & SUBSCRIBE_DESKTOP;});
+            if(sub != users.end())
                 sendDesktopWindow();
         }
         else

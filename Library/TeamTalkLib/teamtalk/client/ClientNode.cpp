@@ -671,6 +671,8 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
                 continue;
             }
 
+            MYTRACE(ACE_TEXT("Sending desktop input RTX. Session %d, pkt: %d\n"),
+                    p.GetSessionID(), p.GetPacketNo());
             //queue desktop input packet for RTX
             DesktopInputPacket* packet;
             ACE_NEW_RETURN(packet,
@@ -702,6 +704,10 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             break;
         ack_pkt->SetChannel(m_mychannel->GetChannelID());
         ack_pkt->SetDestUser(userid);
+
+        MYTRACE(ACE_TEXT("Sending desktop input ACK. Session %d. Pkt: %d\n"),
+                ack_pkt->GetSessionID(), ack_pkt->GetPacketNo());
+                
         if(!QueuePacket(ack_pkt))
             delete ack_pkt;
 
@@ -1691,7 +1697,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     clientchannel_t chan = GetChannel(chanpacket.GetChannel());
     if(chan.null())
     {
-        MYTRACE(ACE_TEXT("Received FieldPacket without a specified channel\n"));
+        MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), int(packet.GetKind()));
         return;
     }
     
@@ -2183,15 +2189,15 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
     if(m_desktop.null() || m_desktop->GetSessionID() != di_pkt.GetSessionID())
         return;
 
+    MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
+            di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
+            (ACE_UINT32)di_pkt.GetPacketNo());
+    
     if(!src_user.null())
         src_user->AddPacket(di_pkt, *chan);
 
     if(di_pkt.GetDestUserID() == m_myuserid)
     {
-        MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
-                di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
-                (ACE_UINT32)di_pkt.GetPacketNo());
-            
         int userid = src_user->GetUserID();
         if(!TimerExists(USER_TIMER_DESKTOPINPUT_ACK_ID, userid))
             StartUserTimer(USER_TIMER_DESKTOPINPUT_ACK_ID, userid, 0,
@@ -3572,8 +3578,8 @@ bool ClientNode::SendDesktopInput(int userid,
         return false;
     }
 
-    //MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
-    //    pkt->GetPacketNo(), inputs.size());
+    MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
+            (int)pkt->GetPacketNo(), (unsigned)inputs.size());
     //store for tx
     desktopinput_pkt_t tx_pkt(rtx_pkt);
     user->GetDesktopInputTxQueue().push_back(tx_pkt);

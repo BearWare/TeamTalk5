@@ -2021,32 +2021,99 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
         wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
 
-        assertTrue("send desktop window", ttclient1.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
+        assertTrue("send desktop #1 window", ttclient1.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
 
-        assertTrue("Wait for desktop window", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT));
+        TTMessage msg = new TTMessage();
+        assertTrue("Wait for desktop #1 window", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
+
+        int desktop1ID = msg.nStreamID;
+        assertTrue("Desktop #1 shown", desktop1ID > 0);
         
         assertTrue("subscribe desktopinput", waitCmdSuccess(ttclient1,
                                                             ttclient1.doSubscribe(ttclient2.getMyUserID(),
                                                                                   Subscription.SUBSCRIBE_DESKTOPINPUT),
                                                             DEF_WAIT));
-        
         DesktopInput[] inputs = new DesktopInput[2];
-        for (int i=0;i<inputs.length;++i) {
-            inputs[i] = new DesktopInput();
-            inputs[i].uMousePosY = 100;
-            inputs[i].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        for (int x=0;x<wnd.nWidth;x++) {
+            inputs[0] = new DesktopInput();
+            inputs[0].uMousePosX = x;
+            inputs[0].uMousePosY = 10;
+            inputs[0].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        
+            inputs[1] = new DesktopInput();
+            inputs[1].uMousePosX = x;
+            inputs[1].uMousePosY = 20;
+            inputs[1].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+
+            assertTrue("send desktop #1 input x="+x, ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
+
+            assertTrue("get desktop #1 input[0]", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, msg));
+            assertEquals("desktop #1 input[0] x", x, msg.desktopinput.uMousePosX);
+            assertEquals("desktop #1 input[0] y", 10, msg.desktopinput.uMousePosY);
+
+            assertTrue("get desktop #1 input[1]", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, msg));
+            assertEquals("desktop #1 input[1] x", x, msg.desktopinput.uMousePosX);
+            assertEquals("desktop #1 input[1] y", 20, msg.desktopinput.uMousePosY);
         }
-
-        assertTrue("send desktop input", ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
-
-        assertTrue("get desktop input", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT));
 
         assertTrue("send cursor pos", ttclient1.sendDesktopCursorPosition(5, 6));
 
-        TTMessage msg = new TTMessage();
         assertTrue("get desktop cursor", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR, DEF_WAIT, msg));
         assertEquals("pos x", 5, msg.desktopinput.uMousePosX);
         assertEquals("pos y", 6, msg.desktopinput.uMousePosY);
+
+        // // start new desktop session
+        // wnd = new DesktopWindow();
+        // wnd.nWidth = 1024;
+        // wnd.nHeight = 1024;
+        // wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        // wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        // wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        // assertTrue("send desktop #2 window", ttclient1.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32)>0);
+
+        // assertTrue("Wait for desktop #2 window", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
+
+        // assertTrue("Desktop #2 shown", desktop1ID != msg.nStreamID);        
+
+        // DesktopInput[] input = new DesktopInput[1];
+        // int y = wnd.nHeight;
+        // for (int x=0;x<wnd.nWidth;x++) {
+        //     inputs[0] = new DesktopInput();
+        //     inputs[0].uMousePosX = x;
+        //     inputs[0].uMousePosY = --y;
+        //     inputs[0].uKeyState = DesktopKeyStates.DESKTOPKEYSTATE_NONE;
+        
+        //     assertTrue("send desktop #2 input x="+x, ttclient2.sendDesktopInput(ttclient1.getMyUserID(), inputs));
+
+        //     assertTrue("get desktop #2 input 0", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, msg));
+        //     assertEquals("desktop #2 input[0] x", x, msg.desktopinput.uMousePosX);
+        //     assertEquals("desktop #2 input[0] y", y, msg.desktopinput.uMousePosY);
+        // }
+        
     }
-    
+
+    public void testWebLogin() {
+        String USERNAME = "facebook", PASSWORD = "code=123", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+        
+        connect(ttclient1);
+        connect(ttclient2);
+
+        int cmdid = ttclient1.doLoginEx(NICKNAME, USERNAME, PASSWORD, "");
+        assertTrue("do login 1", cmdid > 0);
+        cmdid = ttclient2.doLoginEx(NICKNAME, USERNAME, PASSWORD, "");
+        assertTrue("do login 2", cmdid > 0);
+
+        TTMessage msg = new TTMessage();
+        assertTrue("wait login failure 1", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, msg));
+        assertTrue("wait login failure 2", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, msg));
+
+        ttclient1.disconnect();
+        ttclient2.disconnect();
+        
+    }
+        
 }
