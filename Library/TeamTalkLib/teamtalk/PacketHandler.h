@@ -60,7 +60,7 @@ namespace teamtalk {
         void RemovePackets(PacketKind kind);
         void RemoveChannelPackets(uint16_t chanid);
         int QueuePacket(FieldPacket* packet);
-        FieldPacket* GetNextPacket();
+        packet_ptr_t GetNextPacket();
         int PacketCount();
     };
 

@@ -1707,12 +1707,12 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_VOICE_CRYPT :
     {
         CryptVoicePacket crypt_pkt(packet_data, packet_size);
-        VoicePacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         MYTRACE_COND(!decrypt_pkt, ACE_TEXT("Failed to decrypted voice packet from #%d\n"),
                      crypt_pkt.GetSrcUserID());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
+
         MYTRACE_COND(user.null(),
                      ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
@@ -1741,12 +1741,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
     {
         CryptAudioFilePacket crypt_pkt(packet_data, packet_size);
-        AudioFilePacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         MYTRACE_COND(!decrypt_pkt, ACE_TEXT("Failed to decrypted audio packet from #%d\n"),
                      crypt_pkt.GetSrcUserID());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         MYTRACE_COND(user.null(),
                      ACE_TEXT("Received CryptAudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
@@ -1771,10 +1770,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_VIDEO_CRYPT :
     {
         CryptVideoCapturePacket crypt_pkt(packet_data, packet_size);
-        VideoPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         MYTRACE_COND(user.null(),
                      ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
@@ -1799,10 +1797,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
     {
         CryptVideoFilePacket crypt_pkt(packet_data, packet_size);
-        VideoFilePacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         MYTRACE_COND(user.null(),
                      ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
@@ -1827,10 +1824,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_DESKTOP_CRYPT :
     {
         CryptDesktopPacket crypt_pkt(packet_data, packet_size);
-        DesktopPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         MYTRACE_COND(user.null(),
                      ACE_TEXT("Received CryptDesktopPacket from unknown user #%d"),
                      packet.GetSrcUserID());
@@ -1858,10 +1854,10 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     {
         TTASSERT(chan.get());
         CryptDesktopAckPacket crypt_pkt(packet_data, packet_size);
-        DesktopAckPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
+
         ReceivedDesktopAckPacket(*decrypt_pkt);
         m_clientstats.desktopbytes_recv += packet_size;
     }
@@ -1879,10 +1875,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     {
         TTASSERT(chan.get());
         CryptDesktopNakPacket crypt_pkt(packet_data, packet_size);
-        DesktopNakPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         ReceivedDesktopNakPacket(*decrypt_pkt);
         m_clientstats.desktopbytes_recv += packet_size;
     }
@@ -1900,10 +1895,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     {
         TTASSERT(chan.get());
         CryptDesktopCursorPacket crypt_pkt(packet_data, packet_size);
-        DesktopCursorPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         ReceivedDesktopCursorPacket(*decrypt_pkt);
         m_clientstats.desktopbytes_recv += packet_size;
     }
@@ -1921,10 +1915,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     {
         TTASSERT(chan.get());
         CryptDesktopInputPacket crypt_pkt(packet_data, packet_size);
-        DesktopInputPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         ReceivedDesktopInputPacket(*decrypt_pkt);
         m_clientstats.desktopbytes_recv += packet_size;
     }
@@ -1941,10 +1934,9 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
     {
         CryptDesktopInputAckPacket crypt_pkt(packet_data, packet_size);
-        DesktopInputAckPacket* decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
+        auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        packet_ptr_t ptr(decrypt_pkt);
         ReceivedDesktopInputAckPacket(*decrypt_pkt);
         m_clientstats.desktopbytes_recv += packet_size;
     }
@@ -2279,12 +2271,10 @@ void ClientNode::SendPackets()
 
     GUARD_REACTOR(this);
 
+    packet_ptr_t p;
     int ret;
-    FieldPacket* p;
     while( (p = m_tx_queue.GetNextPacket()) )
     {
-        packet_ptr_t p_ptr(p); //auto delete
-
 #if SIMULATE_TX_PACKETLOSS
         static int dropped = 0, transmitted = 0;
         transmitted++;
@@ -2301,7 +2291,7 @@ void ClientNode::SendPackets()
         {
         case PACKET_KIND_VOICE :
         {
-            VoicePacket* audpkt = dynamic_cast<VoicePacket*>(p);
+            VoicePacket* audpkt = dynamic_cast<VoicePacket*>(p.get());
             TTASSERT(audpkt);
             TTASSERT(!audpkt->HasFragments());
             TTASSERT(!audpkt->Finalized());
@@ -2343,7 +2333,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_MEDIAFILE_AUDIO :
         {
-            AudioFilePacket* audpkt = dynamic_cast<AudioFilePacket*>(p);
+            AudioFilePacket* audpkt = dynamic_cast<AudioFilePacket*>(p.get());
             TTASSERT(audpkt);
             TTASSERT(!audpkt->HasFragments());
 
@@ -2370,7 +2360,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_VIDEO :
         {
-            VideoCapturePacket* vidpkt = dynamic_cast<VideoCapturePacket*>(p);
+            VideoCapturePacket* vidpkt = dynamic_cast<VideoCapturePacket*>(p.get());
             TTASSERT(vidpkt);
 
             if(!vidpkt->Finalized())
@@ -2409,7 +2399,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_MEDIAFILE_VIDEO :
         {
-            VideoFilePacket* vidpkt = dynamic_cast<VideoFilePacket*>(p);
+            VideoFilePacket* vidpkt = dynamic_cast<VideoFilePacket*>(p.get());
             TTASSERT(vidpkt);
 
             if(!vidpkt->Finalized())
@@ -2450,7 +2440,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOP :
         {
-            DesktopPacket* desktoppkt = dynamic_cast<DesktopPacket*>(p);
+            DesktopPacket* desktoppkt = dynamic_cast<DesktopPacket*>(p.get());
             TTASSERT(desktoppkt);
             TTASSERT(!desktoppkt->Finalized());
 
@@ -2494,7 +2484,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOP_ACK :
         {
-            DesktopAckPacket* ack_packet = dynamic_cast<DesktopAckPacket*>(p);
+            DesktopAckPacket* ack_packet = dynamic_cast<DesktopAckPacket*>(p.get());
             TTASSERT(ack_packet);
             TTASSERT(ack_packet->Finalized());
 
@@ -2519,7 +2509,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOP_NAK :
         {
-            DesktopNakPacket* nak_packet = dynamic_cast<DesktopNakPacket*>(p);
+            DesktopNakPacket* nak_packet = dynamic_cast<DesktopNakPacket*>(p.get());
             TTASSERT(nak_packet);
             TTASSERT(nak_packet->Finalized());
 
@@ -2544,7 +2534,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOPCURSOR :
         {
-            DesktopCursorPacket* cursor_pkt = dynamic_cast<DesktopCursorPacket*>(p);
+            DesktopCursorPacket* cursor_pkt = dynamic_cast<DesktopCursorPacket*>(p.get());
             TTASSERT(cursor_pkt);
             TTASSERT(cursor_pkt->Finalized());
 
@@ -2568,7 +2558,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOPINPUT :
         {
-            DesktopInputPacket* input_pkt = dynamic_cast<DesktopInputPacket*>(p);
+            DesktopInputPacket* input_pkt = dynamic_cast<DesktopInputPacket*>(p.get());
             TTASSERT(input_pkt);
             TTASSERT(input_pkt->Finalized());
 
@@ -2596,7 +2586,7 @@ void ClientNode::SendPackets()
         break;
         case PACKET_KIND_DESKTOPINPUT_ACK :
         {
-            DesktopInputAckPacket* ack_pkt = dynamic_cast<DesktopInputAckPacket*>(p);
+            DesktopInputAckPacket* ack_pkt = dynamic_cast<DesktopInputAckPacket*>(p.get());
             TTASSERT(ack_pkt);
             TTASSERT(ack_pkt->Finalized());
 
