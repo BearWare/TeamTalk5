@@ -433,6 +433,9 @@ namespace teamtalk
 
         assert(m_iovec.size() == 1);
         m_iovec.push_back(decrypt_fields);
+#ifdef ENABLE_ENCRYPTION
+        m_crypt_sections.insert(uint8_t(m_iovec.size()-1));
+#endif
     }
 
     FieldPacket::~FieldPacket()

@@ -39,18 +39,7 @@
 #include <openssl/aes.h>
 #endif
 
-
-#ifdef ACE_WIN32
-typedef ACE_INT8    int8_t;
-typedef ACE_UINT8   uint8_t;
-typedef ACE_INT16   int16_t;
-typedef ACE_UINT16  uint16_t;
-typedef ACE_INT32   int32_t;
-typedef ACE_UINT32  uint32_t;
-typedef ACE_INT64   int64_t;
-#else
 #include <stdint.h>
-#endif
 
 #include "Common.h"
 
