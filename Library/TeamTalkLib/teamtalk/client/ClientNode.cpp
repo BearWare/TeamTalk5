@@ -1473,6 +1473,9 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
                                            ACE_Message_Block* mb_video)
 {
+    if (!mb_video)
+        mb_video = VideoFrameToMsgBlock(video_frame);
+
     ACE_Time_Value tm_zero;
     if (m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
     {
