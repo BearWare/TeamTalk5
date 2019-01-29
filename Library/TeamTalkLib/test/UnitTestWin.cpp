@@ -282,10 +282,8 @@ namespace UnitTest
 
 
             Assert::IsTrue(dev->InitVideoCapture(szDev, fmt));
-#if defined(ENABLE_MEDIAFOUNDATION)
             for(auto f : outputs)
                 Assert::IsTrue(dev->RegisterVideoFormat(std::bind(&MyClass::OnVideoCaptureCallback, &listener, _1, _2), f));
-#endif
             Assert::IsTrue(dev->StartVideoCapture());
 
 
@@ -323,7 +321,7 @@ namespace UnitTest
 
             std::vector<media::VideoFormat> test_fmts;
             std::copy_if(devs[0].vidcapformats.begin(), devs[0].vidcapformats.end(), 
-                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_I420; });
+                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_RGB32; });
 
             for(auto fmt : test_fmts)
             {

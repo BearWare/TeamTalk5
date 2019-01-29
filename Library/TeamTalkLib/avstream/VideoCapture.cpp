@@ -30,8 +30,8 @@ using namespace vidcap;
 typedef MFCapture videocapturedevice_t;
 
 #elif defined(ENABLE_LIBVIDCAP)
-#error "Not implemented yet"
 #include "LibVidCap.h"
+typedef LibVidCap videocapturedevice_t;
 
 #elif defined(ENABLE_AVF)
 #include "AVFCapture.h"
