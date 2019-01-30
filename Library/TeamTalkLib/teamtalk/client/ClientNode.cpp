@@ -3595,7 +3595,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
         m_serverinfo.udpaddr.set_port_number(udpport);
     }
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses\n"), int(m_serverinfo.hostaddrs.size()));
+    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), int(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
     
     if (m_serverinfo.hostaddrs.size() &&
         Connect(encrypted, m_serverinfo.hostaddrs[0], m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : NULL))
