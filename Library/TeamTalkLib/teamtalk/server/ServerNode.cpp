@@ -1857,18 +1857,17 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VOICE_CRYPT :
     {
-        AudioPacket* p = CryptVoicePacket(packet).Decrypt(chan.GetEncryptKey());
-        packet_ptr_t ptr(p);
+        auto p = CryptVoicePacket(packet).Decrypt(chan.GetEncryptKey());
         if (p)
             streamid = p->GetStreamID();
         break;
     }
 #endif
     case PACKET_KIND_VOICE :
-        streamid = packet.GetStreamID();
+        streamid = VoicePacket(packet).GetStreamID();
         break;
     default :
-        assert(0);
+        assert(packet.GetKind() == PACKET_KIND_VOICE);
         break;
     }
 
@@ -1910,15 +1909,14 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
     {
-        AudioFilePacket* p = CryptAudioFilePacket(packet).Decrypt(chan.GetEncryptKey());
-        packet_ptr_t ptr(p);
+        auto p = CryptAudioFilePacket(packet).Decrypt(chan.GetEncryptKey());
         if (p)
             streamid = p->GetStreamID();
         break;
     }
 #endif
     case PACKET_KIND_MEDIAFILE_AUDIO :
-        streamid = packet.GetStreamID();
+        streamid = AudioFilePacket(packet).GetStreamID();
         break;
     default :
         assert(packet.GetKind() == PACKET_KIND_MEDIAFILE_AUDIO);
@@ -1962,16 +1960,17 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VIDEO_CRYPT :
     {
-        VideoCapturePacket* p = CryptVideoCapturePacket(packet).Decrypt(chan.GetEncryptKey());
-        packet_ptr_t ptr(p);
+        auto p = CryptVideoCapturePacket(packet).Decrypt(chan.GetEncryptKey());
         if (p)
             streamid = p->GetStreamID();
         break;
     }
 #endif
     case PACKET_KIND_VIDEO :
-        streamid = packet.GetStreamID();
+        streamid = VideoCapturePacket(packet).GetStreamID();
         break;
+    default :
+        assert(packet.GetKind() == PACKET_KIND_VIDEO_CRYPT);
     }
 
     if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid))
@@ -2006,15 +2005,17 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
     {
-        VideoFilePacket* p = CryptVideoFilePacket(packet).Decrypt(chan.GetEncryptKey());
-        packet_ptr_t ptr(p);
+        auto p = CryptVideoFilePacket(packet).Decrypt(chan.GetEncryptKey());
         if (p)
             streamid = p->GetStreamID();
         break;
     }
 #endif
     case PACKET_KIND_MEDIAFILE_VIDEO :
-        streamid = packet.GetStreamID();
+        streamid = VideoFilePacket(packet).GetStreamID();
+        break;
+    default :
+        assert(packet.GetKind() == PACKET_KIND_MEDIAFILE_VIDEO);
         break;
     }
     
@@ -2048,13 +2049,11 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
-
-    ReceivedDesktopPacket(user, packet, remoteaddr, localaddr);
+    
+    ReceivedDesktopPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 
@@ -2071,7 +2070,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetStreamID()))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
        return;
 
     uint8_t prev_session_id = 0;
@@ -2176,13 +2175,11 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopAckPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopAckPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopAckPacket(user, packet, remoteaddr, localaddr);
+    ReceivedDesktopAckPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 
@@ -2311,13 +2308,11 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopNakPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopNakPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopNakPacket(user, packet, remoteaddr, localaddr);
+    ReceivedDesktopNakPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 
@@ -2375,13 +2370,11 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopCursorPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopCursorPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopCursorPacket(user, packet, remoteaddr, localaddr);
+    ReceivedDesktopCursorPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 
@@ -2396,7 +2389,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetStreamID()))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
        return;
     
 #ifdef _DEBUG
@@ -2451,13 +2444,11 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopInputPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopInputPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopInputPacket(user, packet, remoteaddr, localaddr);
+    ReceivedDesktopInputPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 
@@ -2514,13 +2505,11 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    DesktopInputAckPacket* tmp_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
-    if(!tmp_pkt)
+    auto decrypt_pkt = crypt_pkt.Decrypt(chan.GetEncryptKey());
+    if(!decrypt_pkt)
         return;
-    DesktopInputAckPacket& packet = *tmp_pkt;
-    packet_ptr_t ptr(tmp_pkt);
 
-    ReceivedDesktopInputAckPacket(user, packet, remoteaddr, localaddr);
+    ReceivedDesktopInputAckPacket(user, *decrypt_pkt, remoteaddr, localaddr);
 }
 #endif
 

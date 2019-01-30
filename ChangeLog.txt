@@ -2,6 +2,8 @@
                  TeamTalk
 ----------------------------------------------
 Version 5.4, unreleased
+Accessible Windows client
+- Romanian translation
 Server
 - Linux server now depends on OpenSSL (libssl package)
 

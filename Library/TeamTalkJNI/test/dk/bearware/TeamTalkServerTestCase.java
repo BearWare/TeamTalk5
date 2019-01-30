@@ -651,6 +651,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("move user", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
 
+        assertTrue("wait move", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_JOINED, DEF_WAIT, interleave));
+
         assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
     }
 
