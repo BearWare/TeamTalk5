@@ -121,16 +121,19 @@ public:
                 return;
         }
 
-        /*
         LONG stride = 0;
         hr = MFGetStrideForBitmapInfoHeader(toutinfo.guidSubtype.Data1, w, &stride);
-        if(FAILED(hr))
-        return;
+        if(SUCCEEDED(hr))
+        {
+            if(stride < 0)
+            {
+                stride *= -1;
+                hr = pOutputType->SetUINT32(MF_MT_DEFAULT_STRIDE, stride);
+                assert(SUCCEEDED(hr));
+            }
+        }
 
-        hr = pOutputType->SetUINT32(MF_MT_DEFAULT_STRIDE, stride);
-        if(FAILED(hr))
-            return;
-
+        /*
         UINT32 size = 0;
         hr = MFCalculateImageSize(toutinfo.guidSubtype, w, h, &size);
         if(FAILED(hr))

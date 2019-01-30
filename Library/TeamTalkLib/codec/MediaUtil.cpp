@@ -76,3 +76,9 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
     assert(ret>=0);
     return mb;
 }
+
+media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
+{
+    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+    return frm;
+}

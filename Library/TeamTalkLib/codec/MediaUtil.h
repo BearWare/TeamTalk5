@@ -168,6 +168,7 @@ ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
 ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
+media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb);
 
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan);

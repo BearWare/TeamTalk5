@@ -372,9 +372,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
                 media::VideoFrame media_frame(session->vidfmt, reinterpret_cast<char*>(pBuffer),
                                               dwCurLen);
                 media_frame.timestamp = uTimeStamp;
-                ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                if (!session->PerformCallback(media_frame, mb))
-                    mb->release();
+                session->PerformCallback(media_frame, nullptr);
             }
             hr = pMediaBuffer->Unlock();
             assert(SUCCEEDED(hr));
