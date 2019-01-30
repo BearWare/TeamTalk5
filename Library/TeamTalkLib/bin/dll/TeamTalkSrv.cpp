@@ -161,7 +161,7 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
 
     if(szCertificateFile && szPrivateKeyFile)
     {
-        ssl_context->set_mode(ACE_SSL_Context::SSLv23_server);
+        ssl_context->set_mode(ACE_SSL_Context::SSLv23);
 
 #if defined(UNICODE)
         ACE_CString cert = UnicodeToLocal(szCertificateFile);
