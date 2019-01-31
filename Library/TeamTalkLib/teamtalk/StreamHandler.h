@@ -61,8 +61,10 @@ class StreamHandler : public ACE_Svc_Handler< ACE_SOCK_STREAM_TYPE, ACE_MT_SYNCH
 public:
     typedef ACE_Svc_Handler< ACE_SOCK_STREAM_TYPE, ACE_MT_SYNCH > super;
     typedef StreamHandler StreamHandler_t;
-    StreamHandler(ACE_Reactor* r = ACE_Reactor::instance())
-    : super(0,0,r)
+    StreamHandler(ACE_Thread_Manager *thr_mgr = 0,
+                  ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
+                  ACE_Reactor *reactor = ACE_Reactor::instance())
+    : super(thr_mgr, mq, reactor)
     , m_listener(NULL)
     , sent_(0)
     , recv_(0)
@@ -223,8 +225,10 @@ class DefaultStreamHandler : public StreamHandler<ACE_SOCK_STREAM>
 public:
     typedef StreamListener< DefaultStreamHandler::StreamHandler_t > StreamListener_t;
 
-    DefaultStreamHandler(ACE_Reactor* r = ACE_Reactor::instance()) 
-        : StreamHandler<ACE_SOCK_STREAM>(r) { }
+    DefaultStreamHandler(ACE_Thread_Manager *thr_mgr = 0,
+                         ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
+        ACE_Reactor *reactor = ACE_Reactor::instance())
+        : StreamHandler<ACE_SOCK_STREAM>(thr_mgr, mq, reactor) { }
 };
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
@@ -240,7 +244,9 @@ public:
     typedef StreamHandler<ACE_SSL_SOCK_Stream> super;
     typedef StreamListener< CryptStreamHandler::StreamHandler_t > StreamListener_t;
 
-    CryptStreamHandler(ACE_Reactor* r = ACE_Reactor::instance());
+    CryptStreamHandler(ACE_Thread_Manager *thr_mgr = 0,
+                       ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
+                       ACE_Reactor *reactor = ACE_Reactor::instance());
 
     //Callback to handle any input received
     virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);

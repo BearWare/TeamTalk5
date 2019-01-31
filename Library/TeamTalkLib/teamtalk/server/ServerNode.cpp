@@ -79,6 +79,7 @@ ServerNode::ServerNode(const ACE_TString& version,
 ServerNode::~ServerNode()
 {
     StopServer(true);
+    MYTRACE(ACE_TEXT("~ServerNode()\n"));
 }
 
 ACE_Lock& ServerNode::lock()
@@ -932,26 +933,25 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
 #if defined(ENABLE_ENCRYPTION)
         if (encrypted)
         {
-            CryptAcceptor* ca = new CryptAcceptor(m_tcp_reactor);
-            tcpport &= ca->open(a, ca->reactor(), ACE_NONBLOCK) != -1;
-            ca->SetListener(this);
+            cryptacceptor_t ca(new CryptAcceptor(a, m_tcp_reactor, ACE_NONBLOCK, this));
+            tcpport &= ca->acceptor().get_handle() != ACE_INVALID_HANDLE;
             m_crypt_acceptors.push_back(ca);
         }
         else
 #endif
         {
-            DefaultAcceptor* da = new DefaultAcceptor(m_tcp_reactor);
-            tcpport &= da->open(a, da->reactor(), ACE_NONBLOCK) != -1;
-            da->SetListener(this);
+            defaultacceptor_t da(new DefaultAcceptor(a, m_tcp_reactor, ACE_NONBLOCK, this));
+            tcpport &= da->acceptor().get_handle() != ACE_INVALID_HANDLE;
             m_def_acceptors.push_back(da);
         }
     }
 
     for (auto a : m_properties.udpaddrs)
     {
-        PacketHandler* ph = new PacketHandler(m_udp_reactor);
+        packethandler_t ph(new PacketHandler(m_udp_reactor));
         udpport &= ph->open(a, UDP_SOCKET_RECV_BUF_SIZE, UDP_SOCKET_SEND_BUF_SIZE);
-        ph->AddListener(this);
+        if (udpport)
+            ph->AddListener(this);
         m_packethandlers.push_back(ph);
     }
 
@@ -1007,30 +1007,13 @@ void ServerNode::StopServer(bool docallback)
     m_filetransfers.clear();
     m_updUserIPs.clear();
 
-    for (auto ph : m_packethandlers)
-    {
-        ph->RemoveListener(this);
-        ph->reactor()->remove_handler(ph, PacketHandler::ALL_EVENTS_MASK);
-        delete ph;
-    }
     m_packethandlers.clear();
 
 #if defined(ENABLE_ENCRYPTION)
-    for (auto ca : m_crypt_acceptors)
-    {
-        ca->SetListener(NULL);
-        ca->reactor()->remove_handler(ca, CryptAcceptor::ALL_EVENTS_MASK);
-        delete ca;
-    }
     m_crypt_acceptors.clear();
 #endif
-    for (auto da : m_def_acceptors)
-    {
-        da->SetListener(NULL);
-        da->reactor()->remove_handler(da, DefaultAcceptor::ALL_EVENTS_MASK);
-        delete da;
-    }
     m_def_acceptors.clear();
+
 
     if (docallback)
         m_srvguard->OnShutdown(m_stats);

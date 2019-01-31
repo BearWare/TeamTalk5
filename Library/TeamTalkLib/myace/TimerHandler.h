@@ -31,6 +31,7 @@
 class TimerListener
 {
 public:
+    virtual ~TimerListener() {}
     virtual int TimerEvent(ACE_UINT32 timer_event_id, long userdata) = 0; //returning -1 will call 'delete this'
 };
 

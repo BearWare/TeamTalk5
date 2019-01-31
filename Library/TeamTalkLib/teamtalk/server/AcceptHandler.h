@@ -65,10 +65,12 @@ class Acceptor : public ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >
     typedef ACE_Acceptor< STREAMHANDLER, MYACCEPTOR > super;
 
 public:
-    Acceptor(ACE_Reactor* r = ACE_Reactor::instance())
-        : super(r)
-        , m_listener(NULL)
+    Acceptor(const ACE_INET_Addr& addr, ACE_Reactor* r, int flags,
+             typename STREAMHANDLER::StreamListener_t * lsn)
+        : super(addr, r, flags)
+        , m_listener(lsn)
     {
+        //MYTRACE(ACE_TEXT("%p Acceptor()\n"), this);
     }
 
     virtual ~Acceptor()
@@ -76,17 +78,14 @@ public:
         MYTRACE(ACE_TEXT("~Acceptor()\n"));
     }
 
-    void SetListener(typename STREAMHANDLER::StreamListener_t * lsn)
-    {
-        m_listener = lsn;
-    }
-
     virtual int activate_svc_handler (STREAMHANDLER* svc_handler)
     {
         svc_handler->SetListener(m_listener);
+
         int ret = super::activate_svc_handler( svc_handler );
         // if(svc_handler && m_pListener && ret != -1)
         //     m_pListener->NewClient(*svc_handler);
+
 
         return ret;
     }
