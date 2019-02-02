@@ -563,9 +563,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         ServerInterleave interleave = new RunServer(server);
 
         TeamTalkBase client = newClientInstance();
-        assertTrue("Connect", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, "foobar"));
 
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CON_SUCCESS, 1000, interleave);
+        connect(server, client, "foobar");
 
         int cmdid = client.doLoginEx(getCurrentMethod(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
         assertTrue("Login client", cmdid > 0);
@@ -589,7 +588,6 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
         waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
-
     }
 
     public void test_moveUser() {
@@ -940,6 +938,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         uploadDownloadTest(server, useraccount, NICKNAME, 7);
         uploadDownloadTest(server, useraccount, NICKNAME, 77);
+        uploadDownloadTest(server, useraccount, NICKNAME, 777);
         uploadDownloadTest(server, useraccount, NICKNAME, 7777);
         uploadDownloadTest(server, useraccount, NICKNAME, 777777);
         uploadDownloadTest(server, useraccount, NICKNAME, 7777777);
@@ -1129,13 +1128,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         }
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient)
-    {
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient) {
         connect(server, ttclient, SYSTEMID);
     }
 
-    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID)
-    {
+    protected static void connect(TeamTalkSrv server, TeamTalkBase ttclient, String systemID) {
         connect(server, ttclient, systemID, IPADDR, TCPPORT, UDPPORT);
     }
 
@@ -1170,13 +1167,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient, 
                                 String nick, String username, String passwd, 
-                                String clientname)
-    {
+                                String clientname) {
         login(ttclient, nick, username, passwd, clientname, new RunServer(server));
     }
 
-    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient)
-    {
+    protected static void joinRoot(TeamTalkSrv server, TeamTalkBase ttclient) {
         joinRoot(ttclient, new RunServer(server));
     }
 
