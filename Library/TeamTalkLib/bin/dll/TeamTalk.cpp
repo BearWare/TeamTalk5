@@ -302,8 +302,8 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 
 #ifdef ENABLE_ENCRYPTION
     ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23_client)
-        context->set_mode(ACE_SSL_Context::SSLv23_client);
+    if(context->get_mode() !=  ACE_SSL_Context::SSLv23)
+        context->set_mode(ACE_SSL_Context::SSLv23);
 #endif
 
     ClientInstance* pClient = new ClientInstance;
@@ -336,8 +336,8 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll()
 
 #ifdef ENABLE_ENCRYPTION
     ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23_client)
-        context->set_mode(ACE_SSL_Context::SSLv23_client);
+    if(context->get_mode() !=  ACE_SSL_Context::SSLv23)
+        context->set_mode(ACE_SSL_Context::SSLv23);
 #endif
 
 #if !defined(WIN32)

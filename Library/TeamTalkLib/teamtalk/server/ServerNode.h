@@ -374,14 +374,17 @@ namespace teamtalk {
         int m_userid_counter;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
-        std::vector<CryptAcceptor*> m_crypt_acceptors;
+        typedef std::shared_ptr<CryptAcceptor> cryptacceptor_t;
+        std::vector<cryptacceptor_t> m_crypt_acceptors;
 #endif
-        std::vector<DefaultAcceptor*> m_def_acceptors;
+        typedef std::shared_ptr<DefaultAcceptor> defaultacceptor_t;
+        std::vector<defaultacceptor_t> m_def_acceptors;
 
         std::map<ACE_HANDLE, serveruser_t> m_streamhandles;
 
         //socket for udp traffic
-        std::vector<PacketHandler*> m_packethandlers;
+        typedef std::shared_ptr<PacketHandler> packethandler_t;
+        std::vector<packethandler_t> m_packethandlers;
         
         //mutex for clients
         ACE_Recursive_Thread_Mutex m_sendmutex;

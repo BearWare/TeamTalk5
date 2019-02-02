@@ -53,9 +53,12 @@ ACE_SSL_Context* CryptStreamHandler::ssl_context(ACE_Reactor* r)
 
 ssl_ctx_t CryptStreamHandler::m_contexts;
 
-CryptStreamHandler::CryptStreamHandler(ACE_Reactor* r/* = ACE_Reactor::instance()*/)
+CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
+                                       ACE_Message_Queue<ACE_MT_SYNCH> *mq,
+                                       ACE_Reactor *reactor)
+    : super(thr_mgr, mq, reactor)
 {
-    ACE_SSL_Context* ctx = ssl_context(r);
+    ACE_SSL_Context* ctx = ssl_context(reactor);
     SSL_CTX* sslctx = ctx->context();
 
     SSL* ssl = peer().ssl();

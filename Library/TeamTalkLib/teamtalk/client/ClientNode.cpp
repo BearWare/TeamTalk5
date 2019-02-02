@@ -66,7 +66,7 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_connector(&m_reactor, ACE_NONBLOCK)
                        , m_def_stream(NULL)
 #if defined(ENABLE_ENCRYPTION)
-                       , m_crypt_connector(&m_reactor)
+                       , m_crypt_connector(&m_reactor, ACE_NONBLOCK)
                        , m_crypt_stream(NULL)
 #endif
                        , m_packethandler(&m_reactor)
@@ -3595,7 +3595,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
         m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
         m_serverinfo.udpaddr.set_port_number(udpport);
     }
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses\n"), int(m_serverinfo.hostaddrs.size()));
+    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), int(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
     
     if (m_serverinfo.hostaddrs.size() &&
         Connect(encrypted, m_serverinfo.hostaddrs[0], m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : NULL))
@@ -3626,11 +3626,15 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(&m_reactor), false);
+        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(0, 0, &m_reactor), false);
         m_crypt_stream->SetListener(this);
         //ACE_Synch_Options options = ACE_Synch_Options::defaults;
         //ACE only supports OpenSSL on blocking sockets
+#if 0
+        ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0, 0));
+#else
         ACE_Synch_Options options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
+#endif
         if (localtcpaddr)
             ret = m_crypt_connector.connect(m_crypt_stream, hosttcpaddr, 
                                             options, *localtcpaddr);
@@ -3641,7 +3645,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     else
 #endif
     {
-        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(&m_reactor), false);
+        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(0, 0, &m_reactor), false);
         m_def_stream->SetListener(this);
         ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
         if (localtcpaddr)
