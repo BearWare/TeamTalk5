@@ -27,8 +27,6 @@
 #include <teamtalk/ttassert.h>
 #include <teamtalk/CodecCommon.h>
 #include <codec/MediaUtil.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 using namespace std;
 using namespace teamtalk;
@@ -259,32 +257,9 @@ void AudioThread::QueueAudio(const media::AudioFrame& audframe)
     assert(audframe.inputfmt.channels == audframe.outputfmt.channels || audframe.outputfmt.channels == 0);
     assert(audframe.input_samples == audframe.output_samples || audframe.output_samples == 0);
 
-    ACE_Message_Block* mb;
-    int frame_bytes = sizeof(audframe);
-    int input_bytes = audframe.inputfmt.channels*sizeof(short)*audframe.input_samples;
-    int output_bytes = audframe.outputfmt.channels*sizeof(short)*audframe.output_samples;
-
-    ACE_NEW(mb, ACE_Message_Block(frame_bytes + input_bytes + output_bytes));
-
-    //assign pointers to inside ACE_Message_Block
-    media::AudioFrame copy_frame = audframe;
-    copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr()+frame_bytes);
-    copy_frame.output_buffer = 
-        reinterpret_cast<short*>(mb->rd_ptr()+(frame_bytes+input_bytes));
-
-    int ret;
-    ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), 
-                   frame_bytes);
-    TTASSERT(ret>=0);
-    ret = mb->copy(reinterpret_cast<const char*>(audframe.input_buffer),
-                   input_bytes);
-    TTASSERT(ret>=0);
-    if(copy_frame.output_buffer)
-        ret = mb->copy(reinterpret_cast<const char*>(audframe.output_buffer),
-                       output_bytes);
-    TTASSERT(ret>=0);
-
-    QueueAudio(mb);
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(audframe);
+    if (mb)
+        QueueAudio(mb);
 }
 
 void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
@@ -327,7 +302,7 @@ int AudioThread::svc(void)
 void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 {
     if(m_tone_frequency)
-        GenerateTone(audblock);
+         m_tone_sample_index = GenerateTone(audblock, m_tone_sample_index, m_tone_frequency);
 
     if(m_gainlevel != GAIN_NORMAL)
         SOFTGAIN((audblock.input_buffer), audblock.input_samples, 
@@ -550,27 +525,4 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     return enc_frames;
 }
 #endif
-
-void AudioThread::GenerateTone(media::AudioFrame& audblock)
-{
-    double volume = 8000;
-
-    for(int i=0;i<audblock.input_samples;i++) 
-    {
-        double t = (double) m_tone_sample_index++ / audblock.inputfmt.samplerate;
-        int v = (int)(volume*sin((double)m_tone_frequency * t * 2.0 * M_PI));
-        if(v>32767)
-            v = 32767;
-        else if(v < -32768)
-            v = -32768;
-
-        if(audblock.inputfmt.channels == 1)
-            audblock.input_buffer[i] = v;
-        else
-        {
-            audblock.input_buffer[2*i] = v;
-            audblock.input_buffer[2*i+1] = v;
-        }
-    }
-}
 

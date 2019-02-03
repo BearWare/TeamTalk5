@@ -101,15 +101,21 @@ namespace media
         bool voiceact_enc; //encode if voice active
         ACE_UINT32 timestamp;
         AudioFrame()
-            : input_buffer(NULL)
-            , output_buffer(NULL)
-            {
-                input_samples = output_samples = 0;
-                soundgrpid = 0;
-                userdata = 0;
-                force_enc = voiceact_enc = false;
-                timestamp = GETTIMESTAMP();
-            }
+        : input_buffer(NULL)
+        , output_buffer(NULL)
+        {
+            input_samples = output_samples = 0;
+            soundgrpid = 0;
+            userdata = 0;
+            force_enc = voiceact_enc = false;
+            timestamp = GETTIMESTAMP();
+        }
+
+        AudioFrame(ACE_Message_Block* mb)
+        {
+            AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->rd_ptr());
+            *this = *frm;
+        }
     };
 
     struct VideoFrame
@@ -170,12 +176,17 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb);
 
+ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame);
+
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan);
 
 void MergeStereo(const std::vector<short>& left_chan, 
                  const std::vector<short>& right_chan,
                  short* output_buffer, int output_samples);
+
+// returns new sample_index
+int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
 #define PCM16_BYTES(samples, channels) (samples * channels * sizeof(short))
 #define PCM16_DURATION(bytes, channels, samplerate) (((bytes/channels/sizeof(short)) * 1000) / samplerate)

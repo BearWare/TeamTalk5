@@ -24,6 +24,9 @@
 #include "MediaUtil.h"
 #include <assert.h>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan)
 {
@@ -81,4 +84,61 @@ media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 {
     media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
     return frm;
+}
+
+ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
+{
+    ACE_Message_Block* mb;
+    int frame_bytes = sizeof(frame);
+    int input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+    int output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
+
+    assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
+    assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
+
+    ACE_NEW_RETURN(mb, ACE_Message_Block(frame_bytes + input_bytes + output_bytes), nullptr);
+
+    //assign pointers to inside ACE_Message_Block
+    media::AudioFrame copy_frame = frame;
+    copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr() + frame_bytes);
+    if (output_bytes)
+        copy_frame.output_buffer = reinterpret_cast<short*>(mb->rd_ptr() + (frame_bytes + input_bytes));
+
+    int ret;
+
+    ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), frame_bytes);
+    assert(ret >= 0);
+
+    ret = mb->copy(reinterpret_cast<const char*>(frame.input_buffer), input_bytes);
+    assert(ret >= 0);
+
+    if(output_bytes)
+        ret = mb->copy(reinterpret_cast<const char*>(frame.output_buffer), output_bytes);
+    assert(ret >= 0);
+
+    return mb;
+}
+
+int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq)
+{
+    double volume = 8000;
+
+    for(int i = 0; i<audblock.input_samples; i++)
+    {
+        double t = (double)sample_index++ / audblock.inputfmt.samplerate;
+        int v = (int)(volume*sin((double)tone_freq * t * 2.0 * M_PI));
+        if(v>32767)
+            v = 32767;
+        else if(v < -32768)
+            v = -32768;
+
+        if(audblock.inputfmt.channels == 1)
+            audblock.input_buffer[i] = v;
+        else
+        {
+            audblock.input_buffer[2 * i] = v;
+            audblock.input_buffer[2 * i + 1] = v;
+        }
+    }
+    return sample_index;
 }

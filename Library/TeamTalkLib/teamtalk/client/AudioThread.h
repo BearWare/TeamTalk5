@@ -118,7 +118,6 @@ private:
     ACE_Time_Value m_lastActive;
 
     ACE_UINT32 m_tone_sample_index, m_tone_frequency;
-    void GenerateTone(media::AudioFrame& audblock);
 };
 
 typedef ACE_Strong_Bound_Ptr< AudioThread, ACE_Null_Mutex > audio_thread_t;
