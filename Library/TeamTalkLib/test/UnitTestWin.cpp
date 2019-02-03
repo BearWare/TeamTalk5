@@ -321,7 +321,7 @@ namespace UnitTest
 
             std::vector<media::VideoFormat> test_fmts;
             std::copy_if(devs[0].vidcapformats.begin(), devs[0].vidcapformats.end(), 
-                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_RGB32; });
+                std::back_inserter(test_fmts), [](media::VideoFormat f) {return f.fourcc == media::FOURCC_I420; });
 
             for(auto fmt : test_fmts)
             {
@@ -485,7 +485,7 @@ namespace UnitTest
         }
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-        TEST_METHOD(TestTransform)
+        TEST_METHOD(TestVideoTransform)
         {
             std::wostringstream os;
             const auto WIDTH=1600, HEIGHT=1200, FPS_N = 30, FPS_D = 1;
@@ -662,6 +662,43 @@ namespace UnitTest
                         rgb32frame_ret->frame, rgb32frame_ret->frame_length);
             mb->release();
 
+        }
+#endif
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+        TEST_METHOD(TestAudioTransform)
+        {
+            media::AudioFormat input(16000, 1), output(32000, 1);
+            
+            std::vector<short> buff(input.samplerate * input.channels);
+
+            media::AudioFrame frame;
+            frame.inputfmt = input;
+            frame.input_buffer = &buff[0];
+            frame.input_samples = input.samplerate;
+
+            WaveFile outwavefile;
+            Assert::IsTrue(outwavefile.NewFile(ACE_TEXT("hest.wav"), frame.outputfmt.samplerate, frame.outputfmt.channels));
+
+            auto transform = MFTransform::Create(input, output, input.samplerate * .1);
+            Assert::IsTrue(transform.get() != nullptr);
+            Assert::IsTrue(transform->RetrieveMBSample() == nullptr);
+
+            int sampleindex = 0, i = 0;
+            for(int i=0;i<10;i++)
+            {
+                sampleindex = GenerateTone(frame, sampleindex, 600);
+                if (transform->SubmitSample(frame) & TRANSFORM_OUTPUTREADY)
+                {
+                    ACE_Message_Block* mb;
+                    while ((mb = transform->RetrieveMBSample()))
+                    {
+                        media::AudioFrame outframe(mb);
+                        outwavefile.AppendSamples(outframe.input_buffer, outframe.input_samples);
+                        mb->release();
+                    }
+                }
+            }
         }
 #endif
 

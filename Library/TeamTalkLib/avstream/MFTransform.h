@@ -36,6 +36,7 @@ const GUID& ConvertFourCC(media::FourCC fcc);
 ACE_TString FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertMediaType(IMFMediaType* pInputType);
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
+ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
 
 enum TransformState
 {
@@ -54,11 +55,13 @@ public:
     virtual ~MFTransform() {}
     static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
     static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
+    static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
 
     virtual TransformState SubmitSample(CComPtr<IMFSample>& pInSample) = 0;
     virtual CComPtr<IMFSample> RetrieveSample() = 0;
 
     virtual TransformState SubmitSample(const media::VideoFrame& frame) = 0;
+    virtual TransformState SubmitSample(const media::AudioFrame& frame) = 0;
     virtual ACE_Message_Block* RetrieveMBSample() = 0;
 
     virtual CComPtr<IMFSample> ProcessSample(CComPtr<IMFSample>& pInSample) = 0;

@@ -31,6 +31,7 @@
 
 #include <assert.h>
 #include <complex>
+#include <queue>
 
 #define MFT_INIT_FLAGS (MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY)
 
@@ -42,7 +43,9 @@ class MFTransformImpl : public MFTransform
     DWORD m_dwInputID = 0, m_dwOutputID = 0;
     bool m_ready = false;
     mftransform_t m_endpoint;
-    media::VideoFormat m_outputfmt;
+    media::VideoFormat m_outputvideofmt;
+    media::AudioFormat m_outputaudiofmt;
+    int m_audio_samples = 0; // samples in audio output buffer
 
 public:
     MFTransformImpl(IMFMediaType* pInputType, const GUID& dest_videoformat, bool decoder, MFTransform* endpoint = nullptr)
@@ -64,10 +67,10 @@ public:
         toutinfo.guidMajorType = MFMediaType_Video;
         toutinfo.guidSubtype = dest_videoformat;
 
-        m_outputfmt = media::VideoFormat(w, h, numerator, denominator, ConvertSubType(dest_videoformat));
+        m_outputvideofmt = media::VideoFormat(w, h, numerator, denominator, ConvertSubType(dest_videoformat));
 
         MYTRACE(ACE_TEXT("MFTransform %s -> %s, %dx%d@%u\n"), FourCCToString(ConvertSubType(tininfo.guidSubtype)).c_str(),
-            FourCCToString(m_outputfmt.fourcc).c_str(), m_outputfmt.width, m_outputfmt.height, numerator / std::max(denominator, 1u));
+            FourCCToString(m_outputvideofmt.fourcc).c_str(), m_outputvideofmt.width, m_outputvideofmt.height, numerator / std::max(denominator, 1u));
 
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
         hr = MFTEnumEx(decoder? MFT_CATEGORY_VIDEO_DECODER : MFT_CATEGORY_VIDEO_PROCESSOR, MFT_INIT_FLAGS, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
@@ -156,6 +159,92 @@ public:
 
         m_ready = true;
     }
+
+    MFTransformImpl(IMFMediaType* pInputType, IMFMediaType* pOutputType, int nAudioOutputSamples)
+    {
+        HRESULT hr;
+        MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
+        DWORD dwTypeIndex = 0;
+        CComPtr<IMFMediaType> pTmpMedia;
+        UINT32 uValue;
+
+        hr = pInputType->GetGUID(MF_MT_MAJOR_TYPE, &tininfo.guidMajorType);
+        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &tininfo.guidSubtype);
+
+        // set output info
+        hr = pOutputType->GetGUID(MF_MT_MAJOR_TYPE, &toutinfo.guidMajorType);
+        hr = pOutputType->GetGUID(MF_MT_SUBTYPE, &toutinfo.guidSubtype);
+
+        hr = MFTEnumEx(MFT_CATEGORY_AUDIO_EFFECT, MFT_INIT_FLAGS, &tininfo, &toutinfo, &m_pMFTs, &m_cMFTs);
+        if(FAILED(hr) || m_cMFTs == 0)
+            return;
+
+        for (DWORD dwIndex=0;dwIndex<m_cMFTs;dwIndex++)
+        {
+            m_pMFT.Release();
+
+            hr = m_pMFTs[dwIndex]->ActivateObject(IID_PPV_ARGS(&m_pMFT));
+            if(FAILED(hr))
+                continue;
+
+            hr = m_pMFT->GetStreamIDs(1, &m_dwInputID, 1, &m_dwOutputID);
+            if(hr == E_NOTIMPL)
+            {
+                // The stream identifiers are zero-based.
+                m_dwInputID = 0;
+                m_dwOutputID = 0;
+                hr = S_OK;
+            }
+            if(FAILED(hr))
+                continue;
+
+            //while (SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwTypeIndex, &pTmpMedia)))
+            //{
+            //    DWORD dwFlags = 0;
+            //    dwTypeIndex++;
+            //    hr = pTmpMedia->IsEqual(pOutputType, &dwFlags);
+            //    pTmpMedia.Release();
+            //}
+
+            hr = m_pMFT->SetInputType(m_dwInputID, pInputType, 0);
+            if(FAILED(hr))
+                continue;
+
+            hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
+            if(FAILED(hr))
+                continue;
+
+            break;
+        }
+
+        if (FAILED(hr))
+            return;
+
+        hr = pOutputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &uValue);
+        if(FAILED(hr))
+            return;
+
+        m_outputaudiofmt.channels = int(uValue);
+
+        hr = pInputType->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &uValue);
+        if(FAILED(hr))
+            return;
+
+        m_outputaudiofmt.samplerate = int(uValue);
+
+        m_audio_samples = nAudioOutputSamples;
+
+        assert(m_outputaudiofmt.IsValid());
+
+        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_NOTIFY_BEGIN_STREAMING, 0);
+        assert(SUCCEEDED(hr));
+
+        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_NOTIFY_START_OF_STREAM, 0);
+        assert(SUCCEEDED(hr));
+
+        m_ready = true;
+    }
+
 
     ~MFTransformImpl()
     {
@@ -260,6 +349,59 @@ public:
         return TRANSFORM_ERROR;
     }
 
+    TransformState SubmitSample(const media::AudioFrame& frame)
+    {
+        HRESULT hr;
+        CComPtr<IMFSample> pSample;
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        DWORD dwBufSize = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+
+        hr = MFCreateSample(&pSample);
+        if(FAILED(hr))
+            goto fail;
+
+        //hr = pSample->SetSampleTime(frame.timestamp * 10000);
+        //if(FAILED(hr))
+        //    goto fail;
+
+        //hr = pSample->SetSampleDuration((1000 / 30) * 10000);
+        //if(FAILED(hr))
+        //    goto fail;
+
+        hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
+        if(FAILED(hr))
+            goto fail;
+
+        BYTE* pBuffer;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            goto fail;
+
+        assert(dwMaxSize == dwBufSize);
+        memcpy_s(pBuffer, dwMaxSize, frame.input_buffer, dwBufSize);
+        hr = pMediaBuffer->SetCurrentLength(dwBufSize);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            goto fail;
+
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            goto fail;
+
+        hr = pSample->AddBuffer(pMediaBuffer);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            goto fail;
+
+        return SubmitSample(pSample);
+
+    fail:
+        return TRANSFORM_ERROR;
+    }
+
     CComPtr<IMFSample> RetrieveSample()
     {
         assert(Ready());
@@ -267,48 +409,62 @@ public:
         HRESULT hr;
 
         DWORD dwStatus, dwFlags;
+
+        std::queue< CComPtr<IMFSample> > outputsamples, endpointsamples;
         
         if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
             return CComPtr<IMFSample>();
 
-        CComPtr<IMFSample> pOutSample;
         MFT_OUTPUT_STREAM_INFO mftStreamInfo = { 0 };
         hr = m_pMFT->GetOutputStreamInfo(m_dwOutputID, &mftStreamInfo);
         if (FAILED(hr))
             return CComPtr<IMFSample>();
 
-        MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
-        mftOutputData.dwStreamID = m_dwOutputID;
-        mftOutputData.dwStatus = 0;
-        mftOutputData.pEvents = nullptr;
-
-        if (mftStreamInfo.dwFlags & (MFT_OUTPUT_STREAM_PROVIDES_SAMPLES | MFT_OUTPUT_STREAM_CAN_PROVIDE_SAMPLES))
-        {
-            mftOutputData.pSample = nullptr;
-        }
-        else
-        {
-            hr = MFCreateSample(&pOutSample);
-            if(FAILED(hr))
-                return CComPtr<IMFSample>();
-
-            CComPtr<IMFMediaBuffer> pBufferOut;
-            if(mftStreamInfo.cbAlignment)
-                hr = MFCreateAlignedMemoryBuffer(mftStreamInfo.cbSize, mftStreamInfo.cbAlignment - 1, &pBufferOut);
-            else
-                hr = MFCreateMemoryBuffer(mftStreamInfo.cbSize, &pBufferOut);
-            assert(SUCCEEDED(hr));
-            if(FAILED(hr))
-                return CComPtr<IMFSample>();
-            hr = pOutSample->AddBuffer(pBufferOut);
-            if(FAILED(hr))
-                return CComPtr<IMFSample>();
-
-            mftOutputData.pSample = pOutSample;
-        }
-
         do
         {
+            MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
+            CComPtr<IMFSample> pOutSample;
+
+            mftOutputData.dwStreamID = m_dwOutputID;
+            mftOutputData.dwStatus = 0;
+            mftOutputData.pEvents = nullptr;
+
+            if(mftStreamInfo.dwFlags & (MFT_OUTPUT_STREAM_PROVIDES_SAMPLES | MFT_OUTPUT_STREAM_CAN_PROVIDE_SAMPLES))
+            {
+                mftOutputData.pSample = nullptr;
+            }
+            else
+            {
+                DWORD dwBufSize = mftStreamInfo.cbSize;
+                if (m_audio_samples)
+                {
+                    assert(m_outputaudiofmt.IsValid());
+                    dwBufSize = PCM16_BYTES(m_audio_samples, m_outputaudiofmt.channels);
+                }
+
+                hr = MFCreateSample(&pOutSample);
+                if(FAILED(hr))
+                    return CComPtr<IMFSample>();
+
+                CComPtr<IMFMediaBuffer> pBufferOut;
+                if(mftStreamInfo.cbAlignment)
+                {
+                    hr = MFCreateAlignedMemoryBuffer(dwBufSize, mftStreamInfo.cbAlignment - 1, &pBufferOut);
+                }
+                else
+                {
+                    hr = MFCreateMemoryBuffer(dwBufSize, &pBufferOut);
+                }
+                assert(SUCCEEDED(hr));
+                if(FAILED(hr))
+                    return CComPtr<IMFSample>();
+                hr = pOutSample->AddBuffer(pBufferOut);
+                if(FAILED(hr))
+                    return CComPtr<IMFSample>();
+
+                mftOutputData.pSample = pOutSample;
+            }
+
             hr = m_pMFT->ProcessOutput(0, 1, &mftOutputData, &dwStatus);
 
             if(mftOutputData.pEvents)
@@ -329,6 +485,8 @@ public:
                 assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
                 return CComPtr<IMFSample>();
             case S_OK:
+                if (mftOutputData.pSample)
+                    outputsamples.push(mftOutputData.pSample);
                 break;
             case MF_E_TRANSFORM_NEED_MORE_INPUT:
                 break;
@@ -343,18 +501,23 @@ public:
         if(FAILED(hr))
             return CComPtr<IMFSample>();
 
-        if (mftOutputData.pSample != pOutSample)
-            pOutSample = mftOutputData.pSample;
-
         if (m_endpoint.get())
         {
-            if (!m_endpoint->SubmitSample(pOutSample))
-                return CComPtr<IMFSample>();
-
-            pOutSample = m_endpoint->RetrieveSample();
+            while (outputsamples.size())
+            {
+                auto endpointsample = m_endpoint->ProcessSample(outputsamples.front());
+                outputsamples.pop();
+                if (endpointsample)
+                    endpointsamples.push(endpointsample);
+            }
+            outputsamples = endpointsamples;
         }
 
-        return pOutSample;
+        assert(outputsamples.size() <= 1);
+        if (outputsamples.size())
+            return outputsamples.front();
+
+        return nullptr;
     }
 
     ACE_Message_Block* RetrieveMBSample()
@@ -363,7 +526,13 @@ public:
         if (!pSample.p)
             return nullptr;
 
-        return ConvertVideoSample(pSample, m_outputfmt);
+        if (m_outputvideofmt.IsValid())
+            return ConvertVideoSample(pSample, m_outputvideofmt);
+
+        if (m_outputaudiofmt.IsValid())
+            return ConvertAudioSample(pSample, m_outputaudiofmt);
+
+        return nullptr;
     }
 
     CComPtr<IMFSample> ProcessSample(CComPtr<IMFSample>& pInSample)
@@ -412,7 +581,13 @@ public:
         if (!pOutSample)
             return nullptr;
 
-        return ConvertVideoSample(pOutSample, m_outputfmt);
+        if (m_outputvideofmt.IsValid())
+            return ConvertVideoSample(pOutSample, m_outputvideofmt);
+        
+        if (m_outputaudiofmt.IsValid())
+            return ConvertAudioSample(pOutSample, m_outputaudiofmt);
+
+        return nullptr;
     }
 
 
@@ -534,6 +709,98 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
     return result;
 }
 
+mftransform_t MFTransform::Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples)
+{
+    std::unique_ptr<MFTransformImpl> result;
+
+    HRESULT hr;
+    CComPtr<IMFMediaType> pInputType, pOutputType;
+
+    hr = MFCreateMediaType(&pInputType);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, inputfmt.channels);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, inputfmt.samplerate);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, PCM16_BYTES(inputfmt.samplerate, inputfmt.channels));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, PCM16_BYTES(1, inputfmt.channels));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
+    if(FAILED(hr))
+        goto fail;
+    
+    hr = pInputType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
+    if(FAILED(hr))
+        goto fail;
+    
+
+
+    hr = MFCreateMediaType(&pOutputType);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, outputfmt.channels);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, outputfmt.samplerate);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, PCM16_BYTES(outputfmt.samplerate, outputfmt.channels));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, PCM16_BYTES(1, outputfmt.channels));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pOutputType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
+    if(FAILED(hr))
+        goto fail;
+
+
+    result.reset(new MFTransformImpl(pInputType, pOutputType, output_samples));
+
+    if (!result->Ready())
+        result.reset();
+
+fail:
+    return result;
+}
+
+
 
 media::FourCC ConvertSubType(const GUID& native_subtype)
 {
@@ -651,6 +918,7 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
     ACE_UINT32 timestamp = 0;
     DWORD dwBufCount = 0;
     ACE_Message_Block* mb = nullptr;
+    assert(fmt.IsValid());
     if(pSample)
     {
         hr = pSample->GetBufferCount(&dwBufCount);
@@ -672,11 +940,56 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
         DWORD dwCurLen, dwMaxSize;
         hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
         assert(SUCCEEDED(hr));
-        if(SUCCEEDED(hr))
+        if(SUCCEEDED(hr) && dwCurLen > 0)
         {
             media::VideoFrame frame(fmt, reinterpret_cast<char*>(pBuffer), dwCurLen);
             frame.timestamp = timestamp;
             mb = VideoFrameToMsgBlock(frame);
+        }
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+    }
+    return mb;
+}
+
+
+ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt)
+{
+    HRESULT hr;
+    ACE_UINT32 timestamp = 0;
+    DWORD dwBufCount = 0;
+    ACE_Message_Block* mb = nullptr;
+    assert(fmt.IsValid());
+    if(pSample)
+    {
+        hr = pSample->GetBufferCount(&dwBufCount);
+        assert(SUCCEEDED(hr));
+        LONGLONG llSampleTime = 0;
+        if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
+            timestamp = ACE_UINT32(llSampleTime / 10000);
+    }
+
+    for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
+    {
+        assert(dwBufCount == 1);
+
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            break;
+
+        BYTE* pBuffer = NULL;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(SUCCEEDED(hr) && dwCurLen>0)
+        {
+            media::AudioFrame frame;
+            frame.input_buffer = reinterpret_cast<short*>(pBuffer);
+            frame.input_samples = dwCurLen / PCM16_BYTES(1, fmt.channels);
+            frame.timestamp = timestamp;
+            mb = AudioFrameToMsgBlock(frame);
         }
         hr = pMediaBuffer->Unlock();
         assert(SUCCEEDED(hr));
