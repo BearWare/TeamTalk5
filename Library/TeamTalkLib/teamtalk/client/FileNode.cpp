@@ -45,7 +45,7 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 , m_pending_complete(false)
 , m_transfer(transfer)
 #if defined(ENABLE_ENCRYPTION)
-, m_crypt_connector(&reactor)
+, m_crypt_connector(&reactor, ACE_NONBLOCK)
 , m_crypt_stream(NULL)
 #endif
 , m_connector(&reactor)
@@ -591,6 +591,7 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
     {
         bytes = m_file.recv(&m_filebuffer[0], m_filebuffer.size());
         TTASSERT(ret>=0);
+//        MYTRACE(ACE_TEXT("Sent %d bytes\n"), int(m_file.tell()));
 
         if(bytes>0)
         {
