@@ -370,6 +370,7 @@ void MFStreamer::Run()
 
         if (llAudioTimestamp < 0 || (llVideoTimestamp >= 0 && llVideoTimestamp <= llAudioTimestamp))
         {
+            imfsamples_t samples;
             CComPtr<IMFSample> pSample;
             DWORD dwStreamFlags = 0;
             hr = pSourceReader->ReadSample(dwVideoStreamIndex, 0, NULL, &dwStreamFlags, &llVideoTimestamp, &pSample);
@@ -388,49 +389,57 @@ void MFStreamer::Run()
             
             if(pSample)
             {
-                if (transform.get())
+                if (transform)
                 {
-                    pSample = transform->ProcessSample(pSample);
+                    samples = transform->ProcessSample(pSample);
+                }
+                else
+                {
+                    samples.push_back(pSample);
+                }
+            }
+
+            for (auto& sample : samples)
+            {
+                pSample = sample;
+
+                DWORD dwBufCount = 0;
+                if(pSample)
+                {
+                    hr = pSample->GetBufferCount(&dwBufCount);
+                    assert(SUCCEEDED(hr));
                 }
 
-            }
-
-            DWORD dwBufCount = 0;
-            if(pSample)
-            {
-                hr = pSample->GetBufferCount(&dwBufCount);
-                assert(SUCCEEDED(hr));
-            }
-
-            for(DWORD i = 0; i<dwBufCount; i++)
-            {
-                CComPtr<IMFMediaBuffer> pMediaBuffer;
-                hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
-                LONGLONG llSampleTimeStamp = llVideoTimestamp;
-                hr = pSample->GetSampleTime(&llSampleTimeStamp);
-
-                assert(SUCCEEDED(hr));
-                BYTE* pBuffer = NULL;
-                DWORD dwCurLen, dwMaxSize;
-                hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-                assert(SUCCEEDED(hr));
-                if(SUCCEEDED(hr))
+                for(DWORD i = 0; i<dwBufCount; i++)
                 {
-                    media::VideoFrame media_frame(m_media_out.video,
-                                                  reinterpret_cast<char*>(pBuffer), dwCurLen);
-                    media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
-                    ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                    ACE_Time_Value tv;
-                    int ret = m_video_frames.enqueue(mb, &tv);
-                    MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
-                    if(ret < 0)
+                    CComPtr<IMFMediaBuffer> pMediaBuffer;
+                    hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+                    LONGLONG llSampleTimeStamp = llVideoTimestamp;
+                    hr = pSample->GetSampleTime(&llSampleTimeStamp);
+
+                    assert(SUCCEEDED(hr));
+                    BYTE* pBuffer = NULL;
+                    DWORD dwCurLen, dwMaxSize;
+                    hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+                    assert(SUCCEEDED(hr));
+                    if(SUCCEEDED(hr))
                     {
-                        mb->release();
+                        media::VideoFrame media_frame(m_media_out.video,
+                            reinterpret_cast<char*>(pBuffer), dwCurLen);
+                        media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
+                        ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
+                        ACE_Time_Value tv;
+                        int ret = m_video_frames.enqueue(mb, &tv);
+                        MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
+                        if(ret < 0)
+                        {
+                            mb->release();
+                        }
+                        vframes++;
                     }
-                    vframes++;
+                    hr = pMediaBuffer->Unlock();
+                    assert(SUCCEEDED(hr));
                 }
-                hr = pMediaBuffer->Unlock();
-                assert(SUCCEEDED(hr));
             }
         }
 

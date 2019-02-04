@@ -138,11 +138,14 @@ namespace UnitTest
                             transform = MFTransform::Create(media::VideoFormat(video_frame.width, video_frame.height, video_frame.fourcc), media::FOURCC_RGB32);
                         Assert::IsTrue(transform.get());
                         Assert::IsTrue(transform->SubmitSample(video_frame), L"Submit frame");
-                        ACE_Message_Block* mb = transform->RetrieveMBSample();
-                        Assert::IsTrue(mb != nullptr, L"Transformed frame");
-                        media::VideoFrame frame(mb);
-                        WriteBitmap(os.str().c_str(), media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32), frame.frame, frame.frame_length);
-                        mb->release();
+                        auto mbs = transform->RetrieveMBSample();
+                        Assert::IsTrue(mbs.size()>0, L"Transformed frame");
+                        for (auto& mb : mbs)
+                        {
+                            media::VideoFrame frame(mb);
+                            WriteBitmap(os.str().c_str(), media::VideoFormat(video_frame.width, video_frame.height, media::FOURCC_RGB32), frame.frame, frame.frame_length);
+                            mb->release();
+                        }
 #endif
                         break;
                     }
@@ -429,17 +432,20 @@ namespace UnitTest
                                     if (i420_frame.IsValid())
                                     {
                                         Assert::IsTrue(rgb32_transform->SubmitSample(i420_frame));
-                                        ACE_Message_Block* mb = rgb32_transform->RetrieveMBSample();
-                                        Assert::IsTrue(mb != nullptr);
 
-                                        media::VideoFrame rgb32_frame(mb);
-                                        decoded += 1;
-                                        os << L"decode_i420_";
-                                        os.fill('0');
-                                        os.width(20);
-                                        os << ++dec_img << L".bmp";
-                                        WriteBitmap(os.str().c_str(), rgb32_frame.GetVideoFormat(), rgb32_frame.frame, rgb32_frame.frame_length);
-                                        mb->release();
+                                        auto mbs = rgb32_transform->RetrieveMBSample();
+                                        Assert::AreEqual(1u, mbs.size(), L"Got frame");
+                                        for (auto& mb : mbs)
+                                        {
+                                            media::VideoFrame rgb32_frame(mb);
+                                            decoded += 1;
+                                            os << L"decode_i420_";
+                                            os.fill('0');
+                                            os.width(20);
+                                            os << ++dec_img << L".bmp";
+                                            WriteBitmap(os.str().c_str(), rgb32_frame.GetVideoFormat(), rgb32_frame.frame, rgb32_frame.frame_length);
+                                            mb->release();
+                                        }
                                     }
                                 }
                                 while(i420_frame.IsValid());
@@ -532,7 +538,9 @@ namespace UnitTest
             Assert::IsTrue(mft_rgb32_to_rgb24.get());
             Assert::IsTrue(mft_rgb32_to_rgb24->SubmitSample(rgb32frame));
             //CComPtr<IMFSample> pSample = mft_rgb32_to_rgb24->RetrieveSample();
-            ACE_Message_Block* mb = mft_rgb32_to_rgb24->RetrieveMBSample();
+            auto mbs = mft_rgb32_to_rgb24->RetrieveMBSample();
+            Assert::AreEqual(1, int(mbs.size()));
+            ACE_Message_Block* mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame rgb24frame(mb);
             Assert::AreEqual(rgb32fmt.width, rgb24frame.width);
@@ -549,7 +557,9 @@ namespace UnitTest
             auto mft_rgb32_to_i420 = MFTransform::Create(rgb32fmt, media::FOURCC_I420);
             Assert::IsTrue(mft_rgb32_to_i420.get());
             Assert::IsTrue(mft_rgb32_to_i420->SubmitSample(rgb32frame));
-            mb = mft_rgb32_to_i420->RetrieveMBSample();
+            mbs = mft_rgb32_to_i420->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame i420frame(mb);
             Assert::AreEqual(rgb32fmt.width, i420frame.width);
@@ -564,7 +574,9 @@ namespace UnitTest
             Assert::IsTrue(mft_i420_to_rgb32.get());
             Assert::IsTrue(mft_i420_to_rgb32->SubmitSample(i420frame));
             mb->release();
-            mb = mft_i420_to_rgb32->RetrieveMBSample();
+            mbs = mft_i420_to_rgb32->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame rgb32frame_ret(mb);
             Assert::AreEqual(rgb32fmt.width, rgb32frame_ret.width);
@@ -578,7 +590,9 @@ namespace UnitTest
             auto mft_rgb32_to_yuy2 = MFTransform::Create(rgb32fmt, media::FOURCC_YUY2);
             Assert::IsTrue(mft_rgb32_to_yuy2.get());
             Assert::IsTrue(mft_rgb32_to_yuy2->SubmitSample(rgb32frame));
-            mb = mft_rgb32_to_yuy2->RetrieveMBSample();
+            mbs = mft_rgb32_to_yuy2->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame yuy2frame(mb);
             Assert::AreEqual(rgb32fmt.width, yuy2frame.width);
@@ -593,7 +607,9 @@ namespace UnitTest
             Assert::IsTrue(mft_yuy2_to_rgb32.get());
             Assert::IsTrue(mft_yuy2_to_rgb32->SubmitSample(yuy2frame));
             mb->release();
-            mb = mft_yuy2_to_rgb32->RetrieveMBSample();
+            mbs = mft_yuy2_to_rgb32->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             rgb32frame_ret = media::VideoFrame(mb);
             Assert::AreEqual(rgb32fmt.width, rgb32frame_ret.width);
@@ -627,7 +643,9 @@ namespace UnitTest
             media::VideoFormat fmt_rgb32 = fmt_rgb24;
             fmt_rgb32.fourcc = media::FOURCC_RGB32;
             std::vector<char> buff_rgb32(RGB32_BYTES(fmt_rgb32.width, fmt_rgb32.height));
-            ACE_Message_Block* mb = mft_rgb24_to_rgb32->RetrieveMBSample();
+            auto mbs = mft_rgb24_to_rgb32->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            ACE_Message_Block* mb = mbs[0];
             Assert::IsTrue(mb);
             media::VideoFrame frame_rgb32(mb);
             Assert::IsTrue(WriteBitmap(L"test_rgb32.bmp", media::VideoFormat(fmt_rgb32.width, fmt_rgb32.height, media::FOURCC_RGB32), 
@@ -639,7 +657,9 @@ namespace UnitTest
             auto mft_rgb32_to_i420 = MFTransform::Create(fmt_rgb32, media::FOURCC_I420);
             Assert::IsTrue(mft_rgb32_to_i420.get());
             Assert::IsTrue(mft_rgb32_to_i420->SubmitSample(frame_rgb32));
-            mb = mft_rgb32_to_i420->RetrieveMBSample();
+            mbs = mft_rgb32_to_i420->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             const media::VideoFrame* i420frame = reinterpret_cast<const media::VideoFrame*>(mb->rd_ptr());
             Assert::AreEqual(fmt_rgb32.width, i420frame->width);
@@ -651,7 +671,9 @@ namespace UnitTest
             Assert::IsTrue(mft_i420_to_rgb32.get());
             Assert::IsTrue(mft_i420_to_rgb32->SubmitSample(*i420frame));
             mb->release();
-            mb = mft_i420_to_rgb32->RetrieveMBSample();
+            mbs = mft_i420_to_rgb32->RetrieveMBSample();
+            Assert::AreEqual(1u, mbs.size());
+            mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             const media::VideoFrame* rgb32frame_ret = reinterpret_cast<const media::VideoFrame*>(mb->rd_ptr());
             Assert::AreEqual(fmt_rgb32.width, rgb32frame_ret->width);
@@ -677,23 +699,31 @@ namespace UnitTest
             frame.input_buffer = &buff[0];
             frame.input_samples = input.samplerate;
 
-            WaveFile outwavefile;
-            Assert::IsTrue(outwavefile.NewFile(ACE_TEXT("hest.wav"), frame.outputfmt.samplerate, frame.outputfmt.channels));
+            WaveFile inwavefile, outwavefile;
+            Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+            Assert::IsTrue(outwavefile.NewFile(ACE_TEXT("hest_out.wav"), output.samplerate, output.channels));
 
-            auto transform = MFTransform::Create(input, output, input.samplerate * .1);
+            int output_samples = output.samplerate * .1;
+
+            auto transform = MFTransform::Create(input, output, output_samples);
             Assert::IsTrue(transform.get() != nullptr);
-            Assert::IsTrue(transform->RetrieveMBSample() == nullptr);
+            Assert::IsTrue(transform->RetrieveMBSample().empty());
 
-            int sampleindex = 0, i = 0;
+            int sampleindex = 0;
             for(int i=0;i<10;i++)
             {
                 sampleindex = GenerateTone(frame, sampleindex, 600);
+                inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
+
                 if (transform->SubmitSample(frame) & TRANSFORM_OUTPUTREADY)
                 {
-                    ACE_Message_Block* mb;
-                    while ((mb = transform->RetrieveMBSample()))
+                    auto mbs = transform->RetrieveMBSample();
+                    for (auto& mb : mbs)
                     {
                         media::AudioFrame outframe(mb);
+                        Assert::AreEqual(outframe.inputfmt.samplerate, output.samplerate);
+                        Assert::AreEqual(outframe.inputfmt.channels, output.channels);
+                        Assert::AreEqual(output_samples, outframe.input_samples);
                         outwavefile.AppendSamples(outframe.input_buffer, outframe.input_samples);
                         mb->release();
                     }

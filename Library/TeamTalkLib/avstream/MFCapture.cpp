@@ -382,10 +382,11 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
         {
             if(dwBufCount)
             {
-                ACE_Message_Block* mb = transform.second->ProcessMBSample(pSample);
-                if(mb)
+                auto mbs = transform.second->ProcessMBSample(pSample);
+                for (auto& mb : mbs)
                 {
                     media::VideoFrame media_frame(mb);
+                    assert(media_frame.frame_length);
                     media_frame.timestamp = uTimeStamp;
                     if(!session->PerformCallback(media_frame, mb))
                         mb->release();

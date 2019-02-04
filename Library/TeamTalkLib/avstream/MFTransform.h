@@ -49,6 +49,10 @@ enum TransformState
 };
 
 typedef std::unique_ptr<class MFTransform> mftransform_t;
+
+typedef CComPtr<IMFSample> imfsample_t;
+typedef std::vector< CComPtr<IMFSample> > imfsamples_t;
+
 class MFTransform
 {
 public:
@@ -58,14 +62,14 @@ public:
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
 
     virtual TransformState SubmitSample(CComPtr<IMFSample>& pInSample) = 0;
-    virtual CComPtr<IMFSample> RetrieveSample() = 0;
+    virtual std::vector< CComPtr<IMFSample> > RetrieveSample() = 0;
 
     virtual TransformState SubmitSample(const media::VideoFrame& frame) = 0;
     virtual TransformState SubmitSample(const media::AudioFrame& frame) = 0;
-    virtual ACE_Message_Block* RetrieveMBSample() = 0;
+    virtual std::vector<ACE_Message_Block*> RetrieveMBSample() = 0;
 
-    virtual CComPtr<IMFSample> ProcessSample(CComPtr<IMFSample>& pInSample) = 0;
-    virtual ACE_Message_Block* ProcessMBSample(CComPtr<IMFSample>& pInSample) = 0;
+    virtual std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample) = 0;
+    virtual std::vector<ACE_Message_Block*> ProcessMBSample(CComPtr<IMFSample>& pInSample) = 0;
 
 };
 #endif

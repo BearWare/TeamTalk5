@@ -166,7 +166,7 @@ public:
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
         DWORD dwTypeIndex = 0;
         CComPtr<IMFMediaType> pTmpMedia;
-        UINT32 uValue;
+        UINT32 uOutputSampleRate = 0, uOutputChannels = 0;
 
         hr = pInputType->GetGUID(MF_MT_MAJOR_TYPE, &tininfo.guidMajorType);
         hr = pInputType->GetGUID(MF_MT_SUBTYPE, &tininfo.guidSubtype);
@@ -220,18 +220,15 @@ public:
         if (FAILED(hr))
             return;
 
-        hr = pOutputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &uValue);
+        hr = pOutputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &uOutputChannels);
         if(FAILED(hr))
             return;
 
-        m_outputaudiofmt.channels = int(uValue);
-
-        hr = pInputType->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &uValue);
+        hr = pOutputType->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &uOutputSampleRate);
         if(FAILED(hr))
             return;
 
-        m_outputaudiofmt.samplerate = int(uValue);
-
+        m_outputaudiofmt = media::AudioFormat(int(uOutputSampleRate), int(uOutputChannels));
         m_audio_samples = nAudioOutputSamples;
 
         assert(m_outputaudiofmt.IsValid());
@@ -402,7 +399,7 @@ public:
         return TRANSFORM_ERROR;
     }
 
-    CComPtr<IMFSample> RetrieveSample()
+    std::vector< CComPtr<IMFSample> > RetrieveSample()
     {
         assert(Ready());
 
@@ -410,15 +407,16 @@ public:
 
         DWORD dwStatus, dwFlags;
 
-        std::queue< CComPtr<IMFSample> > outputsamples, endpointsamples;
+        std::vector< CComPtr<IMFSample> > outputsamples;
         
-        if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
-            return CComPtr<IMFSample>();
+        // This check does not always yield correct result.
+        //if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
+        //    return imfsamples_t();
 
         MFT_OUTPUT_STREAM_INFO mftStreamInfo = { 0 };
         hr = m_pMFT->GetOutputStreamInfo(m_dwOutputID, &mftStreamInfo);
         if (FAILED(hr))
-            return CComPtr<IMFSample>();
+            return imfsamples_t();
 
         do
         {
@@ -444,7 +442,7 @@ public:
 
                 hr = MFCreateSample(&pOutSample);
                 if(FAILED(hr))
-                    return CComPtr<IMFSample>();
+                    return imfsamples_t();
 
                 CComPtr<IMFMediaBuffer> pBufferOut;
                 if(mftStreamInfo.cbAlignment)
@@ -457,10 +455,11 @@ public:
                 }
                 assert(SUCCEEDED(hr));
                 if(FAILED(hr))
-                    return CComPtr<IMFSample>();
+                    return imfsamples_t();
+
                 hr = pOutSample->AddBuffer(pBufferOut);
                 if(FAILED(hr))
-                    return CComPtr<IMFSample>();
+                    return imfsamples_t();
 
                 mftOutputData.pSample = pOutSample;
             }
@@ -474,120 +473,136 @@ public:
             {
             case E_UNEXPECTED:
                 assert(hr != E_UNEXPECTED);
-                return CComPtr<IMFSample>();
+                return imfsamples_t();
             case MF_E_INVALIDSTREAMNUMBER:
                 assert(hr != MF_E_INVALIDSTREAMNUMBER);
-                return CComPtr<IMFSample>();
+                return imfsamples_t();
             case MF_E_TRANSFORM_STREAM_CHANGE:
                 assert(hr != MF_E_TRANSFORM_STREAM_CHANGE);
-                return CComPtr<IMFSample>();
+                return imfsamples_t();
             case MF_E_TRANSFORM_TYPE_NOT_SET:
                 assert(hr != MF_E_TRANSFORM_TYPE_NOT_SET);
-                return CComPtr<IMFSample>();
+                return imfsamples_t();
             case S_OK:
                 if (mftOutputData.pSample)
-                    outputsamples.push(mftOutputData.pSample);
+                    outputsamples.push_back(mftOutputData.pSample);
                 break;
             case MF_E_TRANSFORM_NEED_MORE_INPUT:
                 break;
             default:
                 assert(hr == S_OK);
-                return CComPtr<IMFSample>();
+                return imfsamples_t();
             }
         }
         while (hr != MF_E_TRANSFORM_NEED_MORE_INPUT);
 
-        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_FLUSH, m_dwInputID);
-        if(FAILED(hr))
-            return CComPtr<IMFSample>();
+        // Flushing the transformer seems to drop mpeg packets so no output is ever generated.
+
+        //hr = m_pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_FLUSH, m_dwInputID);
+        //if(FAILED(hr))
+        //    return imfsamples_t();
 
         if (m_endpoint.get())
         {
-            while (outputsamples.size())
+            std::vector< CComPtr<IMFSample> > endpointsamples;
+
+            for (auto& pSample : outputsamples)
             {
-                auto endpointsample = m_endpoint->ProcessSample(outputsamples.front());
-                outputsamples.pop();
-                if (endpointsample)
-                    endpointsamples.push(endpointsample);
+                auto endpointresult = m_endpoint->ProcessSample(pSample);
+                endpointsamples.insert(endpointsamples.end(), endpointresult.begin(), endpointresult.end());
             }
             outputsamples = endpointsamples;
         }
 
-        assert(outputsamples.size() <= 1);
-        if (outputsamples.size())
-            return outputsamples.front();
-
-        return nullptr;
+        return outputsamples;
     }
 
-    ACE_Message_Block* RetrieveMBSample()
+    std::vector<ACE_Message_Block*> RetrieveMBSample()
     {
-        CComPtr<IMFSample> pSample = RetrieveSample();
-        if (!pSample.p)
-            return nullptr;
+        std::vector<ACE_Message_Block*> result;
 
-        if (m_outputvideofmt.IsValid())
-            return ConvertVideoSample(pSample, m_outputvideofmt);
+        std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
+        for (auto& pSample: samples)
+        {
+            assert(pSample);
+            if(!pSample.p)
+                continue;
 
-        if (m_outputaudiofmt.IsValid())
-            return ConvertAudioSample(pSample, m_outputaudiofmt);
+            if(m_outputvideofmt.IsValid())
+                result.push_back(ConvertVideoSample(pSample, m_outputvideofmt));
 
-        return nullptr;
+            if(m_outputaudiofmt.IsValid())
+                result.push_back(ConvertAudioSample(pSample, m_outputaudiofmt));
+        }
+        return result;
     }
 
-    CComPtr<IMFSample> ProcessSample(CComPtr<IMFSample>& pInSample)
+    std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample)
     {
-        CComPtr<IMFSample> pOutSample;
+        imfsamples_t result = RetrieveSample();
 
         UINT32 uTransform = SubmitSample(pInSample);
         switch(uTransform)
         {
             // input block, try draining and resubmit
         case TRANSFORM_INPUT_BLOCKED:
-            pOutSample = RetrieveSample();
+        {
+            auto samples = RetrieveSample();
+            result.insert(result.end(), samples.begin(), samples.end());
             uTransform = SubmitSample(pInSample);
             switch(uTransform)
             {
             case TRANSFORM_IO_SUCCESS:
-                assert(!pOutSample);
-                pOutSample = RetrieveSample();
-                assert(pOutSample);
-                //MYTRACE(ACE_TEXT("Got frame due to blocked input: %d\n"), ++frames);
+            {
+                samples = RetrieveSample();
+                result.insert(result.end(), samples.begin(), samples.end());
+                MYTRACE_COND(result.empty(), ACE_TEXT("Transform output reported but no samples retrieved.\n"));
                 break;
+            }
             case TRANSFORM_SUBMITTED:
                 break;
             default:
                 assert(0);
             }
             break;
+        }
             // input success and output ready
         case TRANSFORM_IO_SUCCESS:
-            pOutSample = RetrieveSample();
-            assert(pOutSample);
+        {
+            auto samples = RetrieveSample();
+            result.insert(result.end(), samples.begin(), samples.end());
+            assert(result.size());
             //MYTRACE(ACE_TEXT("Got frame from I/O success: %d\n"), ++frames);
             break;
+        }
         default:
             MYTRACE_COND(uTransform & TRANSFORM_SUBMITTED, ACE_TEXT("Submitted but no output\n"));
             MYTRACE_COND(uTransform & TRANSFORM_ERROR, ACE_TEXT("Transform error\n"));
             break;
         }
 
-        return pOutSample;
+        return result;
     }
 
-    ACE_Message_Block* ProcessMBSample(CComPtr<IMFSample>& pInSample)
+    std::vector< ACE_Message_Block* > ProcessMBSample(CComPtr<IMFSample>& pInSample)
     {
-        CComPtr<IMFSample> pOutSample = ProcessSample(pInSample);
-        if (!pOutSample)
-            return nullptr;
+        std::vector< ACE_Message_Block* > result;
 
-        if (m_outputvideofmt.IsValid())
-            return ConvertVideoSample(pOutSample, m_outputvideofmt);
-        
-        if (m_outputaudiofmt.IsValid())
-            return ConvertAudioSample(pOutSample, m_outputaudiofmt);
+        auto outputsamples = ProcessSample(pInSample);
 
-        return nullptr;
+        for (auto& pOutSample : outputsamples)
+        {
+            if(!pOutSample)
+                continue;
+
+            if(m_outputvideofmt.IsValid())
+                result.push_back(ConvertVideoSample(pOutSample, m_outputvideofmt));
+
+            if(m_outputaudiofmt.IsValid())
+                result.push_back(ConvertAudioSample(pOutSample, m_outputaudiofmt));
+        }
+
+        return result;
     }
 
 
@@ -986,6 +1001,7 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
         if(SUCCEEDED(hr) && dwCurLen>0)
         {
             media::AudioFrame frame;
+            frame.inputfmt = fmt;
             frame.input_buffer = reinterpret_cast<short*>(pBuffer);
             frame.input_samples = dwCurLen / PCM16_BYTES(1, fmt.channels);
             frame.timestamp = timestamp;
