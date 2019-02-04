@@ -56,14 +56,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor));
+        ACE_NEW(m_crypt_stream, CryptStreamHandler(0, 0, &m_reactor));
         m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
-        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor));
+        ACE_NEW(m_def_stream, DefaultStreamHandler(0, 0, &m_reactor));
         m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }

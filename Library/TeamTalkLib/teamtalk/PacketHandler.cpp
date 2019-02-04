@@ -115,6 +115,7 @@ int PacketQueue::PacketCount()
 PacketHandler::PacketHandler(ACE_Reactor* r) 
 : ACE_Event_Handler(r, HI_PRIORITY)
 {
+    //MYTRACE(ACE_TEXT("%p PacketHandler()\n"), this);
     TTASSERT(r);
     m_buffer.resize(PACKETBUFFER);
 }
@@ -207,11 +208,6 @@ int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
     packetlisteners_t::iterator ite;
     for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
         (*ite)->SendPackets();
-    return 0;
-}
-
-int PacketHandler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask mask)
-{
     return 0;
 }
 

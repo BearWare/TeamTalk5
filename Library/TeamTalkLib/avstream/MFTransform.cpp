@@ -405,7 +405,7 @@ public:
 
         HRESULT hr;
 
-        DWORD dwStatus, dwFlags;
+        DWORD dwStatus;
 
         std::vector< CComPtr<IMFSample> > outputsamples;
         

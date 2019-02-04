@@ -18,8 +18,12 @@
 #include <myace/MyACE.h>
 
 #include <TeamTalk.h>
+#if defined(ENABLE_TEAMTALKPRO)
+#include <TeamTalkSrv.h>
+#endif
 
 #include <mutex>
+#include <thread>
 #include <condition_variable>
 #include <sstream>
 
@@ -847,5 +851,68 @@ namespace UnitTest
 
             Assert::IsTrue(TT_CloseVideoCaptureDevice(ttInst));
         }
+
+#if defined(ENABLE_TEAMTALKPRO)
+
+        void RunServer(bool* started, bool* stop)
+        {
+            Assert::IsTrue(TTS_SetEncryptionContext(0, L"ttservercert.pem", L"ttserverkey.pem"));
+
+            TTSInstance* ttServer = TTS_InitTeamTalk();
+            Assert::IsTrue(ttServer != nullptr, L"valid instance");
+
+            ServerProperties srvprop = { 0 };
+            std::wstring(L"TeamTalk 5 Pro Server").copy(srvprop.szServerName, TT_STRLEN);
+            std::wstring(L"This is my message of the day").copy(srvprop.szMOTDRaw, TT_STRLEN);
+            srvprop.nUserTimeout = 60;
+            srvprop.nMaxUsers = 100;
+
+            Assert::AreEqual(TTS_UpdateServer(ttServer, &srvprop), int(CMDERR_SUCCESS));
+
+            Channel chan = { 0 };
+            chan.nParentID = 0;
+            chan.nChannelID = 1;
+            chan.nMaxUsers = 100;
+            chan.uChannelType = CHANNEL_PERMANENT;
+            std::wstring(L"This is the root channel").copy(chan.szTopic, TT_STRLEN);
+
+            Assert::AreEqual(TTS_MakeChannel(ttServer, &chan), int(CMDERR_SUCCESS));;
+
+            Assert::IsTrue(TTS_StartServer(ttServer, L"127.0.0.1", 10443, 10443, TRUE), L"Start Server");
+            INT32 nWaitMSec = 10;
+            *started = true;
+            while(!(*stop))
+                TTS_RunEventLoop(ttServer, &nWaitMSec);
+
+            TTS_StopServer(ttServer);
+
+        }
+
+        TEST_METHOD(TestSSL)
+        {
+            bool started = false, stop = false;
+            std::thread serverthread(&UnitTest1::RunServer, this, &started, &stop);
+
+            TTInstance* ttClient = TT_InitTeamTalkPoll();
+            Assert::IsTrue(ttClient != nullptr, L"valid instance");
+
+            INT32 nWaitMSec = 10;
+
+            TTMessage msg = {};
+            while(!started)
+                TT_GetMessage(ttClient, &msg, &nWaitMSec);
+
+            Assert::IsTrue(TT_Connect(ttClient, L"127.0.0.1", 10443, 10443, 0, 0, TRUE), L"Connect");
+
+            Assert::IsTrue(TT_GetMessage(ttClient, &msg, &nWaitMSec));
+            Assert::AreEqual(int(msg.nClientEvent), int(CLIENTEVENT_CON_SUCCESS));
+
+            ServerProperties srvprop2 = { 0 };
+            Assert::IsTrue(TT_GetServerProperties(ttClient, &srvprop2));
+
+            stop = true;
+            serverthread.join();
+        }
+#endif
     };
 }
