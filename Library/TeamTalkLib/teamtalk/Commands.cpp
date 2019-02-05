@@ -210,7 +210,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
-            value = string2i64(tmp);
+            value = string2i(tmp);
             return true;
         }
         return false;
