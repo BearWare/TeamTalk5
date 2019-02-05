@@ -264,7 +264,6 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, bool flush)
             assert(m_media_out.audio.channels);
             assert(m_media_out.audio.samplerate);
             head_frame->timestamp += PCM16_DURATION(write_bytes, m_media_out.audio.channels, m_media_out.audio.samplerate);
-            head_frame = head_frame;
 
             int ret = out_mb->copy(mb->rd_ptr(), write_bytes);
             assert(ret >= 0);
