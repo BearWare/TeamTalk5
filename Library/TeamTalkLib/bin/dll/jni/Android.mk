@@ -163,7 +163,7 @@ LOCAL_CPPFLAGS := -I$(TEAMTALK_ROOT)/Library/TeamTalk_DLL -DPIC -fPIC
 LOCAL_MODULE    := TeamTalk5-jni
 LOCAL_SRC_FILES := teamtalk-jni.cpp ttconvert-jni.cpp
 
-LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACE Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil cpufeatures
+LOCAL_STATIC_LIBRARIES := TeamTalk5 ACEInet ACEInetSSL ACE ACESSL Speex SpeexDSP Ogg Opus VPX avdevice avfilter avformat avcodec swresample swscale avutil Ssl Crypto cpufeatures
 
 LOCAL_LDLIBS += -lz -lOpenSLES -L$(SYSROOT)/usr/lib -llog -DPIC -fPIC
 
