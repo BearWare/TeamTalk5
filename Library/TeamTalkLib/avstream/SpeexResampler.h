@@ -32,6 +32,7 @@
 class SpeexResampler : public AudioResampler
 {
 public:
+    SpeexResampler(const SpeexResampler&) = delete;
     SpeexResampler();
     virtual ~SpeexResampler();
     

@@ -23,6 +23,7 @@
 
 #include "MFCapture.h"
 #include "MFTransform.h"
+#include <codec/BmpFile.h>
 
 #include <mfapi.h>
 #include <mfidl.h>
@@ -35,14 +36,9 @@ using namespace vidcap;
 
 MFCapture::~MFCapture()
 {
-    std::lock_guard<std::mutex> lck(m_mutex);
-    while (m_sessions.size())
-    {
-        auto h = m_sessions.begin();
-        m_mutex.unlock();
-        StopVideoCapture(h->first);
-        m_mutex.lock();
-    }
+    MYTRACE(ACE_TEXT("~MFCapture()\n"));
+
+    StopVideoCapture();
 }
 
 vidcap_devices_t MFCapture::GetDevices()
@@ -85,37 +81,12 @@ vidcap_devices_t MFCapture::GetDevices()
         while(SUCCEEDED(pReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
                         dwMediaTypeIndex, &pInputType)))
         {
-            media::VideoFormat fmt;
-
-            UINT32 w = 0, h = 0;
-            hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
-            if (SUCCEEDED(hr))
+            media::VideoFormat fmt = ConvertMediaType(pInputType);
+            if(fmt.fourcc != media::FOURCC_NONE)
             {
-                fmt.width = w;
-                fmt.height = h;
+                dev.vidcapformats.push_back(fmt);
             }
 
-            UINT32 numerator = 0, denominator = 0;
-            hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
-            if (SUCCEEDED(hr))
-            {
-                fmt.fps_numerator = numerator;
-                fmt.fps_denominator = denominator;
-            }
-
-            UINT32 samplesize;
-            hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
-
-            GUID native_subtype = { 0 };
-            hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
-            if (SUCCEEDED(hr))
-            {
-                fmt.fourcc = ConvertSubType(native_subtype);
-                if(fmt.fourcc != media::FOURCC_NONE)
-                {
-                    dev.vidcapformats.push_back(fmt);
-                }
-            }
             dwMediaTypeIndex++;
             pInputType.Release();
         }
@@ -139,64 +110,133 @@ vidcap_devices_t MFCapture::GetDevices()
     return devs;
 }
 
-bool MFCapture::StartVideoCapture(const ACE_TString& deviceid,
-                                  const media::VideoFormat& vidfmt,
-                                  VideoCaptureListener* listener)
-{
+namespace vidcap {
+
+    struct CaptureSession
     {
-        std::lock_guard<std::mutex> lck(m_mutex);
-        if (m_sessions.find(listener) != m_sessions.end())
+        media::VideoFormat vidfmt;
+        CComPtr<IMFMediaType> pInputType;
+
+        std::unique_ptr<std::thread> capturethread;
+        ACE_Future<bool> opened, started;
+        bool stop = false;
+
+        std::map<media::FourCC, mftransform_t> transforms;
+
+        std::map<media::FourCC, VideoCapture::VideoCaptureCallback> callbacks;
+
+        CaptureSession(const CaptureSession&) = delete;
+        CaptureSession(const media::VideoFormat& fmt)
+            : vidfmt(fmt)
+        {
+        }
+
+        ~CaptureSession()
+        {
+        }
+
+        bool PerformCallback(media::VideoFrame& video_frame, ACE_Message_Block* mb)
+        {
+            if (callbacks.find(video_frame.fourcc) != callbacks.end())
+            {
+                auto m = callbacks[video_frame.fourcc];
+                return m(video_frame, mb);
+            }
             return false;
-    }
+        }
+        bool CreateCallback(media::FourCC fcc, VideoCapture::VideoCaptureCallback callback)
+        {
+            assert(callbacks.find(fcc) == callbacks.end());
+            if(callbacks.find(fcc) != callbacks.end())
+                return false;
+            
+            // don't hold mutex while we create transform since it's a slow process
+            if(fcc != vidfmt.fourcc)
+            {
+                auto transform = MFTransform::Create(pInputType, ConvertFourCC(fcc));
+                if (transform)
+                {
+                    transforms[fcc].swap(transform);
+                }
+                else return false;
+            }
 
-    std::shared_ptr<CaptureSession> session(new CaptureSession(deviceid, vidfmt));
+            callbacks[fcc] = callback;
+            return true;
+        }
+        void RemoveCallback(media::FourCC fcc)
+        {
+            transforms.erase(fcc);
+            callbacks.erase(fcc);
+        }
+    };
 
-    session->capturethread.reset(new std::thread(&MFCapture::Run, this, session.get(), listener));
+}
+
+bool MFCapture::InitVideoCapture(const ACE_TString& deviceid,
+                                 const media::VideoFormat& vidfmt)
+{
+    if(m_session)
+        return false;
+
+    m_session.reset(new CaptureSession(vidfmt));
+
+    m_session->capturethread.reset(new std::thread(&MFCapture::Run, this, m_session.get(), deviceid));
 
     bool ret = false;
-    session->opened.get(ret);
+    m_session->opened.get(ret);
 
-    if (ret)
+    if(!ret)
     {
-        std::lock_guard<std::mutex> m(m_mutex);
-        m_sessions[listener] = session;
-    }
-    else
-    {
-        session->capturethread->join();
+        StopVideoCapture();
     }
     return ret;
 }
 
-bool MFCapture::StopVideoCapture(VideoCaptureListener* listener)
+bool MFCapture::StartVideoCapture()
 {
-    std::shared_ptr<CaptureSession> session;
-    {
-        std::lock_guard<std::mutex> m(m_mutex);
-        if(m_sessions.find(listener) == m_sessions.end())
-            return false;
-
-        session = m_sessions[listener];
-        m_sessions.erase(listener);
-    }
-    
-    session->stop = true;
-    session->capturethread->join();
-
-    return true;
-}
-
-bool MFCapture::GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                      media::VideoFormat& vidfmt)
-{
-    std::lock_guard<std::mutex> m(m_mutex);
-    if(m_sessions.find(listener) != m_sessions.end())
+    if(!m_session)
         return false;
-    vidfmt = m_sessions[listener]->vidfmt;
+
+    m_session->started.set(true);
+
     return true;
 }
 
-void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
+void MFCapture::StopVideoCapture()
+{
+    if (m_session)
+    {
+        m_session->stop = true;
+        m_session->started.set(false);
+
+        m_session->capturethread->join();
+    }
+    m_session.reset();
+}
+
+media::VideoFormat MFCapture::GetVideoCaptureFormat()
+{
+    if(!m_session)
+        return media::VideoFormat();
+    return m_session->vidfmt;
+}
+
+bool MFCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
+{
+    if(!m_session)
+        return false;
+
+    return m_session->CreateCallback(fcc, callback);
+}
+
+void MFCapture::UnregisterVideoFormat(media::FourCC fcc)
+{
+    if(m_session)
+        m_session->RemoveCallback(fcc);
+}
+
+void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
 {
     HRESULT hr;
     UINT32 cDevices = 0;
@@ -208,7 +248,8 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     CComPtr<IMFMediaType> pInputType;
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    unsigned devid = ACE_OS::atoi(session->deviceid.c_str());
+    unsigned devid = ACE_OS::atoi(deviceid.c_str());
+    bool start = false;
 
     hr = MFCreateAttributes(&pAttributes, 1);
     if(FAILED(hr))
@@ -248,23 +289,13 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     // Get native media type of device
     while(SUCCEEDED(pReader->GetNativeMediaType(dwVideoStreamIndex, dwMediaTypeIndex, &pInputType)))
     {
-        UINT32 w = 0, h = 0;
-        hr = MFGetAttributeSize(pInputType, MF_MT_FRAME_SIZE, &w, &h);
-        UINT32 numerator = 0, denominator = 0;
-        hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
-        UINT32 samplesize;
-        hr = pInputType->GetUINT32(MF_MT_SAMPLE_SIZE, &samplesize);
-        GUID native_subtype = { 0 };
-        hr = pInputType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
-        if (SUCCEEDED(hr))
+        media::VideoFormat fmt = ConvertMediaType(pInputType);
+        if (session->vidfmt == fmt)
         {
-            if (w == session->vidfmt.width && h == session->vidfmt.height &&
-                session->vidfmt.fps_numerator == numerator && session->vidfmt.fps_denominator == denominator &&
-                session->vidfmt.fourcc == ConvertSubType(native_subtype))
-            {
-                break;
-            }
+            session->pInputType = pInputType;
+            break;
         }
+
         dwMediaTypeIndex++;
         pInputType.Release();
     }
@@ -272,7 +303,28 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
     if (!pInputType.p)
         goto fail;
 
+    hr = pReader->SetCurrentMediaType(dwVideoStreamIndex, NULL, pInputType);
+    if(FAILED(hr))
+        goto fail;
+
+    //{
+    //    GUID subType;
+    //    UINT32 uStride = 0;
+    //    LONG lStride = 0;
+    //    hr = pInputType->GetUINT32(MF_MT_DEFAULT_STRIDE, &uStride);
+    //    lStride = uStride;
+    //    
+    //    hr = pInputType->GetGUID(MF_MT_SUBTYPE, &subType);
+    //    hr = MFGetStrideForBitmapInfoHeader(subType.Data1, session->vidfmt.width, &lStride);
+    //    hr = hr;
+    //}
+
     session->opened.set(true);
+
+    session->started.get(start);
+
+    if(!start)
+        goto fail;
 
     bool error = false;
     while (!session->stop)
@@ -280,6 +332,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         CComPtr<IMFSample> pSample;
         DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
         LONGLONG llVideoTimestamp = 0;
+        ACE_UINT32 uTimeStamp;
 
         hr = pReader->ReadSample(dwVideoStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llVideoTimestamp, &pSample);
         if (FAILED(hr))
@@ -291,6 +344,9 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
         if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
             break;
 
+        uTimeStamp = ACE_UINT32(llVideoTimestamp / 10000);
+        uTimeStamp = GETTIMESTAMP();
+
         DWORD dwBufCount = 0;
         if(pSample)
         {
@@ -298,6 +354,7 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             assert(SUCCEEDED(hr));
         }
 
+        // TODO: don't bother creating this frame if there's no callback to the media format
         for(DWORD i = 0; i<dwBufCount; i++)
         {
             CComPtr<IMFMediaBuffer> pMediaBuffer;
@@ -312,17 +369,29 @@ void MFCapture::Run(CaptureSession* session, VideoCaptureListener* listener)
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                media::VideoFrame media_frame(reinterpret_cast<char*>(pBuffer),
-                    dwCurLen, session->vidfmt.width, session->vidfmt.height,
-                    session->vidfmt.fourcc, false);
-                media_frame.timestamp = ACE_UINT32(llVideoTimestamp / 10000);
-                ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                ACE_Time_Value tv;
-                if (!listener->OnVideoCaptureCallback(media_frame, mb))
-                    mb->release();
+                media::VideoFrame media_frame(session->vidfmt, reinterpret_cast<char*>(pBuffer),
+                                              dwCurLen);
+                media_frame.timestamp = uTimeStamp;
+                session->PerformCallback(media_frame, nullptr);
             }
             hr = pMediaBuffer->Unlock();
             assert(SUCCEEDED(hr));
+        }
+
+        for (auto& transform : session->transforms)
+        {
+            if(dwBufCount)
+            {
+                auto mbs = transform.second->ProcessMBSample(pSample);
+                for (auto& mb : mbs)
+                {
+                    media::VideoFrame media_frame(mb);
+                    assert(media_frame.frame_length);
+                    media_frame.timestamp = uTimeStamp;
+                    if(!session->PerformCallback(media_frame, mb))
+                        mb->release();
+                }
+            }
         }
     }
 

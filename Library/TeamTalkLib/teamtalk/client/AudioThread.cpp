@@ -27,21 +27,12 @@
 #include <teamtalk/ttassert.h>
 #include <teamtalk/CodecCommon.h>
 #include <codec/MediaUtil.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 using namespace std;
 using namespace teamtalk;
 
 AudioThread::AudioThread()
-:  m_listener(NULL)
-#if defined(ENABLE_SPEEX)
-, m_speex(NULL)
-#endif
-#if defined(ENABLE_OPUS)
-, m_opus(NULL)
-#endif
-, m_voicelevel(VU_METER_MIN)
+: m_voicelevel(VU_METER_MIN)
 , m_voiceactlevel(VU_METER_MIN)
 , m_gainlevel(GAIN_NORMAL)
 , m_enc_cleared(true)
@@ -57,7 +48,7 @@ AudioThread::~AudioThread()
 {
 }
 
-bool AudioThread::StartEncoder(AudioEncListener* listener, 
+bool AudioThread::StartEncoder(audioencodercallback_t callback, 
                                const teamtalk::AudioCodec& codec,
                                bool spawn_thread)
 {
@@ -76,7 +67,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
     case CODEC_NO_CODEC :
     {
         m_codec = codec;
-        m_listener = listener;
+        m_callback = callback;
         return true;
     }
     break;
@@ -88,8 +79,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = GetAudioCodecEncSize(codec);
-        TTASSERT(!m_speex);
-        ACE_NEW_RETURN(m_speex, SpeexEncoder(), false);
+        m_speex.reset(new SpeexEncoder());
         if(!m_speex->Initialize(codec.speex.bandmode, 
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 codec.speex.quality))
@@ -110,8 +100,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = MAX_ENC_FRAMESIZE * codec.speex_vbr.frames_per_packet;
-        TTASSERT(!m_speex);
-        ACE_NEW_RETURN(m_speex, SpeexEncoder(), false);
+        m_speex.reset(new SpeexEncoder());
         if(!m_speex->Initialize(codec.speex_vbr.bandmode, 
                                 DEFAULT_SPEEX_COMPLEXITY,
                                 (float)codec.speex_vbr.vbr_quality,
@@ -135,8 +124,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
         TTASSERT(channels);
 
         enc_size = MAX_ENC_FRAMESIZE;
-        TTASSERT(!m_opus);
-        ACE_NEW_RETURN(m_opus, OpusEncode(), false);
+        m_opus.reset(new OpusEncode());
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels,
                          codec.opus.application) ||
            !m_opus->SetComplexity(codec.opus.complexity) ||
@@ -192,7 +180,7 @@ bool AudioThread::StartEncoder(AudioEncListener* listener,
 
     m_encbuf.resize(enc_size);
     m_codec = codec;
-    m_listener = listener;
+    m_callback = callback;
 
     //allow one second of audio to build up in the queue
 
@@ -240,23 +228,18 @@ void AudioThread::StopEncoder()
 #endif
 
 #if defined(ENABLE_SPEEX)
-    if(m_speex)
-        m_speex->Close();
-    delete m_speex;
-    m_speex = NULL;
+    m_speex.reset();
 #endif
 
 #if defined(ENABLE_OPUS)
-    if(m_opus)
-        m_opus->Close();
-    m_opus = NULL;
+    m_opus.reset();
 #endif
     m_enc_cleared = true;
 
     m_encbuf.clear();
     m_echobuf.clear();
 
-    m_listener = NULL;
+    m_callback = {};
 
     memset(&m_codec, 0, sizeof(m_codec));
     m_codec.codec = teamtalk::CODEC_NO_CODEC;
@@ -271,35 +254,12 @@ int AudioThread::close(u_long)
 void AudioThread::QueueAudio(const media::AudioFrame& audframe)
 {
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
-    assert(audframe.input_channels == audframe.output_channels || audframe.output_channels == 0);
+    assert(audframe.inputfmt.channels == audframe.outputfmt.channels || audframe.outputfmt.channels == 0);
     assert(audframe.input_samples == audframe.output_samples || audframe.output_samples == 0);
 
-    ACE_Message_Block* mb;
-    int frame_bytes = sizeof(audframe);
-    int input_bytes = audframe.input_channels*sizeof(short)*audframe.input_samples;
-    int output_bytes = audframe.output_channels*sizeof(short)*audframe.output_samples;
-
-    ACE_NEW(mb, ACE_Message_Block(frame_bytes + input_bytes + output_bytes));
-
-    //assign pointers to inside ACE_Message_Block
-    media::AudioFrame copy_frame = audframe;
-    copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr()+frame_bytes);
-    copy_frame.output_buffer = 
-        reinterpret_cast<short*>(mb->rd_ptr()+(frame_bytes+input_bytes));
-
-    int ret;
-    ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), 
-                   frame_bytes);
-    TTASSERT(ret>=0);
-    ret = mb->copy(reinterpret_cast<const char*>(audframe.input_buffer),
-                   input_bytes);
-    TTASSERT(ret>=0);
-    if(copy_frame.output_buffer)
-        ret = mb->copy(reinterpret_cast<const char*>(audframe.output_buffer),
-                       output_bytes);
-    TTASSERT(ret>=0);
-
-    QueueAudio(mb);
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(audframe);
+    if (mb)
+        QueueAudio(mb);
 }
 
 void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
@@ -323,7 +283,7 @@ bool AudioThread::IsVoiceActive() const
 void AudioThread::ProcessQueue(ACE_Time_Value* tm)
 {
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
-    TTASSERT(m_listener);
+    TTASSERT(m_callback);
     ACE_Message_Block* mb;
     while(getq(mb, tm) >= 0)
     {
@@ -342,11 +302,11 @@ int AudioThread::svc(void)
 void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 {
     if(m_tone_frequency)
-        GenerateTone(audblock);
+         m_tone_sample_index = GenerateTone(audblock, m_tone_sample_index, m_tone_frequency);
 
     if(m_gainlevel != GAIN_NORMAL)
         SOFTGAIN((audblock.input_buffer), audblock.input_samples, 
-                 audblock.input_channels, m_gainlevel / (float)GAIN_NORMAL);
+                 audblock.inputfmt.channels, m_gainlevel / (float)GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)
     PreprocessAudioFrame(audblock);
@@ -357,7 +317,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
 
     int sum = 0;
-    int samples_total = audblock.input_samples * audblock.input_channels;
+    int samples_total = audblock.input_samples * audblock.inputfmt.channels;
     for(int i=0;i<samples_total;i++)
         sum += abs(audblock.input_buffer[i]);
     int avg = sum/samples_total;
@@ -396,8 +356,8 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             for(size_t i=0;i<enc_frame_sizes.size();i++)
                 nbBytes += enc_frame_sizes[i];
 
-            m_listener->EncodedAudioFrame(m_codec, enc_data, nbBytes,
-                                          enc_frame_sizes, audblock);
+            m_callback(m_codec, enc_data, nbBytes,
+                       enc_frame_sizes, audblock);
         }
         m_enc_cleared = false;
     }
@@ -413,7 +373,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             m_enc_cleared = true;
         }
 
-        m_listener->EncodedAudioFrame(m_codec, NULL, 0, std::vector<int>(), audblock);
+        m_callback(m_codec, NULL, 0, std::vector<int>(), audblock);
     }
 }
 
@@ -433,10 +393,10 @@ void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
     if(!preprocess)
         return;
 
-    if(audblock.input_channels == 1) 
+    if(audblock.inputfmt.channels == 1)
     {
         if(m_preprocess_left.IsEchoCancel() &&
-           audblock.output_channels == 1 && audblock.output_buffer)
+           audblock.outputfmt.channels == 1 && audblock.output_buffer)
         {
             if(m_echobuf.size() != (size_t)audblock.input_samples)
                 m_echobuf.resize(audblock.input_samples);
@@ -448,14 +408,14 @@ void AudioThread::PreprocessAudioFrame(media::AudioFrame& audblock)
         }
         m_preprocess_left.Preprocess(audblock.input_buffer); //denoise, AGC, etc
     }
-    else if(audblock.input_channels == 2)
+    else if(audblock.inputfmt.channels == 2)
     {
         vector<short> in_leftchan(audblock.input_samples), 
                       in_rightchan(audblock.input_samples);
         SplitStereo(audblock.input_buffer, audblock.input_samples, in_leftchan, in_rightchan);
 
         if(m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel() &&
-           audblock.output_channels == 2 && audblock.output_buffer)
+           audblock.outputfmt.channels == 2 && audblock.output_buffer)
         {
             assert(audblock.input_samples == audblock.output_samples);
 
@@ -565,27 +525,4 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     return enc_frames;
 }
 #endif
-
-void AudioThread::GenerateTone(media::AudioFrame& audblock)
-{
-    double volume = 8000;
-
-    for(int i=0;i<audblock.input_samples;i++) 
-    {
-        double t = (double) m_tone_sample_index++ / audblock.input_samplerate;
-        int v = (int)(volume*sin((double)m_tone_frequency * t * 2.0 * M_PI));
-        if(v>32767)
-            v = 32767;
-        else if(v < -32768)
-            v = -32768;
-
-        if(audblock.input_channels == 1)
-            audblock.input_buffer[i] = v;
-        else
-        {
-            audblock.input_buffer[2*i] = v;
-            audblock.input_buffer[2*i+1] = v;
-        }
-    }
-}
 

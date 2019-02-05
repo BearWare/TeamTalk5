@@ -50,28 +50,32 @@ void Convert(const struct vidcap_fmt_info& fmt_info,
 LibVidCap::LibVidCap()
 : m_vc_state(NULL)
 {
+    m_vc_state = vidcap_initialize();
+    assert(m_vc_state);
 }
 
 LibVidCap::~LibVidCap()
 {
+    StopVideoCapture();
+
+    if (m_vc_source)
+    {
+        int ret = vidcap_src_release(m_vc_source);
+        assert(ret == 0);
+    }
+
+    if (m_vc_api)
+    {
+        int ret = vidcap_sapi_release(m_vc_api);
+        assert(ret == 0);
+    }
+
     if(m_vc_state)
         vidcap_destroy(m_vc_state);
 }
 
-void LibVidCap::Initialize()
-{
-    if(!m_vc_state)
-    {
-        m_vc_state = vidcap_initialize();
-        assert(m_vc_state);
-
-    }
-}
-
 vidcap_devices_t LibVidCap::GetDevices()
 {
-    Initialize();
-
     int ret;
     vidcap_devices_t devices;
     if(!m_vc_state)
@@ -85,42 +89,21 @@ vidcap_devices_t LibVidCap::GetDevices()
 
     for(i=0;i<sapi_infos.size();i++)
     {
-        vidcap_sapi* sapi;
-        bool release = true;
-        active_apis_t::iterator ite = m_mActiveAPIs.find(sapi_infos[i].identifier);
-        if(ite == m_mActiveAPIs.end())
-            sapi = vidcap_sapi_acquire(m_vc_state, &sapi_infos[i]);
-        else
-        {
-            sapi = ite->second;
-            release = false;
-        }
+        vidcap_sapi* vc_api = vidcap_sapi_acquire(m_vc_state, &sapi_infos[i]);
 
-        int n_devices = vidcap_src_list_update(sapi);
+        int n_devices = vidcap_src_list_update(vc_api);
         if(n_devices>0)
         {
             std::vector<struct vidcap_src_info> src_infos;
             src_infos.resize(n_devices);
-            ret = vidcap_src_list_get(sapi, n_devices, &src_infos[0]);
+            ret = vidcap_src_list_get(vc_api, n_devices, &src_infos[0]);
             assert(ret == 0);
 
             for(int j=0;j<n_devices;j++)
             {
-                bool release_src;
-                vidcap_src* vc_src;
-                active_srcs_t::iterator ite = m_mActiveSources.find(src_infos[j].identifier);
-                if(ite == m_mActiveSources.end())
-                {
-                    vc_src = vidcap_src_acquire(sapi, &src_infos[j]);
-                    if(!vc_src)
-                        continue;
-                    release_src = true;
-                }
-                else
-                {
-                    vc_src = ite->second;
-                    release_src = false;
-                }
+                vidcap_src* vc_src = vidcap_src_acquire(vc_api, &src_infos[j]);
+                if(!vc_src)
+                    continue;
 
                 VidCapDevice device;
                 Convert(sapi_infos[i], src_infos[j], device);
@@ -137,27 +120,20 @@ vidcap_devices_t LibVidCap::GetDevices()
 
                 devices.push_back(device);
 
-                if(release_src)
-                    vidcap_src_release(vc_src);
+                vidcap_src_release(vc_src);
             }
         }
-        if(release)
-        {
-            ret = vidcap_sapi_release(sapi);
-            assert(ret == 0);
-        }
+
+        ret = vidcap_sapi_release(vc_api);
+        assert(ret == 0);
     }
     return devices;
 }
 
-bool LibVidCap::StartVideoCapture(const ACE_TString& deviceid,
-                                  const media::VideoFormat& vidfmt,
-                                  VideoCaptureListener* listener)
+bool LibVidCap::InitVideoCapture(const ACE_TString& deviceid,
+                                  const media::VideoFormat& vidfmt)
 {
-    wguard_t g(m_mutex);
-    Initialize();
-
-    if(m_mListeners.find(listener) != m_mListeners.end() || !m_vc_state)
+    if(!m_vc_state)
         return false;
 
 #if defined(WIN32)
@@ -171,43 +147,30 @@ bool LibVidCap::StartVideoCapture(const ACE_TString& deviceid,
 #endif
 
     int ret;
-    vidcap_sapi* vc_sapi;
 
     struct vidcap_sapi_info sapi_info;
     struct vidcap_src_info src_info;
 
     ACE_OS::strncpy(sapi_info.identifier, sapi_id.c_str(),
-                    VIDCAP_NAME_LENGTH);
+        VIDCAP_NAME_LENGTH);
     ACE_OS::strncpy(src_info.identifier, deviceid.c_str(),
-                    VIDCAP_NAME_LENGTH);
+        VIDCAP_NAME_LENGTH);
 
-    active_apis_t::iterator ite = m_mActiveAPIs.find(sapi_info.identifier);
-    if(ite != m_mActiveAPIs.end())
-    {
-        vc_sapi = ite->second;
-        g.release();
-    }
-    else
-    {
-        g.release();
-        vc_sapi = vidcap_sapi_acquire(m_vc_state, &sapi_info);
-    }
+    m_vc_api = vidcap_sapi_acquire(m_vc_state, &sapi_info);
 
-    if(!vc_sapi)
+    if(!m_vc_api)
         return false;
-    else
+
+    ret = vidcap_srcs_notify(m_vc_api, LibVidCap::video_sapi_notify, this);
+    assert(ret == 0);
+
+    m_vc_source = vidcap_src_acquire(m_vc_api, &src_info);
+    if(!m_vc_source)
     {
-        g.acquire();
-        m_mActiveAPIs[sapi_info.identifier] = vc_sapi;
-        g.release();
-
-        ret = vidcap_srcs_notify(vc_sapi, LibVidCap::video_sapi_notify, this);
-        assert(ret == 0);
-    }
-
-    vidcap_src* vc_src = vidcap_src_acquire(vc_sapi, &src_info);
-    if(!vc_src)
+        vidcap_sapi_release(m_vc_api);
+        m_vc_api = nullptr;
         return false;
+    }
 
     struct vidcap_fmt_info fmt_info;
     fmt_info.width = vidfmt.width;
@@ -216,100 +179,85 @@ bool LibVidCap::StartVideoCapture(const ACE_TString& deviceid,
     fmt_info.fps_numerator = vidfmt.fps_numerator;
     fmt_info.fps_denominator = vidfmt.fps_denominator;
 
-    if(vidcap_format_bind(vc_src, &fmt_info) != 0)
+    if(vidcap_format_bind(m_vc_source, &fmt_info) != 0)
     {
-        ret = vidcap_src_release(vc_src);
+        ret = vidcap_src_release(m_vc_source);
+        m_vc_source = nullptr;
+        vidcap_sapi_release(m_vc_api);
+        m_vc_api = nullptr;
         assert(ret == 0);
         return false;
     }
 
-    if((ret = vidcap_src_capture_start(vc_src, LibVidCap::video_capture_callback, listener)) != 0)
-    {
-        ret = vidcap_src_release(vc_src);
-        assert(ret == 0);
-        return false;
-    }
-
-    g.acquire();
-    m_mListeners[listener] = vc_src;
-    m_mActiveSources[src_info.identifier] = vc_src;
-
     return true;
 }
 
-bool LibVidCap::StopVideoCapture(VideoCaptureListener* listener)
+bool LibVidCap::StartVideoCapture()
 {
-    int ret;
-    wguard_t g(m_mutex);
-    vidcaplisteners_t::iterator ite = m_mListeners.find(listener);
-    if(ite == m_mListeners.end())
+    if (!m_vc_source)
         return false;
 
-    Initialize();
-
-    assert(m_vc_state);
-
-    vidcap_src* vc_src = ite->second;
-    g.release();
-
-    if(vidcap_src_capture_stop(vc_src) != 0)
+    if(vidcap_src_capture_start(m_vc_source, LibVidCap::video_capture_callback, this) != 0)
         return false;
 
-    ret = vidcap_src_release(vc_src);
-    assert(ret == 0);
-
-    //release API if all devices are stopped
-    g.acquire();
-    m_mListeners.erase(listener);
-
-    active_srcs_t::iterator ite_src = m_mActiveSources.begin();
-    while(ite_src != m_mActiveSources.end())
-    {
-        if(ite_src->second == vc_src)
-        {
-            m_mActiveSources.erase(ite_src);
-            break;
-        }
-        ite_src++;
-    }
-
-    if(m_mListeners.empty())
-    {
-        while(m_mActiveAPIs.size())
-        {
-            ret = vidcap_sapi_release(m_mActiveAPIs.begin()->second);
-            assert(ret == 0);
-            m_mActiveAPIs.erase(m_mActiveAPIs.begin());
-        }
-    }
     return true;
+
 }
 
-bool LibVidCap::GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener,
-                                      media::VideoFormat& vidfmt)
+void LibVidCap::StopVideoCapture()
 {
-    wguard_t g(m_mutex);
+    if (!m_vc_state)
+        return;
 
-    vidcaplisteners_t::iterator ii = m_mListeners.find(listener);
-    if(ii == m_mListeners.end())
-        return false;
+    if (!m_vc_source)
+        return;
 
+    int ret = vidcap_src_capture_stop(m_vc_source);
+    assert( ret == 0);
+
+    m_vc_source = nullptr;
+}
+
+media::VideoFormat LibVidCap::GetVideoCaptureFormat()
+{
     struct vidcap_fmt_info fmt_info;
-    if(vidcap_format_info_get(ii->second, &fmt_info) == 0)
+    if (m_vc_source && vidcap_format_info_get(m_vc_source, &fmt_info) == 0)
     {
+        media::VideoFormat vidfmt;
         Convert(fmt_info, vidfmt);
+        return vidfmt;
+    }
+    return media::VideoFormat();
+}
+
+bool LibVidCap::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
+{
+    if (!m_callback && GetVideoCaptureFormat().fourcc == fcc)
+    {
+        m_callback = callback;
         return true;
     }
     return false;
 }
 
+void LibVidCap::UnregisterVideoFormat(media::FourCC fcc)
+{
+    m_callback = {};
+}
+
+void LibVidCap::DoVideoCaptureCallback(media::VideoFrame& frame)
+{
+    if (m_callback)
+        m_callback(frame, nullptr);
+}
+
 int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data, 
                                       struct vidcap_capture_info* cap_info)
 {
-    VideoCaptureListener* lsn = static_cast<VideoCaptureListener*>(user_data);
-    media::VideoFormat vidfmt;
-    if(lsn && VCSingleton::instance()->GetVideoCaptureFormat(lsn, vidfmt) &&
-       cap_info->video_data && cap_info->video_data_size)
+    LibVidCap* lsn = static_cast<LibVidCap*>(user_data);
+
+    media::VideoFormat vidfmt = lsn->GetVideoCaptureFormat();
+    if(vidfmt.IsValid() && cap_info->video_data && cap_info->video_data_size)
     {
         ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
         ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
@@ -317,7 +265,7 @@ int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data,
         media::VideoFrame vid_frm(const_cast<char*>(cap_info->video_data), cap_info->video_data_size,
                                   vidfmt.width, vidfmt.height, vidfmt.fourcc, true);
         vid_frm.timestamp = tm_msec;
-        lsn->OnVideoCaptureCallback(vid_frm, NULL);
+        lsn->DoVideoCaptureCallback(vid_frm);
     }
     return 0;
 }

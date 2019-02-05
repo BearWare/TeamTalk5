@@ -34,23 +34,23 @@
 
 class LibVidCap : public vidcap::VideoCapture
 {
-private:
+public:
     LibVidCap();
     ~LibVidCap();
-    void Initialize();
-    friend class ACE_Singleton<LibVidCap, ACE_Null_Mutex>;
 
-public:
     vidcap::vidcap_devices_t GetDevices();
 
-    bool StartVideoCapture(const ACE_TString& deviceid,
-                           const media::VideoFormat& vidfmt,
-                           vidcap::VideoCaptureListener* listener);
+    bool InitVideoCapture(const ACE_TString& deviceid,
+                          const media::VideoFormat& vidfmt);
 
-    bool StopVideoCapture(vidcap::VideoCaptureListener* listener);
+    bool StartVideoCapture();
 
-    bool GetVideoCaptureFormat(vidcap::VideoCaptureListener* listener,
-                               media::VideoFormat& vidfmt);
+    void StopVideoCapture();
+
+    media::VideoFormat GetVideoCaptureFormat();
+
+    bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
+    void UnregisterVideoFormat(media::FourCC fcc);
 
     //Callbacks for libvidcap
     static int video_capture_callback(vidcap_src* vc_src, void* user_data, 
@@ -59,23 +59,13 @@ public:
     static int video_sapi_notify(vidcap_sapi *sapi, void * user_data);
 
 
-    void VideoCaptureCallback(vidcap::VideoCaptureListener* listener,
-                              const char* video_data, int data_lenth, 
-                              const ACE_Time_Value& tm);
+    void DoVideoCaptureCallback(media::VideoFrame& frame);
 private:
-    vidcap_state* m_vc_state;
+    vidcap_state* m_vc_state = nullptr;
+    vidcap_src* m_vc_source = nullptr;
+    vidcap_sapi* m_vc_api = nullptr;
 
-    typedef std::map<ACE_TString, vidcap_sapi*> active_apis_t;
-    active_apis_t m_mActiveAPIs;
-    typedef std::map<ACE_TString, vidcap_src*> active_srcs_t;
-    active_srcs_t m_mActiveSources;
-
-    typedef std::map<vidcap::VideoCaptureListener*, vidcap_src*> vidcaplisteners_t;
-    vidcaplisteners_t m_mListeners;
-
-    ACE_Recursive_Thread_Mutex m_mutex;
+    VideoCaptureCallback m_callback;
 };
-
-typedef ACE_Singleton<LibVidCap, ACE_Null_Mutex> VCSingleton;
 
 #endif

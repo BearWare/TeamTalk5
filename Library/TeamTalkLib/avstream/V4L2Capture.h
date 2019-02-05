@@ -30,12 +30,11 @@ namespace vidcap {
 
     class V4L2Capture : public FFMpeg3Capture
     {
-        friend class ACE_Singleton<vidcap::V4L2Capture, ACE_Null_Mutex>;
 
     protected:
-        FFMpegVideoInput* createStreamer(MediaStreamListener* listener,
-                                         const VidCapDevice& viddevice,
-                                         const media::VideoFormat& fmt);
+        ffmpegvideoinput_t createStreamer(MediaStreamListener* listener,
+                                          const VidCapDevice& viddevice,
+                                          const media::VideoFormat& fmt);
     public:
         V4L2Capture();
         virtual ~V4L2Capture();
@@ -45,8 +44,6 @@ namespace vidcap {
     };
 
 }
-
-typedef ACE_Singleton<vidcap::V4L2Capture, ACE_Null_Mutex> V4L2Singleton;
 
 #endif
 

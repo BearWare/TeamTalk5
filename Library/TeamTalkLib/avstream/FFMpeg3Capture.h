@@ -51,34 +51,35 @@ namespace vidcap {
         bool AddStartTime() const { return false; }
     };
 
-    typedef ACE_Strong_Bound_Ptr< MediaStreamer, ACE_Null_Mutex > vidcapstream_t;
-
-
+    typedef std::unique_ptr<FFMpegVideoInput> ffmpegvideoinput_t;
+    
     class FFMpeg3Capture : public VideoCapture,
                            public MediaStreamListener
     {
-        typedef std::map<FFMpegVideoInput*, VideoCaptureListener*> vidstreams_t;
-        vidstreams_t m_streams;
-
-        ACE_Recursive_Thread_Mutex m_mutex;
-
     protected:
-        virtual FFMpegVideoInput* createStreamer(MediaStreamListener* listener,
-                                                 const VidCapDevice& viddevice,
-                                                 const media::VideoFormat& fmt) = 0;
+        virtual ffmpegvideoinput_t createStreamer(MediaStreamListener* listener,
+                                                  const VidCapDevice& viddevice,
+                                                  const media::VideoFormat& fmt) = 0;
+        ffmpegvideoinput_t m_videoinput;
+        VideoCaptureCallback m_callback;
+        
     public:
         FFMpeg3Capture();
         virtual ~FFMpeg3Capture();
 
-        bool StartVideoCapture(const ACE_TString& deviceid,
-                               const media::VideoFormat& vidfmt,
-                               VideoCaptureListener* listener);
+        // VideoCapture interface
+        bool InitVideoCapture(const ACE_TString& deviceid,
+                              const media::VideoFormat& vidfmt);
+        
+        bool StartVideoCapture();
 
-        bool StopVideoCapture(VideoCaptureListener* listener);
+        void StopVideoCapture();
 
-        bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                   media::VideoFormat& vidfmt);
+        media::VideoFormat GetVideoCaptureFormat();
 
+        bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
+        void UnregisterVideoFormat(media::FourCC fcc);
+        
         // MediaStreamListener interface
         bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                       media::VideoFrame& video_frame,

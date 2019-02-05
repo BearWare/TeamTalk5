@@ -1411,7 +1411,7 @@ void PreferencesDlg::slotVideoCaptureDevChange(int index)
             else continue;
         default :
             //hm unknown
-            Q_ASSERT(0);
+            qDebug() << "Unknown video format " << m_videodevices[index].videoFormats[j].picFourCC;
             continue;
         }
 

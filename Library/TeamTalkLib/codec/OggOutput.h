@@ -37,6 +37,7 @@
 class OggOutput
 {
 public:
+    OggOutput(const OggOutput&) = delete;
     OggOutput();
     ~OggOutput();
     bool Open(int stream_id);
