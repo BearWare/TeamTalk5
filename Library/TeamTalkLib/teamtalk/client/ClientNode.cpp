@@ -5381,20 +5381,33 @@ void ClientNode::HandleFileAccepted(const mstrings_t& properties)
 
         m_waitingTransfers.erase(ite);
 
-        FileNode* f_ptr;
+        filenode_t ptr;
+        
 #if defined(ENABLE_ENCRYPTION)
         if(m_crypt_stream && m_serverinfo.hostaddrs.size())
+        {
+            FileNode* f_ptr;
             ACE_NEW(f_ptr, FileNode(m_reactor, true, m_serverinfo.hostaddrs[0],
                                     m_serverinfo, transfer, this));
+            ptr = filenode_t(f_ptr);
+        }
         else
 #endif
+        {
             if (m_serverinfo.hostaddrs.size())
+            {
+                FileNode* f_ptr;
                 ACE_NEW(f_ptr, FileNode(m_reactor, false, m_serverinfo.hostaddrs[0],
                                         m_serverinfo, transfer, this));
+                ptr = filenode_t(f_ptr);
+            }
+        }
 
-        filenode_t ptr(f_ptr);
-        m_filetransfers[transferid] = ptr;
-        ptr->BeginTransfer();
+        if (!ptr.null())
+        {
+            m_filetransfers[transferid] = ptr;
+            ptr->BeginTransfer();
+        }
     }
 }
 

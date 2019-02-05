@@ -48,16 +48,17 @@ class NullVideoCapture : public VideoCapture
 public:
     vidcap_devices_t GetDevices() { return vidcap_devices_t(); }
 
-    bool StartVideoCapture(const ACE_TString& deviceid,
-        const media::VideoFormat& vidfmt,
-        VideoCaptureListener* listener) { return false; }
+    bool InitVideoCapture(const ACE_TString& deviceid,
+                          const media::VideoFormat& vidfmt) { return false; }
+    
+    bool StartVideoCapture() { return false; }
 
-    bool StopVideoCapture(VideoCaptureListener* listener) { return false; }
+    void StopVideoCapture() {}
 
+    media::VideoFormat GetVideoCaptureFormat() { return media::VideoFormat(); }
 
-    bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-        media::VideoFormat& vidfmt) { return false; }
-
+    bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) { return false; }
+    void UnregisterVideoFormat(media::FourCC fcc) {}
 };
 typedef NullVideoCapture videocapturedevice_t;
 #endif
