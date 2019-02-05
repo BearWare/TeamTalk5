@@ -23,7 +23,6 @@
 
 #include "VpxDecoder.h"
 #include <assert.h>
-#include <codec/MediaUtil.h>
 #include "vpx/vp8dx.h"
 #define dec_interface vpx_codec_vp8_dx()
 
@@ -76,20 +75,59 @@ int VpxDecoder::PushDecoder(const char* frame_data, int frame_len)
     return ret;
 }
 
-bool VpxDecoder::GetRGB32Image(char* outbuf, int buflen)
+vpx_image_t* VpxDecoder::GetVpxImage()
 {
     vpx_image_t* img;
     assert(m_codec.iface);
-    assert(RGB32_BYTES(m_cfg.w, m_cfg.h) == buflen);
     if((img = vpx_codec_get_frame(&m_codec, &m_iter)))
+    {
+        return img;
+    }
+    else
+    {
+        m_iter = NULL;
+    }
+
+    return NULL;
+}
+
+bool VpxDecoder::GetRGB32Image(char* outbuf, int buflen)
+{
+    assert(RGB32_BYTES(m_cfg.w, m_cfg.h) == buflen);
+    vpx_image_t* img = GetVpxImage();
+    if(img)
     {
         I420toRGB32(img, reinterpret_cast<uint8_t*>(outbuf), buflen);
     }
-    else
-        m_iter = NULL;
 
-    return img != NULL;
+    return img != nullptr;
 }
+
+media::VideoFrame VpxDecoder::GetImage()
+{
+    vpx_image_t* img = GetVpxImage();
+
+    if (img)
+    {
+        /*
+        vpx_image.c:
+
+        const uint64_t alloc_size = (fmt & VPX_IMG_FMT_PLANAR)
+        ? (uint64_t)h * s * bps / 8
+        : (uint64_t)h * s;
+
+        */
+
+        assert(img->fmt == VPX_IMG_FMT_I420);
+
+        return media::VideoFrame(reinterpret_cast<char*>(img->img_data),
+            img->d_w * img->d_h * img->bps / 8,
+            img->d_w, img->d_h, media::FOURCC_I420, false);
+    }
+
+    return media::VideoFrame();
+}
+
 
 inline uint8_t CLAMP(short v)    
 {

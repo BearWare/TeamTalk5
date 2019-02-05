@@ -309,7 +309,7 @@ int WaveFile::WriteData(const void* data, int len)
 
 bool WaveFile::AppendSamples(const short* buffer, int samples_len)
 {
-    if(WriteData(buffer, samples_len * sizeof(short)*GetChannels())>0)
+    if (WriteData(buffer, samples_len * sizeof(short)*GetChannels())>0)
     {
         WriteHeaderLength(); //update header (so crash will still leave wav-file valid)
         return true;

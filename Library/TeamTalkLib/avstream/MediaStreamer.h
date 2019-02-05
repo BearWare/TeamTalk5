@@ -31,54 +31,42 @@
 #include <myace/MyACE.h>
 #include <codec/MediaUtil.h>
 
-struct MediaFileProp
+struct MediaStream
 {
-    int audio_channels;
-    int audio_samplerate;
-    
-    int video_width;
-    int video_height;
-    int video_fps_numerator;
-    int video_fps_denominator;
-
-    ACE_UINT32 duration_ms;
-    ACE_TString filename;
-
-    MediaFileProp()
-    : audio_channels(0), audio_samplerate(0)
-    , video_width(0), video_height(0), video_fps_numerator(0)
-    , video_fps_denominator(0), duration_ms(0) { }
-    MediaFileProp(const ACE_TString& fname)
-    : audio_channels(0), audio_samplerate(0)
-    , video_width(0), video_height(0), video_fps_numerator(0)
-    , video_fps_denominator(0), duration_ms(0), filename(fname) { }
+    media::AudioFormat audio;
+    media::VideoFormat video;
 
     bool IsValid() const { return HasAudio() || HasVideo(); }
-    bool HasAudio() const { return audio_channels > 0 && audio_samplerate > 0; }
-    bool HasVideo() const { return video_width > 0 && video_height > 0 && video_fps_numerator > 0 && video_fps_denominator > 0; }
+    bool HasAudio() const { return audio.IsValid(); }
+    // some video format don't have frame rate information, but they're still valid...
+    bool HasVideo() const { return video.IsValid(); /*video.width > 0 && video.height > 0 && video.fps_numerator > 0 && video.fps_denominator > 0;*/ }
 };
 
-struct MediaStreamOutput
+struct MediaFileProp : public MediaStream
 {
-    bool audio;
-    bool video;
+    ACE_UINT32 duration_ms = 0;
+    ACE_TString filename;
 
-    int audio_channels;
-    int audio_samplerate;
-    int audio_samples;
+    MediaFileProp() { }
+    MediaFileProp(const ACE_TString& fname) : filename(fname) { }
+};
 
-    MediaStreamOutput()
-    : MediaStreamOutput(false, false, 0, 0, 0) {}
+struct MediaStreamOutput : public MediaStream
+{
+    int audio_samples = 0;
+    MediaStreamOutput() {}
 
-    MediaStreamOutput(bool audio_output, bool video_output,
-                      int audio_channels_output,
-                      int audio_samplerate_output,
-                      int audio_samples_output)
-        : audio(audio_output)
-        , video(video_output)
-        , audio_channels(audio_channels_output)
-        , audio_samplerate(audio_samplerate_output)
-        , audio_samples(audio_samples_output) {}
+    MediaStreamOutput(const media::AudioFormat& afmt, int asamples) : audio_samples(asamples) { audio = afmt;}
+    MediaStreamOutput(const media::VideoFormat& vfmt) { video = vfmt; }
+    MediaStreamOutput(const media::AudioFormat& afmt, int asamples, const media::VideoFormat& vfmt)
+    : audio_samples(asamples) { audio = afmt; video = vfmt; }
+    MediaStreamOutput(const media::AudioFormat& afmt, int asamples, media::FourCC fourcc)
+        : audio_samples(asamples)
+    {
+        audio = afmt;
+        // scaling is currently not supported so just set FourCC
+        video.fourcc = fourcc;
+    }
 };
 
 bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);

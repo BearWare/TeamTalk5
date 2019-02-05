@@ -27,10 +27,8 @@
 #include <avstream/SpeexResampler.h>
 #endif
 
-#if defined(ACE_WIN32)
+#if defined(ENABLE_DMORESAMPLER)
 #include "DMOResampler.h"
-#elif defined(ENABLE_FFMPEG1)
-#include "FFMpeg1Resampler.h"
 #elif defined(ENABLE_FFMPEG3)
 #include "FFMpeg3Resampler.h"
 #endif
@@ -41,7 +39,6 @@ int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate)
 {
     double samples = ((double)dest_samplerate / (double)src_samplerate) * (double)src_samples;
     samples += .5;
-    //samples = ceil(samples);
     return (int)samples;
 }
 
@@ -79,7 +76,7 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
 {
     audio_resampler_t resampler;
     bool ret = false;
-#if defined(ACE_WIN32) && defined(ENABLE_DMORESAMPLER)
+#if defined(ENABLE_DMORESAMPLER)
     if(IsWindows6OrLater())
     {
         DMOResampler* tmp_resample;
@@ -94,7 +91,7 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
                                   output_samplerate);
         MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
     }
-#elif defined(ENABLE_FFMPEG1) || defined(ENABLE_FFMPEG3)
+#elif defined(ENABLE_FFMPEG3)
     {
         FFMPEGResampler* tmp_resample;
         ACE_NEW_RETURN(tmp_resample, FFMPEGResampler(), audio_resampler_t());
@@ -107,7 +104,7 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
         MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
     }
 #elif defined(ENABLE_SPEEXDSP)
-#if defined(ACE_WIN32) && defined(ENABLE_DMORESAMPLER)
+#if defined(ENABLE_DMORESAMPLER)
     else
 #endif
     {

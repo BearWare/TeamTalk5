@@ -40,6 +40,7 @@
 class SpeexEncoder
 {
 public:
+    SpeexEncoder(const SpeexEncoder&) = delete;
     SpeexEncoder();
     ~SpeexEncoder();
 

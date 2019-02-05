@@ -27,6 +27,7 @@
 #include <ace/SString.h>
 
 #include <vector>
+#include <functional>
 
 #include <codec/MediaUtil.h>
 
@@ -43,36 +44,32 @@ namespace vidcap {
 
     typedef std::vector<VidCapDevice> vidcap_devices_t;
 
-    class VideoCaptureListener
-    {
-    public:
-        virtual ~VideoCaptureListener(){}
-        // return true to take overship of 'mb_video'. 'mb_video' may be NULL
-        virtual bool OnVideoCaptureCallback(media::VideoFrame& video_frame,
-                                            ACE_Message_Block* mb_video) = 0;
-    };
+    typedef std::unique_ptr<class VideoCapture> videocapture_t;
 
     class VideoCapture
     {
     public:
-        virtual ~VideoCapture(){}
+        // return true to take overship of 'mb_video'. 'mb_video' may be NULL
+        typedef std::function<bool(media::VideoFrame& video_frame, ACE_Message_Block* mb_video)> VideoCaptureCallback;
+
+        virtual ~VideoCapture() {}
+
+        static videocapture_t Create();
+
         virtual vidcap_devices_t GetDevices() = 0;
+
+        virtual bool InitVideoCapture(const ACE_TString& deviceid,
+                                      const media::VideoFormat& vidfmt) = 0;
     
-        virtual bool StartVideoCapture(const ACE_TString& deviceid,
-                                       const media::VideoFormat& vidfmt,
-                                       VideoCaptureListener* listener) = 0;
+        virtual bool StartVideoCapture() = 0;
 
-        virtual bool StopVideoCapture(VideoCaptureListener* listener) = 0;
+        virtual void StopVideoCapture() = 0;
 
+        virtual media::VideoFormat GetVideoCaptureFormat() = 0;
 
-        virtual bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                           media::VideoFormat& vidfmt) = 0;
-
+        virtual bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) = 0;
+        virtual void UnregisterVideoFormat(media::FourCC fcc) = 0;
     };
 }
-
-vidcap::VideoCapture* GetVideoCapture();
-
-#define VIDCAP GetVideoCapture()
 
 #endif /* VIDEOCAPTURE_H */
