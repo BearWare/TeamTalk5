@@ -825,7 +825,7 @@ namespace teamtalk {
     bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile)
     {
         ACE_TString settings_path;
-        ACE_TCHAR buf[1024] = {0};
+        ACE_TCHAR buf[1024] = {};
 
         if(cfgfile.empty())
         {

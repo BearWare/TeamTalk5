@@ -359,7 +359,7 @@ void ChannelDlg::slotUpdateSliderLabels()
 
 void ChannelDlg::slotUpdateChannelPath(const QString& str)
 {
-    TTCHAR path[TT_STRLEN] = {0};
+    TTCHAR path[TT_STRLEN] = {};
     if(TT_GetChannelPath(ttInst, m_channel.nParentID, path))
         ui.chanpathLabel->setText(_Q(path) + str);
     else

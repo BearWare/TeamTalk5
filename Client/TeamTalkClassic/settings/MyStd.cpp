@@ -49,7 +49,7 @@ void replace_all(string& target, const string& to_find, const string& replacemen
 
 string i2str(int i)
 {
-    char buf[20] = {0};
+    char buf[20] = {};
     sprintf(buf, "%d", i);
     return string(buf);
 }

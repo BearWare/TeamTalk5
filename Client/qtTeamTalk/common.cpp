@@ -521,7 +521,7 @@ QString getHotKeyText(const hotkey_t& hotkey)
     QString key;
     for(int i=0;i<hotkey.size();i++)
     {
-        TTCHAR buff[TT_STRLEN] = {0};
+        TTCHAR buff[TT_STRLEN] = {};
         TT_HotKey_GetKeyString(ttInst, hotkey[i], buff);
         key += (i == hotkey.size()-1)? _Q(buff):_Q(buff) + " + ";
     }

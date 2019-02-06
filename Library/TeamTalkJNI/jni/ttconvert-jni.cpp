@@ -294,7 +294,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         env->SetObjectField(lpChannel, fid_txusers, outer);
         
         intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
-        jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
+        jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
         env->SetObjectField(lpChannel, fid_queueusers, intArr);
     }
@@ -320,7 +320,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
             env->DeleteLocalRef(intArr);
         }
         jintArray intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
-        jint tmp[TT_TRANSMITQUEUE_MAX] = {0};
+        jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
     }
@@ -1074,7 +1074,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         env->SetObjectField(lpAccount, fid_note, NEW_JSTRING(env, account.szNote));
         env->SetObjectField(lpAccount, fid_initchan, NEW_JSTRING(env, account.szInitChannel));
         jintArray intArr = env->NewIntArray(TT_CHANNELS_OPERATOR_MAX);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, TO_JINT_ARRAY(account.autoOperatorChannels, tmp, TT_CHANNELS_OPERATOR_MAX));
         env->SetObjectField(lpAccount, fid_op, intArr);
         env->SetIntField(lpAccount, fid_audbps, account.nAudioCodecBpsLimit);
@@ -1095,7 +1095,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         TT_STRCPY(account.szNote, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_note)));
         TT_STRCPY(account.szInitChannel, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_initchan)));
         jintArray intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
-        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {0};
+        jint tmp[TT_CHANNELS_OPERATOR_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
         account.nAudioCodecBpsLimit = env->GetIntField(lpAccount, fid_audbps);

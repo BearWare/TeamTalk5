@@ -417,7 +417,7 @@ int CSessionTreeCtrl::GetSelectedChannel(bool bIncludeUserChan/* = false*/) cons
         if(bIncludeUserChan && IsUser(img))
         {
             int nUserID = (GetItemData(h) & ID_ITEMDATA);
-            User user = {0};
+            User user = {};
             if(GetUser(nUserID, user))
                 return user.nChannelID;
         }
@@ -896,7 +896,7 @@ void CSessionTreeCtrl::SetSortOrder(SortOrder order)
 
 BOOL CSessionTreeCtrl::GetChannel(int nChannelID, Channel& outChan) const
 {
-    Channel chan = {0};
+    Channel chan = {};
     auto ite = m_channels.find(nChannelID);
     if(ite != m_channels.end())
     {
@@ -1006,7 +1006,7 @@ CString CSessionTreeCtrl::GetChannelText(int nChannelID) const
     auto ite = m_channels.find(nChannelID);
     if(ite != m_channels.end())
     {
-        ServerProperties prop = {0};
+        ServerProperties prop = {};
         TT_GetServerProperties(ttInst, &prop); 
         if(IsShowingUserCount())
         {
@@ -1119,7 +1119,7 @@ void CSessionTreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
         else
         {
             int userid = (GetItemData(m_hItemDrop) & ID_ITEMDATA);
-            User user = {0};
+            User user = {};
             TT_GetUser(ttInst, userid, &user);
             nChannelID = user.nChannelID;
         }
@@ -1133,7 +1133,7 @@ void CSessionTreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 void CSessionTreeCtrl::SortItem(HTREEITEM hParentItem)
 {
     //set up sorting
-    TVSORTCB tvs = {0};
+    TVSORTCB tvs = {};
     // Sort the tree control's items using my
     // callback procedure.
     tvs.hParent = hParentItem;
