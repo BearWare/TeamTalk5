@@ -176,7 +176,7 @@ void CUserAccountsDlg::OnBnClickedButtonNew()
 
 void CUserAccountsDlg::OnBnClickedButtonAdd()
 {
-    UserAccount account = {0};
+    UserAccount account = {};
     m_wndUsername.GetWindowText(account.szUsername, TT_STRLEN);
     m_wndPassword.GetWindowText(account.szPassword, TT_STRLEN);
 

@@ -82,7 +82,7 @@ void CFilesTab::AddFile(int nChannelID, int nFileID)
     if(nChannelID != m_nChannelID)
         return;
 
-    RemoteFile remotefile = {0};
+    RemoteFile remotefile = {};
     int count = m_wndFiles.GetItemCount();
     if( TT_GetChannelFile(ttInst, nChannelID, nFileID, &remotefile) &&
         GetIndexFromFileID(nFileID) == -1)

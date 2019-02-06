@@ -56,7 +56,7 @@ END_MESSAGE_MAP()
 
 void CFilesListCtrl::OnDropFiles(HDROP hDropInfo)
 {
-    TCHAR szFilePath[MAX_PATH] = {0};
+    TCHAR szFilePath[MAX_PATH] = {};
     UINT count = DragQueryFile(hDropInfo, 0xFFFFFFFF, szFilePath, MAX_PATH);
     for(UINT i=0;i<count;i++)
     {

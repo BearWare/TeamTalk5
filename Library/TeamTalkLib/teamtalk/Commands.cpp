@@ -704,7 +704,7 @@ namespace teamtalk {
 
     ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
     {
-        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {0};
+        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {};
         addr.addr_to_string(buf, MAX_STRING_LENGTH);
         return buf;
     }
