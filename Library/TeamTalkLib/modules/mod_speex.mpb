@@ -1,6 +1,6 @@
 project {
 
-  macros += ENABLE_SPEEX
+  macros += ENABLE_SPEEX ENABLE_SPEEXDSP
 
 specific(vc8,vc10,vc11,vc12) {
 

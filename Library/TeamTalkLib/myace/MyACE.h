@@ -58,11 +58,8 @@ ACE_TString stringtolower(const ACE_TString& str);
 
 void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
 
-ACE_TString i2string(int i);
-int string2i(const ACE_TString& int_str);
-
 ACE_TString i2string(ACE_INT64 i);
-ACE_INT64 string2i64(const ACE_TString& int_str, int base = 10);
+ACE_INT64 string2i(const ACE_TString& int_str, int base = 10);
 
 bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2);
 strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters);
