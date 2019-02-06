@@ -82,7 +82,7 @@ if (MSVC)
     list (APPEND AVSTREAM_LINK_FLAGS Msdmo strmiids)
   endif()
 
-  option (DSHOW "Build Microsoft DirectShow Streaming classes" ON)
+  option (DSHOW "Build Microsoft DirectShow Streaming classes" OFF)
 
   if (DSHOW)
     list (APPEND AVSTREAM_INCLUDE_DIR ${DSHOW_INCLUDE_DIR})
@@ -94,7 +94,7 @@ if (MSVC)
     list (APPEND AVSTREAM_LINK_FLAGS ${DSHOW_STATIC_LIB})
   endif()
 
-  option (VIDCAP "Build DirectShow Video Capture classes" ON)
+  option (VIDCAP "Build DirectShow Video Capture classes" OFF)
 
   if (VIDCAP)
     list (APPEND AVSTREAM_INCLUDE_DIR ${VIDCAP_INCLUDE_DIR})
@@ -106,7 +106,7 @@ if (MSVC)
     list (APPEND AVSTREAM_COMPILE_FLAGS -DENABLE_LIBVIDCAP )
   endif()
   
-  option (MEDIAFOUNDATION "Build Media Foundation Streaming classes" OFF)
+  option (MEDIAFOUNDATION "Build Media Foundation Streaming classes" ON)
 
   if (MEDIAFOUNDATION)
     list (APPEND AVSTREAM_HEADERS ${TEAMTALKLIB_ROOT}/avstream/MediaStreamer.h)

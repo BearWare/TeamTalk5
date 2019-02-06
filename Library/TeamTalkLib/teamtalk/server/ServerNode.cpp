@@ -689,11 +689,12 @@ bool ServerNode::SendDesktopAckPacket(int userid)
         {
             time_ack = (*ii)->GetTime();
             session_id = (*ii)->GetSessionID();
+            
+            if(!GetAckedDesktopPackets(session_id, time_ack, session_q, 
+                                       recv_packets))
+                return false;
         }
-
-        if(!GetAckedDesktopPackets(session_id, time_ack, session_q, 
-                                   recv_packets))
-            return false;
+        else return false;
     }
     else
     {

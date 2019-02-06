@@ -36,6 +36,7 @@
 #include <ace/INet/HTTPS_SessionFactory.h>
 #endif
 
+#include <string>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -123,36 +124,32 @@ void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TStr
     target = tmp;
 }
 
-ACE_TString i2string(int i)
-{
-    ACE_TCHAR buf[20] = {0};
-    ACE_OS::sprintf(buf, ACE_TEXT("%d"), i);
-    return ACE_TString(buf);
-}
-
-int string2i(const ACE_TString& int_str)
-{
-    try
-    {
-        return std::stoi(int_str.c_str());
-    }
-    catch(...)
-    {
-        return 0;
-    }
-}
-
 ACE_TString i2string(ACE_INT64 i)
 {
+#if defined(__ANDROID_API__)
+    std::ostringstream os ;
+    os << i;
+    return os.str().c_str();
+#else
+    
 #if defined(UNICODE)
     return std::to_wstring(i).c_str();
 #else
     return std::to_string(i).c_str();
+#endif /* UNICODE */
+    
 #endif
 }
 
-ACE_INT64 string2i64(const ACE_TString& int_str, int base)
+ACE_INT64 string2i(const ACE_TString& int_str, int base)
 {
+#if defined(__ANDROID_API__)
+    ACE_INT64 ret = 0;
+    istringstream is(int_str.c_str());
+    is >> std::setbase(base);
+    is >> ret;
+    return ret;
+#else
     try
     {
         return std::stoll(int_str.c_str(), 0, base);
@@ -161,6 +158,7 @@ ACE_INT64 string2i64(const ACE_TString& int_str, int base)
     {
         return 0;
     }
+#endif
 }
 
 bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2)

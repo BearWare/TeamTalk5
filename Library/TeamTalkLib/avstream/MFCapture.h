@@ -43,37 +43,26 @@ namespace vidcap {
 
         vidcap_devices_t GetDevices();
 
-        bool StartVideoCapture(const ACE_TString& deviceid,
-                               const media::VideoFormat& vidfmt,
-                               VideoCaptureListener* listener);
+        bool InitVideoCapture(const ACE_TString& deviceid,
+                              const media::VideoFormat& vidfmt);
 
-        bool StopVideoCapture(VideoCaptureListener* listener);
+        bool StartVideoCapture();
 
+        void StopVideoCapture();
 
-        bool GetVideoCaptureFormat(VideoCaptureListener* listener,
-                                   media::VideoFormat& vidfmt);
+        media::VideoFormat GetVideoCaptureFormat();
+
+        bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
+        void UnregisterVideoFormat(media::FourCC fcc);
+
     private:
-        struct CaptureSession
-        {
-            CaptureSession(const CaptureSession&) = delete;
-            CaptureSession(ACE_TString id, const media::VideoFormat& fmt)
-            : deviceid(id), vidfmt(fmt) {}
 
-            ACE_TString deviceid;
-            media::VideoFormat vidfmt;
-            std::shared_ptr<std::thread> capturethread;
-            ACE_Future<bool> opened;
-            bool stop = false;
-        };
+        void Run(struct CaptureSession* session, ACE_TString deviceid);
 
-        void Run(CaptureSession* session, VideoCaptureListener* listener);
-
-        std::mutex m_mutex;
-        std::map<VideoCaptureListener*, std::shared_ptr<CaptureSession> > m_sessions;
+        typedef std::shared_ptr<struct CaptureSession> capturesession_t;
+        capturesession_t m_session;
     };
 
 }
-
-typedef ACE_Singleton<vidcap::MFCapture, ACE_Null_Mutex> MFCaptureSingleton;
 
 #endif

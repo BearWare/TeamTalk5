@@ -64,7 +64,7 @@ struct BitmapInfoHeader
 const int BMPHDR_SIZE = 14;
 const int BMIHEADER_SIZE = 40;
 
-bool WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
+bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
                  const char* data, int size)
 {
     BitmapFileHeader bmphdr = {0};
@@ -72,7 +72,7 @@ bool WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
     assert(BMPHDR_SIZE == sizeof(bmphdr));
 
     bmphdr.bfType        = 0x4d42;   // 'BM' WINDOWS_BITMAP_SIGNATURE
-    bmphdr.bfSize        = (((3 * w + 3) & ~3) * h)  
+    bmphdr.bfSize        = (((3 * fmt.width + 3) & ~3) * fmt.height)
                            + BMPHDR_SIZE + BMIHEADER_SIZE;
     bmphdr.bfReserved1    = bmphdr.bfReserved2 = 0;
     bmphdr.bfOffBits      = BMPHDR_SIZE + BMIHEADER_SIZE;
@@ -81,10 +81,20 @@ bool WriteBitmap(const ACE_TString& filename, int w, int h, int pxl_size,
     assert(BMIHEADER_SIZE == sizeof(bmiHeader));
 
     bmiHeader.biSize = BMIHEADER_SIZE;
-    bmiHeader.biWidth = w;
-    bmiHeader.biHeight = h;
+    bmiHeader.biWidth = fmt.width;
+    bmiHeader.biHeight = fmt.height;
     bmiHeader.biPlanes = 1;
-    bmiHeader.biBitCount = pxl_size * 8;
+    switch (fmt.fourcc)
+    {
+    case media::FOURCC_RGB24 :
+        bmiHeader.biBitCount = 3 * 8;
+        break;
+    case media::FOURCC_RGB32 :
+        bmiHeader.biBitCount = 4 * 8;
+        break;
+    default :
+        return false;
+    }
     bmiHeader.biCompression = 0; //BI_RGB;
     bmiHeader.biSizeImage = (ACE_UINT32)size;
 

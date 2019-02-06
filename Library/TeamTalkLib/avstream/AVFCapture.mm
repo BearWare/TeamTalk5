@@ -39,11 +39,11 @@ AVFCapture::~AVFCapture()
 {
 }
 
-FFMpegVideoInput* AVFCapture::createStreamer(MediaStreamListener* listener,
+ffmpegvideoinput_t AVFCapture::createStreamer(MediaStreamListener* listener,
                                              const VidCapDevice& viddevice,
                                              const media::VideoFormat& fmt)
 {
-    return new AVFVideoInput(listener, viddevice, fmt);
+    return ffmpegvideoinput_t(new AVFVideoInput(listener, viddevice, fmt));
 }
 
 vidcap_devices_t AVFCapture::GetDevices()

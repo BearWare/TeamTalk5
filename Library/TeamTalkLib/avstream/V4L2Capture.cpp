@@ -63,9 +63,9 @@ public:
 
         iformat = av_find_input_format(m_dev.api.c_str());
         int fps = 1;
-        if (m_media_in.video_fps_denominator)
+        if (m_media_in.video.fps_denominator)
         {
-            fps = m_media_in.video_fps_numerator / m_media_in.video_fps_denominator;
+            fps = m_media_in.video.fps_numerator / m_media_in.video.fps_denominator;
             fps = std::max(1, fps);
         }
 
@@ -74,7 +74,7 @@ public:
         av_dict_set(&options, "framerate", os.str().c_str(), 0);
 
         os.str("");
-        os << m_media_in.video_width << "x" << m_media_in.video_height;
+        os << m_media_in.video.width << "x" << m_media_in.video.height;
         av_dict_set(&options, "video_size", os.str().c_str(), 0);
 
         av_dict_set(&options, "pixel_format", "0rgb", 0);
@@ -101,11 +101,11 @@ V4L2Capture::~V4L2Capture()
 {
 }
 
-FFMpegVideoInput* V4L2Capture::createStreamer(MediaStreamListener* listener,
+ffmpegvideoinput_t V4L2Capture::createStreamer(MediaStreamListener* listener,
                                             const VidCapDevice& viddevice,
                                             const media::VideoFormat& fmt)
 {
-    return new V4L2Input(listener, viddevice, fmt);
+    return ffmpegvideoinput_t(new V4L2Input(listener, viddevice, fmt));
 }
 
 void FillVidCapDevice(int fd, VidCapDevice& dev);

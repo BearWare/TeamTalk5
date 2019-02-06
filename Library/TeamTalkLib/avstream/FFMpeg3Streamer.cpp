@@ -51,16 +51,19 @@ void InitAVConv()
         static ACE_Recursive_Thread_Mutex mtx;
 
         wguard_t g(mtx);
-        
+
+        if (!ready)
+        {
 #if defined(NDEBUG)
-        av_log_set_level(AV_LOG_QUIET);
+            av_log_set_level(AV_LOG_QUIET);
 #else
-        av_log_set_level(AV_LOG_MAX_OFFSET);
+            av_log_set_level(AV_LOG_MAX_OFFSET);
 #endif
-        avdevice_register_all();
-        av_register_all();
-        avfilter_register_all();
-        ready = true;
+            avdevice_register_all();
+            av_register_all();
+            avfilter_register_all();
+            ready = true;
+        }
     }
 }
 
@@ -139,7 +142,8 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
                                       AVCodecContext* vid_dec_ctx,
                                       AVFilterContext*& vid_buffersink_ctx,
                                       AVFilterContext*& vid_buffersrc_ctx,
-                                      int video_stream_index);
+                                      int video_stream_index,
+                                      AVPixelFormat output_pixfmt);
 
 void FillMediaFileProp(AVFormatContext *fmt_ctx,
                        AVCodecContext *aud_dec_ctx, 
@@ -148,20 +152,16 @@ void FillMediaFileProp(AVFormatContext *fmt_ctx,
 {
     if (aud_dec_ctx)
     {
-        out_prop.audio_channels = aud_dec_ctx->channels;
-        out_prop.audio_samplerate = aud_dec_ctx->sample_rate;
+        out_prop.audio = media::AudioFormat(aud_dec_ctx->sample_rate, aud_dec_ctx->channels);
     }
 
     if(vid_dec_ctx)
     {
-        out_prop.video_width = vid_dec_ctx->width;
-        out_prop.video_height = vid_dec_ctx->height;
- 
         //frame rate
         double fps = 1.0 / av_q2d(vid_dec_ctx->time_base) / std::max(vid_dec_ctx->ticks_per_frame, 1);
         AVRational r_fps = av_d2q(fps, 1000);
-        out_prop.video_fps_numerator = r_fps.num;
-        out_prop.video_fps_denominator = r_fps.den;
+        out_prop.video = media::VideoFormat(vid_dec_ctx->width, vid_dec_ctx->height,
+                                            r_fps.num, r_fps.den, media::FOURCC_RGB32);
     }
 
     out_prop.duration_ms = (fmt_ctx->duration * av_q2d(AV_TIME_BASE_Q)) * 1000;
@@ -190,7 +190,7 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 
     avformat_close_input(&fmt_ctx);
 
-    return out_prop.video_width || out_prop.audio_channels;
+    return out_prop.IsValid();
 }
 
 
@@ -213,9 +213,6 @@ bool FFMpegStreamer::OpenFile(const MediaFileProp& in_prop,
     if(this->thr_count())
         return false;
 
-    if(!out_prop.audio && !out_prop.video)
-        return false;
-    
     m_media_in = in_prop;
     m_media_out = out_prop;
 
@@ -299,14 +296,14 @@ int FFMpegStreamer::svc()
 
     FillMediaFileProp(fmt_ctx, aud_dec_ctx, vid_dec_ctx, m_media_in);
 
-    if(m_media_out.audio && audio_stream_index >= 0)
+    if(m_media_out.HasAudio() && audio_stream_index >= 0)
     {
         audio_filter_graph = createAudioFilterGraph(fmt_ctx, aud_dec_ctx,
                                                     aud_buffersink_ctx,
                                                     aud_buffersrc_ctx,
                                                     audio_stream_index,
-                                                    m_media_out.audio_channels,
-                                                    m_media_out.audio_samplerate);
+                                                    m_media_out.audio.channels,
+                                                    m_media_out.audio.samplerate);
 
         if(!audio_filter_graph)
         {
@@ -317,25 +314,29 @@ int FFMpegStreamer::svc()
     else
     {
         audio_stream_index = -1; //disable audio processing
-        m_media_out.audio = false;
+        m_media_out.audio = media::AudioFormat();
     }
     
-    if (m_media_out.video && video_stream_index >= 0)
+    if (m_media_out.video.fourcc != media::FOURCC_NONE && video_stream_index >= 0)
     {
         video_filter_graph = createVideoFilterGraph(fmt_ctx, vid_dec_ctx,
                                                     vid_buffersink_ctx,
                                                     vid_buffersrc_ctx,
-                                                    video_stream_index);
+                                                    video_stream_index,
+                                                    AV_PIX_FMT_RGB32);
         if(!video_filter_graph)
         {
             m_open.set(false);
             goto end;
         }
+
+        m_media_out.video = m_media_in.video;
+        m_media_out.video.fourcc = media::FOURCC_RGB32;
     }
     else
     {
         video_stream_index = -1;
-        m_media_out.video = false;
+        m_media_out.video = media::VideoFormat();
     }
 
     //open and ready to go
@@ -500,8 +501,7 @@ int FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
         media_frame.timestamp = frame_timestamp;
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = filt_frame->nb_samples;
-        media_frame.input_channels = m_media_out.audio_channels;
-        media_frame.input_samplerate = m_media_out.audio_samplerate;
+        media_frame.inputfmt = m_media_out.audio;
 
         mb->copy(reinterpret_cast<const char*>(&media_frame), 
                  sizeof(media_frame));
@@ -578,12 +578,12 @@ int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     int bmp_size = filt_frame->height * filt_frame->linesize[0];
     VideoFrame media_frame(reinterpret_cast<char*>(filt_frame->data[0]),
                            bmp_size, filt_frame->width, filt_frame->height,
-                           media::FOURCC_RGB32, true);
+                           m_media_out.video.fourcc, true);
     media_frame.timestamp = frame_timestamp;
 
     ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-    assert(filt_frame->width == m_media_in.video_width);
-    assert(filt_frame->height == m_media_in.video_height);
+    assert(filt_frame->width == m_media_in.video.width);
+    assert(filt_frame->height == m_media_in.video.height);
     if(mb)
     {
         ACE_Time_Value tm;
@@ -724,7 +724,8 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
                                       AVCodecContext* vid_dec_ctx,
                                       AVFilterContext*& vid_buffersink_ctx,
                                       AVFilterContext*& vid_buffersrc_ctx,
-                                      int video_stream_index)
+                                      int video_stream_index,
+                                      AVPixelFormat output_pixfmt)
 {
     //init filters
     AVFilterGraph *filter_graph;
@@ -734,7 +735,7 @@ AVFilterGraph* createVideoFilterGraph(AVFormatContext *fmt_ctx,
     AVFilter *buffersink = avfilter_get_by_name("buffersink");
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
-    const enum AVPixelFormat pix_fmts[] = { AV_PIX_FMT_RGB32, AV_PIX_FMT_NONE };
+    const enum AVPixelFormat pix_fmts[] = { output_pixfmt, AV_PIX_FMT_NONE };
     char filters_descr[100];
 
     snprintf(filters_descr, sizeof(filters_descr), "scale=%d:%d",
