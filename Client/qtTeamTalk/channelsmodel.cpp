@@ -70,7 +70,7 @@ QVariant ChannelsModel::data(const QModelIndex &index, int role) const
             if(m_rootchannelid == channelid)
             {
                 //make server servername appear as the root channel name
-                ServerProperties prop = {0};
+                ServerProperties prop = {};
                 TT_GetServerProperties(ttInst, &prop);
                 return _Q(prop.szServerName);
             }
@@ -211,7 +211,7 @@ int ChannelsModel::getRowNumber(int find_channelid) const
 
 void ChannelsModel::slotAddChannel(int channelid)
 {
-    Channel chan = {0};
+    Channel chan = {};
     if(!TT_GetChannel(ttInst, channelid, &chan))
         return;
 
@@ -244,7 +244,7 @@ void ChannelsModel::slotAddChannel(int channelid)
 
 void ChannelsModel::slotUpdateChannel(int channelid)
 {
-    Channel chan = {0};
+    Channel chan = {};
     if(!TT_GetChannel(ttInst, channelid, &chan))
         return;
 
@@ -310,7 +310,7 @@ void ChannelsModel::slotRemoveChannel(int channelid)
 
 void ChannelsModel::slotAddUser(int userid, int channelid)
 {
-    User user = {0};
+    User user = {};
     if(!TT_GetUser(ttInst, userid, &user))
         return;
 
@@ -333,7 +333,7 @@ void ChannelsModel::slotAddUser(int userid, int channelid)
 
 void ChannelsModel::slotUpdateUser(int userid, int channelid)
 {
-    User user = {0};
+    User user = {};
     if(!TT_GetUser(ttInst, userid, &user) || channelid == 0)
         return;
 

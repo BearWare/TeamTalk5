@@ -101,7 +101,7 @@ void LogUserJoinedCallback(IN TTSInstance* lpTTSInstance,
 {
     cout << "Log: User #" << lpUser->nUserID << " username: " << lpUser->szUsername << " joined " << endl;
 
-    Channel chan = {0};
+    Channel chan = {};
 
     //TTS_MoveUser(lpTTSInstance, lpUser->nUserID, &chan);
 }
@@ -131,7 +131,7 @@ int main(int argc, TTCHAR* argv[])
     TTS_RegisterUserLoggedInCallback(ttsInst, LogUserLoggedInCallback, 0, TRUE);
     TTS_RegisterUserJoinedChannelCallback(ttsInst, LogUserJoinedCallback, 0, TRUE);
 
-    ServerProperties srvprop = {0};
+    ServerProperties srvprop = {};
     string(_T("TeamTalk 5 Pro Server")).copy(srvprop.szServerName, TT_STRLEN);
     string(_T("This is my message of the day")).copy(srvprop.szMOTDRaw, TT_STRLEN);
     srvprop.nUserTimeout = 60;
@@ -139,7 +139,7 @@ int main(int argc, TTCHAR* argv[])
 
     err = TTS_UpdateServer(ttsInst, &srvprop);
 
-    Channel chan = {0};
+    Channel chan = {};
     chan.nParentID = 0;
     chan.nChannelID = 1;
     chan.nMaxUsers = 100;

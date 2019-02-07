@@ -330,7 +330,7 @@ assert(status == noErr);
 
         AudioUnit NewInput(int inputdeviceid, int samplerate, int channels)
         {
-            AudioStreamBasicDescription format = {0};
+            AudioStreamBasicDescription format = {};
             format.mSampleRate = samplerate;
             format.mFormatID = kAudioFormatLinearPCM;
             format.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
@@ -399,7 +399,7 @@ assert(status == noErr);
 
         AudioUnit NewOutput(int outputdeviceid, int samplerate, int channels)
         {
-            AudioStreamBasicDescription format = {0};
+            AudioStreamBasicDescription format = {};
             format.mSampleRate = samplerate;
             format.mFormatID = kAudioFormatLinearPCM;
             format.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;

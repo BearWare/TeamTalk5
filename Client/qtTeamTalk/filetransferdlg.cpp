@@ -107,7 +107,7 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
         ui.destinationLabel->setText(_Q(transfer.szLocalFilePath));
     else
     {
-        TTCHAR chanpath[TT_STRLEN] = {0};
+        TTCHAR chanpath[TT_STRLEN] = {};
         TT_GetChannelPath(ttInst, transfer.nChannelID, chanpath);
         ui.destinationLabel->setText(_Q(chanpath));
     }

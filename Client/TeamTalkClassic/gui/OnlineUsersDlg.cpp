@@ -171,7 +171,7 @@ BOOL COnlineUsersDlg::PreTranslateMessage(MSG* pMsg)
 
 void COnlineUsersDlg::MenuCommand(UINT uCmd)
 {
-    int nUserID =  0;
+    int nUserID = 0;
     int count = m_wndUsers.GetItemCount();
     for(int i=0;i<count;i++)
     {
@@ -179,9 +179,9 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
             nUserID = INT32(m_wndUsers.GetItemData(i));
     }
 
-    User user = {0};
+    User user = {};
     TT_GetUser(ttInst, nUserID, &user);
-    Channel chan = {0};
+    Channel chan = {};
     TT_GetChannel(ttInst, user.nChannelID, &chan);
 
     switch(uCmd)

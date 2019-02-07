@@ -182,7 +182,7 @@ BOOL CUserDesktopDlg::OnInitDialog()
         SetWindowText(_T("Local Desktop"));
     else
     {
-        User user = {0};
+        User user = {};
         TT_GetUser(ttInst, m_nUserID, &user);
         SetWindowText(CString(_T("Desktop - ")) + GetDisplayName(user));
     }

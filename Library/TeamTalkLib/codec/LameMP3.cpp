@@ -94,7 +94,7 @@ bool LameMP3::NewFile(const ACE_TString& filename, int samplerate,
         return false;
 
     //init MP3 encoder
-    BE_CONFIG conf = {0};
+    BE_CONFIG conf = {};
     conf.dwConfig = BE_CONFIG_LAME;
 
     conf.format.LHV1.dwStructVersion = CURRENT_STRUCT_VERSION;
