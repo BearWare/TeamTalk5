@@ -135,6 +135,11 @@ void ServerMonitor::OnUserBanned(const ACE_TString& ipaddr,
         i->second(m_ttInst, i->first, &sbanner, &sbanee, NULL);
 }
 
+void ServerMonitor::OnUserBanned(const teamtalk::ServerUser& banner, const teamtalk::BannedUser& ban)
+{
+    //TODO: implement
+}
+
 void ServerMonitor::OnUserUnbanned(const teamtalk::ServerUser& user,
                                    const teamtalk::BannedUser& ban)
 {

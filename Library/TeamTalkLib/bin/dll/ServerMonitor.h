@@ -49,6 +49,7 @@ public:
                       const teamtalk::ServerUser& banner);
     void OnUserBanned(const ACE_TString& ipaddr,
                       const teamtalk::ServerUser& banner);
+    void OnUserBanned(const teamtalk::ServerUser& banner, const teamtalk::BannedUser& ban);
     void OnUserUnbanned(const teamtalk::ServerUser& user,
                         const teamtalk::BannedUser& ban);
     void OnUserUpdated(const teamtalk::ServerUser& user);

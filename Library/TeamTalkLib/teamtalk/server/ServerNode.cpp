@@ -3169,7 +3169,8 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
         if(!banchan.null() && err.success())
             AddBannedUserToChannel(ban);
         
-        m_srvguard->OnUserBanned(*ban_user, *banner);
+        if (err.success())
+            m_srvguard->OnUserBanned(*ban_user, *banner);
     }
     else
     {
@@ -3198,6 +3199,9 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 
         if(!banchan.null() && err.success())
             AddBannedUserToChannel(ban);
+
+        if (err.success())
+            m_srvguard->OnUserBanned(*banner, ban);
     }
 
     if(err.success() && IsAutoSaving())

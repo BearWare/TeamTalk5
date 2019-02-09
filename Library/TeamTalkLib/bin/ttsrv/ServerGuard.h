@@ -49,6 +49,7 @@ namespace teamtalk {
         void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel);
         void OnUserBanned(const ServerUser& banee, const ServerUser& banner);
         void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner);
+        void OnUserBanned(const ServerUser& banner, const BannedUser& ban);
         void OnUserUnbanned(const ServerUser& user, const BannedUser& ban);
         void OnUserUpdated(const ServerUser& user);
         void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel);
