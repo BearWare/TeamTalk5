@@ -168,12 +168,16 @@ void FileNode::UpdateBytesTransferred()
         {
 #if defined(ENABLE_ENCRYPTION)
             if(m_crypt_stream)
-                return;
+            {
+                m_transfer.transferred = m_crypt_stream->sent_;
+            }
             else
 #endif
             {
                 if(m_def_stream)
+                {
                     m_transfer.transferred = m_def_stream->sent_;
+                }
                 else
                     return;
             }
@@ -405,7 +409,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_binarymode = false;
     }
 
-    if(m_sendbuffer.length())
+    if (m_sendbuffer.length())
     {
         ACE_Time_Value tm = ACE_Time_Value::zero;
         if (QueueStreamData(msg_queue, m_sendbuffer.c_str(), 
@@ -417,7 +421,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_sendbuffer.clear();
     }
 
-    return true;
+    return m_sendbuffer.length() > 0;
 }
 
 #if defined(ENABLE_ENCRYPTION)
@@ -591,7 +595,7 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
     {
         bytes = m_file.recv(&m_filebuffer[0], m_filebuffer.size());
         TTASSERT(ret>=0);
-//        MYTRACE(ACE_TEXT("Sent %d bytes\n"), int(m_file.tell()));
+        MYTRACE(ACE_TEXT("Sent %d bytes\n"), int(m_file.tell()));
 
         if(bytes>0)
         {

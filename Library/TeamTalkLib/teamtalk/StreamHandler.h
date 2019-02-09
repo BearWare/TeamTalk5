@@ -141,10 +141,8 @@ public:
     //Callback to handle any output received
     virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE)
     {
-        if(m_listener && !m_listener->OnSend(*this))
-        {
-            return -1;
-        }
+        if(m_listener && this->msg_queue()->is_empty())
+            m_listener->OnSend(*this);
 
         ACE_Message_Block* mb = NULL;
         ACE_Time_Value nowait = ACE_Time_Value::zero;
@@ -161,11 +159,14 @@ public:
                 sent_ += send_cnt;
             }
 
-            int e = ACE_OS::last_error();
-            if(send_cnt < 0 && e != EWOULDBLOCK && e != ETIME)
+            if(send_cnt < 0)
             {
-                mb->release();
-                return -1;    //something's wrong so drop the client
+                int e = ACE_OS::last_error();
+                if (e != EWOULDBLOCK && e != ETIME && e != EINPROGRESS)
+                {
+                    mb->release();
+                    return -1;    //something's wrong so drop the client
+                }
             }
 
             if(mb->length() > 0)
