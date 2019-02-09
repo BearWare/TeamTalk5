@@ -413,40 +413,30 @@ bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
     if(channels == 2)
         b &= m_preprocess_right.Initialize(samplerate, samples);
     assert(b);
-#if !defined(DISABLE_SPEEX_AGC)
     b &= m_preprocess_left.EnableAGC(enable_agc);
     if(channels == 2)
         b &= m_preprocess_right.EnableAGC(enable_agc);
-    assert(b);
     b &= m_preprocess_left.SetAGCSettings(agc);
     if(channels == 2)
         b &= m_preprocess_right.SetAGCSettings(agc);
-    assert(b);
-#endif
     b &= m_preprocess_left.EnableDenoise(denoise);
     if(channels == 2)
         b &= m_preprocess_right.EnableDenoise(denoise);
-    assert(b);
     b &= m_preprocess_left.SetDenoiseLevel(denoise_level);
     if(channels == 2)
         b &= m_preprocess_right.SetDenoiseLevel(denoise_level);
-    assert(b);
     b &= m_preprocess_left.EnableDereverb(true);
     if(channels == 2)
         b &= m_preprocess_right.EnableDereverb(true);
-    assert(b);
     b &= m_preprocess_left.EnableEchoCancel(enable_aec);
     if(channels == 2)
         b &= m_preprocess_right.EnableEchoCancel(enable_aec);
-    assert(b);
     b &= m_preprocess_left.SetEchoSuppressLevel(aec.suppress_level);
     if(channels == 2)
         b &= m_preprocess_right.SetEchoSuppressLevel(aec.suppress_level);
-    assert(b);
     b &= m_preprocess_left.SetEchoSuppressActive(aec.suppress_active);
     if(channels == 2)
         b &= m_preprocess_right.SetEchoSuppressActive(aec.suppress_active);
-    assert(b);    
     m_preprocess_buffer_left.resize(samples);
     if(channels == 2)
         m_preprocess_buffer_right.resize(samples);
