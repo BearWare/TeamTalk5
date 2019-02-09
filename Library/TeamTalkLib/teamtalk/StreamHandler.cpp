@@ -53,9 +53,12 @@ ACE_SSL_Context* CryptStreamHandler::ssl_context(ACE_Reactor* r)
 
 ssl_ctx_t CryptStreamHandler::m_contexts;
 
-CryptStreamHandler::CryptStreamHandler(ACE_Reactor* r/* = ACE_Reactor::instance()*/)
+CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
+                                       ACE_Message_Queue<ACE_MT_SYNCH> *mq,
+                                       ACE_Reactor *reactor)
+    : super(thr_mgr, mq, reactor)
 {
-    ACE_SSL_Context* ctx = ssl_context(r);
+    ACE_SSL_Context* ctx = ssl_context(reactor);
     SSL_CTX* sslctx = ctx->context();
 
     SSL* ssl = peer().ssl();
@@ -68,7 +71,12 @@ int CryptStreamHandler::handle_input(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 {
     SSL *ssl = peer().ssl();
     if (SSL_is_init_finished(ssl))
-        return super::handle_input(fd);
+    {
+        int ret = super::handle_input(fd);
+        if (ret == 0 && ::SSL_pending(ssl))
+            ret = 1;
+        return ret;
+    }
     else
         return process_ssl(ssl);
 }
@@ -78,7 +86,10 @@ int CryptStreamHandler::handle_output(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
     SSL *ssl = peer().ssl();
     if (SSL_is_init_finished(ssl))
     {
-        return super::handle_output(fd);
+        int ret = super::handle_output(fd);
+        if(ret == 0 && ::SSL_pending(ssl))
+            ret = 1;
+        return ret;
     }
     else
         return process_ssl(ssl);

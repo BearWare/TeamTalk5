@@ -130,7 +130,7 @@ CString CKeyCompDlg::GetHotkeyString(teamtalk::HotKey hotkey)
     if(hotkey.empty())
         return s;
 
-    TTCHAR key[TT_STRLEN] = {0};
+    TTCHAR key[TT_STRLEN] = {};
     size_t i;
     for(i=0;i<hotkey.size()-1;i++)
     {

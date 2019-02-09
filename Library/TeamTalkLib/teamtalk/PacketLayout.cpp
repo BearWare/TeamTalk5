@@ -433,6 +433,9 @@ namespace teamtalk
 
         assert(m_iovec.size() == 1);
         m_iovec.push_back(decrypt_fields);
+#ifdef ENABLE_ENCRYPTION
+        m_crypt_sections.insert(uint8_t(m_iovec.size()-1));
+#endif
     }
 
     FieldPacket::~FieldPacket()
@@ -690,6 +693,11 @@ namespace teamtalk
     {
     }
 
+    AudioPacket::AudioPacket(const FieldPacket& packet)
+        : FieldPacket(packet)
+    {
+    }
+
     AudioPacket::AudioPacket(const AudioPacket& packet)
         : FieldPacket(packet)
     {
@@ -806,6 +814,12 @@ namespace teamtalk
         : FieldPacket(p)
     {
     }
+
+    VideoPacket::VideoPacket(const FieldPacket& p)
+        : FieldPacket(p)
+    {
+    }
+
 
     VideoPacket::VideoPacket(const char* packet, uint16_t packet_size)
         : FieldPacket(packet, packet_size)
@@ -2070,7 +2084,7 @@ namespace teamtalk
     }
 
     DesktopCursorPacket::DesktopCursorPacket(const DesktopCursorPacket& packet)
-        : DesktopCursorPacket(packet.GetSrcUserID(), packet.GetTime(), packet.GetStreamID(), packet.GetX(), packet.GetY())
+        : DesktopCursorPacket(packet.GetSrcUserID(), packet.GetTime(), packet.GetSessionID(), packet.GetX(), packet.GetY())
     {
         SetChannel(packet.GetChannel());
     }

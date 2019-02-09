@@ -336,7 +336,7 @@ BOOL CSoundSysPage::StartTest()
     int nChannels = 1;
     const SoundDevice& in_dev = ii->second;
 
-    SpeexDSP spxdsp = {0};
+    SpeexDSP spxdsp = {};
     spxdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
     spxdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
     spxdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
@@ -400,7 +400,7 @@ void CSoundSysPage::UpdateSoundControls()
 
     sounddevs_t::const_iterator ii;
     CString szInputSampleRates, szOutputSampleRates;
-    SoundDevice in_dev = {0};
+    SoundDevice in_dev = {};
     ii = m_SoundDevices.find(m_nInputDevice);
     if(ii != m_SoundDevices.end())
     {
@@ -415,7 +415,7 @@ void CSoundSysPage::UpdateSoundControls()
     }
 
     CString sound3d;
-    SoundDevice out_dev = {0};
+    SoundDevice out_dev = {};
     ii = m_SoundDevices.find(m_nOutputDevice);
     if(ii != m_SoundDevices.end())
     {

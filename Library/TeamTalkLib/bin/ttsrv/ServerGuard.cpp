@@ -216,6 +216,28 @@ void ServerGuard::OnUserBanned(const ACE_TString& ipaddr, const ServerUser& bann
     TT_LOG(oss.str().c_str());
 }
 
+void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
+{
+    tostringstream oss;
+    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if(banner.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
+    oss << ACE_TEXT("banned ");
+
+    if(ban.bantype & BANTYPE_IPADDR)
+        oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
+    if(ban.bantype & BANTYPE_USERNAME)
+        oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
+
+    if(ban.bantype & BANTYPE_CHANNEL)
+        oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
+    else
+        oss << ACE_TEXT("from server.");
+
+    TT_LOG(oss.str().c_str());
+}
+
 void ServerGuard::OnUserUnbanned(const ServerUser& user, const BannedUser& ban)
 {
     tostringstream oss;
@@ -830,7 +852,7 @@ namespace teamtalk {
     bool LoadConfig(ServerXML& xmlSettings, const ACE_TString& cfgfile)
     {
         ACE_TString settings_path;
-        ACE_TCHAR buf[1024] = {0};
+        ACE_TCHAR buf[1024] = {};
 
         if(cfgfile.empty())
         {

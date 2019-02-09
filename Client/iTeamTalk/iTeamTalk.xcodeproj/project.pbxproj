@@ -482,7 +482,7 @@
 		254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				254B7A561B98BAA300BE0DEF /* Base */
+				254B7A561B98BAA300BE0DEF /* Base */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";

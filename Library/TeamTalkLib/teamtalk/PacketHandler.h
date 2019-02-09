@@ -44,6 +44,7 @@ namespace teamtalk {
     class PacketListener
     {
     public:
+        virtual ~PacketListener() {}
         virtual void ReceivedPacket(class PacketHandler* ph,
                                     const char* data_buf, int data_len, 
                                     const ACE_INET_Addr& addr) = 0;
@@ -60,7 +61,7 @@ namespace teamtalk {
         void RemovePackets(PacketKind kind);
         void RemoveChannelPackets(uint16_t chanid);
         int QueuePacket(FieldPacket* packet);
-        FieldPacket* GetNextPacket();
+        packet_ptr_t GetNextPacket();
         int PacketCount();
     };
 
@@ -79,7 +80,6 @@ namespace teamtalk {
         //Callback to handle any input received
         int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
         int handle_output (ACE_HANDLE fd = ACE_INVALID_HANDLE);
-        int handle_close(ACE_HANDLE, ACE_Reactor_Mask mask);
 
         //Used by the reactor to determine the underlying handle
         ACE_HANDLE get_handle() const;

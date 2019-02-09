@@ -44,7 +44,7 @@ using namespace std;
 
 std::string TO_LOCAL_STR(CString str)
 {
-	char buff[MAX_PATH] = {0};
+	char buff[MAX_PATH] = {};
 
 #if defined(_UNICODE) || defined(UNICODE)
 	wcstombs(buff, str.GetBuffer(), sizeof(buff)-1);

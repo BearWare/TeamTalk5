@@ -45,7 +45,7 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 , m_pending_complete(false)
 , m_transfer(transfer)
 #if defined(ENABLE_ENCRYPTION)
-, m_crypt_connector(&reactor)
+, m_crypt_connector(&reactor, ACE_NONBLOCK)
 , m_crypt_stream(NULL)
 #endif
 , m_connector(&reactor)
@@ -56,14 +56,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor));
+        ACE_NEW(m_crypt_stream, CryptStreamHandler(0, 0, &m_reactor));
         m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
-        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor));
+        ACE_NEW(m_def_stream, DefaultStreamHandler(0, 0, &m_reactor));
         m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
@@ -168,12 +168,16 @@ void FileNode::UpdateBytesTransferred()
         {
 #if defined(ENABLE_ENCRYPTION)
             if(m_crypt_stream)
-                return;
+            {
+                m_transfer.transferred = m_crypt_stream->sent_;
+            }
             else
 #endif
             {
                 if(m_def_stream)
+                {
                     m_transfer.transferred = m_def_stream->sent_;
+                }
                 else
                     return;
             }
@@ -405,7 +409,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_binarymode = false;
     }
 
-    if(m_sendbuffer.length())
+    if (m_sendbuffer.length())
     {
         ACE_Time_Value tm = ACE_Time_Value::zero;
         if (QueueStreamData(msg_queue, m_sendbuffer.c_str(), 
@@ -417,7 +421,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_sendbuffer.clear();
     }
 
-    return true;
+    return m_sendbuffer.length() > 0;
 }
 
 #if defined(ENABLE_ENCRYPTION)

@@ -35,6 +35,7 @@
 class OpusDecode
 {
 public:
+    OpusDecode(const OpusDecode&) = delete;
     OpusDecode();
     ~OpusDecode();
 

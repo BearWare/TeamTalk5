@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">معالج الإعداد TeamTalk</item>
     <item id="104">قطع الاتصال\F2</item>
@@ -141,11 +141,11 @@
     <item id="278">تم تحديث قائمة الملف</item>
     <item id="279">تم نقل الملف بنجاح</item>
     <item id="280">الجميع في القناة قد توقفوا عن الحديث</item>
-    <item id="281">تم تفعيل تنشيط الصوت</item>
-    <item id="282">تم إيقاف تنشيط الصوت</item>
+    <item id="281">تم تفعيل التنشيط الصوتي</item>
+    <item id="282">تم إيقاف التنشيط الصوتي</item>
     <item id="283">الإرسال جاهز في قناة &quot;لا يوجد مقاطعة&quot;</item>
     <item id="284">الإرسال غير جاهز في قناة &quot;لا يوجد مقاطعة&quot;</item>
-    <item id="285">تفعيل الصوت</item>
+    <item id="285">تمكين تنشيط الصوت</item>
     <item id="286">تعطيل تنشيط الصوت</item>
     <item id="287">تمكين تفعيل الصوت من القائمة</item>
     <item id="288">تعطيل تفعيل الصوت من القائمة</item>
@@ -198,7 +198,7 @@
     <item id="1053">الوقت على الرسائل</item>
     <item id="1054">إضغط وتحدث</item>
     <item id="1055">حالة جديدة</item>
-    <item id="1056">تفعيل الصوت</item>
+    <item id="1056">تم تنشيط الصوت</item>
     <item id="1057">الرسالة</item>
     <item id="1059">اسم القناة</item>
     <item id="1060">التصغيير إلى صينية النظام.</item>
@@ -268,7 +268,7 @@
     <item id="1188">معدل التسجيل</item>
     <item id="1189">الجهاز الداخلي</item>
     <item id="1190">جودة الصوت</item>
-    <item id="1191">الجهاز الخارجي</item>
+    <item id="1191">الججهاز الخارجي</item>
     <item id="1193">تفعيل التقليل من الضوضاء</item>
     <item id="1194">مستوى صوت المايكرفون</item>
     <item id="1196">&amp;ضبط المفاتيح</item>
@@ -292,7 +292,7 @@
     <item id="1231">&amp;ارسل</item>
     <item id="1236">مرحبا بك بمعالج تثبيت TeamTalk</item>
     <item id="1237">تم إنهاء معالج تثبيت TeamTalk</item>
-    <item id="1240">الترجمة تمت بواسطة حمد القصار (Hamad Alqassar ), من فريق (موقع التيم توك العربي), team4tt4ar@gmail.com</item>
+    <item id="1240">الترجمة تمت بواسطة حمد القصار (Hamad AlqaSar ), من فريق سيرفر التيم توك العربي, team4tt4ar@gmail.com</item>
     <item id="1241">لغة واجهة المستخدم</item>
     <item id="1243">جهاز ال Mixer</item>
     <item id="1245">استخدم لغة بديلة للتثبيت</item>

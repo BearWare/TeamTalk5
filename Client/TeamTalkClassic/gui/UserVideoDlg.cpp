@@ -191,7 +191,7 @@ BOOL CUserVideoDlg::OnInitDialog()
         SetWindowText(_T("Local Video"));
     else
     {
-        User user = {0};
+        User user = {};
         TT_GetUser(ttInst, (m_nUserID & VIDEOTYPE_USERMASK), &user);
         SetWindowText(CString(_T("Video - ")) + GetDisplayName(user));
     }

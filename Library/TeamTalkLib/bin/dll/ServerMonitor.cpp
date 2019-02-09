@@ -126,13 +126,18 @@ void ServerMonitor::OnUserBanned(const teamtalk::ServerUser& banee,
 void ServerMonitor::OnUserBanned(const ACE_TString& ipaddr,
                                  const teamtalk::ServerUser& banner)
 {
-    User sbanner, sbanee = {0};
+    User sbanner = {}, sbanee = {};
     Convert(banner, sbanner);
     ACE_OS::strsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
 
     userbanned_t::iterator i=m_userbanned.begin();
     for(;i!=m_userbanned.end();i++)
         i->second(m_ttInst, i->first, &sbanner, &sbanee, NULL);
+}
+
+void ServerMonitor::OnUserBanned(const teamtalk::ServerUser& banner, const teamtalk::BannedUser& ban)
+{
+    //TODO: implement
 }
 
 void ServerMonitor::OnUserUnbanned(const teamtalk::ServerUser& user,

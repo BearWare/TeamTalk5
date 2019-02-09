@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ 加入频道";
 
 /* log entry */
@@ -353,7 +353,7 @@
 "Play sound when private text message is received" = "收到私人消息时播放声音";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "在无中断频道传输准备就绪时播放声音" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "在无中断频道传输准备就绪时播放声音";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "触发语音激活时播放声音";

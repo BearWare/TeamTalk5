@@ -372,8 +372,17 @@ bool DesktopViewer::DecompressBlock(const char* inbuf,
 
 void DesktopViewer::WriteBitmapToFile(const ACE_TString& filename)
 {
-    WriteBitmap(filename, GetWidth(), GetHeight(), m_pixel_size,
-                &m_bitmap[0], int(m_bitmap.size()));
+    switch (m_pixel_size)
+    {
+    case 4 :
+        WriteBitmap(filename, media::VideoFormat(GetWidth(), GetHeight(), media::FOURCC_RGB32),
+                    &m_bitmap[0], int(m_bitmap.size()));
+        break;
+    case 3 :
+        WriteBitmap(filename, media::VideoFormat(GetWidth(), GetHeight(), media::FOURCC_RGB24),
+            &m_bitmap[0], int(m_bitmap.size()));
+        break;
+    }
 }
 
 const char* DesktopViewer::GetBitmap(int* size/* = 0*/) const

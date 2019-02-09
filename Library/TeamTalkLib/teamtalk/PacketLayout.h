@@ -39,18 +39,7 @@
 #include <openssl/aes.h>
 #endif
 
-
-#ifdef ACE_WIN32
-typedef ACE_INT8    int8_t;
-typedef ACE_UINT8   uint8_t;
-typedef ACE_INT16   int16_t;
-typedef ACE_UINT16  uint16_t;
-typedef ACE_INT32   int32_t;
-typedef ACE_UINT32  uint32_t;
-typedef ACE_INT64   int64_t;
-#else
 #include <stdint.h>
-#endif
 
 #include "Common.h"
 
@@ -461,8 +450,6 @@ namespace teamtalk {
         uint16_t GetPacketSize() const;
         bool ValidatePacket() const;
 
-        virtual uint8_t GetStreamID() const { return 0; }
-
 #ifdef ENABLE_ENCRYPTION
         const std::set<uint8_t>& GetCryptSections() const { return m_crypt_sections; }
 #endif
@@ -597,6 +584,7 @@ namespace teamtalk {
 
         AudioPacket(const char* packet, uint16_t packet_size);
 
+        AudioPacket(const FieldPacket& packet);
         AudioPacket(const AudioPacket& packet);
 
         enum
@@ -645,6 +633,7 @@ namespace teamtalk {
                    const uint16_t* fragmentno, const uint16_t* fragmentcnt);
     public:
         VideoPacket(const VideoPacket& p); //copy constructor
+        VideoPacket(const FieldPacket& p);
         VideoPacket(const char* packet, uint16_t packet_size);
         VideoPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                     iovec& decrypt_fields)
@@ -757,8 +746,6 @@ namespace teamtalk {
 
         uint8_t GetSessionID() const;
 
-        uint8_t GetStreamID() const { return GetSessionID(); }
-
         //returns INVALID_PACKET_INDEX on error
         uint16_t GetPacketIndex() const;
 
@@ -857,7 +844,7 @@ namespace teamtalk {
         bool GetSessionInfo(uint16_t* owner_userid, uint8_t* session_id, 
                             uint32_t* upd_time) const;
 
-        uint8_t GetStreamID() const
+        uint8_t GetSessionID() const
         {
             uint8_t sessionid = 0;
             if (GetSessionInfo(0, &sessionid, 0))
@@ -898,8 +885,6 @@ namespace teamtalk {
 
         uint8_t GetSessionID() const;
 
-        uint8_t GetStreamID() const { return GetSessionID(); }
-
     private:
        enum
         {
@@ -926,7 +911,7 @@ namespace teamtalk {
         bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id, 
                               int16_t* x, int16_t* y) const;
 
-        uint8_t GetStreamID() const
+        uint8_t GetSessionID() const
         {
             uint8_t streamid = 0;
             GetSessionCursor(0, &streamid, 0, 0);
@@ -980,7 +965,6 @@ namespace teamtalk {
 
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
         uint8_t GetSessionID() const;
-        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
@@ -1015,7 +999,6 @@ namespace teamtalk {
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
 
         uint8_t GetSessionID() const;
-        uint8_t GetStreamID() const { return GetSessionID(); }
         uint8_t GetPacketNo(bool* found = NULL) const;
 
     private:
@@ -1034,13 +1017,12 @@ namespace teamtalk {
     template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
     class CryptPacket : public FieldPacket
     {
+        typedef std::unique_ptr< PACKETTYPE > decrypt_pkt_t;
     public:
         CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
         CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
-        PACKETTYPE* Decrypt(const uint8_t* decryptkey) const;
-
-        uint8_t GetStreamID() const { assert(0); return 0; }
+        std::unique_ptr< PACKETTYPE > Decrypt(const uint8_t* decryptkey) const;
 
         enum
         {

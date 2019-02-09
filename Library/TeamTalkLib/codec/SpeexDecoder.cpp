@@ -85,7 +85,7 @@ void SpeexDecoder::Reset()
     {
         int v = 1;
         int ret = speex_decoder_ctl(m_decstate, SPEEX_RESET_STATE, &v);
-        ret = ret;
+        assert(ret == 0);
     }
 }
 

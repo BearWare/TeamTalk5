@@ -60,6 +60,7 @@ struct SpeexAEC
 class SpeexPreprocess
 {
 public:
+    SpeexPreprocess(const SpeexPreprocess&) = delete;
     SpeexPreprocess();
     ~SpeexPreprocess();
 

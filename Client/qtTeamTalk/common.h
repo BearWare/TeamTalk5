@@ -171,7 +171,7 @@
 #define DEFAULT_VIDEO_WIDTH     320
 #define DEFAULT_VIDEO_HEIGHT    240
 #define DEFAULT_VIDEO_FPS       10
-#define DEFAULT_VIDEO_FOURCC    FOURCC_RGB32
+#define DEFAULT_VIDEO_FOURCC    FOURCC_I420
 
 //Default video codec settings
 #define DEFAULT_VIDEO_CODEC         WEBM_VP8_CODEC

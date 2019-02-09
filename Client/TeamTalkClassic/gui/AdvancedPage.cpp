@@ -66,7 +66,7 @@ void CAdvancedPage::UpdateControls()
         int nSelectedIndex = -1;
         for(int i=0;i<count;i++)
         {
-            TCHAR buff[TT_STRLEN] = {0};
+            TCHAR buff[TT_STRLEN] = {};
             TT_Mixer_GetWaveInControlName(0, i, buff);
             list.AddTail(buff);
             if(TT_Mixer_GetWaveInControlSelected(0, i))

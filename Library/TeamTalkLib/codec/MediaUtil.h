@@ -31,12 +31,17 @@ namespace media
 /* Remember to updated DLL header file when modifying this */
     enum FourCC
     {
+        /* input/output formats */
         FOURCC_NONE   = 0,
         FOURCC_I420   = 100,
         FOURCC_YUY2   = 101,
         FOURCC_RGB32  = 102,
         FOURCC_RGB24  = 103,
         FOURCC_NV12   = 104,
+
+        // input only formats
+        FOURCC_MJPEG = 200,
+        FOURCC_H264  = 201,
     };
 
 /* Remember to updated DLL header file when modifying this */
@@ -67,6 +72,19 @@ namespace media
             {
                 return memcmp(&fmt, this, sizeof(*this)) == 0;
             }
+
+        bool IsValid() const { return width > 0 && height > 0; }
+    };
+
+    struct AudioFormat
+    {
+        int samplerate = 0;
+        int channels = 0;
+
+        bool IsValid() const { return samplerate > 0 && channels > 0; }
+
+        AudioFormat(int sr, int chans) : samplerate(sr), channels(chans) {}
+        AudioFormat() {}
     };
 
     struct AudioFrame
@@ -75,27 +93,29 @@ namespace media
         const short* output_buffer; //for echo cancel frame
         int input_samples;
         int output_samples;
-        int input_channels;
-        int output_channels;
-        int input_samplerate;
-        int output_samplerate;
+        AudioFormat inputfmt;
+        AudioFormat outputfmt;
         int soundgrpid;
         ACE_UINT32 userdata;
         bool force_enc; //force encoding of frame
         bool voiceact_enc; //encode if voice active
         ACE_UINT32 timestamp;
         AudioFrame()
-            : input_buffer(NULL)
-            , output_buffer(NULL)
-            {
-                input_samples = output_samples = 0;
-                input_channels = output_channels = 0;
-                input_samplerate = output_samplerate = 0;
-                soundgrpid = 0;
-                userdata = 0;
-                force_enc = voiceact_enc = false;
-                timestamp = GETTIMESTAMP();
-            }
+        : input_buffer(NULL)
+        , output_buffer(NULL)
+        {
+            input_samples = output_samples = 0;
+            soundgrpid = 0;
+            userdata = 0;
+            force_enc = voiceact_enc = false;
+            timestamp = GETTIMESTAMP();
+        }
+
+        AudioFrame(ACE_Message_Block* mb)
+        {
+            AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->rd_ptr());
+            *this = *frm;
+        }
     };
 
     struct VideoFrame
@@ -109,6 +129,7 @@ namespace media
         bool key_frame;
         int stream_id;
         ACE_UINT32 timestamp;
+
         VideoFrame(char* frm_data, int frm_len,
                    int w, int h, FourCC pic_type, bool top_down_bmp)
         : frame(frm_data), frame_length(frm_len)
@@ -119,8 +140,12 @@ namespace media
         {
             timestamp = GETTIMESTAMP();
         }
+
         VideoFrame(const VideoFormat& fmt, char* buf, int len)
         : VideoFrame(buf, len, fmt.width, fmt.height, fmt.fourcc, false) {}
+
+        VideoFrame() : VideoFrame(nullptr, 0, 0, 0, FOURCC_NONE, false) {}
+
         VideoFrame(ACE_Message_Block* mb)
         {
             VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
@@ -134,6 +159,13 @@ namespace media
             stream_id = frm->stream_id;
             timestamp = frm->timestamp;
         }
+
+        bool IsValid() const { return frame && frame_length && GetVideoFormat().IsValid(); }
+
+        VideoFormat GetVideoFormat() const 
+        {
+            return VideoFormat(width, height, fourcc);
+        }
     };
 
 }
@@ -142,6 +174,9 @@ ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
 ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
+media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb);
+
+ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame);
 
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan);
@@ -149,6 +184,9 @@ void SplitStereo(const short* input_buffer, int input_samples,
 void MergeStereo(const std::vector<short>& left_chan, 
                  const std::vector<short>& right_chan,
                  short* output_buffer, int output_samples);
+
+// returns new sample_index
+int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
 #define PCM16_BYTES(samples, channels) (samples * channels * sizeof(short))
 #define PCM16_DURATION(bytes, channels, samplerate) (((bytes/channels/sizeof(short)) * 1000) / samplerate)

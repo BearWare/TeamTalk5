@@ -374,14 +374,17 @@ namespace teamtalk {
         int m_userid_counter;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
-        std::vector<CryptAcceptor*> m_crypt_acceptors;
+        typedef std::shared_ptr<CryptAcceptor> cryptacceptor_t;
+        std::vector<cryptacceptor_t> m_crypt_acceptors;
 #endif
-        std::vector<DefaultAcceptor*> m_def_acceptors;
+        typedef std::shared_ptr<DefaultAcceptor> defaultacceptor_t;
+        std::vector<defaultacceptor_t> m_def_acceptors;
 
         std::map<ACE_HANDLE, serveruser_t> m_streamhandles;
 
         //socket for udp traffic
-        std::vector<PacketHandler*> m_packethandlers;
+        typedef std::shared_ptr<PacketHandler> packethandler_t;
+        std::vector<packethandler_t> m_packethandlers;
         
         //mutex for clients
         ACE_Recursive_Thread_Mutex m_sendmutex;
@@ -434,6 +437,7 @@ namespace teamtalk {
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;
         virtual void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) = 0;
+        virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
         virtual void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) = 0;
