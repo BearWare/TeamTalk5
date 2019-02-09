@@ -595,7 +595,6 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
     {
         bytes = m_file.recv(&m_filebuffer[0], m_filebuffer.size());
         TTASSERT(ret>=0);
-        MYTRACE(ACE_TEXT("Sent %d bytes\n"), int(m_file.tell()));
 
         if(bytes>0)
         {
