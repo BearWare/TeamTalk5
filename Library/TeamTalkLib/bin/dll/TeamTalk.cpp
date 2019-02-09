@@ -814,7 +814,7 @@ TEAMTALKDLL_API TTBOOL TT_StopRecordingMuxedAudioFile(IN TTInstance* lpTTInstanc
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartVideoCaptureTransmission(IN TTInstance* lpTTInstance,
-                                                      IN const VideoCodec* lpVideoCodec)
+                                                        IN const VideoCodec* lpVideoCodec)
 {
     ClientNode* pClientNode;
     GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
@@ -839,12 +839,14 @@ TEAMTALKDLL_API TTBOOL TT_StopVideoCaptureTransmission(IN TTInstance* lpTTInstan
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVideoDevices,
-                                               IN OUT INT32* lpnHowMany)
+                                                 IN OUT INT32* lpnHowMany)
 {
     if(!lpnHowMany)
         return FALSE;
 
-    vidcap_devices_t devs = VIDCAP->GetDevices();
+    auto videocapture = VideoCapture::Create();
+
+    vidcap_devices_t devs = videocapture->GetDevices();
     if(!lpVideoDevices)
     {
         *lpnHowMany = (INT32)devs.size();
@@ -920,8 +922,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
     if(RGB32_BYTES(lpVideoFrame->nWidth, lpVideoFrame->nHeight) != lpVideoFrame->nFrameBufferSize)
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    BITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    BITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = lpVideoFrame->nWidth;
     bmh.biHeight = lpVideoFrame->nHeight*-1; //flip image (top down)
@@ -961,8 +963,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintVideoFrameEx(IN HDC hDC,
     if(RGB32_BYTES(lpVideoFrame->nWidth, lpVideoFrame->nHeight) != lpVideoFrame->nFrameBufferSize)
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    BITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    BITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = lpVideoFrame->nWidth;
     bmh.biHeight = lpVideoFrame->nHeight*-1; //flip image
@@ -2422,7 +2424,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
 
     vector<char> tmp_bmp_buf;
 
-    DesktopWindow src_wnd = {0};
+    DesktopWindow src_wnd = {};
     switch(bmpinfo.bmiHeader.biBitCount)
     {
     case 16 : 
@@ -2500,8 +2502,8 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     if(XSrc + nSrcWidth > viewer->GetWidth() || YSrc + nSrcHeight > viewer->GetHeight())
         return FALSE;
 
-    BITMAPINFOHEADER bmh = {0};
-    MYBITMAPINFO bmi = {0};
+    BITMAPINFOHEADER bmh = {};
+    MYBITMAPINFO bmi = {};
     bmh.biSize = sizeof(bmh);
     bmh.biWidth = viewer->GetWidth();
     bmh.biHeight = viewer->GetHeight()*-1; //flip image
@@ -2540,7 +2542,7 @@ typedef vector<ShareWindow> shared_windows_t;
 static void EnumerateWindowList(const void *inputDictionary, void *context)
 {
     shared_windows_t& windows = *reinterpret_cast<shared_windows_t*>(context);
-    ShareWindow wnd = {0};
+    ShareWindow wnd = {};
 
     CFDictionaryRef entry = (CFDictionaryRef)inputDictionary;
     CFNumberRef sharingState; /* SInt32 */
@@ -2690,7 +2692,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopFromWindowID(IN TTInstance* lpTTInstance,
     CGDataProviderRef provider_ref = nil;
     CFDataRef data_ref = nil;
     int ret = -1, bmp_size = -1;
-    DesktopWindow wnd = {0};
+    DesktopWindow wnd = {};
     CFIndex data_len;
     size_t row_bytes;
     size_t rows;
@@ -3475,7 +3477,7 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
 
     for(int i=0;i<nDesktopInputCount;i++)
     {
-        INPUT input = {0};
+        INPUT input = {};
 
         if(lpDesktopInputs[i].uMousePosX != TT_DESKTOPINPUT_MOUSEPOS_IGNORE &&
            lpDesktopInputs[i].uMousePosY != TT_DESKTOPINPUT_MOUSEPOS_IGNORE)
@@ -3628,7 +3630,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveOutName(IN INT32 nWaveDeviceID,
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerControl nControl, TTBOOL bMute)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bMute;
     switch(nControl)
     {
@@ -3648,7 +3650,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerC
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEOUT_MASTER :
@@ -3670,7 +3672,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutMute(IN INT32 nWaveDeviceID, IN MixerCo
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl, IN INT32 nVolume)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nVolume;
     switch(nControl)
     {
@@ -3690,7 +3692,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveOutVolume(IN INT32 nWaveDeviceID, IN Mixe
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEOUT_MASTER :
@@ -3711,7 +3713,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveOutVolume(IN INT32 nWaveDeviceID, IN Mixer
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = 1;
     switch(nControl)
     {
@@ -3731,7 +3733,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInSelected(IN INT32 nWaveDeviceID, IN Mix
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInSelected(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEIN_WAVEOUT :
@@ -3752,7 +3754,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInSelected(IN INT32 nWaveDeviceID, IN Mixe
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl, IN INT32 nVolume)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nVolume;
     switch(nControl)
     {
@@ -3772,7 +3774,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInVolume(IN INT32 nWaveDeviceID, IN Mixer
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerControl nControl)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     switch(nControl)
     {
     case WAVEIN_WAVEOUT :
@@ -3793,7 +3795,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInVolume(IN INT32 nWaveDeviceID, IN MixerC
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, IN TTBOOL bEnable)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bEnable;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_SET | MIXER_WAVEIN_BOOST, val);
     return result;
@@ -3802,7 +3804,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInBoost(IN INT32 nWaveDeviceID, IN TTBOOL
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInBoost(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_GET | MIXER_WAVEIN_BOOST, val);
     if(!result)
         return -1;
@@ -3812,7 +3814,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInBoost(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, IN TTBOOL bEnable)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = bEnable;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_SET | MIXER_WAVEIN_MUTE, val);
     return result;
@@ -3821,7 +3823,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInMute(IN INT32 nWaveDeviceID, IN TTBOOL 
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInMute(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_MICROPHONE | MIXER_WAVEIN_GET | MIXER_WAVEIN_MUTE, val);
     if(!result)
         return -1;
@@ -3831,7 +3833,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInMute(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInControlCount(IN INT32 nWaveDeviceID)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_GETCOUNT, val);
     if(!result)
         return -1;
@@ -3841,7 +3843,7 @@ TEAMTALKDLL_API INT32 TT_Mixer_GetWaveInControlCount(IN INT32 nWaveDeviceID)
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN INT32 nControlIndex, OUT TTCHAR szDeviceName[TT_STRLEN])
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_NAME, val);
     ACE_OS::strsncpy(szDeviceName, val.name, TT_STRLEN);
@@ -3851,7 +3853,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN 
 TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID, IN INT32 nControlIndex)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_SET | MIXER_WAVEIN_SELECTED, val);
     return result;
@@ -3860,7 +3862,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_SetWaveInControlSelected(IN INT32 nWaveDeviceID,
 TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID, IN INT32 nControlIndex)
 {
     BOOL result = FALSE;
-    InOutValue val = {0};
+    InOutValue val = {};
     val.value = nControlIndex;
     result = mixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_SELECTED, val);
     if(!result)

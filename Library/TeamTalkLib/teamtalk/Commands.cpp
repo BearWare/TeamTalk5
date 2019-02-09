@@ -210,7 +210,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
-            value = string2i64(tmp);
+            value = string2i(tmp);
             return true;
         }
         return false;
@@ -704,7 +704,7 @@ namespace teamtalk {
 
     ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
     {
-        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {0};
+        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {};
         addr.addr_to_string(buf, MAX_STRING_LENGTH);
         return buf;
     }

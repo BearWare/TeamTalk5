@@ -43,9 +43,9 @@ bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
 
     iformat = av_find_input_format(m_dev.api.c_str());
     int fps = 1;
-    if (m_media_in.video_fps_denominator)
+    if (m_media_in.video.fps_denominator)
     {
-        fps = m_media_in.video_fps_numerator / m_media_in.video_fps_denominator;
+        fps = m_media_in.video.fps_numerator / m_media_in.video.fps_denominator;
         fps = std::max(1, fps);
     }
 
@@ -54,7 +54,7 @@ bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
     av_dict_set(&options, "framerate", os.str().c_str(), 0);
 
     os.str("");
-    os << m_media_in.video_width << "x" << m_media_in.video_height;
+    os << m_media_in.video.width << "x" << m_media_in.video.height;
     av_dict_set(&options, "video_size", os.str().c_str(), 0);
 
     av_dict_set(&options, "pixel_format", "0rgb", 0);

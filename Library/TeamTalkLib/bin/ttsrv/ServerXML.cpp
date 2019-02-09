@@ -1404,7 +1404,7 @@ namespace teamtalk{
 
     time_t StringToDate(std::string date)
     {
-        tm t = {0};
+        tm t = {};
         stdstrings_t tokens = stdtokenize(date, "/ :");
         if(tokens.size() == 5)
         {

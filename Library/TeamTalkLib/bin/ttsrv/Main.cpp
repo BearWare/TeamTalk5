@@ -282,7 +282,7 @@ int RunServer(
     ACE_LOG_MSG->open(ACE_TEXT(TEAMTALK_NAME));
 #endif
 
-    ACE_TCHAR workdir[512] = {0};
+    ACE_TCHAR workdir[512] = {};
     ACE_OS::getcwd(workdir, 512);
 
     //log file
@@ -594,7 +594,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         //load config file from same directory as
         //executable file when running as NT service.
-        ACE_TCHAR bufPath[MAX_PATH] = {0};
+        ACE_TCHAR bufPath[MAX_PATH] = {};
         if(GetModuleFileName(NULL, bufPath, MAX_PATH)>0)
         {
             TCHAR* pChr = ACE_OS::strrchr(bufPath, '\\');
@@ -872,7 +872,7 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(printGetBool(filesroot.length()))
     {
-        ACE_TCHAR buff[1024] = {0};
+        ACE_TCHAR buff[1024] = {};
         ACE_OS::getcwd(buff, 1024);
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";

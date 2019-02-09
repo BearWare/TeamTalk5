@@ -279,7 +279,7 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     HRESULT hr;
     BYTE* pBuffer = NULL;
     DWORD dwLen = 0;
-    DMO_OUTPUT_DATA_BUFFER dodb = {0};
+    DMO_OUTPUT_DATA_BUFFER dodb = {};
     WAVEFORMATEX *pInputWav = reinterpret_cast<WAVEFORMATEX*>(m_mt_input.pbFormat);
     WAVEFORMATEX *pOutputWav = reinterpret_cast<WAVEFORMATEX*>(m_mt_output.pbFormat);
     IMediaBuffer* input_mb = NULL, *output_mb = NULL;

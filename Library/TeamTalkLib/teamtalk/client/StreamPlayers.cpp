@@ -752,9 +752,16 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(uint32_t* timestamp)
 
     //m_video_frames are sorted with UINT32 wrap
     video_frames_t::iterator ii = m_video_frames.begin();
+
+    MYTRACE_COND(!m_decoder_ready, ACE_TEXT("Decoder not ready from user #%d\n"), m_userid);
+    MYTRACE_COND(ii == m_video_frames.end(), ACE_TEXT("No video frames ready from user #%d\n"), m_userid);
     if(!m_decoder_ready || ii == m_video_frames.end() ||
        (timestamp && W32_GT(ii->first, *timestamp)))
+    {
+        MYTRACE_COND(ii != m_video_frames.end(), ACE_TEXT("Video frame ignored from user #%d. Time diff: %d\n"),
+                     m_userid, int(*timestamp - ii->first));
         return NULL;
+    }
 
     // MYTRACE(ACE_TEXT("GetNextFrame(), process video packet %d, size %d, csum 0x%x\n"),
     //         ii->second.packet_no, ii->second.enc_data.size(), 

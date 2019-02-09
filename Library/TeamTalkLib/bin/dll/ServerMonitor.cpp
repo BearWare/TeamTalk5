@@ -126,7 +126,7 @@ void ServerMonitor::OnUserBanned(const teamtalk::ServerUser& banee,
 void ServerMonitor::OnUserBanned(const ACE_TString& ipaddr,
                                  const teamtalk::ServerUser& banner)
 {
-    User sbanner, sbanee = {0};
+    User sbanner = {}, sbanee = {};
     Convert(banner, sbanner);
     ACE_OS::strsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
 

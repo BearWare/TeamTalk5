@@ -436,7 +436,7 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
 
     ACE_TString internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
 
-    ACE_TCHAR newfilename[MAX_STRING_LENGTH+1] = {0};
+    ACE_TCHAR newfilename[MAX_STRING_LENGTH+1] = {};
     ACE_UINT32 dat_id = m_file_id_counter;
     ACE_TString local_filename;
     do
@@ -689,11 +689,12 @@ bool ServerNode::SendDesktopAckPacket(int userid)
         {
             time_ack = (*ii)->GetTime();
             session_id = (*ii)->GetSessionID();
+            
+            if(!GetAckedDesktopPackets(session_id, time_ack, session_q, 
+                                       recv_packets))
+                return false;
         }
-
-        if(!GetAckedDesktopPackets(session_id, time_ack, session_q, 
-                                   recv_packets))
-            return false;
+        else return false;
     }
     else
     {

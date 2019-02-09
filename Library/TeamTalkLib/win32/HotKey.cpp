@@ -377,7 +377,7 @@ static ACE_THR_FUNC_RETURN hook_loop (void *arg)
 
     hook->nResult = hMouseHook && hKeyHook;
 
-    MSG msg = {0};
+    MSG msg = {};
     while(GetMessage(&msg, NULL, NULL, NULL) && msg.message != WM_QUIT)
         return 0;
 

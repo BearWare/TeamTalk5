@@ -101,11 +101,7 @@ public:
         int ret = super::open(args);
         if(ret >= 0)
         {
-            ACE_HANDLE hh = this->peer().get_handle();
-            int nblock = ACE::get_flags(this->peer().get_handle());
-            ACE_UNUSED_ARG(nblock);
-            nblock = this->peer().enable(ACE_NONBLOCK);
-            nblock = ACE::get_flags(this->peer().get_handle());
+            this->peer().enable(ACE_NONBLOCK);
 
             if(m_listener)
                 m_listener->OnOpened(*this);

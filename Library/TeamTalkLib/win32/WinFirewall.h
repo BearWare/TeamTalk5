@@ -34,6 +34,7 @@
 class WinFirewall
 {
 public:
+    WinFirewall(const WinFirewall&) = delete;
     WinFirewall(bool acquire_admin);
     ~WinFirewall();
 

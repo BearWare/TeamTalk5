@@ -837,7 +837,7 @@ extern "C" {
     {
         THROW_NULLEX(env, lpChannel, -1);
 
-        Channel chan = {0};
+        Channel chan = {};
         setChannel(env, chan, lpChannel, J2N);
         return TT_DoJoinChannel(reinterpret_cast<TTInstance*>(lpTTInstance), &chan);
     }
@@ -1258,7 +1258,7 @@ extern "C" {
                                                                            jlong lpTTInstance,
                                                                            jint nChannelID)
     {
-        TTCHAR channel[TT_STRLEN] = {0};
+        TTCHAR channel[TT_STRLEN] = {};
         TT_GetChannelPath(reinterpret_cast<TTInstance*>(lpTTInstance),
                           nChannelID, channel);
         return NEW_JSTRING(env, channel);
@@ -1661,7 +1661,7 @@ extern "C" {
                                                                             jobject thiz,
                                                                             jint nError)
     {
-        TTCHAR szError[TT_STRLEN] = {0};
+        TTCHAR szError[TT_STRLEN] = {};
         TT_GetErrorMessage(nError, szError);
         return NEW_JSTRING(env, szError);
     }

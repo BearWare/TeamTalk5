@@ -324,10 +324,10 @@ void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
 void CChatRichEditCtrl::SetChannelInfo(int nChannelID)
 {
     CString szChannelName, szTopic, szDiskQuota;
-    Channel chan = {0};
-    TCHAR szChanPath[TT_STRLEN] = {0};
-        TT_GetChannel(ttInst, nChannelID, &chan);
-        TT_GetChannelPath(ttInst, nChannelID, szChanPath);
+    Channel chan = {};
+    TCHAR szChanPath[TT_STRLEN] = {};
+    TT_GetChannel(ttInst, nChannelID, &chan);
+    TT_GetChannelPath(ttInst, nChannelID, szChanPath);
 
     szChannelName = szChanPath;
     szTopic = chan.szTopic;
