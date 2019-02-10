@@ -551,7 +551,7 @@ uint32_t GETTIMESTAMP()
 {
 #if defined(ACE_HAS_IPHONE)
     if (!orwl_timestart) {
-        mach_timebase_info_data_t tb = { 0 };
+        mach_timebase_info_data_t tb = {};
         mach_timebase_info(&tb);
         orwl_timebase = tb.numer;
         orwl_timebase /= tb.denom;

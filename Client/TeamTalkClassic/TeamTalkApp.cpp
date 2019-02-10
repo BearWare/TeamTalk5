@@ -190,7 +190,7 @@ BOOL CTeamTalkApp::InitInstance()
     if(hRunningTT && info.m_args.GetCount() == 1)
     {
         BOOL bTTUrl = FALSE;
-        MsgCmdLine msg = { 0 };
+        MsgCmdLine msg = {};
         for(POSITION pos = info.m_args.GetHeadPosition(); pos != NULL;)
         {
             szArg = info.m_args.GetNext(pos);
