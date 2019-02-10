@@ -31,6 +31,8 @@
 #include <thread>
 #endif
 
+#include <mutex>
+
 namespace teamtalk {
 
     class ServerGuard : public ServerNodeListener
@@ -92,7 +94,10 @@ namespace teamtalk {
 
     private:
 #if defined(ENABLE_HTTP_AUTH)
-        void HttpLogin(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginFacebook(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
+        void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
         std::map<int, UserAccount> m_pendinglogin;
 #endif
         teamtalk::ServerXML& m_settings;

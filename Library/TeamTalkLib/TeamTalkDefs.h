@@ -44,6 +44,9 @@
 
 #define WEBLOGIN_FACEBOOK_USERNAME  "facebook"
 #define WEBLOGIN_FACEBOOK_POSTFIX   "@facebook.com"
+
+#define WEBLOGIN_BEARWARE_USERNAME  "bearware.dk"
+#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
 #define WEBLOGIN_URL                "https://www.bearware.dk/teamtalk/weblogin.php?"
 
 // sanity check
