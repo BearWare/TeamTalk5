@@ -1240,7 +1240,6 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
     else
 #endif
     {
-        TTASSERT(m_def_stream);
         if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
