@@ -436,7 +436,7 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
 
     ACE_TString internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
 
-    ACE_TCHAR newfilename[MAX_STRING_LENGTH+1] = {0};
+    ACE_TCHAR newfilename[MAX_STRING_LENGTH+1] = {};
     ACE_UINT32 dat_id = m_file_id_counter;
     ACE_TString local_filename;
     do
@@ -3169,7 +3169,8 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
         if(!banchan.null() && err.success())
             AddBannedUserToChannel(ban);
         
-        m_srvguard->OnUserBanned(*ban_user, *banner);
+        if (err.success())
+            m_srvguard->OnUserBanned(*ban_user, *banner);
     }
     else
     {
@@ -3198,6 +3199,9 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 
         if(!banchan.null() && err.success())
             AddBannedUserToChannel(ban);
+
+        if (err.success())
+            m_srvguard->OnUserBanned(*banner, ban);
     }
 
     if(err.success() && IsAutoSaving())

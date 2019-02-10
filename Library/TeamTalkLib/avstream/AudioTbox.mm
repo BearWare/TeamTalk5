@@ -174,7 +174,7 @@ bool AudioTbox::OpenInputStream(StreamCapture* capture, int inputdeviceid,
                               int sndgrpid, int samplerate, int channels,
                               int framesize)
 {
-    AudioStreamBasicDescription format = {0};
+    AudioStreamBasicDescription format = {};
     format.mSampleRate = samplerate;
     format.mFormatID = kAudioFormatLinearPCM;
     format.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
@@ -274,7 +274,7 @@ bool AudioTbox::OpenOutputStream(StreamPlayer* player, int outputdeviceid,
                                int framesize)
 {
 
-    AudioStreamBasicDescription format = {0};
+    AudioStreamBasicDescription format = {};
     format.mSampleRate = samplerate;
     format.mFormatID = kAudioFormatLinearPCM;
     format.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;

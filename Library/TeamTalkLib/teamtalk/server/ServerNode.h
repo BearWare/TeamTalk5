@@ -437,6 +437,7 @@ namespace teamtalk {
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;
         virtual void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) = 0;
+        virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
         virtual void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) = 0;

@@ -1353,7 +1353,7 @@ void MainWindow::commandProcessing(int cmdid, bool complete)
                 if (*ite == CMD_COMPLETE_LIST_CHANNELBANS)
                 {
                     int chanid = ui.channelsWidget->selectedChannel(true);
-                    TTCHAR path[TT_STRLEN] = {0};
+                    TTCHAR path[TT_STRLEN] = {};
                     TT_GetChannelPath(ttInst, chanid, path);
                     chanpath = _Q(path);
                 }
@@ -2280,7 +2280,7 @@ void MainWindow::processMyselfJoined(int channelid)
     //Enable AGC, denoise etc.
     updateAudioConfig();
 
-    TTCHAR buff[TT_STRLEN] = {0};
+    TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, buff);
     addStatusMsg(tr("Joined channel %1").arg(_Q(buff)));
 
@@ -2345,7 +2345,7 @@ bool MainWindow::timerExists(TimerEvent e)
 void MainWindow::updateChannelFiles(int channelid)
 {
     m_filesmodel->slotChannelUpdated(channelid);
-    TTCHAR chanpath[TT_STRLEN] = {0};
+    TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
@@ -3929,7 +3929,7 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
     if(chanid<=0)
         return;
 
-    TTCHAR buff[TT_STRLEN] = {0};
+    TTCHAR buff[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, chanid, buff);
     if(QMessageBox::information(this, MENUTEXT(ui.actionDeleteChannel->text()),
         tr("Are you sure you want to delete channel \"%1\"?").arg(_Q(buff)), 

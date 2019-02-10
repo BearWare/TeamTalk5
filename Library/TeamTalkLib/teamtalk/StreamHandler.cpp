@@ -71,7 +71,12 @@ int CryptStreamHandler::handle_input(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 {
     SSL *ssl = peer().ssl();
     if (SSL_is_init_finished(ssl))
-        return super::handle_input(fd);
+    {
+        int ret = super::handle_input(fd);
+        if (ret == 0 && ::SSL_pending(ssl))
+            ret = 1;
+        return ret;
+    }
     else
         return process_ssl(ssl);
 }
@@ -81,7 +86,10 @@ int CryptStreamHandler::handle_output(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
     SSL *ssl = peer().ssl();
     if (SSL_is_init_finished(ssl))
     {
-        return super::handle_output(fd);
+        int ret = super::handle_output(fd);
+        if(ret == 0 && ::SSL_pending(ssl))
+            ret = 1;
+        return ret;
     }
     else
         return process_ssl(ssl);

@@ -67,7 +67,7 @@ const int BMIHEADER_SIZE = 40;
 bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
                  const char* data, int size)
 {
-    BitmapFileHeader bmphdr = {0};
+    BitmapFileHeader bmphdr = {};
 
     assert(BMPHDR_SIZE == sizeof(bmphdr));
 
@@ -77,7 +77,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
     bmphdr.bfReserved1    = bmphdr.bfReserved2 = 0;
     bmphdr.bfOffBits      = BMPHDR_SIZE + BMIHEADER_SIZE;
 
-    BitmapInfoHeader bmiHeader = {0};
+    BitmapInfoHeader bmiHeader = {};
     assert(BMIHEADER_SIZE == sizeof(bmiHeader));
 
     bmiHeader.biSize = BMIHEADER_SIZE;
@@ -118,8 +118,8 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
 std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt)
 {
     std::vector<char> buff;
-    BitmapFileHeader bmphdr = { 0 };
-    BitmapInfoHeader bmiHeader = { 0 };
+    BitmapFileHeader bmphdr = {};
+    BitmapInfoHeader bmiHeader = {};
 
     assert(BMPHDR_SIZE == sizeof(bmphdr));
     assert(BMIHEADER_SIZE == sizeof(bmiHeader));

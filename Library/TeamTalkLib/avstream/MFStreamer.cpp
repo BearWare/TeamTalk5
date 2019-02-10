@@ -218,7 +218,7 @@ void MFStreamer::Run()
             MYTRACE(ACE_TEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
         }
 
-        GUID native_subtype = { 0 };
+        GUID native_subtype = {};
         hr = pVideoType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
         if(FAILED(hr))
             goto fail_open;

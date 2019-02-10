@@ -26,6 +26,8 @@
 #include <thread>
 #include <condition_variable>
 #include <sstream>
+#include <fstream>
+#include <cstdio>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::placeholders;
@@ -854,6 +856,18 @@ namespace UnitTest
 
 #if defined(ENABLE_TEAMTALKPRO)
 
+        static void UserLogin(IN TTSInstance* lpTTSInstance,
+            IN VOID* lpUserData,
+            OUT ClientErrorMsg* lpClientErrorMsg,
+            IN const User* lpUser,
+            IN OUT UserAccount* lpUserAccount)
+        {
+            lpClientErrorMsg->nErrorNo = CMDERR_SUCCESS;
+            lpUserAccount->uUserType = USERTYPE_DEFAULT;
+            lpUserAccount->uUserRights = USERRIGHT_MULTI_LOGIN | USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                USERRIGHT_UPLOAD_FILES | USERRIGHT_DOWNLOAD_FILES;
+        }
+
         void RunServer(bool* started, bool* stop)
         {
             Assert::IsTrue(TTS_SetEncryptionContext(0, L"ttservercert.pem", L"ttserverkey.pem"));
@@ -861,22 +875,26 @@ namespace UnitTest
             TTSInstance* ttServer = TTS_InitTeamTalk();
             Assert::IsTrue(ttServer != nullptr, L"valid instance");
 
-            ServerProperties srvprop = { 0 };
+            Assert::IsTrue(TTS_RegisterUserLoginCallback(ttServer, UserLogin, 0, TRUE));
+            ServerProperties srvprop = {};
             std::wstring(L"TeamTalk 5 Pro Server").copy(srvprop.szServerName, TT_STRLEN);
             std::wstring(L"This is my message of the day").copy(srvprop.szMOTDRaw, TT_STRLEN);
             srvprop.nUserTimeout = 60;
             srvprop.nMaxUsers = 100;
 
-            Assert::AreEqual(TTS_UpdateServer(ttServer, &srvprop), int(CMDERR_SUCCESS));
+            Assert::AreEqual(int(CMDERR_SUCCESS), TTS_SetChannelFilesRoot(ttServer, L".", 1024 * 1024 * 1024, 1024 * 1024 * 1024));
 
-            Channel chan = { 0 };
+            Assert::AreEqual(int(CMDERR_SUCCESS), TTS_UpdateServer(ttServer, &srvprop));
+
+            Channel chan = {};
             chan.nParentID = 0;
             chan.nChannelID = 1;
             chan.nMaxUsers = 100;
             chan.uChannelType = CHANNEL_PERMANENT;
+            chan.nDiskQuota = 1024*1024*1024;
             std::wstring(L"This is the root channel").copy(chan.szTopic, TT_STRLEN);
 
-            Assert::AreEqual(TTS_MakeChannel(ttServer, &chan), int(CMDERR_SUCCESS));;
+            Assert::AreEqual(int(CMDERR_SUCCESS), TTS_MakeChannel(ttServer, &chan));
 
             Assert::IsTrue(TTS_StartServer(ttServer, L"127.0.0.1", 10443, 10443, TRUE), L"Start Server");
             INT32 nWaitMSec = 10;
@@ -886,6 +904,41 @@ namespace UnitTest
 
             TTS_StopServer(ttServer);
 
+        }
+
+#define DEFWAIT 5000
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            auto start = GETTIMESTAMP();
+            while (GETTIMESTAMP() < start + timeout)
+            {
+                INT32 waitMsec = 10;
+                if (TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
+                    outmsg.nClientEvent == ttevent &&
+                    pred(outmsg))
+                    return true;
+            }
+            return false;
+        }
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, ttevent, [] (TTMessage) { return true; }, outmsg, timeout);
+        }
+
+        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid;
+            }, outmsg, timeout);
+        }
+
+        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid && !msg.bActive;
+            }, outmsg, timeout);
         }
 
         TEST_METHOD(TestSSL)
@@ -904,11 +957,80 @@ namespace UnitTest
 
             Assert::IsTrue(TT_Connect(ttClient, L"127.0.0.1", 10443, 10443, 0, 0, TRUE), L"Connect");
 
-            Assert::IsTrue(TT_GetMessage(ttClient, &msg, &nWaitMSec));
-            Assert::AreEqual(int(msg.nClientEvent), int(CLIENTEVENT_CON_SUCCESS));
+            Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_CON_SUCCESS));
 
-            ServerProperties srvprop2 = { 0 };
+            ServerProperties srvprop2 = {};
             Assert::IsTrue(TT_GetServerProperties(ttClient, &srvprop2));
+
+            auto cmdid = TT_DoLogin(ttClient, L"My Nickname", L"HEST", L"HEST");
+            Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
+
+            int rootid = TT_GetRootChannelID(ttClient);
+            cmdid = TT_DoJoinChannelByID(ttClient, rootid, L"");
+            Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
+
+            int filesize = 7;
+            for (int f=1;f<9;f++)
+            {
+                std::ostringstream os;
+                std::wostringstream wos;
+                os << "test" << filesize << ".txt";
+                wos << "test" << filesize << ".txt";
+                std::ofstream ofs(os.str(), std::ofstream::out | std::ofstream::trunc);
+                for(int i = 0; i<filesize; i++)
+                {
+                    ofs << (char)('0' + (i % 10));
+                }
+                ofs.close();
+
+                cmdid = TT_DoSendFile(ttClient, rootid, wos.str().c_str());
+                Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_ACTIVE;
+                }));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_FINISHED;
+                }, msg));
+
+                FileTransfer& ftup = msg.filetransfer;
+
+                std::remove(os.str().c_str());
+
+                INT32 nFiles = 1;
+                RemoteFile remotefile;
+                Assert::IsTrue(TT_GetChannelFiles(ttClient, ftup.nChannelID, &remotefile, &nFiles));
+
+                Assert::IsTrue(TT_DoRecvFile(ttClient, remotefile.nChannelID, remotefile.nFileID, wos.str().c_str()));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_ACTIVE;
+                }));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_FINISHED;
+                }, msg));
+
+                FileTransfer& ftdown = msg.filetransfer;
+
+                std::ifstream ifs(os.str(), std::ifstream::in);
+                for(int i = 0; i<filesize; i++)
+                {
+                    char c;
+                    ifs >> c;
+                    Assert::AreEqual(c, (char)('0' + (i % 10)));
+                }
+
+                Assert::IsTrue(WaitForCmdSuccess(ttClient, TT_DoDeleteFile(ttClient, remotefile.nChannelID, remotefile.nFileID)));
+
+                filesize = filesize * 10 + 7;
+            }
+
 
             stop = true;
             serverthread.join();

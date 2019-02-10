@@ -234,7 +234,7 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
         device.max_output_channels = devinfo->maxOutputChannels;
         device.default_samplerate = (int)devinfo->defaultSampleRate;
 
-        PaStreamParameters streamParameters = {0};
+        PaStreamParameters streamParameters = {};
         streamParameters.device = i;
         streamParameters.sampleFormat = paInt16;
         streamParameters.suggestedLatency = 0;
@@ -418,7 +418,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
                                       int sndgrpid, int samplerate, int channels,
                                       int framesize)
 {
-    PaStreamParameters outputParameters = {0};
+    PaStreamParameters outputParameters = {};
     outputParameters.device = outputdeviceid;
     outputParameters.channelCount = channels;
     outputParameters.hostApiSpecificStreamInfo = NULL;

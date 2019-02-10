@@ -140,7 +140,7 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     const User& user = ii.value();
-    TTCHAR channel[TT_STRLEN] = {0};
+    TTCHAR channel[TT_STRLEN] = {};
 
     switch(role)
     {

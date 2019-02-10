@@ -348,7 +348,7 @@ int DSWrapperThread::svc()
     CComPtr<IMediaFilter> pMediaFilter;
     audio_resampler_t resampler;
 
-    MSG msg = {0};
+    MSG msg = {};
 
     CMediaType mt_vid, mt_vid_con, mt_aud;
 

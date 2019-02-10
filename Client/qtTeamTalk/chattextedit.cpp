@@ -207,7 +207,7 @@ QString ChatTextEdit::addTextMessage(const TextMessage& msg)
     case MSGTYPE_CHANNEL :
         if(msg.nChannelID != TT_GetMyChannelID(ttInst))
         {
-            TTCHAR chpath[TT_STRLEN] = {0};
+            TTCHAR chpath[TT_STRLEN] = {};
             TT_GetChannelPath(ttInst, msg.nChannelID, chpath);
             line += QString("<%1->%2> %3").arg(getDisplayName(user))
                            .arg(_Q(chpath)).arg(_Q(msg.szMessage));

@@ -114,7 +114,7 @@ BOOL CGenerateTTFileDlg::OnInitDialog()
 
 void CGenerateTTFileDlg::LoadVideoFormats()
 {
-    VideoFormat fmt = {0};
+    VideoFormat fmt = {};
     m_vidcap_fmts.push_back(fmt);
 
     fmt.picFourCC = FOURCC_RGB32;
