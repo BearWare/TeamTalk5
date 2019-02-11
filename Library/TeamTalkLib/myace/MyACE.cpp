@@ -300,6 +300,11 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     return buf;
 }
 
+ACE_Time_Value ToTimeValue(int msec)
+{
+    return ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
+}
+
 strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters) 
 { 
     vector<ACE_TString> tokens; 

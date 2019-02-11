@@ -1372,6 +1372,15 @@ namespace BearWare
         /** @brief The version of the server's protocol. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szServerProtocolVersion;
+        /** @brief Number of msec before an IP-address can make
+         * another login attempt. If less than this amount then
+         * TeamTalkBase.DoLogin() will result in
+         * #CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * disabled.
+         * 
+         * Also checkout @c nMaxLoginAttempts and @c
+         * nMaxLoginsPerIPAddress. */
+        public int nLoginDelayMSec;
     }
 
     /**

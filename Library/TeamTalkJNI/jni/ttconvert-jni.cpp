@@ -869,6 +869,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     jfieldID fid_motdraw = env->GetFieldID(cls_srv, "szMOTDRaw", "Ljava/lang/String;");
     jfieldID fid_maxusers = env->GetFieldID(cls_srv, "nMaxUsers", "I");
     jfieldID fid_maxattempts = env->GetFieldID(cls_srv, "nMaxLoginAttempts", "I");
+    jfieldID fid_logindelay = env->GetFieldID(cls_srv, "nLoginDelayMSec", "I");
     jfieldID fid_iplogins = env->GetFieldID(cls_srv, "nMaxLoginsPerIPAddress", "I");
     jfieldID fid_voicetx = env->GetFieldID(cls_srv, "nMaxVoiceTxPerSecond", "I");
     jfieldID fid_vidcaptx = env->GetFieldID(cls_srv, "nMaxVideoCaptureTxPerSecond", "I");
@@ -887,6 +888,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     assert(fid_motdraw);
     assert(fid_maxusers);
     assert(fid_maxattempts);
+    assert(fid_logindelay);
     assert(fid_iplogins);
     assert(fid_voicetx);
     assert(fid_vidcaptx);
@@ -907,6 +909,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         env->SetObjectField(lpServerProperties, fid_motdraw, NEW_JSTRING(env, srvprop.szMOTDRaw));
         env->SetIntField(lpServerProperties, fid_maxusers, srvprop.nMaxUsers);
         env->SetIntField(lpServerProperties, fid_maxattempts, srvprop.nMaxLoginAttempts);
+        env->SetIntField(lpServerProperties, fid_logindelay, srvprop.nLoginDelayMSec);
         env->SetIntField(lpServerProperties, fid_iplogins, srvprop.nMaxLoginsPerIPAddress);
         env->SetIntField(lpServerProperties, fid_voicetx, srvprop.nMaxVoiceTxPerSecond);
         env->SetIntField(lpServerProperties, fid_vidcaptx, srvprop.nMaxVideoCaptureTxPerSecond);
@@ -929,6 +932,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         srvprop.nMaxUsers = env->GetIntField(lpServerProperties, fid_maxusers);
         srvprop.nMaxLoginAttempts = env->GetIntField(lpServerProperties, fid_maxattempts);
         srvprop.nMaxLoginsPerIPAddress = env->GetIntField(lpServerProperties, fid_iplogins);
+        srvprop.nLoginDelayMSec = env->GetIntField(lpServerProperties, fid_logindelay);
         srvprop.nMaxVoiceTxPerSecond = env->GetIntField(lpServerProperties, fid_voicetx);
         srvprop.nMaxVideoCaptureTxPerSecond = env->GetIntField(lpServerProperties, fid_vidcaptx);
         srvprop.nMaxMediaFileTxPerSecond = env->GetIntField(lpServerProperties, fid_mftx);

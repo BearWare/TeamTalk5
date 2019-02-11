@@ -1883,6 +1883,45 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("do text message after cmd-timeout", waitCmdSuccess(ttclient, ttclient.doTextMessage(txtmsg), DEF_WAIT));
     }
 
+    public void testLoginDelay() throws InterruptedException {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN;
+
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue(ttadmin.getServerProperties(srvprop));
+        srvprop.nLoginDelayMSec = 1000;
+        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+        
+        UserAccount account = new UserAccount();
+        account.szUsername = USERNAME;
+        account.szPassword = PASSWORD;
+        account.uUserType = UserType.USERTYPE_DEFAULT;
+        account.uUserRights = USERRIGHTS;
+        
+        assertTrue("create account", waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(account), DEF_WAIT));
+
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+        
+        connect(ttclient1);
+        login(ttclient1, NICKNAME, USERNAME, PASSWORD);
+        connect(ttclient2);
+        
+        assertTrue("login failure", waitCmdError(ttclient2, ttclient2.doLogin(NICKNAME, USERNAME, PASSWORD), DEF_WAIT));
+
+        Thread.sleep(2000);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+
+        srvprop.nLoginDelayMSec = 0;
+        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+    }
+    
     public void testLoginAttempts() {
 
         TeamTalkBase ttadmin = newClientInstance();

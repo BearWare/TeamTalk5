@@ -1326,6 +1326,15 @@ extern "C" {
         /** @brief The version of the server's protocol. Read-only 
          * property. */
         TTCHAR szServerProtocolVersion[TT_STRLEN];
+        /** @brief Number of msec before an IP-address can make
+         * another login attempt. If less than this amount then
+         * TT_DoLogin() will result in
+         * #CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * disabled.
+         * 
+         * Also checkout @c nMaxLoginAttempts and @c
+         * nMaxLoginsPerIPAddress. */
+        INT32 nLoginDelayMSec;
     } ServerProperties;
 
     /**

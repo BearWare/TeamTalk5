@@ -785,6 +785,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     GetProperty(properties, TT_MAXUSERS, srvprop.maxusers);
     GetProperty(properties, TT_MAXLOGINATTEMPTS, srvprop.maxloginattempts);
     GetProperty(properties, TT_MAXLOGINSPERIP, srvprop.max_logins_per_ipaddr);
+    GetProperty(properties, TT_LOGINDELAY, srvprop.logindelay);
     GetProperty(properties, TT_VOICETXLIMIT, srvprop.voicetxlimit);
     GetProperty(properties, TT_VIDEOTXLIMIT, srvprop.videotxlimit);
     GetProperty(properties, TT_MEDIAFILETXLIMIT, srvprop.mediafiletxlimit);
@@ -1214,6 +1215,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_SERVERNAME, properties.servername, command);
     AppendProperty(TT_MAXUSERS, properties.maxusers, command);
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
+    AppendProperty(TT_LOGINDELAY, properties.logindelay, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_MOTD, m_servernode.GetMessageOfTheDay(), command);
     if(GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES)

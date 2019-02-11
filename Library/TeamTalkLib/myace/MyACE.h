@@ -67,6 +67,8 @@ strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 ACE_TString KeyToHexString(const unsigned char* key, int length);
 void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key);
 
+ACE_Time_Value ToTimeValue(int msec);
+
 ACE_TString UptimeHours(const ACE_Time_Value& value);
 
 #if defined(UNICODE)

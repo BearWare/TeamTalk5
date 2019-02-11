@@ -489,6 +489,7 @@ void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* 
     m_settings.SetMaxUsers(properties.maxusers);
     m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
     m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
+    m_settings.SetLoginDelay(properties.logindelay);
     m_settings.SetUserTimeout(properties.usertimeout);
     m_settings.SetVoiceTxLimit(properties.voicetxlimit);
     m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
@@ -897,6 +898,7 @@ namespace teamtalk {
         properties.maxusers = xmlSettings.GetMaxUsers() == UNDEFINED? MAX_USERS : xmlSettings.GetMaxUsers();
         properties.max_logins_per_ipaddr = xmlSettings.GetMaxLoginsPerIP();
         properties.maxloginattempts = xmlSettings.GetMaxLoginAttempts();
+        properties.logindelay = xmlSettings.GetLoginDelay();
         properties.usertimeout = xmlSettings.GetUserTimeout();
         properties.filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
         properties.diskquota = xmlSettings.GetDefaultDiskQuota();

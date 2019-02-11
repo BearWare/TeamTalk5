@@ -46,6 +46,7 @@ namespace teamtalk {
         int maxusers;
         int maxloginattempts; //max login attempts with wrong password
         int max_logins_per_ipaddr;
+        int logindelay = 0; // msec before IP-address can log in again
         ACE_INT64 diskquota; //max bytes for each channel to store files
         ACE_INT64 maxdiskusage; //max bytes to use for storage of files
         int usertimeout;
