@@ -54,6 +54,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.autosaveBox->setChecked(m_srvprop.bAutoSave);
     ui.maxloginattemptsSpinBox->setValue(m_srvprop.nMaxLoginAttempts);
     ui.maxiploginsSpinBox->setValue(m_srvprop.nMaxLoginsPerIPAddress);
+    ui.logindelaySpinBox->setValue(m_srvprop.nLoginDelayMSec);
     ui.audtxSpinBox->setValue(m_srvprop.nMaxVoiceTxPerSecond/1024);
     ui.videotxSpinBox->setValue(m_srvprop.nMaxVideoCaptureTxPerSecond/1024);
     ui.mediafiletxSpinBox->setValue(m_srvprop.nMaxMediaFileTxPerSecond/1024);
@@ -72,6 +73,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
         ui.autosaveBox->setEnabled(false);
         ui.maxloginattemptsSpinBox->setEnabled(false);
         ui.maxiploginsSpinBox->setEnabled(false);
+        ui.logindelaySpinBox->setEnabled(false);
         ui.audtxSpinBox->setEnabled(false);
         ui.videotxSpinBox->setEnabled(false);
         ui.mediafiletxSpinBox->setEnabled(false);
@@ -87,6 +89,7 @@ void ServerPropertiesDlg::slotAccepted()
     m_srvprop.nMaxUsers = ui.maxusersSpinBox->value();
     m_srvprop.nMaxLoginAttempts = ui.maxloginattemptsSpinBox->value();
     m_srvprop.nMaxLoginsPerIPAddress = ui.maxiploginsSpinBox->value();
+    m_srvprop.nLoginDelayMSec = ui.logindelaySpinBox->value();
     if(_Q(m_srvprop.szMOTDRaw).size() &&
        _Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
     {
