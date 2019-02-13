@@ -1240,7 +1240,6 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
     else
 #endif
     {
-        TTASSERT(m_def_stream);
         if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
@@ -4279,6 +4278,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
     AppendProperty(TT_MAXUSERS, serverprop.maxusers, command);
     AppendProperty(TT_MAXLOGINATTEMPTS, serverprop.maxloginattempts, command);
     AppendProperty(TT_MAXLOGINSPERIP, serverprop.max_logins_per_ipaddr, command);
+    AppendProperty(TT_LOGINDELAY, serverprop.logindelay, command);
     AppendProperty(TT_AUTOSAVE, serverprop.autosave, command);
     if (serverprop.hostaddrs.size())
     {
@@ -4771,6 +4771,7 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_MAXUSERS, m_serverinfo.maxusers);
     GetProperty(properties, TT_MAXLOGINATTEMPTS, m_serverinfo.maxloginattempts);
     GetProperty(properties, TT_MAXLOGINSPERIP, m_serverinfo.max_logins_per_ipaddr);
+    GetProperty(properties, TT_LOGINDELAY, m_serverinfo.logindelay);
     GetProperty(properties, TT_USERTIMEOUT, m_serverinfo.usertimeout);
     GetProperty(properties, TT_AUTOSAVE, m_serverinfo.autosave);
     GetProperty(properties, TT_VOICETXLIMIT, m_serverinfo.voicetxlimit);

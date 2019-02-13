@@ -413,14 +413,14 @@ public:
         //if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
         //    return imfsamples_t();
 
-        MFT_OUTPUT_STREAM_INFO mftStreamInfo = { 0 };
+        MFT_OUTPUT_STREAM_INFO mftStreamInfo = {};
         hr = m_pMFT->GetOutputStreamInfo(m_dwOutputID, &mftStreamInfo);
         if (FAILED(hr))
             return imfsamples_t();
 
         do
         {
-            MFT_OUTPUT_DATA_BUFFER mftOutputData = { 0 };
+            MFT_OUTPUT_DATA_BUFFER mftOutputData = {};
             CComPtr<IMFSample> pOutSample;
 
             mftOutputData.dwStreamID = m_dwOutputID;

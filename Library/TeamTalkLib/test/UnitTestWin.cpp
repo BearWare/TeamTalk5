@@ -27,6 +27,7 @@
 #include <condition_variable>
 #include <sstream>
 #include <fstream>
+#include <cstdio>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::placeholders;
@@ -905,38 +906,39 @@ namespace UnitTest
 
         }
 
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred)
+#define DEFWAIT 5000
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
-            TTMessage msg = {};
             auto start = GETTIMESTAMP();
-            while (GETTIMESTAMP() < start + 5000)
+            while (GETTIMESTAMP() < start + timeout)
             {
                 INT32 waitMsec = 10;
-                if (TT_GetMessage(ttClient, &msg, &waitMsec) &&
-                    msg.nClientEvent == ttevent &&
-                    pred(msg))
+                if (TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
+                    outmsg.nClientEvent == ttevent &&
+                    pred(outmsg))
                     return true;
             }
             return false;
         }
 
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent)
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
-            return WaitForEvent(ttClient, ttevent, [] (TTMessage) { return true; });
+            return WaitForEvent(ttClient, ttevent, [] (TTMessage) { return true; }, outmsg, timeout);
         }
 
-        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid)
+        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
             return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
                 return msg.nSource == cmdid;
-            });
+            }, outmsg, timeout);
         }
 
-        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid)
+        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
             return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
                 return msg.nSource == cmdid && !msg.bActive;
-            });
+            }, outmsg, timeout);
         }
 
         TEST_METHOD(TestSSL)
@@ -963,29 +965,71 @@ namespace UnitTest
             auto cmdid = TT_DoLogin(ttClient, L"My Nickname", L"HEST", L"HEST");
             Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
 
-            std::ofstream ofs("test.txt", std::ofstream::out | std::ofstream::trunc);
-            for (int i=0;i<1024*7777;i++)
-            {
-                ofs << (char)('0' + (i % 10));
-            }
-            ofs.close();
-
             int rootid = TT_GetRootChannelID(ttClient);
             cmdid = TT_DoJoinChannelByID(ttClient, rootid, L"");
             Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
 
-            cmdid = TT_DoSendFile(ttClient, rootid, L"test.txt");
-            Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
-
-            Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage msg)
+            int filesize = 7;
+            for (int f=1;f<9;f++)
             {
-                return msg.filetransfer.nStatus == FILETRANSFER_ACTIVE;
-            }));
+                std::ostringstream os;
+                std::wostringstream wos;
+                os << "test" << filesize << ".txt";
+                wos << "test" << filesize << ".txt";
+                std::ofstream ofs(os.str(), std::ofstream::out | std::ofstream::trunc);
+                for(int i = 0; i<filesize; i++)
+                {
+                    ofs << (char)('0' + (i % 10));
+                }
+                ofs.close();
 
-            Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage msg)
-            {
-                return msg.filetransfer.nStatus == FILETRANSFER_FINISHED;
-            }));
+                cmdid = TT_DoSendFile(ttClient, rootid, wos.str().c_str());
+                Assert::IsTrue(WaitForCmdSuccess(ttClient, cmdid));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_ACTIVE;
+                }));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_FINISHED;
+                }, msg));
+
+                FileTransfer& ftup = msg.filetransfer;
+
+                std::remove(os.str().c_str());
+
+                INT32 nFiles = 1;
+                RemoteFile remotefile;
+                Assert::IsTrue(TT_GetChannelFiles(ttClient, ftup.nChannelID, &remotefile, &nFiles));
+
+                Assert::IsTrue(TT_DoRecvFile(ttClient, remotefile.nChannelID, remotefile.nFileID, wos.str().c_str()));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_ACTIVE;
+                }));
+
+                Assert::IsTrue(WaitForEvent(ttClient, CLIENTEVENT_FILETRANSFER, [cmdid](TTMessage m)
+                {
+                    return m.filetransfer.nStatus == FILETRANSFER_FINISHED;
+                }, msg));
+
+                FileTransfer& ftdown = msg.filetransfer;
+
+                std::ifstream ifs(os.str(), std::ifstream::in);
+                for(int i = 0; i<filesize; i++)
+                {
+                    char c;
+                    ifs >> c;
+                    Assert::AreEqual(c, (char)('0' + (i % 10)));
+                }
+
+                Assert::IsTrue(WaitForCmdSuccess(ttClient, TT_DoDeleteFile(ttClient, remotefile.nChannelID, remotefile.nFileID)));
+
+                filesize = filesize * 10 + 7;
+            }
 
 
             stop = true;

@@ -211,7 +211,7 @@ bool DesktopInitiator::CompressBlock(int block_no, std::vector<char>& outbuf)
     int ret;
     bool success;
 
-    z_stream strm = {Z_NULL};
+    z_stream strm = {};
 
     //Z_BEST_COMPRESSION
     //Z_DEFAULT_COMPRESSION
@@ -344,7 +344,7 @@ bool DesktopViewer::DecompressBlock(const char* inbuf,
 {
     int ret;
     bool success = false;
-    z_stream strm = {Z_NULL};
+    z_stream strm = {};
 
     ret = inflateInit(&strm);
     assert(ret == Z_OK);

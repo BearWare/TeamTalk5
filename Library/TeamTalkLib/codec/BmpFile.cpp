@@ -118,8 +118,8 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
 std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt)
 {
     std::vector<char> buff;
-    BitmapFileHeader bmphdr = { 0 };
-    BitmapInfoHeader bmiHeader = { 0 };
+    BitmapFileHeader bmphdr = {};
+    BitmapInfoHeader bmiHeader = {};
 
     assert(BMPHDR_SIZE == sizeof(bmphdr));
     assert(BMIHEADER_SIZE == sizeof(bmiHeader));

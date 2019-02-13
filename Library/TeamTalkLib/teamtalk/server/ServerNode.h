@@ -142,6 +142,7 @@ namespace teamtalk {
         int GetAuthUserCount();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
+        bool LoginsExceeded(const ServerUser& user);
 
         //send udp packet
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
@@ -368,8 +369,11 @@ namespace teamtalk {
         mapusers_t m_mUsers; //all users
         ServerChannel::users_t m_admins; //only admins (admin cache for speed up)
 
-        //login times
-        mapiptime_t m_mLoginAttempts;
+        //failed login attempts
+        mapiptime_t m_failedlogins;
+        // last login (ip->time)
+        std::map<ACE_TString, ACE_Time_Value> m_logindelay;
+        
         //user id incrementer
         int m_userid_counter;
         //acceptor for listening for clients
@@ -437,6 +441,7 @@ namespace teamtalk {
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;
         virtual void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) = 0;
+        virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
         virtual void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) = 0;

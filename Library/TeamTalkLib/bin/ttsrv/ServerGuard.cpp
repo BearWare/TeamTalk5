@@ -215,6 +215,28 @@ void ServerGuard::OnUserBanned(const ACE_TString& ipaddr, const ServerUser& bann
     TT_LOG(oss.str().c_str());
 }
 
+void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
+{
+    tostringstream oss;
+    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if(banner.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
+    oss << ACE_TEXT("banned ");
+
+    if(ban.bantype & BANTYPE_IPADDR)
+        oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
+    if(ban.bantype & BANTYPE_USERNAME)
+        oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
+
+    if(ban.bantype & BANTYPE_CHANNEL)
+        oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
+    else
+        oss << ACE_TEXT("from server.");
+
+    TT_LOG(oss.str().c_str());
+}
+
 void ServerGuard::OnUserUnbanned(const ServerUser& user, const BannedUser& ban)
 {
     tostringstream oss;
@@ -467,6 +489,7 @@ void ServerGuard::OnSaveConfiguration(ServerNode& servernode, const ServerUser* 
     m_settings.SetMaxUsers(properties.maxusers);
     m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
     m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
+    m_settings.SetLoginDelay(properties.logindelay);
     m_settings.SetUserTimeout(properties.usertimeout);
     m_settings.SetVoiceTxLimit(properties.voicetxlimit);
     m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
@@ -875,6 +898,7 @@ namespace teamtalk {
         properties.maxusers = xmlSettings.GetMaxUsers() == UNDEFINED? MAX_USERS : xmlSettings.GetMaxUsers();
         properties.max_logins_per_ipaddr = xmlSettings.GetMaxLoginsPerIP();
         properties.maxloginattempts = xmlSettings.GetMaxLoginAttempts();
+        properties.logindelay = xmlSettings.GetLoginDelay();
         properties.usertimeout = xmlSettings.GetUserTimeout();
         properties.filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
         properties.diskquota = xmlSettings.GetDefaultDiskQuota();
