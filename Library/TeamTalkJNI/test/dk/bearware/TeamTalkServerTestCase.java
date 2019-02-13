@@ -582,12 +582,32 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public void test_wrongSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 
-        ServerInterleave interleave = new RunServer(server);
+        final ServerInterleave interleave = new RunServer(server);
 
-        TeamTalkBase client = newClientInstance();
-        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        final TeamTalkBase client = newClientInstance();
+        
+        if (ENCRYPTED) {
+            // SSL client uses blocking connect, so we have to connect
+            // in separate thread otherwise we cannot run the client
+            // and server event-loop at the same time
+            Thread t = new Thread(new Runnable(){
+                    public void run() {
+                        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
+                        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000);
+                    }
+                });
+            t.start();
+
+            while (t.isAlive()) {
+                server.runEventLoop(0);
+            }
+        }
+        else {
+            assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+
+            waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
+        }
     }
 
     public void test_moveUser() {
@@ -949,6 +969,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
 
+        if (ENCRYPTED) {
+            System.out.println("Skipping test_DnsResolve in encrypted mode");
+            return;
+        }
+        
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
