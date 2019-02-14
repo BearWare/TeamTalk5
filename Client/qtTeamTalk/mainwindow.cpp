@@ -3450,7 +3450,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
         {
             ui.actionEnableVideoTransmission->setChecked(false);
-            QMessageBox::warning(this, 
+            ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+            QMessageBox::warning(this,
             MENUTEXT(ui.actionEnableVideoTransmission->text()), 
             tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
         }
@@ -3460,7 +3461,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             {
                 ui.actionEnableVideoTransmission->setChecked(false);
                 TT_CloseVideoCaptureDevice(ttInst);
-                QMessageBox::warning(this, 
+                ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+                QMessageBox::warning(this,
                                  MENUTEXT(ui.actionEnableVideoTransmission->text()), 
                              tr("Failed to configure video codec. Check settings in 'Preferences'"));
                 return;
