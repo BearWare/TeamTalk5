@@ -27,6 +27,7 @@
 #include "common.h"
 
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 #include <QVector>
 #include <QSet>
 #include "ui_useraccounts.h"
@@ -75,6 +76,7 @@ public slots:
 private:
     Ui::UserAccountsDlg ui;
     UserAccountsModel* m_model;
+    QSortFilterProxyModel* m_proxyModel;
     int m_add_cmdid, m_del_cmdid;
 
     UserAccount m_add_user;

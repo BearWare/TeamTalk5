@@ -299,7 +299,7 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     {
         QListWidgetItem* srvItem = new QListWidgetItem(ui.listWidget);
         srvItem->setText(m_servers[index].name);
-        srvItem->setBackgroundColor(QColor(133,229,141));
+        srvItem->setBackgroundColor(QColor(0x0C,0x52,0x28));
         ui.listWidget->addItem(srvItem);
     }
 }

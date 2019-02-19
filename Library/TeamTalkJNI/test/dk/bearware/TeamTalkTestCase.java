@@ -1781,10 +1781,14 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("ttclient1, myself is head in queue", ttclient1.getMyUserID(), chan.transmitUsersQueue[0]);
 
-        assertTrue("ttclient1, Wait for talking event", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("ttclient1, User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+        // don't know if 'ClientEvent.CLIENTEVENT_USER_STATECHANGE' or
+        // 'ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE' came first, so
+        // don't assertTrue()
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 1000, msg);
+        User user = new User();
+        assertTrue("get ttclient1 state", ttclient1.getUser(ttclient1.getMyUserID(), user));
+        assertEquals("ttclient1, User state to voice", UserState.USERSTATE_VOICE, user.uUserState & UserState.USERSTATE_VOICE);
         assertEquals("ttclient1, myself talking", ttclient1.getMyUserID(), msg.user.nUserID);
-
 
         // ensure ttclient2 doesn't take over transmit queue from ttclient1
         TeamTalkBase ttclient2 = ttclients.get(2);
@@ -1799,7 +1803,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("ttclient2, myself in queue", ttclient2.getMyUserID(), chan.transmitUsersQueue[1]);
 
-        User user = new User();
         waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 1000);
         assertTrue("ttclient2 is not talking", ttclient2.getUser(ttclient2.getMyUserID(), user) && (user.uUserState & UserState.USERSTATE_VOICE) == 0);
 
