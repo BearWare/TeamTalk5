@@ -1,5 +1,5 @@
-/* log entry */
-"%@ joined channel" = "%@ присоединился к каналу";
+﻿/* log entry */
+"%@ joined channel" = "%@ подключился к каналу";
 
 /* log entry */
 "%@ left channel" = "%@ покинул канал";
@@ -39,28 +39,28 @@
 "Actions" = "Действия";
 
 /* serverlist */
-"Add new server entry" = "Добавление новой записи сервера";
+"Add new server entry" = "Добавление нового сервера";
 
 /* preferences */
-"Announce content of text message" = "Объявить содержание текстового сообщения";
+"Announce content of text message" = "Произносить содержимое текстового сообщения";
 
 /* preferences */
-"Announce lost server connection" = "Объявить соединение с сервером потеряно";
+"Announce lost server connection" = "Произносить соединение с сервером потеряно";
 
 /* preferences */
-"Announce user joining channel" = "Объявить пользователь присоединился к каналу";
+"Announce user joining channel" = "Произносить пользователь присоединился к каналу";
 
 /* preferences */
-"Announce user leaving channel" = "Объявить пользователь покинул канал";
+"Announce user leaving channel" = "Произносить пользователь покинул канал";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "Произносить пользователь вошел на сервер";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "Произносить пользователь покинул сервер";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "Произносить";
 
 /* preferences */
 "App Version" = "Версия Приложения";
@@ -69,10 +69,10 @@
 "Application" = "Приложение";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "По Алфавиту";
 
 /* codec detail */
-"Audio Channels" = "Аудио Каналы";
+"Audio Channels" = "Аудиоканалы";
 
 /* create channel */
 "Audio Codec" = "Аудио Кодек";
@@ -81,7 +81,7 @@
 "Authentication" = "Аутентификация";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Ban user" = "Заблокировать пользователя";
 
 /* codec detail */
 "Bitrate" = "Битрейт";
@@ -153,10 +153,10 @@
 "Display" = "Дисплей";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Дважды нажмите и удерживайте для передачи. Трижды нажмите быстро, чтобы заблокировать передачю.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Дважды нажмите и удерживайте для передачи. Трижды нажмите, чтобы зафиксировать.";
 
 /* preferences */
-"Double tap to lock TX button" = "Блокировать кнопку передача по двойному нажатию";
+"Double tap to lock TX button" = "Фиксировать кнопку передача по двойному нажатию";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -177,26 +177,26 @@
 "Exclusive Mode Toggled" = "Включение Особого Режима";
 
 /* server entry */
-"Facebook Login" = "Facebook Login";
+"Facebook Login" = "Войти Через Facebook";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
+"Facebook login was cancelled" = "Вход через Facebook был отменён";
 
 /* preferences
    user detail */
 "General" = "Общее";
 
 /* TTS EVENT */
-"has joined the channel" = "присоединился к каналу";
+"has joined the channel" = "подключился к каналу";
 
 /* TTS EVENT */
 "has left the channel" = "покинул канал";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "зашёл на сервер";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "покинул сервер";
 
 /* preferences */
 "Headset TX Toggle" = "Включение Передачи Гарнитурой";
@@ -205,22 +205,22 @@
 "Host address" = "Адрес хоста";
 
 /* Dialog message */
-"Join" = "Присоединить";
+"Join" = "Подключить";
 
 /* server entry */
-"Join Channel" = "Присоединиться К Каналу";
+"Join Channel" = "Подключиться К Каналу";
 
 /* channel list */
-"Join channel" = "Присоединиться к каналу";
+"Join channel" = "Подключиться к каналу";
 
 /* preferences */
-"Join Root Channel" = "Присоединить Корневой Канал";
+"Join Root Channel" = "Подключиться К Главному Каналу";
 
 /* preferences */
-"Join root channel after login" = "Присоединить корневой канал после входа";
+"Join root channel after login" = "Подключить главный канал после входа";
 
 /* log entry */
-"Joined %@" = "Присоединено %@";
+"Joined %@" = "Подключено %@";
 
 /* channel list */
 "Kick user" = "Выгнать пользователя";
@@ -235,7 +235,7 @@
 "Logged on to server" = "Вход на сервер";
 
 /* preferences */
-"Master Volume" = "Мастер Громкости";
+"Master Volume" = "Громкость Динамиков";
 
 /* preferences */
 "Maximum Text Length" = "Максимальная Длина Текста";
@@ -249,10 +249,10 @@
 "Media File Volume" = "Громкость Медиафайла";
 
 /* preferences */
-"Media file vs. voice volume" = "Медиафайл поверх громкости голоса";
+"Media file vs. voice volume" = "Громкость медиафайла";
 
 /* preferences */
-"Microphone Gain" = "Усиление Микрофона";
+"Microphone Gain" = "Громкость Микрофона";
 
 /* codec detail
    create channel */
@@ -287,7 +287,7 @@
 "New Server" = "Новый Сервер";
 
 /* preferences */
-"Nickname" = "Псевдоним";
+"Nickname" = "Ник";
 
 /* Dialog message */
 "No" = "Нет";
@@ -297,16 +297,16 @@
 "No Audio" = "Нет Аудио";
 
 /* create channel */
-"No Audio Recording" = "Не Записывать Аудио";
+"No Audio Recording" = "Не Разрешена Запись Звука";
 
 /* create channel */
-"No Interruptions" = "Непрерывный";
+"No Interruptions" = "Запретить Перебивать Говорящего";
 
 /* channel list */
 "No password" = "Нет пароля";
 
 /* create channel */
-"No Voice Activation" = "Нет Голосовой Активации";
+"No Voice Activation" = "Не Разрешена Голосовая Активация";
 
 /* default nickname */
 "Noname" = "Нет имени";
@@ -321,10 +321,10 @@
 "OPUS Codec" = "Кодек OPUS";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "Порядок каналов в списке";
 
 /* channel list */
-"Parent channel" = "Родительский канал";
+"Parent channel" = "Главный канал";
 
 /* create channel
    Dialog message
@@ -338,7 +338,7 @@
 "Permanent Channel" = "Постоянный Канал";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Воспроизводить звук, когда пользователь присоединяется к каналу";
+"Play sound when a user joins the channel" = "Воспроизводить звук, когда пользователь подключается к каналу";
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Воспроизводить звук, когда пользователь покидает канал";
@@ -353,25 +353,25 @@
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда непрерывный канал готов к передаче";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда передача речи доступна в режиме /"Не Перебивать Говорящего\"";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Воспроизводить звук при срабатывании голосовой активации";
+"Play sound when voice activation is triggered" = "Воспроизводить звук, когда срабатывает голосовая активация";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "Воспроизводить звук при включении передачи голоса";
+"Play sound when voice transmission is toggled" = "Воспроизводить звук, когда включается передача";
 
 /* preferences */
 "Pop up text message when new messages are received" = "Всплывающее текстовое сообщение при получении новых сообщений";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "По Популярности";
 
 /* serverlist */
 "Preferences" = "Параметры";
 
 /* preferences */
-"Pressing Return-key sends text message" = "При нажатии клавиши Ввод отправлять текстовое сообщение";
+"Pressing Return-key sends text message" = "По нажатию клавиши Ввод отправлять текстовое сообщение";
 
 /* text message type */
 "Private message" = "Приватное сообщение";
@@ -383,7 +383,7 @@
 "Private Text Message" = "Приватное Текстовое Сообщение";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "Приватное текстовое сообщение от %@. %@";
+"Private text message from %@. %@" = "Приватное сообщение от %@. %@";
 
 /* preferences */
 "Proximity sensor" = "Датчик приближения";
@@ -392,31 +392,31 @@
 "Public server" = "Публичный сервер";
 
 /* preferences */
-"Push to Talk lock" = "Блокировка передачи";
+"Push to Talk lock" = "Блокировать кнопку Передача";
 
 /* codec detail */
 "Quality" = "Качество";
 
 /* preferences */
-"Receive broadcast messages by default" = "Получать сетевые сообщения по умолчанию";
+"Receive broadcast messages by default" = "Получать сетевые сообщения";
 
 /* preferences */
-"Receive channel messages by default" = "Получать  сообщения канала по умолчанию";
+"Receive channel messages by default" = "Получать  сообщения канала";
 
 /* preferences */
-"Receive desktop sessions by default" = "Получать сеансы рабочего стола по умолчанию";
+"Receive desktop sessions by default" = "Получать сеансы рабочего стола";
 
 /* preferences */
-"Receive media file streams by default" = "Получать потоки медиафайлов по умолчанию";
+"Receive media file streams by default" = "Получать трансляции медиафайлов";
 
 /* preferences */
-"Receive text messages by default" = "Получать текстовые сообщения по умолчанию";
+"Receive text messages by default" = "Получать текстовые сообщения";
 
 /* preferences */
-"Receive voice streams by default" = "Получать голосовые потоки по умолчанию";
+"Receive voice streams by default" = "Получать голос";
 
 /* preferences */
-"Receive webcam streams by default" = "Получать потоки веб-камеры по умолчанию";
+"Receive webcam streams by default" = "Получать видео";
 
 /* preferences */
 "Return Sends Message" = "Ввод Отправляет Сообщение";
@@ -425,7 +425,7 @@
 "Return to previous channel" = "Возврат на предыдущий канал";
 
 /* log entry */
-"root channel" = "корневой канал";
+"root channel" = "главный канал";
 
 /* codec detail */
 "Sample Rate" = "Частота Дискретизации";
@@ -434,7 +434,7 @@
 "Save Server" = "Сохранить Сервер";
 
 /* Dialog message */
-"Save server to server list?" = "Сохранить сервер в списке серверов?";
+"Save server to server list?" = "Сохранить сервер в списке?";
 
 /* preferences */
 "Select the text-to-speech voice to use" = "Выбрать голос для использования текст в речь";
@@ -449,13 +449,13 @@
 "Server Connection Lost" = "Соединение С Сервером Потеряно";
 
 /* server entry */
-"Server List Entry" = "Запись Списка Серверов";
+"Server List Entry" = "Запись  Сервера";
 
 /* preferences */
-"Show Public Servers" = "Показ Публичных Серверов";
+"Show Public Servers" = "Показать Публичные Серверы";
 
 /* preferences */
-"Show public servers in server list" = "Показать публичные серверы в списке серверов";
+"Show public servers in server list" = "Показ публичных серверов в списке";
 
 /* preferences */
 "Show text messages instantly" = "Показать текстовые сообщения мгновенно";
@@ -464,20 +464,20 @@
 "Show usernames" = "Показ имён пользователей";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Показать имена пользователей вместо псевдонимов";
+"Show usernames instead of nicknames" = "Показать имена пользователей вместо ников";
 
 /* channel list */
 "Silent" = "Молчит";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort channels" = "Сортировка каналов";
 
 /* preferences
    text to speech */
 "Sound Events" = "Озвучивание Событий";
 
 /* preferences */
-"Sound System" = "Звуковая Система";
+"Sound System" = "Настройка Звука";
 
 /* preferences */
 "Speaker Output" = "Выход На Динамик";
@@ -523,7 +523,7 @@
 "Toggle to enable/disable transmission" = "Переключатель для включения/выключения передачи";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Включать передачю голоса используя гарнитуру";
+"Toggle voice transmission using headset" = "Управлять передачей на гарнитуре";
 
 /* create channel */
 "Topic" = "Тема";
@@ -538,13 +538,13 @@
 "Transmit Interval" = "Интервал Передачи";
 
 /* channel list */
-"Transmitting" = "Передача";
+"Transmitting" = "Передаётся";
 
 /* Dialog message */
-"Try again?" = "Try again?";
+"Try again?" = "Попробовать снова?";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Выключать экран, когда телефон находится возле уха";
+"Turn off screen when holding phone near ear" = "Блокировать экран при поднесении к уху";
 
 /* text field hint
    text message */
@@ -563,10 +563,10 @@
 "User" = "Пользователь";
 
 /* preferences */
-"User Joins Channel" = "Пользователь Присоединяется К Каналу";
+"User Joins Channel" = "Пользователь Подключается К Каналу";
 
 /* preferences */
-"User joins channel" = "Пользователь присоединяется к каналу";
+"User joins channel" = "Пользователь подключается к каналу";
 
 /* preferences */
 "User leaves channel" = "Пользователь покидает канал";
@@ -575,10 +575,10 @@
 "User Leaves Channel" = "Пользователь Покидает Канал";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "Пользователь вошёл";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User logged out" = "Пользователь вышел";
 
 /* preferences
    user detail */
@@ -617,7 +617,7 @@
 "Voice Preprocessing" = "Предобработка Голоса";
 
 /* preferences */
-"Voice Transmission Toggled" = "Включение Передачи Голоса";
+"Voice Transmission Toggled" = "Включение Передачи";
 
 /* user detail */
 "Voice Volume" = "Громкость Голоса";
