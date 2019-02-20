@@ -90,9 +90,13 @@ implements ConnectionListener, CommandListener {
                                             "10335"));
         encrypted = getInput("Is server using encryption (y/n)", "n").contains("y");
 
-        String username, passwd;
-        username = getInput("Type username", "guest");
-        passwd = getInput("Type password", "guest");
+        String username = "guest", passwd = "guest";
+        if (args.length > 1)
+            username = args[1];
+        if (args.length > 2)
+            passwd = args[2];
+        username = getInput("Type username", username);
+        passwd = getInput("Type password", passwd);
         
         TeamTalkClient inst = new TeamTalkClient();
         inst.configureSoundDevices();
@@ -272,8 +276,12 @@ implements ConnectionListener, CommandListener {
     public boolean containsBadWord(String value) {
         value = value.toLowerCase();
 
-        for (String word : badwords) {
-            if (value.contains(word))
+        String[] words = value.split("\\W");
+        
+        for (String word : words) {
+            if (word.isEmpty())
+                continue;
+            if (badwords.contains(word))
                 return true;
         }
         return false;
