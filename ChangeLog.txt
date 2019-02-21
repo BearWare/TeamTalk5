@@ -4,9 +4,13 @@
 Version 5.4, unreleased
 Default Qt client
 - Stream HTTP and HTTPS URLs instead of only files in Windows
+- Sort bans in Banned Users dialog
+- Sort user accounts in Users Accounts dialog
 - OPUS audio codec v1.3
 Accessible Windows client
 - Stream HTTP and HTTPS URLs instead of only files
+- Online Users dialog now updates continuesly
+- Online Users dialog allows banning logged out users
 - OPUS audio codec v1.3
 - Romanian translation
 iOS client

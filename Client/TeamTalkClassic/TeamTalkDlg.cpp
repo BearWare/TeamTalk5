@@ -598,6 +598,8 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_MESSAGE(WM_USERVIDEODLG_ENDED, OnVideoDlgEnded)
     ON_MESSAGE(WM_USERDESKTOPDLG_CLOSED, OnDesktopDlgClosed)
     ON_MESSAGE(WM_USERDESKTOPDLG_ENDED, OnDesktopDlgEnded)
+    ON_MESSAGE(WM_ONLINEUSERSDLG_CLOSED, OnOnlineUsersDlgClosed)
+
     ON_COMMAND(ID_POPUP_RESTORE, OnWindowRestore)
     ON_MESSAGE(WM_SPLITTER_MOVED, OnSplitterMoved)
 
@@ -1162,6 +1164,10 @@ void CTeamTalkDlg::OnUserLogin(const TTMessage& msg)
     const User& user = msg.user;
     m_users.insert(user.nUserID);
     m_wndTree.AddUser(user);
+
+    if(m_onlineUsersDlg)
+        m_onlineUsersDlg->AddUser(user);
+
     if(m_xmlSettings.GetAudioLogStorageMode() & AUDIOSTORAGE_SEPARATEFILES)
     {
         CString szAudioFolder = STR_UTF8(m_xmlSettings.GetAudioLogStorage());
@@ -1198,6 +1204,9 @@ void CTeamTalkDlg::OnUserLogout(const TTMessage& msg)
     m_users.erase(user.nUserID);
     m_wndTree.RemoveUser(user);
 
+    if (m_onlineUsersDlg)
+        m_onlineUsersDlg->RemoveUser(msg.user.nUserID);
+
     CString szMsg, szFormat;
     szFormat = LoadText(IDS_USERLOGOUT);
     szMsg.Format(szFormat, GetDisplayName(user));
@@ -1212,6 +1221,9 @@ void CTeamTalkDlg::OnUserAdd(const TTMessage& msg)
 
     const User& user = msg.user;
     m_wndTree.AddUser(user);
+
+    if(m_onlineUsersDlg)
+        m_onlineUsersDlg->AddUser(user);
 
     Channel chan;
     m_wndTree.GetChannel(user.nChannelID, chan);
@@ -1284,6 +1296,9 @@ void CTeamTalkDlg::OnUserUpdate(const TTMessage& msg)
     {
         PlaySoundEvent(SOUNDEVENT_USER_QUESTIONMODE);
     }
+
+    if(m_onlineUsersDlg)
+        m_onlineUsersDlg->AddUser(user);
 
     //if not in same channel, then ignore
     if(user.nChannelID != TT_GetMyChannelID(ttInst) || !user.nChannelID)
@@ -5458,6 +5473,12 @@ LRESULT CTeamTalkDlg::OnDesktopDlgEnded(WPARAM wParam, LPARAM lParam)
     return TRUE;
 }
 
+LRESULT CTeamTalkDlg::OnOnlineUsersDlgClosed(WPARAM wParam, LPARAM lParam)
+{
+    m_onlineUsersDlg = nullptr;
+    return TRUE;
+}
+
 void CTeamTalkDlg::OnUpdateChannelsLeavechannel(CCmdUI *pCmdUI)
 {
     pCmdUI->Enable(TT_GetMyChannelID(ttInst)>0);
@@ -5603,8 +5624,19 @@ void CTeamTalkDlg::OnUpdateServerOnlineusers(CCmdUI *pCmdUI)
 
 void CTeamTalkDlg::OnServerOnlineusers()
 {
-    COnlineUsersDlg dlg(this);
-    dlg.DoModal();
+    if (!m_onlineUsersDlg)
+    {
+        m_onlineUsersDlg = new COnlineUsersDlg(this);
+        m_onlineUsersDlg->Create(COnlineUsersDlg::IDD, GetDesktopWindow());
+
+        auto users = m_wndTree.GetUsers();
+        for(auto u : users)
+        {
+            m_onlineUsersDlg->AddUser(u.second);
+        }
+    }
+    m_onlineUsersDlg->ShowWindow(SW_SHOW);
+    ::PostMessage(m_onlineUsersDlg->m_hWnd, WM_SETFOCUS, 0, 0);
 }
 
 void CTeamTalkDlg::OnUpdateServerSaveconfiguration(CCmdUI *pCmdUI)
