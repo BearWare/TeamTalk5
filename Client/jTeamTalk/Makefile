@@ -1,5 +1,5 @@
 
-TEAMTALKLIB=../../../Library/TeamTalkJNI/libs/TeamTalk5Pro.jar
+TEAMTALKLIB=../../../Library/TeamTalkJNI/libs/TeamTalk5.jar
 
 OS=$(shell uname)
 

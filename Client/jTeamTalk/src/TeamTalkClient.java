@@ -40,7 +40,7 @@ import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDevice;
 import dk.bearware.SoundSystem;
-import dk.bearware.TeamTalk5Pro;
+import dk.bearware.TeamTalk5;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
@@ -53,7 +53,7 @@ import dk.bearware.events.TeamTalkEventHandler;;
 public class TeamTalkClient
 implements ConnectionListener, CommandListener {
 
-    TeamTalkBase ttclient = new TeamTalk5Pro();
+    TeamTalkBase ttclient = new TeamTalk5();
     TeamTalkEventHandler handler = new TeamTalkEventHandler();
     
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
@@ -81,27 +81,43 @@ implements ConnectionListener, CommandListener {
         String ipaddr = "";
         int tcpport, udpport;
         boolean encrypted = false;
-        
-        ipaddr = getInput("Type IP-address of server to connect to", 
-                          "tt5eu.bearware.dk");
-        tcpport = Integer.parseInt(getInput("Type TCP port of server to connect to",
-                                            "10335"));
-        udpport = Integer.parseInt(getInput("Type UDP port of server to connect to",
-                                            "10335"));
-        encrypted = getInput("Is server using encryption (y/n)", "n").contains("y");
 
-        String username = "guest", passwd = "guest";
-        if (args.length > 1)
-            username = args[1];
-        if (args.length > 2)
-            passwd = args[2];
-        username = getInput("Type username", username);
-        passwd = getInput("Type password", passwd);
+        ipaddr = System.getProperty("dk.bearware.ipaddr");
+        if (ipaddr == null) {
+            ipaddr = getInput("Type IP-address of server to connect to", 
+                              "tt5eu.bearware.dk");
+        }
         
-        TeamTalkClient inst = new TeamTalkClient();
-        inst.configureSoundDevices();
+        String tcpp = System.getProperty("dk.bearware.tcpport");
+        if (tcpp == null)
+            tcpport = Integer.parseInt(getInput("Type TCP port of server to connect to",
+                                                "10335"));
+        else
+            tcpport = Integer.parseInt(tcpp);
 
+        String udpp = System.getProperty("dk.bearware.udpport");
+        if (udpp == null)
+            udpport = Integer.parseInt(getInput("Type UDP port of server to connect to",
+                                                "10335"));
+        else
+            udpport = Integer.parseInt(udpp);
+        String enc = System.getProperty("dk.bearware.encrypted");
+        if (enc == null)
+            encrypted = getInput("Is server using encryption (y/n)", "n").contains("y");
+        else
+            encrypted = enc.equals("1") || enc.equals("true");
+
+        String username = "", passwd = "";
+        username = System.getProperty("dk.bearware.username");
+        if (username == null)
+            username = getInput("Type username", "guest");
+        passwd = System.getProperty("dk.bearware.password");
+        if (passwd == null)
+            passwd = getInput("Type password", passwd);
+        
         while (true) {
+            TeamTalkClient inst = new TeamTalkClient();
+            inst.configureSoundDevices();
             inst.run(ipaddr, tcpport, udpport, encrypted, username, passwd, true);
         }
     }
@@ -216,10 +232,21 @@ implements ConnectionListener, CommandListener {
         }
         SoundDevice dev;
         int indev = -1, outdev = -1;
-        dev = map.get(getInput("Type ID of sound device to use for recording", "1978")); 
+        String prop = System.getProperty("dk.bearware.sndinput");
+        if (prop == null)
+            dev = map.get(getInput("Type ID of sound device to use for recording", "1978"));
+        else
+            dev = map.get(prop);
+
         if(dev != null)
-            indev = dev.nDeviceID; 
-        dev = map.get(getInput("Type ID of sound device to use for playback: ", "1978"));
+            indev = dev.nDeviceID;
+
+        prop = System.getProperty("dk.bearware.sndoutput");
+        if (prop == null)
+            dev = map.get(getInput("Type ID of sound device to use for playback: ", "1978"));
+        else
+            dev = map.get(prop);
+        
         if(dev != null)
             outdev = dev.nDeviceID; 
         
