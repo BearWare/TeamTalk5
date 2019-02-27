@@ -195,10 +195,7 @@ void MFStreamer::Run()
 
         hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         if(FAILED(hr))
-        {
-            MessageBox(0, L"Failed to set audiotype", L"Streamer", MB_OK);
             goto fail_open;
-        }
     }
 
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
