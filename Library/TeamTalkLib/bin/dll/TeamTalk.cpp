@@ -39,6 +39,11 @@ HINSTANCE hInstance = NULL;
 #include "mdump.h"
 #endif
 
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include <mfapi.h>
+#endif
+
 #include <ace/Init_ACE.h>
 
 #include <teamtalk/client/ClientNode.h>
@@ -298,6 +303,22 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 {
 #if defined(USE_MINIDUMP)
     static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
+#endif
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+    static class MFInit {
+    public:
+        MFInit()
+        {
+            HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+            assert(SUCCEEDED(hr));
+        }
+        ~MFInit()
+        {
+            //HRESULT hr = MFShutdown();
+            //assert(SUCCEEDED(hr));
+        }
+    } init;
 #endif
 
 #ifdef ENABLE_ENCRYPTION
