@@ -12,7 +12,8 @@ Accessible Windows client
 - Online Users dialog now updates continuesly
 - Online Users dialog allows banning logged out users
 - OPUS audio codec v1.3
-- Romanian translation
+- Romanian language
+- Indonesian language
 iOS client
 - OPUS audio codec v1.3
 Android client:
