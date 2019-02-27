@@ -135,15 +135,26 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     setWindowIcon(QIcon(APPICON));
 
     m_bannedmodel = new BannedUsersModel(this);
+    m_bannedproxy = new QSortFilterProxyModel(this);
+    m_bannedproxy->setSourceModel(m_bannedmodel);
     m_unbannedmodel = new BannedUsersModel(this);
+    m_unbannedproxy = new QSortFilterProxyModel(this);
+    m_unbannedproxy->setSourceModel(m_unbannedmodel);
 
     for(int i=0;i<bannedusers.size();i++)
         m_bannedmodel->addBannedUser(bannedusers[i], i+1 == bannedusers.size());
 
-    ui.bannedTreeView->setModel(m_bannedmodel);
+#if defined(Q_OS_MAC)
+    auto font = ui.bannedTreeView->font();
+    font.setPointSize(13);
+    ui.bannedTreeView->setFont(font);
+    ui.unbannedTreeView->setFont(font);
+#endif
+
+    ui.bannedTreeView->setModel(m_bannedproxy);
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
         ui.bannedTreeView->resizeColumnToContents(i);
-    ui.unbannedTreeView->setModel(m_unbannedmodel);
+    ui.unbannedTreeView->setModel(m_unbannedproxy);
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
         ui.unbannedTreeView->resizeColumnToContents(i);
 
@@ -166,7 +177,7 @@ void BannedUsersDlg::slotClose()
 
 void BannedUsersDlg::slotUnbanUser()
 {
-    int index = ui.bannedTreeView->currentIndex().row();
+    int index = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex()).row();
     if(index<0)
         return;
     m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index], true);
@@ -175,7 +186,7 @@ void BannedUsersDlg::slotUnbanUser()
 
 void BannedUsersDlg::slotBanUser()
 {
-    int index = ui.unbannedTreeView->currentIndex().row();
+    int index = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex()).row();
     if(index<0)
         return;
     m_bannedmodel->addBannedUser(m_unbannedmodel->getUsers()[index], true);

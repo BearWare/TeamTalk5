@@ -37,6 +37,8 @@ enum
     _COLUMN_LAST_COUNT
 };
 
+#define WM_ONLINEUSERSDLG_CLOSED WM_USER + 1201
+
 // COnlineUsersDlg dialog
 
 class COnlineUsersDlg : public CDialog
@@ -50,6 +52,9 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DIALOG_ONLINEUSERS };
 
+    void AddUser(const User& user);
+    void RemoveUser(int nUserID);
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
@@ -60,6 +65,8 @@ protected:
 
     void MenuCommand(UINT uCmd);
     class CTeamTalkDlg* m_pParent;
+
+    std::vector<User> m_users;
 public:
     CListCtrl m_wndUsers;
     virtual BOOL OnInitDialog();
@@ -71,4 +78,5 @@ public:
     afx_msg void OnPopupCopyuserinformation();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnPopupMessages();
+    virtual void PostNcDestroy();
 };

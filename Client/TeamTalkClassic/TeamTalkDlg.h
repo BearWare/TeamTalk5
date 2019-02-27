@@ -226,6 +226,7 @@ protected:
     typedef std::map<int, CUserDesktopDlg*> mapdesktopdlg_t;
     mapdesktopdlg_t m_desktopdlgs;
     std::set<int> m_desktopignore;
+    class COnlineUsersDlg* m_onlineUsersDlg = nullptr;
     //store used channel passwords
     typedef std::map<int, CString> chanpasswd_t;
     chanpasswd_t m_channelPasswords;
@@ -322,6 +323,7 @@ protected:
     afx_msg LRESULT OnVideoDlgEnded(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnDesktopDlgClosed(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnDesktopDlgEnded(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnOnlineUsersDlgClosed(WPARAM wParam, LPARAM lParam);
 
     //tray icon msgs
     afx_msg LRESULT OnTrayMessage(WPARAM wParam, LPARAM lParam);
