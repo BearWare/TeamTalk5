@@ -348,54 +348,11 @@ public:
 
     TransformState SubmitSample(const media::AudioFrame& frame)
     {
-        HRESULT hr;
-        CComPtr<IMFSample> pSample;
-        CComPtr<IMFMediaBuffer> pMediaBuffer;
-        DWORD dwBufSize = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+        auto pSample = CreateSample(frame);
 
-        hr = MFCreateSample(&pSample);
-        if(FAILED(hr))
-            goto fail;
+        if (pSample)
+            return SubmitSample(pSample);
 
-        //hr = pSample->SetSampleTime(frame.timestamp * 10000);
-        //if(FAILED(hr))
-        //    goto fail;
-
-        //hr = pSample->SetSampleDuration((1000 / 30) * 10000);
-        //if(FAILED(hr))
-        //    goto fail;
-
-        hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
-        if(FAILED(hr))
-            goto fail;
-
-        BYTE* pBuffer;
-        DWORD dwCurLen, dwMaxSize;
-        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-        assert(SUCCEEDED(hr));
-        if(FAILED(hr))
-            goto fail;
-
-        assert(dwMaxSize == dwBufSize);
-        memcpy_s(pBuffer, dwMaxSize, frame.input_buffer, dwBufSize);
-        hr = pMediaBuffer->SetCurrentLength(dwBufSize);
-        assert(SUCCEEDED(hr));
-        if(FAILED(hr))
-            goto fail;
-
-        hr = pMediaBuffer->Unlock();
-        assert(SUCCEEDED(hr));
-        if(FAILED(hr))
-            goto fail;
-
-        hr = pSample->AddBuffer(pMediaBuffer);
-        assert(SUCCEEDED(hr));
-        if(FAILED(hr))
-            goto fail;
-
-        return SubmitSample(pSample);
-
-    fail:
         return TRANSFORM_ERROR;
     }
 
@@ -605,6 +562,27 @@ public:
         return result;
     }
 
+    std::vector<ACE_Message_Block*> ProcessMBSample(const media::AudioFrame& sample)
+    {
+        std::vector< ACE_Message_Block* > result;
+
+        auto pSample = CreateSample(sample);
+        if (!pSample)
+            return result;
+
+        auto outputsamples = ProcessSample(pSample);
+
+        for(auto& pOutSample : outputsamples)
+        {
+            if(!pOutSample)
+                continue;
+
+            if(m_outputaudiofmt.IsValid())
+                result.push_back(ConvertAudioSample(pOutSample, m_outputaudiofmt));
+        }
+
+        return result;
+    }
 
 };
 
@@ -1011,4 +989,57 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
         assert(SUCCEEDED(hr));
     }
     return mb;
+}
+
+CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
+{
+    HRESULT hr;
+    CComPtr<IMFSample> pSample;
+    CComPtr<IMFMediaBuffer> pMediaBuffer;
+    DWORD dwBufSize = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+
+    hr = MFCreateSample(&pSample);
+    if(FAILED(hr))
+        goto fail;
+
+    //hr = pSample->SetSampleTime(frame.timestamp * 10000);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pSample->SetSampleDuration((1000 / 30) * 10000);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
+    if(FAILED(hr))
+        goto fail;
+
+    BYTE* pBuffer;
+    DWORD dwCurLen, dwMaxSize;
+    hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+    assert(SUCCEEDED(hr));
+    if(FAILED(hr))
+        goto fail;
+
+    assert(dwMaxSize == dwBufSize);
+    memcpy_s(pBuffer, dwMaxSize, frame.input_buffer, dwBufSize);
+    hr = pMediaBuffer->SetCurrentLength(dwBufSize);
+    assert(SUCCEEDED(hr));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pMediaBuffer->Unlock();
+    assert(SUCCEEDED(hr));
+    if(FAILED(hr))
+        goto fail;
+
+    hr = pSample->AddBuffer(pMediaBuffer);
+    assert(SUCCEEDED(hr));
+    if(FAILED(hr))
+        goto fail;
+
+    return pSample;
+
+fail:
+    return CComPtr<IMFSample>();
 }

@@ -37,6 +37,7 @@ ACE_TString FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertMediaType(IMFMediaType* pInputType);
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
 ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
+CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame);
 
 enum TransformState
 {
@@ -70,6 +71,7 @@ public:
 
     virtual std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample) = 0;
     virtual std::vector<ACE_Message_Block*> ProcessMBSample(CComPtr<IMFSample>& pInSample) = 0;
+    virtual std::vector<ACE_Message_Block*> ProcessMBSample(const media::AudioFrame& sample) = 0;
 
 };
 #endif
