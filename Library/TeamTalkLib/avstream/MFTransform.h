@@ -35,6 +35,7 @@ media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);
 ACE_TString FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertMediaType(IMFMediaType* pInputType);
+CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format);
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
 ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
 CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame);
@@ -61,6 +62,8 @@ public:
     static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
     static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
+    static mftransform_t CreateMP3(const media::AudioFormat& inputfmt, int bitrate);
+    static mftransform_t CreateWMA(const media::AudioFormat& inputfmt, int bitrate);
 
     virtual TransformState SubmitSample(CComPtr<IMFSample>& pInSample) = 0;
     virtual std::vector< CComPtr<IMFSample> > RetrieveSample() = 0;

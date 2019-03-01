@@ -733,6 +733,40 @@ namespace UnitTest
                 }
             }
         }
+
+        TEST_METHOD(TestMP3Transform)
+        {
+            media::AudioFormat input(48000, 2);
+
+            std::vector<short> buff(input.samplerate * input.channels);
+
+            media::AudioFrame frame;
+            frame.inputfmt = input;
+            frame.input_buffer = &buff[0];
+            frame.input_samples = input.samplerate;
+
+            WaveFile inwavefile;
+            Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+
+            //auto transform = MFTransform::CreateMP3(input, 40000*8);
+            auto transform = MFTransform::CreateWMA(input, 40000*8);
+            Assert::IsTrue(transform.get() != nullptr);
+            Assert::IsTrue(transform->RetrieveMBSample().empty());
+
+            int sampleindex = 0;
+            for(int i = 0; i<10; i++)
+            {
+                sampleindex = GenerateTone(frame, sampleindex, 600);
+                inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
+
+                auto mbs = transform->ProcessMBSample(frame);
+                for(auto& mb : mbs)
+                {
+                    media::AudioFrame outframe(mb);
+                    mb->release();
+                }
+            }
+        }
 #endif
 
 #if defined(ENABLE_DSHOW)
