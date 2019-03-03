@@ -155,8 +155,8 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
     break;
     case AFF_WAVE_FORMAT :
     {
-        WaveFile* wavfile;
-        ACE_NEW(wavfile, WaveFile());
+        WavePCMFile* wavfile;
+        ACE_NEW(wavfile, WavePCMFile());
         m_wavfile = wavefile_t(wavfile);
         if(!m_wavfile->NewFile(filename.c_str(), samplerate, channels))
         {

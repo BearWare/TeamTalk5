@@ -52,12 +52,12 @@ bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt);
 bool WriteWaveFileHeader(ACE_FILE_IO& file, const WAVEFORMATEX* waveformat, int len);
 bool UpdateWaveFileHeader(ACE_FILE_IO& file);
 
-class WaveFile
+class WavePCMFile
 {
 public:
-    WaveFile(const WaveFile&) = delete;
-    WaveFile();
-    ~WaveFile();
+    WavePCMFile(const WavePCMFile&) = delete;
+    WavePCMFile();
+    ~WavePCMFile();
 
     bool NewFile(const ACE_TString& filename, int samplerate, int channels);
     bool OpenFile(const ACE_TString& filename, bool readonly);
@@ -83,6 +83,6 @@ private:
     int m_channels;
 };
 
-typedef ACE_Strong_Bound_Ptr< WaveFile, ACE_Null_Mutex > wavefile_t;
+typedef ACE_Strong_Bound_Ptr< WavePCMFile, ACE_Null_Mutex > wavefile_t;
 
 #endif

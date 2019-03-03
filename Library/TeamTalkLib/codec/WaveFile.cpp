@@ -99,18 +99,18 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
     return file.seek(origin, SEEK_SET) >= 0 && success;
 }
 
-WaveFile::WaveFile()
+WavePCMFile::WavePCMFile()
 {
     m_channels = 0;
 }
 
-WaveFile::~WaveFile()
+WavePCMFile::~WavePCMFile()
 {
     Close();
     MYTRACE(ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
 }
 
-bool WaveFile::OpenFile(const ACE_TString& filename, bool readonly)
+bool WavePCMFile::OpenFile(const ACE_TString& filename, bool readonly)
 {
     ACE_FILE_Connector con;
 
@@ -135,7 +135,7 @@ bool WaveFile::OpenFile(const ACE_TString& filename, bool readonly)
     return false;
 }
 
-bool WaveFile::NewFile(const ACE_TString& filename, int samplerate, int channels)
+bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int channels)
 {
     ACE_FILE_Connector con;
 
@@ -165,7 +165,7 @@ bool WaveFile::NewFile(const ACE_TString& filename, int samplerate, int channels
 }
 
 
-void WaveFile::Close()
+void WavePCMFile::Close()
 {
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
     {
@@ -175,7 +175,7 @@ void WaveFile::Close()
     }
 }
 
-const ACE_TString WaveFile::FileName() const
+const ACE_TString WavePCMFile::FileName() const
 {
     size_t pos = m_filepath.rfind('\\');
     if(pos != ACE_TString::npos)
@@ -184,7 +184,7 @@ const ACE_TString WaveFile::FileName() const
         return m_filepath;
 }
 
-bool WaveFile::SeekSamplesBegin()
+bool WavePCMFile::SeekSamplesBegin()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
@@ -195,7 +195,7 @@ bool WaveFile::SeekSamplesBegin()
     return false;
 }
 
-bool WaveFile::SeekSamplesEnd()
+bool WavePCMFile::SeekSamplesEnd()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     if(m_wavfile.get_handle() != ACE_INVALID_HANDLE)
@@ -206,7 +206,7 @@ bool WaveFile::SeekSamplesEnd()
     return false;
 }
 
-int WaveFile::ReadSamples(short* buffer, int buffer_len)
+int WavePCMFile::ReadSamples(short* buffer, int buffer_len)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     ACE_OFF_T pos = m_wavfile.tell();
@@ -225,7 +225,7 @@ int WaveFile::ReadSamples(short* buffer, int buffer_len)
     return (int)(pos2-pos)/2/channels;
 }
 
-bool WaveFile::WriteHeader(int samplerate, int channels)
+bool WavePCMFile::WriteHeader(int samplerate, int channels)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     m_wavfile.seek(0, SEEK_SET);
@@ -233,7 +233,7 @@ bool WaveFile::WriteHeader(int samplerate, int channels)
     return WriteWaveFileHeader(m_wavfile, media::AudioFormat(samplerate, channels));
 }
 
-bool WaveFile::WriteHeaderLength()
+bool WavePCMFile::WriteHeaderLength()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     ACE_OFF_T ret_pos = m_wavfile.tell();
@@ -251,7 +251,7 @@ bool WaveFile::WriteHeaderLength()
     return b;
 }
 
-bool WaveFile::Valid()
+bool WavePCMFile::Valid()
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
 
@@ -285,7 +285,7 @@ bool WaveFile::Valid()
     return valid;
 }
 
-int WaveFile::GetSampleRate()
+int WavePCMFile::GetSampleRate()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
@@ -300,7 +300,7 @@ int WaveFile::GetSampleRate()
     return samplerate;
 }
 
-int WaveFile::GetSamplesCount()
+int WavePCMFile::GetSamplesCount()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
@@ -322,7 +322,7 @@ int WaveFile::GetSamplesCount()
     return 0;
 }
 
-int WaveFile::GetChannels()
+int WavePCMFile::GetChannels()
 {
     if(m_wavfile.get_handle() == ACE_INVALID_HANDLE)
         return 0;
@@ -340,7 +340,7 @@ int WaveFile::GetChannels()
     return nChannels;
 }
 
-int WaveFile::WriteData(const void* data, int len)
+int WavePCMFile::WriteData(const void* data, int len)
 {
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     ACE_OFF_T pos = m_wavfile.tell();
@@ -351,7 +351,7 @@ int WaveFile::WriteData(const void* data, int len)
     return val <= 0 && len > 0 ? 0 : val;
 }
 
-bool WaveFile::AppendSamples(const short* buffer, int samples_len)
+bool WavePCMFile::AppendSamples(const short* buffer, int samples_len)
 {
     if (WriteData(buffer, samples_len * sizeof(short)*GetChannels())>0)
     {

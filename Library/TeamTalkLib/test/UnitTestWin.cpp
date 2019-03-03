@@ -47,7 +47,7 @@ namespace UnitTest
         {
             class : public MediaStreamListener
             {
-                WaveFile wavfile;
+                WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
@@ -113,7 +113,7 @@ namespace UnitTest
 
             class : public MediaStreamListener
             {
-                WaveFile wavfile;
+                WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
 #if defined(ENABLE_MEDIAFOUNDATION)
                 mftransform_t transform;
@@ -706,7 +706,7 @@ namespace UnitTest
             frame.input_buffer = &buff[0];
             frame.input_samples = input.samplerate;
 
-            WaveFile inwavefile, outwavefile;
+            WavePCMFile inwavefile, outwavefile;
             Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
             Assert::IsTrue(outwavefile.NewFile(ACE_TEXT("hest_out.wav"), output.samplerate, output.channels));
 
@@ -746,7 +746,7 @@ namespace UnitTest
             frame.input_buffer = &buff[0];
             frame.input_samples = input.samplerate;
 
-            WaveFile inwavefile;
+            WavePCMFile inwavefile;
             Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
 
             ACE_FILE_Connector con;

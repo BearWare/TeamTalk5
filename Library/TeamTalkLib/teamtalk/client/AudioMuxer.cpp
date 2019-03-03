@@ -71,7 +71,7 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
     switch(aff)
     {
     case AFF_WAVE_FORMAT :
-        m_wavefile = wavefile_t(new WaveFile());
+        m_wavefile = wavefile_t(new WavePCMFile());
         if(!m_wavefile->NewFile(filename,
             GetAudioCodecSampleRate(codec),
             GetAudioCodecChannels(codec)))
