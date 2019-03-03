@@ -483,7 +483,7 @@ void VoiceLog::WriteAudio(int packet_no)
     if(!m_mp3file.null())
         m_mp3file->Encode(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
 #endif
-    if(!m_wavfile.null())
+    if(m_wavfile)
         m_wavfile->AppendSamples(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
 }
 
@@ -503,7 +503,7 @@ void VoiceLog::WriteSilence(int msecs)
         if(!m_mp3file.null())
             m_mp3file->Encode(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
 #endif
-        if(!m_wavfile.null())
+        if(m_wavfile)
             m_wavfile->AppendSamples(&m_samples_buf[0], GetAudioCodecCbSamples(m_codec));
         samples -= GetAudioCodecCbSamples(m_codec);
     }
@@ -513,7 +513,7 @@ void VoiceLog::WriteSilence(int msecs)
         if(!m_mp3file.null())
             m_mp3file->Encode(&m_samples_buf[0], samples);
 #endif
-        if(!m_wavfile.null())
+        if(m_wavfile)
             m_wavfile->AppendSamples(&m_samples_buf[0], samples);
     }
 }
@@ -532,7 +532,7 @@ VoiceLogFile VoiceLog::GetVoiceLogFile()
 
 int VoiceLog::GetDuration()
 {
-    if(!m_wavfile.null() && m_wavfile->GetSampleRate()>0)
+    if(m_wavfile && m_wavfile->GetSampleRate()>0)
         return m_wavfile->GetSamplesCount() * 1000 / m_wavfile->GetSampleRate();
     return 0;
 }
