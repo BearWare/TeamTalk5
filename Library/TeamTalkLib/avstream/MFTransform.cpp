@@ -243,7 +243,7 @@ public:
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, outputformat };
         DWORD dwTypeIndex = 0;
-        CComPtr<IMFMediaType> pTmpMedia;
+        CComPtr<IMFMediaType> pTmpMedia, pOutputType;
         UINT32 uInputSampleRate = 0, uInputChannels = 0;
 
         hr = pInputType->GetGUID(MF_MT_MAJOR_TYPE, &tininfo.guidMajorType);
@@ -282,22 +282,29 @@ public:
 
             while(SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwTypeIndex, &pTmpMedia)))
             {
-                UINT uChannels, uSampleRate;
+                UINT uChannels, uSampleRate, uBytesPerSecond;
                 hr = pTmpMedia->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &uChannels);
                 assert(SUCCEEDED(hr));
 
                 hr = pTmpMedia->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &uSampleRate);
                 assert(SUCCEEDED(hr));
 
+                hr = pTmpMedia->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uBytesPerSecond);
+                assert(SUCCEEDED(hr));
+
                 if(uInputSampleRate == uSampleRate && uInputChannels == uChannels)
                 {
-                    hr = m_pMFT->SetOutputType(m_dwOutputID, pTmpMedia, 0);
+                    pOutputType = pTmpMedia;
                     break;
                 }
 
                 dwTypeIndex++;
                 pTmpMedia.Release();
             }
+
+            hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
+            if(FAILED(hr))
+                continue;
 
             hr = m_pMFT->SetInputType(m_dwInputID, pInputType, 0);
             if(FAILED(hr))
@@ -330,6 +337,27 @@ public:
     }
 
     bool Ready() const { return m_ready; }
+
+    CComPtr<IMFMediaType> GetInputType()
+    {
+        if (!m_pMFT)
+            return nullptr;
+
+        HRESULT hr;
+        CComPtr<IMFMediaType> pMediaType;
+        hr = m_pMFT->GetInputCurrentType(m_dwInputID, &pMediaType);
+        assert(SUCCEEDED(hr));
+        return pMediaType;
+    }
+    
+    CComPtr<IMFMediaType> GetOutputType()
+    {
+        HRESULT hr;
+        CComPtr<IMFMediaType> pMediaType;
+        hr = m_pMFT->GetOutputCurrentType(m_dwOutputID, &pMediaType);
+        assert(SUCCEEDED(hr));
+        return pMediaType;
+    }
 
     TransformState SubmitSample(CComPtr<IMFSample>& pInSample)
     {
@@ -554,7 +582,17 @@ public:
         return outputsamples;
     }
 
-    std::vector<ACE_Message_Block*> RetrieveMBSample()
+    bool Drain()
+    {
+        if (!m_pMFT)
+            return false;
+
+        HRESULT hr;
+        hr = m_pMFT->ProcessMessage(MFT_MESSAGE_COMMAND_DRAIN, m_dwInputID);
+        return SUCCEEDED(hr);
+    }
+
+    std::vector<ACE_Message_Block*> RetrieveVideoFrames()
     {
         std::vector<ACE_Message_Block*> result;
 
@@ -564,12 +602,42 @@ public:
             assert(pSample);
             if(!pSample.p)
                 continue;
+            
+            assert(m_outputvideofmt.IsValid());
+            result.push_back(ConvertVideoSample(pSample, m_outputvideofmt));
+        }
+        return result;
+    }
 
-            if(m_outputvideofmt.IsValid())
-                result.push_back(ConvertVideoSample(pSample, m_outputvideofmt));
+    std::vector<ACE_Message_Block*> RetrieveAudioFrames()
+    {
+        std::vector<ACE_Message_Block*> result;
 
-            if(m_outputaudiofmt.IsValid())
-                result.push_back(ConvertAudioSample(pSample, m_outputaudiofmt));
+        std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
+        for(auto& pSample : samples)
+        {
+            assert(pSample);
+            if(!pSample.p)
+                continue;
+
+            assert(m_outputaudiofmt.IsValid());
+            result.push_back(ConvertAudioSample(pSample, m_outputaudiofmt));
+        }
+        return result;
+    }
+
+    std::vector<ACE_Message_Block*> RetrieveRawFrames()
+    {
+        std::vector<ACE_Message_Block*> result;
+        std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
+        for(auto& pSample : samples)
+        {
+            assert(pSample);
+            if(!pSample.p)
+                continue;
+
+            auto mbs = ConvertRawSample(pSample);
+            result.insert(result.end(), mbs.begin(), mbs.end());
         }
         return result;
     }
@@ -642,7 +710,7 @@ public:
         return result;
     }
 
-    std::vector<ACE_Message_Block*> ProcessMBSample(const media::AudioFrame& sample)
+    std::vector<ACE_Message_Block*> ProcessAudioResampler(const media::AudioFrame& sample)
     {
         std::vector< ACE_Message_Block* > result;
 
@@ -659,6 +727,28 @@ public:
 
             if(m_outputaudiofmt.IsValid())
                 result.push_back(ConvertAudioSample(pOutSample, m_outputaudiofmt));
+        }
+
+        return result;
+    }
+
+    std::vector<ACE_Message_Block*> ProcessAudioEncoder(const media::AudioFrame& sample)
+    {
+        std::vector< ACE_Message_Block* > result;
+
+        auto pSample = CreateSample(sample);
+        if(!pSample)
+            return result;
+
+        auto outputsamples = ProcessSample(pSample);
+
+        for(auto& pOutSample : outputsamples)
+        {
+            if(!pOutSample)
+                continue;
+
+            auto mbs = ConvertRawSample(pOutSample);
+            result.insert(result.end(), mbs.begin(), mbs.end());
         }
 
         return result;
@@ -870,15 +960,13 @@ mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bit
 
     CComPtr<IMFMediaType> pInputType = ConvertAudioFormat(inputfmt);
     if(!pInputType)
-        return result;
+        return nullptr;
 
-    HRESULT hr;
     result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9));
     
     if(!result->Ready())
         result.reset();
-    
-fail:
+
     return result;
 }
 
@@ -968,7 +1056,7 @@ ACE_TString FourCCToString(media::FourCC fcc)
     }
 }
 
-media::VideoFormat ConvertMediaType(IMFMediaType* pInputType)
+media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType)
 {
     HRESULT hr;
     GUID major, subtype;
@@ -990,6 +1078,21 @@ media::VideoFormat ConvertMediaType(IMFMediaType* pInputType)
     hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
     
     return media::VideoFormat(w, h, numerator, denominator, ConvertSubType(subtype));
+}
+
+std::vector<char> MediaTypeToWaveFormatEx(IMFMediaType* pMediaType)
+{
+    std::vector<char> result;
+    UINT32 uSize;
+
+    WAVEFORMATEX* pWaveFormat;
+    if (SUCCEEDED(MFCreateWaveFormatExFromMFMediaType(pMediaType, &pWaveFormat, &uSize, MFWaveFormatExConvertFlag_Normal)))
+    {
+        result.resize(uSize);
+        memcpy(&result[0], pWaveFormat, uSize);
+        CoTaskMemFree(pWaveFormat);
+    }
+    return result;
 }
 
 CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format)
@@ -1123,6 +1226,42 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
         assert(SUCCEEDED(hr));
     }
     return mb;
+}
+
+std::vector<ACE_Message_Block*> ConvertRawSample(IMFSample* pSample)
+{
+    std::vector<ACE_Message_Block*> result;
+    HRESULT hr;
+    DWORD dwBufCount = 0;
+    hr = pSample->GetBufferCount(&dwBufCount);
+    assert(SUCCEEDED(hr));
+
+    for(DWORD i = 0; i<dwBufCount; i++)
+    {
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        assert(SUCCEEDED(hr));
+        if(FAILED(hr))
+            continue;
+
+        BYTE* pBuffer = NULL;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(SUCCEEDED(hr))
+        {
+            ACE_Message_Block* mb = new (std::nothrow) ACE_Message_Block(dwCurLen);
+            if(mb)
+            {
+                int ret = mb->copy(reinterpret_cast<char*>(pBuffer), dwCurLen);
+                assert(ret >= 0);
+                result.push_back(mb);
+            }
+        }
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+    }
+    return result;
 }
 
 CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)

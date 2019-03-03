@@ -29,9 +29,33 @@
 #include <ace/Bound_Ptr.h>
 #include <ace/Null_Mutex.h>
 
+#include "MediaUtil.h"
+
+#if defined(WIN32)
+#include <Mmreg.h>
+#else
+struct WAVEFORMATEX
+{
+    uint16_t wFormatTag;
+    uint16_t nChannels;
+    uint32_t nSamplesPerSec;
+    uint32_t nAvgBytesPerSec;
+    uint16_t nBlockAlign;
+    uint16_t wBitsPerSample;
+    uint16_t cbSize;
+};
+#endif
+
+#define SIZEOF_WAVEFORMATEX 16
+
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt);
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const WAVEFORMATEX* waveformat, int len);
+bool UpdateWaveFileHeader(ACE_FILE_IO& file);
+
 class WaveFile
 {
 public:
+    WaveFile(const WaveFile&) = delete;
     WaveFile();
     ~WaveFile();
 

@@ -29,6 +29,76 @@
 
 #define WAVEHEADERSIZE 44
 
+
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt)
+{
+    WAVEFORMATEX waveformat;
+    waveformat.wFormatTag = 1;
+    waveformat.nChannels = fmt.channels;
+    waveformat.nSamplesPerSec = fmt.samplerate;
+    waveformat.nAvgBytesPerSec = PCM16_BYTES(fmt.samplerate, fmt.channels);
+    waveformat.nBlockAlign = PCM16_BYTES(1, fmt.channels);
+    waveformat.wBitsPerSample = 16;
+    waveformat.cbSize = 0;
+
+    static_assert(sizeof(WAVEFORMATEX) - 2 /* cbSize */ == SIZEOF_WAVEFORMATEX, "WAVEFORMATEX not packed");
+
+    return WriteWaveFileHeader(file, &waveformat, SIZEOF_WAVEFORMATEX);
+}
+
+bool WriteWaveFileHeader(ACE_FILE_IO& file, const WAVEFORMATEX* waveformat, int len)
+{
+    const char RIFF[] = "RIFF";
+    const char WAVE[] = "WAVEfmt ";
+    const char DATA[] = "data";
+    bool ret = true;
+    ret &= file.send_n(RIFF, 4) >= 0; // RIFF header
+    int32_t wavedatasize = 0x7FFFFFFF;
+    ret &= file.send_n(&wavedatasize, 4) >= 0; //sizeof file wave data
+    ret &= file.send_n(WAVE, 8) >= 0;
+    ret &= file.send_n(&len, 4) >= 0; //header size
+    ret &= file.send_n(waveformat, len) >= 0;
+    ret &= file.send_n(DATA, 4) >= 0;
+    ret &= file.send_n(&wavedatasize, 4) >= 0; //sizeof file wave data
+
+    return ret;
+}
+
+bool UpdateWaveFileHeader(ACE_FILE_IO& file)
+{
+    assert(file.get_handle() != ACE_INVALID_HANDLE);
+    ACE_OFF_T origin = file.tell();
+    if (file.seek(0, SEEK_END) < 0)
+        return false;
+
+    bool success = false;
+
+    ACE_OFF_T end = file.tell();
+    if (file.seek(strlen("RIFF"), SEEK_SET) >= 0 && end < 0x100000000)
+    {
+        uint32_t wavedatasize = uint32_t(end);
+        uint32_t headersize = 0;
+        if (file.send_n(&wavedatasize, 4) >= 0 &&
+            file.seek(8, SEEK_CUR) >= 0 /* past 'WAVEfmt ' */ &&
+            file.recv(&headersize, 4) >= 0 &&
+            file.seek(headersize, SEEK_CUR) >= 0 /* past extra header size */ &&
+            file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
+        {
+            wavedatasize = int(end - file.tell());
+            if (file.send_n(&wavedatasize, 4) >= 0)
+            {
+                success = true;
+            }
+        }
+        else
+        {
+            MYTRACE(ACE_TEXT("Failed to update wave-file header\n"));
+        }
+    }
+
+    return file.seek(origin, SEEK_SET) >= 0 && success;
+}
+
 WaveFile::WaveFile()
 {
     m_channels = 0;
@@ -160,33 +230,7 @@ bool WaveFile::WriteHeader(int samplerate, int channels)
     assert(m_wavfile.get_handle() != ACE_INVALID_HANDLE);
     m_wavfile.seek(0, SEEK_SET);
 
-    int tmp = 0;
-    const char RIFF[] ="RIFF";
-    const char WAVE[] = "WAVEfmt ";
-    const char DATA[] = "data";
-
-    WriteData(RIFF, 4);
-    tmp = 0x7FFFFFFF;
-    WriteData(&tmp, 4);    //sizeof file wave data
-    WriteData(WAVE, 8);
-    tmp = 16;
-    WriteData(&tmp, 4);    //header size
-    tmp = 1; //PCM uncompressed
-    WriteData(&tmp, 2);    //type
-    tmp = channels;
-    WriteData(&tmp, 2);    //channels
-    tmp = samplerate;
-    WriteData(&tmp, 4);    //sampling rate
-    tmp = samplerate*2*channels;
-    WriteData(&tmp, 4);    //bytes per second
-    tmp = 2 * channels;
-    WriteData(&tmp, 2);    //block align
-    tmp = 16;
-    WriteData(&tmp, 2);    //bit depth
-    WriteData(DATA, (int)strlen(DATA)); //4
-    tmp = 0x7FFFFFFF; 
-    return WriteData(&tmp, 4) == 4; //sizeof file wave data
-    //total 44 bytes
+    return WriteWaveFileHeader(m_wavfile, media::AudioFormat(samplerate, channels));
 }
 
 bool WaveFile::WriteHeaderLength()
