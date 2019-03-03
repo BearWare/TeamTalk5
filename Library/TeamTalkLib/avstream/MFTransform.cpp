@@ -238,10 +238,10 @@ public:
     }
 
 
-    MFTransformImpl(IMFMediaType* pInputType, const GUID& outputformat)
+    MFTransformImpl(IMFMediaType* pInputType, const GUID& audiooutputformat, int bitrate)
     {
         HRESULT hr;
-        MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, outputformat };
+        MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, audiooutputformat };
         DWORD dwTypeIndex = 0;
         CComPtr<IMFMediaType> pTmpMedia, pOutputType;
         UINT32 uInputSampleRate = 0, uInputChannels = 0;
@@ -294,8 +294,16 @@ public:
 
                 if(uInputSampleRate == uSampleRate && uInputChannels == uChannels)
                 {
-                    pOutputType = pTmpMedia;
-                    break;
+                    if (!pOutputType)
+                        pOutputType = pTmpMedia;
+
+                    // select higher bitrate if available
+                    UINT uCurBytesPerSecond = 0;
+                    hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uCurBytesPerSecond);
+                    if (uCurBytesPerSecond != bitrate / 8 && uBytesPerSecond > uCurBytesPerSecond)
+                    {
+                        pOutputType = pTmpMedia;
+                    }
                 }
 
                 dwTypeIndex++;
@@ -898,60 +906,59 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, int bit
     if (!pInputType)
         return result;
 
-    HRESULT hr;
-    CComPtr<IMFMediaType> pOutputType;
-    MPEGLAYER3WAVEFORMAT mp3format = {};
-
-    hr = MFCreateMediaType(&pOutputType);
-    if(FAILED(hr))
-        goto fail;
-/*
-    hr = pOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
-    if(FAILED(hr))
-        goto fail;
-
-    hr = pOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_MP3);
-    if(FAILED(hr))
-        goto fail;
-
-    hr = pOutputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, inputfmt.channels);
-    if(FAILED(hr))
-        goto fail;
-
-    hr = pOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, inputfmt.samplerate);
-    if(FAILED(hr))
-        goto fail;
-
-    hr = pOutputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, bitrate / 8);
-    if(FAILED(hr))
-        goto fail;*/
-
-    mp3format.wID = MPEGLAYER3_ID_MPEG;
-    mp3format.fdwFlags = MPEGLAYER3_FLAG_PADDING_OFF;
-    mp3format.nBlockSize = 144 * bitrate / inputfmt.samplerate + 0 /*padding*/;
-    mp3format.nCodecDelay = 0;
-    mp3format.nFramesPerBlock = 1;
-
-    mp3format.wfx.wFormatTag = WAVE_FORMAT_MPEGLAYER3;
-    mp3format.wfx.nChannels = inputfmt.channels;
-    mp3format.wfx.nSamplesPerSec = inputfmt.samplerate;
-    mp3format.wfx.nAvgBytesPerSec = bitrate / 8;
-    mp3format.wfx.nBlockAlign = 1;
-    mp3format.wfx.cbSize = MPEGLAYER3_WFX_EXTRA_BYTES;
-    mp3format.wfx.wBitsPerSample = 0;
-
-    hr = MFInitMediaTypeFromWaveFormatEx(pOutputType, &mp3format.wfx, sizeof(mp3format.wfx) + mp3format.wfx.cbSize);
-    //hr = pOutputType->SetBlob(MF_MT_USER_DATA, reinterpret_cast<const UINT8*>(&mp3format), sizeof(mp3format));
-    if(FAILED(hr))
-        goto fail;
-/*
-    result.reset(new MFTransformImpl(pInputType, pOutputType));
+    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_MP3, bitrate));
 
     if(!result->Ready())
-        result.reset();*/
+        result.reset();
 
-fail:
     return result;
+
+    //HRESULT hr;
+    //CComPtr<IMFMediaType> pOutputType;
+    //MPEGLAYER3WAVEFORMAT mp3format = {};
+
+    //hr = MFCreateMediaType(&pOutputType);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_MP3);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pOutputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, inputfmt.channels);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, inputfmt.samplerate);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //hr = pOutputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, bitrate / 8);
+    //if(FAILED(hr))
+    //    goto fail;
+
+    //mp3format.wID = MPEGLAYER3_ID_MPEG;
+    //mp3format.fdwFlags = MPEGLAYER3_FLAG_PADDING_OFF;
+    //mp3format.nBlockSize = 144 * bitrate / inputfmt.samplerate + 0 /*padding*/;
+    //mp3format.nCodecDelay = 0;
+    //mp3format.nFramesPerBlock = 1;
+
+    //mp3format.wfx.wFormatTag = WAVE_FORMAT_MPEGLAYER3;
+    //mp3format.wfx.nChannels = inputfmt.channels;
+    //mp3format.wfx.nSamplesPerSec = inputfmt.samplerate;
+    //mp3format.wfx.nAvgBytesPerSec = bitrate / 8;
+    //mp3format.wfx.nBlockAlign = 1;
+    //mp3format.wfx.cbSize = MPEGLAYER3_WFX_EXTRA_BYTES;
+    //mp3format.wfx.wBitsPerSample = 0;
+
+    //hr = MFInitMediaTypeFromWaveFormatEx(pOutputType, &mp3format.wfx, sizeof(mp3format.wfx) + mp3format.wfx.cbSize);
+    //hr = pOutputType->SetBlob(MF_MT_USER_DATA, reinterpret_cast<const UINT8*>(&mp3format), sizeof(mp3format));
+    //if(FAILED(hr))
+    //    goto fail;
 }
 
 mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bitrate)
@@ -962,7 +969,7 @@ mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bit
     if(!pInputType)
         return nullptr;
 
-    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9));
+    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9, bitrate));
     
     if(!result->Ready())
         result.reset();

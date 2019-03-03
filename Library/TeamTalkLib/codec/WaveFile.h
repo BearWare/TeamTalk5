@@ -43,7 +43,7 @@ struct WAVEFORMATEX
     uint16_t nBlockAlign;
     uint16_t wBitsPerSample;
     uint16_t cbSize;
-};
+} __attribute__((packed));
 #endif
 
 #define SIZEOF_WAVEFORMATEX 16

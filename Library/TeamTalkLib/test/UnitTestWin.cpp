@@ -754,8 +754,8 @@ namespace UnitTest
             Assert::IsTrue(con.connect(outwavefile, ACE_FILE_Addr(L"hest_out.wav"),
                 0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY, FILE_SHARE_READ | FILE_SHARE_WRITE) >= 0);
             
-            //auto transform = MFTransform::CreateMP3(input, 40000*8);
-            auto transform = MFTransform::CreateWMA(input, 40000*8);
+            auto transform = MFTransform::CreateMP3(input, 64*1024);
+            //auto transform = MFTransform::CreateWMA(input, 40000*8);
             Assert::IsTrue(transform.get() != nullptr);
             Assert::IsTrue(transform->RetrieveRawFrames().empty());
 
