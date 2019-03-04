@@ -64,6 +64,8 @@ private:
     ACE_FILE_IO m_wavfile;
 };
 
+typedef std::shared_ptr< WaveFile > wavefile_t;
+
 class WavePCMFile
 {
 public:
@@ -94,6 +96,6 @@ private:
     int m_channels;
 };
 
-typedef std::shared_ptr< WavePCMFile > wavefile_t;
+typedef std::shared_ptr< WavePCMFile > wavepcmfile_t;
 
 #endif

@@ -1087,19 +1087,19 @@ media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType)
     return media::VideoFormat(w, h, numerator, denominator, ConvertSubType(subtype));
 }
 
-std::vector<char> MediaTypeToWaveFormatEx(IMFMediaType* pMediaType)
+WAVEFORMATEX* MediaTypeToWaveFormatEx(IMFMediaType* pMediaType, std::vector<char>& buf)
 {
-    std::vector<char> result;
     UINT32 uSize;
 
-    WAVEFORMATEX* pWaveFormat;
+    WAVEFORMATEX* pWaveFormat = nullptr;
     if (SUCCEEDED(MFCreateWaveFormatExFromMFMediaType(pMediaType, &pWaveFormat, &uSize, MFWaveFormatExConvertFlag_Normal)))
     {
-        result.resize(uSize);
-        memcpy(&result[0], pWaveFormat, uSize);
+        buf.resize(uSize);
+        memcpy(&buf[0], pWaveFormat, uSize);
         CoTaskMemFree(pWaveFormat);
+        pWaveFormat = reinterpret_cast<WAVEFORMATEX*>(&buf[0]);
     }
-    return result;
+    return pWaveFormat;
 }
 
 CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format)

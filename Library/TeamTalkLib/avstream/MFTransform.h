@@ -36,7 +36,7 @@ const GUID& ConvertFourCC(media::FourCC fcc);
 ACE_TString FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType);
 // returns WAVEFORMATEX-struct
-std::vector<char> MediaTypeToWaveFormatEx(IMFMediaType* pMediaType);
+WAVEFORMATEX* MediaTypeToWaveFormatEx(IMFMediaType* pMediaType, std::vector<char>& buf);
 CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format);
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
 ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
