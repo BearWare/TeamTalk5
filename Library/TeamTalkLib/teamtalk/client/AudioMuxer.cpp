@@ -71,7 +71,7 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
     switch(aff)
     {
     case AFF_WAVE_FORMAT :
-        m_wavefile = wavefile_t(new WaveFile());
+        m_wavefile = wavefile_t(new WavePCMFile());
         if(!m_wavefile->NewFile(filename,
             GetAudioCodecSampleRate(codec),
             GetAudioCodecChannels(codec)))
@@ -176,7 +176,7 @@ void AudioMuxer::StopThread()
     }
 #endif
     
-    if(!m_wavefile.null())
+    if(m_wavefile)
         m_wavefile->Close();
     m_wavefile.reset();
     
@@ -510,7 +510,7 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     }
 #endif
 
-    if(!m_wavefile.null())
+    if(m_wavefile)
         m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
 }
 

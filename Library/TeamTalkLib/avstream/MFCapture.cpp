@@ -81,7 +81,7 @@ vidcap_devices_t MFCapture::GetDevices()
         while(SUCCEEDED(pReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
                         dwMediaTypeIndex, &pInputType)))
         {
-            media::VideoFormat fmt = ConvertMediaType(pInputType);
+            media::VideoFormat fmt = ConvertVideoMediaType(pInputType);
             if(fmt.fourcc != media::FOURCC_NONE)
             {
                 dev.vidcapformats.push_back(fmt);
@@ -289,7 +289,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
     // Get native media type of device
     while(SUCCEEDED(pReader->GetNativeMediaType(dwVideoStreamIndex, dwMediaTypeIndex, &pInputType)))
     {
-        media::VideoFormat fmt = ConvertMediaType(pInputType);
+        media::VideoFormat fmt = ConvertVideoMediaType(pInputType);
         if (session->vidfmt == fmt)
         {
             session->pInputType = pInputType;
