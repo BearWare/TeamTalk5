@@ -197,7 +197,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     next = GETTIMESTAMP();
     ACE_TCHAR str_buf[512] = ACE_TEXT(""), tmp_str[512] = ACE_TEXT("");
 
-#if defined(MYTRACE_TIMESTAMP)
+#if (MYTRACE_TIMESTAMP)
     ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
     int nBuf = ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
 #else

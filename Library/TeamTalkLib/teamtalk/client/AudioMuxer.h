@@ -30,7 +30,9 @@
 #include <ace/Bound_Ptr.h> 
 #include <ace/Recursive_Thread_Mutex.h>
 #include <codec/WaveFile.h>
+#if defined(ENABLE_MEDIAFOUNDATION)
 #include <avstream/MFTransform.h>
+#endif
 
 #include <map>
 

@@ -793,9 +793,15 @@ namespace UnitTest
             UpdateWaveFileHeader(outwavefile);
         }
 
-        TEST_METHOD(TestAudioTransformWMA)
+        enum {
+            MP3, WMA };
+
+        void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt)
         {
-            media::AudioFormat input(48000, 2);
+            std::wostringstream wos;
+            wos << (fmt == MP3? L"MP3" : L"WMA") << L" channels " << input.channels << L" samplerate " << input.samplerate << L" bitrate " << bitrate << L"bps";
+            Logger::WriteMessage(wos.str().c_str());
+            wos.str(L"");
 
             std::vector<short> buff(input.samplerate * input.channels);
 
@@ -805,22 +811,50 @@ namespace UnitTest
             frame.input_samples = input.samplerate;
 
             WavePCMFile inwavefile;
-            Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+            wos << L"hest_in_" << input.channels << L"_" << input.samplerate << L".wav";
+            Assert::IsTrue(inwavefile.NewFile(wos.str().c_str(), input.samplerate, input.channels));
 
-            auto transformwma = MFTransform::CreateWMA(input, 64000, L"hest_wma.wav");
-            Assert::IsTrue(transformwma.get() != nullptr);
+            wos.str(L"");
+            mftransform_t transform;
+            switch (fmt)
+            {
+            case WMA:
+                wos << L"hest_wma_" << input.channels << L"_" << input.samplerate << L"_" << bitrate << L"bps" << L".wav";
+                transform = MFTransform::CreateWMA(input, bitrate, wos.str().c_str());
+                break;
+            case MP3 :
+                wos << L"hest_mp3_" << input.channels << L"_" << input.samplerate << L"_" << bitrate << L"bps" << L".wav";
+                transform = MFTransform::CreateMP3(input, bitrate, wos.str().c_str());
+                break;
+            }
 
-            Assert::IsTrue(transformwma->RetrieveRawFrames().empty());
-            Assert::IsTrue(transformwma->GetInputType());
-            Assert::IsTrue(transformwma->GetOutputType());
+            Assert::IsTrue(transform.get() != nullptr);
+
+            Assert::IsTrue(transform->RetrieveRawFrames().empty());
+            Assert::IsTrue(transform->GetInputType());
+            Assert::IsTrue(transform->GetOutputType());
 
             int sampleindex = 0;
             for(int i = 0; i<10; i++)
             {
                 sampleindex = GenerateTone(frame, sampleindex, 600);
                 inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
-                transformwma->ProcessAudioEncoder(frame, true);
+                transform->ProcessAudioEncoder(frame, true);
             }
+        }
+
+        TEST_METHOD(TestAudioTransformEncoder)
+        {
+            std::vector<int> samplerates = {8000, 12000, 16000, 24000, 32000, 48000}, channels = {1, 2}, bitrates = {16000, 32000, 64000, 128000, 256000}, fmts = { MP3 , WMA};
+
+            for (auto sr :samplerates)
+                for (auto ch : channels)
+                    for (auto br : bitrates)
+                        for (auto fm : fmts)
+                        {
+                            media::AudioFormat input(sr, ch);
+                            AudioTransformEncoder(input, br, fm);
+                        }
         }
 
         TEST_METHOD(TestAudioTransformMP3)
