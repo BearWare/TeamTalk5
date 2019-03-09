@@ -7,6 +7,7 @@ Default Qt client
 - Sort bans in Banned Users dialog
 - Sort user accounts in Users Accounts dialog
 - OPUS audio codec v1.3
+- Store audio in MP3 format on Windows
 Accessible Windows client
 - Stream HTTP and HTTPS URLs instead of only files
 - Online Users dialog now updates continuesly
@@ -14,6 +15,7 @@ Accessible Windows client
 - OPUS audio codec v1.3
 - Romanian language
 - Indonesian language
+- Store audio in MP3 format
 iOS client
 - OPUS audio codec v1.3
 Android client:
