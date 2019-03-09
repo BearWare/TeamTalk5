@@ -754,17 +754,17 @@ namespace UnitTest
             Assert::IsTrue(con.connect(outwavefile, ACE_FILE_Addr(L"hest_out.wav"),
                 0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY, FILE_SHARE_READ | FILE_SHARE_WRITE) >= 0);
             
-            auto transform = MFTransform::CreateMP3(input, 64*1024);
-            //auto transform = MFTransform::CreateWMA(input, 40000*8);
+            auto transform = MFTransform::CreateMP3(input, 64000);
             Assert::IsTrue(transform.get() != nullptr);
+            
             Assert::IsTrue(transform->RetrieveRawFrames().empty());
-
             Assert::IsTrue(transform->GetInputType());
             Assert::IsTrue(transform->GetOutputType());
 
-            std::vector<char> header = MediaTypeToWaveFormatEx(transform->GetOutputType());
+            std::vector<char> header;
+            WAVEFORMATEX* pWaveFormat = MediaTypeToWaveFormatEx(transform->GetOutputType(), header);
             Assert::IsTrue(header.size());
-            WAVEFORMATEX* pWaveFormat = reinterpret_cast<WAVEFORMATEX*>(&header[0]);
+            Assert::IsTrue(pWaveFormat);
 
             WriteWaveFileHeader(outwavefile, pWaveFormat, header.size());
 
@@ -774,7 +774,7 @@ namespace UnitTest
                 sampleindex = GenerateTone(frame, sampleindex, 600);
                 inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
 
-                auto mbs = transform->ProcessAudioEncoder(frame);
+                auto mbs = transform->ProcessAudioEncoder(frame, false);
                 for(auto& mb : mbs)
                 {
                     outwavefile.send_n(mb->rd_ptr(), mb->length());
@@ -783,7 +783,7 @@ namespace UnitTest
             }
 
             Assert::IsTrue(transform->Drain());
-            auto mbs = transform->ProcessAudioEncoder(frame);
+            auto mbs = transform->RetrieveAudioFrames();
             for(auto& mb : mbs)
             {
                 outwavefile.send_n(mb->rd_ptr(), mb->length());
@@ -791,6 +791,66 @@ namespace UnitTest
             }
 
             UpdateWaveFileHeader(outwavefile);
+        }
+
+        TEST_METHOD(TestAudioTransformWMA)
+        {
+            media::AudioFormat input(48000, 2);
+
+            std::vector<short> buff(input.samplerate * input.channels);
+
+            media::AudioFrame frame;
+            frame.inputfmt = input;
+            frame.input_buffer = &buff[0];
+            frame.input_samples = input.samplerate;
+
+            WavePCMFile inwavefile;
+            Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+
+            auto transformwma = MFTransform::CreateWMA(input, 64000, L"hest_wma.wav");
+            Assert::IsTrue(transformwma.get() != nullptr);
+
+            Assert::IsTrue(transformwma->RetrieveRawFrames().empty());
+            Assert::IsTrue(transformwma->GetInputType());
+            Assert::IsTrue(transformwma->GetOutputType());
+
+            int sampleindex = 0;
+            for(int i = 0; i<10; i++)
+            {
+                sampleindex = GenerateTone(frame, sampleindex, 600);
+                inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
+                transformwma->ProcessAudioEncoder(frame, true);
+            }
+        }
+
+        TEST_METHOD(TestAudioTransformMP3)
+        {
+            media::AudioFormat input(48000, 2);
+
+            std::vector<short> buff(input.samplerate * input.channels);
+
+            media::AudioFrame frame;
+            frame.inputfmt = input;
+            frame.input_buffer = &buff[0];
+            frame.input_samples = input.samplerate;
+
+            WavePCMFile inwavefile;
+            Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+
+            auto transformmp3 = MFTransform::CreateMP3(input, 64000, L"hest_mp3.wav");
+            Assert::IsTrue(transformmp3.get() != nullptr);
+
+            Assert::IsTrue(transformmp3->RetrieveRawFrames().empty());
+            Assert::IsTrue(transformmp3->GetInputType());
+            Assert::IsTrue(transformmp3->GetOutputType());
+
+            int sampleindex = 0;
+            for(int i = 0; i<10; i++)
+            {
+                sampleindex = GenerateTone(frame, sampleindex, 600);
+                inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
+                transformmp3->ProcessAudioEncoder(frame, true);
+            }
         }
 #endif
 

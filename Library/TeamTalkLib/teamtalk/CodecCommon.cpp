@@ -440,6 +440,11 @@ namespace teamtalk
         } /* codec switch */
     }
 
+    media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
+    {
+        return media::AudioFormat(GetAudioCodecSampleRate(codec), GetAudioCodecChannels(codec));
+    }
+
     int GetSpeexBandMode(const AudioCodec& codec)
     {
         switch(codec.codec)

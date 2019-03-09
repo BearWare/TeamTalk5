@@ -189,11 +189,8 @@ VoiceLogger& ClientNode::voicelogger()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(m_voicelogger.null())
-    {
-        VoiceLogger* vlog = new VoiceLogger(m_listener);
-        m_voicelogger = voicelogger_t(vlog);
-    }
+    if(!m_voicelogger)
+        m_voicelogger.reset(new VoiceLogger(m_listener));
 
     return *m_voicelogger;
 }

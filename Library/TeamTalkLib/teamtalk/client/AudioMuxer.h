@@ -30,14 +30,11 @@
 #include <ace/Bound_Ptr.h> 
 #include <ace/Recursive_Thread_Mutex.h>
 #include <codec/WaveFile.h>
+#include <avstream/MFTransform.h>
 
 #include <map>
 
 #include <teamtalk/CodecCommon.h>
-
-#if defined(ENABLE_MP3)
-#include <codec/LameMP3.h>
-#endif
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
 #include <codec/OggOutput.h>
@@ -95,9 +92,9 @@ private:
     ACE_UINT32 m_last_flush_time;
     teamtalk::AudioCodec m_codec;
 
-    wavefile_t m_wavefile;
-#if defined(ENABLE_MP3)
-    lame_mp3file_t m_mp3file;
+    wavepcmfile_t m_wavefile;
+#if defined(ENABLE_MEDIAFOUNDATION)
+    mftransform_t m_mp3encoder;
 #endif
 
 #if defined(ENABLE_SPEEX) && defined(ENABLE_OGG)

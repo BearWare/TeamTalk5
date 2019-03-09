@@ -33,6 +33,8 @@
 #include <complex>
 #include <queue>
 
+#include <codec/WaveFile.h>
+
 #define MFT_INIT_FLAGS (MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY)
 
 class MFTransformImpl : public MFTransform
@@ -46,6 +48,7 @@ class MFTransformImpl : public MFTransform
     media::VideoFormat m_outputvideofmt;
     media::AudioFormat m_outputaudiofmt;
     int m_audio_samples = 0; // samples in audio output buffer
+    wavefile_t m_audiofile;
 
 public:
     MFTransformImpl(IMFMediaType* pInputType, const GUID& dest_videoformat, bool decoder, MFTransform* endpoint = nullptr)
@@ -238,7 +241,8 @@ public:
     }
 
 
-    MFTransformImpl(IMFMediaType* pInputType, const GUID& audiooutputformat, int bitrate)
+    MFTransformImpl(IMFMediaType* pInputType, const GUID& audiooutputformat, int bitrate,
+                    const ACE_TCHAR* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, audiooutputformat };
@@ -324,6 +328,15 @@ public:
         if(FAILED(hr))
             return;
 
+        if (szOutputFilename)
+        {
+            m_audiofile.reset(new WaveFile());
+            std::vector<char> header;
+            auto lpWaveFormatEx = MediaTypeToWaveFormatEx(GetOutputType(), header);
+            if (header.empty() || !m_audiofile->NewFile(szOutputFilename, lpWaveFormatEx, header.size()))
+                return;
+        }
+
         m_outputaudiofmt = media::AudioFormat(int(uInputSampleRate), int(uInputChannels));
 
         assert(m_outputaudiofmt.IsValid());
@@ -340,6 +353,17 @@ public:
 
     ~MFTransformImpl()
     {
+        if (m_audiofile)
+        {
+            Drain();
+            auto mbs = RetrieveAudioFrames();
+            for(auto& mb : mbs)
+            {
+                m_audiofile->AppendData(mb->rd_ptr(), mb->length());
+                mb->release();
+            }
+        }
+
         if(m_cMFTs)
             CoTaskMemFree(m_pMFTs);
     }
@@ -629,7 +653,9 @@ public:
                 continue;
 
             assert(m_outputaudiofmt.IsValid());
-            result.push_back(ConvertAudioSample(pSample, m_outputaudiofmt));
+            auto mb = ConvertAudioSample(pSample, m_outputaudiofmt);
+            if (mb)
+                result.push_back(mb);
         }
         return result;
     }
@@ -684,7 +710,7 @@ public:
         {
             auto samples = RetrieveSample();
             result.insert(result.end(), samples.begin(), samples.end());
-            assert(result.size());
+            MYTRACE_COND(result.empty(), ACE_TEXT("Audio submitted but no encoder output produced\n"));
             //MYTRACE(ACE_TEXT("Got frame from I/O success: %d\n"), ++frames);
             break;
         }
@@ -712,7 +738,11 @@ public:
                 result.push_back(ConvertVideoSample(pOutSample, m_outputvideofmt));
 
             if(m_outputaudiofmt.IsValid())
-                result.push_back(ConvertAudioSample(pOutSample, m_outputaudiofmt));
+            {
+                auto mb = ConvertAudioSample(pOutSample, m_outputaudiofmt);
+                if (mb)
+                    result.push_back(mb);
+            }
         }
 
         return result;
@@ -734,13 +764,17 @@ public:
                 continue;
 
             if(m_outputaudiofmt.IsValid())
-                result.push_back(ConvertAudioSample(pOutSample, m_outputaudiofmt));
+            {
+                auto mb = ConvertAudioSample(pOutSample, m_outputaudiofmt);
+                if (mb)
+                    result.push_back(mb);
+            }
         }
 
         return result;
     }
 
-    std::vector<ACE_Message_Block*> ProcessAudioEncoder(const media::AudioFrame& sample)
+    std::vector<ACE_Message_Block*> ProcessAudioEncoder(const media::AudioFrame& sample, bool bEraseOutput)
     {
         std::vector< ACE_Message_Block* > result;
 
@@ -757,6 +791,19 @@ public:
 
             auto mbs = ConvertRawSample(pOutSample);
             result.insert(result.end(), mbs.begin(), mbs.end());
+        }
+
+        if(m_audiofile)
+        {
+            for(auto& mb : result)
+            {
+                assert(mb->length());
+                m_audiofile->AppendData(mb->rd_ptr(), mb->length());
+                if (bEraseOutput)
+                    mb->release();
+            }
+            if (bEraseOutput)
+                result.clear();
         }
 
         return result;
@@ -897,7 +944,7 @@ mftransform_t MFTransform::Create(media::AudioFormat inputfmt, media::AudioForma
     return result;
 }
 
-mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, int bitrate)
+mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, int bitrate, const ACE_TCHAR* szOutputFilename/* = nullptr*/)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -906,7 +953,7 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, int bit
     if (!pInputType)
         return result;
 
-    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_MP3, bitrate));
+    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_MP3, bitrate, szOutputFilename));
 
     if(!result->Ready())
         result.reset();
@@ -961,7 +1008,8 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, int bit
     //    goto fail;
 }
 
-mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bitrate)
+mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bitrate,
+                                     const ACE_TCHAR* szOutputFilename/* = nullptr*/)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -969,7 +1017,7 @@ mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, int bit
     if(!pInputType)
         return nullptr;
 
-    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9, bitrate));
+    result.reset(new MFTransformImpl(pInputType, MFAudioFormat_WMAudioV9, bitrate, szOutputFilename));
     
     if(!result->Ready())
         result.reset();
