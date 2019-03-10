@@ -7,7 +7,9 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 option (BUILD_TEAMTALK_STATIC "Build TeamTalk using static libraries" ON)
 
 if (BUILD_TEAMTALK_STATIC)
-  set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  if (NOT ${TTLIBS_ROOT})
+    set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  endif()
   file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
 endif()
 
