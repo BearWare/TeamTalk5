@@ -131,22 +131,17 @@ namespace teamtalk
             result += in[i];
         return result;
     }
-    int GetAudioFileFormatBitrate(teamtalk::AudioFileFormat aff)
+
+    int AFFToMP3Bitrate(AudioFileFormat aff)
     {
         switch(aff)
         {
-        case AFF_MP3_16KBIT_FORMAT :
-            return 16;
-        case AFF_MP3_32KBIT_FORMAT :
-            return 32;
-        case AFF_MP3_64KBIT_FORMAT :
-            return 64;
-        case AFF_MP3_128KBIT_FORMAT :
-            return 128;
-        case AFF_MP3_256KBIT_FORMAT :
-            return 256;
-        default:
-            return 0;
+        case AFF_MP3_16KBIT_FORMAT: return 16000;
+        case AFF_MP3_32KBIT_FORMAT: return 32000;
+        case AFF_MP3_64KBIT_FORMAT: return 64000;
+        case AFF_MP3_128KBIT_FORMAT: return 128000;
+        case AFF_MP3_256KBIT_FORMAT: return 256000;
+        default: return 0;
         }
     }
 }

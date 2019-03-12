@@ -62,7 +62,7 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
-# Start TeamTalk Standard Server non-encrypted for JUnit suite TeamTalkStdTestSuite.java
+# Start TeamTalk Standard Server non-encrypted mode for JUnit suite TeamTalkStdTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5srv -d -c Server/tt5srv.xml
@@ -70,7 +70,7 @@ script:
   - cd Library/TeamTalkJNI
   - make runjunit
   - killall tt5srv
-# Start TeamTalk Pro Server non-encrypted for JUnit suite TeamTalkProTestSuite.java
+# Start TeamTalk Pro Server non-encrypted mode for JUnit suite TeamTalkProTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
   - Server/tt5prosrv -d -c Server/tt5srv.xml
@@ -79,7 +79,7 @@ script:
   - export ENCRYPTED=0
   - make runjunitpro
   - killall tt5prosrv
-# Start TeamTalk Pro Server in encrypted for JUnit suite TeamTalkProTestSuite.java
+# Start TeamTalk Pro Server in encrypted mode for JUnit suite TeamTalkProTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cp Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
   - cp Library/TeamTalkLib/test/ttservercert.pem Server/
@@ -89,3 +89,7 @@ script:
   - export ENCRYPTED=1
   - make runjunitpro
   - killall tt5prosrv
+# Run JUnit suite TeamTalkServerTestSuite.java in encrypted mode
+  - cd $TRAVIS_BUILD_DIR
+  - cd Library/TeamTalkJNI
+  - make runjunitsrv

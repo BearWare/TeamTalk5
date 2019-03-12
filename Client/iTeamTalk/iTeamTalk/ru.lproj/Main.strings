@@ -93,7 +93,7 @@
 "WFB-kl-uoS.normalTitle" = "Выгнать Пользователя";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "Выгнать и Забанить Пользователя";
+"WRa-tI-lpY.normalTitle" = "Выгнать и Заблокировать Пользователя";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
 "Wbh-f7-64c.text" = "Blank";
@@ -123,7 +123,7 @@
 "cGm-Jp-0zI.normalTitle" = "Использовать Кодек Speex";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "Присоединиться к каналу";
+"ch0-Xf-hyX.normalTitle" = "Подключиться к каналу";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
 "dcU-Nq-ioW.title" = "Подключение к Серверу";
@@ -141,7 +141,7 @@
 "kRp-LE-RFh.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
-"l6D-Hs-MdG.normalTitle" = "Присоединиться К Каналу";
+"l6D-Hs-MdG.normalTitle" = "Подключиться К Каналу";
 
 /* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
 "m1N-Js-NXn.normalTitle" = "Удалить Сервер";

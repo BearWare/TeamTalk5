@@ -176,7 +176,15 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     setWindowIcon(QIcon(APPICON));
 
     m_model = new UserAccountsModel(this);
-    ui.usersTreeView->setModel(m_model);
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_model);
+    ui.usersTreeView->setModel(m_proxyModel);
+
+#if defined(Q_OS_MAC)
+    auto font = ui.usersTreeView->font();
+    font.setPointSize(13);
+    ui.usersTreeView->setFont(font);
+#endif
 
     int count = 0;
     TT_GetServerChannels(ttInst, NULL, &count);
@@ -573,8 +581,9 @@ void UserAccountsDlg::slotAddUser()
 
 void UserAccountsDlg::slotDelUser()
 {
-    int index = ui.usersTreeView->currentIndex().row();
-    if(index<0)
+    auto proxySelection = ui.usersTreeView->currentIndex();
+    int index = m_proxyModel->mapToSource(proxySelection).row();
+    if (index < 0)
         return;
 
     m_del_cmdid = TT_DoDeleteUserAccount(ttInst, m_model->getUsers()[index].szUsername);
@@ -585,8 +594,8 @@ void UserAccountsDlg::slotDelUser()
 
 void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
 {
-    int i = index.row();
-    if(i<0)
+    int i = m_proxyModel->mapToSource(index).row();
+    if (i < 0)
     {
         ui.delButton->setEnabled(false);
         return;

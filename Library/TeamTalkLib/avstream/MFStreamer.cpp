@@ -31,22 +31,6 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
-
-
-static class MFInit {
-public:
-    MFInit()
-    {
-        HRESULT hr = MFStartup(MF_VERSION);
-        assert(SUCCEEDED(hr));
-    }
-    ~MFInit()
-    {
-        //HRESULT hr = MFShutdown();
-        //assert(SUCCEEDED(hr));
-    }
-} init;
-
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
     MediaFileProp prop;
@@ -116,7 +100,7 @@ void MFStreamer::Run()
     CComPtr<IMFMediaSource> pMediaSource;
     CComPtr<IMFSourceReader> pSourceReader;
     CComPtr<IMFAttributes> pAttributes;
-    CComPtr<IMFMediaType> pAudioType, pVideoType;
+    CComPtr<IMFMediaType> pInputAudioType, pVideoType;
     DWORD dwAudioTypeIndex = 0, dwVideoTypeIndex = 0;
     DWORD dwVideoStreamIndex, dwAudioStreamIndex;
     LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
@@ -153,12 +137,12 @@ void MFStreamer::Run()
 
     // Get native media type of device
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM,
-        dwAudioTypeIndex, &pAudioType)))
+                                                   dwAudioTypeIndex, &pInputAudioType)))
     {
         UINT32 c = 0;
-        if ((c = MFGetAttributeUINT32(pAudioType, MF_MT_AUDIO_NUM_CHANNELS, -1)) >= 0)
+        if ((c = MFGetAttributeUINT32(pInputAudioType, MF_MT_AUDIO_NUM_CHANNELS, -1)) >= 0)
             m_media_in.audio.channels = c;
-        if((c = MFGetAttributeUINT32(pAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1)) >= 0)
+        if((c = MFGetAttributeUINT32(pInputAudioType, MF_MT_AUDIO_SAMPLES_PER_SECOND, -1)) >= 0)
             m_media_in.audio.samplerate = c;
     }
     else
@@ -168,27 +152,48 @@ void MFStreamer::Run()
 
     if (m_media_in.HasAudio() && m_media_out.HasAudio())
     {
-        hr = pAudioType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+        CComPtr<IMFMediaType> pAudioOutputType;
+        hr = MFCreateMediaType(&pAudioOutputType);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pAudioType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_media_out.audio.channels);
+        hr = pAudioOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pAudioType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_media_out.audio.samplerate);
+        hr = pAudioOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pAudioType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_media_out.audio.channels);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pAudioType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_BLOCK, m_media_out.audio_samples);
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_media_out.audio.samplerate);
         if(FAILED(hr))
             goto fail_open;
 
-        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioType);
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, PCM16_BYTES(1, m_media_out.audio.channels));
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, PCM16_BYTES(m_media_out.audio.samplerate, m_media_out.audio.channels));
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioOutputType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_BLOCK, m_media_out.audio_samples);
+        if(FAILED(hr))
+            goto fail_open;
+
+        hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         if(FAILED(hr))
             goto fail_open;
     }
@@ -218,7 +223,7 @@ void MFStreamer::Run()
             MYTRACE(ACE_TEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
         }
 
-        GUID native_subtype = { 0 };
+        GUID native_subtype = {};
         hr = pVideoType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
         if(FAILED(hr))
             goto fail_open;

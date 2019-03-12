@@ -567,6 +567,15 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 
         UpdateSoloTransmitChannels();
 
+        // erase login delays
+        ACE_Time_Value now = ACE_OS::gettimeofday();
+        for (auto it = m_logindelay.begin();it != m_logindelay.end();)
+        {
+            if (now > it->second + ToTimeValue(m_properties.logindelay * 2))
+                m_logindelay.erase(it++);
+            else
+                ++it;
+        }
         break;
     }
     case TIMER_DESKTOPACKPACKET_ID :
@@ -1004,7 +1013,8 @@ void ServerNode::StopServer(bool docallback)
     }
 
     TTASSERT(m_admins.empty());
-    m_mLoginAttempts.clear();
+    m_failedlogins.clear();
+    m_logindelay.clear();
     m_filetransfers.clear();
     m_updUserIPs.clear();
 
@@ -1225,27 +1235,43 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
     ASSERT_REACTOR_LOCKED(this);
 
     //ban user's IP if logged in to many times
-    mapiptime_t::iterator ite = m_mLoginAttempts.find(user.GetIpAddress());
-    if(ite == m_mLoginAttempts.end())
+    m_failedlogins[user.GetIpAddress()].push_back(ACE_OS::gettimeofday());
+
+    if (m_properties.maxloginattempts > 0 && 
+        m_failedlogins[user.GetIpAddress()].size() >= (size_t)m_properties.maxloginattempts)
     {
-        vector<ACE_Time_Value> attempts;
-        attempts.push_back(ACE_OS::gettimeofday());
-        m_mLoginAttempts[user.GetIpAddress()] = attempts;
+        BannedUser ban;
+        ban.bantype = BANTYPE_DEFAULT;
+        ban.ipaddr = user.GetIpAddress();
+        m_srvguard->AddUserBan(user, ban);
+        if(IsAutoSaving())
+            m_srvguard->OnSaveConfiguration(*this, &user);
     }
-    else
+}
+
+bool ServerNode::LoginsExceeded(const ServerUser& user)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    if (m_properties.logindelay == 0)
+        return false;
+
+    ACE_Time_Value now = ACE_OS::gettimeofday();
+    if (m_logindelay.find(user.GetIpAddress()) == m_logindelay.end())
     {
-        ite->second.push_back(ACE_OS::gettimeofday());
-        if( m_properties.maxloginattempts > 0 && 
-            ite->second.size() >= (size_t)m_properties.maxloginattempts)
-        {
-            BannedUser ban;
-            ban.bantype = BANTYPE_DEFAULT;
-            ban.ipaddr = user.GetIpAddress();
-            m_srvguard->AddUserBan(user, ban);
-            if(IsAutoSaving())
-                m_srvguard->OnSaveConfiguration(*this, &user);
-        }
+        m_logindelay[user.GetIpAddress()] = now;
+        return false;
     }
+
+    ACE_Time_Value delay = ToTimeValue(m_properties.logindelay);
+    if (m_logindelay[user.GetIpAddress()] + delay > now)
+    {
+        m_logindelay[user.GetIpAddress()] = now;
+        return true;
+    }
+    m_logindelay[user.GetIpAddress()] = now;
+    
+    return false;
 }
 
 int ServerNode::SendPacket(const FieldPacket& packet,
@@ -2577,7 +2603,11 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     switch(err.errorno)
     {
     case TT_CMDERR_SUCCESS :
+    {
+        if (LoginsExceeded(*user))
+            return TT_CMDERR_COMMAND_FLOOD;
         break;
+    }
     case TT_CMDERR_SERVER_BANNED :
         m_srvguard->OnUserLoginBanned(*user);
         return err; //banned from server
@@ -2636,7 +2666,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         m_admins.push_back(user);
 
     //clear any wrong logins
-    m_mLoginAttempts.erase(user->GetIpAddress());
+    m_failedlogins.erase(user->GetIpAddress());
 
     //do connect accepted
     user->DoAccepted(useraccount);

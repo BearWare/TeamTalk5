@@ -197,7 +197,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     next = GETTIMESTAMP();
     ACE_TCHAR str_buf[512] = ACE_TEXT(""), tmp_str[512] = ACE_TEXT("");
 
-#if defined(MYTRACE_TIMESTAMP)
+#if (MYTRACE_TIMESTAMP)
     ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
     int nBuf = ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
 #else
@@ -298,6 +298,11 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     ACE_TCHAR buf[512];
     ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), (int)nHour, (int)nMinutes, (int)nSec);
     return buf;
+}
+
+ACE_Time_Value ToTimeValue(int msec)
+{
+    return ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
 }
 
 strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters) 
@@ -551,7 +556,7 @@ uint32_t GETTIMESTAMP()
 {
 #if defined(ACE_HAS_IPHONE)
     if (!orwl_timestart) {
-        mach_timebase_info_data_t tb = { 0 };
+        mach_timebase_info_data_t tb = {};
         mach_timebase_info(&tb);
         orwl_timebase = tb.numer;
         orwl_timebase /= tb.denom;

@@ -3,17 +3,25 @@
 ----------------------------------------------
 Version 5.4, unreleased
 Default Qt client
-- Stream HTTP and HTTPS URLs instead of only files
+- Stream HTTP and HTTPS URLs instead of only files in Windows
+- Sort bans in Banned Users dialog
+- Sort user accounts in Users Accounts dialog
 - OPUS audio codec v1.3
+- Store audio in MP3 format on Windows
 Accessible Windows client
 - Stream HTTP and HTTPS URLs instead of only files
+- Online Users dialog now updates continuesly
+- Online Users dialog allows banning logged out users
 - OPUS audio codec v1.3
-- Romanian translation
+- Romanian language
+- Indonesian language
+- Store audio in MP3 format
 iOS client
 - OPUS audio codec v1.3
 Android client:
 - OPUS audio codec v1.3
 Server
+- Protection again login/logout floods using "login delay"
 - Linux server now depends on OpenSSL (libssl package)
 
 Version 5.3.5, released 2019/01/01

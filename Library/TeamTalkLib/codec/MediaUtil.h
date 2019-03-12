@@ -111,6 +111,14 @@ namespace media
             timestamp = GETTIMESTAMP();
         }
 
+        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples)
+        : AudioFrame()
+        {
+            inputfmt = infmt;
+            input_buffer = input_buf;
+            input_samples = insamples;
+        }
+
         AudioFrame(ACE_Message_Block* mb)
         {
             AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->rd_ptr());

@@ -66,7 +66,7 @@ if (LIBVPX)
 endif()
 
 if (MSVC)
-  option (LAMEMP3 "Build MP3 Lame classes" ON)
+  option (LAMEMP3 "Build MP3 Lame classes" OFF)
 
   if (LAMEMP3)
     list (APPEND CODEC_COMPILE_FLAGS -DENABLE_MP3 )

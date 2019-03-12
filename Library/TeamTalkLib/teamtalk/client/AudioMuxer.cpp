@@ -71,7 +71,7 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
     switch(aff)
     {
     case AFF_WAVE_FORMAT :
-        m_wavefile = wavefile_t(new WaveFile());
+        m_wavefile.reset(new WavePCMFile());
         if(!m_wavefile->NewFile(filename,
             GetAudioCodecSampleRate(codec),
             GetAudioCodecChannels(codec)))
@@ -82,42 +82,24 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
     case AFF_MP3_256KBIT_FORMAT :
-#if defined(ENABLE_MP3)
-        if(LameMP3::CanLoad())
-        {
-            int bitrate = 64;
-            switch(aff)
-            {
-            case AFF_MP3_256KBIT_FORMAT :
-                bitrate = 256; break;
-            case AFF_MP3_128KBIT_FORMAT :
-                bitrate = 128; break;
-            case AFF_MP3_64KBIT_FORMAT :
-            default :
-                bitrate = 64; break;
-            case AFF_MP3_16KBIT_FORMAT :
-                bitrate = 16; break;
-            case AFF_MP3_32KBIT_FORMAT :
-                bitrate = 32; break;
-            }
-            m_mp3file = lame_mp3file_t(new LameMP3());
-            if(!m_mp3file->NewFile(filename, 
-                                   GetAudioCodecSampleRate(codec),
-                                   GetAudioCodecChannels(codec), bitrate))
-                goto error;
-        }
-        else
+    {
+#if defined(ENABLE_MEDIAFOUNDATION)
+        int mp3bitrate = AFFToMP3Bitrate(aff);
+        media::AudioFormat fmt(GetAudioCodecSampleRate(codec),
+            GetAudioCodecChannels(codec));
+        m_mp3encoder = MFTransform::CreateMP3(fmt, mp3bitrate, filename.c_str());
+        if(!m_mp3encoder)
             goto error;
 #endif
-        break;
+    }
+    break;
     case AFF_CHANNELCODEC_FORMAT :
         if(!SetupFileEncode(filename, codec))
             goto error;
         break;
     default :
-        goto error; //TODO: native format
+        goto error; //TODO: native formatm_mp3encoder
     }
-
 
     m_muxed_audio.resize(samples);
 
@@ -176,14 +158,12 @@ void AudioMuxer::StopThread()
     }
 #endif
     
-    if(!m_wavefile.null())
+    if(m_wavefile)
         m_wavefile->Close();
     m_wavefile.reset();
     
-#if defined(ENABLE_MP3)
-    if(!m_mp3file.null())
-        m_mp3file->Close();
-    m_mp3file.reset();
+#if defined(ENABLE_MEDIAFOUNDATION)
+    m_mp3encoder.reset();
 #endif
 
     m_codec = AudioCodec();
@@ -482,6 +462,7 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     if(GetAudioCodecSimulateStereo(m_codec))
         channels = 2;
     int framesize = GetAudioCodecFrameSize(m_codec);
+    int samplerate = GetAudioCodecSampleRate(m_codec);
     TTASSERT(cb_samples == GetAudioCodecFramesPerPacket(m_codec)*framesize);
 #if ENABLE_SPEEXFILE
     if(m_speexfile.get() && framesize)
@@ -503,14 +484,15 @@ void AudioMuxer::WriteAudioToFile(int cb_samples)
     }
 #endif
 
-#if defined(ENABLE_MP3)
-    if(!m_mp3file.null())
+#if defined(ENABLE_MEDIAFOUNDATION)
+    if(m_mp3encoder && framesize)
     {
-        m_mp3file->Encode(&m_muxed_audio[0], cb_samples);
+        media::AudioFrame frame(media::AudioFormat(samplerate, channels), &m_muxed_audio[0], cb_samples);
+        m_mp3encoder->ProcessAudioEncoder(frame, true);
     }
 #endif
 
-    if(!m_wavefile.null())
+    if(m_wavefile)
         m_wavefile->AppendSamples(&m_muxed_audio[0], cb_samples);
 }
 

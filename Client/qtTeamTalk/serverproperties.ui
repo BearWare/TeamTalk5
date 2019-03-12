@@ -377,13 +377,6 @@
         <string>Server Abuse</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_22">
-          <property name="text">
-           <string>Max login attempts before ban</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QSpinBox" name="maxloginattemptsSpinBox">
           <property name="sizePolicy">
@@ -401,13 +394,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>Max logins per IP-address</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="maxiploginsSpinBox">
           <property name="sizePolicy">
@@ -418,10 +404,45 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_22">
+          <property name="text">
+           <string>Max login attempts before ban</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Max logins per IP-address</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="2">
          <widget class="QLabel" name="label_21">
           <property name="text">
            <string>(0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Login delay per IP-address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="logindelaySpinBox">
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>msec (0 = disabled)</string>
           </property>
          </widget>
         </item>
@@ -497,17 +518,17 @@
   <tabstop>motdChkBox</tabstop>
   <tabstop>tcpportSpinBox</tabstop>
   <tabstop>udpportSpinBox</tabstop>
-  <tabstop>usertimeoutSpinBox</tabstop>
   <tabstop>autosaveBox</tabstop>
-  <tabstop>serverversionEdit</tabstop>
+  <tabstop>usertimeoutSpinBox</tabstop>
   <tabstop>audtxSpinBox</tabstop>
   <tabstop>videotxSpinBox</tabstop>
   <tabstop>mediafiletxSpinBox</tabstop>
   <tabstop>desktoptxSpinBox</tabstop>
   <tabstop>totaltxSpinBox</tabstop>
-  <tabstop>maxiploginsSpinBox</tabstop>
   <tabstop>maxloginattemptsSpinBox</tabstop>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>maxiploginsSpinBox</tabstop>
+  <tabstop>logindelaySpinBox</tabstop>
+  <tabstop>serverversionEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>

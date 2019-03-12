@@ -815,7 +815,7 @@ void RunWizard(ServerXML& xmlSettings)
     int maxusers, max_logins_per_ip = 0;
     bool autosave = true;
     _INT64 diskquota = 0, maxdiskusage = 0, log_maxsize = 0;
-    int tcpport = DEFAULT_TCPPORT, udpport = DEFAULT_UDPPORT, max_login_attempts = 0;
+    int tcpport = DEFAULT_TCPPORT, udpport = DEFAULT_UDPPORT, max_login_attempts = 0, logindelay = 0;
 
     servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
     motd = Utf8ToUnicode(xmlSettings.GetMessageOfTheDay().c_str());
@@ -831,6 +831,7 @@ void RunWizard(ServerXML& xmlSettings)
     maxdiskusage = xmlSettings.GetMaxDiskUsage();
     max_login_attempts = xmlSettings.GetMaxLoginAttempts();
     max_logins_per_ip = xmlSettings.GetMaxLoginsPerIP();
+    logindelay = xmlSettings.GetLoginDelay();
 
 #if defined(ENABLE_TEAMTALKPRO)
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
@@ -1189,6 +1190,9 @@ void RunWizard(ServerXML& xmlSettings)
     cout << "Maximum number of logins per IP-address, 0 = disabled: ";
     max_logins_per_ip = printGetInt(max_logins_per_ip);
 
+    cout << "Delay in milliseconds before an IP-address can make another login, 0 = disabled: ";
+    logindelay = printGetInt(logindelay);
+    
     cout << endl << endl;
     cout << "Your " << TEAMTALK_NAME << " is now configured with the following settings:" << endl;
     cout << endl;
@@ -1228,6 +1232,8 @@ void RunWizard(ServerXML& xmlSettings)
     else
         cout << "Max logins per IP-address: " << "disabled" << endl;
 
+    cout << "Users wait for " << logindelay << " msec before attempting login again." << endl;
+    
 #if defined(ENABLE_TEAMTALKPRO)
     cout << "Server certificate file for encryption: " << certfile << endl;
     cout << "Server private key file for encryption: " << keyfile << endl;
@@ -1260,6 +1266,7 @@ void RunWizard(ServerXML& xmlSettings)
         xmlSettings.SetServerLogMaxSize(log_maxsize);
         xmlSettings.SetMaxLoginAttempts(max_login_attempts);
         xmlSettings.SetMaxLoginsPerIP(max_logins_per_ip);
+        xmlSettings.SetLoginDelay(logindelay);
         xmlSettings.SaveFile();
 
         cout << "Changes saved." << endl;

@@ -62,10 +62,6 @@
 #endif
 
 #if defined(Q_OS_WIN32)
-#define MP3ENCDLL_FILENAME "lame_enc.dll" 
-#endif
-
-#if defined(Q_OS_WIN32)
 #define OSTYPE "Windows"
 #elif defined(Q_OS_DARWIN)
 #define OSTYPE "Mac"
