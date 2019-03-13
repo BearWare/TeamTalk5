@@ -267,6 +267,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         speakerswitch.addTarget(self, action: #selector(PreferencesViewController.speakeroutputChanged(_:)), for: .valueChanged)
         sound_items.append(speakercell)
         
+        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectMicrophone")
+        sound_items.append(sndinputscell!)
+        
         let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
             initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) == nil || settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
