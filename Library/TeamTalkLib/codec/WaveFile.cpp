@@ -108,7 +108,7 @@ bool WaveFile::NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveform
 
 #if defined(WIN32)
     int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY, FILE_SHARE_READ | FILE_SHARE_WRITE);
+        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY | O_TRUNC, FILE_SHARE_READ | FILE_SHARE_WRITE);
 #else
     int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()));
 #endif
@@ -168,7 +168,7 @@ bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int chann
 
 #if defined(WIN32)
     int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()),
-        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY, FILE_SHARE_READ | FILE_SHARE_WRITE);
+        0, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_BINARY | O_TRUNC, FILE_SHARE_READ | FILE_SHARE_WRITE);
 #else
     int ret = con.connect(m_wavfile, ACE_FILE_Addr(filename.c_str()));
 #endif

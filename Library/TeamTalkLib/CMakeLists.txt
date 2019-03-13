@@ -7,7 +7,9 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 option (BUILD_TEAMTALK_STATIC "Build TeamTalk using static libraries" ON)
 
 if (BUILD_TEAMTALK_STATIC)
-  set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  if (NOT DEFINED ${TTLIBS_ROOT})
+    set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  endif()
   file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
 endif()
 
@@ -92,7 +94,7 @@ if (BUILD_TEAMTALK5DLL)
   
   if (MSVS_UNITTEST)
     set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-	set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
   endif()
 
 endif()
@@ -123,7 +125,7 @@ if (BUILD_TEAMTALK5PRODLL)
   
   if (MSVS_UNITTEST)
     set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-	set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
+    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
   endif()
 
 endif()
@@ -177,56 +179,63 @@ if (BUILD_TT5PROSRV)
 endif()
 
 if (MSVC)
+
+  ##############
+  # tt5svc.exe #
+  ##############
+  option (BUILD_TT5SVC "Build TeamTalk service" ON)
+
+  if (BUILD_TT5SVC)
+    add_executable ( tt5svc 
+      ${TTSRV_SOURCES} ${TTSRV_HEADERS} )
+
+    target_include_directories ( tt5svc PUBLIC
+      ${TTSRV_INCLUDE_DIR})
+
+    target_compile_options ( tt5svc PUBLIC
+      ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS}
+      -DBUILD_NT_SERVICE)
+
+    target_link_libraries ( tt5svc 
+      ${TTSRV_LINK_FLAGS}
+      ${LINK_LIBS} )
+
+    add_custom_command(
+      TARGET tt5svc
+      POST_BUILD
+      COMMAND mt
+      ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
+      WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
+
+    set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
+  endif()
   
-##########
-# tt5svc #
-##########
-add_executable ( tt5svc 
-  ${TTSRV_SOURCES} ${TTSRV_HEADERS} )
+  #################
+  # tt5prosvc.exe #
+  #################
+  option (BUILD_TT5PROSVC "Build TeamTalk Professional service" ON)
 
-target_include_directories ( tt5svc PUBLIC
-  ${TTSRV_INCLUDE_DIR})
+  if (BUILD_TT5PROSVC)
+    add_executable ( tt5prosvc
+      ${TTSRV_SOURCES} ${TTSRV_HEADERS} )
 
-target_compile_options ( tt5svc PUBLIC
-  ${TTSRV_COMPILE_FLAGS} ${COMPILE_FLAGS}
-  -DBUILD_NT_SERVICE)
+    target_include_directories ( tt5prosvc PUBLIC
+      ${TTSRVPRO_INCLUDE_DIR})
 
-target_link_libraries ( tt5svc 
-  ${TTSRV_LINK_FLAGS}
-  ${LINK_LIBS} )
+    target_compile_options ( tt5prosvc PUBLIC
+      ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS}
+      -DBUILD_NT_SERVICE)
 
-add_custom_command(
-    TARGET tt5svc
-    POST_BUILD
-    COMMAND mt
-    ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
-    WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
+    target_link_libraries ( tt5prosvc
+      ${TTSRVPRO_LINK_FLAGS}
+      ${LINK_LIBS} )
 
-set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
-  
-#############
-# tt5prosvc #
-#############
-add_executable ( tt5prosvc
-  ${TTSRV_SOURCES} ${TTSRV_HEADERS} )
+    add_custom_command (TARGET tt5prosvc
+      POST_BUILD
+      COMMAND mt
+      ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
+      WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
 
-target_include_directories ( tt5prosvc PUBLIC
-  ${TTSRVPRO_INCLUDE_DIR})
-
-target_compile_options ( tt5prosvc PUBLIC
-  ${TTSRVPRO_COMPILE_FLAGS} ${COMPILE_FLAGS}
-  -DBUILD_NT_SERVICE)
-
-target_link_libraries ( tt5prosvc
-  ${TTSRVPRO_LINK_FLAGS}
-  ${LINK_LIBS} )
-
-add_custom_command (TARGET tt5prosvc
-  POST_BUILD
-  COMMAND mt
-  ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
-  WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
-
-set_output_dir (tt5prosvc ${TEAMTALK_ROOT}/Server)
-
+    set_output_dir (tt5prosvc ${TEAMTALK_ROOT}/Server)
+  endif()
 endif()

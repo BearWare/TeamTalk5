@@ -40,11 +40,28 @@ if (MSVC)
 endif()
 
 if (BUILD_TEAMTALK_CORE)
-    add_dependencies (TeamTalk5-jni TeamTalk5DLL)
-    add_dependencies (ttserverlog TeamTalk5DLL)
+  
+  if (BUILD_TEAMTALK5DLL)
+    if (BUILD_TEAMTALK_LIBRARY_JNI)
+      add_dependencies (TeamTalk5-jni TeamTalk5DLL)
+    endif()
+    if (BUILD_TEAMTALK_CLIENT_LOG_EXAMPLE)
+      add_dependencies (ttserverlog TeamTalk5DLL)
+    endif()
+  endif()
+  
+  if (BUILD_TEAMTALK5PRODLL)
+    if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
+      add_dependencies (TeamTalk5Pro-jni TeamTalk5ProDLL)
+    endif()
     
-    add_dependencies (TeamTalk5Pro-jni TeamTalk5ProDLL)
-    add_dependencies (TeamTalk5ProServer TeamTalk5ProDLL)
-    add_dependencies (ttproserverlog TeamTalk5ProDLL)
+    if (BUILD_TEAMTALKPRO_SERVER_EXAMPLE)
+      add_dependencies (TeamTalk5ProServer TeamTalk5ProDLL)
+    endif()
+    
+    if (BUILD_TEAMTALKPRO_CLIENT_LOG_EXAMPLE)
+      add_dependencies (ttproserverlog TeamTalk5ProDLL)
+    endif()
+  endif()
     
 endif()

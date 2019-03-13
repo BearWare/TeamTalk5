@@ -26,6 +26,8 @@
 
 #include "Common.h"
 
+#include <codec/MediaUtil.h>
+
 namespace teamtalk
 {
     bool ValidAudioCodec(const AudioCodec& codec);
@@ -42,6 +44,7 @@ namespace teamtalk
     bool GetAudioCodecVBRMode(const AudioCodec& codec);
     bool GetAudioCodecSimulateStereo(const AudioCodec& codec);
     int GetAudioCodecBitRate(const AudioCodec& codec);
+    media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec);
 
     int GetSpeexBandMode(const AudioCodec& codec);
     int GetSpeexQuality(const AudioCodec& codec);

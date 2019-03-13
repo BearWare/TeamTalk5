@@ -87,6 +87,19 @@ set (JAVA_SOURCES
 
 if (MSVC)
   add_definitions (-DUNICODE -D_UNICODE)
+  
+  function(set_output_dir target dir)
+    set_target_properties (${target} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG ${dir}
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${dir}
+    RUNTIME_OUTPUT_DIRECTORY ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${dir}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${dir}
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
+  endfunction()
 endif()
 
 if (BUILD_TEAMTALK_LIBRARY_JNI)
@@ -96,8 +109,7 @@ if (BUILD_TEAMTALK_LIBRARY_JNI)
     jni/ttconvert-jni.h)
   target_link_libraries (TeamTalk5-jni TeamTalk5 ${JNI_LIBRARIES})
 
-  set_target_properties (TeamTalk5-jni PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
   
 endif()
 
@@ -109,8 +121,7 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
     jni/ttconvert-jni.h)
   target_link_libraries (TeamTalk5Pro-jni TeamTalk5Pro ${JNI_LIBRARIES})
 
-  set_target_properties (TeamTalk5Pro-jni PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+  set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
 
 endif()
 

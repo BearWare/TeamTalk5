@@ -607,6 +607,8 @@ namespace teamtalk {
         AFF_MP3_256KBIT_FORMAT   = 7,
     };
 
+    int AFFToMP3Bitrate(AudioFileFormat aff);
+
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */
     enum
@@ -653,7 +655,6 @@ namespace teamtalk {
     int SumFrameSizes(const std::vector<uint16_t>& in);
     std::vector<uint16_t> ConvertFrameSizes(const std::vector<int>& in);
     int SumFrameSizes(const std::vector<int>& in);
-    int GetAudioFileFormatBitrate(AudioFileFormat aff);
 
 #define TRANSMITUSERS_FREEFORALL 0xFFF
 
