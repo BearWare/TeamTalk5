@@ -1,4 +1,4 @@
-﻿/* log entry */
+/* log entry */
 "%@ joined channel" = "%@ подключился к каналу";
 
 /* log entry */
@@ -353,7 +353,7 @@
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда передача речи доступна в режиме /"Не Перебивать Говорящего\"";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда передача речи доступна в режиме \"Не Перебивать Говорящего\"";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Воспроизводить звук, когда срабатывает голосовая активация";
