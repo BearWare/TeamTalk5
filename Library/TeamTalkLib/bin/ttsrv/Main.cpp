@@ -962,7 +962,12 @@ void RunWizard(ServerXML& xmlSettings)
     cout << endl;
     cout << "User account administration." << endl;
     int input = 0;
-    enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT, CREATE_USERACCOUNT_FACEBOOK, DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
+    enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT,
+                             CREATE_USERACCOUNT_FACEBOOK,
+#if defined(ENABLE_TEAMTALKPRO)
+                             CREATE_USERACCOUNT_BEARWARE,
+#endif
+                             DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
     ACE_CString url = WEBLOGIN_URL;
     std::string xml;
 
@@ -977,6 +982,9 @@ void RunWizard(ServerXML& xmlSettings)
         cout << LIST_USERACCOUNTS << ") List user accounts." << endl;
         cout << CREATE_USERACCOUNT << ") Create new user account." << endl;
         cout << CREATE_USERACCOUNT_FACEBOOK << ") Create Facebook login account." << endl;
+#if defined(ENABLE_TEAMTALKPRO)
+        cout << CREATE_USERACCOUNT_BEARWARE << ") Create BearWare.dk web-login account." << endl;
+#endif
         cout << DELETE_USERACCOUNT << ") Delete user account." << endl;
         cout << QUIT_USERACCOUNTS << ") Quit and proceed server configuration." << endl;
         cout << "Select option: ";
@@ -1036,7 +1044,31 @@ void RunWizard(ServerXML& xmlSettings)
                 break;
             }
             goto useraccountcfg;
-#endif
+#if defined(ENABLE_TEAMTALKPRO)
+        case CREATE_USERACCOUNT_BEARWARE :
+            cout << "Creating BearWare.dk web-login account." << endl;
+            user.username = ACE_TEXT( WEBLOGIN_BEARWARE );
+            user.passwd = ACE_TEXT("");
+            cout << "Testing BearWare.dk web-login service..." << endl;
+
+            url += "client=" TEAMTALK_LIB_NAME;
+            url += "&version=" TEAMTALK_VERSION;
+            url += "&ping=true";
+            switch(HttpRequest(url, xml))
+            {
+            case -1 :
+                cout << "Failed to query " << WEBLOGIN_URL;
+                break;
+            case 0 :
+                cout << "Invalid response from BearWare.dk login service" << endl;
+                break;
+            case 1 :
+                cout << "Got valid response from BearWare.dk login service. Continuing..." << endl;
+                break;
+            }
+            goto useraccountcfg;
+#endif /* ENABLE_TEAMTALKPRO */
+#endif /* ENABLE_HTTP_AUTH */
         useraccountcfg:
             cout << "Available user types:" << endl;
             cout << "\t1. Default user." << endl;
