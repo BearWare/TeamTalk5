@@ -783,11 +783,13 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 #endif
 
     bool bearware = false;
+#if defined(ENABLE_TEAMTALKPRO)
 #if defined(UNICODE)
     bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
 #else
     bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
 #endif
+    #endif
 
     if (bearware || facebook)
     {
