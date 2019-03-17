@@ -23,8 +23,8 @@
 
 #pragma once
 
-#define WM_USERVIDEODLG_CLOSED WM_USER + 950
-#define WM_USERVIDEODLG_ENDED WM_USER + 951
+#define WM_USERVIDEODLG_CLOSED  (WM_USER + 950)
+#define WM_USERVIDEODLG_ENDED   (WM_USER + 951)
 // CUserVideoDlg dialog
 
 enum

@@ -26,7 +26,7 @@
 #include "afxcmn.h"
 
 
-#define WM_FILETRANSFERDLG_CLOSED WM_USER + 800
+#define WM_FILETRANSFERDLG_CLOSED (WM_USER+800)
 
 // CFileTransferDlg dialog
 

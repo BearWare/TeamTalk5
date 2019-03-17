@@ -29,7 +29,7 @@
 #endif // _MSC_VER > 1000
 // SendMessageDlg.h : header file
 //
-#define WM_MESSAGEDLG_CLOSED WM_USER + 1200
+#define WM_MESSAGEDLG_CLOSED (WM_APP+3)
 
 #define MAX_HISTORY_LENGTH 4000
 
