@@ -1,0 +1,48 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          tt5server
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      
+# Short-Description: Start/stop TeamTalk 5 server
+# Description:       Setup variables BIN, WORKDIR, PIDFILE and USER
+#                    before running this script
+### END INIT INFO
+
+# Location of TeamTalk 5 server binary
+BIN=/home/tt/tt5/tt5srv
+# Working directory where tt5srv.xml and tt5srv.log will be written to
+WORKDIR=/home/tt/tt5
+# File containing the PID of the TeamTalk server daemon
+PIDFILE=/home/tt/tt5/tt5srv.pid
+# The TeamTalk server should be launched by this user account
+USER=tt
+
+. /lib/lsb/init-functions
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+    start)
+	log_daemon_msg "Starting TeamTalk Server " "tt5srv"
+	start-stop-daemon --start --quiet --oknodo --background \
+	--chdir "$WORKDIR" --pidfile "$PIDFILE" \
+	--exec "$BIN" -- -wd "$WORKDIR" -pid-file "$PIDFILE" -d
+	log_end_msg $?
+	;;
+    stop)
+        log_daemon_msg "Stopping TeamTalk 5 Server"
+	test -f $PIDFILE && kill `cat $PIDFILE` && rm $PIDFILE
+	log_end_msg $?
+	;;
+    restart)
+	$0 stop || exit 1
+	$0 start || exit 1
+	;;
+    *)
+	echo "Usage: /etc/init.d/tt5server {start|stop|restart}"
+	exit 1
+	;;
+esac
+
+exit 0
