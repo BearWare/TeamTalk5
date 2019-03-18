@@ -425,7 +425,7 @@
     <item id="1478">媒体文件</item>
     <item id="1480">千字节/秒 (0 = 禁用)</item>
     <item id="1481">默认用户</item>
-    <item id="1482">用户可以远程访问桌面会话和</item>
+    <item id="1482">用户可以远程访问桌面会话</item>
     <item id="1483">用户可以从服务器踢出其他用户</item>
     <item id="1484">用户可以从服务器禁止用户</item>
     <item id="1485">用户可在频道之间移动用户</item>
@@ -434,7 +434,7 @@
     <item id="1488">用户可以下载文件</item>
     <item id="1489">用户可以更新服务器属性</item>
     <item id="1490">用户可以传输音频文件（WAV，MP3等文件）</item>
-    <item id="1491">用户可以传输视频数据通过（网络摄像头）</item>
+    <item id="1491">用户可以传输视频数据（通过网络摄像头）</item>
     <item id="1492">语音音量设置</item>
     <item id="1493">左静音</item>
     <item id="1494">右静音</item>
@@ -475,6 +475,9 @@
     <item id="1547">防洪保护</item>
     <item id="1548">防止用户从例如通过限制在给定时间范围内可以发出的命令数来发送短信。</item>
     <item id="1550">限制发出命令</item>
+    <item id="1553">个人资料</item>
+    <item id="1554">用户可以更改昵称</item>
+    <item id="1558">用户可在所有频道录音</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维操作员 (&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息 (&amp;W)\tF10</item>
