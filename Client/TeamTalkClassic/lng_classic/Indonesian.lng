@@ -115,7 +115,6 @@
     <item id="243">Host manager</item>
     <item id="244">%s merubah berlangganan &quot;Pemutaran Berkas Media&quot; ke: %d</item>
     <item id="245">%s mengizinkan akses desktop</item>
-    <item id="247">Dapatkan alamat-IP</item>
     <item id="248">%s telah memiliki akses desktop</item>
     <item id="249">Kombinasi tombol</item>
     <item id="251">Kedudukan pengguna (3D sound cards)</item>
@@ -177,12 +176,9 @@
     <item id="313">Berkas ditambahkan</item>
     <item id="314">Berkas dihapus</item>
     <item id="1009">Otomatis bergabung ke saluran utama saat terhubung</item>
-    <item id="1011">Properti host</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
     <item id="1017">Volume</item>
-    <item id="1018">Standar: 10333</item>
-    <item id="1019">Nonaktifkan pesan ini</item>
     <item id="1020">Tampilkan jumlah pengguna di saluran</item>
     <item id="1021">Otomatis memposisikan pengguna menggunakan suara 3D</item>
     <item id="1022">Nonaktifkan aktifaci suara dalam keadaan sedang tidak aktif</item>
@@ -208,7 +204,6 @@
     <item id="1061">Topik</item>
     <item id="1063">Sandi</item>
     <item id="1067">Maksimal masuk per alamat-IP</item>
-    <item id="1071">Pilihan</item>
     <item id="1073">Sandi</item>
     <item id="1075">Alamat host</item>
     <item id="1077">Saluran suara</item>
@@ -325,7 +320,6 @@
     <item id="1311">Pengguna dapat melihat pengguna lain di semua saluran</item>
     <item id="1312">Pengguna dapat mengirim pesan siaran</item>
     <item id="1315">Pengguna dapat mentransmisi data suara (mik)</item>
-    <item id="1316">Merubah Akun Pengguna</item>
     <item id="1317">Pengguna dapat memutar berkas vidio (avi, mp4 file)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Tambah</item>

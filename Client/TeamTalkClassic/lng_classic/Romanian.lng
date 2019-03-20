@@ -115,7 +115,6 @@
     <item id="243">Managerul de conectare</item>
     <item id="244">%s a modificat subscribția interceptării fișierelor media la: %d</item>
     <item id="245">%s a oferit accesul la desktop</item>
-    <item id="247">Care este adresa mea IP?</item>
     <item id="248">Acum %s are acces la desktop</item>
     <item id="249">Combinații de tastatură</item>
     <item id="251">Poziționează participanții *plăci de sunet 3D)</item>
@@ -177,12 +176,9 @@
     <item id="313">Un fișier a fost adăugat </item>
     <item id="314">Un fișier a fost șters</item>
     <item id="1009">Intră automat pe canalul Root la conectare</item>
-    <item id="1011">Detalii server</item>
     <item id="1012">Portul TCP</item>
     <item id="1016">Portul UDP</item>
     <item id="1017">Volum</item>
-    <item id="1018">Implicit: 10333</item>
-    <item id="1019">Dezactivează acest mesaj</item>
     <item id="1020">Arată numărul utilizatorilor pe canale</item>
     <item id="1021">Poziționează utilizatorii automat utilizând sunetul 3D</item>
     <item id="1022">Dezactivează activarea vocală atunci când ești inactiv</item>
@@ -208,7 +204,6 @@
     <item id="1061">Subiect</item>
     <item id="1063">Parolă</item>
     <item id="1067">Logări maxime pentru o adresă IP</item>
-    <item id="1071">Opțional</item>
     <item id="1073">Parolă</item>
     <item id="1075">Adresă server</item>
     <item id="1077">Canale audio</item>
@@ -325,7 +320,6 @@
     <item id="1311">Utilizatorul poate vedea utilizatorii din toate canalele</item>
     <item id="1312">Utilizatorul poate trimite mesaje globale</item>
     <item id="1315">Utilizatorul poate vorbi</item>
-    <item id="1316">Modificare cont utilizator</item>
     <item id="1317">Utilizatorul poate difuza fișiere video</item>
     <item id="1323">Admin</item>
     <item id="1324">Adaugă</item>

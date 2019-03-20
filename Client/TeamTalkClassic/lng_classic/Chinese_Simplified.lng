@@ -115,7 +115,6 @@
     <item id="243">主机管理器</item>
     <item id="244">%s更改订阅&quot;拦截媒体文件流&quot;为: %d</item>
     <item id="245">%s 已授予桌面访问权限</item>
-    <item id="247">我的IP地址是什么?</item>
     <item id="248">%s 现在拥有桌面访问权限</item>
     <item id="249">按键组合</item>
     <item id="251">定位参与者（3D声卡）</item>
@@ -177,12 +176,9 @@
     <item id="313">文件已添加</item>
     <item id="314">文件已删除</item>
     <item id="1009">连接后自动加入跟频道</item>
-    <item id="1011">主机属性</item>
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
     <item id="1017">音量</item>
-    <item id="1018">默认:10333</item>
-    <item id="1019">屏蔽此消息</item>
     <item id="1020">显示频道用户人数</item>
     <item id="1021">自动使用 3D 声音定位用户所在位置</item>
     <item id="1022">空闲时停用语音活动</item>
@@ -208,7 +204,6 @@
     <item id="1061">主题</item>
     <item id="1063">密码</item>
     <item id="1067">每个IP地址的最大登录人数</item>
-    <item id="1071">附加选项</item>
     <item id="1073">密码</item>
     <item id="1075">主机地址</item>
     <item id="1077">音频频道</item>
@@ -325,7 +320,6 @@
     <item id="1311">用户可以看到所有频道的用户</item>
     <item id="1312">用户可以广播文字消息</item>
     <item id="1315">用户可以传输语音数据（通过麦克风）</item>
-    <item id="1316">修改用户帐户</item>
     <item id="1317">用户可以传输视频文件（AVI，MP4文件）</item>
     <item id="1323">管理员</item>
     <item id="1324">添加 (&amp;A)</item>

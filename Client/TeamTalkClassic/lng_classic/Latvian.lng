@@ -31,7 +31,6 @@
     <item id="223">Notikumu skaņas</item>
     <item id="224">Skaņu sistēma</item>
     <item id="243">Serveru pārzinis</item>
-    <item id="247">Kāda ir man IP-adrese?</item>
     <item id="249">Pogu kombinācijas</item>
     <item id="254">Saīsnes</item>
     <item id="268">Jauns lietotājs</item>
@@ -45,11 +44,8 @@
     <item id="280">Pārtrauca runāt</item>
     <item id="1008">Vienmēr pārsūtīt caur serveri</item>
     <item id="1009">Savienojoties pievienoties galvenajam kanālam</item>
-    <item id="1011">Servera opcijas</item>
     <item id="1012">Servera TCP ports</item>
     <item id="1016">Servera UDP ports</item>
-    <item id="1018">Noklusēti: 10333</item>
-    <item id="1019">Atspējot šo ziņu</item>
     <item id="1020">Rādīt lietotāju skaitu kanālā</item>
     <item id="1021">Pozicionēt lietotājus izmantojot 3D skaņu</item>
     <item id="1022">Atspējot balss aktivizāciju, kad esi neaktīvs</item>
@@ -74,7 +70,6 @@
     <item id="1065">Operators</item>
     <item id="1067">Aizsargāts ar paroli</item>
     <item id="1069">P.: 192.168.0.12</item>
-    <item id="1071">( Izvēles )</item>
     <item id="1073">Parole</item>
     <item id="1075">Servera adrese</item>
     <item id="1079">Lietotāja tiesības</item>

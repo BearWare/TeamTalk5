@@ -27,7 +27,6 @@
     <item id="223">Äänitapahtumat</item>
     <item id="224">Äänijärjestelmä</item>
     <item id="243">Serveri lista</item>
-    <item id="247">Mikä on minun ip-osoite</item>
     <item id="249">Näppäin yhdistelmä</item>
     <item id="254">Oikopolut</item>
     <item id="268">Uusi käyttäjä</item>
@@ -41,11 +40,8 @@
     <item id="280">Puhuminen lopetettu</item>
     <item id="1008">Aina tomita serverin kautta</item>
     <item id="1009">Liity automaatisesti pää kanavalle yhdistettyä</item>
-    <item id="1011">Serverin tiedot</item>
     <item id="1012">Serverin TCP portti</item>
     <item id="1016">Serverin UDP portti</item>
-    <item id="1018">Perus: 10333</item>
-    <item id="1019">Poista tämä viesti</item>
     <item id="1020">Näytä käyttäjien määrä kanavalla</item>
     <item id="1021">Automaattisesti järjestetyt käyttäjät käyttävät 3D ääntä</item>
     <item id="1022">Poista ääniaktivointi käytöstä kun poissa</item>
@@ -70,7 +66,6 @@
     <item id="1065">Operaattorit</item>
     <item id="1067">Salasana suojattu</item>
     <item id="1069">Esim. 192.168.0.12</item>
-    <item id="1071">Vaihtoehtoinen</item>
     <item id="1073">Salasana</item>
     <item id="1075">Serverin osoite</item>
     <item id="1079">Käyttäjän oikeudet</item>

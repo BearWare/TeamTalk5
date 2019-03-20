@@ -115,7 +115,6 @@
     <item id="243">Gestionnaire d&apos;hôte</item>
     <item id="244">%s a réglé l&apos;abonnement &quot;interception du fichier multimédia&quot; sur: %d</item>
     <item id="245">%s a accordé l&apos;accès au bureau</item>
-    <item id="247">Quelle est mon adresse IP?</item>
     <item id="248">%s a maintenant un accès au bureau</item>
     <item id="249">Combinaison de touches</item>
     <item id="251">Positionner les participants (cartes son 3D)</item>
@@ -169,12 +168,9 @@
     <item id="305">Choisissez un profil</item>
     <item id="306">Nom du profil</item>
     <item id="1009">Connexion automatique au canal principal lors de la connexion</item>
-    <item id="1011">Propriétés de l&apos;hôte</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
     <item id="1017">Volume</item>
-    <item id="1018">Par défaut: 10333</item>
-    <item id="1019">Désactiver ce message</item>
     <item id="1020">Afficher le nombre d&apos;utilisateurs dans les canaux</item>
     <item id="1021">Position automatique des utilisateurs à l&apos;aide du son 3D</item>
     <item id="1022">Désactiver l&apos;activation vocale si inactivité</item>
@@ -200,7 +196,6 @@
     <item id="1061">Objet</item>
     <item id="1063">Mot de passe</item>
     <item id="1067">Maximum de connexions par adresse IP</item>
-    <item id="1071">Optionnel</item>
     <item id="1073">Mot de passe</item>
     <item id="1075">Adresse de l&apos;hôte</item>
     <item id="1077">Canal audio</item>
@@ -317,7 +312,6 @@
     <item id="1311">L&apos;utilisateur peut voir les utilisateurs dans tous les canaux</item>
     <item id="1312">L&apos;utilisateur peut envoyer des messages généraux</item>
     <item id="1315">L&apos;utilisateur peut transmettre des données vocales (microphone)</item>
-    <item id="1316">Modifier le compte d&apos;utilisateur</item>
     <item id="1317">L&apos;utilisateur peut transmettre des fichiers vidéo (fichiers avi, mp4)</item>
     <item id="1323">Administrateur</item>
     <item id="1324">Ajouter</item>
