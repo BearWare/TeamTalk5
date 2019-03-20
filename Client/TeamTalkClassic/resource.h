@@ -130,7 +130,6 @@
 #define IDB_BITMAP_SESSION              222
 #define IDD_PROPPAGE_SOUNDEVENTSPAGE    223
 #define IDD_PROPPAGE_SOUNDSYSPAGE       224
-#define IDD_DIALOG_CONNECT              225
 #define IDS_SUBINT_VIDEO                226
 #define IDD_DIALOG_USERINFO             227
 #define IDB_BITMAP_MIKE                 228
@@ -138,7 +137,6 @@
 #define IDB_BITMAP_VOLUME               230
 #define IDD_DIALOG_USERVOLUME           231
 #define IDR_MENU_TRAY                   232
-#define IDD_DIALOG_DIRECTCONDLG         233
 #define IDS_SUBINT_DESKTOP              234
 #define IDD_WIZARD_GENERALPAGE          235
 #define IDR_ACCELERATOR2                236
@@ -152,7 +150,6 @@
 #define IDS_SUBINT_MEDIAFILE            244
 #define IDS_DESKTOPINPUT_GRANTED        245
 #define IDD_WIZARD_COMPLETIONPAGE       246
-#define IDD_DIALOG_IPADDRESSES          247
 #define IDS_DESKTOPINPUT_ACTIVE         248
 #define IDD_DIALOG_KEYCOMP              249
 #define IDR_MENU_MSGPOPUP               250
@@ -232,21 +229,16 @@
 #define IDC_STATIC_MIKE                 1008
 #define IDC_CHECK_AUTOJOINROOT          1009
 #define IDC_STATIC_APPTITLE             1010
-#define IDC_STATIC_GRPCONNECT           1011
 #define IDC_STATIC_HOSTTCPPORT          1012
 #define IDC_STATIC_SPLITTER             1013
 #define IDC_TREE_SESSION                1014
 #define IDC_EDIT_MOTD                   1015
 #define IDC_STATIC_HOSTUDPPORT          1016
 #define IDC_STATIC_VOLUME               1017
-#define IDC_STATIC_DEFSOUND             1018
-#define IDC_CHECK_DISABLE               1019
 #define IDC_CHECK_SHOWUSERCOUNT         1020
 #define IDC_CHECK_POSITIONING           1021
 #define IDC_CHECK_IDLEVOX               1022
 #define IDC_CHECK_MANUAL                1024
-#define IDC_STATIC_DEFHOST              1025
-#define IDC_STATIC_MSG                  1026
 #define IDC_STATIC_VOICEACT             1027
 #define IDC_STATIC_VOLUME2              1028
 #define IDC_EDIT_CHANPASSWORD           1029
@@ -282,7 +274,6 @@
 #define IDC_STATIC_MAXLOGINSIP          1067
 #define IDC_RADIO_DIRECTSOUND           1068
 #define IDC_COMBO_INPUTDRIVER           1070
-#define IDC_STATIC_OPTIONAL             1071
 #define IDC_COMBO_OUTPUTDRIVER          1072
 #define IDC_STATIC_PASSWORD             1073
 #define IDC_COMBO_SRATE                 1074
@@ -359,7 +350,6 @@
 #define IDC_BUTTON_TEST                 1175
 #define IDC_COMBO_MIXERINPUTS           1179
 #define IDC_CHECK_MIXERAUTOSELECT       1181
-#define IDC_EDIT_ADDRESSES              1183
 #define IDC_CHECK_BOOSTBUG              1185
 #define IDC_STATIC_GRPSNDEVENT          1186
 #define IDC_STATIC_RECORDERFREQ         1188
@@ -459,7 +449,6 @@
 #define IDC_CHECK_VIEWALLUSERS          1311
 #define IDC_CHECK_USERBCAST             1312
 #define IDC_CHECK_TRANSMITVOICE         1315
-#define IDC_STATIC_MODACCOUNT           1316
 #define IDC_CHECK_TRANSMITVIDEOFILE     1317
 #define IDC_EDIT_TCPPORT                1318
 #define IDC_EDIT_SRVNAME                1319
@@ -594,7 +583,6 @@
 #define IDC_STATIC_OUTPUTPROP           1463
 #define IDC_STATIC_INPUTPROP            1464
 #define IDC_CHECK_ENCRYPTED             1465
-#define IDC_EDIT_FILENAME               1467
 #define IDC_STATIC_SAVESERVERINFO       1468
 #define IDC_STATIC_KBPS5                1469
 #define IDC_STATIC_AUDIOFORMAT          1471

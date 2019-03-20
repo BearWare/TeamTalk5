@@ -115,7 +115,6 @@
     <item id="243">Správce serverů</item>
     <item id="244">%s mění odposlech multimediálních souborů na %d</item>
     <item id="245">%s uděluje přístup ke vzdálené obrazovce</item>
-    <item id="247">Jaká je moje IP adresa?</item>
     <item id="248">%s má nyní přístup ke vzdálené obrazovce</item>
     <item id="249">Kombinace kláves</item>
     <item id="251">Rozmístit uživatele (prostorový zvuk 3D)</item>
@@ -171,12 +170,9 @@
     <item id="307">Vzestupně</item>
     <item id="308">Počet uživatelů</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
-    <item id="1011">Vlastnosti serveru</item>
     <item id="1012">TCP port</item>
     <item id="1016">UDP port</item>
     <item id="1017">Hlasitost</item>
-    <item id="1018">Výchozí: 10333</item>
-    <item id="1019">Zakázat tuto zprávu</item>
     <item id="1020">Zobrazovat počet uživatelů na kanálech</item>
     <item id="1021">Automaticky rozmístit uživatele pomocí zvuku 3D</item>
     <item id="1022">Vypnout hlasovou aktivaci při nepřítomnosti</item>
@@ -203,7 +199,6 @@
     <item id="1061">Téma</item>
     <item id="1063">Heslo</item>
     <item id="1067">Maximální počet přihlášení na IP adresu</item>
-    <item id="1071">Nepovinné</item>
     <item id="1073">Heslo</item>
     <item id="1075">Adresa serveru</item>
     <item id="1077">Zvukové kanály</item>
@@ -321,7 +316,6 @@
     <item id="1312">Uživatelé mohou posílat administrátorské zprávy</item>
     <item id="1313">Uživatelé mohou používat příkazy</item>
     <item id="1315">Uživatelé mohou posílat zvuk</item>
-    <item id="1316">Upravit uživatelský účet</item>
     <item id="1317">Uživatelé mohou streamovat videosoubory (avi, mp4)</item>
     <item id="1323">Administrátor</item>
     <item id="1324">&amp;Přidat</item>

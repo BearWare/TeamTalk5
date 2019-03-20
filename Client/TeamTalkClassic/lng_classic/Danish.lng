@@ -101,7 +101,6 @@
     <item id="224">Lydsystem</item>
     <item id="227">Brugerinformation</item>
     <item id="243">Serverliste</item>
-    <item id="247">Hvad er min IP-adresse?</item>
     <item id="249">Tastekombination</item>
     <item id="251">Positioner deltagere (3D lydkort)</item>
     <item id="254">Genveje</item>
@@ -121,12 +120,9 @@
     <item id="280">Tale stopper</item>
     <item id="1008">Altid send gennem server</item>
     <item id="1009">Indtræd automatisk i rodkanalen ved tilslutning</item>
-    <item id="1011">Serverindstillinger</item>
     <item id="1012">Server TCP port</item>
     <item id="1016">Server UDP port</item>
     <item id="1017">Volume</item>
-    <item id="1018">Standard: 10333</item>
-    <item id="1019">Deaktiver denne besked</item>
     <item id="1020">Vis antal af brugere i kanal</item>
     <item id="1021">Positioner brugere automatisk vha. 3D lyd</item>
     <item id="1022">Deaktiver stemmeaktivering ved away status</item>
@@ -157,7 +153,6 @@
     <item id="1065">Kanalejere</item>
     <item id="1067">Kodeordsbeskyttet</item>
     <item id="1069">F.eks. 192.168.0.12</item>
-    <item id="1071">Valgfri</item>
     <item id="1073">Kodeord</item>
     <item id="1075">Serveradresse</item>
     <item id="1077">Lydkanaler</item>
@@ -283,7 +278,6 @@
     <item id="1312">Brugere kan broadcaste tekstbeskeder</item>
     <item id="1313">Brugere kan send kanalkommandoer</item>
     <item id="1315">Bruger kan transmittere tale data (mikrofon)</item>
-    <item id="1316">Modificer Brugerkonto</item>
     <item id="1317">Bruger kan transmittere mediefiler (avi, mp4 filer)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Tilføj</item>

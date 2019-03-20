@@ -27,7 +27,6 @@
     <item id="223">聲音事件</item>
     <item id="224">聲音系統</item>
     <item id="243">伺服器列表</item>
-    <item id="247">我的IP位址?</item>
     <item id="249">複合鍵</item>
     <item id="254">快速鍵</item>
     <item id="268">新用戶</item>
@@ -41,11 +40,8 @@
     <item id="280">禁止發言</item>
     <item id="1008">始終允許連接伺服器</item>
     <item id="1009">自動加入預設頻道</item>
-    <item id="1011">伺服器屬性</item>
     <item id="1012">伺服器 TCP 埠</item>
     <item id="1016">伺服器 UDP 埠</item>
-    <item id="1018">預設: 10333</item>
-    <item id="1019">禁止該訊息</item>
     <item id="1020">顯示頻道用戶數</item>
     <item id="1021">預設用戶使用 3D Sound</item>
     <item id="1022">閒置時禁用語音啟動</item>
@@ -70,7 +66,6 @@
     <item id="1065">操作員</item>
     <item id="1067">頻道加密</item>
     <item id="1069">例如: 192.168.0.12</item>
-    <item id="1071">可選</item>
     <item id="1073">密碼</item>
     <item id="1075">伺服器位址</item>
     <item id="1079">用戶許可權</item>

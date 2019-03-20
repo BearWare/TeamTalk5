@@ -118,7 +118,6 @@
     <item id="243">Menedżer serwerów</item>
     <item id="244">%s zmienia przechwytywanie mediów na: %d</item>
     <item id="245">%s nadaje uprawnienie kontroli pulpitu</item>
-    <item id="247">Jaki jest mój adres IP?</item>
     <item id="248">%s może teraz kontrolować pulpit</item>
     <item id="249">Skrót klawiszowy</item>
     <item id="251">Rozlokowywanie użytkowników w przestrzeni</item>
@@ -145,13 +144,10 @@
     <item id="279">Ukończono przesył pliku</item>
     <item id="280">Przestał mówić</item>
     <item id="1009">Automatycznie łącz z głównym kanałem po połączeniu</item>
-    <item id="1011">Właściwości serwera</item>
     <item id="1012">Port TCP serwera</item>
     <item id="1014">Widok ogólny</item>
     <item id="1016">Port UDP serwera</item>
     <item id="1017">Głośność</item>
-    <item id="1018">Domyślnie: 10333</item>
-    <item id="1019">Nie mów mi o tym więcej</item>
     <item id="1020">Pokazuj liczbę użytkowników na kanale</item>
     <item id="1021">Automatycznie rozlokuj użytkowników w przestrzeni</item>
     <item id="1022">Wyłącz aktywację głosem, gdy nieobecny</item>
@@ -179,7 +175,6 @@
     <item id="1063">Hasło</item>
     <item id="1065">WASapi</item>
     <item id="1067">Maksymalna liczba sesji na adres IP</item>
-    <item id="1071">Opcjonalnie</item>
     <item id="1073">Hasło</item>
     <item id="1075">Adres serwera</item>
     <item id="1077">Kanały audio</item>
@@ -299,7 +294,6 @@
     <item id="1312">Użytkownicy mogą wysyłać wiadomości typu broadcast</item>
     <item id="1313">Użytkownicy mogą wprowadzać komendy kanału</item>
     <item id="1315">Użytkownicy mogą wysyłać audio (mikrofon)</item>
-    <item id="1316">Właściwości konta użytkownika</item>
     <item id="1317">Użytkownik może transmitować pliki video (avi, mp4)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Dodaj</item>

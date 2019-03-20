@@ -115,7 +115,6 @@
     <item id="243">Host manager</item>
     <item id="244">%s changed subscription &quot;Intercept Media File Stream&quot; to: %d</item>
     <item id="245">%s has granted desktop access</item>
-    <item id="247">What is my IP-address?</item>
     <item id="248">%s now has desktop access</item>
     <item id="249">Key combination</item>
     <item id="251">Position participants (3D sound cards)</item>
@@ -177,17 +176,13 @@
     <item id="313">File added</item>
     <item id="314">File removed</item>
     <item id="1009">Auto join root channel upon connection</item>
-    <item id="1011">Host properties</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
     <item id="1017">Volume</item>
-    <item id="1018">Default: 10333</item>
-    <item id="1019">Disable this message</item>
     <item id="1020">Show number of users in channels</item>
     <item id="1021">Auto position users using 3D sound</item>
     <item id="1022">Disable voice activation while inactive</item>
     <item id="1024">Launch the Quick start guide to learn how to setup a server and connect to it</item>
-    <item id="1025">Default: 10333</item>
     <item id="1028">Volume</item>
     <item id="1030">&amp;Connect</item>
     <item id="1035">User ID</item>
@@ -208,7 +203,6 @@
     <item id="1061">Topic</item>
     <item id="1063">Password</item>
     <item id="1067">Max logins per IP-address</item>
-    <item id="1071">Optional</item>
     <item id="1073">Password</item>
     <item id="1075">Host address</item>
     <item id="1077">Audio channels</item>
@@ -325,7 +319,6 @@
     <item id="1311">User can see users in all channels</item>
     <item id="1312">User can broadcast text messages</item>
     <item id="1315">User can transmit voice data (microphone)</item>
-    <item id="1316">Modify User Account</item>
     <item id="1317">User can transmit video files (avi, mp4 files)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;Add</item>

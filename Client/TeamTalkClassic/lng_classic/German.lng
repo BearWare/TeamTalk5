@@ -115,7 +115,6 @@
     <item id="243">Adressbuch</item>
     <item id="244">%s hat den Empfang beobachteter Medien-Streams auf %d gesetzt</item>
     <item id="245">%s hat den Desktop-Zugriff erlaubt</item>
-    <item id="247">Wie lautet meine IP-Adresse?</item>
     <item id="248">%s hat nun Desktop-Zugriff</item>
     <item id="249">Tastenkombination</item>
     <item id="251">Teilnehmer positionieren (3D-Soundkarten)</item>
@@ -177,12 +176,9 @@
     <item id="313">Datei hinzugefügt</item>
     <item id="314">Datei entfernt</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
-    <item id="1011">Hosteigenschaften</item>
     <item id="1012">TCP-Port</item>
     <item id="1016">UDP-Port</item>
     <item id="1017">Lautstärke</item>
-    <item id="1018">Standard: 10333</item>
-    <item id="1019">Diese Nachricht ausschalten</item>
     <item id="1020">Anzahl Benutzer in Räumen zeigen</item>
     <item id="1021">Benutzer automatisch in 3D-Sound anordnen</item>
     <item id="1022">Spracherkennung während Inaktivität ausschalten</item>
@@ -209,7 +205,6 @@
     <item id="1063">Passwort</item>
     <item id="1067">Max. Logins pro IP-Adresse</item>
     <item id="1069">Z. B. 192.168.0.12</item>
-    <item id="1071">Optional</item>
     <item id="1073">Passwort</item>
     <item id="1075">Hostadresse</item>
     <item id="1077">Audiokanäle</item>
@@ -327,7 +322,6 @@
     <item id="1312">Kann Textnachrichten schreiben</item>
     <item id="1313">Kann Raumbefehle ausführen</item>
     <item id="1315">Kann Sprachdaten senden (Mikrofon)</item>
-    <item id="1316">Benutzeraccount ändern</item>
     <item id="1317">Kann Videos senden (avi, mp4)</item>
     <item id="1323">Administrator</item>
     <item id="1324">&amp;hinzufügen</item>

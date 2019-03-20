@@ -25,7 +25,6 @@
     <item id="223">Zvokovni dogodki</item>
     <item id="224">Sistem zvoka</item>
     <item id="243">Nastavitev strežnika</item>
-    <item id="247">Moj IP naslov</item>
     <item id="249">Kombinacija tipk</item>
     <item id="268">Nov uporabnik</item>
     <item id="269">Uporabnik odstranjen</item>
@@ -36,11 +35,8 @@
     <item id="280">Prekini pogovor</item>
     <item id="1008">Vedno preusmeri skozi server</item>
     <item id="1009">Avtomatski pristop kanalu pri prijavi</item>
-    <item id="1011">Nastavitve strežnika</item>
     <item id="1012">TCP port strežnika</item>
     <item id="1016">UDP port strežnika</item>
-    <item id="1018">Privzeto: 10333</item>
-    <item id="1019">Onemogoči to obvestilo</item>
     <item id="1020">Prikaži število uporabnikov v kanalu</item>
     <item id="1021">Avtomatska pozicioniraj uporabnike, ki uporabljajo 3D zvok</item>
     <item id="1022">Onemogoči govorno aktivacijo, ko sem neaktiven</item>
@@ -65,7 +61,6 @@
     <item id="1065">Operaterji</item>
     <item id="1067">Zaščiteno z geslom</item>
     <item id="1069">Primer: 192.168.0.1</item>
-    <item id="1071">Opcija</item>
     <item id="1073">Geslo</item>
     <item id="1075">Naslov strežnika</item>
     <item id="1079">Pravice uporabnika</item>
