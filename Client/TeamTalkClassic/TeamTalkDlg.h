@@ -404,7 +404,6 @@ public:
     afx_msg void OnHelpWebsite();
     afx_msg void OnHelpManual();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-    afx_msg void OnHelpWhatismyip();
     afx_msg void OnEndSession(BOOL bEnding);
     afx_msg void OnNMCustomdrawSliderVoiceact(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnFilePreferences();
@@ -413,10 +412,6 @@ public:
     afx_msg void OnUsersOp();
     afx_msg void OnUpdateMeUsespeechonevents(CCmdUI *pCmdUI);
     afx_msg void OnMeUsespeechonevents();
-    afx_msg void OnUpdateAdvancedIncreasevolume(CCmdUI *pCmdUI);
-    afx_msg void OnAdvancedIncVolumeVoice();
-    afx_msg void OnUpdateAdvancedLowerVolumeVoice(CCmdUI *pCmdUI);
-    afx_msg void OnAdvancedLowerVolumeVoice();
     afx_msg void OnHelpRunwizard();
     afx_msg void OnUpdateChannelsUploadfile(CCmdUI *pCmdUI);
     afx_msg void OnChannelsUploadfile();
