@@ -133,10 +133,6 @@ BOOL CHostManagerDlg::OnInitDialog()
 
     TRANSLATE(*this, IDD);
 
-#ifndef ENABLE_TEAMTALKPRO
-    m_wndEncrypted.ShowWindow(SW_HIDE);
-#endif
-
     m_wndDelete.EnableWindow(FALSE);
 
     m_wndUsername.AddString(WEBLOGIN_FACEBOOK_USERNAME);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <teamtalk version="5.0">
     <general>
-        <server-name></server-name>
+        <server-name>TeamTalk 5 Professional Server (Encrypted)</server-name>
         <motd></motd>
         <max-users>1000</max-users>
         <auto-save>false</auto-save>

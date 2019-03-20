@@ -673,7 +673,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     ACE_CString url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
     url += "&version=" TEAMTALK_VERSION;
-    url += "&service=bearware.dk";
+    url += "&service=bearware";
     url += ACE_CString("&username=") + authusername.c_str();
     url += ACE_CString("&password=") + authpasswd.c_str();
 

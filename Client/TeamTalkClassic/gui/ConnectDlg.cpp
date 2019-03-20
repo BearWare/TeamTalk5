@@ -129,9 +129,6 @@ BOOL CConnectDlg::OnInitDialog()
     CDialog::OnInitDialog();
 
     TRANSLATE(*this, IDD);
-#ifndef ENABLE_TEAMTALKPRO
-    m_wndEncrypted.ShowWindow(SW_HIDE);
-#endif
 
     DisplayHosts();
 

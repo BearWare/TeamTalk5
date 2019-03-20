@@ -703,7 +703,7 @@ void PrintCommandArgs()
     cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
     cout << "Compiled on " __DATE__ " " __TIME__ "." << endl;
     cout << endl;
-    cout << "Copyright (c) 2002-2018, BearWare.dk" << endl;
+    cout << "Copyright (c) 2002-2019, BearWare.dk" << endl;
     cout << endl;
     cout << "Usage: " << TEAMTALK_EXE << " [OPTIONS]" << endl << endl;
 #if defined(BUILD_NT_SERVICE)
@@ -944,17 +944,19 @@ void RunWizard(ServerXML& xmlSettings)
         cout << "Server certificate file (PEM file) for encryption: ";
         certfile = LocalToUnicode(printGetString(UnicodeToLocal(certfile).c_str()).c_str());
         if(ACE_OS::filesize(certfile.c_str())<=0)
-            cout << "File " << certfile << " not found! Continuing configuration..." << endl;
+            cerr << "File " << certfile << " not found! Continuing configuration..." << endl;
         cout << "Server private key file (PEM file) for encryption: ";
         keyfile = LocalToUnicode(printGetString(UnicodeToLocal(keyfile).c_str()).c_str());
         if(ACE_OS::filesize(keyfile.c_str())<=0)
-            cout << "File " << keyfile << " not found! Continuing configuration..." << endl;
+            cerr << "File " << keyfile << " not found! Continuing configuration..." << endl;
     }
     else
     {
         certfile.clear();
         keyfile.clear();
     }
+
+    bool encrypted = certfile.length() && keyfile.length();
 #endif
 
     cout << endl << "User authentication." << endl;
@@ -1046,6 +1048,13 @@ void RunWizard(ServerXML& xmlSettings)
             goto useraccountcfg;
 #if defined(ENABLE_TEAMTALKPRO)
         case CREATE_USERACCOUNT_BEARWARE :
+
+            if (!encrypted)
+            {
+                cout << "BearWare.dk web-login can only be used in encrypted mode." << endl;
+                break;
+            }
+
             cout << "Creating BearWare.dk web-login account." << endl;
             user.username = ACE_TEXT( WEBLOGIN_BEARWARE );
             user.passwd = ACE_TEXT("");

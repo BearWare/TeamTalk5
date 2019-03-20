@@ -1105,15 +1105,9 @@ TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
     if(!szHostAddress)
         return FALSE;
 
-#if defined(ENABLE_TEAMTALKPRO)
     return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 szSystemID, ACE_TEXT(""), nLocalTcpPort, 
                                 nLocalUdpPort);
-#else
-    return pClientNode->Connect(false, szHostAddress, nTcpPort, nUdpPort, 
-                                szSystemID, ACE_TEXT(""), nLocalTcpPort, 
-                                nLocalUdpPort);
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
@@ -1131,15 +1125,9 @@ TEAMTALKDLL_API TTBOOL TT_ConnectEx(IN TTInstance* lpTTInstance,
     if(!szHostAddress || !szBindIPAddr)
         return FALSE;
 
-#if defined(ENABLE_TEAMTALKPRO)
     return pClientNode->Connect(bEncrypted, szHostAddress, nTcpPort, nUdpPort, 
                                 SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
                                 nLocalUdpPort);
-#else
-    return pClientNode->Connect(false, szHostAddress, nTcpPort, nUdpPort, 
-                                SERVER_WELCOME, szBindIPAddr, nLocalTcpPort, 
-                                nLocalUdpPort);
-#endif
 }
 
 TEAMTALKDLL_API TTBOOL TT_Disconnect(IN TTInstance* lpTTInstance)
