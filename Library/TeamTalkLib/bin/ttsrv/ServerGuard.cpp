@@ -772,10 +772,8 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
 #if defined(ENABLE_HTTP_AUTH)
     
-    ACE_TString fbregex = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-
     bool facebook = useraccount.username == ACE_TEXT(WEBLOGIN_FACEBOOK_USERNAME);
+    ACE_TString fbregex = ACE_TEXT(WEBLOGIN_FACEBOOK_POSTFIX) + ACE_TString(ACE_TEXT("$"));
 #if defined(UNICODE)
     facebook |= std::regex_search(useraccount.username.c_str(), std::wregex(fbregex.c_str()));
 #else
@@ -784,12 +782,16 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
     bool bearware = false;
 #if defined(ENABLE_TEAMTALKPRO)
+    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+    if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
+        return TT_CMDERR_INVALID_ACCOUNT;
 #if defined(UNICODE)
     bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
 #else
     bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
 #endif
-    #endif
+
+#endif /* ENABLE_TEAMTALKPRO */
 
     if (bearware || facebook)
     {
