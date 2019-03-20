@@ -37,7 +37,7 @@ enum
     _COLUMN_LAST_COUNT
 };
 
-#define WM_ONLINEUSERSDLG_CLOSED WM_USER + 1201
+#define WM_ONLINEUSERSDLG_CLOSED (WM_APP+4)
 
 // COnlineUsersDlg dialog
 
@@ -55,8 +55,11 @@ public:
     void AddUser(const User& user);
     void RemoveUser(int nUserID);
 
+    void ResetUsers();
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void PostNcDestroy();
 
 	DECLARE_MESSAGE_MAP()
     HACCEL m_hAccel; // accelerator table
@@ -78,5 +81,5 @@ public:
     afx_msg void OnPopupCopyuserinformation();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnPopupMessages();
-    virtual void PostNcDestroy();
+    virtual void OnCancel();
 };

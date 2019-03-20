@@ -116,7 +116,9 @@ BOOL COnlineUsersDlg::OnInitDialog()
     m_wndUsers.InsertColumn(COLUMN_VERSION_, _T("Version"));
     m_wndUsers.SetColumnWidth(COLUMN_VERSION_, 100);
 
-    return TRUE;  // return TRUE unless you set the focus to a control
+    m_wndUsers.SetFocus();
+
+    return FALSE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
@@ -146,7 +148,6 @@ void COnlineUsersDlg::AddUser(const User& user)
     m_wndUsers.SetItemText(iIndex, COLUMN_IPADDRESS, user.szIPAddress);
     m_wndUsers.SetItemText(iIndex, COLUMN_VERSION_, GetVersion(user));
     m_wndUsers.SetItemData(iIndex, user.nUserID);
-
 }
 
 void COnlineUsersDlg::RemoveUser(int nUserID)
@@ -163,6 +164,12 @@ void COnlineUsersDlg::RemoveUser(int nUserID)
             m_wndUsers.SetItemData(i, 0);
         }
     }
+}
+
+void COnlineUsersDlg::ResetUsers()
+{
+    m_users.clear();
+    m_wndUsers.DeleteAllItems();
 }
 
 void COnlineUsersDlg::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
@@ -308,17 +315,21 @@ void COnlineUsersDlg::OnPopupMessages()
 
 void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)
 {
-    CDialog::OnSize(nType, cx, cy);
-
     // TODO: Group box overlaps listbox for some reason...
     //m_resizer.Move();
+    CDialog::OnSize(nType, cx, cy);
+
 }
-
-
 
 void COnlineUsersDlg::PostNcDestroy()
 {
     CDialog::PostNcDestroy();
     m_pParent->SendMessage(WM_ONLINEUSERSDLG_CLOSED);
     delete this;
+}
+
+void COnlineUsersDlg::OnCancel()
+{
+    CDialog::OnCancel();
+    DestroyWindow();
 }

@@ -25,7 +25,7 @@
 
 
 // CUserButton
-#define WM_USERBUTTON_DRAGGING WM_USER+1
+#define WM_USERBUTTON_DRAGGING (WM_USER+1)
 
 class CUserButton : public CButton
 {

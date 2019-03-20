@@ -226,7 +226,7 @@ protected:
     typedef std::map<int, CUserDesktopDlg*> mapdesktopdlg_t;
     mapdesktopdlg_t m_desktopdlgs;
     std::set<int> m_desktopignore;
-    class COnlineUsersDlg* m_onlineUsersDlg = nullptr;
+    class COnlineUsersDlg* m_pOnlineUsersDlg = nullptr;
     //store used channel passwords
     typedef std::map<int, CString> chanpasswd_t;
     chanpasswd_t m_channelPasswords;

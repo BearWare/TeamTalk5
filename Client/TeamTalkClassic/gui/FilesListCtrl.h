@@ -25,7 +25,7 @@
 
 // CFilesListCtrl
 
-#define WM_FILESLISTCTRL_FILESDROPPED WM_USER+1
+#define WM_FILESLISTCTRL_FILESDROPPED (WM_USER+1)
 
 class CFilesListCtrl : public CListCtrl
 {

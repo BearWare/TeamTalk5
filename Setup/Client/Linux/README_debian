@@ -1,0 +1,66 @@
+TeamTalk 5 for Debian 9
+-----------------------
+
+TeamTalk 5 runs on Debian 9 using ALSA sound system for audio and
+Video4Linux2 (V4L2) for video capture.
+
+When joining or creating a channel on a server then ensure that your
+audio input and output devices support the sample rate used by the
+channel, otherwise you'll get an audio device failure.
+
+
+Dependencies
+------------
+
+In order to run TeamTalk the following dependencies must be
+installed first:
+
+- libqt5x11extras5
+- libqt5webenginewidgets5
+- libqt5webenginecore5
+- libqt5quick5
+- libqt5widgets5
+- libqt5multimedia5
+- libqt5gui5
+- libqt5webchannel5
+- libqt5qml5
+- libqt5network5
+- libqt5xml5
+- libqt5core5a
+- libasound2
+
+To install the packages run the following command as 'root':
+
+apt install libqt5x11extras5 libqt5webenginewidgets5 \
+libqt5webenginecore5 libqt5quick5 libqt5widgets5 \
+libqt5multimedia5 libqt5gui5 libqt5webchannel5 \
+libqt5qml5 libqt5network5 libqt5xml5 libqt5core5a libasound2
+
+Run TeamTalk
+------------
+
+Use the run.sh script to start the TeamTalk client. The run.sh script
+includes the shared library (libTeamTalk.so) dependency in the library
+path.
+
+
+Known Issues
+------------
+
+There are still a couple of issues which needs to be fixed in the
+TeamTalk client before it runs smoothly on Linux. These are listed
+here:
+
+- Modifier keys alone cannot be used as hotkeys. Hotkeys needs to be
+  either a regular key or a regular key and a modifier key. F12 seems
+  like a good key to use as a PTT key on Linux when using KDE.
+
+- Streaming video flickers sometimes
+
+
+Help
+----
+
+If you have problems running TeamTalk then look in the forum at
+http://www.bearware.dk for help.
+
