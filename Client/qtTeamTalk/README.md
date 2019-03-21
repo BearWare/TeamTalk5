@@ -30,6 +30,7 @@ build the TeamTalk Qt Client application:
 * qt5-default
 * libqt5x11extras5-dev
 * qtmultimedia5-dev
+* libqt5webkit5-dev
 * g++
 
 Afterwards run the following command:
