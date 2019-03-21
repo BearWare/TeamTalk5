@@ -27,7 +27,6 @@
     <item id="223">Tiếng báo sự kiện</item>
     <item id="224">Hệ thống âm thanh</item>
     <item id="243">Quản lý máy chủ</item>
-    <item id="247">Địa chỉ IP của tôi là gì?</item>
     <item id="249">Tổ hợp phím</item>
     <item id="254">Liên kết</item>
     <item id="268">Người dùng mới</item>
@@ -41,11 +40,8 @@
     <item id="280">Dừng nói</item>
     <item id="1008">Luôn truyền qua server</item>
     <item id="1009">Tự động tham gia vào kênh gốc dựa trên kết nối</item>
-    <item id="1011">Thuộc tính máy chủ</item>
     <item id="1012">Cổng TCP máy chủ</item>
     <item id="1016">Cổng UDP máy chủ</item>
-    <item id="1018">Ngầm định: 10333</item>
-    <item id="1019">Cấm thông báo này</item>
     <item id="1020">Hiện số người dùng trên kênh</item>
     <item id="1021">Tự động chọn người dùng sử dụng âm thanh 3D</item>
     <item id="1022">Tắt kích hoạt âm thanh khi đang nghỉ</item>
@@ -70,7 +66,6 @@
     <item id="1065">Điều hành viên</item>
     <item id="1067">Bảo vệ bằng mật khẩu</item>
     <item id="1069">Ví dụ: 192.168.0.12</item>
-    <item id="1071">Tuỳ chọn</item>
     <item id="1073">Mật khẩu</item>
     <item id="1075">Địa chỉ máy chủ</item>
     <item id="1079">Quyền người dùng</item>

@@ -49,7 +49,6 @@
     <item id="224">Sustav zvuka</item>
     <item id="227">Informacije o korisniku</item>
     <item id="243">Upravitelj hostova</item>
-    <item id="247">Koja je moja ip adresa</item>
     <item id="249">Kombinacija tipaka</item>
     <item id="251">Pozicioniraj učesnike podržano samo na 3d zvučnim karticama</item>
     <item id="254">prečaci</item>
@@ -68,12 +67,9 @@
     <item id="279">Transfer završen</item>
     <item id="280">prestao je pričati</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
-    <item id="1011">svojstva hosta</item>
     <item id="1012">TCP port hosta</item>
     <item id="1016">UDP port hosta</item>
     <item id="1017">Glasnoća</item>
-    <item id="1018">Zadano: 10333</item>
-    <item id="1019">Onemogući ovu poruku</item>
     <item id="1020">Prikazuj broj korisnika na kanalima</item>
     <item id="1021">Automatski pozicioniraj korisnike koristeći 3D zvuk</item>
     <item id="1022">Onemogući aktivaciju glasom kada je neaktivna</item>
@@ -99,7 +95,6 @@
     <item id="1061">Tema</item>
     <item id="1063">Lozinka</item>
     <item id="1067">Maksimalna prijava po ip adresi</item>
-    <item id="1071">neobavezno</item>
     <item id="1073">lozinka</item>
     <item id="1075">adresa hosta</item>
     <item id="1077">audiokanali</item>
@@ -217,7 +212,6 @@
     <item id="1312">Korisnici mogu slati javne tekstualne poruke</item>
     <item id="1313">Korisnici mogu izvoditi komande kanala</item>
     <item id="1315">Korisnici mogu prenositi glasovne podatke (mikrofon)</item>
-    <item id="1316">Izmjeni korisnički račun</item>
     <item id="1317">korisnik može slati video datoteke (avi, mp4 datoteke)</item>
     <item id="1323">administrator</item>
     <item id="1324">&amp;Dodaj</item>

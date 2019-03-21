@@ -103,7 +103,6 @@
     <item id="224">sistema audio</item>
     <item id="227">informazione utente</item>
     <item id="243">Manager degli hosts</item>
-    <item id="247">Qual&apos;è il mio indirizzo IP</item>
     <item id="248">%s ora ha l&apos;accesso desktop</item>
     <item id="249">Combinazione tasti</item>
     <item id="251">posiziona partecipanti scheda audio 3d</item>
@@ -117,12 +116,9 @@
     <item id="266">principale</item>
     <item id="1008">Passa sempre attraverso il server</item>
     <item id="1009">Collegati automaticamente al canale principale appena connesso</item>
-    <item id="1011">Proprietà host</item>
     <item id="1012">Porta TCP dell&apos;host</item>
     <item id="1016">Porta UDP dell&apos;host</item>
     <item id="1017">volume</item>
-    <item id="1018">Default: 10333</item>
-    <item id="1019">Disattiva questo messaggio</item>
     <item id="1020">Mostra il numero degli utenti nei canali</item>
     <item id="1021">Autoposiziona gli utenti usando il suono 3D</item>
     <item id="1022">Disattiva l&apos;attivazione vocale mentre inattivo</item>
@@ -153,7 +149,6 @@
     <item id="1065">Operatori</item>
     <item id="1067">numero massimo di registrazione per indirizzo ip</item>
     <item id="1069">ES. 192.168.0.12</item>
-    <item id="1071">Opzionale</item>
     <item id="1073">parola chiave</item>
     <item id="1075">Indirizzo Host</item>
     <item id="1077">canali audio</item>
@@ -286,7 +281,6 @@
     <item id="1311">gli utenti possono vedere gli altri utenti in tutti i canali</item>
     <item id="1312">gli utenti possono diffondere messaggi di testo generali</item>
     <item id="1315">gli utenti possono trasmettere dati vocali (microfono)</item>
-    <item id="1316">modifica account utente</item>
     <item id="1317">l&apos;utente può trasmettere files video</item>
     <item id="1323">amministratore</item>
     <item id="1324">&amp;aggiungi</item>

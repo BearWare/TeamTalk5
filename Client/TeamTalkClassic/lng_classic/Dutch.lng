@@ -25,7 +25,6 @@
     <item id="223">geluids gebeurtenis</item>
     <item id="224">geluids systeem</item>
     <item id="243">host beheerder</item>
-    <item id="247">wat is mijn ip adres</item>
     <item id="249">toetsen combinatie</item>
     <item id="268">nieuwe gebruiker</item>
     <item id="269">gebruiker verwijdert</item>
@@ -36,11 +35,8 @@
     <item id="280">gestopt met spreken</item>
     <item id="1008">altijd forward door server</item>
     <item id="1009">automatisch aansluiten hoofd kanaal bij verbinding</item>
-    <item id="1011">host eigenschappen</item>
     <item id="1012">host TCP poort</item>
     <item id="1016">host UDP poort</item>
-    <item id="1018">standaard: 10333</item>
-    <item id="1019">dit bericht uit schakelen</item>
     <item id="1020">bekijk aantal gebruikers in de kanalen</item>
     <item id="1021">auto positioneer gebruikers met 3d geluid</item>
     <item id="1022">schakel stem activatie uit indien niet actief</item>
@@ -65,7 +61,6 @@
     <item id="1065">operators</item>
     <item id="1067">wachtwoord beveiligd</item>
     <item id="1069">B.V 192.168.0.12</item>
-    <item id="1071">optioneel</item>
     <item id="1073">Wachtwoord</item>
     <item id="1075">Host address</item>
     <item id="1079">Gebruikers rechten</item>

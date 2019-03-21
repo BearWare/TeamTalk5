@@ -27,7 +27,6 @@
     <item id="223">Eventos sonoros</item>
     <item id="224">Sistema de som</item>
     <item id="243">Gestor de servidores</item>
-    <item id="247">Qual é o meu endereço IP?</item>
     <item id="249">Combinação chave</item>
     <item id="254">Atalhos</item>
     <item id="268">Novo utilizador</item>
@@ -41,11 +40,8 @@
     <item id="280">Termina conversação</item>
     <item id="1008">Reencaminhar sempre pelo servidor</item>
     <item id="1009">Ao ligar ir automaticamente para canal principal</item>
-    <item id="1011">Propriedades do servidor</item>
     <item id="1012">Porta TCP servidor</item>
     <item id="1016">Porta UDP servidor</item>
-    <item id="1018">Defeito: 10333</item>
-    <item id="1019">Desactivar esta mensagem</item>
     <item id="1020">Mostrar número de utilizadores nos canais</item>
     <item id="1021">Auto-posicionar os utilizadores usando som 3D</item>
     <item id="1022">Desactivar activação por voz quando inactivo</item>
@@ -70,7 +66,6 @@
     <item id="1065">Operadores</item>
     <item id="1067">Protegido com palavra-chave</item>
     <item id="1069">Ex.: 192.168.0.12</item>
-    <item id="1071">Opcional</item>
     <item id="1073">Palavra-chave</item>
     <item id="1075">Endereço IP</item>
     <item id="1079">Direitos do utilizador</item>

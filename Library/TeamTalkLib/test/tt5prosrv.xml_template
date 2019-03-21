@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <teamtalk version="5.0">
     <general>
-        <server-name></server-name>
+        <server-name>TeamTalk 5 Professional Server (Encrypted)</server-name>
         <motd></motd>
         <max-users>1000</max-users>
         <auto-save>false</auto-save>
@@ -58,13 +58,26 @@
             <username>facebook</username>
             <password></password>
             <user-type>1</user-type>
-            <user-rights>259591</user-rights>
+            <user-rights>521735</user-rights>
             <note></note>
             <userdata>0</userdata>
             <init-channel></init-channel>
             <audiocodec-bps-limit>0</audiocodec-bps-limit>
             <channel-operator />
         </user>
+		
+        <user>
+            <username>bearware</username>
+            <password></password>
+            <user-type>1</user-type>
+            <user-rights>521735</user-rights>
+            <note />
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+
     </users>
     <serverbans />
 

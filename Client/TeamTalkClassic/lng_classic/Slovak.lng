@@ -27,7 +27,6 @@
     <item id="223">Zvukové udalosti</item>
     <item id="224">Zvukový systém</item>
     <item id="243">Správca serverov</item>
-    <item id="247">Akú mám IP adresu?</item>
     <item id="249">Kombinácia klávesov</item>
     <item id="254">Klávesové skratky</item>
     <item id="268">Nový používateľ</item>
@@ -41,11 +40,8 @@
     <item id="280">Koniec rozprávania</item>
     <item id="1008">Vždy komunikovať prostredníctvom servera</item>
     <item id="1009">Po pripojení na server automaticky vstúpiť do koreňovej miestnosti</item>
-    <item id="1011">Vlastnosti servera</item>
     <item id="1012">TCP port servera</item>
     <item id="1016">UDP port servera</item>
-    <item id="1018">Predvolený: 10333</item>
-    <item id="1019">Nezobrazovať túto správu</item>
     <item id="1020">Zobraziť počet používateľov v miestnosti</item>
     <item id="1021">Automaticky umiestniť používateľov využitím 3D zvuku</item>
     <item id="1022">Vypnúť aktiváciu hlasom pri nečinnosti</item>
@@ -70,7 +66,6 @@
     <item id="1065">Operátory</item>
     <item id="1067">Chránená heslom</item>
     <item id="1069">napr. 192.168.0.12</item>
-    <item id="1071">Nepovinné</item>
     <item id="1073">Heslo</item>
     <item id="1075">Adresa servera</item>
     <item id="1079">Práva používateľa</item>

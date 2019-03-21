@@ -115,7 +115,6 @@
     <item id="243">Host Yöneticisi</item>
     <item id="244">%s Medya Yayını Takibi: %d</item>
     <item id="245">%s Masaüstü erişimine izin verdi</item>
-    <item id="247">IP Adresim nedir?</item>
     <item id="248">%s şimdi masaüstü erişimi var</item>
     <item id="249">Tuş Konbinasyonu</item>
     <item id="251">Ses Tercihleri</item>
@@ -177,12 +176,9 @@
     <item id="313">Dosya Eklendi</item>
     <item id="314">Dosya Kaldırıldı</item>
     <item id="1009">Kök Kanal&apos;a Otomatik Olarak Giriş Yap</item>
-    <item id="1011">Host Özellikleri</item>
     <item id="1012">Host TCP Bağlantı Noktası</item>
     <item id="1016">Host UDP Bağlantı Noktası</item>
     <item id="1017">Ses Yükseltme</item>
-    <item id="1018">Varsayılan: 10333</item>
-    <item id="1019">Bu Mesajı Devre Dışı Bırak</item>
     <item id="1020">Kanal&apos;daki kullanıcı sayısını göster</item>
     <item id="1021">3d Ses Kullanıcıları</item>
     <item id="1022">Ses Aktivasyonunu Devre dışı Bırak</item>
@@ -207,7 +203,6 @@
     <item id="1061">Konu</item>
     <item id="1063">Şifre</item>
     <item id="1067">IP Başına Maksimum Giriş</item>
-    <item id="1071">İsteğe Bağlı</item>
     <item id="1073">Şifre</item>
     <item id="1075">Host Adresi</item>
     <item id="1077">Ses Kanalları</item>
@@ -324,7 +319,6 @@
     <item id="1312">Kullanıcılar Mesaj yayını yapabilir</item>
     <item id="1313">Kullanıcılar kanal komutlarını kullanabilir</item>
     <item id="1315">Kullanıcı ses mikrofon verisi iletebilir</item>
-    <item id="1316">Kullanıcı hesabını değiştir</item>
     <item id="1317">Kullanıcı mp4, avi dosyaları yayımlayabilir</item>
     <item id="1323">Yönetici</item>
     <item id="1324">&amp;Ekle</item>

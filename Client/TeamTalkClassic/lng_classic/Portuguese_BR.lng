@@ -81,7 +81,6 @@
     <item id="244">t244</item>
     <item id="245">t245</item>
     <item id="246">t246</item>
-    <item id="247">Qual é o meu endereço de IP?</item>
     <item id="248">t248</item>
     <item id="249">Combinação chave</item>
     <item id="250">t250</item>
@@ -106,13 +105,10 @@
     <item id="280">Terminar conversação</item>
     <item id="1008">Reencaminhar sempre pelo servidor</item>
     <item id="1009">Ao conecttar, ir automaticamente para o canal principal</item>
-    <item id="1011">Propriedades do servidor</item>
     <item id="1012">Porta TCP do servidor</item>
     <item id="1014">Canais e Usuários</item>
     <item id="1016">Porta UDP do servidor</item>
     <item id="1017">Volume</item>
-    <item id="1018">Padrão: 10333</item>
-    <item id="1019">Desativar esta mensagem</item>
     <item id="1020">Mostrar quantos usuários estão no canal</item>
     <item id="1021">Posicionar automaticamente os usuários usando som 3D</item>
     <item id="1022">Desativar a ativação por voz quando inativo</item>
@@ -145,7 +141,6 @@
     <item id="1067">Número máximo de logins por IP</item>
     <item id="1068">Som Direto (3d)</item>
     <item id="1069">Exemplo.: 192.155.231.17</item>
-    <item id="1071">Opcional</item>
     <item id="1073">Senha</item>
     <item id="1075">Endereço IP</item>
     <item id="1077">Canais de áudio</item>
@@ -276,7 +271,6 @@
     <item id="1311">O usuário pode ver os usuários que estão em outros canais</item>
     <item id="1312">O usuário pode enviar mensagens globais</item>
     <item id="1315">O usuário pode falar (via microfone)</item>
-    <item id="1316">Editar usuário</item>
     <item id="1317">O usuário pode transmitir arquivos de vídeo (avi, mp4, etc.)</item>
     <item id="1323">Administrador</item>
     <item id="1324">&amp;Adicionar</item>

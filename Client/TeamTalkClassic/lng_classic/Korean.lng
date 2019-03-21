@@ -55,7 +55,6 @@
     <item id="224">사운드 설정</item>
     <item id="227">사용자 정보</item>
     <item id="243">Host 관리자</item>
-    <item id="247">내 IP 주소는?</item>
     <item id="249">키 조합</item>
     <item id="254">단축키</item>
     <item id="256">차단된 사용자</item>
@@ -73,12 +72,9 @@
     <item id="280">대화가 중지됨</item>
     <item id="1008">항상 서버를 통해 보냄</item>
     <item id="1009">접속할때 최상위 채널로 자동 입장</item>
-    <item id="1011">호스트 속성</item>
     <item id="1012">호스트 TCP 포트</item>
     <item id="1016">호스트 UDP 포트</item>
     <item id="1017">볼륨</item>
-    <item id="1018">기본값: 10333</item>
-    <item id="1019">이 메시지 사용 안함</item>
     <item id="1020">채널에 접속한 사용자 수 표시</item>
     <item id="1021">3D 사운드 사용자 자동 배치</item>
     <item id="1022">사용하지 않을때 음성 활성화 기능 정지</item>
@@ -108,7 +104,6 @@
     <item id="1067">로그인당 최대 IP 주소</item>
     <item id="1068">다이렉트 사운드 (기본)</item>
     <item id="1069">예: 192.168.0.12</item>
-    <item id="1071">선택사항</item>
     <item id="1073">비밀번호</item>
     <item id="1075">Host 주소</item>
     <item id="1077">오디오 채널</item>
@@ -228,7 +223,6 @@
     <item id="1311">사용자가 모든 채널의 사용자를 볼 수 있음</item>
     <item id="1312">사용자가 broadcast text message를 보낼 수 있음.</item>
     <item id="1315">음성 데이터를 전송할 수 있는 사용자 (마이크)</item>
-    <item id="1316">사용자 계정 수정</item>
     <item id="1317">비디오 파일을 전송할 수 있는 사용자 (avi, mp4 파일)</item>
     <item id="1323">관리자</item>
     <item id="1324">추가 &amp;A</item>
