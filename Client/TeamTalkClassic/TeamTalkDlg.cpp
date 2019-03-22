@@ -27,15 +27,12 @@
 #include "TeamTalkDlg.h"
 
 #include "gui/AboutBox.h"
-#include "gui/IpAddressesDlg.h"
 #include "gui/HostManagerDlg.h"
-#include "gui/ConnectDlg.h"
 #include "gui/ChangeStatusDlg.h"
 #include "gui/InputDlg.h"
 #include "gui/PositionUsersDlg.h"
 #include "gui/UserInfoDlg.h"
 #include "gui/UserVolumeDlg.h"
-#include "gui/DirectConDlg.h"
 #include "gui/ChannelDlg.h"
 #include "gui/GeneralPage.h"
 #include "gui/WindowPage.h"
@@ -656,7 +653,6 @@ BEGIN_MESSAGE_MAP(CTeamTalkDlg, CDialogExx)
     ON_COMMAND(ID_HELP_WEBSITE, OnHelpWebsite)
     ON_COMMAND(ID_HELP_MANUAL, OnHelpManual)
     ON_WM_SHOWWINDOW()
-    ON_COMMAND(ID_HELP_WHATISMYIP, OnHelpWhatismyip)
     ON_WM_ENDSESSION()
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_VOICEACT, OnNMCustomdrawSliderVoiceact)
     ON_COMMAND(ID_FILE_PREFERENCES, OnFilePreferences)
@@ -4431,12 +4427,6 @@ void CTeamTalkDlg::OnHelpWebsite()
 void CTeamTalkDlg::OnHelpManual()
 {
     HINSTANCE i = ShellExecute(this->m_hWnd,_T("open"),MANUALFILE,_T(""),NULL,SW_SHOW);
-}
-
-void CTeamTalkDlg::OnHelpWhatismyip()
-{
-    CIpAddressesDlg dlg;
-    dlg.DoModal();
 }
 
 void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
