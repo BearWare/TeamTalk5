@@ -174,7 +174,7 @@ namespace teamtalk {
         if( ite != properties.end())
         {
             INT_OR_RET((*ite).second);
-            value = string2i((*ite).second);
+            value = int(string2i((*ite).second));
             return true;
         }
         return false;
@@ -187,7 +187,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = string2i(tmp);
+            value = ACE_UINT32(string2i(tmp));
             return true;
         }
         return false;
@@ -232,7 +232,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
-                vec.push_back(string2i(token));
+                vec.push_back(int(string2i(token)));
                 i = value.find(',', offset);
 
             }
@@ -240,7 +240,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, value.length()-offset);
                 offset = i+1;
-                vec.push_back(string2i(token));
+                vec.push_back(int(string2i(token)));
             }
             return true;
         }

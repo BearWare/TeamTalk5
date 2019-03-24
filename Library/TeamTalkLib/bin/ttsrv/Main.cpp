@@ -546,11 +546,11 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-tcpport"))) != args.end())
     {
-        tcpport = string2i((*ite).second.c_str());
+        tcpport = int(string2i((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-udpport"))) != args.end())
     {
-        udpport = string2i((*ite).second.c_str());
+        udpport = int(string2i((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-ip"))) != args.end())
     {

@@ -27,9 +27,7 @@
 #include <math.h>
 #include <assert.h>
 
-#if defined(WIN32) && !defined(UNDER_CE)
 #include <px_win_ds.h>    //the directx mixer
-#endif
 
 #if defined(ACE_WIN32)
 #include <Objbase.h>
@@ -144,16 +142,9 @@ bool PortAudio::GetDefaultDevices(int& inputdeviceid, int& outputdeviceid)
 {
     inputdeviceid = Pa_GetDefaultInputDevice();
     outputdeviceid = Pa_GetDefaultOutputDevice();
-#if !defined(UNDER_CE) && defined(WIN32)
+#if defined(WIN32)
     PaHostApiIndex hostApi;
-    if(IsWindows6OrLater())
-        hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
-    else
-    {
-        //DSound should be default on Win2K/XP
-        hostApi = Pa_HostApiTypeIdToHostApiIndex(paDirectSound);
-    }
-
+    hostApi = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
     if(hostApi != paHostApiNotFound)
     {
         const PaHostApiInfo* hostapi = Pa_GetHostApiInfo(hostApi);

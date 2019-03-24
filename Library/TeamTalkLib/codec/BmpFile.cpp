@@ -164,8 +164,8 @@ std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat&
     if (bmiHeader.biSizeImage == 0)
     {
         if(bmpfile.seek(0, SEEK_END) > 0) {
-            bmiHeader.biSizeImage = ACE_UINT32(bmpfile.tell());
-            bmiHeader.biSizeImage -= startpos;
+            bmiHeader.biSizeImage = uint32_t(bmpfile.tell());
+            bmiHeader.biSizeImage -= uint32_t(startpos);
         }
     }
     bmpfile.seek(startpos, SEEK_SET);
