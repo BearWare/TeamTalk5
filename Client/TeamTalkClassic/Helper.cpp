@@ -36,7 +36,7 @@ static char THIS_FILE[] = __FILE__;
 using namespace std;
 using namespace teamtalk;
 
-BOOL ConvertFont( const Font font, LOGFONT& destination)
+BOOL ConvertFont( const MyFont font, LOGFONT& destination)
 {
     if( font.szFaceName.IsEmpty() || font.nSize <= 0)
         return FALSE;

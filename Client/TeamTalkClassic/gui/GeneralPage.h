@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -28,7 +28,7 @@
 
 #include "KeyCompDlg.h"
 
-// CGeneralPage dialog
+ // CGeneralPage dialog
 
 class CGeneralPage : public CPropertyPage
 {
@@ -43,8 +43,8 @@ public:
     BOOL    m_bVoiceAct;
     CString    m_sNickname;
     BOOL m_bFemale;
-  int m_nInactivity;
-  BOOL m_bIdleVox;
+    int m_nInactivity;
+    BOOL m_bIdleVox;
 
     CEdit    m_KeyEdit;
     CButton    m_btnPush;
@@ -52,10 +52,10 @@ public:
 
     CButton m_wndKeysBtn;
     CStatic m_wndKeyComp;
-  CEdit m_wndInactivity;
-  CButton m_wndIdleVox;
+    CEdit m_wndInactivity;
+    CButton m_wndIdleVox;
 
-// Dialog Data
+    // Dialog Data
     enum { IDD = IDD_PROPPAGE_GENERALPAGE };
 
 protected:
@@ -66,5 +66,10 @@ public:
     virtual BOOL OnInitDialog();
 public:
     afx_msg void OnBnClickedSetupKeys();
-  afx_msg void OnEnChangeEditInactivity();
+    afx_msg void OnEnChangeEditInactivity();
+    afx_msg void OnBnClickedButtonSetupbearware();
+    CString m_szBearWareID;
+    CString m_szBearWarePasswd;
+    CEdit m_wndBearWareID;
+    CButton m_wndSetupBearWare;
 };

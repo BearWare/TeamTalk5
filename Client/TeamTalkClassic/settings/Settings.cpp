@@ -96,10 +96,38 @@ namespace teamtalk {
         return version;
     }
 
-    std::string XMLDocument::GetValue(const std::string& path)
+    void XMLDocument::SetValue(const std::string& path, const std::string& value)
     {
         TiXmlElement* item = GetRootElement();
         stdstrings_t tokens = stdtokenize(path, "/");
+        assert(tokens.size());
+        if (tokens.empty() || !item)
+            return;
+
+        std::string name = tokens.back();
+        tokens.erase(tokens.end()-1);
+
+        while (tokens.size())
+        {
+            auto child = item->FirstChildElement(tokens[0].c_str());
+            if (!child)
+            {
+                TiXmlElement newelement(tokens[0].c_str());
+                child = AppendElement(*item, newelement);
+            }
+            item = child;
+            tokens.erase(tokens.begin());
+        }
+        PutString(*item, name, value);
+    }
+
+    std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue/* = ""*/)
+    {
+        TiXmlElement* item = GetRootElement();
+        stdstrings_t tokens = stdtokenize(path, "/");
+        if (prefixRoot)
+            tokens.insert(tokens.begin(), m_rootname);
+
         if(item && tokens.size())
         {
             if(item->Value() != tokens[0])
@@ -113,7 +141,7 @@ namespace teamtalk {
             item = item->FirstChildElement(tokens[0].c_str());
             tokens.erase(tokens.begin());
         }
-        string value;
+        string value = defaultvalue;
         if(tokens.empty() && item)
             GetElementText(*item, value);
         return value;

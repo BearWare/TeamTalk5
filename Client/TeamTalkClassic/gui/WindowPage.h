@@ -23,7 +23,6 @@
 
 #pragma once
 #include "afxwin.h"
-#include "Helper.h"
 #include "afxcmn.h"
 
 // CWindowPage dialog
@@ -39,7 +38,7 @@ public:
     BOOL m_bStartMinimized;
     LOGFONT m_lf;
 
-    Font m_Font;
+    MyFont m_Font;
 
 // Dialog Data
     enum { IDD = IDD_PROPPAGE_WINDOWPAGE };

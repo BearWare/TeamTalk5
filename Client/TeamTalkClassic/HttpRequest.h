@@ -47,6 +47,8 @@ public:
     BOOL ResponseReady();
     CString GetResponse();
 
+    int Status();
+
 private:
     IXMLHttpRequest* m_pIXMLHttpRequest;
     HttpState m_state;

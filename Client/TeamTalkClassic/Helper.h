@@ -33,10 +33,10 @@ typedef struct
     BOOL bBold;
     BOOL bItalic;
     BOOL bUnderline;
-} Font;
+} MyFont;
 
 
-BOOL ConvertFont( const Font font, LOGFONT& destination);
+BOOL ConvertFont( const MyFont font, LOGFONT& destination);
 
 BOOL FileExists(LPCTSTR szFileName);
 CString GetExecutableFolder();

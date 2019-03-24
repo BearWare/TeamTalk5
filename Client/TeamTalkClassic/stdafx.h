@@ -29,8 +29,8 @@
 */
 
 #ifndef _WIN32_WINNT        // Allow use of features specific to Windows NT 4 or later.
-#define _WIN32_WINNT 0x0501        // Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
-#endif                        
+#define _WIN32_WINNT 0x0601        // Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#endif
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS    // some CString constructors will be explicit
 
@@ -60,6 +60,7 @@
 #endif // IMPLEMENT_OLECREATE2
 
 #include <afxmt.h>
+#include <afxcontrolbars.h>
 
 /*
  * The TeamTalk header and library files are located in 
@@ -68,14 +69,13 @@
  * To download the TeamTalk 5 SDK go to the GitHub website:
  *
  * https://github.com/BearWare/TeamTalk5
- *
- * Once downloaded copy TeamTalk.h from the downloaded TeamTalk 5 SDK
- * folder "Library/TeamTalk_DLL" to the folder "../TeamTalk_DLL" */
+ */
 
-#include "../TeamTalk_DLL/TeamTalk.h"
+#include <TeamTalk.h>
 
 #include "TeamTalkBase.h"
 
+#include "resource.h"
+#include "AppInfo.h"
 #include "Helper.h"
 #include "Languages.h"
-#include <afxcontrolbars.h>
