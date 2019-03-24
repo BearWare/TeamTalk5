@@ -27,9 +27,8 @@
 #include <math.h>
 #include <assert.h>
 
-#include <px_win_ds.h>    //the directx mixer
-
 #if defined(ACE_WIN32)
+#include <px_win_ds.h>    //the directx mixer
 #include <Objbase.h>
 #endif
 
