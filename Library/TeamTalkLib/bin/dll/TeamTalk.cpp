@@ -2994,18 +2994,12 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_GetKeyString(IN TTInstance* lpTTInstance,
                                               IN INT32 nVKCode,
                                               OUT TTCHAR szKeyName[TT_STRLEN])
 {
-#ifndef UNDER_CE
-
 #ifndef MAPVK_VK_TO_VSC
 #define MAPVK_VK_TO_VSC 0
 #endif
 
     UINT scancode = MapVirtualKey(nVKCode, MAPVK_VK_TO_VSC);
     return ::GetKeyNameText( scancode << 16 , szKeyName, TT_STRLEN)>0;
-
-#else
-    return FALSE;
-#endif
 }
 
 #endif /* WIN32 hotkeys */

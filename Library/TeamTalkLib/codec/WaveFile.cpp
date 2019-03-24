@@ -37,7 +37,7 @@ bool WriteWaveFileHeader(ACE_FILE_IO& file, const media::AudioFormat& fmt)
     waveformat.nChannels = fmt.channels;
     waveformat.nSamplesPerSec = fmt.samplerate;
     waveformat.nAvgBytesPerSec = PCM16_BYTES(fmt.samplerate, fmt.channels);
-    waveformat.nBlockAlign = PCM16_BYTES(1, fmt.channels);
+    waveformat.nBlockAlign = uint16_t(PCM16_BYTES(1, fmt.channels));
     waveformat.wBitsPerSample = 16;
     waveformat.cbSize = 0;
 
@@ -97,6 +97,15 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
     }
 
     return file.seek(origin, SEEK_SET) >= 0 && success;
+}
+
+WaveFile::WaveFile()
+{
+}
+
+WaveFile::~WaveFile()
+{
+    m_wavfile.close();
 }
 
 bool WaveFile::NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len)

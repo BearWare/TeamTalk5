@@ -340,7 +340,7 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
         CMessageDlg* pMsgDlg = new CMessageDlg(this, myself, user, szLogFolder);
         pMsgDlg->m_messages = m_wndTree.GetUserMessages(nUserID);
         m_mUserDlgs[user.nUserID] = pMsgDlg;
-        Font font;
+        MyFont font;
         string szFaceName;
         int nSize;
         bool bBold, bUnderline, bItalic;
@@ -2485,7 +2485,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     EnableSpeech(m_xmlSettings.GetEventTTSEvents() != 0);
 
     //load fonts
-    Font font;
+    MyFont font;
     string szFaceName;
     int nSize;
     bool bBold, bUnderline, bItalic;
@@ -3414,7 +3414,7 @@ void CTeamTalkDlg::OnFilePreferences()
                 windowpage.m_Font.bItalic);
             m_Font.DeleteObject();
             LOGFONT lfont;
-            Font font;
+            MyFont font;
             font.szFaceName = windowpage.m_Font.szFaceName;
             font.nSize = windowpage.m_Font.nSize;
             font.bBold = windowpage.m_Font.bBold;
@@ -4559,7 +4559,7 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                CString updname = STR_UTF8(xmlDoc.GetValue("teamtalk/name").c_str());
+                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/name").c_str());
                 if(!updname.IsEmpty())
                 {
                     CString str;

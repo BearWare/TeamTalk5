@@ -132,8 +132,6 @@ private:
 
 bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
 
-bool IsWindows6OrLater();
-
 #ifdef WIN32
 #define GETTIMESTAMP ::GetTickCount
 #else

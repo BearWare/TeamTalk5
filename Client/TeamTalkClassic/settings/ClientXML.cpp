@@ -465,6 +465,19 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szPassword)
+    {
+        SetValue("general/bearwareid/username", szUsername);
+        SetValue("general/bearwareid/password", szPassword);
+    }
+
+    bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szPassword)
+    {
+        szUsername = GetValue(true, "general/bearwareid/username");
+        szPassword = GetValue(true, "general/bearwareid/password");
+        return !szUsername.empty();
+    }
+
     bool ClientXML::SetProfileName(const std::string& szProfilename)
     {
         TiXmlElement* pParent = GetGeneralElement();
@@ -479,7 +492,7 @@ namespace teamtalk {
     
     std::string ClientXML::GetProfileName()
     {
-        return GetValue(m_rootname + "/general/profile-name");
+        return GetValue(true, "/general/profile-name");
     }
 
     bool ClientXML::SetGender(int nGender)
@@ -1142,7 +1155,7 @@ namespace teamtalk {
 
     int ClientXML::GetSortOrder()
     {
-        string value = GetValue(m_rootname + "/window/sort-channels");
+        string value = GetValue(true, "window/sort-channels");
         if(value.size())
             return str2i(value);
         return 0;

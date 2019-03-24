@@ -1292,7 +1292,7 @@ int ServerNode::SendPacket(const FieldPacket& packet,
             }
             else
             {
-                ret = ph->sock_i().send(vv, buffers, remoteaddr);
+                ret = int(ph->sock_i().send(vv, buffers, remoteaddr));
             }
             m_stats.packets_sent++;
         }

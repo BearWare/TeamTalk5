@@ -21,15 +21,6 @@
  *
  */
 
-#if !defined(UNDER_CE)
-//need x-button
-#undef _WIN32_WINNT
-#undef VWINVER
-
-#define _WIN32_WINNT 0x0501
-#define VWINVER 0x0501
-#endif
-
 #include <ace/OS.h>
 #include <ace/Thread_Manager.h>
 #include <myace/MyACE.h>
@@ -40,36 +31,6 @@
 #include <algorithm>
 
 using namespace std;
-
-#if defined(UNDER_CE)
-
-/// LRESULT CALLBACK LowLevelKeyHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-typedef LRESULT (CALLBACK* HOOKPROC)(int code, WPARAM wParam, LPARAM lParam);
-
-/// HHOOK SetWindowsHookEx(int idHook, HOOKPROC lpfn, HINSTANCE hMod, DWORD dwThreadId);
-typedef HHOOK (*WINHOOK) (int idHook, HOOKPROC lpfn, HINSTANCE hMod, DWORD dwThreadId);
-
-/// WINUSERAPI BOOL WINAPI UnhookWindowsHookEx(IN HHOOK hhk);
-typedef WINUSERAPI BOOL (WINAPI* UNHOOK) (IN HHOOK hhk);
-
-/// WINUSERAPI LRESULT WINAPI CallNextHookEx(IN HHOOK hhk, IN int nCode, IN WPARAM wParam, IN LPARAM lParam);
-typedef WINUSERAPI LRESULT (WINAPI* CALLNEXT) (IN HHOOK hhk, IN int nCode, IN WPARAM wParam, IN LPARAM lParam);
-
-#define WH_KEYBOARD_LL     20
-
-typedef struct tagKBDLLHOOKSTRUCT {
-    DWORD   vkCode;
-    DWORD   scanCode;
-    DWORD   flags;
-    DWORD   time;
-    ULONG_PTR dwExtraInfo;
-} KBDLLHOOKSTRUCT, FAR *LPKBDLLHOOKSTRUCT, *PKBDLLHOOKSTRUCT;
-
-WINHOOK SetWindowsHookEx = NULL;
-UNHOOK UnhookWindowsHookEx = NULL;
-CALLNEXT CallNextHookEx = NULL;
-
-#endif
 
 HotKey* HotKey::Instance()
 {
@@ -224,7 +185,6 @@ HHOOK hMouseHook = NULL;
 
 LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-#if !defined(UNDER_CE)
     if(nCode == HC_ACTION)
     {
         if((lParam & 0x80000000)) //a key is up
@@ -236,9 +196,6 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
             HOTKEY->KeyToggle((UINT)wParam, TRUE);
         }
     }
-#else
-    assert(0);
-#endif
     return ( CallNextHookEx(hKeyHook, nCode, wParam, lParam) );//pass control to next hook in the hook chain.
 }
 
@@ -256,7 +213,6 @@ LRESULT CALLBACK LowLevelKeyHookProc(  int nCode,     // hook code
         KBDLLHOOKSTRUCT* lp = reinterpret_cast<KBDLLHOOKSTRUCT*> (lParam);
         LPARAM code = lp->scanCode;
         std::set<DWORD>::iterator ite = activekeys.find(lp->vkCode);
-#if !defined(UNDER_CE)
         if(lp->flags & 0x80)
         {
             if(ite != activekeys.end())
@@ -273,24 +229,6 @@ LRESULT CALLBACK LowLevelKeyHookProc(  int nCode,     // hook code
                 HOTKEY->KeyToggle(lp->vkCode, TRUE);
             }
         }
-#else
-        if(wParam == WM_KEYUP || wParam == WM_SYSKEYUP)
-        {
-            if(ite != activekeys.end())
-            {
-                activekeys.erase(lp->vkCode);
-                HOTKEY->KeyToggle(lp->vkCode, FALSE);
-            }
-        }
-        else
-        {
-            if(ite == activekeys.end())
-            {
-                activekeys.insert(lp->vkCode);
-                HOTKEY->KeyToggle(lp->vkCode, TRUE);
-            }
-        }
-#endif
     }
 
     return CallNextHookEx(hKeyHook, nCode, wParam, lParam);
@@ -303,7 +241,6 @@ LRESULT CALLBACK LowLevelMouseHookProc(  int nCode,     // hook code
                                                                              LPARAM lParam  // message data
                                                                              )
 {
-#if !defined(UNDER_CE)
     if(nCode == HC_ACTION)
     {
         if( wParam == WM_LBUTTONDOWN || wParam == WM_LBUTTONUP ||
@@ -341,9 +278,6 @@ LRESULT CALLBACK LowLevelMouseHookProc(  int nCode,     // hook code
             }
         }
     }
-#else
-    assert(0);
-#endif
     return CallNextHookEx(hMouseHook,nCode,wParam,lParam);
 }
 
@@ -360,7 +294,6 @@ static ACE_THR_FUNC_RETURN hook_loop (void *arg)
 {
     HookInfo* hook = static_cast<HookInfo*> (arg);
 
-#if !defined(UNDER_CE)
     hKeyHook = SetWindowsHookEx( WH_KEYBOARD_LL,
         LowLevelKeyHookProc,
         hook->hInstance,
@@ -373,7 +306,6 @@ static ACE_THR_FUNC_RETURN hook_loop (void *arg)
         hook->hInstance,
         NULL);
     assert(hMouseHook);
-#endif
 
     hook->nResult = hMouseHook && hKeyHook;
 
@@ -391,74 +323,16 @@ BOOL InstallHook(HINSTANCE hInstance, BOOL bLLMouseHook)
     if(dwHookThreadID)
         return FALSE;
 
-    //detect windows version
-    OSVERSIONINFO version;
-    version.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&version);
+    HookInfo info;
+    info.hInstance = hInstance;
+    info.bLowLevel = bLLMouseHook;
+    info.nResult = -1;
 
-    if(version.dwMajorVersion >= 5 
-#if defined(UNDER_CE)
-        && version.dwPlatformId != VER_PLATFORM_WIN32_CE
-#endif
-        )    //win2K/XP
-    {
-        HookInfo info;
-        info.hInstance = hInstance;
-        info.bLowLevel = bLLMouseHook;
-        info.nResult = -1;
+    if(ACE_Thread_Manager::instance ()->spawn(hook_loop, &info, THR_NEW_LWP|THR_JOINABLE|THR_INHERIT_SCHED,&dwHookThreadID)<0)
+        return false;
 
-        if(ACE_Thread_Manager::instance ()->spawn(hook_loop, &info, THR_NEW_LWP|THR_JOINABLE|THR_INHERIT_SCHED,&dwHookThreadID)<0)
-            return false;
+    while(info.nResult == -1)Sleep(10);
 
-        while(info.nResult == -1)Sleep(10);
-
-        //  hKeyHook = SetWindowsHookEx( WH_KEYBOARD_LL,
-        //    LowLevelKeyHookProc,
-        //    hInstance,
-        //    NULL);
-        //assert(hKeyHook);
-
-        //int nMouseHook = bLLMouseHook? WH_MOUSE_LL : WH_MOUSE;
-        //hMouseHook = SetWindowsHookEx( nMouseHook,
-        //    LowLevelMouseHookProc,
-        //    hInstance,
-        //    NULL);
-        //assert(hMouseHook);
-    }
-    else
-    {
-#if defined(UNDER_CE)
-        HMODULE hCoreMod = NULL;
-        hCoreMod = LoadLibrary(_T("coredll.dll"));
-        if(hCoreMod)
-        {
-            SetWindowsHookEx = (WINHOOK)GetProcAddress(hCoreMod, _T("SetWindowsHookExW"));
-            assert(SetWindowsHookEx);
-            UnhookWindowsHookEx = (UNHOOK)GetProcAddress(hCoreMod, _T("UnhookWindowsHookEx"));
-            assert(UnhookWindowsHookEx);
-            CallNextHookEx = (CALLNEXT)GetProcAddress(hCoreMod, _T("CallNextHookEx"));
-
-            hKeyHook = SetWindowsHookEx( WH_KEYBOARD_LL,
-                LowLevelKeyHookProc,
-                hInstance,
-                NULL);
-            assert(hKeyHook);
-            return hKeyHook != NULL;
-        }
-#else
-        hKeyHook = SetWindowsHookEx( WH_KEYBOARD,
-            KeyHookProc,
-            hInstance,
-            NULL);
-        assert(hKeyHook);
-
-        hMouseHook = SetWindowsHookEx( WH_MOUSE,
-            LowLevelMouseHookProc,
-            hInstance,
-            NULL);
-        assert(hMouseHook);
-#endif
-    }
     return hKeyHook != NULL && hMouseHook != NULL;
 }
 

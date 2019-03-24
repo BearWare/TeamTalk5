@@ -86,7 +86,7 @@ set (JAVA_SOURCES
   src/dk/bearware/WindowsHelper.java)
 
 if (MSVC)
-  add_definitions (-DUNICODE -D_UNICODE)
+  add_definitions (-DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
   
   function(set_output_dir target dir)
     set_target_properties (${target} PROPERTIES

@@ -48,7 +48,7 @@ namespace teamtalk
         {
             if(str_date[i] == '/')
             {
-                year = string2i(str_date.substr(0, i));
+                year = long(string2i(str_date.substr(0, i)));
                 break;
             }
             else i++;
@@ -58,7 +58,7 @@ namespace teamtalk
         {
             if(str_date[i] == '/')
             {
-                month = string2i(str_date.substr(begin, i));
+                month = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -68,7 +68,7 @@ namespace teamtalk
         {
             if(str_date[i] == ' ')
             {
-                day = string2i(str_date.substr(begin, i));
+                day = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -79,7 +79,7 @@ namespace teamtalk
         {
             if(str_date[i] == ':')
             {
-                hour = string2i(str_date.substr(begin, i));
+                hour = long(string2i(str_date.substr(begin, i)));
                 break;
             }
             else i++;
@@ -88,7 +88,7 @@ namespace teamtalk
         begin = ++i;
 
         if(str_date.length() - begin > 0)
-            minutes = string2i(str_date.substr(begin, str_date.length()));
+            minutes = long(string2i(str_date.substr(begin, str_date.length())));
         return ACE_Date_Time(day, month, year, hour, minutes);
     }
 

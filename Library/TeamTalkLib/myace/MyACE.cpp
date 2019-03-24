@@ -526,18 +526,6 @@ Profiler::~Profiler()
             m_name, (ACE_UINT32)tm.msec(), m_filename, m_line, (unsigned)h);
 }
 
-bool IsWindows6OrLater()
-{
-#ifdef ACE_WIN32
-    //detect windows version
-    OSVERSIONINFO version;
-    version.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&version);
-    return version.dwMajorVersion >= 6;
-#endif
-    return false;
-}
-
 #ifndef WIN32
 
 #if defined(__APPLE__)
