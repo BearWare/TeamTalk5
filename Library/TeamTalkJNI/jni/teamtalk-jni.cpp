@@ -649,9 +649,9 @@ extern "C" {
     {
         THROW_NULLEX(env, lpDesktopInputs, false);
 
-        size_t len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len);
-        for(size_t i=0;i<len;i++)
+        for(jsize i=0;i<len;i++)
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         return TT_SendDesktopInput(reinterpret_cast<TTInstance*>(lpTTInstance), nUserID,
                                    &inputs[0], len);
@@ -1209,7 +1209,7 @@ extern "C" {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
 
-            for(size_t i=0;i<(size_t)n_users;i++)
+            for(jsize i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1306,7 +1306,7 @@ extern "C" {
         {
             n_users = std::min(n_users, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_users);
-            for(size_t i=0;i<(size_t)n_users;i++)
+            for(jsize i=0;i<(size_t)n_users;i++)
             {
                 jclass cls = env->FindClass("dk/bearware/User");
                 jobject user_obj = newObject(env, cls);
@@ -1352,7 +1352,7 @@ extern "C" {
             {
                 std::vector<jobject> jfiles(n_files);
                 jclass cls = env->FindClass("dk/bearware/RemoteFile");
-                for(size_t i=0;i<(size_t)n_files;i++)
+                for(jsize i=0;i<(size_t)n_files;i++)
                 {
                     jobject file_obj = newObject(env, cls);
                     setRemoteFile(env, files[i], file_obj, N2J);
@@ -1424,7 +1424,7 @@ extern "C" {
             n_channels = std::min(n_channels, (INT32)getIntPtr(env, lpnHowMany));
             setIntPtr(env, lpnHowMany, n_channels);
             jclass cls = env->FindClass("dk/bearware/Channel");
-            for(size_t i=0;i<(size_t)n_channels;i++)
+            for(jsize i=0;i<jsize(n_channels);i++)
             {
                 jobject chan_obj = newObject(env, cls);
                 setChannel(env, channels[i], chan_obj, N2J);
@@ -1685,13 +1685,13 @@ extern "C" {
         if (env->GetArrayLength(lpDesktopInputs) != env->GetArrayLength(lpTranslatedDesktopInputs))
             return -1;
 
-        jint len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len), outputs(len);
-        for(size_t i=0;i<len;i++) {
+        for(jsize i=0;i<len;i++) {
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         }
-        size_t ret = TT_DesktopInput_KeyTranslate(TTKeyTranslate(nTranslate), &inputs[0], &outputs[0], len);
-        for (size_t i=0;i<len;++i) {
+        jint ret = TT_DesktopInput_KeyTranslate(TTKeyTranslate(nTranslate), &inputs[0], &outputs[0], len);
+        for (jsize i=0;i<jsize(len);++i) {
             setDesktopInput(env, outputs[i], env->GetObjectArrayElement(lpTranslatedDesktopInputs, i), N2J);
         }
         return ret;
@@ -1701,9 +1701,9 @@ extern "C" {
                                                                                jclass,
                                                                                jobjectArray lpDesktopInputs)
     {
-        jint len = env->GetArrayLength(lpDesktopInputs);
+        jsize len = env->GetArrayLength(lpDesktopInputs);
         std::vector<DesktopInput> inputs(len);
-        for(size_t i=0;i<len;i++) {
+        for(jsize i=0;i<len;i++) {
             setDesktopInput(env, inputs[i], env->GetObjectArrayElement(lpDesktopInputs, i), J2N);
         }
         return TT_DesktopInput_Execute(&inputs[0], len);

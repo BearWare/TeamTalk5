@@ -56,7 +56,8 @@ class WaveFile
 {
 public:
     WaveFile(const WaveFile&) = delete;
-    WaveFile() {}
+    WaveFile();
+    virtual ~WaveFile();
 
     bool NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len);
     bool AppendData(const void* data, int len);

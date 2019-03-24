@@ -1250,7 +1250,7 @@ namespace teamtalk {
                 strings_t tokens = tokenize(curfile, ACE_TEXT("."));
                 if(tokens.empty())
                     continue;
-                int val = string2i(tokens[tokens.size()-1]);
+                int val = int(string2i(tokens[tokens.size()-1]));
                 if(val > max)
                     max = val;
             }
