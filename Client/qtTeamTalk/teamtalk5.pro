@@ -33,3 +33,12 @@ CONFIG(release, debug|release) {
     }
 }
 
+FORMS += \
+    bearwarelogindlg.ui
+
+HEADERS += \
+    bearwarelogindlg.h
+
+SOURCES += \
+    bearwarelogindlg.cpp
+
