@@ -13,7 +13,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              userimagewidget.h userdesktopdlg.h desktopsharedlg.h \
              sendtextedit.h streammediafiledlg.h videotextdlg.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
-             customvideofmtdlg.h weblogindlg.h license.h
+             customvideofmtdlg.h weblogindlg.h license.h bearwarelogindlg.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -27,7 +27,8 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              userdesktopwidget.cpp gridwidget.cpp userimagewidget.cpp \
              userdesktopdlg.cpp desktopsharedlg.cpp sendtextedit.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
-             generatettfiledlg.cpp customvideofmtdlg.cpp weblogindlg.cpp
+             generatettfiledlg.cpp customvideofmtdlg.cpp weblogindlg.cpp \
+             bearwarelogindlg.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
@@ -35,7 +36,7 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
              filetransfer.ui uservolume.ui changestatus.ui about.ui \
              serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui \
              desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui \
-             generatettfile.ui customvideofmt.ui weblogin.ui
+             generatettfile.ui customvideofmt.ui weblogin.ui bearwarelogindlg.ui
 
 RESOURCES += resources.qrc
 

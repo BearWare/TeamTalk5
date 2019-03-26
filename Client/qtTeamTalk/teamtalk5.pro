@@ -32,13 +32,3 @@ CONFIG(release, debug|release) {
         LIBS += -sectcreate __TEXT __info_plist $${TARGET}.app/Contents/Info.plist
     }
 }
-
-FORMS += \
-    bearwarelogindlg.ui
-
-HEADERS += \
-    bearwarelogindlg.h
-
-SOURCES += \
-    bearwarelogindlg.cpp
-

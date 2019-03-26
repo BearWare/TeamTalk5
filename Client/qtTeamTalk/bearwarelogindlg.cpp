@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDomDocument>
 
 BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     QDialog(parent),
@@ -22,11 +23,10 @@ BearWareLoginDlg::~BearWareLoginDlg()
 
 void BearWareLoginDlg::accept()
 {
-    QString urlstr(WEBLOGIN_URL);
-
     QString username = ui->usernameEdit->text().trimmed();
     QString password = ui->passwordEdit->text();
 
+    QString urlstr(WEBLOGIN_URL);
     urlstr += "service=bearware";
     urlstr += "&username=" + QUrl::toPercentEncoding(username);
     urlstr += "&password=" + QUrl::toPercentEncoding(password);
@@ -43,11 +43,36 @@ void BearWareLoginDlg::accept()
 
 void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
 {
-    qDebug() << "Error: " << reply->error();
-    qDebug() << reply->readAll();
-    if (reply->error())
+    QString username, nickname;
+
+    auto data = reply->readAll();
+
+    QDomDocument doc("foo");
+    if (doc.setContent(data))
     {
-        QMessageBox::critical(this, tr("Failed to authenticate"),
-                              QMessageBox::Ok, )
+        auto child = doc.firstChildElement("teamtalk");
+        if (!child.isNull())
+        {
+            child = doc.firstChildElement("bearware");
+            if(!child.isNull())
+            {
+                auto id = child.firstChildElement("id");
+                if(!id.isNull())
+                    username = id.text();
+                auto name = child.firstChildElement("name");
+                if(!name.isNull())
+                    nickname = name.text();
+            }
+        }
+    }
+
+    if (username.isEmpty())
+    {
+        QMessageBox::critical(this, this->windowTitle(),
+                              tr("Failed to authenticate"), QMessageBox::Ok);
+    }
+    else
+    {
+        QDialog::accept();
     }
 }
