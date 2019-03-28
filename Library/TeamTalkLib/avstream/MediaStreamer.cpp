@@ -144,10 +144,10 @@ int MediaStreamer::GetQueuedAudioDataSize()
     if(mb->rd_ptr() != mb->base())
     {
         hdrs_size -= sizeof(AudioFrame);
-        queued_audio_bytes -= mb->capacity();
-        queued_audio_bytes += mb->length();
+        queued_audio_bytes -= int(mb->capacity());
+        queued_audio_bytes += int(mb->length());
     }
-    queued_audio_bytes -= hdrs_size;
+    queued_audio_bytes -= int(hdrs_size);
 
     return queued_audio_bytes;
 }

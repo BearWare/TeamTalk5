@@ -341,7 +341,7 @@ public:
             m_audiofile.reset(new WaveFile());
             std::vector<char> header;
             auto lpWaveFormatEx = MediaTypeToWaveFormatEx(GetOutputType(), header);
-            if (header.empty() || !m_audiofile->NewFile(szOutputFilename, lpWaveFormatEx, header.size()))
+            if (header.empty() || !m_audiofile->NewFile(szOutputFilename, lpWaveFormatEx, int(header.size())))
                 return;
         }
 
@@ -367,7 +367,7 @@ public:
             auto mbs = RetrieveAudioFrames();
             for(auto& mb : mbs)
             {
-                m_audiofile->AppendData(mb->rd_ptr(), mb->length());
+                m_audiofile->AppendData(mb->rd_ptr(), int(mb->length()));
                 mb->release();
             }
         }
@@ -806,7 +806,7 @@ public:
             for(auto& mb : result)
             {
                 assert(mb->length());
-                m_audiofile->AppendData(mb->rd_ptr(), mb->length());
+                m_audiofile->AppendData(mb->rd_ptr(), int(mb->length()));
                 if (bEraseOutput)
                     mb->release();
             }
