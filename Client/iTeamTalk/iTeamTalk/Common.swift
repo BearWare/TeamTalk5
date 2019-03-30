@@ -492,7 +492,7 @@ func enableSpeakerOutput(_ on: Bool) {
     let session = AVAudioSession.sharedInstance()
     
     do {
-        print("preset: " + convertFromAVAudioSessionMode(session.mode))
+        print("preset: " + session.mode.rawValue)
         if on {
             try session.setMode(AVAudioSession.Mode.videoChat)
         }
@@ -500,7 +500,7 @@ func enableSpeakerOutput(_ on: Bool) {
             try session.setMode(AVAudioSession.Mode.default)
             try session.setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.allowBluetooth)
         }
-        print("post set: "  + convertFromAVAudioSessionMode(session.mode))
+        print("post set: "  + session.mode.rawValue)
     }
     catch {
         print("Failed to set mode")
@@ -710,14 +710,4 @@ func toTTString(_ src: String, dst: inout (TTCHAR, TTCHAR, TTCHAR, TTCHAR, TTCHA
     var c = StringWrap()
     convertTuple(src, &c)
     dst = c.buf
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionMode(_ input: AVAudioSession.Mode) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
-	return input.rawValue
 }
