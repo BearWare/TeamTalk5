@@ -96,12 +96,12 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         let device = UIDevice.current
         
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: device)
+        center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: UIDevice.proximityStateDidChangeNotification, object: device)
 
         // detect device changes, e.g. headset plugged in
-        center.addObserver(self, selector: #selector(MainTabBarController.audioRouteChange(_:)), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+        center.addObserver(self, selector: #selector(MainTabBarController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
         
-        center.addObserver(self, selector: #selector(MainTabBarController.audioInterruption(_:)), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
+        center.addObserver(self, selector: #selector(MainTabBarController.audioInterruption(_:)), name: AVAudioSession.interruptionNotification, object: nil)
         
         if server.username == AppInfo.WEBLOGIN_FACEBOOK {
             facebookLogin()
@@ -140,7 +140,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if self.isMovingFromParentViewController {
+        if self.isMovingFromParent {
             polltimer?.invalidate()
             reconnecttimer?.invalidate()
             TT_CloseTeamTalk(ttInst)
@@ -248,30 +248,30 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
             
             switch reason as! UInt {
-            case AVAudioSessionRouteChangeReason.unknown.rawValue :
+            case AVAudioSession.RouteChangeReason.unknown.rawValue :
                 //print("ChangeReason Unknown")
                 break
-            case AVAudioSessionRouteChangeReason.newDeviceAvailable.rawValue :
+            case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue :
                 //print("ChangeReason NewDeviceAvailable")
                 break
-            case AVAudioSessionRouteChangeReason.oldDeviceUnavailable.rawValue:
+            case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
 //                print("ChangeReason Unknown")
                 setupSpeakerOutput()
-            case AVAudioSessionRouteChangeReason.categoryChange.rawValue:
+            case AVAudioSession.RouteChangeReason.categoryChange.rawValue:
 //                let session = AVAudioSession.sharedInstance()
 //                print("ChangeReason CategoryChange, new category: " + session.category)
                 break
-            case AVAudioSessionRouteChangeReason.override.rawValue :
+            case AVAudioSession.RouteChangeReason.override.rawValue :
 //                let session = AVAudioSession.sharedInstance()
 //                print("ChangeReason Override, new route: " + session.currentRoute.description)
                 break
-            case AVAudioSessionRouteChangeReason.routeConfigurationChange.rawValue :
+            case AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue :
 //                print("ChangeReason RouteConfigurationChange")
                 break
-            case AVAudioSessionRouteChangeReason.wakeFromSleep.rawValue:
+            case AVAudioSession.RouteChangeReason.wakeFromSleep.rawValue:
 //                print("ChangeReason WakeFromSleep")
                 break
-            case AVAudioSessionRouteChangeReason.noSuitableRouteForCategory.rawValue:
+            case AVAudioSession.RouteChangeReason.noSuitableRouteForCategory.rawValue:
 //                print("ChangeReason NoSuitableRouteForCategory")
                 break
             default :
@@ -287,10 +287,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         if let reason = notification.userInfo![AVAudioSessionInterruptionTypeKey] {
             
             switch reason as! UInt {
-            case AVAudioSessionInterruptionType.began.rawValue :
+            case AVAudioSession.InterruptionType.began.rawValue :
                 //print("Audio interruption begin")
                 break
-            case AVAudioSessionInterruptionType.ended.rawValue :
+            case AVAudioSession.InterruptionType.ended.rawValue :
                 //print("Audio interruption ended")
                 break
             default :
@@ -302,7 +302,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             
             // when phone call is complete we restart the sound devices
             switch reason as! UInt {
-            case AVAudioSessionInterruptionOptions.shouldResume.rawValue :
+            case AVAudioSession.InterruptionOptions.shouldResume.rawValue :
                 //print("Audio session can now resume")
                 
                 TT_CloseSoundInputDevice(ttInst)
@@ -378,8 +378,8 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 var errmsg = getClientErrorMsg(&m).pointee
                 let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: s, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "message dialog"), style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: s, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "message dialog"), style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 } else {
                     // Fallback on earlier versions
