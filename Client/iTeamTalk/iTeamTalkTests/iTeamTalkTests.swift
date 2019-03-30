@@ -271,7 +271,7 @@ class iTeamTalkTests: XCTestCase {
         let session = AVAudioSession.sharedInstance()
         
         do {
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord/*, withOptions: AVAudioSessionCategoryOptions.AllowBluetooth*/)
+            try session.setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord))/*, withOptions: AVAudioSessionCategoryOptions.AllowBluetooth*/)
             
             //            try session.setMode(AVAudioSessionModeVoiceChat)
             
@@ -288,28 +288,28 @@ class iTeamTalkTests: XCTestCase {
                 print("--- An input ---")
                 print("PortName: " + a.portName)
                 print("UID: " + a.uid)
-                print("PortType: " + a.portType)
+                print("PortType: " + convertFromAVAudioSessionPort(a.portType))
                 
                 // only input
-                if a.portType == AVAudioSessionPortLineIn {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.lineIn) {
                     print("This is line in")
                 }
-                if a.portType == AVAudioSessionPortBuiltInMic {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.builtInMic) {
                     print("This is build in mic")
                 }
-                if a.portType == AVAudioSessionPortHeadsetMic {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headsetMic) {
                     print("This is headset mic")
                 }
                 
                 // input and output
-                if a.portType == AVAudioSessionPortBluetoothHFP {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.bluetoothHFP) {
                     print("Bluetooth input")
                 }
-                if a.portType == AVAudioSessionPortUSBAudio {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.usbAudio) {
                     print("USB audio input")
                 }
                 
-                if a.portType == AVAudioSessionPortHeadphones {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headphones) {
                     print("This is headphones")
                 }
                 
@@ -338,30 +338,30 @@ class iTeamTalkTests: XCTestCase {
                 print("--- An output ---")
                 print("PortName: " + a.portName)
                 print("UID: " + a.uid)
-                print("PortType: " + a.portType)
+                print("PortType: " + convertFromAVAudioSessionPort(a.portType))
                 
-                if a.portType == AVAudioSessionPortLineOut {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.lineOut) {
                     print("This is line out")
                 }
-                if a.portType == AVAudioSessionPortHeadphones {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headphones) {
                     print("This is headphones")
                 }
-                if a.portType == AVAudioSessionPortBluetoothA2DP {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.bluetoothA2DP) {
                     print("This is Bluetooth A2DP")
                 }
-                if a.portType == AVAudioSessionPortBuiltInReceiver {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.builtInReceiver) {
                     print("This is BuiltInReceiver")
                 }
-                if a.portType == AVAudioSessionPortBuiltInSpeaker {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.builtInSpeaker) {
                     print("This is Speaker")
                 }
-                if a.portType == AVAudioSessionPortHDMI {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.HDMI) {
                     print("This is HDMI")
                 }
-                if a.portType == AVAudioSessionPortAirPlay {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.airPlay) {
                     print("This is AirPlay")
                 }
-                if a.portType == AVAudioSessionPortBluetoothLE {
+                if convertFromAVAudioSessionPort(a.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.bluetoothLE) {
                     print("This is Bluetooth LE")
                 }
                 
@@ -395,7 +395,7 @@ class iTeamTalkTests: XCTestCase {
             
             print("Switching to speaker")
             
-            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            try session.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
             
             waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
             
@@ -470,7 +470,7 @@ class iTeamTalkTests: XCTestCase {
                 
             let session = AVAudioSession.sharedInstance()
             print("Switching to speaker")
-            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            try session.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         
             waitForEvent(ttInst, e: CLIENTEVENT_NONE, waittimeout: 5000, msg: &msg)
 
@@ -488,14 +488,14 @@ class iTeamTalkTests: XCTestCase {
             let session = AVAudioSession.sharedInstance()
             print("Audio route: " + session.currentRoute.debugDescription)
             
-            NotificationCenter.default.addObserver(self, selector: #selector(iTeamTalkTests.audioRouteChangeListenerCallback(_:)), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(iTeamTalkTests.audioRouteChangeListenerCallback(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
             
             playSound()
             
             print("1 -------------------")
             
-            try session.setMode(AVAudioSessionModeDefault)
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetooth)
+            try session.setMode(AVAudioSession.Mode.default)
+            try session.setCategory(convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord), with: AVAudioSession.CategoryOptions.allowBluetooth)
             
             playSound()
             
@@ -539,30 +539,30 @@ class iTeamTalkTests: XCTestCase {
         if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
             
             switch reason as! UInt {
-            case AVAudioSessionRouteChangeReason.unknown.rawValue :
+            case AVAudioSession.RouteChangeReason.unknown.rawValue :
                 print("ChangeReason Unknown")
                 break
-            case AVAudioSessionRouteChangeReason.newDeviceAvailable.rawValue :
+            case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue :
                 print("ChangeReason NewDeviceAvailable")
                 break
-            case AVAudioSessionRouteChangeReason.oldDeviceUnavailable.rawValue:
+            case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
                 print("ChangeReason Unknown")
                 break
-            case AVAudioSessionRouteChangeReason.categoryChange.rawValue:
+            case AVAudioSession.RouteChangeReason.categoryChange.rawValue:
                 let session = AVAudioSession.sharedInstance()
-                print("ChangeReason CategoryChange, new category: " + session.category)
+                print("ChangeReason CategoryChange, new category: " + convertFromAVAudioSessionCategory(session.category))
                 break
-            case AVAudioSessionRouteChangeReason.override.rawValue :
+            case AVAudioSession.RouteChangeReason.override.rawValue :
                 let session = AVAudioSession.sharedInstance()
                 print("ChangeReason Override, new route: " + session.currentRoute.description)
                 break
-            case AVAudioSessionRouteChangeReason.routeConfigurationChange.rawValue :
+            case AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue :
                 print("ChangeReason RouteConfigurationChange")
                 break
-            case AVAudioSessionRouteChangeReason.wakeFromSleep.rawValue:
+            case AVAudioSession.RouteChangeReason.wakeFromSleep.rawValue:
                 print("ChangeReason WakeFromSleep")
                 break
-            case AVAudioSessionRouteChangeReason.noSuitableRouteForCategory.rawValue:
+            case AVAudioSession.RouteChangeReason.noSuitableRouteForCategory.rawValue:
                 print("ChangeReason NoSuitableRouteForCategory")
                 break
             default :
@@ -582,7 +582,7 @@ class iTeamTalkTests: XCTestCase {
 
         XCTAssert(device.isProximityMonitoringEnabled, "Proximity sensor ok")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(iTeamTalkTests.proximityChanged(_:)), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: device)
+        NotificationCenter.default.addObserver(self, selector: #selector(iTeamTalkTests.proximityChanged(_:)), name: UIDevice.proximityStateDidChangeNotification, object: device)
 
         
         connect(ttInst, ipaddr: IPADDR, tcpport: TCPPORT, udpport: UDPPORT, encrypted: ENCRYPTED)
@@ -673,4 +673,14 @@ class iTeamTalkTests: XCTestCase {
         }
         return false
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionPort(_ input: AVAudioSession.Port) -> String {
+	return input.rawValue
 }

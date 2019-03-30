@@ -3143,7 +3143,7 @@ extern "C" {
     typedef VOID TTSoundLoop;
 
     /** @brief Get the DLL's version number. */
-    TEAMTALKDLL_API const TTCHAR* TT_GetVersion();
+    TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void);
 
 #if defined(WIN32)
     /** 
@@ -3186,7 +3186,7 @@ extern "C" {
      *
      * @return A pointer to a new client instance. NULL if a failure occured.
      * @see TT_CloseTeamTalk */
-    TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll();
+    TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void);
 
     /** 
      * @brief Close the TeamTalk client instance and release its
@@ -3327,7 +3327,7 @@ extern "C" {
      * In order to restart the sound system all sound devices in all
      * client instances must be closed using TT_CloseSoundInputDevice(),
      * TT_CloseSoundoutputDevice() and TT_CloseSoundDuplexDevices(). */
-    TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem();
+    TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem(void);
 
     /**
      * @brief Perform a record and playback test of specified sound
@@ -4167,10 +4167,10 @@ extern "C" {
 
     /** @brief Get the handle (HWND) of the window which is currently
      * active (focused) on the Windows desktop. */
-    TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND();
+    TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND(void);
 
     /** @brief Get the handle (HWND) of the Windows desktop (full desktop). */
-    TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND();
+    TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND(void);
 
     /** @brief Enumerate all the handles (@c HWND) of visible
      * windows. Increment @c nIndex until the function returns
@@ -6254,7 +6254,7 @@ extern "C" {
      * The index from 0 to #TT_Mixer_GetMixerCount()-1 should be passed to the
      * TT_Mixer_* functions.
      * @see TT_Mixer_GetMixerName */
-    TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount();
+    TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount(void);
 
     /**
      * @brief Get the name of a Windows Mixer based on its name.
@@ -6470,7 +6470,7 @@ extern "C" {
      *
      * This function does not invoke UAC on Windows Vista/7.
      * @see TT_Firewall_Enable */
-    TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled();
+    TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled(void);
     
     /**
      * @brief Enable/disable the Windows Firewall.
