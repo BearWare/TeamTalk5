@@ -53,7 +53,7 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
         auto child = doc.firstChildElement("teamtalk");
         if (!child.isNull())
         {
-            child = doc.firstChildElement("bearware");
+            child = child.firstChildElement("bearware");
             if(!child.isNull())
             {
                 auto id = child.firstChildElement("id");
@@ -73,6 +73,8 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     }
     else
     {
+        this->username = username;
+        this->token = "";
         QDialog::accept();
     }
 }

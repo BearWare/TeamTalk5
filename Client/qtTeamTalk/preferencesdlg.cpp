@@ -973,7 +973,10 @@ void PreferencesDlg::slotCancelChanges()
 void PreferencesDlg::slotEnableBearWareID(bool checked)
 {
     BearWareLoginDlg dlg(this);
-    dlg.exec();
+    if (dlg.exec())
+    {
+        ui.bearwareidEdit->setText(dlg.username);
+    }
 }
 
 void PreferencesDlg::slotEnablePushToTalk(bool checked)
