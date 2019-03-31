@@ -30,7 +30,6 @@ void BearWareLoginDlg::accept()
     urlstr += "service=bearware";
     urlstr += "&username=" + QUrl::toPercentEncoding(username);
     urlstr += "&password=" + QUrl::toPercentEncoding(password);
-    urlstr += "&client=" APPNAME_SHORT "&version=" APPVERSION_SHORT;
 
     QUrl url(urlstr);
     auto http_manager = new QNetworkAccessManager(this);

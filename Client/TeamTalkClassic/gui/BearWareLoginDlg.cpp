@@ -119,8 +119,6 @@ void CBearWareLoginDlg::OnOK()
 
     CString szUrl = WEBLOGIN_URL;
     szUrl += _T("service=bearware");
-    szUrl += _T("&client=") APPTITLE_SHORT;
-    szUrl += _T("&version=") APPVERSION_SHORT;
     szUrl += _T("&username=") + CString(szUrlUsername);
     szUrl += _T("&password=") + CString(szUrlPassword);
 

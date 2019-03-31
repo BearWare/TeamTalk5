@@ -60,5 +60,5 @@
 #define WEBLOGIN_FACEBOOK_LOGOUT_URL        _T("https://www.facebook.com/logout.php?")
 #define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT
 
-#define WEBLOGIN_URL                        _T( "https://www.bearware.dk/teamtalk/weblogin.php?" )
+#define WEBLOGIN_URL                        _T("https://www.bearware.dk/teamtalk/weblogin.php?client=") APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
 #define WEBLOGIN_BEARWARE_USERNAME          _T("bearware")
