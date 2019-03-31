@@ -1,5 +1,29 @@
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ * 
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
+
 #include "bearwarelogindlg.h"
 #include "ui_bearwarelogindlg.h"
+#include "common.h"
 #include "appinfo.h"
 
 #include <QNetworkAccessManager>
@@ -26,10 +50,9 @@ void BearWareLoginDlg::accept()
     QString username = ui->usernameEdit->text().trimmed();
     QString password = ui->passwordEdit->text();
 
-    QString urlstr(WEBLOGIN_URL);
-    urlstr += "service=bearware";
-    urlstr += "&username=" + QUrl::toPercentEncoding(username);
-    urlstr += "&password=" + QUrl::toPercentEncoding(password);
+    username = QUrl::toPercentEncoding(username);
+    password = QUrl::toPercentEncoding(password);
+    QString urlstr(WEBLOGIN_BEARWARE_URL(username, password));
 
     QUrl url(urlstr);
     auto http_manager = new QNetworkAccessManager(this);
@@ -72,8 +95,12 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     }
     else
     {
-        this->username = username;
-        this->token = "";
+        m_username = username;
+        m_token = "";
+
+        QMessageBox::information(this, this->windowTitle(),
+                                 tr("%1, your username \"%2\" has been validated.").arg(nickname).arg(username), QMessageBox::Ok);
+        
         QDialog::accept();
     }
 }

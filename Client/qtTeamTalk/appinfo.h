@@ -88,8 +88,11 @@
 #define WEBLOGIN_FACEBOOK_LOGOUT_URL        "https://www.facebook.com/logout.php?"
 #define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT
 
-#define WEBLOGIN_URL                        ("https://www.bearware.dk/teamtalk/weblogin.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE)
+#define WEBLOGIN_URL                        "https://www.bearware.dk/teamtalk/weblogin.php?client=" APPNAME_SHORT \
+                                             "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE
+#define WEBLOGIN_BEARWARE_URL(uid, passwd)  QString(WEBLOGIN_URL "&service=bearware&username=%1&password=%2").arg(uid).arg(passwd)
 #define WEBLOGIN_BEARWARE_USERNAME          "bearware"
+#define WEBLOGIN_BEARWARE_USERNAMEPOSTFIX   "@bearware.dk"
 
 #if QT_VERSION >= 0x050000
 #if defined(Q_OS_WIN32)
