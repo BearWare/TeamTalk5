@@ -44,8 +44,8 @@ class TextMessageViewController :
         super.viewDidLoad()
         
         let def = NotificationCenter.default
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         resetText()
         
@@ -60,7 +60,7 @@ class TextMessageViewController :
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if self.isMovingFromParentViewController {
+        if self.isMovingFromParent {
             unreadmessages.remove(userid)
         }
     }
@@ -111,7 +111,7 @@ class TextMessageViewController :
     
     func moveForKeyboard(_ notify: Notification, up: Bool) {
         if let userInfo = notify.userInfo {
-            if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
+            if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
                 
                 let selfFrame = self.view.frame
                 var newTableFrame = tableView.frame
