@@ -41,9 +41,6 @@ public:
 
     void accept();
 
-    QString m_username;
-    QString m_token;
-
 private slots:
     void slotHttpReply(QNetworkReply* reply);
 

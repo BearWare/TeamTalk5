@@ -975,7 +975,7 @@ void PreferencesDlg::slotEnableBearWareID(bool checked)
     BearWareLoginDlg dlg(this);
     if (dlg.exec())
     {
-        ui.bearwareidEdit->setText(dlg.m_username);
+        ui.bearwareidEdit->setText(ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString());
     }
 }
 

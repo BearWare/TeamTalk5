@@ -646,14 +646,18 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
         GUARD_OBJ_NAME(g, servernode, servernode->lock());
 
         // strip @bearware.dk postfix
-        std::smatch sm;
-        if(std::regex_search(authusername, sm, std::regex("(.*)" WEBLOGIN_BEARWARE_POSTFIX "$")) && sm.size() == 0)
+        std::smatch smu, smp;
+        if (!std::regex_search(authusername, smu, std::regex("(.*)" WEBLOGIN_BEARWARE_POSTFIX "$")) ||
+            smu.size() == 0 ||
+            !std::regex_search(authpasswd, smp, std::regex("^token=(.*)$")) ||
+            smp.size() == 0)
         {
             err.errorno = TT_CMDERR_INVALID_ACCOUNT;
             WebLoginComplete(servernode, userid, useraccount, err);
             return;
         }
-        authusername = sm[1];
+        authusername = smu[1];
+        authpasswd = smp[1];
 
         // authenticate 'bearware.dk'
         UserAccount sharedaccount;
