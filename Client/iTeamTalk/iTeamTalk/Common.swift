@@ -154,7 +154,7 @@ func newTableCellBtn(_ cell: UITableViewCell, label: String, btntext: String) ->
     cell.selectionStyle = .none
     cell.textLabel?.text = label
     let buttonfield = UIButton(frame: CGRect(x: 40, y: 0, width: 150, height: 31))
-    buttonfield.setTitle(btntext, for: UIControlState())
+    buttonfield.setTitle(btntext, for: UIControl.State())
     cell.accessoryView = buttonfield
     
     return buttonfield
@@ -492,17 +492,15 @@ func enableSpeakerOutput(_ on: Bool) {
     let session = AVAudioSession.sharedInstance()
     
     do {
-        print("preset: " + session.mode)
+        print("preset: " + session.mode.rawValue)
         if on {
-            try session.setMode(AVAudioSessionModeVideoChat)
+            try session.setMode(AVAudioSession.Mode.videoChat)
         }
         else {
-            try session.setMode(AVAudioSessionModeDefault)
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetooth)
-//            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+            try session.setMode(AVAudioSession.Mode.default)
+            try session.setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.allowBluetooth)
         }
-//        try session.setActive(true)
-        print("post set: "  + session.mode)
+        print("post set: "  + session.mode.rawValue)
     }
     catch {
         print("Failed to set mode")

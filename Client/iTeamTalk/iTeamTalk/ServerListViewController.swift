@@ -265,7 +265,7 @@ class ServerListViewController : UITableViewController,
         vc.saveServerDetail()
         let name = vc.server.name
         
-        if let found = servers.map({$0.name}).index(of: name) {
+        if let found = servers.map({$0.name}).firstIndex(of: name) {
             servers[found] = vc.server
         }
         else {
@@ -439,10 +439,10 @@ class ServerParser : NSObject, XMLParserDelegate {
         case "username" :
             currentServer.username = string
         case "password" :
-            if elementStack.index(of: "auth") != nil {
+            if elementStack.firstIndex(of: "auth") != nil {
                 currentServer.password = string
             }
-            else if elementStack.index(of: "join") != nil {
+            else if elementStack.firstIndex(of: "join") != nil {
                 currentServer.chanpasswd = string
             }
         case "channel" :

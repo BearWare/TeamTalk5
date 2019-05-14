@@ -149,14 +149,14 @@ class AudioCodecViewController : UITableViewController {
         let opus_savecell = tableView.dequeueReusableCell(withIdentifier: "Use OPUS")!
         opus_items.append(opus_savecell)
         
-        if let i = opus_applications.index(of: opuscodec.nApplication) {
+        if let i = opus_applications.firstIndex(of: opuscodec.nApplication) {
             opus_appSegCtrl!.selectedSegmentIndex = i
         }
         else {
             opus_appSegCtrl!.selectedSegmentIndex = 0
         }
         
-        if let i = opus_samplerates.index(of: opuscodec.nSampleRate) {
+        if let i = opus_samplerates.firstIndex(of: opuscodec.nSampleRate) {
             opus_srSegCtrl!.selectedSegmentIndex = i
         }
         else {

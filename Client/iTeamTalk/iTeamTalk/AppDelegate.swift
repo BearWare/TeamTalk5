@@ -31,9 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let backgroundQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
     var backgroundRunning: Bool = false
-    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY)
@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication,
                      open url: URL, 
-                     options opt: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+                     options opt: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 
         let urlStr = url.absoluteString
 //        print ("URL: " + url.absoluteString)
@@ -149,12 +149,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             [unowned self] in
             self.endBackgroundTask()
         })
-        assert(backgroundTask != UIBackgroundTaskInvalid)
+        assert(backgroundTask != UIBackgroundTaskIdentifier.invalid)
     }
     
     func endBackgroundTask() {
         UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = UIBackgroundTaskInvalid
+        backgroundTask = UIBackgroundTaskIdentifier.invalid
     }
 }
-

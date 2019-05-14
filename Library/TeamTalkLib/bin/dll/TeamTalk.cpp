@@ -293,7 +293,7 @@ ClientNode* GET_CLIENTNODE(TTInstance* pInstance)
 
 
 
-TEAMTALKDLL_API const TTCHAR* TT_GetVersion()
+TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 {
     return ACE_TEXT( TEAMTALK_VERSION );
 }
@@ -349,7 +349,7 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 }
 #endif
 
-TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll()
+TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
 #if defined(USE_MINIDUMP)
     static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
@@ -511,7 +511,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
     return TRUE;
 }
 
-TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem()
+TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem(void)
 {
     return SOUNDSYSTEM->RestartSoundSystem();
 }
@@ -2281,13 +2281,13 @@ TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPale
 
 #ifdef WIN32
 
-TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND()
+TEAMTALKDLL_API HWND TT_Windows_GetDesktopActiveHWND(void)
 {
     HWND hWnd = GetForegroundWindow();
     return hWnd;
 }
 
-TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND()
+TEAMTALKDLL_API HWND TT_Windows_GetDesktopHWND(void)
 {
     return GetDesktopWindow();
 }
@@ -3601,7 +3601,7 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
 
 #if defined(WIN32)
 
-TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount()
+TEAMTALKDLL_API INT32 TT_Mixer_GetMixerCount(void)
 {
     return mixerGetCount();
 }
@@ -3871,7 +3871,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlSelected(IN INT32 nWaveDeviceID,
     return val.value;
 }
 
-TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled()
+TEAMTALKDLL_API TTBOOL TT_Firewall_IsEnabled(void)
 {
     return WinFirewall(false).IsFirewallOn();
 }
