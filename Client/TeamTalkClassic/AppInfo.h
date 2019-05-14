@@ -62,6 +62,6 @@
 
 #define WEBLOGIN_BEARWARE_USERNAME              _T("bearware")
 #define WEBLOGIN_BEARWARE_USERNAMEPOSTFIX       _T("@bearware.dk")
-#define WEBLOGIN_URL                            _T("https://login.bearware.dk/test/weblogin.php?client=") APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
+#define WEBLOGIN_URL                            _T("https://www.bearware.dk/test/weblogin.php?client=") APPTITLE_SHORT _T("&version=") APPVERSION_SHORT _T("&dllversion=") _T( TEAMTALK_VERSION ) _T("&os=Windows")
 #define WEBLOGIN_BEARWARE_URLAUTH(uid, passwd)  WEBLOGIN_URL _T("&service=bearware&action=auth&username=") + CString(uid) + _T("&password=") + CString(passwd)
 #define WEBLOGIN_BEARWARE_URLTOKEN(uid, token)  WEBLOGIN_URL _T("&service=bearware&action=clientauth&username=") + CString(uid) + _T("&token=") + CString(token)

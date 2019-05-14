@@ -970,14 +970,12 @@ void PreferencesDlg::slotCancelChanges()
     }
 }
 
-void PreferencesDlg::slotEnableBearWareID(bool checked)
+void PreferencesDlg::slotEnableBearWareID(bool /*checked*/)
 {
     BearWareLoginDlg dlg(this);
     if (dlg.exec())
     {
-        ui.bearwareidEdit->setText(dlg.m_username);
-        ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_USERNAME, dlg.m_username);
-        ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_TOKEN, dlg.m_token);
+        ui.bearwareidEdit->setText(ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString());
     }
 }
 

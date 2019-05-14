@@ -186,7 +186,7 @@
             <item>
              <widget class="QLabel" name="label_35">
               <property name="text">
-               <string>BearWare Web Login ID</string>
+               <string>BearWare.dk Web Login ID</string>
               </property>
               <property name="buddy">
                <cstring>bearwareidEdit</cstring>

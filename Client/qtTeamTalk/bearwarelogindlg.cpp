@@ -25,6 +25,7 @@
 #include "ui_bearwarelogindlg.h"
 #include "common.h"
 #include "appinfo.h"
+#include "settings.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -32,6 +33,8 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QDomDocument>
+
+extern QSettings* ttSettings;
 
 BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     QDialog(parent),
@@ -98,8 +101,8 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     }
     else
     {
-        m_username = username;
-        m_token = token;
+        ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_USERNAME, username);
+        ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_TOKEN, token);
 
         QMessageBox::information(this, this->windowTitle(),
                                  tr("%1, your username \"%2\" has been validated.").arg(nickname).arg(username), QMessageBox::Ok);
