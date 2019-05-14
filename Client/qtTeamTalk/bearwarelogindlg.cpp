@@ -52,7 +52,7 @@ void BearWareLoginDlg::accept()
 
     username = QUrl::toPercentEncoding(username);
     password = QUrl::toPercentEncoding(password);
-    QString urlstr(WEBLOGIN_BEARWARE_URL(username, password));
+    QString urlstr(WEBLOGIN_BEARWARE_URLAUTH(username, password));
 
     QUrl url(urlstr);
     auto http_manager = new QNetworkAccessManager(this);
@@ -65,7 +65,7 @@ void BearWareLoginDlg::accept()
 
 void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
 {
-    QString username, nickname;
+    QString username, nickname, token;
 
     auto data = reply->readAll();
 
@@ -78,12 +78,15 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
             child = child.firstChildElement("bearware");
             if(!child.isNull())
             {
-                auto id = child.firstChildElement("id");
+                auto id = child.firstChildElement("username");
                 if(!id.isNull())
                     username = id.text();
-                auto name = child.firstChildElement("name");
+                auto name = child.firstChildElement("nickname");
                 if(!name.isNull())
                     nickname = name.text();
+                auto authtoken = child.firstChildElement("token");
+                if (!authtoken.isNull())
+                    token = authtoken.text();
             }
         }
     }
@@ -96,7 +99,7 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     else
     {
         m_username = username;
-        m_token = "";
+        m_token = token;
 
         QMessageBox::information(this, this->windowTitle(),
                                  tr("%1, your username \"%2\" has been validated.").arg(nickname).arg(username), QMessageBox::Ok);

@@ -82,6 +82,19 @@ TTInstance* ttInst = NULL;
 extern int nTextLimit;
 extern BOOL bShowUsernames;
 
+enum : UINT_PTR
+{
+    TIMER_VOICELEVEL_ID = 1,
+    TIMER_ONESECOND_ID,
+    TIMER_CONNECT_TIMEOUT_ID,
+    TIMER_STATUSMSG_ID,
+    TIMER_RECONNECT_ID,
+    TIMER_DESKTOPSHARE_ID,
+    TIMER_APPUPDATE_ID,
+    TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID,
+    TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID
+};
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -3212,8 +3225,12 @@ void CTeamTalkDlg::OnFilePreferences()
     /////////////////////
     HotKey hook;
     m_xmlSettings.GetPushToTalkKey(hook);
+    std::string szBearWareID, szToken;
+    m_xmlSettings.GetBearWareLogin(szBearWareID, szToken);
 
     generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
+    generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
+    generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bFemale = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
@@ -3360,6 +3377,9 @@ void CTeamTalkDlg::OnFilePreferences()
                 TT_DoChangeNickname(ttInst, generalpage.m_sNickname);
             }
         }
+
+        m_xmlSettings.SetBearWareLogin(STR_UTF8(generalpage.m_szBearWareID),
+                                       STR_UTF8(generalpage.m_szBearWareToken));
 
         int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
         if(m_xmlSettings.GetGender() != nGender)
@@ -4543,11 +4563,11 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             Connect( STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort, 
                     m_host.nUdpPort, m_host.bEncrypted);
         break;
-    case TIMER_HTTPREQUEST_UPDATE_ID :
+    case TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID :
         ASSERT(m_httpUpdate.get());
         if(!m_httpUpdate.get())
         {
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
             break;
         }
         if(m_httpUpdate->SendReady())
@@ -4568,14 +4588,14 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
                 }
             }
 
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-            KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID);
             m_httpUpdate.reset();
         }
         break;
-    case TIMER_HTTPREQUEST_TIMEOUT_ID :
-        KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-        KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
+    case TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID :
+        KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
+        KillTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID);
         m_httpUpdate.reset();
         break;
     case TIMER_DESKTOPSHARE_ID :
@@ -6145,8 +6165,8 @@ void CTeamTalkDlg::RunAppUpdate()
     if(m_xmlSettings.GetCheckApplicationUpdates())
     {
         m_httpUpdate.reset(new CHttpRequest(URL_APPUPDATE));
-        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
-        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
+        SetTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID, 500, NULL);
+        SetTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID, 5000, NULL);
     }
 }
 

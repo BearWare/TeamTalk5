@@ -160,11 +160,17 @@ void CGeneralPage::OnBnClickedButtonSetupbearware()
     if (szUsername.IsEmpty())
     {
         CBearWareLoginDlg dlg(this);
-        dlg.DoModal();
+        if (dlg.DoModal() == IDOK)
+        {
+            m_wndBearWareID.SetWindowText(dlg.m_szUsername);
+            m_szBearWareToken = dlg.m_szToken;
+            TRANSLATE(m_wndSetupBearWare, IDS_RESET, _T("Reset"));
+        }
     }
     else
     {
         m_wndBearWareID.SetWindowText(_T(""));
-        m_szBearWarePasswd.Empty();
+        m_szBearWareToken.Empty();
+        TRANSLATE(m_wndSetupBearWare, IDC_BUTTON_SETUPBEARWARE, _T("&Activate"));
     }
 }

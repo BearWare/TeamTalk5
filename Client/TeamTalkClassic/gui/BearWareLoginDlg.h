@@ -28,6 +28,7 @@ public:
     CEdit m_wndUsername;
     CString m_szUsername;
     CEdit m_wndPassword;
-    CString m_szPassword;
+    CString m_szToken;
     virtual BOOL OnInitDialog();
+    CButton m_wndOK;
 };

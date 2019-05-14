@@ -124,8 +124,8 @@ namespace teamtalk {
         bool SetNickname(const std::string& szNickname);
         std::string GetNickname(std::string def_nickname = std::string());
 
-        void SetBearWareLogin(const std::string& szUsername, const std::string& szPassword);
-        bool GetBearWareLogin(std::string& szUsername, std::string& szPassword);
+        void SetBearWareLogin(const std::string& szUsername, const std::string& szToken);
+        bool GetBearWareLogin(std::string& szUsername, std::string& szToken);
 
         bool SetProfileName(const std::string& szProfilename);
         std::string GetProfileName();
