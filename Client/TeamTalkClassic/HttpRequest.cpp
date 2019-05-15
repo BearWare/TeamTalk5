@@ -46,15 +46,6 @@ CHttpRequest::CHttpRequest(const CString& url)
 
 CHttpRequest::~CHttpRequest()
 {
-    HRESULT hr;
-    if(m_pIXMLHttpRequest)
-    {
-        //hr = m_pIXMLHttpRequest->abort();
-        //ASSERT(hr == S_OK);
-        hr = m_pIXMLHttpRequest->Release();
-        ASSERT(hr == S_OK);
-    }
-    //CoUninitialize();
 }
 
 BOOL CHttpRequest::SendReady()

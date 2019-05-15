@@ -26,7 +26,7 @@
 
 #include "Settings.h"
 
-#define TEAMTALK_XML_VERSION                        "5.1"
+#define TEAMTALK_XML_VERSION                        "5.4"
 
 #define TEAMTALK_XML_VERSION_DEFAULT                "5.0"
 

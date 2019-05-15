@@ -329,6 +329,7 @@ namespace teamtalk {
         PutString(element, "address", entry.szAddress);
         PutInteger(element, "tcpport", entry.nTcpPort);
         PutInteger(element, "udpport", entry.nUdpPort);
+        PutBoolean(element, "encrypted", entry.bEncrypted);
         PutString(element, "username", entry.szUsername);
         PutString(element, "password", entry.szPassword);
         PutString(element, "channel", entry.szChannel);

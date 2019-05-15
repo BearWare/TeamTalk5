@@ -655,7 +655,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
 
         if (authtoken.empty())
         {
-            err.errorno = TT_CMDERR_INVALID_ACCOUNT;
+            err = TT_CMDERR_INVALID_ACCOUNT;
             WebLoginComplete(servernode, userid, useraccount, err);
             return;
         }

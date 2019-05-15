@@ -114,6 +114,8 @@ public:
     BOOL Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL bEncrypted);
     void Disconnect();
 
+    void Login();
+
     void UpdateWindowTitle();
 
     void EnableVoiceActivation(BOOL bEnable, SoundEvent on = SOUNDEVENT_ENABLE_VOICEACTIVATION, SoundEvent off = SOUNDEVENT_DISABLE_VOICEACTIVATION);
@@ -344,7 +346,7 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    std::unique_ptr<CHttpRequest> m_httpUpdate;
+    std::unique_ptr<CHttpRequest> m_httpUpdate, m_httpWebLogin;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);

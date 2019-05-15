@@ -50,7 +50,7 @@ public:
     int Status();
 
 private:
-    IXMLHttpRequest* m_pIXMLHttpRequest;
+    CComPtr<IXMLHttpRequest> m_pIXMLHttpRequest;
     HttpState m_state;
 };
 
