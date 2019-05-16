@@ -21,7 +21,7 @@ iOS client
 Android client:
 - OPUS audio codec v1.3
 Server
-- Protection again login/logout floods using "login delay"
+- Protection against login/logout floods using "login delay"
 - Linux server now depends on OpenSSL (libssl package)
 
 Version 5.3.5, released 2019/01/01
