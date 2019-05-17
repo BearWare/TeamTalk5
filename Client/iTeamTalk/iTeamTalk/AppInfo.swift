@@ -64,16 +64,24 @@ class AppInfo {
         return getBundleInfo(.version_NO)
     }
     
+    static func getDefaultUrlArgs() -> String {
+        return "client=" + getAppName() + "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
+    }
+    
     static func getServersURL() -> String {
-        return "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + getAppName() +
-            "&version=" + getAppVersion() +
-            "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
-
+        return "http://www.bearware.dk/teamtalk/tt5servers.php?" + getDefaultUrlArgs()
     }
 
     static func getUpdateURL() -> String {
-        return "http://www.bearware.dk/teamtalk/tt5update.php?client=" + getAppName() +
-            "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
-
+        return "http://www.bearware.dk/teamtalk/tt5update.php?" + getDefaultUrlArgs()
+    }
+    
+    static func getWebLoginURL(username : String, passwd : String) -> String {
+        
+        let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
+        let escPasswd = passwd.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? passwd
+        
+        return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
+            "&service=bearware" + "&action=auth&username=" + escUsername + "&password=" + escPasswd
     }
 }

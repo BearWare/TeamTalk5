@@ -26,6 +26,8 @@ import AVFoundation
 
 let PREF_NICKNAME = "nickname_preference"
 let PREF_JOINROOTCHANNEL = "joinroot_preference"
+let PREF_GENERAL_BEARWARE_ID = "general_bearwareid_preference"
+let PREF_GENERAL_BEARWARE_TOKEN = "general_bearwaretoken_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
 let PREF_GENERAL_SENDONRETURN = "general_sendonreturn_preference"
 
@@ -128,6 +130,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         nicknamefield?.addTarget(self, action: #selector(PreferencesViewController.nicknameChanged(_:)), for: .editingDidEnd)
         nicknamefield?.delegate = self
         general_items.append(nicknamecell)
+        
+        let weblogincell = tableView.dequeueReusableCell(withIdentifier: "Web Login Cell")
+        general_items.append(weblogincell!)
         
         let pttlock = settings.object(forKey: PREF_GENERAL_PTTLOCK) != nil && settings.bool(forKey: PREF_GENERAL_PTTLOCK)
         let pttlockcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)

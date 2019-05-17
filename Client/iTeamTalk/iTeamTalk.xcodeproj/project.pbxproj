@@ -15,6 +15,7 @@
 		251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */; };
 		251997F81EBA5FE7003C94B1 /* voiceact_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */; };
 		251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */; };
+		251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B87C8225000E8009DC5AC /* WebLoginViewController.swift */; };
 		251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251F61351BD68F6700617C43 /* TextMsgTableCell.swift */; };
 		253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 253343BE1C8C85CF00B43A9A /* Splash-568h.png */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
@@ -85,6 +86,7 @@
 		251B42691C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251B426A1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Main.strings; sourceTree = "<group>"; };
 		251B426B1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		251B87C8225000E8009DC5AC /* WebLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
 		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
 		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UserTableCell.swift */,
+				251B87C8225000E8009DC5AC /* WebLoginViewController.swift */,
 				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
@@ -421,6 +424,7 @@
 				25DD929F1BB2FA0E00779988 /* Common.swift in Sources */,
 				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25DF9A021C5E00E100469BA8 /* License.swift in Sources */,
+				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
 				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
