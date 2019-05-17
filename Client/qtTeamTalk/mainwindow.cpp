@@ -778,8 +778,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
             QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
             QString host = QString("%1:%2").arg(m_host.ipaddr).arg(m_host.tcpport);
+            int userid = TT_GetMyUserID(ttInst);
 
-            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, host);
+            username = QUrl::toPercentEncoding(username);
+            token = QUrl::toPercentEncoding(token);
+            host = QUrl::toPercentEncoding(host);
+
+            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, userid, host);
 
             QUrl url(urlReq);
 
