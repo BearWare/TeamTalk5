@@ -221,6 +221,7 @@
 #define IDD_DIALOG_BEARWARELOGIN        316
 #define IDS_BEARWAREAUTHFAIL            317
 #define IDS_BEARWARETIMEOUT             318
+#define IDS_BEARWAREAUTHSUCCESS         319
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001

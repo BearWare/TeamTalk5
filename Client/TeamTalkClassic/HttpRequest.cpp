@@ -41,19 +41,11 @@ CHttpRequest::CHttpRequest(const CString& url)
     BSTR str = url.AllocSysString();
     hr = m_pIXMLHttpRequest->open(_T("POST"), str, _variant_t(VARIANT_TRUE), _variant_t(""), _variant_t(""));
     ASSERT(hr == S_OK);
+
 }
 
 CHttpRequest::~CHttpRequest()
 {
-    HRESULT hr;
-    if(m_pIXMLHttpRequest)
-    {
-        //hr = m_pIXMLHttpRequest->abort();
-        //ASSERT(hr == S_OK);
-        hr = m_pIXMLHttpRequest->Release();
-        ASSERT(hr == S_OK);
-    }
-    //CoUninitialize();
 }
 
 BOOL CHttpRequest::SendReady()
@@ -78,7 +70,10 @@ void CHttpRequest::Send(const CString& szRequest)
 {
     if(!m_pIXMLHttpRequest || m_state != HTTP_OPENED)
         return;
+
     HRESULT hr;
+    hr = m_pIXMLHttpRequest->setRequestHeader(_T("Content-Type"), _T("text/xml"));
+    ASSERT(SUCCEEDED(hr));
 
     VARIANT vRequest;
     vRequest.vt = VT_BSTR;

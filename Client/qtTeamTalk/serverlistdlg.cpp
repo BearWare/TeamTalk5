@@ -26,6 +26,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -139,9 +140,27 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.usernameBox->lineEdit()->setText(entry.username);
     if(entry.username == WEBLOGIN_FACEBOOK_USERNAME)
         ui.passwordEdit->setText("");
+    else if (entry.username == WEBLOGIN_BEARWARE_USERNAME)
+    {
+        QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+        QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
+        if (username.isEmpty())
+        {
+            BearWareLoginDlg dlg(this);
+            if (dlg.exec())
+            {
+                username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+                token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
+            }
+        }
+        token = WEBLOGIN_BEARWARE_PASSWD(token);
+        ui.usernameBox->lineEdit()->setText(username);
+        ui.passwordEdit->setText(token);
+    }
     else
         ui.passwordEdit->setText(entry.password);
-    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME);
+    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME ||
+                                 entry.username == WEBLOGIN_BEARWARE_USERNAME);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 

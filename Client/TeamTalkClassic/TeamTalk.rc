@@ -170,17 +170,17 @@ BEGIN
     GROUPBOX        "User settings",IDC_STATIC_GRPUSERSETTINGS,7,7,246,98
     LTEXT           "Nickname",IDC_STATIC_NICKNAME,15,22,49,8
     EDITTEXT        IDC_EDIT_NICKNAME,67,19,76,14,ES_AUTOHSCROLL
-    LTEXT           "Gender",IDC_STATIC_GENDER,15,36,49,8
+    LTEXT           "Gender",IDC_STATIC_GENDER,15,38,49,8
     CONTROL         "Male",IDC_RADIO_MALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,75,37,31,10
-    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,127,35,39,10
-    LTEXT           "BearWare.dk Login",IDC_STATIC_BEARWARELOGIN,15,54,89,8
-    EDITTEXT        IDC_EDIT_BEARWAREID,107,51,58,14,ES_AUTOHSCROLL | ES_READONLY
-    PUSHBUTTON      "&Activate",IDC_BUTTON_SETUPBEARWARE,169,51,50,14
-    LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,72,93,8
-    EDITTEXT        IDC_EDIT_INACTIVITY,112,69,19,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,72,114,8
+    CONTROL         "Female",IDC_RADIO_FEMALE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,127,37,39,10
+    LTEXT           "BearWare.dk Login",IDC_STATIC_BEARWARELOGIN,15,54,80,8
+    EDITTEXT        IDC_EDIT_BEARWAREID,97,51,97,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Activate",IDC_BUTTON_SETUPBEARWARE,199,51,50,14
+    LTEXT           "Set away status after ",IDC_STATIC_SETAWAY,15,70,93,8
+    EDITTEXT        IDC_EDIT_INACTIVITY,112,67,19,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "sec. of inactivity (0=disabled)",IDC_STATIC_SECINACT,134,70,114,8
     CONTROL         "Disable voice activation while inactive",IDC_CHECK_IDLEVOX,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,87,232,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,86,232,10
     GROUPBOX        "Speech transmission mode",IDC_STATIC_GRPSPEECH,7,109,246,76
     CONTROL         "Push to talk",IDC_CHECK_PUSHTOTALK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,78,10
     PUSHBUTTON      "&Setup keys",IDC_BUTTON_SETUPKEYS,99,125,59,13
@@ -1437,8 +1437,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,4,0,4960
- PRODUCTVERSION 5,4,0,4960
+ FILEVERSION 5,4,0,4961
+ PRODUCTVERSION 5,4,0,4961
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1455,12 +1455,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 4, 0, 4960"
+            VALUE "FileVersion", "5, 4, 0, 4961"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 4, 0, 4960"
+            VALUE "ProductVersion", "5, 4, 0, 4961"
         END
     END
     BLOCK "VarFileInfo"
@@ -2004,6 +2004,7 @@ BEGIN
     IDS_RESET               "Reset"
     IDS_BEARWAREAUTHFAIL    "Failed to authenticate"
     IDS_BEARWARETIMEOUT     "Unable to contact BearWare.dk Web Login"
+    IDS_BEARWAREAUTHSUCCESS "%s, your username ""%s"" has been validated."
 END
 
 STRINGTABLE

@@ -13,7 +13,6 @@ IMPLEMENT_DYNAMIC(CBearWareLoginDlg, CDialogEx)
 CBearWareLoginDlg::CBearWareLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_BEARWARELOGIN, pParent)
     , m_szUsername(_T(""))
-    , m_szPassword(_T(""))
 {
 #ifndef _WIN32_WCE
 	EnableActiveAccessibility();
@@ -30,7 +29,7 @@ void CBearWareLoginDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_BEARWAREID, m_wndUsername);
     DDX_Text(pDX, IDC_EDIT_BEARWAREID, m_szUsername);
     DDX_Control(pDX, IDC_EDIT_PASSWORD, m_wndPassword);
-    DDX_Text(pDX, IDC_EDIT_PASSWORD, m_szPassword);
+    DDX_Control(pDX, IDOK, m_wndOK);
 }
 
 BOOL CBearWareLoginDlg::OnInitDialog()
@@ -71,25 +70,35 @@ void CBearWareLoginDlg::OnTimer(UINT_PTR nIDEvent)
             KillTimer(TIMER_URL_CHECK);
             KillTimer(TIMER_URL_TIMEOUT);
 
-            CString szResponse = m_webLogin->GetResponse(), szNickname, szUsername;
+            CString szResponse = m_webLogin->GetResponse(), szNickname;
             TRACE(_T("\n") + szResponse + _T("\n"));
 
             std::string xml = STR_UTF8(szResponse, szResponse.GetLength() * 4);
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                szNickname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/name").c_str());
-                szUsername = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/id").c_str());
+                szNickname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/nickname").c_str());
+                m_szUsername = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/username").c_str());
+                m_szToken = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/token").c_str());
             }
 
             CString szCaption = LoadText(IDD);
-            if (szUsername.GetLength())
+            if (m_szUsername.GetLength())
             {
+                CString szMessage, szCaption = LoadText(IDD_DIALOG_BEARWARELOGIN);
+                szMessage.Format(LoadText(IDS_BEARWAREAUTHSUCCESS), szNickname, m_szUsername);
+                MessageBox(szMessage, szCaption);
+
+                m_wndUsername.SetWindowText(m_szUsername);
+
                 CDialogEx::OnOK();
             }
             else
             {
                 MessageBox(LoadText(IDS_BEARWAREAUTHFAIL), LoadText(IDD), MB_OK);
+                m_wndUsername.EnableWindow(TRUE);
+                m_wndPassword.EnableWindow(TRUE);
+                m_wndOK.EnableWindow(TRUE);
             }
         }
         break;
@@ -97,6 +106,11 @@ void CBearWareLoginDlg::OnTimer(UINT_PTR nIDEvent)
     case TIMER_URL_TIMEOUT :
         KillTimer(TIMER_URL_CHECK);
         KillTimer(TIMER_URL_TIMEOUT);
+
+        m_wndUsername.EnableWindow(TRUE);
+        m_wndPassword.EnableWindow(TRUE);
+        m_wndOK.EnableWindow(TRUE);
+
         MessageBox(LoadText(IDS_BEARWARETIMEOUT), LoadText(IDD), MB_OK);
         break;
     }
@@ -104,12 +118,21 @@ void CBearWareLoginDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CBearWareLoginDlg::OnOK()
 {
+    m_wndUsername.EnableWindow(FALSE);
+    m_wndPassword.EnableWindow(FALSE);
+    m_wndOK.EnableWindow(FALSE);
+
     CString szUsername, szPassword;
     m_wndUsername.GetWindowText(szUsername);
     m_wndPassword.GetWindowText(szPassword);
 
     szUsername.Trim();
-    
+    szUsername.MakeLower();
+    int POSTFIXLEN = _tcslen(_T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
+    if (szUsername.Right(POSTFIXLEN) == WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)
+        szUsername = szUsername.Left(szUsername.GetLength() - POSTFIXLEN);
+    m_wndUsername.SetWindowText(szUsername);
+
     TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
     TCHAR szUrlPassword[INTERNET_MAX_URL_LENGTH] = _T("");
     DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
@@ -117,12 +140,7 @@ void CBearWareLoginDlg::OnOK()
     dwNewLen = INTERNET_MAX_URL_LENGTH;
     UrlEscape(szPassword, szUrlPassword, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
 
-    CString szUrl = WEBLOGIN_URL;
-    szUrl += _T("service=bearware");
-    szUrl += _T("&client=") APPTITLE_SHORT;
-    szUrl += _T("&version=") APPVERSION_SHORT;
-    szUrl += _T("&username=") + CString(szUrlUsername);
-    szUrl += _T("&password=") + CString(szUrlPassword);
+    CString szUrl = WEBLOGIN_BEARWARE_URLAUTH(szUrlUsername, szUrlPassword);
 
     m_webLogin.reset(new CHttpRequest(szUrl));
 

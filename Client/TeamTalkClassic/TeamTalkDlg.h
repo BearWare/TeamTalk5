@@ -63,19 +63,6 @@
 #define RECONNECT_TIMEOUT 7000
 #define VUMETER_UPDATE_TIMEOUT 50
 
-enum : UINT_PTR
-{
-    TIMER_VOICELEVEL_ID = 1,
-    TIMER_ONESECOND_ID,
-    TIMER_CONNECT_TIMEOUT_ID,
-    TIMER_STATUSMSG_ID,
-    TIMER_RECONNECT_ID,
-    TIMER_HTTPREQUEST_UPDATE_ID,
-    TIMER_HTTPREQUEST_TIMEOUT_ID,
-    TIMER_DESKTOPSHARE_ID,
-    TIMER_APPUPDATE_ID
-};
-
 enum
 {
     HOTKEY_PUSHTOTALK_ID = 1,
@@ -126,6 +113,8 @@ public:
 
     BOOL Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL bEncrypted);
     void Disconnect();
+
+    void Login();
 
     void UpdateWindowTitle();
 
@@ -357,7 +346,7 @@ public:
 
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
-    std::unique_ptr<CHttpRequest> m_httpUpdate;
+    std::unique_ptr<CHttpRequest> m_httpUpdate, m_httpWebLogin;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);

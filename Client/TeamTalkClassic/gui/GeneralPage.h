@@ -69,7 +69,7 @@ public:
     afx_msg void OnEnChangeEditInactivity();
     afx_msg void OnBnClickedButtonSetupbearware();
     CString m_szBearWareID;
-    CString m_szBearWarePasswd;
+    CString m_szBearWareToken;
     CEdit m_wndBearWareID;
     CButton m_wndSetupBearWare;
 };

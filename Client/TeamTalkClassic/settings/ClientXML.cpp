@@ -329,6 +329,7 @@ namespace teamtalk {
         PutString(element, "address", entry.szAddress);
         PutInteger(element, "tcpport", entry.nTcpPort);
         PutInteger(element, "udpport", entry.nUdpPort);
+        PutBoolean(element, "encrypted", entry.bEncrypted);
         PutString(element, "username", entry.szUsername);
         PutString(element, "password", entry.szPassword);
         PutString(element, "channel", entry.szChannel);
@@ -465,16 +466,16 @@ namespace teamtalk {
         return def_nickname;
     }
 
-    void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szPassword)
+    void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szToken)
     {
         SetValue("general/bearwareid/username", szUsername);
-        SetValue("general/bearwareid/password", szPassword);
+        SetValue("general/bearwareid/token", szToken);
     }
 
-    bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szPassword)
+    bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szToken)
     {
         szUsername = GetValue(true, "general/bearwareid/username");
-        szPassword = GetValue(true, "general/bearwareid/password");
+        szToken = GetValue(true, "general/bearwareid/token");
         return !szUsername.empty();
     }
 

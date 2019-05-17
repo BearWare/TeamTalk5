@@ -77,19 +77,24 @@
 #define TTFILE_VERSION      "5.0"
 #define TTLINK_PREFIX       "tt:"
 
-#define WEBLOGIN_FACEBOOK_USERNAME          "facebook"
-#define WEBLOGIN_FACEBOOK_CLIENTID          "611833262539381"
-#define WEBLOGIN_FACEBOOK_REDIRECT          "https://www.facebook.com/connect/login_success.html"
-#define WEBLOGIN_FACEBOOK_URL               ("https://www.facebook.com/v2.10/dialog/oauth?client_id=" WEBLOGIN_FACEBOOK_CLIENTID \
-                                            "&redirect_uri=" WEBLOGIN_FACEBOOK_REDIRECT "&response_type=code%20token")
-#define WEBLOGIN_FACEBOOK_PASSWDPREFIX      "code="
-#define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX   "@facebook.com"
-#define WEBLOGIN_FACEBOOK_PROFILE_URL       "https://facebook.com/"
-#define WEBLOGIN_FACEBOOK_LOGOUT_URL        "https://www.facebook.com/logout.php?"
-#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT   WEBLOGIN_FACEBOOK_REDIRECT
+#define WEBLOGIN_FACEBOOK_USERNAME              "facebook"
+#define WEBLOGIN_FACEBOOK_CLIENTID              "611833262539381"
+#define WEBLOGIN_FACEBOOK_REDIRECT              "https://www.facebook.com/connect/login_success.html"
+#define WEBLOGIN_FACEBOOK_URL                   ("https://www.facebook.com/v2.10/dialog/oauth?client_id=" WEBLOGIN_FACEBOOK_CLIENTID \
+                                                "&redirect_uri=" WEBLOGIN_FACEBOOK_REDIRECT "&response_type=code%20token")
+#define WEBLOGIN_FACEBOOK_PASSWDPREFIX          "code="
+#define WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX       "@facebook.com"
+#define WEBLOGIN_FACEBOOK_PROFILE_URL           "https://facebook.com/"
+#define WEBLOGIN_FACEBOOK_LOGOUT_URL            "https://www.facebook.com/logout.php?"
+#define WEBLOGIN_FACEBOOK_LOGOUT_REDIRECT       WEBLOGIN_FACEBOOK_REDIRECT
 
-#define WEBLOGIN_URL                        "https://www.bearware.dk/teamtalk/weblogin.php?"
-#define WEBLOGIN_BEARWARE_USERNAME          "bearware"
+#define WEBLOGIN_URL                            "https://www.bearware.dk/test/weblogin.php?client=" APPNAME_SHORT \
+                                                "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE
+#define WEBLOGIN_BEARWARE_URLAUTH(uid, passwd)  QString(WEBLOGIN_URL "&service=bearware&action=auth&username=%1&password=%2").arg(uid).arg(passwd)
+#define WEBLOGIN_BEARWARE_URLTOKEN(uid, token, host)  QString(WEBLOGIN_URL "&service=bearware&action=clientauth&username=%1&token=%2&host=%3").arg(uid).arg(token).arg(host)
+#define WEBLOGIN_BEARWARE_USERNAME              "bearware"
+#define WEBLOGIN_BEARWARE_USERNAMEPOSTFIX       "@bearware.dk"
+#define WEBLOGIN_BEARWARE_PASSWD(token)         QString("token=%1").arg(token)
 
 #if QT_VERSION >= 0x050000
 #if defined(Q_OS_WIN32)
