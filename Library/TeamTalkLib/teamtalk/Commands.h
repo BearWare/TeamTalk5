@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.5")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.6")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -130,6 +130,7 @@
 #define TT_CMDFLOOD ACE_TEXT("cmdflood") // v5.3
 #define TT_BANTYPE ACE_TEXT("type") // v5.3
 #define TT_LOGINDELAY ACE_TEXT("logindelay") // v5.5
+#define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
 
 //    Client ---> Server
 //    -------------------------

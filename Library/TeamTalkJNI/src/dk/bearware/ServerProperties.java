@@ -43,4 +43,5 @@ public class ServerProperties
     public int nUserTimeout;
     public String szServerVersion;
     public String szServerProtocolVersion;
+    public String szAccessToken;
 }
