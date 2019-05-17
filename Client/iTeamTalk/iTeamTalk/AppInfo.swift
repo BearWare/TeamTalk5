@@ -89,12 +89,12 @@ class AppInfo {
             "&service=bearware" + "&action=auth&username=" + escUsername + "&password=" + escPasswd
     }
     
-    static func getBearWareServerTokenURL(username : String, token : String) -> String {
+    static func getBearWareServerTokenURL(username : String, token : String, userid : INT32) -> String {
         
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
         let escToken = token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? token
         
         return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
-            "&service=bearware" + "&action=clientauth&username=" + escUsername + "&token=" + escToken
+            "&service=bearware" + "&action=clientauth&username=" + escUsername + "&token=" + escToken + "&userid=" + String(userid)
     }
 }

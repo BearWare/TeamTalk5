@@ -34,9 +34,17 @@ class WebLoginViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        createTableItems()
+    }
+    
+    func createTableItems() {
+        
+        weblogin_items.removeAll()
+        authentication_items.removeAll()
+        
         let settings = UserDefaults.standard
         let username = settings.string(forKey: PREF_GENERAL_BEARWARE_ID)
-
+        
         if username == nil {
             let createcell = tableView.dequeueReusableCell(withIdentifier: "Create Web Login")
             weblogin_items.append(createcell!)
@@ -52,6 +60,7 @@ class WebLoginViewController : UITableViewController {
         usernameField!.autocorrectionType = .no
         usernameField!.spellCheckingType = .no
         usernameField!.autocapitalizationType = .none
+        usernameField!.isUserInteractionEnabled = username == nil
         
         authentication_items.append(usernamecell)
         
@@ -128,7 +137,8 @@ class WebLoginViewController : UITableViewController {
                 settings.set(authParser.username, forKey: PREF_GENERAL_BEARWARE_ID)
                 settings.set(authParser.token, forKey: PREF_GENERAL_BEARWARE_TOKEN)
                 
-                self.navigationController?.popViewController(animated: true)
+                createTableItems()
+                tableView.reloadData()
             }
             else {
                 let alert = UIAlertView(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
@@ -154,7 +164,8 @@ class WebLoginViewController : UITableViewController {
         usernameField?.text = ""
         passwordField?.text = ""
         
-        self.navigationController?.popViewController(animated: true)
+        createTableItems()
+        tableView.reloadData()
     }
 }
 
