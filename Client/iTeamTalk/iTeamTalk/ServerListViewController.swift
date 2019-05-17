@@ -49,6 +49,7 @@ class Server : NSObject {
         password = dec.decodeObject(forKey: "password") as! String
         channel = dec.decodeObject(forKey: "channel") as! String
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
+        encrypted = dec.decodeBool(forKey: "encrypted")
     }
     
     @objc func encodeWithCoder(_ enc: NSCoder!) {
@@ -60,6 +61,7 @@ class Server : NSObject {
         enc.encode(password, forKey: "password")
         enc.encode(channel, forKey: "channel")
         enc.encode(chanpasswd, forKey: "chanpasswd")
+        enc.encode(encrypted, forKey: "encrypted")
     }
 }
 
@@ -328,6 +330,15 @@ class ServerListViewController : UITableViewController,
                 if let m = udpport_matches.first {
                     let s = ns_str.substring(with: m.range(at: 1))
                     currentServer.udpport = Int(s)!
+                }
+
+                // encrypted
+                let encrypted = "[&|\\?]encrypted=([^&]*)"
+                let encrypted_regex = try NSRegularExpression(pattern: encrypted, options: .caseInsensitive)
+                let encrypted_matches = encrypted_regex.matches(in: url_str, options: .reportCompletion, range: url_range)
+                if let m = encrypted_matches.first {
+                    let str = ns_str.substring(with: m.range(at: 1))
+                    currentServer.encrypted = str == "true" || str == "1"
                 }
 
                 // username
