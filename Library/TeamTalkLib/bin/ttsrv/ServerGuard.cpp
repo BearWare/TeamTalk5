@@ -684,7 +684,6 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     url += ACE_CString("&token=") + authtoken.c_str();
 
     std::string utf8;
-    MYTRACE(ACE_TEXT("Url request: %s\n"), Utf8ToUnicode(url.c_str()).c_str());
     int ret = HttpRequest(url, utf8);
 
     GUARD_OBJ_NAME(g, servernode, servernode->lock()); // lock required by WebLoginPostAuthenticate() and WebLoginComplete()
