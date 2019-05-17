@@ -330,9 +330,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 let settings = UserDefaults.standard
                 let username = settings.string(forKey: PREF_GENERAL_BEARWARE_ID) ?? ""
                 let token = settings.string(forKey: PREF_GENERAL_BEARWARE_TOKEN) ?? ""
+                let host = String(format: "%@:%d", self.server.ipaddr, self.server.tcpport)
                 let userid = TT_GetMyUserID(ttInst)
                 
-                let url = AppInfo.getBearWareServerTokenURL(username: username, token: token, userid: userid)
+                let url = AppInfo.getBearWareServerTokenURL(username: username, token: token, host: host, userid: userid)
                 
                 let authParser = WebLoginParser()
                 if let parser = XMLParser(contentsOf: URL(string: url)!) {
