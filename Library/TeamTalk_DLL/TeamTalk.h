@@ -1335,6 +1335,10 @@ extern "C" {
          * Also checkout @c nMaxLoginAttempts and @c
          * nMaxLoginsPerIPAddress. */
         INT32 nLoginDelayMSec;
+        /** @brief A randomly generated 256 bit access token created
+         * by the server to identify the login session.
+         * Read-only property. */
+        TTCHAR szAccessToken[TT_STRLEN];
     } ServerProperties;
 
     /**

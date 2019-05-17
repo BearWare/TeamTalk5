@@ -641,16 +641,14 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     ErrorMsg err;
     std::string authusername = UnicodeToUtf8(useraccount.username).c_str();
     std::string authtoken;
-    strings_t tokens = tokenize(useraccount.passwd, ACE_TEXT("="));
-    useraccount.passwd.clear();
 
     {
         GUARD_OBJ_NAME(g, servernode, servernode->lock());
 
-        // find 'token' in password
-        if (tokens.size() >= 2 && tokens[0] == ACE_TEXT("token"))
+        auto user = servernode->GetUser(userid);
+        if (user.get())
         {
-            authtoken = UnicodeToUtf8(tokens[1]).c_str();
+            authtoken = UnicodeToUtf8(user->GetAccessToken()).c_str();
         }
 
         if (authtoken.empty())
@@ -681,7 +679,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     url += "&service=bearware";
     url += "&action=serverauth";
     url += ACE_CString("&username=") + authusername.c_str();
-    url += ACE_CString("&token=") + authtoken.c_str();
+    url += ACE_CString("&accesstoken=") + authtoken.c_str();
 
     std::string utf8;
     int ret = HttpRequest(url, utf8);

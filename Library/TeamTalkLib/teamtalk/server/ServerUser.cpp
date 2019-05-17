@@ -54,6 +54,10 @@ ServerUser::ServerUser(int userid,
     //MYTRACE("StreamHandler for userid %d is %d\n", GetUserID(), handler.get_handle());
     //TTASSERT(handler.get_handle() != ACE_INVALID_HANDLE);
     m_nLastKeepAlive = 0;
+
+#if defined(ENABLE_ENCRYPTION)
+    RAND_bytes(m_accesstoken, sizeof(m_accesstoken));
+#endif
 }
 
 ServerUser::~ServerUser()
@@ -1200,6 +1204,10 @@ void ServerUser::DoWelcome(const ServerSettings& properties)
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_PROTOCOL, ACE_TString(TEAMTALK_PROTOCOL_VERSION), command);
+
+#if defined(ENABLE_TEAMTALKPRO)
+    AppendProperty(TT_ACCESSTOKEN, GetAccessToken(), command);
+#endif
 
     command += ACE_TString(EOL);
 

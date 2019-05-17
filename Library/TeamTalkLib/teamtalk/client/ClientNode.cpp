@@ -4696,6 +4696,7 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
         GetProperty(properties, TT_MAXUSERS, m_serverinfo.maxusers);
         GetProperty(properties, TT_MAXLOGINSPERIP, m_serverinfo.max_logins_per_ipaddr);
         GetProperty(properties, TT_USERTIMEOUT, m_serverinfo.usertimeout);
+        GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
 
         //start keepalive timer for TCP (if not set, then set it to half the user timeout)
         if(m_tcpkeepalive_interval>0)
@@ -4776,6 +4777,7 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_MEDIAFILETXLIMIT, m_serverinfo.mediafiletxlimit);
     GetProperty(properties, TT_DESKTOPTXLIMIT, m_serverinfo.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, m_serverinfo.totaltxlimit);
+    GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
 
     if(m_serverinfo.hostaddrs.size())
     {
