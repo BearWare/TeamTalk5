@@ -110,7 +110,7 @@ class WebLoginViewController : UITableViewController {
     
     @IBAction func validateLogin(_ sender: UIButton) {
         
-        let url = AppInfo.getWebLoginURL(username: usernameField!.text!, passwd: passwordField!.text!)
+        let url = AppInfo.getBearWareTokenURL(username: usernameField!.text!, passwd: passwordField!.text!)
         
         let authParser = WebLoginParser()
         if let parser = XMLParser(contentsOf: URL(string: url)!) {
@@ -181,6 +181,8 @@ class WebLoginParser : NSObject, XMLParserDelegate {
             username = string
         case "nickname" :
             nickname = string
+        case "servertoken" :
+            fallthrough
         case "token" :
             token = string
         default :

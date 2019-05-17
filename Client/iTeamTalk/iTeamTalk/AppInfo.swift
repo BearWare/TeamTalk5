@@ -35,6 +35,10 @@ class AppInfo {
     static let WEBLOGIN_FACEBOOK = "facebook"
     static let WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token="
     
+    static let WEBLOGIN_BEARWARE_USERNAME = "bearware"
+    static let WEBLOGIN_BEARWARE_USERNAMEPOSTFIX = "@bearware.dk"
+    static let WEBLOGIN_BEARWARE_PASSWDPREFIX = "token="
+    
     enum BundleInfo {
         case name, version_NO
     }
@@ -76,12 +80,21 @@ class AppInfo {
         return "http://www.bearware.dk/teamtalk/tt5update.php?" + getDefaultUrlArgs()
     }
     
-    static func getWebLoginURL(username : String, passwd : String) -> String {
+    static func getBearWareTokenURL(username : String, passwd : String) -> String {
         
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
         let escPasswd = passwd.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? passwd
         
         return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
             "&service=bearware" + "&action=auth&username=" + escUsername + "&password=" + escPasswd
+    }
+    
+    static func getBearWareServerTokenURL(username : String, token : String) -> String {
+        
+        let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
+        let escToken = token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? token
+        
+        return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
+            "&service=bearware" + "&action=clientauth&username=" + escUsername + "&token=" + escToken
     }
 }
