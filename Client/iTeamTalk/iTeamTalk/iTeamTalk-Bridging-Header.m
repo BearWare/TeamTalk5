@@ -128,6 +128,8 @@ const TTCHAR* getServerPropertiesString(SExt e, const ServerProperties* s) {
     switch (e) {
         case SERVERNAME :
             return s->szServerName;
+        case ACCESSTOKEN :
+            return s->szAccessToken;
     }
     return "";
 }
