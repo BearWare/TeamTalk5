@@ -150,7 +150,7 @@ class WebLoginViewController : UITableViewController {
     }
     
     @IBAction func createWebLogin(_ sender: UIButton) {
-        if let url = URL(string: "https://www.bearware.dk") {
+        if let url = URL(string: AppInfo.BEARWARE_REGISTRATION_WEBSITE) {
             UIApplication.shared.openURL(url)
         }
     }
@@ -184,20 +184,17 @@ class WebLoginParser : NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        
-        switch elementStack.last! {
-        case "bearware" : break
-           
-        case "username" :
+
+        let path = getXMLPath(elementStack: elementStack)
+        switch path {
+        case "/teamtalk/bearware/username" :
             username = string
-        case "nickname" :
+        case "/teamtalk/bearware/nickname" :
             nickname = string
-        case "servertoken" :
-            fallthrough
-        case "token" :
+        case "/teamtalk/bearware/token" :
             token = string
         default :
-            print("Unknown tag " + self.elementStack.last!)
+            print("Unknown path " + path)
         }
     }
     

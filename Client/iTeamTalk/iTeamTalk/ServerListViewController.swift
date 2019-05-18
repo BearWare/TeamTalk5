@@ -146,6 +146,10 @@ class ServerListViewController : UITableViewController,
         parser.delegate = updateparser
         parser.parse()
         
+        if updateparser.registerUrl.isEmpty == false {
+            AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+        }
+        
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
     }
     
@@ -386,25 +390,33 @@ class ServerListViewController : UITableViewController,
 
 class AppUpdateParser : NSObject, XMLParserDelegate {
 
+    var elementStack = [String]()
     var update = ""
-    var updatefound = false
+    var registerUrl = ""
     
     func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
-            
-            if elementName == "name" {
-                updatefound = true
-            }
+        
+        elementStack.append(elementName)
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        update = string
+        let path = getXMLPath(elementStack: elementStack)
+        switch path {
+        case "/teamtalk/update/name" :
+            update = string
+        case "/teamtalk/bearware/register-url" :
+            registerUrl = string
+        default :
+             print("Unknown path " + path)
+        }
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?) {
-            
+        
+        self.elementStack.removeLast()
     }
 
 }
@@ -418,11 +430,11 @@ class ServerParser : NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String,
         namespaceURI: String?, qualifiedName qName: String?,
         attributes attributeDict: [String : String]) {
-            
-            elementStack.append(elementName)
-            if elementName == "host" {
-                currentServer = Server()
-            }
+        
+        elementStack.append(elementName)
+        if elementName == "host" {
+            currentServer = Server()
+        }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {

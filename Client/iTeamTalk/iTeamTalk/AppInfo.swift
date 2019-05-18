@@ -79,7 +79,9 @@ class AppInfo {
     static func getUpdateURL() -> String {
         return "http://www.bearware.dk/teamtalk/tt5update.php?" + getDefaultUrlArgs()
     }
-    
+
+    static var BEARWARE_REGISTRATION_WEBSITE = "http://www.bearware.dk"
+
     static func getBearWareTokenURL(username : String, passwd : String) -> String {
         
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
