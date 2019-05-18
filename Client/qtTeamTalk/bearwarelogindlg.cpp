@@ -33,19 +33,29 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QDomDocument>
+#include <QDesktopServices>
 
 extern QSettings* ttSettings;
+
+QString BearWareLoginDlg::registerUrl = APPWEBSITE;
 
 BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::BearWareLoginDlg)
 {
     ui->setupUi(this);
+
+    connect(ui->registerButton, SIGNAL(clicked(bool)), SLOT(slotRegister(bool)));
 }
 
 BearWareLoginDlg::~BearWareLoginDlg()
 {
     delete ui;
+}
+
+void BearWareLoginDlg::slotRegister(bool)
+{
+    QDesktopServices::openUrl(QUrl(registerUrl));
 }
 
 void BearWareLoginDlg::accept()

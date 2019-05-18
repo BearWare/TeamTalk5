@@ -47,6 +47,7 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "weblogindlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -5526,6 +5527,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
         QString version = newVersionAvailable(doc);
         if(version.size())
             addStatusMsg(tr("New version available: %1").arg(version));
+        BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 
     reply->manager()->deleteLater();

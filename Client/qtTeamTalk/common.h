@@ -391,6 +391,8 @@ bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
 void deleteDesktopAccessEntries();
 
 QString newVersionAvailable(const QDomDocument& updateDoc);
+QString getBearWareRegistrationUrl(const QDomDocument& doc);
+
 
 QByteArray generateTTFile(const HostEntry& entry);
 
