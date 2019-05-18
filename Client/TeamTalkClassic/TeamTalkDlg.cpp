@@ -4645,13 +4645,16 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/name").c_str());
+                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/update/name").c_str());
                 if(!updname.IsEmpty())
                 {
                     CString str;
                     str.Format(_T("New update available: %s"), updname);
                     AddStatusText(str);
                 }
+                CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url").c_str());
+                if (!szRegisterUrl.IsEmpty())
+                    CBearWareLoginDlg::szBearWareRegisterUrl = szRegisterUrl;
             }
 
             KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);

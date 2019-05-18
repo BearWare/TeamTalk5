@@ -10,6 +10,8 @@
 
 IMPLEMENT_DYNAMIC(CBearWareLoginDlg, CDialogEx)
 
+CString CBearWareLoginDlg::szBearWareRegisterUrl = WEBSITE;
+
 CBearWareLoginDlg::CBearWareLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_BEARWARELOGIN, pParent)
     , m_szUsername(_T(""))
@@ -152,4 +154,5 @@ void CBearWareLoginDlg::OnOK()
 
 void CBearWareLoginDlg::OnBnClickedButtonBearwarecreate()
 {
+    HINSTANCE i = ShellExecute(this->m_hWnd, _T("open"), szBearWareRegisterUrl, _T(""), _T(""), SW_SHOW);
 }
