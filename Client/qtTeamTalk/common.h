@@ -390,6 +390,7 @@ bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
                       const User& user);
 void deleteDesktopAccessEntries();
 
+QString parseXML(const QDomDocument& doc, QString elements);
 QString newVersionAvailable(const QDomDocument& updateDoc);
 QString getBearWareRegistrationUrl(const QDomDocument& doc);
 
