@@ -31,4 +31,5 @@ public:
     CString m_szToken;
     virtual BOOL OnInitDialog();
     CButton m_wndOK;
+    afx_msg void OnBnClickedButtonBearwarecreate();
 };

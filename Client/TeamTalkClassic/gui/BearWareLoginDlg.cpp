@@ -44,6 +44,7 @@ BOOL CBearWareLoginDlg::OnInitDialog()
 
 BEGIN_MESSAGE_MAP(CBearWareLoginDlg, CDialogEx)
     ON_WM_TIMER()
+    ON_BN_CLICKED(IDC_BUTTON_BEARWARECREATE, &CBearWareLoginDlg::OnBnClickedButtonBearwarecreate)
 END_MESSAGE_MAP()
 
 enum
@@ -146,4 +147,9 @@ void CBearWareLoginDlg::OnOK()
 
     SetTimer(TIMER_URL_CHECK, 500, NULL);
     SetTimer(TIMER_URL_TIMEOUT, 10000, NULL);
+}
+
+
+void CBearWareLoginDlg::OnBnClickedButtonBearwarecreate()
+{
 }
