@@ -29,7 +29,10 @@ public class Preferences {
 	public static final String 
 			PREF_GENERAL_NICKNAME = "nickname_text",
 			PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox",
-			PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox";
+			PREF_GENERAL_PUBLICSERVERS = "showpublicservers_checkbox",
+			PREF_GENERAL_BEARWARE_CHECKED = "bearwareid_checkbox",
+		    PREF_GENERAL_BEARWARE_USERNAME = "bearware_username",
+            PREF_GENERAL_BEARWARE_TOKEN = "bearware_token";
 	public static final String
 			PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
 			PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL = "voice_activation_level",

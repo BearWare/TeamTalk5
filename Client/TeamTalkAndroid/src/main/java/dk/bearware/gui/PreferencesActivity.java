@@ -33,6 +33,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -207,6 +208,13 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
+
+        Preference bearwareLogin = findPreference(Preferences.PREF_GENERAL_BEARWARE_CHECKED);
+        bearwareLogin.setOnPreferenceChangeListener((preference, o) -> {
+            Intent edit = new Intent(PreferencesActivity.this, WebLoginActivity.class);
+            startActivityForResult(edit, RESULT_OK);
+            return true;
+        });
     }
 
     /** {@inheritDoc} */
@@ -285,6 +293,11 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
                     }
                 }
 
+            }
+            else if (preference instanceof CheckBoxPreference) {
+                if (preference.getKey().equals(Preferences.PREF_GENERAL_BEARWARE_CHECKED)) {
+                    preference = preference;
+                }
             }
             else {
                 // For all other preferences, set the summary to the value's

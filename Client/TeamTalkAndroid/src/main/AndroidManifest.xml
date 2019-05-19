@@ -2,55 +2,38 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dk.bearware.gui"
     android:versionCode="77"
-    android:versionName="5.4" >
-
+    android:versionName="5.4">
     <!-- RECORD_AUDIO is needed to create an audio recorder -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" >
-    </uses-permission>
-
-    <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" >
-    </uses-permission>
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission> <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
     <!--
          INTERNET is needed to use a URI-based audio player, depending
          on the URI
     -->
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
-
-    <!-- VIBRATE is needed to vibrate on up/down of tx button -->
-    <uses-permission android:name="android.permission.VIBRATE" >
-    </uses-permission>
-
-    <!-- READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are needed for file transfer facilities -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
-
-    <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" >
-    </uses-permission>
-
-    <!-- READ_PHONE_STATE is needed to suspend on incoming call -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission> <!-- VIBRATE is needed to vibrate on up/down of tx button -->
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission> <!-- READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are needed for file transfer facilities -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission> <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission> <!-- READ_PHONE_STATE is needed to suspend on incoming call -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
     <application
-        android:icon="@drawable/teamtalk_blue"
-        android:label="@string/app_name"
         android:allowBackup="true"
-        > <!-- android:debuggable="false" -->
-        
+        android:icon="@drawable/teamtalk_blue"
+        android:label="@string/app_name">
+        <activity
+            android:name=".WebLoginActivity"
+            android:label="@string/title_activity_web_login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- android:debuggable="false" -->
         <activity
             android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk_blue"
             android:label="@string/title_activity_server_list"
-            android:launchMode="singleTop"
-            >
-            <!--    -->
-             
+            android:launchMode="singleTop">
+
+            <!--  -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,83 +41,78 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tt" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ServerEntryActivity"
-            android:label="@string/title_activity_server_entry" >
-        </activity>
+            android:label="@string/title_activity_server_entry"></activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateUnchanged|adjustResize"
-            android:label="@string/title_activity_main" >
-        </activity>
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"></activity>
         <activity
             android:name=".ChannelPropActivity"
-            android:label="@string/title_activity_channel_prop" >
-        </activity>
+            android:label="@string/title_activity_channel_prop"></activity>
         <activity
             android:name=".StreamMediaActivity"
-            android:label="@string/title_activity_stream_media" >
-        </activity>
+            android:label="@string/title_activity_stream_media"></activity>
 
-        <service android:name="dk.bearware.backend.TeamTalkService" android:stopWithTask="true" />
+        <service
+            android:name="dk.bearware.backend.TeamTalkService"
+            android:stopWithTask="true" />
 
         <activity
             android:name=".UserPropActivity"
-            android:label="@string/title_activity_user_prop" >
-        </activity>
+            android:label="@string/title_activity_user_prop"></activity>
         <activity
             android:name=".TextMessageActivity"
             android:label="@string/title_activity_text_message"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.bearware.gui.MainActivity" />
         </activity>
         <activity
             android:name=".PreferencesActivity"
-            android:label="@string/title_activity_preferences" >
-        </activity>
+            android:label="@string/title_activity_preferences"></activity>
         <activity
             android:name=".AudioCodecActivity"
-            android:label="@string/title_activity_audio_codec" >
-        </activity>
+            android:label="@string/title_activity_audio_codec"></activity>
         <activity
             android:name=".FilePickerActivity"
-            android:label="@string/title_activity_filepicker" >
-        </activity>
+            android:label="@string/title_activity_filepicker"></activity>
 
         <receiver android:name=".MediaButtonEventReceiver">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
-        </receiver>
+        </receiver> <!-- Facebook begin -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" /> <!-- Facebook end -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="TeamTalk"></activity>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <!-- Facebook begin -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-        <!-- Facebook end -->
-    <activity android:name="com.facebook.FacebookActivity"
-        android:configChanges=
-            "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:label="TeamTalk" >
-    </activity>
-    <activity
-        android:name="com.facebook.CustomTabActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="@string/fb_login_protocol_scheme" />
-        </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

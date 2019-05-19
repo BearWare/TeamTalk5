@@ -26,6 +26,10 @@ package dk.bearware.data;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import dk.bearware.TeamTalkBase;
 
 public class AppInfo {
@@ -38,6 +42,9 @@ public class AppInfo {
     public static final String WEBLOGIN_FACEBOOK = "facebook";
     public static final String WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token=";
 
+    // getUpdateUrl() response can override this
+    public static String BEARWARE_REGISTRATION_WEBSITE = "http://www.bearware.dk";
+
     public static String getVersion(Context context) {
         String version = "";
         try {
@@ -48,20 +55,36 @@ public class AppInfo {
         }
         return version;
     }
-    public static String getServerListURL(Context context) {
+
+    public static String getDefautlUrlArgs(Context context) {
         final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
         String appversion = getVersion(context);
-        String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?client=" + APPNAME_SHORT + "&version="
-            + appversion + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+        return "client=" + APPNAME_SHORT + "&version="
+                + appversion + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+    }
+
+    public static String getServerListURL(Context context) {
+        String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?" + getDefautlUrlArgs(context);
         return urlToRead;
     }
 
     public static String getUpdateURL(Context context) {
-        final String TEAMTALK_VERSION = TeamTalkBase.getVersion();
-        String appversion = getVersion(context);
-        String urlToRead = "http://www.bearware.dk/teamtalk/tt5update.php?client=" + APPNAME_SHORT + "&version="
-            + appversion + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
+        String urlToRead = "http://www.bearware.dk/teamtalk/tt5update.php?" + getDefautlUrlArgs(context);
         return urlToRead;
     }
+
+    public static String getBearWareTokenUrl(Context context, String username, String password) {
+
+        try {
+            username = URLEncoder.encode(username, "utf-8");
+            password = URLEncoder.encode(password, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Unable to encode username/password: " + e.toString());
+        }
+        String urlToRead = "https://www.bearware.dk/test/weblogin.php?" + getDefautlUrlArgs(context) +
+                "&service=bearware&action=auth&username=" + username + "&password=" + password;
+        return urlToRead;
+    }
+
     
 }
