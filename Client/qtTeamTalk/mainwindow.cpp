@@ -47,6 +47,7 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "weblogindlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -771,15 +772,21 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         //reset stats
         ZERO_STRUCT(m_clientstats);
+        // retrieve initial welcome message and access token
+        TT_GetServerProperties(ttInst, &m_srvprop);
 
         if (m_host.username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 ||
             m_host.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
         {
             QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
             QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
-            QString host = QString("%1:%2").arg(m_host.ipaddr).arg(m_host.tcpport);
+            QString accesstoken = _Q(m_srvprop.szAccessToken);
 
-            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, host);
+            username = QUrl::toPercentEncoding(username);
+            token = QUrl::toPercentEncoding(token);
+            accesstoken = QUrl::toPercentEncoding(accesstoken);
+
+            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, accesstoken);
 
             QUrl url(urlReq);
 
@@ -890,9 +897,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
 
-        ui.chatEdit->updateServer(msg.serverproperties); 
+        ui.chatEdit->updateServer(msg.serverproperties);
 
         emit(serverUpdate(msg.serverproperties));
+
+        m_srvprop = msg.serverproperties;
 
         update_ui = true;
     }
@@ -5518,6 +5527,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
         QString version = newVersionAvailable(doc);
         if(version.size())
             addStatusMsg(tr("New version available: %1").arg(version));
+        BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 
     reply->manager()->deleteLater();
@@ -5538,9 +5548,6 @@ void MainWindow::slotBearWareAuthReply(QNetworkReply* reply)
                 auto id = child.firstChildElement("username");
                 if(!id.isNull())
                     m_host.username = id.text();
-                auto authtoken = child.firstChildElement("servertoken");
-                if(!authtoken.isNull())
-                    m_host.password = QString("token=%1").arg(authtoken.text());
             }
         }
     }

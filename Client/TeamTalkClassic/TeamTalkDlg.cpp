@@ -966,20 +966,21 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
             }
         }
 
-        CString szUsername = STR_UTF8(username), szToken = STR_UTF8(token), szHost;
-        szHost.Format(_T("%s:%d"), STR_UTF8(m_host.szAddress).GetBuffer(), m_host.nTcpPort);
+        ServerProperties srvprop = {};
+        TT_GetServerProperties(ttInst, &srvprop);
 
+        CString szUsername = STR_UTF8(username), szToken = STR_UTF8(token);
         TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
         TCHAR szUrlToken[INTERNET_MAX_URL_LENGTH] = _T("");
-        TCHAR szUrlHost[INTERNET_MAX_URL_LENGTH] = _T("");
+        TCHAR szUrlAccessToken[INTERNET_MAX_URL_LENGTH] = _T("");
         DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
         UrlEscape(szUsername, szUrlUsername, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
         dwNewLen = INTERNET_MAX_URL_LENGTH;
         UrlEscape(szToken, szUrlToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
         dwNewLen = INTERNET_MAX_URL_LENGTH;
-        UrlEscape(szHost, szUrlHost, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
+        UrlEscape(srvprop.szAccessToken, szUrlAccessToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
 
-        m_httpWebLogin.reset(new CHttpRequest(WEBLOGIN_BEARWARE_URLTOKEN(szUrlUsername, szUrlToken, szUrlHost)));
+        m_httpWebLogin.reset(new CHttpRequest(WEBLOGIN_BEARWARE_URLTOKEN(szUrlUsername, szUrlToken, szUrlAccessToken)));
         SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID, 500, NULL);
         SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID, 10000, NULL);
     }
@@ -4644,13 +4645,16 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/name").c_str());
+                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/update/name").c_str());
                 if(!updname.IsEmpty())
                 {
                     CString str;
                     str.Format(_T("New update available: %s"), updname);
                     AddStatusText(str);
                 }
+                CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url").c_str());
+                if (!szRegisterUrl.IsEmpty())
+                    CBearWareLoginDlg::szBearWareRegisterUrl = szRegisterUrl;
             }
 
             KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);

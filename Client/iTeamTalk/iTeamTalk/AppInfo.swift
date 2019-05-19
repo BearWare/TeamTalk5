@@ -79,7 +79,9 @@ class AppInfo {
     static func getUpdateURL() -> String {
         return "http://www.bearware.dk/teamtalk/tt5update.php?" + getDefaultUrlArgs()
     }
-    
+
+    static var BEARWARE_REGISTRATION_WEBSITE = "http://www.bearware.dk"
+
     static func getBearWareTokenURL(username : String, passwd : String) -> String {
         
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
@@ -89,12 +91,14 @@ class AppInfo {
             "&service=bearware" + "&action=auth&username=" + escUsername + "&password=" + escPasswd
     }
     
-    static func getBearWareServerTokenURL(username : String, token : String) -> String {
+    static func getBearWareServerTokenURL(username : String, token : String, accesstoken : String) -> String {
         
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
         let escToken = token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? token
+        let escAccessToken = accesstoken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accesstoken
         
         return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
-            "&service=bearware" + "&action=clientauth&username=" + escUsername + "&token=" + escToken
+            "&service=bearware" + "&action=clientauth&username=" + escUsername +
+            "&token=" + escToken + "&accesstoken=" + escAccessToken
     }
 }

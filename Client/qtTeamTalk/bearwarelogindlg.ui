@@ -46,7 +46,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="registerButton">
           <property name="text">
            <string>C&amp;reate</string>
           </property>

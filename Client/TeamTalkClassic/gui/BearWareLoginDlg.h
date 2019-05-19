@@ -17,6 +17,8 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DIALOG_BEARWARELOGIN };
 
+    static CString szBearWareRegisterUrl;
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	DECLARE_MESSAGE_MAP()
@@ -31,4 +33,5 @@ public:
     CString m_szToken;
     virtual BOOL OnInitDialog();
     CButton m_wndOK;
+    afx_msg void OnBnClickedButtonBearwarecreate();
 };

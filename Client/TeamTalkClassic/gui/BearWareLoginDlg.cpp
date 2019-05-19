@@ -10,6 +10,8 @@
 
 IMPLEMENT_DYNAMIC(CBearWareLoginDlg, CDialogEx)
 
+CString CBearWareLoginDlg::szBearWareRegisterUrl = WEBSITE;
+
 CBearWareLoginDlg::CBearWareLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_BEARWARELOGIN, pParent)
     , m_szUsername(_T(""))
@@ -44,6 +46,7 @@ BOOL CBearWareLoginDlg::OnInitDialog()
 
 BEGIN_MESSAGE_MAP(CBearWareLoginDlg, CDialogEx)
     ON_WM_TIMER()
+    ON_BN_CLICKED(IDC_BUTTON_BEARWARECREATE, &CBearWareLoginDlg::OnBnClickedButtonBearwarecreate)
 END_MESSAGE_MAP()
 
 enum
@@ -128,7 +131,7 @@ void CBearWareLoginDlg::OnOK()
 
     szUsername.Trim();
     szUsername.MakeLower();
-    int POSTFIXLEN = _tcslen(_T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
+    auto POSTFIXLEN = _tcslen(_T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
     if (szUsername.Right(POSTFIXLEN) == WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)
         szUsername = szUsername.Left(szUsername.GetLength() - POSTFIXLEN);
     m_wndUsername.SetWindowText(szUsername);
@@ -146,4 +149,10 @@ void CBearWareLoginDlg::OnOK()
 
     SetTimer(TIMER_URL_CHECK, 500, NULL);
     SetTimer(TIMER_URL_TIMEOUT, 10000, NULL);
+}
+
+
+void CBearWareLoginDlg::OnBnClickedButtonBearwarecreate()
+{
+    HINSTANCE i = ShellExecute(this->m_hWnd, _T("open"), szBearWareRegisterUrl, _T(""), _T(""), SW_SHOW);
 }

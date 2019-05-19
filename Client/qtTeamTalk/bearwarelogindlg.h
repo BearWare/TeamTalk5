@@ -41,7 +41,10 @@ public:
 
     void accept();
 
+    static QString registerUrl;
+
 private slots:
+    void slotRegister(bool);
     void slotHttpReply(QNetworkReply* reply);
 
 private:

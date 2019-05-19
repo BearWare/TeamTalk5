@@ -92,6 +92,7 @@ namespace teamtalk {
         bool ReceiveData(const char* data, int len);
         bool SendData(ACE_Message_Queue_Base& msg_queue);
 
+        ACE_TString GetAccessToken() const { return KeyToHexString(m_accesstoken, sizeof(m_accesstoken)); }
         bool IsAuthorized() const { return m_account.usertype & (USERTYPE_ADMIN | USERTYPE_DEFAULT); }
         void SetUserAccount(const UserAccount& account) { m_account = account; }
         const UserAccount& GetUserAccount() const { return m_account; }
@@ -251,6 +252,7 @@ namespace teamtalk {
         ACE_TString m_stream_protocol;
         ServerNode& m_servernode;
         ACE_HANDLE m_stream_handle;
+        uint8_t m_accesstoken[CRYPTKEY_SIZE];
             
         int m_nLastKeepAlive;
         ACE_Weak_Bound_Ptr< ServerChannel, ACE_Null_Mutex > m_channel;

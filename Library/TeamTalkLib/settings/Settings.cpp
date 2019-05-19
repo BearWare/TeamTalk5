@@ -102,7 +102,10 @@ namespace teamtalk {
         if(item && tokens.size())
         {
             if(item->Value() != tokens[0])
+            {
                 tokens.clear();
+                item = nullptr;
+            }
             else
                 tokens.erase(tokens.begin());
         }

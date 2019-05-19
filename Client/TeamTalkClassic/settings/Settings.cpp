@@ -124,18 +124,26 @@ namespace teamtalk {
     std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue/* = ""*/)
     {
         TiXmlElement* item = GetRootElement();
+        if (!item)
+            return defaultvalue;
+
         stdstrings_t tokens = stdtokenize(path, "/");
         if (prefixRoot)
             tokens.insert(tokens.begin(), m_rootname);
 
-        if(item && tokens.size())
+        // handle root item
+        if (tokens.size())
         {
             if(item->Value() != tokens[0])
+            {
                 tokens.clear();
+                item = nullptr;
+            }
             else
                 tokens.erase(tokens.begin());
         }
 
+        // handle child items
         while(item && tokens.size())
         {
             item = item->FirstChildElement(tokens[0].c_str());
