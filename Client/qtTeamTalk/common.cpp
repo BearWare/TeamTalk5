@@ -603,7 +603,7 @@ bool isComputerIdle(int idle_secs)
     return (int)os_idle_secs > idle_secs;
 }
 #else
-bool isComputerIdle(int idle_secs)
+bool isComputerIdle(int /*idle_secs*/)
 {
     return false;
 }
