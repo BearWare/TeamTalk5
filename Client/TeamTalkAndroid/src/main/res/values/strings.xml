@@ -322,5 +322,7 @@
     <string name="weblogin_prop_title_web_login_id">BearWare.dk Login ID</string>
     <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
     <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
+    <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
+    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
 
 </resources>
