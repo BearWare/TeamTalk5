@@ -49,7 +49,7 @@ public class ServerEntry {
     public boolean encrypted = false;
     public boolean public_server = false;
 
-    public boolean isFacebookLogin() { return username.equals(AppInfo.WEBLOGIN_FACEBOOK); }
+    public boolean isFacebookLogin() { return username.equals(AppInfo.WEBLOGIN_FACEBOOK_USERNAME); }
 //    
 //    public void putBundle(Bundle bundle) {
 //        bundle.putString(KEY_SERVERNAME, servername);

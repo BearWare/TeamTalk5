@@ -39,8 +39,11 @@ public class AppInfo {
     public static final String APPVERSION_POSTFIX = "";
     public static final String OSTYPE = "Android";
 
-    public static final String WEBLOGIN_FACEBOOK = "facebook";
+    public static final String WEBLOGIN_FACEBOOK_USERNAME = "facebook";
     public static final String WEBLOGIN_FACEBOOK_PASSWDPREFIX = "token=";
+
+    public static final String WEBLOGIN_BEARWARE_USERNAME = "bearware";
+    public static final String WEBLOGIN_BEARWARE_USERNAMEPOSTFIX = "@bearware.dk";
 
     // getUpdateUrl() response can override this
     public static String BEARWARE_REGISTRATION_WEBSITE = "http://www.bearware.dk";
@@ -86,5 +89,19 @@ public class AppInfo {
         return urlToRead;
     }
 
-    
+    public static String getBearWareAccessTokenUrl(Context context, String username, String token, String accesstoken) {
+
+        try {
+            username = URLEncoder.encode(username, "utf-8");
+            token = URLEncoder.encode(token, "utf-8");
+            accesstoken = URLEncoder.encode(accesstoken, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Unable to encode username/token: " + e.toString());
+        }
+        String urlToRead = "https://www.bearware.dk/test/weblogin.php?" + getDefautlUrlArgs(context) +
+                "&service=bearware&action=clientauth&username=" + username + "&token=" + token +
+                "&accesstoken=" + accesstoken;
+        return urlToRead;
+    }
+
 }

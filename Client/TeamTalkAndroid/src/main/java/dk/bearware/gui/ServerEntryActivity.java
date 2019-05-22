@@ -287,13 +287,13 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
             ServerEntry entry = serverentry == null? Utils.getServerEntry(this.getIntent()) : serverentry;
             if(entry != null) {
-                String username = fblogin? AppInfo.WEBLOGIN_FACEBOOK : entry.username;
+                String username = fblogin? AppInfo.WEBLOGIN_FACEBOOK_USERNAME : entry.username;
                 String password = fblogin? "" : entry.password;
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), username, username, fblogin);
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), password, password, fblogin);
             }
             else if(fblogin){
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_FACEBOOK, AppInfo.WEBLOGIN_FACEBOOK);
+                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_FACEBOOK_USERNAME, AppInfo.WEBLOGIN_FACEBOOK_USERNAME);
                 Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "", "", fblogin);
             }
         }

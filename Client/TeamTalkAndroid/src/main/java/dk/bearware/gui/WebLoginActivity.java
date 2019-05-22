@@ -40,7 +40,6 @@ public class WebLoginActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         String username = prefs.getString(Preferences.PREF_GENERAL_BEARWARE_USERNAME, "");
-        //String token = prefs.getString(Preferences.PREF_GENERAL_BEARWARE_TOKEN, "");
 
         Button createBtn = findViewById(R.id.createbearwareidbutton);
         Button resetBtn = findViewById(R.id.resetbearwareidbutton);
@@ -125,6 +124,7 @@ public class WebLoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
             String xml = Utils.getURL(AppInfo.getBearWareTokenUrl(getBaseContext(),
                         this.username, this.password));
             Log.d(AppInfo.TAG, xml);

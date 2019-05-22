@@ -23,6 +23,8 @@
 
 package dk.bearware.backend;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -69,6 +71,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -83,6 +86,18 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class TeamTalkService extends Service
 implements CommandListener, UserListener, ConnectionListener, ClientListener {
@@ -525,12 +540,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         mEventHandler.removeClientListener(l);
     }
 
-    @Override
-    public void onConnectSuccess() {
-        
-        assert (ttserver != null);
+    private void login() {
 
-        String         nickname = ttserver.nickname;
+        String nickname = ttserver.nickname;
         if (TextUtils.isEmpty(nickname)) {
             String def_nick = getResources().getString(R.string.pref_default_nickname);
             nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
@@ -539,15 +551,29 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         int loginCmdId = ttclient.doLoginEx(nickname, ttserver.username, ttserver.password, AppInfo.APPNAME_SHORT);
         if(loginCmdId<0) {
             Toast.makeText(this, getResources().getString(R.string.text_cmderr_login),
-                           Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
         }
         else {
             activecmds.put(loginCmdId, CmdComplete.CMD_COMPLETE_LOGIN);
         }
-        
+
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-            getResources().getString(R.string.text_con_success));
+                getResources().getString(R.string.text_con_success));
         getChatLogTextMsgs().add(msg);
+    }
+
+    @Override
+    public void onConnectSuccess() {
+        
+        assert (ttserver != null);
+
+        if (ttserver.username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
+            ttserver.username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)) {
+            new WebLoginAccessToken().execute();
+        }
+        else {
+            login();
+        }
     }
 
     @Override
@@ -923,4 +949,65 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         }
     }
 
+    class WebLoginAccessToken extends AsyncTask<Void, Void, Void> {
+
+        String username = "", token = "", accesstoken = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            this.username = prefs.getString(Preferences.PREF_GENERAL_BEARWARE_USERNAME, "");
+            this.token = prefs.getString(Preferences.PREF_GENERAL_BEARWARE_TOKEN, "");
+
+            ServerProperties srvprop = new ServerProperties();
+            if (ttclient.getServerProperties(srvprop))
+                accesstoken = srvprop.szAccessToken;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (username.length() > 0) {
+                ttserver.username = this.username;
+                login();
+            }
+            else {
+                Toast.makeText(TeamTalkService.this, getResources().getString(R.string.text_weblogin_authfailure),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String xml = Utils.getURL(AppInfo.getBearWareAccessTokenUrl(getBaseContext(),
+                    this.username, this.token, accesstoken));
+            Log.d(AppInfo.TAG, xml);
+
+            try {
+                InputSource src = new InputSource(new StringReader(xml));
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document document = db.parse(src);
+                XPathFactory factory = XPathFactory.newInstance();
+                XPath xPath = factory.newXPath();
+
+                this.username = (String)xPath.evaluate("/teamtalk/bearware/username", document, XPathConstants.STRING);
+
+            } catch (XPathExpressionException e) {
+                Log.e(AppInfo.TAG, "XPath failed: " + e);
+            } catch (ParserConfigurationException e) {
+                Log.e(AppInfo.TAG, "Parser cfg failed: " + e);
+            } catch (IOException e) {
+                Log.e(AppInfo.TAG, "XML IOException: " + e);
+            } catch (SAXException e) {
+                Log.e(AppInfo.TAG, "XML SAXException: " + e);
+            }
+
+            return null;
+        }
+    }
 }
