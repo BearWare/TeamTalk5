@@ -2669,16 +2669,10 @@ void MainWindow::sendDesktopCursor()
 #if defined(Q_OS_LINUX)
     if(!m_display)
         return;
-    Window root, winid;
-    int x, y;
-    unsigned int w, h, bwr, depth;
+
     XWindowAttributes attr;
     Status s = XGetWindowAttributes(m_display, m_nWindowShareWnd, &attr);
 
-    // winid = m_nWindowShareWnd;
-    // s = XGetGeometry(m_display, winid, &root, &x, &y, &w, &h, &bwr, &depth);
-
-    // XQueryPointer(m_display, &root, 
     if(s)
     {
         int x = curPos.x() - attr.x;
@@ -3077,12 +3071,6 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 
         XEvent event;
         ZERO_STRUCT(event);
-
-        long event_mask = 0;
-//        event_mask |= ButtonMotionMask;
-//        event_mask |= ButtonPressMask;
-//        event_mask |= ButtonReleaseMask;
-//        event_mask |= PointerMotionMask;
         
         switch(input.uKeyState)
         {
@@ -3137,8 +3125,7 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
             }
         }
 
-        int ret = XSendEvent(m_display, PointerWindow, True, 0, &event);
-        //qDebug() << "Sent event" << ret << "btn" << event.xbutton.button;
+        XSendEvent(m_display, PointerWindow, True, 0, &event);
         XFlush(m_display);
     }
 }
