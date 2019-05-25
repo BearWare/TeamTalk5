@@ -1381,6 +1381,11 @@ namespace BearWare
          * Also checkout @c nMaxLoginAttempts and @c
          * nMaxLoginsPerIPAddress. */
         public int nLoginDelayMSec;
+        /** @brief A randomly generated 256 bit access token created
+         * by the server to identify the login session.
+         * Read-only property. */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szAccessToken;
     }
 
     /**
