@@ -87,7 +87,7 @@ class AppInfo {
         let escUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username
         let escPasswd = passwd.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? passwd
         
-        return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
+        return "https://www.bearware.dk/teamtalk/weblogin.php?" + getDefaultUrlArgs() +
             "&service=bearware" + "&action=auth&username=" + escUsername + "&password=" + escPasswd
     }
     
@@ -97,7 +97,7 @@ class AppInfo {
         let escToken = token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? token
         let escAccessToken = accesstoken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accesstoken
         
-        return "https://www.bearware.dk/test/weblogin.php?" + getDefaultUrlArgs() +
+        return "https://www.bearware.dk/teamtalk/weblogin.php?" + getDefaultUrlArgs() +
             "&service=bearware" + "&action=clientauth&username=" + escUsername +
             "&token=" + escToken + "&accesstoken=" + escAccessToken
     }
