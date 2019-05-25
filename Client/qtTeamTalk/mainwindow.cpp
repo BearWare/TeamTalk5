@@ -3133,17 +3133,15 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 
 void MainWindow::checkAppUpdate()
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
-    {
-        QUrl url(URL_APPUPDATE);
+    // check for software update and get bearware.dk web-login url
+    QUrl url(URL_APPUPDATE);
 
-        auto networkMgr = new QNetworkAccessManager(this);
-        connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
+    auto networkMgr = new QNetworkAccessManager(this);
+    connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
             SLOT(slotSoftwareUpdateReply(QNetworkReply*)));
 
-        QNetworkRequest request(url);
-        networkMgr->get(request);
-    }
+    QNetworkRequest request(url);
+    networkMgr->get(request);
 }
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
@@ -5511,9 +5509,13 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
     QDomDocument doc("foo");
     if(doc.setContent(data))
     {
-        QString version = newVersionAvailable(doc);
-        if(version.size())
-            addStatusMsg(tr("New version available: %1").arg(version));
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
+        {
+            QString version = newVersionAvailable(doc);
+            if(version.size())
+                addStatusMsg(tr("New version available: %1").arg(version));
+        }
+        
         BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 
