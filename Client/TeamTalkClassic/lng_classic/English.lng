@@ -175,6 +175,7 @@
     <item id="312">File events</item>
     <item id="313">File added</item>
     <item id="314">File removed</item>
+    <item id="315">Reset</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>
     <item id="1016">Host UDP port</item>
@@ -471,6 +472,11 @@
     <item id="1553">Profile</item>
     <item id="1554">User can change nickname</item>
     <item id="1558">User can record voice in all channels</item>
+    <item id="1561">&amp;Activate</item>
+    <item id="1562">BearWare.dk Web Login</item>
+    <item id="1563">A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</item>
+    <item id="1564">Authentication</item>
+    <item id="1565">&amp;Create</item>
     <item id="32791">What is my &amp;IP-address?</item>
     <item id="32798">&amp;Op\tCtrl+O</item>
     <item id="32801">Vie&amp;w Channel Messages\tF10</item>

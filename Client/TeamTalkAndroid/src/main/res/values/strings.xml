@@ -58,7 +58,7 @@
     <string name="pref_summary_files_update_audio_icon">Play sound when files are added or removed</string>
     <string name="pref_title_transmitready_icon">Exclusive mode toggled</string>
     <string name="pref_summary_transmitready_icon">Play sound when transmit ready in "No Interruptions" channel</string>
-    <string name="pref_title_userjoin_icon">User joinned channel</string>
+    <string name="pref_title_userjoin_icon">User joined channel</string>
     <string name="pref_summary_userjoin_icon">Play sound when user joins to the current channel</string>
     <string name="pref_title_userleft_icon">User left channel</string>
     <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
@@ -93,6 +93,9 @@
     <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
     <string name="pref_title_show_usernames">Show usernames</string>
     <string name="pref_summary_show_usernames">Show usernames instead of nicknames</string>
+    <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
+    <string name="pref_summary_bearwareid">Setup BearWare.dk WebLogin</string>
+
     <string name="pref_title_mediafile_volume">Media file volume</string>
     <string name="pref_summary_mediafile_volume">Media file vs. voice volume</string>
     <string name="pref_title_speakerphone_checkbox">Enable speaker phone</string>
@@ -116,7 +119,7 @@
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">No Audio</string>
     <string name="opus_application">Application</string>
-    
+
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>
     <string name="button_edit">Edit</string>
@@ -141,14 +144,14 @@
     <string name="channel_prop_title_op_password">Op Password</string>
     <string name="channel_prop_title_maxusers">Max Users</string>
     <string name="channel_prop_title_diskquota">Disk Quota (KBytes)</string>
-    
+
     <string name="channel_prop_title_permanent">Permanent Channel</string>
     <string name="channel_prop_title_nointerrupt">No Interruptions</string>
     <string name="channel_prop_title_classroom">Classroom</string>
     <string name="channel_prop_title_oprecvonly">Operator Receives Only</string>
     <string name="channel_prop_title_novoiceact">No Voice Activation</string>
     <string name="channel_prop_title_noaudiorecord">No Audio Recording</string>
-    
+
 
     <string name="user_prop_title_username">Username</string>
     <string name="user_prop_title_clientname">Client Name</string>
@@ -312,5 +315,15 @@
 
     <string name="facebook_app_id">611833262539381</string>
     <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string name="title_activity_web_login">WebLoginActivity</string>
+    <string name="weblogin_prop_title_bearwareid">Username</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Password</string>
+    <string name="weblogin_prop_title_login">Login</string>
+    <string name="weblogin_prop_title_web_login_id">BearWare.dk Login ID</string>
+    <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
+    <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
+    <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s</string>
+    <string name="text_weblogin_authfailure">BearWare.dk web login failed to authenticate</string>
 
 </resources>

@@ -59,6 +59,7 @@
 #include "gui/StreamMediaDlg.h"
 #include "gui/WebLoginDlg.h"
 #include "gui/BanTypeDlg.h"
+#include "gui/BearWareLoginDlg.h"
 
 #include "wizard/WizMasterSheet.h"
 #include "wizard/WizWelcomePage.h"
@@ -72,6 +73,7 @@
 #include <string>
 #include <iterator>
 #include <regex>
+#include <WinInet.h>
 
 using namespace std;
 using namespace teamtalk;
@@ -81,6 +83,21 @@ TTInstance* ttInst = NULL;
 //Limit text lengths for nickname, etc.
 extern int nTextLimit;
 extern BOOL bShowUsernames;
+
+enum : UINT_PTR
+{
+    TIMER_VOICELEVEL_ID = 1,
+    TIMER_ONESECOND_ID,
+    TIMER_CONNECT_TIMEOUT_ID,
+    TIMER_STATUSMSG_ID,
+    TIMER_RECONNECT_ID,
+    TIMER_DESKTOPSHARE_ID,
+    TIMER_APPUPDATE_ID,
+    TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID,
+    TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID,
+    TIMER_HTTPREQUEST_WEBLOGIN_ID,
+    TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID,
+};
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -277,6 +294,27 @@ void CTeamTalkDlg::Disconnect()
     UpdateWindowTitle();
 }
 
+void CTeamTalkDlg::Login()
+{
+    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK_USERNAME)
+    {
+        CWebLoginDlg dlg;
+        if(dlg.DoModal() == IDOK)
+        {
+            m_host.szPassword = STR_UTF8(dlg.m_szPassword);
+        }
+    }
+
+    int cmd = TT_DoLoginEx(ttInst,
+        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()),
+        STR_UTF8(m_host.szUsername.c_str()),
+        STR_UTF8(m_host.szPassword.c_str()), APPTITLE_SHORT);
+
+    m_commands[cmd] = CMD_COMPLETE_LOGIN;
+
+    AddStatusText(_T("Connected... logging in"));
+}
+
 void CTeamTalkDlg::UpdateWindowTitle()
 {
     CString szProfileName = STR_UTF8(m_xmlSettings.GetProfileName());
@@ -340,7 +378,7 @@ CMessageDlg* CTeamTalkDlg::GetUsersMessageSession(int nUserID, BOOL bCreateNew, 
         CMessageDlg* pMsgDlg = new CMessageDlg(this, myself, user, szLogFolder);
         pMsgDlg->m_messages = m_wndTree.GetUserMessages(nUserID);
         m_mUserDlgs[user.nUserID] = pMsgDlg;
-        Font font;
+        MyFont font;
         string szFaceName;
         int nSize;
         bool bBold, bUnderline, bItalic;
@@ -910,23 +948,46 @@ void CTeamTalkDlg::OnConnectSuccess(const TTMessage& msg)
         KillTimer(m_nReconnectTimerID);
     m_nReconnectTimerID = 0;
 
-    if(STR_UTF8(m_host.szUsername) == WEBLOGIN_FACEBOOK_USERNAME)
+    std::smatch sm;
+    if (m_host.szUsername == WEBLOGIN_BEARWARE_USERNAME ||
+        std::regex_search(m_host.szUsername, sm, std::regex(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX "$")) && sm.size())
     {
-        CWebLoginDlg dlg;
-        if(dlg.DoModal() == IDOK)
+        std::string username, token;
+        m_xmlSettings.GetBearWareLogin(username, token);
+
+        if(username.empty())
         {
-            m_host.szPassword = STR_UTF8(dlg.m_szPassword);
+            CBearWareLoginDlg dlg;
+            if(dlg.DoModal() == IDOK)
+            {
+                username = STR_UTF8(dlg.m_szUsername);
+                token = STR_UTF8(dlg.m_szToken);
+                m_xmlSettings.SetBearWareLogin(STR_UTF8(dlg.m_szUsername), STR_UTF8(dlg.m_szToken));
+            }
         }
+
+        ServerProperties srvprop = {};
+        TT_GetServerProperties(ttInst, &srvprop);
+
+        CString szUsername = STR_UTF8(username), szToken = STR_UTF8(token);
+        TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
+        TCHAR szUrlToken[INTERNET_MAX_URL_LENGTH] = _T("");
+        TCHAR szUrlAccessToken[INTERNET_MAX_URL_LENGTH] = _T("");
+        DWORD dwNewLen = INTERNET_MAX_URL_LENGTH;
+        UrlEscape(szUsername, szUrlUsername, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
+        dwNewLen = INTERNET_MAX_URL_LENGTH;
+        UrlEscape(szToken, szUrlToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
+        dwNewLen = INTERNET_MAX_URL_LENGTH;
+        UrlEscape(srvprop.szAccessToken, szUrlAccessToken, &dwNewLen, URL_ESCAPE_PERCENT | URL_ESCAPE_AS_UTF8);
+
+        m_httpWebLogin.reset(new CHttpRequest(WEBLOGIN_BEARWARE_URLTOKEN(szUrlUsername, szUrlToken, szUrlAccessToken)));
+        SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID, 500, NULL);
+        SetTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID, 10000, NULL);
     }
-
-    int cmd = TT_DoLoginEx(ttInst, 
-        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str()), 
-        STR_UTF8(m_host.szUsername.c_str()), 
-        STR_UTF8(m_host.szPassword.c_str()), APPTITLE_SHORT);
-
-    m_commands[cmd] = CMD_COMPLETE_LOGIN;
-
-    AddStatusText(_T("Connected... logging in"));
+    else
+    {
+        Login();
+    }
 }
 
 void CTeamTalkDlg::OnConnectFailed(const TTMessage& msg)
@@ -2485,7 +2546,7 @@ BOOL CTeamTalkDlg::OnInitDialog()
     EnableSpeech(m_xmlSettings.GetEventTTSEvents() != 0);
 
     //load fonts
-    Font font;
+    MyFont font;
     string szFaceName;
     int nSize;
     bool bBold, bUnderline, bItalic;
@@ -3212,8 +3273,12 @@ void CTeamTalkDlg::OnFilePreferences()
     /////////////////////
     HotKey hook;
     m_xmlSettings.GetPushToTalkKey(hook);
+    std::string szBearWareID, szToken;
+    m_xmlSettings.GetBearWareLogin(szBearWareID, szToken);
 
     generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
+    generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
+    generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bFemale = m_xmlSettings.GetGender(DEFAULT_GENDER) == GENDER_FEMALE;
     generalpage.m_bVoiceAct = m_xmlSettings.GetVoiceActivated();
     generalpage.m_bPush = m_bHotKey;
@@ -3361,6 +3426,9 @@ void CTeamTalkDlg::OnFilePreferences()
             }
         }
 
+        m_xmlSettings.SetBearWareLogin(STR_UTF8(generalpage.m_szBearWareID),
+                                       STR_UTF8(generalpage.m_szBearWareToken));
+
         int nGender = (generalpage.m_bFemale?GENDER_FEMALE:GENDER_MALE);
         if(m_xmlSettings.GetGender() != nGender)
         {
@@ -3414,7 +3482,7 @@ void CTeamTalkDlg::OnFilePreferences()
                 windowpage.m_Font.bItalic);
             m_Font.DeleteObject();
             LOGFONT lfont;
-            Font font;
+            MyFont font;
             font.szFaceName = windowpage.m_Font.szFaceName;
             font.nSize = windowpage.m_Font.nSize;
             font.bBold = windowpage.m_Font.bBold;
@@ -4543,11 +4611,29 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             Connect( STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort, 
                     m_host.nUdpPort, m_host.bEncrypted);
         break;
-    case TIMER_HTTPREQUEST_UPDATE_ID :
+    case TIMER_DESKTOPSHARE_ID:
+        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
+        {
+            //only update desktop if there's users in the channel
+            //(save bandwidth)
+            Channel my_channel = {};
+            TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &my_channel);
+            int user_cnt = 0;
+            if(TT_GetChannelUsers(ttInst, TT_GetMyChannelID(ttInst),
+                NULL, &user_cnt) && (user_cnt > 1))
+            {
+                if(SendDesktopWindow())
+                    m_bSendDesktopOnCompletion = FALSE;
+            }
+        }
+        else
+            m_bSendDesktopOnCompletion = TRUE;
+        break;
+    case TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID :
         ASSERT(m_httpUpdate.get());
         if(!m_httpUpdate.get())
         {
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
             break;
         }
         if(m_httpUpdate->SendReady())
@@ -4559,45 +4645,56 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                CString updname = STR_UTF8(xmlDoc.GetValue("teamtalk/name").c_str());
+                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/update/name").c_str());
                 if(!updname.IsEmpty())
                 {
                     CString str;
                     str.Format(_T("New update available: %s"), updname);
                     AddStatusText(str);
                 }
+                CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url").c_str());
+                if (!szRegisterUrl.IsEmpty())
+                    CBearWareLoginDlg::szBearWareRegisterUrl = szRegisterUrl;
             }
 
-            KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-            KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
+            KillTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID);
             m_httpUpdate.reset();
         }
         break;
-    case TIMER_HTTPREQUEST_TIMEOUT_ID :
-        KillTimer(TIMER_HTTPREQUEST_UPDATE_ID);
-        KillTimer(TIMER_HTTPREQUEST_TIMEOUT_ID);
+    case TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID :
+        KillTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID);
+        KillTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID);
         m_httpUpdate.reset();
-        break;
-    case TIMER_DESKTOPSHARE_ID :
-        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
-        {
-            //only update desktop if there's users in the channel
-            //(save bandwidth)
-            Channel my_channel = {};
-            TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &my_channel);
-            int user_cnt = 0;
-            if(TT_GetChannelUsers(ttInst, TT_GetMyChannelID(ttInst),
-                                  NULL, &user_cnt) && (user_cnt > 1))
-            {
-                if(SendDesktopWindow())
-                    m_bSendDesktopOnCompletion = FALSE;
-            }
-        }
-        else
-            m_bSendDesktopOnCompletion = TRUE;
         break;
     case TIMER_APPUPDATE_ID :
         RunAppUpdate();
+        break;
+    case TIMER_HTTPREQUEST_WEBLOGIN_ID :
+        if(m_httpWebLogin->SendReady())
+            m_httpWebLogin->Send(_T("<") _T(TT_XML_ROOTNAME) _T("/>"));
+        else if (m_httpWebLogin->ResponseReady())
+        {
+            CString szResponse = m_httpWebLogin->GetResponse();
+            string xml = STR_UTF8(szResponse, szResponse.GetLength() * 4);
+            teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
+            if(xmlDoc.Parse(xml))
+            {
+                m_host.szUsername = xmlDoc.GetValue(false, "teamtalk/bearware/username");
+                m_host.szPassword = "token=" + xmlDoc.GetValue(false, "teamtalk/bearware/servertoken");
+
+                KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID);
+                KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID);
+                m_httpWebLogin.reset();
+
+                Login();
+            }
+        }
+        break;
+    case TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID :
+        KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID);
+        KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID);
+        m_httpWebLogin.reset();
         break;
     }
 }
@@ -6145,8 +6242,8 @@ void CTeamTalkDlg::RunAppUpdate()
     if(m_xmlSettings.GetCheckApplicationUpdates())
     {
         m_httpUpdate.reset(new CHttpRequest(URL_APPUPDATE));
-        SetTimer(TIMER_HTTPREQUEST_UPDATE_ID, 500, NULL);
-        SetTimer(TIMER_HTTPREQUEST_TIMEOUT_ID, 5000, NULL);
+        SetTimer(TIMER_HTTPREQUEST_APPUPDATE_UPDATE_ID, 500, NULL);
+        SetTimer(TIMER_HTTPREQUEST_APPUPDATE_TIMEOUT_ID, 5000, NULL);
     }
 }
 

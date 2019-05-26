@@ -28,6 +28,7 @@
 #include "videotextdlg.h"
 #include "desktopaccessdlg.h"
 #include "customvideofmtdlg.h"
+#include "bearwarelogindlg.h"
 #include "settings.h"
 
 #include <QDebug>
@@ -57,6 +58,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
     connect(ui.buttonBox, SIGNAL(rejected()), SLOT(slotCancelChanges()));
 
     //general tab
+    connect(ui.setupBearWareLoginButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEnableBearWareID);
     connect(ui.pttChkBox, SIGNAL(clicked(bool)), SLOT(slotEnablePushToTalk(bool)));
     connect(ui.setupkeysButton, SIGNAL(clicked()), SLOT(slotSetupHotkey()));
 
@@ -964,6 +967,15 @@ void PreferencesDlg::slotCancelChanges()
         if(!initVideoCaptureFromSettings())
             QMessageBox::critical(this, tr("Video Device"), 
             tr("Failed to initialize video device"));
+    }
+}
+
+void PreferencesDlg::slotEnableBearWareID(bool /*checked*/)
+{
+    BearWareLoginDlg dlg(this);
+    if (dlg.exec())
+    {
+        ui.bearwareidEdit->setText(ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString());
     }
 }
 

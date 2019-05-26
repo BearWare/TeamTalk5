@@ -1133,14 +1133,43 @@ void deleteDesktopAccessEntries()
     }
 }
 
+QString parseXML(const QDomDocument& doc, QString elements)
+{
+    QDomElement element(doc.documentElement());
+    QStringList tokens = elements.split("/");
+    while (tokens.size())
+    {
+        if (element.isNull() || element.nodeName() != tokens[0])
+            return QString();
+
+        tokens.removeFirst();
+        if (tokens.isEmpty())
+            return element.text();
+
+        element = element.firstChildElement(tokens[0]);
+    }
+    return QString();
+}
 
 QString newVersionAvailable(const QDomDocument& updateDoc)
 {
-	QDomElement rootElement(updateDoc.documentElement());
-	QDomElement element = rootElement.firstChildElement();
-    if(!element.isNull())
-        return element.text();
-    return QString();
+    return parseXML(updateDoc, "teamtalk/update/name");
+    //if (element.nodeName() == "teamtalk")
+    //{
+    //    element = element.firstChildElement("update");
+    //    if(!element.isNull())
+    //    {
+    //        element = element.firstChildElement("name");
+    //        if (!element.isNull())
+    //            return element.text();
+    //    }
+    //}
+    //return QString();
+}
+
+QString getBearWareRegistrationUrl(const QDomDocument& doc)
+{
+    return parseXML(doc, "teamtalk/bearware/register-url");
 }
 
 QByteArray generateTTFile(const HostEntry& entry)

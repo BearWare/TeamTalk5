@@ -456,6 +456,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             edit.remove(i + ServerEntry.KEY_IPADDR);
             edit.remove(i + ServerEntry.KEY_TCPPORT);
             edit.remove(i + ServerEntry.KEY_UDPPORT);
+            edit.remove(i + ServerEntry.KEY_ENCRYPTED);
             edit.remove(i + ServerEntry.KEY_USERNAME);
             edit.remove(i + ServerEntry.KEY_PASSWORD);
             edit.remove(i + ServerEntry.KEY_NICKNAME);
@@ -473,6 +474,7 @@ implements AdapterView.OnItemLongClickListener, TeamTalkConnectionListener, Comm
             edit.putString(j + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
             edit.putInt(j + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
             edit.putInt(j + ServerEntry.KEY_UDPPORT, servers.get(i).udpport);
+            edit.putBoolean(j + ServerEntry.KEY_ENCRYPTED, servers.get(i).encrypted);
 
             edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
             edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);

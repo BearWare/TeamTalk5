@@ -640,20 +640,23 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
 {
     ErrorMsg err;
     std::string authusername = UnicodeToUtf8(useraccount.username).c_str();
-    std::string authpasswd = UnicodeToUtf8(useraccount.passwd).c_str();
+    std::string authtoken;
 
     {
         GUARD_OBJ_NAME(g, servernode, servernode->lock());
 
-        // strip @bearware.dk postfix
-        std::smatch sm;
-        if(std::regex_search(authusername, sm, std::regex("(.*)" WEBLOGIN_BEARWARE_POSTFIX "$")) && sm.size() == 0)
+        auto user = servernode->GetUser(userid);
+        if (user.get())
         {
-            err.errorno = TT_CMDERR_INVALID_ACCOUNT;
+            authtoken = UnicodeToUtf8(user->GetAccessToken()).c_str();
+        }
+
+        if (authtoken.empty())
+        {
+            err = TT_CMDERR_INVALID_ACCOUNT;
             WebLoginComplete(servernode, userid, useraccount, err);
             return;
         }
-        authusername = sm[1];
 
         // authenticate 'bearware.dk'
         UserAccount sharedaccount;
@@ -665,7 +668,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
             return;
         }
 
-        //notice 'bearware.dk' is now username, so swap it back
+        //notice 'bearware' is now username, so swap it back
         useraccount = sharedaccount;
     }
 
@@ -674,8 +677,9 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     url += "client=" TEAMTALK_LIB_NAME;
     url += "&version=" TEAMTALK_VERSION;
     url += "&service=bearware";
+    url += "&action=serverauth";
     url += ACE_CString("&username=") + authusername.c_str();
-    url += ACE_CString("&password=") + authpasswd.c_str();
+    url += ACE_CString("&accesstoken=") + authtoken.c_str();
 
     std::string utf8;
     int ret = HttpRequest(url, utf8);
@@ -689,21 +693,20 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
         err = ErrorMsg(TT_CMDERR_LOGINSERVICE_UNAVAILABLE);
         break;
     case 0:
-        err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
+         err = ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
         break;
     case 1:
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if(xmldoc.Parse(utf8))
         {
-            std::string name = xmldoc.GetValue("teamtalk/bearware/name");
-            std::string id = xmldoc.GetValue("teamtalk/bearware/id");
-            id += WEBLOGIN_BEARWARE_POSTFIX;
+            std::string nickname = xmldoc.GetValue("teamtalk/bearware/nickname");
+            std::string username = xmldoc.GetValue("teamtalk/bearware/username");
 #if defined(UNICODE)
-            useraccount.username = Utf8ToUnicode(id.c_str());
-            useraccount.nickname = Utf8ToUnicode(name.c_str());
+            useraccount.username = Utf8ToUnicode(username.c_str());
+            useraccount.nickname = Utf8ToUnicode(nickname.c_str());
 #else
-            useraccount.username = id.c_str();
-            useraccount.nickname = name.c_str();
+            useraccount.username = username.c_str();
+            useraccount.nickname = nickname.c_str();
 #endif
             err = WebLoginPostAuthenticate(useraccount);
         }

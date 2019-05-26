@@ -107,6 +107,8 @@ public:
     void Connect();
     void Disconnect();
 
+    void login();
+
     void showTTErrorMessage(const ClientErrorMsg& msg,
                             CommandComplete cmd_type);
 
@@ -191,8 +193,6 @@ private:
     userdesktop_t m_userdesktop;
     //users to move to another channel (drag/drop)
     userids_t m_moveusers;
-    //handle xml request for updated versions
-    QNetworkAccessManager* m_http_manager;
     //online users in separate dialog
     class OnlineUsersDlg* m_onlineusersdlg;
     //user accounts in separate dialog
@@ -402,7 +402,8 @@ private slots:
 
     void slotLoadTTFile(const QString& filepath);
 
-    void slotHttpUpdateReply(QNetworkReply* reply);
+    void slotSoftwareUpdateReply(QNetworkReply* reply);
+    void slotBearWareAuthReply(QNetworkReply* reply);
     void slotClosedOnlineUsersDlg(int);
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);

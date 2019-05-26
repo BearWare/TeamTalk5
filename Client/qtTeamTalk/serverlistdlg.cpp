@@ -26,6 +26,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -141,7 +142,9 @@ void ServerListDlg::showHost(const HostEntry& entry)
         ui.passwordEdit->setText("");
     else
         ui.passwordEdit->setText(entry.password);
-    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME);
+    ui.passwordEdit->setDisabled(entry.username == WEBLOGIN_FACEBOOK_USERNAME ||
+                                 entry.username == WEBLOGIN_BEARWARE_USERNAME ||
+                                 entry.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
 
@@ -233,6 +236,22 @@ void ServerListDlg::slotConnect()
     HostEntry entry;
     if(getHostEntry(entry))
     {
+        if (entry.username == WEBLOGIN_BEARWARE_USERNAME ||
+            entry.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX))
+        {
+            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+            if (username.isEmpty())
+            {
+                BearWareLoginDlg dlg(this);
+                if (dlg.exec())
+                {
+                    username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+                }
+            }
+            ui.usernameBox->lineEdit()->setText(username);
+            ui.passwordEdit->setText("");
+        }
+
         addLatestHost(entry);
         this->accept();
     }

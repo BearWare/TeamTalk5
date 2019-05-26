@@ -77,6 +77,8 @@ private slots:
     void slotTabChange(int index);
     void slotSaveChanges();
     void slotCancelChanges();
+    // general tab
+    void slotEnableBearWareID(bool checked);
     void slotEnablePushToTalk(bool checked);
     void slotSetupHotkey();
     //display tab

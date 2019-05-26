@@ -217,6 +217,11 @@
 #define IDS_FILEEVENTS                  312
 #define IDS_FILEADD                     313
 #define IDS_FILERM                      314
+#define IDS_RESET                       315
+#define IDD_DIALOG_BEARWARELOGIN        316
+#define IDS_BEARWAREAUTHFAIL            317
+#define IDS_BEARWARETIMEOUT             318
+#define IDS_BEARWAREAUTHSUCCESS         319
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -673,6 +678,12 @@
 #define IDC_COMBO_SORTCHANNELS          1557
 #define IDC_CHECK_RECORDVOICE           1558
 #define IDC_COMBO_FILENAME              1559
+#define IDC_EDIT_BEARWAREID             1560
+#define IDC_BUTTON_SETUPBEARWARE        1561
+#define IDC_STATIC_BEARWARELOGIN        1562
+#define IDC_STATIC_BEARWARECREATE       1563
+#define IDC_STATIC_BEARWAREAUTH         1564
+#define IDC_BUTTON_BEARWARECREATE       1565
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -786,9 +797,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        310
+#define _APS_NEXT_RESOURCE_VALUE        320
 #define _APS_NEXT_COMMAND_VALUE         32954
-#define _APS_NEXT_CONTROL_VALUE         1560
-#define _APS_NEXT_SYMED_VALUE           303
+#define _APS_NEXT_CONTROL_VALUE         1566
+#define _APS_NEXT_SYMED_VALUE           320
 #endif
 #endif

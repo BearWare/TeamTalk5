@@ -1236,6 +1236,7 @@ void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
         result.nTcpPort = srvprop.hostaddrs[0].get_port_number();
         result.nUdpPort = srvprop.udpaddr.get_port_number();
     }
+    ACE_OS::strsncpy(result.szAccessToken, srvprop.accesstoken.c_str(), TT_STRLEN);
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -1279,6 +1280,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
         result.udpaddr.set_port_number(srvprop.nUdpPort);
     }
     result.motd_raw = srvprop.szMOTDRaw;
+    result.accesstoken = srvprop.szAccessToken;
 }
 
 #if defined(ENABLE_TEAMTALKPRO)

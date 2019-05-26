@@ -38,35 +38,14 @@ CHttpRequest::CHttpRequest(const CString& url)
     if(FAILED(hr))
         return;
 
-    VARIANT vAsync;
-    vAsync.vt = VT_BOOL;
-    vAsync.boolVal = VARIANT_TRUE;
-
-    VARIANT vUser;
-    vUser.vt = VT_BSTR;
-    vUser.bstrVal = NULL;
-
-    VARIANT vPassword;
-    vPassword.vt = VT_BSTR;
-    vPassword.bstrVal = NULL;
-
     BSTR str = url.AllocSysString();
-    hr = m_pIXMLHttpRequest->open(_T("POST"), str, vAsync, vUser, vPassword);
+    hr = m_pIXMLHttpRequest->open(_T("POST"), str, _variant_t(VARIANT_TRUE), _variant_t(""), _variant_t(""));
     ASSERT(hr == S_OK);
 
 }
 
 CHttpRequest::~CHttpRequest()
 {
-    HRESULT hr;
-    if(m_pIXMLHttpRequest)
-    {
-        //hr = m_pIXMLHttpRequest->abort();
-        //ASSERT(hr == S_OK);
-        hr = m_pIXMLHttpRequest->Release();
-        ASSERT(hr == S_OK);
-    }
-    //CoUninitialize();
 }
 
 BOOL CHttpRequest::SendReady()
@@ -115,6 +94,7 @@ BOOL CHttpRequest::ResponseReady()
 {
     if(!m_pIXMLHttpRequest || m_state != HTTP_SENT)
         return FALSE;
+
     HRESULT hr;
 
     long ret = 0;
@@ -143,4 +123,15 @@ CString CHttpRequest::GetResponse()
          return response;
     }
     return CString();
+}
+
+int CHttpRequest::Status()
+{
+    long lStatus = -1;
+    if(!m_pIXMLHttpRequest || m_state != HTTP_RESPONSE)
+        return lStatus;
+
+    m_pIXMLHttpRequest->get_status(&lStatus);
+
+    return lStatus;
 }

@@ -47,6 +47,7 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "weblogindlg.h"
+#include "bearwarelogindlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -97,7 +98,6 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_last_channel()
 , m_srvprop()
 , m_mychannel()
-, m_http_manager(NULL)
 , m_onlineusersdlg(NULL)
 , m_useraccountsdlg(NULL)
 , m_bannedusersdlg(NULL)
@@ -772,29 +772,45 @@ void MainWindow::processTTMessage(const TTMessage& msg)
 
         //reset stats
         ZERO_STRUCT(m_clientstats);
+        // retrieve initial welcome message and access token
+        TT_GetServerProperties(ttInst, &m_srvprop);
 
-        QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+        if (m_host.username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 ||
+            m_host.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+        {
+            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+            QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
+            QString accesstoken = _Q(m_srvprop.szAccessToken);
 
-        if(m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0 ||
-           m_host.username.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+            username = QUrl::toPercentEncoding(username);
+            token = QUrl::toPercentEncoding(token);
+            accesstoken = QUrl::toPercentEncoding(accesstoken);
+
+            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, accesstoken);
+
+            QUrl url(urlReq);
+
+            auto networkMgr = new QNetworkAccessManager(this);
+            connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
+                SLOT(slotBearWareAuthReply(QNetworkReply*)));
+
+            QNetworkRequest request(url);
+            networkMgr->get(request);
+        }
+        else if (m_host.username.compare(WEBLOGIN_FACEBOOK_USERNAME, Qt::CaseInsensitive) == 0 ||
+            m_host.username.endsWith(WEBLOGIN_FACEBOOK_USERNAMEPOSTFIX, Qt::CaseInsensitive))
         {
             WebLoginDlg dlg(this);
             if(dlg.exec() != QDialog::Accepted)
                 return;
             m_host.password = dlg.m_password;
+
+            login();
         }
-
-        int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
-                                 _W(m_host.password), _W(QString(APPNAME_SHORT)));
-        if(cmdid>0)
-            m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
-
-        addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-
-        //query server's max payload
-        if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
-            TT_QueryMaxPayload(ttInst, 0);
+        else
+        {
+            login();
+        }
 
         update_ui = true;
     }
@@ -881,9 +897,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     {
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
 
-        ui.chatEdit->updateServer(msg.serverproperties); 
+        ui.chatEdit->updateServer(msg.serverproperties);
 
         emit(serverUpdate(msg.serverproperties));
+
+        m_srvprop = msg.serverproperties;
 
         update_ui = true;
     }
@@ -1631,6 +1649,23 @@ void MainWindow::Disconnect()
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
     updateWindowTitle();
+}
+
+void MainWindow::login()
+{
+    QString nick = ttSettings->value(QString(SETTINGS_GENERAL_NICKNAME)).toString();
+
+    int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
+                             _W(m_host.password), _W(QString(APPNAME_SHORT)));
+    if (cmdid>0)
+        m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
+
+    addStatusMsg(tr("Connected to %1 TCP port %2 UDP port %3")
+        .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+
+    //query server's max payload
+    if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
+        TT_QueryMaxPayload(ttInst, 0);
 }
 
 void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete cmd_type)
@@ -3098,17 +3133,15 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 
 void MainWindow::checkAppUpdate()
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
-    {
-        QUrl url(URL_APPUPDATE);
+    // check for software update and get bearware.dk web-login url
+    QUrl url(URL_APPUPDATE);
 
-        m_http_manager = new QNetworkAccessManager(this);
-        connect(m_http_manager, SIGNAL(finished(QNetworkReply*)),
-            SLOT(slotHttpUpdateReply(QNetworkReply*)));
+    auto networkMgr = new QNetworkAccessManager(this);
+    connect(networkMgr, SIGNAL(finished(QNetworkReply*)),
+            SLOT(slotSoftwareUpdateReply(QNetworkReply*)));
 
-        QNetworkRequest request(url);
-        m_http_manager->get(request);
-}
+    QNetworkRequest request(url);
+    networkMgr->get(request);
 }
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
@@ -5469,20 +5502,48 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     Connect();
 }
 
-void MainWindow::slotHttpUpdateReply(QNetworkReply* reply)
+void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
 {
-    Q_ASSERT(m_http_manager);
     QByteArray data = reply->readAll();
 
     QDomDocument doc("foo");
     if(doc.setContent(data))
     {
-        QString version = newVersionAvailable(doc);
-        if(version.size())
-            addStatusMsg(tr("New version available: %1").arg(version));
+        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, true).toBool())
+        {
+            QString version = newVersionAvailable(doc);
+            if(version.size())
+                addStatusMsg(tr("New version available: %1").arg(version));
+        }
+        
+        BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
 
-    m_http_manager->deleteLater();
+    reply->manager()->deleteLater();
+}
+
+void MainWindow::slotBearWareAuthReply(QNetworkReply* reply)
+{
+    QByteArray data = reply->readAll();
+    QDomDocument doc("foo");
+    if(doc.setContent(data))
+    {
+        auto child = doc.firstChildElement("teamtalk");
+        if(!child.isNull())
+        {
+            child = child.firstChildElement("bearware");
+            if(!child.isNull())
+            {
+                auto id = child.firstChildElement("username");
+                if(!id.isNull())
+                    m_host.username = id.text();
+            }
+        }
+    }
+    reply->manager()->deleteLater();
+
+    // connect even if auth failed. Otherwise user will not see progress
+    login();
 }
 
 void MainWindow::slotClosedOnlineUsersDlg(int)

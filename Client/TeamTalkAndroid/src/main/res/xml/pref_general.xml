@@ -8,6 +8,12 @@
 		android:selectAllOnFocus="true"
 		android:singleLine="true" />
 
+	<CheckBoxPreference
+		android:key="bearwareid_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_bearwareid"
+		android:summary="@string/pref_summary_bearwareid" />
+
     <CheckBoxPreference
 		android:key="showusernames_checkbox"
 		android:defaultValue="false"

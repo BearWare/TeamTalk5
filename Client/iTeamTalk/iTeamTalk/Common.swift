@@ -197,6 +197,14 @@ func newTableCellStepper(_ cell: UITableViewCell, label: String,
     return stepper
 }
 
+func getXMLPath(elementStack : [String]) -> String {
+    var path = ""
+    for s in elementStack {
+        path += "/" + s
+    }
+    return path
+}
+
 protocol TeamTalkEvent : class {
     func handleTTMessage(_ m: TTMessage)
 }

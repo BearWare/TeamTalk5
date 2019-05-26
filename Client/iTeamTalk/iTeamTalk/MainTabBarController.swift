@@ -320,21 +320,35 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     func handleTTMessage(_ m: TTMessage) {
         var m = m
         
-        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-
         switch(m.nClientEvent) {
             
         case CLIENTEVENT_CON_SUCCESS :
-            
-            var nickname = UserDefaults.standard.string(forKey: PREF_NICKNAME)
-            if nickname == nil {
-                nickname = DEFAULT_NICKNAME
+
+            if self.server.username == AppInfo.WEBLOGIN_BEARWARE_USERNAME ||
+               self.server.username.hasSuffix(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX) {
+                
+                var srvprop = ServerProperties()
+                TT_GetServerProperties(ttInst, &srvprop)
+                
+                let settings = UserDefaults.standard
+                let username = settings.string(forKey: PREF_GENERAL_BEARWARE_ID) ?? ""
+                let token = settings.string(forKey: PREF_GENERAL_BEARWARE_TOKEN) ?? ""
+                let accesstoken = String(cString: getServerPropertiesString(ACCESSTOKEN, &srvprop))
+                
+                let url = AppInfo.getBearWareServerTokenURL(username: username, token: token, accesstoken: accesstoken)
+                
+                let authParser = WebLoginParser()
+                if let parser = XMLParser(contentsOf: URL(string: url)!) {
+                    
+                    parser.delegate = authParser
+                    if parser.parse() && authParser.username.count > 0 {
+                        self.server.username = authParser.username
+                        self.server.password = AppInfo.WEBLOGIN_BEARWARE_PASSWDPREFIX + authParser.token
+                    }
+                }
             }
             
-            cmdid = TT_DoLoginEx(ttInst, nickname!, server.username, server.password, AppInfo.getAppName())
-            channelsTab.activeCommands[cmdid] = .loginCmd
-            
-            reconnecttimer?.invalidate()
+            login()
             
         case CLIENTEVENT_CON_FAILED :
             
@@ -472,6 +486,18 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         default :
             break
         }
+    }
+    
+    func login() {
+        
+        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
+        
+        let nickname = UserDefaults.standard.string(forKey: PREF_NICKNAME) ?? DEFAULT_NICKNAME
+        
+        cmdid = TT_DoLoginEx(ttInst, nickname, server.username, server.password, AppInfo.getAppName())
+        channelsTab.activeCommands[cmdid] = .loginCmd
+        
+        reconnecttimer?.invalidate()
     }
 
     

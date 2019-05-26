@@ -501,7 +501,7 @@ class iTeamTalkTests: XCTestCase {
             
             print("2 -------------------")
             
-            let ttInst = newClient()
+            let _ = newClient()
             
             playSound()
             
@@ -641,6 +641,7 @@ class iTeamTalkTests: XCTestCase {
         XCTAssert(waitCmdSuccess(ttInst, cmdid: cmdid, waittimeout: DEF_WAIT), "Join root successful")
     }
     
+    @discardableResult
     func waitForEvent(_ ttInst : UnsafeMutableRawPointer, e: ClientEvent, waittimeout: INT32, msg: inout TTMessage) -> Bool {
         
         var tmout = waittimeout
@@ -652,6 +653,7 @@ class iTeamTalkTests: XCTestCase {
         return msg.nClientEvent.rawValue == e.rawValue
     }
     
+    @discardableResult
     func waitCmdComplete(_ ttInst: UnsafeMutableRawPointer, cmdid: INT32, waittimeout: INT32) -> Bool {
         
         var msg = TTMessage()
@@ -663,6 +665,7 @@ class iTeamTalkTests: XCTestCase {
         return false
     }
     
+    @discardableResult
     func waitCmdSuccess(_ ttInst: UnsafeMutableRawPointer, cmdid: INT32, waittimeout: INT32) -> Bool {
         
         var msg = TTMessage()

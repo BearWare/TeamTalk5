@@ -8,6 +8,8 @@ Default Qt client
 - Sort user accounts in Users Accounts dialog
 - OPUS audio codec v1.3
 - Store audio in MP3 format on Windows
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Accessible Windows client
 - Stream HTTP and HTTPS URLs instead of only files
 - Online Users dialog now updates continuesly
@@ -16,10 +18,16 @@ Accessible Windows client
 - Romanian language
 - Indonesian language
 - Store audio in MP3 format
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 iOS client
 - OPUS audio codec v1.3
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Android client:
 - OPUS audio codec v1.3
+- BearWare.dk web-login for TeamTalk 5 Official servers
+- Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Server
 - Protection against login/logout floods using "login delay"
 - Linux server now depends on OpenSSL (libssl package)

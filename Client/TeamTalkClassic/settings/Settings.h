@@ -79,7 +79,8 @@ namespace teamtalk {
 
         const std::string& GetFileName() const { return m_filename; }
 
-        std::string GetValue(const std::string& path);
+        void SetValue(const std::string& path, const std::string& value);
+        std::string GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue = "");
     protected:
         TiXmlDocument m_xmlDocument;
         void PutElementText(TiXmlElement& element, const std::string& value);

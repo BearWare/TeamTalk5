@@ -329,6 +329,7 @@ namespace teamtalk {
         PutString(element, "address", entry.szAddress);
         PutInteger(element, "tcpport", entry.nTcpPort);
         PutInteger(element, "udpport", entry.nUdpPort);
+        PutBoolean(element, "encrypted", entry.bEncrypted);
         PutString(element, "username", entry.szUsername);
         PutString(element, "password", entry.szPassword);
         PutString(element, "channel", entry.szChannel);
@@ -465,6 +466,19 @@ namespace teamtalk {
         return def_nickname;
     }
 
+    void ClientXML::SetBearWareLogin(const std::string& szUsername, const std::string& szToken)
+    {
+        SetValue("general/bearwareid/username", szUsername);
+        SetValue("general/bearwareid/token", szToken);
+    }
+
+    bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szToken)
+    {
+        szUsername = GetValue(true, "general/bearwareid/username");
+        szToken = GetValue(true, "general/bearwareid/token");
+        return !szUsername.empty();
+    }
+
     bool ClientXML::SetProfileName(const std::string& szProfilename)
     {
         TiXmlElement* pParent = GetGeneralElement();
@@ -479,7 +493,7 @@ namespace teamtalk {
     
     std::string ClientXML::GetProfileName()
     {
-        return GetValue(m_rootname + "/general/profile-name");
+        return GetValue(true, "/general/profile-name");
     }
 
     bool ClientXML::SetGender(int nGender)
@@ -1142,7 +1156,7 @@ namespace teamtalk {
 
     int ClientXML::GetSortOrder()
     {
-        string value = GetValue(m_rootname + "/window/sort-channels");
+        string value = GetValue(true, "window/sort-channels");
         if(value.size())
             return str2i(value);
         return 0;
