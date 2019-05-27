@@ -182,6 +182,7 @@
     <item id="312">文件事件</item>
     <item id="313">文件已添加</item>
     <item id="314">文件已删除</item>
+    <item id="315">重置</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
@@ -486,6 +487,11 @@
     <item id="1553">个人资料</item>
     <item id="1554">用户可以更改昵称</item>
     <item id="1558">用户可在所有频道录音</item>
+    <item id="1561">激活(&amp;A)</item>
+    <item id="1562">BearWare.dk Web 登陆</item>
+    <item id="1563">BearWare.dk Web 登陆 用于识别 TeamTalk 用户。 可在 BearWare.dk 网站创建登陆 ID。</item>
+    <item id="1564">认证</item>
+    <item id="1565">创建(&amp;C)</item>
     <item id="32791">您的 &amp;IP 地址</item>
     <item id="32798">设维频道管理员(&amp;O)\tCtrl+O</item>
     <item id="32801">查看频道消息(&amp;W)\tF10</item>
