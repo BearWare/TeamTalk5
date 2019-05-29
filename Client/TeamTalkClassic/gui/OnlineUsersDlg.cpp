@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(COnlineUsersDlg, CDialog)
     ON_COMMAND(ID_POPUP_COPYUSERINFORMATION, &COnlineUsersDlg::OnPopupCopyuserinformation)
     ON_WM_SIZE()
     ON_COMMAND(ID_POPUP_MESSAGES, &COnlineUsersDlg::OnPopupMessages)
+    ON_COMMAND(ID_POPUP_STOREFORMOVE, &COnlineUsersDlg::OnPopupStoreformove)
 END_MESSAGE_MAP()
 
 
@@ -285,6 +286,10 @@ void COnlineUsersDlg::MenuCommand(UINT uCmd)
         if(m_pParent)
             m_pParent->OnUsersMessages(user.nUserID);
         break;
+    case ID_POPUP_STOREFORMOVE :
+        if (user.nUserID != 0)
+            m_pParent->m_moveusers.insert(user.nUserID);
+        break;
     }
 }
 
@@ -311,6 +316,11 @@ void COnlineUsersDlg::OnPopupCopyuserinformation()
 void COnlineUsersDlg::OnPopupMessages()
 {
     MenuCommand(ID_POPUP_MESSAGES);
+}
+
+void COnlineUsersDlg::OnPopupStoreformove()
+{
+    MenuCommand(ID_POPUP_STOREFORMOVE);
 }
 
 void COnlineUsersDlg::OnSize(UINT nType, int cx, int cy)

@@ -1423,6 +1423,8 @@ BEGIN
     "K",            ID_POPUP_KICKANDBAN,    VIRTKEY, SHIFT, CONTROL, NOINVERT
     "O",            ID_POPUP_OP,            VIRTKEY, CONTROL, NOINVERT
     "C",            ID_POPUP_COPYUSERINFORMATION, VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_POPUP_MESSAGES, VIRTKEY, CONTROL, NOINVERT
+    "X",            ID_POPUP_STOREFORMOVE, VIRTKEY, ALT, CONTROL, NOINVERT
 END
 
 
@@ -1660,6 +1662,7 @@ BEGIN
         MENUITEM "Kick and &Ban\tCtrl+Shift+K", ID_POPUP_KICKANDBAN
         MENUITEM "&Op\tCtrl+O",                 ID_POPUP_OP
         MENUITEM "&Messages\tCtrl+E",           ID_POPUP_MESSAGES
+        MENUITEM "&Store for Move\tCtrl+Alt+X",           ID_POPUP_STOREFORMOVE
     END
 END
 

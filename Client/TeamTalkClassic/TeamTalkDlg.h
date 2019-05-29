@@ -250,8 +250,6 @@ protected:
     std::vector<UserAccount> m_useraccounts;
     std::vector<BannedUser> m_bannedusers;
 
-    std::set<int> m_moveusers;
-
     //from tt instance
     afx_msg LRESULT OnClientEvent(WPARAM wParam, LPARAM lParam);
 
@@ -347,6 +345,7 @@ public:
     BOOL m_bIdledOut;
     BOOL m_bPreferencesOpen;
     std::unique_ptr<CHttpRequest> m_httpUpdate, m_httpWebLogin;
+    std::set<int> m_moveusers;
     CFile m_logChan;
 
     afx_msg void OnUpdateStats(CCmdUI *pCmdUI);
