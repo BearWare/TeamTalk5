@@ -175,6 +175,7 @@
     <item id="312">Dateiereignisse</item>
     <item id="313">Datei hinzugefügt</item>
     <item id="314">Datei entfernt</item>
+    <item id="315">Zurücksetzen</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1012">TCP-Port</item>
     <item id="1016">UDP-Port</item>
@@ -471,6 +472,14 @@
     <item id="1547">Überflutungsschutz</item>
     <item id="1548">Verhindert beispielsweise das Spammen mit Textnachrichten eines Benutzers, indem die Anzahl Befehle in einem Zeitfenster begrenzt wird.</item>
     <item id="1550">Befehle begrenzen</item>
+    <item id="1553">Profil</item>
+    <item id="1554">Benutzer kann Nicknamen ändern</item>
+    <item id="1558">Benutzer kann Sprache in allen Räumen aufzeichnen</item>
+    <item id="1561">&amp;Aktivieren</item>
+    <item id="1562">BearWare.dk-Web-Login</item>
+    <item id="1563">Ein BearWare.dk-Web-Login dient zur Identifizierung eines TeamTalk-Benutzers. Die hierfür notwendige ID kann auf der Website BearWare.dk erstellt werden.</item>
+    <item id="1564">Anmeldung</item>
+    <item id="1565">&amp;Erstellen</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
