@@ -93,6 +93,9 @@
     <string name="pref_summary_mute_speakers">启用此选项可避免扬声器发出回声</string>
     <string name="pref_title_show_usernames">显示用户名</string>
     <string name="pref_summary_show_usernames">显示用户名而非昵称</string>
+    <string name="pref_title_bearwareid">BearWare.dk Web 登陆</string>
+    <string name="pref_summary_bearwareid">设置 BearWare.dk Web 登陆</string>
+
     <string name="pref_title_mediafile_volume">媒体文件音量</string>
     <string name="pref_summary_mediafile_volume">媒体文件相对于语音的音量</string>
     <string name="pref_title_speakerphone_checkbox">启用扬声器</string>
@@ -312,5 +315,15 @@
 
     <string name="facebook_app_id">611833262539381</string>
     <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string name="title_activity_web_login">Web 登录激活</string>
+    <string name="weblogin_prop_title_bearwareid">用户名</string>
+    <string name="weblogin_prop_title_bearwarepasswd">密码</string>
+    <string name="weblogin_prop_title_login">登录</string>
+    <string name="weblogin_prop_title_web_login_id">BearWare.dk 登录 ID</string>
+    <string name="weblogin_prop_title_create_web_login_id">创建 BearWare.dk 登录 ID</string>
+    <string name="weblogin_prop_title_reset_web_login_id">重置 BearWare.dk 登录 ID</string>
+    <string name="text_bearwarelogin_success">%1$s 您的用户名 %2$s 已通过验证</string>
+    <string name="text_bearwarelogin_failed">无法验证用户名 %1$s</string>
+    <string name="text_weblogin_authfailure">BearWare.dk web 登录 无法进行身份验证</string>
 
 </resources>

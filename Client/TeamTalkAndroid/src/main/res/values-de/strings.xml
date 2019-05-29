@@ -93,6 +93,9 @@
     <string name="pref_summary_mute_speakers">Dies verhindert Echos aus dem Lautsprecher</string>
     <string name="pref_title_show_usernames">Zeige Benutzernamen</string>
     <string name="pref_summary_show_usernames">Zeigt Benutzernamen anstelle des Nicknamens an</string>
+    <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
+    <string name="pref_summary_bearwareid">BearWare.dk WebLogin einrichten</string>
+    
     <string name="pref_title_mediafile_volume">Medienlautstärke</string>
     <string name="pref_summary_mediafile_volume">Lautstärke der Mediendateien gegenüber Sprachübertragungen</string>
     <string name="pref_title_speakerphone_checkbox">Telefonhörer einschalten</string>
@@ -312,5 +315,15 @@
 
     <string name="facebook_app_id">611833262539381</string>
     <string name="fb_login_protocol_scheme">fb611833262539381</string>
+    <string name="title_activity_web_login">WebLogin-Aktivität</string>
+    <string name="weblogin_prop_title_bearwareid">Benutzername</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Passwort</string>
+    <string name="weblogin_prop_title_login">Anmelden</string>
+    <string name="weblogin_prop_title_web_login_id">BearWare.dk-Login-ID</string>
+    <string name="weblogin_prop_title_create_web_login_id">BearWare.dk-Login-ID erstellen</string>
+    <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk-Login-ID zurücksetzen</string>
+    <string name="text_bearwarelogin_success">%1$s dein Benutzername %2$s wurde bestätigt</string>
+    <string name="text_bearwarelogin_failed">Fehler beim Authentifizieren des Benutzernamens %1$s</string>
+    <string name="text_weblogin_authfailure">BearWare.dk Web-Login konnte nicht authentifiziert werden</string>
 
 </resources>

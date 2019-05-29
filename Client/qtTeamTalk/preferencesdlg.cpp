@@ -420,11 +420,17 @@ void PreferencesDlg::slotTabChange(int index)
     switch(index)
     {
     case GENERAL_TAB : //general
+    {
         ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
         ui.maleRadioButton->setChecked(ttSettings->value(SETTINGS_GENERAL_GENDER,
                                                          SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
         ui.femaleRadioButton->setChecked(!ttSettings->value(SETTINGS_GENERAL_GENDER,
                                                             SETTINGS_GENERAL_GENDER_DEFAULT).toBool());
+        QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+        ui.bearwareidEdit->setText(bearwareid);
+        if (bearwareid.size())
+            ui.setupBearWareLoginButton->setText("&Reset");
+
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY).toInt());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
@@ -433,6 +439,7 @@ void PreferencesDlg::slotTabChange(int index)
         loadHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ui.keycompEdit->setText(getHotKeyText(m_hotkey));
         break;
+    }
     case DISPLAY_TAB : //display
     {
         ui.startminimizedChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_STARTMINIMIZED, false).toBool());
@@ -972,10 +979,23 @@ void PreferencesDlg::slotCancelChanges()
 
 void PreferencesDlg::slotEnableBearWareID(bool /*checked*/)
 {
-    BearWareLoginDlg dlg(this);
-    if (dlg.exec())
+    QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+
+    if (bearwareid.size())
     {
-        ui.bearwareidEdit->setText(ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString());
+        ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_USERNAME, QString());
+        ui.bearwareidEdit->setText(QString());
+        ui.setupBearWareLoginButton->setText("&Activate");
+    }
+    else
+    {
+        BearWareLoginDlg dlg(this);
+        if(dlg.exec())
+        {
+            bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+            ui.bearwareidEdit->setText(bearwareid);
+            ui.setupBearWareLoginButton->setText("&Reset");
+        }
     }
 }
 

@@ -1423,6 +1423,8 @@ BEGIN
     "K",            ID_POPUP_KICKANDBAN,    VIRTKEY, SHIFT, CONTROL, NOINVERT
     "O",            ID_POPUP_OP,            VIRTKEY, CONTROL, NOINVERT
     "C",            ID_POPUP_COPYUSERINFORMATION, VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_POPUP_MESSAGES, VIRTKEY, CONTROL, NOINVERT
+    "X",            ID_POPUP_STOREFORMOVE, VIRTKEY, ALT, CONTROL, NOINVERT
 END
 
 
@@ -1442,8 +1444,8 @@ IDR_MAINFRAME           ICON                    "res\\TeamTalk.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,4,0,4963
- PRODUCTVERSION 5,4,0,4963
+ FILEVERSION 5,4,0,4964
+ PRODUCTVERSION 5,4,0,4964
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1460,12 +1462,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BearWare.dk"
             VALUE "FileDescription", "TeamTalk voice conferencing client"
-            VALUE "FileVersion", "5, 4, 0, 4963"
+            VALUE "FileVersion", "5, 4, 0, 4964"
             VALUE "InternalName", "TeamTalk5.exe"
             VALUE "LegalCopyright", "Copyright (c) 2005-2018, BearWare.dk.  All rights reserved."
             VALUE "OriginalFilename", "TeamTalk5.exe"
             VALUE "ProductName", "BearWare.dk TeamTalk"
-            VALUE "ProductVersion", "5, 4, 0, 4963"
+            VALUE "ProductVersion", "5, 4, 0, 4964"
         END
     END
     BLOCK "VarFileInfo"
@@ -1660,6 +1662,7 @@ BEGIN
         MENUITEM "Kick and &Ban\tCtrl+Shift+K", ID_POPUP_KICKANDBAN
         MENUITEM "&Op\tCtrl+O",                 ID_POPUP_OP
         MENUITEM "&Messages\tCtrl+E",           ID_POPUP_MESSAGES
+        MENUITEM "&Store for Move\tCtrl+Alt+X",           ID_POPUP_STOREFORMOVE
     END
 END
 
