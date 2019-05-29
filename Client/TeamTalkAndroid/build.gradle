@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "dk.bearware.gui"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 27
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
