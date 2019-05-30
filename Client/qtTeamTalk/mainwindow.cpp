@@ -118,7 +118,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 {
     //Ensure the correct version of the DLL is loaded
     if(QString(TEAMTALK_VERSION) != _Q(TT_GetVersion()))
-        QMessageBox::warning(0, ("DLL load error"),
+        QMessageBox::warning(nullptr, ("DLL load error"),
                              QString("This %3 executable is built for DLL "
                                       "version %1 but the loaded DLL reports "
                                       "it's version %2. Loading an incorrent "
@@ -1524,7 +1524,7 @@ void MainWindow::cmdJoinedChannel(int channelid)
 
 void MainWindow::addStatusMsg(const QString& msg)
 {
-    if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR).toBool(), true)
+    if(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, true).toBool())
     {
         ui.chatEdit->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
@@ -2028,6 +2028,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         break;
     default :
         Q_ASSERT(0);
+        break;
     }
 }
 
@@ -2209,9 +2210,9 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
         TextMessageDlg* dlg;
         usermessages_t::iterator ii = m_usermessages.find(userid);
         if(ii != m_usermessages.end())
-            dlg = new TextMessageDlg(user, ii.value(), 0);
+            dlg = new TextMessageDlg(user, ii.value(), nullptr);
         else
-            dlg = new TextMessageDlg(user, 0);
+            dlg = new TextMessageDlg(user, nullptr);
 
         dlg->setAttribute(Qt::WA_DeleteOnClose);
         m_usermsg.insert(userid, dlg);
@@ -2710,8 +2711,8 @@ void MainWindow::sendDesktopCursor()
     if(m_lastCursorPos != curPos)
     {
         m_lastCursorPos = curPos;
-        TT_SendDesktopCursorPosition(ttInst, m_lastCursorPos.x(),
-                                     m_lastCursorPos.y());
+        TT_SendDesktopCursorPosition(ttInst, UINT16(m_lastCursorPos.x()),
+                                     UINT16(m_lastCursorPos.y()));
         
     }
 }
@@ -2985,7 +2986,7 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
     keyID.signature = 'cute';
     keyID.id = id;
 
-    EventHotKeyRef ref = 0;
+    EventHotKeyRef ref = nullptr;
     if(RegisterEventHotKey(keycode, mods, keyID, GetApplicationEventTarget(), 0, &ref) == 0)
         m_hotkeys[id] = ref;
     else
@@ -4580,6 +4581,7 @@ void MainWindow::slotSendChannelMessage()
     case TAB_DESKTOP :
         txtmsg = ui.desktopmsgEdit->text();
         ui.desktopmsgEdit->clear();
+        break;
     default :
         break;
     }
