@@ -5725,6 +5725,9 @@ void CTeamTalkDlg::OnServerOnlineusers()
             m_pOnlineUsersDlg->AddUser(u.second);
         }
     }
+    else
+        m_pOnlineUsersDlg->SetForegroundWindow();
+
     m_pOnlineUsersDlg->ShowWindow(SW_SHOW);
 }
 
