@@ -53,7 +53,7 @@ UserImageWidget* GridWidget::getUserWidget(int userid) const
     userwidgets_t::const_iterator ite = m_activewidgets.find(userid);
     if(ite != m_activewidgets.end())
         return *ite;
-    return NULL;
+    return nullptr;
 }
 
 bool GridWidget::userExists(int userid) const

@@ -187,7 +187,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
 #endif
 
     int count = 0;
-    TT_GetServerChannels(ttInst, NULL, &count);
+    TT_GetServerChannels(ttInst, nullptr, &count);
     if(count)
     {
         QVector<Channel> channels;

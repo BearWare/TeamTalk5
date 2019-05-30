@@ -133,7 +133,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     {
         setWindowTitle(tr("Update Channel"));
         int count = 0;
-        TT_GetChannelUsers(ttInst, chan.nChannelID, NULL, &count);
+        TT_GetChannelUsers(ttInst, chan.nChannelID, nullptr, &count);
         if(count>0)
         {
             ui.audiocodecBox->setEnabled(false);

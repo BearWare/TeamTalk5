@@ -36,7 +36,7 @@ void OnlineUsersModel::resetUsers()
 
     m_users.clear();
     int n_users = 0;
-    TT_GetServerUsers(ttInst, NULL, &n_users);
+    TT_GetServerUsers(ttInst, nullptr, &n_users);
     if(n_users)
     {
         QVector<User> users;

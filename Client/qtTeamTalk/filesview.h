@@ -35,7 +35,7 @@ class FilesView : public QTreeView
 public:
     FilesView(QWidget* parent);
 
-    QList<int> selectedFiles(QStringList* fileNames = NULL);
+    QList<int> selectedFiles(QStringList* fileNames = nullptr);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

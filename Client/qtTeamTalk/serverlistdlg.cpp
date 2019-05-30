@@ -38,7 +38,7 @@ extern QSettings* ttSettings;
 
 ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
-    , m_http_manager(NULL)
+    , m_http_manager(nullptr)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));

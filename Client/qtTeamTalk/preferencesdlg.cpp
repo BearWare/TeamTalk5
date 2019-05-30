@@ -45,8 +45,8 @@ extern QTranslator* ttTranslator;
 
 PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
-, m_uservideo(NULL)
-, m_sndloop(NULL)
+, m_uservideo(nullptr)
+, m_sndloop(nullptr)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -204,7 +204,7 @@ void PreferencesDlg::initDevices()
     if(m_sounddevices.size() == count)
     {
         //query again since we didn't have enough room
-        TT_GetSoundDevices(NULL, &count);
+        TT_GetSoundDevices(nullptr, &count);
         m_sounddevices.resize(count);
         TT_GetSoundDevices(&m_sounddevices[0], &count);
     }
@@ -377,9 +377,9 @@ void PreferencesDlg::slotUpdateSoundCheckBoxes()
 
     //if user selected SOUNDDEVICEID_DEFAULT then get the default device
     if(inputid == SOUNDDEVICEID_DEFAULT)
-        TT_GetDefaultSoundDevicesEx(getSoundSystem(), &inputid, NULL);
+        TT_GetDefaultSoundDevicesEx(getSoundSystem(), &inputid, nullptr);
     if(outputid == SOUNDDEVICEID_DEFAULT)
-        TT_GetDefaultSoundDevicesEx(getSoundSystem(), NULL, &outputid);
+        TT_GetDefaultSoundDevicesEx(getSoundSystem(), nullptr, &outputid);
 
     SoundDevice in_dev, out_dev;
     ZERO_STRUCT(in_dev);
@@ -578,7 +578,7 @@ void PreferencesDlg::slotTabChange(int index)
     case VIDCAP_TAB : //video capture
     {
         int count = 0;
-        TT_GetVideoCaptureDevices(NULL, &count);
+        TT_GetVideoCaptureDevices(nullptr, &count);
         m_videodevices.resize(count);
         if(count)
             TT_GetVideoCaptureDevices(&m_videodevices[0], &count);
@@ -676,7 +676,7 @@ void PreferencesDlg::slotSaveChanges()
             {
                 QApplication::removeTranslator(ttTranslator);
                 delete ttTranslator;
-                ttTranslator = NULL;
+                ttTranslator = nullptr;
                 if(!lang.isEmpty())
                 {
                     ttTranslator = new QTranslator();
@@ -685,7 +685,7 @@ void PreferencesDlg::slotSaveChanges()
                     else
                     {
                         delete ttTranslator;
-                        ttTranslator = NULL;
+                        ttTranslator = nullptr;
                     }
                 }
             }
@@ -1043,7 +1043,7 @@ void PreferencesDlg::slotSoundInputChange(int index)
     int deviceid = ui.inputdevBox->itemData(index).toInt();
 
     if(deviceid == SOUNDDEVICEID_DEFAULT)
-        TT_GetDefaultSoundDevicesEx(getSoundSystem(), &deviceid, NULL);
+        TT_GetDefaultSoundDevicesEx(getSoundSystem(), &deviceid, nullptr);
 
     SoundDevice dev;
     QString devinfo;
@@ -1066,7 +1066,7 @@ void PreferencesDlg::slotSoundOutputChange(int index)
     int deviceid = ui.outputdevBox->itemData(index).toInt();
 
     if(deviceid == SOUNDDEVICEID_DEFAULT)
-        TT_GetDefaultSoundDevicesEx(getSoundSystem(), NULL, &deviceid);
+        TT_GetDefaultSoundDevicesEx(getSoundSystem(), nullptr, &deviceid);
 
     SoundDevice dev;
     QString devinfo;
@@ -1127,9 +1127,9 @@ void PreferencesDlg::slotSoundTestDevices(bool checked)
         int outputid = ui.outputdevBox->itemData(ui.outputdevBox->currentIndex()).toInt();
 
         if(inputid == SOUNDDEVICEID_DEFAULT)
-            TT_GetDefaultSoundDevicesEx(sndsys, &inputid, NULL);
+            TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
         if(outputid == SOUNDDEVICEID_DEFAULT)
-            TT_GetDefaultSoundDevicesEx(sndsys, NULL, &outputid);
+            TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
 
         int samplerate = 16000;
         int channels = 1;
@@ -1509,7 +1509,7 @@ void PreferencesDlg::slotTestVideoFormat()
     }
 
     delete m_uservideo;
-    m_uservideo = NULL;
+    m_uservideo = nullptr;
     TT_CloseVideoCaptureDevice(ttInst);
 }
 

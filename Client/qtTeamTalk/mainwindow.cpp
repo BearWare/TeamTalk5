@@ -80,15 +80,15 @@
 
 extern TTInstance* ttInst;
 
-QSettings* ttSettings = NULL;
-QTranslator* ttTranslator = NULL;
+QSettings* ttSettings = nullptr;
+QTranslator* ttTranslator = nullptr;
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
 
 MainWindow::MainWindow(const QString& cfgfile)
-: m_sysicon(NULL)
-, m_sysmenu(NULL)
+: m_sysicon(nullptr)
+, m_sysmenu(nullptr)
 , m_current_cmdid(0)
 , m_audiostorage_mode(AUDIOSTORAGE_NONE)
 , m_idled_out(false)
@@ -98,21 +98,21 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_last_channel()
 , m_srvprop()
 , m_mychannel()
-, m_onlineusersdlg(NULL)
-, m_useraccountsdlg(NULL)
-, m_bannedusersdlg(NULL)
-, m_serverstatsdlg(NULL)
+, m_onlineusersdlg(nullptr)
+, m_useraccountsdlg(nullptr)
+, m_bannedusersdlg(nullptr)
+, m_serverstatsdlg(nullptr)
 , m_desktopsession_id(0)
 , m_prev_desktopsession_id(0)
 , m_desktopsession_total(0)
 , m_desktopsession_remain(0)
 , m_desktopsend_on_completion(false)
 #if defined(Q_OS_WIN32)
-, m_hShareWnd(NULL)
+, m_hShareWnd(nullptr)
 #elif defined(Q_OS_DARWIN)
 , m_nCGShareWnd(kCGNullWindowID)
 #elif defined(Q_OS_LINUX)
-, m_display(NULL)
+, m_display(nullptr)
 , m_nWindowShareWnd(0)
 #endif
 {
@@ -542,7 +542,7 @@ void MainWindow::loadSettings()
             QMessageBox::information(this, "Translate", 
                 QString("Failed to load language file %1").arg(lang));
             delete ttTranslator;
-            ttTranslator = NULL;
+            ttTranslator = nullptr;
         }
         else
         {
@@ -942,7 +942,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
         AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
         if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), NULL, aff);
+            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
 
         updateUserSubscription(msg.user.nUserID);
     }
@@ -1032,7 +1032,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         if(msg.filetransfer.nStatus == FILETRANSFER_ACTIVE &&
            msg.filetransfer.nTransferred == 0)
         {
-            FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, NULL);
+            FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, nullptr);
             connect(this, SIGNAL(filetransferUpdate(const FileTransfer&)), dlg, 
                     SLOT(slotTransferUpdate(const FileTransfer&)));
             dlg->setAttribute(Qt::WA_DeleteOnClose);
@@ -2204,7 +2204,7 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
     {
         User user;
         if(!ui.channelsWidget->getUser(userid, user))
-            return NULL;
+            return nullptr;
 
         TextMessageDlg* dlg;
         usermessages_t::iterator ii = m_usermessages.find(userid);
@@ -2449,7 +2449,7 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
     {
         int userCount = 0;
         QVector<User> users;
-        TT_GetServerUsers(ttInst, NULL, &userCount);
+        TT_GetServerUsers(ttInst, nullptr, &userCount);
         if(userCount)
         {
             users.resize(userCount);
@@ -2460,9 +2460,9 @@ void MainWindow::updateAudioStorage(bool enable, AudioStorageMode mode)
         for(int i=0;i<users.size();i++)
         {
             if(enable)
-                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(audiofolder), nullptr, aff);
             else
-                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(QString()), NULL, aff);
+                TT_SetUserMediaStorageDir(ttInst, users[i].nUserID, _W(QString()), nullptr, aff);
         }
     }
 }
@@ -3572,7 +3572,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 #if defined(Q_OS_LINUX)
         if(m_display)
             XCloseDisplay(m_display);
-        m_display = NULL;
+        m_display = nullptr;
 #endif
             m_statusmode &= ~STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
@@ -4916,9 +4916,9 @@ void MainWindow::slotNewUserVideoDlg(int userid, const QSize& size)
 
     UserVideoDlg* dlg;
     if(size.isValid())
-        dlg = new UserVideoDlg(userid, user, size, NULL);
+        dlg = new UserVideoDlg(userid, user, size, nullptr);
     else
-        dlg = new UserVideoDlg(userid, user, NULL);
+        dlg = new UserVideoDlg(userid, user, nullptr);
 
     connect(this, SIGNAL(userUpdate(const User&)), dlg, 
             SLOT(slotUserUpdate(const User&)));
@@ -5132,10 +5132,10 @@ void MainWindow::slotDetachUserDesktop(int userid, const QSize& size)
 
     UserDesktopDlg* dlg;
     if(size.isValid())
-        dlg = new UserDesktopDlg(user, size, NULL);
+        dlg = new UserDesktopDlg(user, size, nullptr);
     else
     {
-        dlg = new UserDesktopDlg(user, QSize(640, 480), NULL);
+        dlg = new UserDesktopDlg(user, QSize(640, 480), nullptr);
     }
 
     connect(this, SIGNAL(newDesktopWindow(int,int)),
@@ -5180,7 +5180,7 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
     QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
     AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
     if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), NULL, aff);
+        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), nullptr, aff);
 
     //only play sound when we're not currently performing an operation
     //like e.g. joining a new channel
@@ -5548,21 +5548,21 @@ void MainWindow::slotBearWareAuthReply(QNetworkReply* reply)
 
 void MainWindow::slotClosedOnlineUsersDlg(int)
 {
-    m_onlineusersdlg = NULL;
+    m_onlineusersdlg = nullptr;
 }
 
 void MainWindow::slotClosedServerStatsDlg(int)
 {
-    m_serverstatsdlg = NULL;
+    m_serverstatsdlg = nullptr;
 }
 
 void MainWindow::slotClosedUserAccountsDlg(int)
 {
-    m_useraccountsdlg = NULL;
+    m_useraccountsdlg = nullptr;
 }
 
 void MainWindow::slotClosedBannedUsersDlg(int)
 {
-    m_bannedusersdlg = NULL;
+    m_bannedusersdlg = nullptr;
 }
 

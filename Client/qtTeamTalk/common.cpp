@@ -190,9 +190,9 @@ int getDefaultSndInputDevice()
                                                         SOUNDSYSTEM_NONE).toInt();
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
-        TT_GetDefaultSoundDevicesEx(sndsys, &inputid, NULL);
+        TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
     else
-        TT_GetDefaultSoundDevices(&inputid, NULL);
+        TT_GetDefaultSoundDevices(&inputid, nullptr);
     return inputid;
 }
 
@@ -202,9 +202,9 @@ int getDefaultSndOutputDevice()
                                                         SOUNDSYSTEM_NONE).toInt();
     int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if(sndsys != SOUNDSYSTEM_NONE)
-        TT_GetDefaultSoundDevicesEx(sndsys, NULL, &outputid);
+        TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
     else
-        TT_GetDefaultSoundDevices(NULL, &outputid);
+        TT_GetDefaultSoundDevices(nullptr, &outputid);
     return outputid;
 }
 
@@ -215,7 +215,7 @@ int getSoundInputFromUID(int inputid, const QString& uid)
 
     QVector<SoundDevice> inputdev;
     int count = 0;
-    TT_GetSoundDevices(NULL, &count);
+    TT_GetSoundDevices(nullptr, &count);
     inputdev.resize(count);
     if(count)
         TT_GetSoundDevices(&inputdev[0], &count);
@@ -234,7 +234,7 @@ int getSoundOutputFromUID(int outputid, const QString& uid)
 
     QVector<SoundDevice> outputdev;
     int count = 0;
-    TT_GetSoundDevices(NULL, &count);
+    TT_GetSoundDevices(nullptr, &count);
     outputdev.resize(count);
     if(count)
         TT_GetSoundDevices(&outputdev[0], &count);
@@ -577,7 +577,7 @@ bool isComputerIdle(int idle_secs)
         io_registry_entry_t entry = IOIteratorNext(iter);
         if (entry)
         {
-            CFMutableDictionaryRef dict = NULL;
+            CFMutableDictionaryRef dict = nullptr;
             if (IORegistryEntryCreateCFProperties(entry, &dict, 
                                                   kCFAllocatorDefault, 
                                                   0) == KERN_SUCCESS)
