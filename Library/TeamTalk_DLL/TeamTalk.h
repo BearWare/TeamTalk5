@@ -1337,6 +1337,10 @@ extern "C" {
         INT32 nLoginDelayMSec;
         /** @brief A randomly generated 256 bit access token created
          * by the server to identify the login session.
+         *
+         * The szAccessToken is available after receiving
+         * #CLIENTEVENT_CON_SUCCESS.
+         *
          * Read-only property. */
         TTCHAR szAccessToken[TT_STRLEN];
     } ServerProperties;

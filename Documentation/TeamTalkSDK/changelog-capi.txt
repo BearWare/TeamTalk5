@@ -4,6 +4,11 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v54arelease
+ * - @ref v54afeatures
+ * - @ref v54aapi
+ * - @ref v54abugfixes
+ *
  * @ref v53brelease
  * - @ref v53bapi
  *
@@ -172,6 +177,46 @@
  *
  * <hr>
  *
+ * @section v54arelease TeamTalk 5 SDK v. 5.4a release
+ *
+ * @subsection v54afeatures New features in v5.4a
+ *
+ * TeamTalk SDKs for Android now comes with a TeamTalk JNI library for
+ * 64-bit ARM and 32-bit Intel x86. Required API level is now 21
+ * (Android 5.0).
+ *
+ * TeamTalk SDKs for Windows now uses <a
+ * href="https://docs.microsoft.com/en-us/windows/desktop/medfound/microsoft-media-foundation-sdk">Microsoft
+ * Media Foundation</a> instead of DirectShow when streaming media
+ * files and capturing from video cameras. This means that Windows 10
+ * users can now stream from HTTP and HTTPS.
+ * 
+ * TeamTalk SDK Standard Edition can now connect to encrypted TeamTalk
+ * servers. Running an encrypted TeamTalk server, however, still
+ * requires TeamTalk SDK Professional Edition.
+ *
+ * TeamTalk SDK Standard Edition can now stream HTTPS on macOS,
+ * Android and Linux.
+ *
+ * TeamTalk SDK Standard Edition now requires libssl dependency
+ * (OpenSSL).
+ *
+ * #OPUS_CODEC upgraded to v1.3 on all platforms.
+ *
+ * Record in MP3 format when using TT_SetUserMediaStorageDir() and
+ * TT_StartRecordingMuxedAudioFile().
+ *
+ * @subsection v54aapi API changes in v5.4a
+ *
+ * - Added @c nLoginDelayMSec to #ServerProperties
+ * - Added @c szAccessToken to #ServerProperties
+ *
+ * @subsection v54abugfixes Bug fixes in v5.4a
+ *
+ * Fixed #DesktopInput not being received in encrypted mode.
+ *
+ * <hr>
+ *
  * @section v53brelease TeamTalk 5 SDK v. 5.3b release
  *
  * @subsection v53bapi API changes in v5.3b
@@ -182,7 +227,7 @@
  * talk. Basically the opposite of classrooms.
  *
  * The following new macros have been introduced to access
- * the @transmitUsers array:
+ * the @c transmitUsers array:
  * - #TT_CLASSROOM_USERID_INDEX
  * - #TT_CLASSROOM_STREAMTYPE_INDEX
  * - #TT_TRANSMITUSERS_FREEFORALL
