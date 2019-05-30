@@ -25,6 +25,7 @@ iOS client
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Android client:
+- Minimum Android version is now 5.0
 - OPUS audio codec v1.3
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
