@@ -5722,7 +5722,8 @@ void CTeamTalkDlg::OnServerOnlineusers()
         auto users = m_wndTree.GetUsers();
         for(auto u : users)
         {
-            m_pOnlineUsersDlg->AddUser(u.second);
+            if (m_users.find(u.first) != m_users.end())
+                m_pOnlineUsersDlg->AddUser(u.second);
         }
     }
     else
