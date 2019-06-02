@@ -26,7 +26,6 @@
 
 #include <ace/Task.h>
 #include <ace/Message_Block.h>
-#include <ace/Null_Mutex.h> 
 
 #if defined(ENABLE_VPX)
 #include <codec/VpxEncoder.h>
@@ -34,6 +33,8 @@
 
 #include <teamtalk/Common.h>
 #include <codec/MediaUtil.h>
+
+#include <memory>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
@@ -80,7 +81,7 @@ private:
     int m_frames_passed, m_frames_dropped;
 };
 
-typedef ACE_Strong_Bound_Ptr< VideoThread, ACE_Null_Mutex > video_thread_t;
+typedef std::shared_ptr< VideoThread > video_thread_t;
 
 
 class VideoEncListener

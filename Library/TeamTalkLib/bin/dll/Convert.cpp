@@ -1107,7 +1107,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
         result.uUserState |= USERSTATE_MUTE_VOICE;
     if(clientuser.IsMute(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO))
         result.uUserState |= USERSTATE_MUTE_MEDIAFILE;
-    if(!clientuser.GetDesktopSession().null())
+    if (clientuser.GetDesktopSession())
         result.uUserState |= USERSTATE_DESKTOP;
     teamtalk::VideoCodec vidcodec;
     if(clientuser.GetVideoCaptureCodec(vidcodec))

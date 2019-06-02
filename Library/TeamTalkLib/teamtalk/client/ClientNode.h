@@ -242,7 +242,7 @@ namespace teamtalk {
 
     //forward decl.
     class ClientListener;
-    typedef ACE_Strong_Bound_Ptr< class FileNode, ACE_Null_Mutex > filenode_t;
+    typedef std::shared_ptr< class FileNode > filenode_t;
 
     class ClientNode
         : public ACE_Task<ACE_MT_SYNCH>

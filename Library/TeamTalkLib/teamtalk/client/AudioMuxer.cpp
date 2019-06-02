@@ -140,7 +140,7 @@ void AudioMuxer::StopThread()
     std::vector<short> ending(GetAudioCodecCbTotalSamples(m_codec));
 
 #if defined(ENABLE_OPUSFILE)
-    if(!m_opusfile.null())
+    if (m_opusfile)
     {
         m_opusfile->Encode(&ending[0], GetAudioCodecCbSamples(m_codec),
                            true);
@@ -150,7 +150,7 @@ void AudioMuxer::StopThread()
 #endif
 
 #if defined(ENABLE_SPEEXFILE)
-    if(!m_speexfile.null())
+    if (m_speexfile)
     {
         m_speexfile->Encode(&ending[0], true);
         m_speexfile->Close();

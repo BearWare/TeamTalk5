@@ -25,7 +25,7 @@
 #define AUDIORESAMPLER_H
 
 #include <myace/MyACE.h>
-#include <ace/Bound_Ptr.h>
+#include <memory>
 
 //with a callback of 'src_samples' and sample rate of
 //'src_samplerate', how many samples should be provided given a
@@ -46,7 +46,7 @@ protected:
                     int output_samples_total);
 };
 
-typedef ACE_Strong_Bound_Ptr< AudioResampler, ACE_Null_Mutex > audio_resampler_t;
+typedef std::shared_ptr< AudioResampler > audio_resampler_t;
 
 audio_resampler_t MakeAudioResampler(int input_channels, 
                                      int input_samplerate, 

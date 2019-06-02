@@ -269,7 +269,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     {
         if(audpkt.HasFragments())
         {
-            if(!reassem_pkt.null())
+            if(reassem_pkt)
                 voice_logger.AddVoicePacket(*this, *chan, *reassem_pkt);
         }
         else
@@ -476,7 +476,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 
     //check if it's a new stream, timestamp will be valid since we previously
     //had a session
-    if(!m_desktop.null() && m_desktop->GetSessionID() != session_id &&
+    if (m_desktop && m_desktop->GetSessionID() != session_id &&
        W32_GEQ(p.GetTime(), this->GetLastTimeStamp(p)))
         CloseDesktopSession();
 
@@ -489,7 +489,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         TTASSERT(timerid >= 0);
     }
 
-    if(m_desktop.null())
+    if (!m_desktop)
     {
         uint16_t width, height;
         uint8_t bmp_mode;
@@ -663,7 +663,7 @@ void ClientUser::GetAckedDesktopPackets(uint8_t& session_id,
                                         uint32_t& upd_time,
                                         std::set<uint16_t>& acked) const
 {
-    if(m_desktop.null())
+    if (!m_desktop)
     {
         desktoppackets_t::const_iterator ii = m_desktop_queue.begin();
         if(ii != m_desktop_queue.end())
@@ -1113,8 +1113,8 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         resampler = MakeAudioResampler(codec_channels, codec_samplerate,
                                        output_channels, output_samplerate);
 
-        assert(!resampler.null());
-        if(resampler.null())
+        assert(resampler);
+        if (!resampler)
             return audio_player_t();
     }
     else
@@ -1380,7 +1380,7 @@ void ClientUser::CloseVideoFilePlayer()
 
 bool ClientUser::GetDesktopWindow(DesktopWindow& wnd)
 {
-    if(m_desktop.null())
+    if (!m_desktop)
         return false;
 
     wnd.width = m_desktop->GetWidth();
@@ -1393,7 +1393,7 @@ bool ClientUser::GetDesktopWindow(DesktopWindow& wnd)
 
 bool ClientUser::GetDesktopWindow(char* buffer, int length)
 {
-    if(m_desktop.null())
+    if (!m_desktop)
         return false;
 
     int bmp_size = 0;
@@ -1410,7 +1410,7 @@ bool ClientUser::GetDesktopWindow(char* buffer, int length)
 void ClientUser::CloseDesktopSession()
 {
     //notify that we're closing session
-    bool notify = !m_desktop.null();
+    bool notify = m_desktop.get() != nullptr;
     m_desktop.reset();
     m_block_fragments.clear();
     m_dup_blocks.clear();

@@ -26,10 +26,11 @@
 
 #include <ace/ACE.h>
 #include <ace/SString.h>
-#include <ace/Bound_Ptr.h>
 
 #include <myace/MyACE.h>
 #include <codec/MediaUtil.h>
+
+#include <memory>
 
 struct MediaStream
 {
@@ -134,7 +135,7 @@ private:
     bool ProcessVideoFrame(ACE_UINT32 starttime);
 };
 
-typedef ACE_Strong_Bound_Ptr< MediaStreamer, ACE_Null_Mutex > media_streamer_t;
+typedef std::shared_ptr< MediaStreamer > media_streamer_t;
 
 media_streamer_t MakeMediaStreamer(MediaStreamListener* listener);
 

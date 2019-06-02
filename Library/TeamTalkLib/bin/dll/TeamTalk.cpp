@@ -2838,7 +2838,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
         return NULL;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
-    if(viewer.null())
+    if (!viewer)
         return NULL;
 
     DesktopWindow* lpDesktopWindow = inst->PushDesktopWindow(viewer->GetBitmapSize());

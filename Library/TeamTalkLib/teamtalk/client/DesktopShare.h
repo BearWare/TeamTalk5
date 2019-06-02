@@ -27,10 +27,9 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <memory>
 
 #include <ace/Task.h>
-#include <ace/Bound_Ptr.h>
-#include <ace/Null_Mutex.h>
 #include <ace/Reactor.h>
 #include <ace/Semaphore.h>
 
@@ -85,7 +84,7 @@ namespace teamtalk {
         uint16_t m_max_chunk_size, m_max_payload_size;
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopInitiator, ACE_MT_SYNCH::RECURSIVE_MUTEX > desktop_initiator_t;
+    typedef std::shared_ptr< DesktopInitiator > desktop_initiator_t;
 
     class DesktopViewer : public DesktopSession
     {
@@ -107,6 +106,6 @@ namespace teamtalk {
         std::vector<char> m_bitmap;
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopViewer, ACE_MT_SYNCH::RECURSIVE_MUTEX > desktop_viewer_t;
+    typedef std::shared_ptr< DesktopViewer > desktop_viewer_t;
 }
 #endif

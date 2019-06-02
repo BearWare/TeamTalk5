@@ -1812,7 +1812,7 @@ void ServerUser::TransmitCommand(const ACE_TString& cmdline)
 
 bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
 {
-    if(!m_desktop_cache.null() && 
+    if (m_desktop_cache && 
         m_desktop_cache->GetSessionID() != packet.GetSessionID() &&
         W32_GEQ(packet.GetTime(), m_desktop_cache->GetCurrentDesktopTime()))
     {
@@ -1820,7 +1820,7 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
         CloseDesktopSession();
     }
 
-    if(m_desktop_cache.null())
+    if (!m_desktop_cache)
     {
         uint8_t session_id;
         uint16_t width, height, pkt_index, pkt_count;

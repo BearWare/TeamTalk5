@@ -28,10 +28,9 @@
 
 #include <ace/FILE_Connector.h>
 #include <ace/FILE_IO.h>
-#include <ace/Bound_Ptr.h>
-#include <ace/Null_Mutex.h>
 #include <ace/SString.h>
 
+#include <memory>
 #include <vector>
 
 class OggOutput
@@ -127,7 +126,7 @@ private:
     ogg_page m_aud_page;
 };
 
-typedef ACE_Strong_Bound_Ptr< SpeexFile, ACE_Null_Mutex > speexfile_t;
+typedef std::shared_ptr< SpeexFile > speexfile_t;
 
 #include "SpeexEncoder.h"
 
@@ -148,7 +147,7 @@ private:
     std::vector<char> m_buffer;
 };
 
-typedef ACE_Strong_Bound_Ptr< SpeexEncFile, ACE_Null_Mutex > speexencfile_t;
+typedef std::shared_ptr< SpeexEncFile > speexencfile_t;
 
 #endif /* ENABLE_SPEEX */
 
@@ -170,7 +169,7 @@ private:
     ogg_int64_t m_granule_pos, m_packet_no;
 };
 
-typedef ACE_Strong_Bound_Ptr< OpusFile, ACE_Null_Mutex > opusfile_t;
+typedef std::shared_ptr< OpusFile > opusfile_t;
 
 #endif /* ENABLE_OPUSTOOLS */
 
@@ -196,7 +195,7 @@ private:
     std::vector<char> m_buffer;
 };
 
-typedef ACE_Strong_Bound_Ptr< OpusEncFile, ACE_Null_Mutex > opusencfile_t;
+typedef std::shared_ptr< OpusEncFile > opusencfile_t;
 
 #endif
 

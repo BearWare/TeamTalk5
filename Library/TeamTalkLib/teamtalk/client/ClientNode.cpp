@@ -197,7 +197,7 @@ VoiceLogger& ClientNode::voicelogger()
 
 AudioMuxer& ClientNode::audiomuxer()
 {
-    if(m_audiomuxer.null())
+    if (!m_audiomuxer)
     {
         AudioMuxer* audmuxer = new AudioMuxer();
         m_audiomuxer = audiomuxer_t(audmuxer);
@@ -642,7 +642,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 
         //if user closed desktop session then just return
         desktop_viewer_t desktop = user->GetDesktopSession();
-        if(desktop.null())
+        if (!desktop)
         {
             ret = -1;
             break;
@@ -687,8 +687,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ret = -1;
 
         clientuser_t user = GetUser(userid);
-        if(user.null() || m_desktop.null() ||
-           m_mychannel.null())
+        if(user.null() || !m_desktop || m_mychannel.null())
             break;
 
         DesktopInputAckPacket* ack_pkt;
@@ -824,15 +823,15 @@ int ClientNode::Timer_BuildDesktopPackets()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    TTASSERT(!m_desktop.null());
-    if(m_desktop.null())
+    TTASSERT(m_desktop);
+    if (!m_desktop)
         return -1;
 
     if(m_desktop->thr_count())
         return 0;
 
-    TTASSERT(!m_desktop_tx.null());
-    if(m_desktop_tx.null())
+    TTASSERT(m_desktop_tx);
+    if (!m_desktop_tx)
         return -1;
 
     desktoppackets_t packets;
@@ -902,8 +901,8 @@ int ClientNode::Timer_DesktopPacketRTX()
     ASSERT_REACTOR_LOCKED(this);
 
     //retransmit lost desktop packets
-    TTASSERT(!m_desktop_tx.null());
-    if(!m_desktop_tx.null())
+    TTASSERT(m_desktop_tx);
+    if (m_desktop_tx)
     {
         ACE_Time_Value rtx_timeout(DESKTOP_DEFAULT_RTX_TIMEOUT);
             /*GetDesktopPacketRTxTimeout(m_clientstats.udpping_time);*/
@@ -927,7 +926,7 @@ int ClientNode::Timer_DesktopNAKPacket()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(!m_desktop_nak_tx.null() && !m_mychannel.null())
+    if (m_desktop_nak_tx && !m_mychannel.null())
     {
         DesktopNakPacket* nak_pkt;
         ACE_NEW_RETURN(nak_pkt, DesktopNakPacket(GetUserID(), 
@@ -1029,7 +1028,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                                  codec_channels,
                                                  codec_samplerate);
 
-        if(m_capture_resampler.null())
+        if (!m_capture_resampler)
         {
             m_capture_resampler.reset();
             m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
@@ -1058,7 +1057,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                                       codec_channels,
                                                       codec_samplerate);
 
-            if(m_playback_resampler.null())
+            if (!m_playback_resampler)
             {
                 m_playback_resampler.reset();
                 m_listener->OnInternalError(TT_INTERR_SNDOUTPUT_FAILURE,
@@ -1374,7 +1373,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     int codec_channels = GetAudioCodecChannels(m_voice_thread.codec());
 
     const short* capture_buffer = NULL;
-    if(!m_capture_resampler.null())
+    if (m_capture_resampler)
     {
         assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
         int ret = m_capture_resampler->Resample(buffer, n_samples, 
@@ -1414,7 +1413,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
     int codec_channels = GetAudioCodecChannels(m_voice_thread.codec());
 
     const short* capture_buffer = NULL;
-    if(!m_capture_resampler.null())
+    if (m_capture_resampler)
     {
         assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
         int ret = m_capture_resampler->Resample(input_buffer, n_samples, 
@@ -1432,7 +1431,7 @@ void ClientNode::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
         capture_buffer = input_buffer;
 
     const short* playback_buffer = NULL;
-    if(!m_playback_resampler.null())
+    if (m_playback_resampler)
     {
         assert((int)m_playback_buffer.size() == codec_samples * codec_channels);
         int ret = m_playback_resampler->Resample(prev_output_buffer, n_samples, 
@@ -1526,8 +1525,8 @@ bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
                                           ACE_Message_Block* mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
-    TTASSERT(!m_videofile_thread.null());
-    if(m_videofile_thread.null())
+    TTASSERT(m_videofile_thread);
+    if (!m_videofile_thread)
         return false;
 
     VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
@@ -2060,7 +2059,7 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
     if(!ack_pkt.GetSessionInfo(0, &session_id, &time_ack))
         return;
 
-    if(!m_desktop_tx.null() &&
+    if (m_desktop_tx &&
         m_desktop_tx->GetSessionID() == session_id &&
         m_desktop_tx->GetUpdateID() == time_ack)
     {
@@ -2104,7 +2103,7 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
         if(packets_remain != new_remain_packets)
             m_listener->OnDesktopTransferUpdate(session_id, new_remain_bytes);
     }
-    else if(!m_desktop_nak_tx.null())
+    else if (m_desktop_nak_tx)
     {
         //may be an ACK to a NAK
         if(TimerExists(TIMER_DESKTOPNAKPACKET_TIMEOUT_ID) &&
@@ -2131,11 +2130,11 @@ void ClientNode::ReceivedDesktopNakPacket(const DesktopNakPacket& nak_pkt)
         return;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
-    MYTRACE_COND(viewer.null(), ACE_TEXT("Asked to delete desktop session #%d ")
+    MYTRACE_COND(!viewer, ACE_TEXT("Asked to delete desktop session #%d ")
                  ACE_TEXT("which doesn't exist from user #%d\n"), 
                  nak_pkt.GetSessionID(), nak_pkt.GetSrcUserID());
 
-    if(viewer.null())
+    if (!viewer)
         return;
 
     if(viewer->GetSessionID() == nak_pkt.GetSessionID())
@@ -2177,7 +2176,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
     if(chan.null())
         return;
 
-    if(m_desktop.null() || m_desktop->GetSessionID() != di_pkt.GetSessionID())
+    if (!m_desktop || m_desktop->GetSessionID() != di_pkt.GetSessionID())
         return;
 
     MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
@@ -2448,7 +2447,7 @@ void ClientNode::SendPackets()
                 break;
 
             //desktop update hasn't completed (non-null)
-            if(m_desktop_tx.null())
+            if (!m_desktop_tx)
                 break;
 
             //packet has been ack'ed since it was readded to the tx queue
@@ -3044,13 +3043,12 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
 
-    TTASSERT(m_media_streamer.null());
-    if(m_media_streamer.null())
+    TTASSERT(!m_media_streamer);
+    if (!m_media_streamer)
         m_media_streamer = MakeMediaStreamer(this);
 
     MediaFileProp file_in(filename);
-    if(m_media_streamer.null() ||
-       !m_media_streamer->OpenFile(file_in, media_out))
+    if (!m_media_streamer || !m_media_streamer->OpenFile(file_in, media_out))
     {
         StopStreamingMediaFile();
         return false;
@@ -3071,9 +3069,9 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
         m_flags |= CLIENT_STREAM_AUDIOFILE;
     }
 
-    TTASSERT(m_videofile_thread.null());
+    TTASSERT(!m_videofile_thread);
     //initiate video part of media file
-    if(file_in.video.IsValid() && m_videofile_thread.null())
+    if(file_in.video.IsValid() && !m_videofile_thread)
     {
         m_flags |= CLIENT_STREAM_VIDEOFILE;
 
@@ -3117,7 +3115,7 @@ void ClientNode::StopStreamingMediaFile()
 
     bool clear_video = false, clear_audio = false;
 
-    if(!m_media_streamer.null())
+    if (m_media_streamer)
     {
         clear_video = m_media_streamer->GetMediaOutput().HasVideo();
         clear_audio = m_media_streamer->GetMediaOutput().HasAudio();
@@ -3127,7 +3125,7 @@ void ClientNode::StopStreamingMediaFile()
 
     if(clear_video)
     {
-        if(!m_videofile_thread.null())
+        if (m_videofile_thread)
             m_videofile_thread->StopEncoder();
         m_videofile_thread.reset();
         m_flags &= ~CLIENT_STREAM_VIDEOFILE;
@@ -3348,8 +3346,8 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
         return -1;
 
     //start new session or update existing
-    if(m_desktop.null() || m_desktop->GetWidth() != width ||
-       m_desktop->GetHeight() != height || m_desktop->GetRGBMode() != rgb)
+    if (!m_desktop || m_desktop->GetWidth() != width ||
+        m_desktop->GetHeight() != height || m_desktop->GetRGBMode() != rgb)
     {
         CloseDesktopSession(true);
 
@@ -3369,7 +3367,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     }
 
     //ensure all data has already been sent before starting a new transmission
-    if(!m_desktop_tx.null() && !m_desktop_tx->Done() &&
+    if (m_desktop_tx && !m_desktop_tx->Done() &&
         m_desktop_tx->GetSessionID() == m_desktop->GetSessionID())
     {
         MYTRACE(ACE_TEXT("Ignored desktop update. Transmission already ongoing\n"));
@@ -3384,7 +3382,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     }
 
     //ensure we don't get the same timestamp for next desktop update
-    if(!m_desktop_tx.null())
+    if (m_desktop_tx)
         DUP_TIMESTAMP_DELAY(m_desktop_tx->GetUpdateID());
 
     uint32_t tm = GETTIMESTAMP();
@@ -3422,9 +3420,9 @@ bool ClientNode::CloseDesktopWindow()
 
     uint8_t session_id = 0;
     
-    if(!m_desktop_tx.null())
+    if (m_desktop_tx)
         session_id = m_desktop_tx->GetSessionID();
-    else if(!m_desktop.null())
+    else if (m_desktop)
         session_id = m_desktop->GetSessionID();
 
     if(session_id)
@@ -3459,7 +3457,7 @@ void ClientNode::CloseDesktopSession(bool stop_nak_timer)
         m_desktop_nak_tx.reset();
     }
 
-    if(!m_desktop.null())
+    if (m_desktop)
     {
         m_desktop->Abort();
         m_desktop->wait();
@@ -3502,7 +3500,7 @@ bool ClientNode::SendDesktopCursor(int x, int y)
     chan = GetMyChannel();
     if(chan.null())
         return false;
-    if(m_desktop.null())
+    if (!m_desktop)
         return false;
 
     ACE_NEW_RETURN(pkt, DesktopCursorPacket(GetUserID(),
@@ -3545,7 +3543,7 @@ bool ClientNode::SendDesktopInput(int userid,
         return false;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
-    if(viewer.null())
+    if (!viewer)
         return false;
 
     DesktopInputPacket* pkt;
@@ -3816,9 +3814,9 @@ void ClientNode::LeftChannel(ClientChannel& chan)
     //stop streaming media file
     if(m_flags & (CLIENT_STREAM_AUDIOFILE | CLIENT_STREAM_VIDEOFILE))
     {
-        bool notify = !m_media_streamer.null();
+        bool notify = m_media_streamer.get() != nullptr;
         MediaFileProp mfp;
-        if(!m_media_streamer.null())
+        if (m_media_streamer)
             mfp = m_media_streamer->GetMediaInput();
         StopStreamingMediaFile();
         if(notify)
@@ -5174,7 +5172,7 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     m_listener->OnUpdateChannel(*chan);
 
     //close desktop session if no longer allowed to transmit
-    if(!m_desktop.null() && chan == m_mychannel &&
+    if (m_desktop && chan == m_mychannel &&
         !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_DESKTOP))
     {
         CloseDesktopSession(false);
@@ -5403,7 +5401,7 @@ void ClientNode::HandleFileAccepted(const mstrings_t& properties)
             }
         }
 
-        if (!ptr.null())
+        if (ptr)
         {
             m_filetransfers[transferid] = ptr;
             ptr->BeginTransfer();

@@ -27,9 +27,10 @@
 #include "MediaStreamer.h"
 
 #include <ace/Task.h>
-#include <ace/Bound_Ptr.h>
 #include <ace/Future.h>
 #include <ace/Semaphore.h>
+
+#include <memory>
 
 bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
@@ -56,7 +57,7 @@ private:
     fileopen_t m_open, m_start;
 };
 
-typedef ACE_Strong_Bound_Ptr< DSWrapperThread, ACE_Null_Mutex > dswrapper_t;
+typedef std::shared_ptr< DSWrapperThread > dswrapper_t;
 
 
 #endif

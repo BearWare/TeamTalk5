@@ -27,6 +27,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <memory>
 
 #include <teamtalk/PacketLayout.h>
 #include <teamtalk/CodecCommon.h>
@@ -195,7 +196,7 @@ namespace teamtalk {
         uint32_t m_pingtime;
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopTransmitter, ACE_Null_Mutex > desktop_transmitter_t;
+    typedef std::shared_ptr< DesktopTransmitter > desktop_transmitter_t;
 
     class DesktopNakTransmitter
     {
@@ -210,7 +211,7 @@ namespace teamtalk {
         uint32_t m_update_timeid;
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopNakTransmitter, ACE_Null_Mutex > desktop_nak_tx_t;
+    typedef std::shared_ptr< DesktopNakTransmitter > desktop_nak_tx_t;
 
     void GetPacketRanges(const std::set<uint16_t>& packet_indexes,
                          packet_range_t& pkt_index_ranges, 
