@@ -246,7 +246,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     SLresult result;
 
     soundgroup_t sg = GetSoundGroup(sndgrpid);
-    if(sg.null())
+    if (!sg)
         return inputstreamer_t();
 
     // configure audio source
@@ -447,7 +447,7 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     SLresult result;
 
     soundgroup_t sg = GetSoundGroup(sndgrpid);
-    if(sg.null())
+    if (!sg)
         return outputstreamer_t();
 
     // configure audio source
@@ -682,7 +682,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     }
 
     soundgroup_t sg = NewSoundGroup();
-    if(sg.null())
+    if (!sg)
         return;
 
     SLObjectItf outputMixObject = sg->outputMixObject;
