@@ -91,7 +91,7 @@ void PortAudio::RemoveSoundGroup(soundgroup_t sndgrp)
 bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 {
     soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-    if(!sndgrp.null())
+    if (sndgrp)
     {
         sndgrp->autoposition = enable;
         return true;
@@ -102,7 +102,7 @@ bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 bool PortAudio::IsAutoPositioning(int sndgrpid)
 {
     soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-    if(!sndgrp.null())
+    if(sndgrp)
         return sndgrp->autoposition;
     return false;
 }
@@ -118,8 +118,7 @@ bool PortAudio::AutoPositionPlayers(int sndgrpid, bool all_players)
         for(size_t i=0;i<players.size();)
         {
             outputstreamer_t streamer = GetStream(players[i]);
-            if(streamer.null() ||
-               (!streamer->autoposition && !all_players))
+            if(!streamer || (!streamer->autoposition && !all_players))
                 players.erase(players.begin()+i);
             else ++i;
         }
@@ -497,7 +496,7 @@ bool PortAudio::IsStreamStopped(outputstreamer_t streamer)
 void PortAudio::SetSampleRate(StreamPlayer* player, int samplerate)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return;
 
 #if defined(WIN32)
@@ -509,7 +508,7 @@ void PortAudio::SetSampleRate(StreamPlayer* player, int samplerate)
 int PortAudio::GetSampleRate(StreamPlayer* player)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return 0;
 
 #if defined(WIN32)
@@ -521,7 +520,7 @@ int PortAudio::GetSampleRate(StreamPlayer* player)
 void PortAudio::SetAutoPositioning(StreamPlayer* player, bool enable)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return;
     streamer->autoposition = enable;
 }
@@ -529,7 +528,7 @@ void PortAudio::SetAutoPositioning(StreamPlayer* player, bool enable)
 bool PortAudio::IsAutoPositioning(StreamPlayer* player)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return false;
 
     return streamer->autoposition;
@@ -538,7 +537,7 @@ bool PortAudio::IsAutoPositioning(StreamPlayer* player)
 bool PortAudio::SetPosition(StreamPlayer* player, float x, float y, float z)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return false;
 
 #if defined(WIN32)
@@ -557,7 +556,7 @@ bool PortAudio::SetPosition(StreamPlayer* player, float x, float y, float z)
 bool PortAudio::GetPosition(StreamPlayer* player, float& x, float& y, float& z)
 {
     outputstreamer_t streamer = GetStream(player);
-    if(streamer.null())
+    if (!streamer)
         return false;
 
 #if defined(WIN32)
