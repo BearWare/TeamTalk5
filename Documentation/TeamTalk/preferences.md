@@ -28,7 +28,13 @@ transmit audio.
 - **Gender**
   - This option selects whether other users should see you as a Male
     or Female.
-  
+
+- **BearWare.dk Web Login ID**
+  - A BearWare.dk web login is required if a TeamTalk server specifies
+    that you must [log on with the username "bearware"](@ref
+    connectdlg). You can create a BearWare.dk web login by clicking
+    the *Activate* button.
+
 - **Set away status after...**
   - If non-zero this option will automatically set you as away after
     the specified number of seconds.

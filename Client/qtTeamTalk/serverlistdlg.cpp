@@ -43,6 +43,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
+    ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
     ui.usernameBox->addItem(WEBLOGIN_FACEBOOK_USERNAME);
 
     connect(ui.addupdButton, SIGNAL(clicked()),
@@ -138,7 +139,8 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.udpportEdit->setText(QString::number(entry.udpport));
     ui.cryptChkBox->setChecked(entry.encrypted);
     ui.usernameBox->lineEdit()->setText(entry.username);
-    if(entry.username == WEBLOGIN_FACEBOOK_USERNAME)
+    if (entry.username == WEBLOGIN_FACEBOOK_USERNAME ||
+        entry.username == WEBLOGIN_BEARWARE_USERNAME)
         ui.passwordEdit->setText("");
     else
         ui.passwordEdit->setText(entry.password);
@@ -356,7 +358,9 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
     else
         ui.nameEdit->setText(QString());
 
-    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK_USERNAME);
-    if(username == WEBLOGIN_FACEBOOK_USERNAME)
+    ui.passwordEdit->setDisabled(username == WEBLOGIN_FACEBOOK_USERNAME ||
+                                 username == WEBLOGIN_BEARWARE_USERNAME);
+    if (username == WEBLOGIN_FACEBOOK_USERNAME ||
+        username == WEBLOGIN_BEARWARE_USERNAME)
         ui.passwordEdit->setText("");
 }
