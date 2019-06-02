@@ -371,12 +371,10 @@ Each of the items in the dialog are explained here:
         - Each user in your channel will have a separate audio file
           every time the person starts talking.
 - **Audio file format**
-    - The file format to use for storing audio files. By default only
-      Wave-format is support but if you download the LAME MP3 encoder
-      you can store to MP3 format by placing the *lame_enc.dll* file
-      in the same directory as the TeamTalk executable. lame_enc.dll
-      is not included in the TeamTalk distribution due to MP3
-      licensing.
+    - The file format to use for storing audio files. Choosing
+      ogg-format will store in the audio codec format selected by the
+      channel. The <a href="https://www.videolan.org">VLC
+      media player</a> can play ogg-format.
 - **Folder for audio files**
     - The file name for the audio files is generated automatically but the
       folder for storing the files has to be specified in this field.
