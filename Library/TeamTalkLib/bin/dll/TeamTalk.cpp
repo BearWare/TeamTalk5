@@ -2468,7 +2468,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
     GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
 
     clientuser_t user = pClientNode->GetUser(nUserID);
-    if(user.null() || user->GetDesktopSession().null())
+    if(user.null() || !user->GetDesktopSession())
         return FALSE;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -2501,7 +2501,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
 
     clientuser_t user = pClientNode->GetUser(nUserID);
     teamtalk::DesktopWindow wnd;
-    if(user.null() || user->GetDesktopSession().null())
+    if(user.null() || !user->GetDesktopSession())
         return FALSE;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -2838,7 +2838,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
         return NULL;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
-    if(viewer.null())
+    if (!viewer)
         return NULL;
 
     DesktopWindow* lpDesktopWindow = inst->PushDesktopWindow(viewer->GetBitmapSize());

@@ -41,6 +41,8 @@
 #include <codec/MediaUtil.h>
 #include <teamtalk/Common.h>
 
+#include <memory>
+
 #define GAIN_MAX 32000
 #define GAIN_NORMAL 1000
 #define GAIN_MIN 0
@@ -120,6 +122,6 @@ private:
     ACE_UINT32 m_tone_sample_index, m_tone_frequency;
 };
 
-typedef ACE_Strong_Bound_Ptr< AudioThread, ACE_Null_Mutex > audio_thread_t;
+typedef std::shared_ptr< AudioThread > audio_thread_t;
 
 #endif

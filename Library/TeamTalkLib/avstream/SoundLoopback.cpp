@@ -94,7 +94,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
                                                  output_channels,
                                                  output_samplerate);
 
-        if(m_capture_resampler.null())
+        if (!m_capture_resampler)
             return false;
 
         m_resample_buffer.resize(output_samples * output_channels);
@@ -159,7 +159,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     {
         m_capture_resampler = MakeAudioResampler(input_channels, samplerate,
                                                  channels, samplerate);
-        if(m_capture_resampler.null())
+        if (!m_capture_resampler)
             return false;
 
         m_resample_buffer.resize(samples * channels);
@@ -213,7 +213,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
 
     // if resampler is active then we first need to convert input
     // stream to output stream format
-    if(!m_capture_resampler.null())
+    if (m_capture_resampler)
     {
         assert(output_samples > 0);
 
@@ -308,7 +308,7 @@ void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& stream
     int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
 
     const short* tmp_input_buffer = input_buffer;
-    if(!m_capture_resampler.null())
+    if (m_capture_resampler)
     {
         int ret = m_capture_resampler->Resample(input_buffer, samples, 
                                                 &m_resample_buffer[0],

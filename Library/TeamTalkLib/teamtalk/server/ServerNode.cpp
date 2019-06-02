@@ -688,7 +688,7 @@ bool ServerNode::SendDesktopAckPacket(int userid)
     uint32_t time_ack;
     uint8_t session_id;
 
-    if(user.GetDesktopSession().null())
+    if (!user.GetDesktopSession())
     {
         //check current packet queue and ack
         const desktoppackets_t& session_q = user.GetDesktopSessionQueue();
@@ -767,7 +767,7 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
         return false;
 
     desktop_transmitter_t desktop_tx = dest_user->GetDesktopTransmitter(src_userid);
-    if(desktop_tx.null())
+    if (!desktop_tx)
         return false;
 
     serveruser_t src_user = GetUser(src_userid);
@@ -810,7 +810,7 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(src_user.GetDesktopSession().null())
+    if (!src_user.GetDesktopSession())
         return false;
     if((chan.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) &&
        !chan.IsOperator(src_user.GetUserID()) &&
@@ -828,7 +828,7 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
     //ensure existing desktop transmitter has finished and we're not trying to
     //transfer the same desktop update again
     desktop_transmitter_t dtx = dest_user.GetDesktopTransmitter(src_user.GetUserID());
-    if(!dtx.null())
+    if (dtx)
     {
         //don't start new until current has finished
         if(!dtx->Done())
@@ -839,15 +839,15 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
     }
 
     //resume desktop transmission (if already exists and done)
-    if(!dtx.null() && dtx->GetSessionID() == session_id)
+    if (dtx && dtx->GetSessionID() == session_id)
         dtx = dest_user.ResumeDesktopTransmitter(src_user, chan, desktop);
 
-    if(dtx.null())
+    if (!dtx)
     {
         dest_user.CloseDesktopTransmitter(src_user.GetUserID(), false);
         //start new transmitter
         dtx = dest_user.StartDesktopTransmitter(src_user, chan, desktop);
-        if(dtx.null())
+        if (!dtx)
             return false;
     }
     
@@ -2086,7 +2086,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     uint8_t prev_session_id = 0;
     uint32_t prev_update_id = 0;
     bool prev_session_ready = false;
-    if(!user.GetDesktopSession().null())
+    if (user.GetDesktopSession())
     {
         prev_session_id = user.GetDesktopSession()->GetSessionID();
         prev_update_id = user.GetDesktopSession()->GetCurrentDesktopTime();
@@ -2110,7 +2110,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     }
 
     //don't forward the desktop packet if no session is ready
-    if(user.GetDesktopSession().null())
+    if (!user.GetDesktopSession())
         return;
 
     DesktopCache& desktop = *user.GetDesktopSession();
@@ -2152,7 +2152,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     for(auto ui=users.begin();ui!=users.end();ui++)
     {
         desktop_transmitter_t dtx = (*ui)->GetDesktopTransmitter(user.GetUserID());
-        if(!dtx.null())
+        if (dtx)
         {
             timer_userdata tm_data;
             tm_data.dest_userid = (*ui)->GetUserID();
@@ -2214,7 +2214,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
         return;
 
     desktop_transmitter_t dtx = user.GetDesktopTransmitter(owner_userid);
-    if(dtx.null())
+    if (!dtx)
     {
         //Check for ACK to a NAK (closed desktop session with timer active)
         ClosedDesktopSession old_session;
@@ -2227,7 +2227,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
         }
     }
 
-    if(dtx.null() || dtx->GetSessionID() != session_id)
+    if (!dtx || dtx->GetSessionID() != session_id)
     {
         DesktopNakPacket nak_pkt(owner_userid, upd_time, session_id);
         nak_pkt.SetChannel(chan.GetChannelID());
@@ -2300,7 +2300,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
         if(!src_user.null())
         {
             desktop_cache_t desktop = src_user->GetDesktopSession();
-            if(!desktop.null())
+            if (desktop)
                 StartDesktopTransmitter(*src_user, user, chan);
         }
     }
@@ -2338,7 +2338,7 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
     ServerChannel& chan = *tmp_chan;
 
     desktop_cache_t desktop = user.GetDesktopSession();
-    if(!desktop.null() && desktop->GetSessionID() == packet.GetSessionID())
+    if (desktop && desktop->GetSessionID() == packet.GetSessionID())
     {
         user.CloseDesktopSession();
         MYTRACE(ACE_TEXT("Close desktop session %d for user #%d\n"),
@@ -2416,7 +2416,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
         return;
 
     desktop_cache_t session = user.GetDesktopSession();
-    if(session.null() || session->GetSessionID() != session_id)
+    if (!session || session->GetSessionID() != session_id)
         return;
 
     //throw away packet if a newer one has already arrived
@@ -2482,7 +2482,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
     
     //throw away desktop input if it's not the current session
     desktop_cache_t session = destuser->GetDesktopSession();
-    if(session.null() || session->GetSessionID() != packet.GetSessionID())
+    if (!session || session->GetSessionID() != packet.GetSessionID())
         return;
 
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet,
@@ -2956,7 +2956,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     //start active desktop transmissions
     for(size_t i=0;i<users.size();i++)
     {
-        if(!users[i]->GetDesktopSession().null() && 
+        if (users[i]->GetDesktopSession() && 
            (user->GetSubscriptions(*users[i]) & SUBSCRIBE_DESKTOP))
         {
             //Start delayed timers for desktop transmission, so the new 
@@ -3603,7 +3603,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
             {
                 serveruser_t src_user = GetUser(*ii);
                 //TTASSERT(!src_user.null()); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
-                if(src_user.null() || src_user->GetDesktopSession().null())
+                if(src_user.null() || !src_user->GetDesktopSession())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
                 for(size_t i=0;i<users.size();i++)
@@ -4010,7 +4010,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
         user->DoUpdateUser(*subscriptuser);
 
     //if active desktop then start it
-    if(!subscriptuser->GetDesktopSession().null() &&
+    if (subscriptuser->GetDesktopSession() &&
         subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP))
     {
         serverchannel_t chan = subscriptuser->GetChannel();

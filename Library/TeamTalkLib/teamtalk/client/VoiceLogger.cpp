@@ -330,7 +330,7 @@ void VoiceLog::WritePacket(int packet_no)
     case CODEC_SPEEX_VBR :
 #if defined(ENABLE_SPEEX)
         TTASSERT(m_speexfile.get());
-        if(!m_speexfile.null())
+        if (m_speexfile)
         {
             int pos = 0;
             for(size_t i=0;i<frame_sizes.size();i++)
@@ -346,7 +346,7 @@ void VoiceLog::WritePacket(int packet_no)
     case CODEC_OPUS :
 #if defined(ENABLE_OPUSTOOLS)
         TTASSERT(m_opusfile.get());
-        if(!m_opusfile.null())
+        if (m_opusfile)
         {
             int pos = 0;
             for(size_t i=0;i<frame_sizes.size();i++)

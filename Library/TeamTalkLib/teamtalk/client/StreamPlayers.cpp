@@ -66,7 +66,7 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
     if(GetAudioCodecSimulateStereo(m_codec))
         input_channels = 2;
     int input_samples = GetAudioCodecCbSamples(m_codec);
-    if(!m_resampler.null())
+    if (m_resampler)
         m_resample_buffer.resize(input_samples*input_channels);
 
     SetAudioBufferSize(DEFAULT_BUF_MSEC);
@@ -121,7 +121,7 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
         //try to reassemble
         ptr_audpkt = ReassembleAudioPacket(ii->second, m_codec);
 
-        if(ptr_audpkt.null())
+        if (!ptr_audpkt)
             return ptr_audpkt;//couldn't reassemble
 
         //erase what we reassembled
@@ -180,7 +180,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     short* tmp_output_buffer;
     bool played;
-    if(!m_resampler.null())
+    if (m_resampler)
         tmp_output_buffer = &m_resample_buffer[0];
     else
         tmp_output_buffer = output_buffer;
@@ -248,7 +248,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     }
     else m_current_samples_played = 0;
 
-    if(!m_resampler.null())
+    if (m_resampler)
     {
         int ret = m_resampler->Resample(tmp_output_buffer, input_samples,
                                         output_buffer, output_samples);

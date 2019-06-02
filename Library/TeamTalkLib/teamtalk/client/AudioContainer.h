@@ -26,12 +26,12 @@
 
 #include <ace/Singleton.h>
 #include <ace/Message_Queue.h>
-#include <ace/Bound_Ptr.h>
 
 #include <ace/Recursive_Thread_Mutex.h>
 
 #include <set>
 #include <map>
+#include <memory>
 
 struct RawAudio
 {
@@ -77,7 +77,7 @@ public:
     void ReleaseAllAudio(int sndgrpid);
 
 private:
-    typedef ACE_Strong_Bound_Ptr< ACE_Message_Queue<ACE_MT_SYNCH>, ACE_Null_Mutex > msg_queue_t;
+    typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > msg_queue_t;
     typedef std::map<ACE_UINT64, msg_queue_t> audiostore_t;
     audiostore_t m_container;
     ACE_Recursive_Thread_Mutex m_store_mtx;

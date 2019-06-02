@@ -27,7 +27,6 @@
 #include <ace/Task.h>
 #include <ace/Singleton.h>
 #include <ace/Message_Queue.h>
-#include <ace/Bound_Ptr.h> 
 #include <ace/Recursive_Thread_Mutex.h>
 #include <codec/WaveFile.h>
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -82,7 +81,7 @@ private:
     bool SetupFileEncode(const ACE_TString& filename, 
                          const teamtalk::AudioCodec& codec);
 
-    typedef ACE_Strong_Bound_Ptr< ACE_Message_Queue<ACE_MT_SYNCH>, ACE_Null_Mutex > message_queue_t;
+    typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
 
     typedef std::map<int, message_queue_t> user_audio_queue_t;
     user_audio_queue_t m_audio_queue;
@@ -108,6 +107,6 @@ private:
 #endif
 };
 
-typedef ACE_Strong_Bound_Ptr< AudioMuxer, ACE_Null_Mutex > audiomuxer_t;
+typedef std::shared_ptr< AudioMuxer > audiomuxer_t;
 
 #endif

@@ -26,6 +26,8 @@
 
 #include "SoundSystem.h"
 
+#include <memory>
+
 namespace soundsystem {
 
     void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples);
@@ -165,10 +167,10 @@ namespace soundsystem {
     class SoundSystemBase : public SoundSystem
     {
     public:
-        typedef ACE_Strong_Bound_Ptr < SOUNDGROUP, ACE_MT_SYNCH::RECURSIVE_MUTEX > soundgroup_t;
-        typedef ACE_Strong_Bound_Ptr < INPUTSTREAMER, ACE_MT_SYNCH::RECURSIVE_MUTEX > inputstreamer_t;
-        typedef ACE_Strong_Bound_Ptr < OUTPUTSTREAMER, ACE_MT_SYNCH::RECURSIVE_MUTEX > outputstreamer_t;
-        typedef ACE_Strong_Bound_Ptr < DUPLEXSTREAMER, ACE_MT_SYNCH::RECURSIVE_MUTEX > duplexstreamer_t;
+        typedef std::shared_ptr < SOUNDGROUP > soundgroup_t;
+        typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
+        typedef std::shared_ptr < OUTPUTSTREAMER > outputstreamer_t;
+        typedef std::shared_ptr < DUPLEXSTREAMER > duplexstreamer_t;
 
         //sndgrpid -> SoundGroup
         typedef std::map<int, soundgroup_t> soundgroups_t;
@@ -333,7 +335,7 @@ namespace soundsystem {
         sounddevices_t m_sounddevs;
         ACE_Recursive_Thread_Mutex m_devs_lock;
 
-        typedef ACE_Strong_Bound_Ptr<StreamCaller, ACE_MT_SYNCH::RECURSIVE_MUTEX> streamcallback_t;
+        typedef std::shared_ptr <StreamCaller> streamcallback_t;
         typedef std::map<SoundStreamer*, streamcallback_t> streamcallbacks_t;
         streamcallbacks_t m_nodev_streams;
         ACE_Recursive_Thread_Mutex m_nodev_lock;
@@ -347,7 +349,7 @@ namespace soundsystem {
                 sndgrpid++;
 
             soundgroup_t sg = NewSoundGroup();
-            if(sg.null())
+            if(!sg)
                 return 0;
 
             m_sndgrps[sndgrpid] = sg;
@@ -358,7 +360,7 @@ namespace soundsystem {
         {
             wguard_t g(sndgrp_lock());
             soundgroup_t sg = GetSoundGroup(sndgrpid);
-            if(!sg.null())
+            if(sg)
                 RemoveSoundGroup(sg);
             m_sndgrps.erase(sndgrpid);
         }
@@ -378,7 +380,7 @@ namespace soundsystem {
                 streamer = NewStream(capture, inputdeviceid, sndgrpid, 
                                      samplerate, channels, framesize);
 
-            if(streamer.null())
+            if (!streamer)
                 return false;
             
             wguard_t g(capture_lock());
@@ -401,7 +403,7 @@ namespace soundsystem {
         bool CloseInputStream(StreamCapture* capture)
         {
             inputstreamer_t streamer = GetStream(capture);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             if(streamer->IsVirtual())
@@ -434,7 +436,7 @@ namespace soundsystem {
             else
                 streamer = NewStream(player, outputdeviceid, sndgrpid, 
                                      samplerate, channels, framesize);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             wguard_t g(players_lock());
@@ -445,7 +447,7 @@ namespace soundsystem {
         bool CloseOutputStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             if(streamer->IsVirtual())
@@ -467,7 +469,7 @@ namespace soundsystem {
         bool StartStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return false;
             
             if(streamer->IsVirtual())
@@ -480,7 +482,7 @@ namespace soundsystem {
         bool StopStream(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return false;
             
             if(streamer->IsVirtual())
@@ -493,7 +495,7 @@ namespace soundsystem {
         bool IsStreamStopped(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return true; //non-existing stream is same as stopped
 
             if(streamer->IsVirtual())
@@ -532,7 +534,7 @@ namespace soundsystem {
                                     output_channels, framesize);
             }
 
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             wguard_t g(duplex_lock());
@@ -553,7 +555,7 @@ namespace soundsystem {
         bool CloseDuplexStream(StreamDuplex* duplex)
         {
             duplexstreamer_t streamer = GetStream(duplex);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             if(streamer->IsVirtual())
@@ -577,7 +579,7 @@ namespace soundsystem {
                                    StreamPlayer* player)
         {
             duplexstreamer_t streamer = GetStream(duplex);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             outputstreamer_t newstreamer(new OUTPUTSTREAMER(player, 
@@ -606,7 +608,7 @@ namespace soundsystem {
                                       StreamPlayer* player)
         {
             duplexstreamer_t streamer = GetStream(duplex);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             wguard_t g2(streamer->players_mtx);
@@ -634,7 +636,7 @@ namespace soundsystem {
 
             {
                 soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-                if(sndgrp.null())
+                if (!sndgrp)
                     return false;
                 sndgrp->mastervolume = volume;
             }
@@ -644,7 +646,7 @@ namespace soundsystem {
             for(size_t i=0;i<players.size();i++)
             {
                 outputstreamer_t streamer = GetStream(players[i]);
-                if(!streamer.null())
+                if (streamer)
                     SetVolume(players[i], streamer->volume);
             }
             return true;
@@ -652,7 +654,7 @@ namespace soundsystem {
         virtual int GetMasterVolume(int sndgrpid)
         {
             soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-            if(sndgrp.null())
+            if (!sndgrp)
                 return VOLUME_MIN;
             return sndgrp->mastervolume;
         }
@@ -665,7 +667,7 @@ namespace soundsystem {
         virtual bool IsAllMute(int sndgrpid)
         {
             soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-            if(sndgrp.null())
+            if (!sndgrp)
                 return false;
             
             return sndgrp->muteall;
@@ -674,7 +676,7 @@ namespace soundsystem {
         virtual bool MuteAll(int sndgrpid, bool mute)
         {
             soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
-            if(sndgrp.null())
+            if (!sndgrp)
                 return false;
             sndgrp->muteall = mute;
 
@@ -683,7 +685,7 @@ namespace soundsystem {
             for(size_t i=0;i<players.size();i++)
             {
                 outputstreamer_t streamer = GetStream(players[i]);
-                if(!streamer.null() && !mute)
+                if (streamer && !mute)
                     SetVolume(players[i], streamer->volume);
             }
 
@@ -789,7 +791,7 @@ namespace soundsystem {
                 volume = VOLUME_MIN;
 
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return;
 
             streamer->volume = volume;
@@ -806,7 +808,7 @@ namespace soundsystem {
         virtual int GetVolume(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return VOLUME_MIN;
 
             return streamer->volume;
@@ -821,7 +823,7 @@ namespace soundsystem {
         virtual void SetMute(StreamPlayer* player, bool mute)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return;
 
             if(mute)
@@ -837,7 +839,7 @@ namespace soundsystem {
         virtual bool IsMute(StreamPlayer* player)
         {
             outputstreamer_t streamer = GetStream(player);
-            if(streamer.null())
+            if (!streamer)
                 return false;
 
             return streamer->mute;

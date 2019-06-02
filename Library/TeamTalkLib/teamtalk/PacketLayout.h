@@ -25,8 +25,6 @@
 #define PACKETLAYOUT_H
 
 #include <ace/ACE.h>
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <vector>
 #include <memory>
 #include <map>
@@ -525,7 +523,7 @@ namespace teamtalk {
         
     };
 
-    typedef ACE_Strong_Bound_Ptr< KeepAlivePacket, ACE_Null_Mutex > ka_mtu_packet_t;
+    typedef std::shared_ptr< KeepAlivePacket > ka_mtu_packet_t;
 
 
     /* The number of byes in a typical CBR AudioPacket (including FieldPacket).
@@ -617,7 +615,7 @@ namespace teamtalk {
                             uint8_t& frag_no, uint8_t* frag_cnt) const;
     };
 
-    typedef ACE_Strong_Bound_Ptr< AudioPacket, ACE_Null_Mutex > audiopacket_t;
+    typedef std::shared_ptr< AudioPacket > audiopacket_t;
 
     typedef AudioPacket VoicePacket;
     typedef AudioPacket AudioFilePacket;
@@ -689,7 +687,7 @@ namespace teamtalk {
     typedef VideoPacket VideoCapturePacket;
     typedef VideoPacket VideoFilePacket;
 
-    typedef ACE_Strong_Bound_Ptr< VideoPacket, ACE_Null_Mutex > videopacket_t;
+    typedef std::shared_ptr< VideoPacket > videopacket_t;
     
     //desktop block with pointer to data
     struct desktop_block
@@ -794,7 +792,7 @@ namespace teamtalk {
         };
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopPacket, ACE_Null_Mutex > desktoppacket_t;
+    typedef std::shared_ptr< DesktopPacket > desktoppacket_t;
 
     //Calc the size of fields used
 #define DESKTOPPACKET_SESSIONUSAGE(new_session)                                 \
@@ -979,7 +977,7 @@ namespace teamtalk {
         };
     };
 
-    typedef ACE_Strong_Bound_Ptr< DesktopInputPacket, ACE_Null_Mutex > desktopinput_pkt_t;
+    typedef std::shared_ptr< DesktopInputPacket > desktopinput_pkt_t;
 
     class DesktopInputAckPacket : public FieldPacket
     {
