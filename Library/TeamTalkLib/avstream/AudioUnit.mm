@@ -59,6 +59,9 @@ static OSStatus AudioMuxedCallback(void *userData, AudioUnitRenderActionFlags *a
 
 namespace soundsystem {
 
+    typedef SoundSystemBase< SoundGroup, struct AUInputStreamer,
+                             struct AUOutputStreamer, struct AUDuplexStreamer > AudUnitBase;
+
     struct AUInputStreamer : InputStreamer
     {
         msg_queue_t samples_queue;
@@ -73,7 +76,6 @@ namespace soundsystem {
         }
     };
 
-    typedef ACE_Strong_Bound_Ptr < struct AUOutputStreamer, ACE_MT_SYNCH::RECURSIVE_MUTEX > outputstreamer_t;
     struct AUOutputStreamer : public OutputStreamer
     {
         AudioUnit audunit;
@@ -81,7 +83,7 @@ namespace soundsystem {
         
         msg_queue_t samples_queue;
 
-        std::vector<outputstreamer_t> streamers;
+        std::vector<AudUnitBase::outputstreamer_t> streamers;
         ACE_Recursive_Thread_Mutex streamers_mtx;
 
         AUOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys)
@@ -170,7 +172,7 @@ bool EnableSpeakerOutput(bool enable)
 }
 #endif /* TARGET_IPHONE_SIMULATOR */
 
-    class AudUnit : public SoundSystemBase< SoundGroup, AUInputStreamer, AUOutputStreamer, AUDuplexStreamer >
+    class AudUnit : public AudUnitBase
     {
         typedef std::vector<outputstreamer_t> muxed_streamers_t;
         muxed_streamers_t m_muxed_streamers;
@@ -575,8 +577,8 @@ assert(status == noErr);
         {
             // retrieve shared player among all streams
             wguard_t g(m_mux_lock);
-            outputstreamer_t muxed = GetMuxedStreamer(*streamer);
-            if (!muxed.null())
+            outputstreamer_t muxed = GetMuxedStreamer(streamer);
+            if (muxed)
             {
                 wguard_t g(muxed->streamers_mtx);
                 // add to muxed playback
@@ -696,18 +698,18 @@ assert(status == noErr);
 
             // remove from shared streamers
             wguard_t g(m_mux_lock);
-            outputstreamer_t muxed = GetMuxedStreamer(*streamer);
-            if (!muxed.null())
+            outputstreamer_t muxed = GetMuxedStreamer(streamer);
+            if (muxed)
             {
                 wguard_t g2(muxed->streamers_mtx);
                 auto i = std::find(muxed->streamers.begin(), muxed->streamers.end(), streamer);
-                if(i != muxed->streamers.end())
+                if (i != muxed->streamers.end())
                     muxed->streamers.erase(i);
 
                 if (muxed->streamers.empty())
                 {
                     i = std::find(m_muxed_streamers.begin(), m_muxed_streamers.end(), muxed);
-                    if(i != m_muxed_streamers.end())
+                    if (i != m_muxed_streamers.end())
                         m_muxed_streamers.erase(i);
                     audunit = muxed->audunit;
                 }
@@ -771,16 +773,16 @@ assert(status == noErr);
             return !streamer->playing;
         }
 
-        outputstreamer_t GetMuxedStreamer(const AUOutputStreamer& streamer)
+        outputstreamer_t GetMuxedStreamer(const outputstreamer_t& streamer)
         {
             // assumes 'm_mux_lock' has already been acquired.
             muxed_streamers_t::const_iterator i = m_muxed_streamers.begin();
             for(;i!=m_muxed_streamers.end();++i)
             {
-                if (streamer.sndgrpid == (*i)->sndgrpid &&
-                    streamer.samplerate == (*i)->samplerate &&
-                    streamer.framesize == (*i)->framesize &&
-                    streamer.channels == (*i)->channels)
+                if (streamer->sndgrpid == (*i)->sndgrpid &&
+                    streamer->samplerate == (*i)->samplerate &&
+                    streamer->framesize == (*i)->framesize &&
+                    streamer->channels == (*i)->channels)
                 {
                     return *i;
                 }
