@@ -74,11 +74,11 @@ ClientUser::ClientUser(int userid, ClientNode* clientnode,
 
 ClientUser::~ClientUser()
 {
-    TTASSERT(m_voice_player.null());
-    TTASSERT(m_audiofile_player.null());
+    TTASSERT(!m_voice_player);
+    TTASSERT(!m_audiofile_player);
 #if defined(ENABLE_VPX)
-    TTASSERT(m_videofile_player.null());
-    TTASSERT(m_vidcap_player.null());
+    TTASSERT(!m_videofile_player);
+    TTASSERT(!m_vidcap_player);
 #endif
     ResetAllStreams();
 }
@@ -118,7 +118,7 @@ void ClientUser::SetChannel(clientchannel_t& chan)
 
 int ClientUser::TimerMonitorVoicePlayback()
 {
-    if(m_voice_player.null())
+    if (!m_voice_player)
         return -1;
 
     bool talking = m_voice_player->IsTalking();
@@ -151,7 +151,7 @@ int ClientUser::TimerMonitorVoicePlayback()
 
 int ClientUser::TimerMonitorAudioFilePlayback()
 {
-    if(m_audiofile_player.null())
+    if (!m_audiofile_player)
         return -1;
 
     bool active = m_audiofile_player->IsTalking();
@@ -182,7 +182,7 @@ int ClientUser::TimerMonitorAudioFilePlayback()
 int ClientUser::TimerMonitorVideoFilePlayback()
 {
 #if defined(ENABLE_VPX)
-    if(m_videofile_player.null())
+    if (!m_videofile_player)
         return -1;
 
     if(W32_GEQ(GETTIMESTAMP(), m_videofile_player->GetLastTimeStamp() +
@@ -254,9 +254,9 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     //store time of packet for later use
     UpdateLastTimeStamp(audpkt);
 
-    if(m_voice_player.null())
+    if (!m_voice_player)
         LaunchVoicePlayer(chan->GetAudioCodec(), sndprop);
-    if(m_voice_player.null())
+    if (!m_voice_player)
         return;
 
     assert(m_voice_player->GetAudioCodec() == chan->GetAudioCodec());
@@ -309,9 +309,9 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     //store time of packet for later use
     UpdateLastTimeStamp(audpkt);
 
-    if(m_audiofile_player.null())
+    if (!m_audiofile_player)
         LaunchAudioFilePlayer(chan->GetAudioCodec(), sndprop);
-    if(m_audiofile_player.null())
+    if (!m_audiofile_player)
         return;
 
     bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING);
@@ -342,15 +342,15 @@ void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
 
 #if defined(ENABLE_VPX)
     bool new_vidframe = false;
-    if(!m_vidcap_player.null() &&
+    if (m_vidcap_player &&
        p.GetStreamID() == m_vidcap_player->GetStreamID())
     {
         new_vidframe = m_vidcap_player->AddPacket(p);
     }
-    else if((!m_vidcap_player.null() &&
+    else if ((m_vidcap_player &&
              p.GetStreamID() != m_vidcap_player->GetStreamID() &&
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
-            (m_vidcap_player.null() && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
+            (!m_vidcap_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
         WebMPlayer* webm_player;
         ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
@@ -391,16 +391,16 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
     bool new_vidframe = false;
     uint8_t stream_id = 0;
     //check if new
-    if(!m_videofile_player.null() &&
+    if (m_videofile_player &&
        p.GetStreamID() == m_videofile_player->GetStreamID())
     {
         new_vidframe = m_videofile_player->AddPacket(p);
         stream_id = m_videofile_player->GetStreamID();
     }
-    else if((!m_videofile_player.null() &&
+    else if ((m_videofile_player &&
              p.GetStreamID() != m_videofile_player->GetStreamID() &&
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
-            (m_videofile_player.null() && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
+            (!m_videofile_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
         WebMPlayer* webm_player;
         ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
@@ -425,7 +425,7 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
 
     if(new_vidframe)
     {
-        if(!m_audiofile_player.null() &&
+        if (m_audiofile_player &&
            GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO))
         {
             if(m_audiofile_player->GetPlayedPacketNo())
@@ -810,12 +810,12 @@ void ClientUser::SetPlaybackStoppedDelay(StreamType stream_type, int msec)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        if(!m_voice_player.null())
+        if (m_voice_player)
             m_voice_player->SetStoppedTalkingDelay((uint32_t)msec);
         m_voice_stopped_delay = msec;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
             m_audiofile_player->SetStoppedTalkingDelay((uint32_t)msec);
         m_audiofile_stopped_delay = msec;
         break;
@@ -843,12 +843,12 @@ void ClientUser::SetVolume(StreamType stream_type, int volume)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        if(!m_voice_player.null())
+        if (m_voice_player)
             SOUNDSYSTEM->SetVolume(m_voice_player.get(), volume);
         m_voice_volume = volume;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
             SOUNDSYSTEM->SetVolume(m_audiofile_player.get(), volume);
         m_audiofile_volume = volume;
         break;
@@ -876,12 +876,12 @@ void ClientUser::SetMute(StreamType stream_type, bool mute)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        if(!m_voice_player.null())
+        if (m_voice_player)
             SOUNDSYSTEM->SetMute(m_voice_player.get(), mute);
         m_voice_mute = mute;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
             SOUNDSYSTEM->SetMute(m_audiofile_player.get(), mute);
         m_audiofile_mute = mute;
         break;
@@ -909,7 +909,7 @@ void ClientUser::SetPosition(StreamType stream_type, float x, float y, float z)
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        if(!m_voice_player.null())
+        if (m_voice_player)
         {
             SOUNDSYSTEM->SetPosition(m_voice_player.get(), x, y, z);
             SOUNDSYSTEM->SetAutoPositioning(m_voice_player.get(), false);
@@ -919,7 +919,7 @@ void ClientUser::SetPosition(StreamType stream_type, float x, float y, float z)
         m_voice_position[2] = z;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
         {
             SOUNDSYSTEM->SetPosition(m_audiofile_player.get(), x, y, z);
             SOUNDSYSTEM->SetAutoPositioning(m_audiofile_player.get(), false);
@@ -964,7 +964,7 @@ void ClientUser::SetStereo(StreamType stream_type, bool left, bool right)
             m_voice_stereo |= STEREO_LEFT;
         if(right)
             m_voice_stereo |= STEREO_RIGHT;
-        if(!m_voice_player.null())
+        if (m_voice_player)
             m_voice_player->SetStereoMask(m_voice_stereo);
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
@@ -973,7 +973,7 @@ void ClientUser::SetStereo(StreamType stream_type, bool left, bool right)
             m_audiofile_stereo |= STEREO_LEFT;
         if(right)
             m_audiofile_stereo |= STEREO_RIGHT;
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
             m_audiofile_player->SetStereoMask(m_audiofile_stereo);
         break;
     default :
@@ -1012,7 +1012,7 @@ void ClientUser::ResetAudioPlayers(bool reset_snderr)
 
 void ClientUser::ResetVoicePlayer()
 {
-    if(m_voice_player.null())
+    if (!m_voice_player)
         return;
 
     bool talking = IsAudioActive(STREAMTYPE_VOICE);
@@ -1044,7 +1044,7 @@ void ClientUser::ResetVoicePlayer()
 
 void ClientUser::ResetAudioFilePlayer()
 {
-    if(m_audiofile_player.null())
+    if (!m_audiofile_player)
         return;
 
     bool active = IsAudioActive(STREAMTYPE_MEDIAFILE_AUDIO);
@@ -1207,11 +1207,11 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,
                                    const struct SoundProperties& sndprop)
 {
-    TTASSERT(m_voice_player.null());
-    if(!m_voice_player.null())
+    TTASSERT(!m_voice_player);
+    if (m_voice_player)
         return false;
     m_voice_player = LaunchAudioPlayer(codec, sndprop, STREAMTYPE_VOICE);
-    if(m_voice_player.null())
+    if (!m_voice_player)
         return false;
 
     SetDirtyProps();
@@ -1235,12 +1235,12 @@ bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,
 bool ClientUser::LaunchAudioFilePlayer(const teamtalk::AudioCodec& codec,
                                        const SoundProperties& sndprop)
 {
-    TTASSERT(m_audiofile_player.null());
-    if(!m_audiofile_player.null())
+    TTASSERT(!m_audiofile_player);
+    if (m_audiofile_player)
         return false;
 
     m_audiofile_player = LaunchAudioPlayer(codec, sndprop, STREAMTYPE_MEDIAFILE_AUDIO);
-    if(m_audiofile_player.null())
+    if (!m_audiofile_player)
         return false;
 
     SetDirtyProps();
@@ -1286,7 +1286,7 @@ void ClientUser::SetDirtyProps()
 ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 {
 #if defined(ENABLE_VPX)
-    if(!m_vidcap_player.null())
+    if (m_vidcap_player)
     {
         //if(!m_voice_player.null() && GetMediaFileBufferSize() &&
         //   m_voice_player->GetPlayedPacketNo())
@@ -1308,7 +1308,7 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 bool ClientUser::GetVideoCaptureCodec(VideoCodec& codec) const
 {
 #if defined(ENABLE_VPX)
-    if(!m_vidcap_player.null())
+    if (m_vidcap_player)
     {
         codec = m_vidcap_player->GetVideoCodec();
         return true;
@@ -1321,7 +1321,7 @@ void ClientUser::CloseVideoCapturePlayer()
 {
 #if defined(ENABLE_VPX)
     //notify that we're closing video player
-    bool notify = !m_vidcap_player.null();
+    bool notify = m_vidcap_player.get() != nullptr;
     m_vidcap_player.reset();
 
     if(notify)
@@ -1335,9 +1335,9 @@ void ClientUser::CloseVideoCapturePlayer()
 ACE_Message_Block* ClientUser::GetVideoFileFrame()
 {
 #if defined(ENABLE_VPX)
-    if(!m_videofile_player.null())
+    if (m_videofile_player)
     {
-        if(!m_audiofile_player.null() && GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) &&
+        if (m_audiofile_player && GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) &&
            m_audiofile_player->GetPlayedPacketNo())
         {
             uint32_t audio_tm = m_audiofile_player->GetPlayedPacketTime();
@@ -1353,7 +1353,7 @@ ACE_Message_Block* ClientUser::GetVideoFileFrame()
 bool ClientUser::GetVideoFileCodec(VideoCodec& codec) const
 {
 #if defined(ENABLE_VPX)
-    if(!m_videofile_player.null())
+    if (m_videofile_player)
     {
         codec = m_videofile_player->GetVideoCodec();
         return true;
@@ -1366,7 +1366,7 @@ void ClientUser::CloseVideoFilePlayer()
 {
 #if defined(ENABLE_VPX)
     //notify that we're closing video player
-    bool notify = !m_videofile_player.null();
+    bool notify = m_videofile_player.get() != nullptr;
     m_videofile_player.reset();
 
     if(notify)
@@ -1568,12 +1568,12 @@ void ClientUser::SetAudioStreamBufferSize(StreamType stream_type, int msec)
     {
     case STREAMTYPE_VOICE :
         m_voice_buf_msec = msec;
-        if(!m_voice_player.null())
+        if (m_voice_player)
             m_voice_player->SetAudioBufferSize(msec);
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
         m_media_buf_msec = msec;
-        if(!m_audiofile_player.null())
+        if (m_audiofile_player)
             m_audiofile_player->SetAudioBufferSize(msec);
         break;
     default :

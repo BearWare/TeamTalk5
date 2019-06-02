@@ -48,6 +48,8 @@
 #include <avstream/AudioResampler.h>
 #include "VideoThread.h"
 
+#include <memory>
+
 #define STOPPED_TALKING_DELAY 500 //msec
 
 class AudioMuxer;
@@ -166,7 +168,7 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef ACE_Strong_Bound_Ptr< AudioPlayer, ACE_MT_SYNCH::RECURSIVE_MUTEX > audio_player_t;
+    typedef std::shared_ptr< AudioPlayer > audio_player_t;
 
 #if defined(ENABLE_SPEEX)
     class SpeexPlayer : public AudioPlayer
@@ -268,7 +270,7 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef ACE_Strong_Bound_Ptr< WebMPlayer, ACE_MT_SYNCH::RECURSIVE_MUTEX > webm_player_t;
+    typedef std::shared_ptr< WebMPlayer > webm_player_t;
 
 #endif /* ENABLE_VPX */
 }
