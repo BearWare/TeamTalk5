@@ -5,6 +5,9 @@
  * folder of the SDK. This DLL along its .NET wrapper DLL are required
  * when creating a TeamTalk project for .NET framework.
  *
+ * The TeamTalk DLL requires Windows 7/8/10 and comes for both 32 and
+ * 64-bit architecture.
+ *
  * The following sections explain how to set up the TeamTalk DLL so it
  * can be used in a .NET project.
  *

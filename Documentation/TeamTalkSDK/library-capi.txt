@@ -13,10 +13,9 @@
  *
  * @section ttdllwin TeamTalk DLL on Windows
  *
- * On Windows the TeamTalk DLL requires Windows XP/Vista/7/8 since it
- * uses Windows' Unicode API function. In other words it will not run
- * on Windows9x. The TeamTalk DLLs are available as both 32 and 64-bit
- * so ensure correct DLL is being used for the architecture.
+ * On Windows the TeamTalk DLL requires Windows 7/8/10. The TeamTalk
+ * DLLs are available as both 32 and 64-bit so ensure correct DLL is
+ * being used for the architecture.
  *
  * To access the TeamTalk API in a project the TeamTalk.h file must be
  * included. Prior to including the TeamTalk.h file the @c windows.h
@@ -40,10 +39,9 @@
  * On Linux the directory of the DLL (shared object) must be in the
  * @c LD_LIBRARY_PATH environment variable.
  *
- * The TeamTalk DLL has dependencies to ALSA so ensure the ALSA
- * packages (typically called libasound2) are installed. The TeamTalk
- * DLL for x86_64 also requires libopus, libspeex, libspeexdsp and
- * libvpx.
+ * The TeamTalk DLL has dependencies to ALSA and OpenSSL so ensure the
+ * dependencies are installed (typically called libasound2 and
+ * libssl).
  *
  * @section ttdllios TeamTalk DLL on iOS
  *

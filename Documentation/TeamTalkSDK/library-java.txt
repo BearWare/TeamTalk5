@@ -19,7 +19,7 @@
  * the TeamTalk JNI DLL:
  *
  * - @c dk.bearware.TeamTalk5
- *   - Valid for TeamTalk 5 Standard and Professional Edition
+ *   - Valid for TeamTalk 5 Standard Edition
  * - @c dk.bearware.TeamTalk5Pro
  *   - Valid for TeamTalk 5 Professional Edition
  * - @c dk.bearware.TeamTalk5Srv
