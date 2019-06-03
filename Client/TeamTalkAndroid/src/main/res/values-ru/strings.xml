@@ -90,6 +90,9 @@
     <string name="pref_summary_mute_speakers">Следует разрешить для избежания эхо-эффекта</string>
     <string name="pref_title_show_usernames">Показывать имена пользователей</string>
     <string name="pref_summary_show_usernames">Показывать имена пользователей вместо псевдонимов</string>
+    <string name="pref_title_bearwareid">Web-регистрация через BearWare.dk</string>
+    <string name="pref_summary_bearwareid">Настройка входа через учетную запись на BearWare.dk</string>
+
     <string name="pref_title_mediafile_volume">Громкость медиафайлов</string>
     <string name="pref_summary_mediafile_volume">Громкость воспроизведения медиафайлов относительно голоса</string>
     <string name="pref_title_speakerphone_checkbox">Громкая связь</string>
@@ -178,7 +181,7 @@
     <string name="err_retrieve_public_server_list">Не удалось получить список публичных серверов</string>
     <string name="err_send_text_message">Не удалось отослать текстовое сообщение</string>
     <string name="err_connection">Не удалось установить соединение</string>
-    <string name="err_facebooklogin">Не удалось зарегистрироваться в Facebook</string>
+    <string name="err_facebooklogin">Не удалось зарегистрироваться через Facebook</string>
     <string name="err_stream_media">Не удалось запустить трансляцию медиафайла</string>
 
     <string name="action_new_channel">Новый Канал</string>
@@ -198,7 +201,7 @@
     <string name="pref_title_authentication">Идентификация</string>
     <string name="pref_title_username">Имя Пользователя</string>
     <string name="pref_title_password">Пароль</string>
-    <string name="pref_title_facebook">Регистрация в Facebook</string>
+    <string name="pref_title_facebook">Регистрация через Facebook</string>
     <string name="pref_title_join_channel">Подключить Канал</string>
     <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
@@ -299,4 +302,16 @@
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
     <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
+
+    <string name="title_activity_web_login">Настройка web-регистрации</string>
+    <string name="weblogin_prop_title_bearwareid">Имя пользователя</string>
+    <string name="weblogin_prop_title_bearwarepasswd">Пароль</string>
+    <string name="weblogin_prop_title_login">Вход</string>
+    <string name="weblogin_prop_title_web_login_id">ID учетной записи на BearWare.dk</string>
+    <string name="weblogin_prop_title_create_web_login_id">Создать ID учетной записи на BearWare.dk</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Сбросить ID учетной записи на BearWare.dk</string>
+    <string name="text_bearwarelogin_success">%1$s Ваше имя пользователя %2$s подтверждено</string>
+    <string name="text_bearwarelogin_failed">Не удалось авторизовать имя пользователя %1$s</string>
+    <string name="text_weblogin_authfailure">Ошибка авторизации при входе через BearWare.dk</string>
+
 </resources>
