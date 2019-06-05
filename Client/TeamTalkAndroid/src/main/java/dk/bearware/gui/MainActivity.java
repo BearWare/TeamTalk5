@@ -81,6 +81,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -136,6 +140,7 @@ implements TeamTalkConnectionListener,
         OnItemClickListener, 
         OnItemLongClickListener, 
         OnMenuItemClickListener, 
+        SensorEventListener, 
         OnVoiceTransmissionToggleListener {
 
     /**
@@ -177,6 +182,8 @@ implements TeamTalkConnectionListener,
     NotificationManager notificationManager;
     WakeLock wakeLock;
     boolean restarting;
+    SensorManager mSensorManager;
+    Sensor mSensor;
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -221,6 +228,8 @@ implements TeamTalkConnectionListener,
             setTitle(serverName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         restarting = (savedInstanceState != null);
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -401,6 +410,7 @@ implements TeamTalkConnectionListener,
     @Override
     protected void onResume() {
         super.onResume();
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         if (audioIcons != null)
             audioIcons.release();
@@ -506,6 +516,7 @@ implements TeamTalkConnectionListener,
     protected void onDestroy() {
         super.onDestroy();
 
+        mSensorManager.unregisterListener(this);
         // Unbind from the service
         if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
@@ -529,6 +540,27 @@ implements TeamTalkConnectionListener,
             }
             else {
                 Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean proximity_sensor = prefs.getBoolean("proximity_sensor_checkbox", false);
+        if (proximity_sensor && (mConnection != null) && mConnection.isBound()) {
+            if (event.values[0] == 0) {
+                audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                audioManager.setSpeakerphoneOn(false);
+                ttservice.enableVoiceTransmission(true);
+            } else {
+                audioManager.setMode(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false)?
+                        AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+                audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false));
+                if (ttservice.isVoiceTransmissionEnabled())
+                    ttservice.enableVoiceTransmission(false);
             }
         }
     }
