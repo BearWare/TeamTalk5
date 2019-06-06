@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <language version="1.0">
     <item id="102">Průvodce nastavením programu TeamTalk</item>
     <item id="104">Od&amp;pojit\tF2</item>
@@ -382,7 +382,7 @@
     <item id="1412">Doplňkové nastavení zvuku</item>
     <item id="1413">Úroveň hlasitosti</item>
     <item id="1414">Minimalizovat/zobrazit</item>
-    <item id="1415">Momentálně uživatelů na serveru</item>
+    <item id="1415">Uživatelé na serveru</item>
     <item id="1416">Ukládání nahrávek</item>
     <item id="1417">Režim sdílení</item>
     <item id="1418">Formát zvukového souboru</item>
@@ -486,6 +486,7 @@
     <item id="1563">Přihlášení přes BearWare.dk slouží k ověření uživatele TeamTalku. Přihlašovací ID si můžete vytvořit na stránce BearWare.dk.</item>
     <item id="1564">Ověření</item>
     <item id="1565">&amp;Vytvořit</item>
+    <item id="1566">Ponechat na seznamu &amp;odpojené uživatele</item>
     <item id="32791">Jaká je moje &amp;IP adresa?</item>
     <item id="32798">Udělit právo &amp;operátora\tCTRL+O</item>
     <item id="32801">Zobrazovat &amp;upozornění a zprávy na kanálu\tF10</item>
