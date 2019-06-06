@@ -38,6 +38,7 @@
     <string name="pref_header_general">常规</string>
     <string name="pref_title_nickname">昵称</string>
     <string name="pref_default_nickname">无名</string>
+    <string name="pref_title_proximity_sensor">近距离传感器</string>
     <string name="pref_title_keep_screen_on">连接时保持屏幕开启</string>
     <string name="pref_title_vibrate">PTT 震动</string>
     <string name="pref_show_log_messages">在聊天记录中显示日志消息</string>
@@ -87,8 +88,11 @@
     <string name="pref_title_channel_leave">用户离开频道</string>
     <string name="pref_summary_channel_leave">播报离开频道用户的名字</string>
     <string name="pref_title_personal_message">私人消息</string>
+    <string name="pref_summary_personal_message">播报私人消息</string>
+    <string name="pref_title_channel_message">频道消息</string>
+    <string name="pref_summary_channel_message">播报频道消息</string>
     <string name="pref_title_broadcast_message">广播消息</string>
-    <string name="pref_summary_message">播报发送者的名字</string>
+    <string name="pref_summary_broadcast_message">播报广播消息</string>
     <string name="pref_title_mute_speakers">按下语音传输按钮时静音扬声器</string>
     <string name="pref_summary_mute_speakers">启用此选项可避免扬声器发出回声</string>
     <string name="pref_title_show_usernames">显示用户名</string>
@@ -109,8 +113,9 @@
     <string name="text_tts_loggedout">已退出</string>
     <string name="text_tts_joined_chan">加入频道</string>
     <string name="text_tts_left_chan">离开频道</string>
-    <string name="text_tts_personal_message">个人消息来自%1$s</string>
-    <string name="text_tts_broadcast_message">广播消息来自%1$s</string>
+    <string name="text_tts_personal_message">私人消息 %1$s. %2$s</string>
+    <string name="text_tts_channel_message">%1$s. %2$s</string>
+    <string name="text_tts_broadcast_message">广播消息： %1$s. %2$s</string>
     <string name="pref_header_soundsystem">声音系统</string>
     <string name="title_activity_audio_codec">音频编解码器</string>
     <string name="title_activity_filepicker">文件选择</string>
