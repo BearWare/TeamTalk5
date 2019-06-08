@@ -5,6 +5,11 @@
         android:key="tts_def"
         android:title="@string/pref_cat_tts">
         
+    <ListPreference
+        android:key="pref_speech_engine"
+        android:summary="@string/pref_summary_speech_engine"
+        android:title="@string/pref_title_speech_engine" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="server_login_checkbox"

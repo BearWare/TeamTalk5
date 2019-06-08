@@ -23,25 +23,67 @@
 
 package dk.bearware.data;
 
-import java.lang.reflect.Constructor;
-
 import android.content.Context;
+import android.os.Build;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.EngineInfo;
+import android.util.Log;
+import java.util.Collections;
+import java.util.List;
 
-public abstract class TTSWrapper {
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static TTSWrapper getInstance(Context context) {
-        try {
-            @SuppressWarnings("unused")
-            Class tts = Class.forName("android.speech.tts.TextToSpeech");
-            Class impl = Class.forName("dk.bearware.data.TTSWrapperImpl");
-            Constructor c = impl.getConstructor(Context.class);
-            return (TTSWrapper) c.newInstance(context);
-        } catch (Exception e) {
+public class TTSWrapper {
+    private static final String TAG = "bearware";
+    private static TextToSpeech tts;
+    public static final String defaultEngineName = "com.google.android.tts"; // should be got from getDefaultEngine method.
+    private Context mContext;
+    private String mCurrentEngineName = defaultEngineName;
+
+    public TTSWrapper(Context context) {
+        init(context);
+        tts = new TextToSpeech(context, null);
+    }
+
+    public TTSWrapper(Context context, String engineName) {
+        init(context);
+        tts = new TextToSpeech(context, null, engineName);
+        this.mCurrentEngineName = engineName;
+    }
+
+    private void init(Context context) {
+        this.mContext = context;
+    }
+
+    public void shutdown() {
+        if (tts == null) {
+            tts.shutdown();
+        }
+    }
+
+    public void speak(String text) {
+        if (tts != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+            } else {
+                tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+            }
+        }
+    }
+
+    public static List<EngineInfo> getEngines() {
+        if (tts != null) {
+            List<EngineInfo> spEngines = tts.getEngines();
+            return spEngines;
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public TTSWrapper switchEngine(String engineName) {
+        if (tts != null) {
+            return engineName.equals(this.mCurrentEngineName) ? this : new TTSWrapper(this.mContext, engineName);
+        } else {
             return null;
         }
     }
 
-    public abstract void shutdown();
-
-    public abstract void speak(String message);
 }
