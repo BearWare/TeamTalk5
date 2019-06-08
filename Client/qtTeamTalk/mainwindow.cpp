@@ -2233,8 +2233,6 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        playSoundEvent(SOUNDEVENT_CHANNELMSG);
-
         QString line;
         line = ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
@@ -2248,12 +2246,15 @@ void MainWindow::processTextMessage(const TextMessage& textmsg)
                 openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName));
             writeLogEntry(m_logChan, line);
         }
+
+        playSoundEvent(SOUNDEVENT_CHANNELMSG);
         break;
     }
     case MSGTYPE_BROADCAST :
         ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     case MSGTYPE_USER :
     {

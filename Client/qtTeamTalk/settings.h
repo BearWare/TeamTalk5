@@ -130,6 +130,7 @@
 #define SETTINGS_SOUNDEVENT_SERVERLOST              "soundevents/server-lost"
 #define SETTINGS_SOUNDEVENT_USERMSG                 "soundevents/user-msg"
 #define SETTINGS_SOUNDEVENT_CHANNELMSG              "soundevents/channel-msg"
+#define SETTINGS_SOUNDEVENT_BROADCASTMSG            "soundevents/broadcast-msg"
 #define SETTINGS_SOUNDEVENT_HOTKEY                  "soundevents/hotkey-pressed"
 #define SETTINGS_SOUNDEVENT_SILENCE                 "soundevents/channel-silent"
 #define SETTINGS_SOUNDEVENT_NEWVIDEO                "soundevents/new-video-session"
