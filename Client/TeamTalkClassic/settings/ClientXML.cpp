@@ -1889,6 +1889,16 @@ namespace teamtalk {
         return szDefPath;
     }
 
+    bool ClientXML::SetEventBroadcastMsg(const std::string& szPath)
+    {
+        SetValue("events/broadcastmessage", szPath);
+        return true;
+    }
+
+    std::string ClientXML::GetEventBroadcastMsg(std::string szDefPath)
+    {
+        return GetValue(true, "events/broadcastmessage", szDefPath);
+    }
 
     bool ClientXML::SetEventFilesUpd(const std::string& szPath)
     {

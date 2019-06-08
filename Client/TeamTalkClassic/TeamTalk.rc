@@ -2121,6 +2121,11 @@ BEGIN
     IDC_RADIO_QUESTION      "Question"
 END
 
+STRINGTABLE
+BEGIN
+    IDS_USER_BCASTMSG       "Broadcast text message"
+END
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

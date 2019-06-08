@@ -46,6 +46,7 @@
 #define DEFAULT_SOUNDEVENT_SERVERLOST               "Sounds\\serverlost.wav"
 #define DEFAULT_SOUNDEVENT_PTTHOTKEY                "Sounds\\hotkey.wav"
 #define DEFAULT_SOUNDEVENT_CHANTEXTMSG              "Sounds\\channel_msg.wav"
+#define DEFAULT_SOUNDEVENT_BCASTTEXTMSG              "Sounds\\broadcast_msg.wav"
 #define DEFAULT_SOUNDEVENT_FILESUPDATE              "Sounds\\fileupdate.wav"
 #define DEFAULT_SOUNDEVENT_FILETXCOMPLETE           "Sounds\\filetx_complete.wav"
 #define DEFAULT_SOUNDEVENT_VIDEOSESSION             "Sounds\\videosession.wav"
@@ -323,6 +324,9 @@ namespace teamtalk {
 
         bool SetEventChannelMsg(const std::string& szPath);
         std::string GetEventChannelMsg(std::string szDefPath = DEFAULT_SOUNDEVENT_CHANTEXTMSG);
+
+        bool SetEventBroadcastMsg(const std::string& szPath);
+        std::string GetEventBroadcastMsg(std::string szDefPath = DEFAULT_SOUNDEVENT_BCASTTEXTMSG);
 
         bool SetEventFilesUpd(const std::string& szPath);
         std::string GetEventFilesUpd(std::string szDefPath = DEFAULT_SOUNDEVENT_FILESUPDATE);

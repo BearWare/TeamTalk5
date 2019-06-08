@@ -269,6 +269,7 @@ enum SoundEvent
     SOUNDEVENT_USER_LEFT                    = 0x00000002,
     SOUNDEVENT_USER_TEXTMSG                 = 0x00000004,
     SOUNDEVENT_USER_CHANNEL_TEXTMSG         = 0x00000008,
+    SOUNDEVENT_USER_BROADCAST_TEXTMSG       = 0x00200000,
     SOUNDEVENT_USER_QUESTIONMODE            = 0x00000010,
     SOUNDEVENT_USER_DESKTOP_ACCESS          = 0x00000020,
     SOUNDEVENT_USER_VIDEOSESSION_NEW        = 0x00000040,
@@ -294,10 +295,13 @@ enum SoundEvent
     SOUNDEVENT_ME_ENABLE_VOICEACTIVATION    = 0x00080000,
     SOUNDEVENT_ME_DISABLE_VOICEACTIVATION   = 0x00100000,
 
+    SOUNDEVENT_MAX                          = SOUNDEVENT_USER_BROADCAST_TEXTMSG,
+
     SOUNDEVENT_DEFAULT                  = SOUNDEVENT_USER_JOIN |
                                           SOUNDEVENT_USER_LEFT |
                                           SOUNDEVENT_USER_TEXTMSG |
                                           SOUNDEVENT_USER_CHANNEL_TEXTMSG |
+                                          SOUNDEVENT_USER_BROADCAST_TEXTMSG |
                                           SOUNDEVENT_USER_QUESTIONMODE |
                                           SOUNDEVENT_USER_DESKTOP_ACCESS |
                                           SOUNDEVENT_USER_VIDEOSESSION_NEW |
