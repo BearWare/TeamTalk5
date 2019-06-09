@@ -3,30 +3,35 @@
 ----------------------------------------------
 Version 5.4, unreleased
 Default Qt client
-- Stream HTTP and HTTPS URLs instead of only files in Windows
+- Stream HTTP and HTTPS URLs instead of only files in Windows 10
 - Sort bans in Banned Users dialog
 - Sort user accounts in Users Accounts dialog
 - OPUS audio codec v1.3
 - Store audio in MP3 format on Windows
+- Sound event for broadcast message
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Accessible Windows client
-- Stream HTTP and HTTPS URLs instead of only files
+- Stream HTTP and HTTPS URLs instead of only files (Windows 10)
 - Online Users dialog now updates continuesly
 - Online Users dialog allows banning logged out users
 - OPUS audio codec v1.3
 - Romanian language
 - Indonesian language
 - Store audio in MP3 format
+- Sound event for broadcast message
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 iOS client
 - OPUS audio codec v1.3
+- Sound event for broadcast message
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Android client:
 - Minimum Android version is now 5.0
 - OPUS audio codec v1.3
+- Sound event for broadcast message
+- Proximity sensor can be used to toggle voice transmission
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
 Server
