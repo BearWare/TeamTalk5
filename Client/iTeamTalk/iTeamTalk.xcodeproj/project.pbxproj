@@ -46,6 +46,7 @@
 		25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25AA206D1BEBCA0A0089AD54 /* off.mp3 */; };
 		25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA014621557109003C836D /* TextToSpeechViewController.swift */; };
 		25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA014821557F48003C836D /* SoundEventsViewController.swift */; };
+		25D205E522ACCD260009F286 /* broadcast_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25D205E422ACCD260009F286 /* broadcast_message.mp3 */; };
 		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
 		25DE1FC01FADAAC800EA77D6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */; };
 		25DE1FC11FADAAC800EA77D6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */; };
@@ -135,6 +136,7 @@
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25BA014621557109003C836D /* TextToSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechViewController.swift; sourceTree = "<group>"; };
 		25BA014821557F48003C836D /* SoundEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEventsViewController.swift; sourceTree = "<group>"; };
+		25D205E422ACCD260009F286 /* broadcast_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = broadcast_message.mp3; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		25DE1FBE1FADAAC800EA77D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		25DE1FBF1FADAAC800EA77D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 		25E4DC2C1BF7291000EC5A8C /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				25D205E422ACCD260009F286 /* broadcast_message.mp3 */,
 				25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */,
 				254C08491C345E3700C98566 /* newuser.mp3 */,
 				25AA206D1BEBCA0A0089AD54 /* off.mp3 */,
@@ -395,6 +398,7 @@
 				254C084B1C345E3700C98566 /* newuser.mp3 in Resources */,
 				251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */,
 				254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */,
+				25D205E522ACCD260009F286 /* broadcast_message.mp3 in Resources */,
 				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
 				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
 				251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */,
