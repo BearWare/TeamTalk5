@@ -35,6 +35,7 @@
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
+    <string name="pref_title_proximity_sensor">Датчик приближения</string>
     <string name="pref_title_keep_screen_on">Не гасить экран при активном соединении</string>
     <string name="pref_title_vibrate">Виброотклик кнопки включения передачи</string>
     <string name="pref_show_log_messages">Показывать записи о событиях среди сообщений</string>
@@ -75,6 +76,8 @@
     <string name="pref_title_sub_mediafile">Медиафайлы</string>
     <string name="pref_summary_sub_mediafile">Подписаться на трансляции медиафайлов</string>
     <string name="pref_header_tts">Синтез Речи</string>
+    <string name="pref_title_speech_engine">Выбор синтезатора речи</string>
+    <string name="pref_summary_speech_engine">Выберите один из установленных в системе синтезаторов речи</string>
     <string name="pref_title_server_login">Вход пользователя на сервер</string>
     <string name="pref_summary_server_login">Объявлять имя входящего пользователя</string>
     <string name="pref_title_server_logout">Уход пользователя с сервера</string>
