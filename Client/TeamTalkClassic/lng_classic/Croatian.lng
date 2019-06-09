@@ -176,6 +176,11 @@
     <item id="313">Datoteka je dodana</item>
     <item id="314">Datoteka je uklonjena</item>
     <item id="315">Resetiraj</item>
+    <item id="316">BearWare.dk Web prijava</item>
+    <item id="317">Greška autentifikacije</item>
+    <item id="318">Ne mogu se povezati sa BearWare.dk Web Prijavom</item>
+    <item id="319">%s, Vaše korisničko ime je provjereno.</item>
+    <item id="320">Administracijska poruka</item>
     <item id="1009">Automatski se pridruži glavnom kanalu prilikom povezivanja</item>
     <item id="1012">TCP port hosta</item>
     <item id="1016">UDP port hosta</item>
@@ -587,4 +592,5 @@
     <item id="32951">Protjeraj i &amp;baniraj s kanala\tCtrl+B</item>
     <item id="32952">Banirani korisnici s kanala\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Nova instanca klijenta\tCtrl+N</item>
+    <item id="32954">&amp;Pripremi za premještanje\tCtrl+Alt+X</item>
 </language>
