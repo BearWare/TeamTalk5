@@ -58,7 +58,14 @@ class SoundEventsViewController : UITableViewController {
         chanmsgswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
         soundeventChanged(chanmsgswitch)
         soundevents_items.append(chanmsgcell)
-        
+
+        let bcastmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let bcastmsgswitch = newTableCellSwitch(bcastmsgcell, label: NSLocalizedString("Broadcast Text Message", comment: "preferences"), initial: getSoundFile(.broadcast_MSG) != nil, tag: Sounds.broadcast_MSG.rawValue)
+        bcastmsgcell.detailTextLabel!.text = NSLocalizedString("Play sound when broadcast text message is received", comment: "preferences")
+        bcastmsgswitch.addTarget(self, action: #selector(SoundEventsViewController.soundeventChanged(_:)), for: .valueChanged)
+        soundeventChanged(bcastmsgswitch)
+        soundevents_items.append(bcastmsgcell)
+
         let joinedchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let joinedchanswitch = newTableCellSwitch(joinedchancell, label: NSLocalizedString("User Joins Channel", comment: "preferences"), initial: getSoundFile(.joined_CHAN) != nil, tag: Sounds.joined_CHAN.rawValue)
         joinedchancell.detailTextLabel!.text = NSLocalizedString("Play sound when a user joins the channel", comment: "preferences")
@@ -116,6 +123,8 @@ class SoundEventsViewController : UITableViewController {
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_SERVERLOST)
         case Sounds.chan_MSG.rawValue :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_CHANMSG)
+        case Sounds.broadcast_MSG.rawValue :
+            defaults.set(sender.isOn, forKey: PREF_SNDEVENT_BCASTMSG)
         case Sounds.joined_CHAN.rawValue :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_JOINEDCHAN)
             

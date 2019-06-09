@@ -396,10 +396,18 @@ func getDisplayName(_ user: User) -> String {
 }
 
 enum Sounds : Int {
-    case tx_ON = 1, tx_OFF = 2, chan_MSG = 3,
-         user_MSG = 4, srv_LOST = 5, joined_CHAN = 6, left_CHAN = 7,
-        voxtriggered_ON = 8, voxtriggered_OFF = 9, transmit_ON = 10,
-        transmit_OFF = 11
+    case tx_ON = 1,
+         tx_OFF = 2,
+         chan_MSG = 3,
+         broadcast_MSG = 4,
+         user_MSG = 5,
+         srv_LOST = 6,
+         joined_CHAN = 7,
+         left_CHAN = 8,
+         voxtriggered_ON = 9,
+         voxtriggered_OFF = 10,
+         transmit_ON = 11,
+         transmit_OFF = 12
 }
 
 var player : AVAudioPlayer?
@@ -428,6 +436,11 @@ func getSoundFile(_ s: Sounds) -> String? {
         if settings.object(forKey: PREF_SNDEVENT_USERMSG) == nil ||
             settings.bool(forKey: PREF_SNDEVENT_USERMSG) {
                 return "user_message"
+        }
+    case .broadcast_MSG:
+        if settings.object(forKey: PREF_SNDEVENT_BCASTMSG) == nil ||
+            settings.bool(forKey: PREF_SNDEVENT_BCASTMSG) {
+            return "broadcast_message"
         }
     case .srv_LOST:
         if settings.object(forKey: PREF_SNDEVENT_SERVERLOST) == nil ||
