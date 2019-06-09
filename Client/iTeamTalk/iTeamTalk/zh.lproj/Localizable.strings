@@ -52,16 +52,16 @@
 "Announce lost server connection" = "播报丢失连接";
 
 /* preferences */
-"Announce user joining channel" = "播报用户加入频道";
+"Announce user joining channel" = "播报加入频道的用户";
 
 /* preferences */
-"Announce user leaving channel" = "播报用户离开频道";
+"Announce user leaving channel" = "播报离开频道的用户";
 
 /* preferences */
-"Announce user logged onto server" = "播报用户登录服务器";
+"Announce user logged onto server" = "播报登录服务器的用户";
 
 /* preferences */
-"Announce user logged out of server" = "播报用户退出服务器";
+"Announce user logged out of server" = "播报退出服务器的用户";
 
 /* text to speech */
 "Announcements" = "通知";
@@ -105,7 +105,7 @@
 "Broadcast Messages" = "广播消息";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "广播消息";
 
 /* channel list
    server entry */
@@ -360,7 +360,7 @@
 "Play sound when a user leaves the channel" = "用户离开频道时播放声音";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "收到广播消息时播放声音";
 
 /* preferences */
 "Play sound when channel text message is received" = "收到频道消息时播放声音";
