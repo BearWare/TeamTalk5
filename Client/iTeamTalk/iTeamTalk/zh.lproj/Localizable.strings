@@ -1,3 +1,4 @@
+
 /* log entry */
 "%@ joined channel" = "%@ 加入频道";
 
@@ -102,6 +103,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "广播消息";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -354,6 +358,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "用户离开频道时播放声音";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "收到频道消息时播放声音";
@@ -656,4 +663,3 @@
 
 /* speech */
 "You have selected %@" = "您已选择 %@";
-

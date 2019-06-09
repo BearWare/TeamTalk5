@@ -1,8 +1,12 @@
+
 /* log entry */
 "%@ joined channel" = "%@ Csatlakozott a csatornához";
 
 /* log entry */
 "%@ left channel" = "%@ elhagyta a csatornát";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Alapértelmezett";
@@ -77,6 +81,9 @@
 /* create channel */
 "Audio Codec" = "Audio Kodek";
 
+/* Web Login Controller */
+"Authenticate" = "Authenticate";
+
 /* server entry */
 "Authentication" = "Hitelesítés";
 
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "teljesszögű üzenetek";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -163,6 +173,9 @@
 
 /* channel list */
 "Edit properties" = "tulajdonságok szerkeztése";
+
+/* server entry */
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Jelszó Beírása";
@@ -342,6 +355,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Hang lejátszás csatorna elhagyáskor";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "Hang lejátszás mikor egy szövegüzenet érkezik";
@@ -588,6 +604,9 @@
    user detail */
 "Username" = "Felhasználónév";
 
+/* Web Login Controller */
+"Username or password incorrect" = "Username or password incorrect";
+
 /* preferences */
 "Version Information" = "Version Information";
 
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "hangvezérlő";
 
+/* Web Login controller */
+"Web Login ID" = "Web Login ID";
+
 /* preferences
    user detail */
 "WebCam" = "Webkamera";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "a %@ hangot választotta";
-

@@ -1,3 +1,6 @@
+bartycrouch:
+	bartycrouch update -x
+	bartycrouch lint -x
 
 genstrings:
 	genstrings -o Base.lproj/ *.swift
