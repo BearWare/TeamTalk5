@@ -21,16 +21,16 @@
 "4RU-K7-Yga.normalTitle" = "用户消息";
 
 /* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
-"5K7-Hd-4h7.title" = "Text To Speech Events";
+"5K7-Hd-4h7.title" = "文字转语音事件";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Login";
+"5YA-rx-tGz.normalTitle" = "登陆";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "文字转语音";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Create Web Login ID";
+"8Ls-H9-lri.normalTitle" = "创建 Web 登陆 ID";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "空白";
@@ -48,7 +48,7 @@
 "B8t-mo-k8g.text" = "空白";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Reset Web Login ID";
+"baE-IB-ajD.normalTitle" = "重置 Web 登陆 ID";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "连接";
@@ -57,7 +57,7 @@
 "BLM-fs-qcG.title" = "返回";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "Setup Sound Events";
+"bua-Pf-Vpn.text" = "设置声音事件";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
 "cGm-Jp-0zI.normalTitle" = "Speex 编解码器";
@@ -78,7 +78,7 @@
 "EHj-xt-HhD.text" = "空白";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Choose events to playback";
+"eJb-Cn-ciJ.text" = "选择播报的事件";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "空白";
@@ -87,7 +87,7 @@
 "gA8-TJ-0RU.title" = "聊天频道";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "BearWare.dk Web Login";
+"Hcv-zz-riB.text" = "BearWare.dk Web 登陆";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "双击展开频道选项";
@@ -105,10 +105,10 @@
 "kRp-LE-RFh.text" = "空白";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "Setup Sound Events";
+"Ksa-x9-2Mq.title" = "选择声音事件";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "Choose sounds events to play";
+"KsW-VX-Rtb.text" = "选择播放声音的事件";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "加入频道";
@@ -132,7 +132,7 @@
 "nVj-7w-Sta.text" = "空白";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "BearWare.dk Web Login";
+"o7z-cC-U4w.title" = "BearWare.dk Web 登陆";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "连接";
@@ -147,7 +147,7 @@
 "pQJ-c1-GEL.title" = "服务器列表";
 
 /* Class = "UILabel"; text = "Setup Annoucements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Setup Annoucements";
+"Q0w-pu-giG.text" = "设置播报事件";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "无声";
@@ -156,7 +156,7 @@
 "Rrg-2O-NzF.normalTitle" = "OPUS 编解码器";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID from BearWare.dk";
+"SmF-8J-cWK.text" = "BearWare.dk 的登陆 ID";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "空白";
