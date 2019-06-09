@@ -183,6 +183,11 @@
     <item id="313">文件已添加</item>
     <item id="314">文件已删除</item>
     <item id="315">重置</item>
+    <item id="316">BearWare.dk Web 登陆</item>
+    <item id="317">身份验证失败</item>
+    <item id="318">无法与 BearWare.dk Web 登陆 通讯</item>
+    <item id="319">%s, 您的用户名 ""%s"" 已通过验证。</item>
+    <item id="320">广播消息</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
     <item id="1016">主机UDP端口</item>
@@ -601,4 +606,5 @@
     <item id="32951">从频道踢出并禁止(&amp;C)\tCtrl+B</item>
     <item id="32952">频道已禁止用户(&amp;B)\tCtrl+Alt+Shift+B</item>
     <item id="32953">新建客户端实例(&amp;N)\tCtrl+N</item>
+    <item id="32954">存储移动(&amp;S)\tCtrl+Alt+X</item>
 </language>

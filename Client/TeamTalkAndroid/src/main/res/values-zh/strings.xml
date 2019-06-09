@@ -79,6 +79,8 @@
     <string name="pref_title_sub_mediafile">媒体文件</string>
     <string name="pref_summary_sub_mediafile">订阅媒体文件流</string>
     <string name="pref_header_tts">文字转语音</string>
+    <string name="pref_title_speech_engine">语音</string>
+    <string name="pref_summary_speech_engine">选择一个已安装的语音引擎，与系统设置不同</string>
     <string name="pref_title_server_login">用户登录服务器</string>
     <string name="pref_summary_server_login">播报登录用户的名字</string>
     <string name="pref_title_server_logout">用户退出服务器</string>
