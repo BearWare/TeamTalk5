@@ -31,8 +31,8 @@ transmit audio.
 
 - **BearWare.dk Web Login ID**
   - A BearWare.dk web login is required if a TeamTalk server specifies
-    that you must [log on with the username "bearware"](@ref
-    connectdlg). You can create a BearWare.dk web login by clicking
+    that you must [log on with the username \"bearware\"](@ref connectdlg).
+	You can create a BearWare.dk web login by clicking
     the *Activate* button.
 
 - **Set away status after...**
