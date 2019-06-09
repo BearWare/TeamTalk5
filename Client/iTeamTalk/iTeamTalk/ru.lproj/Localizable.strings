@@ -1,8 +1,12 @@
+
 /* log entry */
 "%@ joined channel" = "%@ подключился к каналу";
 
 /* log entry */
 "%@ left channel" = "%@ покинул канал";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
 
 /* preferences */
 "%d %% - Default" = "%d %% - По умолчанию";
@@ -77,6 +81,9 @@
 /* create channel */
 "Audio Codec" = "Аудио Кодек";
 
+/* Web Login Controller */
+"Authenticate" = "Authenticate";
+
 /* server entry */
 "Authentication" = "Аутентификация";
 
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Сетевые Сообщения";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -163,6 +173,9 @@
 
 /* channel list */
 "Edit properties" = "Редактировать свойства";
+
+/* server entry */
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Введите Пароль";
@@ -342,6 +355,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Воспроизводить звук, когда пользователь покидает канал";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "Воспроизводить звук, когда получено текстовое сообщение канала";
@@ -588,6 +604,9 @@
    user detail */
 "Username" = "Имя Пользователя";
 
+/* Web Login Controller */
+"Username or password incorrect" = "Username or password incorrect";
+
 /* preferences */
 "Version Information" = "Информация О Версии";
 
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "Регуляторы Громкости";
 
+/* Web Login controller */
+"Web Login ID" = "Web Login ID";
+
 /* preferences
    user detail */
 "WebCam" = "Веб-Камера";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "Вы выбрали %@";
-

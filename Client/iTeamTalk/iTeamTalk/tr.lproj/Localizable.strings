@@ -1,8 +1,12 @@
-﻿/* log entry */
+
+/* log entry */
 "%@ joined channel" = "%@ kanala katıldı";
 
 /* log entry */
 "%@ left channel" = "%@ kanaldan ayrıldı";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Varsayılan";
@@ -77,6 +81,9 @@
 /* create channel */
 "Audio Codec" = "Ses Kodlayıcı/Çözücüsü";
 
+/* Web Login Controller */
+"Authenticate" = "Authenticate";
+
 /* server entry */
 "Authentication" = "Kimlik Doğrulama";
 
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Yayınlanan İletiler";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -163,6 +173,9 @@
 
 /* channel list */
 "Edit properties" = "Özellikleri düzenle";
+
+/* server entry */
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Parolayı Girin";
@@ -342,6 +355,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Bir kullanıcı kanaldan ayrıldığında ses oynat";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "Kanal metin iletisi alındığında ses oynat";
@@ -588,6 +604,9 @@
    user detail */
 "Username" = "Kullanıcı adı";
 
+/* Web Login Controller */
+"Username or password incorrect" = "Username or password incorrect";
+
 /* preferences */
 "Version Information" = "Sürüm Bilgileri";
 
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "Düzey Denetimleri";
 
+/* Web Login controller */
+"Web Login ID" = "Web Login ID";
+
 /* preferences
    user detail */
 "WebCam" = "Web Kamerası";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "%@ sesini seçtiniz";
-

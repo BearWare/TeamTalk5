@@ -1,8 +1,12 @@
+
 /* log entry */
 "%@ joined channel" = "%@ er nu i kanalen";
 
 /* log entry */
 "%@ left channel" = "%@ forlod kanalen";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standard";
@@ -77,6 +81,9 @@
 /* create channel */
 "Audio Codec" = "Lyd Codec";
 
+/* Web Login Controller */
+"Authenticate" = "Authenticate";
+
 /* server entry */
 "Authentication" = "Godkendelse";
 
@@ -95,6 +102,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Broadcast Beskeder";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -163,6 +173,9 @@
 
 /* channel list */
 "Edit properties" = "Rediger indstillinger";
+
+/* server entry */
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Skriv Kodeord";
@@ -342,6 +355,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Afspil lyd når bruger forlader kanalen";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "Afspil lyd når der modtages en tekstbesked i kanalen";
@@ -588,6 +604,9 @@
    user detail */
 "Username" = "Brugernavn";
 
+/* Web Login Controller */
+"Username or password incorrect" = "Username or password incorrect";
+
 /* preferences */
 "Version Information" = "Version Information";
 
@@ -628,6 +647,9 @@
 /* user detail */
 "Volume Controls" = "Volumekontrol";
 
+/* Web Login controller */
+"Web Login ID" = "Web Login ID";
+
 /* preferences
    user detail */
 "WebCam" = "WebCam";
@@ -637,4 +659,3 @@
 
 /* speech */
 "You have selected %@" = "Du har valgt %@";
-
