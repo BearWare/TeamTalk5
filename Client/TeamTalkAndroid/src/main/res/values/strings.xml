@@ -90,7 +90,7 @@
     <string name="pref_title_channel_leave">User leaves the channel</string>
     <string name="pref_summary_channel_leave">Announce name of the user leaving the channel</string>
     <string name="pref_title_personal_message">Personal messages</string>
-    <string name="pref_summary_personal_message">Announce personal mesages</string>
+    <string name="pref_summary_personal_message">Announce personal messages</string>
     <string name="pref_title_channel_message">Channel messages</string>
     <string name="pref_summary_channel_message">Announce channel messages</string>
     <string name="pref_title_broadcast_message">Broadcast messages</string>
