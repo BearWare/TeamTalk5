@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>758</width>
-    <height>602</height>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1154,122 +1154,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_14">
           <item>
            <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_16">
+            <item row="1" column="2">
+             <widget class="QToolButton" name="rmuserButton">
               <property name="text">
-               <string>New user</string>
-              </property>
-              <property name="buddy">
-               <cstring>newuserEdit</cstring>
+               <string notr="true">...</string>
               </property>
              </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="newuserEdit"/>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>User removed</string>
-              </property>
-              <property name="buddy">
-               <cstring>rmuserEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="rmuserEdit"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>Server lost</string>
-              </property>
-              <property name="buddy">
-               <cstring>srvlostEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="srvlostEdit"/>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>New user message</string>
-              </property>
-              <property name="buddy">
-               <cstring>usermsgEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="usermsgEdit"/>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_20">
-              <property name="text">
-               <string>New channel message</string>
-              </property>
-              <property name="buddy">
-               <cstring>chanmsgEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="chanmsgEdit"/>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Hotkey pressed</string>
-              </property>
-              <property name="buddy">
-               <cstring>hotkeyEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="hotkeyEdit"/>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_22">
-              <property name="text">
-               <string>Channel silent</string>
-              </property>
-              <property name="buddy">
-               <cstring>chansilentEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="chansilentEdit"/>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_23">
-              <property name="text">
-               <string>Files updated</string>
-              </property>
-              <property name="buddy">
-               <cstring>fileupdEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLineEdit" name="fileupdEdit"/>
-            </item>
-            <item row="8" column="0">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>File transfer complete</string>
-              </property>
-              <property name="buddy">
-               <cstring>transferdoneEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <widget class="QLineEdit" name="transferdoneEdit"/>
             </item>
             <item row="0" column="2">
              <widget class="QToolButton" name="newuserButton">
@@ -1284,8 +1174,128 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QToolButton" name="rmuserButton">
+            <item row="12" column="0">
+             <widget class="QLabel" name="label_38">
+              <property name="text">
+               <string>User entered question-mode</string>
+              </property>
+              <property name="buddy">
+               <cstring>questionmodeEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_36">
+              <property name="text">
+               <string>New broadcast message</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Server lost</string>
+              </property>
+              <property name="buddy">
+               <cstring>srvlostEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="1">
+             <widget class="QLineEdit" name="questionmodeEdit"/>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="usermsgEdit"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>New user message</string>
+              </property>
+              <property name="buddy">
+               <cstring>usermsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QToolButton" name="hotkeyButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="2">
+             <widget class="QToolButton" name="desktopaccessBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="2">
+             <widget class="QToolButton" name="questionmodeBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="2">
+             <widget class="QToolButton" name="videosessionButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Hotkey pressed</string>
+              </property>
+              <property name="buddy">
+               <cstring>hotkeyEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_23">
+              <property name="text">
+               <string>Files updated</string>
+              </property>
+              <property name="buddy">
+               <cstring>fileupdEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="newuserEdit"/>
+            </item>
+            <item row="11" column="0">
+             <widget class="QLabel" name="label_37">
+              <property name="text">
+               <string>New desktop session</string>
+              </property>
+              <property name="buddy">
+               <cstring>desktopsessionEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="videosessionEdit"/>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="chanmsgEdit"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="text">
+               <string>New video session</string>
+              </property>
+              <property name="buddy">
+               <cstring>videosessionEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="2">
+             <widget class="QToolButton" name="transferdoneButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1298,8 +1308,103 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="rmuserEdit"/>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="chansilentEdit"/>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="srvlostEdit"/>
+            </item>
+            <item row="11" column="2">
+             <widget class="QToolButton" name="desktopsessionButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="0">
+             <widget class="QLabel" name="label_40">
+              <property name="text">
+               <string>Desktop access request</string>
+              </property>
+              <property name="buddy">
+               <cstring>desktopaccessEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="1">
+             <widget class="QLineEdit" name="desktopaccessEdit"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>File transfer complete</string>
+              </property>
+              <property name="buddy">
+               <cstring>transferdoneEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>New user</string>
+              </property>
+              <property name="buddy">
+               <cstring>newuserEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="fileupdEdit"/>
+            </item>
             <item row="3" column="2">
              <widget class="QToolButton" name="usermsgButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_20">
+              <property name="text">
+               <string>New channel message</string>
+              </property>
+              <property name="buddy">
+               <cstring>chanmsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="desktopsessionEdit"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>User removed</string>
+              </property>
+              <property name="buddy">
+               <cstring>rmuserEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="hotkeyEdit"/>
+            </item>
+            <item row="7" column="2">
+             <widget class="QToolButton" name="chansilentButton">
+              <property name="text">
+               <string notr="true">...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="transferdoneEdit"/>
+            </item>
+            <item row="8" column="2">
+             <widget class="QToolButton" name="fileupdButton">
               <property name="text">
                <string notr="true">...</string>
               </property>
@@ -1312,111 +1417,23 @@
               </property>
              </widget>
             </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>Channel silent</string>
+              </property>
+              <property name="buddy">
+               <cstring>chansilentEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="bcastmsgEdit"/>
+            </item>
             <item row="5" column="2">
-             <widget class="QToolButton" name="hotkeyButton">
+             <widget class="QToolButton" name="bcastmsgButton">
               <property name="text">
                <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="2">
-             <widget class="QToolButton" name="fileupdButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="2">
-             <widget class="QToolButton" name="chansilentButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="2">
-             <widget class="QToolButton" name="transferdoneButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0">
-             <widget class="QLabel" name="label_32">
-              <property name="text">
-               <string>New video session</string>
-              </property>
-              <property name="buddy">
-               <cstring>videosessionEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="1">
-             <widget class="QLineEdit" name="videosessionEdit"/>
-            </item>
-            <item row="10" column="0">
-             <widget class="QLabel" name="label_37">
-              <property name="text">
-               <string>New desktop session</string>
-              </property>
-              <property name="buddy">
-               <cstring>desktopsessionEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="1">
-             <widget class="QLineEdit" name="desktopsessionEdit"/>
-            </item>
-            <item row="9" column="2">
-             <widget class="QToolButton" name="videosessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="2">
-             <widget class="QToolButton" name="desktopsessionButton">
-              <property name="text">
-               <string notr="true">...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="0">
-             <widget class="QLabel" name="label_38">
-              <property name="text">
-               <string>User entered question-mode</string>
-              </property>
-              <property name="buddy">
-               <cstring>questionmodeEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="1">
-             <widget class="QLineEdit" name="questionmodeEdit"/>
-            </item>
-            <item row="11" column="2">
-             <widget class="QToolButton" name="questionmodeBtn">
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="12" column="0">
-             <widget class="QLabel" name="label_40">
-              <property name="text">
-               <string>Desktop access request</string>
-              </property>
-              <property name="buddy">
-               <cstring>desktopaccessEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="12" column="1">
-             <widget class="QLineEdit" name="desktopaccessEdit"/>
-            </item>
-            <item row="12" column="2">
-             <widget class="QToolButton" name="desktopaccessBtn">
-              <property name="text">
-               <string>...</string>
               </property>
              </widget>
             </item>
@@ -1977,6 +1994,8 @@
   <tabstop>nicknameEdit</tabstop>
   <tabstop>maleRadioButton</tabstop>
   <tabstop>femaleRadioButton</tabstop>
+  <tabstop>bearwareidEdit</tabstop>
+  <tabstop>setupBearWareLoginButton</tabstop>
   <tabstop>awaySpinBox</tabstop>
   <tabstop>pttChkBox</tabstop>
   <tabstop>setupkeysButton</tabstop>
@@ -2041,6 +2060,8 @@
   <tabstop>usermsgButton</tabstop>
   <tabstop>chanmsgEdit</tabstop>
   <tabstop>chanmsgButton</tabstop>
+  <tabstop>bcastmsgEdit</tabstop>
+  <tabstop>bcastmsgButton</tabstop>
   <tabstop>hotkeyEdit</tabstop>
   <tabstop>hotkeyButton</tabstop>
   <tabstop>chansilentEdit</tabstop>
@@ -2083,7 +2104,6 @@
   <tabstop>viddefaultButton</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections>

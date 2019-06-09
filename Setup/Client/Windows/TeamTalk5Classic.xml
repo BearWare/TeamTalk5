@@ -20,6 +20,7 @@
         <serverlost>Sounds\serverlost.wav</serverlost>
         <hotkeypressed>Sounds\hotkey.wav</hotkeypressed>
         <channelmessage>Sounds\channel_msg.wav</channelmessage>
+        <broadcastmessage>Sounds\broadcast_msg.wav</broadcastmessage>
         <filesupdates>Sounds\fileupdate.wav</filesupdates>
         <transferend>Sounds\filetx_complete.wav</transferend>
         <new-video-session>Sounds\videosession.wav</new-video-session>

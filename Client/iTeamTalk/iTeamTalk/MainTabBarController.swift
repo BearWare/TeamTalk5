@@ -427,6 +427,8 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 playSound(.chan_MSG)
             case MSGTYPE_USER :
                 playSound(.user_MSG)
+            case MSGTYPE_BROADCAST :
+                playSound(.broadcast_MSG)
             default : break
             }
         default :

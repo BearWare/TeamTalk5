@@ -1,4 +1,5 @@
-﻿/* log entry */
+
+/* log entry */
 "%@ joined channel" = "%@ joined channel";
 
 /* log entry */
@@ -102,6 +103,9 @@
 /* preferences
    user detail */
 "Broadcast Messages" = "Broadcast Messages";
+
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
 
 /* channel list
    server entry */
@@ -354,6 +358,9 @@
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Play sound when a user leaves the channel";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
 
 /* preferences */
 "Play sound when channel text message is received" = "Play sound when channel text message is received";
@@ -656,4 +663,3 @@
 
 /* speech */
 "You have selected %@" = "You have selected %@";
-

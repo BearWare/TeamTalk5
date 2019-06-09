@@ -41,6 +41,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.speech.tts.TextToSpeech.EngineInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -55,6 +56,9 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.Preferences;
+import dk.bearware.data.TTSWrapper;
+
+import java.util.ArrayList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -238,6 +242,16 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             startActivityForResult(edit, ACTIVITY_REQUEST_BEARWAREID);
             return true;
         });
+        ListPreference enginePrefs = (ListPreference) findPreference("pref_speech_engine");
+        List<EngineInfo> engines = TTSWrapper.getEngines();
+        ArrayList<String> entries = new ArrayList();
+        ArrayList<String> values = new ArrayList();
+        for (EngineInfo info : engines) {
+            entries.add(info.label);
+            values.add(info.name);
+        }
+        enginePrefs.setEntries((CharSequence[]) entries.toArray(new CharSequence[engines.size()]));
+        enginePrefs.setEntryValues((CharSequence[]) values.toArray(new CharSequence[engines.size()]));
     }
 
     /** {@inheritDoc} */

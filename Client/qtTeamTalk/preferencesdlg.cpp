@@ -131,6 +131,8 @@ PreferencesDlg::PreferencesDlg(QWidget * parent/* = 0*/)
             SLOT(slotEventUserTextMsg()));
     connect(ui.chanmsgButton, SIGNAL(clicked()),
             SLOT(slotEventChannelTextMsg()));
+    connect(ui.bcastmsgButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventBroadcastTextMsg);
     connect(ui.hotkeyButton, SIGNAL(clicked()),
             SLOT(slotEventHotKey()));
     connect(ui.chansilentButton, SIGNAL(clicked()),
@@ -513,6 +515,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST).toString());
         ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG).toString());
         ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG).toString());
+        ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG).toString());
         ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY).toString());
         ui.chansilentEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString());
         ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO).toString());
@@ -872,6 +875,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, ui.srvlostEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSG, ui.usermsgEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSG, ui.chanmsgEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_BROADCASTMSG, ui.bcastmsgEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_HOTKEY, ui.hotkeyEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SILENCE, ui.chansilentEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, ui.videosessionEdit->text());
@@ -1228,6 +1232,13 @@ void PreferencesDlg::slotEventChannelTextMsg()
     QString filename;
     if(getSoundFile(filename))
         ui.chanmsgEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventBroadcastTextMsg()
+{
+    QString filename;
+    if(getSoundFile(filename))
+        ui.bcastmsgEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventHotKey()

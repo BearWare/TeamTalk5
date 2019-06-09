@@ -715,6 +715,9 @@ void playSoundEvent(SoundEvent event)
     case SOUNDEVENT_CHANNELMSG:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG).toString();
         break;
+    case SOUNDEVENT_BROADCASTMSG :
+        filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG).toString();
+        break;
     case SOUNDEVENT_HOTKEY:
         filename = ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY).toString();
         break;

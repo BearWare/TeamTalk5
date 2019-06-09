@@ -368,8 +368,9 @@ implements TeamTalkConnectionListener,
     protected void onStart() {
         super.onStart();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (ttsWrapper == null)
-            ttsWrapper = TTSWrapper.getInstance(this);
+            ttsWrapper = new TTSWrapper(this, prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);
 
@@ -381,7 +382,6 @@ implements TeamTalkConnectionListener,
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
             int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
             int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
@@ -463,6 +463,7 @@ implements TeamTalkConnectionListener,
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
+        ttsWrapper.switchEngine(prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
     }
 
     @Override
