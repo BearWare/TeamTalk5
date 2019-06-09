@@ -177,6 +177,11 @@
     <item id="313">Soubor přidán</item>
     <item id="314">Soubor smazán</item>
     <item id="315">Resetovat</item>
+    <item id="316">Webové přihlášení přes BearWare.dk</item>
+    <item id="317">Ověření selhalo</item>
+    <item id="318">Nepodařilo se připojit k serveru BearWare.dk</item>
+    <item id="319">%s, vaše uživatelské jméno &quot;&quot;%s&quot;&quot; bylo ověřeno.</item>
+    <item id="320">Odeslat administrátorskou zprávu</item>
     <item id="1009">Po připojení ihned vstoupit na hlavní kanál</item>
     <item id="1011">Vlastnosti serveru</item>
     <item id="1012">TCP port</item>
@@ -594,4 +599,5 @@
     <item id="32951">Vykopnout a zakázat přístup na &amp;kanál\tCtrl+B</item>
     <item id="32952">&amp;Zakázaní uživatelé na kanálu\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Nová instance klienta\tCtrl+N</item>
+    <item id="32954">&amp;Uložit pro pozdější přenesení\tCtrl+Alt+X</item>
 </language>
