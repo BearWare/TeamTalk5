@@ -45,8 +45,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Титни кога копчето TX ќе се притисне</string>
     <string name="pref_title_vox_triggered_icon">Гласовното активирање е вклучено</string>
     <string name="pref_summary_vox_triggered_icon">Титни кога гласовното активирање е вклучено</string>
-    <string name="pref_title_personal_message_audio_icon">Приватна порака</string>
-    <string name="pref_summary_personal_message_audio_icon">Титни кога ќе се добие приватна порака</string>
+    <string name="pref_title_private_message_audio_icon">Приватна порака</string>
+    <string name="pref_summary_private_message_audio_icon">Титни кога ќе се добие приватна порака</string>
     <string name="pref_title_channel_message_audio_icon">Порака во каналот</string>
     <string name="pref_summary_channel_message_audio_icon">Титни кога ќе се добие порака во каналот</string>
     <string name="pref_title_broadcast_message_audio_icon">Броткаст порака</string>
@@ -81,7 +81,7 @@
     <string name="pref_summary_channel_join">Објави го името на корисникот што се приклучува на каналот</string>
     <string name="pref_title_channel_leave">Си заминува корисник од каналот</string>
     <string name="pref_summary_channel_leave">Објави го името на корисникот што го напушта каналот</string>
-    <string name="pref_title_personal_message">Лични пораки</string>
+    <string name="pref_title_private_message">Лични пораки</string>
     <string name="pref_title_broadcast_message">Објави ги пораките</string>
     <string name="pref_summary_message">Објави го името на испраќачот</string>
     <string name="pref_title_mute_speakers">Исклучи го звукот од звучниците кога ќе се притисне копчето TX</string>
@@ -101,7 +101,7 @@
     <string name="text_tts_loggedout">се одјави</string>
     <string name="text_tts_joined_chan">се приклучи на каналот</string>
     <string name="text_tts_left_chan">го напушти каналот</string>
-    <string name="text_tts_personal_message">Лична порака од корисникот %1$s</string>
+    <string name="text_tts_private_message">Лична порака од корисникот %1$s</string>
     <string name="text_tts_broadcast_message">Броткаст порака од корисникот %1$s</string>
     <string name="pref_header_soundsystem">Систем за звук</string>
     <string name="title_activity_audio_codec">Аудио кодек</string>
@@ -261,8 +261,8 @@
     <string name="err_filesharing_disabled">Серверот не дозволува трансферирање на датотеки</string>
     <string name="err_channel_has_users">Каналот не е празен</string>
 
-    <string name="personal_message_notification">Имате нова порака од %1$s</string>
-    <string name="personal_message_notification_hint">Тапни за да ја прочиташ и да одговориш</string>
+    <string name="private_message_notification">Имате нова порака од %1$s</string>
+    <string name="private_message_notification_hint">Тапни за да ја прочиташ и да одговориш</string>
     <string name="user_state_now_speaking">%1$s зборува сега</string>
     <string name="text_waitstream">Се чека за прикажување на видео</string>
     <string name="text_desktop_session">Сесија  за прикажување на работна површина</string>

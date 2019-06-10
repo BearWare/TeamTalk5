@@ -45,8 +45,8 @@
   <string name="pref_summary_rx_tx_audio_icon">İlet düğmesine basıldığında ses oynat</string>
   <string name="pref_title_vox_triggered_icon">Ses etkinleştirmenin tetiklenmesi</string>
   <string name="pref_summary_vox_triggered_icon">Ses etkinleştirme tetiklendiğinde ses oynat</string>
-  <string name="pref_title_personal_message_audio_icon">Özel ileti</string>
-  <string name="pref_summary_personal_message_audio_icon">Özel ileti alındığında ses oynat</string>
+  <string name="pref_title_private_message_audio_icon">Özel ileti</string>
+  <string name="pref_summary_private_message_audio_icon">Özel ileti alındığında ses oynat</string>
   <string name="pref_title_channel_message_audio_icon">Kanal iletisi</string>
   <string name="pref_summary_channel_message_audio_icon">Kanal iletisi alındığında ses oynat</string>
   <string name="pref_title_broadcast_message_audio_icon">Yayınlanan ileti</string>
@@ -85,7 +85,7 @@
   <string name="pref_summary_channel_join">Kanala katılan kullanıcının adını duyur</string>
   <string name="pref_title_channel_leave">Kullanıcının kanaldan ayrılması</string>
   <string name="pref_summary_channel_leave">Kanaldan ayrılan kullanıcının adını duyur</string>
-  <string name="pref_title_personal_message">Kişisel iletiler</string>
+  <string name="pref_title_private_message">Kişisel iletiler</string>
   <string name="pref_title_broadcast_message">Yayınlanan iletiler</string>
   <string name="pref_summary_message">Gönderenin adını duyur</string>
   <string name="pref_title_mute_speakers">İlet düğmesine basıldığında hoparlörleri sustur</string>
@@ -104,7 +104,7 @@
   <string name="text_tts_loggedout">oturumu kapattı</string>
   <string name="text_tts_joined_chan">kanala katıldı</string>
   <string name="text_tts_left_chan">kanaldan ayrıldı</string>
-  <string name="text_tts_personal_message">%1$s kullanıcısından kişisel ileti</string>
+  <string name="text_tts_private_message">%1$s kullanıcısından kişisel ileti</string>
   <string name="text_tts_broadcast_message">%1$s kullanıcısından yayınlanan ileti</string>
   <string name="pref_header_soundsystem">Ses Sistemi</string>
   <string name="title_activity_audio_codec">Ses Kodlayıcı/Çözücüsü</string>
@@ -273,8 +273,8 @@
   <string name="err_openfile_failed">Sunucu dosyayı açmada başarısız</string>
   <string name="err_filesharing_disabled">Sunucu dosya aktarımına izin vermiyor</string>
   <string name="err_channel_has_users">Kanal boş değil</string>
-  <string name="personal_message_notification">%1$s kullanıcısından yeni ileti</string>
-  <string name="personal_message_notification_hint">Okumak ve yanıtlamak için tıklayın</string>
+  <string name="private_message_notification">%1$s kullanıcısından yeni ileti</string>
+  <string name="private_message_notification_hint">Okumak ve yanıtlamak için tıklayın</string>
   <string name="user_state_now_speaking">Şimdi %1$s konuşuyor</string>
   <string name="text_waitstream">Video akışı bekleniyor</string>
   <string name="text_desktop_session">Masaüstü oturumu</string>

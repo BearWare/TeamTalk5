@@ -47,8 +47,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
-    <string name="pref_title_personal_message_audio_icon">Private message</string>
-    <string name="pref_summary_personal_message_audio_icon">Play sound when private message is received</string>
+    <string name="pref_title_private_message_audio_icon">Private message</string>
+    <string name="pref_summary_private_message_audio_icon">Play sound when private message is received</string>
     <string name="pref_title_channel_message_audio_icon">Channel message</string>
     <string name="pref_summary_channel_message_audio_icon">Play sound when channel message is received</string>
     <string name="pref_title_broadcast_message_audio_icon">Broadcast message</string>
@@ -89,8 +89,8 @@
     <string name="pref_summary_channel_join">Announce name of the user joining the channel</string>
     <string name="pref_title_channel_leave">User leaves the channel</string>
     <string name="pref_summary_channel_leave">Announce name of the user leaving the channel</string>
-    <string name="pref_title_personal_message">Personal messages</string>
-    <string name="pref_summary_personal_message">Announce personal messages</string>
+    <string name="pref_title_private_message">Private messages</string>
+    <string name="pref_summary_private_message">Announce private messages</string>
     <string name="pref_title_channel_message">Channel messages</string>
     <string name="pref_summary_channel_message">Announce channel messages</string>
     <string name="pref_title_broadcast_message">Broadcast messages</string>
@@ -115,7 +115,7 @@
     <string name="text_tts_loggedout">has logged out</string>
     <string name="text_tts_joined_chan">has joined the channel</string>
     <string name="text_tts_left_chan">has left the channel</string>
-    <string name="text_tts_personal_message">Personal message from %1$s - %2$s</string>
+    <string name="text_tts_private_message">Private message from %1$s - %2$s</string>
     <string name="text_tts_channel_message">Channel message from %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Broadcast message from %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Sound System</string>
@@ -303,8 +303,8 @@
     <string name="err_filesharing_disabled">Server does not allow file transfers</string>
     <string name="err_channel_has_users">Channel is not empty</string>
 
-    <string name="personal_message_notification">New message from user %1$s</string>
-    <string name="personal_message_notification_hint">Click to read and answer</string>
+    <string name="private_message_notification">New message from user %1$s</string>
+    <string name="private_message_notification_hint">Click to read and answer</string>
     <string name="user_state_now_speaking">%1$s now speaking</string>
     <string name="text_waitstream">Waiting for video stream</string>
     <string name="text_desktop_session">Desktop session</string>

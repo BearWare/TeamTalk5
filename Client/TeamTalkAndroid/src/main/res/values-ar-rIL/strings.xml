@@ -43,8 +43,8 @@
     <string name="pref_title_audio_icons">أصوات أحداث</string>
     <string name="pref_title_rx_tx_audio_icon">إنتقال الصوت</string>
     <string name="pref_summary_rx_tx_audio_icon">تشغيل الصوت عند الضغط على أي زر</string>
-    <string name="pref_title_personal_message_audio_icon">رسالة خاصة</string>
-    <string name="pref_summary_personal_message_audio_icon">تشغيل صوت عند إستلام رسالة</string>
+    <string name="pref_title_private_message_audio_icon">رسالة خاصة</string>
+    <string name="pref_summary_private_message_audio_icon">تشغيل صوت عند إستلام رسالة</string>
     <string name="pref_title_channel_message_audio_icon">رسالة للقناة</string>
     <string name="pref_summary_channel_message_audio_icon">تشغيل صوت عند إستلام رسائل بالقناة</string>
     <string name="pref_title_broadcast_message_audio_icon">رسالة برود كاست</string>
@@ -77,7 +77,7 @@
     <string name="pref_summary_channel_join">التعريف باسم المستخدم عند الانضمام للقناة</string>
     <string name="pref_title_channel_leave">غادر المستخدم القناة</string>
     <string name="pref_summary_channel_leave">التعريف باسم المستخدم عند مغادرة القناة</string>
-    <string name="pref_title_personal_message">رسائل شخصية</string>
+    <string name="pref_title_private_message">رسائل شخصية</string>
     <string name="pref_title_broadcast_message">رسائل برودكاست</string>
     <string name="pref_summary_message">التعريف باسم الشخص المرسل</string>
     <string name="pref_title_mute_speakers">كتم الصوت الخارجي عند الضغط على الزر</string>
@@ -95,7 +95,7 @@
     <string name="text_tts_loggedout">تم تسجيل الخروج</string>
     <string name="text_tts_joined_chan">انضم للقناة</string>
     <string name="text_tts_left_chan">غادر القناة</string>
-    <string name="text_tts_personal_message">رسالة شخصية من مستخدم %1$s</string>
+    <string name="text_tts_private_message">رسالة شخصية من مستخدم %1$s</string>
     <string name="text_tts_broadcast_message">رسالة برودكاست من مستخدم %1$s</string>
     <string name="pref_header_soundsystem">نظام الصوت</string>
     <string name="title_activity_audio_codec">Aترميز الصوت</string>
@@ -256,8 +256,8 @@
     <string name="err_filesharing_disabled">لا يسمح الخادم بنقل الملفات</string>
     <string name="err_channel_has_users">القناة ممتلئة</string>
 
-    <string name="personal_message_notification">رسالة جديدة من مستخدم %1$s</string>
-    <string name="personal_message_notification_hint">اضغط للقراءة والرد</string>
+    <string name="private_message_notification">رسالة جديدة من مستخدم %1$s</string>
+    <string name="private_message_notification_hint">اضغط للقراءة والرد</string>
     <string name="user_state_now_speaking">%1$s يتكلم الآن</string>
     <string name="text_waitstream">بانتظار بث الفيديو</string>
     <string name="text_desktop_session">جلسة سطح المكتب</string>

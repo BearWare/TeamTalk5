@@ -43,8 +43,8 @@
     <string name="pref_title_audio_icons">Geluidsgebeurtenis</string>
     <string name="pref_title_rx_tx_audio_icon">Spraakuitzending schakelen</string>
     <string name="pref_summary_rx_tx_audio_icon">Geluid afspelen bij indrukken van uitzendknop</string>
-    <string name="pref_title_personal_message_audio_icon">Privébericht</string>
-    <string name="pref_summary_personal_message_audio_icon">Geluid afspelen bij ontvangst van privébericht</string>
+    <string name="pref_title_private_message_audio_icon">Privébericht</string>
+    <string name="pref_summary_private_message_audio_icon">Geluid afspelen bij ontvangst van privébericht</string>
     <string name="pref_title_channel_message_audio_icon">Kanaalbericht</string>
     <string name="pref_summary_channel_message_audio_icon">Geluid afspelen bij ontvangst van kanaalbericht</string>
     <string name="pref_title_broadcast_message_audio_icon">Uitzendingsbericht</string>
@@ -77,7 +77,7 @@
     <string name="pref_summary_channel_join">Naam van gebruiker die kanaal binnenkomt melden</string>
     <string name="pref_title_channel_leave">Gebruiker verlaat kanaal</string>
     <string name="pref_summary_channel_leave">Naam van gebruiker die kanaal verlaat melden</string>
-    <string name="pref_title_personal_message">Persoonlijk bericht</string>
+    <string name="pref_title_private_message">Persoonlijk bericht</string>
     <string name="pref_title_broadcast_message">Uitzendberichten</string>
     <string name="pref_summary_message">Naam van de zender melden</string>
     <string name="pref_title_mute_speakers">Luidsprekers dempen bij indrukken uitzendknop</string>
@@ -91,7 +91,7 @@
     <string name="text_tts_loggedout">is uitgelogd</string>
     <string name="text_tts_joined_chan">is het kanaal binnengekomen</string>
     <string name="text_tts_left_chan">heeft het kanaal verlaten</string>
-    <string name="text_tts_personal_message">Persoonlijk bericht van gebruiker %1$s</string>
+    <string name="text_tts_private_message">Persoonlijk bericht van gebruiker %1$s</string>
     <string name="text_tts_broadcast_message">Uitzendbericht van gebruiker %1$s</string>
     <string name="pref_header_soundsystem">Geluidssysteem</string>
     <string name="title_activity_audio_codec">Audiocodec</string>
@@ -248,8 +248,8 @@
     <string name="err_filesharing_disabled">Server laat geen bestandsoverdrachten toe</string>
     <string name="err_channel_has_users">Kanaal is niet leeg</string>
 
-    <string name="personal_message_notification">Nieuw bericht van gebruiker %1$s</string>
-    <string name="personal_message_notification_hint">Klik voor lezen en antwoorden</string>
+    <string name="private_message_notification">Nieuw bericht van gebruiker %1$s</string>
+    <string name="private_message_notification_hint">Klik voor lezen en antwoorden</string>
     <string name="user_state_now_speaking">%1$s spreekt nu</string>
     <string name="text_waitstream">Wachten op videostream</string>
     <string name="text_desktop_session">Bureaubladsessie</string>

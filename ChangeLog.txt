@@ -31,6 +31,7 @@ Android client:
 - Minimum Android version is now 5.0
 - OPUS audio codec v1.3
 - Sound event for broadcast message
+- Option to announce content of private and channel messages
 - Proximity sensor can be used to toggle voice transmission
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)

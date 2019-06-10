@@ -47,8 +47,8 @@
     <string name="pref_summary_rx_tx_audio_icon">按下语音传输按钮时播放声音</string>
     <string name="pref_title_vox_triggered_icon">触发语音激活</string>
     <string name="pref_summary_vox_triggered_icon">触发语音激活时播放声音</string>
-    <string name="pref_title_personal_message_audio_icon">私人消息</string>
-    <string name="pref_summary_personal_message_audio_icon">收到私人消息时播放声音</string>
+    <string name="pref_title_private_message_audio_icon">私人消息</string>
+    <string name="pref_summary_private_message_audio_icon">收到私人消息时播放声音</string>
     <string name="pref_title_channel_message_audio_icon">频道消息</string>
     <string name="pref_summary_channel_message_audio_icon">收到频道消息时播放声音</string>
     <string name="pref_title_broadcast_message_audio_icon">广播消息</string>
@@ -89,8 +89,8 @@
     <string name="pref_summary_channel_join">播报加入频道用户的名字</string>
     <string name="pref_title_channel_leave">用户离开频道</string>
     <string name="pref_summary_channel_leave">播报离开频道用户的名字</string>
-    <string name="pref_title_personal_message">私人消息</string>
-    <string name="pref_summary_personal_message">播报私人消息</string>
+    <string name="pref_title_private_message">私人消息</string>
+    <string name="pref_summary_private_message">播报私人消息</string>
     <string name="pref_title_channel_message">频道消息</string>
     <string name="pref_summary_channel_message">播报频道消息</string>
     <string name="pref_title_broadcast_message">广播消息</string>
@@ -115,7 +115,7 @@
     <string name="text_tts_loggedout">已退出</string>
     <string name="text_tts_joined_chan">加入频道</string>
     <string name="text_tts_left_chan">离开频道</string>
-    <string name="text_tts_personal_message">私人消息 %1$s. %2$s</string>
+    <string name="text_tts_private_message">私人消息 %1$s. %2$s</string>
     <string name="text_tts_channel_message">%1$s. %2$s</string>
     <string name="text_tts_broadcast_message">广播消息： %1$s. %2$s</string>
     <string name="pref_header_soundsystem">声音系统</string>
@@ -303,8 +303,8 @@
     <string name="err_filesharing_disabled">服务器不允许文件传输</string>
     <string name="err_channel_has_users">频道中不是空的</string>
 
-    <string name="personal_message_notification">新消息来自 %1$s</string>
-    <string name="personal_message_notification_hint">点击阅读并回复</string>
+    <string name="private_message_notification">新消息来自 %1$s</string>
+    <string name="private_message_notification_hint">点击阅读并回复</string>
     <string name="user_state_now_speaking">%1$s 发言中</string>
     <string name="text_waitstream">等待视频流</string>
     <string name="text_desktop_session">桌面会话</string>

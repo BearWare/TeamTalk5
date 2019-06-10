@@ -431,7 +431,7 @@ implements TeamTalkConnectionListener,
             sounds.put(SOUND_VOICETXON, audioIcons.load(getApplicationContext(), R.raw.on, 1));
             sounds.put(SOUND_VOICETXOFF, audioIcons.load(getApplicationContext(), R.raw.off, 1));
         }
-        if (prefs.getBoolean("personal_message_audio_icon", true)) {
+        if (prefs.getBoolean("private_message_audio_icon", true)) {
             sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), R.raw.user_message, 1));
         }
         if (prefs.getBoolean("channel_message_audio_icon", true)) {
@@ -1946,8 +1946,8 @@ implements TeamTalkConnectionListener,
             User sender = ttservice.getUsers().get(textmessage.nFromUserID);
             String name = Utils.getDisplayName(getBaseContext(), sender);
             String senderName = (sender != null) ? name : "";
-            if (ttsWrapper != null && prefs.getBoolean("personal_message_checkbox", false))
-                ttsWrapper.speak(getString(R.string.text_tts_personal_message, senderName, textmessage.szMessage));
+            if (ttsWrapper != null && prefs.getBoolean("private_message_checkbox", false))
+                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             Notification.Builder notification = new Notification.Builder(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -1959,8 +1959,8 @@ implements TeamTalkConnectionListener,
                 notificationManager.createNotificationChannel(mChannel);
             }
             notification.setSmallIcon(R.drawable.message)
-                .setContentTitle(getString(R.string.personal_message_notification, senderName))
-                .setContentText(getString(R.string.personal_message_notification_hint))
+                .setContentTitle(getString(R.string.private_message_notification, senderName))
+                .setContentText(getString(R.string.private_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
                 .setAutoCancel(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

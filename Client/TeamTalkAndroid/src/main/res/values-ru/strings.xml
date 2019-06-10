@@ -44,8 +44,8 @@
     <string name="pref_summary_rx_tx_audio_icon">Звуковое оповещение о включении / выключении передачи голоса</string>
     <string name="pref_title_vox_triggered_icon">Срабатывание голосовой активации</string>
     <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении передачи при голосовой активации</string>
-    <string name="pref_title_personal_message_audio_icon">Личное сообщение</string>
-    <string name="pref_summary_personal_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
+    <string name="pref_title_private_message_audio_icon">Личное сообщение</string>
+    <string name="pref_summary_private_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
     <string name="pref_title_channel_message_audio_icon">Сообщение в канале</string>
     <string name="pref_summary_channel_message_audio_icon">Звуковое оповещение о приходе сообщения для всех в текущем канале</string>
     <string name="pref_title_broadcast_message_audio_icon">Широковещательное сообщение</string>
@@ -86,8 +86,8 @@
     <string name="pref_summary_channel_join">Объявлять имя подключающегося пользователя</string>
     <string name="pref_title_channel_leave">Отключение пользователя от канала</string>
     <string name="pref_summary_channel_leave">Объявлять имя пользователя, покидающего канал</string>
-    <string name="pref_title_personal_message">Личные сообщения</string>
-    <string name="pref_summary_personal_message">Озвучивать личные сообщения</string>
+    <string name="pref_title_private_message">Личные сообщения</string>
+    <string name="pref_summary_private_message">Озвучивать личные сообщения</string>
     <string name="pref_title_channel_message">Сообщения канала</string>
     <string name="pref_summary_channel_message">Озвучивать сообщения канала</string>
     <string name="pref_title_broadcast_message">Широковещательные сообщения</string>
@@ -112,7 +112,7 @@
     <string name="text_tts_loggedout">ушел</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
     <string name="text_tts_left_chan">покинул канал</string>
-    <string name="text_tts_personal_message">Личное сообщение от %1$s - %2$s</string>
+    <string name="text_tts_private_message">Личное сообщение от %1$s - %2$s</string>
     <string name="text_tts_channel_message">Сообщение канала от %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Широковещательное сообщение от %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
@@ -293,8 +293,8 @@
     <string name="err_filesharing_disabled">Обмен файлами на сервере не разрешен</string>
     <string name="err_channel_has_users">Канал не пуст</string>
 
-    <string name="personal_message_notification">Новое сообщение от пользователя %1$s</string>
-    <string name="personal_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
+    <string name="private_message_notification">Новое сообщение от пользователя %1$s</string>
+    <string name="private_message_notification_hint">Нажмите чтобы прочесть и ответить</string>
     <string name="user_state_now_speaking">%1$s сейчас говорит</string>
     <string name="text_waitstream">Ожидание видеотрансляции</string>
     <string name="text_desktop_session">Сессия рабочего стола</string>

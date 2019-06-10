@@ -33,9 +33,9 @@
         />
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="personal_message_audio_icon"
-        android:title="@string/pref_title_personal_message_audio_icon"
-        android:summary="@string/pref_summary_personal_message_audio_icon"
+        android:key="private_message_audio_icon"
+        android:title="@string/pref_title_private_message_audio_icon"
+        android:summary="@string/pref_summary_private_message_audio_icon"
 		/>
     <CheckBoxPreference
         android:defaultValue="true"

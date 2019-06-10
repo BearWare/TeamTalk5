@@ -44,10 +44,10 @@
     <string name="pref_title_audio_icons">Klangereignisse</string>
     <string name="pref_title_rx_tx_audio_icon">Sprachübertragung umschalten</string>
     <string name="pref_summary_rx_tx_audio_icon">Klang abspielen, wenn TX-Schalter gedrückt wird</string>
-    <string name="pref_title_personal_message_audio_icon">Privatnachricht</string>
+    <string name="pref_title_private_message_audio_icon">Privatnachricht</string>
     <string name="pref_title_vox_triggered_icon">Sprachaktivierung ausgelöst</string>
     <string name="pref_summary_vox_triggered_icon">Klang abspielen, wenn Sprachaktivierung ausgelöst wird</string>
-    <string name="pref_summary_personal_message_audio_icon">Klang bei Empfang einer Privatnachricht abspielen</string>
+    <string name="pref_summary_private_message_audio_icon">Klang bei Empfang einer Privatnachricht abspielen</string>
     <string name="pref_title_channel_message_audio_icon">Raumnachricht</string>
     <string name="pref_summary_channel_message_audio_icon">Klang bei Empfang einer Raumnachricht abspielen</string>
     <string name="pref_title_broadcast_message_audio_icon">Servernachricht</string>
@@ -86,7 +86,7 @@
     <string name="pref_summary_channel_join">Ansage, wenn ein Benutzer den Raum betritt</string>
     <string name="pref_title_channel_leave">Benutzer verlässt den Raum</string>
     <string name="pref_summary_channel_leave">Ansage, wenn ein Benutzer den Raum verlässt</string>
-    <string name="pref_title_personal_message">Privatnachrichten</string>
+    <string name="pref_title_private_message">Privatnachrichten</string>
     <string name="pref_title_broadcast_message">Servernachrichten</string>
     <string name="pref_summary_message">Namen des Absenders ansagen</string>
     <string name="pref_title_mute_speakers">Lautsprecher beim Drücken der TX-Schaltfläche stummschalten</string>
@@ -109,7 +109,7 @@
     <string name="text_tts_loggedout">hat sich abgemeldet</string>
     <string name="text_tts_joined_chan">hat den Raum betreten</string>
     <string name="text_tts_left_chan">hat den Raum verlassen</string>
-    <string name="text_tts_personal_message">Privatnachricht von Benutzer %1$s</string>
+    <string name="text_tts_private_message">Privatnachricht von Benutzer %1$s</string>
     <string name="text_tts_broadcast_message">Servernachricht von Benutzer %1$s</string>
     <string name="pref_header_soundsystem">Soundsystem</string>
     <string name="title_activity_audio_codec">Audio-Codec</string>
@@ -296,8 +296,8 @@
     <string name="err_filesharing_disabled">Dateiübertragungen sind auf diesem Server nicht erlaubt</string>
     <string name="err_channel_has_users">Raum ist nicht leer</string>
 
-    <string name="personal_message_notification">Neue Privatnachricht von Benutzer %1$s</string>
-    <string name="personal_message_notification_hint">Klicken zum Lesen und Beantworten</string>
+    <string name="private_message_notification">Neue Privatnachricht von Benutzer %1$s</string>
+    <string name="private_message_notification_hint">Klicken zum Lesen und Beantworten</string>
     <string name="user_state_now_speaking">%1$s spricht gerade</string>
     <string name="text_waitstream">Warte auf Videoübertragung</string>
     <string name="text_desktop_session">Desktopsitzung</string>
