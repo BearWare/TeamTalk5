@@ -1750,15 +1750,26 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             assertTrue("Enable voice transmission", ttclient.enableVoiceTransmission(true));
 
-            assertTrue("wait chan update " + i, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+            boolean chanUpEvent = false, userUpEvent = false;
+            while (ttclient.getMessage(msg, DEF_WAIT) && (!chanUpEvent || !userUpEvent)) {
+                switch (msg.nClientEvent) {
+                case ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE :
+                    assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+                    assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
+                    chanUpEvent = true;
+                    break;
+                case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
+                    assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
+                    assertEquals("myself talking", ttclient.getMyUserID(), msg.user.nUserID);
+                    userUpEvent = true;
+                    break;
+                }
+            }
 
-            assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-
-            assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
-
-            assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-            assertEquals("User state to voice", UserState.USERSTATE_VOICE, msg.user.uUserState & UserState.USERSTATE_VOICE);
-            assertEquals("myself talking", ttclient.getMyUserID(), msg.user.nUserID);
+            //assertTrue("wait chan update " + i, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+            assertTrue("wait chan update " + i, chanUpEvent);
+            //assertTrue("Wait for talking event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+            assertTrue("Wait for talking event", userUpEvent);
 
             assertTrue("Disable voice transmission", ttclient.enableVoiceTransmission(false));
 
