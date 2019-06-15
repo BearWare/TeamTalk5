@@ -176,6 +176,11 @@
     <item id="313">Datei hinzugefügt</item>
     <item id="314">Datei entfernt</item>
     <item id="315">Zurücksetzen</item>
+    <item id="316">BearWare.dk-Web-Login</item>
+    <item id="317">Fehler bei der Anmeldung</item>
+    <item id="318">Verbindung zum BearWare.dk-Web-Login konnte nicht hergestellt werden</item>
+    <item id="319">%s, dein Benutzername &quot;&quot;%s&quot;&quot; wurde bestätigt.</item>
+    <item id="320">Servernachricht</item>
     <item id="1009">Bei Verbindung automatisch Hauptraum betreten</item>
     <item id="1012">TCP-Port</item>
     <item id="1016">UDP-Port</item>
@@ -480,6 +485,7 @@
     <item id="1563">Ein BearWare.dk-Web-Login dient zur Identifizierung eines TeamTalk-Benutzers. Die hierfür notwendige ID kann auf der Website BearWare.dk erstellt werden.</item>
     <item id="1564">Anmeldung</item>
     <item id="1565">&amp;Erstellen</item>
+    <item id="1566">Behalte getrennte Benutzer</item>
     <item id="32791">Wie lautet meine &amp;IP-Adresse?</item>
     <item id="32798">&amp;Op\tSTRG+O</item>
     <item id="32801">Raumnachrichten &amp;zeigen\tF10</item>
@@ -590,4 +596,5 @@
     <item id="32951">Aus Raum &amp;werfen und sperren\tCtrl+B</item>
     <item id="32952">Im Raum gesperrte &amp;Benutzer\tCtrl+Alt+Shift+B</item>
     <item id="32953">&amp;Neue Client-Instanz\tCtrl+N</item>
+    <item id="32954">Zum Ver&amp;schieben merken\tCtrl+Alt+X</item>
 </language>

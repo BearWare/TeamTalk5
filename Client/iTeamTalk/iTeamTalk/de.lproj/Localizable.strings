@@ -6,7 +6,7 @@
 "%@ left channel" = "%@ hat den Raum verlassen";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%1$@, dein Benutzername \"%2$@\" wurde bestätigt";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standard";
@@ -82,7 +82,7 @@
 "Audio Codec" = "Audiocodec";
 
 /* Web Login Controller */
-"Authenticate" = "Authenticate";
+"Authenticate" = "Anmelden";
 
 /* server entry */
 "Authentication" = "Anmeldung";
@@ -104,7 +104,7 @@
 "Broadcast Messages" = "Servernachrichten";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "Server-Textnachricht";
 
 /* channel list
    server entry */
@@ -175,7 +175,7 @@
 "Edit properties" = "Eigenschaften bearbeiten";
 
 /* server entry */
-"Encrypted" = "Encrypted";
+"Encrypted" = "Verschlüsselt";
 
 /* Dialog message */
 "Enter Password" = "Passwort eingeben";
@@ -357,7 +357,7 @@
 "Play sound when a user leaves the channel" = "Klang abspielen, wenn Benutzer einen Raum verlässt";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "Klang bei neuer Servernachricht abspielen";
 
 /* preferences */
 "Play sound when channel text message is received" = "Klang bei neuer Raum-Textnachricht abspielen";
@@ -605,7 +605,7 @@
 "Username" = "Benutzername";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Username or password incorrect";
+"Username or password incorrect" = "Benutzername oder Passwort falsch";
 
 /* preferences */
 "Version Information" = "Versionsinformation";
@@ -648,7 +648,7 @@
 "Volume Controls" = "Lautstärkekontrollen";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "Web-Login-ID";
 
 /* preferences
    user detail */
