@@ -18,7 +18,7 @@
     <string name="title_activity_stream_media">Pusti multimedijsku datoteku na kanal</string>
     <string name="action_createchannel">Stvori</string>
     <string name="action_updatechannel">Obnovi</string>
-    <string name="text_con_failed">Neuspjeh pri spajanju na poslužitelj. Pokušavan ponovno...</string>
+    <string name="text_con_failed">Neuspjeh pri spajanju na poslužitelj. Pokušavam ponovno...</string>
     <string name="text_con_lost">Izgubljena veza s poslužiteljem</string>
     <string name="text_con_success">Spojen na poslužitelj</string>
     <string name="text_con_cmderr">Greška pri izvršavanju komande</string>
