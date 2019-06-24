@@ -24,10 +24,10 @@
 #if !defined(WAVEFILE_H)
 #define WAVEFILE_H
 
-#include <memory>
-
 #include <ace/FILE_IO.h>
 #include <ace/SString.h>
+
+#include <memory>
 
 #include "MediaUtil.h"
 
