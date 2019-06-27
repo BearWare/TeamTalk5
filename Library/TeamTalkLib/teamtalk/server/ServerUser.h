@@ -77,6 +77,12 @@ namespace teamtalk {
             {
                 readbuffer.resize(FILEBUFFERSIZE);
             }
+
+            ~LocalFileTransfer()
+            {
+                if (file.get_handle() != ACE_INVALID_HANDLE)
+                    file.close();
+            }
         };
 
     public:

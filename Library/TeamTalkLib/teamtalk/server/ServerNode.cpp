@@ -4079,13 +4079,6 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int chan
     if(channel.null())
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-    //ACE_TString path = channel->GetFilesDir(m_properties.filesroot);
-    //ACE_TString filepath = path + filename;
-    //
-    //ACE_FILE_Connector con;
-    //ACE_FILE_IO file; 
-    //if(con.connect(file, ACE_FILE_Addr(filepath.c_str())) >= 0 && file.remove() >= 0)
-    //{
     RemoteFile remotefile;
     if(channel->GetFile(filename, remotefile))
     {
