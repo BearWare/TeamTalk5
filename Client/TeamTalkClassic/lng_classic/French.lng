@@ -115,6 +115,7 @@
     <item id="243">Gestionnaire d&apos;hôte</item>
     <item id="244">%s a réglé l&apos;abonnement &quot;interception du fichier multimédia&quot; sur: %d</item>
     <item id="245">%s a accordé l&apos;accès au bureau</item>
+    <item id="247">Quelle est mon adresse IP?</item>
     <item id="248">%s a maintenant un accès au bureau</item>
     <item id="249">Combinaison de touches</item>
     <item id="251">Positionner les participants (cartes son 3D)</item>
@@ -167,10 +168,27 @@
     <item id="304">Supprimer le profil</item>
     <item id="305">Choisissez un profil</item>
     <item id="306">Nom du profil</item>
+    <item id="307">Ascendant</item>
+    <item id="308">Popularité</item>
+    <item id="309">Tout le monde</item>
+    <item id="310">%s a ajouté le fichier %s</item>
+    <item id="311">a supprimé le fichier %s</item>
+    <item id="312">Événements de fichier</item>
+    <item id="313">Fichier ajouté</item>
+    <item id="314">Fichier supprimé</item>
+    <item id="315">Réinitialiser</item>
+    <item id="316">Connexion Web BearWare.dk</item>
+    <item id="317">Échec de l&apos;authentification</item>
+    <item id="318">Impossible d&apos;initialiser la connexion web BearWare.dk</item>
+    <item id="319">%s, votre nom d&apos;utilisateur &quot;&quot;%s&quot;&quot; a été validé.</item>
+    <item id="320">Diffuser un message général</item>
     <item id="1009">Connexion automatique au canal principal lors de la connexion</item>
+    <item id="1011">Propriétés de l&apos;hôte</item>
     <item id="1012">Port TCP de l&apos;hôte</item>
     <item id="1016">Port UDP de lhôte</item>
     <item id="1017">Volume</item>
+    <item id="1018">Par défaut: 10333</item>
+    <item id="1019">Désactiver ce message</item>
     <item id="1020">Afficher le nombre d&apos;utilisateurs dans les canaux</item>
     <item id="1021">Position automatique des utilisateurs à l&apos;aide du son 3D</item>
     <item id="1022">Désactiver l&apos;activation vocale si inactivité</item>
@@ -196,6 +214,7 @@
     <item id="1061">Objet</item>
     <item id="1063">Mot de passe</item>
     <item id="1067">Maximum de connexions par adresse IP</item>
+    <item id="1071">Optionnel</item>
     <item id="1073">Mot de passe</item>
     <item id="1075">Adresse de l&apos;hôte</item>
     <item id="1077">Canal audio</item>
@@ -312,6 +331,7 @@
     <item id="1311">L&apos;utilisateur peut voir les utilisateurs dans tous les canaux</item>
     <item id="1312">L&apos;utilisateur peut envoyer des messages généraux</item>
     <item id="1315">L&apos;utilisateur peut transmettre des données vocales (microphone)</item>
+    <item id="1316">Modifier le compte d&apos;utilisateur</item>
     <item id="1317">L&apos;utilisateur peut transmettre des fichiers vidéo (fichiers avi, mp4)</item>
     <item id="1323">Administrateur</item>
     <item id="1324">Ajouter</item>
@@ -461,6 +481,15 @@
     <item id="1547">Protection contre le flood</item>
     <item id="1548">Empêcher un utilisateur de, par exemple, spammer avec des messages en limitant le nombre de commandes qu&apos;ils peut émettre dans un délai donné.</item>
     <item id="1550">Limite des commandes émises</item>
+    <item id="1553">Profil</item>
+    <item id="1554">L&apos;utilisateur peut changer de pseudo</item>
+    <item id="1558">L&apos;utilisateur peut enregistrer la voix sur tous les canaux</item>
+    <item id="1561">Activer</item>
+    <item id="1562">Connexion Web BearWare.dk</item>
+    <item id="1563">La connexion Web BearWare.dk est utilisée pour identifier un utilisateur TeamTalk. Un identifiant de connexion peut être créé sur le site Web BearWare.dk.</item>
+    <item id="1564">Authentification</item>
+    <item id="1565">Créer</item>
+    <item id="1566">Garder les utilisateurs déconnectés</item>
     <item id="32791">Quelle est mon adresse IP?</item>
     <item id="32798">Définir comme opérateur de canal\tCtrl+O</item>
     <item id="32801">Afficher les messages du canal\tF10</item>
@@ -483,7 +512,7 @@
     <item id="32833">Volume\tCtrl+U</item>
     <item id="32835">Afficher les informations sur l&apos;utilisateur\tCtrl+I</item>
     <item id="32837">Créer un canal\tF7</item>
-    <item id="32838">Joindre le canal\tCtrl+J</item>
+    <item id="32838">Rejoindre le canal\tCtrl+J</item>
     <item id="32839">Messages\tCtrl+E</item>
     <item id="32840">Couper</item>
     <item id="32841">Copier</item>
@@ -568,4 +597,5 @@
     <item id="32951">Exclure et bannir du canal\tCtrl+B</item>
     <item id="32952">Utilisateurs bannis du canal\tCtrl+Alt+Shift+B</item>
     <item id="32953">Nouvelle instance du client\tCtrl+N</item>
+    <item id="32954">Sélectionner pour déplacer\tCtrl+Alt+X</item>
 </language>
