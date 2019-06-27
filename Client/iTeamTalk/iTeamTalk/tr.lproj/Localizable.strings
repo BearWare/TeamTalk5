@@ -6,7 +6,7 @@
 "%@ left channel" = "%@ kanaldan ayrıldı";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%@, \"%@\" kullanıcı adınız onaylandı";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Varsayılan";
@@ -58,10 +58,10 @@
 "Announce user leaving channel" = "Kullanıcının kanaldan ayrılmasını duyur";
 
 /* preferences */
-"Announce user logged onto server" = "Sunucuda oturum açan kullanıcıyı duyur";
+"Announce user logged onto server" = "Kullanıcının sunucuda oturum açmasını duyur";
 
 /* preferences */
-"Announce user logged out of server" = "Sunucu oturumunu kapatan kullanıcıyı duyur";
+"Announce user logged out of server" = "Kullanıcının sunucu oturumunu kapatmasını duyur";
 
 /* text to speech */
 "Announcements" = "Duyurular";
@@ -82,13 +82,14 @@
 "Audio Codec" = "Ses Kodlayıcı/Çözücüsü";
 
 /* Web Login Controller */
-"Authenticate" = "Authenticate";
+"Authenticate" = "Kimliğini Doğrula";
 
-/* server entry */
+/* server entry
+   Web Login controller */
 "Authentication" = "Kimlik Doğrulama";
 
 /* channel list */
-"Ban user" = "Kullanıcıyı engelle";
+"Ban user" = "Kullanıcıyı yasakla";
 
 /* codec detail */
 "Bitrate" = "Bit Hızı";
@@ -104,7 +105,7 @@
 "Broadcast Messages" = "Yayınlanan İletiler";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "Yayınlanan Metin İletisi";
 
 /* channel list
    server entry */
@@ -175,7 +176,7 @@
 "Edit properties" = "Özellikleri düzenle";
 
 /* server entry */
-"Encrypted" = "Encrypted";
+"Encrypted" = "Şifreli";
 
 /* Dialog message */
 "Enter Password" = "Parolayı Girin";
@@ -327,7 +328,8 @@
 /* Dialog
    Dialog message
    message dialog
-   user detail */
+   user detail
+   Web Login Controller */
 "OK" = "Tamam";
 
 /* codec detail */
@@ -341,7 +343,8 @@
 
 /* create channel
    Dialog message
-   server entry */
+   server entry
+   Web Login Controller */
 "Password" = "Parola";
 
 /* channel list */
@@ -357,7 +360,7 @@
 "Play sound when a user leaves the channel" = "Bir kullanıcı kanaldan ayrıldığında ses oynat";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "Yayınlanan metin iletisi alındığında ses oynat";
 
 /* preferences */
 "Play sound when channel text message is received" = "Kanal metin iletisi alındığında ses oynat";
@@ -601,20 +604,21 @@
 "User Messages" = "Kullanıcı İletileri";
 
 /* server entry
-   user detail */
+   user detail
+   Web Login Controller */
 "Username" = "Kullanıcı adı";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Username or password incorrect";
+"Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
 
 /* preferences */
 "Version Information" = "Sürüm Bilgileri";
 
 /* channel list */
-"View" = "Görüntüle";
+"View" = "Gör";
 
 /* channel list */
-"View properties" = "Özellikleri görüntüle";
+"View properties" = "Özellikleri gör";
 
 /* preferences
    user detail */
@@ -648,7 +652,7 @@
 "Volume Controls" = "Düzey Denetimleri";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "Web Oturum Açma Kimliği";
 
 /* preferences
    user detail */
