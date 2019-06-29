@@ -18,22 +18,22 @@
         <location filename="../bannedusers.ui" line="14"/>
         <location filename="../bannedusers.ui" line="28"/>
         <source>Banned Users</source>
-        <translation>Engellenen Kullanıcılar</translation>
+        <translation>Yasaklanan Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="148"/>
         <source>Ban IP-address</source>
-        <translation>IP Adresini Engelle</translation>
+        <translation>IP Adresini Yasakla</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="149"/>
         <source>Ban Username</source>
-        <translation>Kullanıcı Adını Engelle</translation>
+        <translation>Kullanıcı Adını Yasakla</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="63"/>
         <source>Add to list of banned users</source>
-        <translation>Engellenen kullanıcıların listesine ekle</translation>
+        <translation>Yasaklanan kullanıcıların listesine ekle</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="66"/>
@@ -43,17 +43,17 @@
     <message>
         <location filename="../bannedusers.ui" line="93"/>
         <source>Remove banned user</source>
-        <translation>Engellenen kullanıcıyı kaldır</translation>
+        <translation>Yasaklanan kullanıcıyı kaldır</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="103"/>
         <source>Put back to banned users</source>
-        <translation>Engellenen kullanıcılara geri al</translation>
+        <translation>Yasaklanan kullanıcılara geri al</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="128"/>
         <source>Unbanned Users</source>
-        <translation>Engellenmeyen Kullanıcılar</translation>
+        <translation>Yasaklanmayan Kullanıcılar</translation>
     </message>
 </context>
 <context>
@@ -71,7 +71,7 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="52"/>
         <source>Ban Time</source>
-        <translation>Engellenme Zamanı</translation>
+        <translation>Yasaklanma Zamanı</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="53"/>
@@ -162,7 +162,7 @@
     <message>
         <location filename="../channel.ui" line="144"/>
         <source>Disk quota (KBytes)</source>
-        <translation>Disk alanı (KB)</translation>
+        <translation>Disk kotası (KBayt)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="172"/>
@@ -332,7 +332,7 @@
     <message>
         <location filename="../channeldlg.cpp" line="155"/>
         <source>View Channel Information</source>
-        <translation>Kanal Bilgilerini Görüntüle</translation>
+        <translation>Kanal Bilgilerini Gör</translation>
     </message>
 </context>
 <context>
@@ -365,7 +365,7 @@
     <message>
         <location filename="../chattextedit.cpp" line="179"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Disk alanı: %1 KB</translation>
+        <translation>Disk kotası: %1 KBayt</translation>
     </message>
 </context>
 <context>
@@ -431,7 +431,7 @@
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu yol bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamanızı gerektirmez.</translation>
+        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu şekilde bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamak gerekmez.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
@@ -626,7 +626,7 @@
     <message>
         <location filename="../filetransferdlg.cpp" line="101"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 KB/saniye, son saniye %2 bayt</translation>
+        <translation>%1 KBayt/saniye, son saniye %2 bayt</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="123"/>
@@ -668,7 +668,7 @@
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation>Doğrulama (isteğe bağlı)</translation>
+        <translation>Kimlik doğrulama (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
@@ -1186,7 +1186,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1355"/>
         <source>&amp;View User Information</source>
-        <translation>Kullanıcı Bilgilerini &amp;Görüntüle</translation>
+        <translation>Kullanıcı Bilgilerini &amp;Gör</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1358"/>
@@ -1236,7 +1236,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1402"/>
         <source>&amp;Banned Users</source>
-        <translation>&amp;Engellenen Kullanıcılar</translation>
+        <translation>&amp;Yasaklanan Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1405"/>
@@ -1266,7 +1266,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1426"/>
         <source>&amp;View Channel Info</source>
-        <translation>Kanal Bilgilerini &amp;Görüntüle</translation>
+        <translation>Kanal Bilgilerini &amp;Gör</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1434"/>
@@ -1281,7 +1281,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1442"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>Uzaklaştır ve Sunucudan &amp;Engelle</translation>
+        <translation>Uzaklaştır ve Sunucudan &amp;Yasakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1445"/>
@@ -1471,7 +1471,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1669"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>Kullanıcıları &amp;Taşımak için Sakla</translation>
+        <translation>Kullanıcıları &amp;Taşıma için Sakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1672"/>
@@ -1716,7 +1716,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1955"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>Uzaklaştır ve &amp;Kanaldan Engelle</translation>
+        <translation>Uzaklaştır ve &amp;Kanaldan Yasakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1958"/>
@@ -1726,7 +1726,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Banned Users From Channel</source>
-        <translation>Kanaldan Engellenen Kullanıcılar</translation>
+        <translation>Kanaldan Yasaklanan Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
@@ -1757,7 +1757,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="777"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıldı</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlandı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="791"/>
@@ -1893,7 +1893,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Banned Users in Channel %1</source>
-        <translation>%1 Kanalından Engellenen Kullanıcılar</translation>
+        <translation>%1 Kanalından Yasaklanan Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
@@ -1923,7 +1923,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1575"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanılıyor</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1623"/>
@@ -1972,7 +1972,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Banned from server</source>
-        <translation>Sunucudan engellendi</translation>
+        <translation>Sunucudan yasaklandı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
@@ -2032,7 +2032,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1711"/>
         <source>Banned user not found</source>
-        <translation>Engellenen kullanıcı bulunamadı</translation>
+        <translation>Yasaklanan kullanıcı bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1713"/>
@@ -2206,7 +2206,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3494"/>
         <source>Failed to open X11 display.</source>
-        <translation>X11 görünümünü açma başarısız.</translation>
+        <translation>X11 görüntüsünü açma başarısız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3513"/>
@@ -2303,12 +2303,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban User From Channel</source>
-        <translation>Kullanıcıyı Kanaldan Engelle</translation>
+        <translation>Kullanıcıyı Kanaldan Yasakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4311"/>
         <source>Ban user&apos;s</source>
-        <translation>Engellenecek kullanıcının</translation>
+        <translation>Yasaklanacak kullanıcının</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4448"/>
@@ -2555,7 +2555,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="99"/>
         <source>&amp;View User Information</source>
-        <translation>Kullanıcı Bilgilerini &amp;Görüntüle</translation>
+        <translation>Kullanıcı Bilgilerini &amp;Gör</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="100"/>
@@ -2575,7 +2575,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="105"/>
         <source>Kick and &amp;Ban</source>
-        <translation>Uzaklaştır ve &amp;Engelle</translation>
+        <translation>Uzaklaştır ve &amp;Yasakla</translation>
     </message>
 </context>
 <context>
@@ -2697,7 +2697,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="298"/>
         <source>Display</source>
-        <translation>Görünüm</translation>
+        <translation>Görüntü</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="304"/>
@@ -3288,7 +3288,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1527"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>Yeğlenen video yakalama ayarları bulunamadı</translation>
+        <translation>Tercih edilen video yakalama ayarları bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -3361,12 +3361,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="167"/>
         <source>Authentication (optional)</source>
-        <translation>Doğrulama (isteğe bağlı)</translation>
+        <translation>Kimlik doğrulama (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="170"/>
         <source>Authentication</source>
-        <translation>Doğrulama</translation>
+        <translation>Kimlik doğrulama</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="176"/>
@@ -3383,7 +3383,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverlist.ui" line="210"/>
         <location filename="../serverlist.ui" line="213"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>Doğrulamadan sonra belirtilen kanala katıl (isteğe bağlı)</translation>
+        <translation>Kimlik doğrulamadan sonra belirtilen kanala katıl (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="219"/>
@@ -3469,7 +3469,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverproperties.ui" line="103"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KB, %voicerx% gönderilen KB ve %lastuser% oturum açan son kullanıcı.</translation>
+        <translation>Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KBayt, %voicerx% gönderilen KBayt ve %lastuser% oturum açan son kullanıcı.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="116"/>
@@ -3508,7 +3508,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverproperties.ui" line="340"/>
         <location filename="../serverproperties.ui" line="367"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KB/sn (0 = etkisizleştirildi)</translation>
+        <translation>KBayt/sn (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="283"/>
@@ -3538,7 +3538,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverproperties.ui" line="383"/>
         <source>Max login attempts before ban</source>
-        <translation>Engellenmeden önce en fazla oturum açma girişimi</translation>
+        <translation>Yasaklanmadan önce en fazla oturum açma girişimi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="400"/>
@@ -3587,7 +3587,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverstats.ui" line="49"/>
         <source>KBytes/sec</source>
-        <translation>KB/sn</translation>
+        <translation>KBayt/sn</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="66"/>
@@ -3602,7 +3602,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../serverstats.ui" line="245"/>
         <location filename="../serverstats.ui" line="278"/>
         <source>KBytes</source>
-        <translation>KB</translation>
+        <translation>KBayt</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="83"/>
@@ -3934,7 +3934,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="381"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>Kullanıcıyı, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, örn. istenmeyen metin iletileri göndermesini önleyin.</translation>
+        <translation>Kullanıcının, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, örn. istenmeyen metin iletileri göndermesini önleyin.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="393"/>
@@ -4016,7 +4016,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="503"/>
         <source>User can ban users from server</source>
-        <translation>Kullanıcı kullanıcıları sunucudan engelleyebilir</translation>
+        <translation>Kullanıcı kullanıcıları sunucudan yasaklayabilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="566"/>

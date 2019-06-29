@@ -37,6 +37,7 @@
   <string name="pref_header_general">Genel</string>
   <string name="pref_title_nickname">Takma Ad</string>
   <string name="pref_default_nickname">Adsız</string>
+  <string name="pref_title_proximity_sensor">Yakınlık algılayıcısı</string>
   <string name="pref_title_keep_screen_on">Bağlandığında ekranı açık tut</string>
   <string name="pref_title_vibrate">Bas konuşta titret</string>
   <string name="pref_show_log_messages">Sohbet geçmişinde günlük iletilerini göster</string>
@@ -77,6 +78,8 @@
   <string name="pref_title_sub_mediafile">Ortam Dosyası</string>
   <string name="pref_summary_sub_mediafile">Ortam dosyası akışlarına abone ol</string>
   <string name="pref_header_tts">Metin Okuma</string>
+  <string name="pref_title_speech_engine">Metin okuma motoru seçimi</string>
+  <string name="pref_summary_speech_engine">Sistem ayarlarından farklı olarak kurulan konuşma motorlarının birini seçin</string>
   <string name="pref_title_server_login">Kullanıcının sunucuda oturum açması</string>
   <string name="pref_summary_server_login">Oturum açan kullanıcının adını duyur</string>
   <string name="pref_title_server_logout">Kullanıcının sunucu oturumunu kapatması</string>
@@ -85,13 +88,18 @@
   <string name="pref_summary_channel_join">Kanala katılan kullanıcının adını duyur</string>
   <string name="pref_title_channel_leave">Kullanıcının kanaldan ayrılması</string>
   <string name="pref_summary_channel_leave">Kanaldan ayrılan kullanıcının adını duyur</string>
-  <string name="pref_title_private_message">Kişisel iletiler</string>
+  <string name="pref_title_private_message">Özel iletiler</string>
+  <string name="pref_summary_private_message">Özel iletileri duyur</string>
+  <string name="pref_title_channel_message">Kanal iletileri</string>
+  <string name="pref_summary_channel_message">Kanal iletilerini duyur</string>
   <string name="pref_title_broadcast_message">Yayınlanan iletiler</string>
-  <string name="pref_summary_message">Gönderenin adını duyur</string>
+  <string name="pref_summary_broadcast_message">Yayınlanan iletileri duyur</string>
   <string name="pref_title_mute_speakers">İlet düğmesine basıldığında hoparlörleri sustur</string>
   <string name="pref_summary_mute_speakers">Hoparlörlerden gelen yankıyı önlemek için bunu etkinleştirin</string>
   <string name="pref_title_show_usernames">Kullanıcı adlarını göster</string>
   <string name="pref_summary_show_usernames">Takma adların yerine kullanıcı adlarını göster</string>
+  <string name="pref_title_bearwareid">BearWare.dk Web Oturum Açma</string>
+  <string name="pref_summary_bearwareid">BearWare.dk Web Oturum Açma Ayarlaması</string>
   <string name="pref_title_mediafile_volume">Ortam dosyası düzeyi</string>
   <string name="pref_summary_mediafile_volume">Ortam dosyası-ses düzeyi oranı</string>
   <string name="pref_title_speakerphone_checkbox">Hoparlörlü telefonu etkinleştir</string>
@@ -104,8 +112,9 @@
   <string name="text_tts_loggedout">oturumu kapattı</string>
   <string name="text_tts_joined_chan">kanala katıldı</string>
   <string name="text_tts_left_chan">kanaldan ayrıldı</string>
-  <string name="text_tts_private_message">%1$s kullanıcısından kişisel ileti</string>
-  <string name="text_tts_broadcast_message">%1$s kullanıcısından yayınlanan ileti</string>
+  <string name="text_tts_private_message">%1$s kullanıcısından özel ileti - %2$s</string>
+  <string name="text_tts_channel_message">%1$s kullanıcısından kanal iletisi - %2$s</string>
+  <string name="text_tts_broadcast_message">%1$s kullanıcısından yayınlanan ileti - %2$s</string>
   <string name="pref_header_soundsystem">Ses Sistemi</string>
   <string name="title_activity_audio_codec">Ses Kodlayıcı/Çözücüsü</string>
   <string name="title_activity_filepicker">Dosya Seçimi</string>
@@ -117,8 +126,8 @@
   <string name="button_tx">İlet</string>
   <string name="button_remove">Kaldır</string>
   <string name="button_edit">Düzenle</string>
-  <string name="action_banchan">Geçerli kanaldan engelle</string>
-  <string name="action_bansrv">Sunucudan engelle</string>
+  <string name="action_banchan">Geçerli kanaldan yasakla</string>
+  <string name="action_bansrv">Sunucudan yasakla</string>
   <string name="action_edit">Kanalı Düzenle</string>
   <string name="action_join">Katıl</string>
   <string name="action_kickchan">Geçerli kanaldan uzaklaştır</string>
@@ -222,7 +231,7 @@
   <string name="remote_file_remove_confirmation">%1$s dosyasını sunucudan gerçekten kaldırmak istiyor musunuz?</string>
   <string name="server_remove_confirmation">%1$s öğesini sunucu listesinden gerçekten kaldırmak istiyor musunuz?</string>
   <string name="channel_remove_confirmation">%1$s kanalını gerçekten kaldırmak istiyor musunuz?</string>
-  <string name="ban_confirmation">%1$s kullanıcısını gerçekten engellemek istiyor musunuz?</string>
+  <string name="ban_confirmation">%1$s kullanıcısını gerçekten yasaklamak istiyor musunuz?</string>
   <string name="kick_confirmation">%1$s kullanıcısını gerçekten uzaklaştırmak istiyor musunuz?</string>
   <string name="version_update">Yeni TeamTalk sürümü kullanılabilir: %1$s?</string>
   <string name="decvolume">Düzeyi azalt</string>
@@ -262,7 +271,7 @@
   <string name="err_invalid_account">Geçersiz hesap</string>
   <string name="err_max_server_users_exceeded">Sunucuda çok fazla kullanıcı var</string>
   <string name="err_max_channel_users_exceeded">Kanalda çok fazla kullanıcı var</string>
-  <string name="err_server_banned">IP adresiniz engellendi</string>
+  <string name="err_server_banned">IP adresiniz yasaklandı</string>
   <string name="err_not_authorized">Yetkili değil</string>
   <string name="err_max_diskusage_exceeded">Yetersiz disk alanı</string>
   <string name="err_incorrect_op_password">İşletmeci parolası yanlış</string>
@@ -290,4 +299,14 @@
   <string name="permission_read_phone_state">Gelen telefon araması algılaması olanaksız olacak</string>
   <string name="facebook_app_id">611833262539381</string>
   <string name="fb_login_protocol_scheme">fb611833262539381</string>
+  <string name="title_activity_web_login">Web Oturum Açma Etkinliği</string>
+  <string name="weblogin_prop_title_bearwareid">Kullanıcı Adı</string>
+  <string name="weblogin_prop_title_bearwarepasswd">Parola</string>
+  <string name="weblogin_prop_title_login">Oturum Aç</string>
+  <string name="weblogin_prop_title_web_login_id">BearWare.dk Oturum Açma Kimliği</string>
+  <string name="weblogin_prop_title_create_web_login_id">BearWare.dk Oturum Açma Kimliği Oluştur</string>
+  <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk Oturum Açma Kimliğini Sıfırla</string>
+  <string name="text_bearwarelogin_success">%1$s kullanıcı adınız %2$s doğrulandı</string>
+  <string name="text_bearwarelogin_failed">%1$s kullanıcı adı kimliğinin doğrulanması başarısız</string>
+  <string name="text_weblogin_authfailure">BearWare.dk web oturum açma kimliğinin doğrulanması başarısız</string>
 </resources>
