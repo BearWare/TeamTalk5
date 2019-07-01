@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -91,47 +89,47 @@
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Web Oturum Açmayı Etkinleştir</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Web Oturum Açma</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum açma kimliği oluşturulur.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
         <source>C&amp;reate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oluştur</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
         <source>Authentication</source>
-        <translation type="unfinished">Kimlik doğrulama</translation>
+        <translation>Kimlik Doğrulama</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adı</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="97"/>
         <source>Password</source>
-        <translation type="unfinished">Parola</translation>
+        <translation>Parola</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="110"/>
         <source>Failed to authenticate</source>
-        <translation type="unfinished"></translation>
+        <translation>Kimlik doğrulama başarısız</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="118"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, &quot;%2&quot; kullanıcı adınız onaylandı.</translation>
     </message>
 </context>
 <context>
@@ -2514,12 +2512,7 @@
         <location filename="../mainwindow.cpp" line="5449"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -2711,12 +2704,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="189"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Web Oturum Açma Kimliği</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>&amp;Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Etkinleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="230"/>
@@ -3063,7 +3056,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1190"/>
         <source>New broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni yayınlanan ileti</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1353"/>
@@ -3624,12 +3617,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverproperties.ui" line="431"/>
         <source>Login delay per IP-address</source>
-        <translation type="unfinished"></translation>
+        <translation>IP adresi başına oturum açma gecikmesi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="445"/>
         <source>msec (0 = disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>ms (0 = etkisizleştirildi)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="455"/>
@@ -4126,7 +4119,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="579"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı tüm kanallarda ses kaydedebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="611"/>

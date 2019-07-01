@@ -306,7 +306,7 @@
   <string name="weblogin_prop_title_web_login_id">BearWare.dk Oturum Açma Kimliği</string>
   <string name="weblogin_prop_title_create_web_login_id">BearWare.dk Oturum Açma Kimliği Oluştur</string>
   <string name="weblogin_prop_title_reset_web_login_id">BearWare.dk Oturum Açma Kimliğini Sıfırla</string>
-  <string name="text_bearwarelogin_success">%1$s kullanıcı adınız %2$s doğrulandı</string>
+  <string name="text_bearwarelogin_success">%1$s %2$s kullanıcı adınız onaylandı</string>
   <string name="text_bearwarelogin_failed">%1$s kullanıcı adı kimliğinin doğrulanması başarısız</string>
   <string name="text_weblogin_authfailure">BearWare.dk web oturum açma kimliğinin doğrulanması başarısız</string>
 </resources>
