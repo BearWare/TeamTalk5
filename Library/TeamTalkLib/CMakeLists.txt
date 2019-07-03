@@ -75,8 +75,14 @@ endfunction()
 option (BUILD_TEAMTALK5DLL "Build TeamTalk shared library" ON)
 
 if (BUILD_TEAMTALK5DLL)
-  add_library (TeamTalk5DLL SHARED
-    ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+  
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    add_library (TeamTalk5DLL STATIC
+                 ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+  else()
+    add_library (TeamTalk5DLL SHARED
+                 ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
+  endif()
 
   target_include_directories (TeamTalk5DLL PUBLIC
     ${TTCLIENTDLL_INCLUDE_DIR})

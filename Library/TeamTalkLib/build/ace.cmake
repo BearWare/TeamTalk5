@@ -2,6 +2,11 @@ option (BUILD_TEAMTALK_ACE "Build customized ACE INet SSL library with SNI-enabl
 
 if (BUILD_TEAMTALK_ACE)
   set (ACE_COMPILE_FLAGS -DENABLE_TEAMTALKACE)
+
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    list (APPEND ACE_COMPILE_FLAGS -DACE_HAS_CUSTOM_EXPORT_MACROS=0 -D__ACE_INLINE__)
+  endif()
+        
 endif()
 
 if (MSVC)
@@ -14,7 +19,8 @@ if (MSVC)
   set (ACEINET_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INets.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INetsd.lib)
   set (ACEINETSSL_STATIC_LIB optimized ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLs.lib debug ${ACE_ROOT}/lib/$(PlatformName)/ACE_INet_SSLsd.lib)
   set (ACE_LINK_FLAGS ${ACEINETSSL_STATIC_LIB} ${ACESSL_STATIC_LIB} ${ACEINET_STATIC_LIB} ${ACE_STATIC_LIB})
-else()
+
+else() # Mac & Linux
 
   option (ACE_STATIC "Build using static ACE libraries" ON)
 
