@@ -2,6 +2,14 @@
 
 export TEAMTALK_ROOT=$PWD
 
+if [ -e "$TEAMTALK_ROOT/Library/TeamTalkLib/toolchain/env.sh" ]; then
+
+    cd $TEAMTALK_ROOT/Library/TeamTalkLib/toolchain
+    . env.sh
+    cd -
+    
+fi
+
 if [ "Darwin" = `uname -s` ]; then
     export DYLD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs
 else

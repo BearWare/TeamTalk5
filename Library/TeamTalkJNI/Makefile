@@ -99,6 +99,9 @@ macnative:
 macnativepro:
 	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.dylib libs/libTeamTalk5Pro-jni.dylib
 
+android:
+	cd jni && $(NDK)/ndk-build
+
 clean:
 	cd test && find . -name \*.class -exec rm {} \;
 	rm -f libs/TeamTalk5Test.jar
