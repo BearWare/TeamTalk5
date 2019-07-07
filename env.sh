@@ -2,10 +2,10 @@
 
 export TEAMTALK_ROOT=$PWD
 
-if [ -e "$TEAMTALK_ROOT/Library/TeamTalkLib/toolchain/env.sh" ]; then
+if [ -e "$TEAMTALK_ROOT/Library/TeamTalkLib/toolchain/toolchain.sh" ]; then
 
     cd $TEAMTALK_ROOT/Library/TeamTalkLib/toolchain
-    . env.sh
+    . toolchain.sh $@
     cd -
     
 fi

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Lib)
 
-set (TEAMTALK_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+set (TEAMTALK_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../)
+set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 option (BUILD_TEAMTALK_STATIC "Build TeamTalk using static libraries" ON)
 

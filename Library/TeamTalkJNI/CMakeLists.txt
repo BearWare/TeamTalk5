@@ -6,10 +6,10 @@ find_package(JNI)
 
 if (NOT JNI_FOUND)
   message("Specify JAVA_HOME environment variable to help cmake")
+else()
+  include_directories (../../Library/TeamTalk_DLL ${JNI_INCLUDE_DIRS})
+  link_directories (../../Library/TeamTalk_DLL)
 endif()
-
-include_directories (../../Library/TeamTalk_DLL ${JNI_INCLUDE_DIRS})
-link_directories (../../Library/TeamTalk_DLL)
 
 option (BUILD_TEAMTALK_LIBRARY_JNI "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
 option (BUILD_TEAMTALKPRO_LIBRARY_JNI "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
@@ -126,7 +126,10 @@ if (BUILD_TEAMTALKPRO_LIBRARY_JNI)
 endif()
 
 find_package (Java)
-include (UseJava)
+
+if (Java_FOUND)
+  include (UseJava)
+endif()
 
 option (BUILD_TEAMTALK_LIBRARY_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
 option (BUILD_TEAMTALKPRO_LIBRARY_JAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
