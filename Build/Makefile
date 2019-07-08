@@ -34,10 +34,10 @@ android-arm64-v8a:
 android-x86:
 	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-x86 android-build
 
-deb32dbg:
+deb32dbg: toolchain-env
 	make BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
-deb32:
+deb32: toolchain-env
 	make BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
 deb64dbg: deb32dbg
