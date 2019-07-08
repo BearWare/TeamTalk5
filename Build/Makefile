@@ -44,3 +44,7 @@ deb64dbg: deb32dbg
 
 deb64: deb32
 
+ubuntu64: toolchain-env
+	# Need to specify JAVA_HOME to help CMake find Java SDK
+	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 deb64
+
