@@ -15,4 +15,3 @@ if [ "Darwin" = `uname -s` ]; then
 else
     export LD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs
 fi
-
