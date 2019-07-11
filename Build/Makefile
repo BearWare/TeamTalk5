@@ -13,9 +13,9 @@ toolchain-env:
 	test -d "$(TOOLCHAIN_ROOT)"
 	test -d "$(TTLIBS_ROOT)"
 
-genlib: teamtalk-env
+genlib:
 	mkdir -p $(BUILDDIR)
-	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) $(TEAMTALK_ROOT)
+	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) ../../
 
 buildlib: genlib
 	make -C $(BUILDDIR) VERBOSE=1 all -j$(JOBS)
@@ -44,3 +44,8 @@ deb64dbg: deb32dbg
 
 deb64: deb32
 
+rasp:
+	make JOBS=2 BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf buildlib
+
+raspdbg:
+	make JOBS=2 BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf buildlib
