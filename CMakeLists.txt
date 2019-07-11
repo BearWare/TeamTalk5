@@ -6,6 +6,8 @@ option (BUILD_TEAMTALK_LIBRARIES "Build TeamTalk libraries" ON)
 option (BUILD_TEAMTALK_CLIENTS "Build TeamTalk client examples" ON)
 option (BUILD_TEAMTALKPRO_SERVERS "Build TeamTalk server examples" ON)
 
+set (TEAMTALK_ROOT ${CMAKE_CURRENT_LIST_DIR})
+
 if (BUILD_TEAMTALK_CORE)
   add_subdirectory (Library/TeamTalkLib)
 endif()

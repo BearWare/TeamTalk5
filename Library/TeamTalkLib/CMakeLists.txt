@@ -1,16 +1,22 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Lib)
 
-set (TEAMTALK_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../)
 set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
-option (BUILD_TEAMTALK_STATIC "Build TeamTalk using static libraries" ON)
+option (BUILD_TEAMTALK_STATIC "Build TeamTalk libraries and executables from toolchain" ON)
 
 if (BUILD_TEAMTALK_STATIC)
-  if (NOT DEFINED ${TTLIBS_ROOT})
+
+  add_subdirectory (toolchain)
+
+  if ($ENV{TTLIBS_ROOT})
+    message("Overriding TTLIBS_ROOT with environment variable TTLIBS_ROOT=$ENV{TTLIBS_ROOT}")
     set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+    file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
   endif()
-  file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
+  
+else()
+  message("Building TeamTalk from shared libraries")
 endif()
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.1")
