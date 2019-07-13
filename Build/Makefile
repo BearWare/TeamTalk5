@@ -44,6 +44,9 @@ deb64dbg: deb32dbg
 
 deb64: deb32
 
+ubuntu64:
+	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 deb64
+
 rasp:
 	make JOBS=2 BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf buildlib
 
