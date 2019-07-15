@@ -43,5 +43,17 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
         ${TEAMTALKLIB_ROOT}/avstream/OpenSLESWrapper.cpp)
 
   set (SOUNDSYS_COMPILE_FLAGS -DENABLE_OPENSLES)
-      
+
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+
+  option (AUDIOUNIT "Build using AudioUnit" ON)
+
+  list (APPEND SOUNDSYS_HEADERS ${SOUNDSYS_HEADERS}
+        ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.h)
+
+  list (APPEND SOUNDSYS_SOURCES ${SOUNDSYS_SOURCES} 
+        ${TEAMTALKLIB_ROOT}/avstream/AudioUnit.mm)
+
+  set (SOUNDSYS_COMPILE_FLAGS -DENABLE_AUDIOUNIT)
+  
 endif()
