@@ -9,11 +9,11 @@ if (BUILD_TEAMTALK_STATIC)
 
   add_subdirectory (toolchain)
 
-  if ($ENV{TTLIBS_ROOT})
-    message("Overriding TTLIBS_ROOT with environment variable TTLIBS_ROOT=$ENV{TTLIBS_ROOT}")
-    set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
-    file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
-  endif()
+  # if ($ENV{TTLIBS_ROOT})
+  #   message("Overriding TTLIBS_ROOT with environment variable TTLIBS_ROOT=$ENV{TTLIBS_ROOT}")
+  #   set (TTLIBS_ROOT $ENV{TTLIBS_ROOT})
+  #   file (TO_CMAKE_PATH ${TTLIBS_ROOT} TTLIBS_ROOT)
+  # endif()
   
 else()
   message("Building TeamTalk from shared libraries")

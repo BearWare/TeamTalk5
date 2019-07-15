@@ -1,5 +1,6 @@
 JOBS?=4
 TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
+TEAMTALK_ROOT?=$(PWD)/..
 
 help:
 
@@ -9,10 +10,8 @@ teamtalk-env:
 	test -d "$(TEAMTALK_ROOT)"
 
 toolchain-env:
-	@echo "Testing that TOOLCHAIN_ROOT and TTLIBS_ROOT are valid."
-	@echo "Source env.sh in repository root to set up environment"
+	@echo "Testing that TOOLCHAIN_ROOT is valid, i.e. source Library/TeamTalkLib/toolchain/toolchain.sh"
 	test -d "$(TOOLCHAIN_ROOT)"
-	test -d "$(TTLIBS_ROOT)"
 
 genlib:
 	mkdir -p $(BUILDDIR)
@@ -22,18 +21,20 @@ buildlib: genlib
 	make -C $(BUILDDIR) VERBOSE=1 all -j$(JOBS)
 
 android-build: toolchain-env
+	@echo "Testing if NDK environment variable is set"
+	test -n "$NDK"
 	make CONFIGTYPE=release \
 	CMAKE_EXTRA="-DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF" buildlib
-	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI && make android-jni
+	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build
 
 android-armeabi-v7a:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-armeabi-v7a.cmake BUILDDIR=build-armeabi-v7a android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-armeabi-v7a.cmake BUILDDIR=build-armeabi-v7a android-build
 
 android-arm64-v8a:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-arm64-v8a android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-arm64-v8a android-build
 
 android-x86:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-x86 android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-x86 android-build
 
 deb32dbg: toolchain-env
 	make BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
