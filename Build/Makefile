@@ -1,8 +1,11 @@
 JOBS?=4
 TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
 TEAMTALK_ROOT?=$(PWD)/..
+CONFIGTYPE?=release
 
 help:
+	echo "To make debug configuration specify CONFIGTYPE=debug:"
+	echo "    make CONFIGTYPE=debug android-armeabi-v7a"
 
 teamtalk-env:
 	@echo "Testing that TEAMTALK_ROOT is valid."
@@ -23,7 +26,7 @@ buildlib: genlib
 android-build: toolchain-env
 	@echo "Testing if NDK environment variable is set"
 	test -n "$NDK"
-	make CONFIGTYPE=release \
+	make CONFIGTYPE=$(CONFIGTYPE) \
 	CMAKE_EXTRA="-DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF" buildlib
 	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build
 
@@ -36,24 +39,35 @@ android-arm64-v8a:
 android-x86:
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-x86 android-build
 
-deb32dbg: toolchain-env
-	make BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
-
-deb32: toolchain-env
+generic:
 	make BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
-deb64dbg: deb32dbg
+generic-dbg:
+	make BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
-deb64: deb32
+deb32dbg: generic-dbg
+
+deb32: generic
+
+deb64dbg: generic-dbg
+
+deb64: generic
 
 ubuntu64:
-	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 deb64
+	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 generic
+
+centos7:
+	make BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" buildlib
 
 rasp:
-	make JOBS=2 BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf buildlib
+	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf generic
 
 raspdbg:
-	make JOBS=2 BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf buildlib
+	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf generic-dbg
+
+mac: generic
+
+macdbg: generic-dbg
 
 ios-build:
 	make CONFIGTYPE=release \
