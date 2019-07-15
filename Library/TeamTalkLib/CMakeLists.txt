@@ -82,7 +82,7 @@ option (BUILD_TEAMTALK5DLL "Build TeamTalk library" ON)
 
 if (BUILD_TEAMTALK5DLL)
   
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     add_library (TeamTalk5DLL STATIC
                  ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
   else()
@@ -102,6 +102,8 @@ if (BUILD_TEAMTALK5DLL)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
+  elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_OSX_ARCHITECTURES})
   else()
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
@@ -123,7 +125,7 @@ option (BUILD_TEAMTALK5PRODLL "Build TeamTalk shared library" ON)
 
 if (BUILD_TEAMTALK5PRODLL)
 
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Android" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     add_library (TeamTalk5ProDLL STATIC
       ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
   else()
@@ -143,6 +145,8 @@ if (BUILD_TEAMTALK5PRODLL)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
+  elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_OSX_ARCHITECTURES})
   else()
     set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
   endif()
