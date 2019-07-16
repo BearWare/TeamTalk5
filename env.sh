@@ -1,6 +1,12 @@
 #!/bin/bash
 
+# Find absolute path (that works on both macOS and Linux :( )
+CURDIR=$(PWD)
 TEAMTALK_ROOT=$(dirname ${BASH_SOURCE[0]})
+cd $TEAMTALK_ROOT
+TEAMTALK_ROOT=$(pwd -P)
+cd $CURDIR
+
 export TEAMTALK_ROOT
 
 if [ "Darwin" = `uname -s` ]; then
