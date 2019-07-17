@@ -3,6 +3,8 @@ TOOLCHAIN_ROOT?=$(PWD)/../Library/TeamTalkLib/toolchain
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
 
+SHELL := /bin/bash
+
 help:
 	echo "To make debug configuration specify CONFIGTYPE=debug:"
 	echo "    make CONFIGTYPE=debug android-armeabi-v7a"
