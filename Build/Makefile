@@ -33,60 +33,62 @@ android-build: toolchain-env
 	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build
 
 android-armeabi-v7a:
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-armeabi-v7a.cmake BUILDDIR=build-armeabi-v7a android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-armeabi-v7a.cmake BUILDDIR=build-$@ android-build
 
 android-arm64-v8a:
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-arm64-v8a android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-$@ android-build
 
 android-x86:
-	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-x86 android-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-$@ android-build
 
 generic:
-	make BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
+	make CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
 generic-dbg:
-	make BUILDDIR=build CONFIGTYPE=debug CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
+	make CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
-deb32dbg: generic-dbg
+deb32dbg: BUILDDIR=build-$@ generic-dbg
 
-deb32: generic
+deb32: BUILDDIR=build-$@ generic
 
-deb64dbg: generic-dbg
+deb64dbg: BUILDDIR=build-$@ generic-dbg
 
-deb64: generic
+deb64: BUILDDIR=build-$@ generic
 
 ubuntu64:
-	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 generic
+	make JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 BUILDDIR=build-$@ generic
 
 centos7:
-	make BUILDDIR=build CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" buildlib
+	make CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK5DLL=OFF -DBUILD_TEAMTALK5PRODLL=OFF -DSTATICCPP=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
 
 rasp:
-	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf generic
+	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
 
 raspdbg:
-	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf generic-dbg
+	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic-dbg
 
-mac: generic
+mac: BUILDDIR=build-$@ generic
 
-macdbg: generic-dbg
+macdbg: BUILDDIR=build-$@ generic-dbg
 
 ios-build:
 	make CONFIGTYPE=release \
-	CMAKE_EXTRA="-DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
+	CMAKE_EXTRA="$(CMAKE_EXTRA) -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
 
 ios-armv7:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-ios-armv7.cmake BUILDDIR=build-armv7 ios-build
+	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
 
 ios-arm64:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-ios-arm64.cmake BUILDDIR=build-arm64 ios-build
+	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
 
 ios-i386:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-ios-i386.cmake BUILDDIR=build-i386 ios-build
+	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=i386 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
 
 ios-x64:
-	make TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-ios-x86_64.cmake BUILDDIR=build-x86_64 ios-build
+	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
 
 teamtalk-jar:
 	make BUILDDIR=build CONFIGTYPE=release \
 	CMAKE_EXTRA="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib
+
+
