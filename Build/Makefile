@@ -25,20 +25,20 @@ genlib:
 buildlib: genlib
 	make -C $(BUILDDIR) VERBOSE=1 all -j$(JOBS)
 
-android-build: toolchain-env
+android-build:
 	@echo "Testing if NDK environment variable is set"
 	test -n "$NDK"
 	make CONFIGTYPE=$(CONFIGTYPE) \
 	CMAKE_EXTRA="-DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE) -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF" buildlib
 	cd $(TEAMTALK_ROOT)/Library/TeamTalkJNI/jni && $(NDK)/ndk-build
 
-android-armeabi-v7a:
+android-armeabi-v7a: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android armeabi-v7a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-armeabi-v7a.cmake BUILDDIR=build-$@ android-build
 
-android-arm64-v8a:
+android-arm64-v8a: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android arm64-v8a && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-arm64-v8a.cmake BUILDDIR=build-$@ android-build
 
-android-x86:
+android-x86: teamtalk-env toolchain-env
 	. $(TOOLCHAIN_ROOT)/toolchain.sh android x86 && make TEAMTALK_ROOT=$(TEAMTALK_ROOT) TOOLCHAIN_FILE=$(TOOLCHAIN_ROOT)/toolchain-android-x86.cmake BUILDDIR=build-$@ android-build
 
 generic:
@@ -72,23 +72,67 @@ mac: BUILDDIR=build-$@ generic
 macdbg: BUILDDIR=build-$@ generic-dbg
 
 ios-build:
-	make CONFIGTYPE=release \
-	CMAKE_EXTRA="$(CMAKE_EXTRA) -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
+	make CMAKE_EXTRA="$(CMAKE_EXTRA) -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
 
-ios-armv7:
+ios-armv7: toolchain-env
 	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=armv7 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh ios armv7 && make lipo-arch
 
-ios-arm64:
+ios-arm64: toolchain-env
 	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos" BUILDDIR=build-$@ ios-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh ios arm64 && make lipo-arch
 
-ios-i386:
+ios-i386: toolchain-env
 	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=i386 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh ios i386 && make lipo-arch
 
-ios-x64:
+ios-x64: toolchain-env
 	make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator" BUILDDIR=build-$@ ios-build
+	. $(TOOLCHAIN_ROOT)/toolchain.sh ios x86_64 && make lipo-arch
+
+ios-all: ios-armv7 ios-arm64 ios-i386 ios-x64 lipo
+
+lipo-arch: toolchain-env teamtalk-env
+	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-$(ARCH).a \
+	$(TTLIBS_ROOT)/speex/lib/libspeex.a \
+	$(TTLIBS_ROOT)/speex/lib/libspeexdsp.a \
+	$(TTLIBS_ROOT)/opus/lib/libopus.a \
+	$(TTLIBS_ROOT)/libvpx/lib/libvpx.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_SSL.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_INet.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
+	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
+	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5.a
+
+	libtool -static -o $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-$(ARCH).a \
+	$(TTLIBS_ROOT)/speex/lib/libspeex.a \
+	$(TTLIBS_ROOT)/speex/lib/libspeexdsp.a \
+	$(TTLIBS_ROOT)/opus/lib/libopus.a \
+	$(TTLIBS_ROOT)/libvpx/lib/libvpx.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_SSL.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_INet.a \
+	$(TTLIBS_ROOT)/ACE/lib/libACE_INet_SSL.a \
+	$(TTLIBS_ROOT)/openssl/lib/libcrypto.a \
+	$(TTLIBS_ROOT)/openssl/lib/libssl.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
+
+lipo: teamtalk-env
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-i386.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-armv7.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-arm64.a \
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.a
+
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-i386.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-x86_64.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-armv7.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-arm64.a \
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.a
 
 teamtalk-jar:
-	make BUILDDIR=build CONFIGTYPE=release \
-	CMAKE_EXTRA="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib
+	make BUILDDIR=build-$@ CMAKE_EXTRA="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib
 
 
