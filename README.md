@@ -4,6 +4,16 @@ Repository for TeamTalk 5 development.
 
 [![Build Status](https://travis-ci.org/BearWare/TeamTalk5.svg?branch=master)](https://travis-ci.org/BearWare/TeamTalk5)
 
+## Overview
+* [Download TeamTalk 5 SDK](#download-teamtalk-5-sdk)
+  * Get the client and server binaries for building your own software
+* [TeamTalk 5 Libraries](#teamtalk-5-libraries)
+  * The libraries (APIs) that can be used for developing your client and server
+* [TeamTalk 5 Clients](#teamtalk-5-clients)
+  * Example projects that show how to build your own TeamTalk client
+* [TeamTalk 5 Servers](#teamtalk-5-servers)
+  * Example projects that show how to build your own TeamTalk server
+
 ## Download TeamTalk 5 SDK
 
 To build the TeamTalk client or server projects you must first
@@ -17,7 +27,7 @@ so if your platform is not listed then try a previously released beta.
 
 ## TeamTalk 5 Libraries
 Projects wrapping the client DLL file in the TeamTalk SDK.
-* **TeamTalkLib**
+* **TeamTalkLib**  (dependency: [TeamTalk toolchain](https://github.com/bear101/toolchain))
   * Source code for building TeamTalk 5 DLL and server executables
   * Read License.txt for terms of use
   * Build using [CMake](http://www.cmake.org)
