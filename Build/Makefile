@@ -44,14 +44,7 @@ android-x86: teamtalk-env toolchain-env
 generic:
 	make CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
-generic-dbg:
-	make CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" BUILDDIR=build-$@ buildlib
-
-deb32dbg: BUILDDIR=build-$@ generic-dbg
-
 deb32: BUILDDIR=build-$@ generic
-
-deb64dbg: BUILDDIR=build-$@ generic-dbg
 
 deb64: BUILDDIR=build-$@ generic
 
@@ -64,12 +57,7 @@ centos7:
 rasp:
 	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
 
-raspdbg:
-	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic-dbg
-
 mac: BUILDDIR=build-$@ generic
-
-macdbg: BUILDDIR=build-$@ generic-dbg
 
 ios-build:
 	make CMAKE_EXTRA="$(CMAKE_EXTRA) -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
