@@ -61,6 +61,10 @@ if (MSVC)
   endforeach(flag_var)
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+  list (APPEND COMPILE_FLAGS -fembed-bitcode)
+endif()
+
 function(set_output_dir target dir)
   set_target_properties (${target} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${dir}
