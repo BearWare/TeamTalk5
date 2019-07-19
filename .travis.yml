@@ -35,6 +35,10 @@ addons:
 #      - qtwebengine5-dev (ubuntu 18)
       - junit4
 
+# Library/TeamTalkLib/toolchain has many submodules
+git:
+  submodules: false
+
 env:
   global:
 # Setup shared libraries
