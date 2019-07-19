@@ -1,7 +1,0 @@
-project : mod_linux {
-
-specific(make,gnuace) {
-  pure_libs += -Wl,-Bsymbolic
-}
-
-}
