@@ -28,11 +28,6 @@
  *        daemon.
  *
  * - <b>TeamTalk Professional Edition</b>
- *   - The encrypted server requires a certificate and private key
- *     which can be created using OpenSSL. Run the following command line
- *     using OpenSSL to generate the certificate and privte key:
- *   @verbatim
-$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM @endverbatim
  *   - Windows server executables
  *     - @c tt5prosrv.exe
  *       TeamTalk server with encryption as console application.
@@ -42,6 +37,12 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *      - @c tt5prosrv
  *        TeamTalk server with encryption which can run as a console
  *        application and a daemon.
+ *   - To run in encrypted mode the server requires a certificate and private key
+ *     which can be created using OpenSSL. Run the following command line
+ *     using OpenSSL to generate the certificate and privte key:
+ *   @verbatim
+$ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -out ttservercert.pem -outform PEM
+@endverbatim
  *
  * This section outlines the following:
  * - @ref srvconfig
@@ -57,20 +58,25 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  * manually (using an UTF-8 aware editor) or one can choose to use
  * the @c -wizard option to the server executable.
  *
- * Below is an example a server's configuration file:
+ * Below is an example a TeamTalk 5 Professional server's
+ * configuration file:
 @verbatim
 <?xml version="1.0" encoding="UTF-8" ?>
-<teamtalk version="5.0">
+<teamtalk version="5.1">
     <general>
-        <server-name>TeamTalk 5 Server</server-name>
+        <server-name>TeamTalk 5 Professional Server (Encrypted)</server-name>
         <motd>My login message to users</motd>
         <max-users>1000</max-users>
         <auto-save>true</auto-save>
         <bind-ip />
-        <tcpport>10333</tcpport>
-        <udpport>10333</udpport>
+        <tcpport>10443</tcpport>
+        <udpport>10443</udpport>
+        <certificate-file>ttservercert.pem</certificate-file>
+        <privatekey-file>ttserverkey.pem</privatekey-file>
         <login-attempts>0</login-attempts>
         <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
+        <user-timeout>60</user-timeout>
+        <login-delay-msec>2000</login-delay-msec>
         <bandwidth-limits>
             <voicetx-limit>0</voicetx-limit>
             <vidcaptx-limit>0</vidcaptx-limit>
@@ -78,7 +84,6 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
             <desktoptx-limit>0</desktoptx-limit>
             <totaltx-limit>0</totaltx-limit>
         </bandwidth-limits>
-        <user-timeout>60</user-timeout>
     </general>
     <file-storage>
         <files-root>files</files-root>
@@ -109,9 +114,46 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
             <userdata>0</userdata>
             <init-channel />
             <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <abuse-prevention>
+                <commands-limit>10</commands-limit>
+                <commands-interval-msec>10000</commands-interval-msec>
+            </abuse-prevention>
             <channel-operator>
                 <channel>1</channel>
             </channel-operator>
+        </user>
+        <user>
+            <username>facebook</username>
+            <password></password>
+            <user-type>1</user-type>
+            <user-rights>521735</user-rights>
+            <note>Default user rights for Facebook users</note>
+            <userdata>0</userdata>
+            <init-channel></init-channel>
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+        <user>
+            <username>bearware</username>
+            <password></password>
+            <user-type>1</user-type>
+            <user-rights>521735</user-rights>
+            <note>Default user rights for BearWare.dk weblogin users</note>
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
+        </user>
+        <user>
+            <username>myname@bearware.dk</username>
+            <password></password>
+            <user-type>2</user-type>
+            <user-rights>0</user-rights>
+            <note>Administrator account from BearWare.dk weblogin</note>
+            <userdata>0</userdata>
+            <init-channel />
+            <audiocodec-bps-limit>0</audiocodec-bps-limit>
+            <channel-operator />
         </user>
     </users>
     <serverbans>
@@ -198,11 +240,22 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *   - @c \<udpport\>
  *     The UDP port the server must use. Ensure it's not taken by another
  *     application.
+ *   - @c \<certificate-file\>
+ *     If certificate file and private key file are specified then the
+ *     server is running in encrypted mode. Read section @ref
+ *     serverexe on how to create certificate and private key files.
+ *   - @c \<privatekey-file\>
+ *     Read @c \<certificate-file\> description above.
  *   - @c \<login-attempts\>
  *     The maximum number of log in attempt with incorrect password before
  *     banning a user's IP-address.
  *   - @c \<max-logins-per-ipaddr\>
  *     The maximum number of logins allowed from a single IP-address.
+ *   - @c \<user-timeout\>
+ *     The number of seconds a client can be unresponsive without being dropped.
+ *   - \<login-delay-msec\>
+ *     The number of miliseconds before the same IP-address can make
+ *     another login attempt.
  *
  *   - @c \<bandwidth-limits\> Tags related to bandwidth usage.
  *     - @c \<voicetx-limit\>
@@ -239,7 +292,9 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *   - @c \<users\> Tags related to user accounts
  *     - @c \<user\> Tags related to a user account
  *       - @c \<username\>
- *         The username of the user account (must be unique).
+ *         The username of the user account (must be unique). Usernames @a
+ *         facebook and @a bearware are reserved usernames for Facebook
+ *         and BearWare.dk weblogins.
  *       - @c \<password\>
  *         The password of the user account.
  *       - @c \<user-type\>
@@ -259,6 +314,12 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *       - @c \<audiocodec-bps-limit\>
  *         The highest bitrate for audio codec allowed by the user. Admins do not 
  *         need to obey this limit.
+ *       - @c \<abuse-prevention\>
+ *         - @c \<commands-limit\>
+ *           The number of commands that can be issued within the time
+ *           frame specified by \<commands-interval-msec\>.
+ *         - @c \<commands-interval-msec\>
+ *           See description of @c \<commands-limit\>.
  *       - @c \<channel-operator\>
  *         - @c \<channel\>
  *           The ID of the channel where the user will automatically become channel
@@ -334,12 +395,13 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  * @section srvstart Starting a TeamTalk Server
  *
  * Try running the server executable to get an overview of the
- * possible ways to run the server. Note that running the NT service
- * will not give any output since an NT service doesn't have a 
- * user-interface. <b>Also note the NT service must be run using
- * the Windows Administrator account.</b>
+ * possible ways to run the server.
+ *
+ * Note that running the NT service will not give any output since an
+ * NT service doesn't have a user-interface. <b>Also note the NT
+ * service must be run using the Windows Administrator account.</b>
  * 
- * @section ntservice Installing the TeamTalk NT Service
+ * @section ntservice Installing the TeamTalk Windows NT Service
  *
  * In addition to the options described in section @ref srvstart the
  * NT Service (@c tt5svc.exe or @c tt5prosvc.exe) also accepts the
@@ -354,7 +416,7 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  * Administrator account.</b> Right-click @c
  * C:\\Windows\\system32\\cmd.exe and choose "Run as Administrator".
  *
- * @subsection mntservice Installing multiple NT Services
+ * @subsection mntservice Installing multiple Windows NT Services
  *
  * To install multiple TeamTalk NT Services the @c sc.exe command
  * can be used. Here is an example:
