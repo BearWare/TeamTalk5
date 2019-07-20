@@ -57,6 +57,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
 
 #if defined(ENABLE_SPEEXDSP)
+    // Echo cancel requires duplex mode
     if(enable_aec)
         return false;
 #endif
@@ -99,7 +100,9 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 
         m_resample_buffer.resize(output_samples * output_channels);
     }
-    
+
+    MYTRACE("Starting loop back test - AGC\n");
+
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, output_samples, channels, 
                enable_agc, agc, denoise, denoise_level, enable_aec, aec))
@@ -109,6 +112,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     }
 #endif
 
+    MYTRACE("Starting loop back test - output\n");
+    
     if(!SOUNDSYSTEM->OpenOutputStream(this, outputdevid, m_soundgrpid,
                                       output_samplerate, output_channels,
                                       output_samples))
@@ -123,6 +128,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
     }
 
+    MYTRACE("Starting loop back test - input\n");
+    
     if(!SOUNDSYSTEM->OpenInputStream(this, inputdevid, m_soundgrpid, 
                                      input_samplerate, input_channels,
                                      input_samples))
@@ -409,38 +416,46 @@ bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
                            bool enable_aec,
                            const SpeexAEC& aec)
 {
-    bool b = m_preprocess_left.Initialize(samplerate, samples);
+    bool init = m_preprocess_left.Initialize(samplerate, samples);
     if(channels == 2)
-        b &= m_preprocess_right.Initialize(samplerate, samples);
-    assert(b);
-    b &= m_preprocess_left.EnableAGC(enable_agc);
+        init &= m_preprocess_right.Initialize(samplerate, samples);
+    assert(init);
+    
+    bool initagc = m_preprocess_left.EnableAGC(enable_agc);
     if(channels == 2)
-        b &= m_preprocess_right.EnableAGC(enable_agc);
-    b &= m_preprocess_left.SetAGCSettings(agc);
+        initagc &= m_preprocess_right.EnableAGC(enable_agc);
+    initagc &= m_preprocess_left.SetAGCSettings(agc);
     if(channels == 2)
-        b &= m_preprocess_right.SetAGCSettings(agc);
-    b &= m_preprocess_left.EnableDenoise(denoise);
+        initagc &= m_preprocess_right.SetAGCSettings(agc);
+    
+    bool initdenoise = m_preprocess_left.EnableDenoise(denoise);
     if(channels == 2)
-        b &= m_preprocess_right.EnableDenoise(denoise);
-    b &= m_preprocess_left.SetDenoiseLevel(denoise_level);
+        initdenoise &= m_preprocess_right.EnableDenoise(denoise);
+    initdenoise &= m_preprocess_left.SetDenoiseLevel(denoise_level);
     if(channels == 2)
-        b &= m_preprocess_right.SetDenoiseLevel(denoise_level);
-    b &= m_preprocess_left.EnableDereverb(true);
+        initdenoise &= m_preprocess_right.SetDenoiseLevel(denoise_level);
+    
+    bool initdereverb = m_preprocess_left.EnableDereverb(true);
     if(channels == 2)
-        b &= m_preprocess_right.EnableDereverb(true);
-    b &= m_preprocess_left.EnableEchoCancel(enable_aec);
+        initdereverb &= m_preprocess_right.EnableDereverb(true);
+    
+    bool initaec = m_preprocess_left.EnableEchoCancel(enable_aec);
     if(channels == 2)
-        b &= m_preprocess_right.EnableEchoCancel(enable_aec);
-    b &= m_preprocess_left.SetEchoSuppressLevel(aec.suppress_level);
+        initaec &= m_preprocess_right.EnableEchoCancel(enable_aec);
+    initaec &= m_preprocess_left.SetEchoSuppressLevel(aec.suppress_level);
     if(channels == 2)
-        b &= m_preprocess_right.SetEchoSuppressLevel(aec.suppress_level);
-    b &= m_preprocess_left.SetEchoSuppressActive(aec.suppress_active);
+        initaec &= m_preprocess_right.SetEchoSuppressLevel(aec.suppress_level);
+    initaec &= m_preprocess_left.SetEchoSuppressActive(aec.suppress_active);
     if(channels == 2)
-        b &= m_preprocess_right.SetEchoSuppressActive(aec.suppress_active);
+        initaec &= m_preprocess_right.SetEchoSuppressActive(aec.suppress_active);
+    
     m_preprocess_buffer_left.resize(samples);
     if(channels == 2)
         m_preprocess_buffer_right.resize(samples);
 
-    return b;
+    // Fixed point SpeexDSP library doesn't support AGC and AEC so
+    // only report error if requested.
+    return init && (initagc && enable_agc || !enable_agc) &&
+        (initdenoise && denoise || !denoise) && (initaec && enable_aec || !enable_aec);
 }
 #endif

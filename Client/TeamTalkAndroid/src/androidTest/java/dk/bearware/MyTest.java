@@ -25,6 +25,8 @@ package dk.bearware;
 
 import junit.framework.Assert;
 
+import java.util.Vector;
+
 /**
  * Created by bdr on 3-06-16.
  */
@@ -86,5 +88,21 @@ public class MyTest extends TeamTalkTestCaseBase {
         assertTrue("Stop media stream", ttclient.stopStreamingMediaFileToChannel());
     }
 
+    public void test_SharedAudioDevice() {
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+
+        Vector<SoundDevice> devs = new Vector<>();
+        TeamTalkBase.getSoundDevices(devs);
+        for(SoundDevice d : devs) {
+            System.out.println("Sound Device #" + d.nDeviceID + " name: " + d.szDeviceName);
+        }
+
+        long sndloop1 = ttclient1.startSoundLoopbackTest(0, 0, 48000, 1, false, null);
+        assertTrue("Start client 1 sound loop", sndloop1 != 0);
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
+
+        assertTrue("Close sndloop1", ttclient1.closeSoundLoopbackTest(sndloop1));
+    }
 
 }
