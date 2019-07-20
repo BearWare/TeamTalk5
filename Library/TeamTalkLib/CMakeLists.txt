@@ -59,6 +59,8 @@ if (MSVC)
       STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
     endif()
   endforeach(flag_var)
+else()
+  list (APPEND COMPILE_FLAGS -Wno-deprecated-declarations)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
