@@ -30,6 +30,12 @@ import junit.framework.Assert;
  */
 public class MyTest extends TeamTalkTestCaseBase {
 
+    public TeamTalkBase newClientInstance() {
+        TeamTalkBase ttclient = new TeamTalk5();
+        ttclients.add(ttclient);
+        return ttclient;
+    }
+
     protected void setUp() throws Exception {
         super.setUp();
 
