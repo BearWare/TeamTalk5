@@ -52,11 +52,13 @@ $ openssl req -newkey rsa:1024 -keyout ttserverkey.pem -nodes -x509 -days 3650 -
  *
  * @section srvconfig Configurating the TeamTalk Server
  *
+ * The recommended way to configure the TeamTalk server is to use
+ * the @c -wizard option.
+ *
  * The TeamTalk server reads its configuration from an XML file,
  * typically @c tt5srv.xml in the Standard SDK Edition and @c
  * tt5prosrv.xml in Professional SDK Edition. This file can be edited
- * manually (using an UTF-8 aware editor) or one can choose to use
- * the @c -wizard option to the server executable.
+ * manually (using an UTF-8 aware editor).
  *
  * Below is an example a TeamTalk 5 Professional server's
  * configuration file:
