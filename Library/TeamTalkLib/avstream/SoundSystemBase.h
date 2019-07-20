@@ -612,12 +612,13 @@ namespace soundsystem {
                 return false;
 
             wguard_t g2(streamer->players_mtx);
-            for(size_t i=0;i<streamer->players.size();i++)
+            for (size_t i=0;i<streamer->players.size();)
             {
                 if(streamer->players[i]->player == player)
                 {
                     streamer->players.erase(streamer->players.begin()+i);
                 }
+                else i++;
             }
             g2.release();
 
