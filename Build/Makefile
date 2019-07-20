@@ -44,9 +44,11 @@ android-x86: teamtalk-env toolchain-env
 generic:
 	make CONFIGTYPE=release CMAKE_EXTRA="-DBUILD_TEAMTALK_CORE=ON" buildlib
 
-deb32: BUILDDIR=build-$@ generic
+deb32:
+	make BUILDDIR=build-$@ generic
 
-deb64: BUILDDIR=build-$@ generic
+deb64:
+	make BUILDDIR=build-$@ generic
 
 ubuntu64:
 	# Need to specify JAVA_HOME to help CMake find Java SDK
@@ -58,7 +60,8 @@ centos7:
 rasp:
 	make JOBS=2 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf BUILDDIR=build-$@ generic
 
-mac: BUILDDIR=build-$@ generic
+mac:
+	make BUILDDIR=build-$@ generic
 
 ios-build:
 	make CMAKE_EXTRA="$(CMAKE_EXTRA) -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=7.0 -DBUILD_TEAMTALK_CORE=ON -DOGG=OFF -DFFMPEG=OFF -DOPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TT5SRV=OFF -DBUILD_TT5PROSRV=OFF -DZLIB_STATIC=OFF" buildlib
