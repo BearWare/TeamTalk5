@@ -81,8 +81,7 @@ void DuplexEnded(DuplexStreamer& dpxStream)
     }
 }
 
-void SoftVolume(const OutputStreamer& streamer, short* buffer,
-                             int samples)
+void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples)
 {
     int mastervolume = SOUNDSYSTEM->GetMasterVolume(streamer.sndgrpid);
     if(mastervolume == 0 || streamer.volume == 0 || streamer.mute ||

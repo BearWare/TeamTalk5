@@ -46,8 +46,8 @@ namespace soundsystem {
 
         std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
         ACE_UINT32 buf_index;
-        SLInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-            : InputStreamer(r, sg, fs, sr, chs, sndsys)
+        SLInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : InputStreamer(r, sg, fs, sr, chs, sndsys, devid)
             , recorderObject(NULL)
             , recorderRecord(NULL)
             , recorderBufferQueue(NULL), buf_index(0) { }
@@ -62,8 +62,8 @@ namespace soundsystem {
 
         std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
         ACE_UINT32 buf_index;
-        SLOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-            : OutputStreamer(p, sg, fs, sr, chs, sndsys)
+        SLOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid)
             , playerObject(NULL)
             , playerPlay(NULL)
             , playerBufferQueue(NULL), buf_index(0) { }

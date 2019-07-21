@@ -319,7 +319,7 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
 
     inputstreamer_t streamer(new PaInputStreamer(capture, sndgrpid, framesize,
                                                  samplerate, channels,
-                                                 GetSoundSystem(indev)));
+                                                 GetSoundSystem(indev), inputdeviceid));
 #if defined(DEBUG)
     streamer->duplex = false;
 #endif
@@ -419,7 +419,9 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
 
     //create stream holder
-    outputstreamer_t streamer(new PaOutputStreamer(player, sndgrpid, framesize, samplerate, channels, GetSoundSystem(outdev)));
+    outputstreamer_t streamer(new PaOutputStreamer(player, sndgrpid, framesize, samplerate,
+                                                   channels, GetSoundSystem(outdev),
+                                                   outputdeviceid));
 
     PaError err = Pa_OpenStream(&streamer->stream,
                                 NULL,
@@ -627,7 +629,8 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
                                                    samplerate, input_channels, 
-                                                   output_channels, GetSoundSystem(outdev)));
+                                                   output_channels, GetSoundSystem(outdev),
+                                                   inputdeviceid, outputdeviceid));
 
     //open stream
     PaError err = Pa_OpenStream(&streamer->stream, &inputParameters,

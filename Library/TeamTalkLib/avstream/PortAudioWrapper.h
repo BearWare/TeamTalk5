@@ -52,22 +52,23 @@ namespace soundsystem
 
     struct PaInputStreamer : InputStreamer, PaStreamer
     {
-        PaInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-        : InputStreamer(r, sg, fs, sr, chs, sndsys)
+        PaInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : InputStreamer(r, sg, fs, sr, chs, sndsys, devid)
         { }
     };
 
     struct PaOutputStreamer : OutputStreamer, PaStreamer
     {
-        PaOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-        : OutputStreamer(p, sg, fs, sr, chs, sndsys)
+        PaOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid)
         { }
     };
 
     struct PaDuplexStreamer : DuplexStreamer, PaStreamer
     {
-        PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs, SoundAPI out_sndsys)
-        : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys)
+        PaDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, int inchs, int outchs,
+                         SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
+            : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
         { }
         ~PaDuplexStreamer()
         {

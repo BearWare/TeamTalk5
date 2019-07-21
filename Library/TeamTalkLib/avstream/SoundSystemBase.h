@@ -300,7 +300,8 @@ namespace soundsystem {
             assert(b);
             inputstreamer_t streamer(new INPUTSTREAMER(capture, sndgrpid, 
                                                        framesize, samplerate,
-                                                       channels, dev.soundsystem));
+                                                       channels, dev.soundsystem,
+                                                       SOUND_DEVICEID_VIRT));
             return streamer;
         }
 
@@ -313,7 +314,8 @@ namespace soundsystem {
             assert(b);
             outputstreamer_t streamer(new OUTPUTSTREAMER(player, sndgrpid, 
                                                          framesize, samplerate,
-                                                         channels, dev.soundsystem));
+                                                         channels, dev.soundsystem,
+                                                         SOUND_DEVICEID_VIRT));
             return streamer;
         }
         
@@ -328,7 +330,9 @@ namespace soundsystem {
                                                          framesize, samplerate, 
                                                          input_channels, 
                                                          output_channels,
-                                                         dev.soundsystem));
+                                                         dev.soundsystem,
+                                                         SOUND_DEVICEID_VIRT,
+                                                         SOUND_DEVICEID_VIRT));
             return streamer;
        }
 
@@ -587,7 +591,8 @@ namespace soundsystem {
                                                             streamer->framesize, 
                                                             streamer->samplerate,
                                                             streamer->output_channels,
-                                                            streamer->output_soundsystem));
+                                                            streamer->output_soundsystem,
+                                                            streamer->outputdeviceid));
 #if defined(_DEBUG)
             newstreamer->duplex = true;
 #endif

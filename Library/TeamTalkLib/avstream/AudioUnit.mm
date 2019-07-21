@@ -67,8 +67,8 @@ namespace soundsystem {
         msg_queue_t samples_queue;
 
         AudioUnit audunit;
-        AUInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-            : InputStreamer(r, sg, fs, sr, chs, sndsys)
+        AUInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : InputStreamer(r, sg, fs, sr, chs, sndsys, devid)
         , audunit(nil)
         {
             samples_queue.high_water_mark(1024*128);
@@ -86,8 +86,8 @@ namespace soundsystem {
         std::vector<AudUnitBase::outputstreamer_t> streamers;
         ACE_Recursive_Thread_Mutex streamers_mtx;
 
-        AUOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys)
-            : OutputStreamer(p, sg, fs, sr, chs, sndsys)
+        AUOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
+            : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid)
             , audunit(nil), playing(false)
         {
             samples_queue.high_water_mark(1024*128);
@@ -138,8 +138,9 @@ namespace soundsystem {
         AudioUnit recorder;
         AudioUnit player;
         AUDuplexStreamer(StreamDuplex* d, int sg, int fs, int sr, 
-                         int inchs, int outchs, SoundAPI out_sndsys) 
-            : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys)
+                         int inchs, int outchs, SoundAPI out_sndsys,
+                         int inputdeviceid, int outputdeviceid) 
+            : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
             , recorder(nil), player(nil) {}
     };
 
@@ -489,7 +490,8 @@ assert(status == noErr);
 
             inputstreamer_t streamer(new AUInputStreamer(capture, sndgrpid, 
                                                          framesize, samplerate,
-                                                         channels, SOUND_API_AUDIOUNIT));
+                                                         channels, SOUND_API_AUDIOUNIT,
+                                                         inputdeviceid));
 
             AURenderCallbackStruct callbackStruct;
             callbackStruct.inputProc = AudioInputCallback; // Render function
@@ -556,7 +558,8 @@ assert(status == noErr);
         {
             outputstreamer_t streamer(new AUOutputStreamer(player, sndgrpid,
                                                            framesize, samplerate,
-                                                           channels, SOUND_API_AUDIOUNIT));
+                                                           channels, SOUND_API_AUDIOUNIT,
+                                                           outputdeviceid));
             streamer->playing = false;
 
             if (outputdeviceid == VOICEPROCESSINGIO_DEVICE_ID)
@@ -590,7 +593,7 @@ assert(status == noErr);
                 return true;
             }
 
-            AudioUnit audioUnit = NewOutput(VOICEPROCESSINGIO_DEVICE_ID, 
+            AudioUnit audioUnit = NewOutput(VOICEPROCESSINGIO_DEVICE_ID,
                                             streamer->samplerate, 
                                             streamer->channels);
 
@@ -602,7 +605,8 @@ assert(status == noErr);
                                              streamer->framesize,
                                              streamer->samplerate,
                                              streamer->channels,
-                                             streamer->soundsystem));
+                                             streamer->soundsystem,
+                                             VOICEPROCESSINGIO_DEVICE_ID));
             muxed->audunit = audioUnit;
 
             // setup callback function

@@ -307,7 +307,8 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                                  framesize,
                                                  samplerate,
                                                  channels,
-                                                 SOUND_API_OPENSLES_ANDROID));
+                                                 SOUND_API_OPENSLES_ANDROID,
+                                                 inputdeviceid));
 
     streamer->recorderObject = recorderObject;
     streamer->recorderRecord = recorderRecord;
@@ -417,8 +418,8 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
         sample_index += (streamer->framesize * streamer->channels))
     {
         more = streamer->player->StreamPlayerCb(*streamer,
-                                                       &streamer->buffers[buf_index][sample_index],
-                                                       streamer->framesize);
+                                                &streamer->buffers[buf_index][sample_index],
+                                                streamer->framesize);
         //soft volume also handles mute
         SoftVolume(*streamer, 
                    &streamer->buffers[buf_index][sample_index],
@@ -502,7 +503,8 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     outputstreamer_t streamer(new SLOutputStreamer(player, sndgrpid, 
                                                    framesize, samplerate,
                                                    channels, 
-                                                   SOUND_API_OPENSLES_ANDROID));
+                                                   SOUND_API_OPENSLES_ANDROID,
+                                                   outputdeviceid));
   
     streamer->playerObject = playerObject;
     streamer->playerPlay = playerPlay;
