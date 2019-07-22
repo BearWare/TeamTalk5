@@ -105,7 +105,7 @@ namespace soundsystem {
         void CloseStream(inputstreamer_t streamer);
 
         inputstreamer_t NewSharedStream(StreamCapture* capture, 
-                                        int sndgrpid, 
+                                        int inputdeviceid, int sndgrpid, 
                                         int samplerate, int channels,
                                         int framesize);
         
@@ -148,39 +148,13 @@ namespace soundsystem {
         SLObjectItf m_engineObject;
         SLEngineItf m_engineEngine;
 
-        std::shared_ptr<class SharedStreamCapture> m_shared_recorder;
+        std::shared_ptr< SharedStreamCapture<SLInputStreamer> > m_shared_recorder;
     };
 
     typedef SSB::soundgroup_t soundgroup_t;
     typedef SSB::inputstreamer_t inputstreamer_t;
     typedef SSB::outputstreamer_t outputstreamer_t;
     typedef SSB::duplexstreamer_t duplexstreamer_t;
-
-    class SharedStreamCapture : public StreamCapture
-    {
-    public:
-        SharedStreamCapture(int sndgrpid);
-        ~SharedStreamCapture();
-
-        // Set the source input stream which feeds the shared input streams
-        void SetOrigin(inputstreamer_t streamer) { m_originalstream = streamer; }
-        inputstreamer_t GetOrigin() const { return m_originalstream; }
-
-        // Add/remove/update shared input streams
-        bool AddInputStreamer(inputstreamer_t streamer);
-        void RemoveInputStreamer(inputstreamer_t streamer);
-        bool InputStreamsExists();
-        void ActivateInputStreamer(inputstreamer_t streamer, bool active);
-        
-        void StreamCaptureCb(const InputStreamer& streamer,
-                             const short* buffer, int samples);
-    private:
-        int m_sndgrpid;
-        msg_queue_t m_samples_queue;
-        inputstreamer_t m_originalstream;
-        std::set<inputstreamer_t> m_inputstreams, m_activestreams;
-        ACE_Recursive_Thread_Mutex m_mutex;
-    };
     
 }
 

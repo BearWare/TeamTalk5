@@ -36,8 +36,7 @@ int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
 
 enum AndroidSoundDevice
 {
-    DEFAULT_DEVICE_ID   = 0,
-    SHARED_DEVICE_ID    = 1
+    DEFAULT_DEVICE_ID   = (0 & SOUND_DEVICEID_MASK),
 };
 
 #define DEFAULT_SAMPLERATE 16000
@@ -248,9 +247,9 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                            int samplerate, int channels,
                                            int framesize)
 {
-    if (inputdeviceid == SHARED_DEVICE_ID)
+    if (inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
     {
-        return NewSharedStream(capture, sndgrpid, samplerate, channels, framesize);
+        return NewSharedStream(capture, inputdeviceid, sndgrpid, samplerate, channels, framesize);
     }
     
     SLresult result;
@@ -368,7 +367,7 @@ failure:
 
 bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
     {
         assert(m_shared_recorder);
         m_shared_recorder->ActivateInputStreamer(streamer, true);
@@ -387,7 +386,7 @@ bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 
 bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
     {
         assert(m_shared_recorder);
         m_shared_recorder->ActivateInputStreamer(streamer, false);
@@ -406,7 +405,7 @@ bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 
 void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
     {
         StopStream(streamer);
         assert(m_shared_recorder);
@@ -442,7 +441,7 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
 }
 
 inputstreamer_t OpenSLESWrapper::NewSharedStream(StreamCapture* capture, 
-                                                 int sndgrpid, 
+                                                 int inputdeviceid, int sndgrpid, 
                                                  int samplerate, int channels,
                                                  int framesize)
 {
@@ -452,25 +451,23 @@ inputstreamer_t OpenSLESWrapper::NewSharedStream(StreamCapture* capture,
     if (!m_shared_recorder)
     {
         // shared device does not exist, create as new stream
-        int indev, outdev;
-        if (!GetDefaultDevices(indev, outdev))
-            return inputstreamer_t();
         
-        DeviceInfo defdev;
-        if (!GetDevice(indev, defdev))
+        DeviceInfo snddev;
+        if (!GetDevice(inputdeviceid, snddev))
             return inputstreamer_t();
 
         int newsndgrpid = OpenSoundGroup();
         if (!newsndgrpid)
             return inputstreamer_t();
 
-        m_shared_recorder.reset(new SharedStreamCapture(newsndgrpid));
+        m_shared_recorder.reset(new SharedStreamCapture<SLInputStreamer>(newsndgrpid));
 
         inputstreamer_t orgstream = NewStream(m_shared_recorder.get(),
-                                              defdev.id, newsndgrpid,
-                                              defdev.default_samplerate,
-                                              defdev.max_input_channels,
-                                              defdev.default_samplerate * 0.04);
+                                              snddev.id & SOUND_DEVICEID_MASK,
+                                              newsndgrpid,
+                                              snddev.default_samplerate,
+                                              snddev.max_input_channels,
+                                              snddev.default_samplerate * 0.04);
 
         if (!orgstream)
         {
@@ -489,7 +486,7 @@ inputstreamer_t OpenSLESWrapper::NewSharedStream(StreamCapture* capture,
                                                                    samplerate,
                                                                    channels,
                                                                    SOUND_API_OPENSLES_ANDROID,
-                                                                   SHARED_DEVICE_ID));
+                                                                   inputdeviceid));
 
     m_shared_recorder->AddInputStreamer(streamer);
 
@@ -855,7 +852,7 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     sounddevs[dev.id] = dev;
 
     DeviceInfo shareddev = dev;
-    shareddev.id = SHARED_DEVICE_ID;
+    shareddev.id |= SOUND_DEVICE_SHARED_FLAG;
     shareddev.devicename += ACE_TEXT(" - Shared @ ") + i2string(shareddev.default_samplerate) + ACE_TEXT(" KHz, ");
     if (shareddev.max_input_channels == 2)
         dev.devicename += ACE_TEXT("Stereo");
@@ -865,69 +862,6 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     sounddevs[shareddev.id] = shareddev;
 
     RemoveSoundGroup(sg);
-}
-
-SharedStreamCapture::SharedStreamCapture(int sndgrpid)
-    : m_sndgrpid(sndgrpid)
-{
-}
-
-SharedStreamCapture::~SharedStreamCapture()
-{
-    soundsystem::GetInstance()->RemoveSoundGroup(m_sndgrpid);
-    assert(m_inputstreams.empty());
-    assert(m_activestreams.empty());
-}
-
-bool SharedStreamCapture::AddInputStreamer(inputstreamer_t streamer)
-{
-    wguard_t g(m_mutex);
-    assert(streamer->inputdeviceid == SHARED_DEVICE_ID);
-    m_inputstreams.insert(streamer);
-
-    // TODO: create resampler, if m_originalstream != samplerate, channels, framesize
-    return true;
-}
-
-void SharedStreamCapture::RemoveInputStreamer(inputstreamer_t streamer)
-{
-    wguard_t g(m_mutex);
-    m_activestreams.erase(streamer);
-    m_inputstreams.erase(streamer);
-}
-
-bool SharedStreamCapture::InputStreamsExists()
-{
-    wguard_t g(m_mutex);
-    return !m_inputstreams.empty();
-}
-
-void SharedStreamCapture::ActivateInputStreamer(inputstreamer_t streamer, bool active)
-{
-    wguard_t g(m_mutex);
-    assert(m_inputstreams.find(streamer) != m_inputstreams.end());
-    if (active)
-        m_activestreams.insert(streamer);
-    else
-        m_activestreams.erase(streamer);
-}
-
-void SharedStreamCapture::StreamCaptureCb(const InputStreamer& streamer,
-                                          const short* buffer, int samples)
-{
-    assert(streamer.inputdeviceid != SHARED_DEVICE_ID);
-    
-    wguard_t g(m_mutex);
-    
-    for (auto stream : m_activestreams)
-    {
-        if (stream->channels == streamer.channels &&
-            stream->samplerate == streamer.samplerate &&
-            stream->framesize == streamer.framesize)
-        {
-            stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-        }
-    }
 }
 
 SLuint32 toSLSamplerate(int samplerate)

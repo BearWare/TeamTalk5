@@ -163,6 +163,84 @@ namespace soundsystem {
         }
     };
 
+    template < typename INPUTSTREAMER >
+    class SharedStreamCapture : public StreamCapture
+    {
+    public:
+        typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
+        
+        SharedStreamCapture(int sndgrpid) : m_sndgrpid(sndgrpid) { }
+        ~SharedStreamCapture()
+        {
+            soundsystem::GetInstance()->RemoveSoundGroup(m_sndgrpid);
+            assert(m_inputstreams.empty());
+            assert(m_activestreams.empty());
+        }
+
+        // Set the source input stream which feeds the shared input streams
+        void SetOrigin(inputstreamer_t streamer) { m_originalstream = streamer; }
+        inputstreamer_t GetOrigin() const { return m_originalstream; }
+
+        // Add/remove/update shared input streams
+        bool AddInputStreamer(inputstreamer_t streamer)
+        {
+            wguard_t g(m_mutex);
+            assert(streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG);
+            m_inputstreams.insert(streamer);
+
+            // TODO: create resampler, if m_originalstream != samplerate, channels, framesize
+            return true;
+        }
+        
+        void RemoveInputStreamer(inputstreamer_t streamer)
+        {
+            wguard_t g(m_mutex);
+            m_activestreams.erase(streamer);
+            m_inputstreams.erase(streamer);
+        }
+            
+        bool InputStreamsExists()
+        {
+            wguard_t g(m_mutex);
+            return !m_inputstreams.empty();
+        }
+            
+        void ActivateInputStreamer(inputstreamer_t streamer, bool active)
+        {
+            wguard_t g(m_mutex);
+            assert(m_inputstreams.find(streamer) != m_inputstreams.end());
+            if (active)
+                m_activestreams.insert(streamer);
+            else
+                m_activestreams.erase(streamer);
+        }
+        
+        void StreamCaptureCb(const InputStreamer& streamer,
+                             const short* buffer, int samples)
+        {
+            assert((streamer.inputdeviceid & SOUND_DEVICE_SHARED_FLAG) == 0);
+            
+            wguard_t g(m_mutex);
+            
+            for (auto stream : m_activestreams)
+            {
+                if (stream->channels == streamer.channels &&
+                    stream->samplerate == streamer.samplerate &&
+                    stream->framesize == streamer.framesize)
+                {
+                    stream->recorder->StreamCaptureCb(*stream, buffer, samples);
+                }
+            }
+        }
+        
+    private:
+        int m_sndgrpid;
+        msg_queue_t m_samples_queue;
+        inputstreamer_t m_originalstream;
+        std::set<inputstreamer_t> m_inputstreams, m_activestreams;
+        ACE_Recursive_Thread_Mutex m_mutex;
+    };
+    
     template < typename SOUNDGROUP, typename INPUTSTREAMER, typename OUTPUTSTREAMER, typename DUPLEXSTREAMER >
     class SoundSystemBase : public SoundSystem
     {
@@ -296,12 +374,12 @@ namespace soundsystem {
                                          int framesize)
         {
             DeviceInfo dev;
-            bool b = GetDevice(SOUND_DEVICEID_VIRT, dev);
+            bool b = GetDevice(SOUND_DEVICEID_VIRTUAL, dev);
             assert(b);
             inputstreamer_t streamer(new INPUTSTREAMER(capture, sndgrpid, 
                                                        framesize, samplerate,
                                                        channels, dev.soundsystem,
-                                                       SOUND_DEVICEID_VIRT));
+                                                       SOUND_DEVICEID_VIRTUAL));
             return streamer;
         }
 
@@ -310,12 +388,12 @@ namespace soundsystem {
                                           int framesize)
         {
             DeviceInfo dev;
-            bool b = GetDevice(SOUND_DEVICEID_VIRT, dev);
+            bool b = GetDevice(SOUND_DEVICEID_VIRTUAL, dev);
             assert(b);
             outputstreamer_t streamer(new OUTPUTSTREAMER(player, sndgrpid, 
                                                          framesize, samplerate,
                                                          channels, dev.soundsystem,
-                                                         SOUND_DEVICEID_VIRT));
+                                                         SOUND_DEVICEID_VIRTUAL));
             return streamer;
         }
         
@@ -324,15 +402,15 @@ namespace soundsystem {
                                            int output_channels, int framesize)
        {
             DeviceInfo dev;
-            bool b = GetDevice(SOUND_DEVICEID_VIRT, dev);
+            bool b = GetDevice(SOUND_DEVICEID_VIRTUAL, dev);
             assert(b);
             duplexstreamer_t streamer(new DUPLEXSTREAMER(duplex, sndgrpid, 
                                                          framesize, samplerate, 
                                                          input_channels, 
                                                          output_channels,
                                                          dev.soundsystem,
-                                                         SOUND_DEVICEID_VIRT,
-                                                         SOUND_DEVICEID_VIRT));
+                                                         SOUND_DEVICEID_VIRTUAL,
+                                                         SOUND_DEVICEID_VIRTUAL));
             return streamer;
        }
 
@@ -377,7 +455,7 @@ namespace soundsystem {
                     capture, samplerate, channels, framesize, inputdeviceid);
 
             inputstreamer_t streamer;
-            if(inputdeviceid == SOUND_DEVICEID_VIRT)
+            if(inputdeviceid == SOUND_DEVICEID_VIRTUAL)
                 streamer = NewVirtualStream(capture, sndgrpid, 
                                             samplerate, channels, framesize);
             else
@@ -434,7 +512,7 @@ namespace soundsystem {
                     player, samplerate, channels, framesize, outputdeviceid);
 
             outputstreamer_t streamer;
-            if(outputdeviceid == SOUND_DEVICEID_VIRT)
+            if(outputdeviceid == SOUND_DEVICEID_VIRTUAL)
                 streamer = NewVirtualStream(player, sndgrpid, samplerate, 
                                    channels, framesize);
             else
@@ -520,13 +598,13 @@ namespace soundsystem {
 
             duplexstreamer_t streamer;
             
-            if(inputdeviceid == SOUND_DEVICEID_VIRT && outputdeviceid == SOUND_DEVICEID_VIRT)
+            if(inputdeviceid == SOUND_DEVICEID_VIRTUAL && outputdeviceid == SOUND_DEVICEID_VIRTUAL)
             {
                 streamer = NewVirtualStream(duplex, sndgrpid, samplerate, 
                                             input_channels, output_channels,
                                             framesize);
             }
-            else if(inputdeviceid == SOUND_DEVICEID_VIRT || outputdeviceid == SOUND_DEVICEID_VIRT)
+            else if(inputdeviceid == SOUND_DEVICEID_VIRTUAL || outputdeviceid == SOUND_DEVICEID_VIRTUAL)
             {
                 return false;
             }
@@ -918,7 +996,7 @@ namespace soundsystem {
                                             standardSampleRates.end());
             device.output_samplerates.insert(standardSampleRates.begin(),
                                              standardSampleRates.end());
-            device.id = SOUND_DEVICEID_VIRT;
+            device.id = SOUND_DEVICEID_VIRTUAL;
             m_sounddevs[device.id] = device;
         }
 

@@ -36,9 +36,6 @@ namespace soundsystem {
 #define VOLUME_DEFAULT 1000
 #define VOLUME_MIN 0
 
-#define SOUND_DEVICEID_INVALID -1
-#define SOUND_DEVICEID_VIRT 1978
-
     enum SoundAPI
     {
         SOUND_API_NOSOUND = 0,
@@ -51,6 +48,18 @@ namespace soundsystem {
         SOUND_API_OPENSLES_ANDROID = 7,
         SOUND_API_AUDIOUNIT = 8,
         SOUND_API_AUDIOTOOLKIT = 9,
+    };
+
+    enum SoundDeviceID
+    {
+        SOUND_DEVICEID_INVALID           = /* 0xFFFFFFFF */ -1,
+        SOUND_DEVICEID_VIRTUAL           = /* 0x000007BA */ 1978,
+        
+        /* Sound devices are from 0 => 0x7FF */
+        SOUND_DEVICEID_MASK              = 0x000007FF,
+        /* Flag for a shared sound device. The original sound device
+         * is in the mask SOUND_DEVICEID_MASK */
+        SOUND_DEVICE_SHARED_FLAG         = 0x00000800
     };
 
     class StreamCapture;
@@ -187,7 +196,7 @@ namespace soundsystem {
         {
             MYTRACE(ACE_TEXT("~InputStreamer() - %p for StreamCapture %p\n"), this, recorder);
         }
-        bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRT; }
+        bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRTUAL; }
     };
 
     struct OutputStreamer : public SoundStreamer
@@ -219,7 +228,7 @@ namespace soundsystem {
         {
             MYTRACE(ACE_TEXT("~OutputStreamer() - %p for StreamPlayer %p\n"), this, player);
         }
-        bool IsVirtual() const { return outputdeviceid == SOUND_DEVICEID_VIRT; }
+        bool IsVirtual() const { return outputdeviceid == SOUND_DEVICEID_VIRTUAL; }
     };
 
     struct DuplexStreamer : public SoundStreamer
@@ -251,8 +260,8 @@ namespace soundsystem {
             MYTRACE(ACE_TEXT("~DuplexStreamer() - %p for StreamDuplex %p\n"), this, duplex);
         }
 
-        bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRT &&
-                                        outputdeviceid == SOUND_DEVICEID_VIRT; }
+        bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRTUAL &&
+                                        outputdeviceid == SOUND_DEVICEID_VIRTUAL; }
     };
 
 

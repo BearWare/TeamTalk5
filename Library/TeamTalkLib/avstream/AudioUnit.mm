@@ -37,8 +37,11 @@
 
 using namespace std;
 
-#define REMOTEIO_DEVICE_ID 0
-#define VOICEPROCESSINGIO_DEVICE_ID 1
+enum iOSSoundDevice
+{
+    REMOTEIO_DEVICE_ID                  = (0 & SOUND_DEVICEID_MASK)
+    VOICEPROCESSINGIO_DEVICE_ID         = (1 & SOUND_DEVICEID_MASK)
+};
 
 #define DEFAULT_DEVICE_ID (REMOTEIO_DEVICE_ID)
 
