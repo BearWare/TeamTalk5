@@ -28,8 +28,6 @@
 
 #include <map>
 
-#include <ace/Bound_Ptr.h>
-
 #include <assert.h>
 
 namespace soundsystem {

@@ -34,7 +34,12 @@ int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
                         std::vector<short>& buffer, int samplerate,
                         int framesize, int channels);
 
-#define DEFAULT_DEVICE_ID 0
+enum AndroidSoundDevice
+{
+    DEFAULT_DEVICE_ID   = 0,
+    SHARED_DEVICE_ID    = 1
+};
+
 #define DEFAULT_SAMPLERATE 16000
 
 OpenSLESWrapper::OpenSLESWrapper()
@@ -230,8 +235,8 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
         sample_index += (streamer->framesize * streamer->channels))
     {
         streamer->recorder->StreamCaptureCb(*streamer,
-                                                  &streamer->buffers[buf_index][sample_index],
-                                                  streamer->framesize);
+                                            &streamer->buffers[buf_index][sample_index],
+                                            streamer->framesize);
     }
     result = (*bq)->Enqueue(bq, &streamer->buffers[buf_index][0],
                             streamer->buffers[buf_index].size()*sizeof(short));
@@ -243,6 +248,11 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                            int samplerate, int channels,
                                            int framesize)
 {
+    if (inputdeviceid == SHARED_DEVICE_ID)
+    {
+        return NewSharedStream(capture, sndgrpid, samplerate, channels, framesize);
+    }
+    
     SLresult result;
 
     soundgroup_t sg = GetSoundGroup(sndgrpid);
@@ -345,7 +355,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
             goto failure;
     }
 
-    MYTRACE(ACE_TEXT("Open capture stream %p, samplerate %d, channels %d\n"),
+    MYTRACE(ACE_TEXT("Opened capture stream %p, samplerate %d, channels %d\n"),
             capture, samplerate, channels);
 
     return streamer;
@@ -358,6 +368,13 @@ failure:
 
 bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 {
+    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    {
+        assert(m_shared_recorder);
+        m_shared_recorder->ActivateInputStreamer(streamer, true);
+        return true;
+    }
+    
     SLresult result;
 
     // start recording
@@ -370,6 +387,13 @@ bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 
 bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 {
+    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    {
+        assert(m_shared_recorder);
+        m_shared_recorder->ActivateInputStreamer(streamer, false);
+        return true;
+    }
+    
     SLresult result;
 
     // start recording
@@ -382,12 +406,27 @@ bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 
 void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
 {
+    if (streamer->inputdeviceid == SHARED_DEVICE_ID)
+    {
+        StopStream(streamer);
+        assert(m_shared_recorder);
+        m_shared_recorder->RemoveInputStreamer(streamer);
+
+        MYTRACE(ACE_TEXT("Closed shared capture stream %p\n"), streamer->recorder);
+
+        if (!m_shared_recorder->InputStreamsExists())
+        {
+            CloseStream(m_shared_recorder->GetOrigin());
+            m_shared_recorder.reset();
+        }
+        return;
+    }
+    
     SLresult result;
 
     // in case already recording, stop recording and clear buffer queue
-    result = (*streamer->recorderRecord)->SetRecordState(streamer->recorderRecord, 
-                                                         SL_RECORDSTATE_STOPPED);
-    assert(SL_RESULT_SUCCESS == result);
+    StopStream(streamer);
+
     {
         //wait for recorder callback to complete, otherwise OpenSLES
         //may hang
@@ -398,6 +437,66 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
     assert(SL_RESULT_SUCCESS == result);
 
     (*streamer->recorderObject)->Destroy(streamer->recorderObject);
+    
+    MYTRACE(ACE_TEXT("Closed capture stream %p\n"), streamer->recorder);
+}
+
+inputstreamer_t OpenSLESWrapper::NewSharedStream(StreamCapture* capture, 
+                                                 int sndgrpid, 
+                                                 int samplerate, int channels,
+                                                 int framesize)
+{
+    
+
+    // check if shared recording device already exists
+    if (!m_shared_recorder)
+    {
+        // shared device does not exist, create as new stream
+        int indev, outdev;
+        if (!GetDefaultDevices(indev, outdev))
+            return inputstreamer_t();
+        
+        DeviceInfo defdev;
+        if (!GetDevice(indev, defdev))
+            return inputstreamer_t();
+
+        int newsndgrpid = OpenSoundGroup();
+        if (!newsndgrpid)
+            return inputstreamer_t();
+
+        m_shared_recorder.reset(new SharedStreamCapture(newsndgrpid));
+
+        inputstreamer_t orgstream = NewStream(m_shared_recorder.get(),
+                                              defdev.id, newsndgrpid,
+                                              defdev.default_samplerate,
+                                              defdev.max_input_channels,
+                                              defdev.default_samplerate * 0.04);
+
+        if (!orgstream)
+        {
+            m_shared_recorder.reset();
+            return inputstreamer_t();
+        }
+
+        m_shared_recorder->SetOrigin(orgstream);
+    }
+
+    // shared device already exists, just add new input stream to
+    // existing listeners
+    inputstreamer_t streamer = inputstreamer_t(new SLInputStreamer(capture,
+                                                                   sndgrpid,
+                                                                   framesize,
+                                                                   samplerate,
+                                                                   channels,
+                                                                   SOUND_API_OPENSLES_ANDROID,
+                                                                   SHARED_DEVICE_ID));
+
+    m_shared_recorder->AddInputStreamer(streamer);
+
+    MYTRACE(ACE_TEXT("Open shared capture stream %p, samplerate %d, channels %d\n"),
+            capture, samplerate, channels);
+    
+    return streamer;
 }
 
 // this callback handler is called every time a buffer finishes playing
@@ -755,7 +854,80 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
 
     sounddevs[dev.id] = dev;
 
+    DeviceInfo shareddev = dev;
+    shareddev.id = SHARED_DEVICE_ID;
+    shareddev.devicename += ACE_TEXT(" - Shared @ ") + i2string(shareddev.default_samplerate) + ACE_TEXT(" KHz, ");
+    if (shareddev.max_input_channels == 2)
+        dev.devicename += ACE_TEXT("Stereo");
+    else
+        dev.devicename += ACE_TEXT("Mono");
+    
+    sounddevs[shareddev.id] = shareddev;
+
     RemoveSoundGroup(sg);
+}
+
+SharedStreamCapture::SharedStreamCapture(int sndgrpid)
+    : m_sndgrpid(sndgrpid)
+{
+}
+
+SharedStreamCapture::~SharedStreamCapture()
+{
+    soundsystem::GetInstance()->RemoveSoundGroup(m_sndgrpid);
+    assert(m_inputstreams.empty());
+    assert(m_activestreams.empty());
+}
+
+bool SharedStreamCapture::AddInputStreamer(inputstreamer_t streamer)
+{
+    wguard_t g(m_mutex);
+    assert(streamer->inputdeviceid == SHARED_DEVICE_ID);
+    m_inputstreams.insert(streamer);
+
+    // TODO: create resampler, if m_originalstream != samplerate, channels, framesize
+    return true;
+}
+
+void SharedStreamCapture::RemoveInputStreamer(inputstreamer_t streamer)
+{
+    wguard_t g(m_mutex);
+    m_activestreams.erase(streamer);
+    m_inputstreams.erase(streamer);
+}
+
+bool SharedStreamCapture::InputStreamsExists()
+{
+    wguard_t g(m_mutex);
+    return !m_inputstreams.empty();
+}
+
+void SharedStreamCapture::ActivateInputStreamer(inputstreamer_t streamer, bool active)
+{
+    wguard_t g(m_mutex);
+    assert(m_inputstreams.find(streamer) != m_inputstreams.end());
+    if (active)
+        m_activestreams.insert(streamer);
+    else
+        m_activestreams.erase(streamer);
+}
+
+void SharedStreamCapture::StreamCaptureCb(const InputStreamer& streamer,
+                                          const short* buffer, int samples)
+{
+    assert(streamer.inputdeviceid != SHARED_DEVICE_ID);
+    
+    wguard_t g(m_mutex);
+    
+    for (auto stream : m_activestreams)
+    {
+        if (stream->channels == streamer.channels &&
+            stream->samplerate == streamer.samplerate &&
+            stream->framesize == streamer.framesize)
+        {
+            stream->recorder->StreamCaptureCb(*stream, buffer, samples);
+        }
+    }
 }
 
 SLuint32 toSLSamplerate(int samplerate)
