@@ -336,15 +336,41 @@ extern "C" {
         INT32 nDefaultSampleRate;
     } SoundDevice;
 
+/** @brief Flag/bit in @c nDeviceID telling if the #SoundDevice is a
+ * shared version of an existing sound device.
+ *
+ * On Android the recording device can only be used by one TeamTalk
+ * instance. As a workaround for this issue a shared recording device
+ * has been introduced. Internally TeamTalk initializes
+ * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT which then resample and
+ * distribution the audio data to multiple TeamTalk instances.
+ *
+ * The shared audio device on Android will show up as
+ * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
+ * i.e. 2048.
+ */
+#define TT_SOUNDDEVICE_SHARED_FLAG              0x00000800
+
+/** @brief Extract sound device ID of @c nDeviceID in #SoundDevice by
+ * and'ing this value.
+ *
+ * let PhysicalDeviceID = (SoundDevice.nDeviceID & TT_SOUNDDEVICE_ID_MASK). */
+#define TT_SOUNDDEVICE_ID_MASK                  0x000007FF
+    
 /** @brief Sound device ID for iOS AudioUnit subtype Remote I/O
  * Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-#define TT_SOUNDDEVICE_ID_REMOTEIO 0
+#define TT_SOUNDDEVICE_ID_REMOTEIO              0
+    
 /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
  * I/O Unit. @see SOUNDSYSTEM_AUDIOUNIT */
-#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO 1
+#define TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  1
+    
 /** @brief Sound device ID for Android OpenSL ES default audio
- * device. @see SOUNDSYSTEM_OPENSLES_ANDROID */
-#define TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT 0
+ * device. Note that this sound device may also exist in the form
+ * where the @c nDeviceID as been or'ed with
+ * #TT_SOUNDDEVICE_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */
+#define TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      0
+    
 /** @brief Sound device ID for virtual TeamTalk sound device.
  *
  * This is a sound device which decodes received audio packets but
@@ -353,7 +379,7 @@ extern "C" {
  *
  * In duplex mode the virtual TeamTalk sound device can only be used
  * as input/output device. @see SOUNDSYSTEM_NONE */
-#define TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL 1978
+#define TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL      1978
 
     /**
      * @brief An enum encapsulation the minimum, maximum and default sound

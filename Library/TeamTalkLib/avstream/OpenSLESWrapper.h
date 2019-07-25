@@ -104,11 +104,6 @@ namespace soundsystem {
         bool StopStream(inputstreamer_t streamer);
         void CloseStream(inputstreamer_t streamer);
 
-        inputstreamer_t NewSharedStream(StreamCapture* capture, 
-                                        int inputdeviceid, int sndgrpid, 
-                                        int samplerate, int channels,
-                                        int framesize);
-        
         // output
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
                                    int sndgrpid, int samplerate, int channels, 
@@ -147,8 +142,6 @@ namespace soundsystem {
         // engine interfaces
         SLObjectItf m_engineObject;
         SLEngineItf m_engineEngine;
-
-        std::shared_ptr< SharedStreamCapture<SLInputStreamer> > m_shared_recorder;
     };
 
     typedef SSB::soundgroup_t soundgroup_t;

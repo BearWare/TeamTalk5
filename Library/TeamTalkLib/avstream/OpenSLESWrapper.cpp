@@ -36,7 +36,8 @@ int detectMinumumBuffer(SLAndroidSimpleBufferQueueItf bq,
 
 enum AndroidSoundDevice
 {
-    DEFAULT_DEVICE_ID   = (0 & SOUND_DEVICEID_MASK),
+    DEFAULT_DEVICE_ID           = (0 & SOUND_DEVICEID_MASK),
+    SHARED_DEFAULT_DEVICE_ID    = (DEFAULT_DEVICE_ID | SOUND_DEVICE_SHARED_FLAG)
 };
 
 #define DEFAULT_SAMPLERATE 16000
@@ -247,11 +248,6 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
                                            int samplerate, int channels,
                                            int framesize)
 {
-    if (inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
-    {
-        return NewSharedStream(capture, inputdeviceid, sndgrpid, samplerate, channels, framesize);
-    }
-    
     SLresult result;
 
     soundgroup_t sg = GetSoundGroup(sndgrpid);
@@ -367,13 +363,6 @@ failure:
 
 bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
-    {
-        assert(m_shared_recorder);
-        m_shared_recorder->ActivateInputStreamer(streamer, true);
-        return true;
-    }
-    
     SLresult result;
 
     // start recording
@@ -386,13 +375,6 @@ bool OpenSLESWrapper::StartStream(inputstreamer_t streamer)
 
 bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
-    {
-        assert(m_shared_recorder);
-        m_shared_recorder->ActivateInputStreamer(streamer, false);
-        return true;
-    }
-    
     SLresult result;
 
     // start recording
@@ -405,22 +387,6 @@ bool OpenSLESWrapper::StopStream(inputstreamer_t streamer)
 
 void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
 {
-    if (streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
-    {
-        StopStream(streamer);
-        assert(m_shared_recorder);
-        m_shared_recorder->RemoveInputStreamer(streamer);
-
-        MYTRACE(ACE_TEXT("Closed shared capture stream %p\n"), streamer->recorder);
-
-        if (!m_shared_recorder->InputStreamsExists())
-        {
-            CloseStream(m_shared_recorder->GetOrigin());
-            m_shared_recorder.reset();
-        }
-        return;
-    }
-    
     SLresult result;
 
     // in case already recording, stop recording and clear buffer queue
@@ -438,62 +404,6 @@ void OpenSLESWrapper::CloseStream(inputstreamer_t streamer)
     (*streamer->recorderObject)->Destroy(streamer->recorderObject);
     
     MYTRACE(ACE_TEXT("Closed capture stream %p\n"), streamer->recorder);
-}
-
-inputstreamer_t OpenSLESWrapper::NewSharedStream(StreamCapture* capture, 
-                                                 int inputdeviceid, int sndgrpid, 
-                                                 int samplerate, int channels,
-                                                 int framesize)
-{
-    
-
-    // check if shared recording device already exists
-    if (!m_shared_recorder)
-    {
-        // shared device does not exist, create as new stream
-        
-        DeviceInfo snddev;
-        if (!GetDevice(inputdeviceid, snddev))
-            return inputstreamer_t();
-
-        int newsndgrpid = OpenSoundGroup();
-        if (!newsndgrpid)
-            return inputstreamer_t();
-
-        m_shared_recorder.reset(new SharedStreamCapture<SLInputStreamer>(newsndgrpid));
-
-        inputstreamer_t orgstream = NewStream(m_shared_recorder.get(),
-                                              snddev.id & SOUND_DEVICEID_MASK,
-                                              newsndgrpid,
-                                              snddev.default_samplerate,
-                                              snddev.max_input_channels,
-                                              snddev.default_samplerate * 0.04);
-
-        if (!orgstream)
-        {
-            m_shared_recorder.reset();
-            return inputstreamer_t();
-        }
-
-        m_shared_recorder->SetOrigin(orgstream);
-    }
-
-    // shared device already exists, just add new input stream to
-    // existing listeners
-    inputstreamer_t streamer = inputstreamer_t(new SLInputStreamer(capture,
-                                                                   sndgrpid,
-                                                                   framesize,
-                                                                   samplerate,
-                                                                   channels,
-                                                                   SOUND_API_OPENSLES_ANDROID,
-                                                                   inputdeviceid));
-
-    m_shared_recorder->AddInputStreamer(streamer);
-
-    MYTRACE(ACE_TEXT("Open shared capture stream %p, samplerate %d, channels %d\n"),
-            capture, samplerate, channels);
-    
-    return streamer;
 }
 
 // this callback handler is called every time a buffer finishes playing
@@ -852,12 +762,12 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
     sounddevs[dev.id] = dev;
 
     DeviceInfo shareddev = dev;
-    shareddev.id |= SOUND_DEVICE_SHARED_FLAG;
+    shareddev.id = SHARED_DEFAULT_DEVICE_ID;
     shareddev.devicename += ACE_TEXT(" - Shared @ ") + i2string(shareddev.default_samplerate) + ACE_TEXT(" KHz, ");
     if (shareddev.max_input_channels == 2)
-        dev.devicename += ACE_TEXT("Stereo");
+        shareddev.devicename += ACE_TEXT("Stereo");
     else
-        dev.devicename += ACE_TEXT("Mono");
+        shareddev.devicename += ACE_TEXT("Mono");
     
     sounddevs[shareddev.id] = shareddev;
 

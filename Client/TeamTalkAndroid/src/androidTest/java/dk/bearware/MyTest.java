@@ -98,9 +98,9 @@ public class MyTest extends TeamTalkTestCaseBase {
             System.out.println("Sound Device #" + d.nDeviceID + " name: " + d.szDeviceName);
         }
 
-        long sndloop1 = ttclient1.startSoundLoopbackTest(1, 0, 48000, 1, false, null);
+        long sndloop1 = ttclient1.startSoundLoopbackTest(0 | 0x800, 0, 48000, 1, false, null);
         assertTrue("Start client 1 sound loop", sndloop1 != 0);
-        long sndloop2 = ttclient2.startSoundLoopbackTest(1, 0, 48000, 1, false, null);
+        long sndloop2 = ttclient2.startSoundLoopbackTest(0 | 0x800, 0, 48000, 1, false, null);
         assertTrue("Start client 2 sound loop", sndloop2 != 0);
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
 

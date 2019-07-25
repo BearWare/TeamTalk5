@@ -249,12 +249,15 @@ namespace soundsystem {
         typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
         typedef std::shared_ptr < OUTPUTSTREAMER > outputstreamer_t;
         typedef std::shared_ptr < DUPLEXSTREAMER > duplexstreamer_t;
+        typedef std::shared_ptr < SharedStreamCapture<INPUTSTREAMER> > sharedstreamcapture_t;
 
         //sndgrpid -> SoundGroup
         typedef std::map<int, soundgroup_t> soundgroups_t;
         typedef std::map<StreamCapture*, inputstreamer_t> inputstreamers_t;
         typedef std::map<StreamPlayer*, outputstreamer_t> outputstreamers_t;
         typedef std::map<StreamDuplex*, duplexstreamer_t> duplexstreamers_t;
+        // SoundDeviceID -> SharedStreamCapture
+        typedef std::map<int, sharedstreamcapture_t> sharedstreamcaptures_t;
 
     protected:
         SoundSystemBase()
@@ -357,10 +360,11 @@ namespace soundsystem {
 
     private:
 
-        soundgroups_t m_sndgrps;
-        inputstreamers_t m_input_streamers;
-        outputstreamers_t m_output_streamers;
-        duplexstreamers_t m_duplex_streamers;
+        soundgroups_t m_sndgrps; // sndgrp_lock()
+        inputstreamers_t m_input_streamers; // capture_lock()
+        outputstreamers_t m_output_streamers; //players_lock()
+        duplexstreamers_t m_duplex_streamers; // duplex_lock()
+        sharedstreamcaptures_t m_shared_streamcaptures; // capture_lock()
 
         ACE_Recursive_Thread_Mutex& sndgrp_lock() { return m_sndgrp_lock; }
         ACE_Recursive_Thread_Mutex& capture_lock() { return m_cap_lock; }
@@ -380,6 +384,65 @@ namespace soundsystem {
                                                        framesize, samplerate,
                                                        channels, dev.soundsystem,
                                                        SOUND_DEVICEID_VIRTUAL));
+            return streamer;
+        }
+
+        inputstreamer_t NewSharedStream(StreamCapture* capture, 
+                                        int inputdeviceid, int sndgrpid, 
+                                        int samplerate, int channels,
+                                        int framesize)
+        {
+            DeviceInfo snddev;
+            if (!GetDevice(inputdeviceid, snddev))
+                return inputstreamer_t();
+
+            wguard_t g(capture_lock());
+
+            // check if shared recording device already exists
+            if (m_shared_streamcaptures.find(inputdeviceid) == m_shared_streamcaptures.end())
+            {
+                g.release();
+                
+                MYTRACE("Creating shared capture device\n");
+                
+                // shared device does not exist, create as new stream
+        
+                int newsndgrpid = OpenSoundGroup();
+                if (!newsndgrpid)
+                    return inputstreamer_t();
+
+                sharedstreamcapture_t sharedstream = sharedstreamcapture_t(new SharedStreamCapture<INPUTSTREAMER>(newsndgrpid));
+
+                inputstreamer_t orgstream = NewStream(sharedstream.get(),
+                                                      snddev.id & SOUND_DEVICEID_MASK,
+                                                      newsndgrpid,
+                                                      snddev.default_samplerate,
+                                                      snddev.max_input_channels,
+                                                      snddev.default_samplerate * 0.04);
+
+                if (!orgstream)
+                    return inputstreamer_t();
+
+                g.acquire();
+                sharedstream->SetOrigin(orgstream);
+                m_shared_streamcaptures[inputdeviceid] = sharedstream;
+            }
+
+            // shared device already exists, just add new input stream to
+            // existing listeners
+            inputstreamer_t streamer = inputstreamer_t(new INPUTSTREAMER(capture,
+                                                                         sndgrpid,
+                                                                         framesize,
+                                                                         samplerate,
+                                                                         channels,
+                                                                         snddev.soundsystem,
+                                                                         inputdeviceid));
+
+            m_shared_streamcaptures[inputdeviceid]->AddInputStreamer(streamer);
+
+            MYTRACE(ACE_TEXT("Opened shared capture stream %p, samplerate %d, channels %d\n"),
+                    capture, samplerate, channels);
+    
             return streamer;
         }
 
@@ -458,6 +521,11 @@ namespace soundsystem {
             if(inputdeviceid == SOUND_DEVICEID_VIRTUAL)
                 streamer = NewVirtualStream(capture, sndgrpid, 
                                             samplerate, channels, framesize);
+            else if (inputdeviceid & SOUND_DEVICE_SHARED_FLAG)
+            {
+                streamer = NewSharedStream(capture, inputdeviceid, sndgrpid,
+                                           samplerate, channels, framesize);
+            }
             else
                 streamer = NewStream(capture, inputdeviceid, sndgrpid, 
                                      samplerate, channels, framesize);
@@ -473,6 +541,13 @@ namespace soundsystem {
                 StartVirtualStream(streamer);
                 return true;
             }
+            if (streamer->IsShared())
+            {
+                sharedstreamcapture_t sharedstream = m_shared_streamcaptures[inputdeviceid];
+                assert(sharedstream);
+                sharedstream->ActivateInputStreamer(streamer, true);
+                return true;
+            }
             else
             {
                 if(StartStream(streamer))
@@ -482,6 +557,7 @@ namespace soundsystem {
             CloseInputStream(capture);
             return false;
         }
+        
         bool CloseInputStream(StreamCapture* capture)
         {
             inputstreamer_t streamer = GetStream(capture);
@@ -491,6 +567,21 @@ namespace soundsystem {
             if(streamer->IsVirtual())
             {
                 StopVirtualStream(streamer.get());
+            }
+            else if (streamer->IsShared())
+            {
+                wguard_t g(capture_lock());
+                assert(m_shared_streamcaptures.find(streamer->inputdeviceid) != m_shared_streamcaptures.end());
+                auto sharedstream = m_shared_streamcaptures[streamer->inputdeviceid];
+                sharedstream->RemoveInputStreamer(streamer);
+
+                MYTRACE(ACE_TEXT("Closed shared capture stream %p\n"), streamer->recorder);
+
+                if (!sharedstream->InputStreamsExists())
+                {
+                    CloseStream(sharedstream->GetOrigin());
+                    m_shared_streamcaptures.erase(streamer->inputdeviceid);
+                }
             }
             else
             {

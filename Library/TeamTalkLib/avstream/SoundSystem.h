@@ -197,6 +197,7 @@ namespace soundsystem {
             MYTRACE(ACE_TEXT("~InputStreamer() - %p for StreamCapture %p\n"), this, recorder);
         }
         bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRTUAL; }
+        bool IsShared() const { return (inputdeviceid & SOUND_DEVICE_SHARED_FLAG) != 0; }
     };
 
     struct OutputStreamer : public SoundStreamer
