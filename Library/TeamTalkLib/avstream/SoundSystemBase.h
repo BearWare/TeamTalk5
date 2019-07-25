@@ -205,10 +205,17 @@ namespace soundsystem {
             return !m_inputstreams.empty();
         }
             
+        bool ActiveStreamsExists()
+        {
+            wguard_t g(m_mutex);
+            return !m_activestreams.empty();
+        }
+            
         void ActivateInputStreamer(inputstreamer_t streamer, bool active)
         {
             wguard_t g(m_mutex);
             assert(m_inputstreams.find(streamer) != m_inputstreams.end());
+
             if (active)
                 m_activestreams.insert(streamer);
             else
@@ -229,6 +236,11 @@ namespace soundsystem {
                     stream->framesize == streamer.framesize)
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
+//                    MYTRACE("Streamcallback with same audio profile: %p\n", stream->recorder);
+                }
+                else
+                {
+//                    MYTRACE("Streamcallback with different audio profile: %p\n", stream->recorder);
                 }
             }
         }
@@ -403,8 +415,6 @@ namespace soundsystem {
             {
                 g.release();
                 
-                MYTRACE("Creating shared capture device\n");
-                
                 // shared device does not exist, create as new stream
         
                 int newsndgrpid = OpenSoundGroup();
@@ -426,6 +436,12 @@ namespace soundsystem {
                 g.acquire();
                 sharedstream->SetOrigin(orgstream);
                 m_shared_streamcaptures[inputdeviceid] = sharedstream;
+
+                if (!StartStream(orgstream))
+                {
+                    m_shared_streamcaptures.erase(inputdeviceid);
+                    return inputstreamer_t();
+                }
             }
 
             // shared device already exists, just add new input stream to
@@ -541,11 +557,13 @@ namespace soundsystem {
                 StartVirtualStream(streamer);
                 return true;
             }
-            if (streamer->IsShared())
+            else if (streamer->IsShared())
             {
                 sharedstreamcapture_t sharedstream = m_shared_streamcaptures[inputdeviceid];
                 assert(sharedstream);
+
                 sharedstream->ActivateInputStreamer(streamer, true);
+                
                 return true;
             }
             else
