@@ -196,8 +196,8 @@ void MergeStereo(const std::vector<short>& left_chan,
 // returns new sample_index
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
-#define PCM16_BYTES(samples, channels) (samples * channels * sizeof(short))
-#define PCM16_DURATION(bytes, channels, samplerate) (((bytes/channels/sizeof(short)) * 1000) / samplerate)
+#define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
+#define PCM16_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
 
 #define RGB32_BYTES(w, h) (h * w * 4)
 

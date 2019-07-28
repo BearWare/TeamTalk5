@@ -91,6 +91,7 @@ public class MyTest extends TeamTalkTestCaseBase {
     public void test_SharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
+        TeamTalkBase ttclient3 = newClientInstance();
 
         Vector<SoundDevice> devs = new Vector<>();
         TeamTalkBase.getSoundDevices(devs);
@@ -99,10 +100,14 @@ public class MyTest extends TeamTalkTestCaseBase {
         }
 
         int sounddeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+
         long sndloop1 = ttclient1.startSoundLoopbackTest(sounddeviceid, 0, 48000, 2, false, null);
         assertTrue("Start client 1 sound loop", sndloop1 != 0);
         long sndloop2 = ttclient2.startSoundLoopbackTest(sounddeviceid, 0, 48000, 2, false, null);
         assertTrue("Start client 2 sound loop", sndloop2 != 0);
+        long sndloop3 = ttclient3.startSoundLoopbackTest(sounddeviceid, 0, 48000, 1, false, null);
+        assertTrue("Start client 3 sound loop", sndloop3 != 0);
+
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
 
         assertTrue("Close sndloop1", ttclient1.closeSoundLoopbackTest(sndloop1));
