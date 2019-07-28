@@ -26,8 +26,6 @@
 
 #include "Server.h"
 
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/FILE_IO.h>
 
@@ -48,8 +46,8 @@ namespace teamtalk {
         uint32_t update_id;
     };
         
-    typedef ACE_Strong_Bound_Ptr< ServerChannel, ACE_Null_Mutex > serverchannel_t;
-    typedef ACE_Strong_Bound_Ptr< ServerUser, ACE_Null_Mutex > serveruser_t;
+    typedef std::shared_ptr< ServerChannel > serverchannel_t;
+    typedef std::shared_ptr< ServerUser > serveruser_t;
 
     class ServerUser : public User
     {
@@ -119,7 +117,7 @@ namespace teamtalk {
         void SetLastKeepAlive(int lasttime){ m_nLastKeepAlive = lasttime; }
 
         void SetChannel(serverchannel_t& channel){ m_channel = channel; }
-        serverchannel_t GetChannel() const { return m_channel.strong(); }
+        serverchannel_t GetChannel() const { return m_channel.lock(); }
         
         BannedUser GetBan(BanTypes bantype = BANTYPE_NONE, const ACE_TString& chanpath = ACE_TEXT("")) const;
 
@@ -261,7 +259,7 @@ namespace teamtalk {
         uint8_t m_accesstoken[CRYPTKEY_SIZE];
             
         int m_nLastKeepAlive;
-        ACE_Weak_Bound_Ptr< ServerChannel, ACE_Null_Mutex > m_channel;
+        std::weak_ptr< ServerChannel > m_channel;
         ACE_Time_Value m_LogonTime;
 
         //commands received so far

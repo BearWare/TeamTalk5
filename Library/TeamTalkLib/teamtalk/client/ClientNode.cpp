@@ -259,7 +259,7 @@ int ClientNode::GetChannelID()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(!m_mychannel.null())
+    if(m_mychannel)
         return m_mychannel->GetChannelID();
     return 0;
 }
@@ -269,7 +269,7 @@ clientchannel_t ClientNode::GetChannel(int channelid)
     ASSERT_REACTOR_LOCKED(this);
 
     clientchannel_t c = GetRootChannel();
-    if(!c.null())
+    if (c)
     {
         if(m_mychannel.get() && m_mychannel->GetChannelID() == channelid)
             return m_mychannel; //most likely scenario
@@ -287,7 +287,7 @@ ACE_TString ClientNode::GetChannelPath(int channelid)
 
     ACE_TString chanpath;
     clientchannel_t chan = GetChannel(channelid);
-    if(!chan.null())
+    if (chan)
         chanpath = chan->GetChannelPath();
     return chanpath;
 }
@@ -297,7 +297,7 @@ bool ClientNode::GetChannelProp(int channelid, ChannelProp& prop)
     ASSERT_REACTOR_LOCKED(this);
 
     clientchannel_t chan = GetChannel(channelid);
-    if(!chan.null())
+    if (chan)
     {
         prop = chan->GetChannelProp();
         return true;
@@ -318,7 +318,7 @@ clientuser_t ClientNode::GetUser(int userid, bool include_local/* = false*/)
     if(m_mychannel.get())
         suser = m_mychannel->GetUser(userid, false);
     //slow search
-    if(suser.null() && m_rootchannel.get())
+    if (!suser && m_rootchannel)
         suser = m_rootchannel->GetUser(userid, true);
     //special case for local user properties
     if(userid == LOCAL_USERID && include_local)
@@ -634,7 +634,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     case USER_TIMER_DESKTOPINPUT_RTX_ID :
     {
         clientuser_t user = GetUser(userid);
-        if(user.null())
+        if (!user)
         {
             ret = -1;
             break;
@@ -687,7 +687,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ret = -1;
 
         clientuser_t user = GetUser(userid);
-        if(user.null() || !m_desktop || m_mychannel.null())
+        if (!user || !m_desktop || !m_mychannel)
             break;
 
         DesktopInputAckPacket* ack_pkt;
@@ -926,7 +926,7 @@ int ClientNode::Timer_DesktopNAKPacket()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if (m_desktop_nak_tx && !m_mychannel.null())
+    if (m_desktop_nak_tx && m_mychannel)
     {
         DesktopNakPacket* nak_pkt;
         ACE_NEW_RETURN(nak_pkt, DesktopNakPacket(GetUserID(), 
@@ -1225,7 +1225,7 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
     if(m_crypt_stream)
     {
         clientchannel_t chan = GetChannel(packet.GetChannel());
-        if(chan.null())
+        if (!chan)
             return;
 
         CryptVoicePacket crypt_pkt(packet, chan->GetEncryptKey());
@@ -1257,7 +1257,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
     if(m_crypt_stream)
     {
         clientchannel_t chan = GetChannel(packet.GetChannel());
-        if(chan.null())
+        if (!chan)
             return;
 
         CryptAudioFilePacket crypt_pkt(packet, chan->GetEncryptKey());
@@ -1693,7 +1693,7 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     FieldPacket chanpacket(packet_data, packet_size);
 
     clientchannel_t chan = GetChannel(chanpacket.GetChannel());
-    if(chan.null())
+    if (!chan)
     {
         MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), int(packet.GetKind()));
         return;
@@ -1711,13 +1711,13 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         if(!decrypt_pkt)
             return;
 
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
-        if(!user.null())
+        if (user)
             user->AddVoicePacket(*decrypt_pkt, m_soundprop, voicelogger(), !no_record);
     }
     break;
@@ -1725,13 +1725,13 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_VOICE :
     {
         VoicePacket audio_pkt(packet_data, packet_size);
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
         bool no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
-        if(!user.null())
+        if (user)
             user->AddVoicePacket(audio_pkt, m_soundprop, voicelogger(), !no_record);
         break;
     }
@@ -1744,11 +1744,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
                      crypt_pkt.GetSrcUserID());
         if(!decrypt_pkt)
             return;
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received CryptAudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddAudioFilePacket(*decrypt_pkt, m_soundprop);
     }
     break;
@@ -1756,11 +1756,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_MEDIAFILE_AUDIO :
     {
         AudioFilePacket audio_pkt(packet_data, packet_size);
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received AudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddAudioFilePacket(audio_pkt, m_soundprop);
         break;
     }
@@ -1771,11 +1771,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.vidcapbytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddVideoCapturePacket(*decrypt_pkt, *chan);
     }
     break;
@@ -1783,11 +1783,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_VIDEO :
     {
         VideoCapturePacket video_pkt(packet_data, packet_size);
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received VideoCapturePacket from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.vidcapbytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddVideoCapturePacket(video_pkt, *chan);
     }
     break;
@@ -1798,11 +1798,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_video_bytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddVideoFilePacket(*decrypt_pkt, *chan);
     }
     break;
@@ -1810,11 +1810,11 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_MEDIAFILE_VIDEO :
     {
         VideoFilePacket video_pkt(packet_data, packet_size);
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received VideoFilePacket from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_video_bytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             user->AddVideoFilePacket(video_pkt, *chan);
     }
     break;
@@ -1825,12 +1825,12 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
         auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
         if(!decrypt_pkt)
             return;
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received CryptDesktopPacket from unknown user #%d"),
                      packet.GetSrcUserID());
 
         m_clientstats.desktopbytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             ReceivedDesktopPacket(*user, *chan, *decrypt_pkt);
     }
     break;
@@ -1838,12 +1838,12 @@ void ClientNode::ReceivedPacket(PacketHandler* ph,
     case PACKET_KIND_DESKTOP :
     {
         DesktopPacket desktop_pkt(packet_data, packet_size);
-        MYTRACE_COND(user.null(),
+        MYTRACE_COND(!user,
                      ACE_TEXT("Received DesktopPacket from unknown user #%d"),
                      packet.GetSrcUserID());
 
         m_clientstats.desktopbytes_recv += packet_size;
-        if(!user.null())
+        if (user)
             ReceivedDesktopPacket(*user, *chan, desktop_pkt);
     }
     break;
@@ -2124,9 +2124,9 @@ void ClientNode::ReceivedDesktopNakPacket(const DesktopNakPacket& nak_pkt)
     ASSERT_REACTOR_THREAD(m_reactor);
 
     clientuser_t user = GetUser(nak_pkt.GetSrcUserID());
-    MYTRACE_COND(user.null(), ACE_TEXT("Asked to delete desktop session #%d ")
+    MYTRACE_COND(!user, ACE_TEXT("Asked to delete desktop session #%d ")
                  ACE_TEXT("from user who doesn't exist\n"), nak_pkt.GetSessionID());
-    if(user.null())
+    if(!user)
         return;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -2151,17 +2151,17 @@ void ClientNode::ReceivedDesktopCursorPacket(const DesktopCursorPacket& csr_pkt)
     clientchannel_t chan = GetChannel(csr_pkt.GetChannel());
     uint16_t dest_userid;
     uint8_t session_id;
-    if(!chan.null() && csr_pkt.GetSessionCursor(&dest_userid, &session_id, 0, 0))
+    if (chan && csr_pkt.GetSessionCursor(&dest_userid, &session_id, 0, 0))
     {
         if(dest_userid == 0)
         {
-            if(!src_user.null())
+            if (src_user)
                 src_user->AddPacket(csr_pkt, *chan);
         }
         else
         {
             clientuser_t dest_user = GetUser(dest_userid);
-            if(!dest_user.null())
+            if (dest_user)
                 dest_user->AddPacket(csr_pkt, *chan);
         }
     }
@@ -2173,7 +2173,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 
     clientuser_t src_user = GetUser(di_pkt.GetSrcUserID());
     clientchannel_t chan = GetChannel(di_pkt.GetChannel());
-    if(chan.null())
+    if (!chan)
         return;
 
     if (!m_desktop || m_desktop->GetSessionID() != di_pkt.GetSessionID())
@@ -2183,7 +2183,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
             di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
             (ACE_UINT32)di_pkt.GetPacketNo());
     
-    if(!src_user.null())
+    if (src_user)
         src_user->AddPacket(di_pkt, *chan);
 
     if(di_pkt.GetDestUserID() == m_myuserid)
@@ -2202,7 +2202,7 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
 
     int userid = ack_pkt.GetSrcUserID();
     clientuser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return;
 
     if(ack_pkt.GetDestUserID() != m_myuserid)
@@ -2298,7 +2298,7 @@ void ClientNode::SendPackets()
             {
                 //only transmit if we're in a channel, transmitting,
                 //allowed to transmit
-                if(m_mychannel.null())
+                if (!m_mychannel)
                     break;
                 if(!m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_VOICE))
                     break;
@@ -2337,7 +2337,7 @@ void ClientNode::SendPackets()
 
             //only transmit if we're in a channel, transmitting,
             //allowed to transmit and there's active users
-            if(m_mychannel.null() || 
+            if (!m_mychannel || 
                !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE))
                 break;
 
@@ -2365,7 +2365,7 @@ void ClientNode::SendPackets()
             {
                 //only transmit if we're in a channel, transmitting and
                 //there's active users
-                if(m_mychannel.null() || 
+                if (!m_mychannel || 
                    (m_flags & CLIENT_TX_VIDEOCAPTURE) == 0 ||
                    !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_VIDEOCAPTURE))
                     break;
@@ -2378,7 +2378,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(vidpkt->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptVideoCapturePacket crypt_pkt(*vidpkt, chan->GetEncryptKey());
                 if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE)
@@ -2404,7 +2404,7 @@ void ClientNode::SendPackets()
             {
                 //only transmit if we're in a channel, transmitting and
                 //there's active users
-                if(m_mychannel.null() || 
+                if (!m_mychannel || 
                    (m_flags & CLIENT_STREAM_VIDEOFILE) == 0 ||
                    !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE))
                     break;
@@ -2417,7 +2417,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(vidpkt->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptVideoFilePacket crypt_pkt(*vidpkt, chan->GetEncryptKey());
                 if(m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO)
@@ -2442,7 +2442,7 @@ void ClientNode::SendPackets()
             TTASSERT(desktoppkt);
             TTASSERT(!desktoppkt->Finalized());
 
-            if(m_mychannel.null() ||
+            if (!m_mychannel ||
                !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_DESKTOP))
                 break;
 
@@ -2490,7 +2490,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(ack_packet->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptDesktopAckPacket crypt_pkt(*ack_packet, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
@@ -2515,7 +2515,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(nak_packet->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptDesktopNakPacket crypt_pkt(*nak_packet, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
@@ -2540,7 +2540,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(cursor_pkt->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptDesktopCursorPacket crypt_pkt(*cursor_pkt, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
@@ -2564,7 +2564,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(input_pkt->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptDesktopInputPacket crypt_pkt(*input_pkt, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
@@ -2592,7 +2592,7 @@ void ClientNode::SendPackets()
             if(m_crypt_stream)
             {
                 clientchannel_t chan = GetChannel(ack_pkt->GetChannel());
-                if(chan.null())
+                if (!chan)
                     break;
                 CryptDesktopInputAckPacket crypt_pkt(*ack_pkt, chan->GetEncryptKey());
                 ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
@@ -2725,7 +2725,7 @@ bool ClientNode::InitSoundInputDevice(int inputdevice)
     m_soundprop.inputdeviceid = inputdevice;
     g_snd.release();
 
-    if(!m_mychannel.null())
+    if (m_mychannel)
     {
         //launch recorders
         if(inputdevice != SOUNDDEVICE_IGNORE_ID)
@@ -2784,7 +2784,7 @@ bool ClientNode::InitSoundDuplexDevices(int inputdeviceid,
     m_flags |= CLIENT_SNDINOUTPUT_DUPLEX;
 
     //restart audio capture in duplex mode
-    if(!m_mychannel.null())
+    if (m_mychannel)
         OpenAudioCapture(m_mychannel->GetAudioCodec());
 
     return true;
@@ -3032,7 +3032,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     ASSERT_REACTOR_LOCKED(this);
 
     //don't allow video streaming if not in channel or already streaming
-    if(m_mychannel.null() ||
+    if (!m_mychannel ||
        (m_flags & CLIENT_STREAM_VIDEOFILE) ||
        (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
@@ -3338,7 +3338,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     ACE_UNUSED_ARG(protocol);
     ASSERT_REACTOR_LOCKED(this);
 
-    if(m_mychannel.null() ||
+    if (!m_mychannel ||
        (m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) == 0)
         return -1;
 
@@ -3481,7 +3481,7 @@ void ClientNode::ResetAudioPlayers()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(!m_rootchannel.null())
+    if (m_rootchannel)
     {
         ClientChannel::users_t users;
         m_rootchannel->GetUsers(users, true);
@@ -3498,7 +3498,7 @@ bool ClientNode::SendDesktopCursor(int x, int y)
     DesktopCursorPacket* pkt;
 
     chan = GetMyChannel();
-    if(chan.null())
+    if (!chan)
         return false;
     if (!m_desktop)
         return false;
@@ -3525,7 +3525,7 @@ bool ClientNode::SendDesktopInput(int userid,
     clientuser_t user;
 
     user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return false;
 
     int n_tx_queue = int(user->GetDesktopInputTxQueue().size() + user->GetDesktopInputRtxQueue().size());
@@ -3539,7 +3539,7 @@ bool ClientNode::SendDesktopInput(int userid,
        return false;
 
     chan = user->GetChannel();
-    if(chan.null())
+    if (!chan)
         return false;
 
     desktop_viewer_t viewer = user->GetDesktopSession();
@@ -3763,7 +3763,7 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     ASSERT_REACTOR_THREAD(m_reactor);
     ASSERT_REACTOR_LOCKED(this);
 
-    if(!m_mychannel.null())
+    if (m_mychannel)
         LeftChannel(*m_mychannel);
 
     m_mychannel = chan;
@@ -3804,7 +3804,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
 
     TTASSERT(m_mychannel.get());
 
-    if(!m_mychannel.null() && chan.Compare(m_mychannel))
+    if (m_mychannel && chan.Compare(m_mychannel))
         m_mychannel.reset();
 
     //clear files if not admin
@@ -3845,7 +3845,7 @@ void ClientNode::LoggedOut()
 
     //shutdown users' players
     clientchannel_t chan = GetMyChannel();
-    if(!chan.null())
+    if (chan)
         LeftChannel(*chan);
 
     //shutdown all users (might be active admin streams)
@@ -3855,7 +3855,7 @@ void ClientNode::LoggedOut()
     while(ite != users.end())
     {
         clientuser_t user = GetUser(*ite);
-        if(!user.null())
+        if (user)
             user->ResetAllStreams();
         ite++;
     }
@@ -3986,7 +3986,7 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
     ASSERT_NOT_REACTOR_THREAD(m_reactor);
 
     ACE_TString command = CLIENT_JOINCHANNEL;
-    if(GetChannel(chanprop.channelid).null() && !forceexisting) //new channel
+    if (!GetChannel(chanprop.channelid) && !forceexisting) //new channel
     {
         AppendProperty(TT_CHANNAME, chanprop.name, command);
         AppendProperty(TT_PARENTID, chanprop.parentid, command);
@@ -4680,9 +4680,9 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    TTASSERT(GetRootChannel().null());//root channel will be created by add channel command
+    TTASSERT(!GetRootChannel());//root channel will be created by add channel command
 
-    if(!GetRootChannel().null())
+    if (GetRootChannel())
         return;
 
     int userid = 0;
@@ -4878,11 +4878,11 @@ void ClientNode::HandleLoggedOut(const mstrings_t& properties)
         TTASSERT(m_users.find(userid) != m_users.end());
         //if user is admin he might have file stream coming in
         clientuser_t user = GetUser(userid);
-        if(!user.null())
+        if (user)
             user->ResetAllStreams();
         m_users.erase(userid);
 
-        if(!user.null())
+        if (user)
             m_listener->OnUserLoggedOut(*user);
     }
 }
@@ -4907,11 +4907,11 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
 
     GetProperty(properties, TT_CHANNELID, chanid);
     clientchannel_t chan = GetChannel(chanid);
-    if(chan.null())
+    if (!chan)
         return;
 
     clientuser_t user = GetUser(userid);
-    if(user.null()) //view all users disabled scenario
+    if (!user) //view all users disabled scenario
         user = clientuser_t(new ClientUser(userid, this, m_listener));
 
     if(GetProperty(properties, TT_NICKNAME, nickname))
@@ -4939,7 +4939,7 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
     if(GetProperty(properties, TT_CLIENTNAME, clientname))
         user->SetClientName(clientname);
 
-    TTASSERT(user->GetChannel().null());
+    TTASSERT(!user->GetChannel());
     user->SetChannel(chan);
 
     chan->AddUser(user->GetUserID(), user);
@@ -4970,8 +4970,8 @@ void ClientNode::HandleUpdateUser(const mstrings_t& properties)
         return;
 
     clientuser_t user = GetUser(userid);
-    TTASSERT(!user.null());
-    if(user.null())
+    TTASSERT(user);
+    if (!user)
         return;
 
     if(GetProperty(properties, TT_NICKNAME, nickname))
@@ -5012,11 +5012,11 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
     GetProperty(properties, TT_USERID, userid);
 
     clientuser_t user = GetUser(userid);
-    MYTRACE_COND(user.null(), ACE_TEXT("Unknown user: #%d\n"), userid);
+    MYTRACE_COND(!user, ACE_TEXT("Unknown user: #%d\n"), userid);
     TTASSERT(user.get());
     clientchannel_t chan = GetChannel(channelid);
     TTASSERT(chan.get());
-    if(user.null() || chan.null())
+    if(!user || !chan)
         return;
 
     if(m_mychannel == chan && user->GetUserID() == m_myuserid)
@@ -5042,16 +5042,16 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
 
     clientchannel_t parent = GetChannel(chanprop.parentid);
     clientchannel_t newchan;
-    if(!parent.null())
+    if (parent)
     {
-        TTASSERT(!m_rootchannel.null());
+        TTASSERT(m_rootchannel);
         GetProperty(properties, TT_CHANNAME, chanprop.name);
         newchan = clientchannel_t(new ClientChannel(parent, chanprop.channelid, chanprop.name));
         parent->AddSubChannel(newchan);
     }
     else
     {
-        TTASSERT(m_rootchannel.null());
+        TTASSERT(!m_rootchannel);
         newchan = clientchannel_t(new ClientChannel(chanprop.channelid));
         m_rootchannel = newchan;
     }
@@ -5109,12 +5109,12 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    TTASSERT(!GetRootChannel().null());
+    TTASSERT(GetRootChannel());
     ChannelProp chanprop;
     GetProperty(properties, TT_CHANNELID, chanprop.channelid);
     clientchannel_t chan = GetChannel(chanprop.channelid);
     TTASSERT(chan.get());
-    if(chan.null())
+    if (!chan)
         return;
 
     if(GetProperty(properties, TT_CHANNAME, chanprop.name))
@@ -5189,14 +5189,14 @@ void ClientNode::HandleRemoveChannel(const mstrings_t& properties)
 
     clientchannel_t chan = GetChannel(chanid);
     TTASSERT(chan.get());
-    if(!chan.null())
+    if (chan)
     {
         clientchannel_t parent = chan->GetParentChannel();
         //make sure it's not the channel we're in
         TTASSERT(GetMyChannel() != chan);
 
-        TTASSERT(!parent.null());
-        if(!parent.null())
+        TTASSERT(parent);
+        if (parent)
             parent->RemoveSubChannel(chan->GetName());
 
         //notify parent application
@@ -5212,8 +5212,8 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
     GetProperty(properties, TT_CHANNELID, channelid);
 
     clientchannel_t chan = GetChannel(channelid);
-    TTASSERT(!chan.null());
-    if(!chan.null())
+    TTASSERT(chan);
+    if (chan)
     {
 #if defined(ENABLE_ENCRYPTION)
         ACE_TString crypt_key;
@@ -5242,7 +5242,7 @@ void ClientNode::HandleLeftChannel(const mstrings_t& properties)
     int channelid = 0;
     GetProperty(properties, TT_CHANNELID, channelid);
     clientchannel_t chan = GetChannel(channelid);
-    if(!chan.null())
+    if (chan)
     {
         LeftChannel(*chan);
 
@@ -5473,8 +5473,8 @@ void ClientNode::HandleAddFile(const mstrings_t& properties)
     GetProperty(properties, TT_FILESIZE, remotefile.filesize);
 
     clientchannel_t chan = GetChannel(remotefile.channelid);
-    TTASSERT(!chan.null());
-    if(!chan.null())
+    TTASSERT(chan);
+    if (chan)
     {
         chan->AddFile(remotefile);
 
@@ -5495,8 +5495,8 @@ void ClientNode::HandleRemoveFile(const mstrings_t& properties)
 
     RemoteFile remotefile;
     clientchannel_t chan = GetChannel(channelid);
-    TTASSERT(!chan.null());
-    if(!chan.null() && chan->GetFile(filename, remotefile))
+    TTASSERT(chan);
+    if (chan && chan->GetFile(filename, remotefile))
     {
         chan->RemoveFile(filename);
 

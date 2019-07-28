@@ -94,20 +94,19 @@ void ClientUser::ResetAllStreams()
 void ClientUser::ResetInactiveStreams()
 {
     //reset players if user is no longer active, i.e. no subscription
-    if(!LocalSubscribes(SUBSCRIBE_VOICE | SUBSCRIBE_INTERCEPT_VOICE) ||
-       m_channel.null())
+    if (!LocalSubscribes(SUBSCRIBE_VOICE | SUBSCRIBE_INTERCEPT_VOICE) || m_channel.expired())
         ResetVoicePlayer();
-    if(!LocalSubscribes(SUBSCRIBE_MEDIAFILE | SUBSCRIBE_INTERCEPT_MEDIAFILE) ||
-       m_channel.null())
+    
+    if (!LocalSubscribes(SUBSCRIBE_MEDIAFILE | SUBSCRIBE_INTERCEPT_MEDIAFILE) || m_channel.expired())
     {
         ResetAudioFilePlayer();
         CloseVideoFilePlayer();
     }
-    if(!LocalSubscribes(SUBSCRIBE_VIDEOCAPTURE | SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) ||
-       m_channel.null())
+    
+    if(!LocalSubscribes(SUBSCRIBE_VIDEOCAPTURE | SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) || m_channel.expired())
         CloseVideoCapturePlayer();
-    if(!LocalSubscribes(SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP) ||
-       m_channel.null())
+    
+    if(!LocalSubscribes(SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP) || m_channel.expired())
         CloseDesktopSession();
 }
 
@@ -203,7 +202,7 @@ int ClientUser::TimerDesktopDelayedAck()
     TTASSERT(m_clientnode->TimerExists(USER_TIMER_DESKTOPACKPACKET_ID, GetUserID()));
 
     clientchannel_t chan = GetChannel();
-    if(chan.null())
+    if (!chan)
         return -1;
 
     uint8_t session_id = 0;
@@ -239,11 +238,11 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
 
     clientchannel_t chan = GetChannel();
-    if(chan.null() || chan->GetChannelID() != audpkt.GetChannel())
+    if (!chan || chan->GetChannelID() != audpkt.GetChannel())
     {
         MYTRACE(ACE_TEXT("Received voice packet #%d outside channel, %d != %d\n"),
                 GetUserID(), audpkt.GetChannel(),
-                chan.null()? 0 : chan->GetChannelID());
+                !chan? 0 : chan->GetChannelID());
         return;
     }
 
@@ -294,11 +293,11 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     ASSERT_REACTOR_THREAD(*m_clientnode->reactor());
 
     clientchannel_t chan = GetChannel();
-    if(chan.null() || chan->GetChannelID() != audpkt.GetChannel())
+    if (!chan || chan->GetChannelID() != audpkt.GetChannel())
     {
         MYTRACE(ACE_TEXT("Received media file packet #%d outside channel, %d != %d\n"),
                 GetUserID(), audpkt.GetChannel(),
-                chan.null()? 0 : chan->GetChannelID());
+                !chan? 0 : chan->GetChannelID());
         return;
     }
 
@@ -1288,7 +1287,7 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 #if defined(ENABLE_VPX)
     if (m_vidcap_player)
     {
-        //if(!m_voice_player.null() && GetMediaFileBufferSize() &&
+        //if(m_voice_player && GetMediaFileBufferSize() &&
         //   m_voice_player->GetPlayedPacketNo())
         //{
         //    uint32_t audio_tm = m_voice_player->GetPlayedPacketTime();
@@ -1493,12 +1492,12 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
 
     if(local_subs && local_intercept_subs)
     {
-        if((m_localsubscriptions & local_subs) && !mychan.null())
+        if((m_localsubscriptions & local_subs) && mychan)
         {
             if(mychan->GetChannelID() == packet.GetChannel())
                 return true;
         }
-        if((m_localsubscriptions & local_intercept_subs) && !userchan.null())
+        if((m_localsubscriptions & local_intercept_subs) && userchan)
         {
             if(userchan->GetChannelID() == packet.GetChannel())
                 return true;

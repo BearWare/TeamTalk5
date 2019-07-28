@@ -1093,7 +1093,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     Convert(static_cast<const teamtalk::User&>(clientuser), result);
 
     teamtalk::clientchannel_t channel = clientuser.GetChannel();
-    if(!channel.null())
+    if(channel)
         result.nChannelID = channel->GetChannelID();
     else
         result.nChannelID = 0;
@@ -1148,7 +1148,7 @@ void Convert(const teamtalk::ServerUser& serveruser, User& result)
 
     Convert(static_cast<const teamtalk::User&>(serveruser), result);
     teamtalk::serverchannel_t channel = serveruser.GetChannel();
-    if(!channel.null())
+    if(channel)
         result.nChannelID = channel->GetChannelID();
     else
         result.nChannelID = 0;

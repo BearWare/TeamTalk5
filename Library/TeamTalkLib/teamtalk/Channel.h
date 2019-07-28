@@ -24,8 +24,6 @@
 #if !defined(CHANNEL_H)
 #define CHANNEL_H
 
-#include <ace/Bound_Ptr.h>
-#include <ace/Null_Mutex.h> 
 #include <ace/SString.h>
 
 #include <myace/MyACE.h>
@@ -36,6 +34,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <memory>
 
 #define CHANNEL_SEPARATOR ACE_TEXT("/")
 
@@ -45,8 +44,8 @@ namespace teamtalk {
     class Channel
     {
     public:
-        typedef ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel_t;
-        typedef ACE_Strong_Bound_Ptr< USER, ACE_Null_Mutex  > user_t;
+        typedef std::shared_ptr< CHANNEL > channel_t;
+        typedef std::shared_ptr< USER > user_t;
         typedef std::vector< channel_t > channels_t;
         typedef std::vector< user_t > users_t;
 
@@ -91,8 +90,8 @@ namespace teamtalk {
             //TTASSERT(m_vecUsers.empty());
             MYTRACE(ACE_TEXT("~Channel() - \"%s\"\n"), m_name.c_str());
         }
-        channel_t GetParentChannel() const { return m_parent.strong(); }
-        bool IsRootChannel() const { return GetParentChannel().null(); }
+        channel_t GetParentChannel() const { return m_parent.lock(); }
+        bool IsRootChannel() const { return !GetParentChannel(); }
         void SetName(const ACE_TString& name) { m_name = name; }
         const ACE_TString& GetName() const{return m_name;}
         void SetPassword(const ACE_TString& password){ m_password = password; }
@@ -121,7 +120,7 @@ namespace teamtalk {
             ACE_TString pwc = GetName() + ACE_TString(CHANNEL_SEPARATOR);
             channel_t channel = GetParentChannel();
 
-            while(!channel.null())
+            while(channel)
             {
                 pwc = channel->GetName() + ACE_TString(CHANNEL_SEPARATOR) + pwc;
                 channel = channel->GetParentChannel();
@@ -245,7 +244,7 @@ namespace teamtalk {
                 for(size_t i=0;i<m_subChannels.size() && !found;i++)
                 {
                     user = m_subChannels[i]->GetUser(userid, recursive);
-                    if(!user.null())
+                    if(user)
                         found = true;
                 }
             }
@@ -260,16 +259,16 @@ namespace teamtalk {
         }
         bool Compare(const channel_t& channel) const
         {
-            if(channel.null())
+            if (!channel)
                 return false;
             else
                 return stringcmpnocase(channel->GetChannelPath(), GetChannelPath());
         }
         void AddSubChannel(channel_t& new_channel)
         {
-            TTASSERT(!new_channel.null());
+            TTASSERT(new_channel);
             TTASSERT(new_channel->GetName().length());
-            TTASSERT(!new_channel->GetParentChannel().null());
+            TTASSERT(new_channel->GetParentChannel());
             m_subChannels.push_back(new_channel);
         }
         void RemoveSubChannel(const ACE_TString& name)
@@ -322,7 +321,7 @@ namespace teamtalk {
                 else if(recursive)
                 {
                     channel = m_subChannels[i]->GetSubChannel(nChannelID, recursive);
-                    if(!channel.null())
+                    if(channel)
                         break;
                 }
             }
@@ -489,7 +488,7 @@ namespace teamtalk {
             prop.setops = m_setOps;
             prop.channelid = m_channelid;
             prop.chantype = m_chantype;
-            if(!GetParentChannel().null())
+            if(GetParentChannel())
                 prop.parentid = GetParentChannel()->GetChannelID();
             else
                 prop.parentid = 0;
@@ -527,7 +526,7 @@ namespace teamtalk {
         ACE_TString m_oppasswd;
         ACE_TString m_topic;
         std::set< int > m_setOps;
-        ACE_Weak_Bound_Ptr< CHANNEL, ACE_Null_Mutex > m_parent;
+        std::weak_ptr< CHANNEL > m_parent;
         bool m_protected;
         ACE_INT64 m_maxdiskusage;
         typedef std::map<ACE_TString, RemoteFile> mfiles_t;
@@ -552,45 +551,45 @@ namespace teamtalk {
     bool ChannelsEquals(const ACE_TString& chanpath1, const ACE_TString& chanpath2);
 
     template < class CHANNEL >
-    ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > ChangeChannel(ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel, const strings_t& tokNames)
+    std::shared_ptr< CHANNEL > ChangeChannel(std::shared_ptr< CHANNEL > channel, const strings_t& tokNames)
     {
-        for(size_t i=0;i<tokNames.size() && !channel.null();i++)
+        for(size_t i=0;i<tokNames.size() && channel;i++)
             channel = channel->GetSubChannel(tokNames[i]);
 
         return channel;
     }
 
     template < class CHANNEL >
-    ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > ChangeChannel(ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel, const ACE_TString& chanpath)
+    std::shared_ptr< CHANNEL > ChangeChannel(std::shared_ptr< CHANNEL > channel, const ACE_TString& chanpath)
     {
-        ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > c;
+        std::shared_ptr< CHANNEL > c;
         strings_t tokNames = TokenizeChannelPath(chanpath);
         c = ChangeChannel< CHANNEL >(channel, tokNames);
         return c;
     }
 
     template < class CHANNEL >
-    std::set<int> GetChannelIDs(ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel,
+    std::set<int> GetChannelIDs(std::shared_ptr< CHANNEL > channel,
                                 const strings_t& channelpaths)
     {
         std::set<int> result;
-        ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > tmp;
+        std::shared_ptr< CHANNEL > tmp;
         for(size_t i=0;i<channelpaths.size();i++)
         {
             tmp = ChangeChannel(channel, channelpaths[i]);
-            if(!tmp.null())
+            if (tmp)
                 result.insert(tmp->GetChannelID());
         }
         return result;
     }
 
     template < class CHANNEL >
-    strings_t GetChannelPaths(ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > channel,
+    strings_t GetChannelPaths(std::shared_ptr< CHANNEL > channel,
                               const std::set<int>& channelids)
     {
         strings_t result;
 
-        ACE_Strong_Bound_Ptr< CHANNEL, ACE_Null_Mutex > tmp;
+        std::shared_ptr< CHANNEL > tmp;
         std::set<int>::const_iterator ii = channelids.begin();
         for(;ii!=channelids.end();ii++)
         {
@@ -599,7 +598,7 @@ namespace teamtalk {
             else
                 tmp = channel->GetSubChannel(*ii, true);
 
-            if(!tmp.null())
+            if (tmp)
                 result.push_back(tmp->GetChannelPath());
         }
         return result;

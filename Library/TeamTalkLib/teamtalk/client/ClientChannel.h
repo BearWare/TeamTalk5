@@ -24,16 +24,13 @@
 #if !defined(CLIENTCHANNEL_H)
 #define CLIENTCHANNEL_H
 
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
-
 #include <teamtalk/Channel.h>
 
 namespace teamtalk {
     class ClientUser;
-    typedef ACE_Strong_Bound_Ptr< ClientUser, ACE_Null_Mutex > clientuser_t;
+    typedef std::shared_ptr< ClientUser > clientuser_t;
     class ClientChannel;
-    typedef ACE_Strong_Bound_Ptr< ClientChannel, ACE_Null_Mutex > clientchannel_t;
+    typedef std::shared_ptr< ClientChannel > clientchannel_t;
 }
 
 

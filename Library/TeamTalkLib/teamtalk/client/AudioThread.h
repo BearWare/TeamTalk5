@@ -26,7 +26,6 @@
 
 #include <ace/Task.h>
 #include <ace/Thread_Semaphore.h> 
-#include <ace/Bound_Ptr.h>
 
 #if defined(ENABLE_SPEEX)
 #include <codec/SpeexEncoder.h>

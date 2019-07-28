@@ -28,8 +28,6 @@
 
 #include <ace/Select_Reactor.h>
 #include <ace/FILE_IO.h>
-#include <ace/Bound_Ptr.h> 
-#include <ace/Null_Mutex.h> 
 #include <ace/SString.h>
 
 #include <teamtalk/Commands.h>
