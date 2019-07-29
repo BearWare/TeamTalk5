@@ -341,7 +341,7 @@ bool ServerNode::GetChannelProp(int channelid, ChannelProp& prop)
     GUARD_OBJ(this, lock());
 
     serverchannel_t chan = GetChannel(channelid);
-    if(chan)
+    if(!chan)
         return false;
 
     prop = chan->GetChannelProp();
