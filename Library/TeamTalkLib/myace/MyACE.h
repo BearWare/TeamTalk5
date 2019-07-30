@@ -47,6 +47,17 @@ typedef ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap> ActiveTimer;
 
 typedef ACE_Message_Queue<ACE_MT_SYNCH> msg_queue_t;
 
+class MBGuard
+{
+    ACE_Message_Block* m_mb;
+public:
+    MBGuard(const MBGuard&) = delete;
+    void operator=(const MBGuard&) = delete;
+    
+    explicit MBGuard(ACE_Message_Block* mb) : m_mb(mb) { }
+    ~MBGuard() { m_mb->release(); }
+};
+
 typedef std::vector< ACE_TString > strings_t;
 typedef std::set<int> intset_t;
 typedef std::vector<int> intvec_t;

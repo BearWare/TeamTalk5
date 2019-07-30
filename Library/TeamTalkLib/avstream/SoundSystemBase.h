@@ -32,6 +32,7 @@
 
 #include <memory>
 #include <thread>
+#include <cstring>
 
 namespace soundsystem {
 
@@ -180,6 +181,7 @@ namespace soundsystem {
         
         uint32_t MakeKey(const INPUTSTREAMER& streamer)
         {
+            assert(m_keysamplerates.size());
             assert(streamer.channels <= 2);
             auto i = std::find(m_keysamplerates.begin(), m_keysamplerates.end(), streamer.samplerate);
             assert(i != m_keysamplerates.end());
@@ -207,6 +209,12 @@ namespace soundsystem {
             return ((1<<31) & key) == 0? 1 : 2;
         }
         
+        bool SameStreamProperties(const InputStreamer& s1, const InputStreamer& s2)
+        {
+            return s1.channels == s2.channels &&
+                s1.samplerate == s2.samplerate &&
+                s1.framesize == s2.framesize;
+        }
         
     public:
         typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
@@ -243,11 +251,6 @@ namespace soundsystem {
         {
             wguard_t g(m_mutex);
 
-            if (!m_resample_thread)
-            {
-                m_resample_thread.reset(new std::thread(&SharedStreamCapture<INPUTSTREAMER>::ResampleFunc, this));
-            }
-            
             assert(streamer->inputdeviceid & SOUND_DEVICE_SHARED_FLAG);
             m_inputstreams.insert(streamer);
 
@@ -257,8 +260,15 @@ namespace soundsystem {
                 assert(m_keysamplerates.size() <= MAX_SAMPLERATES);
             }
 
+            // create audio resampler if samplerate/framesize/channels
+            // are different from original
+            if (SameStreamProperties(*GetOrigin(), *streamer))
+                return true;
+
+            g.release(); // don't hold lock during resample. Causes deadlock
+
             wguard_t gr(m_resample_mutex);
-            
+
             auto key = MakeKey(*streamer);
             if (m_resamplers.find(key) == m_resamplers.end())
             {
@@ -272,7 +282,14 @@ namespace soundsystem {
                 
                 m_resample_buffers[key].resize(resampleoutput * streamer->channels);
                 m_callback_buffers[key].resize(streamer->framesize * streamer->channels);
+
+                if (!m_resample_thread)
+                {
+                    m_resample_thread.reset(new std::thread(&SharedStreamCapture<INPUTSTREAMER>::ResampleFunc, this));
+                }
             }
+            
+            MYTRACE("Number of active resamplers: %u\n", m_resamplers.size());
             
             return true;
         }
@@ -328,28 +345,39 @@ namespace soundsystem {
             
             wguard_t g(m_mutex);
             
+            MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
+                    streamer.recorder, streamer.samplerate,
+                    streamer.framesize, streamer.channels);
+
+            bool resample = false;
             for (auto stream : m_activestreams)
             {
-                if (stream->channels == streamer.channels &&
-                    stream->samplerate == streamer.samplerate &&
-                    stream->framesize == streamer.framesize)
+                if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
+                    MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
+                            stream->recorder, stream->samplerate,
+                            stream->framesize, stream->channels);
                 }
                 else
                 {
-                    ACE_Message_Block* mb;
-                    int size = PCM16_BYTES(samples, streamer.channels);
-                    ACE_NEW(mb, ACE_Message_Block(size));
-                    if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
-                        mb->release();
-                    else
+                    resample = true;
+                }
+            }
+
+            if (resample)
+            {
+                ACE_Message_Block* mb;
+                int size = PCM16_BYTES(samples, streamer.channels);
+                ACE_NEW(mb, ACE_Message_Block(size));
+                if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
+                    mb->release();
+                else
+                {
+                    ACE_Time_Value tm = ACE_Time_Value::zero;
+                    if (m_samples_queue.enqueue(mb, &tm) < 0)
                     {
-                        ACE_Time_Value tm = ACE_Time_Value::zero;
-                        if (m_samples_queue.enqueue(mb, &tm) < 0)
-                        {
-                            mb->release();
-                        }
+                        mb->release();
                     }
                 }
             }
@@ -360,26 +388,82 @@ namespace soundsystem {
             ACE_Message_Block* mb;
             while (m_samples_queue.dequeue(mb) >= 0)
             {
+                MBGuard gmb(mb);
                 wguard_t g(m_resample_mutex);
                 
                 assert(mb->length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
                 for (auto i : m_resamplers)
                 {
-                    int cbsr = GetSampleRateFromKey(i.first);
-                    int cbch = GetChannelsFromKey(i.first);
-                    int cbframesize = GetFrameSizeFromKey(i.first);
+                    auto key = i.first;
+                    int cbsr = GetSampleRateFromKey(key);
+                    int cbch = GetChannelsFromKey(key);
+                    int cbframesize = GetFrameSizeFromKey(key);
+                    short* cbbufptr = &m_callback_buffers[key][0];
 
-                    auto ibuf = m_resample_buffers.find(i.first);
-                    assert(ibuf != m_resample_buffers.end());
-                    short* buf = &ibuf->second[0];
+                    auto rsbuf = m_resample_buffers.find(key);
+                    assert(rsbuf != m_resample_buffers.end());
+                    short* rsbufptr = &rsbuf->second[0];
                     assert(cbch);
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
-                                                      m_originalstream->framesize,
-                                                      buf, ibuf->second.size() / cbch);
+                                                     m_originalstream->framesize,
+                                                     rsbufptr, rsbuf->second.size() / cbch);
                     MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
                             cbsr, cbframesize, cbch);
-                }
-            }
+
+                    MYTRACE_COND(samples != cbframesize,
+                                 ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
+                                 cbsr, cbch, cbframesize, samples);
+
+                    // Now copy samples from m_resample_buffer[key] to
+                    // m_callback_buffer[key], i.e. from original
+                    // capture stream to shared capture stream.
+                    //
+                    // Here we want to use "total" samples where
+                    // channel information is omitted.
+                    int totalsamples = cbframesize * cbch;
+                    int rspos = 0;
+                    while (rspos < totalsamples)
+                    {                        
+                        // space in callback
+                        std::size_t cbpos = m_callback_index[key];
+                        std::size_t cbbufspace = m_callback_buffers[key].size() - cbpos;
+                        assert(int(cbpos) >= 0 && cbpos < m_callback_buffers[key].size());
+
+                        // calc samples to copy
+                        std::size_t rsremain = totalsamples - rspos;
+                        std::size_t n_samples = std::min(cbbufspace, rsremain);
+
+                        //where to copy from
+                        MYTRACE("Copying at cbpos %u, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                                cbpos, rspos, cbsr, cbframesize, cbch);
+                        assert(rspos + n_samples <= m_resample_buffers[key].size());
+                        assert(cbpos + n_samples <= m_callback_buffers[key].size());
+                        
+                        std::size_t bytes = n_samples * sizeof(cbbufptr[0]);
+                        std::memcpy(&cbbufptr[cbpos], &rsbufptr[rspos], bytes);
+
+                        cbpos += n_samples;
+                        rspos += n_samples;
+                        
+                        if (cbpos == m_callback_buffers[key].size())
+                        {
+                            wguard_t ginput(m_mutex);
+                            for (auto streamer : m_activestreams)
+                            {
+                                if (MakeKey(*streamer) == key)
+                                {
+                                    streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
+                                    MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
+                                            streamer->recorder, cbsr, cbframesize, cbch);
+                                }
+                            }
+                            cbpos = 0;
+                        }
+
+                        m_callback_index[key] = cbpos;
+                    }
+                } // for each resampler
+            } // while dequeue
         }
         
     private:
@@ -395,6 +479,7 @@ namespace soundsystem {
         // StreamCapture-class. It cannot be the same because
         // framesize might be different
         std::map<uint32_t, std::vector<short>> m_resample_buffers, m_callback_buffers;
+        std::map<uint32_t, std::size_t> m_callback_index;
         //
         std::shared_ptr<std::thread> m_resample_thread;
         
