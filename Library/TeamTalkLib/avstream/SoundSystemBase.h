@@ -345,9 +345,9 @@ namespace soundsystem {
             
             wguard_t g(m_mutex);
             
-            MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
-                    streamer.recorder, streamer.samplerate,
-                    streamer.framesize, streamer.channels);
+            // MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
+            //         streamer.recorder, streamer.samplerate,
+            //         streamer.framesize, streamer.channels);
 
             bool resample = false;
             for (auto stream : m_activestreams)
@@ -355,9 +355,9 @@ namespace soundsystem {
                 if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-                    MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
-                            stream->recorder, stream->samplerate,
-                            stream->framesize, stream->channels);
+                    // MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
+                    //         stream->recorder, stream->samplerate,
+                    //         stream->framesize, stream->channels);
                 }
                 else
                 {
@@ -407,8 +407,8 @@ namespace soundsystem {
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsbuf->second.size() / cbch);
-                    MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
-                            cbsr, cbframesize, cbch);
+                    // MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
+                    //         cbsr, cbframesize, cbch);
 
                     MYTRACE_COND(samples != cbframesize,
                                  ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
@@ -434,8 +434,8 @@ namespace soundsystem {
                         std::size_t n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-                        MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
-                                int(cbpos), rspos, cbsr, cbframesize, cbch);
+                        // MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                        //         int(cbpos), rspos, cbsr, cbframesize, cbch);
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
                         
@@ -453,8 +453,8 @@ namespace soundsystem {
                                 if (MakeKey(*streamer) == key)
                                 {
                                     streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
-                                    MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
-                                            streamer->recorder, cbsr, cbframesize, cbch);
+                                    // MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
+                                    //         streamer->recorder, cbsr, cbframesize, cbch);
                                 }
                             }
                             cbpos = 0;
@@ -480,9 +480,11 @@ namespace soundsystem {
         // framesize might be different
         std::map<uint32_t, std::vector<short>> m_resample_buffers, m_callback_buffers;
         std::map<uint32_t, std::size_t> m_callback_index;
-        //
+        // One thread to perform resampling of all active input streams
         std::shared_ptr<std::thread> m_resample_thread;
-        
+        // m_mutex for 'm_inputstreams,
+        // m_activestreams'. m_resample_mutex for 'm_resamplers,
+        // m_resample_buffers, m_callback_buffers, m_callback_index'
         ACE_Recursive_Thread_Mutex m_mutex, m_resample_mutex;
     };
     
