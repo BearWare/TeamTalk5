@@ -4,6 +4,10 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v54brelease
+ * - @ref v54bfeatures
+ * - @ref v54bapi
+ *
  * @ref v54arelease
  * - @ref v54afeatures
  * - @ref v54aapi
@@ -174,6 +178,39 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v54brelease TeamTalk 5 SDK v. 5.4b release
+ *
+ * @subsection v54bfeatures New features in v5.4b
+ *
+ * Android platform now supports multiple active recorders,
+ * i.e. multiple clients on same audio device.  To use this feature
+ * enumerate the Android audio devices using TT_GetSoundDevices() and
+ * locate the device called "Default sound device - Shared ...". Call
+ * TT_InitSoundInputDevice() with this audio device ID.
+ *
+ * The shared audio device on Android is same as
+ * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT but or'ed with the flag
+ * #TT_SOUNDDEVICE_SHARED_FLAG. The sound device ID flag
+ * #TT_SOUNDDEVICE_SHARED_FLAG tells the TeamTalk instance to create a
+ * shared audio recorder which distributes its audio to all other
+ * client instances. The shared audio device which is created runs at
+ * the audio device's highest sample rate and highest number of
+ * channels. Each client which receives the audio from the shared
+ * audio device resamples the audio data to its own format. This is a
+ * CPU intensive task, so many clients at different sample rates uses
+ * more CPU. It is therefore recommended that clients which use this
+ * feature all use channels that has the same audio codec
+ * settings. Preferably @c nDefaultSampleRate and @c
+ * nMaxInputChannelsdefault of the chosen #SoundDevice.
+ *
+ * @subsection v54bapi API changes in v5.4b
+ * 
+ * #TT_SOUNDDEVICE_SHARED_FLAG
+ *
+ * #TT_SOUNDDEVICE_ID_MASK
  *
  * <hr>
  *
