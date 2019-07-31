@@ -1672,26 +1672,38 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient2 = newClientInstance();
         TeamTalkBase ttclient3 = newClientInstance();
 
+
+        int inputdeviceid = INPUTDEVICEID;
+        int outputdeviceid = OUTPUTDEVICEID;
+        
+        IntPtr indev = new IntPtr(), outdev = new IntPtr();
+        assertTrue("get default devs", ttclient1.getDefaultSoundDevices(indev, outdev));
+
+        if (inputdeviceid == -1)
+            inputdeviceid = indev.value;
+        if (outputdeviceid == -1)
+            outputdeviceid = outdev.value;
+        
         SoundDevice shareddev = null;
         Vector<SoundDevice> devs = new Vector<>();
         TeamTalkBase.getSoundDevices(devs);
         for(SoundDevice d : devs) {
-            System.out.println("Sound Device #" + d.nDeviceID + " name: " + d.szDeviceName);
-            if (d.nDeviceID == SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL)
+            if (d.nDeviceID == inputdeviceid)
                 shareddev = d;
         }
 
         assertTrue("shared device exists", shareddev != null);
+        assertEquals("shared device selected", inputdeviceid, shareddev.nDeviceID);
 
-        shareddev.nDeviceID |= SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
-        int outputdeviceid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
+        // toggle input device as shared audio device
+        inputdeviceid = shareddev.nDeviceID | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
 
         // test two instances with same sample settings as original and one instance which requires resampling
-        long sndloop1 = ttclient1.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, 48000, 2, false, null);
+        long sndloop1 = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 2, false, null);
         assertTrue("Start sound loop 1", sndloop1 != 0);
-        long sndloop2 = ttclient2.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, 48000, 2, false, null);
+        long sndloop2 = ttclient2.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 2, false, null);
         assertTrue("Start sound loop 2", sndloop2 != 0);
-        long sndloop3 = ttclient3.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, 48000, 1, false, null);
+        long sndloop3 = ttclient3.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 48000, 1, false, null);
         assertTrue("Start sound loop 3", sndloop3 != 0);
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
@@ -1701,9 +1713,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Close sndloop3", ttclient3.closeSoundLoopbackTest(sndloop3));
 
         // test two instances which require resampling
-        long sndloop4 = ttclient1.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, 32000, 1, false, null);
+        long sndloop4 = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 32000, 1, false, null);
         assertTrue("Start sound loop 4", sndloop4 != 0);
-        long sndloop5 = ttclient2.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, 44100, 2, false, null);
+        long sndloop5 = ttclient2.startSoundLoopbackTest(inputdeviceid, outputdeviceid, 44100, 2, false, null);
         assertTrue("Start sound loop 5", sndloop5 != 0);
 
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
@@ -1717,7 +1729,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             if (samplerate <= 0)
                 continue;
             
-            long sndloop = ttclient1.startSoundLoopbackTest(shareddev.nDeviceID, outputdeviceid, samplerate, 1, false, null);
+            long sndloop = ttclient1.startSoundLoopbackTest(inputdeviceid, outputdeviceid, samplerate, 1, false, null);
             assertTrue("Start sound loop at " + samplerate + " channels " + 1, sndloop != 0);
             sndloops.add(sndloop);
         }
