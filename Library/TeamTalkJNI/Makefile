@@ -20,7 +20,7 @@ CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar
 # -Djava.library.path instead
 LIBPATH=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL:$(TEAMTALK_ROOT)/Library/TeamTalkJNI/libs
 
-SRCTARGET=-source 1.6 -target 1.6
+SRCTARGET=-source 1.7 -target 1.7
 
 # Override default settings in dk.bearware.TeamTalkTestCaseBase
 JAVAPROP=-Djava.library.path=$(LIBPATH)
