@@ -134,6 +134,8 @@ public class MyTest extends TeamTalkTestCaseBase {
         Vector<Long> sndloops = new Vector<>();
         // now go through all sample rates
         for(int samplerate : shareddev.inputSampleRates) {
+            if (samplerate <= 0)
+                continue;
             long sndloop = ttclient1.startSoundLoopbackTest(shareddev.nDeviceID, 0, samplerate, 1, false, null);
             assertTrue("Start sound loop at " + samplerate + " channels " + 1, sndloop != 0);
             sndloops.add(sndloop);
@@ -146,4 +148,45 @@ public class MyTest extends TeamTalkTestCaseBase {
         }
     }
 
+    public void test_MultiClientOnSharedAudioDevice() {
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+
+        int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
+        int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+        assertTrue("Init ttclient1 sound input device", ttclient1.initSoundInputDevice(sndinputdevid));
+        assertTrue("Init ttclient1 sound output device", ttclient1.initSoundOutputDevice(sndoutputdevid));
+        assertTrue("Init ttclient2 sound input device", ttclient2.initSoundInputDevice(sndinputdevid));
+        assertTrue("Init ttclient2 sound output device", ttclient2.initSoundOutputDevice(sndoutputdevid));
+
+        connect(ttclient1);
+        login(ttclient1, getCurrentMethod(), "guest", "guest");
+        joinRoot(ttclient1);
+        ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
+
+        connect(ttclient2);
+        login(ttclient2, getCurrentMethod(), "guest", "guest");
+        joinRoot(ttclient2);
+        ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 900);
+
+        assertTrue("Transmit audio on ttclient1", ttclient1.enableVoiceTransmission(true));
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
+        assertTrue("Stop transmit audio on ttclient1", ttclient1.enableVoiceTransmission(false));
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue("Transmit audio on ttclient2", ttclient2.enableVoiceTransmission(true));
+        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 5000);
+        assertTrue("Stop transmit audio on ttclient2", ttclient2.enableVoiceTransmission(false));
+        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue("Transmit audio on ttclient1", ttclient1.enableVoiceTransmission(true));
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
+        assertTrue("Stop transmit audio on ttclient1", ttclient1.enableVoiceTransmission(false));
+        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+
+        assertTrue("Transmit audio on ttclient2", ttclient2.enableVoiceTransmission(true));
+        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 5000);
+        assertTrue("Stop transmit audio on ttclient2", ttclient2.enableVoiceTransmission(false));
+        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 1000);
+    }
 }
