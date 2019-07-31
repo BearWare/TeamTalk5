@@ -289,7 +289,7 @@ namespace soundsystem {
                 }
             }
             
-            MYTRACE("Number of active resamplers: %u\n", m_resamplers.size());
+            MYTRACE("Number of active resamplers: %u\n", uint32_t(m_resamplers.size()));
             
             return true;
         }
@@ -434,8 +434,8 @@ namespace soundsystem {
                         std::size_t n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-                        MYTRACE("Copying at cbpos %u, rspos %u for samplerate %d, framesize %d, channels %d\n",
-                                cbpos, rspos, cbsr, cbframesize, cbch);
+                        MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                                int(cbpos), rspos, cbsr, cbframesize, cbch);
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
                         
@@ -650,12 +650,20 @@ namespace soundsystem {
 
                 sharedstreamcapture_t sharedstream = sharedstreamcapture_t(new SharedStreamCapture<INPUTSTREAMER>(newsndgrpid));
 
-                inputstreamer_t orgstream = NewStream(sharedstream.get(),
-                                                      snddev.id & SOUND_DEVICEID_MASK,
-                                                      newsndgrpid,
-                                                      snddev.default_samplerate,
-                                                      snddev.max_input_channels,
-                                                      snddev.default_samplerate * 0.04);
+                inputstreamer_t orgstream;
+                if (snddev.id == SOUND_DEVICEID_VIRTUAL)
+                    orgstream = NewVirtualStream(sharedstream.get(),
+                                                 newsndgrpid,
+                                                 snddev.default_samplerate,
+                                                 snddev.max_input_channels,
+                                                 snddev.default_samplerate * 0.04);
+                else
+                    orgstream = NewStream(sharedstream.get(),
+                                          snddev.id & SOUND_DEVICEID_MASK,
+                                          newsndgrpid,
+                                          snddev.default_samplerate,
+                                          snddev.max_input_channels,
+                                          snddev.default_samplerate * 0.04);
 
                 if (!orgstream)
                     return inputstreamer_t();
@@ -664,7 +672,11 @@ namespace soundsystem {
                 sharedstream->SetOrigin(orgstream);
                 m_shared_streamcaptures[inputdeviceid] = sharedstream;
 
-                if (!StartStream(orgstream))
+                if (snddev.id == SOUND_DEVICEID_VIRTUAL)
+                {
+                    StartVirtualStream(orgstream);
+                }
+                else if (!StartStream(orgstream))
                 {
                     m_shared_streamcaptures.erase(inputdeviceid);
                     return inputstreamer_t();
@@ -776,6 +788,8 @@ namespace soundsystem {
                 streamer = NewStream(capture, inputdeviceid, sndgrpid, 
                                      samplerate, channels, framesize);
 
+            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open input stream on device #%d\n"), inputdeviceid);
+                         
             if (!streamer)
                 return false;
             
@@ -827,7 +841,10 @@ namespace soundsystem {
 
                 if (!sharedstream->InputStreamsExists())
                 {
-                    CloseStream(sharedstream->GetOrigin());
+                    if (sharedstream->GetOrigin()->IsVirtual())
+                        StopVirtualStream(sharedstream->GetOrigin().get());
+                    else
+                        CloseStream(sharedstream->GetOrigin());
                     m_shared_streamcaptures.erase(streamer->inputdeviceid);
                 }
             }
@@ -1197,12 +1214,13 @@ namespace soundsystem {
         {
             wguard_t g(m_devs_lock);
 
-            sounddevices_t::const_iterator ii = m_sounddevs.find(id);
+            sounddevices_t::const_iterator ii = m_sounddevs.find(id & SOUND_DEVICEID_MASK);
             if(ii != m_sounddevs.end())
             {
                 dev = ii->second;
                 return true;
             }
+            MYTRACE("Cannot find sound device #%d\n", id);
             return false;
         }
 
