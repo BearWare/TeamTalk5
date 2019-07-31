@@ -289,7 +289,7 @@ namespace soundsystem {
                 }
             }
             
-            MYTRACE("Number of active resamplers: %u\n", uint32_t(m_resamplers.size()));
+            MYTRACE(ACE_TEXT("Number of active resamplers: %u\n"), uint32_t(m_resamplers.size()));
             
             return true;
         }
@@ -1222,7 +1222,7 @@ namespace soundsystem {
                 dev = ii->second;
                 return true;
             }
-            MYTRACE("Cannot find sound device #%d\n", id);
+            MYTRACE(ACE_TEXT("Cannot find sound device #%d\n"), id);
             return false;
         }
 

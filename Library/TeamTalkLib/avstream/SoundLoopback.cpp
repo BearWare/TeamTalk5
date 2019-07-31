@@ -101,8 +101,6 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         m_resample_buffer.resize(output_samples * output_channels);
     }
 
-    MYTRACE("Starting loop back test - AGC\n");
-
 #if defined(ENABLE_SPEEXDSP)
     if(!SetAGC(samplerate, output_samples, channels, 
                enable_agc, agc, denoise, denoise_level, enable_aec, aec))
@@ -112,8 +110,6 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     }
 #endif
 
-    MYTRACE("Starting loop back test - output\n");
-    
     if(!SOUNDSYSTEM->OpenOutputStream(this, outputdevid, m_soundgrpid,
                                       output_samplerate, output_channels,
                                       output_samples))
@@ -128,8 +124,6 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
     }
 
-    MYTRACE("Starting loop back test - input\n");
-    
     if(!SOUNDSYSTEM->OpenInputStream(this, inputdevid, m_soundgrpid, 
                                      input_samplerate, input_channels,
                                      input_samples))
