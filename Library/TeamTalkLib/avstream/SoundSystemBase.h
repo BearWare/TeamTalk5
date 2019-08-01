@@ -173,6 +173,8 @@ namespace soundsystem {
 #define MAX_SAMPLERATES       16
 #define MAX_CHANNELS          2
 #define MAX_FRAMESIZE         ((1 << 27) - 1)
+
+#define DEBUG_RESAMPLER 0
     
     template < typename INPUTSTREAMER >
     class SharedStreamCapture : public StreamCapture
@@ -344,10 +346,12 @@ namespace soundsystem {
             assert((streamer.inputdeviceid & SOUND_DEVICE_SHARED_FLAG) == 0);
             
             wguard_t g(m_mutex);
-            
-            // MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
-            //         streamer.recorder, streamer.samplerate,
-            //         streamer.framesize, streamer.channels);
+
+#if DEBUG_RESAMPLER
+            MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
+                    streamer.recorder, streamer.samplerate,
+                    streamer.framesize, streamer.channels);
+#endif
 
             bool resample = false;
             for (auto stream : m_activestreams)
@@ -355,9 +359,11 @@ namespace soundsystem {
                 if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-                    // MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
-                    //         stream->recorder, stream->samplerate,
-                    //         stream->framesize, stream->channels);
+#if DEBUG_RESAMPLER
+                    MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
+                            stream->recorder, stream->samplerate,
+                            stream->framesize, stream->channels);
+#endif
                 }
                 else
                 {
@@ -404,23 +410,26 @@ namespace soundsystem {
                     assert(rsbuf != m_resample_buffers.end());
                     short* rsbufptr = &rsbuf->second[0];
                     assert(cbch);
+                    int rsframesize = rsbuf->second.size() / cbch;
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
-                                                     rsbufptr, rsbuf->second.size() / cbch);
-                    // MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
-                    //         cbsr, cbframesize, cbch);
+                                                     rsbufptr, rsframesize);
+#if DEBUG_RESAMPLER
+                    MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
+                            cbsr, cbframesize, cbch);
+#endif
 
-                    MYTRACE_COND(samples != cbframesize,
+                    MYTRACE_COND(samples != rsframesize,
                                  ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
-                                 cbsr, cbch, cbframesize, samples);
+                                 cbsr, cbch, rsframesize, samples);
 
                     // Now copy samples from m_resample_buffer[key] to
                     // m_callback_buffer[key], i.e. from original
                     // capture stream to shared capture stream.
                     //
                     // Here we want to use "total" samples where
-                    // channel information is omitted.
-                    int totalsamples = cbframesize * cbch;
+                    // channel information (mono/stereo) is omitted.
+                    int totalsamples = rsframesize * cbch;
                     int rspos = 0;
                     while (rspos < totalsamples)
                     {                        
@@ -434,8 +443,10 @@ namespace soundsystem {
                         std::size_t n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-                        // MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
-                        //         int(cbpos), rspos, cbsr, cbframesize, cbch);
+#if DEBUG_RESAMPLER
+                        MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                                int(cbpos), rspos, cbsr, cbframesize, cbch);
+#endif
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
                         
@@ -453,8 +464,10 @@ namespace soundsystem {
                                 if (MakeKey(*streamer) == key)
                                 {
                                     streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
-                                    // MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
-                                    //         streamer->recorder, cbsr, cbframesize, cbch);
+#if DEBUG_RESAMPLER
+                                    MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
+                                            streamer->recorder, cbsr, cbframesize, cbch);
+#endif
                                 }
                             }
                             cbpos = 0;

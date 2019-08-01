@@ -44,9 +44,9 @@ public class MyTest extends TeamTalkTestCaseBase {
         this.ADMIN_USERNAME = "admin";
         this.ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "tt5us.bearware.dk";
-        this.TCPPORT = 10335;
-        this.UDPPORT = 10335;
+        this.IPADDR = "192.168.0.68";
+        this.TCPPORT = 10333;
+        this.UDPPORT = 10333;
     }
 
     public void test_This() {
@@ -151,42 +151,72 @@ public class MyTest extends TeamTalkTestCaseBase {
     public void test_MultiClientOnSharedAudioDevice() {
         TeamTalkBase ttclient1 = newClientInstance();
         TeamTalkBase ttclient2 = newClientInstance();
+        TeamTalkBase ttclient3 = newClientInstance();
+        TeamTalkBase ttclient4 = newClientInstance();
 
         int sndinputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | SoundDeviceConstants.TT_SOUNDDEVICE_SHARED_FLAG;
         int sndoutputdevid = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
-        assertTrue("Init ttclient1 sound input device", ttclient1.initSoundInputDevice(sndinputdevid));
-        assertTrue("Init ttclient1 sound output device", ttclient1.initSoundOutputDevice(sndoutputdevid));
-        assertTrue("Init ttclient2 sound input device", ttclient2.initSoundInputDevice(sndinputdevid));
-        assertTrue("Init ttclient2 sound output device", ttclient2.initSoundOutputDevice(sndoutputdevid));
 
-        connect(ttclient1);
-        login(ttclient1, getCurrentMethod(), "guest", "guest");
-        joinRoot(ttclient1);
-        ttclient1.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 600);
+        for (TeamTalkBase ttclient : this.ttclients) {
+            assertTrue("Init ttclient sound input device", ttclient.initSoundInputDevice(sndinputdevid));
+            assertTrue("Init ttclient sound output device", ttclient.initSoundOutputDevice(sndoutputdevid));
+        }
 
-        connect(ttclient2);
-        login(ttclient2, getCurrentMethod(), "guest", "guest");
-        joinRoot(ttclient2);
-        ttclient2.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 900);
+        int freq = 500;
+        for (TeamTalkBase ttclient : this.ttclients) {
+            connect(ttclient);
+            login(ttclient, getCurrentMethod(), "guest", "guest");
+            joinRoot(ttclient);
+            ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, freq += 100);
+        }
 
-        assertTrue("Transmit audio on ttclient1", ttclient1.enableVoiceTransmission(true));
+        // now we hear all clients transmitting at the same time
+        for (TeamTalkBase ttclient : this.ttclients) {
+            assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
+        }
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
-        assertTrue("Stop transmit audio on ttclient1", ttclient1.enableVoiceTransmission(false));
+        for (TeamTalkBase ttclient : this.ttclients) {
+            assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
+        }
         waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
 
-        assertTrue("Transmit audio on ttclient2", ttclient2.enableVoiceTransmission(true));
-        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 5000);
-        assertTrue("Stop transmit audio on ttclient2", ttclient2.enableVoiceTransmission(false));
-        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 1000);
+        // Create two separate channels, one for ttclient1, ttclient2 and one for ttclient3, ttclient4.
+        Channel chan1 = buildDefaultChannel(ttclient1, "Opus Mono - 40 msec");
+        assertEquals("opus default", chan1.audiocodec.nCodec, Codec.OPUS_CODEC);
+        chan1.audiocodec.opus.nChannels = 1;
+        chan1.audiocodec.opus.nTxIntervalMSec = 40;
+        assertTrue("ttclient1 create channel", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan1), DEF_WAIT));
+        assertTrue("ttclient2 join ttclient1's channel", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), chan1.szPassword), DEF_WAIT));
 
-        assertTrue("Transmit audio on ttclient1", ttclient1.enableVoiceTransmission(true));
-        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
-        assertTrue("Stop transmit audio on ttclient1", ttclient1.enableVoiceTransmission(false));
-        waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+        Channel chan2 = buildDefaultChannel(ttclient3, "Opus Stereo - 60 msec");
+        assertEquals("opus default", chan2.audiocodec.nCodec, Codec.OPUS_CODEC);
+        chan2.audiocodec.opus.nChannels = 2;
+        chan2.audiocodec.opus.nTxIntervalMSec = 60;
+        assertTrue("ttclient3 create channel", waitCmdSuccess(ttclient3, ttclient3.doJoinChannel(chan2), DEF_WAIT));
+        assertTrue("ttclient4 join ttclient3's channel", waitCmdSuccess(ttclient4, ttclient4.doJoinChannelByID(ttclient3.getMyChannelID(), chan2.szPassword), DEF_WAIT));
 
-        assertTrue("Transmit audio on ttclient2", ttclient2.enableVoiceTransmission(true));
-        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 5000);
-        assertTrue("Stop transmit audio on ttclient2", ttclient2.enableVoiceTransmission(false));
-        waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_NONE, 1000);
+        // now we should hear 5 second tone of each client on two different channels
+        for (TeamTalkBase ttclient : this.ttclients) {
+            assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
+            assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+        }
+
+        // put ttclient1,ttclient2 in 20 msec channel and redo test
+        Channel chan3 = buildDefaultChannel(ttclient1, "Opus Stereo - 20 msec");
+        assertEquals("opus default", chan3.audiocodec.nCodec, Codec.OPUS_CODEC);
+        chan3.audiocodec.opus.nChannels = 1;
+        chan3.audiocodec.opus.nTxIntervalMSec = 20;
+        assertTrue("ttclient1 create channel", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan3), DEF_WAIT));
+        assertTrue("ttclient2 join ttclient1's channel", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), chan3.szPassword), DEF_WAIT));
+
+        // now we should hear 5 second tone of each client on two different channels
+        for (TeamTalkBase ttclient : this.ttclients) {
+            assertTrue("Transmit audio on ttclient", ttclient.enableVoiceTransmission(true));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 5000);
+            assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
+            waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
+        }
     }
 }
