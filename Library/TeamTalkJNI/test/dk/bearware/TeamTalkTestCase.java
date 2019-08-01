@@ -1677,12 +1677,26 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         int outputdeviceid = OUTPUTDEVICEID;
         
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
-        assertTrue("get default devs", ttclient1.getDefaultSoundDevices(indev, outdev));
+        boolean gotdevs = ttclient1.getDefaultSoundDevices(indev, outdev);
+        // cannot assert since test system might not have a sound input or output device.
+        //assertTrue("get default devs", ttclient1.getDefaultSoundDevices(indev, outdev));
 
-        if (inputdeviceid == -1)
-            inputdeviceid = indev.value;
-        if (outputdeviceid == -1)
-            outputdeviceid = outdev.value;
+        if (inputdeviceid == -1) {
+            if (gotdevs)
+                inputdeviceid = indev.value;
+            else {
+                System.err.println("Skipped shared audio test due to missing audio input device");
+                return;
+            }
+        }
+        if (outputdeviceid == -1) {
+            if (gotdevs)
+                outputdeviceid = outdev.value;
+            else {
+                System.err.println("Skipped shared audio test due to missing audio output device");
+                return;
+            }
+        }
         
         SoundDevice shareddev = null;
         Vector<SoundDevice> devs = new Vector<>();
