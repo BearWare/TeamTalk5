@@ -350,8 +350,8 @@ void TTMsgQueue::OnKicked(const teamtalk::clientuser_t& user, int channelid)
 {
     ACE_Message_Block* mb;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_KICKED,
-                                     channelid, !user.null()? __USER : __NONE);
-    if(!user.null())
+                                     channelid, user? __USER : __NONE);
+    if(user)
         Convert(*user, *msg->user);
     EnqueueMsg(mb);
 }

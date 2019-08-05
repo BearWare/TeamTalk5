@@ -24,8 +24,6 @@
 #ifndef STREAMPLAYERS_H
 #define STREAMPLAYERS_H
 
-#include <ace/Bound_Ptr.h>
-
 #include <myace/MyACE.h>
 
 #include <avstream/SoundSystem.h>

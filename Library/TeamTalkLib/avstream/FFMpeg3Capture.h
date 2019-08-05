@@ -28,9 +28,6 @@
 #include "FFMpeg3Streamer.h"
 #include <myace/MyACE.h>
 
-#include <ace/Bound_Ptr.h>
-#include <ace/Null_Mutex.h>
-
 #include <map>
 
 namespace vidcap {

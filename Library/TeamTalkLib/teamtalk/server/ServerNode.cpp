@@ -182,7 +182,7 @@ ServerChannel::users_t ServerNode::GetAdministrators(const ServerChannel& exclud
     for(mapusers_t::const_iterator i=m_mUsers.begin(); i != m_mUsers.end(); i++)
     {
         if(((*i).second->GetUserType() & USERTYPE_ADMIN) && 
-            ((*i).second->GetChannel().null() ||
+            (!(*i).second->GetChannel() ||
             (*i).second->GetChannel()->GetChannelID() != excludeChannel.GetChannelID()))
             users.push_back((*i).second);
     }
@@ -331,7 +331,7 @@ int ServerNode::GetChannelID(const ACE_TString& chanpath)
     GUARD_OBJ(this, lock());
 
     serverchannel_t chan = ChangeChannel(GetRootChannel(), chanpath);
-    if(!chan.null())
+    if(chan)
         return chan->GetChannelID();
     return 0;
 }
@@ -341,7 +341,7 @@ bool ServerNode::GetChannelProp(int channelid, ChannelProp& prop)
     GUARD_OBJ(this, lock());
 
     serverchannel_t chan = GetChannel(channelid);
-    if(chan.null())
+    if(!chan)
         return false;
 
     prop = chan->GetChannelProp();
@@ -352,7 +352,7 @@ serverchannel_t ServerNode::GetChannel(int channelid) const
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(m_rootchannel.null())
+    if(!m_rootchannel)
         return serverchannel_t();
 
     if(m_rootchannel->GetChannelID() == channelid)
@@ -379,7 +379,7 @@ ErrorMsg ServerNode::UserBeginFileTransfer(int transferid,
     TTASSERT(transfer.localfile.length());
 
     serverchannel_t chan = GetChannel(transfer.channelid);
-    if(chan.null())
+    if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     if(transfer.inbound && (chan->FileExists(transfer.filename)))
@@ -416,11 +416,11 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     }
 
     serverchannel_t chan = GetChannel(transfer.channelid);
-    if(chan.null())
+    if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     serveruser_t user = GetUser(transfer.userid);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     RemoteFile remotefile;
@@ -484,9 +484,9 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
 
     serverchannel_t chan = GetChannel(channelid);
     serveruser_t user = GetUser(userid);
-    if(chan.null())
+    if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
     if(!chan->FileExists(filename))
         return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
@@ -550,7 +550,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         while(m_updUserIPs.size())
         {
             user = GetUser(*m_updUserIPs.begin());
-            if(!user.null() && user->IsAuthorized())
+            if(user && user->IsAuthorized())
                 UserUpdate(user->GetUserID());
             m_updUserIPs.erase(m_updUserIPs.begin());
         }
@@ -603,10 +603,10 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         tm_data.userdata = userdata;
         serveruser_t src_user = GetUser(tm_data.src_userid);
         serveruser_t dest_user = GetUser(tm_data.dest_userid);
-        if(!src_user.null() && !dest_user.null())
+        if(src_user && dest_user)
         {
             serverchannel_t chan = src_user->GetChannel();
-            if(!chan.null() && chan == dest_user->GetChannel())
+            if(chan && chan == dest_user->GetChannel())
                 StartDesktopTransmitter(*src_user, *dest_user, *chan);
         }
         return -1;
@@ -619,7 +619,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         tm_data.userdata = userdata;
         serveruser_t src_user = GetUser(tm_data.src_userid);
         serveruser_t dest_user = GetUser(tm_data.dest_userid);
-        if(!src_user.null() && !dest_user.null())
+        if(src_user && dest_user)
         {
             ClosedDesktopSession session;
             if(!dest_user->GetClosedDesktopSession(src_user->GetUserID(), 
@@ -627,7 +627,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
                 return -1;
 
             serverchannel_t chan = src_user->GetChannel();
-            if(chan.null())
+            if(!chan)
                 return -1;
 
             DesktopNakPacket nak_pkt(src_user->GetUserID(),
@@ -654,7 +654,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         timer_userdata tm_data;
         tm_data.userdata = userdata;
         serveruser_t src_user = GetUser(tm_data.src_userid);
-        if(!src_user.null())
+        if(src_user)
             src_user->ProcessCommandQueue(true);
 
         return -1;
@@ -674,12 +674,12 @@ bool ServerNode::SendDesktopAckPacket(int userid)
     m_desktop_ack_timers.erase(userid);
 
     serveruser_t tmp_user = GetUser(userid);
-    if(tmp_user.null())
+    if(!tmp_user)
         return false;
 
     ServerUser& user = *tmp_user;
     serverchannel_t tmp_chan = user.GetChannel();
-    if(tmp_chan.null())
+    if (!tmp_chan)
         return false;
 
     ServerChannel& chan = *tmp_chan;
@@ -763,7 +763,7 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
     ASSERT_REACTOR_LOCKED(this);
 
     serveruser_t dest_user = GetUser(dest_userid);
-    if(dest_user.null())
+    if(!dest_user)
         return false;
 
     desktop_transmitter_t desktop_tx = dest_user->GetDesktopTransmitter(src_userid);
@@ -771,11 +771,11 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
         return false;
 
     serveruser_t src_user = GetUser(src_userid);
-    if(src_user.null())
+    if(!src_user)
         return false;
 
     serverchannel_t chan = src_user->GetChannel();
-    if(chan.null())
+    if(!chan)
         return false;
 
     TTASSERT(chan == dest_user->GetChannel());
@@ -934,7 +934,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
     GUARD_OBJ(this, lock());
 
     //don't allow server to start if there's no root channel specified
-    if(m_rootchannel.null())
+    if(!m_rootchannel)
         return false;
 
     bool tcpport = m_properties.tcpaddrs.size() > 0, udpport = m_properties.udpaddrs.size() > 0;
@@ -1192,7 +1192,7 @@ bool ServerNode::OnReceive(ACE_HANDLE h, const char* buff, int len)
     TTASSERT(m_streamhandles.find(h) != m_streamhandles.end());
 
     serveruser_t user = m_streamhandles[h];
-    if(!user.null())
+    if(user)
         return user->ReceiveData(buff, len);
     return false;
 }
@@ -1214,7 +1214,7 @@ bool ServerNode::OnSend(CryptStreamHandler::StreamHandler_t& handler)
 {
     TTASSERT(m_streamhandles.find(handler.get_handle()) != m_streamhandles.end());
     serveruser_t user = m_streamhandles[handler.get_handle()];
-    if(!user.null())
+    if(user)
         return user->SendData(*handler.msg_queue());
     return false;
 }
@@ -1225,7 +1225,7 @@ bool ServerNode::OnSend(DefaultStreamHandler::StreamHandler_t& handler)
 {
     TTASSERT(m_streamhandles.find(handler.get_handle()) != m_streamhandles.end());
     serveruser_t user = m_streamhandles[handler.get_handle()];
-    if(!user.null())
+    if(user)
         return user->SendData(*handler.msg_queue());
     return false;
 }
@@ -1464,7 +1464,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         return;
     }
     serveruser_t user = GetUser(packet.GetSrcUserID());
-    if(user.null())
+    if(!user)
         return;
 
     //only allow packet to pass through if it's from the initial IP-address
@@ -1722,7 +1722,7 @@ serverchannel_t ServerNode::GetPacketChannel(ServerUser& user,
         return serverchannel_t();
 
     serverchannel_t chan = user.GetChannel();
-    if(chan.null() || chan->GetChannelID() != chanid)
+    if(!chan || chan->GetChannelID() != chanid)
     {
         //only admins can stream outside their channels
         if((user.GetUserType() & USERTYPE_ADMIN) == 0)
@@ -1731,7 +1731,7 @@ serverchannel_t ServerNode::GetPacketChannel(ServerUser& user,
         //this branch will only happen if a user is streaming outside his channel
         TTASSERT(m_rootchannel.get());
         chan = GetChannel(chanid);
-        if(chan.null())
+        if(!chan)
             return serverchannel_t();
     }
 
@@ -1857,7 +1857,7 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -1908,7 +1908,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -1959,7 +1959,7 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2001,7 +2001,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     // MYTRACE("Received video packet %d fragment %d/%d from #%d\n",
@@ -2054,7 +2054,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
                                        const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2075,7 +2075,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2138,7 +2138,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     //If it should be possible to send a desktop to a user outside
     //'user' current channel then this restriction must be removed.
     serverchannel_t user_chan = user.GetChannel();
-    if(user_chan.null() || user_chan->GetChannelID() != chan.GetChannelID())
+    if(!user_chan || user_chan->GetChannelID() != chan.GetChannelID())
     {
         MYTRACE(ACE_TEXT("Ignored desktop packet from #%d to %s\n"),
                 user.GetUserID(), chan.GetChannelPath().c_str());
@@ -2180,7 +2180,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
                                           const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2201,7 +2201,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2297,7 +2297,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
 
         //check if a new update is ready
         serveruser_t src_user = GetUser(owner_userid);
-        if(!src_user.null())
+        if(src_user)
         {
             desktop_cache_t desktop = src_user->GetDesktopSession();
             if (desktop)
@@ -2313,7 +2313,7 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
                                           const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2332,7 +2332,7 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
                                           const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2375,7 +2375,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
                                              const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2394,7 +2394,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
                                              const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2449,7 +2449,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
                                             const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2468,7 +2468,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
                                             const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2477,7 +2477,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
 
     uint16_t dest_userid = packet.GetDestUserID();
     destuser = GetUser(dest_userid);
-    if(destuser.null())
+    if(!destuser)
         return;
     
     //throw away desktop input if it's not the current session
@@ -2510,7 +2510,7 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
                                                const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, crypt_pkt, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
@@ -2529,14 +2529,14 @@ void ServerNode::ReceivedDesktopInputAckPacket(ServerUser& user,
                                                const ACE_INET_Addr& localaddr)
 {
     serverchannel_t tmp_chan = GetPacketChannel(user, packet, remoteaddr, localaddr);
-    if(tmp_chan.null())
+    if(!tmp_chan)
         return;
 
     ServerChannel& chan = *tmp_chan;
 
     uint16_t dest_userid = packet.GetDestUserID();
     serveruser_t dest_user = GetUser(dest_userid);
-    if(!dest_user.null())
+    if(dest_user)
     {
 #if defined(ENABLE_ENCRYPTION)
         if(m_crypt_acceptors.size())
@@ -2587,8 +2587,8 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    TTASSERT(!user.null());
-    if(user.null())
+    TTASSERT(user);
+    if(!user)
         return TT_CMDERR_USER_NOT_FOUND;
 
     ErrorMsg err;
@@ -2710,7 +2710,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     TTASSERT(user->IsAuthorized());
@@ -2718,7 +2718,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t chan = user->GetChannel();
-    if(!chan.null())
+    if(chan)
     {
         ErrorMsg err = UserLeaveChannel(userid, chan->GetChannelID());
         if(err.errorno != TT_CMDERR_SUCCESS)
@@ -2730,8 +2730,8 @@ ErrorMsg ServerNode::UserLogout(int userid)
     for(i=chanids.begin();i!=chanids.end();i++)
     {
         serverchannel_t chan = GetChannel(*i);
-        TTASSERT(!chan.null());
-        if(!chan.null())
+        TTASSERT(chan);
+        if(chan)
             UpdateChannel(*chan);
     }
 
@@ -2766,7 +2766,7 @@ ErrorMsg ServerNode::UserChangeNickname(int userid, const ACE_TString& newnick)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     ErrorMsg err = m_srvguard->ChangeNickname(*user, newnick);
@@ -2783,7 +2783,7 @@ ErrorMsg ServerNode::UserChangeStatus(int userid, int mode, const ACE_TString& s
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     ErrorMsg err = m_srvguard->ChangeStatus(*user, mode, status);
@@ -2802,11 +2802,11 @@ ErrorMsg ServerNode::UserUpdate(int userid)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     const serverchannel_t& chan = user->GetChannel();
-    if(!chan.null())
+    if(chan)
     {
         const ServerChannel::users_t& users = chan->GetUsers();
         for(size_t i=0;i<users.size();i++)
@@ -2834,18 +2834,18 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 {
     GUARD_OBJ(this, lock());
 
-    TTASSERT(!GetRootChannel().null());
+    TTASSERT(GetRootChannel());
 
     serveruser_t user = GetUser(userid);
-    TTASSERT(!user.null());
+    TTASSERT(user);
 
     bool makeop = false;
 
-    if(user.null())
+    if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t newchan = GetChannel(chanprop.channelid);
-    if(newchan.null())//user is trying to create a new channel
+    if(!newchan)//user is trying to create a new channel
     {
         if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == 0 &&
            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
@@ -2865,7 +2865,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
             return err;
 
         newchan = parent->GetSubChannel(chanprop.name);
-        TTASSERT(!newchan.null());
+        TTASSERT(newchan);
         makeop = true;
     }
     else
@@ -2875,7 +2875,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
             return err;
     }
 
-    if(newchan.null())
+    if(!newchan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     //check whether it's user initial channel or has specified correct password
@@ -2889,14 +2889,14 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     serverchannel_t oldchan = user->GetChannel();
 
-    if(!oldchan.null() && newchan->Compare(oldchan))
+    if(oldchan && newchan->Compare(oldchan))
         return ErrorMsg(TT_CMDERR_ALREADY_IN_CHANNEL);
 
     if(newchan->GetUsersCount()+1 > newchan->GetMaxUsers())
         return ErrorMsg(TT_CMDERR_MAX_CHANNEL_USERS_EXCEEDED);
 
     //leave the current channel if applicable
-    if(!oldchan.null())
+    if(oldchan)
     {
         //HACK: protect new channel so it doesn't get deleted if it's dynamic 
         //and parent of 'oldchan'
@@ -2971,7 +2971,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
             TTASSERT(timerid>=0);
         }
         //TODO: user could actually reuse the desktop session (but restarts at the moment)
-//         if(!user->GetDesktopSession().null() && 
+//         if (user->GetDesktopSession() && 
 //            users[i]->GetUserID() != user->GetUserID())
 //             StartDesktopTransmitter(*user, *users[i], *newchan);
     }
@@ -2992,12 +2992,12 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     //'channelid' can only be "current channel"
     if(channelid>0)
         chan = GetChannel(channelid);
-    else if(!user.null())
+    else if(user)
         chan = user->GetChannel();
 
-    if(chan.null())
+    if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
-    if(user.null() || !chan->UserExists(userid))
+    if(!user || !chan->UserExists(userid))
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     //send command to user that he left the channel
@@ -3055,8 +3055,8 @@ void ServerNode::UserDisconnected(int userid)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    TTASSERT(!user.null());
-    if(!user.null())
+    TTASSERT(user);
+    if(user)
     {
         //logout user
         if(user->IsAuthorized())
@@ -3076,7 +3076,7 @@ void ServerNode::UserDisconnected(int userid)
 
         m_updUserIPs.erase(userid);
         m_mUsers.erase(userid);
-        TTASSERT(m_rootchannel.null() || m_rootchannel->GetUser(userid) == NULL);
+        TTASSERT(!m_rootchannel || m_rootchannel->GetUser(userid) == NULL);
     }
 }
 
@@ -3087,11 +3087,11 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
 
     serveruser_t opper = GetUser(userid);
     serveruser_t op_user = GetUser(op_userid);
-    if(op_user.null() || opper.null())
+    if(!op_user || !opper)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t chan = GetChannel(channelid);
-    if(chan.null())
+    if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     if((opper->GetUserRights() & USERRIGHT_OPERATOR_ENABLE) ||
@@ -3117,13 +3117,13 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
 
     serveruser_t kicker = GetUser(userid);
     serveruser_t kickee = GetUser(kick_userid);
-    if( kickee.null() || (kicker.null() && !force_kick))
+    if (!kickee || (!kicker && !force_kick))
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     if(chanid) //kick from channel
     {
         serverchannel_t chan = GetChannel(chanid);
-        if(chan.null())
+        if(!chan)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         if(!chan->UserExists(kick_userid))
@@ -3161,7 +3161,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     GUARD_OBJ(this, lock());
 
     serveruser_t banner = GetUser(userid);
-    if(banner.null())
+    if (!banner)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t banchan;
@@ -3170,7 +3170,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     if(ban_userid > 0)
     {
         serveruser_t ban_user = GetUser(ban_userid);
-        if(ban_user.null())
+        if (!ban_user)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         if (ban.bantype & BANTYPE_CHANNEL)
@@ -3178,7 +3178,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             if(ban.chanpath.length())
             {
                 banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
-                if (banchan.null())
+                if (!banchan)
                     return TT_CMDERR_CHANNEL_NOT_FOUND;
             }
             else
@@ -3191,12 +3191,12 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 
         if((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
         {
-            if(banchan.null() || !banchan->IsOperator(userid))
+            if (!banchan || !banchan->IsOperator(userid))
                 return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
         }
 
         err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
-        if(!banchan.null() && err.success())
+        if (banchan && err.success())
             AddBannedUserToChannel(ban);
         
         if (err.success())
@@ -3210,14 +3210,14 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
                 return TT_CMDERR_CHANNEL_NOT_FOUND;
 
             banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
-            if(banchan.null())
+            if (!banchan)
                 return TT_CMDERR_CHANNEL_NOT_FOUND;
             ban.chanpath = banchan->GetChannelPath();
         }
 
         if((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
         {
-            if(!banchan.null() && banchan->IsOperator(userid))
+            if (banchan && banchan->IsOperator(userid))
                 err = m_srvguard->AddUserBan(*banner, ban);
             else
                 return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3227,7 +3227,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             err = m_srvguard->AddUserBan(*banner, ban);
         }
 
-        if(!banchan.null() && err.success())
+        if (banchan && err.success())
             AddBannedUserToChannel(ban);
 
         if (err.success())
@@ -3246,20 +3246,20 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
     ErrorMsg err;
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t banchan;
     if(ban.bantype & BANTYPE_CHANNEL)
     {
         banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
-        if(banchan.null())
+        if (!banchan)
             return TT_CMDERR_CHANNEL_NOT_FOUND;
     }
 
     if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
-        if(!banchan.null() && banchan->IsOperator(userid))
+        if (banchan && banchan->IsOperator(userid))
             err = m_srvguard->RemoveUserBan(*user, ban);
         else
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3269,7 +3269,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
         err = m_srvguard->RemoveUserBan(*user, ban);
     }
 
-    if(err.success() && !banchan.null())
+    if (err.success() && banchan)
         banchan->RemoveUserBan(ban);
 
     if(err.success())
@@ -3286,21 +3286,21 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t banchan = GetChannel(chanid);
-    if (chanid > 0 && banchan.null())
+    if (chanid > 0 && !banchan)
         return TT_CMDERR_CHANNEL_NOT_FOUND;
 
     if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
-        if (banchan.null() || !banchan->IsOperator(userid))
+        if (!banchan || !banchan->IsOperator(userid))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
     std::vector<BannedUser> bans;
-    if (!banchan.null())
+    if (banchan)
     {
         bans = banchan->GetBans();
     }
@@ -3322,7 +3322,7 @@ ErrorMsg ServerNode::UserListUserAccounts(int userid, int index, int count)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     useraccounts_t users;
@@ -3340,7 +3340,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     // allow anonymous account
@@ -3351,7 +3351,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
     for(;is != regusr.auto_op_channels.end();is++)
     {
         serverchannel_t chan = GetChannel(*is);
-        if(chan.null())
+        if (!chan)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
     }
     
@@ -3369,7 +3369,7 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     ErrorMsg err = m_srvguard->DeleteRegUser(*user, username);
@@ -3386,11 +3386,11 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t chan = GetChannel(chanprop.channelid);
-    if(chan.null())
+    if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     int c = chan->GetUsersCount();
@@ -3423,7 +3423,7 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
@@ -3441,7 +3441,7 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     m_srvguard->OnSaveConfiguration(*this, user.get());
@@ -3469,7 +3469,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     GUARD_OBJ(this, lock());
 
     //initial server configuration creates the root channel, so initially it's null
-    if(!m_rootchannel.null() && m_rootchannel->GetSubChannelCount(true) + 1 > MAX_CHANNELS)
+    if (m_rootchannel && m_rootchannel->GetSubChannelCount(true) + 1 > MAX_CHANNELS)
         return ErrorMsg(TT_CMDERR_MAX_CHANNELS_EXCEEDED);
 
     //check bandwidth restriction
@@ -3479,12 +3479,12 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
 
     //ensure channel doesn't already exist by name or id
     serverchannel_t parent;
-    if(!m_rootchannel.null())
+    if (m_rootchannel)
     {
         parent = GetChannel(chanprop.parentid);
-        if(parent.null())
+        if (!parent)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
-        if(!parent->GetSubChannel(chanprop.name).null())
+        if (parent->GetSubChannel(chanprop.name))
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
         if(chanprop.name.empty())
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
@@ -3509,9 +3509,9 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     }
 
     serverchannel_t chan;
-    if(parent.null())
+    if (!parent)
     {
-        TTASSERT(GetRootChannel().null());
+        TTASSERT(!GetRootChannel());
         ServerChannel* newchan = new ServerChannel(chanid);
         chan = serverchannel_t(newchan);
         m_rootchannel = chan;
@@ -3558,14 +3558,14 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
 {
     GUARD_OBJ(this, lock());
 
-    TTASSERT(!GetRootChannel().null());
+    TTASSERT(GetRootChannel());
     serverchannel_t chan = GetChannel(chanprop.channelid);
-    if(chan.null())
+    if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     //ensure channel with same name doesn't already exist
     serverchannel_t parent = GetChannel(chanprop.parentid);
-    if(!parent.null())
+    if (parent)
     {
         serverchannel_t subchan = parent->GetSubChannel(chanprop.name);
         if(subchan.get() && subchan->GetChannelID() != chanprop.channelid)
@@ -3602,8 +3602,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
             if(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP).count(*ii))
             {
                 serveruser_t src_user = GetUser(*ii);
-                //TTASSERT(!src_user.null()); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
-                if(src_user.null() || !src_user->GetDesktopSession())
+                //TTASSERT(src_user); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
+                if (!src_user || !src_user->GetDesktopSession())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
                 for(size_t i=0;i<users.size();i++)
@@ -3631,7 +3631,7 @@ void ServerNode::CleanChannels(serverchannel_t& channel)
     ASSERT_REACTOR_LOCKED(this);
 
     //remove channel if empty
-    while(!channel.null() && channel != GetRootChannel())
+    while (channel && channel != GetRootChannel())
     {
         if( channel->GetUsersCount()==0 && 
             channel->GetSubChannelCount()==0 &&
@@ -3674,11 +3674,11 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
 {
     GUARD_OBJ(this, lock());
 
-    TTASSERT(!GetRootChannel().null());
+    TTASSERT(GetRootChannel());
     bool bStatic = false;
 
     serverchannel_t chan = GetChannel(channelid);
-    if(chan.null())
+    if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     bStatic = (chan->GetChannelType() & CHANNEL_PERMANENT);
@@ -3706,7 +3706,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
                 UserKick(0, users[i]->GetUserID(), chan->GetChannelID(), true);
 
             //check if channel still exists (kick may have removed it
-            if(GetChannel(chan->GetChannelID()).null())
+            if (!GetChannel(chan->GetChannelID()))
                 continue;
 
             //remove files from channel
@@ -3717,7 +3717,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
 
             //remove as subchannel (unless it's the root)
             serverchannel_t parent = chan->GetParentChannel();
-            if(!parent.null())
+            if (parent)
             {
                 //notify users
                 for(mapusers_t::iterator ite=m_mUsers.begin(); 
@@ -3769,18 +3769,18 @@ ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
     GUARD_OBJ(this, lock());
 
     serveruser_t user = GetUser(userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     if((user->GetUserRights() & USERRIGHT_MOVE_USERS) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     serveruser_t moveuser = GetUser(moveuserid);
-    if(moveuser.null())
+    if (!moveuser)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t chan = GetChannel(channelid);
-    if(chan.null())
+    if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     ErrorMsg err = UserJoinChannel(moveuserid, chan->GetChannelProp());
@@ -3795,7 +3795,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     GUARD_OBJ(this, lock());
 
     serveruser_t from = GetUser(msg.from_userid);
-    if(from.null())
+    if (!from)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     switch(msg.msgType)
@@ -3803,7 +3803,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     case TTUserMsg :
     {
         serveruser_t to_user = GetUser(msg.to_userid);
-        if(to_user.null())
+        if (!to_user)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         //just ignore text message if the user doesn't subscribe
@@ -3830,7 +3830,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     case TTCustomMsg :
     {
         serveruser_t to_user = GetUser(msg.to_userid);
-        if(to_user.null())
+        if (!to_user)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         //just ignore text message if the user doesn't subscribe
@@ -3857,7 +3857,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     case TTChannelMsg :
     {
         serverchannel_t chan = GetChannel(msg.channelid);
-        if(chan.null())
+        if (!chan)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         if(from->GetChannel() != chan &&
@@ -3919,11 +3919,11 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         return ErrorMsg(TT_CMDERR_FILESHARING_DISABLED);
 
     serveruser_t user = GetUser(transfer.userid);
-    if(user.null())
+    if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t chan = GetChannel(transfer.channelid);
-    if(chan.null())
+    if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     if(transfer.inbound)
@@ -3987,7 +3987,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
 
     serveruser_t user = GetUser(userid);
     serveruser_t subscriptuser = GetUser(subuserid);
-    if(user.null() || subscriptuser.null())
+    if (!user || !subscriptuser)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
     
     //only admins can intercept
@@ -4014,7 +4014,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
         subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP))
     {
         serverchannel_t chan = subscriptuser->GetChannel();
-        if(!chan.null())
+        if (chan)
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 
@@ -4028,7 +4028,7 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
 
     serveruser_t user = GetUser(userid);
     serveruser_t subscriptuser = GetUser(subuserid);
-    if(!user.null() && !subscriptuser.null())
+    if (user && subscriptuser)
     {
         user->ClearSubscriptions(*subscriptuser, subscrip);
         //update user's subscription mask, if viewing all users
@@ -4056,7 +4056,7 @@ ErrorMsg ServerNode::AddFileToChannel(const RemoteFile& remotefile)
 
     TTASSERT(!GetRootChannel()->FileExists(remotefile.fileid));
     serverchannel_t channel = GetChannel(remotefile.channelid);
-    if(channel.null())
+    if (!channel)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     channel->AddFile(remotefile);
@@ -4076,7 +4076,7 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int chan
     ASSERT_REACTOR_LOCKED(this);
 
     serverchannel_t channel = GetChannel(channelid);
-    if(channel.null())
+    if (!channel)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
     RemoteFile remotefile;
@@ -4104,7 +4104,7 @@ ErrorMsg ServerNode::AddBannedUserToChannel(const BannedUser& ban)
 {
     TTASSERT(ban.bantype & BANTYPE_CHANNEL);
     serverchannel_t chan = ChangeChannel(GetRootChannel(), ban.chanpath);
-    if(chan.null())
+    if (!chan)
         return TT_CMDERR_CHANNEL_NOT_FOUND;
     chan->AddUserBan(ban);
     return TT_CMDERR_SUCCESS;
@@ -4118,7 +4118,7 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
     case TTCustomMsg :
     {
         serveruser_t to_user = GetUser(msg.to_userid);
-        if(to_user.null())
+        if (!to_user)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
         to_user->DoTextMessage(msg);
         return ErrorMsg(TT_CMDERR_SUCCESS);
@@ -4126,7 +4126,7 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
     case TTChannelMsg :
     {
         serverchannel_t chan = GetChannel(msg.channelid);
-        if(chan.null())
+        if (!chan)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         //forward message to all users of that channel

@@ -639,7 +639,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
 ErrorMsg ServerUser::HandleLeaveChannel(const mstrings_t& properties)
 {
     serverchannel_t chan = GetChannel();
-    if(chan.null())
+    if (!chan)
     {
         return TT_CMDERR_NOT_IN_CHANNEL;
     }
@@ -1060,7 +1060,7 @@ BannedUser ServerUser::GetBan(BanTypes bantype, const ACE_TString& chanpath) con
     ban.username = GetUsername();
     if ((bantype & BANTYPE_CHANNEL) && chanpath.length())
         ban.chanpath = chanpath;
-    else if (!GetChannel().null())
+    else if (GetChannel())
         ban.chanpath = GetChannel()->GetChannelPath();
     ban.ipaddr = GetIpAddress();
     return ban;
@@ -1592,7 +1592,7 @@ void ServerUser::DoKicked(int kicker_userid, bool channel_kick)
     ACE_TString command;
     command = ACE_TString(SERVER_KICKED);
     AppendProperty(TT_KICKERID, kicker_userid, command);
-    if(channel_kick && !GetChannel().null())
+    if(channel_kick && GetChannel())
         AppendProperty(TT_CHANNELID, GetChannel()->GetChannelID(), command);
 
     command += ACE_TString(EOL);

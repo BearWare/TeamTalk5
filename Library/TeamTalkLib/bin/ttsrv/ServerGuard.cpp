@@ -124,7 +124,7 @@ void ServerGuard::OnUserDisconnected(const ServerUser& user)
     tostringstream oss;
 
     serverchannel_t chan = user.GetChannel();
-    if(!chan.null())
+    if(chan)
     {
         oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
         oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
@@ -741,7 +741,7 @@ void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
                                    const UserAccount& useraccount, const ErrorMsg& err)
 {
     serveruser_t user = servernode->GetUser(userid);
-    if(user.null())
+    if(!user)
         return;
 
     if(!err.success())
@@ -1103,7 +1103,7 @@ namespace teamtalk {
 
         MakeStaticChannels(servernode, channels);
 
-        if(servernode.GetRootChannel().null())
+        if(!servernode.GetRootChannel())
         {
             ChannelProp chanprop;
             chanprop.channelid = 1;

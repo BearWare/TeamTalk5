@@ -25,7 +25,6 @@
 #define AVCONVWRAPPER_H
 
 #include <ace/Task.h>
-#include <ace/Bound_Ptr.h>
 #include <ace/Future.h>
 #include <ace/Semaphore.h>
 
