@@ -531,13 +531,7 @@ extern "C" {
         AFF_CHANNELCODEC_FORMAT  = 1,
         /** @brief Store in 16-bit wave format. */
         AFF_WAVE_FORMAT          = 2,
-        /** @brief Store in MP3-format. 
-         *
-         * This requires lame_enc.dll to be in the same directory as
-         * the application's execuable. The LAME DLLs can be obtained
-         * from http://lame.sourceforge.net. Note that the MP3-format
-         * is subject to licensing by Fraunhofer and Thomson
-         * Multimedia. */
+        /** @brief Store in MP3-format. */
         AFF_MP3_16KBIT_FORMAT    = 3,
         /** @see #AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_32KBIT_FORMAT    = 4,
@@ -685,7 +679,11 @@ extern "C" {
         INT32 nVideoFormatsCount; 
     } VideoCaptureDevice;
 
+    /** @} */
+
     /**
+     * @ingroup mediastream
+     *
      * @brief Struct describing the audio and video format used by a
      * media file.
      *
@@ -704,8 +702,6 @@ extern "C" {
         /** @brief The duration of the media file in miliseconds. */
         UINT32 uDurationMSec;
     } MediaFileInfo;
-
-    /** @} */
 
     /** @addtogroup desktopshare
      * @{ */
@@ -5911,10 +5907,8 @@ extern "C" {
      * Event #CLIENTEVENT_USER_RECORD_MEDIAFILE is triggered when
      * recording starts/stops.
      *
-     * To store in MP3 format instead of .wav format ensure that the
-     * LAME MP3 encoder file lame_enc.dll is placed in the same
-     * directory as the SDKs DLL files. To stop recording set @a
-     * szFolderPath to an empty string and @a uAFF to #AFF_NONE.
+     * To stop recording set @a szFolderPath to an empty string and @a
+     * uAFF to #AFF_NONE.
      *
      * To store audio of users not in current channel of the client
      * instance check out the section @ref spying.
