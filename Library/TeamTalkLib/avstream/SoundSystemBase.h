@@ -557,7 +557,6 @@ namespace soundsystem {
         virtual bool StartStream(inputstreamer_t streamer) = 0;
         virtual void CloseStream(inputstreamer_t streamer) = 0;
 
-        //capture_lock() must be acquired before calling
         inputstreamer_t GetStream(StreamCapture* capture)
         {
             wguard_t g(capture_lock());
@@ -567,6 +566,19 @@ namespace soundsystem {
             return inputstreamer_t();
         }
 
+        std::vector<StreamCapture*> GetRecorders(int sndgrpid)
+        {
+            wguard_t g(capture_lock());
+            std::vector<StreamCapture*> recorders;
+            typename inputstreamers_t::const_iterator ite;
+            for (ite=m_input_streamers.begin();ite!=m_input_streamers.end();ite++)
+            {
+                if(ite->second->sndgrpid == sndgrpid)
+                    recorders.push_back(ite->first);
+            }
+            return recorders;
+        }
+        
         virtual outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
                                            int sndgrpid, int samplerate, int channels, 
                                            int framesize) = 0;
@@ -576,7 +588,6 @@ namespace soundsystem {
         virtual bool StopStream(outputstreamer_t streamer) = 0;
         virtual bool IsStreamStopped(outputstreamer_t streamer) = 0;
 
-        //players_lock() must be acquired before calling
         outputstreamer_t GetStream(StreamPlayer* player)
         {
             wguard_t g(players_lock());
@@ -585,16 +596,18 @@ namespace soundsystem {
                 return ii->second;
             return outputstreamer_t();
         }
-        //players_lock() must be acquired before calling
-        void GetPlayers(int sndgrpid, std::vector<StreamPlayer*>& players)
+
+        std::vector<StreamPlayer*> GetPlayers(int sndgrpid)
         {
             wguard_t g(players_lock());
+            std::vector<StreamPlayer*> players;
             typename outputstreamers_t::const_iterator ite;
             for(ite=m_output_streamers.begin();ite!=m_output_streamers.end();ite++)
             {
                 if(ite->second->sndgrpid == sndgrpid)
                     players.push_back(ite->first);
             }
+            return players;
         }
         
         virtual duplexstreamer_t NewStream(StreamDuplex* duplex, int inputdeviceid,
@@ -612,6 +625,19 @@ namespace soundsystem {
             return duplexstreamer_t();
         }
 
+        std::vector<StreamDuplex*> GetDuplexers(int sndgrpid)
+        {
+            wguard_t g(duplex_lock());
+            std::vector<StreamDuplex*> duplexers;
+            typename duplexstreamers_t::const_iterator ite;
+            for (ite=m_duplex_streamers.begin();ite!=m_duplex_streamers.end();ite++)
+            {
+                if(ite->second->sndgrpid == sndgrpid)
+                    duplexers.push_back(ite->first);
+            }
+            return duplexers;
+        }
+        
     private:
 
         soundgroups_t m_sndgrps; // sndgrp_lock()
@@ -773,6 +799,10 @@ namespace soundsystem {
 
         void RemoveSoundGroup(int sndgrpid)
         {
+            assert(GetPlayers(sndgrpid).empty());
+            assert(GetRecorders(sndgrpid).empty());
+            assert(GetDuplexers(sndgrpid).empty());
+            
             wguard_t g(sndgrp_lock());
             soundgroup_t sg = GetSoundGroup(sndgrpid);
             if(sg)
@@ -1096,8 +1126,7 @@ namespace soundsystem {
                 sndgrp->mastervolume = volume;
             }
 
-            std::vector<StreamPlayer*> players;
-            GetPlayers(sndgrpid, players);
+            std::vector<StreamPlayer*> players = GetPlayers(sndgrpid);
             for(size_t i=0;i<players.size();i++)
             {
                 outputstreamer_t streamer = GetStream(players[i]);
@@ -1135,8 +1164,7 @@ namespace soundsystem {
                 return false;
             sndgrp->muteall = mute;
 
-            std::vector<StreamPlayer*> players;
-            GetPlayers(sndgrpid, players);
+            std::vector<StreamPlayer*> players = GetPlayers(sndgrpid);
             for(size_t i=0;i<players.size();i++)
             {
                 outputstreamer_t streamer = GetStream(players[i]);
