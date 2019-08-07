@@ -681,28 +681,6 @@ extern "C" {
 
     /** @} */
 
-    /**
-     * @ingroup mediastream
-     *
-     * @brief Struct describing the audio and video format used by a
-     * media file.
-     *
-     * @see TT_GetMediaFile() */
-    typedef struct MediaFileInfo
-    {
-        /** @brief Status of media file if it's being saved to
-         * disk. */
-        MediaFileStatus nStatus;
-        /** @brief Name of file. */
-        TTCHAR szFileName[TT_STRLEN];
-        /** @brief The audio properties of the media file. */
-        AudioFormat audioFmt;
-        /** @brief The video properties of the media file. */
-        VideoFormat videoFmt;
-        /** @brief The duration of the media file in miliseconds. */
-        UINT32 uDurationMSec;
-    } MediaFileInfo;
-
     /** @addtogroup desktopshare
      * @{ */
 
@@ -1138,6 +1116,45 @@ extern "C" {
     } VideoCodec;
     /** @} */
 
+    /** @addtogroup mediastream
+     * @{ */
+
+    /**
+     * @brief Struct describing the audio and video format used by a
+     * media file.
+     *
+     * @see TT_GetMediaFile() */
+    typedef struct MediaFileInfo
+    {
+        /** @brief Status of media file if it's being saved to
+         * disk. */
+        MediaFileStatus nStatus;
+        /** @brief Name of file. */
+        TTCHAR szFileName[TT_STRLEN];
+        /** @brief The audio properties of the media file. */
+        AudioFormat audioFmt;
+        /** @brief The video properties of the media file. */
+        VideoFormat videoFmt;
+        /** @brief The duration of the media file in miliseconds. */
+        UINT32 uDurationMSec;
+    } MediaFileInfo;
+
+    /**
+     * @brief Properties for initializing or updating a file for media
+     * streaming.
+     * @see TT_InitStreamingMediaFileToChannel()
+     * @see TT_UpdateStreamingMediaFileToChannel() */
+    typedef struct MediaFilePlayback
+    {
+        UINT32 uOffsetMSec;
+        TTBOOL bPaused;
+        TTBOOL bMuteLeftSpeaker;
+        TTBOOL bMuteRightSpeaker;
+        VideoCodec videoCodec;
+    } MediaFilePlayback;
+
+    /** @} */
+    
     /** @addtogroup transmission
      * @{ */
 
@@ -4035,6 +4052,13 @@ extern "C" {
     /** @addtogroup mediastream
      * @{ */
 
+    TEAMTALKDLL_API TTBOOL TT_InitStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                              IN const TTCHAR* szMediaFilePath,
+                                                              IN const MediaFilePlayback* lpMediaFilePlayback);
+
+    TEAMTALKDLL_API TTBOOL TT_UpdateStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                                IN const MediaFilePlayback* lpMediaFilePlayback);
+    
     /**
      * @brief Stream media file to channel, e.g. avi-, wav- or MP3-file.
      *
