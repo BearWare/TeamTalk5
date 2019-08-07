@@ -1998,6 +1998,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         ServerProperties srvprop = new ServerProperties();
         assertTrue(ttadmin.getServerProperties(srvprop));
+        int orgValue = srvprop.nLoginDelayMSec;
         srvprop.nLoginDelayMSec = 1000;
         assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
         
@@ -2021,7 +2022,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Thread.sleep(2000);
         login(ttclient2, NICKNAME, USERNAME, PASSWORD);
 
-        srvprop.nLoginDelayMSec = 0;
+        srvprop.nLoginDelayMSec = orgValue;
         assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
     }
     
@@ -2033,6 +2034,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         ServerProperties srvprop = new ServerProperties();
         assertTrue("get srvprop", ttadmin.getServerProperties(srvprop));
+
+        int oldValue = srvprop.nMaxLoginAttempts;
+        
         srvprop.nMaxLoginAttempts = 2;
 
         assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
@@ -2058,6 +2062,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("banned account", ClientError.CMDERR_SERVER_BANNED, msg.clienterrormsg.nErrorNo);
 
         assertTrue("unban success", waitCmdSuccess(ttadmin, ttadmin.doUnBanUser(user.szIPAddress, 0), DEF_WAIT));
+
+        srvprop.nMaxLoginAttempts = 0;
+        assertTrue("update server", waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
     }
 
     public void testDisconnect() throws IOException {
