@@ -112,9 +112,7 @@ bool PortAudio::AutoPositionPlayers(int sndgrpid, bool all_players)
     assert(IsAutoPositioning(sndgrpid));
     if(IsAutoPositioning(sndgrpid))
     {
-        std::vector<StreamPlayer*> players;
-        GetPlayers(sndgrpid, players);
-
+        std::vector<StreamPlayer*> players = GetPlayers(sndgrpid);
         for(size_t i=0;i<players.size();)
         {
             outputstreamer_t streamer = GetStream(players[i]);
