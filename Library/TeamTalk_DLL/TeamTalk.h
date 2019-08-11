@@ -1004,6 +1004,21 @@ extern "C" {
         INT32 nEchoSuppressActive;
     } SpeexDSP;
 
+    typedef enum AudioPreprocessorType
+    {
+        NO_AUDIOPREPROCESSOR        = 0,
+        SPEEXDSP_AUDIOPREPROCESSOR  = 1,
+    } AudioPreprocessorType;
+
+    typedef struct AudioPreprocessor
+    {
+        AudioPreprocessorType nPreprocessor;
+        union
+        {
+            SpeexDSP speexdsp;
+        };
+    } AudioPreprocessor;
+    
     /** @brief WebM video codec settings. 
      * @see VideoCodec
      * @see TT_InitVideoCaptureDevice
@@ -1148,8 +1163,10 @@ extern "C" {
     {
         UINT32 uOffsetMSec;
         TTBOOL bPaused;
+        INT32 nGainLevel;
         TTBOOL bMuteLeftSpeaker;
         TTBOOL bMuteRightSpeaker;
+        AudioPreprocessor audioPreprocessor;
         VideoCodec videoCodec;
     } MediaFilePlayback;
 
@@ -4096,6 +4113,17 @@ extern "C" {
      * @see TT_StartStreamingMediaFileToChannel() */
     TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
 
+    TEAMTALKDLL_API INT32 TT_InitLocalPlayback(IN TTInstance* lpTTInstance,
+                                               IN const TTCHAR* szMediaFilePath,
+                                               IN const MediaFilePlayback* lpMediaFilePlayback);
+
+    TEAMTALKDLL_API TTBOOL TT_UpdateLocalPlayback(IN TTInstance* lpTTInstance,
+                                                  IN INT32 nPlaybackSessionID,
+                                                  IN const MediaFilePlayback* lpMediaFilePlayback);
+    
+    TEAMTALKDLL_API TTBOOL TT_StopLocalPlayback(IN TTInstance* lpTTInstance,
+                                                IN INT32 nPlaybackSessionID);
+    
     /**
      * @brief Get the properties of a media file.
      *
