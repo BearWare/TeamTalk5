@@ -27,18 +27,23 @@
 #include "MediaStreamer.h"
 #include "SoundSystem.h"
 
+#include <queue>
+#include <mutex>
+
 class MediaPlayback : public MediaStreamListener
+                    , public soundsystem::StreamPlayer
 {
 public:
-    MediaPlayback();
-
+    MediaPlayback(soundsystem::SoundSystem* sndsys);
+    ~MediaPlayback();
+    
     bool OpenFile(const ACE_TString& filename);
 
-    bool OpenSoundSystem(soundsystem::SoundSystem& sndsys,
-                         int sndgrpid, int outputdeviceid);
+    bool OpenSoundSystem(int sndgrpid, int outputdeviceid);
 
     bool PlayMedia();
 
+    // MediaStreamListener
     bool MediaStreamVideoCallback(MediaStreamer* streamer,
                                   media::VideoFrame& video_frame,
                                   ACE_Message_Block* mb_video);
@@ -50,7 +55,17 @@ public:
     void MediaStreamStatusCallback(MediaStreamer* streamer,
                                    const MediaFileProp& mfp,
                                    MediaStreamStatus status);
+
+    // StreamPlayer
+    bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
+                        short* buffer, int samples);
+    void StreamPlayerCbEnded();
+
+    
 private:
     media_streamer_t m_streamer;
+    soundsystem::SoundSystem* m_sndsys;
+    std::queue<ACE_Message_Block*> m_audio_buffer;
+    std::mutex m_mutex;
 };
 #endif
