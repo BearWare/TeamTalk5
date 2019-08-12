@@ -182,6 +182,39 @@ struct ClientInstance
     {
         pClientNode = NULL;
         pEventHandler = NULL;
+
+#if defined(USE_MINIDUMP)
+        static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
+#endif
+
+#if !defined(WIN32)
+        //avoid SIGPIPE
+        static ACE_Sig_Action no_sigpipe((ACE_SignalHandler)SIG_IGN);
+        static ACE_Sig_Action original_action;
+        no_sigpipe.register_action(SIGPIPE, &original_action);
+#endif
+
+#ifdef ENABLE_ENCRYPTION
+        ACE_SSL_Context *context = ACE_SSL_Context::instance();
+        if(context->get_mode() != ACE_SSL_Context::SSLv23)
+            context->set_mode(ACE_SSL_Context::SSLv23);
+#endif
+
+#if defined(ENABLE_MEDIAFOUNDATION)
+        static class MFInit {
+        public:
+            MFInit()
+            {
+                HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
+                assert(SUCCEEDED(hr));
+            }
+            ~MFInit()
+            {
+                //HRESULT hr = MFShutdown();
+                //assert(SUCCEEDED(hr));
+            }
+        } init;
+#endif
     }
 
     ~ClientInstance()
@@ -301,32 +334,6 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 #if defined(WIN32)
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 {
-#if defined(USE_MINIDUMP)
-    static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
-#endif
-
-#if defined(ENABLE_MEDIAFOUNDATION)
-    static class MFInit {
-    public:
-        MFInit()
-        {
-            HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_FULL);
-            assert(SUCCEEDED(hr));
-        }
-        ~MFInit()
-        {
-            //HRESULT hr = MFShutdown();
-            //assert(SUCCEEDED(hr));
-        }
-    } init;
-#endif
-
-#ifdef ENABLE_ENCRYPTION
-    ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23)
-        context->set_mode(ACE_SSL_Context::SSLv23);
-#endif
-
     ClientInstance* pClient = new ClientInstance;
     pClient->pEventHandler = new TTMsgQueue(hWnd, uMsg);
     pClient->pClientNode = new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
@@ -351,23 +358,6 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-#if defined(USE_MINIDUMP)
-    static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
-#endif
-
-#ifdef ENABLE_ENCRYPTION
-    ACE_SSL_Context *context = ACE_SSL_Context::instance ();
-    if(context->get_mode() !=  ACE_SSL_Context::SSLv23)
-        context->set_mode(ACE_SSL_Context::SSLv23);
-#endif
-
-#if !defined(WIN32)
-    //avoid SIGPIPE
-    static ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
-    static ACE_Sig_Action original_action;
-    no_sigpipe.register_action (SIGPIPE, &original_action);
-#endif
-
     ClientInstance* pClient = new ClientInstance;
     pClient->pEventHandler = new TTMsgQueue();
     pClient->pClientNode = new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
