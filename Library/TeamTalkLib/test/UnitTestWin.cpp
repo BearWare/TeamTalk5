@@ -10,6 +10,7 @@
 #include <avstream/LibVidCap.h>
 #endif
 
+#include <avstream/MediaPlayback.h>
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -1056,41 +1057,6 @@ namespace UnitTest
 
         }
 
-#define DEFWAIT 5000
-
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            auto start = GETTIMESTAMP();
-            while (GETTIMESTAMP() < start + timeout)
-            {
-                INT32 waitMsec = 10;
-                if (TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
-                    outmsg.nClientEvent == ttevent &&
-                    pred(outmsg))
-                    return true;
-            }
-            return false;
-        }
-
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, ttevent, [] (TTMessage) { return true; }, outmsg, timeout);
-        }
-
-        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid;
-            }, outmsg, timeout);
-        }
-
-        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid && !msg.bActive;
-            }, outmsg, timeout);
-        }
-
         TEST_METHOD(TestSSL)
         {
             bool started = false, stop = false;
@@ -1186,5 +1152,63 @@ namespace UnitTest
             serverthread.join();
         }
 #endif
+#define DEFWAIT 5000
+
+        TEST_METHOD(TestMediaPlayback)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            MediaFileProp inprop;
+            Assert::IsTrue(GetMediaFileProp(L"C:\\Temp\\giana.wma", inprop));
+
+            MediaPlayback mpb(soundsystem::GetInstance());
+
+            Assert::IsTrue(mpb.OpenFile(L"C:\\Temp\\giana.wma"), L"Load file");
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            int sndgrpid = soundsystem::GetInstance()->OpenSoundGroup();
+            Assert::IsTrue(mpb.OpenSoundSystem(sndgrpid, nOutputDeviceID), L"Open sound system");
+
+            Assert::IsTrue(mpb.PlayMedia());
+            TTMessage msg;
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, DEFWAIT);
+            TT_CloseTeamTalk(inst);
+        }
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            auto start = GETTIMESTAMP();
+            while(GETTIMESTAMP() < start + timeout)
+            {
+                INT32 waitMsec = 10;
+                if(TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
+                    outmsg.nClientEvent == ttevent &&
+                    pred(outmsg))
+                    return true;
+            }
+            return false;
+        }
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, outmsg, timeout);
+        }
+
+        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid;
+            }, outmsg, timeout);
+        }
+
+        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid && !msg.bActive;
+            }, outmsg, timeout);
+        }
+
     };
 }

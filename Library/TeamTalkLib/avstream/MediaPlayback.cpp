@@ -57,7 +57,8 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     MediaStreamOutput outprop(inprop.audio, PB_FRAMESIZE(inprop.audio.samplerate),
                               inprop.video);
 
-    if (m_streamer->OpenFile(inprop, outprop))
+    m_streamer = MakeMediaStreamer(this);
+    if (m_streamer && m_streamer->OpenFile(inprop, outprop))
         return true;
 
     m_streamer.reset();
@@ -80,7 +81,10 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid)
 
 bool MediaPlayback::PlayMedia()
 {
-    return false;
+    if (!m_streamer)
+        return false;
+
+    return m_streamer->StartStream();
 }
 
 bool MediaPlayback::MediaStreamVideoCallback(MediaStreamer* streamer,
@@ -141,6 +145,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         assert(streamer.framesize == samples);
         std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
     }
+    return true;
 }
 
 void MediaPlayback::StreamPlayerCbEnded()
