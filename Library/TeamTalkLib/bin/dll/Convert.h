@@ -46,6 +46,10 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result);
 void Convert(const teamtalk::AudioConfig& audcfg, AudioConfig& result);
 void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result);
 
+void Convert(const AudioPreprocessor& audpreprocess, teamtalk::AudioPreprocessor& result);
+
+void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result);
+
 void Convert(const teamtalk::SpeexDSP& dspdsp, SpeexDSP& result);
 void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result);
 

@@ -119,6 +119,7 @@ ClientNode::~ClientNode()
         CloseSoundInputDevice();
         CloseSoundOutputDevice();
         CloseSoundDuplexDevices();
+        m_mediaplayback_streams.clear(); //clear all players before removing sound group
     }
 
     audiomuxer().StopThread();
@@ -3136,6 +3137,85 @@ void ClientNode::StopStreamingMediaFile()
         m_audiofile_thread.StopEncoder();
         m_flags &= ~CLIENT_STREAM_AUDIOFILE;
     }
+}
+
+int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, bool paused, 
+                                  const AudioPreprocessor& preprocessor)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    GEN_NEXT_ID(m_mediaplayback_counter);
+
+    mediaplayback_t playback;
+    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackComplete, this, _1),
+                   m_mediaplayback_counter, soundsystem::GetInstance()));
+    
+    if (!playback)
+        return 0;
+
+    if(!playback->OpenFile(filename))
+        return 0;
+
+    if (m_soundprop.soundgroupid && m_soundprop.outputdeviceid != SOUNDDEVICE_IGNORE_ID)
+    {
+        if (!playback->OpenSoundSystem(m_soundprop.soundgroupid, m_soundprop.outputdeviceid))
+            return 0;
+    }
+
+    switch(preprocessor.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE :
+        playback->MuteSound(false, false);
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        break;
+    }
+
+    m_mediaplayback_streams[m_mediaplayback_counter] = playback;
+
+    if (!paused)
+        playback->PlayMedia();
+
+    return true;
+}
+
+bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
+                                     const AudioPreprocessor& preprocessor)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    auto iplayback = m_mediaplayback_streams.find(id);
+    if (iplayback == m_mediaplayback_streams.end())
+        return false;
+
+    switch(preprocessor.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE:
+        iplayback->second->MuteSound(false, false);
+        break;
+    case AUDIOPREPROCESSOR_TEAMTALK:
+        iplayback->second->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        break;
+    }
+    return true;
+}
+
+bool ClientNode::StopMediaPlayback(int id)
+{
+    ASSERT_REACTOR_LOCKED(this);
+    auto iplayback = m_mediaplayback_streams.find(id);
+    if(iplayback == m_mediaplayback_streams.end())
+        return false;
+
+    m_mediaplayback_streams.erase(iplayback);
+    return true;
+}
+
+void ClientNode::MediaPlaybackComplete(int id)
+{
+    GUARD_REACTOR(this);
+
+    m_mediaplayback_streams.erase(id);
 }
 
 bool ClientNode::InitVideoCapture(const ACE_TString& src_id,

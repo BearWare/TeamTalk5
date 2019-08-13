@@ -29,12 +29,17 @@
 
 #include <queue>
 #include <mutex>
+#include <memory>
+
+typedef std::function< void(int userdata) > mediaplayback_complete_t;
 
 class MediaPlayback : public MediaStreamListener
                     , public soundsystem::StreamPlayer
 {
 public:
-    MediaPlayback(soundsystem::SoundSystem* sndsys);
+    MediaPlayback(mediaplayback_complete_t completionfunc, 
+                  int userdata,
+                  soundsystem::SoundSystem* sndsys);
     ~MediaPlayback();
     
     bool OpenFile(const ACE_TString& filename);
@@ -42,6 +47,8 @@ public:
     bool OpenSoundSystem(int sndgrpid, int outputdeviceid);
 
     bool PlayMedia();
+
+    void MuteSound(bool left, bool right);
 
     // MediaStreamListener
     bool MediaStreamVideoCallback(MediaStreamer* streamer,
@@ -60,12 +67,17 @@ public:
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
                         short* buffer, int samples);
     void StreamPlayerCbEnded();
-
     
 private:
     media_streamer_t m_streamer;
+    mediaplayback_complete_t m_completefunc;
+    int m_userdata = 0;
     soundsystem::SoundSystem* m_sndsys;
     std::queue<ACE_Message_Block*> m_audio_buffer;
     std::mutex m_mutex;
+    StereoMask m_stereo = STEREO_BOTH;
 };
+
+typedef std::shared_ptr<MediaPlayback> mediaplayback_t;
+
 #endif

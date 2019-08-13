@@ -435,6 +435,37 @@ namespace teamtalk {
         }
     };
 
+#define GAIN_MAX 32000
+#define GAIN_NORMAL 1000
+#define GAIN_MIN 0
+
+    struct TTAudioPreprocessor
+    {
+        int gainlevel = GAIN_NORMAL;
+        bool muteleft = false;
+        bool muteright = false;
+
+        TTAudioPreprocessor() { }
+    };
+
+    enum AudioPreprocessorType
+    {
+        AUDIOPREPROCESSOR_NONE      = 0,
+        AUDIOPREPROCESSOR_SPEEXDSP  = 1,
+        AUDIOPREPROCESSOR_TEAMTALK  = 2
+    };
+    
+    struct AudioPreprocessor
+    {
+        AudioPreprocessorType preprocessor = AUDIOPREPROCESSOR_NONE;
+        union
+        {
+            SpeexDSP speexdsp;
+            TTAudioPreprocessor ttpreprocessor;
+        };
+        AudioPreprocessor() {}
+    };
+
     struct WebMVP8Codec
     {
         int rc_target_bitrate; /* 0 = 256 kbit/sec */

@@ -1158,12 +1158,16 @@ namespace UnitTest
         {
             auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
 
+            auto filename = L"C:\\Temp\\Music.wav";
             MediaFileProp inprop;
-            Assert::IsTrue(GetMediaFileProp(L"C:\\Temp\\giana.wma", inprop));
+            Assert::IsTrue(GetMediaFileProp(filename, inprop));
 
-            MediaPlayback mpb(soundsystem::GetInstance());
+            MediaPlayback mpb([](int userdata)
+            {
+                Logger::WriteMessage(L"Media playback completed");
+            }, 13, soundsystem::GetInstance());
 
-            Assert::IsTrue(mpb.OpenFile(L"C:\\Temp\\giana.wma"), L"Load file");
+            Assert::IsTrue(mpb.OpenFile(filename), L"Load file");
 
             INT32 nInputDeviceID, nOutputDeviceID;
             Assert::IsTrue(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &nInputDeviceID, &nOutputDeviceID), L"Get default devices");
@@ -1173,7 +1177,43 @@ namespace UnitTest
 
             Assert::IsTrue(mpb.PlayMedia());
             TTMessage msg;
-            WaitForEvent(inst, CLIENTEVENT_NONE, msg, DEFWAIT);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(true, false);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(false, true);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(false, false);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            TT_CloseTeamTalk(inst);
+        }
+
+        TEST_METHOD(TestMediaPlaybackAPI)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename = L"C:\\Temp\\Music.wav";
+            MediaFilePlayback mfp = {};
+            mfp.bPaused = FALSE;
+            mfp.uOffsetMSec = 0;
+            mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = FALSE;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = TRUE;
+            mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
+            INT32 nSessionID = TT_InitLocalPlayback(inst, filename, &mfp);
+            Assert::IsTrue(nSessionID > 0);
+
+            TTMessage msg;
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID, &mfp));
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
             TT_CloseTeamTalk(inst);
         }
 

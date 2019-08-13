@@ -1004,10 +1004,18 @@ extern "C" {
         INT32 nEchoSuppressActive;
     } SpeexDSP;
 
+    typedef struct TTAudioPreprocessor
+    {
+        INT32 nGainLevel;
+        TTBOOL bMuteLeftSpeaker;
+        TTBOOL bMuteRightSpeaker;
+    } TTAudioPreprocessor;
+
     typedef enum AudioPreprocessorType
     {
         NO_AUDIOPREPROCESSOR        = 0,
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
+        TEAMTALK_AUDIOPREPROCESSOR  = 2,
     } AudioPreprocessorType;
 
     typedef struct AudioPreprocessor
@@ -1016,6 +1024,7 @@ extern "C" {
         union
         {
             SpeexDSP speexdsp;
+            TTAudioPreprocessor ttpreprocessor;
         };
     } AudioPreprocessor;
     
@@ -1163,11 +1172,7 @@ extern "C" {
     {
         UINT32 uOffsetMSec;
         TTBOOL bPaused;
-        INT32 nGainLevel;
-        TTBOOL bMuteLeftSpeaker;
-        TTBOOL bMuteRightSpeaker;
         AudioPreprocessor audioPreprocessor;
-        VideoCodec videoCodec;
     } MediaFilePlayback;
 
     /** @} */

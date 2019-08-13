@@ -193,6 +193,20 @@ void MergeStereo(const std::vector<short>& left_chan,
                  const std::vector<short>& right_chan,
                  short* output_buffer, int output_samples);
 
+enum Stereo
+{
+    STEREO_NONE     = 0x0,
+    STEREO_LEFT     = 0x1,
+    STEREO_RIGHT    = 0x2,
+    STEREO_BOTH     = STEREO_LEFT | STEREO_RIGHT
+};
+
+typedef unsigned char StereoMask;
+
+StereoMask ToStereoMask(bool muteleft, bool muteright);
+
+void SelectStereo(StereoMask stereo, short* buffer, int samples);
+
 // returns new sample_index
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 

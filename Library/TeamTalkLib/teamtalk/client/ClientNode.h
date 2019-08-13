@@ -39,6 +39,7 @@
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
 #include <avstream/VideoCapture.h>
+#include <avstream/MediaPlayback.h>
 
 #include <avstream/MediaStreamer.h>
 
@@ -340,6 +341,15 @@ namespace teamtalk {
         bool StartStreamingMediaFile(const ACE_TString& filename,
                                      const VideoCodec& vid_codec);
         void StopStreamingMediaFile();
+
+        // playback local media file
+        int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,
+                              bool paused, const AudioPreprocessor& preprocessor);
+        bool UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
+                                 const AudioPreprocessor& preprocessor);
+        bool StopMediaPlayback(int id);
+
+        void MediaPlaybackComplete(int id);
 
         //video capture
         bool InitVideoCapture(const ACE_TString& src_id,
@@ -651,7 +661,7 @@ namespace teamtalk {
         ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
         uint8_t m_vidcap_stream_id; //0 means not used
 
-        //media streamer
+        //media streamer to channels
         media_streamer_t m_media_streamer;
         uint8_t m_mediafile_stream_id; //0 means not used
 
@@ -661,6 +671,10 @@ namespace teamtalk {
 
         //encode video of media file
         video_thread_t m_videofile_thread;
+
+        // local playback of media files
+        std::map<int, mediaplayback_t> m_mediaplayback_streams;
+        int m_mediaplayback_counter = 0;
 
         //desktop session
         desktop_initiator_t m_desktop;

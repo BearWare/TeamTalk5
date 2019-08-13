@@ -25,10 +25,16 @@
 
 #include <codec/MediaUtil.h>
 
+#include <cstring>
+
 #define PB_FRAMESIZE(samplerate) (samplerate * .1)
 
-MediaPlayback::MediaPlayback(soundsystem::SoundSystem* sndsys)
-    : m_sndsys(sndsys)
+MediaPlayback::MediaPlayback(mediaplayback_complete_t completionfunc,
+                             int userdata,
+                             soundsystem::SoundSystem* sndsys)
+    : m_completefunc(completionfunc)
+    , m_userdata(userdata)
+    , m_sndsys(sndsys)
 {
 }
 
@@ -87,6 +93,11 @@ bool MediaPlayback::PlayMedia()
     return m_streamer->StartStream();
 }
 
+void MediaPlayback::MuteSound(bool leftchannel, bool rightchannel)
+{
+    m_stereo = ToStereoMask(leftchannel, rightchannel);
+}
+
 bool MediaPlayback::MediaStreamVideoCallback(MediaStreamer* streamer,
                                              media::VideoFrame& video_frame,
                                              ACE_Message_Block* mb_video)
@@ -122,6 +133,10 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
     case MEDIASTREAM_ERROR :
     case MEDIASTREAM_FINISHED :
         m_sndsys->CloseOutputStream(this);
+
+        if (m_completefunc)
+            m_completefunc(m_userdata);
+
         break;
     }
 }
@@ -144,6 +159,9 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         media::AudioFrame frm(mb);
         assert(streamer.framesize == samples);
         std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
+
+        if (streamer.channels == 2)
+            SelectStereo(m_stereo, buffer, streamer.framesize);
     }
     return true;
 }

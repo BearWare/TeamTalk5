@@ -1852,6 +1852,43 @@ TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTIns
     return TRUE;
 }
 
+TEAMTALKDLL_API INT32 TT_InitLocalPlayback(IN TTInstance* lpTTInstance,
+                                           IN const TTCHAR* szMediaFilePath,
+                                           IN const MediaFilePlayback* lpMediaFilePlayback)
+{
+    ClientNode* pClientNode;
+    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, 0);
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    return pClientNode->InitMediaPlayback(szMediaFilePath, lpMediaFilePlayback->uOffsetMSec, 
+                                          lpMediaFilePlayback->bPaused, preprocessor);
+}
+
+TEAMTALKDLL_API TTBOOL TT_UpdateLocalPlayback(IN TTInstance* lpTTInstance,
+                                              IN INT32 nPlaybackSessionID,
+                                              IN const MediaFilePlayback* lpMediaFilePlayback)
+{
+    ClientNode* pClientNode;
+    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    return pClientNode->UpdateMediaPlayback(nPlaybackSessionID, lpMediaFilePlayback->uOffsetMSec,
+                                            lpMediaFilePlayback->bPaused, preprocessor);
+}
+
+TEAMTALKDLL_API TTBOOL TT_StopLocalPlayback(IN TTInstance* lpTTInstance,
+                                            IN INT32 nPlaybackSessionID)
+{
+    ClientNode* pClientNode;
+    GET_CLIENTNODE_RET(pClientNode, lpTTInstance, FALSE);
+
+    return pClientNode->StopMediaPlayback(nPlaybackSessionID);
+}
+
 TEAMTALKDLL_API TTBOOL TT_GetMediaFileInfo(IN const TTCHAR* szMediaFilePath,
                                            OUT MediaFileInfo* lpMediaFileInfo)
 {

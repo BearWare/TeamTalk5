@@ -54,16 +54,6 @@ class AudioMuxer;
 
 namespace teamtalk {
 
-    enum Stereo
-    {
-        STEREO_NONE = 0x0,
-        STEREO_LEFT = 0x1,
-        STEREO_RIGHT = 0x2,
-        STEREO_BOTH = STEREO_LEFT | STEREO_RIGHT
-    };
-
-    typedef unsigned char StereoMask;
-
     struct encframe
     {
         std::vector<char> enc_frames;

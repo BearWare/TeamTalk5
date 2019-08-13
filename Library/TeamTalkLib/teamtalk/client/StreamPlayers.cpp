@@ -196,26 +196,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if(input_channels == 2)
         {
             //If in stereo then choose which channels to output audio to
-            switch(m_stereo)
-            {
-            case STEREO_BOTH:
-                break;
-            case STEREO_LEFT :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                    tmp_output_buffer[i+1] = 0;
-                break;
-            case STEREO_RIGHT :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                    tmp_output_buffer[i] = 0;
-                break;
-            case STEREO_NONE :
-                for(int i=2*input_samples - 2; i >= 0; i -= 2)
-                {
-                    tmp_output_buffer[i] = 0;
-                    tmp_output_buffer[i+1] = 0;
-                }
-                break;
-            }
+            SelectStereo(m_stereo, tmp_output_buffer, input_samples);
         }
 
         m_talking = true;
