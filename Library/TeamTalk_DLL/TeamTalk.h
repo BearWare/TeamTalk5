@@ -2978,6 +2978,18 @@ extern "C" {
          * properties and status information about the media file 
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
+        /**
+         * @brief Media file played locally is procesing.
+         *
+         * This event is called as a result of TT_InitLocalPlayback()
+         * to monitor progress of playback.
+         * @param nSource Session ID returned by TT_InitLocalPlayback()
+         * @param ttType #__MEDIAFILEINFO
+         * @param mediafileinfo Placed in union of #TTMessage. Contains
+         * properties and status information about the media file
+         * being played.
+         */
+         CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -3012,7 +3024,7 @@ extern "C" {
         __AUDIOFORMAT             = 26,
         __MEDIAFILEINFO           = 27,
         __CLIENTERRORMSG          = 28,
-        __TTBOOL                    = 29,
+        __TTBOOL                  = 29,
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,

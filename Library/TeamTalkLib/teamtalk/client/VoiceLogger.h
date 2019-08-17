@@ -146,16 +146,6 @@ namespace teamtalk {
 
     typedef std::shared_ptr< VoiceLog > voicelog_t;
 
-    enum MediaFileStatus
-    {
-        MFS_CLOSED      = 0,
-        MFS_ERROR       = 1,
-        MFS_STARTED     = 2,
-        MFS_FINISHED    = 3,
-        MFS_ABORTED     = 4,
-    };
-
-
     class VoiceLogListener
     {
     public:

@@ -74,9 +74,9 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
 enum MediaStreamStatus
 {
-    MEDIASTREAM_STARTED,
-    MEDIASTREAM_ERROR,
-    MEDIASTREAM_FINISHED
+    MEDIASTREAM_STARTED     = 1,
+    MEDIASTREAM_ERROR       = 2,
+    MEDIASTREAM_FINISHED    = 3,
 };
 
 class MediaStreamer;

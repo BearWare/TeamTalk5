@@ -3147,7 +3147,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
     GEN_NEXT_ID(m_mediaplayback_counter);
 
     mediaplayback_t playback;
-    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackComplete, this, _1),
+    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
                    m_mediaplayback_counter, soundsystem::GetInstance()));
     
     if (!playback)
@@ -3165,7 +3165,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
     switch(preprocessor.preprocessor)
     {
     case AUDIOPREPROCESSOR_NONE :
-        playback->MuteSound(false, false);
+        break;
     case AUDIOPREPROCESSOR_TEAMTALK :
         playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
         break;
@@ -3192,9 +3192,11 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
     {
     case AUDIOPREPROCESSOR_NONE:
         iplayback->second->MuteSound(false, false);
+        iplayback->second->SetGainLevel();
         break;
     case AUDIOPREPROCESSOR_TEAMTALK:
         iplayback->second->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        iplayback->second->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
         break;
     }
     return true;
@@ -3211,11 +3213,24 @@ bool ClientNode::StopMediaPlayback(int id)
     return true;
 }
 
-void ClientNode::MediaPlaybackComplete(int id)
+void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status)
 {
     GUARD_REACTOR(this);
 
-    m_mediaplayback_streams.erase(id);
+    switch (status)
+    {
+    case MEDIASTREAM_STARTED :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_STARTED);
+        break;
+    case MEDIASTREAM_ERROR :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
+        m_mediaplayback_streams.erase(id);
+        break;
+    case MEDIASTREAM_FINISHED :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
+        m_mediaplayback_streams.erase(id);
+        break;
+    }
 }
 
 bool ClientNode::InitVideoCapture(const ACE_TString& src_id,

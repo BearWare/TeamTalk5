@@ -23,16 +23,14 @@
 
 #include "MediaPlayback.h"
 
-#include <codec/MediaUtil.h>
-
 #include <cstring>
 
 #define PB_FRAMESIZE(samplerate) (samplerate * .1)
 
-MediaPlayback::MediaPlayback(mediaplayback_complete_t completionfunc,
+MediaPlayback::MediaPlayback(mediaplayback_status_t statusfunc,
                              int userdata,
                              soundsystem::SoundSystem* sndsys)
-    : m_completefunc(completionfunc)
+    : m_statusfunc(statusfunc)
     , m_userdata(userdata)
     , m_sndsys(sndsys)
 {
@@ -133,12 +131,11 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
     case MEDIASTREAM_ERROR :
     case MEDIASTREAM_FINISHED :
         m_sndsys->CloseOutputStream(this);
-
-        if (m_completefunc)
-            m_completefunc(m_userdata);
-
         break;
     }
+
+    if(m_statusfunc)
+        m_statusfunc(m_userdata, mfp, status);
 }
 
 bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
@@ -159,6 +156,8 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         media::AudioFrame frm(mb);
         assert(streamer.framesize == samples);
         std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
+
+        SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 
         if (streamer.channels == 2)
             SelectStereo(m_stereo, buffer, streamer.framesize);

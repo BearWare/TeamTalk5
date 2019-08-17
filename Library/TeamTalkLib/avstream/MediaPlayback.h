@@ -26,18 +26,20 @@
 
 #include "MediaStreamer.h"
 #include "SoundSystem.h"
+#include <codec/MediaUtil.h>
 
 #include <queue>
 #include <mutex>
 #include <memory>
 
-typedef std::function< void(int userdata) > mediaplayback_complete_t;
+typedef std::function< void(int userdata, const MediaFileProp& mfp,
+                            MediaStreamStatus status) > mediaplayback_status_t;
 
 class MediaPlayback : public MediaStreamListener
                     , public soundsystem::StreamPlayer
 {
 public:
-    MediaPlayback(mediaplayback_complete_t completionfunc, 
+    MediaPlayback(mediaplayback_status_t statusfunc,
                   int userdata,
                   soundsystem::SoundSystem* sndsys);
     ~MediaPlayback();
@@ -49,6 +51,7 @@ public:
     bool PlayMedia();
 
     void MuteSound(bool left, bool right);
+    void SetGainLevel(int gainlevel = GAIN_NORMAL) { m_gainlevel = gainlevel; }
 
     // MediaStreamListener
     bool MediaStreamVideoCallback(MediaStreamer* streamer,
@@ -70,8 +73,9 @@ public:
     
 private:
     media_streamer_t m_streamer;
-    mediaplayback_complete_t m_completefunc;
+    mediaplayback_status_t m_statusfunc;
     int m_userdata = 0;
+    int m_gainlevel = GAIN_NORMAL;
     soundsystem::SoundSystem* m_sndsys;
     std::queue<ACE_Message_Block*> m_audio_buffer;
     std::mutex m_mutex;

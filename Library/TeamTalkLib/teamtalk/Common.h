@@ -33,6 +33,7 @@
 
 #include <TeamTalkDefs.h>
 #include "PacketLayout.h"
+#include <codec/MediaUtil.h>
 
 namespace teamtalk {
 
@@ -435,10 +436,6 @@ namespace teamtalk {
         }
     };
 
-#define GAIN_MAX 32000
-#define GAIN_NORMAL 1000
-#define GAIN_MIN 0
-
     struct TTAudioPreprocessor
     {
         int gainlevel = GAIN_NORMAL;
@@ -639,6 +636,16 @@ namespace teamtalk {
     };
 
     int AFFToMP3Bitrate(AudioFileFormat aff);
+
+    /* Remember to updated DLL header file when modifying this */
+    enum MediaFileStatus
+    {
+        MFS_CLOSED = 0,
+        MFS_ERROR = 1,
+        MFS_STARTED = 2,
+        MFS_FINISHED = 3,
+        MFS_ABORTED = 4,
+    };
 
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */

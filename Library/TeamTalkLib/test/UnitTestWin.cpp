@@ -1162,9 +1162,20 @@ namespace UnitTest
             MediaFileProp inprop;
             Assert::IsTrue(GetMediaFileProp(filename, inprop));
 
-            MediaPlayback mpb([](int userdata)
+            MediaPlayback mpb([](int userdata, const MediaFileProp& mfp,
+                                 MediaStreamStatus status)
             {
-                Logger::WriteMessage(L"Media playback completed");
+                switch (status)
+                {
+                case MEDIASTREAM_STARTED :
+                    Logger::WriteMessage(L"Media playback started");
+                    break;
+                case MEDIASTREAM_ERROR:
+                    break;
+                case MEDIASTREAM_FINISHED:
+                    Logger::WriteMessage(L"Media playback completed");
+                    break;
+                }
             }, 13, soundsystem::GetInstance());
 
             Assert::IsTrue(mpb.OpenFile(filename), L"Load file");
@@ -1209,9 +1220,13 @@ namespace UnitTest
             Assert::IsTrue(nSessionID > 0);
 
             TTMessage msg;
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
             mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
             mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+            mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_MAX;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID, &mfp));
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
             TT_CloseTeamTalk(inst);

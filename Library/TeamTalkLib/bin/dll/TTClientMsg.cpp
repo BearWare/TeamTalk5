@@ -504,6 +504,17 @@ void TTMsgQueue::OnChannelStreamMediaFile(const MediaFileProp& mfp,
     EnqueueMsg(mb);
 }
 
+void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
+                                          teamtalk::MediaFileStatus status)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_LOCAL_MEDIAFILE,
+        sessionid, __MEDIAFILEINFO);
+    Convert(mfp, *msg->mediafileinfo);
+    msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    EnqueueMsg(mb);
+}
+
 void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamType stream_type)
 {
     ACE_Message_Block* mb;

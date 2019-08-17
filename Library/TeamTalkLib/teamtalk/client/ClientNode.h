@@ -349,7 +349,7 @@ namespace teamtalk {
                                  const AudioPreprocessor& preprocessor);
         bool StopMediaPlayback(int id);
 
-        void MediaPlaybackComplete(int id);
+        void MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status);
 
         //video capture
         bool InitVideoCapture(const ACE_TString& src_id,
@@ -770,6 +770,9 @@ namespace teamtalk {
         virtual void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input) = 0;
 
         virtual void OnChannelStreamMediaFile(const MediaFileProp& mfp,
+                                              MediaFileStatus status) = 0;
+
+        virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                               MediaFileStatus status) = 0;
 
         virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
