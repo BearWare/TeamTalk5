@@ -1222,6 +1222,7 @@ namespace UnitTest
             TTMessage msg;
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(std::wstring(msg.mediafileinfo.szFileName), std::wstring(filename));
 
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
             mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
@@ -1229,6 +1230,21 @@ namespace UnitTest
             mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_MAX;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID, &mfp));
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            auto filename2 = L"C:\\Temp\\giana_10sec.wma";
+
+            MediaFilePlayback mfp2 = {};
+            mfp2.bPaused = FALSE;
+            mfp2.uOffsetMSec = 0;
+            INT32 nSessionID2 = TT_InitLocalPlayback(inst, filename2, &mfp2);
+            Assert::IsTrue(nSessionID2 > 0);
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 12000));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
             TT_CloseTeamTalk(inst);
         }
 
