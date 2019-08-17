@@ -26,6 +26,7 @@
 
 #include "MediaStreamer.h"
 #include "SoundSystem.h"
+#include "AudioResampler.h"
 #include <codec/MediaUtil.h>
 
 #include <queue>
@@ -77,6 +78,7 @@ private:
     int m_userdata = 0;
     int m_gainlevel = GAIN_NORMAL;
     soundsystem::SoundSystem* m_sndsys;
+    audio_resampler_t m_resampler;
     std::queue<ACE_Message_Block*> m_audio_buffer;
     std::mutex m_mutex;
     StereoMask m_stereo = STEREO_BOTH;

@@ -33,6 +33,9 @@
 #include "FFMpeg3Resampler.h"
 #endif
 
+#include <myace/MyACE.h>
+#include <assert.h>
+
 #define ZERO_IT 0
 
 int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate)
@@ -70,6 +73,31 @@ void AudioResampler::FillOutput(int channels, short* output_samples,
     }
 }
 
+void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
+                                         const media::AudioFormat& outformat,
+                                         int input_samples_size)
+{
+    assert(informat.IsValid());
+    assert(outformat.IsValid());
+    int output_samples_size = CalcSamples(informat.samplerate, input_samples_size, outformat.samplerate);
+    m_resampleoutput.resize(output_samples_size * outformat.channels);
+
+    m_input_samples_size = input_samples_size;
+    m_output_samples_size = output_samples_size;
+}
+
+short* AudioResampler::Resample(const short* input_samples, int* output_samples_size /*= nullptr*/)
+{
+    int outsamples = Resample(input_samples, m_input_samples_size, &m_resampleoutput[0], m_output_samples_size);
+    *output_samples_size = m_output_samples_size;
+    return &m_resampleoutput[0];
+}
+
+int AudioResampler::Resample(const short* input_samples, short* output_samples)
+{
+    int outsamples = Resample(input_samples, m_input_samples_size, output_samples, m_output_samples_size);
+    return outsamples;
+}
 
 audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate, 
                                      int output_channels, int output_samplerate)
@@ -117,3 +145,18 @@ audio_resampler_t MakeAudioResampler(int input_channels, int input_samplerate,
     return resampler;
 }
 
+audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
+                                     const media::AudioFormat& outformat,
+                                     int input_samples_size)
+{
+    assert(informat.IsValid());
+    assert(outformat.IsValid());
+
+    if (!informat.IsValid() || !outformat.IsValid())
+        return audio_resampler_t();
+
+    auto resampler = MakeAudioResampler(informat.channels, informat.samplerate,
+                                        outformat.channels, outformat.samplerate);
+    resampler->SetupFixedFrameSize(informat, outformat, input_samples_size);
+    return resampler;
+}

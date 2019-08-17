@@ -1181,7 +1181,7 @@ namespace UnitTest
             Assert::IsTrue(mpb.OpenFile(filename), L"Load file");
 
             INT32 nInputDeviceID, nOutputDeviceID;
-            Assert::IsTrue(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
 
             int sndgrpid = soundsystem::GetInstance()->OpenSoundGroup();
             Assert::IsTrue(mpb.OpenSoundSystem(sndgrpid, nOutputDeviceID), L"Open sound system");
@@ -1204,7 +1204,7 @@ namespace UnitTest
             auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
 
             INT32 nInputDeviceID, nOutputDeviceID;
-            Assert::IsTrue(TT_GetDefaultSoundDevicesEx(SOUNDSYSTEM_DSOUND, &nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
 
             Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
 

@@ -24,6 +24,7 @@
 #include "MediaPlayback.h"
 
 #include <cstring>
+#include <algorithm>
 
 #define PB_FRAMESIZE(samplerate) (samplerate * .1)
 
@@ -58,7 +59,7 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     if (!GetMediaFileProp(filename, inprop))
         return false;
 
-    MediaStreamOutput outprop(inprop.audio, PB_FRAMESIZE(inprop.audio.samplerate),
+    MediaStreamOutput outprop(inprop.audio, int(PB_FRAMESIZE(inprop.audio.samplerate)),
                               inprop.video);
 
     m_streamer = MakeMediaStreamer(this);
@@ -78,9 +79,25 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid)
     if (!inprop.HasAudio())
         return false;
 
+    if (!m_sndsys->SupportsOutputFormat(outputdeviceid, inprop.audio.channels, inprop.audio.samplerate))
+    {
+        soundsystem::DeviceInfo devinfo;
+        if (!m_sndsys->GetDevice(outputdeviceid, devinfo))
+            return false;
+        
+        int inframesize = int(PB_FRAMESIZE(inprop.audio.samplerate));
+        int outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
+                                       devinfo.default_samplerate);
+        int outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
+        media::AudioFormat outformat(devinfo.default_samplerate, outchannels);
+        m_resampler = MakeAudioResampler(inprop.audio, outformat, inframesize);
+        return m_sndsys->OpenOutputStream(this, outputdeviceid, sndgrpid,
+                                          devinfo.default_samplerate, outchannels, outframesize);
+    }
+
     return m_sndsys->OpenOutputStream(this, outputdeviceid, sndgrpid,
                                       inprop.audio.samplerate, inprop.audio.channels,
-                                      PB_FRAMESIZE(inprop.audio.samplerate));
+                                      int(PB_FRAMESIZE(inprop.audio.samplerate)));
 }
 
 bool MediaPlayback::PlayMedia()
@@ -154,8 +171,17 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     {
         MBGuard gmb(mb);
         media::AudioFrame frm(mb);
-        assert(streamer.framesize == samples);
-        std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
+
+        if (m_resampler)
+        {
+            int n_resampled = m_resampler->Resample(frm.input_buffer, buffer);
+            assert(n_resampled <= samples);
+        }
+        else
+        {
+            assert(streamer.framesize == samples);
+            std::memcpy(buffer, frm.input_buffer, PCM16_BYTES(streamer.channels, streamer.framesize));
+        }
 
         SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 

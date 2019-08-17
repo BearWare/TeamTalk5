@@ -24,8 +24,8 @@
 #ifndef AUDIORESAMPLER_H
 #define AUDIORESAMPLER_H
 
-#include <myace/MyACE.h>
 #include <memory>
+#include <codec/MediaUtil.h>
 
 //with a callback of 'src_samples' and sample rate of
 //'src_samplerate', how many samples should be provided given a
@@ -37,13 +37,24 @@ class AudioResampler
 public:
     virtual ~AudioResampler() {}
 
+    // resample with varying 'input_sample_size'
     virtual int Resample(const short* input_samples, int input_samples_size,
                          short* output_samples, int output_samples_size) = 0;
 
+    // resample with fixed 'input_sample_size'. Returns 'm_resampleoutput'
+    short* Resample(const short* input_samples, int* output_samples_size = nullptr);
+    int Resample(const short* input_samples, short* output_samples);
+
+    void SetupFixedFrameSize(const media::AudioFormat& informat,
+                             const media::AudioFormat& outformat,
+                             int input_samples_size);
 protected:
     void FillOutput(int channels, short* output_samples,
                     int output_samples_written,
                     int output_samples_total);
+private:
+    std::vector<short> m_resampleoutput;
+    int m_input_samples_size = 0, m_output_samples_size = 0;
 };
 
 typedef std::shared_ptr< AudioResampler > audio_resampler_t;
@@ -52,5 +63,9 @@ audio_resampler_t MakeAudioResampler(int input_channels,
                                      int input_samplerate, 
                                      int output_channels, 
                                      int output_samplerate);
+
+audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
+                                     const media::AudioFormat& outformat,
+                                     int input_samples_size);
 
 #endif
