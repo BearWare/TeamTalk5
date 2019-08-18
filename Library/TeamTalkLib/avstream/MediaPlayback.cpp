@@ -70,7 +70,7 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     return false;
 }
 
-bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid)
+bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speexdsp /*= false*/)
 {
     if (!m_streamer)
         return false;
@@ -79,25 +79,46 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid)
     if (!inprop.HasAudio())
         return false;
 
+    int inframesize = int(PB_FRAMESIZE(inprop.audio.samplerate));
+    int outframesize = inframesize;
+    media::AudioFormat outformat(inprop.audio.samplerate, inprop.audio.channels);
+
     if (!m_sndsys->SupportsOutputFormat(outputdeviceid, inprop.audio.channels, inprop.audio.samplerate))
     {
         soundsystem::DeviceInfo devinfo;
         if (!m_sndsys->GetDevice(outputdeviceid, devinfo))
             return false;
         
-        int inframesize = int(PB_FRAMESIZE(inprop.audio.samplerate));
-        int outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
-                                       devinfo.default_samplerate);
+        outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
+                                   devinfo.default_samplerate);
         int outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
-        media::AudioFormat outformat(devinfo.default_samplerate, outchannels);
+        outformat = media::AudioFormat(devinfo.default_samplerate, outchannels);
+
         m_resampler = MakeAudioResampler(inprop.audio, outformat, inframesize);
-        return m_sndsys->OpenOutputStream(this, outputdeviceid, sndgrpid,
-                                          devinfo.default_samplerate, outchannels, outframesize);
     }
 
+#if defined(ENABLE_SPEEXDSP)
+    if (speexdsp)
+    {
+        m_preprocess_left.reset(new SpeexPreprocess());
+        if (!m_preprocess_left->Initialize(outformat.samplerate, outframesize))
+            return false;
+
+        m_preprocess_left->EnableDenoise(false);
+
+        if (outformat.channels == 2)
+        {
+            m_preprocess_right.reset(new SpeexPreprocess());
+            if(!m_preprocess_right->Initialize(outformat.samplerate, outframesize))
+                return false;
+
+            m_preprocess_right->EnableDenoise(false);
+        }
+    }
+#endif
+
     return m_sndsys->OpenOutputStream(this, outputdeviceid, sndgrpid,
-                                      inprop.audio.samplerate, inprop.audio.channels,
-                                      int(PB_FRAMESIZE(inprop.audio.samplerate)));
+                                      outformat.samplerate, outformat.channels, outframesize);
 }
 
 bool MediaPlayback::PlayMedia()
@@ -112,6 +133,27 @@ void MediaPlayback::MuteSound(bool leftchannel, bool rightchannel)
 {
     m_stereo = ToStereoMask(leftchannel, rightchannel);
 }
+
+#if defined(ENABLE_SPEEXDSP)
+bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
+                                         bool enabledenoise, int denoisesuppress)
+{
+    if (!m_preprocess_left)
+        return false;
+
+    m_preprocess_left->EnableAGC(enableagc);
+    m_preprocess_left->SetAGCSettings(agc);
+    m_preprocess_left->EnableDenoise(enabledenoise);
+    m_preprocess_left->SetDenoiseLevel(denoisesuppress);
+    if (m_preprocess_right)
+    {
+        m_preprocess_right->EnableAGC(enableagc);
+        m_preprocess_right->SetAGCSettings(agc);
+        m_preprocess_right->EnableDenoise(enabledenoise);
+        m_preprocess_right->SetDenoiseLevel(denoisesuppress);
+    }
+}
+#endif
 
 bool MediaPlayback::MediaStreamVideoCallback(MediaStreamer* streamer,
                                              media::VideoFrame& video_frame,
@@ -185,6 +227,31 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
         SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 
+#if defined(ENABLE_SPEEXDSP)
+        if (m_preprocess_left && streamer.channels == 1)
+        {
+            if (m_preprocess_left->IsDenoising() || m_preprocess_left->IsAGC())
+                m_preprocess_left->Preprocess(buffer);
+        }
+        else if (streamer.channels == 2 && m_preprocess_left)
+        {
+            assert(m_preprocess_right);
+            assert(m_preprocess_left->IsDenoising() == m_preprocess_right->IsDenoising());
+            assert(m_preprocess_left->IsAGC() == m_preprocess_right->IsAGC());
+
+            if(m_preprocess_left->IsDenoising() || m_preprocess_left->IsAGC())
+            {
+                std::vector<short> in_leftchan(streamer.framesize), in_rightchan(streamer.framesize);
+                SplitStereo(buffer, streamer.framesize, in_leftchan, in_rightchan);
+
+                m_preprocess_left->Preprocess(&in_leftchan[0]); //denoise, AGC, etc
+                m_preprocess_right->Preprocess(&in_rightchan[0]); //denoise, AGC, etc
+                MergeStereo(in_leftchan, in_rightchan, buffer, streamer.framesize);
+            }
+        }
+#endif
+
+        // mute left or right speaker (if enabled)
         if (streamer.channels == 2)
             SelectStereo(m_stereo, buffer, streamer.framesize);
     }

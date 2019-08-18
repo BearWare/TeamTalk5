@@ -1234,6 +1234,7 @@ namespace UnitTest
             auto filename2 = L"C:\\Temp\\giana_10sec.wma";
 
             MediaFilePlayback mfp2 = {};
+            mfp2.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
             mfp2.bPaused = FALSE;
             mfp2.uOffsetMSec = 0;
             INT32 nSessionID2 = TT_InitLocalPlayback(inst, filename2, &mfp2);
@@ -1244,6 +1245,49 @@ namespace UnitTest
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 12000));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
+            TT_CloseTeamTalk(inst);
+        }
+
+        TEST_METHOD(TestMediaPlaybackSpeexDSP)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename3 = L"C:\\Temp\\darwin2_8khz.wav";
+            MediaFilePlayback mfp3 = {};
+            mfp3.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+            mfp3.audioPreprocessor.speexdsp.bEnableDenoise = TRUE;
+            mfp3.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB = -30;
+            mfp3.audioPreprocessor.speexdsp.bEnableAGC = TRUE;
+            mfp3.audioPreprocessor.speexdsp.nGainLevel = 8000;
+            mfp3.audioPreprocessor.speexdsp.nMaxGainDB = 30;
+            mfp3.audioPreprocessor.speexdsp.nMaxIncDBSec = 12;
+            mfp3.audioPreprocessor.speexdsp.nMaxDecDBSec = -40;
+            mfp3.bPaused = FALSE;
+            mfp3.uOffsetMSec = 0;
+            INT32 nSessionID3 = TT_InitLocalPlayback(inst, filename3, &mfp3);
+            Assert::IsTrue(nSessionID3 > 0);
+
+            TTMessage msg;
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            Logger::WriteMessage(L"Enabling gain");
+            mfp3.audioPreprocessor.speexdsp.nGainLevel = 32000;
+            mfp3.audioPreprocessor.speexdsp.nMaxGainDB = 40;
+            mfp3.audioPreprocessor.speexdsp.nMaxIncDBSec = 30;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            Assert::IsTrue(TT_StopLocalPlayback(inst, nSessionID3));
 
             TT_CloseTeamTalk(inst);
         }

@@ -3162,7 +3162,9 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 
     if (m_soundprop.soundgroupid && m_soundprop.outputdeviceid != SOUNDDEVICE_IGNORE_ID)
     {
-        if (!playback->OpenSoundSystem(m_soundprop.soundgroupid, m_soundprop.outputdeviceid))
+        if (!playback->OpenSoundSystem(m_soundprop.soundgroupid,
+                                       m_soundprop.outputdeviceid,
+                                       preprocessor.preprocessor == AUDIOPREPROCESSOR_SPEEXDSP))
             return 0;
     }
 
@@ -3172,6 +3174,17 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
         break;
     case AUDIOPREPROCESSOR_TEAMTALK :
         playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        break;
+    case AUDIOPREPROCESSOR_SPEEXDSP :
+#if defined(ENABLE_SPEEXDSP)
+        SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
+                     preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
+
+        if (!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
+                                            preprocessor.speexdsp.enable_denoise,
+                                            preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
         break;
     }
 
@@ -3201,6 +3214,17 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
     case AUDIOPREPROCESSOR_TEAMTALK:
         iplayback->second->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
         iplayback->second->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
+        break;
+    case AUDIOPREPROCESSOR_SPEEXDSP:
+#if defined(ENABLE_SPEEXDSP)
+        SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
+                     preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
+
+        if(!iplayback->second->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
+                                                    preprocessor.speexdsp.enable_denoise,
+                                                    preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
         break;
     }
     return true;

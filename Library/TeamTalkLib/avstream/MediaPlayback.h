@@ -28,6 +28,9 @@
 #include "SoundSystem.h"
 #include "AudioResampler.h"
 #include <codec/MediaUtil.h>
+#if defined(ENABLE_SPEEXDSP)
+#include "SpeexPreprocess.h"
+#endif
 
 #include <queue>
 #include <mutex>
@@ -47,12 +50,18 @@ public:
     
     bool OpenFile(const ACE_TString& filename);
 
-    bool OpenSoundSystem(int sndgrpid, int outputdeviceid);
+    bool OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speexdsp = false);
 
     bool PlayMedia();
 
+    // required by TeamTalkAudioPreprocessor
     void MuteSound(bool left, bool right);
     void SetGainLevel(int gainlevel = GAIN_NORMAL) { m_gainlevel = gainlevel; }
+
+#if defined(ENABLE_SPEEXDSP)
+    bool SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
+                              bool enabledenoise, int denoisesuppress);
+#endif
 
     // MediaStreamListener
     bool MediaStreamVideoCallback(MediaStreamer* streamer,
@@ -82,6 +91,10 @@ private:
     std::queue<ACE_Message_Block*> m_audio_buffer;
     std::mutex m_mutex;
     StereoMask m_stereo = STEREO_BOTH;
+#if defined(ENABLE_SPEEXDSP)
+    std::shared_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
+#endif
+
 };
 
 typedef std::shared_ptr<MediaPlayback> mediaplayback_t;
