@@ -6365,6 +6365,9 @@ extern "C" {
                                                     IN StreamTypes uStreamTypes,
                                                     IN INT32 nFrequency);
 
+    TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+                                                     IN INT32 nFrequency);
+
 #if defined(WIN32) /* Exclude mixer and firewall functions from
                     * non-Windows platforms */
 

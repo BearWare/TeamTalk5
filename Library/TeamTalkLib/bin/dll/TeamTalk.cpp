@@ -3125,6 +3125,49 @@ TEAMTALKDLL_API TTBOOL TT_DBG_SetSoundInputTone(IN TTInstance* lpTTInstance,
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileInfo,
+                                                 IN INT32 nFrequency)
+{
+    double duration = lpMediaFileInfo->uDurationMSec;
+    duration /= 1000;
+    double samples = lpMediaFileInfo->audioFmt.nSampleRate * duration;
+
+    int totalsamples_persec = lpMediaFileInfo->audioFmt.nSampleRate * lpMediaFileInfo->audioFmt.nChannels;
+    std::vector<short> buffer(totalsamples_persec);
+
+    media::AudioFormat fmt(lpMediaFileInfo->audioFmt.nSampleRate, lpMediaFileInfo->audioFmt.nChannels);
+
+    // for now only wave-files are supported
+    switch (lpMediaFileInfo->audioFmt.nAudioFmt)
+    {
+    case AFF_WAVE_FORMAT :
+        break;
+    case AFF_CHANNELCODEC_FORMAT :
+    case AFF_MP3_16KBIT_FORMAT :
+    case AFF_MP3_32KBIT_FORMAT :
+    case AFF_MP3_64KBIT_FORMAT :
+    case AFF_MP3_128KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT :
+        return FALSE;
+    }
+
+    WavePCMFile wavefile;
+    if (!wavefile.NewFile(lpMediaFileInfo->szFileName, fmt.samplerate, fmt.channels))
+        return FALSE;
+    
+    int sampleindex = 0;
+    while(samples > 0)
+    {
+        int remain = (samples >= lpMediaFileInfo->audioFmt.nSampleRate)? lpMediaFileInfo->audioFmt.nSampleRate : int(samples);
+        media::AudioFrame frm(fmt, &buffer[0], remain);
+        sampleindex = GenerateTone(frm, sampleindex, nFrequency);
+        samples -= remain;
+        if (!wavefile.AppendSamples(frm.input_buffer, frm.input_samples))
+            return FALSE;
+    }
+    
+    return TRUE;
+}
 
 TEAMTALKDLL_API TTBOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
                                           IN INT32 nChannelID, 
