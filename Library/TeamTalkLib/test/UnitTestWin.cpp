@@ -1258,7 +1258,15 @@ namespace UnitTest
 
             Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
 
-            auto filename3 = L"C:\\Temp\\darwin2_8khz.wav";
+            auto filename3 = L"tone_8khz.wav";
+            MediaFileInfo mfi = {};
+            wcsncpy(mfi.szFileName, filename3, TT_STRLEN);
+            mfi.uDurationMSec = 60 * 1000;
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nSampleRate = 8000;
+            Assert::IsTrue(TT_DBG_WriteAudioFileTone(&mfi, 700));
+
             MediaFilePlayback mfp3 = {};
             mfp3.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
             mfp3.audioPreprocessor.speexdsp.bEnableDenoise = TRUE;
