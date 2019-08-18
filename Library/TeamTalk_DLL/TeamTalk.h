@@ -1019,7 +1019,7 @@ extern "C" {
     } TTAudioPreprocessor;
 
 
-    /** @brief The types of support audio preprocessors.
+    /** @brief The types of supported audio preprocessors.
      *
      * @see TT_InitLocalPlayback() */
     typedef enum AudioPreprocessorType
