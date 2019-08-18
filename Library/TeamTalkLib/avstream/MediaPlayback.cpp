@@ -152,6 +152,7 @@ bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
         m_preprocess_right->EnableDenoise(enabledenoise);
         m_preprocess_right->SetDenoiseLevel(denoisesuppress);
     }
+    return true;
 }
 #endif
 

@@ -697,14 +697,14 @@ namespace soundsystem {
                                                  newsndgrpid,
                                                  snddev.default_samplerate,
                                                  snddev.max_input_channels,
-                                                 snddev.default_samplerate * 0.04);
+                                                 int(snddev.default_samplerate * 0.04));
                 else
                     orgstream = NewStream(sharedstream.get(),
                                           snddev.id & SOUND_DEVICEID_MASK,
                                           newsndgrpid,
                                           snddev.default_samplerate,
                                           snddev.max_input_channels,
-                                          snddev.default_samplerate * 0.04);
+                                          int(snddev.default_samplerate * 0.04));
 
                 if (!orgstream)
                     return inputstreamer_t();
