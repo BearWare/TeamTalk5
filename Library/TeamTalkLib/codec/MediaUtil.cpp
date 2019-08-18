@@ -49,6 +49,40 @@ void MergeStereo(const std::vector<short>& left_chan,
         output_buffer[i*2+1] = right_chan[i];
 }
 
+void SelectStereo(StereoMask stereo, short* buffer, int samples)
+{
+    switch(stereo)
+    {
+    case STEREO_BOTH:
+        break;
+    case STEREO_LEFT:
+        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+            buffer[i + 1] = 0;
+        break;
+    case STEREO_RIGHT:
+        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+            buffer[i] = 0;
+        break;
+    case STEREO_NONE:
+        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+        {
+            buffer[i] = 0;
+            buffer[i + 1] = 0;
+        }
+        break;
+    }
+}
+
+StereoMask ToStereoMask(bool muteleft, bool muteright)
+{
+    StereoMask stereo = STEREO_BOTH;
+    if(muteleft)
+        stereo &= ~STEREO_LEFT;
+    if(muteright)
+        stereo &= ~STEREO_RIGHT;
+    return stereo;
+}
+
 ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type)
 {

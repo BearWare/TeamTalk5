@@ -119,6 +119,7 @@ ClientNode::~ClientNode()
         CloseSoundInputDevice();
         CloseSoundOutputDevice();
         CloseSoundDuplexDevices();
+        m_mediaplayback_streams.clear(); //clear all players before removing sound group
     }
 
     audiomuxer().StopThread();
@@ -721,6 +722,10 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ret = -1;
     }
     break;
+    case USER_TIMER_REMOVE_LOCALPLAYBACK :
+        m_mediaplayback_streams.erase(userdata);
+        ret = -1;
+        break;
     default:
         TTASSERT(0);
         ret = -1;
@@ -3135,6 +3140,130 @@ void ClientNode::StopStreamingMediaFile()
     {
         m_audiofile_thread.StopEncoder();
         m_flags &= ~CLIENT_STREAM_AUDIOFILE;
+    }
+}
+
+int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, bool paused, 
+                                  const AudioPreprocessor& preprocessor)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    GEN_NEXT_ID(m_mediaplayback_counter);
+
+    mediaplayback_t playback;
+    playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
+                   m_mediaplayback_counter, soundsystem::GetInstance()));
+    
+    if (!playback)
+        return 0;
+
+    if(!playback->OpenFile(filename))
+        return 0;
+
+    if (m_soundprop.soundgroupid && m_soundprop.outputdeviceid != SOUNDDEVICE_IGNORE_ID)
+    {
+        if (!playback->OpenSoundSystem(m_soundprop.soundgroupid,
+                                       m_soundprop.outputdeviceid,
+                                       preprocessor.preprocessor == AUDIOPREPROCESSOR_SPEEXDSP))
+            return 0;
+    }
+
+    switch(preprocessor.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE :
+        break;
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        break;
+    case AUDIOPREPROCESSOR_SPEEXDSP :
+#if defined(ENABLE_SPEEXDSP)
+        SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
+                     preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
+
+        if (!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
+                                            preprocessor.speexdsp.enable_denoise,
+                                            preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
+        break;
+    }
+
+    m_mediaplayback_streams[m_mediaplayback_counter] = playback;
+
+    if (!paused)
+        playback->PlayMedia();
+
+    return true;
+}
+
+bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
+                                     const AudioPreprocessor& preprocessor)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    auto iplayback = m_mediaplayback_streams.find(id);
+    if (iplayback == m_mediaplayback_streams.end())
+        return false;
+
+    switch(preprocessor.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE:
+        iplayback->second->MuteSound(false, false);
+        iplayback->second->SetGainLevel();
+        break;
+    case AUDIOPREPROCESSOR_TEAMTALK:
+        iplayback->second->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        iplayback->second->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
+        break;
+    case AUDIOPREPROCESSOR_SPEEXDSP:
+#if defined(ENABLE_SPEEXDSP)
+        SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
+                     preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
+
+        if(!iplayback->second->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
+                                                    preprocessor.speexdsp.enable_denoise,
+                                                    preprocessor.speexdsp.maxnoisesuppressdb))
+            return false;
+#endif
+        break;
+    }
+    return true;
+}
+
+bool ClientNode::StopMediaPlayback(int id)
+{
+    ASSERT_REACTOR_LOCKED(this);
+    auto iplayback = m_mediaplayback_streams.find(id);
+    if(iplayback == m_mediaplayback_streams.end())
+        return false;
+
+    m_mediaplayback_streams.erase(iplayback);
+    return true;
+}
+
+void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status)
+{
+    switch (status)
+    {
+    case MEDIASTREAM_STARTED :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_STARTED);
+        break;
+    case MEDIASTREAM_ERROR :
+    {
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
+        // issue playback destroy message
+        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, 0, id, ACE_Time_Value::zero);
+        TTASSERT(ret >= 0);
+        break;
+    }
+    case MEDIASTREAM_FINISHED :
+    {
+        // issue playback destroy message
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
+        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, 0, id, ACE_Time_Value::zero);
+        TTASSERT(ret >= 0);
+        break;
+    }
     }
 }
 

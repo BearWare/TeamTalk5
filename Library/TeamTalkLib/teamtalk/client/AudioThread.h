@@ -42,10 +42,6 @@
 
 #include <memory>
 
-#define GAIN_MAX 32000
-#define GAIN_NORMAL 1000
-#define GAIN_MIN 0
-
 typedef std::function< void (const teamtalk::AudioCodec& codec,
                              const char* enc_data, int enc_len,
                              const std::vector<int>& enc_frame_sizes,

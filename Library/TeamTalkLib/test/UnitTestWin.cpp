@@ -10,6 +10,7 @@
 #include <avstream/LibVidCap.h>
 #endif
 
+#include <avstream/MediaPlayback.h>
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -1056,41 +1057,6 @@ namespace UnitTest
 
         }
 
-#define DEFWAIT 5000
-
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            auto start = GETTIMESTAMP();
-            while (GETTIMESTAMP() < start + timeout)
-            {
-                INT32 waitMsec = 10;
-                if (TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
-                    outmsg.nClientEvent == ttevent &&
-                    pred(outmsg))
-                    return true;
-            }
-            return false;
-        }
-
-        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, ttevent, [] (TTMessage) { return true; }, outmsg, timeout);
-        }
-
-        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid;
-            }, outmsg, timeout);
-        }
-
-        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
-        {
-            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
-                return msg.nSource == cmdid && !msg.bActive;
-            }, outmsg, timeout);
-        }
-
         TEST_METHOD(TestSSL)
         {
             bool started = false, stop = false;
@@ -1186,5 +1152,178 @@ namespace UnitTest
             serverthread.join();
         }
 #endif
+#define DEFWAIT 5000
+
+        TEST_METHOD(TestMediaPlayback)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            auto filename = L"C:\\Temp\\Music.wav";
+            MediaFileProp inprop;
+            Assert::IsTrue(GetMediaFileProp(filename, inprop));
+
+            MediaPlayback mpb([](int userdata, const MediaFileProp& mfp,
+                                 MediaStreamStatus status)
+            {
+                switch (status)
+                {
+                case MEDIASTREAM_STARTED :
+                    Logger::WriteMessage(L"Media playback started");
+                    break;
+                case MEDIASTREAM_ERROR:
+                    break;
+                case MEDIASTREAM_FINISHED:
+                    Logger::WriteMessage(L"Media playback completed");
+                    break;
+                }
+            }, 13, soundsystem::GetInstance());
+
+            Assert::IsTrue(mpb.OpenFile(filename), L"Load file");
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            int sndgrpid = soundsystem::GetInstance()->OpenSoundGroup();
+            Assert::IsTrue(mpb.OpenSoundSystem(sndgrpid, nOutputDeviceID), L"Open sound system");
+
+            Assert::IsTrue(mpb.PlayMedia());
+            TTMessage msg;
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(true, false);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(false, true);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mpb.MuteSound(false, false);
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            TT_CloseTeamTalk(inst);
+        }
+
+        TEST_METHOD(TestMediaPlaybackAPI)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename = L"C:\\Temp\\Music.wav";
+            MediaFilePlayback mfp = {};
+            mfp.bPaused = FALSE;
+            mfp.uOffsetMSec = 0;
+            mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = FALSE;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = TRUE;
+            mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
+            INT32 nSessionID = TT_InitLocalPlayback(inst, filename, &mfp);
+            Assert::IsTrue(nSessionID > 0);
+
+            TTMessage msg;
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(std::wstring(msg.mediafileinfo.szFileName), std::wstring(filename));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+            mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
+            mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+            mfp.audioPreprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_MAX;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID, &mfp));
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            auto filename2 = L"C:\\Temp\\giana_10sec.wma";
+
+            MediaFilePlayback mfp2 = {};
+            mfp2.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+            mfp2.bPaused = FALSE;
+            mfp2.uOffsetMSec = 0;
+            INT32 nSessionID2 = TT_InitLocalPlayback(inst, filename2, &mfp2);
+            Assert::IsTrue(nSessionID2 > 0);
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 12000));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
+            TT_CloseTeamTalk(inst);
+        }
+
+        TEST_METHOD(TestMediaPlaybackSpeexDSP)
+        {
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename3 = L"C:\\Temp\\darwin2_8khz.wav";
+            MediaFilePlayback mfp3 = {};
+            mfp3.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+            mfp3.audioPreprocessor.speexdsp.bEnableDenoise = TRUE;
+            mfp3.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB = -30;
+            mfp3.audioPreprocessor.speexdsp.bEnableAGC = TRUE;
+            mfp3.audioPreprocessor.speexdsp.nGainLevel = 8000;
+            mfp3.audioPreprocessor.speexdsp.nMaxGainDB = 30;
+            mfp3.audioPreprocessor.speexdsp.nMaxIncDBSec = 12;
+            mfp3.audioPreprocessor.speexdsp.nMaxDecDBSec = -40;
+            mfp3.bPaused = FALSE;
+            mfp3.uOffsetMSec = 0;
+            INT32 nSessionID3 = TT_InitLocalPlayback(inst, filename3, &mfp3);
+            Assert::IsTrue(nSessionID3 > 0);
+
+            TTMessage msg;
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            Logger::WriteMessage(L"Enabling gain");
+            mfp3.audioPreprocessor.speexdsp.nGainLevel = 32000;
+            mfp3.audioPreprocessor.speexdsp.nMaxGainDB = 40;
+            mfp3.audioPreprocessor.speexdsp.nMaxIncDBSec = 30;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            Assert::IsTrue(TT_StopLocalPlayback(inst, nSessionID3));
+
+            TT_CloseTeamTalk(inst);
+        }
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            auto start = GETTIMESTAMP();
+            while(GETTIMESTAMP() < start + timeout)
+            {
+                INT32 waitMsec = 10;
+                if(TT_GetMessage(ttClient, &outmsg, &waitMsec) &&
+                    outmsg.nClientEvent == ttevent &&
+                    pred(outmsg))
+                    return true;
+            }
+            return false;
+        }
+
+        bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, ttevent, [](TTMessage) { return true; }, outmsg, timeout);
+        }
+
+        bool WaitForCmdSuccess(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_SUCCESS, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid;
+            }, outmsg, timeout);
+        }
+
+        bool WaitForCmdComplete(TTInstance* ttClient, int cmdid, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
+        {
+            return WaitForEvent(ttClient, CLIENTEVENT_CMD_PROCESSING, [cmdid](TTMessage msg) {
+                return msg.nSource == cmdid && !msg.bActive;
+            }, outmsg, timeout);
+        }
+
     };
 }

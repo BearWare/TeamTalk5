@@ -679,26 +679,6 @@ extern "C" {
         INT32 nVideoFormatsCount; 
     } VideoCaptureDevice;
 
-    /**
-     * @brief Struct describing the audio and video format used by a
-     * media file.
-     *
-     * @see TT_GetMediaFile() */
-    typedef struct MediaFileInfo
-    {
-        /** @brief Status of media file if it's being saved to
-         * disk. */
-        MediaFileStatus nStatus;
-        /** @brief Name of file. */
-        TTCHAR szFileName[TT_STRLEN];
-        /** @brief The audio properties of the media file. */
-        AudioFormat audioFmt;
-        /** @brief The video properties of the media file. */
-        VideoFormat videoFmt;
-        /** @brief The duration of the media file in miliseconds. */
-        UINT32 uDurationMSec;
-    } MediaFileInfo;
-
     /** @} */
 
     /** @addtogroup desktopshare
@@ -1024,6 +1004,49 @@ extern "C" {
         INT32 nEchoSuppressActive;
     } SpeexDSP;
 
+    /** @brief Use TeamTalk's internal audio preprocessor for gain
+     * audio. Same as used for TT_SetSoundInputGainLevel(). */
+    typedef struct TTAudioPreprocessor
+    {
+        /** @brief Gain level between #SOUND_GAIN_MIN and
+         * #SOUND_GAIN_MAX. Default is #SOUND_GAIN_DEFAULT (no
+         * gain). */
+        INT32 nGainLevel;
+        /** @brief Whether to mute left speaker in stereo playback. */
+        TTBOOL bMuteLeftSpeaker;
+        /** @brief Whether to mute right speaker in stereo playback. */
+        TTBOOL bMuteRightSpeaker;
+    } TTAudioPreprocessor;
+
+
+    /** @brief The types of supported audio preprocessors.
+     *
+     * @see TT_InitLocalPlayback() */
+    typedef enum AudioPreprocessorType
+    {
+        /** @brief Value for specifying that no audio preprocessing
+         * should occur. */
+        NO_AUDIOPREPROCESSOR        = 0,
+        /** @brief Use the #SpeexDSP audio preprocessor. */
+        SPEEXDSP_AUDIOPREPROCESSOR  = 1,
+        /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
+        TEAMTALK_AUDIOPREPROCESSOR  = 2,
+    } AudioPreprocessorType;
+
+    /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
+    typedef struct AudioPreprocessor
+    {
+        /** @brief The audio preprocessor to use in the union of audio preprocessors. */
+        AudioPreprocessorType nPreprocessor;
+        union
+        {
+            /** @brief Used when @c nPreprocessor is #SPEEXDSP_AUDIOPREPROCESSOR. */
+            SpeexDSP speexdsp;
+            /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
+            TTAudioPreprocessor ttpreprocessor;
+        };
+    } AudioPreprocessor;
+    
     /** @brief WebM video codec settings. 
      * @see VideoCodec
      * @see TT_InitVideoCaptureDevice
@@ -1136,6 +1159,49 @@ extern "C" {
     } VideoCodec;
     /** @} */
 
+    /** @addtogroup mediastream
+     * @{ */
+
+    /**
+     * @brief Struct describing the audio and video format used by a
+     * media file.
+     *
+     * @see TT_GetMediaFile() */
+    typedef struct MediaFileInfo
+    {
+        /** @brief Status of media file if it's being saved to
+         * disk. */
+        MediaFileStatus nStatus;
+        /** @brief Name of file. */
+        TTCHAR szFileName[TT_STRLEN];
+        /** @brief The audio properties of the media file. */
+        AudioFormat audioFmt;
+        /** @brief The video properties of the media file. */
+        VideoFormat videoFmt;
+        /** @brief The duration of the media file in miliseconds. */
+        UINT32 uDurationMSec;
+    } MediaFileInfo;
+
+    /**
+     * @brief Properties for initializing or updating a file for media
+     * streaming.
+     *
+     * @see TT_InitLocalPlayback()
+     * @see TT_UpdateLocalPlayback() */
+    typedef struct MediaFilePlayback
+    {
+        /** @brief Offset in milliseconds in the media file where to
+         * start playback. @c uOffsetMSec must be less than @c
+         * uDurationMSec on #MediaFileInfo. */
+        UINT32 uOffsetMSec;
+        /** @brief Start or pause media file playback. */
+        TTBOOL bPaused;
+        /** @brief Option to activate audio preprocessor on local media file playback. */
+        AudioPreprocessor audioPreprocessor;
+    } MediaFilePlayback;
+
+    /** @} */
+    
     /** @addtogroup transmission
      * @{ */
 
@@ -2937,6 +3003,18 @@ extern "C" {
          * properties and status information about the media file 
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
+        /**
+         * @brief Media file played locally is procesing.
+         *
+         * This event is called as a result of TT_InitLocalPlayback()
+         * to monitor progress of playback.
+         * @param nSource Session ID returned by TT_InitLocalPlayback()
+         * @param ttType #__MEDIAFILEINFO
+         * @param mediafileinfo Placed in union of #TTMessage. Contains
+         * properties and status information about the media file
+         * being played.
+         */
+         CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -2971,7 +3049,7 @@ extern "C" {
         __AUDIOFORMAT             = 26,
         __MEDIAFILEINFO           = 27,
         __CLIENTERRORMSG          = 28,
-        __TTBOOL                    = 29,
+        __TTBOOL                  = 29,
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,
@@ -4070,6 +4148,52 @@ extern "C" {
      * @see TT_StartStreamingMediaFileToChannel() */
     TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance);
 
+    /**
+     * Play media file using settings from @c lpTTInstance,
+     * i.e. TT_SetSoundOutputMute(), TT_SetSoundOutputVolume() and
+     * TT_InitSoundOutputDevice().
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk. 
+     * @param szMediaFilePath Path to media file.
+     * @param lpMediaFilePlayback If #SPEEXDSP_AUDIOPREPROCESSOR then
+     * the echo cancellation part of #SpeexDSP is unused. Only denoise
+     * and AGC settings are applied.
+     * 
+     * @see TT_UpdateLocalPlayback()
+     * @see TT_StopLocalPlayback() */
+    TEAMTALKDLL_API INT32 TT_InitLocalPlayback(IN TTInstance* lpTTInstance,
+                                               IN const TTCHAR* szMediaFilePath,
+                                               IN const MediaFilePlayback* lpMediaFilePlayback);
+
+    /**
+     * Update media file currently being played by TeamTalk instance.
+     * 
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk. 
+     * @param nPlaySessionID Session ID created by TT_InitLocalPlayback().
+     * @param lpMediaFilePlayback #AudioPreprocessorType of
+     * #AudioPreprocessor cannot be changed. It must be the same as
+     * used in TT_InitLocalPlayback().
+     *
+     * @see TT_InitLocalPlayback()
+     * @see TT_StopLocalPlayback() */
+    TEAMTALKDLL_API TTBOOL TT_UpdateLocalPlayback(IN TTInstance* lpTTInstance,
+                                                  IN INT32 nPlaybackSessionID,
+                                                  IN const MediaFilePlayback* lpMediaFilePlayback);
+
+    /**
+     * Stop media file currently being played by TeamTalk instance.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nPlaySessionID Session ID created by TT_InitLocalPlayback().
+     *
+     * @see TT_InitLocalPlayback()
+     * @see TT_UpdateLocalPlayback() */
+    TEAMTALKDLL_API TTBOOL TT_StopLocalPlayback(IN TTInstance* lpTTInstance,
+                                                IN INT32 nPlaybackSessionID);
+    
     /**
      * @brief Get the properties of a media file.
      *

@@ -44,6 +44,9 @@ struct SpeexAGC
         max_gain = 30;
         //agc_target = 8000;
     }
+    SpeexAGC(float gainlevel, int maxinc, int maxdec, int maxgain)
+    : gain_level(gainlevel), max_increment(maxinc), max_decrement(maxdec), max_gain(maxgain)
+    {}
 };
 
 struct SpeexAEC

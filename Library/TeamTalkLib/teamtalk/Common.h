@@ -33,6 +33,7 @@
 
 #include <TeamTalkDefs.h>
 #include "PacketLayout.h"
+#include <codec/MediaUtil.h>
 
 namespace teamtalk {
 
@@ -435,6 +436,33 @@ namespace teamtalk {
         }
     };
 
+    struct TTAudioPreprocessor
+    {
+        int gainlevel = GAIN_NORMAL;
+        bool muteleft = false;
+        bool muteright = false;
+
+        TTAudioPreprocessor() { }
+    };
+
+    enum AudioPreprocessorType
+    {
+        AUDIOPREPROCESSOR_NONE      = 0,
+        AUDIOPREPROCESSOR_SPEEXDSP  = 1,
+        AUDIOPREPROCESSOR_TEAMTALK  = 2
+    };
+    
+    struct AudioPreprocessor
+    {
+        AudioPreprocessorType preprocessor = AUDIOPREPROCESSOR_NONE;
+        union
+        {
+            SpeexDSP speexdsp;
+            TTAudioPreprocessor ttpreprocessor;
+        };
+        AudioPreprocessor() {}
+    };
+
     struct WebMVP8Codec
     {
         int rc_target_bitrate; /* 0 = 256 kbit/sec */
@@ -608,6 +636,16 @@ namespace teamtalk {
     };
 
     int AFFToMP3Bitrate(AudioFileFormat aff);
+
+    /* Remember to updated DLL header file when modifying this */
+    enum MediaFileStatus
+    {
+        MFS_CLOSED = 0,
+        MFS_ERROR = 1,
+        MFS_STARTED = 2,
+        MFS_FINISHED = 3,
+        MFS_ABORTED = 4,
+    };
 
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */

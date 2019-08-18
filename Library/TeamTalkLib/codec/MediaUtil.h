@@ -193,6 +193,20 @@ void MergeStereo(const std::vector<short>& left_chan,
                  const std::vector<short>& right_chan,
                  short* output_buffer, int output_samples);
 
+enum Stereo
+{
+    STEREO_NONE     = 0x0,
+    STEREO_LEFT     = 0x1,
+    STEREO_RIGHT    = 0x2,
+    STEREO_BOTH     = STEREO_LEFT | STEREO_RIGHT
+};
+
+typedef unsigned char StereoMask;
+
+StereoMask ToStereoMask(bool muteleft, bool muteright);
+
+void SelectStereo(StereoMask stereo, short* buffer, int samples);
+
 // returns new sample_index
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
@@ -201,17 +215,24 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
 
 #define RGB32_BYTES(w, h) (h * w * 4)
 
-#define SOFTGAIN(samples, n_samples, channels, factor) do {     \
+#define GAIN_MAX 32000
+#define GAIN_NORMAL 1000
+#define GAIN_MIN 0
+
+#define SOFTGAIN(samplesbuffer, n_samples, channels, gain_numerator, gain_denominator) do { \
+    if (gain_numerator == gain_denominator)                     \
+        break;                                                  \
+    float factor = float(gain_numerator) / float(gain_denominator);   \
     int samples_total = channels*n_samples;                     \
     if(samples_total % 4 == 0)                                  \
     {                                                           \
         int v[4];                                               \
         for(int i=0;i<samples_total;i+=4)                       \
         {                                                       \
-            v[0] = (int)(samples[i] * factor);                  \
-            v[1] = (int)(samples[i+1] * factor);                \
-            v[2] = (int)(samples[i+2] * factor);                \
-            v[3] = (int)(samples[i+3] * factor);                \
+            v[0] = (int)(samplesbuffer[i] * factor);            \
+            v[1] = (int)(samplesbuffer[i+1] * factor);          \
+            v[2] = (int)(samplesbuffer[i+2] * factor);          \
+            v[3] = (int)(samplesbuffer[i+3] * factor);          \
             if(v[0] > 32767) v[0] = 32767;                      \
             else if (v[0] < -32768) v[0] = -32768;              \
             if(v[1] > 32767) v[1] = 32767;                      \
@@ -220,10 +241,10 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
             else if (v[2] < -32768) v[2] = -32768;              \
             if(v[3] > 32767) v[3] = 32767;                      \
             else if (v[3] < -32768) v[3] = -32768;              \
-            samples[i] = (short)v[0];                           \
-            samples[i+1] = (short)v[1];                         \
-            samples[i+2] = (short)v[2];                         \
-            samples[i+3] = (short)v[3];                         \
+            samplesbuffer[i] = (short)v[0];                     \
+            samplesbuffer[i+1] = (short)v[1];                   \
+            samplesbuffer[i+2] = (short)v[2];                   \
+            samplesbuffer[i+3] = (short)v[3];                   \
         }                                                       \
     }                                                           \
     else                                                        \
@@ -231,10 +252,10 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq);
         int v;                                                  \
         for(int i=0;i<samples_total;i++)                        \
         {                                                       \
-            v = (int)(samples[i] * factor);                     \
+            v = (int)(samplesbuffer[i] * factor);               \
             if(v > 32767) v = 32767;                            \
             else if (v < -32768) v = -32768;                    \
-            samples[i] = (short)v;                              \
+            samplesbuffer[i] = (short)v;                        \
         }                                                       \
     }                                                           \
 } while(0)

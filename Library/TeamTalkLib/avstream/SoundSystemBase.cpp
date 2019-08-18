@@ -93,15 +93,9 @@ void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples)
     {
         if(streamer.volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
         {
-            float v = (float)streamer.volume;
-            float m = (float)mastervolume;
-            float d = (float)VOLUME_DEFAULT;
-
-            m = m / d;
-            v = v / d;
-
-            float c = m * v;
-            SOFTGAIN(buffer, samples, streamer.channels, c);
+            int volfac = streamer.volume * mastervolume;
+            int powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
+            SOFTGAIN(buffer, samples, streamer.channels, volfac, powdef);
         }
     }
 }

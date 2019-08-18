@@ -39,6 +39,7 @@
 #include <teamtalk/Common.h>
 #include <teamtalk/PacketHandler.h>
 #include <avstream/VideoCapture.h>
+#include <avstream/MediaPlayback.h>
 
 #include <avstream/MediaStreamer.h>
 
@@ -120,8 +121,8 @@ enum ClientTimer
     USER_TIMER_DESKTOPINPUT_RTX_ID          = USER_TIMER_MASK + 7,
     USER_TIMER_DESKTOPINPUT_ACK_ID          = USER_TIMER_MASK + 8,
     USER_TIMER_REMOVE_FILETRANSFER_ID       = USER_TIMER_MASK + 9,
-    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10
-
+    USER_TIMER_UPDATE_USER                  = USER_TIMER_MASK + 10,
+    USER_TIMER_REMOVE_LOCALPLAYBACK         = USER_TIMER_MASK + 11
 };
 
 #define TIMERID_MASK            0xFFFF
@@ -340,6 +341,15 @@ namespace teamtalk {
         bool StartStreamingMediaFile(const ACE_TString& filename,
                                      const VideoCodec& vid_codec);
         void StopStreamingMediaFile();
+
+        // playback local media file
+        int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,
+                              bool paused, const AudioPreprocessor& preprocessor);
+        bool UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
+                                 const AudioPreprocessor& preprocessor);
+        bool StopMediaPlayback(int id);
+
+        void MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status);
 
         //video capture
         bool InitVideoCapture(const ACE_TString& src_id,
@@ -651,7 +661,7 @@ namespace teamtalk {
         ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
         uint8_t m_vidcap_stream_id; //0 means not used
 
-        //media streamer
+        //media streamer to channels
         media_streamer_t m_media_streamer;
         uint8_t m_mediafile_stream_id; //0 means not used
 
@@ -661,6 +671,10 @@ namespace teamtalk {
 
         //encode video of media file
         video_thread_t m_videofile_thread;
+
+        // local playback of media files
+        std::map<int, mediaplayback_t> m_mediaplayback_streams;
+        int m_mediaplayback_counter = 0;
 
         //desktop session
         desktop_initiator_t m_desktop;
@@ -756,6 +770,9 @@ namespace teamtalk {
         virtual void OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input) = 0;
 
         virtual void OnChannelStreamMediaFile(const MediaFileProp& mfp,
+                                              MediaFileStatus status) = 0;
+
+        virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                               MediaFileStatus status) = 0;
 
         virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
