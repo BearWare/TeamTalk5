@@ -90,6 +90,8 @@ bool AudioMuxer::StartThread(const ACE_TString& filename,
         m_mp3encoder = MFTransform::CreateMP3(fmt, mp3bitrate, filename.c_str());
         if(!m_mp3encoder)
             goto error;
+#else
+        goto error;
 #endif
     }
     break;
