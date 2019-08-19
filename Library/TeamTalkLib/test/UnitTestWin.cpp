@@ -111,6 +111,7 @@ namespace UnitTest
 
         TEST_METHOD(TestVideoStream)
         {
+            TT_InitTeamTalkPoll(); // Call MFStartup()
 
             class : public MediaStreamListener
             {

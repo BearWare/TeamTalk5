@@ -26,8 +26,6 @@
 
 #include <assert.h>
 #include <shlwapi.h> //QITAB
-#include <atlbase.h>
-#include <mfapi.h>
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
@@ -311,6 +309,7 @@ void MFStreamer::Run()
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
+        
         // first process audio
         if (llVideoTimestamp < 0 || (llAudioTimestamp >= 0 && llAudioTimestamp <= llVideoTimestamp))
         {
@@ -329,50 +328,10 @@ void MFStreamer::Run()
             if(error || llAudioTimestamp < 0)
                 continue;
 
-            DWORD dwBufCount = 0;
-            if (pSample)
-            {
-                hr = pSample->GetBufferCount(&dwBufCount);
-                assert(SUCCEEDED(hr));
-            }
-
-            for(DWORD i = 0; i<dwBufCount; i++)
-            {
-                CComPtr<IMFMediaBuffer> pMediaBuffer;
-                hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
-                assert(SUCCEEDED(hr));
-                BYTE* pBuffer = NULL;
-                DWORD dwCurLen, dwMaxSize;
-                hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-                assert(SUCCEEDED(hr));
-                if(SUCCEEDED(hr))
-                {
-                    ACE_Message_Block* mb;
-                    ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
-
-                    media::AudioFrame media_frame;
-                    media_frame.timestamp = ACE_UINT32(llAudioTimestamp / 10000);
-                    media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
-                    assert(m_media_out.audio.channels > 0);
-                    media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio.channels;
-                    media_frame.inputfmt = m_media_out.audio;
-                    int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
-                    assert(ret >= 0);
-                    ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
-                    assert(ret >= 0);
-                    ACE_Time_Value tv;
-                    ret = m_audio_frames.enqueue(mb, &tv);
-                    MYTRACE_COND(ret < 0, ACE_TEXT("Skipped audio frame. Buffer full\n"));
-                    if(ret < 0)
-                    {
-                        mb->release();
-                    }
-                }
-                hr = pMediaBuffer->Unlock();
-                assert(SUCCEEDED(hr));
-            }
+            QueueAudioSample(pSample, llAudioTimestamp);
         }
 
+        // now process video
         if (llAudioTimestamp < 0 || (llVideoTimestamp >= 0 && llVideoTimestamp <= llAudioTimestamp))
         {
             imfsamples_t samples;
@@ -408,43 +367,7 @@ void MFStreamer::Run()
             {
                 pSample = sample;
 
-                DWORD dwBufCount = 0;
-                if(pSample)
-                {
-                    hr = pSample->GetBufferCount(&dwBufCount);
-                    assert(SUCCEEDED(hr));
-                }
-
-                for(DWORD i = 0; i<dwBufCount; i++)
-                {
-                    CComPtr<IMFMediaBuffer> pMediaBuffer;
-                    hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
-                    LONGLONG llSampleTimeStamp = llVideoTimestamp;
-                    hr = pSample->GetSampleTime(&llSampleTimeStamp);
-
-                    assert(SUCCEEDED(hr));
-                    BYTE* pBuffer = NULL;
-                    DWORD dwCurLen, dwMaxSize;
-                    hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
-                    assert(SUCCEEDED(hr));
-                    if(SUCCEEDED(hr))
-                    {
-                        media::VideoFrame media_frame(m_media_out.video,
-                            reinterpret_cast<char*>(pBuffer), dwCurLen);
-                        media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
-                        ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-                        ACE_Time_Value tv;
-                        int ret = m_video_frames.enqueue(mb, &tv);
-                        MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
-                        if(ret < 0)
-                        {
-                            mb->release();
-                        }
-                        vframes++;
-                    }
-                    hr = pMediaBuffer->Unlock();
-                    assert(SUCCEEDED(hr));
-                }
+                vframes += QueueVideoSample(pSample, llVideoTimestamp);
             }
         }
 
@@ -467,4 +390,98 @@ void MFStreamer::Run()
 
 fail_open:
     m_open.set(false);
+}
+
+int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime)
+{
+    HRESULT hr;
+    DWORD dwBufCount = 0;
+    int aframes = 0;
+    if(pSample)
+    {
+        hr = pSample->GetBufferCount(&dwBufCount);
+        assert(SUCCEEDED(hr));
+    }
+
+    for(DWORD i = 0; i<dwBufCount; i++)
+    {
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        assert(SUCCEEDED(hr));
+        BYTE* pBuffer = NULL;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(SUCCEEDED(hr))
+        {
+            ACE_Message_Block* mb;
+            ACE_NEW_NORETURN(mb, ACE_Message_Block(dwCurLen + sizeof(media::AudioFrame)));
+
+            media::AudioFrame media_frame;
+            media_frame.timestamp = ACE_UINT32(sampletime / 10000);
+            media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
+            assert(m_media_out.audio.channels > 0);
+            media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio.channels;
+            media_frame.inputfmt = m_media_out.audio;
+            int ret = mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
+            assert(ret >= 0);
+            ret = mb->copy(reinterpret_cast<const char*>(pBuffer), dwCurLen);
+            assert(ret >= 0);
+            ACE_Time_Value tv;
+            ret = m_audio_frames.enqueue(mb, &tv);
+            MYTRACE_COND(ret < 0, ACE_TEXT("Skipped audio frame. Buffer full\n"));
+            if(ret < 0)
+            {
+                mb->release();
+            }
+            aframes++;
+        }
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+    }
+    return aframes;
+}
+
+int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime)
+{
+    HRESULT hr;
+    DWORD dwBufCount = 0;
+    int vframes = 0;
+    if(pSample)
+    {
+        hr = pSample->GetBufferCount(&dwBufCount);
+        assert(SUCCEEDED(hr));
+    }
+
+    for(DWORD i = 0; i<dwBufCount; i++)
+    {
+        CComPtr<IMFMediaBuffer> pMediaBuffer;
+        hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
+        LONGLONG llSampleTimeStamp = sampletime;
+        hr = pSample->GetSampleTime(&llSampleTimeStamp);
+
+        assert(SUCCEEDED(hr));
+        BYTE* pBuffer = NULL;
+        DWORD dwCurLen, dwMaxSize;
+        hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
+        assert(SUCCEEDED(hr));
+        if(SUCCEEDED(hr))
+        {
+            media::VideoFrame media_frame(m_media_out.video,
+                reinterpret_cast<char*>(pBuffer), dwCurLen);
+            media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
+            ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
+            ACE_Time_Value tv;
+            int ret = m_video_frames.enqueue(mb, &tv);
+            MYTRACE_COND(ret < 0, ACE_TEXT("Skipped video frame. Buffer full\n"));
+            if(ret < 0)
+            {
+                mb->release();
+            }
+            vframes++;
+        }
+        hr = pMediaBuffer->Unlock();
+        assert(SUCCEEDED(hr));
+    }
+    return vframes;
 }
