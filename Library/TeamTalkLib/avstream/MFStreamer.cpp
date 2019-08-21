@@ -72,7 +72,7 @@ void MFStreamer::Close()
     if (m_thread.get())
     {
         m_stop = true;
-        m_start.set(false);
+        m_run.set(false);
 
         m_thread->join();
         m_thread.reset();
@@ -80,13 +80,20 @@ void MFStreamer::Close()
     Reset();
 
     m_open.cancel();
-    m_start.cancel();
+    m_run.cancel();
 }
 
 bool MFStreamer::StartStream()
 {
-    m_start.set(true);
+    m_pause = false;
+    m_run.set(true);
     return true;
+}
+
+bool MFStreamer::Pause()
+{
+    m_pause = true;
+    return m_run.cancel() >= 0;
 }
 
 void MFStreamer::Run()
@@ -272,7 +279,7 @@ void MFStreamer::Run()
         goto fail_open;
     }
 
-    m_start.get(start);
+    m_run.get(start);
 
     if (!start)
         return;
@@ -305,11 +312,29 @@ void MFStreamer::Run()
         llVideoTimestamp = -1;
     }
 
+    ACE_UINT32 totalpausetime = 0;
     bool error = false;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
         
+        // check if we should pause
+        if (m_pause)
+        {
+            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+
+            ACE_UINT32 pausetime = GETTIMESTAMP();
+            if(m_run.get(start) >= 0 && !start)
+            {
+                MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
+                break;
+            }
+
+            pausetime = GETTIMESTAMP() - pausetime;
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            totalpausetime += pausetime;
+        }
+
         // first process audio
         if (llVideoTimestamp < 0 || (llAudioTimestamp >= 0 && llAudioTimestamp <= llVideoTimestamp))
         {
@@ -341,7 +366,10 @@ void MFStreamer::Run()
             error = FAILED(hr);
 
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+            {
                 llVideoTimestamp = -1;
+            }
+
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
             assert(!error);
             MYTRACE_COND(error, ACE_TEXT("Error in video stream\n"));
@@ -365,16 +393,14 @@ void MFStreamer::Run()
 
             for (auto& sample : samples)
             {
-                pSample = sample;
-
-                vframes += QueueVideoSample(pSample, llVideoTimestamp);
+                vframes += QueueVideoSample(sample, llVideoTimestamp);
             }
         }
 
-        while(!m_stop && !error && ProcessAVQueues(start_time, false));
+        while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
     }
 
-    while(!m_stop && !error && ProcessAVQueues(start_time, true));
+    while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
 
     if (!error && !m_stop)
     {

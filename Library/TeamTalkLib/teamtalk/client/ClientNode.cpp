@@ -1597,6 +1597,9 @@ void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
         StartUserTimer(USER_TIMER_STOP_STREAM_MEDIAFILE_ID, 0, 0, 
                        ACE_Time_Value::zero);
         break;
+    case MEDIASTREAM_PAUSED :
+        mfs = MFS_PAUSED;
+        break;
     }
 
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
@@ -3191,7 +3194,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
     m_mediaplayback_streams[m_mediaplayback_counter] = playback;
 
     if (!paused)
-        playback->PlayMedia();
+        return playback->PlayMedia();
 
     return true;
 }
@@ -3205,29 +3208,35 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
     if (iplayback == m_mediaplayback_streams.end())
         return false;
 
+    auto playback = iplayback->second;
+
     switch(preprocessor.preprocessor)
     {
     case AUDIOPREPROCESSOR_NONE:
-        iplayback->second->MuteSound(false, false);
-        iplayback->second->SetGainLevel();
+        playback->MuteSound(false, false);
+        playback->SetGainLevel();
         break;
     case AUDIOPREPROCESSOR_TEAMTALK:
-        iplayback->second->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
-        iplayback->second->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
+        playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
+        playback->SetGainLevel(preprocessor.ttpreprocessor.gainlevel);
         break;
     case AUDIOPREPROCESSOR_SPEEXDSP:
 #if defined(ENABLE_SPEEXDSP)
         SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
                      preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
 
-        if(!iplayback->second->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
-                                                    preprocessor.speexdsp.enable_denoise,
-                                                    preprocessor.speexdsp.maxnoisesuppressdb))
+        if(!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
+                                           preprocessor.speexdsp.enable_denoise,
+                                           preprocessor.speexdsp.maxnoisesuppressdb))
             return false;
 #endif
         break;
     }
-    return true;
+
+    if (paused)
+        return playback->Pause();
+    else
+        return playback->PlayMedia();
 }
 
 bool ClientNode::StopMediaPlayback(int id)
@@ -3256,6 +3265,9 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         TTASSERT(ret >= 0);
         break;
     }
+    case MEDIASTREAM_PAUSED :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PAUSED);
+        break;
     case MEDIASTREAM_FINISHED :
     {
         // issue playback destroy message

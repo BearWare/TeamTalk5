@@ -129,6 +129,14 @@ bool MediaPlayback::PlayMedia()
     return m_streamer->StartStream();
 }
 
+bool MediaPlayback::Pause()
+{
+    if(!m_streamer)
+        return false;
+
+    return m_streamer->Pause();
+}
+
 void MediaPlayback::MuteSound(bool leftchannel, bool rightchannel)
 {
     m_stereo = ToStereoMask(leftchannel, rightchannel);
@@ -192,6 +200,8 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
     case MEDIASTREAM_FINISHED :
         m_sndsys->CloseOutputStream(this);
         break;
+    case MEDIASTREAM_PAUSED :
+        break;
     }
 
     if(m_statusfunc)
@@ -210,6 +220,9 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             m_audio_buffer.pop();
         }
     }
+
+    MYTRACE_COND(!mb, ACE_TEXT("Media playback underflow\n"));
+
     if (mb)
     {
         MBGuard gmb(mb);
@@ -256,6 +269,11 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         if (streamer.channels == 2)
             SelectStereo(m_stereo, buffer, streamer.framesize);
     }
+    else
+    {
+        std::memset(buffer, 0, PCM16_BYTES(streamer.channels, streamer.framesize));
+    }
+    
     return true;
 }
 

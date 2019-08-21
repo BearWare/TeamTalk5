@@ -47,12 +47,15 @@ public:
 
     bool StartStream();
 
+    bool Pause();
+
 private:
     void Run();
 
     int QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime);
     int QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime);
     std::shared_ptr< std::thread > m_thread;
-    ACE_Future<bool> m_open, m_start;
+    ACE_Future<bool> m_open, m_run;
+    bool m_pause = false;
 };
 #endif

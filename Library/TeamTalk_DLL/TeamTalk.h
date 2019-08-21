@@ -508,7 +508,9 @@ extern "C" {
         /** @brief Finished processing media file. */
         MFS_FINISHED        = 3,
         /** @brief Aborted processing of media file. */
-        MFS_ABORTED         = 4
+        MFS_ABORTED         = 4,
+        /** @brief Paused processing of media file. */
+        MFS_PAUSED          = 5
     } MediaFileStatus;
 
     /**

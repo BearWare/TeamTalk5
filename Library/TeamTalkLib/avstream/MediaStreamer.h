@@ -77,6 +77,7 @@ enum MediaStreamStatus
     MEDIASTREAM_STARTED     = 1,
     MEDIASTREAM_ERROR       = 2,
     MEDIASTREAM_FINISHED    = 3,
+    MEDIASTREAM_PAUSED      = 4,
 };
 
 class MediaStreamer;
@@ -110,6 +111,8 @@ public:
 
     virtual bool StartStream() = 0;
 
+    virtual bool Pause() = 0;
+
     const MediaFileProp& GetMediaInput() const { return m_media_in; }
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
 
@@ -125,14 +128,14 @@ protected:
     bool m_stop;
     
     //return 'true' if it should be called again
-    bool ProcessAVQueues(ACE_UINT32 starttime, bool flush);
+    bool ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
 
     msg_queue_t m_audio_frames;
     msg_queue_t m_video_frames;
 
 private:
-    bool ProcessAudioFrame(ACE_UINT32 starttime, bool flush);
-    bool ProcessVideoFrame(ACE_UINT32 starttime);
+    bool ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
+    bool ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime);
 };
 
 typedef std::shared_ptr< MediaStreamer > media_streamer_t;

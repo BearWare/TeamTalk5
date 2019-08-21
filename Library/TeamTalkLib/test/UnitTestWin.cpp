@@ -1301,6 +1301,60 @@ namespace UnitTest
             TT_CloseTeamTalk(inst);
         }
 
+        TEST_METHOD(TestMediaPlaybackPause)
+        {
+            std::wostringstream os;
+            
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename3 = L"tone_8khz.wav";
+            MediaFileInfo mfi = {};
+            wcsncpy(mfi.szFileName, filename3, TT_STRLEN);
+            mfi.uDurationMSec = 5 * 1000;
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nSampleRate = 8000;
+            Assert::IsTrue(TT_DBG_WriteAudioFileTone(&mfi, 700));
+
+            MediaFilePlayback mfp3 = {};
+            mfp3.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+            mfp3.bPaused = FALSE;
+            mfp3.uOffsetMSec = 0;
+            INT32 nSessionID3 = TT_InitLocalPlayback(inst, filename3, &mfp3);
+            Assert::IsTrue(nSessionID3 > 0);
+
+            TTMessage msg;
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            auto starttime = GETTIMESTAMP();
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 1000);
+
+            mfp3.bPaused = TRUE;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_PAUSED));
+
+            WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
+
+            mfp3.bPaused = FALSE;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+            
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
+            os << L"Duration: " << GETTIMESTAMP() - starttime;
+            Logger::WriteMessage(os.str().c_str());
+
+            TT_CloseTeamTalk(inst);
+        }
+
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
             auto start = GETTIMESTAMP();

@@ -640,11 +640,12 @@ namespace teamtalk {
     /* Remember to updated DLL header file when modifying this */
     enum MediaFileStatus
     {
-        MFS_CLOSED = 0,
-        MFS_ERROR = 1,
-        MFS_STARTED = 2,
-        MFS_FINISHED = 3,
-        MFS_ABORTED = 4,
+        MFS_CLOSED      = 0,
+        MFS_ERROR       = 1,
+        MFS_STARTED     = 2,
+        MFS_FINISHED    = 3,
+        MFS_ABORTED     = 4,
+        MFS_PAUSED      = 5
     };
 
     /* Remember to updated DLL header file when modifying this.
