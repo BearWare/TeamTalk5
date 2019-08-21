@@ -45,7 +45,7 @@ struct MediaStream
 
 struct MediaFileProp : public MediaStream
 {
-    ACE_UINT32 duration_ms = 0;
+    ACE_UINT32 duration_ms = 0, elapsed_ms = 0;
     ACE_TString filename;
 
     MediaFileProp() { }

@@ -1340,7 +1340,8 @@ namespace UnitTest
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_PAUSED));
-
+            os << L"Elapsed time: " << msg.mediafileinfo.uElapsedMSec << std::endl;
+            Logger::WriteMessage(os.str().c_str());
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
 
             mfp3.bPaused = FALSE;
@@ -1349,7 +1350,8 @@ namespace UnitTest
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
 
-            os << L"Duration: " << GETTIMESTAMP() - starttime;
+            os.str(L"");
+            os << L"Duration: " << GETTIMESTAMP() - starttime << std::endl;
             Logger::WriteMessage(os.str().c_str());
 
             TT_CloseTeamTalk(inst);

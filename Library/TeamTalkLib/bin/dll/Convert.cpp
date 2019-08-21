@@ -1458,6 +1458,7 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
     else
         result.videoFmt.picFourCC = FOURCC_NONE;
     result.uDurationMSec = mediaprop.duration_ms;
+    result.uElapsedMSec = mediaprop.elapsed_ms;
     ACE_OS::strsncpy(result.szFileName, mediaprop.filename.c_str(), TT_STRLEN);
 }
 
@@ -1471,6 +1472,7 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
     result.audioFmt.nChannels = vlog.channels;
     result.audioFmt.nSampleRate = vlog.samplerate;
     result.uDurationMSec = vlog.duration;
+    result.uElapsedMSec = 0;
     ACE_OS::strsncpy(result.szFileName, vlog.filename.c_str(), TT_STRLEN);
     ACE_OS::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
 }

@@ -1182,6 +1182,8 @@ extern "C" {
         VideoFormat videoFmt;
         /** @brief The duration of the media file in miliseconds. */
         UINT32 uDurationMSec;
+        /** @brief The elapsed time of the media file in miliseconds. */
+        UINT32 uElapsedMSec;
     } MediaFileInfo;
 
     /**

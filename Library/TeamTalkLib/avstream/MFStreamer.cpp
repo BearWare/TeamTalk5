@@ -317,6 +317,7 @@ void MFStreamer::Run()
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
+        m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
         
         // check if we should pause
         if (m_pause)
