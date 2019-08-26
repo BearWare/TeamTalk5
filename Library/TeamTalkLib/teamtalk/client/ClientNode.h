@@ -346,7 +346,7 @@ namespace teamtalk {
         int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,
                               bool paused, const AudioPreprocessor& preprocessor);
         bool UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
-                                 const AudioPreprocessor& preprocessor);
+                                 const AudioPreprocessor& preprocessor, bool initial = false);
         bool StopMediaPlayback(int id);
 
         void MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStreamStatus status);

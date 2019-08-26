@@ -1195,8 +1195,9 @@ extern "C" {
     typedef struct MediaFilePlayback
     {
         /** @brief Offset in milliseconds in the media file where to
-         * start playback. @c uOffsetMSec must be less than @c
-         * uDurationMSec on #MediaFileInfo. */
+         * start playback. Pass -1 (0xffffffff) to ignore this value when 
+         * using TT_UpdateLocalPlayback().
+         * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
         UINT32 uOffsetMSec;
         /** @brief Start or pause media file playback. */
         TTBOOL bPaused;
@@ -4163,6 +4164,9 @@ extern "C" {
      * @param lpMediaFilePlayback If #SPEEXDSP_AUDIOPREPROCESSOR then
      * the echo cancellation part of #SpeexDSP is unused. Only denoise
      * and AGC settings are applied.
+     *
+     * @return A Session ID for identifing the media playback session.
+     * If Session ID is <= 0 indicates an error.
      * 
      * @see TT_UpdateLocalPlayback()
      * @see TT_StopLocalPlayback() */

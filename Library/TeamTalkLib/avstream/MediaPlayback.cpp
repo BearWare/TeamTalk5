@@ -137,6 +137,15 @@ bool MediaPlayback::Pause()
     return m_streamer->Pause();
 }
 
+bool MediaPlayback::Seek(ACE_UINT32 offset)
+{
+    if(!m_streamer)
+        return false;
+
+    m_streamer->SetOffset(offset);
+    return true;
+}
+
 void MediaPlayback::MuteSound(bool leftchannel, bool rightchannel)
 {
     m_stereo = ToStereoMask(leftchannel, rightchannel);
@@ -194,7 +203,8 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
     switch (status)
     {
     case MEDIASTREAM_STARTED :
-        m_sndsys->StartStream(this);
+        if (m_sndsys->IsStreamStopped(this))
+            m_sndsys->StartStream(this);
         break;
     case MEDIASTREAM_ERROR :
     case MEDIASTREAM_FINISHED :

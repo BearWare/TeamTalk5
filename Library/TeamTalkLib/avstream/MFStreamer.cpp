@@ -28,6 +28,7 @@
 #include <shlwapi.h> //QITAB
 #include <mfidl.h>
 #include <mfreadwrite.h>
+#include <propvarutil.h>
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
@@ -86,14 +87,25 @@ void MFStreamer::Close()
 bool MFStreamer::StartStream()
 {
     m_pause = false;
-    m_run.set(true);
+    
+    // avoid doing a double start
+    if (!m_run.ready())
+        m_run.set(true);
+
     return true;
 }
 
 bool MFStreamer::Pause()
 {
     m_pause = true;
-    return m_run.cancel() >= 0;
+
+    // only cancel semaphore if it's already active (set). Otherwise a double pause 
+    // will occur and invalidate the current semaphore (waiting thread on 
+    // current semaphore will not be notified)
+    if (m_run.ready())
+        return m_run.cancel() >= 0;
+    
+    return true;
 }
 
 void MFStreamer::Run()
@@ -279,17 +291,13 @@ void MFStreamer::Run()
         goto fail_open;
     }
 
+    // wait for semaphore to be notified from ::StartStream()
     m_run.get(start);
 
-    if (!start)
+    if(!start)
         return;
 
-    ACE_UINT32 start_time = GETTIMESTAMP();
-
-    if (m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
-
-    InitBuffers();
+    InitBuffers(); // requires m_media_out is specified
 
     assert(m_audio_frames.state() == msg_queue_t::ACTIVATED);
     assert(m_video_frames.state() == msg_queue_t::ACTIVATED);
@@ -312,28 +320,69 @@ void MFStreamer::Run()
         llVideoTimestamp = -1;
     }
 
-    ACE_UINT32 totalpausetime = 0;
+    ACE_UINT32 start_time = GETTIMESTAMP();
+
+    // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause/seek)
+    MediaStreamStatus status = MEDIASTREAM_STARTED;
+
+    ACE_UINT32 totalpausetime = 0, offset = 0;
     bool error = false;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
-        m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
-        
+        if (llAudioTimestamp >= 0)
+            m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
+        else if (llVideoTimestamp >= 0)
+            m_media_in.elapsed_ms = ACE_UINT32(llVideoTimestamp / 10000);
+
         // check if we should pause
         if (m_pause)
         {
             m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
 
             ACE_UINT32 pausetime = GETTIMESTAMP();
-            if(m_run.get(start) >= 0 && !start)
+            if ((m_run.get(start) >= 0 && !start) || m_stop)
             {
                 MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
                 break;
             }
 
+            // ensure we don't submit MEDIASTREAM_STARTED twice (also for seek)
+            status = MEDIASTREAM_STARTED;
+
             pausetime = GETTIMESTAMP() - pausetime;
             MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
             totalpausetime += pausetime;
+        }
+
+        if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        {
+            PROPVARIANT var;
+            hr = InitPropVariantFromInt64(m_offset * 10000, &var);
+            assert(SUCCEEDED(hr));
+            hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                m_media_in.elapsed_ms = m_offset;
+                start_time = GETTIMESTAMP();
+                totalpausetime = 0;
+                offset = m_offset;
+                ClearBuffers();
+
+                // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause)
+                status = MEDIASTREAM_STARTED;
+            }
+
+            m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+        }
+
+        if (status != MEDIASTREAM_NONE)
+        {
+            if(m_listener)
+                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+
+            status = MEDIASTREAM_NONE;
         }
 
         // first process audio
@@ -348,7 +397,10 @@ void MFStreamer::Run()
             //{
             //}
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+            {
+                m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
                 llAudioTimestamp = -1;
+            }
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
 
             if(error || llAudioTimestamp < 0)
@@ -368,6 +420,7 @@ void MFStreamer::Run()
 
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {
+                m_media_in.elapsed_ms = ACE_UINT32(llVideoTimestamp / 10000);
                 llVideoTimestamp = -1;
             }
 
@@ -398,10 +451,10 @@ void MFStreamer::Run()
             }
         }
 
-        while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
+        while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, false));
     }
 
-    while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
+    while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, true));
 
     if (!error && !m_stop)
     {

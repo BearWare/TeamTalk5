@@ -3171,36 +3171,19 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
             return 0;
     }
 
-    switch(preprocessor.preprocessor)
-    {
-    case AUDIOPREPROCESSOR_NONE :
-        break;
-    case AUDIOPREPROCESSOR_TEAMTALK :
-        playback->MuteSound(preprocessor.ttpreprocessor.muteleft, preprocessor.ttpreprocessor.muteright);
-        break;
-    case AUDIOPREPROCESSOR_SPEEXDSP :
-#if defined(ENABLE_SPEEXDSP)
-        SpeexAGC agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
-                     preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
-
-        if (!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
-                                            preprocessor.speexdsp.enable_denoise,
-                                            preprocessor.speexdsp.maxnoisesuppressdb))
-            return false;
-#endif
-        break;
-    }
-
     m_mediaplayback_streams[m_mediaplayback_counter] = playback;
 
-    if (!paused)
-        return playback->PlayMedia();
+    if (!UpdateMediaPlayback(m_mediaplayback_counter, offset, paused, preprocessor))
+    {
+        m_mediaplayback_streams.erase(m_mediaplayback_counter);
+        return 0;
+    }
 
-    return true;
+    return m_mediaplayback_counter;
 }
 
 bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
-                                     const AudioPreprocessor& preprocessor)
+                                     const AudioPreprocessor& preprocessor, bool initial)
 {
     ASSERT_REACTOR_LOCKED(this);
 
@@ -3233,8 +3216,23 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         break;
     }
 
+    if(offset != MEDIASTREAMER_OFFSET_IGNORE)
+    {
+        if (!playback->Seek(offset))
+            return false;
+    }
+
     if (paused)
+    {
+        //if (initial)
+        //{
+        //    if (!playback->Pause())
+        //        return false;
+
+        //    return playback->PlayMedia();
+        //}
         return playback->Pause();
+    }
     else
         return playback->PlayMedia();
 }

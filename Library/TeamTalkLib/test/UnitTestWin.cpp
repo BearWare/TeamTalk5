@@ -1357,6 +1357,68 @@ namespace UnitTest
             TT_CloseTeamTalk(inst);
         }
 
+        TEST_METHOD(TestMediaPlaybackSeek)
+        {
+            std::wostringstream os;
+
+            auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
+
+            INT32 nInputDeviceID, nOutputDeviceID;
+            Assert::IsTrue(TT_GetDefaultSoundDevices(&nInputDeviceID, &nOutputDeviceID), L"Get default devices");
+
+            Assert::IsTrue(TT_InitSoundOutputDevice(inst, nOutputDeviceID));
+
+            auto filename3 = L"tone441khz.wav";
+            MediaFileInfo mfi = {};
+            wcsncpy(mfi.szFileName, filename3, TT_STRLEN);
+            mfi.uDurationMSec = 60 * 1000;
+            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nSampleRate = 44100;
+            Assert::IsTrue(TT_DBG_WriteAudioFileTone(&mfi, 700));
+
+            INT32 nSessionID3;
+            TTMessage msg;
+
+            // play close to end
+            MediaFilePlayback mfp3 = {};
+            mfp3.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+            mfp3.bPaused = FALSE;
+            mfp3.uOffsetMSec = 58000;
+            nSessionID3 = TT_InitLocalPlayback(inst, filename3, &mfp3);
+            Assert::IsTrue(nSessionID3 > 0);
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            auto starttime = GETTIMESTAMP();
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
+            // play in the middle
+            mfp3.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
+            mfp3.bPaused = TRUE;
+            mfp3.uOffsetMSec = 30000;
+            nSessionID3 = TT_InitLocalPlayback(inst, filename3, &mfp3);
+            Assert::IsTrue(nSessionID3 > 0);
+
+            mfp3.bPaused = FALSE;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            mfp3.uOffsetMSec = 58000;
+            Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+
+            TT_CloseTeamTalk(inst);
+        }
+
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
             auto start = GETTIMESTAMP();

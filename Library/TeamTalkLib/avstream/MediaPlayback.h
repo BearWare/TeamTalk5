@@ -56,6 +56,8 @@ public:
 
     bool Pause();
 
+    bool Seek(ACE_UINT32 offset);
+
     // required by TeamTalkAudioPreprocessor
     void MuteSound(bool left, bool right);
     void SetGainLevel(int gainlevel = GAIN_NORMAL) { m_gainlevel = gainlevel; }

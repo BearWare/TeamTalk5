@@ -74,6 +74,7 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
 enum MediaStreamStatus
 {
+    MEDIASTREAM_NONE        = 0,
     MEDIASTREAM_STARTED     = 1,
     MEDIASTREAM_ERROR       = 2,
     MEDIASTREAM_FINISHED    = 3,
@@ -99,6 +100,8 @@ public:
                                            MediaStreamStatus status) = 0;
 };
 
+#define MEDIASTREAMER_OFFSET_IGNORE (0xFFFFFFFF)
+
 class MediaStreamer
 {
 public:
@@ -113,16 +116,20 @@ public:
 
     virtual bool Pause() = 0;
 
+    void SetOffset(ACE_UINT32 offset) { m_offset = offset; }
+
     const MediaFileProp& GetMediaInput() const { return m_media_in; }
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
 
 protected:
     void Reset();
     void InitBuffers();
+    void ClearBuffers();
     ACE_UINT32 GetMinimumFrameDurationMSec() const;
     int GetQueuedAudioDataSize();
 
     MediaFileProp m_media_in;
+    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
     MediaStreamOutput m_media_out;
     MediaStreamListener* m_listener;
     bool m_stop;

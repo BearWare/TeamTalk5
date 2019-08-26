@@ -110,6 +110,17 @@ void MediaStreamer::InitBuffers()
     assert(ret >= 0);
 }
 
+void MediaStreamer::ClearBuffers()
+{
+    m_audio_frames.close();
+    m_video_frames.close();
+
+    int ret = m_audio_frames.activate();
+    assert(ret >= 0);
+    ret = m_video_frames.activate();
+    assert(ret >= 0);
+}
+
 ACE_UINT32 MediaStreamer::GetMinimumFrameDurationMSec() const
 {
     ACE_UINT32 wait_ms = 1000;
