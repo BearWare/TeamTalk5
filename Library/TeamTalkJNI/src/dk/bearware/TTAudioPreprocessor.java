@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -23,11 +23,13 @@
 
 package dk.bearware;
 
-public class MediaFileInfo {
-    public /* MediaFileStatus */ int nStatus;
-    public String szFileName;
-    public AudioFormat audioFmt;
-    public VideoFormat videoFmt;
-    public int uDurationMSec;
-    public int uElapsedMSec;
+public class TTAudioPreprocessor {
+
+    public int nGainLevel;
+
+    public boolean bMuteLeftSpeaker;
+    public boolean bMuteRightSpeaker;
+    
+    public TTAudioPreprocessor() {
+    }
 }

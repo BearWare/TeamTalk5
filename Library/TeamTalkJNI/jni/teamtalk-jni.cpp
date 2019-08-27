@@ -548,6 +548,41 @@ extern "C" {
         return TT_StopStreamingMediaFileToChannel(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
+    JNIEXPORT jint JNICALL Java_dk_bearware_initLocalPlayback(JNIEnv* env, jobject thiz,
+                                                              jlong lpTTInstance,
+                                                              jstring szMediaFilePath,
+                                                              jobject lpMediaFilePlayback) {
+        THROW_NULLEX(env, szMediaFilePath, 0);
+        THROW_NULLEX(env, lpMediaFilePlayback, 0);
+
+        MediaFilePlayback playback = {};
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback);
+            
+        return TT_InitLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                    ttstr(env, szMediaFilePath), &playback);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_updateLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                    jlong lpTTInstance,
+                                                                    jint nPlaybackSessionID,
+                                                                    jobject lpMediaFilePlayback) {
+        
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback playback = {};
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback);
+
+        return TT_UpdateLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                      nPlaybackSessionID, &playback);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_stopLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                  jlong lpTTInstance,
+                                                                  jint nPlaybackSessionID) {
+        return TT_StopLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                    nPlaybackSessionID);
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMediaFileInfo(JNIEnv* env,
                                                                               jobject thiz,
                                                                               jstring szMediaFilePath,
@@ -1670,12 +1705,21 @@ extern "C" {
                                                                                     jobject thiz,
                                                                                     jlong lpTTInstance,
                                                                                     jint uStreamTypes,
-                                                                                    jint nFrequency)
-    {
+                                                                                    jint nFrequency) {
         return TT_DBG_SetSoundInputTone(reinterpret_cast<TTInstance*>(lpTTInstance),
                                         uStreamTypes, nFrequency);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1WriteAudioFileTone(JNIEnv* env,
+                                                                                     jobject thiz,
+                                                                                     jobject lpMediaFileInfo,
+                                                                                     jint nFrequency)
+    {
+        MediaFileInfo mfi = {};
+        setMediaFileInfo(env, mfi, lpMediaFileInfo);
+        return TT_DBG_WriteAudioFileTone(&mfi, nFrequency);
+    }
+    
     JNIEXPORT jint JNICALL Java_dk_bearware_PlatformHelper_desktopInputKeyTranslate(JNIEnv* env,
                                                                                     jclass,
                                                                                     jint nTranslate,

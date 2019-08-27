@@ -22,6 +22,8 @@ set (JAVA_SOURCES
   src/dk/bearware/AudioConfigConstants.java
   src/dk/bearware/AudioFileFormat.java
   src/dk/bearware/AudioFormat.java
+  src/dk/bearware/AudioPreprocessor.java
+  src/dk/bearware/AudioPreprocessorType.java
   src/dk/bearware/BannedUser.java
   src/dk/bearware/BanType.java
   src/dk/bearware/BitmapFormat.java
@@ -47,6 +49,7 @@ set (JAVA_SOURCES
   src/dk/bearware/FourCC.java
   src/dk/bearware/IntPtr.java
   src/dk/bearware/MediaFileInfo.java
+  src/dk/bearware/MediaFilePlayback.java
   src/dk/bearware/MediaFileStatus.java
   src/dk/bearware/OpusCodec.java
   src/dk/bearware/OpusConstants.java
@@ -70,6 +73,7 @@ set (JAVA_SOURCES
   src/dk/bearware/TeamTalkBase.java
   src/dk/bearware/TextMessage.java
   src/dk/bearware/TextMsgType.java
+  src/dk/bearware/TTAudioPreprocessor.java
   src/dk/bearware/TTMessage.java
   src/dk/bearware/TTType.java
   src/dk/bearware/User.java

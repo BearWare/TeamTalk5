@@ -284,6 +284,28 @@ public abstract class TeamTalkBase
         return stopStreamingMediaFileToChannel(ttInst);
     }
 
+    private native int initLocalPlayback(long lpTTInstance,
+                                         String szMediaFilePath,
+                                         MediaFilePlayback lpMediaFilePlayback);
+    public int initLocalPlayback(String szMediaFilePath,
+                                 MediaFilePlayback lpMediaFilePlayback) {
+        return initLocalPlayback(ttInst, szMediaFilePath, lpMediaFilePlayback);
+    }
+
+    private native boolean updateLocalPlayback(long lpTTInstance,
+                                               int nPlaybackSessionID,
+                                               MediaFilePlayback lpMediaFilePlayback);
+    public boolean updateLocalPlayback(int nPlaybackSessionID,
+                                       MediaFilePlayback lpMediaFilePlayback) {
+        return updateLocalPlayback(ttInst, nPlaybackSessionID, lpMediaFilePlayback);
+    }
+
+    private native boolean stopLocalPlayback(long lpTTInstance,
+                                             int nPlaybackSessionID);
+    public boolean stopLocalPlayback(int nPlaybackSessionID) {
+        return stopLocalPlayback(ttInst, nPlaybackSessionID);
+    }
+
     public static native boolean getMediaFileInfo(String szMediaFilePath,
                                                   MediaFileInfo lpMediaFileInfo);
 
@@ -768,10 +790,12 @@ public abstract class TeamTalkBase
     }
     public native String getErrorMessage(int nError);
     private native boolean DBG_SetSoundInputTone(long lpTTInstance,
-                                             int uStreamTypes,
-                                             int nFrequency);
+                                                 int uStreamTypes,
+                                                 int nFrequency);
     public boolean DBG_SetSoundInputTone(int uStreamTypes,
                                          int nFrequency) {
         return DBG_SetSoundInputTone(ttInst, uStreamTypes, nFrequency);
     }
+    public static native boolean DBG_WriteAudioFileTone(MediaFileInfo lpMediaFileInfo,
+                                                        int nFrequency);
 }

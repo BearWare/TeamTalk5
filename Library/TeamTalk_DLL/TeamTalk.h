@@ -3058,7 +3058,11 @@ extern "C" {
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,
-        __STREAMTYPE              = 33
+        __STREAMTYPE              = 33,
+        __AUDIOPREPROCESSORTYPE   = 34,
+        __AUDIOPREPROCESSOR       = 35,
+        __TTAUDIOPREPROCESSOR     = 36,
+        __MEDIAPLAYBACK           = 37,
     } TTType;
 
     /**

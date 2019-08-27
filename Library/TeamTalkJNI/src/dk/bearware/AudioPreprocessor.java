@@ -23,11 +23,13 @@
 
 package dk.bearware;
 
-public class MediaFileInfo {
-    public /* MediaFileStatus */ int nStatus;
-    public String szFileName;
-    public AudioFormat audioFmt;
-    public VideoFormat videoFmt;
-    public int uDurationMSec;
-    public int uElapsedMSec;
+public class AudioPreprocessor {
+
+    int nPreprocessor = AudioPreprocessorType.NO_AUDIOPREPROCESSOR;
+
+    public SpeexDSP speexdsp = new SpeexDSP();
+    public TTAudioPreprocessor ttpreprocessor = new TTAudioPreprocessor();
+    
+    AudioPreprocessor() {
+    }
 }

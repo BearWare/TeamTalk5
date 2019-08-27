@@ -256,6 +256,11 @@ bool FFMpegStreamer::StartStream()
     return false;
 }
 
+bool FFMpegStreamer::Pause()
+{
+    return false;
+}
+
 bool FFMpegStreamer::SetupInput(AVInputFormat *iformat,
                                 AVDictionary *options,
                                 AVFormatContext*& fmt_ctx,
@@ -424,7 +429,7 @@ int FFMpegStreamer::svc()
         } // stream index
         av_packet_unref(&packet);
 
-        while(!m_stop && ProcessAVQueues(start_time, false));
+        while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP(), false));
 
     } // while
 

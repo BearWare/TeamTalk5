@@ -48,6 +48,8 @@ public:
 
     bool StartStream();
 
+    bool Pause();
+    
     virtual bool AddStartTime() const { return true; }
 
 protected:

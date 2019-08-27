@@ -23,11 +23,8 @@
 
 package dk.bearware;
 
-public class MediaFileInfo {
-    public /* MediaFileStatus */ int nStatus;
-    public String szFileName;
-    public AudioFormat audioFmt;
-    public VideoFormat videoFmt;
-    public int uDurationMSec;
-    public int uElapsedMSec;
+public interface AudioPreprocessorType {
+    public static final int NO_AUDIOPREPROCESSOR        = 0;
+    public static final int SPEEXDSP_AUDIOPREPROCESSOR  = 1;
+    public static final int TEAMTALK_AUDIOPREPROCESSOR  = 2;
 }

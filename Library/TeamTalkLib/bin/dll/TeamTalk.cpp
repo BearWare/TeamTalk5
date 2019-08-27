@@ -3105,6 +3105,14 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(SpeexDSP);
     case __STREAMTYPE :
         return sizeof(StreamType);
+    case __AUDIOPREPROCESSORTYPE :
+        return sizeof(AudioPreprocessorType);
+    case __AUDIOPREPROCESSOR :
+        return sizeof(AudioPreprocessor);
+    case __TTAUDIOPREPROCESSOR :
+        return sizeof(TTAudioPreprocessor);
+    case __MEDIAPLAYBACK :
+        return sizeof(MediaPlayback);
     }
     return 0;
 }
