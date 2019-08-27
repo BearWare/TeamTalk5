@@ -4167,6 +4167,8 @@ extern "C" {
      *
      * @return A Session ID for identifing the media playback session.
      * If Session ID is <= 0 indicates an error.
+     *
+     * @return A session ID identifier referred to as @c nPlaybackSessionID.
      * 
      * @see TT_UpdateLocalPlayback()
      * @see TT_StopLocalPlayback() */
@@ -4179,7 +4181,7 @@ extern "C" {
      * 
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
-     * @param nPlaySessionID Session ID created by TT_InitLocalPlayback().
+     * @param nPlaybackSessionID Session ID created by TT_InitLocalPlayback().
      * @param lpMediaFilePlayback #AudioPreprocessorType of
      * #AudioPreprocessor cannot be changed. It must be the same as
      * used in TT_InitLocalPlayback().
@@ -4195,7 +4197,7 @@ extern "C" {
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
-     * @param nPlaySessionID Session ID created by TT_InitLocalPlayback().
+     * @param nPlaybackSessionID Session ID created by TT_InitLocalPlayback().
      *
      * @see TT_InitLocalPlayback()
      * @see TT_UpdateLocalPlayback() */
