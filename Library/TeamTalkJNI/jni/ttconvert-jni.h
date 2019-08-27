@@ -132,8 +132,8 @@ void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, J
 void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWindow, JConvert conv);
 void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame); //N2J
 void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock); //N2J
-void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo); //N2J
-void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat); //N2J
+void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, JConvert conv);
+void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConvert conv);
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv);
 void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConvert conv);
 void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec, JConvert conv);

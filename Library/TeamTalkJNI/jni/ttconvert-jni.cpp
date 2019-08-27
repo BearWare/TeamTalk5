@@ -503,7 +503,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
     {
         jclass cls_obj = env->FindClass("dk/bearware/MediaFileInfo");
         jobject newObj = newObject(env, cls_obj);
-        setMediaFileInfo(env, msg.mediafileinfo, newObj);
+        setMediaFileInfo(env, msg.mediafileinfo, newObj, N2J);
         env->SetObjectField(pMsg, fid_mfi, newObj);
     }
     break;
@@ -1528,7 +1528,7 @@ void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock)
     env->SetIntField(lpAudioBlock, fid_si, audblock.uSampleIndex);
 }
 
-void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo)
+void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, JConvert conv)
 {
    jclass cls = env->GetObjectClass(lpMediaFileInfo);
 
@@ -1546,22 +1546,35 @@ void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo)
    assert(fid_dur);
    assert(fid_elap);
 
-   env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
-   env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
-   
    jclass cls_audfmt = env->FindClass("dk/bearware/AudioFormat");
    jclass cls_vidfmt = env->FindClass("dk/bearware/VideoFormat");
-   jobject audfmt_obj = newObject(env, cls_audfmt);
-   jobject vidfmt_obj = newObject(env, cls_vidfmt);
-   setAudioFormat(env, mfi.audioFmt, audfmt_obj);
-   setVideoFormat(env, mfi.videoFmt, vidfmt_obj, N2J);
-   env->SetObjectField(lpMediaFileInfo, fid_audfmt, audfmt_obj);
-   env->SetObjectField(lpMediaFileInfo, fid_vidfmt, vidfmt_obj);
-   env->SetIntField(lpMediaFileInfo, fid_dur, mfi.uDurationMSec);
-   env->SetIntField(lpMediaFileInfo, fid_elap, mfi.uElapsedMSec);
+
+   if (conv == N2J) {
+       env->SetIntField(lpMediaFileInfo, fid_status, mfi.nStatus);
+       env->SetObjectField(lpMediaFileInfo, fid_fname, NEW_JSTRING(env, mfi.szFileName));
+   
+       jobject audfmt_obj = newObject(env, cls_audfmt);
+       jobject vidfmt_obj = newObject(env, cls_vidfmt);
+       setAudioFormat(env, mfi.audioFmt, audfmt_obj, conv);
+       setVideoFormat(env, mfi.videoFmt, vidfmt_obj, conv);
+       env->SetObjectField(lpMediaFileInfo, fid_audfmt, audfmt_obj);
+       env->SetObjectField(lpMediaFileInfo, fid_vidfmt, vidfmt_obj);
+       env->SetIntField(lpMediaFileInfo, fid_dur, mfi.uDurationMSec);
+       env->SetIntField(lpMediaFileInfo, fid_elap, mfi.uElapsedMSec);
+   }
+   else {
+       mfi.nStatus = MediaFileStatus(env->GetIntField(lpMediaFileInfo, fid_status));
+       TT_STRCPY(mfi.szFileName, ttstr(env, (jstring)env->GetObjectField(lpMediaFileInfo, fid_fname)));
+       jobject audfmt_obj = env->GetObjectField(lpMediaFileInfo, fid_audfmt);
+       jobject vidfmt_obj = env->GetObjectField(lpMediaFileInfo, fid_vidfmt);
+       setAudioFormat(env, mfi.audioFmt, audfmt_obj, conv);
+       setVideoFormat(env, mfi.videoFmt, vidfmt_obj, conv);
+       mfi.uDurationMSec = env->GetIntField(lpMediaFileInfo, fid_dur);
+       mfi.uElapsedMSec = env->GetIntField(lpMediaFileInfo, fid_elap);
+   }
 }
 
-void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat)
+void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConvert conv)
 {
     jclass cls = env->GetObjectClass(lpAudioFormat);
     jfieldID fid_audfmt = env->GetFieldID(cls, "nAudioFmt", "I");
@@ -1572,9 +1585,16 @@ void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat)
     assert(fid_sr);
     assert(fid_ch);
 
-    env->SetIntField(lpAudioFormat, fid_audfmt, fmt.nAudioFmt);
-    env->SetIntField(lpAudioFormat, fid_sr, fmt.nSampleRate);
-    env->SetIntField(lpAudioFormat, fid_ch, fmt.nChannels);
+    if (conv == N2J) {
+        env->SetIntField(lpAudioFormat, fid_audfmt, fmt.nAudioFmt);
+        env->SetIntField(lpAudioFormat, fid_sr, fmt.nSampleRate);
+        env->SetIntField(lpAudioFormat, fid_ch, fmt.nChannels);
+    }
+    else {
+        fmt.nAudioFmt = AudioFileFormat(env->GetIntField(lpAudioFormat, fid_audfmt));
+        fmt.nSampleRate = env->GetIntField(lpAudioFormat, fid_sr);
+        fmt.nChannels = env->GetIntField(lpAudioFormat, fid_ch);
+    }
 }
 
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv)

@@ -2259,7 +2259,19 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         ttclient1.disconnect();
         ttclient2.disconnect();
-        
+    }
+
+    public void testLocalPlayback() {
+
+        // load shared object
+        TeamTalkBase ttclient1 = newClientInstance();
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 10 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
     }
 
 }

@@ -594,7 +594,7 @@ extern "C" {
         MediaFileInfo mfi;
         if(TT_GetMediaFileInfo(ttstr(env, szMediaFilePath), &mfi))
         {
-            setMediaFileInfo(env, mfi, lpMediaFileInfo);
+            setMediaFileInfo(env, mfi, lpMediaFileInfo, N2J);
             return true;
         }
         return false;
@@ -1716,7 +1716,7 @@ extern "C" {
                                                                                      jint nFrequency)
     {
         MediaFileInfo mfi = {};
-        setMediaFileInfo(env, mfi, lpMediaFileInfo);
+        setMediaFileInfo(env, mfi, lpMediaFileInfo, J2N);
         return TT_DBG_WriteAudioFileTone(&mfi, nFrequency);
     }
     

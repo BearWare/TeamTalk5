@@ -26,8 +26,8 @@ package dk.bearware;
 public class MediaFileInfo {
     public /* MediaFileStatus */ int nStatus;
     public String szFileName;
-    public AudioFormat audioFmt;
-    public VideoFormat videoFmt;
+    public AudioFormat audioFmt = new AudioFormat();
+    public VideoFormat videoFmt = new VideoFormat();
     public int uDurationMSec;
     public int uElapsedMSec;
 }
