@@ -36,4 +36,5 @@ public interface ClientListener {
     public void onFileTransfer(FileTransfer filetransfer);
     public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining);
     public void onStreamMediaFile(MediaFileInfo mediafileinfo);
+    public void onLocalMediaFile(MediaFileInfo mediafileinfo);
 }

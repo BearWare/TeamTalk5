@@ -2264,14 +2264,29 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void testLocalPlayback() {
 
         // load shared object
-        TeamTalkBase ttclient1 = newClientInstance();
-
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+        
         MediaFileInfo mfi = new MediaFileInfo();
         mfi.szFileName = "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
-        mfi.uDurationMSec = 10 * 1000;
+        mfi.uDurationMSec = 2 * 1000;
 
         assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        
+        int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid > 0);
+
+        TTMessage msg = new TTMessage();
+        assertTrue(DEF_WAIT > mfi.uDurationMSec);
+        assertTrue("Wait for playback", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("streaming started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+
+        assertTrue("Wait for playback end", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("streaming ended", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
 
 }

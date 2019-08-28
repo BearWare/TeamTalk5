@@ -400,6 +400,14 @@ public class TeamTalkEventHandler {
                     l.onStreamMediaFile(mediafileinfo);
             }
             break;
+            case ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE : {
+                assert(pMsg.ttType == TTType.__MEDIAFILEINFO);
+                
+                MediaFileInfo mediafileinfo = pMsg.mediafileinfo;
+                for(ClientListener l : clientListener)
+                    l.onLocalMediaFile(mediafileinfo);
+            }
+            break;
         }
         
         return true;

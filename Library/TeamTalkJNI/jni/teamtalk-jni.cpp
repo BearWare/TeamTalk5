@@ -548,10 +548,10 @@ extern "C" {
         return TT_StopStreamingMediaFileToChannel(reinterpret_cast<TTInstance*>(lpTTInstance));
     }
 
-    JNIEXPORT jint JNICALL Java_dk_bearware_initLocalPlayback(JNIEnv* env, jobject thiz,
-                                                              jlong lpTTInstance,
-                                                              jstring szMediaFilePath,
-                                                              jobject lpMediaFilePlayback) {
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_initLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                           jlong lpTTInstance,
+                                                                           jstring szMediaFilePath,
+                                                                           jobject lpMediaFilePlayback) {
         THROW_NULLEX(env, szMediaFilePath, 0);
         THROW_NULLEX(env, lpMediaFilePlayback, 0);
 
@@ -562,10 +562,10 @@ extern "C" {
                                     ttstr(env, szMediaFilePath), &playback);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_updateLocalPlayback(JNIEnv* env, jobject thiz,
-                                                                    jlong lpTTInstance,
-                                                                    jint nPlaybackSessionID,
-                                                                    jobject lpMediaFilePlayback) {
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                                 jlong lpTTInstance,
+                                                                                 jint nPlaybackSessionID,
+                                                                                 jobject lpMediaFilePlayback) {
         
         THROW_NULLEX(env, lpMediaFilePlayback, false);
 
@@ -576,9 +576,9 @@ extern "C" {
                                       nPlaybackSessionID, &playback);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_stopLocalPlayback(JNIEnv* env, jobject thiz,
-                                                                  jlong lpTTInstance,
-                                                                  jint nPlaybackSessionID) {
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopLocalPlayback(JNIEnv* env, jobject thiz,
+                                                                               jlong lpTTInstance,
+                                                                               jint nPlaybackSessionID) {
         return TT_StopLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
                                     nPlaybackSessionID);
     }
