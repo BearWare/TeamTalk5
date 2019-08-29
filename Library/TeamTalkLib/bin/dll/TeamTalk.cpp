@@ -81,8 +81,8 @@ typedef std::shared_ptr<ClientNode> clientnode_t;
 
 struct ClientInstance
 {
-    clientnode_t clientnode;
     std::shared_ptr<TTMsgQueue> eventhandler;
+    clientnode_t clientnode;
     ACE_Recursive_Thread_Mutex mutex_video;
     typedef std::map<VideoFrame*, ACE_Message_Block*> video_frames_t;
     video_frames_t video_frames;
@@ -180,8 +180,11 @@ struct ClientInstance
         return false;
     }
 
-    ClientInstance()
+    ClientInstance(TTMsgQueue* eh)
     {
+        eventhandler.reset(eh);
+        clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), eh));
+        
 #if defined(USE_MINIDUMP)
         static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
 #endif
@@ -331,10 +334,7 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 #if defined(WIN32)
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 {
-    clientinst_t inst(new ClientInstance());
-    inst->eventhandler.reset(new TTMsgQueue(hWnd, uMsg));
-    inst->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                          inst->eventhandler));
+    clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
 
     wguard_t g(clients_mutex);
     clients.push_back(inst);
@@ -356,10 +356,7 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-    clientinst_t inst(new ClientInstance());
-    inst->eventhandler.reset(new TTMsgQueue());
-    inst->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                             inst->eventhandler.get()));
+    clientinst_t inst(new ClientInstance(new TTMsgQueue()));
 
     wguard_t g(clients_mutex);
     clients.push_back(inst);
