@@ -1348,6 +1348,9 @@ namespace UnitTest
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
             
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
+            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, mfi.uDurationMSec * 2));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
 
             os.str(L"");
