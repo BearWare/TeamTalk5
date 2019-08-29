@@ -227,7 +227,8 @@ struct ClientInstance
     }
 };
 
-typedef std::set< ClientInstance* > clients_t;
+typedef std::shared_ptr< ClientInstance > clientinst_t;
+typedef std::vector< clientinst_t > clients_t;
 
 clients_t clients;
 ACE_Recursive_Thread_Mutex clients_mutex;
@@ -293,26 +294,25 @@ void HOTKEY_USAGE(int num)
 }
 #endif
 
-ClientInstance* GET_CLIENT(TTInstance* pInstance)
+clientinst_t GET_CLIENT(TTInstance* pInstance)
 {
     wguard_t g(clients_mutex);
 
-    ClientInstance* pClient = static_cast<ClientInstance*>(pInstance);
-    clients_t::iterator ite = clients.find(pClient);
-    if(ite != clients.end())
-        return *ite;
-    return NULL;
+    for (auto c : clients)
+    {
+        if (c.get() == pInstance)
+            return c;
+    }
+    return clientinst_t();
 }
 
 clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
 {
     wguard_t g(clients_mutex);
 
-    ClientInstance* pClient = static_cast<ClientInstance*>(pInstance);
-    clients_t::iterator ite = clients.find(pClient);
-    if(ite != clients.end())
-        return (*ite)->clientnode;
-    
+    auto c = GET_CLIENT(pInstance);
+    if (c)
+        return c->clientnode;
     return clientnode_t();
 }
 
@@ -321,9 +321,6 @@ clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
     pClientNode = GET_CLIENTNODE(pInstance);                \
     if(!pClientNode)return ret;                             \
     GUARD_REACTOR(pClientNode)
-
-#define CLIENT ClientInstance*
-
 
 
 TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
@@ -334,52 +331,53 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 #if defined(WIN32)
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
 {
-    ClientInstance* pClient = new ClientInstance;
-    pClient->eventhandler.reset(new TTMsgQueue(hWnd, uMsg));
-    pClient->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                             pClient->eventhandler));
+    clientinst_t inst(new ClientInstance());
+    inst->eventhandler.reset(new TTMsgQueue(hWnd, uMsg));
+    inst->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
+                                          inst->eventhandler));
 
     wguard_t g(clients_mutex);
-    clients.insert(pClient);
+    clients.push_back(inst);
 
-    return pClient;
+    return inst;
 }
 
 TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
                                            IN HWND hWnd)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
-    pClient->eventhandler->SetHWND(hWnd);
+    
+    inst->eventhandler->SetHWND(hWnd);
     return TRUE;
 }
 #endif
 
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-    ClientInstance* pClient = new ClientInstance;
-    pClient->eventhandler.reset(new TTMsgQueue());
-    pClient->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
-                                             pClient->eventhandler.get()));
+    clientinst_t inst(new ClientInstance());
+    inst->eventhandler.reset(new TTMsgQueue());
+    inst->clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), 
+                                             inst->eventhandler.get()));
 
     wguard_t g(clients_mutex);
-    clients.insert(pClient);
+    clients.push_back(inst);
 
-    return pClient;
+    return inst.get();
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     int ret = 0;
 
 #if defined(WIN32)
     //make sure hotkey doesn't call us anymore
-    HOTKEY->ClearAll(pClient->eventhandler.get());
+    HOTKEY->ClearAll(inst->eventhandler.get());
 #endif
 
     //validate instance
@@ -391,8 +389,9 @@ TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
     TTASSERT(ret>=0);
 
     wguard_t g(clients_mutex);
-    clients.erase(pClient);
-    delete pClient;
+    auto c = std::find(clients.begin(), clients.end(), inst);
+    if (c != clients.end())
+        clients.erase(c);
 
     return TRUE;
 }
@@ -998,7 +997,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
@@ -1045,7 +1044,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserVideoCaptureFrame(IN TTInstance* lpTTInstan
     clientnode_t clientnode; 
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -1547,7 +1546,7 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, NULL);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
@@ -1575,7 +1574,7 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
 TEAMTALKDLL_API TTBOOL TT_ReleaseUserAudioBlock(IN TTInstance* lpTTInstance,
                                                 IN AudioBlock* lpAudioBlock)
 {
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -1906,7 +1905,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
@@ -1943,7 +1942,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserMediaVideoFrame(IN TTInstance* lpTTInstance
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -2850,7 +2849,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return NULL;
@@ -2900,7 +2899,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
     int size = ConvertBitmap(deskwnd, nBitmapFormat, in_bmp, out_bmp);
     if(size>0)
     {
-        ClientInstance* inst = GET_CLIENT(lpTTInstance);
+        auto inst = GET_CLIENT(lpTTInstance);
         TTASSERT(inst);
         if(!inst)
             return NULL;
@@ -2928,7 +2927,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
 TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance, 
                                                    IN DesktopWindow* lpDesktopWindow)
 {
-    ClientInstance* inst = GET_CLIENT(lpTTInstance);
+    auto inst = GET_CLIENT(lpTTInstance);
     TTASSERT(inst);
     if(!inst)
         return FALSE;
@@ -3274,17 +3273,17 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
                                      OUT TTMessage* pMsg,
                                      IN const INT32* pnWaitMs)
 {
-    ClientInstance* pClient = GET_CLIENT(lpTTInstance);
-    if(pClient && pMsg)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(inst && pMsg)
     {
         if(pnWaitMs && *pnWaitMs != -1)
         {
             ACE_Time_Value tv(*pnWaitMs/1000, (*pnWaitMs % 1000) * 1000);
             tv += ACE_OS::gettimeofday();
-            return pClient->eventhandler->GetMessage(*pMsg, &tv);
+            return inst->eventhandler->GetMessage(*pMsg, &tv);
         }
 
-        return pClient->eventhandler->GetMessage(*pMsg, NULL);
+        return inst->eventhandler->GetMessage(*pMsg, NULL);
     }
     return FALSE;
 }
