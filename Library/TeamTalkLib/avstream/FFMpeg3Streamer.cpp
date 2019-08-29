@@ -202,63 +202,7 @@ FFMpegStreamer::FFMpegStreamer(MediaStreamListener* listener)
 
 FFMpegStreamer::~FFMpegStreamer()
 {
-    Close();
-    assert(thr_count() == 0);
     MYTRACE(ACE_TEXT("~FFMpegStreamer()\n"));
-}
-
-bool FFMpegStreamer::OpenFile(const MediaFileProp& in_prop,
-                              const MediaStreamOutput& out_prop)
-{
-    if(this->thr_count())
-        return false;
-
-    m_media_in = in_prop;
-    m_media_out = out_prop;
-
-    bool success = false;
-    int ret = activate();
-    if(ret<0)
-        goto fail;
-
-    ret = m_open.get(success);
-
-    if(success)
-        return true;
-fail:
-    Reset();
-    return false;
-}
-
-void FFMpegStreamer::Close()
-{
-    m_stop = true;
-
-    m_start.set(true);
-
-    this->wait();
-    
-    m_open.cancel();
-    m_start.cancel();
-
-    Reset();
-
-    m_stop = false;
-}
-
-bool FFMpegStreamer::StartStream()
-{
-    if(m_media_in.filename.length())
-    {
-        m_start.set(true);
-        return true;
-    }
-    return false;
-}
-
-bool FFMpegStreamer::Pause()
-{
-    return false;
 }
 
 bool FFMpegStreamer::SetupInput(AVInputFormat *iformat,
@@ -274,7 +218,7 @@ bool FFMpegStreamer::SetupInput(AVInputFormat *iformat,
 }
 
 
-int FFMpegStreamer::svc()
+void FFMpegStreamer::Run()
 {
     AVFormatContext *fmt_ctx = NULL;
     int audio_stream_index = -1, video_stream_index = -1;
@@ -351,7 +295,7 @@ int FFMpegStreamer::svc()
     
     //wait for start signal
     MYTRACE(ACE_TEXT("FFMpeg3 waiting to start streaming: %s\n"), m_media_in.filename.c_str());
-    m_start.get(go);
+    m_run.get(go);
     if(!go)
         goto fail;
 
@@ -462,7 +406,6 @@ end:
     av_frame_free(&vid_frame);
     av_frame_free(&filt_frame);
     MYTRACE(ACE_TEXT("Quitting FFMpegStreamer thread\n"));
-    return 0;
 }
 
 int FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,

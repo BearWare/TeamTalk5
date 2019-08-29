@@ -48,66 +48,6 @@ MFStreamer::MFStreamer(MediaStreamListener* listener)
 {
 }
 
-MFStreamer::~MFStreamer()
-{
-    Close();
-}
-
-bool MFStreamer::OpenFile(const MediaFileProp& in_prop,
-                          const MediaStreamOutput& out_prop)
-{
-    Close();
-
-    m_media_in = in_prop;
-    m_media_out = out_prop;
-
-    m_thread.reset(new std::thread(&MFStreamer::Run, this));
-
-    bool ret = false;
-    m_open.get(ret);
-    return ret;
-}
-
-void MFStreamer::Close()
-{
-    if (m_thread.get())
-    {
-        m_stop = true;
-        m_run.set(false);
-
-        m_thread->join();
-        m_thread.reset();
-    }
-    Reset();
-
-    m_open.cancel();
-    m_run.cancel();
-}
-
-bool MFStreamer::StartStream()
-{
-    m_pause = false;
-    
-    // avoid doing a double start
-    if (!m_run.ready())
-        m_run.set(true);
-
-    return true;
-}
-
-bool MFStreamer::Pause()
-{
-    m_pause = true;
-
-    // only cancel semaphore if it's already active (set). Otherwise a double pause 
-    // will occur and invalidate the current semaphore (waiting thread on 
-    // current semaphore will not be notified)
-    if (m_run.ready())
-        return m_run.cancel() >= 0;
-    
-    return true;
-}
-
 void MFStreamer::Run()
 {
     HRESULT hr;

@@ -36,19 +36,11 @@ void InitAVConv();
 
 bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
 
-class FFMpegStreamer : protected ACE_Task<ACE_MT_SYNCH>
-                     , public MediaStreamer
+class FFMpegStreamer : public MediaStreamer
 {
 public:
     FFMpegStreamer(MediaStreamListener* listener);
     virtual ~FFMpegStreamer();
-    bool OpenFile(const MediaFileProp& in_prop,
-                  const MediaStreamOutput& out_prop);
-    void Close();
-
-    bool StartStream();
-
-    bool Pause();
     
     virtual bool AddStartTime() const { return true; }
 
@@ -62,7 +54,7 @@ protected:
                             int& video_stream_index);
 
 private:
-    int svc();
+    void Run();
 
     int ProcessAudioBuffer(struct AVFilterContext* aud_buffersink_ctx,
                            struct AVFrame* filt_frame,
@@ -74,9 +66,6 @@ private:
                            struct AVStream* vid_stream,
                            ACE_UINT32 start_time,
                            ACE_UINT32& start_offset);
-
-    typedef ACE_Future<bool> fileopen_t;
-    fileopen_t m_open, m_start;
 };
 
 #endif

@@ -26,11 +26,13 @@
 
 #include <ace/ACE.h>
 #include <ace/SString.h>
+#include <ace/Future.h>
 
 #include <myace/MyACE.h>
 #include <codec/MediaUtil.h>
 
 #include <memory>
+#include <thread>
 
 struct MediaStream
 {
@@ -106,15 +108,16 @@ class MediaStreamer
 {
 public:
     MediaStreamer(MediaStreamListener* listener) 
-        : m_listener(listener), m_stop(false) { }
-    virtual ~MediaStreamer() { }
-    virtual bool OpenFile(const MediaFileProp& in_prop,
-                          const MediaStreamOutput& out_prop) = 0;
-    virtual void Close() = 0;
+        : m_listener(listener) { }
+    virtual ~MediaStreamer();
+    
+    bool OpenFile(const MediaFileProp& in_prop,
+                  const MediaStreamOutput& out_prop);
+    void Close();
 
-    virtual bool StartStream() = 0;
+    bool StartStream();
 
-    virtual bool Pause() = 0;
+    bool Pause();
 
     void SetOffset(ACE_UINT32 offset) { m_offset = offset; }
 
@@ -122,6 +125,7 @@ public:
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
 
 protected:
+    virtual void Run() = 0;
     void Reset();
     void InitBuffers();
     void ClearBuffers();
@@ -132,7 +136,11 @@ protected:
     ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
     MediaStreamOutput m_media_out;
     MediaStreamListener* m_listener;
-    bool m_stop;
+
+    std::shared_ptr< std::thread > m_thread;
+    ACE_Future<bool> m_open, m_run;
+    bool m_pause = false;
+    bool m_stop = false;
     
     //return 'true' if it should be called again
     bool ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
