@@ -37,17 +37,6 @@
 
 using namespace std;
 
-enum iOSSoundDevice
-{
-    REMOTEIO_DEVICE_ID                  = (0 & SOUND_DEVICEID_MASK)
-    VOICEPROCESSINGIO_DEVICE_ID         = (1 & SOUND_DEVICEID_MASK)
-};
-
-#define DEFAULT_DEVICE_ID (REMOTEIO_DEVICE_ID)
-
-// #define SPEAKER_DEVICE_ID 1
-#define DEFAULT_SAMPLERATE 48000
-
 static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
                                    const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
                                    UInt32 numFrames, AudioBufferList *buffers);
@@ -61,6 +50,17 @@ static OSStatus AudioMuxedCallback(void *userData, AudioUnitRenderActionFlags *a
                                    UInt32 numFrames, AudioBufferList *buffers);
 
 namespace soundsystem {
+
+    enum iOSSoundDevice
+    {
+        REMOTEIO_DEVICE_ID                  = (0 & SOUND_DEVICEID_MASK),
+        VOICEPROCESSINGIO_DEVICE_ID         = (1 & SOUND_DEVICEID_MASK)
+    };
+
+#define DEFAULT_DEVICE_ID (REMOTEIO_DEVICE_ID)
+
+#define SPEAKER_DEVICE_ID 1
+#define DEFAULT_SAMPLERATE 48000
 
     typedef SoundSystemBase< SoundGroup, struct AUInputStreamer,
                              struct AUOutputStreamer, struct AUDuplexStreamer > AudUnitBase;
@@ -814,7 +814,7 @@ assert(status == noErr);
         
     };
 
-    SoundSystem* getAudUnit()
+    soundsystem_t getAudUnit()
     {
         return AudUnit::getInstance();
     }
@@ -961,14 +961,14 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
                 if ((*i)->playing)
                     streamers.push_back((*i).get());
             }
-            MuxPlayers(streamers, &tmp_buffer[0], samples_buffer);
+            MuxPlayers(soundsystem::getAudUnit().get(), streamers, &tmp_buffer[0], samples_buffer);
         }
         else // process 'normal' playback
         {
             assert(streamer->player);
             streamer->player->StreamPlayerCb(*streamer, &samples_buffer[0], streamer->framesize);
             //soft volume also handles mute
-            SoftVolume(*streamer, &samples_buffer[0], streamer->framesize);
+            SoftVolume(soundsystem::getAudUnit().get(), *streamer, &samples_buffer[0], streamer->framesize);
         }
 
         mb->wr_ptr(cbbytes);

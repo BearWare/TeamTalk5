@@ -25,5 +25,5 @@
 
 namespace soundsystem {
 
-    std::shared_ptr<class AudUnit> getAudUnit();
+    soundsystem_t getAudUnit();
 }
