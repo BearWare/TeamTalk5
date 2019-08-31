@@ -152,7 +152,7 @@ void OpenSLESWrapper::Close()
 
 std::shared_ptr<OpenSLESWrapper> OpenSLESWrapper::getInstance()
 {
-    static std::shared_ptr<OpenSLESWrapper> p(new OpenSLESWrapper();
+    static std::shared_ptr<OpenSLESWrapper> p(new OpenSLESWrapper());
     return p;
 }
 
@@ -427,7 +427,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(*streamer, 
+        SoftVolume(OpenSLESWrapper::getInstance().get(), *streamer, 
                    &streamer->buffers[buf_index][sample_index],
                    streamer->framesize);
     }
