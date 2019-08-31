@@ -6,7 +6,7 @@
 "%@ left channel" = "%@ forlod kanalen";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%1$@, Dit brugernavn \"%2$@\" er blevet godkendt";
+"%@, your username \"%@\" has been validated" = "%@, dit brugernavn \"%@\" er blevet godkendt";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standard";
@@ -58,10 +58,10 @@
 "Announce user leaving channel" = "Annoncer når bruger forlader kanalen";
 
 /* preferences */
-"Announce user logged onto server" = "Annoncér når bruger logger på serveren";
+"Announce user logged onto server" = "Annoncer når bruger logger på serveren";
 
 /* preferences */
-"Announce user logged out of server" = "Annoncér bruger loggede af serveren";
+"Announce user logged out of server" = "Annoncer bruger loggede af serveren";
 
 /* text to speech */
 "Announcements" = "Annonceringer";
@@ -187,7 +187,7 @@
 "Error" = "Fejl";
 
 /* preferences */
-"Exclusive Mode Toggled" = "eksklusivtilstand valgt";
+"Exclusive Mode Toggled" = "Eksklusivtilstand valgt";
 
 /* server entry */
 "Facebook Login" = "Facebook Login";
@@ -203,13 +203,13 @@
 "has joined the channel" = "er nu i kanalen";
 
 /* TTS EVENT */
-"has left the channel" = "Har forladt kanalen";
+"has left the channel" = "har forladt kanalen";
 
 /* TTS EVENT */
-"has logged on" = "Er logget på";
+"has logged on" = "er logget på";
 
 /* TTS EVENT */
-"has logged out" = "Er logget ud";
+"has logged out" = "er logget ud";
 
 /* preferences */
 "Headset TX Toggle" = "Headset TX Omskifter";
@@ -259,7 +259,7 @@
 
 /* preferences
    user detail */
-"Media File Volume" = "MediefilLydstyrke";
+"Media File Volume" = "Lydstyrke for mediefil";
 
 /* preferences */
 "Media file vs. voice volume" = "Mediefil versus talelydstyrke";
@@ -536,7 +536,7 @@
 "The volume of the speaking voice is %.1f" = "Volumen af tekst til tale er %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "aktiver for at tænde/slukke transmissionen";
+"Toggle to enable/disable transmission" = "Aktiver for at tænde/slukke transmissionen";
 
 /* preferences */
 "Toggle voice transmission using headset" = "Aktiver transmission med headset";
