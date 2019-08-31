@@ -25,5 +25,5 @@
 
 namespace soundsystem {
 
-    SoundSystem* getAudUnit();
+    soundsystem_t getAudUnit();
 }

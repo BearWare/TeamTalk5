@@ -27,7 +27,7 @@
 #include <myace/MyACE.h>
 
 #include <map>
-
+#include <memory>
 #include <assert.h>
 
 namespace soundsystem {
@@ -367,10 +367,10 @@ namespace soundsystem {
     };
 
 
-    SoundSystem* GetInstance();
+    typedef std::shared_ptr< SoundSystem > soundsystem_t;
+    soundsystem_t GetInstance();
 
 }
 
-#define SOUNDSYSTEM soundsystem::GetInstance()
 #endif
 

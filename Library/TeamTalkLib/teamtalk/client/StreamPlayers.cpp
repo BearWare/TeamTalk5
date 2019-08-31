@@ -74,7 +74,6 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 AudioPlayer::~AudioPlayer()
 {
-    assert(SOUNDSYSTEM->IsStreamStopped(this));
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 

@@ -6,7 +6,7 @@
 "%@ left channel" = "%@ forlod kanalen";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%@, dit brugernavn \"%@\" er blevet godkendt";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Standard";
@@ -58,13 +58,13 @@
 "Announce user leaving channel" = "Annoncer når bruger forlader kanalen";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "Annoncer når bruger logger på serveren";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "Annoncer bruger loggede af serveren";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "Annonceringer";
 
 /* preferences */
 "App Version" = "App Version";
@@ -73,7 +73,7 @@
 "Application" = "Applikation";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "Stigende";
 
 /* codec detail */
 "Audio Channels" = "Lydkanaler";
@@ -82,36 +82,36 @@
 "Audio Codec" = "Lyd Codec";
 
 /* Web Login Controller */
-"Authenticate" = "Authenticate";
+"Authenticate" = "Godkend";
 
 /* server entry */
 "Authentication" = "Godkendelse";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Ban user" = "Bloker bruger";
 
 /* codec detail */
-"Bitrate" = "Bitrate";
+"Bitrate" = "Overførselshastighed";
 
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* text message type */
-"Broadcast message" = "Broadcast message";
+"Broadcast message" = "Send Besked";
 
 /* preferences
    user detail */
-"Broadcast Messages" = "Broadcast Beskeder";
+"Broadcast Messages" = "Udsend Beskeder";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "Udsend tekstbesked";
 
 /* channel list
    server entry */
 "Channel" = "Kanal";
 
 /* text message type */
-"Channel message" = "Channel message";
+"Channel message" = "Kanalbesked";
 
 /* TTS EVENT */
 "Channel message from %@. %@" = "Kanalbesked fra %@. %@";
@@ -121,7 +121,7 @@
 "Channel Messages" = "Kanalbeskeder";
 
 /* create channel */
-"Channel Properties" = "Channel Properties";
+"Channel Properties" = "Kanalegenskaber";
 
 /* preferences */
 "Channel Text Message" = "Kanal tekstbesked";
@@ -130,7 +130,7 @@
 "Channel. %d users" = "Kanal. %d brugere";
 
 /* create channel */
-"Commands" = "Commands";
+"Commands" = "Kommandoer";
 
 /* serverlist */
 "Connect to server" = "Forbind til server";
@@ -163,7 +163,7 @@
 "Display" = "Visning";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Dobbelt tap og hold for at transmitere. Triple tap hurtigt for at låse transmissionen.";
 
 /* preferences */
 "Double tap to lock TX button" = "Tryk to gange for at låse transmission knap";
@@ -175,7 +175,7 @@
 "Edit properties" = "Rediger indstillinger";
 
 /* server entry */
-"Encrypted" = "Encrypted";
+"Encrypted" = "Krypteret";
 
 /* Dialog message */
 "Enter Password" = "Skriv Kodeord";
@@ -187,13 +187,13 @@
 "Error" = "Fejl";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "Eksklusivtilstand valgt";
 
 /* server entry */
 "Facebook Login" = "Facebook Login";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
+"Facebook login was cancelled" = "Facebook login blev afbrudt";
 
 /* preferences
    user detail */
@@ -203,16 +203,16 @@
 "has joined the channel" = "er nu i kanalen";
 
 /* TTS EVENT */
-"has left the channel" = "er ikke længere i kanalen";
+"has left the channel" = "har forladt kanalen";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "er logget på";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "er logget ud";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Headset TX Omskifter";
 
 /* server entry */
 "Host address" = "Serveradresse";
@@ -242,13 +242,13 @@
 "Limit length of names in channel list to %d characters" = "Begræns længden af navn i kanalliste til %d karakterer";
 
 /* text message type */
-"Log message" = "Log message";
+"Log message" = "Log besked";
 
 /* log entry */
 "Logged on to server" = "Loggede på serveren";
 
 /* preferences */
-"Master Volume" = "Master Volume";
+"Master Volume" = "Hovedlydstyrke";
 
 /* preferences */
 "Maximum Text Length" = "Maksimal Tekstlængde";
@@ -259,10 +259,10 @@
 
 /* preferences
    user detail */
-"Media File Volume" = "Mediefil Volume";
+"Media File Volume" = "Lydstyrke for mediefil";
 
 /* preferences */
-"Media file vs. voice volume" = "Mediefil versus talevolume";
+"Media file vs. voice volume" = "Mediefil versus talelydstyrke";
 
 /* preferences */
 "Microphone Gain" = "Mikrofonforstærkning";
@@ -272,10 +272,10 @@
 "Mono" = "Mono";
 
 /* channel list */
-"Move user" = "Move user";
+"Move user" = "Flyt bruger";
 
 /* channel list */
-"Move users here" = "Move users here";
+"Move users here" = "Flyt brugere hertil";
 
 /* codec detail */
 "Music" = "Musik";
@@ -297,13 +297,13 @@
 "Name displayed in channel list" = "Navn vist i kanalliste";
 
 /* Dialog message */
-"New Server" = "New Server";
+"New Server" = "Ny Server";
 
 /* preferences */
-"Nickname" = "Øgenavn";
+"Nickname" = "Kaldenavn";
 
 /* Dialog message */
-"No" = "No";
+"No" = "Nej";
 
 /* codec detail
    create channel */
@@ -334,7 +334,7 @@
 "OPUS Codec" = "OPUS Codec";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "Rækkefølge af kanaler i kanallisten";
 
 /* channel list */
 "Parent channel" = "Forrige kanal";
@@ -354,10 +354,10 @@
 "Play sound when a user joins the channel" = "Afspil lyd når en ny bruger er i kanalen";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "Afspil lyd når bruger forlader kanalen";
+"Play sound when a user leaves the channel" = "Afspil lyd når en bruger forlader kanalen";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "Afspil en lyd når massebesked modtages";
 
 /* preferences */
 "Play sound when channel text message is received" = "Afspil lyd når der modtages en tekstbesked i kanalen";
@@ -369,10 +369,10 @@
 "Play sound when private text message is received" = "Afspil lyd når privat tekstbesked modtages";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Afspil lyd når transmit er parat i \"No Interruptions\" channel";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "Afspil lyd når stemmeaktivering bliver aktiveret";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Afspil lyd når taletransmission skifter";
@@ -381,16 +381,16 @@
 "Pop up text message when new messages are received" = "Vis privat tekstbesked så snart den modtages";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "Popularitet";
 
 /* serverlist */
 "Preferences" = "Indstillinger";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+"Pressing Return-key sends text message" = "Trykkes enter sendes tekstbesked";
 
 /* text message type */
-"Private message" = "Private message";
+"Private message" = "Privat besked";
 
 /* serverlist */
 "Private server" = "Privat server";
@@ -405,7 +405,7 @@
 "Proximity sensor" = "Nærhedssensor (ved øret)";
 
 /* serverlist */
-"Public server" = "Offenlig server";
+"Public server" = "Offentlig server";
 
 /* preferences */
 "Push to Talk lock" = "Tryk vil låse stemmetransmission";
@@ -414,7 +414,7 @@
 "Quality" = "Kvalitet";
 
 /* preferences */
-"Receive broadcast messages by default" = "Modtag broadcast beskeder som standard";
+"Receive broadcast messages by default" = "Modtag massebeskeder som standard";
 
 /* preferences */
 "Receive channel messages by default" = "Modtag kanalbeskeder som standard";
@@ -435,7 +435,7 @@
 "Receive webcam streams by default" = "Modtag webcam som standard";
 
 /* preferences */
-"Return Sends Message" = "Return Sends Message";
+"Return Sends Message" = "Retur Sender Beskede";
 
 /* channel list */
 "Return to previous channel" = "Returner til forrige kanal";
@@ -444,28 +444,28 @@
 "root channel" = "rodkanal";
 
 /* codec detail */
-"Sample Rate" = "Sample Rate";
+"Sample Rate" = "Samplefrekvens";
 
 /* Dialog message */
-"Save Server" = "Save Server";
+"Save Server" = "Gem Server";
 
 /* Dialog message */
-"Save server to server list?" = "Save server to server list?";
+"Save server to server list?" = "Gem server i serverlisten?";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
+"Select the text-to-speech voice to use" = "Vælg den ønskede Tekst-til-tale-stemme";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Send tom besked for at lukke tastaturet";
 
 /* channel list */
 "Send private message" = "Send privat tekstbesked";
 
 /* preferences */
-"Server Connection Lost" = "Mistet forbindelse til serer";
+"Server Connection Lost" = "Mistet forbindelse til server";
 
 /* server entry */
-"Server List Entry" = "Serverliste element";
+"Server List Entry" = "Serverlisteelement";
 
 /* preferences */
 "Show Public Servers" = "Vis Offentlige Servere";
@@ -480,13 +480,13 @@
 "Show usernames" = "Vis brugernavne";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Vis brugernavne i stedet for øgenavne";
+"Show usernames instead of nicknames" = "Vis brugernavne i stedet for kaldenavne";
 
 /* channel list */
 "Silent" = "Tavs";
 
 /* preferences */
-"Sort channels" = "Sort channels";
+"Sort channels" = "Sortér kanaler";
 
 /* preferences
    text to speech */
@@ -502,16 +502,16 @@
 "Speech" = "Tale";
 
 /* preferences */
-"Speech Rate" = "Talerate";
+"Speech Rate" = "Talehastighed";
 
 /* preferences */
-"Speech Volume" = "Tale Volume";
+"Speech Volume" = "Talevolumen";
 
 /* codec detail */
 "Speex Codec" = "Speex Codec";
 
 /* codec detail */
-"Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
+"Speex Variable Bitrate Codec" = "Speex Variabel Bithastighed Codec";
 
 /* codec detail
    create channel */
@@ -527,40 +527,40 @@
 "TCP Port" = "TCP Port";
 
 /* preferences */
-"Text To Speech Events" = "Tekst til Tale Hændelser";
+"Text To Speech Events" = "Tekst-tilTale Hændelser";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "Tekst til tale vil ske med raten %.1f";
+"The rate of the speaking voice is %.1f" = "Tekst til tale vil ske ved hastigheden %.1f";
 
 /* preferences */
 "The volume of the speaking voice is %.1f" = "Volumen af tekst til tale er %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+"Toggle to enable/disable transmission" = "Aktiver for at tænde/slukke transmissionen";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Aktiver transmission med headset";
 
 /* create channel */
 "Topic" = "Emne";
 
 /* preferences */
-"Translator" = "Translator";
+"Translator" = "Oversætter";
 
 /* channel list */
-"Transmit inactive" = "Transmit inactive";
+"Transmit inactive" = "Transmitering er inaktiv";
 
 /* codec detail */
 "Transmit Interval" = "Sende Interval";
 
 /* channel list */
-"Transmitting" = "Transmitting";
+"Transmitting" = "Transmitterer";
 
 /* Dialog message */
-"Try again?" = "Try again?";
+"Try again?" = "Prøv igen";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Sluk for skærm når telefonen holdes ved øre";
+"Turn off screen when holding phone near ear" = "Sluk for skærm når telefonen holdes tæt ved øret";
 
 /* text field hint
    text message */
@@ -570,7 +570,7 @@
 "UDP Port" = "UDP Port";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
+"Use echo cancellation and automatic gain control" = "Brug ekkoundertrykkelse og automatisk lydstyrkeregulering";
 
 /* preferences */
 "Use iPhone's speaker instead of earpiece" = "Brug iPhone's højtaler i stedet for høresnegel";
@@ -591,10 +591,10 @@
 "User Leaves Channel" = "Bruger forlader kanalen";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "Bruger loggede ind";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User logged out" = "Bruger loggede ud";
 
 /* preferences
    user detail */
@@ -605,16 +605,16 @@
 "Username" = "Brugernavn";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Username or password incorrect";
+"Username or password incorrect" = "Forkert brugernavn eller adgangskode";
 
 /* preferences */
-"Version Information" = "Version Information";
+"Version Information" = "Versions Information";
 
 /* channel list */
 "View" = "Vis";
 
 /* channel list */
-"View properties" = "Vis indstillinger";
+"View properties" = "Vis egenskaber";
 
 /* preferences
    user detail */
@@ -630,22 +630,22 @@
 "Voice Activation Level: Disabled" = "Niveau for taleaktivering: Standard";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "StemmeAktivering udløst";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Stemmeforbehandling";
 
 /* preferences */
 "Voice Transmission Toggled" = "Taletransmission skifter";
 
 /* user detail */
-"Voice Volume" = "Tale Volume";
+"Voice Volume" = "Talevolumen";
 
 /* codec detail */
 "VoIP" = "VoIP";
 
 /* user detail */
-"Volume Controls" = "Volumekontrol";
+"Volume Controls" = "Volumenkontroller";
 
 /* Web Login controller */
 "Web Login ID" = "Web Login ID";
@@ -655,7 +655,7 @@
 "WebCam" = "WebCam";
 
 /* Dialog message */
-"Yes" = "Yes";
+"Yes" = "Ja";
 
 /* speech */
 "You have selected %@" = "Du har valgt %@";

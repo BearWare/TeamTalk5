@@ -87,6 +87,7 @@ private:
                 const SpeexAEC& aec);
 #endif
     bool m_active;
+    soundsystem::soundsystem_t m_soundsystem;
     int m_soundgrpid;
 #if defined(ENABLE_SPEEXDSP)
     SpeexPreprocess m_preprocess_left, m_preprocess_right;

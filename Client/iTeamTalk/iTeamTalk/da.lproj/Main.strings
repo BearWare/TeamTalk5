@@ -9,7 +9,7 @@
 "0QA-gn-V1p.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
-"3NI-HT-A3N.normalTitle" = "Tekst Besked";
+"3NI-HT-A3N.normalTitle" = "Tekstbesked";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityHint" = "Send privat tekstbesked";
@@ -21,7 +21,7 @@
 "4RU-K7-Yga.normalTitle" = "Besked til bruger";
 
 /* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
-"5K7-Hd-4h7.title" = "Text To Speech Events";
+"5K7-Hd-4h7.title" = "Tekst-til-Tale Hændelser";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
 "5YA-rx-tGz.normalTitle" = "Login";
@@ -30,7 +30,7 @@
 "79c-sV-yxb.title" = "Tekst-til-Tale Stemme";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Create Web Login ID";
+"8Ls-H9-lri.normalTitle" = "Opret Web Login ID";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -48,7 +48,7 @@
 "B8t-mo-k8g.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Reset Web Login ID";
+"baE-IB-ajD.normalTitle" = "Nulstil Web Login ID";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Forbind";
@@ -57,7 +57,7 @@
 "BLM-fs-qcG.title" = "Tilbage";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "Setup Sound Events";
+"bua-Pf-Vpn.text" = "Indstil Lydhændelser";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
 "cGm-Jp-0zI.normalTitle" = "Brug Speex Codec";
@@ -78,13 +78,13 @@
 "EHj-xt-HhD.text" = "Blank";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Choose events to playback";
+"eJb-Cn-ciJ.text" = "Vælg hændelser til afspilning";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "Chat Channel";
+"gA8-TJ-0RU.title" = "Chatkanal";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk Web Login";
@@ -105,10 +105,10 @@
 "kRp-LE-RFh.text" = "Blank";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "Setup Sound Events";
+"Ksa-x9-2Mq.title" = "Indstil Lydhændelser";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "Choose sounds events to play";
+"KsW-VX-Rtb.text" = "Vælg Lyde for Lydhændelser";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "Forbind til denne kanal";
@@ -135,7 +135,7 @@
 "o7z-cC-U4w.title" = "BearWare.dk Web Login";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Knap til opret forbindelse";
+"PaV-2Q-pt4.accessibilityLabel" = "Opret Forbindelse";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Forbind";
@@ -147,7 +147,7 @@
 "pQJ-c1-GEL.title" = "Serverliste";
 
 /* Class = "UILabel"; text = "Setup Annoucements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Setup Annoucements";
+"Q0w-pu-giG.text" = "Indstil annonceringer";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "Anvend ikke lyd";
@@ -156,7 +156,7 @@
 "Rrg-2O-NzF.normalTitle" = "Brug OPUS Codec";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID from BearWare.dk";
+"SmF-8J-cWK.text" = "Login ID fra BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";

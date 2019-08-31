@@ -30,7 +30,7 @@
 
 MediaPlayback::MediaPlayback(mediaplayback_status_t statusfunc,
                              int userdata,
-                             soundsystem::SoundSystem* sndsys)
+                             soundsystem::soundsystem_t sndsys)
     : m_statusfunc(statusfunc)
     , m_userdata(userdata)
     , m_sndsys(sndsys)
