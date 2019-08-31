@@ -339,7 +339,7 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT uMsg)
     wguard_t g(clients_mutex);
     clients.push_back(inst);
 
-    return inst;
+    return inst.get();
 }
 
 TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
@@ -2941,8 +2941,8 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
                                           IN INT32 nVKCodeCount)
 {
 
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HotKeyHook hotkey;
@@ -2950,9 +2950,9 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
     hotkey.active = false;
     for(int i=0;i<nVKCodeCount;i++)
         hotkey.keys.insert(lpnVKCodes[i]);
-    hotkey.listener = pClient->pEventHandler.get();
+    hotkey.listener = inst->eventhandler.get();
 
-    if(!HOTKEY->HotKeyExists(pClient->eventhandler.get(), nHotKeyID))
+    if(!HOTKEY->HotKeyExists(inst->eventhandler.get(), nHotKeyID))
         HOTKEY_USAGE(1);
     HOTKEY->RegisterHotKey(hotkey);
     return TRUE;
@@ -2961,13 +2961,13 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_Register(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API TTBOOL TT_HotKey_Unregister(IN TTInstance* lpTTInstance,
                                             IN INT32 nHotKeyID)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
-    if(HOTKEY->HotKeyExists(pClient->eventhandler.get(), nHotKeyID))
+    if(HOTKEY->HotKeyExists(inst->eventhandler.get(), nHotKeyID))
     {
-        HOTKEY->UnregisterHotKey(pClient->eventhandler.get(), nHotKeyID);
+        HOTKEY->UnregisterHotKey(inst->eventhandler.get(), nHotKeyID);
         HOTKEY_USAGE(-1);
     }
     return TRUE;
@@ -2976,36 +2976,36 @@ TEAMTALKDLL_API TTBOOL TT_HotKey_Unregister(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API INT32 TT_HotKey_IsActive(IN TTInstance* lpTTInstance,
                                          IN INT32 nHotKeyID)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return -1;
-    return HOTKEY->IsHotKeyActive(pClient->eventhandler.get(), nHotKeyID);
+    return HOTKEY->IsHotKeyActive(inst->eventhandler.get(), nHotKeyID);
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_InstallTestHook(IN TTInstance* lpTTInstance,
                                                  IN HWND hWnd, UINT uMsg)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HOTKEY_USAGE(1);
 
-    pClient->eventhandler->SetKeyHWND(hWnd, uMsg);
-    HOTKEY->AddKeyTester(pClient->eventhandler.get());
+    inst->eventhandler->SetKeyHWND(hWnd, uMsg);
+    HOTKEY->AddKeyTester(inst->eventhandler.get());
     return TRUE;
 }
 
 TEAMTALKDLL_API TTBOOL TT_HotKey_RemoveTestHook(IN TTInstance* lpTTInstance)
 {
-    CLIENT pClient = GET_CLIENT(lpTTInstance);
-    if(!pClient)
+    auto inst = GET_CLIENT(lpTTInstance);
+    if(!inst)
         return FALSE;
 
     HOTKEY_USAGE(-1);
 
-    pClient->eventhandler->SetKeyHWND(NULL, 0);
-    HOTKEY->RemoveKeyTester(pClient->eventhandler.get());
+    inst->eventhandler->SetKeyHWND(NULL, 0);
+    HOTKEY->RemoveKeyTester(inst->eventhandler.get());
     return TRUE;
 }
 
