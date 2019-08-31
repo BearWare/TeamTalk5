@@ -234,7 +234,7 @@ void FFMpegStreamer::Run()
     AVFrame* filt_frame = av_frame_alloc();
 
     int ret;
-    bool go = false;
+    bool start = false;
 
     if(!SetupInput(in_fmt, options, fmt_ctx, aud_dec_ctx, vid_dec_ctx, 
                    audio_stream_index, video_stream_index))
@@ -288,23 +288,25 @@ void FFMpegStreamer::Run()
         m_media_out.video = media::VideoFormat();
     }
 
-    //open and ready to go
+    //open and ready to start
     m_open.set(true);
 
     InitBuffers();
     
     //wait for start signal
     MYTRACE(ACE_TEXT("FFMpeg3 waiting to start streaming: %s\n"), m_media_in.filename.c_str());
-    m_run.get(go);
-    if(!go)
+    m_run.get(start);
+    if(!start)
         goto fail;
 
-    if(!m_stop && m_listener)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
-
-    ACE_UINT32 start_time, start_offset;
+    MediaStreamStatus status;
+    ACE_UINT32 start_time, start_offset, totalpausetime, offset;
+    
+    status = MEDIASTREAM_STARTED;
     start_time = GETTIMESTAMP();
     start_offset = -1;
+    totalpausetime = 0;
+    offset = 0;
 
     /* read all packets */
     AVPacket packet;
@@ -312,6 +314,34 @@ void FFMpegStreamer::Run()
 
     while (!m_stop)
     {
+        // check if we should pause
+        if (m_pause)
+        {
+            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+
+            ACE_UINT32 pausetime = GETTIMESTAMP();
+            if ((m_run.get(start) >= 0 && !start) || m_stop)
+            {
+                MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
+                break;
+            }
+
+            // ensure we don't submit MEDIASTREAM_STARTED twice (also for seek)
+            status = MEDIASTREAM_STARTED;
+
+            pausetime = GETTIMESTAMP() - pausetime;
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            totalpausetime += pausetime;
+        }
+
+        if (status != MEDIASTREAM_NONE)
+        {
+            if(m_listener)
+                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+
+            status = MEDIASTREAM_NONE;
+        }
+        
         if ((ret = av_read_frame(fmt_ctx, &packet)) < 0)
             break;
 
@@ -335,9 +365,10 @@ void FFMpegStreamer::Run()
                     break;
                 }
 
-                if (ProcessAudioBuffer(aud_buffersink_ctx, filt_frame,
-                                       fmt_ctx->streams[audio_stream_index],
-                                       start_time, start_offset) < 0)
+                auto audiotime = ProcessAudioBuffer(aud_buffersink_ctx, filt_frame,
+                                                    fmt_ctx->streams[audio_stream_index],
+                                                    start_time, start_offset);
+                if (audiotime < 0)
                 {
                     goto fail;
                 }
@@ -363,17 +394,19 @@ void FFMpegStreamer::Run()
                     break;
                 }
 
-                if (ProcessVideoBuffer(vid_buffersink_ctx, filt_frame, 
-                                       fmt_ctx->streams[video_stream_index],
-                                       start_time, start_offset) < 0)
+                auto videotime = ProcessVideoBuffer(vid_buffersink_ctx, filt_frame, 
+                                                    fmt_ctx->streams[video_stream_index],
+                                                    start_time, start_offset);
+                if (videotime < 0)
                 {
                     goto fail;
                 }
+                
             } // got_frame
         } // stream index
         av_packet_unref(&packet);
 
-        while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP(), false));
+        while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
 
     } // while
 
@@ -408,18 +441,18 @@ end:
     MYTRACE(ACE_TEXT("Quitting FFMpegStreamer thread\n"));
 }
 
-int FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
-                                       AVFrame* filt_frame,
-                                       AVStream* aud_stream,
-                                       ACE_UINT32 start_time,
-                                       ACE_UINT32& start_offset)
+int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
+                                           AVFrame* filt_frame,
+                                           AVStream* aud_stream,
+                                           ACE_UINT32 start_time,
+                                           ACE_UINT32& start_offset)
 {
 
     /* pull filtered audio from the filtergraph */
 
     int ret = av_buffersink_get_frame(aud_buffersink_ctx, filt_frame);
     if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-        return 1;
+        return 0;
     
     if(ret < 0)
         return -1;
@@ -466,14 +499,14 @@ int FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
         
     av_frame_unref(filt_frame);
 
-    return 0;
+    return frame_timestamp;
 }
 
-int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
-                                       AVFrame* filt_frame,
-                                       AVStream* vid_stream,
-                                       ACE_UINT32 start_time,
-                                       ACE_UINT32& start_offset)
+int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
+                                           AVFrame* filt_frame,
+                                           AVStream* vid_stream,
+                                           ACE_UINT32 start_time,
+                                           ACE_UINT32& start_offset)
 {
     assert(W32_LEQ(start_time, GETTIMESTAMP()));
 
@@ -481,7 +514,7 @@ int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
 
     int ret = av_buffersink_get_frame(vid_buffersink_ctx, filt_frame);
     if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-        return 1;
+        return 0;
     if (ret < 0)
         return -1;
 
@@ -545,7 +578,7 @@ int FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
 
     av_frame_unref(filt_frame);
 
-    return 0;
+    return frame_timestamp;
 }
 
 

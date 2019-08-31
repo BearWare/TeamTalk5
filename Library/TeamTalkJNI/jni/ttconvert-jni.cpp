@@ -860,7 +860,7 @@ void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert con
     }
 }
 
-void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor) {
+void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
     jclass cls = env->GetObjectClass(lpPreprocessor);
     jfieldID fid_gain = env->GetFieldID(cls, "nGainLevel", "I");
     jfieldID fid_left = env->GetFieldID(cls, "bMuteLeftSpeaker", "Z");
@@ -870,12 +870,21 @@ void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobj
     assert(fid_left);
     assert(fid_right);
 
-    env->SetIntField(lpPreprocessor, fid_gain, preprocessor.nGainLevel);
-    env->SetBooleanField(lpPreprocessor, fid_left, preprocessor.bMuteLeftSpeaker);
-    env->SetBooleanField(lpPreprocessor, fid_right, preprocessor.bMuteRightSpeaker);
+    if (conv == N2J)
+    {
+        env->SetIntField(lpPreprocessor, fid_gain, preprocessor.nGainLevel);
+        env->SetBooleanField(lpPreprocessor, fid_left, preprocessor.bMuteLeftSpeaker);
+        env->SetBooleanField(lpPreprocessor, fid_right, preprocessor.bMuteRightSpeaker);
+    }
+    else
+    {
+        preprocessor.nGainLevel = env->GetIntField(lpPreprocessor, fid_gain);
+        preprocessor.bMuteLeftSpeaker = env->GetBooleanField(lpPreprocessor, fid_left);
+        preprocessor.bMuteRightSpeaker = env->GetBooleanField(lpPreprocessor, fid_right);
+    }
 }
 
-void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor) {
+void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv) {
     jclass cls = env->GetObjectClass(lpPreprocessor);
     jfieldID fid_type = env->GetFieldID(cls, "nPreprocessor", "I");
     jfieldID fid_spx = env->GetFieldID(cls, "speexdsp", "Ldk/bearware/SpeexDSP;");
@@ -885,7 +894,11 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
     assert(fid_spx);
     assert(fid_ttp);
 
-    env->SetIntField(lpPreprocessor, fid_type, preprocessor.nPreprocessor);
+    if (conv == N2J)
+        env->SetIntField(lpPreprocessor, fid_type, preprocessor.nPreprocessor);
+    else
+        preprocessor.nPreprocessor = AudioPreprocessorType(env->GetIntField(lpPreprocessor, fid_type));
+    
     jobject spx = env->GetObjectField(lpPreprocessor, fid_spx);
     jobject ttp = env->GetObjectField(lpPreprocessor, fid_ttp);
     
@@ -893,10 +906,10 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
     case NO_AUDIOPREPROCESSOR :
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
-        setSpeexDSP(env, preprocessor.speexdsp, spx, N2J);
+        setSpeexDSP(env, preprocessor.speexdsp, spx, conv);
         break;
     case TEAMTALK_AUDIOPREPROCESSOR :
-        setTTAudioPreprocessor(env, preprocessor.ttpreprocessor, ttp);
+        setTTAudioPreprocessor(env, preprocessor.ttpreprocessor, ttp, conv);
         break;
     }
 }
@@ -1708,7 +1721,7 @@ void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrev
     }
 }
 
-void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback) {
+void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv) {
 
     jclass cls = env->GetObjectClass(lpMediaPlayback);
     jfieldID fid_off = env->GetFieldID(cls, "uOffsetMSec", "I");
@@ -1719,8 +1732,17 @@ void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMe
     assert(fid_pause);
     assert(fid_pre);
 
-    env->SetIntField(lpMediaPlayback, fid_off, playback.uOffsetMSec);
-    env->SetIntField(lpMediaPlayback, fid_pause, playback.bPaused);
     jobject pre = env->GetObjectField(lpMediaPlayback, fid_pre);
-    setAudioPreprocessor(env, playback.audioPreprocessor, pre);
+    
+    if (conv == N2J) {
+        env->SetIntField(lpMediaPlayback, fid_off, playback.uOffsetMSec);
+        env->SetBooleanField(lpMediaPlayback, fid_pause, playback.bPaused);
+        setAudioPreprocessor(env, playback.audioPreprocessor, pre, conv);
+    }
+    else
+    {
+        playback.uOffsetMSec = env->GetIntField(lpMediaPlayback, fid_off);
+        playback.bPaused = env->GetBooleanField(lpMediaPlayback, fid_pause);
+        setAudioPreprocessor(env, playback.audioPreprocessor, pre, conv);
+    }
 }

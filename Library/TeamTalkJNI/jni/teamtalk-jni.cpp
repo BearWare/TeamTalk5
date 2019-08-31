@@ -556,7 +556,7 @@ extern "C" {
         THROW_NULLEX(env, lpMediaFilePlayback, 0);
 
         MediaFilePlayback playback = {};
-        setMediaFilePlayback(env, playback, lpMediaFilePlayback);
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback, J2N);
             
         return TT_InitLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
                                     ttstr(env, szMediaFilePath), &playback);
@@ -570,7 +570,7 @@ extern "C" {
         THROW_NULLEX(env, lpMediaFilePlayback, false);
 
         MediaFilePlayback playback = {};
-        setMediaFilePlayback(env, playback, lpMediaFilePlayback);
+        setMediaFilePlayback(env, playback, lpMediaFilePlayback, J2N);
 
         return TT_UpdateLocalPlayback(reinterpret_cast<TTInstance*>(lpTTInstance),
                                       nPlaybackSessionID, &playback);

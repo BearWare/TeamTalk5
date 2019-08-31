@@ -1600,6 +1600,9 @@ void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
     case MEDIASTREAM_PAUSED :
         mfs = MFS_PAUSED;
         break;
+    case MEDIASTREAM_NONE :
+        assert(status != MEDIASTREAM_NONE);
+        break;
     }
 
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
@@ -3274,6 +3277,9 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
         TTASSERT(ret >= 0);
         break;
     }
+    case MEDIASTREAM_NONE :
+        assert(status != MEDIASTREAM_NONE);
+        break;
     }
 }
 

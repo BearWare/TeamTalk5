@@ -117,6 +117,8 @@ bool MediaStreamer::StartStream()
 
 bool MediaStreamer::Pause()
 {
+    MYTRACE(ACE_TEXT("MediaStreamer pausing\n"));
+    
     m_pause = true;
 
     // only cancel semaphore if it's already active (set). Otherwise a double pause 

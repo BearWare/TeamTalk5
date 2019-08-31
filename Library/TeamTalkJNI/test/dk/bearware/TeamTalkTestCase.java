@@ -2266,7 +2266,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         // load shared object
         TeamTalkBase ttclient = newClientInstance();
         initSound(ttclient);
-        
+
+        // play single two second file
         MediaFileInfo mfi = new MediaFileInfo();
         mfi.szFileName = "hest.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
@@ -2289,4 +2290,45 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("streaming ended", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
 
+    public void testLocalPlaybackPause() {
+
+        // load shared object
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+
+        // play single two second file
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 20 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        
+        TTMessage msg = new TTMessage();
+
+        // play 
+        mfp.bPaused = true;
+        int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid > 0);
+
+        assertTrue("Hold pause state", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
+
+        mfp.bPaused = false;
+        assertTrue("Unpause", ttclient.updateLocalPlayback(sessionid, mfp));
+
+        assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        
+        assertTrue("Play one sec", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
+        
+        mfp.bPaused = true;
+        assertTrue("Pause again", ttclient.updateLocalPlayback(sessionid, mfp));
+        
+        assertTrue("Wait for pause event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("streaming paused", MediaFileStatus.MFS_PAUSED, msg.mediafileinfo.nStatus);
+        
+    }
+    
 }

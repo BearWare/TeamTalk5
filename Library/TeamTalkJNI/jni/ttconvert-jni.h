@@ -116,8 +116,8 @@ jint getIntPtr(JNIEnv* env, jobject intptr);
 void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConvert conv);
 void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JConvert conv);
 void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert conv);
-void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor); //N2J
-void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor); //N2J
+void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
+void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
@@ -138,5 +138,5 @@ void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConve
 void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConvert conv);
 void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec, JConvert conv);
 void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv);
-void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback); //N2J
+void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv);
 #endif
