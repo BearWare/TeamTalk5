@@ -31,7 +31,7 @@ namespace soundsystem {
         AudioTbox();
         virtual ~AudioTbox();
     public:
-        static AudioTbox* getInstance();
+        static std::shared_ptr<AudioTbox> getInstance();
         bool RestartSoundSystem();
 
         //sound group members

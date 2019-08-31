@@ -150,10 +150,10 @@ void OpenSLESWrapper::Close()
     MYTRACE(ACE_TEXT("Closed OpenSL ES\n"));
 }
 
-OpenSLESWrapper* OpenSLESWrapper::getInstance()
+std::shared_ptr<OpenSLESWrapper> OpenSLESWrapper::getInstance()
 {
-    static OpenSLESWrapper inst;
-    return &inst;
+    static std::shared_ptr<OpenSLESWrapper> p(new OpenSLESWrapper());
+    return p;
 }
 
 soundgroup_t OpenSLESWrapper::NewSoundGroup()
@@ -427,7 +427,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
                                                 &streamer->buffers[buf_index][sample_index],
                                                 streamer->framesize);
         //soft volume also handles mute
-        SoftVolume(*streamer, 
+        SoftVolume(OpenSLESWrapper::getInstance().get(), *streamer, 
                    &streamer->buffers[buf_index][sample_index],
                    streamer->framesize);
     }

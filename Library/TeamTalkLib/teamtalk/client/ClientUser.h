@@ -85,7 +85,8 @@ namespace teamtalk {
     public:
         ClientUser(int userid, 
                    class ClientNode* clientnode,
-                   class ClientListener* listener);
+                   class ClientListener* listener,
+                   soundsystem::soundsystem_t sndsys);
         virtual ~ClientUser();
 
         void ResetAllStreams();
@@ -209,6 +210,8 @@ namespace teamtalk {
 
         ClientNode* m_clientnode;
         ClientListener* m_listener;
+        soundsystem::soundsystem_t m_soundsystem;
+        
         ClientUserStats m_stats;
         ACE_TString m_username;
         UserTypes m_usertype;

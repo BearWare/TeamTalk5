@@ -60,9 +60,9 @@ void PortAudio::Close()
     assert(err == paNoError);
 }
 
-PortAudio* PortAudio::getInstance()
+std::shared_ptr<PortAudio> PortAudio::getInstance()
 {
-    static soundsystem::PortAudio p;
+    static std::shared_ptr<PortAudio> p(new PortAudio());
 
 #if defined(ACE_WIN32) //COM must be initialize for all threads which uses this class
     static ACE_Recursive_Thread_Mutex mtx;
@@ -76,7 +76,7 @@ PortAudio* PortAudio::getInstance()
     }
 #endif
 
-    return &p;
+    return p;
 }
 
 soundgroup_t PortAudio::NewSoundGroup()
@@ -382,7 +382,7 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     short* playback = static_cast<short*>(outputBuffer);
 
     bContinue = streamer->player->StreamPlayerCb(*streamer, playback, framesPerBuffer);
-    SoftVolume(*streamer, playback, framesPerBuffer);
+    SoftVolume(PortAudio::getInstance().get(), *streamer, playback, framesPerBuffer);
 
     MYTRACE_COND(streamer->soundsystem == SOUND_API_NOSOUND,
                  ACE_TEXT("No sound output callback"));
@@ -586,7 +586,7 @@ int DuplexStreamCallback(const void *inputBuffer,
     const short* recorded = reinterpret_cast<const short*>(inputBuffer);
     short* playback = reinterpret_cast<short*>(outputBuffer);
 
-    DuplexCallback(*dpxStream, recorded, playback);
+    DuplexCallback(PortAudio::getInstance().get(), *dpxStream, recorded, playback);
 
     return paContinue;
 }
@@ -595,7 +595,7 @@ void DuplexStreamCallbackEnded(void* userData)
 {
     PaDuplexStreamer* dpxStream = static_cast<PaDuplexStreamer*>(userData);
     MYTRACE(ACE_TEXT("PORTAUDIO: Duplex stream %p ended\n"), dpxStream);
-    DuplexEnded(*dpxStream);
+    DuplexEnded(PortAudio::getInstance().get(), *dpxStream);
 }
 
 duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,

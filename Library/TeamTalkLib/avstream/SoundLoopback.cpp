@@ -33,14 +33,16 @@ using namespace soundsystem;
 SoundLoopback::SoundLoopback()
     : m_active(false)
 {
-    m_soundgrpid = SOUNDSYSTEM->OpenSoundGroup();
+    m_soundsystem = soundsystem::GetInstance();
+    
+    m_soundgrpid = m_soundsystem->OpenSoundGroup();
 }
 
 SoundLoopback::~SoundLoopback()
 {
     if(m_active)
         StopTest();
-    SOUNDSYSTEM->RemoveSoundGroup(m_soundgrpid);
+    m_soundsystem->RemoveSoundGroup(m_soundgrpid);
 }
 
 bool SoundLoopback::StartTest(int inputdevid, int outputdevid, 
@@ -63,8 +65,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 #endif
 
     DeviceInfo in_dev, out_dev;
-    if(!SOUNDSYSTEM->GetDevice(inputdevid, in_dev) ||
-       !SOUNDSYSTEM->GetDevice(outputdevid, out_dev) ||
+    if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
+       !m_soundsystem->GetDevice(outputdevid, out_dev) ||
        in_dev.default_samplerate == 0 ||
        out_dev.default_samplerate == 0)
        return false;
@@ -110,7 +112,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
     }
 #endif
 
-    if(!SOUNDSYSTEM->OpenOutputStream(this, outputdevid, m_soundgrpid,
+    if(!m_soundsystem->OpenOutputStream(this, outputdevid, m_soundgrpid,
                                       output_samplerate, output_channels,
                                       output_samples))
     {
@@ -118,13 +120,13 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
     }
 
-    if(!SOUNDSYSTEM->StartStream(this))
+    if(!m_soundsystem->StartStream(this))
     {
         StopTest();
         return false;
     }
 
-    if(!SOUNDSYSTEM->OpenInputStream(this, inputdevid, m_soundgrpid, 
+    if(!m_soundsystem->OpenInputStream(this, inputdevid, m_soundgrpid, 
                                      input_samplerate, input_channels,
                                      input_samples))
     {
@@ -146,7 +148,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
                                     )
 {
     DeviceInfo in_dev;
-    if(!SOUNDSYSTEM->GetDevice(inputdevid, in_dev) ||
+    if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
        in_dev.default_samplerate == 0)
        return false;
 
@@ -175,7 +177,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     }
 #endif
 
-    if(!SOUNDSYSTEM->OpenDuplexStream(this, inputdevid, outputdevid,
+    if(!m_soundsystem->OpenDuplexStream(this, inputdevid, outputdevid,
                                     m_soundgrpid, samplerate, 
                                     input_channels, channels, samples))
     {
@@ -188,9 +190,9 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
 
 bool SoundLoopback::StopTest()
 {
-    bool b = SOUNDSYSTEM->CloseDuplexStream(this);
-    b |= SOUNDSYSTEM->CloseInputStream(this);
-    b |= SOUNDSYSTEM->CloseOutputStream(this);
+    bool b = m_soundsystem->CloseDuplexStream(this);
+    b |= m_soundsystem->CloseInputStream(this);
+    b |= m_soundsystem->CloseOutputStream(this);
 
 #if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.Close();

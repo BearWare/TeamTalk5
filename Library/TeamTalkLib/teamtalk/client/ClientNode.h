@@ -594,6 +594,8 @@ namespace teamtalk {
 
         void ResetAudioPlayers();
 
+        // shared sound system instance
+        soundsystem::soundsystem_t m_soundsystem;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
         ClientFlags m_flags; //Mask of ClientFlag-enum

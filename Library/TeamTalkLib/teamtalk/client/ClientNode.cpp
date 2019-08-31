@@ -93,14 +93,17 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
 
     m_listener->RegisterEventSuspender(this);
 
-    m_local_voicelog = clientuser_t(new ClientUser(LOCAL_USERID, this, m_listener));
+    m_soundsystem = soundsystem::GetInstance();
+    m_soundprop.soundgroupid = m_soundsystem->OpenSoundGroup();
+
+    m_local_voicelog.reset(new ClientUser(LOCAL_USERID, this,
+                                          m_listener, m_soundsystem));
 
     this->activate();
 #if defined(_DEBUG)
     m_reactor_wait.acquire();
 #endif
 
-    m_soundprop.soundgroupid = SOUNDSYSTEM->OpenSoundGroup();
 }
 
 ClientNode::~ClientNode()
@@ -125,7 +128,7 @@ ClientNode::~ClientNode()
     audiomuxer().StopThread();
 
     AUDIOCONTAINER::instance()->ReleaseAllAudio(m_soundprop.soundgroupid);
-    SOUNDSYSTEM->RemoveSoundGroup(m_soundprop.soundgroupid);
+    m_soundsystem->RemoveSoundGroup(m_soundprop.soundgroupid);
 
     MYTRACE( (ACE_TEXT("~ClientNode\n")) );
 }
@@ -1012,11 +1015,11 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         return;
 
     int input_samplerate = 0, input_channels = 0, input_samples = 0;
-    if(!SOUNDSYSTEM->SupportsInputFormat(m_soundprop.inputdeviceid,
+    if(!m_soundsystem->SupportsInputFormat(m_soundprop.inputdeviceid,
                                        codec_channels, codec_samplerate))
     {
         DeviceInfo dev;
-        if(!SOUNDSYSTEM->GetDevice(m_soundprop.inputdeviceid, dev) ||
+        if(!m_soundsystem->GetDevice(m_soundprop.inputdeviceid, dev) ||
            dev.default_samplerate == 0)
             return;
         
@@ -1053,7 +1056,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
     {
         DeviceInfo dev;
-        SOUNDSYSTEM->GetDevice(m_soundprop.outputdeviceid, dev);
+        m_soundsystem->GetDevice(m_soundprop.outputdeviceid, dev);
         assert(dev.SupportsOutputFormat(output_channels, input_samplerate));
         if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
         {
@@ -1073,14 +1076,14 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             m_playback_buffer.resize(codec_samples * codec_channels);
         }
 
-        b = SOUNDSYSTEM->OpenDuplexStream(this, m_soundprop.inputdeviceid,
+        b = m_soundsystem->OpenDuplexStream(this, m_soundprop.inputdeviceid,
                                         m_soundprop.outputdeviceid,
                                         m_soundprop.soundgroupid, 
                                         input_samplerate, input_channels,
                                         output_channels, input_samples);
     }
     else
-        b = SOUNDSYSTEM->OpenInputStream(this, m_soundprop.inputdeviceid, 
+        b = m_soundsystem->OpenInputStream(this, m_soundprop.inputdeviceid, 
                                        m_soundprop.soundgroupid,
                                        input_samplerate, input_channels, 
                                        input_samples);
@@ -1097,9 +1100,9 @@ void ClientNode::CloseAudioCapture()
     ASSERT_REACTOR_LOCKED(this);
 
     if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
-        SOUNDSYSTEM->CloseDuplexStream(this);
+        m_soundsystem->CloseDuplexStream(this);
     else
-        SOUNDSYSTEM->CloseInputStream(this);
+        m_soundsystem->CloseInputStream(this);
 
     audiomuxer().QueueUserAudio(MUX_MYSELF_USERID, NULL, 
                                 m_soundprop.samples_transmitted, true,
@@ -2722,7 +2725,7 @@ bool ClientNode::InitSoundInputDevice(int inputdevice)
     if(m_flags & CLIENT_SNDINPUT_READY)
         return false;
 
-    if(!SOUNDSYSTEM->CheckInputDevice(inputdevice))
+    if(!m_soundsystem->CheckInputDevice(inputdevice))
         return false;
 
     rguard_t g_snd(lock_sndprop());
@@ -2747,7 +2750,7 @@ bool ClientNode::InitSoundOutputDevice(int outputdevice)
 
     if(m_flags & CLIENT_SNDOUTPUT_READY)
         return false;
-    if(!SOUNDSYSTEM->CheckOutputDevice(outputdevice))
+    if(!m_soundsystem->CheckOutputDevice(outputdevice))
         return false;
 
     rguard_t g_snd(lock_sndprop());
@@ -2771,9 +2774,9 @@ bool ClientNode::InitSoundDuplexDevices(int inputdeviceid,
     if((m_flags & CLIENT_SNDINPUT_READY) ||
        (m_flags & CLIENT_SNDOUTPUT_READY))
         return false; //already enabled
-    if(!SOUNDSYSTEM->CheckInputDevice(inputdeviceid))
+    if(!m_soundsystem->CheckInputDevice(inputdeviceid))
         return false;
-    if(!SOUNDSYSTEM->CheckOutputDevice(outputdeviceid))
+    if(!m_soundsystem->CheckOutputDevice(outputdeviceid))
         return false;
 
     rguard_t g_snd(lock_sndprop());
@@ -2857,12 +2860,12 @@ bool ClientNode::CloseSoundDuplexDevices()
 bool ClientNode::SetSoundOutputVolume(int volume)
 {
     rguard_t g_snd(lock_sndprop());
-    return SOUNDSYSTEM->SetMasterVolume(m_soundprop.soundgroupid, volume);
+    return m_soundsystem->SetMasterVolume(m_soundprop.soundgroupid, volume);
 }
 int ClientNode::GetSoundOutputVolume()
 {
     rguard_t g_snd(lock_sndprop());
-    return SOUNDSYSTEM->GetMasterVolume(m_soundprop.soundgroupid);
+    return m_soundsystem->GetMasterVolume(m_soundprop.soundgroupid);
 }
 
 void ClientNode::EnableVoiceTransmission(bool enable)
@@ -2928,7 +2931,7 @@ bool ClientNode::EnableAutoPositioning(bool enable)
         m_flags |= CLIENT_SNDOUTPUT_AUTO3DPOSITION;
     else
         m_flags &= ~CLIENT_SNDOUTPUT_AUTO3DPOSITION;
-    return SOUNDSYSTEM->SetAutoPositioning(m_soundprop.soundgroupid, enable);
+    return m_soundsystem->SetAutoPositioning(m_soundprop.soundgroupid, enable);
 }
 bool ClientNode::AutoPositionUsers()
 {
@@ -2936,7 +2939,7 @@ bool ClientNode::AutoPositionUsers()
 
     if(m_flags & CLIENT_SNDINOUTPUT_DUPLEX)
         return false;
-    return SOUNDSYSTEM->AutoPositionPlayers(m_soundprop.soundgroupid, true);
+    return m_soundsystem->AutoPositionPlayers(m_soundprop.soundgroupid, true);
 }
 void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                           bool enable)
@@ -2960,7 +2963,7 @@ bool ClientNode::MuteAll(bool muteall)
         m_flags &= ~CLIENT_SNDOUTPUT_MUTE;
 
     rguard_t g_snd(lock_sndprop());
-    return SOUNDSYSTEM->MuteAll(m_soundprop.soundgroupid, muteall);
+    return m_soundsystem->MuteAll(m_soundprop.soundgroupid, muteall);
 }
 
 void ClientNode::SetVoiceGainLevel(int gainlevel)
@@ -3152,7 +3155,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 
     mediaplayback_t playback;
     playback.reset(new MediaPlayback(std::bind(&ClientNode::MediaPlaybackStatus, this, _1, _2, _3),
-                   m_mediaplayback_counter, soundsystem::GetInstance()));
+                   m_mediaplayback_counter, m_soundsystem));
     
     if (!playback)
         return 0;
@@ -4955,7 +4958,7 @@ void ClientNode::HandleLoggedIn(const mstrings_t& properties)
         return;
 
     TTASSERT(m_users.find(userid) == m_users.end());
-    clientuser_t user (new ClientUser(userid, this, m_listener));
+    clientuser_t user (new ClientUser(userid, this, m_listener, m_soundsystem));
 
     if(GetProperty(properties, TT_NICKNAME, nick))
         user->SetNickname(nick);
@@ -5041,7 +5044,7 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
 
     clientuser_t user = GetUser(userid);
     if (!user) //view all users disabled scenario
-        user = clientuser_t(new ClientUser(userid, this, m_listener));
+        user = clientuser_t(new ClientUser(userid, this, m_listener, m_soundsystem));
 
     if(GetProperty(properties, TT_NICKNAME, nickname))
         user->SetNickname(nickname);

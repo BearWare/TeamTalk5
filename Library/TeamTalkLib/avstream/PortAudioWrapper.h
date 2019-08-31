@@ -92,7 +92,6 @@ namespace soundsystem
         PortAudio();
         PortAudio(const PortAudio& aud);
         const PortAudio& operator = (const PortAudio& aud);
-        virtual ~PortAudio();
 
     protected:
         bool Init();
@@ -128,8 +127,8 @@ namespace soundsystem
         void CloseStream(duplexstreamer_t streamer);
 
     public:
- 
-        static PortAudio* getInstance();
+        virtual ~PortAudio();
+        static std::shared_ptr<PortAudio> getInstance();
 
         bool SetAutoPositioning(int sndgrpid, bool enable);
         bool IsAutoPositioning(int sndgrpid);

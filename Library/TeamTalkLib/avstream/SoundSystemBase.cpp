@@ -28,8 +28,8 @@
 
 namespace soundsystem {
 
-void DuplexCallback(DuplexStreamer& dpxStream, const short* recorded,
-                    short* playback)
+void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream,
+                    const short* recorded, short* playback)
 {
     dpxStream.duplex->StreamDuplexEchoCb(dpxStream, recorded, playback, dpxStream.framesize);
 
@@ -39,12 +39,13 @@ void DuplexCallback(DuplexStreamer& dpxStream, const short* recorded,
         //lock 'players' so they're not removed during callback
         wguard_t g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
-        MuxPlayers(dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
+        MuxPlayers(sndsys, dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback);
     }
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
 }
 
-void MuxPlayers(const std::vector<OutputStreamer*>& players, short* tmp_buffer, short* playback)
+void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players,
+                short* tmp_buffer, short* playback)
 {
     for(size_t i=0;i<players.size();i++)
     {
@@ -53,7 +54,7 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players, short* tmp_buffer, 
                                    tmp_buffer,
                                    players[i]->framesize))
         {
-            SoftVolume(*players[i], tmp_buffer, players[i]->framesize);
+            SoftVolume(sndsys, *players[i], tmp_buffer, players[i]->framesize);
             int samples = players[i]->framesize * players[i]->channels;
             for(int p=0;p<samples;p++)
             {
@@ -69,7 +70,7 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players, short* tmp_buffer, 
     }
 }
 
-void DuplexEnded(DuplexStreamer& dpxStream)
+void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream)
 {
     size_t i = dpxStream.players.size();
     StreamPlayer* player;
@@ -77,15 +78,16 @@ void DuplexEnded(DuplexStreamer& dpxStream)
     {
         player = dpxStream.players[i]->player;
         player->StreamPlayerCbEnded();
-        SOUNDSYSTEM->RemoveDuplexOutputStream(dpxStream.duplex, player);
+        sndsys->RemoveDuplexOutputStream(dpxStream.duplex, player);
     }
 }
 
-void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples)
+void SoftVolume(SoundSystem* sndsys, const OutputStreamer& streamer,
+                short* buffer, int samples)
 {
-    int mastervolume = SOUNDSYSTEM->GetMasterVolume(streamer.sndgrpid);
-    if(mastervolume == 0 || streamer.volume == 0 || streamer.mute ||
-       SOUNDSYSTEM->IsAllMute(streamer.sndgrpid))
+    int mastervolume = sndsys->GetMasterVolume(streamer.sndgrpid);
+    if (mastervolume == 0 || streamer.volume == 0 || streamer.mute ||
+        sndsys->IsAllMute(streamer.sndgrpid))
     {
         memset(buffer, 0, PCM16_BYTES(samples,streamer.channels));
     }
