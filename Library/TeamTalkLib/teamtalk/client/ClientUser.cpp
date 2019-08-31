@@ -30,7 +30,6 @@
 
 using namespace std;
 using namespace teamtalk;
-using namespace soundsystem;
 
 #define TIMEOUT_STOP_AUDIO_PLAYBACK          30000    //msec for timeout of when to stop stream
 #define TIMEOUT_STOP_VIDEOFILE_PLAYBACK      5000
@@ -39,10 +38,12 @@ using namespace soundsystem;
 #define MEDIAFILE_BUFFER_MSEC          20000
 
 ClientUser::ClientUser(int userid, ClientNode* clientnode,
-                       ClientListener* listener)
+                       ClientListener* listener,
+                       soundsystem::soundsystem_t sndsys)
                        : User(userid)
                        , m_clientnode(clientnode)
                        , m_listener(listener)
+                       , m_soundsystem(sndsys)
                        , m_usertype(USERTYPE_NONE)
                        , m_userdata(0)
                        , m_voice_active(false)
@@ -279,9 +280,9 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     //         (int)audpkt.GetPacketNumber(), audpkt.GetTime(), GETTIMESTAMP());
     if(!m_snd_duplexmode)
     {
-        if( SOUNDSYSTEM->IsStreamStopped(m_voice_player.get()) )
+        if (m_soundsystem->IsStreamStopped(m_voice_player.get()) )
         {
-            SOUNDSYSTEM->StartStream(m_voice_player.get());
+            m_soundsystem->StartStream(m_voice_player.get());
             MYTRACE(ACE_TEXT("Starting voice stream for #%d\n"), GetUserID());
         }
     }
@@ -320,9 +321,9 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     audiopacket_t reassem_pkt = m_audiofile_player->QueuePacket(audpkt);
     if(!m_snd_duplexmode)
     {
-        if( SOUNDSYSTEM->IsStreamStopped(m_audiofile_player.get()) )
+        if (m_soundsystem->IsStreamStopped(m_audiofile_player.get()) )
         {
-            SOUNDSYSTEM->StartStream(m_audiofile_player.get());
+            m_soundsystem->StartStream(m_audiofile_player.get());
             MYTRACE(ACE_TEXT("Starting media audio stream for #%d\n"), GetUserID());
         }
     }
@@ -843,12 +844,12 @@ void ClientUser::SetVolume(StreamType stream_type, int volume)
     {
     case STREAMTYPE_VOICE :
         if (m_voice_player)
-            SOUNDSYSTEM->SetVolume(m_voice_player.get(), volume);
+            m_soundsystem->SetVolume(m_voice_player.get(), volume);
         m_voice_volume = volume;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
         if (m_audiofile_player)
-            SOUNDSYSTEM->SetVolume(m_audiofile_player.get(), volume);
+            m_soundsystem->SetVolume(m_audiofile_player.get(), volume);
         m_audiofile_volume = volume;
         break;
     default :
@@ -876,12 +877,12 @@ void ClientUser::SetMute(StreamType stream_type, bool mute)
     {
     case STREAMTYPE_VOICE :
         if (m_voice_player)
-            SOUNDSYSTEM->SetMute(m_voice_player.get(), mute);
+            m_soundsystem->SetMute(m_voice_player.get(), mute);
         m_voice_mute = mute;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
         if (m_audiofile_player)
-            SOUNDSYSTEM->SetMute(m_audiofile_player.get(), mute);
+            m_soundsystem->SetMute(m_audiofile_player.get(), mute);
         m_audiofile_mute = mute;
         break;
     default :
@@ -910,8 +911,8 @@ void ClientUser::SetPosition(StreamType stream_type, float x, float y, float z)
     case STREAMTYPE_VOICE :
         if (m_voice_player)
         {
-            SOUNDSYSTEM->SetPosition(m_voice_player.get(), x, y, z);
-            SOUNDSYSTEM->SetAutoPositioning(m_voice_player.get(), false);
+            m_soundsystem->SetPosition(m_voice_player.get(), x, y, z);
+            m_soundsystem->SetAutoPositioning(m_voice_player.get(), false);
         }
         m_voice_position[0] = x;
         m_voice_position[1] = y;
@@ -920,8 +921,8 @@ void ClientUser::SetPosition(StreamType stream_type, float x, float y, float z)
     case STREAMTYPE_MEDIAFILE_AUDIO :
         if (m_audiofile_player)
         {
-            SOUNDSYSTEM->SetPosition(m_audiofile_player.get(), x, y, z);
-            SOUNDSYSTEM->SetAutoPositioning(m_audiofile_player.get(), false);
+            m_soundsystem->SetPosition(m_audiofile_player.get(), x, y, z);
+            m_soundsystem->SetAutoPositioning(m_audiofile_player.get(), false);
         }
         m_audiofile_position[0] = x;
         m_audiofile_position[1] = y;
@@ -1018,13 +1019,13 @@ void ClientUser::ResetVoicePlayer()
 
     if(m_snd_duplexmode)
     {
-        bool b = SOUNDSYSTEM->RemoveDuplexOutputStream(m_clientnode,
-                                                       m_voice_player.get());
+        bool b = m_soundsystem->RemoveDuplexOutputStream(m_clientnode,
+                                                         m_voice_player.get());
         assert(b);
     }
     else
     {
-        bool b = SOUNDSYSTEM->CloseOutputStream(m_voice_player.get());
+        bool b = m_soundsystem->CloseOutputStream(m_voice_player.get());
         assert(b);
     }
 
@@ -1050,13 +1051,13 @@ void ClientUser::ResetAudioFilePlayer()
 
     if(m_snd_duplexmode)
     {
-        bool b = SOUNDSYSTEM->RemoveDuplexOutputStream(m_clientnode,
-                                                       m_audiofile_player.get());
+        bool b = m_soundsystem->RemoveDuplexOutputStream(m_clientnode,
+                                                         m_audiofile_player.get());
         assert(b);
     }
     else
     {
-        bool b = SOUNDSYSTEM->CloseOutputStream(m_audiofile_player.get());
+        bool b = m_soundsystem->CloseOutputStream(m_audiofile_player.get());
         assert(b);
     }
     m_audiofile_player.reset();
@@ -1092,13 +1093,13 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     audio_resampler_t resampler;
 
     int output_samplerate = 0, output_channels = 0, output_samples = 0;
-    if(!SOUNDSYSTEM->SupportsOutputFormat(sndprop.outputdeviceid,
-                                          codec_channels,
-                                          codec_samplerate))
+    if (!m_soundsystem->SupportsOutputFormat(sndprop.outputdeviceid,
+                                             codec_channels,
+                                             codec_samplerate))
     {
-        DeviceInfo dev;
-        if(!SOUNDSYSTEM->GetDevice(sndprop.outputdeviceid, dev) ||
-           dev.default_samplerate == 0)
+        soundsystem::DeviceInfo dev;
+        if (!m_soundsystem->GetDevice(sndprop.outputdeviceid, dev) ||
+            dev.default_samplerate == 0)
             return audio_player_t();
 
         //choose default sample rate supported by device
@@ -1171,16 +1172,16 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     {
         MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = SOUNDSYSTEM->AddDuplexOutputStream(m_clientnode,
-                                                     audio_player);
+        success = m_soundsystem->AddDuplexOutputStream(m_clientnode,
+                                                       audio_player);
     }
     else
     {
         MYTRACE(ACE_TEXT("Launching player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = SOUNDSYSTEM->OpenOutputStream(audio_player, sndprop.outputdeviceid,
-                                                sndprop.soundgroupid, output_samplerate,
-                                                output_channels, output_samples);
+        success = m_soundsystem->OpenOutputStream(audio_player, sndprop.outputdeviceid,
+                                                  sndprop.soundgroupid, output_samplerate,
+                                                  output_channels, output_samples);
     }
 
     MYTRACE_COND(!success, ACE_TEXT("Failed to launch player for #%d\n"), GetUserID());
@@ -1188,9 +1189,9 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     if(success)
     {
         // don't make sense to use auto position on duplex but just ignore return value
-        SOUNDSYSTEM->SetAutoPositioning(audio_player, true);
-        if(SOUNDSYSTEM->IsAutoPositioning(sndprop.soundgroupid))
-            SOUNDSYSTEM->AutoPositionPlayers(sndprop.soundgroupid, false);
+        m_soundsystem->SetAutoPositioning(audio_player, true);
+        if (m_soundsystem->IsAutoPositioning(sndprop.soundgroupid))
+            m_soundsystem->AutoPositionPlayers(sndprop.soundgroupid, false);
     }
     else
     {

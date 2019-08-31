@@ -150,10 +150,10 @@ void OpenSLESWrapper::Close()
     MYTRACE(ACE_TEXT("Closed OpenSL ES\n"));
 }
 
-OpenSLESWrapper* OpenSLESWrapper::getInstance()
+std::shared_ptr<OpenSLESWrapper> OpenSLESWrapper::getInstance()
 {
-    static OpenSLESWrapper inst;
-    return &inst;
+    static std::shared_ptr<OpenSLESWrapper> p(new OpenSLESWrapper();
+    return p;
 }
 
 soundgroup_t OpenSLESWrapper::NewSoundGroup()

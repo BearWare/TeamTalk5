@@ -36,10 +36,10 @@
 
 namespace soundsystem {
 
-    void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples);
-    void DuplexCallback(DuplexStreamer& dpxStream, const short* recorded, short* playback);
-    void MuxPlayers(const std::vector<OutputStreamer*>& players, short* tmp_buffer, short* playback);
-    void DuplexEnded(DuplexStreamer& dpxStream);
+    void SoftVolume(SoundSystem* sndsys, const OutputStreamer& streamer, short* buffer, int samples);
+    void DuplexCallback(SoundSystem* sndsys, DuplexStreamer& dpxStream, const short* recorded, short* playback);
+    void MuxPlayers(SoundSystem* sndsys, const std::vector<OutputStreamer*>& players, short* tmp_buffer, short* playback);
+    void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream);
 
     class StreamCaller : public ACE_Task_Base
     {
@@ -146,12 +146,14 @@ namespace soundsystem {
 
     class StreamDuplexCallback : public StreamCaller
     {
+        SoundSystem* m_sndsys;
         DuplexStreamer* m_streamer;
         std::vector<short> m_inputbuffer;
 
     public:
-        StreamDuplexCallback(DuplexStreamer* streamer)
+        StreamDuplexCallback(SoundSystem* sndsys, DuplexStreamer* streamer)
             : StreamCaller(*streamer, streamer->output_channels)
+            , m_sndsys(sndsys)
             , m_streamer(streamer)
         {
             m_inputbuffer.resize(streamer->input_channels * streamer->framesize, 0);
@@ -164,7 +166,7 @@ namespace soundsystem {
 
         bool StreamCallback(short* buffer)
         {
-            DuplexCallback(*m_streamer, &m_inputbuffer[0], buffer);
+            DuplexCallback(m_sndsys, *m_streamer, &m_inputbuffer[0], buffer);
             return true;
         }
     };
@@ -1356,7 +1358,7 @@ namespace soundsystem {
         void StartVirtualStream(duplexstreamer_t streamer)
         {
             assert(streamer->IsVirtual());
-            streamcallback_t scc(new StreamDuplexCallback(streamer.get()));
+            streamcallback_t scc(new StreamDuplexCallback(this, streamer.get()));
             wguard_t g(m_nodev_lock);
             m_nodev_streams[streamer.get()] = scc;
 

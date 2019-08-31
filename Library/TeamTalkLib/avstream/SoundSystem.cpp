@@ -99,7 +99,7 @@ namespace soundsystem {
 
 namespace soundsystem {
 
-    SoundSystem* GetInstance()
+    soundsystem_t GetInstance()
     {
 #if defined(ENABLE_PORTAUDIO)
         return PortAudio::getInstance();
@@ -110,8 +110,8 @@ namespace soundsystem {
 #elif defined(ENABLE_AUDIOUNIT)
         return soundsystem::getAudUnit();
 #else
-        static MySoundSystem snd;
-        return &snd;
+        static soundsystem_t p(new MySoundSystem());
+        return p;
 #endif
     }
 

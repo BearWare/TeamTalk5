@@ -397,7 +397,7 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID,
                                                  OUT INT32* lpnOutputDeviceID)
 {
     int input, output;
-    if(SOUNDSYSTEM->GetDefaultDevices(input, output))
+    if(soundsystem::GetInstance()->GetDefaultDevices(input, output))
     {
         if(lpnInputDeviceID)
             *lpnInputDeviceID = input;
@@ -416,7 +416,7 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem,
                                                    OUT INT32* lpnOutputDeviceID)
 {
     int input, output;
-    if(SOUNDSYSTEM->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
+    if(soundsystem::GetInstance()->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
     {
         if(lpnInputDeviceID)
             *lpnInputDeviceID = input;
@@ -438,7 +438,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         return FALSE;
 
     std::vector< soundsystem::DeviceInfo > devices;
-    SOUNDSYSTEM->GetSoundDevices(devices);
+    soundsystem::GetInstance()->GetSoundDevices(devices);
     if(!pSoundDevices)
     {
         *lpnHowMany = (INT32)devices.size();
@@ -495,7 +495,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
 
 TEAMTALKDLL_API TTBOOL TT_RestartSoundSystem(void)
 {
-    return SOUNDSYSTEM->RestartSoundSystem();
+    return soundsystem::GetInstance()->RestartSoundSystem();
 }
 
 TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTest(IN INT32 nInputDeviceID, 

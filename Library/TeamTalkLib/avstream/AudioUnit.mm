@@ -206,10 +206,10 @@ bool EnableSpeakerOutput(bool enable)
             MYTRACE(ACE_TEXT("~AudUnit()\n"));
         }
         
-        static AudUnit* getInstance()
+        static std::shared_ptr<AudUnit> getInstance()
         {
-            static AudUnit aud;
-            return &aud;
+            static std::shared_ptr<AudUnit> p(new AudUnit());
+            return p;
         }
 
         bool Init()

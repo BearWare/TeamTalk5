@@ -97,10 +97,10 @@ void AudioTbox::Close()
 {
 }
 
-AudioTbox* AudioTbox::getInstance()
+std::shared_ptr<AudioTbox> AudioTbox::getInstance()
 {
-    static AudioTbox aud;
-    return &aud;
+    static std::shared_ptr<AudioTbox> p(new AudioTbox());
+    return p;
 }
 
 bool AudioTbox::CanRestart()

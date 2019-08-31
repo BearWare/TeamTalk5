@@ -84,7 +84,6 @@ namespace soundsystem {
         OpenSLESWrapper();
         OpenSLESWrapper(const OpenSLESWrapper& aud);
         const OpenSLESWrapper& operator = (const OpenSLESWrapper& aud);
-        virtual ~OpenSLESWrapper();
 
     protected:
         
@@ -129,7 +128,8 @@ namespace soundsystem {
 
     public:
 
-        static OpenSLESWrapper* getInstance();
+        virtual ~OpenSLESWrapper();
+        static std::shared_ptr<OpenSLESWrapper> getInstance();
 
         bool GetDefaultDevices(int& inputdeviceid,
                                int& outputdeviceid);
