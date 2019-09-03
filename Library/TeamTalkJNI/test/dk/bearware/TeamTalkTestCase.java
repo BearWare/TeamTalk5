@@ -2330,5 +2330,76 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("streaming paused", MediaFileStatus.MFS_PAUSED, msg.mediafileinfo.nStatus);
         
     }
+
+    public void testLocalPlaybackSeek() {
+
+        // load shared object
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+
+        // play single two second file
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 20 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        
+        TTMessage msg = new TTMessage();
+
+        // play 
+        mfp.uOffsetMSec = 19 * 1000;
+        int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid > 0);
+
+        assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+
+        assertTrue(DEF_WAIT > mfi.uDurationMSec - mfp.uOffsetMSec);
+        assertTrue("Wait for finished event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);        
+    }
+
+    public void testLocalPlaybackSeekBackwards() {
+
+        // load shared object
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+
+        // play single two second file
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 20 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        
+        TTMessage msg = new TTMessage();
+
+        // play 
+        mfp.uOffsetMSec = 19 * 1000;
+        int sessionid = ttclient.initLocalPlayback(mfi.szFileName, mfp);
+        assertTrue("init playback", sessionid > 0);
+
+        assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        int elapsed = msg.mediafileinfo.uElapsedMSec;
+
+        mfp.uOffsetMSec = 18 * 1000;
+        assertTrue("Rewind", ttclient.updateLocalPlayback(sessionid, mfp));
+        
+        assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+
+        assertTrue("Playback from rewinded position", msg.mediafileinfo.uElapsedMSec < elapsed);
+        
+        assertTrue(DEF_WAIT > mfi.uDurationMSec - msg.mediafileinfo.uElapsedMSec);
+        assertTrue("Wait for finished event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+    }
     
 }

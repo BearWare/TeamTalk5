@@ -300,13 +300,14 @@ void FFMpegStreamer::Run()
         goto fail;
 
     MediaStreamStatus status;
-    ACE_UINT32 start_time, start_offset, totalpausetime, offset;
+    ACE_UINT32 start_time, start_offset, totalpausetime;
+    int64_t curaudiotime, curvideotime;
     
     status = MEDIASTREAM_STARTED;
     start_time = GETTIMESTAMP();
-    start_offset = -1;
+    start_offset = MEDIASTREAMER_OFFSET_IGNORE;
     totalpausetime = 0;
-    offset = 0;
+    curaudiotime = curvideotime = 0;
 
     /* read all packets */
     AVPacket packet;
@@ -314,6 +315,12 @@ void FFMpegStreamer::Run()
 
     while (!m_stop)
     {
+        MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
+                ACE_UINT32(curvideotime));
+    
+        m_media_in.elapsed_ms = ACE_UINT32(curaudiotime);
+        m_media_in.elapsed_ms = ACE_UINT32(curvideotime);
+        
         // check if we should pause
         if (m_pause)
         {
@@ -330,10 +337,69 @@ void FFMpegStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
             totalpausetime += pausetime;
         }
 
+        if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        {
+            double offset_sec = m_offset;
+            offset_sec /= 1000.0;
+
+            bool success = true;
+            
+            if (audio_stream_index >= 0)
+            {
+                auto aud_stream = fmt_ctx->streams[audio_stream_index];
+                double curaudio_sec = curaudiotime / 1000.0;
+                double difftime_sec = (offset_sec > curaudio_sec)? offset_sec - curaudio_sec : curaudio_sec - offset_sec;
+                    
+                if (av_seek_frame(fmt_ctx, audio_stream_index, difftime_sec / av_q2d(aud_stream->time_base),
+                                  (offset_sec > curaudio_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
+                {
+                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    success = false;
+                }
+                else
+                {
+                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                }
+            }
+
+            if (video_stream_index >= 0)
+            {
+                auto vid_stream = fmt_ctx->streams[video_stream_index];
+                double curvideo_sec = curvideotime / 1000.0;
+                double difftime_sec = (offset_sec > curvideo_sec)? offset_sec - curvideo_sec : curvideo_sec - offset_sec;
+                    
+                if (av_seek_frame(fmt_ctx, video_stream_index, difftime_sec / av_q2d(vid_stream->time_base),
+                                  (offset_sec > curvideo_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
+                {
+                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    success = false;
+                }
+                else
+                {
+                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                }
+
+            }
+
+            if (success)
+            {
+                m_media_in.elapsed_ms = m_offset;
+                start_time = GETTIMESTAMP();
+                totalpausetime = 0;
+                start_offset = MEDIASTREAMER_OFFSET_IGNORE;
+                
+                ClearBuffers();
+
+                status = MEDIASTREAM_STARTED;
+            }
+            
+            m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+        }
+        
         if (status != MEDIASTREAM_NONE)
         {
             if(m_listener)
@@ -365,10 +431,10 @@ void FFMpegStreamer::Run()
                     break;
                 }
 
-                auto audiotime = ProcessAudioBuffer(aud_buffersink_ctx, filt_frame,
-                                                    fmt_ctx->streams[audio_stream_index],
-                                                    start_time, start_offset);
-                if (audiotime < 0)
+                curaudiotime = ProcessAudioBuffer(aud_buffersink_ctx, filt_frame,
+                                                  fmt_ctx->streams[audio_stream_index],
+                                                  start_time, start_offset);
+                if (curaudiotime < 0)
                 {
                     goto fail;
                 }
@@ -394,10 +460,10 @@ void FFMpegStreamer::Run()
                     break;
                 }
 
-                auto videotime = ProcessVideoBuffer(vid_buffersink_ctx, filt_frame, 
-                                                    fmt_ctx->streams[video_stream_index],
-                                                    start_time, start_offset);
-                if (videotime < 0)
+                curvideotime = ProcessVideoBuffer(vid_buffersink_ctx, filt_frame, 
+                                                  fmt_ctx->streams[video_stream_index],
+                                                  start_time, start_offset);
+                if (curvideotime < 0)
                 {
                     goto fail;
                 }
@@ -410,6 +476,7 @@ void FFMpegStreamer::Run()
 
     } // while
 
+    while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
 
     //don't do callback if thread is asked to quit
     if(m_listener && !m_stop)
@@ -463,8 +530,9 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
 
     if (AddStartTime())
     {
-        // initial frame should be timestamp = 0 msec
-        if (start_offset == -1)
+        // initial frame should be timestamp = 0 msec. HTTP streams
+        // can start in the middle of a long session
+        if (start_offset == MEDIASTREAMER_OFFSET_IGNORE)
             start_offset = frame_timestamp;
         frame_timestamp -= start_offset;
     }
