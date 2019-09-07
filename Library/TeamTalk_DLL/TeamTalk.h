@@ -203,6 +203,15 @@ extern "C" {
  * will see the key-code as a middle mouse button click. */
 #define TT_DESKTOPINPUT_KEYCODE_MMOUSEBTN 0x1002
 
+/** @ingroup mediastream
+ * @def TT_MEDIAPLAYBACK_OFFSET_IGNORE
+ *
+ * Specify this value as uOffsetMSec in #MediaFilePlayback when
+ * calling TT_InitLocalPlayback() and TT_UpdateLocalPlayback() to
+ * ignore rewind or forward.
+ */
+#define TT_MEDIAPLAYBACK_OFFSET_IGNORE 0xFFFFFFFF
+
 #endif /* TEAMTALK_TYPES */
 
     /** @addtogroup sounddevices
