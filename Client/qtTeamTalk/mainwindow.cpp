@@ -4498,7 +4498,6 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteChannel->setEnabled(chanid>0);
     ui.actionStreamMediaFileToChannel->setChecked(statemask & 
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
-    ui.actionStreamMediaFileToChannel->setEnabled(mychannel > 0);
     ui.actionUploadFile->setEnabled(mychannel>0);
     ui.actionDownloadFile->setEnabled(mychannel>0);
     ui.actionDeleteFile->setEnabled(filescount>0);

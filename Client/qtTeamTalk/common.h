@@ -335,6 +335,7 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
+void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);

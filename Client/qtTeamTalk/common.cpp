@@ -113,6 +113,28 @@ void initDefaultVideoFormat(VideoFormat& vidfmt)
     vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
+void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor)
+{
+    switch (preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR :
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
+        preprocessor.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        preprocessor.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        preprocessor.speexdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        preprocessor.speexdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        preprocessor.speexdsp.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+        break;
+    }
+}
+
 bool initVideoCaptureFromSettings()
 {
     QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();
