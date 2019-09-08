@@ -4129,8 +4129,14 @@ extern "C" {
     /** @addtogroup mediastream
      * @{ */
 
+    /** @brief Stream media file to channel, e.g. avi-, wav- or MP3-file.
+     * @see TT_StartStreamingMediaFileToChannelEx() */
+    TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                               IN const TTCHAR* szMediaFilePath,
+                                                               IN const VideoCodec* lpVideoCodec);
+
     /**
-     * @brief Stream media file to channel, e.g. avi-, wav- or MP3-file.
+     * @brief Stream media file to channel, e.g. avi, wav or MP3-file.
      *
      * Call TT_GetMediaFileInfo() to get the properties of a media
      * file, i.e. audio and video format.
@@ -4150,13 +4156,41 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param szMediaFilePath File path to media file.
+     * @param lpMediaFilePlayback Playback settings to pause, seek and
+     * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+     * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+     * settings are applied.
      * @param lpVideoCodec If video file then specify output codec properties 
      * here, otherwise NULL.
      *
      * @see TT_StopStreamingMediaFileToChannel() */
-    TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
-                                                               IN const TTCHAR* szMediaFilePath,
-                                                               IN const VideoCodec* lpVideoCodec);
+    TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannelEx(IN TTInstance* lpTTInstance,
+                                                                 IN const TTCHAR* szMediaFilePath,
+                                                                 IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                                 IN const VideoCodec* lpVideoCodec);
+
+    /**
+     * @brief Update active media file being streamed to channel.
+     *
+     * While streaming a media file to a channel it's possible to
+     * pause, seek and manipulate audio preprocessing by passing new
+     * #MediaFilePlayback properties.
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk. 
+     * @param lpMediaFilePlayback Playback settings to pause, seek and
+     * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+     * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+     * settings are applied.
+     * @param lpVideoCodec If video file then specify output codec properties 
+     * here, otherwise NULL.
+     *
+     * @see TT_StartStreamingMediaFileToChannel()
+     * @see TT_StopStreamingMediaFileToChannel() */
+    TEAMTALKDLL_API TTBOOL TT_UpdateStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                                IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                                IN const VideoCodec* lpVideoCodec);
+
     /**
      * @brief Stop streaming media file to channel.
      *
@@ -4174,9 +4208,10 @@ extern "C" {
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
      * @param szMediaFilePath Path to media file.
-     * @param lpMediaFilePlayback If #SPEEXDSP_AUDIOPREPROCESSOR then
-     * the echo cancellation part of #SpeexDSP is unused. Only denoise
-     * and AGC settings are applied.
+     * @param lpMediaFilePlayback Playback settings to pause, seek and
+     * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+     * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+     * settings are applied.
      *
      * @return A Session ID for identifing the media playback session.
      * If Session ID is <= 0 indicates an error.

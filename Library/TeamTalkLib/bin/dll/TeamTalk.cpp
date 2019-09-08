@@ -1824,16 +1824,53 @@ TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannel(IN TTInstance* lpTTIn
                                                            IN const TTCHAR* szMediaFilePath,
                                                            IN const VideoCodec* lpVideoCodec)
 {
+    MediaFilePlayback mfp = {};
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    return TT_StartStreamingMediaFileToChannelEx(lpTTInstance, szMediaFilePath, &mfp, lpVideoCodec);
+}
+
+TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannelEx(IN TTInstance* lpTTInstance,
+                                                             IN const TTCHAR* szMediaFilePath,
+                                                             IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                             IN const VideoCodec* lpVideoCodec)
+{
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    if(!szMediaFilePath || !lpVideoCodec)
+    if(!szMediaFilePath || !lpMediaFilePlayback)
         return FALSE;
 
-    teamtalk::VideoCodec vid_codec;
-    Convert(*lpVideoCodec, vid_codec);
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
 
-    return clientnode->StartStreamingMediaFile(szMediaFilePath, vid_codec);
+    teamtalk::VideoCodec vid_codec;
+    if (lpVideoCodec)
+        Convert(*lpVideoCodec, vid_codec);
+
+    return clientnode->StartStreamingMediaFile(szMediaFilePath, lpMediaFilePlayback->uOffsetMSec,
+                                               lpMediaFilePlayback->bPaused, preprocessor, vid_codec);
+}
+
+TEAMTALKDLL_API TTBOOL TT_UpdateStreamingMediaFileToChannel(IN TTInstance* lpTTInstance,
+                                                            IN const MediaFilePlayback* lpMediaFilePlayback,
+                                                            IN const VideoCodec* lpVideoCodec)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    if (!lpMediaFilePlayback)
+        return FALSE;
+
+    teamtalk::AudioPreprocessor preprocessor;
+    Convert(lpMediaFilePlayback->audioPreprocessor, preprocessor);
+
+    teamtalk::VideoCodec vid_codec;
+    if (lpVideoCodec)
+        Convert(*lpVideoCodec, vid_codec);
+
+    return clientnode->UpdateStreamingMediaFile(lpMediaFilePlayback->uOffsetMSec,
+                                                lpMediaFilePlayback->bPaused,
+                                                preprocessor, vid_codec);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StopStreamingMediaFileToChannel(IN TTInstance* lpTTInstance)

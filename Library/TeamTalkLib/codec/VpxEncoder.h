@@ -39,6 +39,7 @@ public:
 
     bool Open(int width, int height, int target_bitrate, int fps);
     void Close();
+    bool Update(int target_bitrate);
 
     vpx_codec_err_t Encode(const char* imgbuf, vpx_img_fmt fmt, int stride,
                            bool bottom_up, unsigned long tm, int enc_deadline);
