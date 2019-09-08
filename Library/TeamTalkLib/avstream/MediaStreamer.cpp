@@ -184,8 +184,6 @@ void MediaStreamer::ClearBuffers()
     assert(ret >= 0);
     ret = m_video_frames.activate();
     assert(ret >= 0);
-
-    MYTRACE("Cleared buffers\n");
 }
 
 ACE_UINT32 MediaStreamer::GetMinimumFrameDurationMSec() const
