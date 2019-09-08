@@ -949,6 +949,12 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener {
         }
     }
 
+    @Override
+    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
+
+    }
+
+
     class WebLoginAccessToken extends AsyncTask<Void, Void, Void> {
 
         String username = "", token = "", accesstoken = "";
