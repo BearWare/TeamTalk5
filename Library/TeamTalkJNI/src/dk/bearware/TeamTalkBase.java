@@ -278,7 +278,26 @@ public abstract class TeamTalkBase
         return startStreamingMediaFileToChannel(ttInst, szMediaFilePath,
                                                 lpVideoCodec);
     }
+    private native boolean startStreamingMediaFileToChannelEx(long lpTTInstance,
+                                                              String szMediaFilePath,
+                                                              MediaFilePlayback lpMediaFilePlayback,
+                                                              VideoCodec lpVideoCodec);
+    public boolean startStreamingMediaFileToChannel(String szMediaFilePath,
+                                                    MediaFilePlayback lpMediaFilePlayback,
+                                                    VideoCodec lpVideoCodec) {
+        return startStreamingMediaFileToChannelEx(ttInst, szMediaFilePath,
+                                                  lpMediaFilePlayback,
+                                                  lpVideoCodec);
+    }
 
+    private native boolean updateStreamingMediaFileToChannel(long lpTTInstance,
+                                                             MediaFilePlayback lpMediaFilePlayback,
+                                                             VideoCodec lpVideoCodec);
+    public boolean updateStreamingMediaFileToChannel(MediaFilePlayback lpMediaFilePlayback,
+                                                     VideoCodec lpVideoCodec) {
+        return updateStreamingMediaFileToChannel(ttInst, lpMediaFilePlayback, lpVideoCodec);
+    }
+    
     private native boolean stopStreamingMediaFileToChannel(long lpTTInstance);
     public boolean stopStreamingMediaFileToChannel() {
         return stopStreamingMediaFileToChannel(ttInst);

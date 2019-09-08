@@ -3042,8 +3042,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //both audio and video part of mediafile use same stream id
     GEN_NEXT_ID(m_mediafile_stream_id);
 
-    bool b = m_media_streamer->StartStream();
-    if(!b)
+    if (!UpdateStreamingMediaFile(offset, paused, preprocessor, vid_codec))
     {
         StopStreamingMediaFile();
         return false;
@@ -3062,7 +3061,11 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     if (m_videofile_thread)
     {
         if (!m_videofile_thread->UpdateEncoder(vid_codec))
+        {
+            MYTRACE(ACE_TEXT("Failed to update video encoder on %s\n"),
+                    m_media_streamer->GetMediaInput().filename.c_str());
             return false;
+        }
     }
 
     switch(preprocessor.preprocessor)
@@ -3070,7 +3073,8 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     case AUDIOPREPROCESSOR_NONE :
         break;
     case AUDIOPREPROCESSOR_SPEEXDSP :
-        m_audiofile_thread.UpdatePreprocess(preprocessor.speexdsp);
+        if (!m_audiofile_thread.UpdatePreprocess(preprocessor.speexdsp))
+            return false;
         break;
     case AUDIOPREPROCESSOR_TEAMTALK :
         m_audiofile_thread.m_gainlevel = preprocessor.ttpreprocessor.gainlevel;

@@ -530,10 +530,8 @@ extern "C" {
                                                                                               jobject lpVideoCodec)
     {
         THROW_NULLEX(env, szMediaFilePath, false);
-        THROW_NULLEX(env, lpVideoCodec, false);
 
-        VideoCodec vidcodec;
-        ZERO_STRUCT(vidcodec);
+        VideoCodec vidcodec = {};
         vidcodec.nCodec = NO_CODEC;
         if(lpVideoCodec)
             setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
@@ -541,6 +539,49 @@ extern "C" {
                                                    ttstr(env, szMediaFilePath), &vidcodec);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startStreamingMediaFileToChannelEx(JNIEnv* env,
+                                                                                                jobject thiz,
+                                                                                                jlong lpTTInstance,
+                                                                                                jstring szMediaFilePath,
+                                                                                                jobject lpMediaFilePlayback,
+                                                                                                jobject lpVideoCodec)
+    {
+        THROW_NULLEX(env, szMediaFilePath, false);
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback mfp = {};
+        if (lpMediaFilePlayback)
+            setMediaFilePlayback(env, mfp, lpMediaFilePlayback, J2N);
+
+        VideoCodec vidcodec = {};
+        vidcodec.nCodec = NO_CODEC;
+        if(lpVideoCodec)
+            setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
+        return TT_StartStreamingMediaFileToChannelEx(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                     ttstr(env, szMediaFilePath), &mfp, &vidcodec);
+    }
+
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateStreamingMediaFileToChannel(JNIEnv* env,
+                                                                                               jobject thiz,
+                                                                                               jlong lpTTInstance,
+                                                                                               jobject lpMediaFilePlayback,
+                                                                                               jobject lpVideoCodec)
+    {
+        THROW_NULLEX(env, lpMediaFilePlayback, false);
+
+        MediaFilePlayback mfp = {};
+        if (lpMediaFilePlayback)
+            setMediaFilePlayback(env, mfp, lpMediaFilePlayback, J2N);
+        
+        VideoCodec vidcodec = {};
+        vidcodec.nCodec = NO_CODEC;
+        if (lpVideoCodec)
+            setVideoCodec(env, vidcodec, lpVideoCodec, J2N);
+        
+        return TT_UpdateStreamingMediaFileToChannel(reinterpret_cast<TTInstance*>(lpTTInstance),
+                                                    &mfp, &vidcodec);
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopStreamingMediaFileToChannel(JNIEnv* env,
                                                                                              jobject thiz,
                                                                                              jlong lpTTInstance)
