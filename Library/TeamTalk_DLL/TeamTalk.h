@@ -1200,12 +1200,14 @@ extern "C" {
      * streaming.
      *
      * @see TT_InitLocalPlayback()
-     * @see TT_UpdateLocalPlayback() */
+     * @see TT_UpdateLocalPlayback()
+     * @see TT_StartStreamingMediaFileToChannelEx()
+     * @see TT_UpdateStreamingMediaFileToChannel() */
     typedef struct MediaFilePlayback
     {
         /** @brief Offset in milliseconds in the media file where to
          * start playback. Pass -1 (0xffffffff) to ignore this value when 
-         * using TT_UpdateLocalPlayback().
+         * using TT_UpdateLocalPlayback() or TT_UpdateStreamingMediaFileToChannel().
          * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
         UINT32 uOffsetMSec;
         /** @brief Start or pause media file playback. */
@@ -3071,7 +3073,7 @@ extern "C" {
         __AUDIOPREPROCESSORTYPE   = 34,
         __AUDIOPREPROCESSOR       = 35,
         __TTAUDIOPREPROCESSOR     = 36,
-        __MEDIAPLAYBACK           = 37,
+        __MEDIAFILEPLAYBACK       = 37,
     } TTType;
 
     /**
@@ -4163,7 +4165,9 @@ extern "C" {
      * @param lpVideoCodec If video file then specify output codec properties 
      * here, otherwise NULL.
      *
-     * @see TT_StopStreamingMediaFileToChannel() */
+     * @see TT_UpdateStreamingMediaFileToChannel()
+     * @see TT_StopStreamingMediaFileToChannel()
+     * @see TT_InitLocalPlayback() */
     TEAMTALKDLL_API TTBOOL TT_StartStreamingMediaFileToChannelEx(IN TTInstance* lpTTInstance,
                                                                  IN const TTCHAR* szMediaFilePath,
                                                                  IN const MediaFilePlayback* lpMediaFilePlayback,
@@ -4219,7 +4223,8 @@ extern "C" {
      * @return A session ID identifier referred to as @c nPlaybackSessionID.
      * 
      * @see TT_UpdateLocalPlayback()
-     * @see TT_StopLocalPlayback() */
+     * @see TT_StopLocalPlayback()
+     * @see TT_StartStreamingMediaFileToChannel() */
     TEAMTALKDLL_API INT32 TT_InitLocalPlayback(IN TTInstance* lpTTInstance,
                                                IN const TTCHAR* szMediaFilePath,
                                                IN const MediaFilePlayback* lpMediaFilePlayback);
@@ -4235,7 +4240,8 @@ extern "C" {
      * used in TT_InitLocalPlayback().
      *
      * @see TT_InitLocalPlayback()
-     * @see TT_StopLocalPlayback() */
+     * @see TT_StopLocalPlayback()
+     * @see TT_UpdateStreamingMediaFileToChannel() */
     TEAMTALKDLL_API TTBOOL TT_UpdateLocalPlayback(IN TTInstance* lpTTInstance,
                                                   IN INT32 nPlaybackSessionID,
                                                   IN const MediaFilePlayback* lpMediaFilePlayback);

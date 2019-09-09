@@ -183,6 +183,28 @@ namespace BearWare
          * In duplex mode the virtual TeamTalk sound device can only
          * be used as input/output device. @see SOUNDSYSTEM_NONE */
         public const int TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978;
+
+
+        /** @brief Flag/bit in @c nDeviceID telling if the #BearWare.SoundDevice is a
+         * shared version of an existing sound device.
+         *
+         * On Android the recording device can only be used by one TeamTalk
+         * instance. As a workaround for this issue a shared recording device
+         * has been introduced. Internally TeamTalk initializes
+         * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT which then resample and
+         * distribution the audio data to multiple TeamTalk instances.
+         *
+         * The shared audio device on Android will show up as
+         * (TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT | TT_SOUNDDEVICE_SHARED_FLAG),
+         * i.e. 2048.
+         */
+        public const uint TT_SOUNDDEVICE_SHARED_FLAG = 0x00000800;
+
+        /** @brief Extract sound device ID of @c nDeviceID in #BearWare.SoundDevice by
+         * and'ing this value.
+         *
+         * let PhysicalDeviceID = (SoundDevice.nDeviceID & TT_SOUNDDEVICE_ID_MASK). */
+        public const uint TT_SOUNDDEVICE_ID_MASK = 0x000007FF;
     }
 
     /**
@@ -313,7 +335,9 @@ namespace BearWare
         /** @brief Finished processing media file. */
         MFS_FINISHED        = 3,
         /** @brief Aborted processing of media file. */
-        MFS_ABORTED         = 4
+        MFS_ABORTED         = 4,
+        /** @brief Paused processing of media file. */
+        MFS_PAUSED          = 5
     }
 
     /**
@@ -336,13 +360,7 @@ namespace BearWare
         AFF_CHANNELCODEC_FORMAT  = 1,
         /** @brief Store in 16-bit wave format. */
         AFF_WAVE_FORMAT = 2,
-        /** @brief Store in MP3-format. 
-         *
-         * This requires lame_enc.dll to be in the same directory as
-         * the application's execuable. The LAME DLLs can be obtained
-         * from http://lame.sourceforge.net. Note that the MP3-format
-         * is subject to licensing by Fraunhofer and Thomson
-         * Multimedia. */
+        /** @brief Store in MP3-format. */
         AFF_MP3_16KBIT_FORMAT = 3,
         /** @see #AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_32KBIT_FORMAT = 4,
@@ -497,29 +515,6 @@ namespace BearWare
          * captureFormats array. */
         public int nVideoFormatsCount;
     }
-
-    /**
-     * @brief Struct describing the audio and video format used by a
-     * media file.
-     *
-     * @see TeamTalkBase.GetMediaFile() */
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct MediaFileInfo
-    {
-        /** @brief Status of media file if it's being saved to
-         * disk. */
-        public MediaFileStatus nStatus;
-        /** @brief Name of file. */
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
-        public string szFileName;
-        /** @brief The audio properties of the media file. */
-        public AudioFormat audioFmt;
-        /** @brief The video properties of the media file. */
-        public VideoFormat videoFmt;
-        /** @brief The duration of the media file in miliseconds. */
-        public uint uDurationMSec;
-    }
-
 
     /** @} */
 
@@ -1005,6 +1000,50 @@ namespace BearWare
         }
     }
 
+    /** @brief Use TeamTalk's internal audio preprocessor for gain
+     * audio. Same as used for TT_SetSoundInputGainLevel(). */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct TTAudioPreprocessor
+    {
+        /** @brief Gain level between #SoundLevel.SOUND_GAIN_MIN and
+         * #SOUND_GAIN_MAX. Default is #SoundLevel.SOUND_GAIN_DEFAULT (no
+         * gain). */
+        public int nGainLevel;
+        /** @brief Whether to mute left speaker in stereo playback. */
+        public bool bMuteLeftSpeaker;
+        /** @brief Whether to mute right speaker in stereo playback. */
+        public bool bMuteRightSpeaker;
+    }
+
+    /** @brief The types of supported audio preprocessors.
+     *
+     * @see TT_InitLocalPlayback() */
+    public enum AudioPreprocessorType : uint
+    {
+        /** @brief Value for specifying that no audio preprocessing
+         * should occur. */
+        NO_AUDIOPREPROCESSOR = 0,
+        /** @brief Use the #SpeexDSP audio preprocessor. */
+        SPEEXDSP_AUDIOPREPROCESSOR = 1,
+        /** @brief Use TeamTalk's internal audio preprocessor #BearWare.TTAudioPreprocessor. */
+        TEAMTALK_AUDIOPREPROCESSOR = 2,
+    };
+
+    /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
+    [StructLayout(LayoutKind.Explicit)]
+    public struct AudioPreprocessor
+    {
+        /** @brief The audio preprocessor to use in the union of audio preprocessors. */
+        [FieldOffset(0)]
+        AudioPreprocessorType nPreprocessor;
+        /** @brief Used when @c nPreprocessor is #SPEEXDSP_AUDIOPREPROCESSOR. */
+        [FieldOffset(4)]
+        SpeexDSP speexdsp;
+        /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
+        [FieldOffset(4)]
+        TTAudioPreprocessor ttpreprocessor;
+    }
+
     /** @brief Default values for #BearWare.SpeexDSP. */
     public struct SpeexDSPConstants
     {
@@ -1162,6 +1201,55 @@ namespace BearWare
         public WebMVP8Codec webm_vp8;
     }
     /** @} */
+
+    /** @addtogroup mediastream
+     * @{ */
+
+    /**
+     * @brief Struct describing the audio and video format used by a
+     * media file.
+     *
+     * @see TeamTalkBase.GetMediaFile() */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct MediaFileInfo
+    {
+        /** @brief Status of media file if it's being saved to
+         * disk. */
+        public MediaFileStatus nStatus;
+        /** @brief Name of file. */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szFileName;
+        /** @brief The audio properties of the media file. */
+        public AudioFormat audioFmt;
+        /** @brief The video properties of the media file. */
+        public VideoFormat videoFmt;
+        /** @brief The duration of the media file in miliseconds. */
+        public uint uDurationMSec;
+        /** @brief The elapsed time of the media file in miliseconds. */
+        public uint uElapsedMSec;
+    }
+    /**
+     * @brief Properties for initializing or updating a file for media
+     * streaming.
+     *
+     * @see TeamTalkBase.InitLocalPlayback()
+     * @see TeamTalkBase.UpdateLocalPlayback() */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct MediaFilePlayback
+    {
+        /** @brief Offset in milliseconds in the media file where to
+         * start playback. Pass -1 (0xffffffff) to ignore this value when 
+         * using TeamTalkBase.UpdateLocalPlayback() or TeamTalkBase.UpdateStreamingMediaFileToChannel().
+         * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
+        public uint uOffsetMSec;
+        /** @brief Start or pause media file playback. */
+        public bool bPaused;
+        /** @brief Option to activate audio preprocessor on local media file playback. */
+        public AudioPreprocessor audioPreprocessor;
+    }
+
+    /** @} */
+
 
     /** @addtogroup transmission
      * @{ */
@@ -3076,6 +3164,18 @@ namespace BearWare
          * properties and status information about the media file 
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
+        /**
+         * @brief Media file played locally is procesing.
+         *
+         * This event is called as a result of TeamTalkBase.InitLocalPlayback()
+         * to monitor progress of playback.
+         * @param nSource Session ID returned by TeamTalkBase.InitLocalPlayback()
+         * @param ttType #__MEDIAFILEINFO
+         * @param mediafileinfo Placed in union of #BearWare.TTMessage. Contains
+         * properties and status information about the media file
+         * being played.
+         */
+        CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
     }
 
 
@@ -3111,11 +3211,15 @@ namespace BearWare
         __AUDIOFORMAT             = 26,
         __MEDIAFILEINFO           = 27,
         __CLIENTERRORMSG          = 28,
-        __TTBOOL                    = 29,
+        __TTBOOL                  = 29,
         __INT32                   = 30,
         __DESKTOPINPUT            = 31,
         __SPEEXDSP                = 32,
-        __STREAMTYPE              = 33
+        __STREAMTYPE              = 33,
+        __AUDIOPREPROCESSORTYPE   = 34,
+        __AUDIOPREPROCESSOR       = 35,
+        __TTAUDIOPREPROCESSOR     = 36,
+        __MEDIAFILEPLAYBACK       = 37
     }
 
     /**
@@ -3417,6 +3521,15 @@ namespace BearWare
          * BearWare.TeamTalkBase.SendDesktopInput */
         public const int TT_DESKTOPINPUT_MAX = 16;
 
+        /** @ingroup mediastream
+         *
+         * Specify this value as uOffsetMSec in #BearWare.MediaFilePlayback when
+         * calling TT_InitLocalPlayback() and TeamTalkBase.UpdateLocalPlayback() to
+         * ignore rewind or forward.
+         */
+        public const uint TT_MEDIAPLAYBACK_OFFSET_IGNORE = 0xFFFFFFFF;
+
+
         /** @brief Get the DLL's version number. */
         public static string GetVersion() { return Marshal.PtrToStringAuto(TTDLL.TT_GetVersion()); }
 
@@ -3454,13 +3567,13 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__REMOTEFILE) == Marshal.SizeOf(new RemoteFile()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__FILETRANSFER) == Marshal.SizeOf(new FileTransfer()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILESTATUS) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(MediaFileStatus))));
-            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__STREAMTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(StreamType))));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SERVERPROPERTIES) == Marshal.SizeOf(new ServerProperties()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SERVERSTATISTICS) == Marshal.SizeOf(new ServerStatistics()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SOUNDDEVICE) == Marshal.SizeOf(new SoundDevice()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SPEEXCODEC) == Marshal.SizeOf(new SpeexCodec()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TEXTMESSAGE) == Marshal.SizeOf(new TextMessage()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__WEBMVP8CODEC) == Marshal.SizeOf(new WebMVP8Codec()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTMESSAGE) == Marshal.SizeOf(new TTMessage()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USER) == Marshal.SizeOf(new User()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USERACCOUNT) == Marshal.SizeOf(new UserAccount()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__USERSTATISTICS) == Marshal.SizeOf(new UserStatistics()));
@@ -3475,7 +3588,11 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__CLIENTERRORMSG) == Marshal.SizeOf(new ClientErrorMsg()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__DESKTOPINPUT) == Marshal.SizeOf(new DesktopInput()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__SPEEXDSP) == Marshal.SizeOf(new SpeexDSP()));
-            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTMESSAGE) == Marshal.SizeOf(new TTMessage()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__STREAMTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(StreamType))));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOPREPROCESSORTYPE) == Marshal.SizeOf(Enum.GetUnderlyingType(typeof(AudioPreprocessorType))));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOPREPROCESSOR) == Marshal.SizeOf(new AudioPreprocessor()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__TTAUDIOPREPROCESSOR) == Marshal.SizeOf(new TTAudioPreprocessor()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__MEDIAFILEPLAYBACK) == Marshal.SizeOf(new MediaFilePlayback()));
 
             if (poll_based)
                 m_ttInst = TTDLL.TT_InitTeamTalkPoll();
@@ -4626,6 +4743,15 @@ namespace BearWare
         /** @addtogroup mediastream
          * @{ */
 
+        /** @brief Stream media file to channel, e.g. avi-, wav- or MP3-file.
+         * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
+        public bool StartStreamingMediaFileToChannel(string szMediaFilePath,
+                                                     VideoCodec lpVideoCodec)
+        {
+            return TTDLL.TT_StartStreamingMediaFileToChannel(m_ttInst, szMediaFilePath,
+                                                           ref lpVideoCodec);
+        }
+
         /**
          * @brief Stream media file to channel, e.g. avi-, wav- or MP3-file.
          *
@@ -4645,15 +4771,43 @@ namespace BearWare
          * #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO.
          *
          * @param szMediaFilePath File path to media file.
+         * @param lpMediaFilePlayback Playback settings to pause, seek and
+         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
          * here. Specify #Codec .NO_CODEC if video should be ignored.
          *
          * @see TeamTalkBase.StopStreamingMediaFileToChannel() */
         public bool StartStreamingMediaFileToChannel(string szMediaFilePath,
+                                                     MediaFilePlayback lpMediaFilePlayback,
                                                      VideoCodec lpVideoCodec)
         {
-            return TTDLL.TT_StartStreamingMediaFileToChannel(m_ttInst, szMediaFilePath,
-                                                           ref lpVideoCodec);
+            return TTDLL.TT_StartStreamingMediaFileToChannelEx(m_ttInst, szMediaFilePath,
+                                                               ref lpMediaFilePlayback,
+                                                               ref lpVideoCodec);
+        }
+
+        /**
+         * @brief Update active media file being streamed to channel.
+         *
+         * While streaming a media file to a channel it's possible to
+         * pause, seek and manipulate audio preprocessing by passing new
+         * #MediaFilePlayback properties.
+         *
+         * @param lpMediaFilePlayback Playback settings to pause, seek and
+         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * settings are applied.
+         * @param lpVideoCodec If video file then specify output codec properties 
+         * here, otherwise NULL.
+         *
+         * @see TeamTalkBase.StartStreamingMediaFileToChannel()
+         * @see TeamTalkBase.StopStreamingMediaFileToChannel() */
+        public bool UpdateStreamingMediaFileToChannel(MediaFilePlayback lpMediaFilePlayback,
+                                                      VideoCodec lpVideoCodec)
+        {
+            return TTDLL.TT_UpdateStreamingMediaFileToChannel(m_ttInst, ref lpMediaFilePlayback, ref lpVideoCodec);
         }
 
         /**
@@ -4666,6 +4820,60 @@ namespace BearWare
         public bool StopStreamingMediaFileToChannel()
         {
             return TTDLL.TT_StopStreamingMediaFileToChannel(m_ttInst);
+        }
+
+        /**
+         * Play media file using settings from @c lpTTInstance,
+         * i.e. TeamTalkBase.SetSoundOutputMute(), TeamTalkBase.SetSoundOutputVolume() and
+         * TeamTalkBase.InitSoundOutputDevice().
+         *
+         * @param szMediaFilePath Path to media file.
+         * @param lpMediaFilePlayback Playback settings to pause, seek and
+         * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * settings are applied.
+         *
+         * @return A Session ID for identifing the media playback session.
+         * If Session ID is <= 0 indicates an error.
+         *
+         * @return A session ID identifier referred to as @c nPlaybackSessionID.
+         * 
+         * @see TeamTalkBase.UpdateLocalPlayback()
+         * @see TeamTalkBase.StopLocalPlayback()
+         * @see StartStreamingMediaFileToChannel */
+        public int InitLocalPlayback(string szMediaFilePath, MediaFilePlayback lpMediaFilePlayback)
+        {
+            return TTDLL.TT_InitLocalPlayback(m_ttInst, szMediaFilePath, ref lpMediaFilePlayback);
+        }
+
+        /**
+         * Update media file currently being played by TeamTalk instance.
+         * 
+         * @param nPlaybackSessionID Session ID created by TeamTalkBase.InitLocalPlayback().
+         * @param lpMediaFilePlayback #BearWare.AudioPreprocessorType of
+         * #BearWare.AudioPreprocessor cannot be changed. It must be the same as
+         * used in TeamTalkBase.InitLocalPlayback().
+         *
+         * @see TeamTalkBase.InitLocalPlayback()
+         * @see TeamTalkBase.StopLocalPlayback()
+         * @see TeamTalkBase.UpdateStreamingMediaFileToChannel() */
+        public bool UpdateLocalPlayback(int nPlaybackSessionID,
+                                        MediaFilePlayback lpMediaFilePlayback)
+        {
+            return TTDLL.TT_UpdateLocalPlayback(m_ttInst, nPlaybackSessionID, ref lpMediaFilePlayback);
+        }
+
+        /**
+         * Stop media file currently being played by TeamTalk instance.
+         *
+         * @param nPlaybackSessionID Session ID created by TeamTalkBase.InitLocalPlayback().
+         *
+         * @see TeamTalkBase.InitLocalPlayback()
+         * @see TeamTalkBase.UpdateLocalPlayback()
+         * @see TeamTalkBase.StopStreamingMediaFileToChannel() */
+        public bool StopLocalPlayback(int nPlaybackSessionID)
+        {
+            return TTDLL.TT_StopLocalPlayback(m_ttInst, nPlaybackSessionID);
         }
 
         /**

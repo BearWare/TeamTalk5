@@ -3140,8 +3140,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(AudioPreprocessor);
     case __TTAUDIOPREPROCESSOR :
         return sizeof(TTAudioPreprocessor);
-    case __MEDIAPLAYBACK :
-        return sizeof(MediaPlayback);
+    case __MEDIAFILEPLAYBACK :
+        return sizeof(MediaFilePlayback);
     }
     return 0;
 }

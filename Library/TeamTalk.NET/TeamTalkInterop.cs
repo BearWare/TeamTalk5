@@ -220,7 +220,25 @@ namespace c_tt
                                                                      [MarshalAs(UnmanagedType.LPWStr)] string szMediaFilePath,
                                                                      ref BearWare.VideoCodec lpVideoCodec);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_StartStreamingMediaFileToChannelEx(IntPtr lpTTInstance,
+                                                                     [MarshalAs(UnmanagedType.LPWStr)] string szMediaFilePath,
+                                                                     ref BearWare.MediaFilePlayback lpMediaFilePlayback,
+                                                                     ref BearWare.VideoCodec lpVideoCodec);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_UpdateStreamingMediaFileToChannel(IntPtr lpTTInstance,
+                                                                       ref BearWare.MediaFilePlayback lpMediaFilePlayback,
+                                                                       ref BearWare.VideoCodec lpVideoCodec);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_StopStreamingMediaFileToChannel(IntPtr lpTTInstance);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int TT_InitLocalPlayback(IntPtr lpTTInstance,
+                                                      [MarshalAs(UnmanagedType.LPWStr)] string szMediaFilePath,
+                                                      ref BearWare.MediaFilePlayback lpMediaFilePlayback);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_UpdateLocalPlayback(IntPtr lpTTInstance, int nPlaybackSessionID,
+                                                      ref BearWare.MediaFilePlayback lpMediaFilePlayback);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_StopLocalPlayback(IntPtr lpTTInstance, int nPlaybackSessionID);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern bool TT_GetMediaFileInfo([MarshalAs(UnmanagedType.LPWStr)] string szMediaFilePath,
                                                       ref BearWare.MediaFileInfo pMediaFileInfo);
