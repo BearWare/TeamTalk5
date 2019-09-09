@@ -4918,6 +4918,11 @@ LRESULT CTeamTalkDlg::OnTeamTalkLink(WPARAM wParam, LPARAM lParam)
                         entry.szUsername = STR_UTF8( szToken.Tokenize(_T("="), j) );
                     else if(szSubToken.CompareNoCase(_T("password")) == 0)
                         entry.szPassword = STR_UTF8( szToken.Tokenize(_T("="), j) );
+                    else if(szSubToken.CompareNoCase(_T("encrypted")) == 0)
+                    {
+                        CString szValue = szToken.Tokenize(_T("="), j);
+                        entry.bEncrypted = (szValue.CompareNoCase(_T("true")) == 0 || szValue == _T("1"));
+                    }
                 }
             }
         }
