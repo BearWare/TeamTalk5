@@ -1035,13 +1035,13 @@ namespace BearWare
     {
         /** @brief The audio preprocessor to use in the union of audio preprocessors. */
         [FieldOffset(0)]
-        AudioPreprocessorType nPreprocessor;
+        public AudioPreprocessorType nPreprocessor;
         /** @brief Used when @c nPreprocessor is #SPEEXDSP_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
-        SpeexDSP speexdsp;
+        public SpeexDSP speexdsp;
         /** @brief Used when @c nPreprocessor is #TEAMTALK_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
-        TTAudioPreprocessor ttpreprocessor;
+        public TTAudioPreprocessor ttpreprocessor;
     }
 
     /** @brief Default values for #BearWare.SpeexDSP. */
