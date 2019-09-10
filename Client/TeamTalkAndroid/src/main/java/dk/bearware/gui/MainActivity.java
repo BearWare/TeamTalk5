@@ -2177,6 +2177,11 @@ implements TeamTalkConnectionListener,
     }
 
     @Override
+    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
+
+    }
+
+    @Override
     public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
     }
 
