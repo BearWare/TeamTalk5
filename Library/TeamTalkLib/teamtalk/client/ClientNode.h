@@ -339,7 +339,12 @@ namespace teamtalk {
 
         //stream media file (DirectShow wrapper)
         bool StartStreamingMediaFile(const ACE_TString& filename,
+                                     uint32_t offset, bool paused,
+                                     const AudioPreprocessor& preprocessor,
                                      const VideoCodec& vid_codec);
+        bool UpdateStreamingMediaFile(uint32_t offset, bool paused,
+                                      const AudioPreprocessor& preprocessor,
+                                      const VideoCodec& vid_codec);
         void StopStreamingMediaFile();
 
         // playback local media file
@@ -572,7 +577,6 @@ namespace teamtalk {
         //audio start/stop/update
         void OpenAudioCapture(const AudioCodec& codec);
         void CloseAudioCapture();
-        bool UpdateSoundInputPreprocess();
         void QueueAudioFrame(const media::AudioFrame& audframe);
 
         void SendVoicePacket(const VoicePacket& packet);

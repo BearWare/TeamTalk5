@@ -64,10 +64,11 @@ public:
     void QueueAudio(ACE_Message_Block* mb_audio);
     bool IsVoiceActive() const;
 
-    ACE_Recursive_Thread_Mutex m_preprocess_lock;
 #if defined(ENABLE_SPEEXDSP)
-    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+    bool UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp);
 #endif
+    void MuteSound(bool leftchannel, bool rightchannel);
+
     int m_voicelevel;
     int m_voiceactlevel;
     ACE_Time_Value m_voiceact_delay;
@@ -84,7 +85,6 @@ public:
 private:
     int close(u_long);
     int svc(void);
-
     void ProcessAudioFrame(media::AudioFrame& audblock);
 #if defined(ENABLE_SPEEXDSP)
     void PreprocessAudioFrame(media::AudioFrame& audblock);
@@ -98,6 +98,10 @@ private:
                             std::vector<int>& env_frame_sizes);
 #endif
     audioencodercallback_t m_callback;
+#if defined(ENABLE_SPEEXDSP)
+    ACE_Recursive_Thread_Mutex m_preprocess_lock;
+    SpeexPreprocess m_preprocess_left, m_preprocess_right;
+#endif
 #if defined(ENABLE_SPEEX)
     std::unique_ptr<SpeexEncoder> m_speex;
 #endif
@@ -107,6 +111,7 @@ private:
     std::vector<char> m_encbuf;
     std::vector<short> m_echobuf;
     teamtalk::AudioCodec m_codec;
+    StereoMask m_stereo = STEREO_BOTH;
 
     //encoder state has been reset
     bool m_enc_cleared;

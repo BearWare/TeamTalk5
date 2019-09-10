@@ -251,6 +251,73 @@ int AudioThread::close(u_long)
     return 0;
 }
 
+#if defined(ENABLE_SPEEXDSP)
+bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
+{
+    //if audio thread isn't running, then Speex preprocess is not set up
+    if(codec().codec == CODEC_NO_CODEC)
+        return true;
+
+    int channels = GetAudioCodecChannels(codec());
+
+    //set AGC
+    bool ret = true;
+    wguard_t gp(m_preprocess_lock);
+
+    SpeexAGC agc;
+    agc.gain_level = (float)speexdsp.agc_gainlevel;
+    agc.max_increment = speexdsp.agc_maxincdbsec;
+    agc.max_decrement = speexdsp.agc_maxdecdbsec;
+    agc.max_gain = speexdsp.agc_maxgaindb;
+
+    //AGC
+    ret &= m_preprocess_left.EnableAGC(speexdsp.enable_agc);
+    ret &= (channels == 1 || m_preprocess_right.EnableAGC(speexdsp.enable_agc));
+    ret &= m_preprocess_left.SetAGCSettings(agc);
+    ret &= (channels == 1 || m_preprocess_right.SetAGCSettings(agc));
+
+    //denoise
+    ret &= m_preprocess_left.EnableDenoise(speexdsp.enable_denoise);
+    ret &= (channels == 1 || m_preprocess_right.EnableDenoise(speexdsp.enable_denoise));
+    ret &= m_preprocess_left.SetDenoiseLevel(speexdsp.maxnoisesuppressdb);
+    ret &= (channels == 1 || m_preprocess_right.SetDenoiseLevel(speexdsp.maxnoisesuppressdb));
+
+    //set AEC
+    ret &= m_preprocess_left.EnableEchoCancel(speexdsp.enable_aec);
+    ret &= (channels == 1 || m_preprocess_right.EnableEchoCancel(speexdsp.enable_aec));
+
+    ret &= m_preprocess_left.SetEchoSuppressLevel(speexdsp.aec_suppress_level);
+    ret &= (channels == 1 || m_preprocess_right.SetEchoSuppressLevel(speexdsp.aec_suppress_level));
+    ret &= m_preprocess_left.SetEchoSuppressActive(speexdsp.aec_suppress_active);
+    ret &= (channels == 1 || m_preprocess_right.SetEchoSuppressActive(speexdsp.aec_suppress_active));
+
+    //set dereverb
+    bool dereverb = true;
+    m_preprocess_left.EnableDereverb(dereverb);
+    if(channels == 2)
+        m_preprocess_right.EnableDereverb(dereverb);
+
+    MYTRACE_COND(!ret, ACE_TEXT("Failed to set AGC settings\n"));
+
+    if ((speexdsp.enable_agc || speexdsp.enable_denoise || speexdsp.enable_aec) && !ret)
+        return false;
+
+    MYTRACE(ACE_TEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
+            speexdsp.enable_agc, (int)speexdsp.agc_gainlevel,
+            speexdsp.agc_maxincdbsec, speexdsp.agc_maxdecdbsec,
+            speexdsp.agc_maxgaindb, speexdsp.enable_denoise,
+            speexdsp.maxnoisesuppressdb, speexdsp.enable_aec,
+            speexdsp.aec_suppress_level, speexdsp.aec_suppress_active);
+
+    return true;
+}
+#endif
+
+void AudioThread::MuteSound(bool leftchannel, bool rightchannel)
+{
+    m_stereo = ToStereoMask(leftchannel, rightchannel);
+}
+
 void AudioThread::QueueAudio(const media::AudioFrame& audframe)
 {
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
@@ -326,6 +393,10 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     if(this->m_voicelevel >= this->m_voiceactlevel)
         m_lastActive = ACE_OS::gettimeofday();
     /*  Measure voice activity - end */
+
+    // mute left or right speaker (if enabled)
+    if(audblock.inputfmt.channels == 2)
+        SelectStereo(m_stereo, audblock.input_buffer, audblock.input_samples);
 
     if((this->IsVoiceActive() && audblock.voiceact_enc) || audblock.force_enc)
     {

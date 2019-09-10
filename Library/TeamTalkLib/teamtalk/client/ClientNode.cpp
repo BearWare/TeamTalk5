@@ -1118,74 +1118,6 @@ void ClientNode::CloseAudioCapture()
     m_playback_buffer.clear();
 }
 
-bool ClientNode::UpdateSoundInputPreprocess()
-{
-    ASSERT_REACTOR_LOCKED(this);
-
-    rguard_t g_snd(lock_sndprop());
-
-    //if audio thread isn't running, then Speex preprocess is not set up
-    if(m_voice_thread.codec().codec == CODEC_NO_CODEC)
-        return true;
-
-    int channels = GetAudioCodecChannels(m_voice_thread.codec());
-
-#if defined(ENABLE_SPEEXDSP)
-    //set AGC
-    bool ret = true;
-    wguard_t gp(m_voice_thread.m_preprocess_lock);
-
-    SpeexAGC agc;
-    agc.gain_level = (float)m_soundprop.speexdsp.agc_gainlevel;
-    agc.max_increment = m_soundprop.speexdsp.agc_maxincdbsec;
-    agc.max_decrement = m_soundprop.speexdsp.agc_maxdecdbsec;
-    agc.max_gain = m_soundprop.speexdsp.agc_maxgaindb;
-
-    //AGC
-    ret &= m_voice_thread.m_preprocess_left.EnableAGC(m_soundprop.speexdsp.enable_agc);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.EnableAGC(m_soundprop.speexdsp.enable_agc));
-    ret &= m_voice_thread.m_preprocess_left.SetAGCSettings(agc);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.SetAGCSettings(agc));
-
-    //denoise
-    ret &= m_voice_thread.m_preprocess_left.EnableDenoise(m_soundprop.speexdsp.enable_denoise);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.EnableDenoise(m_soundprop.speexdsp.enable_denoise));
-    ret &= m_voice_thread.m_preprocess_left.SetDenoiseLevel(m_soundprop.speexdsp.maxnoisesuppressdb);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.SetDenoiseLevel(m_soundprop.speexdsp.maxnoisesuppressdb));
-
-    //set AEC
-    ret &= m_voice_thread.m_preprocess_left.EnableEchoCancel(m_soundprop.speexdsp.enable_aec);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.EnableEchoCancel(m_soundprop.speexdsp.enable_aec));
-
-    ret &= m_voice_thread.m_preprocess_left.SetEchoSuppressLevel(m_soundprop.speexdsp.aec_suppress_level);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.SetEchoSuppressLevel(m_soundprop.speexdsp.aec_suppress_level));
-    ret &= m_voice_thread.m_preprocess_left.SetEchoSuppressActive(m_soundprop.speexdsp.aec_suppress_active);
-    ret &= (channels == 1 || m_voice_thread.m_preprocess_right.SetEchoSuppressActive(m_soundprop.speexdsp.aec_suppress_active));
-
-    //set dereverb
-    m_voice_thread.m_preprocess_left.EnableDereverb(m_soundprop.dereverb);
-    if(channels == 2)
-        m_voice_thread.m_preprocess_right.EnableDereverb(m_soundprop.dereverb);
-
-    MYTRACE_COND(!ret, ACE_TEXT("Failed to set AGC settings\n"));
-
-    if((m_soundprop.speexdsp.enable_agc || m_soundprop.speexdsp.enable_denoise || 
-        m_soundprop.speexdsp.enable_aec) && !ret)
-        return false;
-
-    MYTRACE(ACE_TEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
-            m_soundprop.speexdsp.enable_agc, (int)m_soundprop.speexdsp.agc_gainlevel,
-            m_soundprop.speexdsp.agc_maxincdbsec,m_soundprop.speexdsp.agc_maxdecdbsec,
-            m_soundprop.speexdsp.agc_maxgaindb, m_soundprop.speexdsp.enable_denoise,
-            m_soundprop.speexdsp.maxnoisesuppressdb, m_soundprop.speexdsp.enable_aec,
-            m_soundprop.speexdsp.aec_suppress_level, m_soundprop.speexdsp.aec_suppress_active);
-
-    return true;
-#else
-    return false;
-#endif
-}
-
 void ClientNode::QueueAudioFrame(const media::AudioFrame& audframe)
 {
     TTASSERT(audframe.userdata == STREAMTYPE_VOICE);
@@ -2994,7 +2926,7 @@ void ClientNode::SetSoundPreprocess(const SpeexDSP& speexdsp)
 
     m_soundprop.speexdsp = speexdsp;
 
-    UpdateSoundInputPreprocess();
+    m_voice_thread.UpdatePreprocess(speexdsp);
 }
 
 void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)
@@ -3041,14 +2973,20 @@ bool ClientNode::StartMTUQuery()
 }
 
 bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
+                                         uint32_t offset, bool paused,
+                                         const AudioPreprocessor& preprocessor,
                                          const VideoCodec& vid_codec)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     //don't allow video streaming if not in channel or already streaming
-    if (!m_mychannel ||
-       (m_flags & CLIENT_STREAM_VIDEOFILE) ||
-       (m_flags & CLIENT_STREAM_AUDIOFILE))
+    if (!m_mychannel)
+        return false;
+    if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
+        return false;
+
+    m_media_streamer = MakeMediaStreamer(this);
+    if (!m_media_streamer)
         return false;
 
     MediaStreamOutput media_out;
@@ -3057,12 +2995,8 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     media_out.audio.samplerate = GetAudioCodecSampleRate(m_mychannel->GetAudioCodec());
     media_out.audio_samples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
 
-    TTASSERT(!m_media_streamer);
-    if (!m_media_streamer)
-        m_media_streamer = MakeMediaStreamer(this);
-
     MediaFileProp file_in(filename);
-    if (!m_media_streamer || !m_media_streamer->OpenFile(file_in, media_out))
+    if (!m_media_streamer->OpenFile(file_in, media_out))
     {
         StopStreamingMediaFile();
         return false;
@@ -3073,9 +3007,8 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //initiate audio part of media file
     if(file_in.audio.IsValid())
     {
-        if(!m_audiofile_thread.StartEncoder(std::bind(&ClientNode::EncodedAudioFileFrame, this,
-                                                      _1, _2, _3, _4, _5),
-                                            m_mychannel->GetAudioCodec(), true))
+        auto cbfunc = std::bind(&ClientNode::EncodedAudioFileFrame, this, _1, _2, _3, _4, _5);
+        if (!m_audiofile_thread.StartEncoder(cbfunc, m_mychannel->GetAudioCodec(), true))
         {
             StopStreamingMediaFile();
             return false;
@@ -3085,22 +3018,18 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 
     TTASSERT(!m_videofile_thread);
     //initiate video part of media file
-    if(file_in.video.IsValid() && !m_videofile_thread)
+    if (file_in.video.IsValid() && !m_videofile_thread)
     {
         m_flags |= CLIENT_STREAM_VIDEOFILE;
 
-        VideoThread* vid_thread;
-        ACE_NEW_NORETURN(vid_thread, VideoThread());
-        m_videofile_thread = video_thread_t(vid_thread);
-    
-        if(!vid_thread ||
-           !vid_thread->StartEncoder(std::bind(&ClientNode::EncodedVideoFileFrame, this, _1, _2, _3, _4, _5),
-                                     m_media_streamer->GetMediaOutput().video, vid_codec, VIDEOFILE_ENCODER_FRAMES_MAX))
+        m_videofile_thread.reset(new VideoThread());
+        auto cbfunc = std::bind(&ClientNode::EncodedVideoFileFrame, this, _1, _2, _3, _4, _5);
+        if (!m_videofile_thread->StartEncoder(cbfunc, m_media_streamer->GetMediaOutput().video,
+                                              vid_codec, VIDEOFILE_ENCODER_FRAMES_MAX))
         {
             StopStreamingMediaFile();
             return false;
         }
-
     }
     
     // give up if input file has no video or audio
@@ -3113,14 +3042,56 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //both audio and video part of mediafile use same stream id
     GEN_NEXT_ID(m_mediafile_stream_id);
 
-    bool b = m_media_streamer->StartStream();
-    if(!b)
+    if (!UpdateStreamingMediaFile(offset, paused, preprocessor, vid_codec))
     {
         StopStreamingMediaFile();
         return false;
     }
 
     return true;
+}
+
+bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
+                                          const AudioPreprocessor& preprocessor,
+                                          const VideoCodec& vid_codec)
+{
+    if (!m_media_streamer)
+        return false;
+
+    if (m_videofile_thread)
+    {
+        if (!m_videofile_thread->UpdateEncoder(vid_codec))
+        {
+            MYTRACE(ACE_TEXT("Failed to update video encoder on %s\n"),
+                    m_media_streamer->GetMediaInput().filename.c_str());
+            return false;
+        }
+    }
+
+    switch(preprocessor.preprocessor)
+    {
+    case AUDIOPREPROCESSOR_NONE :
+        break;
+    case AUDIOPREPROCESSOR_SPEEXDSP :
+        if (!m_audiofile_thread.UpdatePreprocess(preprocessor.speexdsp))
+            return false;
+        break;
+    case AUDIOPREPROCESSOR_TEAMTALK :
+        m_audiofile_thread.m_gainlevel = preprocessor.ttpreprocessor.gainlevel;
+        m_audiofile_thread.MuteSound(preprocessor.ttpreprocessor.muteleft,
+                                     preprocessor.ttpreprocessor.muteright);
+        break;
+    }
+
+    if (offset != MEDIASTREAMER_OFFSET_IGNORE)
+        m_media_streamer->SetOffset(offset);
+
+    if (paused)
+        return m_media_streamer->Pause();
+    else
+    {
+        return m_media_streamer->StartStream();
+    }
 }
 
 void ClientNode::StopStreamingMediaFile()
@@ -3921,11 +3892,10 @@ void ClientNode::JoinChannel(clientchannel_t& chan)
     if(ValidAudioCodec(codec))
     {
         //set encoder properties
-        if(m_voice_thread.StartEncoder(std::bind(&ClientNode::EncodedAudioVoiceFrame, this,
-                                                 _1, _2, _3, _4, _5),
-                                       codec, true))
+        auto cbenc = std::bind(&ClientNode::EncodedAudioVoiceFrame, this, _1, _2, _3, _4, _5);
+        if(m_voice_thread.StartEncoder(cbenc, codec, true))
         {
-            if(!UpdateSoundInputPreprocess()) //set AGC, denoise, etc.
+            if (!m_voice_thread.UpdatePreprocess(m_soundprop.speexdsp)) //set AGC, denoise, etc.
             {
                 m_listener->OnInternalError(TT_INTERR_AUDIOCONFIG_INIT_FAILED,
                             GetErrorDescription(TT_INTERR_AUDIOCONFIG_INIT_FAILED));

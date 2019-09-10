@@ -508,8 +508,105 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         }
         assertTrue("Received frames", n_rx_frames>0);
         assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
+
+        // play again 90% into the media file
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
+        mfp.bPaused = false;
+        mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        
+        assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        assertEquals("Filename match", msg.mediafileinfo.szFileName, mfi.szFileName);
+        assertEquals("Found duration", msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
+        assertTrue("Elapsed > mfp.uOffsetMSec", mfi.uElapsedMSec >= mfp.uOffsetMSec);
+
+        assertTrue("Wait USER_STATECHANGE", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+        n_rx_frames = 0;
+        while(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_STREAM_VIDEO)) {
+            assertTrue("Wait  MEDIAFILE_VIDEO", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO, DEF_WAIT));
+
+            vidfrm = ttclient.acquireUserMediaVideoFrame(ttclient.getMyUserID());
+            if(vidfrm != null) {
+                assertEquals("Width ok", vidfrm.nWidth, mfi.videoFmt.nWidth);
+                assertEquals("Height ok", vidfrm.nHeight, mfi.videoFmt.nHeight);
+
+                n_rx_frames++;
+            }
+        }
+        assertTrue("Received frames", n_rx_frames>0);
+        assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
     }
 
+    public void test_MediaStreamingOffset() {
+
+        if (MEDIAFILE_VIDEO.isEmpty()) {
+            System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_VIDEO);
+            return;
+        }
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+        
+        TTMessage msg = new TTMessage();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        assertTrue("Get media file info", ttclient.getMediaFileInfo(MEDIAFILE_VIDEO, mfi));
+        
+        VideoCodec vidcodec = new VideoCodec();
+        vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
+        vidcodec.webm_vp8.nRcTargetBitrate = 256;
+
+        // play again 90% into the media file
+        MediaFilePlayback mfp = new MediaFilePlayback();
+        mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
+        mfp.bPaused = false;
+        mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR;
+        mfp.audioPreprocessor.speexdsp = new SpeexDSP(true);
+        
+        assertTrue("Start with offset", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_VIDEO, mfp, vidcodec));
+
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        assertEquals("Begin stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+        assertEquals("Filename match", msg.mediafileinfo.szFileName, mfi.szFileName);
+        assertEquals("Found duration", msg.mediafileinfo.uDurationMSec, mfi.uDurationMSec);
+        assertTrue("Elapsed >= mfp.uOffsetMSec", msg.mediafileinfo.uElapsedMSec >= mfp.uOffsetMSec);
+
+        assertTrue("Wait USER_STATECHANGE", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+
+        assertFalse("Media file is still playing", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, 0, msg));
+        
+        mfp.bPaused = true;
+        vidcodec.webm_vp8.nRcTargetBitrate = 128;
+        //rewind
+        mfp.uOffsetMSec = (int)(mfi.uDurationMSec * 0.9);
+        
+        assertTrue("Pause media stream", ttclient.updateStreamingMediaFileToChannel(mfp, vidcodec));
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("Paused stream", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_PAUSED);
+
+        mfp.bPaused = false;
+        assertTrue("Unpaused media stream", ttclient.updateStreamingMediaFileToChannel(mfp, vidcodec));
+        assertTrue("Wait stream event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("Started stream again", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
+
+        assertTrue("Stopped", ttclient.stopStreamingMediaFileToChannel());
+    }
+    
     public void test_MediaStreaming_https() {
 
         if (HTTPS_MEDIAFILE.isEmpty()) {

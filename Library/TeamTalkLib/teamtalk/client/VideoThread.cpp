@@ -125,6 +125,22 @@ void VideoThread::StopEncoder()
     m_frames_passed = m_frames_dropped = 0;
 }
 
+bool VideoThread::UpdateEncoder(const teamtalk::VideoCodec& codec)
+{
+    switch(m_codec.codec)
+    {
+    case CODEC_NO_CODEC:
+        break;
+#if defined(ENABLE_VPX)
+    case CODEC_WEBM_VP8:
+        m_codec.webm_vp8 = codec.webm_vp8;
+        return m_vpx_encoder.Update(codec.webm_vp8.rc_target_bitrate);
+#endif
+    default: break;
+    }
+    return false;
+}
+
 int VideoThread::close(u_long)
 {
     MYTRACE( ACE_TEXT("Video Encoder thread closed\n") );

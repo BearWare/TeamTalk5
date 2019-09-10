@@ -79,6 +79,14 @@ void VpxEncoder::Close()
     m_frame_index = 0;
 }
 
+bool VpxEncoder::Update(int target_bitrate)
+{
+    if (!m_codec.iface)
+        return false;
+
+    return vpx_codec_enc_config_set(&m_codec, &m_cfg) == VPX_CODEC_OK;
+}
+
 vpx_codec_err_t VpxEncoder::Encode(const char* imgbuf, vpx_img_fmt fmt, int stride,
                                    bool bottom_up, unsigned long tm, int enc_deadline)
 {
