@@ -222,6 +222,17 @@ void MFStreamer::Run()
         m_media_out.video = media::VideoFormat();
     }
 
+    // find duration
+    PROPVARIANT var;
+    hr = pSourceReader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_DURATION, &var);
+    if (SUCCEEDED(hr))
+    {
+        LONGLONG nsDuration = 0;
+        hr = PropVariantToInt64(var, &nsDuration);
+        PropVariantClear(&var);
+        m_media_in.duration_ms = ACE_UINT32(nsDuration / 10000);
+    }
+
     if (m_media_in.IsValid())
     {
         m_open.set(m_media_in.IsValid());
@@ -299,8 +310,8 @@ void MFStreamer::Run()
         if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
-            hr = InitPropVariantFromInt64(m_offset * 10000, &var);
-            assert(SUCCEEDED(hr));
+            HRESULT hrprop = InitPropVariantFromInt64(m_offset * 10000, &var);
+            assert(SUCCEEDED(hrprop));
             hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
@@ -314,6 +325,9 @@ void MFStreamer::Run()
                 // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause)
                 status = MEDIASTREAM_STARTED;
             }
+
+            if(SUCCEEDED(hrprop))
+                PropVariantClear(&var);
 
             m_offset = MEDIASTREAMER_OFFSET_IGNORE;
         }
