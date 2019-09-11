@@ -108,11 +108,10 @@ extern "C" {
 
     /** @ingroup channels
      * @def TT_CLASSROOM_FREEFORALL
-     * If a #Channel is configured with #CHANNEL_CLASSROOM then only users
-     * certain user IDs are allowed to transmit. If, however, @c 
-     * TT_CLASSROOM_FREEFORALL is put in either @c voiceUsers, @c videoUsers 
-     * and @c desktopUsers then everyone in the channel are allowed to 
-     * transmit. */
+     * If a #Channel is configured with #CHANNEL_CLASSROOM then only
+     * users certain user IDs are allowed to transmit. If, however, @c
+     * TT_CLASSROOM_FREEFORALL is put in @c transmitUsers then
+     * everyone in the channel are allowed to transmit. */
 #define TT_CLASSROOM_FREEFORALL 0xFFF
 
      /** @ingroup channels
@@ -1998,9 +1997,9 @@ extern "C" {
          * controlled by a channel operator.
          *
          * For a user to transmit audio or video to this type of
-         * channel the channel operator must add the user's ID to
-         * either @a voiceUsers or @a videoUsers in the #Channel
-         * struct and call #TT_DoUpdateChannel.
+         * channel the channel operator must add the user's ID to @c
+         * transmitUsers in the #Channel struct and call
+         * TT_DoUpdateChannel().
          *
          * @see TT_IsChannelOperator
          * @see #USERTYPE_ADMIN */
@@ -2067,38 +2066,57 @@ extern "C" {
         /** @brief The audio configuration which users who join the channel
          * should use. @see TT_SetSoundInputPreprocess() */
         AudioConfig audiocfg;
-        /** @brief List of users who can transmit in a classroom channel.
-         * 
-         * A 2-dimensional array specifies who can transmit to the channel.
+        /** @brief List of users who can transmit in a channel.
          *
-         * To specify user ID 46 can transmit voice to the channel is done by assigning the following: 
+         * @c transmitUsers is a 2-dimensional array which specifies
+         * who can transmit to the channel.
+         *
+         * If @c uChannelType is set to #CHANNEL_CLASSROOM then only
+         * the users in @c transmitUsers are allowed to transmit. 
+         *
+         * In TeamTalk v5.4 and onwards adding a user ID to @c
+         * transmitUsers will block the user from transmitting if the
+         * #ChannelType is not #CHANNEL_CLASSROOM. Basically the
+         * opposite effect of #CHANNEL_CLASSROOM.
+         * 
+         * To specify user ID 46 can transmit voice to a
+         * #CHANNEL_CLASSROOM channel is done by assigning the
+         * following:
+         *
          * @verbatim
          * transmitUsers[0][0] = 46;
          * transmitUsers[0][1] = STREAMTYPE_VOICE;
          * @endverbatim
          *
-         * To specify user ID 46 can transmit both voice and video capture to the channel is done by assigning the following:
+         * To specify user ID 46 can transmit both voice and video
+         * capture to a #CHANNEL_CLASSROOM channel is done by
+         * assigning the following:
+         *
          * @verbatim
          * transmitUsers[0][0] = 46;
          * transmitUsers[0][1] = STREAMTYPE_VOICE | STREAMTYPE_VIDEOCAPTURE;
          * @endverbatim
          *
-         * The transmission list is terminated by assigning user ID 0 to the end of the list, i.e.:
+         * The transmission list is terminated by assigning user ID 0
+         * to the end of the list, i.e.:
+         *
          * @verbatim
          * transmitUsers[0][0] = 0;
          * transmitUsers[0][1] = STREAMTYPE_NONE;
          * @endverbatim
          *
-         * To allow all users of the channel to transmit a specific #StreamType is done like this:
+         * To allow all users of a #CHANNEL_CLASSROOM channel to
+         * transmit a specific #StreamType is done like this:
+         *
          * @verbatim
          * transmitUsers[0][0] = TT_CLASSROOM_FREEFORALL;
          * transmitUsers[0][1] = STREAMTYPE_VOICE;
          * @endverbatim
          *
-         * Only channel operators are
-         * allowed to change the users who are allowed to transmit data to a 
-         * channel. Call #TT_DoUpdateChannel to update the list of users who
-         * are allowed to transmit data to the channel.
+         * Only channel operators are allowed to change the users who
+         * are allowed to transmit data to a channel. Call
+         * TT_DoUpdateChannel() to update the list of users who are
+         * allowed to transmit data to the channel.
          *
          * @see TT_IsChannelOperator
          * @see TT_DoChannelOp
