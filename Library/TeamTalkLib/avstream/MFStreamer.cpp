@@ -354,7 +354,6 @@ void MFStreamer::Run()
             //}
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {
-                m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
                 llAudioTimestamp = -1;
             }
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
@@ -376,7 +375,6 @@ void MFStreamer::Run()
 
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {
-                m_media_in.elapsed_ms = ACE_UINT32(llVideoTimestamp / 10000);
                 llVideoTimestamp = -1;
             }
 
