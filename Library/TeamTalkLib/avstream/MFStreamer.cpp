@@ -307,14 +307,15 @@ void MFStreamer::Run()
             totalpausetime += pausetime;
         }
 
-        if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        // check if we should forward/rewind
+        if(m_offset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
             HRESULT hrprop = InitPropVariantFromInt64(m_offset * 10000, &var);
             assert(SUCCEEDED(hrprop));
             hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
             assert(SUCCEEDED(hr));
-            if (SUCCEEDED(hr))
+            if(SUCCEEDED(hr))
             {
                 m_media_in.elapsed_ms = m_offset;
                 start_time = GETTIMESTAMP();
@@ -405,6 +406,8 @@ void MFStreamer::Run()
                 vframes += QueueVideoSample(sample, llVideoTimestamp);
             }
         }
+
+        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, false));
     }

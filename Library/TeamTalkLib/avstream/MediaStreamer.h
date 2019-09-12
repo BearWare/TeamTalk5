@@ -81,6 +81,7 @@ enum MediaStreamStatus
     MEDIASTREAM_ERROR       = 2,
     MEDIASTREAM_FINISHED    = 3,
     MEDIASTREAM_PAUSED      = 4,
+    MEDIASTREAM_PLAYING     = 5,
 };
 
 class MediaStreamer;

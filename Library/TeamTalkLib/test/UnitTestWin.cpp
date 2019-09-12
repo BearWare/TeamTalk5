@@ -443,7 +443,7 @@ namespace UnitTest
                                         Assert::IsTrue(rgb32_transform->SubmitSample(i420_frame));
 
                                         auto mbs = rgb32_transform->RetrieveVideoFrames();
-                                        Assert::AreEqual(1u, mbs.size(), L"Got frame");
+                                        Assert::AreEqual(int(1), int(mbs.size()), L"Got frame");
                                         for (auto& mb : mbs)
                                         {
                                             media::VideoFrame rgb32_frame(mb);
@@ -535,7 +535,7 @@ namespace UnitTest
                 }
             }
 
-            media::VideoFrame rgb32frame(rgb32fmt, &buff_rgb32[0], buff_rgb32.size());
+            media::VideoFrame rgb32frame(rgb32fmt, &buff_rgb32[0], int(buff_rgb32.size()));
             rgb32frame.timestamp = 12;
 
             os.str(L"");
@@ -567,7 +567,7 @@ namespace UnitTest
             Assert::IsTrue(mft_rgb32_to_i420.get());
             Assert::IsTrue(mft_rgb32_to_i420->SubmitSample(rgb32frame));
             mbs = mft_rgb32_to_i420->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame i420frame(mb);
@@ -584,7 +584,7 @@ namespace UnitTest
             Assert::IsTrue(mft_i420_to_rgb32->SubmitSample(i420frame));
             mb->release();
             mbs = mft_i420_to_rgb32->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame rgb32frame_ret(mb);
@@ -600,7 +600,7 @@ namespace UnitTest
             Assert::IsTrue(mft_rgb32_to_yuy2.get());
             Assert::IsTrue(mft_rgb32_to_yuy2->SubmitSample(rgb32frame));
             mbs = mft_rgb32_to_yuy2->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             media::VideoFrame yuy2frame(mb);
@@ -617,7 +617,7 @@ namespace UnitTest
             Assert::IsTrue(mft_yuy2_to_rgb32->SubmitSample(yuy2frame));
             mb->release();
             mbs = mft_yuy2_to_rgb32->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             rgb32frame_ret = media::VideoFrame(mb);
@@ -647,13 +647,13 @@ namespace UnitTest
 
             auto mft_rgb24_to_rgb32 = MFTransform::Create(fmt_rgb24, media::FOURCC_RGB32);
             Assert::IsTrue(mft_rgb24_to_rgb32.get());
-            Assert::IsTrue(mft_rgb24_to_rgb32->SubmitSample(media::VideoFrame(fmt_rgb24, &buff_rgb24[0], buff_rgb24.size())));
+            Assert::IsTrue(mft_rgb24_to_rgb32->SubmitSample(media::VideoFrame(fmt_rgb24, &buff_rgb24[0], int(buff_rgb24.size()))));
 
             media::VideoFormat fmt_rgb32 = fmt_rgb24;
             fmt_rgb32.fourcc = media::FOURCC_RGB32;
             std::vector<char> buff_rgb32(RGB32_BYTES(fmt_rgb32.width, fmt_rgb32.height));
             auto mbs = mft_rgb24_to_rgb32->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             ACE_Message_Block* mb = mbs[0];
             Assert::IsTrue(mb);
             media::VideoFrame frame_rgb32(mb);
@@ -667,7 +667,7 @@ namespace UnitTest
             Assert::IsTrue(mft_rgb32_to_i420.get());
             Assert::IsTrue(mft_rgb32_to_i420->SubmitSample(frame_rgb32));
             mbs = mft_rgb32_to_i420->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             const media::VideoFrame* i420frame = reinterpret_cast<const media::VideoFrame*>(mb->rd_ptr());
@@ -681,7 +681,7 @@ namespace UnitTest
             Assert::IsTrue(mft_i420_to_rgb32->SubmitSample(*i420frame));
             mb->release();
             mbs = mft_i420_to_rgb32->RetrieveVideoFrames();
-            Assert::AreEqual(1u, mbs.size());
+            Assert::AreEqual(int(1), int(mbs.size()));
             mb = mbs[0];
             Assert::IsTrue(mb != nullptr);
             const media::VideoFrame* rgb32frame_ret = reinterpret_cast<const media::VideoFrame*>(mb->rd_ptr());
@@ -712,7 +712,7 @@ namespace UnitTest
             Assert::IsTrue(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
             Assert::IsTrue(outwavefile.NewFile(ACE_TEXT("hest_out.wav"), output.samplerate, output.channels));
 
-            int output_samples = output.samplerate * .1;
+            int output_samples = int(output.samplerate * .1);
 
             auto transform = MFTransform::Create(input, output, output_samples);
             Assert::IsTrue(transform.get() != nullptr);
@@ -768,7 +768,7 @@ namespace UnitTest
             Assert::IsTrue(header.size());
             Assert::IsTrue(pWaveFormat);
 
-            WriteWaveFileHeader(outwavefile, pWaveFormat, header.size());
+            WriteWaveFileHeader(outwavefile, pWaveFormat, int(header.size()));
 
             int sampleindex = 0;
             for(int i = 0; i<10; i++)
@@ -971,7 +971,7 @@ namespace UnitTest
             Assert::IsTrue(ttInst != nullptr);
 
             std::vector<VideoCaptureDevice> devs(100);
-            INT32 nDevs = devs.size();
+            INT32 nDevs = int(devs.size());
             Assert::IsTrue(TT_GetVideoCaptureDevices(&devs[0], &nDevs));
 
             Assert::IsTrue(TT_InitVideoCaptureDevice(ttInst, devs[0].szDeviceID, &devs[0].videoFormats[0]));
@@ -1200,6 +1200,12 @@ namespace UnitTest
             TT_CloseTeamTalk(inst);
         }
 
+        std::function<bool(TTMessage)> funcPlaying = [](TTMessage tmp) {
+            std::wostringstream os;
+            os << L"Playing " << tmp.mediafileinfo.szFileName << L" offset: " << tmp.mediafileinfo.uElapsedMSec << std::endl;
+            Logger::WriteMessage(os.str().c_str());
+            return tmp.mediafileinfo.nStatus != MFS_PLAYING; };
+
         TEST_METHOD(TestMediaPlaybackAPI)
         {
             auto inst = TT_InitTeamTalkPoll(); // init required for MFStartup
@@ -1222,8 +1228,8 @@ namespace UnitTest
 
             TTMessage msg;
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
-            Assert::AreEqual(std::wstring(msg.mediafileinfo.szFileName), std::wstring(filename));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
+            Assert::AreEqual(std::wstring(filename), std::wstring(msg.mediafileinfo.szFileName));
 
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
             mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = TRUE;
@@ -1241,11 +1247,15 @@ namespace UnitTest
             INT32 nSessionID2 = TT_InitLocalPlayback(inst, filename2, &mfp2);
             Assert::IsTrue(nSessionID2 > 0);
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            auto funcPlaySession = [nSessionID2](TTMessage tmp) {
+                return tmp.mediafileinfo.nStatus != MFS_PLAYING && tmp.nSource == nSessionID2;
+            };
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 12000));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, msg));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
+
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaySession, msg, 12000));
+            Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             TT_CloseTeamTalk(inst);
         }
@@ -1284,7 +1294,7 @@ namespace UnitTest
 
             TTMessage msg;
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
 
@@ -1330,7 +1340,7 @@ namespace UnitTest
 
             TTMessage msg;
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
             auto starttime = GETTIMESTAMP();
 
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 1000);
@@ -1338,8 +1348,8 @@ namespace UnitTest
             mfp3.bPaused = TRUE;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_PAUSED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::AreEqual(int(MFS_PAUSED), int(msg.mediafileinfo.nStatus));
             os << L"Elapsed time: " << msg.mediafileinfo.uElapsedMSec << std::endl;
             Logger::WriteMessage(os.str().c_str());
             WaitForEvent(inst, CLIENTEVENT_NONE, msg, 3000);
@@ -1348,10 +1358,10 @@ namespace UnitTest
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
             
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg, mfi.uDurationMSec * 2));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg, mfi.uDurationMSec * 2));
+            Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             os.str(L"");
             os << L"Duration: " << GETTIMESTAMP() - starttime << std::endl;
@@ -1391,11 +1401,11 @@ namespace UnitTest
             Assert::IsTrue(nSessionID3 > 0);
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
             auto starttime = GETTIMESTAMP();
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             // play in the middle
             mfp3.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
@@ -1408,16 +1418,16 @@ namespace UnitTest
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
             mfp3.uOffsetMSec = 58000;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::AreEqual(int(MFS_STARTED), int(msg.mediafileinfo.nStatus));
 
-            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
-            Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
+            Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, funcPlaying, msg));
+            Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             TT_CloseTeamTalk(inst);
         }
