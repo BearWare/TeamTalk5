@@ -30,6 +30,8 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
     ui.setupUi(this);
 
     connect(this, &QDialog::accepted, this, &AudioPreprocessorDlg::slotAccepted);
+    connect(ui.ttdefaultButton, &QAbstractButton::clicked, this, &AudioPreprocessorDlg::slotDefaultTTPreprocessor);
+    connect(ui.spxDefaultButton, &QAbstractButton::clicked, this, &AudioPreprocessorDlg::slotDefaultSpeexDSP);
 
     // TeamTalk audio preprocessor
     ui.gainlevelSlider->setRange(SOUND_GAIN_MIN, SOUND_GAIN_MAX);
@@ -39,6 +41,11 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
     ui.maxdecSpinBox->setMinimum(-100);
     ui.maxdenoiseSpinBox->setMinimum(-100);
 
+    showSettings();
+}
+
+void AudioPreprocessorDlg::showSettings()
+{
     switch(m_preprocess.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
@@ -61,6 +68,20 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
         ui.muteRightCheckBox->setChecked(m_preprocess.ttpreprocessor.bMuteRightSpeaker);
         break;
     }
+}
+
+void AudioPreprocessorDlg::slotDefaultTTPreprocessor(bool)
+{
+    m_preprocess.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+    initDefaultAudioPreprocessor(m_preprocess);
+    showSettings();
+}
+
+void AudioPreprocessorDlg::slotDefaultSpeexDSP(bool)
+{
+    m_preprocess.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+    initDefaultAudioPreprocessor(m_preprocess);
+    showSettings();
 }
 
 void AudioPreprocessorDlg::slotAccepted()

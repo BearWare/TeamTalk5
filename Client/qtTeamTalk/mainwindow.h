@@ -429,6 +429,8 @@ signals:
     void userDesktopCursor(int src_userid, const DesktopInput&);
     void newTextMessage(const TextMessage& textmsg);
     void filetransferUpdate(const FileTransfer& transfer);
+    void mediaStreamUpdate(const MediaFileInfo& mfi);
+    void mediaPlaybackUpdate(int sessionID, const MediaFileInfo& mfi);
     void cmdSuccess(int cmdid);
     void cmdError(int error, int cmdid);
     /* End - CLIENTEVENT_* based events */

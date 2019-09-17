@@ -38,7 +38,12 @@ public:
     AudioPreprocessor m_preprocess = {};
 
 private:
+    void showSettings();
+
     void slotAccepted();
+    void slotDefaultTTPreprocessor(bool);
+    void slotDefaultSpeexDSP(bool);
+
 private:
     Ui::AudioPreprocessorDlg ui;
 };

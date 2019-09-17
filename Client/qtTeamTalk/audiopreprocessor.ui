@@ -17,7 +17,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_0">
       <widget class="QLabel" name="label_7">
@@ -43,11 +43,35 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QCheckBox" name="agcCheckBox">
-            <property name="text">
-             <string>Enable AGC</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QCheckBox" name="agcCheckBox">
+              <property name="text">
+               <string>Enable AGC</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="spxDefaultButton">
+              <property name="text">
+               <string>Default</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -123,11 +147,28 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QCheckBox" name="denoiseCheckBox">
-            <property name="text">
-             <string>Enable Denoising</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QCheckBox" name="denoiseCheckBox">
+              <property name="text">
+               <string>Enable Denoising</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -163,6 +204,13 @@
           <widget class="QSlider" name="gainlevelSlider">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ttdefaultButton">
+           <property name="text">
+            <string>&amp;Default</string>
            </property>
           </widget>
          </item>
@@ -228,6 +276,20 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>agcCheckBox</tabstop>
+  <tabstop>spxDefaultButton</tabstop>
+  <tabstop>gainlevelSpinBox</tabstop>
+  <tabstop>maxgainSpinBox</tabstop>
+  <tabstop>maxincSpinBox</tabstop>
+  <tabstop>maxdecSpinBox</tabstop>
+  <tabstop>denoiseCheckBox</tabstop>
+  <tabstop>maxdenoiseSpinBox</tabstop>
+  <tabstop>gainlevelSlider</tabstop>
+  <tabstop>muteleftCheckBox</tabstop>
+  <tabstop>muteRightCheckBox</tabstop>
+  <tabstop>ttdefaultButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

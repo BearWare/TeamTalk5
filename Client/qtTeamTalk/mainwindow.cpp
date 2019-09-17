@@ -1144,11 +1144,16 @@ void MainWindow::processTTMessage(const TTMessage& msg)
             startStreamMediaFile();
         }
 
+        emit(mediaStreamUpdate(msg.mediafileinfo));
+
         //update if still talking
         emit(updateMyself());
         update_ui = true;
     }
     break;
+    case CLIENTEVENT_LOCAL_MEDIAFILE:
+        emit(mediaPlaybackUpdate(msg.nSource, msg.mediafileinfo));
+        break;
     case CLIENTEVENT_USER_VIDEOCAPTURE :
     {
         Q_ASSERT(msg.ttType == __INT32);
@@ -1544,62 +1549,16 @@ void MainWindow::Connect()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
 
-    //Restart sound system so we have the latest sound devices
-    TT_RestartSoundSystem();
-
-    int inputid = getSelectedSndInputDevice();
-    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
-
-    int outputid = getSelectedSndOutputDevice();
-    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
-
-    bool snd_init_ok = true;
-
-    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
-    {
-        if(init_indev && init_outdev &&
-           !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound duplex mode"));
-            snd_init_ok = false;
-        }
-    }
-    else
-    {
-        if(init_indev && !TT_InitSoundInputDevice(ttInst, inputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound input device"));
-            snd_init_ok = false;
-        }
-        if(init_outdev && !TT_InitSoundOutputDevice(ttInst, outputid))
-        {
-            addStatusMsg(tr("Failed to initialize sound output device"));
-            snd_init_ok = false;
-        }
-    }
+    QStringList errors = initSelectedSoundDevices();
+    for (auto s : errors)
+        addStatusMsg(s);
 
     //choose default sound devices if configuration failed
-    if(!snd_init_ok)
+    if (errors.size())
     {
-        TT_CloseSoundInputDevice(ttInst);
-        TT_CloseSoundOutputDevice(ttInst);
-
-        addStatusMsg(tr("Switching to default sound devices"));
-
-        if(!TT_GetDefaultSoundDevices(&inputid, &outputid))
-        {
-            addStatusMsg(tr("Unable to get default sound devices"));
-        }
-        else
-        {
-            if(!TT_InitSoundInputDevice(ttInst, inputid) ||
-               !TT_InitSoundOutputDevice(ttInst, outputid))
-            {
-                TT_CloseSoundInputDevice(ttInst);
-                TT_CloseSoundOutputDevice(ttInst);
-                addStatusMsg(tr("Failed to initialize default sound devices"));
-            }
-        }
+        errors = initDefaultSoundDevices();
+        for (auto s : errors)
+            addStatusMsg(s);
     }
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
@@ -4030,6 +3989,9 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
     }
 
     StreamMediaFileDlg dlg(this);
+    connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
+    connect(this, &MainWindow::mediaPlaybackUpdate, &dlg, &StreamMediaFileDlg::slotMediaPlaybackProgress);
+
     if(!dlg.exec())
     {
         ui.actionStreamMediaFileToChannel->setChecked(false);

@@ -353,10 +353,14 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
 
+QStringList initSelectedSoundDevices();
+QStringList initDefaultSoundDevices();
+
 QString getHotKeyText(const hotkey_t& hotkey);
 
 bool isComputerIdle(int idle_secs);
 bool isMyselfTalking();
+bool isMyselfStreaming();
 
 void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 

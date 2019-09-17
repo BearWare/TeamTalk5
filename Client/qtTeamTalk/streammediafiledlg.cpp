@@ -53,7 +53,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     connect(ui.preprocessorComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangePreprocessor(int)));
     connect(ui.preprocessButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSetupPreprocessor);
     connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);
-    connect(ui.playbackOffsetSlider, &QSlider::valueChanged, this, &StreamMediaFileDlg::slotChangePlayOffset);
+    //connect(ui.playbackOffsetSlider, &QSlider::valueChanged, this, &StreamMediaFileDlg::slotChangePlayOffset);
 
     int i = 0;
     QString item;
@@ -68,14 +68,24 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 
     ui.playbackOffsetSlider->setMaximum(10000);
 
-    int vidcodec = ttSettings->value(SETTINGS_STREAMMEDIA_CODEC, DEFAULT_VIDEO_CODEC).toInt();
+    m_videocodec.nCodec = Codec(ttSettings->value(SETTINGS_STREAMMEDIA_CODEC, DEFAULT_VIDEO_CODEC).toInt());
+    switch(m_videocodec.nCodec)
+    {
+    case WEBM_VP8_CODEC:
+        m_videocodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE, DEFAULT_WEBMVP8_BITRATE).toInt();
+        m_videocodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+        break;
+    default:
+        break;
+    }
+
     ui.vidcodecBox->addItem("WebM VP8", WEBM_VP8_CODEC);
-    ui.vp8bitrateSpinBox->setValue(ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE,
-                                                     DEFAULT_WEBMVP8_BITRATE).toInt());
-    int vidindex = ui.vidcodecBox->findData(vidcodec);
+    ui.vp8bitrateSpinBox->setValue(m_videocodec.webm_vp8.nRcTargetBitrate);
+    int vidindex = ui.vidcodecBox->findData(WEBM_VP8_CODEC);
     ui.vidcodecBox->setCurrentIndex(vidindex);
 
     showMediaFormatInfo();
+    updateControls();
 }
 
 StreamMediaFileDlg::~StreamMediaFileDlg()
@@ -178,8 +188,48 @@ void StreamMediaFileDlg::showMediaFormatInfo()
     ui.vidcodecBox->setEnabled(m_mediaFile.videoFmt.picFourCC != FOURCC_NONE);
 }
 
+void StreamMediaFileDlg::updateControls()
+{
+    ui.startToolButton->setEnabled(!isMyselfStreaming());
+    ui.stopToolButton->setEnabled(!isMyselfStreaming());
+    ui.preprocessorComboBox->setEnabled(m_playbackid <= 0 || !isMyselfStreaming());
+    ui.vidcodecBox->setEnabled(!isMyselfStreaming());
+}
+
+void StreamMediaFileDlg::updateProgress(quint32 elapsed, bool setvalue)
+{
+    quint32 hours = elapsed / (60 * 60 * 1000);
+    quint32 remain = elapsed - (60 * 60 * 1000 * hours);
+    quint32 minutes = remain / (60 * 1000);
+    remain -= 60 * 1000 * minutes;
+    quint32 seconds = remain / 1000;
+    quint32 msec = remain % 1000;
+
+    ui.playbackTimeLabel->setText(QString("%1:%2:%3.%4").arg(hours)
+        .arg(minutes, 2, 10, QChar('0'))
+        .arg(seconds, 2, 10, QChar('0'))
+        .arg(msec, 3, 10, QChar('0')));
+
+    if (m_mediaFile.uDurationMSec && setvalue)
+    {
+        double percent = elapsed / (double)m_mediaFile.uDurationMSec;
+        int value = int(percent * double(ui.playbackOffsetSlider->maximum()));
+        ui.playbackOffsetSlider->setValue(value);
+    }
+}
+
 void StreamMediaFileDlg::slotPlayMediaFile()
 {
+    auto flags = TT_GetFlags(ttInst);
+    if ((flags & (CLIENT_SNDOUTPUT_READY & CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
+    {
+        QStringList errors = initSelectedSoundDevices();
+        for (auto s : errors)
+            QMessageBox::critical(this, tr("Play"), s);
+        if (errors.size())
+            return;
+    }
+
     if (m_playbackid) // pause
     {
         m_mfp.bPaused = !m_mfp.bPaused;
@@ -213,38 +263,39 @@ void StreamMediaFileDlg::slotStopMediaFile()
     TT_StopLocalPlayback(ttInst, m_playbackid);
     m_playbackid = 0;
 
-    ui.preprocessButton->setEnabled(m_playbackid <= 0);
-    ui.preprocessorComboBox->setEnabled(m_playbackid <= 0);
+    updateControls();
+    ui.playbackOffsetSlider->setValue(0);
+    updateProgress(0, true);
 }
 
 void StreamMediaFileDlg::slotChangePlayOffset(int value)
 {
-    if (m_playbackid <= 0)
-        return;
-
     double percent = value / double(ui.playbackOffsetSlider->maximum());
     quint32 remain = m_mediaFile.uDurationMSec;
 
-    remain *= percent;
+    remain = quint32(remain * percent);
 
-    quint32 hours = remain / (60 * 60 * 1000);
-    remain -= 60 * 60 * 1000 * hours;
-    quint32 minutes = remain / (60 * 1000);
-    remain -= 60 * 1000 * minutes;
-    quint32 seconds = remain / 1000;
-    quint32 msec = remain % 1000;
+    updateProgress(remain, false);
 
-    ui.playbackTimeLabel->setText(QString("%1:%2:%3.%4").arg(hours)
-                                  .arg(minutes, 2, 10, QChar('0'))
-                                  .arg(seconds, 2, 10, QChar('0'))
-                                  .arg(msec, 3, 10, QChar('0')));
+    m_mfp.uOffsetMSec = UINT32(m_mediaFile.uDurationMSec * percent);
 
-    m_mfp.uOffsetMSec =  UINT32(m_mediaFile.uDurationMSec * percent);
+    if (m_progressupdate)
+        return;
 
-    if (!TT_UpdateLocalPlayback(ttInst, m_playbackid, &m_mfp))
+    if (m_playbackid > 0)
     {
-        QMessageBox::critical(this, tr("Play"), tr("Failed to play media file"));
-        slotStopMediaFile();
+        if(!TT_UpdateLocalPlayback(ttInst, m_playbackid, &m_mfp))
+        {
+            QMessageBox::critical(this, tr("Play"), tr("Failed to play media file"));
+            slotStopMediaFile();
+        }
+    }
+    else if (isMyselfStreaming())
+    {
+        if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_videocodec))
+        {
+            QMessageBox::critical(this, tr("Stream"), tr("Failed to stream media file"));
+        }
     }
 }
 
@@ -262,9 +313,74 @@ void StreamMediaFileDlg::slotSetupPreprocessor(bool)
     {
         m_mfp.audioPreprocessor = dlg.m_preprocess;
         m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-        if (!TT_UpdateLocalPlayback(ttInst, m_playbackid, &m_mfp))
+        if (m_playbackid > 0)
         {
-            QMessageBox::critical(this, tr("Audio Preprocessor"), tr("Failed to activate audio preprocessor"));
+            if (!TT_UpdateLocalPlayback(ttInst, m_playbackid, &m_mfp))
+                QMessageBox::critical(this, tr("Audio Preprocessor"), tr("Failed to activate audio preprocessor"));
+        }
+        else if (isMyselfStreaming())
+        {
+            if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_videocodec))
+                QMessageBox::critical(this, tr("Audio Preprocessor"), tr("Failed to activate audio preprocessor"));
         }
     }
+}
+
+void StreamMediaFileDlg::slotMediaStreamProgress(const MediaFileInfo& mfi)
+{
+    m_progressupdate = true;
+
+    m_mediaFile = mfi;
+    updateProgress(mfi.uElapsedMSec, true);
+    switch (mfi.nStatus)
+    {
+    case MFS_CLOSED :
+        break;
+    case MFS_STARTED :
+        break;
+    case MFS_PLAYING :
+        break;
+    case MFS_PAUSED :
+        break;
+    case MFS_ABORTED :
+        break;
+    case MFS_ERROR :
+    case MFS_FINISHED :
+        updateControls();
+        break;
+    }
+    m_progressupdate = false;
+}
+
+void StreamMediaFileDlg::slotMediaPlaybackProgress(int sessionid, const MediaFileInfo& mfi)
+{
+    if (m_playbackid != sessionid)
+        return;
+
+    m_progressupdate = true;
+    m_mediaFile = mfi;
+    
+    if (!ui.playbackOffsetSlider->isSliderDown())
+        updateProgress(mfi.uElapsedMSec, true);
+
+    switch (mfi.nStatus)
+    {
+    case MFS_CLOSED :
+        break;
+    case MFS_STARTED :
+        break;
+    case MFS_PLAYING :
+        break;
+    case MFS_PAUSED :
+        break;
+    case MFS_ABORTED :
+        break;
+    case MFS_ERROR :
+    case MFS_FINISHED :
+        slotStopMediaFile();
+        updateControls();
+        break;
+    }
+
+    m_progressupdate = false;
 }

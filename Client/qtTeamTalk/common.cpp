@@ -299,6 +299,71 @@ int getSelectedSndOutputDevice()
     return outputid;
 }
 
+QStringList initSelectedSoundDevices()
+{
+    QStringList result;
+
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
+    //Restart sound system so we have the latest sound devices
+    TT_RestartSoundSystem();
+
+    int inputid = getSelectedSndInputDevice();
+    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
+
+    int outputid = getSelectedSndOutputDevice();
+    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
+
+    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
+    {
+        if(init_indev && init_outdev &&
+           !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound duplex mode"));
+        }
+    }
+    else
+    {
+        if(init_indev && !TT_InitSoundInputDevice(ttInst, inputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound input device"));
+        }
+        if(init_outdev && !TT_InitSoundOutputDevice(ttInst, outputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound output device"));
+        }
+    }
+    return result;
+}
+
+QStringList initDefaultSoundDevices()
+{
+    QStringList result;
+
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
+    result.append(QObject::tr("Switching to default sound devices"));
+    int inputid, outputid;
+    if (!TT_GetDefaultSoundDevices(&inputid, &outputid))
+    {
+        result.append(QObject::tr("Unable to get default sound devices"));
+    }
+    else
+    {
+        if (!TT_InitSoundInputDevice(ttInst, inputid) || !TT_InitSoundOutputDevice(ttInst, outputid))
+        {
+            TT_CloseSoundInputDevice(ttInst);
+            TT_CloseSoundOutputDevice(ttInst);
+            result.append(QObject::tr("Failed to initialize default sound devices"));
+        }
+    }
+    return result;
+}
+
 #ifdef Q_OS_DARWIN
 QString QCFStringToQString(CFStringRef str)
 {
@@ -639,6 +704,11 @@ bool isMyselfTalking()
               ((flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
               (flags & CLIENT_SNDINPUT_VOICEACTIVE));
     return talking;
+}
+
+bool isMyselfStreaming()
+{
+    return (TT_GetFlags(ttInst) & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO)) != CLIENT_CLOSED;
 }
 
 QString getHotKeyString(HotKeyID keyid)

@@ -127,34 +127,6 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Start position</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="playbackOffsetSlider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="playbackTimeLabel">
-          <property name="text">
-           <string notr="true">0:00:00.000</string>
-          </property>
-          <property name="buddy">
-           <cstring>playbackOffsetSlider</cstring>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QLabel" name="label_5">
@@ -185,6 +157,34 @@
            </size>
           </property>
          </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Start position</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="playbackOffsetSlider">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="playbackTimeLabel">
+          <property name="text">
+           <string notr="true">0:00:00.000</string>
+          </property>
+          <property name="buddy">
+           <cstring>playbackOffsetSlider</cstring>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -422,13 +422,15 @@
   <tabstop>toolButton</tabstop>
   <tabstop>refreshBtn</tabstop>
   <tabstop>loopChkBox</tabstop>
+  <tabstop>preprocessorComboBox</tabstop>
+  <tabstop>preprocessButton</tabstop>
   <tabstop>playbackOffsetSlider</tabstop>
+  <tabstop>stopToolButton</tabstop>
+  <tabstop>startToolButton</tabstop>
   <tabstop>vidcodecBox</tabstop>
   <tabstop>vp8bitrateSpinBox</tabstop>
   <tabstop>okBtn</tabstop>
   <tabstop>cancelBtn</tabstop>
-  <tabstop>startToolButton</tabstop>
-  <tabstop>playbackOffsetSlider</tabstop>
  </tabstops>
  <resources>
   <include location="resources.qrc"/>
