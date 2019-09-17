@@ -317,9 +317,14 @@ void FFMpegStreamer::Run()
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
                 ACE_UINT32(curvideotime));
-    
-        m_media_in.elapsed_ms = ACE_UINT32(curaudiotime);
-        m_media_in.elapsed_ms = ACE_UINT32(curvideotime);
+
+        if (curaudiotime > 0)
+            m_media_in.elapsed_ms = ACE_UINT32(curaudiotime);
+        else if (curvideotime > 0)
+            m_media_in.elapsed_ms = ACE_UINT32(curvideotime);
+
+        if (start_offset != MEDIASTREAMER_OFFSET_IGNORE)
+            m_media_in.elapsed_ms += start_offset;
         
         // check if we should pause
         if (m_pause)
@@ -341,9 +346,11 @@ void FFMpegStreamer::Run()
             totalpausetime += pausetime;
         }
 
-        if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        auto newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
+
+        if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
-            double offset_sec = m_offset;
+            double offset_sec = newoffset;
             offset_sec /= 1000.0;
 
             bool success = true;
@@ -387,7 +394,7 @@ void FFMpegStreamer::Run()
 
             if (success)
             {
-                m_media_in.elapsed_ms = m_offset;
+                m_media_in.elapsed_ms = newoffset;
                 start_time = GETTIMESTAMP();
                 totalpausetime = 0;
                 start_offset = MEDIASTREAMER_OFFSET_IGNORE;
@@ -396,8 +403,6 @@ void FFMpegStreamer::Run()
 
                 status = MEDIASTREAM_STARTED;
             }
-            
-            m_offset = MEDIASTREAMER_OFFSET_IGNORE;
         }
         
         if (status != MEDIASTREAM_NONE)
@@ -471,6 +476,8 @@ void FFMpegStreamer::Run()
             } // got_frame
         } // stream index
         av_packet_unref(&packet);
+
+        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
 
