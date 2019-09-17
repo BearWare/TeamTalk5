@@ -48,6 +48,45 @@ MFStreamer::MFStreamer(MediaStreamListener* listener)
 {
 }
 
+LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamIndex, 
+                      LONGLONG llOffset, const MediaFileProp& prop)
+{
+    LONGLONG llInitialTimestamp = -1, llTimestamp = 0;
+
+    // advance to the new offset (apparently we have to do this manually)
+    while(true)
+    {
+        CComPtr<IMFSample> pSample;
+        DWORD dwStreamFlags = 0;
+        HRESULT hr = pSourceReader->ReadSample(dwStreamIndex, 0, NULL, &dwStreamFlags, &llTimestamp, &pSample);
+        if (FAILED(hr))
+        {
+            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            llTimestamp = -1;
+            break;
+        }
+        if (dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR))
+        {
+            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s due to EOF or error\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            llTimestamp = -1;
+            break;
+        }
+
+        if(llInitialTimestamp == -1)
+            llInitialTimestamp = llTimestamp;
+
+        // forward
+        if (llInitialTimestamp <= llOffset && llTimestamp >= llOffset)
+            break;
+
+        //rewind
+        if (llInitialTimestamp >= llOffset && llTimestamp <= llOffset)
+            break;
+    }
+
+    return llTimestamp;
+}
+
 void MFStreamer::Run()
 {
     HRESULT hr;
@@ -307,20 +346,28 @@ void MFStreamer::Run()
             totalpausetime += pausetime;
         }
 
+        ACE_UINT32 newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
+
         // check if we should forward/rewind
-        if(m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        if(newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
-            HRESULT hrprop = InitPropVariantFromInt64(m_offset * 10000, &var);
+            HRESULT hrprop = InitPropVariantFromInt64(newoffset * 10000, &var);
             assert(SUCCEEDED(hrprop));
             hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
             assert(SUCCEEDED(hr));
             if(SUCCEEDED(hr))
             {
-                m_media_in.elapsed_ms = m_offset;
+                // advance to the new offset (apparently we have to do this manually)
+                if (llAudioTimestamp >= 0)
+                    SeekInStream(pSourceReader, dwAudioStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+                if (llVideoTimestamp >= 0)
+                    SeekInStream(pSourceReader, dwVideoStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+
+                m_media_in.elapsed_ms = newoffset;
                 start_time = GETTIMESTAMP();
                 totalpausetime = 0;
-                offset = m_offset;
+                offset = newoffset;
                 ClearBuffers();
 
                 // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause)
@@ -330,7 +377,7 @@ void MFStreamer::Run()
             if(SUCCEEDED(hrprop))
                 PropVariantClear(&var);
 
-            m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+            MYTRACE(ACE_TEXT("Media file %s starting from %u\n"), GetMediaInput().filename.c_str(), newoffset);
         }
 
         if (status != MEDIASTREAM_NONE)
