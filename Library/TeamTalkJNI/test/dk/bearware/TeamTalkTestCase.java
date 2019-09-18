@@ -1549,8 +1549,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("get initial streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("Stream started", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
-        
-        assertTrue("wait for finish streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.mediafileinfo.nStatus == MediaFileStatus.MFS_FINISHED)
+                break;
+        }
 
         assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
     }
