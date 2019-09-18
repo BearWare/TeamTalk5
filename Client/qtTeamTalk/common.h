@@ -335,6 +335,8 @@ QStringList getCustomCommand(const TextMessage& msg);
 void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
+void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor);
+void loadAudioPreprocessor(AudioPreprocessor& preprocessor);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
@@ -352,10 +354,14 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
 
+QStringList initSelectedSoundDevices();
+QStringList initDefaultSoundDevices();
+
 QString getHotKeyText(const hotkey_t& hotkey);
 
 bool isComputerIdle(int idle_secs);
 bool isMyselfTalking();
+bool isMyselfStreaming();
 
 void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 

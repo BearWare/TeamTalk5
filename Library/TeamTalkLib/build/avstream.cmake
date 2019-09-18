@@ -122,7 +122,7 @@ if (MSVC)
     list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MFStreamer.cpp)
     list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MFTransform.cpp)
     list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.cpp)
-    list (APPEND AVSTREAM_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi)
+    list (APPEND AVSTREAM_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi propsys)
     list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0601 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN7
   endif()
 endif()

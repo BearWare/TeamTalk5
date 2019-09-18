@@ -48,6 +48,45 @@ MFStreamer::MFStreamer(MediaStreamListener* listener)
 {
 }
 
+LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamIndex, 
+                      LONGLONG llOffset, const MediaFileProp& prop)
+{
+    LONGLONG llInitialTimestamp = -1, llTimestamp = 0;
+
+    // advance to the new offset (apparently we have to do this manually)
+    while(true)
+    {
+        CComPtr<IMFSample> pSample;
+        DWORD dwStreamFlags = 0;
+        HRESULT hr = pSourceReader->ReadSample(dwStreamIndex, 0, NULL, &dwStreamFlags, &llTimestamp, &pSample);
+        if (FAILED(hr))
+        {
+            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            llTimestamp = -1;
+            break;
+        }
+        if (dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR))
+        {
+            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s due to EOF or error\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            llTimestamp = -1;
+            break;
+        }
+
+        if(llInitialTimestamp == -1)
+            llInitialTimestamp = llTimestamp;
+
+        // forward
+        if (llInitialTimestamp <= llOffset && llTimestamp >= llOffset)
+            break;
+
+        //rewind
+        if (llInitialTimestamp >= llOffset && llTimestamp <= llOffset)
+            break;
+    }
+
+    return llTimestamp;
+}
+
 void MFStreamer::Run()
 {
     HRESULT hr;
@@ -222,6 +261,17 @@ void MFStreamer::Run()
         m_media_out.video = media::VideoFormat();
     }
 
+    // find duration
+    PROPVARIANT var;
+    hr = pSourceReader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_DURATION, &var);
+    if (SUCCEEDED(hr))
+    {
+        LONGLONG nsDuration = 0;
+        hr = PropVariantToInt64(var, &nsDuration);
+        PropVariantClear(&var);
+        m_media_in.duration_ms = ACE_UINT32(nsDuration / 10000);
+    }
+
     if (m_media_in.IsValid())
     {
         m_open.set(m_media_in.IsValid());
@@ -296,26 +346,38 @@ void MFStreamer::Run()
             totalpausetime += pausetime;
         }
 
-        if (m_offset != MEDIASTREAMER_OFFSET_IGNORE)
+        ACE_UINT32 newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
+
+        // check if we should forward/rewind
+        if(newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
-            hr = InitPropVariantFromInt64(m_offset * 10000, &var);
-            assert(SUCCEEDED(hr));
+            HRESULT hrprop = InitPropVariantFromInt64(newoffset * 10000, &var);
+            assert(SUCCEEDED(hrprop));
             hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
             assert(SUCCEEDED(hr));
-            if (SUCCEEDED(hr))
+            if(SUCCEEDED(hr))
             {
-                m_media_in.elapsed_ms = m_offset;
+                // advance to the new offset (apparently we have to do this manually)
+                if (llAudioTimestamp >= 0)
+                    SeekInStream(pSourceReader, dwAudioStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+                if (llVideoTimestamp >= 0)
+                    SeekInStream(pSourceReader, dwVideoStreamIndex, LONGLONG(newoffset) * 10000, GetMediaInput());
+
+                m_media_in.elapsed_ms = newoffset;
                 start_time = GETTIMESTAMP();
                 totalpausetime = 0;
-                offset = m_offset;
+                offset = newoffset;
                 ClearBuffers();
 
                 // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause)
                 status = MEDIASTREAM_STARTED;
             }
 
-            m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+            if(SUCCEEDED(hrprop))
+                PropVariantClear(&var);
+
+            MYTRACE(ACE_TEXT("Media file %s starting from %u\n"), GetMediaInput().filename.c_str(), newoffset);
         }
 
         if (status != MEDIASTREAM_NONE)
@@ -339,7 +401,6 @@ void MFStreamer::Run()
             //}
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {
-                m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
                 llAudioTimestamp = -1;
             }
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
@@ -361,7 +422,6 @@ void MFStreamer::Run()
 
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {
-                m_media_in.elapsed_ms = ACE_UINT32(llVideoTimestamp / 10000);
                 llVideoTimestamp = -1;
             }
 
@@ -391,6 +451,8 @@ void MFStreamer::Run()
                 vframes += QueueVideoSample(sample, llVideoTimestamp);
             }
         }
+
+        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, false));
     }

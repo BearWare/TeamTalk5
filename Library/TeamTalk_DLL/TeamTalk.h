@@ -518,7 +518,10 @@ extern "C" {
         /** @brief Aborted processing of media file. */
         MFS_ABORTED         = 4,
         /** @brief Paused processing of media file. */
-        MFS_PAUSED          = 5
+        MFS_PAUSED          = 5,
+        /** @brief Playing media file with updated @c uElapsedMSec of
+         * #MediaFileInfo. */
+        MFS_PLAYING         = 6
     } MediaFileStatus;
 
     /**

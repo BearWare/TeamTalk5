@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -21,16 +21,31 @@
  *
  */
 
-package dk.bearware;
+#ifndef AUDIOPREPROCESSORDLG_H
+#define AUDIOPREPROCESSORDLG_H
 
-public interface MediaFileStatus
-{
-    public static final int MFS_CLOSED = 0;
-    public static final int MFS_ERROR = 1;
-    public static final int MFS_STARTED = 2;
-    public static final int MFS_FINISHED = 3;
-    public static final int MFS_ABORTED = 4;
-    public static final int MFS_PAUSED = 5;
-    public static final int MFS_PLAYING = 6;
-}
+#include "ui_audiopreprocessor.h"
 
+#include "common.h"
+
+class AudioPreprocessorDlg : public QDialog {
+
+    Q_OBJECT
+
+public:
+    AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget* parent);
+
+    AudioPreprocessor m_preprocess = {};
+
+private:
+    void showSettings();
+
+    void slotAccepted();
+    void slotDefaultTTPreprocessor(bool);
+    void slotDefaultSpeexDSP(bool);
+
+private:
+    Ui::AudioPreprocessorDlg ui;
+};
+
+#endif // AUDIOPREPROCESSORDLG_H

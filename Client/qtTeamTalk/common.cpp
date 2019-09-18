@@ -113,6 +113,51 @@ void initDefaultVideoFormat(VideoFormat& vidfmt)
     vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
+void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor)
+{
+    switch (preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR :
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        preprocessor.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
+        preprocessor.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
+        preprocessor.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
+        preprocessor.speexdsp.nMaxDecDBSec = DEFAULT_AGC_DEC_MAXDB;
+        preprocessor.speexdsp.nMaxGainDB = DEFAULT_AGC_GAINMAXDB;
+        preprocessor.speexdsp.bEnableDenoise = DEFAULT_DENOISE_ENABLE;
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = DEFAULT_DENOISE_SUPPRESS;
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        preprocessor.ttpreprocessor.nGainLevel = SOUND_GAIN_DEFAULT;
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
+        break;
+    }
+}
+
+void loadAudioPreprocessor(AudioPreprocessor& preprocessor)
+{
+    switch(preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR:
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        preprocessor.speexdsp.bEnableAGC = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, DEFAULT_AGC_ENABLE).toBool();
+        preprocessor.speexdsp.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, DEFAULT_AGC_GAINLEVEL).toInt();
+        preprocessor.speexdsp.nMaxIncDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, DEFAULT_AGC_INC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxDecDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, DEFAULT_AGC_DEC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, DEFAULT_AGC_GAINMAXDB).toInt();
+        preprocessor.speexdsp.bEnableDenoise = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, DEFAULT_DENOISE_ENABLE).toBool();
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, DEFAULT_DENOISE_SUPPRESS).toInt();
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, false).toBool();
+        preprocessor.ttpreprocessor.bMuteRightSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, false).toBool();
+        preprocessor.ttpreprocessor.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, SOUND_GAIN_DEFAULT).toInt();
+        break;
+    }
+}
+
 bool initVideoCaptureFromSettings()
 {
     QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();
@@ -275,6 +320,71 @@ int getSelectedSndOutputDevice()
             outputid = getSoundOutputFromUID(outputid, uid);
     }
     return outputid;
+}
+
+QStringList initSelectedSoundDevices()
+{
+    QStringList result;
+
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
+    //Restart sound system so we have the latest sound devices
+    TT_RestartSoundSystem();
+
+    int inputid = getSelectedSndInputDevice();
+    bool init_indev = (TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY) == 0;
+
+    int outputid = getSelectedSndOutputDevice();
+    bool init_outdev = (TT_GetFlags(ttInst) & CLIENT_SNDOUTPUT_READY) == 0;
+
+    if(ttSettings->value(SETTINGS_SOUND_DUPLEXMODE, SETTINGS_SOUND_DUPLEXMODE_DEFAULT).toBool())
+    {
+        if(init_indev && init_outdev &&
+           !TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound duplex mode"));
+        }
+    }
+    else
+    {
+        if(init_indev && !TT_InitSoundInputDevice(ttInst, inputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound input device"));
+        }
+        if(init_outdev && !TT_InitSoundOutputDevice(ttInst, outputid))
+        {
+            result.append(QObject::tr("Failed to initialize sound output device"));
+        }
+    }
+    return result;
+}
+
+QStringList initDefaultSoundDevices()
+{
+    QStringList result;
+
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
+    result.append(QObject::tr("Switching to default sound devices"));
+    int inputid, outputid;
+    if (!TT_GetDefaultSoundDevices(&inputid, &outputid))
+    {
+        result.append(QObject::tr("Unable to get default sound devices"));
+    }
+    else
+    {
+        if (!TT_InitSoundInputDevice(ttInst, inputid) || !TT_InitSoundOutputDevice(ttInst, outputid))
+        {
+            TT_CloseSoundInputDevice(ttInst);
+            TT_CloseSoundOutputDevice(ttInst);
+            result.append(QObject::tr("Failed to initialize default sound devices"));
+        }
+    }
+    return result;
 }
 
 #ifdef Q_OS_DARWIN
@@ -617,6 +727,11 @@ bool isMyselfTalking()
               ((flags & CLIENT_SNDINPUT_VOICEACTIVATED) &&
               (flags & CLIENT_SNDINPUT_VOICEACTIVE));
     return talking;
+}
+
+bool isMyselfStreaming()
+{
+    return (TT_GetFlags(ttInst) & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO)) != CLIENT_CLOSED;
 }
 
 QString getHotKeyString(HotKeyID keyid)

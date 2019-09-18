@@ -33,6 +33,7 @@
 
 #include <memory>
 #include <thread>
+#include <mutex>
 
 struct MediaStream
 {
@@ -81,6 +82,7 @@ enum MediaStreamStatus
     MEDIASTREAM_ERROR       = 2,
     MEDIASTREAM_FINISHED    = 3,
     MEDIASTREAM_PAUSED      = 4,
+    MEDIASTREAM_PLAYING     = 5,
 };
 
 class MediaStreamer;
@@ -119,7 +121,8 @@ public:
 
     bool Pause();
 
-    void SetOffset(ACE_UINT32 offset) { m_offset = offset; }
+    // return previous offset (was)
+    ACE_UINT32 SetOffset(ACE_UINT32 offset);
 
     const MediaFileProp& GetMediaInput() const { return m_media_in; }
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
@@ -133,7 +136,6 @@ protected:
     int GetQueuedAudioDataSize();
 
     MediaFileProp m_media_in;
-    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
     MediaStreamOutput m_media_out;
     MediaStreamListener* m_listener;
 
@@ -151,6 +153,8 @@ protected:
 private:
     bool ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
     bool ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime);
+    std::mutex m_mutex;
+    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
 };
 
 typedef std::shared_ptr< MediaStreamer > media_streamer_t;

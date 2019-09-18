@@ -130,6 +130,14 @@ bool MediaStreamer::Pause()
     return true;
 }
 
+ACE_UINT32 MediaStreamer::SetOffset(ACE_UINT32 offset)
+{
+    std::lock_guard<std::mutex> g(m_mutex);
+    auto prev = m_offset;
+    m_offset = offset;
+    return prev;
+}
+
 void MediaStreamer::Reset()
 {
     m_media_in = MediaFileProp();

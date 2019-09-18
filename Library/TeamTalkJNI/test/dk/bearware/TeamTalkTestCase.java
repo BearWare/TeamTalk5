@@ -1549,8 +1549,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("get initial streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
 
         assertEquals("Stream started", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_STARTED);
-        
-        assertTrue("wait for finish streaming event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg));
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.mediafileinfo.nStatus == MediaFileStatus.MFS_FINISHED)
+                break;
+        }
 
         assertEquals("Stream ended", msg.mediafileinfo.nStatus, MediaFileStatus.MFS_FINISHED);
     }
@@ -2383,8 +2386,20 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertEquals("streaming started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
 
-        assertTrue("Wait for playback end", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
-        assertEquals("streaming ended", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+        boolean finished = false, playing = false;
+        while (!finished && waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            switch(msg.mediafileinfo.nStatus) {
+            case MediaFileStatus.MFS_PLAYING :
+                playing = true;
+                break;
+            case MediaFileStatus.MFS_FINISHED :
+                finished = true;
+                break;
+            }
+        }
+        assertTrue("Playing event", playing);
+        assertEquals("Streaming ended", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+        assertFalse("Last playback event is finished", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, 0, msg));
     }
 
     public void testLocalPlaybackPause() {
@@ -2418,14 +2433,22 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
         assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
         
-        assertTrue("Play one sec", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 1000));
+        int starttime = msg.mediafileinfo.uElapsedMSec;
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.mediafileinfo.uElapsedMSec - starttime >= 1000)
+                break;
+        }
+        
+        assertTrue("Play one sec", msg.mediafileinfo.uElapsedMSec - starttime >= 1000);
         
         mfp.bPaused = true;
         assertTrue("Pause again", ttclient.updateLocalPlayback(sessionid, mfp));
-        
-        assertTrue("Wait for pause event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.mediafileinfo.nStatus == MediaFileStatus.MFS_PAUSED)
+                break;
+        }
         assertEquals("streaming paused", MediaFileStatus.MFS_PAUSED, msg.mediafileinfo.nStatus);
-        
     }
 
     public void testLocalPlaybackSeek() {
@@ -2455,7 +2478,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
 
         assertTrue(DEF_WAIT > mfi.uDurationMSec - mfp.uOffsetMSec);
-        assertTrue("Wait for finished event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            if (msg.mediafileinfo.nStatus == MediaFileStatus.MFS_FINISHED)
+                break;
+        }
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);        
     }
 
@@ -2488,14 +2514,34 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         mfp.uOffsetMSec = 18 * 1000;
         assertTrue("Rewind", ttclient.updateLocalPlayback(sessionid, mfp));
+
+        boolean playing = false, started = false;
+        while (!started && waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+            
+            switch (msg.mediafileinfo.nStatus) {
+            case MediaFileStatus.MFS_STARTED :
+                started = true;
+                break;
+            case MediaFileStatus.MFS_PLAYING :
+                playing = true;
+                break;
+            }
+        }
         
-        assertTrue("Wait for start event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+        assertTrue("Wait for playing event", playing);
+        assertTrue("Wait for start event", started);
         assertEquals("playback started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
 
         assertTrue("Playback from rewinded position", msg.mediafileinfo.uElapsedMSec < elapsed);
         
         assertTrue(DEF_WAIT > mfi.uDurationMSec - msg.mediafileinfo.uElapsedMSec);
-        assertTrue("Wait for finished event", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg));
+
+        while (waitForEvent(ttclient, ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE, DEF_WAIT, msg)) {
+
+            if (msg.mediafileinfo.nStatus == MediaFileStatus.MFS_FINISHED)
+                break;
+        }
+        
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
     

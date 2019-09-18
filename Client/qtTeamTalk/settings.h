@@ -172,6 +172,20 @@
 #define SETTINGS_STREAMMEDIA_LOOP                   "stream-media/stream-media-file-loop"
 #define SETTINGS_STREAMMEDIA_CODEC                  "stream-media/codec"
 #define SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE        "stream-media/codec/webmvp8-bitrate"
+#define SETTINGS_STREAMMEDIA_OFFSET                 "stream-media/offset"
+#define SETTINGS_STREAMMEDIA_OFFSET_DEFAULT         0
+#define SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR      "stream-media/audiopreprocessor"
+#define SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT NO_AUDIOPREPROCESSOR
+#define SETTINGS_STREAMMEDIA_TTAP_MUTELEFT          "stream-media/ttaudiopreprocessor/muteleft"
+#define SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT         "stream-media/ttaudiopreprocessor/muteright"
+#define SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL         "stream-media/ttaudiopreprocessor/gainlevel"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE         "stream-media/spxaudiopreprocessor/agc-enable"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL      "stream-media/spxaudiopreprocessor/agc-gain-level"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB      "stream-media/spxaudiopreprocessor/agc-incmaxdbsec"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB      "stream-media/spxaudiopreprocessor/agc-devmaxdbsec"
+#define SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB      "stream-media/spxaudiopreprocessor/agc-gainmaxdb"
+#define SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE     "stream-media/spxaudiopreprocessor/denoise-enable"
+#define SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS   "stream-media/spxaudiopreprocessor/denoise-suppress"
 
 #define SETTINGS_DESKTOPSHARE_MODE                  "desktop-share/desktop-share-mode"
 #define SETTINGS_DESKTOPSHARE_BMPMODE               "desktop-share/desktop-bmp-mode"

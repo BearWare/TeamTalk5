@@ -412,7 +412,7 @@ namespace soundsystem {
                     assert(rsbuf != m_resample_buffers.end());
                     short* rsbufptr = &rsbuf->second[0];
                     assert(cbch);
-                    int rsframesize = rsbuf->second.size() / cbch;
+                    int rsframesize = int(rsbuf->second.size()) / cbch;
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
@@ -456,7 +456,7 @@ namespace soundsystem {
                         std::memcpy(&cbbufptr[cbpos], &rsbufptr[rspos], bytes);
 
                         cbpos += n_samples;
-                        rspos += n_samples;
+                        rspos += int(n_samples);
                         
                         if (cbpos == m_callback_buffers[key].size())
                         {

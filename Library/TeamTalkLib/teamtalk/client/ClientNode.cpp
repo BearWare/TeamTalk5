@@ -1522,6 +1522,9 @@ void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
     case MEDIASTREAM_STARTED :
         mfs = MFS_STARTED;
         break;
+    case MEDIASTREAM_PLAYING :
+        mfs = MFS_PLAYING;
+        break;
     case MEDIASTREAM_ERROR :
         mfs = MFS_ERROR;
         StartUserTimer(USER_TIMER_STOP_STREAM_MEDIAFILE_ID, 0, 0, 
@@ -3231,6 +3234,9 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
     {
     case MEDIASTREAM_STARTED :
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_STARTED);
+        break;
+    case MEDIASTREAM_PLAYING :
+        m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_PLAYING);
         break;
     case MEDIASTREAM_ERROR :
     {

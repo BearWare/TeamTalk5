@@ -645,7 +645,8 @@ namespace teamtalk {
         MFS_STARTED     = 2,
         MFS_FINISHED    = 3,
         MFS_ABORTED     = 4,
-        MFS_PAUSED      = 5
+        MFS_PAUSED      = 5,
+        MFS_PLAYING     = 6
     };
 
     /* Remember to updated DLL header file when modifying this.
