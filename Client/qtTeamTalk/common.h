@@ -336,6 +336,7 @@ void initDefaultAudioCodec(AudioCodec& codec);
 bool getVideoCaptureCodec(VideoCodec& vidcodec);
 void initDefaultVideoFormat(VideoFormat& vidfmt);
 void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor);
+void loadAudioPreprocessor(AudioPreprocessor& preprocessor);
 
 bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);

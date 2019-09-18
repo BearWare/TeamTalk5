@@ -135,6 +135,29 @@ void initDefaultAudioPreprocessor(AudioPreprocessor& preprocessor)
     }
 }
 
+void loadAudioPreprocessor(AudioPreprocessor& preprocessor)
+{
+    switch(preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR:
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        preprocessor.speexdsp.bEnableAGC = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, DEFAULT_AGC_ENABLE).toBool();
+        preprocessor.speexdsp.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, DEFAULT_AGC_GAINLEVEL).toInt();
+        preprocessor.speexdsp.nMaxIncDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, DEFAULT_AGC_INC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxDecDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, DEFAULT_AGC_DEC_MAXDB).toInt();
+        preprocessor.speexdsp.nMaxGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, DEFAULT_AGC_GAINMAXDB).toInt();
+        preprocessor.speexdsp.bEnableDenoise = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, DEFAULT_DENOISE_ENABLE).toBool();
+        preprocessor.speexdsp.nMaxNoiseSuppressDB = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, DEFAULT_DENOISE_SUPPRESS).toInt();
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        preprocessor.ttpreprocessor.bMuteLeftSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, false).toBool();
+        preprocessor.ttpreprocessor.bMuteRightSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, false).toBool();
+        preprocessor.ttpreprocessor.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, SOUND_GAIN_DEFAULT).toInt();
+        break;
+    }
+}
+
 bool initVideoCaptureFromSettings()
 {
     QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();

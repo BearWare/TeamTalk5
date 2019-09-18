@@ -2811,8 +2811,13 @@ void MainWindow::startStreamMediaFile()
         break;
     }
 
-    if(fileName.size() && 
-       !TT_StartStreamingMediaFileToChannel(ttInst, _W(fileName), &vidcodec))
+    MediaFilePlayback mfp = {};
+    mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+        SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    loadAudioPreprocessor(mfp.audioPreprocessor);
+    mfp.bPaused = false;
+    mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
+    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
     {
         QMessageBox::information(this,
                                  MENUTEXT(ui.actionStreamMediaFileToChannel->text()),

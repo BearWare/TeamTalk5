@@ -62,9 +62,14 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
         ui.mediafileComboBox->addItem(item);
     }
     ui.mediafileComboBox->setCurrentIndex(0);
-    ui.preprocessorComboBox->addItem("No Audio Preprocessor", NO_AUDIOPREPROCESSOR);
-    ui.preprocessorComboBox->addItem("TeamTalk Audio Preprocessor", TEAMTALK_AUDIOPREPROCESSOR);
-    ui.preprocessorComboBox->addItem("Speex DSP Audio Preprocessor", SPEEXDSP_AUDIOPREPROCESSOR);
+
+    // audio preprocessor
+    ui.preprocessorComboBox->addItem(tr("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
+    ui.preprocessorComboBox->addItem(tr("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
+    ui.preprocessorComboBox->addItem(tr("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
+    AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+                                                      SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    setCurrentItemData(ui.preprocessorComboBox, apt);
 
     ui.playbackOffsetSlider->setMaximum(10000);
 
@@ -111,8 +116,9 @@ void StreamMediaFileDlg::slotAccepted()
         ttSettings->setValue(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i), files[i]);
     }
 
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_LOOP,
-                         ui.loopChkBox->isChecked());
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, getCurrentItemData(ui.preprocessorComboBox).toInt());
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec);
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_LOOP, ui.loopChkBox->isChecked());
     int codec_index = ui.vidcodecBox->currentIndex();
     ttSettings->setValue(SETTINGS_STREAMMEDIA_CODEC, ui.vidcodecBox->itemData(codec_index).toInt());
     ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE, ui.vp8bitrateSpinBox->value());
@@ -299,10 +305,10 @@ void StreamMediaFileDlg::slotChangePlayOffset(int value)
     }
 }
 
-void StreamMediaFileDlg::slotChangePreprocessor(int)
+void StreamMediaFileDlg::slotChangePreprocessor(int index)
 {
     m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(ui.preprocessorComboBox->currentData().toInt());
-    initDefaultAudioPreprocessor(m_mfp.audioPreprocessor);
+    loadAudioPreprocessor(m_mfp.audioPreprocessor);
 }
 
 void StreamMediaFileDlg::slotSetupPreprocessor(bool)
@@ -312,6 +318,28 @@ void StreamMediaFileDlg::slotSetupPreprocessor(bool)
     if (dlg.exec())
     {
         m_mfp.audioPreprocessor = dlg.m_preprocess;
+
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, m_mfp.audioPreprocessor.nPreprocessor);
+        switch(m_mfp.audioPreprocessor.nPreprocessor)
+        {
+        case NO_AUDIOPREPROCESSOR :
+            break;
+        case SPEEXDSP_AUDIOPREPROCESSOR:
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, m_mfp.audioPreprocessor.speexdsp.bEnableAGC);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, m_mfp.audioPreprocessor.speexdsp.nGainLevel);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, m_mfp.audioPreprocessor.speexdsp.nMaxIncDBSec);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, m_mfp.audioPreprocessor.speexdsp.nMaxDecDBSec);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, m_mfp.audioPreprocessor.speexdsp.nMaxGainDB);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, m_mfp.audioPreprocessor.speexdsp.bEnableDenoise);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, m_mfp.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB);
+            break;
+        case TEAMTALK_AUDIOPREPROCESSOR:
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, m_mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, m_mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker);
+             ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel);
+            break;
+        }
+        
         m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
         if (m_playbackid > 0)
         {
