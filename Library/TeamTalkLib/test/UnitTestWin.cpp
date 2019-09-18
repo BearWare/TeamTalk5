@@ -1392,6 +1392,7 @@ namespace UnitTest
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::IsTrue(msg.mediafileinfo.uElapsedMSec >= mfp3.uOffsetMSec);
             auto starttime = GETTIMESTAMP();
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
@@ -1409,12 +1410,14 @@ namespace UnitTest
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::IsTrue(msg.mediafileinfo.uElapsedMSec >= mfp3.uOffsetMSec);
 
             mfp3.uOffsetMSec = 58000;
             Assert::IsTrue(TT_UpdateLocalPlayback(inst, nSessionID3, &mfp3));
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_STARTED));
+            Assert::IsTrue(msg.mediafileinfo.uElapsedMSec >= mfp3.uOffsetMSec);
 
             Assert::IsTrue(WaitForEvent(inst, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
             Assert::AreEqual(int(msg.mediafileinfo.nStatus), int(MFS_FINISHED));
