@@ -70,4 +70,21 @@ private:
                                ACE_UINT32& start_offset);
 };
 
+bool OpenInput(const ACE_TString& filename,
+               AVInputFormat *iformat,
+               AVDictionary *options,
+               AVFormatContext*& fmt_ctx,
+               AVCodecContext*& aud_dec_ctx,
+               AVCodecContext*& vid_dec_ctx,
+               int& audio_stream_index,
+               int& video_stream_index);
+
+struct AVFilterGraph* createAudioFilterGraph(AVFormatContext *fmt_ctx,
+                                             AVCodecContext* aud_dec_ctx,
+                                             AVFilterContext*& aud_buffersink_ctx,
+                                             AVFilterContext*& aud_buffersrc_ctx,
+                                             int audio_stream_index,
+                                             int out_channels,
+                                             int out_samplerate);
+
 #endif
