@@ -1020,11 +1020,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     public void test_AudioBlock() {
 
-        if (MEDIAFILE_AUDIO.isEmpty()) {
-            System.err.println(getCurrentMethod() + " skipped due to missing " + MEDIAFILE_AUDIO);
-            return;
-        }
-
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
@@ -1038,6 +1033,13 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(ttclient);
         initSound(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 30 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
 
         Channel chan = buildDefaultChannel(ttclient, "Opus");
         assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
@@ -1065,7 +1067,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertFalse("No queued events", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
 
         assertTrue("Enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_MEDIAFILE_AUDIO, true));
-        assertTrue("Start stream file", ttclient.startStreamingMediaFileToChannel(MEDIAFILE_AUDIO, new VideoCodec()));
+        assertTrue("Start stream file", ttclient.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()));
 
         int n_voice_blocks = 0, n_mfa_blocks = 0;
         while (n_voice_blocks < 10 || n_mfa_blocks < 10)
