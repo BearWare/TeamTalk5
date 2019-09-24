@@ -1034,13 +1034,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         initSound(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
-        MediaFileInfo mfi = new MediaFileInfo();
-        mfi.szFileName = "hest.wav";
-        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
-        mfi.uDurationMSec = 30 * 1000;
-
-        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
-
         Channel chan = buildDefaultChannel(ttclient, "Opus");
         assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
 
@@ -1060,13 +1053,21 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("Voice StreamType", StreamType.STREAMTYPE_VOICE, msg.nStreamType);
             
         AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
-
+        
         assertTrue("aud block has samples", block.nSamples > 0);
 
         //drain message before we start calculating
         assertFalse("No queued events", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 100));
 
         assertTrue("Enable aud cb", ttclient.enableAudioBlockEvent(ttclient.getMyUserID(), StreamType.STREAMTYPE_MEDIAFILE_AUDIO, true));
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = "hest.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 30 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
         assertTrue("Start stream file", ttclient.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()));
 
         int n_voice_blocks = 0, n_mfa_blocks = 0;
@@ -1151,8 +1152,66 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 assertEquals("left channel is mute", 0, block.lpRawAudio[i+1]);
             }
         }
+    }
 
+    public void test_LocalAudioBlock() {
 
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
+            UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        initSound(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(ttclient, "Opus");
+        assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+
+        assertTrue("join", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("vox", ttclient.enableVoiceTransmission(true));
+
+        assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
+
+        assertTrue("enable aud cb", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
+
+        assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+
+        assertEquals("StreamType", TTType.__STREAMTYPE, msg.ttType);
+        assertEquals("Voice StreamType", StreamType.STREAMTYPE_VOICE, msg.nStreamType);
+            
+        AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+        
+        assertEquals("First stream", 1, block.nStreamID);
+        assertTrue("aud block has samples", block.nSamples > 0);
+
+        int receiveSamples = block.nSampleRate * 3;
+        while (receiveSamples > 0) {
+            assertTrue("gimme 3 secs of voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertEquals("Still first stream", 1, block.nStreamID);
+            receiveSamples -= block.nSamples;
+        }
+        assertTrue("disable vox", ttclient.enableVoiceTransmission(false));
+
+        waitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 0, msg);
+
+        assertTrue("vox again", ttclient.enableVoiceTransmission(true));
+        
+        receiveSamples = block.nSampleRate * 2;
+        while (receiveSamples > 0) {
+            assertTrue("gimme 2 secs of voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+            block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
+            assertEquals("Second stream", 2, block.nStreamID);
+            receiveSamples -= block.nSamples;
+        }
+    
     }
 
     public void test_ListAccounts() {

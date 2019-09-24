@@ -30,7 +30,7 @@ import java.util.Vector;
 /**
  * Created by bdr on 3-06-16.
  */
-public class MyTest extends TeamTalkTestCaseBase {
+public class MyTest extends TeamTalkTestCase {
 
     public TeamTalkBase newClientInstance() {
         TeamTalkBase ttclient = new TeamTalk5();
@@ -52,7 +52,10 @@ public class MyTest extends TeamTalkTestCaseBase {
     public void test_This() {
         TeamTalkBase ttclient = newClientInstance();
         assertTrue(ttclient != null);
+        initSound(ttclient);
         connect(ttclient);
+        login(ttclient, getCurrentMethod(), "guest", "guest");
+        joinRoot(ttclient);
     }
 
     public void test_RestartSnd() {
@@ -218,5 +221,13 @@ public class MyTest extends TeamTalkTestCaseBase {
             assertTrue("Stop transmit audio on ttclient", ttclient.enableVoiceTransmission(false));
             waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_NONE, 1000);
         }
+    }
+
+    public void test_EnableAudioBlock() {
+        super.test_AudioBlock();
+    }
+
+    public void test_LocalEnableAudioBlock() {
+        super.test_LocalAudioBlock();
     }
 }
