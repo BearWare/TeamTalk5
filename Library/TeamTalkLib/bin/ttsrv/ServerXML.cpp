@@ -764,6 +764,7 @@ namespace teamtalk{
                     PutBoolean(codecElement, "vbr", chan.audiocodec.opus.vbr);
                     PutBoolean(codecElement, "vbr-constraint", chan.audiocodec.opus.vbr_constraint);
                     PutInteger(codecElement, "framesize", chan.audiocodec.opus.frame_size);
+                    PutInteger(codecElement, "fpp", chan.audiocodec.opus.frames_per_packet);
                     break;
                 }
                 ReplaceElement(xmlChan, codecElement);
@@ -925,6 +926,8 @@ namespace teamtalk{
                         b &= GetBoolean(*codecElement, "vbr", newchan.audiocodec.opus.vbr);
                         b &= GetBoolean(*codecElement, "vbr-constraint", newchan.audiocodec.opus.vbr_constraint);
                         b &= GetInteger(*codecElement, "framesize", newchan.audiocodec.opus.frame_size);
+                        newchan.audiocodec.opus.frames_per_packet = 1;
+                        GetInteger(*codecElement, "fpp", newchan.audiocodec.opus.frames_per_packet);
                         break;
                     }
                     if(b)

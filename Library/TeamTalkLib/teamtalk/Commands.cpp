@@ -306,6 +306,10 @@ namespace teamtalk {
             codec.opus.vbr = codec_type[8];
             codec.opus.vbr_constraint = codec_type[9];
             codec.opus.frame_size = codec_type[10];
+            if (codec_type.size() > 11)
+                codec.opus.frames_per_packet = codec_type[11];
+            else
+                codec.opus.frames_per_packet = 1;
             return true;
         case CODEC_WEBM_VP8 :
             break;
@@ -636,6 +640,7 @@ namespace teamtalk {
             codec_prop.push_back(codec.opus.vbr);
             codec_prop.push_back(codec.opus.vbr_constraint);
             codec_prop.push_back(codec.opus.frame_size);
+            codec_prop.push_back(codec.opus.frames_per_packet);
             break;
         default :
             codec_prop.push_back(CODEC_NO_CODEC);

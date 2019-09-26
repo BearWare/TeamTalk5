@@ -852,8 +852,21 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         result.opus.bitrate = codec.opus.nBitRate;
         result.opus.vbr = codec.opus.bVBR;
         result.opus.vbr_constraint = codec.opus.bVBRConstraint;
-        result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate,
-                                                codec.opus.nTxIntervalMSec);
+        if (codec.opus.nFrameSizeMSec > 0)
+        {
+            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate, codec.opus.nFrameSizeMSec);
+            if (result.opus.frame_size == 0)
+                return false;
+
+            int cbsamples = codec.opus.nSampleRate * codec.opus.nTxIntervalMSec / 1000;
+            result.opus.frames_per_packet = cbsamples / result.opus.frame_size;
+        }
+        else
+        {
+            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate,
+                                                    codec.opus.nTxIntervalMSec);
+            result.opus.frames_per_packet = 1;
+        }
         VALID_INT_CODEC(result, result.opus);
 
         return teamtalk::ValidAudioCodec(result);
@@ -908,8 +921,9 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.opus.nBitRate = codec.opus.bitrate;
         result.opus.bVBR = codec.opus.vbr;
         result.opus.bVBRConstraint = codec.opus.vbr_constraint;
-        result.opus.nTxIntervalMSec = OPUS_GetCbMSec(codec.opus.samplerate,
+        result.opus.nFrameSizeMSec = OPUS_GetCbMSec(codec.opus.samplerate,
                                                     codec.opus.frame_size);
+        result.opus.nTxIntervalMSec = teamtalk::GetAudioCodecCbMillis(codec);
 
         VALID_EXT_CODEC(result, result.opus);
         return teamtalk::ValidAudioCodec(codec);

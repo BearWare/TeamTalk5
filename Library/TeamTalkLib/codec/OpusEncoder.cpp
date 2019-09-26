@@ -27,23 +27,25 @@
 
 int OPUS_GetCbSize(int samplerate, int msec)
 {
-    if(!msec)
-        return 0;
-
-    //OPUS frame must be divided by 2.5ms
-    int cb_samples = (int)(samplerate * 0.0025);
-
-    int opus_frames = msec * 1000 / 2500;
-
-    while(opus_frames>=2)
-    {
-        cb_samples *= 2;
-        opus_frames /= 2;
-    }
-    if(msec == 60)
-        cb_samples = (cb_samples / 2) + cb_samples;
-
-    return cb_samples;
+    if (msec < 5)
+        return samplerate * 25 / 10000;
+    if(msec < 10)
+        return samplerate * 50 / 10000;
+    if(msec < 20)
+        return samplerate * 100 / 10000;
+    if(msec < 40)
+        return samplerate * 200 / 10000;
+    if(msec < 60)
+        return samplerate * 400 / 10000;
+    if(msec < 80)
+        return samplerate * 600 / 10000;
+    if(msec < 100)
+        return samplerate * 800 / 10000;
+    if(msec < 120)
+        return samplerate * 1000 / 10000;
+    if(msec == 120)
+        return samplerate * 1200 / 10000;
+    return 0;
 }
 
 int OPUS_GetCbMSec(int samplerate, int cb_samples)

@@ -38,20 +38,12 @@
 #define SPEEX_FRAME_MSEC_MIN 20
 #define SPEEX_FRAME_MSEC_MAX 100
 
-#define CELT_ENCFRAMESIZE_MIN 10
-#define CELT_FRAMESIZE_MIN 64
-#define CELT_FRAMESIZE_MAX 1024
-#define CELT_SAMPLERATE_MIN 32000
-#define CELT_SAMPLERATE_MAX 96000
-#define CELT_BITRATE_MIN 35000      /* Remember to updated DLL header file when modifying this */
-#define CELT_BITRATE_MAX 3000000    /* Remember to updated DLL header file when modifying this */
-
 #define OPUS_FRAME_MSEC_MIN 3
 #define OPUS_FRAME_MSEC_MAX 60
 #define OPUS_SAMPLERATE_MIN 8000
 #define OPUS_SAMPLERATE_MAX 48000
-#define OPUS_BITRATE_MIN 6000
-#define OPUS_BITRATE_MAX 512000
+#define OPUS_BITRATE_MIN 6000     /* Remember to updated DLL header file when modifying this */
+#define OPUS_BITRATE_MAX 512000   /* Remember to updated DLL header file when modifying this */
 
 
 namespace teamtalk
@@ -115,7 +107,7 @@ namespace teamtalk
             return GetSpeexSamplesCount(codec.speex_vbr.bandmode, 
                 codec.speex_vbr.frames_per_packet);
         case CODEC_OPUS :
-            return codec.opus.frame_size;
+            return codec.opus.frame_size * codec.opus.frames_per_packet;
         default :
             return 0;
         }
@@ -123,8 +115,7 @@ namespace teamtalk
 
     int GetAudioCodecCbBytes(const AudioCodec& codec)
     {
-        return GetAudioCodecCbTotalSamples(codec) *
-            sizeof(short);
+        return GetAudioCodecCbTotalSamples(codec) * sizeof(short);
     }
 
     int GetAudioCodecCbMillis(const AudioCodec& codec)
@@ -165,6 +156,7 @@ namespace teamtalk
         {
         case CODEC_SPEEX :
             return codec.speex.frames_per_packet * GetAudioCodecEncFrameSize(codec);
+        case CODEC_SPEEX_VBR:
         case CODEC_OPUS :
             MYTRACE(ACE_TEXT("ERROR: Querying size of encoded data for VBR codec.\n"));
         default :
@@ -307,7 +299,7 @@ namespace teamtalk
         case CODEC_SPEEX_VBR :
             return codec.speex_vbr.frames_per_packet;
         case CODEC_OPUS :
-            return 1;
+            return codec.opus.frames_per_packet;
         default :
             return 0;
         }

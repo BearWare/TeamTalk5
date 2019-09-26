@@ -15,14 +15,21 @@
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
 #include <codec/VpxDecoder.h>
+#include <codec/OpusEncoder.h>
+
 
 #include <myace/MyACE.h>
 #include <ace/FILE_Connector.h>
+
+#include <teamtalk/CodecCommon.h>
+#include <teamtalk/client/AudioThread.h>
 
 #include <TeamTalk.h>
 #if defined(ENABLE_TEAMTALKPRO)
 #include <TeamTalkSrv.h>
 #endif
+
+#include <bin/dll/Convert.h>
 
 #include <mutex>
 #include <thread>
@@ -1433,6 +1440,70 @@ namespace UnitTest
             Assert::AreEqual(int(MFS_FINISHED), int(msg.mediafileinfo.nStatus));
 
             TT_CloseTeamTalk(inst);
+        }
+
+        TEST_METHOD(TestOPUSFramesPerPacket)
+        {
+            Assert::AreEqual(int(48000 * 0.0025), OPUS_GetCbSize(48000, 3));
+            Assert::AreEqual(int(48000 * 0.005), OPUS_GetCbSize(48000, 5));
+            Assert::AreEqual(int(48000 * 0.01), OPUS_GetCbSize(48000, 10));
+            Assert::AreEqual(int(48000 * 0.02), OPUS_GetCbSize(48000, 20));
+            Assert::AreEqual(int(48000 * 0.04), OPUS_GetCbSize(48000, 40));
+            Assert::AreEqual(int(48000 * 0.04), OPUS_GetCbSize(48000, 50));
+            Assert::AreEqual(int(48000 * 0.04), OPUS_GetCbSize(48000, 59));
+            Assert::AreEqual(int(48000 * 0.06), OPUS_GetCbSize(48000, 60));
+            Assert::AreEqual(int(48000 * 0.06), OPUS_GetCbSize(48000, 61));
+            Assert::AreEqual(int(48000 * 0.08), OPUS_GetCbSize(48000, 80));
+            Assert::AreEqual(int(48000 * 0.1), OPUS_GetCbSize(48000, 100));
+            Assert::AreEqual(int(48000 * 0.12), OPUS_GetCbSize(48000, 120));
+
+
+            AudioCodec ttcodec = {};
+            ttcodec.nCodec = OPUS_CODEC;
+            ttcodec.opus.nApplication = OPUS_APPLICATION_AUDIO;
+            ttcodec.opus.nBitRate = 48000;
+            ttcodec.opus.nChannels = 2;
+            ttcodec.opus.nComplexity = 8;
+            ttcodec.opus.nSampleRate = 48000;
+            ttcodec.opus.nTxIntervalMSec = 200;
+            ttcodec.opus.nFrameSizeMSec = 3;
+            ttcodec.opus.bFEC = TRUE;
+            ttcodec.opus.bVBR = TRUE;
+
+            teamtalk::AudioCodec codec;
+            Convert(ttcodec, codec);
+            int samples = teamtalk::GetAudioCodecCbSamples(codec);
+
+            OpusDecode decode;
+            Assert::IsTrue(decode.Open(codec.opus.samplerate, codec.opus.channels));
+
+            auto acb = [&codec, &decode](const teamtalk::AudioCodec& codec,
+                const char* enc_data, int enc_len,
+                const std::vector<int>& enc_frame_sizes,
+                const media::AudioFrame& org_frame)
+            {
+                Assert::AreEqual(codec.opus.frames_per_packet, int(enc_frame_sizes.size()));
+                int framesize = teamtalk::GetAudioCodecFrameSize(codec);
+                std::vector<short> buffer(framesize*codec.opus.channels);
+                int encoffset = 0;
+                for (size_t i=0;i<enc_frame_sizes.size();i++)
+                {
+                    Assert::AreEqual(framesize, decode.Decode(&enc_data[encoffset], enc_frame_sizes[i], &buffer[0], framesize));
+                    encoffset += enc_frame_sizes[i];
+                }
+            };
+
+            AudioThread aud;
+            Assert::IsTrue(aud.StartEncoder(acb, codec, false));
+            aud.EnableTone(400);
+
+            std::vector<short> buffer(samples*codec.opus.channels);
+            media::AudioFormat fmt(codec.opus.samplerate, codec.opus.channels);
+            media::AudioFrame frame(fmt, &buffer[0], samples);
+            frame.force_enc = true;
+            aud.QueueAudio(frame);
+            ACE_Time_Value tm;
+            aud.ProcessQueue(&tm);
         }
 
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)

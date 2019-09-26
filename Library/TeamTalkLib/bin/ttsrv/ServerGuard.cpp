@@ -1119,6 +1119,7 @@ namespace teamtalk {
             chanprop.audiocodec.opus.vbr_constraint = false;
             chanprop.audiocodec.opus.frame_size = 1920;
             chanprop.audiocodec.opus.application = 2048; /* OPUS_APPLICATION_VOIP */
+            chanprop.audiocodec.opus.frames_per_packet = 1;
 #if 0
             chanprop.audiocodec.codec = CODEC_SPEEX;
             chanprop.audiocodec.speex.bandmode = 1;

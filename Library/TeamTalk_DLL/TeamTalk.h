@@ -925,9 +925,12 @@ extern "C" {
         /** @brief Enable constrained VBR.
          * @c bVBR must be enabled to enable this. */
         TTBOOL bVBRConstraint;
-        /** @brief Duration of audio before each transmission.
-         * OPUS supports 2.5, 5, 10, 20, 40 or 60 ms. */
+        /** @brief Duration of audio before each transmission. */
         INT32 nTxIntervalMSec;
+        /** @brief OPUS supports 2.5, 5, 10, 20, 40 or 60 ms.
+         * If @c nFrameSizeMSec is 0 then @c nFrameSizeMSec will be same as 
+         * @c nTxIntervalMSec. */
+        INT32 nFrameSizeMSec;
     } OpusCodec;
 
 /** @brief Audio encoding is for VoIP. This value should be set as
