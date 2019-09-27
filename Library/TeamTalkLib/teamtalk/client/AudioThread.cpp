@@ -123,7 +123,7 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
         TTASSERT(sample_rate);
         TTASSERT(channels);
 
-        enc_size = MAX_ENC_FRAMESIZE;
+        enc_size = MAX_ENC_FRAMESIZE * codec.opus.frames_per_packet;
         m_opus.reset(new OpusEncode());
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels,
                          codec.opus.application) ||
@@ -531,13 +531,16 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
         return NULL;
     if(!vbr)
         enc_frm_size = GetAudioCodecEncFrameSize(m_codec);
+    else
+        enc_frm_size = MAX_ENC_FRAMESIZE;
 
     while(n_processed < audblock.input_samples)
     {
+        assert(nbBytes + enc_frm_size <= m_encbuf.size());
         if(vbr)
         {
             ret = m_speex->Encode(&audblock.input_buffer[n_processed], 
-                                  &enc_frames[nbBytes], MAX_ENC_FRAMESIZE);
+                                  &enc_frames[nbBytes], enc_frm_size);
         }
         else
         {
@@ -580,6 +583,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     TTASSERT(m_encbuf.size() == (size_t)enc_frm_size);
     while(n_processed < audblock.input_samples)
     {
+        assert(nbBytes + enc_frm_size <= m_encbuf.size());
         ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels], 
                              framesize, &enc_frames[nbBytes], enc_frm_size);
 
