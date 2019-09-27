@@ -568,13 +568,13 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
     
     if (enc_frame.enc_frames.size()) //packet available
     {
-        assert(GetAudioCodecFramesPerPacket(m_codec) == enc_frame.enc_frames.size());
+        assert(GetAudioCodecFramesPerPacket(m_codec) == enc_frame.enc_frame_sizes.size());
         int encoffset = 0, decoffset = 0;
-        for (size_t i=0;i<enc_frame.enc_frames.size();i++)
+        for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
-            MYTRACE("Decoding frame %d/%d, %d bytes\n",
-                    int(i), int(enc_frame.enc_frames.size()),
-                    int(enc_frame.enc_frames[i]));
+            MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+                    int(i), int(enc_frame.enc_frame_sizes.size()),
+                    int(enc_frame.enc_frame_sizes[i]));
             
             m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
                              enc_frame.enc_frame_sizes[i],
