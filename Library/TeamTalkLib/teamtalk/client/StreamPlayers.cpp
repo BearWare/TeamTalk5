@@ -560,18 +560,41 @@ void OpusPlayer::Reset()
 bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
                               short* output_buffer, int n_samples)
 {
-    if(enc_frame.enc_frames.size()) //packet available
+    int framesize = GetAudioCodecFrameSize(m_codec);
+    int samples = GetAudioCodecCbSamples(m_codec);
+    int channels = GetAudioCodecChannels(m_codec);
+    
+    assert(samples == n_samples);
+    
+    if (enc_frame.enc_frames.size()) //packet available
     {
-        m_decoder.Decode(&enc_frame.enc_frames[0], 
-                         enc_frame.enc_frame_sizes[0],
-                         output_buffer, n_samples);
+        assert(GetAudioCodecFramesPerPacket(m_codec) == enc_frame.enc_frames.size());
+        int encoffset = 0, decoffset = 0;
+        for (size_t i=0;i<enc_frame.enc_frames.size();i++)
+        {
+            MYTRACE("Decoding frame %d/%d, %d bytes\n",
+                    int(i), int(enc_frame.enc_frames.size()),
+                    int(enc_frame.enc_frames[i]));
+            
+            m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
+                             enc_frame.enc_frame_sizes[i],
+                             &output_buffer[decoffset*channels], samples);
+            
+            encoffset += enc_frame.enc_frame_sizes[i];
+            decoffset += samples;
+        }
         return true;
     }
     else  //packet lost
     {
-        MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), 
-                m_userid, m_play_pkt_no);
-        m_decoder.Decode(NULL, 0, output_buffer, n_samples);
+        MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
+        int fpp = GetAudioCodecFramesPerPacket(m_codec);
+        int decoffset = 0;
+        for (int i=0;i<fpp;i++)
+        {
+            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], samples);
+            decoffset += samples;
+        }
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
         return false;
     }

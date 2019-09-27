@@ -38,8 +38,8 @@
 #define SPEEX_FRAME_MSEC_MIN 20
 #define SPEEX_FRAME_MSEC_MAX 100
 
-#define OPUS_FRAME_MSEC_MIN 3
-#define OPUS_FRAME_MSEC_MAX 60
+#define OPUS_FRAME_MSEC_MIN 2
+#define OPUS_FRAME_MSEC_MAX 120
 #define OPUS_SAMPLERATE_MIN 8000
 #define OPUS_SAMPLERATE_MAX 48000
 #define OPUS_BITRATE_MIN 6000     /* Remember to updated DLL header file when modifying this */
