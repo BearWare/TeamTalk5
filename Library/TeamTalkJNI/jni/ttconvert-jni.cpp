@@ -737,7 +737,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         jfieldID fid_br = env->GetFieldID(cls_opus, "nBitRate", "I");
         jfieldID fid_vbr = env->GetFieldID(cls_opus, "bVBR", "Z");
         jfieldID fid_vbrc = env->GetFieldID(cls_opus, "bVBRConstraint", "Z");
-        jfieldID fid_msec = env->GetFieldID(cls_opus, "nTxIntervalMSec", "I");
+        jfieldID fid_txmsec = env->GetFieldID(cls_opus, "nTxIntervalMSec", "I");
+        jfieldID fid_frmmsec = env->GetFieldID(cls_opus, "nFrameSizeMSec", "I");
 
         assert(fid_opus);
         assert(fid_sr);
@@ -749,7 +750,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         assert(fid_br);
         assert(fid_vbr);
         assert(fid_vbrc);
-        assert(fid_msec);
+        assert(fid_txmsec);
+        assert(fid_frmmsec);
 
         if(conv == N2J)
         {
@@ -764,7 +766,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             env->SetIntField(newObj, fid_br, codec.opus.nBitRate);
             env->SetBooleanField(newObj, fid_vbr, codec.opus.bVBR);
             env->SetBooleanField(newObj, fid_vbrc, codec.opus.bVBRConstraint);
-            env->SetIntField(newObj, fid_msec, codec.opus.nTxIntervalMSec);
+            env->SetIntField(newObj, fid_txmsec, codec.opus.nTxIntervalMSec);
+            env->SetIntField(newObj, fid_frmmsec, codec.opus.nFrameSizeMSec);
             env->SetObjectField(lpAudioCodec, fid_opus, newObj);
         }
         else
@@ -779,7 +782,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             codec.opus.nBitRate = env->GetIntField(opus_obj, fid_br);
             codec.opus.bVBR = env->GetBooleanField(opus_obj, fid_vbr);
             codec.opus.bVBRConstraint = env->GetBooleanField(opus_obj, fid_vbrc);
-            codec.opus.nTxIntervalMSec = env->GetIntField(opus_obj, fid_msec);
+            codec.opus.nTxIntervalMSec = env->GetIntField(opus_obj, fid_txmsec);
+            codec.opus.nFrameSizeMSec = env->GetIntField(opus_obj, fid_frmmsec);
         }
     }
     break;

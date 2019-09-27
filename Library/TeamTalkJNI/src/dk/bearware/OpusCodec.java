@@ -35,6 +35,7 @@ public class OpusCodec
     public boolean bVBR;
     public boolean bVBRConstraint;
     public int nTxIntervalMSec;
+    public int nFrameSizeMSec;
     
     public OpusCodec() {}
     public OpusCodec(boolean set_defaults) {
@@ -51,5 +52,6 @@ public class OpusCodec
         bVBR = OpusConstants.DEFAULT_OPUS_VBR;
         bVBRConstraint = OpusConstants.DEFAULT_OPUS_VBRCONSTRAINT;
         nTxIntervalMSec = OpusConstants.DEFAULT_OPUS_DELAY;
+        nFrameSizeMSec = OpusConstants.DEFAULT_OPUS_DELAY;
     }
 }
