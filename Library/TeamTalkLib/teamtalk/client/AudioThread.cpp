@@ -78,7 +78,7 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
         TTASSERT(sample_rate);
         TTASSERT(channels);
 
-        enc_size = GetAudioCodecEncSize(codec);
+        enc_size = MAX_ENC_FRAMESIZE * codec.speex.frames_per_packet;
         m_speex.reset(new SpeexEncoder());
         if(!m_speex->Initialize(codec.speex.bandmode, 
                                 DEFAULT_SPEEX_COMPLEXITY,
@@ -198,10 +198,9 @@ bool AudioThread::StartEncoder(audioencodercallback_t callback,
     }
 
     MYTRACE_COND(codec.codec == CODEC_SPEEX,
-                 ACE_TEXT("Launched Speex encoder, samplerate %d, bitrate %d, cb %d, fpp %d, enc frame: %d\n"),
+                 ACE_TEXT("Launched Speex encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
-                 GetAudioCodecFrameSize(codec), GetAudioCodecFramesPerPacket(codec), 
-                 GetAudioCodecEncFrameSize(codec));
+                 GetAudioCodecFrameSize(codec), GetAudioCodecFramesPerPacket(codec));
 
     MYTRACE_COND(codec.codec == CODEC_SPEEX_VBR,
                  ACE_TEXT("Launched Speex VBR encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
@@ -521,32 +520,19 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
     TTASSERT(m_speex);
     
     int framesize = GetAudioCodecFrameSize(m_codec);
-    bool vbr = GetAudioCodecVBRMode(m_codec);
     char* enc_frames = &m_encbuf[0];
     int nbBytes = 0, n_processed = 0, ret;
-    int enc_frm_size = 0;
+    int enc_frm_size = MAX_ENC_FRAMESIZE;
 
     assert(framesize>0);
     if(framesize <= 0)
         return NULL;
-    if(!vbr)
-        enc_frm_size = GetAudioCodecEncFrameSize(m_codec);
-    else
-        enc_frm_size = MAX_ENC_FRAMESIZE;
 
     while(n_processed < audblock.input_samples)
     {
         assert(nbBytes + enc_frm_size <= m_encbuf.size());
-        if(vbr)
-        {
-            ret = m_speex->Encode(&audblock.input_buffer[n_processed], 
-                                  &enc_frames[nbBytes], enc_frm_size);
-        }
-        else
-        {
-            ret = m_speex->Encode(&audblock.input_buffer[n_processed], 
-                                  &enc_frames[nbBytes], enc_frm_size);
-        }
+        ret = m_speex->Encode(&audblock.input_buffer[n_processed], 
+                              &enc_frames[nbBytes], enc_frm_size);
         assert(ret>0);
         if(ret <= 0)
             return NULL;

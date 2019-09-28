@@ -37,8 +37,6 @@ namespace teamtalk
     int GetAudioCodecCbMillis(const AudioCodec& codec);
     int GetAudioCodecCbTotalSamples(const AudioCodec& codec); // includes * channels
     int GetAudioCodecChannels(const AudioCodec& codec);
-    int GetAudioCodecEncSize(const AudioCodec& codec); //fpp * enc_frame
-    int GetAudioCodecEncFrameSize(const AudioCodec& codec);
     int GetAudioCodecFrameSize(const AudioCodec& codec);
     int GetAudioCodecFramesPerPacket(const AudioCodec& codec);
     bool GetAudioCodecVBRMode(const AudioCodec& codec);
