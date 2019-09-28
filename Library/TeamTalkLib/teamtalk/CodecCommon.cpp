@@ -315,8 +315,9 @@ namespace teamtalk
         switch(codec.codec)
         {
         case CODEC_SPEEX_VBR :
-        case CODEC_OPUS :
             return true;
+        case CODEC_OPUS :
+            return codec.opus.vbr;
         case CODEC_SPEEX :
         default :
             return false;
