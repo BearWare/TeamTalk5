@@ -339,10 +339,13 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     }
     else
     {
+        int frames_per_packet = GetAudioCodecFramesPerPacket(m_codec);
         m_buffer[pkt_no].enc_frames.assign(enc_data, enc_data+enc_len);
-        if(GetAudioCodecFramesPerPacket(m_codec)>1)
-            m_buffer[pkt_no].enc_frame_sizes.assign(GetAudioCodecFramesPerPacket(m_codec), 
-                                                     GetAudioCodecEncFrameSize(m_codec));
+        if (frames_per_packet > 1)
+        {
+            int encfrmsize = enc_len / frames_per_packet;
+            m_buffer[pkt_no].enc_frame_sizes.assign(frames_per_packet, encfrmsize);
+        }
         else
             m_buffer[pkt_no].enc_frame_sizes.push_back(enc_len);
     }
@@ -573,9 +576,9 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         int encoffset = 0, decoffset = 0;
         for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
-            //MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
-            //        int(i), int(enc_frame.enc_frame_sizes.size()),
-            //        int(enc_frame.enc_frame_sizes[i]));
+            MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+                    int(i), int(enc_frame.enc_frame_sizes.size()),
+                    int(enc_frame.enc_frame_sizes[i]));
             
             ret = m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
                                    enc_frame.enc_frame_sizes[i],

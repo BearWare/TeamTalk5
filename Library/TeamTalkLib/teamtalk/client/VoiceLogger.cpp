@@ -388,8 +388,8 @@ void VoiceLog::WriteAudio(int packet_no)
 #if defined(ENABLE_SPEEX)
             if(m_speex.get())
             {
-                vector<int> frame_sizes(GetAudioCodecFramesPerPacket(m_codec),
-                                        GetAudioCodecEncFrameSize(m_codec));
+                int frames_per_packet = GetAudioCodecFramesPerPacket(m_codec);
+                vector<int> frame_sizes(frames_per_packet, enc_len / frames_per_packet);
                 m_speex->DecodeMultiple(enc_data, frame_sizes, &m_samples_buf[0]);
             }
 #endif
