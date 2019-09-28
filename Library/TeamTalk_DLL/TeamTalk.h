@@ -825,9 +825,15 @@ extern "C" {
         /** @brief A value from 1-10. As of DLL version 4.2 also 0 is
          * supported.*/
         INT32 nQuality;
-        /** @brief Milliseconds of audio data before each transmission. Speex
-         * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
-         * max is 100. */
+        /** @brief Milliseconds of audio data before each
+         * transmission.
+         *
+         * Speex uses 20 msec frame sizes. Recommended is 40 msec. Min
+         * is 20, max is 500 msec.
+         *
+         * The #SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
         INT32 nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
@@ -864,9 +870,14 @@ extern "C" {
          * enabled Speex will ignore silence, so the bitrate will
          * become very low. */
         TTBOOL bDTX;
-        /** @brief Milliseconds of audio data before each transmission. Speex
-         * uses 20 msec frame sizes. Recommended is 40 ms. Min is 20,
-         * max is 100. */
+        /** @brief Milliseconds of audio data before each transmission.
+         *
+         * Speex uses 20 msec frame sizes. Recommended is 40 msec. Min
+         * is 20, max is 500 msec.
+         *
+         * The #SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
         INT32 nTxIntervalMSec;
         /** @brief Playback should be done in stereo. Doing so will
          * disable 3d-positioning.
@@ -925,9 +936,14 @@ extern "C" {
         /** @brief Enable constrained VBR.
          * @c bVBR must be enabled to enable this. */
         TTBOOL bVBRConstraint;
-        /** @brief Duration of audio before each transmission. */
+        /** @brief Duration of audio before each transmission. Minimum is 2 msec.
+         * Recommended is 40 msec. Maximum is 500 msec.
+         * 
+         * The #SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
         INT32 nTxIntervalMSec;
-        /** @brief OPUS supports 2.5, 5, 10, 20, 40 or 60 ms.
+        /** @brief OPUS supports 2.5, 5, 10, 20, 40, 60, 80, 100 and 120 msec.
          * If @c nFrameSizeMSec is 0 then @c nFrameSizeMSec will be same as 
          * @c nTxIntervalMSec. */
         INT32 nFrameSizeMSec;
@@ -945,6 +961,16 @@ extern "C" {
 /** @brief The maximum bitrate for OPUS codec. Checkout @c nBitRate of
  * #OpusCodec. */
 #define OPUS_MAX_BITRATE 510000
+/** @brief The minimum frame size for OPUS codec. Checkout @c nFrameSizeMSec
+ * of #OpusCodec. */
+#define OPUS_MIN_FRAMESIZE 2 /* Actually it's 2.5 */
+/** @brief The maximum frame size for OPUS codec. Checkout @c nFrameSizeMSec
+ * of #OpusCodec. */
+#define OPUS_MAX_FRAMESIZE 60
+/** @brief The real maximum frame size for OPUS codec. Checkout @c nFrameSizeMSec
+ * of #OpusCodec. Although OPUS states it only supports 2.5 - 60 msec, it actually
+ * support up to 120 msec. */
+#define OPUS_REALMAX_FRAMESIZE 120
 
     /** @brief Speex DSP is used for specifying how recorded audio
      * from a sound input device should be preprocessed before

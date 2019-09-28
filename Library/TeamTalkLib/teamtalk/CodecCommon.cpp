@@ -36,7 +36,7 @@
 #define SPEEX_QUALITY_MIN 0
 #define SPEEX_QUALITY_MAX 10
 #define SPEEX_FRAME_MSEC_MIN 20
-#define SPEEX_FRAME_MSEC_MAX 100
+#define SPEEX_FRAME_MSEC_MAX 1000
 
 #define OPUS_FRAME_MSEC_MIN 2
 #define OPUS_FRAME_MSEC_MAX 120
@@ -45,6 +45,7 @@
 #define OPUS_BITRATE_MIN 6000     /* Remember to updated DLL header file when modifying this */
 #define OPUS_BITRATE_MAX 512000   /* Remember to updated DLL header file when modifying this */
 
+#define AUDIOPACKET_DURATION_MSEC_MAX 1000
 
 namespace teamtalk
 {
@@ -59,20 +60,21 @@ namespace teamtalk
         case CODEC_SPEEX_VBR :
             if(GetAudioCodecSampleRate(codec) == 0 ||
                GetAudioCodecCbMillis(codec) < SPEEX_FRAME_MSEC_MIN ||
-               GetAudioCodecCbMillis(codec) > SPEEX_FRAME_MSEC_MAX ||
+               GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
                codec.speex.quality < SPEEX_QUALITY_MIN ||
                codec.speex.quality > SPEEX_QUALITY_MAX)
                 return false;
             return true;
         case CODEC_OPUS :
-            if(GetAudioCodecCbMillis(codec) > OPUS_FRAME_MSEC_MAX ||
-               GetAudioCodecCbMillis(codec) < OPUS_FRAME_MSEC_MIN ||
-               GetAudioCodecSampleRate(codec) > OPUS_SAMPLERATE_MAX ||
-               GetAudioCodecSampleRate(codec) < OPUS_SAMPLERATE_MIN ||
-               GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
-               GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
-               GetAudioCodecChannels(codec) == 0 ||
-               GetAudioCodecChannels(codec) > 2)
+            if (GetAudioCodecCbMillis(codec) < OPUS_FRAME_MSEC_MIN ||
+                GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
+                GetAudioCodecSampleRate(codec) < OPUS_SAMPLERATE_MIN ||
+                GetAudioCodecSampleRate(codec) > OPUS_SAMPLERATE_MAX ||
+                GetAudioCodecFrameSize(codec) > GetAudioCodecSampleRate(codec) * .12 /*OPUS_FRAME_MSEC_MAX*/ ||
+                GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
+                GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
+                GetAudioCodecChannels(codec) == 0 ||
+                GetAudioCodecChannels(codec) > 2)
                 return false;
             return true;
         case CODEC_WEBM_VP8 :

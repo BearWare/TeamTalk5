@@ -576,9 +576,9 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         int encoffset = 0, decoffset = 0;
         for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
-            MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
-                    int(i), int(enc_frame.enc_frame_sizes.size()),
-                    int(enc_frame.enc_frame_sizes[i]));
+            //MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+            //        int(i), int(enc_frame.enc_frame_sizes.size()),
+            //        int(enc_frame.enc_frame_sizes[i]));
             
             ret = m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
                                    enc_frame.enc_frame_sizes[i],
