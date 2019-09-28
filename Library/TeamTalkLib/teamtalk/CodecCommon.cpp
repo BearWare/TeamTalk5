@@ -268,8 +268,13 @@ namespace teamtalk
             }
         break;
         case CODEC_SPEEX_VBR :
+            MYTRACE(ACE_TEXT("ERROR: Querying size of encoded framesize for VBR codec.\n"));
+            assert(codec.codec != CODEC_SPEEX_VBR);
+            return 0;
         case CODEC_OPUS :
             MYTRACE(ACE_TEXT("ERROR: Querying size of encoded framesize for VBR codec.\n"));
+            assert(codec.codec != CODEC_OPUS);
+            return 0;
         default :
             return 0;
         }

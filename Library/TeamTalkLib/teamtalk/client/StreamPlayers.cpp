@@ -563,6 +563,7 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
     int framesize = GetAudioCodecFrameSize(m_codec);
     int samples = GetAudioCodecCbSamples(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
+    int ret;
     
     assert(samples == n_samples);
     
@@ -572,16 +573,16 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         int encoffset = 0, decoffset = 0;
         for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
-            MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
-                    int(i), int(enc_frame.enc_frame_sizes.size()),
-                    int(enc_frame.enc_frame_sizes[i]));
+            //MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+            //        int(i), int(enc_frame.enc_frame_sizes.size()),
+            //        int(enc_frame.enc_frame_sizes[i]));
             
-            m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
-                             enc_frame.enc_frame_sizes[i],
-                             &output_buffer[decoffset*channels], samples);
-            
+            ret = m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
+                                   enc_frame.enc_frame_sizes[i],
+                                   &output_buffer[decoffset*channels], framesize);
+            MYTRACE_COND(ret != framesize, ACE_TEXT("OPUS decode failed for #%d. Ret = %d\n"), m_userid, ret);
             encoffset += enc_frame.enc_frame_sizes[i];
-            decoffset += samples;
+            decoffset += framesize;
         }
         return true;
     }
@@ -592,8 +593,8 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         int decoffset = 0;
         for (int i=0;i<fpp;i++)
         {
-            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], samples);
-            decoffset += samples;
+            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], framesize);
+            decoffset += framesize;
         }
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
         return false;

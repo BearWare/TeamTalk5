@@ -566,6 +566,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     TTASSERT(m_opus);
     TTASSERT(audblock.input_samples == GetAudioCodecCbSamples(m_codec));
     char* enc_frames = &m_encbuf[0];
+    // FIXME: GetAudioCodecVBRMode() is always true for OPUS 
     bool vbr = GetAudioCodecVBRMode(m_codec);
     int framesize = GetAudioCodecFrameSize(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
@@ -586,7 +587,6 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
         assert(nbBytes + enc_frm_size <= m_encbuf.size());
         ret = m_opus->Encode(&audblock.input_buffer[n_processed*channels], 
                              framesize, &enc_frames[nbBytes], enc_frm_size);
-
         assert(ret>0);
         if(ret <= 0)
             return NULL;
