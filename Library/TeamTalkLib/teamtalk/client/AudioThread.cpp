@@ -580,7 +580,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
         enc_frm_size = GetAudioCodecEncFrameSize(m_codec);
     else
         enc_frm_size = MAX_ENC_FRAMESIZE;
-    TTASSERT(m_encbuf.size() == (size_t)enc_frm_size);
+
     while(n_processed < audblock.input_samples)
     {
         assert(nbBytes + enc_frm_size <= m_encbuf.size());
