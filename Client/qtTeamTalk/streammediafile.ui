@@ -143,6 +143,9 @@
           <property name="text">
            <string>Setup</string>
           </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>

@@ -248,7 +248,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="nocodecPage"/>
             <widget class="QWidget" name="spxPage">
@@ -670,6 +670,13 @@
                   </property>
                  </spacer>
                 </item>
+                <item>
+                 <widget class="QCheckBox" name="opus_vbrCheckBox">
+                  <property name="text">
+                   <string>Variable Bit Rate</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item row="4" column="0" colspan="2">
@@ -713,6 +720,33 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Frame size</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="opus_framesizeSpinBox">
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>120</number>
+                  </property>
+                  <property name="value">
+                   <number>0</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>msec</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -834,11 +868,12 @@
   <tabstop>opus_srateBox</tabstop>
   <tabstop>opus_channelsBox</tabstop>
   <tabstop>opus_bpsSpinBox</tabstop>
+  <tabstop>opus_vbrCheckBox</tabstop>
   <tabstop>opus_dtxBox</tabstop>
   <tabstop>opus_txdelaySpinBox</tabstop>
+  <tabstop>opus_framesizeSpinBox</tabstop>
   <tabstop>agcBox</tabstop>
   <tabstop>gainlevelSlider</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections>
