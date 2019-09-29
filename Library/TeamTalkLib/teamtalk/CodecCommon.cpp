@@ -62,7 +62,8 @@ namespace teamtalk
                GetAudioCodecCbMillis(codec) < SPEEX_FRAME_MSEC_MIN ||
                GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
                codec.speex.quality < SPEEX_QUALITY_MIN ||
-               codec.speex.quality > SPEEX_QUALITY_MAX)
+               codec.speex.quality > SPEEX_QUALITY_MAX ||
+               GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec))
                 return false;
             return true;
         case CODEC_OPUS :
@@ -73,6 +74,7 @@ namespace teamtalk
                 GetAudioCodecFrameSize(codec) > GetAudioCodecSampleRate(codec) * .12 /*OPUS_FRAME_MSEC_MAX*/ ||
                 GetAudioCodecBitRate(codec) < OPUS_BITRATE_MIN ||
                 GetAudioCodecBitRate(codec) > OPUS_BITRATE_MAX ||
+                GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec) ||
                 GetAudioCodecChannels(codec) == 0 ||
                 GetAudioCodecChannels(codec) > 2)
                 return false;
@@ -308,6 +310,16 @@ namespace teamtalk
         default :
             return 0;
         } /* codec switch */
+    }
+
+    // AudioPacket can contain a maximum of 0xfff bytes
+    int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec)
+    {
+        int txinterval_msec = GetAudioCodecCbMillis(codec);
+        if (!txinterval_msec)
+            return 0;
+        
+        return 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
     }
 
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
