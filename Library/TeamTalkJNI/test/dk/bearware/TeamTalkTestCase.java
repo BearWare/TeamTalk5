@@ -1229,18 +1229,32 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         initSound(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
 
-        Channel chan = buildDefaultChannel(ttclient, "Opus");
-        assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
-
         assertTrue("Gen tone", ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 500));
 
-        double[] framesizes = {2.5, 5, 10, 20, 40, 60/*, 80, 100, 120*/};
+        //                          0      1      2       3      4      5      6      7      8      9     10
+        double[] txintervals = {  120,   120,   120,    120,   120,   120,    80,   200,   240,   500,  1000};
+        double[] framesizes  = {  2.5,     5,    10,     20,    40,    60,    80,   100,   120,    10,    20};
+        boolean[] vbr        = { true,  true,  true,  false,  true,  true,  true, false,  true,  true, false};
+        int[] bitrates       = {    6,    32,    64,    128,   128,   256,   384,   160,   128,    60,    32};
 
-        for (double frameMSec : framesizes) {
-
-            chan.audiocodec.opus.nTxIntervalMSec = 120;
+        for (int i=0;i<txintervals.length;i++) {
+           
+            double txintervalMSec = txintervals[i];
+            double frameMSec = framesizes[i];
+            
+            Channel chan = buildDefaultChannel(ttclient, String.format("OPUS tx-interval %d, framesize %d, vbr %d, birate %d",
+                                                                       (int)txintervalMSec,
+                                                                       (int)frameMSec,
+                                                                       (vbr[i]? 1:0),
+                                                                       bitrates[i]));
+            chan.audiocodec.opus.nTxIntervalMSec = (int)txintervalMSec;
             chan.audiocodec.opus.nFrameSizeMSec = (int)frameMSec;
-
+            chan.audiocodec.opus.bVBR = vbr[i];
+            //chan.audiocodec.opus.bVBRConstraint = (vbr[i])?true:false;
+            chan.audiocodec.opus.nBitRate = bitrates[i] * 1000;
+            assertEquals(chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+            chan.audiocodec.opus.nChannels = 2;
+            
             assertTrue("join with interval "+chan.audiocodec.opus.nTxIntervalMSec+" framesize " + frameMSec,
                        waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
