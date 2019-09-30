@@ -515,14 +515,14 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
     int framesize = GetAudioCodecFrameSize(m_codec);
     int nbBytes = 0, n_processed = 0, ret;
     int fpp = GetAudioCodecFramesPerPacket(m_codec);
-    int enc_frm_size = MAX_ENC_FRAMESIZE;
+    int enc_frm_size;
 
     assert(fpp);
     assert(framesize>0);
     if (framesize <= 0 || fpp <= 0)
         return nullptr;
 
-    enc_frm_size /= fpp;
+    enc_frm_size = int(m_encbuf.size()) / fpp;
 
     while(n_processed < audblock.input_samples)
     {
@@ -531,7 +531,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
                               &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
         if(ret <= 0)
-            return NULL;
+            return nullptr;
 
         enc_frame_sizes.push_back(ret);
         n_processed += framesize;
@@ -552,14 +552,14 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     int channels = GetAudioCodecChannels(m_codec);
     int fpp = GetAudioCodecFramesPerPacket(m_codec);
     int nbBytes = 0, n_processed = 0, ret;
-    int enc_frm_size = MAX_ENC_FRAMESIZE;
+    int enc_frm_size;
 
     assert(fpp);
     assert(framesize>0);
     if (framesize <= 0 || fpp <= 0)
         return nullptr;
 
-    enc_frm_size /= fpp;
+    enc_frm_size = int(m_encbuf.size()) / fpp;
     
     while(n_processed < audblock.input_samples)
     {
@@ -568,7 +568,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
                              framesize, &m_encbuf[nbBytes], enc_frm_size);
         assert(ret>0);
         if(ret <= 0)
-            return NULL;
+            return nullptr;
 
         // enc_frm_size -= ret; /* stay within MAX_ENC_FRAMESIZE */
         enc_frame_sizes.push_back(ret);
