@@ -408,5 +408,31 @@ namespace teamtalk
             return 0;
         }
     }
+
+    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec)
+    {
+        // Deprecated: Ignore in TeamTalk 6.
+        // Handle crash issue in pre-protocol v5.7 (TeamTalk v5.4).
+        // See git hash 02045445862fc62dec34701888eafebf0b5b5418.
+        if (!VersionSameOrLater(streamprotocol, ACE_TEXT("5.7")))
+        {
+            switch(codec.codec)
+            {
+            case CODEC_SPEEX:
+            case CODEC_SPEEX_VBR:
+                if (GetAudioCodecCbMillis(codec) > 100)
+                    return true;
+                break;
+            case CODEC_OPUS:
+                if (GetAudioCodecCbMillis(codec) > 60)
+                    return true;
+                break;
+            default :
+                break;
+            }
+        }
+        return false;
+    }
+
 }
 

@@ -53,6 +53,8 @@ namespace teamtalk
     //returns number of milliseconds 
     int GetSpeexFramesDuration(int bandmode, int framecount);
     int GetSpeexSamplesCount(int bandmode, int framecount);
+
+    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec);
 }
 
 #endif

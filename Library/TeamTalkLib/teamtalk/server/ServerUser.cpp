@@ -1420,9 +1420,13 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_DISKQUOTA, channel.GetMaxDiskUsage(), command);
     AppendProperty(TT_MAXUSERS, channel.GetMaxUsers(), command);
     AppendProperty(TT_CHANNELTYPE, channel.GetChannelType(), command);
-    AppendProperty(TT_USERDATA, channel.GetUserData(), command);    
-    AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
+    AppendProperty(TT_USERDATA, channel.GetUserData(), command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
+        AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
+
+    // Deprecated: Ignore in TeamTalk 6.
     // If class-room channel type then we must forward the channel due 
     // to compatibility of TeamTalk TCP protocol v5.3
     if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
@@ -1471,7 +1475,9 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_MAXUSERS, channel.GetMaxUsers(), command);
     AppendProperty(TT_CHANNELTYPE, channel.GetChannelType(), command);
     AppendProperty(TT_USERDATA, channel.GetUserData(), command);
-    AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
+        AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
     if (channel.GetVoiceUsers().size() || (channel.GetChannelType() & CHANNEL_CLASSROOM))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);

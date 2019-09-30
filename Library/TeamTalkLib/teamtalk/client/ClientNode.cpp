@@ -4127,7 +4127,9 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
         AppendProperty(TT_PARENTID, chanprop.parentid, command);
         AppendProperty(TT_TOPIC, chanprop.topic, command);
         AppendProperty(TT_OPPASSWORD, chanprop.oppasswd, command);
-        AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
+        // Deprecated TeamTalk v6
+        if (!AudioCodecConvertBug(m_serverinfo.protocol, chanprop.audiocodec))
+            AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
         AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
         AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
         AppendProperty(TT_USERDATA, chanprop.userdata, command);
@@ -4329,7 +4331,9 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DISKQUOTA, chanprop.diskquota, command);
     AppendProperty(TT_OPPASSWORD, chanprop.oppasswd, command);
     AppendProperty(TT_MAXUSERS, chanprop.maxusers, command);
-    AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(m_serverinfo.protocol, chanprop.audiocodec))
+        AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
     AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
     AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
     AppendProperty(TT_USERDATA, chanprop.userdata, command);
@@ -4356,7 +4360,9 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DISKQUOTA, chanprop.diskquota, command);
     AppendProperty(TT_OPPASSWORD, chanprop.oppasswd, command);
     AppendProperty(TT_MAXUSERS, chanprop.maxusers, command);
-    AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
+    // Deprecated TeamTalk v6
+    if (!AudioCodecConvertBug(m_serverinfo.protocol, chanprop.audiocodec))
+        AppendProperty(TT_AUDIOCODEC, chanprop.audiocodec, command);
     AppendProperty(TT_AUDIOCFG, chanprop.audiocfg, command);
     AppendProperty(TT_CHANNELTYPE, chanprop.chantype, command);
     AppendProperty(TT_USERDATA, chanprop.userdata, command);
