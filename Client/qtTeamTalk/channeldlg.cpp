@@ -85,7 +85,16 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_srateBox->addItem("48000", 48000);
     ui.opus_txdelaySpinBox->setSingleStep(20);
     ui.opus_txdelaySpinBox->setRange(20, 500);
-    ui.opus_framesizeSpinBox->setRange(0, OPUS_REALMAX_FRAMESIZE);
+    ui.opus_framesizeComboBox->addItem("0", 0);
+    ui.opus_framesizeComboBox->addItem("2.5", OPUS_MIN_FRAMESIZE);
+    ui.opus_framesizeComboBox->addItem("5", 5);
+    ui.opus_framesizeComboBox->addItem("10", 10);
+    ui.opus_framesizeComboBox->addItem("20", 20);
+    ui.opus_framesizeComboBox->addItem("40", 40);
+    ui.opus_framesizeComboBox->addItem("60", OPUS_MAX_FRAMESIZE);
+    ui.opus_framesizeComboBox->addItem("80", 80);
+    ui.opus_framesizeComboBox->addItem("100", 100);
+    ui.opus_framesizeComboBox->addItem("120", OPUS_REALMAX_FRAMESIZE);
 
     ui.staticchanBox->setEnabled(TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS);
     
@@ -113,7 +122,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_dtxBox->setChecked(DEFAULT_OPUS_DTX);
     ui.opus_txdelaySpinBox->setValue(DEFAULT_OPUS_DELAY);
     ui.opus_vbrCheckBox->setChecked(DEFAULT_OPUS_VBR);
-    ui.opus_framesizeSpinBox->setValue(DEFAULT_OPUS_FRAMESIZE);
+    setCurrentItemData(ui.opus_framesizeComboBox, DEFAULT_OPUS_FRAMESIZE);
 
     switch(type)
     {
@@ -234,7 +243,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.opus_vbrCheckBox->setChecked(m_channel.audiocodec.opus.bVBR);
         ui.opus_dtxBox->setChecked(m_channel.audiocodec.opus.bDTX);
         ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nTxIntervalMSec);
-        ui.opus_framesizeSpinBox->setValue(m_channel.audiocodec.opus.nFrameSizeMSec);
+        setCurrentItemData(ui.opus_framesizeComboBox, m_channel.audiocodec.opus.nFrameSizeMSec);
         break;
     default :
         break;
@@ -318,7 +327,7 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.opus.bVBR = ui.opus_vbrCheckBox->isChecked();
         newchannel.audiocodec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         newchannel.audiocodec.opus.nTxIntervalMSec = ui.opus_txdelaySpinBox->value();
-        newchannel.audiocodec.opus.nFrameSizeMSec = ui.opus_framesizeSpinBox->value();
+        newchannel.audiocodec.opus.nFrameSizeMSec = getCurrentItemData(ui.opus_framesizeComboBox).toInt();
         break;
     default :
         break;
