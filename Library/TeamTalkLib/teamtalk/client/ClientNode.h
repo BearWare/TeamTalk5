@@ -77,13 +77,6 @@
 
 #define SOUNDDEVICE_IGNORE_ID -1
 
-#define SIMULATE_RX_PACKETLOSS 0
-#define SIMULATE_TX_PACKETLOSS 0
-
-#if (SIMULATE_RX_PACKETLOSS || SIMULATE_TX_PACKETLOSS) && defined(NDEBUG)
-#error Packetloss in release mode
-#endif
-
 #ifdef _DEBUG
 #define ASSERT_REACTOR_LOCKED(this_obj)                         \
     TTASSERT(this_obj->m_reactor_thr_id == ACE_Thread::self())

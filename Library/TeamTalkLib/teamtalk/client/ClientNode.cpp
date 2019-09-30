@@ -56,6 +56,13 @@ using namespace std::placeholders;
 
 #define LOCAL_USERID 0
 
+#define SIMULATE_RX_PACKETLOSS 0
+#define SIMULATE_TX_PACKETLOSS 0
+
+#if (SIMULATE_RX_PACKETLOSS || SIMULATE_TX_PACKETLOSS) && defined(NDEBUG)
+#error Packetloss in release mode
+#endif
+
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
 #ifdef _DEBUG

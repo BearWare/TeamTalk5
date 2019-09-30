@@ -33,8 +33,6 @@ using namespace media;
 
 namespace teamtalk {
 
-#define DEFAULT_BUF_MSEC 1000
-
 AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
                          AudioMuxer& audiomuxer, const AudioCodec& codec,
                          audio_resampler_t& resampler)
@@ -56,7 +54,6 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 , m_new_audio_blocks(0)
 , m_audiopackets_recv(0)
 , m_audiopacket_lost(0)
-, m_buffer_msec(DEFAULT_BUF_MSEC)
 {
     MYTRACE(ACE_TEXT("New AudioPlayer() - #%d\n"), m_userid);
 
@@ -69,7 +66,7 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
     if (m_resampler)
         m_resample_buffer.resize(input_samples*input_channels);
 
-    SetAudioBufferSize(DEFAULT_BUF_MSEC);
+    SetAudioBufferSize(GetAudioCodecCbMillis(m_codec) * 4);
 }
 
 AudioPlayer::~AudioPlayer()
@@ -96,24 +93,20 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
         if(fragno == AudioPacket::INVALID_FRAGMENT_NO)
             return ptr_audpkt;
 
-        //clean out fragments which were never played
-        uint16_t old_packet_no = 0;
-        if(m_audfragments.size() >= 10)
-            old_packet_no = packetno - 10;
-        else
-            old_packet_no = GetPlayedPacketNo();
+        //MYTRACE(ACE_TEXT("User #%d, received pkt no %d, frag no %d/%d\n"), m_userid, int(packetno), int(fragno), int(frag_cnt));
 
-        if(old_packet_no)
-            CleanUpAudioFragments(old_packet_no);
+        //clean out fragments which were never played
+        uint16_t playing_pkt_no = GetPlayedPacketNo();
+        if (playing_pkt_no)
+            CleanUpAudioFragments(playing_pkt_no-1);
 
         //copy packet and queue it
-        AudioPacket* q_audpkt;
-        ACE_NEW_NORETURN(q_audpkt, AudioPacket(new_audpkt));
+        audiopacket_t q_audpkt(new AudioPacket(new_audpkt));
         fragments_queue_t::iterator ii=m_audfragments.find(packetno);
         if(ii != m_audfragments.end())
-            ii->second[fragno] = audiopacket_t(q_audpkt);
+            ii->second[fragno] = q_audpkt;
         else
-            m_audfragments[packetno][fragno] = audiopacket_t(q_audpkt);
+            m_audfragments[packetno][fragno] = q_audpkt;
 
         ii = m_audfragments.find(packetno);
 
@@ -144,11 +137,9 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     fragments_queue_t::iterator ii=m_audfragments.begin();
     while(ii != m_audfragments.end())
     {
-        uint16_t oo = ii->first;
-        if(PACKETNO_GEQ(too_old_packet_no, ii->first))
+        if (PACKETNO_GEQ(too_old_packet_no, ii->first))
         {
-            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"),
-                (int)ii->first);
+            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"), int(ii->first));
             m_audfragments.erase(ii++);
         }
         else ii++;
@@ -388,21 +379,7 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     {
         TTASSERT(W16_GEQ(m_buffer.begin()->first, m_play_pkt_no));
 
-        int maxbuf_msec = m_buffer_msec;
-        switch(m_streamtype)
-        {
-        case STREAMTYPE_VOICE :
-            maxbuf_msec = m_buffer_msec / 2;
-            break;
-        case STREAMTYPE_MEDIAFILE_AUDIO :
-            break;
-        default :
-            TTASSERT(0);
-            break;
-        }
-
-        while(m_stream_id &&
-              GetBufferedAudioMSec() > maxbuf_msec)
+        while(m_stream_id && GetBufferedAudioMSec() > m_buffer_msec)
         {
             MYTRACE(ACE_TEXT("User #%d, dropped packet %d, max %d\n"), 
                     m_userid, m_buffer.begin()->first, m_buffer.rbegin()->first);
