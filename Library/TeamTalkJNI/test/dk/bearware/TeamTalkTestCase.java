@@ -1237,7 +1237,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         boolean[] vbr        = { true,  true,  true,  false,  true,  true,  true, false,  true,  true, false};
         int[] bitrates       = {    6,    32,    64,    128,   128,   256,   384,   160,   128,    60,    32};
 
-        for (int i=0;i<txintervals.length;i++) {
+        for (int i=0;i<5;i++) {
            
             double txintervalMSec = txintervals[i];
             double frameMSec = framesizes[i];
