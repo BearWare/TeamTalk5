@@ -1249,8 +1249,12 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         if((m_flags & CLIENT_TX_VOICE) == 0)
             GEN_NEXT_ID(m_voice_stream_id);
     }
-    //MYTRACE(ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u\n"),
-    //        m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp);
+
+    MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
+                 ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
+                 m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp, enc_length);
+    
+    assert(enc_length <= MAX_ENC_FRAMESIZE);
 
     VoicePacket* newpacket;
     if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))

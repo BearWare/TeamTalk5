@@ -318,8 +318,10 @@ namespace teamtalk
         int txinterval_msec = GetAudioCodecCbMillis(codec);
         if (!txinterval_msec)
             return 0;
-        
-        return 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
+
+        int bitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
+        //MYTRACE(ACE_TEXT("Max packet bitrate: %d\n"), bitrate);
+        return bitrate;
     }
 
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec)
