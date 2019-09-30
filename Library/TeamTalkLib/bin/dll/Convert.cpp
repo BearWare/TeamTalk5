@@ -1009,8 +1009,7 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
 {
     ZERO_STRUCT(result);
 
-    if(!Convert(chanprop.audiocodec, result.audiocodec))
-        return false;
+    Convert(chanprop.audiocodec, result.audiocodec);
 
     result.nParentID = chanprop.parentid;
     result.nChannelID = chanprop.channelid;
