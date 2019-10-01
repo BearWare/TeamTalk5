@@ -26,7 +26,8 @@
 #include <cstring>
 #include <algorithm>
 
-#define PB_FRAMESIZE(samplerate) (samplerate * .1)
+#define PB_FRAMEDURATION_MSEC 40
+#define PB_FRAMESIZE(samplerate) (samplerate * (PB_FRAMEDURATION_MSEC / 1000.0))
 
 MediaPlayback::MediaPlayback(mediaplayback_status_t statusfunc,
                              int userdata,
@@ -39,6 +40,20 @@ MediaPlayback::MediaPlayback(mediaplayback_status_t statusfunc,
 
 MediaPlayback::~MediaPlayback()
 {
+    bool wait = false;
+    {
+        std::lock_guard<std::mutex> g(m_mutex);
+        wait = m_finished;
+    }
+
+    if (wait)
+    {
+        // block to ensure all audio has been played
+        m_drained.get(wait);
+        ACE_Time_Value tm(0, PB_FRAMEDURATION_MSEC * 1000 * 3);
+        ACE_OS::sleep(tm);
+    }
+
     m_sndsys->CloseOutputStream(this);
 
     std::lock_guard<std::mutex> g(m_mutex);
@@ -47,7 +62,6 @@ MediaPlayback::~MediaPlayback()
         m_audio_buffer.front()->release();
         m_audio_buffer.pop();
     }
-
 }
 
 bool MediaPlayback::OpenFile(const ACE_TString& filename)
@@ -207,11 +221,16 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
             m_sndsys->StartStream(this);
         break;
     case MEDIASTREAM_ERROR :
-    case MEDIASTREAM_FINISHED :
         m_sndsys->CloseOutputStream(this);
         break;
     case MEDIASTREAM_PAUSED :
         break;
+    case MEDIASTREAM_FINISHED:
+    {
+        std::lock_guard<std::mutex> g(m_mutex);
+        m_finished = true;
+        break;
+    }
     }
 
     if(m_statusfunc)
@@ -229,6 +248,9 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             mb = m_audio_buffer.front();
             m_audio_buffer.pop();
         }
+
+        if (m_finished && m_audio_buffer.empty())
+            m_drained.set(true);
     }
 
     MYTRACE_COND(!mb, ACE_TEXT("Media playback underflow\n"));

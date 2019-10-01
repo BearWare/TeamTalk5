@@ -316,7 +316,7 @@ void MFStreamer::Run()
     MediaStreamStatus status = MEDIASTREAM_STARTED;
 
     ACE_UINT32 totalpausetime = 0, offset = 0;
-    bool error = false;
+    bool error = false, initialread = true;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE(ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
@@ -349,7 +349,13 @@ void MFStreamer::Run()
         ACE_UINT32 newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
 
         // check if we should forward/rewind
-        if(newoffset != MEDIASTREAMER_OFFSET_IGNORE)
+        if (newoffset == 0 && initialread)
+        {
+            // There's a weird bug in Windows Media Foundation. If you seek to 0 in a very short audio file (<500 msec)
+            // then it actually seeks a few milliseconds into the file.
+            MYTRACE(ACE_TEXT("Skipping seek to 0 in %s because already at 0 msec\n"), GetMediaInput().filename.c_str());
+        }
+        else if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
             HRESULT hrprop = InitPropVariantFromInt64(newoffset * 10000, &var);
@@ -392,9 +398,10 @@ void MFStreamer::Run()
         if (llVideoTimestamp < 0 || (llAudioTimestamp >= 0 && llAudioTimestamp <= llVideoTimestamp))
         {
             CComPtr<IMFSample> pSample;
-            DWORD dwStreamFlags = 0;
-            hr = pSourceReader->ReadSample(dwAudioStreamIndex, 0, NULL, &dwStreamFlags, &llAudioTimestamp, &pSample);
+            DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
+            hr = pSourceReader->ReadSample(dwAudioStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llAudioTimestamp, &pSample);
             error = FAILED(hr);
+            initialread = false;
             
             //if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
             //{
@@ -419,6 +426,7 @@ void MFStreamer::Run()
             DWORD dwStreamFlags = 0;
             hr = pSourceReader->ReadSample(dwVideoStreamIndex, 0, NULL, &dwStreamFlags, &llVideoTimestamp, &pSample);
             error = FAILED(hr);
+            initialread = false;
 
             if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
             {

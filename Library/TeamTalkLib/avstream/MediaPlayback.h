@@ -98,7 +98,8 @@ private:
 #if defined(ENABLE_SPEEXDSP)
     std::shared_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
 #endif
-
+    bool m_finished = false;
+    ACE_Future<bool> m_drained;
 };
 
 typedef std::shared_ptr<MediaPlayback> mediaplayback_t;
