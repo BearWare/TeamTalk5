@@ -107,7 +107,7 @@ func getDefaultSubscriptions() -> Subscriptions {
     if sub_deskinput {
         subs |= SUBSCRIBE_DESKTOPINPUT.rawValue
     }
-    
+
     return subs
 }
 
@@ -638,6 +638,7 @@ let DEFAULT_OPUS_VBR : TTBOOL = 1
 let DEFAULT_OPUS_VBRCONSTRAINT : TTBOOL = 0
 let DEFAULT_OPUS_BITRATE : INT32 = 32000
 let DEFAULT_OPUS_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
+let DEFAULT_OPUS_FRAMESIZE : INT32 = 0 // implies same as DEFAULT_OPUS_DELAY
 
 //Default Speex codec settings
 let DEFAULT_SPEEX_BANDMODE : INT32 = 1
@@ -654,7 +655,7 @@ let DEFAULT_SPEEX_VBR_DTX : TTBOOL = 1
 let DEFAULT_SPEEX_VBR_DELAY : INT32 = DEFAULT_MSEC_PER_PACKET
 let DEFAULT_SPEEX_VBR_SIMSTEREO : TTBOOL = 0
 
-func newAudioCodec(_ codec: Codec) -> AudioCodec {
+func newAudioCodec(_ codec: Codec) -> iTeamTalk.AudioCodec {
     var audiocodec = AudioCodec()
     
     switch codec {
@@ -680,7 +681,7 @@ func newOpusCodec() -> OpusCodec {
         nComplexity: DEFAULT_OPUS_COMPLEXITY, bFEC: DEFAULT_OPUS_FEC,
         bDTX: DEFAULT_OPUS_DTX, nBitRate: DEFAULT_OPUS_BITRATE,
         bVBR: DEFAULT_OPUS_VBR, bVBRConstraint: DEFAULT_OPUS_VBRCONSTRAINT,
-        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET)
+        nTxIntervalMSec: DEFAULT_MSEC_PER_PACKET, nFrameSizeMSec: DEFAULT_OPUS_FRAMESIZE)
 }
 
 func newSpeexCodec() -> SpeexCodec {

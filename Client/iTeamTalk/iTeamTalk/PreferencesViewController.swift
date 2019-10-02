@@ -344,8 +344,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         // text to speech events
         
         let ttsvoicecell = tableView.dequeueReusableCell(withIdentifier: "Speech Cell")
-        ttsvoicecell?.textLabel?.text = NSLocalizedString("Speech", comment: "preferences")
-        ttsvoicecell?.detailTextLabel!.text = NSLocalizedString("Select the text-to-speech voice to use", comment: "preferences")
         ttsevents_items.append(ttsvoicecell!)
 
         ttsratecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
