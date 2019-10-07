@@ -437,7 +437,6 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
 
     if(!more)
     {
-        streamer->player->StreamPlayerCbEnded();
         SLPlayItf playerPlay = streamer->playerPlay;
 
         // set the player's state to stopped

@@ -68,7 +68,6 @@ public:
                          const short* buffer, int samples);
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
                         short* buffer, int samples);
-    void StreamPlayerCbEnded();
 
     void StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
                             const short* input_buffer, 

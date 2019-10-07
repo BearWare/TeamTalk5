@@ -132,7 +132,6 @@ namespace soundsystem {
 
         virtual ~StreamPlayerCallback()
         {
-            m_streamer->player->StreamPlayerCbEnded();
             Stop();
         }
 
@@ -1107,9 +1106,6 @@ namespace soundsystem {
                 else i++;
             }
             g2.release();
-
-            //simulate to player that this was the last callback
-            player->StreamPlayerCbEnded();
 
             wguard_t g(players_lock());
             m_output_streamers.erase(player);

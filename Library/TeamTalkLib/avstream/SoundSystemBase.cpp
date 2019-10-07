@@ -77,7 +77,6 @@ void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream)
     while(i--)
     {
         player = dpxStream.players[i]->player;
-        player->StreamPlayerCbEnded();
         sndsys->RemoveDuplexOutputStream(dpxStream.duplex, player);
     }
 }

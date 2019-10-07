@@ -85,7 +85,6 @@ namespace teamtalk {
 
         virtual bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                     short* output_buffer, int n_samples);
-        virtual void StreamPlayerCbEnded();
 
         bool PlayBuffer(short* output_buffer, int n_samples);
         virtual bool DecodeFrame(const encframe& enc_frame,

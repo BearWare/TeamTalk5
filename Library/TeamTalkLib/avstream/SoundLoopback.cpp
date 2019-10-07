@@ -298,11 +298,6 @@ bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     return true;
 }
 
-void SoundLoopback::StreamPlayerCbEnded()
-{
-}
-
-
 void SoundLoopback::StreamDuplexEchoCb(const soundsystem::DuplexStreamer& streamer,
                                        const short* input_buffer, 
                                        const short* prev_output_buffer, int samples)

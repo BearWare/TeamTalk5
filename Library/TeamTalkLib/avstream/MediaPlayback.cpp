@@ -307,6 +307,3 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     return true;
 }
 
-void MediaPlayback::StreamPlayerCbEnded()
-{
-}

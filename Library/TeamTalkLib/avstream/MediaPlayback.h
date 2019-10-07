@@ -83,7 +83,6 @@ public:
     // StreamPlayer
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
                         short* buffer, int samples);
-    void StreamPlayerCbEnded();
     
 private:
     media_streamer_t m_streamer;

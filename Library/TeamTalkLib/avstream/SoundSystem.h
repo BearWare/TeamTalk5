@@ -281,7 +281,6 @@ namespace soundsystem {
         virtual ~StreamPlayer() {}
         virtual bool StreamPlayerCb(const OutputStreamer& streamer, 
                                     short* buffer, int samples) = 0;
-        virtual void StreamPlayerCbEnded() = 0;
     };
 
     class StreamDuplex

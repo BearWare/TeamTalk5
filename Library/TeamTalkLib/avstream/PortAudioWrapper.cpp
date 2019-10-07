@@ -393,14 +393,6 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
         return paComplete;
 }
 
-void OutputStreamCallbackEnded(void* userData)
-{
-    assert(userData);
-    PaOutputStreamer* streamer = static_cast<PaOutputStreamer*> (userData);
-    streamer->player->StreamPlayerCbEnded();
-}
-
-
 outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
                                       int sndgrpid, int samplerate, int channels,
                                       int framesize)
@@ -431,14 +423,6 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
                                 static_cast<void*> (streamer.get()) );
 
     MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize output device %d\n"), outputdeviceid);
-    if(err != paNoError)
-    {
-        return outputstreamer_t();
-    }
-
-    err = Pa_SetStreamFinishedCallback(streamer->stream, OutputStreamCallbackEnded);
-    assert(err == paNoError);
-
     if(err != paNoError)
     {
         return outputstreamer_t();
