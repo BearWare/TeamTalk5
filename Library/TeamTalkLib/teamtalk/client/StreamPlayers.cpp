@@ -71,6 +71,9 @@ AudioPlayer::AudioPlayer(int sndgrpid, int userid, StreamType stream_type,
 
 AudioPlayer::~AudioPlayer()
 {
+    //store in muxer (if enabled)
+    m_audiomuxer.QueueUserAudio(m_userid, nullptr, m_samples_played,
+                                true, m_codec);
     MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
@@ -198,9 +201,6 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                 GETTIMESTAMP() - m_last_playback, m_userid);
         m_talking = false;
 
-        //store in muxer (if enabled)
-        m_audiomuxer.QueueUserAudio(m_userid, nullptr, m_samples_played, 
-                                    true, m_codec);
         //reset packet numbers
         Reset();
     }
