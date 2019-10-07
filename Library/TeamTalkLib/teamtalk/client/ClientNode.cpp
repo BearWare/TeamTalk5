@@ -499,7 +499,7 @@ void ClientNode::ClearTimer(ACE_UINT32 timer_id)
 }
 
 //Start/stop timers handled outside ClientNode
-long ClientNode::StartUserTimer(ACE_UINT32 timer_id, int userid, 
+long ClientNode::StartUserTimer(uint16_t timer_id, uint16_t userid, 
                                 long userdata, const ACE_Time_Value& delay, 
                                 const ACE_Time_Value& interval/* = ACE_Time_Value::zero*/)
 {
@@ -508,7 +508,7 @@ long ClientNode::StartUserTimer(ACE_UINT32 timer_id, int userid,
     return StartTimer(USER_TIMERID(timer_id, userid), userdata, delay, interval);
 }
 
-bool ClientNode::StopUserTimer(ACE_UINT32 timer_id, int userid)
+bool ClientNode::StopUserTimer(uint16_t timer_id, uint16_t userid)
 {
     return StopTimer(USER_TIMERID(timer_id, userid));
 }
@@ -733,7 +733,7 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     }
     break;
     case USER_TIMER_REMOVE_LOCALPLAYBACK :
-        m_mediaplayback_streams.erase(userdata);
+        m_mediaplayback_streams.erase(userid);
         ret = -1;
         break;
     default:
@@ -3253,7 +3253,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
     {
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_ERROR);
         // issue playback destroy message
-        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, 0, id, ACE_Time_Value::zero);
+        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, ACE_Time_Value::zero);
         TTASSERT(ret >= 0);
         break;
     }
@@ -3264,7 +3264,7 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
     {
         // issue playback destroy message
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
-        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, 0, id, ACE_Time_Value::zero);
+        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, ACE_Time_Value::zero);
         TTASSERT(ret >= 0);
         break;
     }

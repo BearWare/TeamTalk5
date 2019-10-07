@@ -399,10 +399,10 @@ namespace teamtalk {
         int GetServerTimeout() const { return m_server_timeout; }
 
         //Start timer which is handled and terminated outside ClientNode
-        long StartUserTimer(ACE_UINT32 timer_id, int userid, 
+        long StartUserTimer(uint16_t timer_id, uint16_t userid, 
                             long userdata, const ACE_Time_Value& delay, 
                             const ACE_Time_Value& interval = ACE_Time_Value::zero);
-        bool StopUserTimer(ACE_UINT32 timer_id, int userid);
+        bool StopUserTimer(uint16_t timer_id, uint16_t userid);
         bool TimerExists(ACE_UINT32 timer_id);
         bool TimerExists(ACE_UINT32 timer_id, int userid);
         //TimerListener - reactor thread
@@ -673,7 +673,7 @@ namespace teamtalk {
 
         // local playback of media files
         std::map<int, mediaplayback_t> m_mediaplayback_streams;
-        int m_mediaplayback_counter = 0;
+        uint16_t m_mediaplayback_counter = 0;
 
         //desktop session
         desktop_initiator_t m_desktop;
