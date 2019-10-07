@@ -50,8 +50,6 @@ MediaPlayback::~MediaPlayback()
     {
         // block to ensure all audio has been played
         m_drained.get(wait);
-        ACE_Time_Value tm(0, PB_FRAMEDURATION_MSEC * 1000 * 3);
-        ACE_OS::sleep(tm);
     }
 
     m_sndsys->CloseOutputStream(this);

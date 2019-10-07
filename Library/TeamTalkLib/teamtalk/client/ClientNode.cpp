@@ -3264,7 +3264,8 @@ void ClientNode::MediaPlaybackStatus(int id, const MediaFileProp& mfp, MediaStre
     {
         // issue playback destroy message
         m_listener->OnLocalMediaFilePlayback(id, mfp, MFS_FINISHED);
-        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, ACE_Time_Value::zero);
+        ACE_Time_Value tm(1, 0); // allow system system to flush
+        long ret = StartUserTimer(USER_TIMER_REMOVE_LOCALPLAYBACK, id, 0, tm);
         TTASSERT(ret >= 0);
         break;
     }
