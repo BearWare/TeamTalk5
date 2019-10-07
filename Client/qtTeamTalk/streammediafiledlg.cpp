@@ -266,7 +266,8 @@ void StreamMediaFileDlg::slotPlayMediaFile()
 
 void StreamMediaFileDlg::slotStopMediaFile()
 {
-    TT_StopLocalPlayback(ttInst, m_playbackid);
+    if (m_playbackid > 0)
+        TT_StopLocalPlayback(ttInst, m_playbackid);
     m_playbackid = 0;
 
     updateControls();
@@ -405,6 +406,7 @@ void StreamMediaFileDlg::slotMediaPlaybackProgress(int sessionid, const MediaFil
         break;
     case MFS_ERROR :
     case MFS_FINISHED :
+        m_playbackid = 0; // automatically deleted. Don't call TT_StopLocalPlayback().
         slotStopMediaFile();
         updateControls();
         break;
