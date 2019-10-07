@@ -54,6 +54,7 @@ CChannelDlg::CChannelDlg(CChannelDlg::ChannelDlgType dlgType, CWnd* pParent /*=N
 , m_bOpRecvOnly(FALSE)
 , m_bNoVoiceAct(FALSE)
 , m_bNoRecord(FALSE)
+, m_bVBR(FALSE)
 {
     InitDefaultAudioCodec(m_codec);
 }
@@ -68,7 +69,7 @@ void CChannelDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_CHANNAME, m_szChannelname);
     DDX_Text(pDX, IDC_EDIT_CHANPASSWORD, m_szChannelPassword);
     DDX_Text(pDX, IDC_EDIT_CHANTOPIC, m_szChannelTopic);
-    DDX_Text(pDX, IDC_EDIT_OPPASSWD, m_szOpPasswd);    
+    DDX_Text(pDX, IDC_EDIT_OPPASSWD, m_szOpPasswd);
     DDX_Control(pDX, IDC_EDIT_CHANPASSWORD, m_wndPassword);
     DDX_Control(pDX, IDC_STATIC_GRPCHANNEL, m_wndGrp);
     DDX_Control(pDX, IDC_EDIT_CHANNAME, m_wndChannelName);
@@ -117,6 +118,10 @@ void CChannelDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_NOVOICEACT, m_bNoVoiceAct);
     DDX_Control(pDX, IDC_CHECK_NORECORD, m_wndNoRecord);
     DDX_Check(pDX, IDC_CHECK_NORECORD, m_bNoRecord);
+    DDX_Check(pDX, IDC_CHECK_VBR, m_bVBR);
+    DDX_Control(pDX, IDC_CHECK_VBR, m_wndVBR);
+    DDX_Control(pDX, IDC_COMBO_OPUSFRAMESIZES, m_wndOpusFrameSizes);
+    DDX_Control(pDX, IDC_STATIC_OPUSFRMSIZE, m_wndFrmSizeStatic);
 }
 
 
@@ -211,9 +216,11 @@ BOOL CChannelDlg::OnInitDialog()
         m_wndQuality.EnableWindow(FALSE);
         m_wndBitrate.EnableWindow(FALSE);
         m_wndMaxBitrate.EnableWindow(FALSE);
+        m_wndVBR.EnableWindow(FALSE);
         m_wndDtx.EnableWindow(FALSE);
         m_wndTxDelay.EnableWindow(FALSE);
         m_wndTxDelaySpin.EnableWindow(FALSE);
+        m_wndOpusFrameSizes.EnableWindow(FALSE);
         m_wndOpRecvOnly.EnableWindow(FALSE);
         m_wndNoVoiceAct.EnableWindow(FALSE);
         m_wndNoRecord.EnableWindow(FALSE);
@@ -329,6 +336,9 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndMaxBitrate.ShowWindow(SW_HIDE);
         m_wndBpsLabel2.ShowWindow(SW_HIDE);
         m_wndDtx.ShowWindow(SW_HIDE);
+        m_wndVBR.ShowWindow(SW_HIDE);
+        m_wndFrmSizeStatic.ShowWindow(SW_HIDE);
+        m_wndOpusFrameSizes.ShowWindow(SW_HIDE);
         break;
     case SPEEX_VBR_CODEC :
         //sample rate
@@ -374,6 +384,9 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndBitrate.ShowWindow(SW_HIDE);
         SetWindowNumber(m_wndBitrate, bpsDefault);
         m_wndBpsLabel1.ShowWindow(SW_HIDE);
+        m_wndVBR.ShowWindow(SW_HIDE);
+        m_wndFrmSizeStatic.ShowWindow(SW_HIDE);
+        m_wndOpusFrameSizes.ShowWindow(SW_HIDE);
         break;
     case OPUS_CODEC :
         //application
@@ -406,6 +419,8 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndBitrate.ShowWindow(SW_SHOW);
         SetWindowNumber(m_wndBitrate, bpsDefault);
         m_wndMaxBitrate.ShowWindow(SW_SHOW);
+        m_wndVBR.ShowWindow(SW_SHOW);
+        m_wndVBR.SetCheck(DEFAULT_OPUS_VBR? BST_CHECKED : BST_UNCHECKED);
         //DTX
         m_wndDtx.ShowWindow(SW_SHOW);
         //TX delay
@@ -416,6 +431,20 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndTxDelaySpin.SetRange(OPUS_MIN_MSEC_PER_PACKET,
                                   OPUS_MAX_MSEC_PER_PACKET);
         SetWindowNumber(m_wndTxDelay, DEFAULT_OPUS_DELAY);
+        m_wndOpusFrameSizes.ShowWindow(SW_SHOW);
+        m_wndFrmSizeStatic.ShowWindow(SW_SHOW);
+        AddString(m_wndOpusFrameSizes, _T("0 msec"), 0);
+        AddString(m_wndOpusFrameSizes, _T("2.5 msec"), OPUS_MIN_FRAMESIZE);
+        AddString(m_wndOpusFrameSizes, _T("5 msec"), 5);
+        AddString(m_wndOpusFrameSizes, _T("10 msec"), 10);
+        AddString(m_wndOpusFrameSizes, _T("20 msec"), 20);
+        AddString(m_wndOpusFrameSizes, _T("40 msec"), 40);
+        AddString(m_wndOpusFrameSizes, _T("60 msec"), OPUS_MAX_FRAMESIZE);
+        AddString(m_wndOpusFrameSizes, _T("80 msec"), 80);
+        AddString(m_wndOpusFrameSizes, _T("100 msec"), 100);
+        AddString(m_wndOpusFrameSizes, _T("120 msec"), OPUS_REALMAX_FRAMESIZE);
+        m_wndOpusFrameSizes.SetCurSel(0);
+        SetCurSelItemData(m_wndOpusFrameSizes, DEFAULT_OPUS_FRAMESIZE);
 
         m_wndQualityLabel.ShowWindow(SW_HIDE);
         m_wndQuality.ShowWindow(SW_HIDE);
@@ -439,11 +468,14 @@ void CChannelDlg::DisplayCodecControls(Codec nCodec)
         m_wndMaxBpsLabel.ShowWindow(SW_HIDE);
         m_wndMaxBitrate.ShowWindow(SW_HIDE);
         m_wndBpsLabel2.ShowWindow(SW_HIDE);
+        m_wndVBR.ShowWindow(SW_HIDE);
         m_wndDtx.ShowWindow(SW_HIDE);
         m_wndTxDelayLabel.ShowWindow(SW_HIDE);
         m_wndTxDelay.ShowWindow(SW_HIDE);
         m_wndTxDelaySpin.ShowWindow(SW_HIDE);
         m_wndTxDelayLabel1.ShowWindow(SW_HIDE);
+        m_wndFrmSizeStatic.ShowWindow(SW_HIDE);
+        m_wndOpusFrameSizes.ShowWindow(SW_HIDE);
         break;
     }
 
@@ -486,9 +518,10 @@ void CChannelDlg::UpdateCodec()
         m_codec.opus.bFEC = DEFAULT_OPUS_FEC;
         m_codec.opus.bDTX = m_wndDtx.GetCheck() == BST_CHECKED;
         m_codec.opus.nBitRate = bitrate;
-        m_codec.opus.bVBR = DEFAULT_OPUS_VBR;
+        m_codec.opus.bVBR = m_wndVBR.GetCheck() == BST_CHECKED;
         m_codec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         m_codec.opus.nTxIntervalMSec = GetWindowNumber(m_wndTxDelay);
+        m_codec.opus.nFrameSizeMSec = GetItemData(m_wndOpusFrameSizes);
         break;
     }
 }
@@ -522,8 +555,10 @@ void CChannelDlg::ShowCurrentCodec()
         SetCurSelItemData(m_wndSampleRate, m_codec.opus.nSampleRate);
         SetCurSelItemData(m_wndAudioChannels, m_codec.opus.nChannels);
         SetWindowNumber(m_wndBitrate, m_codec.opus.nBitRate);
+        m_wndVBR.SetCheck(m_codec.opus.bVBR? BST_CHECKED : BST_UNCHECKED);
         m_wndDtx.SetCheck(m_codec.opus.bDTX? BST_CHECKED : BST_UNCHECKED);
         SetWindowNumber(m_wndTxDelay, m_codec.opus.nTxIntervalMSec);
+        SetCurSelItemData(m_wndOpusFrameSizes, m_codec.opus.nFrameSizeMSec);
         break;
     }
 }

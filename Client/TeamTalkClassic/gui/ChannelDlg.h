@@ -124,4 +124,8 @@ public:
     BOOL m_bNoVoiceAct;
     CButton m_wndNoRecord;
     BOOL m_bNoRecord;
+    BOOL m_bVBR;
+    CButton m_wndVBR;
+    CComboBox m_wndOpusFrameSizes;
+    CStatic m_wndFrmSizeStatic;
 };
