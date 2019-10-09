@@ -3070,7 +3070,7 @@ extern "C" {
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
         /**
-         * @brief Media file played locally is procesing.
+         * @brief Media file played locally is processing.
          *
          * This event is called as a result of TT_InitLocalPlayback()
          * to monitor progress of playback.

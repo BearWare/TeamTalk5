@@ -272,7 +272,6 @@ namespace teamtalk {
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
-        bool GetServerStatistics(ServerStats& stats);
         bool GetClientStatistics(ClientStats& stats);
 
         ClientFlags GetFlags() const { return m_flags; }
@@ -494,7 +493,6 @@ namespace teamtalk {
         int DoQueryServerStats();
         int DoQuit();
 
-        // Admin specific
         int DoMakeChannel(const ChannelProp& chanprop);
         int DoUpdateChannel(const ChannelProp& chanprop);
         int DoRemoveChannel(int channelid);
