@@ -373,11 +373,37 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     const int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
     const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
 
-    int sum = 0;
+    int lsum = 0, rsum = 0, sum = 0;
     int samples_total = audblock.input_samples * audblock.inputfmt.channels;
-    for(int i=0;i<samples_total;i++)
-        sum += abs(audblock.input_buffer[i]);
-    int avg = sum/samples_total;
+    if (audblock.inputfmt.channels == 2)
+    {
+        for(int i=0;i<samples_total;i+=2)
+        {
+            lsum += abs(audblock.input_buffer[i]);
+            rsum += abs(audblock.input_buffer[i+1]);
+        }
+        switch (m_stereo)
+        {
+        case STEREO_BOTH :
+            sum = (lsum + rsum) / 2;
+            break;
+        case STEREO_LEFT :
+            sum = lsum;
+            break;
+        case STEREO_RIGHT :
+            sum = rsum;
+            break;
+        case STEREO_NONE :
+            sum = 0;
+            break;
+        }
+    }
+    else
+    {
+        for(int i=0;i<samples_total;++i)
+            sum += abs(audblock.input_buffer[i]);
+    }
+    int avg = sum / audblock.input_samples;
     avg = 100 * avg / VU_MAX_VOLUME;
     this->m_voicelevel = avg>VU_METER_MAX? VU_METER_MAX : avg;
 
