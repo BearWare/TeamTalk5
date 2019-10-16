@@ -3618,6 +3618,8 @@ void ClientNode::ResetAudioPlayers()
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    m_mediaplayback_streams.clear();
+
     if (m_rootchannel)
     {
         ClientChannel::users_t users;
