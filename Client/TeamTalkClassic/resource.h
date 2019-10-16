@@ -226,6 +226,8 @@
 #define IDS_SNDINITFAILED               321
 #define IDS_CONNECTING                  322
 #define IDS_PLAY                        323
+#define IDD_DIALOG_TTAUDIOPREPROCESSOR  324
+#define IDD_DIALOG_SPEEXDSP             325
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -483,9 +485,13 @@
 #define IDC_SLIDER_GAINLEVEL            1342
 #define IDC_STATIC_GAINLEVEL            1344
 #define IDC_CHECK_DUPLEXMODE            1345
+#define IDC_STATIC_GAINLEVEL2           1345
 #define IDC_COMBO_CODEC                 1346
+#define IDC_STATIC_GAINLEVEL3           1346
 #define IDC_CHECK_DTX                   1347
+#define IDC_STATIC_GAINLEVEL4           1347
 #define IDC_EDIT_BITRATE                1348
+#define IDC_STATIC_DENOISE              1348
 #define IDC_STATIC_BITRATE              1349
 #define IDC_STATIC_MAXBITRATE           1350
 #define IDC_STATIC_BPS1                 1351
@@ -700,6 +706,21 @@
 #define IDC_BUTTON_STOP                 1575
 #define IDC_BUTTON_PLAY                 1576
 #define IDC_STATIC_TIMEOFFSET           1577
+#define IDC_STATIC_AGCGRP               1578
+#define IDC_STATIC_DENOISEGRP           1579
+#define IDC_EDIT_GAINLEVEL              1580
+#define IDC_SPIN_GAINLEVEL              1581
+#define IDC_EDIT_MAXGAIN                1582
+#define IDC_SPIN_MAXGAIN                1583
+#define IDC_EDIT_GAININC                1584
+#define IDC_SPIN_GAININC                1585
+#define IDC_EDIT_GAINDEC                1586
+#define IDC_SPIN_GAINDEC                1587
+#define IDC_EDIT_DENOISE                1588
+#define IDC_SPIN_DENOISE                1589
+#define IDC_BUTTON_DEFAULT2             1590
+#define IDC_CHECK_MUTELEFT              1591
+#define IDC_CHECK_MUTERIGHT             1592
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -814,9 +835,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        321
+#define _APS_NEXT_RESOURCE_VALUE        323
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1578
-#define _APS_NEXT_SYMED_VALUE           320
+#define _APS_NEXT_CONTROL_VALUE         1593
+#define _APS_NEXT_SYMED_VALUE           326
 #endif
 #endif

@@ -38,8 +38,8 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
 
     // SpeexDSP audio preprocessor
     ui.gainlevelSpinBox->setRange(0, 0x7FFF);
-    ui.maxdecSpinBox->setMinimum(-100);
-    ui.maxdenoiseSpinBox->setMinimum(-100);
+    ui.maxdecSpinBox->setRange(-100, 0);
+    ui.maxdenoiseSpinBox->setRange(-100, 0);
 
     showSettings();
 }

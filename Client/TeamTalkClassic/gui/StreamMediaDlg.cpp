@@ -28,6 +28,9 @@
 #include "../Resource.h"
 #include "StreamMediaDlg.h"
 
+#include "TTAudioPreprocessorDlg.h"
+#include "SpeexDSPDlg.h"
+
 extern TTInstance* ttInst;
 
 #define MAX_FILENAMES 10
@@ -201,14 +204,26 @@ void CStreamMediaDlg::OnBnClickedButtonBrowse()
 
 void CStreamMediaDlg::OnOK()
 {
-    CDialog::OnOK();
+    VideoCodec vidCodec = {};
+    vidCodec.nCodec = WEBM_VP8_CODEC;
+    vidCodec.webm_vp8.nRcTargetBitrate = GetWindowNumber(m_wndVideoBitrate);
+    vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+
+    if (m_mfp.uOffsetMSec == 0)
+        m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    m_mfp.bPaused = FALSE;
+    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, m_mfi.szFileName, &m_mfp, &vidCodec))
+    {
+        MessageBox(_T("Failed to stream media file."),
+            _T("Stream Media File"), MB_OK);
+        return;
+    }
 
     m_fileList.RemoveAll();
-    CString szFilename;
 
+    CString szFilename;
     m_wndFilename.GetWindowText(szFilename);
     m_fileList.AddTail(szFilename);
-
     for (int i=0;i<m_wndFilename.GetCount();++i)
     {
         CString s;
@@ -216,10 +231,43 @@ void CStreamMediaDlg::OnOK()
         if (s.CompareNoCase(szFilename) != 0)
             m_fileList.AddTail(s);
     }
+
+    CDialog::OnOK();
 }
 
 void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
 {
+    switch(GetItemData(m_wndAudioPreprocessor))
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+    {
+        CTTAudioPreprocessorDlg dlg;
+        if (dlg.DoModal() == IDOK)
+        {
+            m_mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
+            m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel = dlg.m_nGainLevel;
+            m_mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = dlg.m_bMuteLeft;
+            m_mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = dlg.m_bMuteRight;
+        }
+    }
+    break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+    {
+        CSpeexDSPDlg dlg;
+        if(dlg.DoModal() == IDOK)
+        {
+            m_mfp.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
+            m_mfp.audioPreprocessor.speexdsp.bEnableAGC = dlg.m_bAGC;
+            m_mfp.audioPreprocessor.speexdsp.nGainLevel = dlg.m_nGainLevel;
+            m_mfp.audioPreprocessor.speexdsp.nMaxGainDB = dlg.m_nMaxGainLevel;
+            m_mfp.audioPreprocessor.speexdsp.nMaxIncDBSec = dlg.m_nGainInc;
+            m_mfp.audioPreprocessor.speexdsp.nMaxDecDBSec = dlg.m_nGainDec;
+            m_mfp.audioPreprocessor.speexdsp.bEnableDenoise = dlg.m_bDenoise;
+            m_mfp.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB = dlg.m_nDenoiseLevel;
+        }
+    }
+    break;
+    }
 }
 
 void CStreamMediaDlg::OnNMCustomdrawSliderOffset(NMHDR *pNMHDR, LRESULT *pResult)
@@ -268,6 +316,7 @@ void CStreamMediaDlg::OnBnClickedButtonStop()
     m_nPlaybackID = 0;
 
     m_mfp = {};
+    m_mfi.nStatus = MFS_CLOSED;
     m_mfi.uElapsedMSec = 0;
     m_wndOffset.SetPos(0);
     UpdateOffset();

@@ -5556,23 +5556,8 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
                 files.push_back(STR_UTF8(m_pStreamMediaDlg->m_fileList.GetNext(pos)));
             m_xmlSettings.SetLastMediaFiles(files);
 
-            VideoCodec vidCodec = {}, *lpVideoCodec = NULL;
-            vidCodec.nCodec = WEBM_VP8_CODEC;
-            vidCodec.webm_vp8.nRcTargetBitrate = m_pStreamMediaDlg->m_nVidCodecBitrate;
-            vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
-            lpVideoCodec = &vidCodec;
-    
-            if(!TT_StartStreamingMediaFileToChannel(ttInst, m_pStreamMediaDlg->m_fileList.GetHead(),
-                                                    lpVideoCodec))
-            {
-                MessageBox(_T("Failed to stream media file."),
-                           _T("Stream Media File"), MB_OK);
-            }
-            else
-            {
-                m_nStatusMode |= STATUSMODE_STREAM_MEDIAFILE;
-                TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
-            }
+            m_nStatusMode |= STATUSMODE_STREAM_MEDIAFILE;
+            TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
         }
         m_pStreamMediaDlg.reset();
     }

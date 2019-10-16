@@ -47,11 +47,13 @@ set (TTCLASSIC_SOURCES
   gui/ShortcutsPage.cpp
   gui/SoundEventsPage.cpp
   gui/SoundSysPage.cpp
+  gui/SpeexDSPDlg.cpp
   gui/splitterbar.cpp
   gui/StreamMediaDlg.cpp
   gui/SysColStatic.cpp
   gui/SystemTray.cpp
   gui/TextToSpeechPage.cpp
+  gui/TTAudioPreprocessorDlg.cpp
   gui/UserAccountsDlg.cpp
   gui/UserButton.cpp
   gui/UserDesktopDlg.cpp
@@ -151,11 +153,13 @@ set (TTCLASSIC_HEADERS
   gui/ShortcutsPage.h
   gui/SoundEventsPage.h
   gui/SoundSysPage.h
+  gui/SpeexDSPDlg.h
   gui/splitterbar.h
   gui/StreamMediaDlg.h
   gui/SysColStatic.h
   gui/SystemTray.h
   gui/TextToSpeechPage.h
+  gui/TTAudioPreprocessorDlg.h
   gui/UserAccountsDlg.h
   gui/UserButton.h
   gui/UserDesktopDlg.h
