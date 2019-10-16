@@ -2785,6 +2785,7 @@ namespace teamtalk {
         }
         return result;
     }
+    /********** </mediafiles> *********/
 
     void ClientXML::SetAudioPreprocessor(AudioPreprocessorType preproc)
     {
@@ -2835,8 +2836,6 @@ namespace teamtalk {
         dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
         return dsp;
     }
-
-    /********** </mediafiles> *********/
 
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)
     {

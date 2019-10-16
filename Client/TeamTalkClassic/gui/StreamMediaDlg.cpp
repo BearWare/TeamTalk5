@@ -136,7 +136,18 @@ BOOL CStreamMediaDlg::OnInitDialog()
     AddString(m_wndAudioPreprocessor, _T("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
-    SetCurSelItemData(m_wndAudioPreprocessor, m_xmlSettings.GetAudioPreprocessor(NO_AUDIOPREPROCESSOR));
+    m_mfp.audioPreprocessor.nPreprocessor = m_xmlSettings.GetAudioPreprocessor(NO_AUDIOPREPROCESSOR);
+
+    SetCurSelItemData(m_wndAudioPreprocessor, m_mfp.audioPreprocessor.nPreprocessor);
+    switch(m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        break;
+    }
 
     m_wndOffset.SetRange(0, 10000);
     m_wndOffset.SetPageSize(50);
@@ -393,7 +404,8 @@ void CStreamMediaDlg::OnBnClickedButtonStop()
         m_nPlaybackID = 0;
     }
 
-    m_mfp = {};
+    m_mfp.bPaused = FALSE;
+    m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
     m_mfi.nStatus = MFS_CLOSED;
     m_mfi.uElapsedMSec = 0;
     m_wndOffset.SetPos(0);
@@ -439,17 +451,6 @@ void CStreamMediaDlg::OnBnClickedButtonPlay()
         m_mfp.uOffsetMSec = UINT32(m_mfi.uDurationMSec * percent);
     }
 
-    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
-    switch(m_mfp.audioPreprocessor.nPreprocessor)
-    {
-    case TEAMTALK_AUDIOPREPROCESSOR :
-        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
-        break;
-    case SPEEXDSP_AUDIOPREPROCESSOR :
-        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
-        break;
-    }
-
     m_nPlaybackID = TT_InitLocalPlayback(ttInst, szFilename, &m_mfp);
     if (m_nPlaybackID <= 0)
     {
@@ -475,5 +476,16 @@ void CStreamMediaDlg::UpdateOffset()
 
 void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
 {
+    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
+    switch(m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        break;
+    }
+
     UpdateControls();
 }
