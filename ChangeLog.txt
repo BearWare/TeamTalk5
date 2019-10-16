@@ -10,6 +10,19 @@ Default Qt client
 - Control media file offset before streaming to channel
 - Pause media file while streaming to channel
 - Test media file playback before streaming to channel
+Accessible Windows client
+- VBR selection in OPUS codec 
+- Frame size selection in OPUS codec
+- Max transmission interval increased to 500 msec
+- Audio preprocessor for media file streaming
+- Control media file offset before streaming to channel
+- Test media file playback before streaming to channel
+
+Version 5.4.1, 2019/10/16
+iOS client
+- Updated Danish translation
+Android client
+- Fixed crash issue when uploading file
 
 Version 5.4, 2019/06/25
 Default Qt client
