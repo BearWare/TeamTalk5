@@ -49,6 +49,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
     void UpdateMediaFile();
+    void UpdateControls();
 
     teamtalk::ClientXML& m_xmlSettings;
 

@@ -63,8 +63,13 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
         m_mfi = msg.mediafileinfo;
         switch (m_mfi.nStatus)
         {
-        case MFS_CLOSED :
-        case MFS_ERROR :
+        case MFS_CLOSED:
+        case MFS_PAUSED :
+            break;
+        case MFS_ERROR:
+        case MFS_ABORTED :
+            TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+            m_nPlaybackID = 0;
             break;
         case MFS_FINISHED:
             m_nPlaybackID = 0;
@@ -79,6 +84,7 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
             break;
         }
         }
+        UpdateControls();
         break;
     }
 }
@@ -179,6 +185,31 @@ void CStreamMediaDlg::UpdateMediaFile()
 
     m_wndVidBitrateSpinCtrl.EnableWindow(video);
     m_wndVideoBitrate.EnableWindow(video);
+}
+
+void CStreamMediaDlg::UpdateControls()
+{
+    switch (m_mfi.nStatus)
+    {
+    case MFS_ABORTED :
+    case MFS_ERROR :
+    case MFS_FINISHED:
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(FALSE);
+        break;
+    case MFS_CLOSED:
+        m_wndStopPlayback.EnableWindow(FALSE);
+        m_wndStartPlayback.EnableWindow(TRUE);
+        break;
+    case MFS_PLAYING :
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(FALSE);
+        break;
+    case MFS_PAUSED :
+        m_wndStopPlayback.EnableWindow(TRUE);
+        m_wndStartPlayback.EnableWindow(TRUE);
+        break;
+    }
 }
 
 void CStreamMediaDlg::OnBnClickedButtonBrowse()
@@ -335,25 +366,26 @@ void CStreamMediaDlg::OnTRBNThumbPosChangingSliderOffset(NMHDR *pNMHDR, LRESULT 
 
 void CStreamMediaDlg::OnBnClickedButtonStop()
 {
-    if (m_nPlaybackID <= 0)
-        return;
-
-    if (m_mfi.nStatus == MFS_PLAYING)
+    if (m_nPlaybackID)
     {
-        m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-        m_mfp.bPaused = TRUE;
-        if (TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
-            return;
-    }
+        if(m_mfi.nStatus == MFS_PLAYING)
+        {
+            m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            m_mfp.bPaused = TRUE;
+            if(TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                return;
+        }
 
-    TT_StopLocalPlayback(ttInst, m_nPlaybackID);
-    m_nPlaybackID = 0;
+        TT_StopLocalPlayback(ttInst, m_nPlaybackID);
+        m_nPlaybackID = 0;
+    }
 
     m_mfp = {};
     m_mfi.nStatus = MFS_CLOSED;
     m_mfi.uElapsedMSec = 0;
     m_wndOffset.SetPos(0);
     UpdateOffset();
+    UpdateControls();
 }
 
 void CStreamMediaDlg::OnBnClickedButtonPlay()
