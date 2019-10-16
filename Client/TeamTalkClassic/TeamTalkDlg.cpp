@@ -196,25 +196,9 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
     UINT nLocalTcpPort = m_xmlSettings.GetClientTcpPort(0);
     UINT nLocalUdpPort = m_xmlSettings.GetClientUdpPort(0);
 
-    int nInputDevice = GetSoundInputDevice();
-    int nOutputDevice = GetSoundOutputDevice();
-
-    if(m_xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE))
+    if (!InitSoundSystem(m_xmlSettings))
     {
-        if(!TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice))
-        {
-            AddStatusText(_T("Failed to initialize sound system."));
-        }
-    }
-    else
-    {
-        if(!TT_InitSoundInputDevice(ttInst, nInputDevice) || 
-            !TT_InitSoundOutputDevice(ttInst, nOutputDevice))
-        {
-            AddStatusText(_T("Failed to initialize sound system."));
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-        }
+        AddStatusText(LoadText(IDS_SNDINITFAILED));
     }
 
     //clear session tree
@@ -239,7 +223,7 @@ BOOL CTeamTalkDlg::Connect(LPCTSTR szAddress, UINT nTcpPort, UINT nUdpPort, BOOL
             SetTimer(TIMER_VOICELEVEL_ID, VUMETER_UPDATE_TIMEOUT, NULL);
 
         CString szText;
-        szText.Format(_T("Connecting to host \"%s\" TCP port %d UDP port %d"), szAddress, nTcpPort, nUdpPort);
+        szText.Format(LoadText(IDS_CONNECTING), szAddress, nTcpPort, nUdpPort);
         AddStatusText(szText);
 
         return TRUE;
@@ -931,6 +915,10 @@ LRESULT CTeamTalkDlg::OnClientEvent(WPARAM wParam, LPARAM lParam)
             break;
         case CLIENTEVENT_INTERNAL_ERROR :
             OnInternalError(msg);
+            break;
+        case CLIENTEVENT_LOCAL_MEDIAFILE :
+            if (m_pStreamMediaDlg)
+                m_pStreamMediaDlg->ProcessTTMessage(msg);
             break;
         }
     }
@@ -3605,30 +3593,13 @@ void CTeamTalkDlg::OnFilePreferences()
 
         if(bRestart && soundpage.m_nInputDevice != UNDEFINED && soundpage.m_nOutputDevice != UNDEFINED)
         {
-            TT_CloseSoundInputDevice(ttInst);
-            TT_CloseSoundOutputDevice(ttInst);
-            TT_CloseSoundDuplexDevices(ttInst);
-
-            if(soundpage.m_bDuplexMode)
+            if (!InitSoundSystem(m_xmlSettings))
             {
-                if(!TT_InitSoundDuplexDevices(ttInst,
-                                              soundpage.m_nInputDevice,
-                                              soundpage.m_nOutputDevice))
-                    MessageBox(_T("Failed to initialize new sound devices."),
-                        _T("Restart Sound System"), MB_OK);
-            }
-            else
-            {
-                if(!TT_InitSoundInputDevice(ttInst, soundpage.m_nInputDevice) ||
-                    !TT_InitSoundOutputDevice(ttInst, soundpage.m_nOutputDevice) )
-                {
-                    TT_CloseSoundInputDevice(ttInst);
-                    TT_CloseSoundOutputDevice(ttInst);
-                    MessageBox(_T("Failed to initialize new sound devices."), 
-                        _T("Restart Sound System"), MB_OK);
-                }
+                MessageBox(_T("Failed to initialize new sound devices."),
+                    _T("Restart Sound System"), MB_OK);
             }
         }
+
         UpdateAudioConfig();
 
         ////////////////////////////////////////
@@ -4076,7 +4047,7 @@ void CTeamTalkDlg::OnUsersPositionusers()
     }
 
     SoundDevice dev;
-    if(GetSoundOutputDevice(&dev) == UNDEFINED || dev.nSoundSystem != SOUNDSYSTEM_DSOUND)
+    if(GetSoundOutputDevice(m_xmlSettings, &dev) == UNDEFINED || dev.nSoundSystem != SOUNDSYSTEM_DSOUND)
     {
         MessageBox(_T("Positioning users is only support with DirectSound"),
         _T("Position Users"), MB_OK);
@@ -5186,34 +5157,6 @@ void CTeamTalkDlg::FirewallInstall()
     }
 }
 
-int CTeamTalkDlg::GetSoundInputDevice(SoundDevice* pSoundDev/* = NULL*/)
-{
-    int nInputDevice = m_xmlSettings.GetSoundInputDevice(-1);
-    if(nInputDevice == -1)
-        TT_GetDefaultSoundDevices(&nInputDevice, NULL);
-    CString szInputDevice = STR_UTF8(m_xmlSettings.GetSoundInputDevice());
-    SoundDevice dev;
-    if(!pSoundDev)
-        pSoundDev = &dev;
-    if(GetSoundDevice(nInputDevice, szInputDevice, *pSoundDev))
-        return pSoundDev->nDeviceID;
-    return nInputDevice;
-}
-
-int CTeamTalkDlg::GetSoundOutputDevice(SoundDevice* pSoundDev/* = NULL*/)
-{
-    int nOutputDevice = m_xmlSettings.GetSoundOutputDevice(-1);
-    if(nOutputDevice == -1)
-        TT_GetDefaultSoundDevices(NULL, &nOutputDevice);
-    CString szOutputDevice = STR_UTF8(m_xmlSettings.GetSoundOutputDevice());
-    SoundDevice dev;
-    if(!pSoundDev)
-        pSoundDev = &dev;
-    if(GetSoundDevice(nOutputDevice, szOutputDevice, *pSoundDev))
-        return pSoundDev->nDeviceID;
-    return nOutputDevice;
-}
-
 void CTeamTalkDlg::UpdateAudioStorage(BOOL bEnable)
 {
     UINT uStorageMode = m_xmlSettings.GetAudioLogStorageMode();
@@ -5590,7 +5533,6 @@ void CTeamTalkDlg::OnChannelsLeavechannel()
 void CTeamTalkDlg::OnUpdateChannelsStreamMediaFileToChannel(CCmdUI *pCmdUI)
 {
     ClientFlags flags = TT_GetFlags(ttInst);
-    pCmdUI->Enable(TT_GetMyChannelID(ttInst)>0);
     BOOL bChecked = flags & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO);
     pCmdUI->SetCheck(bChecked?BST_CHECKED:BST_UNCHECKED);
 }
@@ -5602,26 +5544,25 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
         StopMediaStream();
     else
     {
-        CStreamMediaDlg dlg(this);
+        m_pStreamMediaDlg.reset(new CStreamMediaDlg(m_xmlSettings, this));
         auto files = m_xmlSettings.GetLastMediaFiles();
         for (auto a : files)
-            dlg.m_fileList.AddTail(STR_UTF8(a));
+            m_pStreamMediaDlg->m_fileList.AddTail(STR_UTF8(a));
 
-        if(dlg.DoModal() == IDOK)
+        if (m_pStreamMediaDlg->DoModal() == IDOK)
         {
             files.clear();
-            for(POSITION pos=dlg.m_fileList.GetHeadPosition();pos != nullptr;)
-                files.push_back(STR_UTF8(dlg.m_fileList.GetNext(pos)));
+            for(POSITION pos=m_pStreamMediaDlg->m_fileList.GetHeadPosition();pos != nullptr;)
+                files.push_back(STR_UTF8(m_pStreamMediaDlg->m_fileList.GetNext(pos)));
             m_xmlSettings.SetLastMediaFiles(files);
 
-            VideoCodec vidCodec, *lpVideoCodec = NULL;
-            ZERO_STRUCT(vidCodec);
+            VideoCodec vidCodec = {}, *lpVideoCodec = NULL;
             vidCodec.nCodec = WEBM_VP8_CODEC;
-            vidCodec.webm_vp8.nRcTargetBitrate = dlg.m_nVidCodecBitrate;
+            vidCodec.webm_vp8.nRcTargetBitrate = m_pStreamMediaDlg->m_nVidCodecBitrate;
             vidCodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
             lpVideoCodec = &vidCodec;
     
-            if(!TT_StartStreamingMediaFileToChannel(ttInst, dlg.m_fileList.GetHead(),
+            if(!TT_StartStreamingMediaFileToChannel(ttInst, m_pStreamMediaDlg->m_fileList.GetHead(),
                                                     lpVideoCodec))
             {
                 MessageBox(_T("Failed to stream media file."),
@@ -5633,6 +5574,7 @@ void CTeamTalkDlg::OnChannelsStreamMediaFileToChannel()
                 TT_DoChangeStatus(ttInst, m_nStatusMode, m_szAwayMessage);
             }
         }
+        m_pStreamMediaDlg.reset();
     }
 }
 

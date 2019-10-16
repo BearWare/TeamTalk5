@@ -223,6 +223,9 @@
 #define IDS_BEARWARETIMEOUT             318
 #define IDS_BEARWAREAUTHSUCCESS         319
 #define IDS_USER_BCASTMSG               320
+#define IDS_SNDINITFAILED               321
+#define IDS_CONNECTING                  322
+#define IDS_PLAY                        323
 #define MAX_STRING_LENGTH               511
 #define MAX_USERS                       1000
 #define IDC_SLIDER_VOICEACT             1001
@@ -689,6 +692,14 @@
 #define IDC_CHECK_VBR                   1567
 #define IDC_COMBO_OPUSFRAMESIZES        1568
 #define IDC_STATIC_OPUSFRMSIZE          1569
+#define IDC_STATIC_DURATION             1570
+#define IDC_STATIC_SDURATION            1571
+#define IDC_COMBO_AUDIOPREPROCESSOR     1572
+#define IDC_BUTTON_AUDIOSETUP           1573
+#define IDC_SLIDER_OFFSET               1574
+#define IDC_BUTTON_STOP                 1575
+#define IDC_BUTTON_PLAY                 1576
+#define IDC_STATIC_TIMEOFFSET           1577
 #define ID_HELP_WHATISMYIP              32791
 #define ID_USERS_OP                     32798
 #define ID_CHANNELS_VIEWCHANNELMESSAGES 32801
@@ -805,7 +816,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32955
-#define _APS_NEXT_CONTROL_VALUE         1570
+#define _APS_NEXT_CONTROL_VALUE         1578
 #define _APS_NEXT_SYMED_VALUE           320
 #endif
 #endif

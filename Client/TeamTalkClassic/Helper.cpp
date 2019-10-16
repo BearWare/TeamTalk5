@@ -468,3 +468,64 @@ void SetAccessibleName(CWnd& wnd, LPCTSTR szHint)
         pAccPropServices->Release();
     }
 }
+
+int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev/* = NULL*/)
+{
+    int nInputDevice = xmlSettings.GetSoundInputDevice(-1);
+    if(nInputDevice == -1)
+        TT_GetDefaultSoundDevices(&nInputDevice, NULL);
+    CString szInputDevice = STR_UTF8(xmlSettings.GetSoundInputDevice());
+    SoundDevice dev;
+    if(!pSoundDev)
+        pSoundDev = &dev;
+    if(GetSoundDevice(nInputDevice, szInputDevice, *pSoundDev))
+        return pSoundDev->nDeviceID;
+    return nInputDevice;
+}
+
+int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev/* = NULL*/)
+{
+    int nOutputDevice = xmlSettings.GetSoundOutputDevice(-1);
+    if(nOutputDevice == -1)
+        TT_GetDefaultSoundDevices(NULL, &nOutputDevice);
+    CString szOutputDevice = STR_UTF8(xmlSettings.GetSoundOutputDevice());
+    SoundDevice dev;
+    if(!pSoundDev)
+        pSoundDev = &dev;
+    if(GetSoundDevice(nOutputDevice, szOutputDevice, *pSoundDev))
+        return pSoundDev->nDeviceID;
+    return nOutputDevice;
+}
+
+BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings)
+{
+    TT_CloseSoundInputDevice(ttInst);
+    TT_CloseSoundOutputDevice(ttInst);
+    TT_CloseSoundDuplexDevices(ttInst);
+
+    int nInputDevice = GetSoundInputDevice(xmlSettings);
+    int nOutputDevice = GetSoundOutputDevice(xmlSettings);
+
+    BOOL bSuccess = FALSE;
+    if (xmlSettings.GetDuplexMode(DEFAULT_SOUND_DUPLEXMODE))
+    {
+        bSuccess = TT_InitSoundDuplexDevices(ttInst, nInputDevice, nOutputDevice);
+    }
+    else
+    {
+        bSuccess = TT_InitSoundInputDevice(ttInst, nInputDevice) &&
+            TT_InitSoundOutputDevice(ttInst, nOutputDevice);
+    }
+
+    if (!bSuccess)
+    {
+        TT_CloseSoundInputDevice(ttInst);
+        TT_CloseSoundOutputDevice(ttInst);
+        if (TT_GetDefaultSoundDevices(&nInputDevice, &nOutputDevice))
+        {
+            TT_InitSoundInputDevice(ttInst, nInputDevice);
+            TT_InitSoundOutputDevice(ttInst, nOutputDevice);
+        }
+    }
+    return bSuccess;
+}

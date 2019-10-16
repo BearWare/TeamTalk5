@@ -141,7 +141,7 @@ void COnlineUsersDlg::AddUser(const User& user)
     {
         i = m_users.insert(i, user);
         i = m_users.erase(i + 1);
-        iIndex = i - m_users.begin();
+        iIndex = int(i - m_users.begin());
     }
     else
     {

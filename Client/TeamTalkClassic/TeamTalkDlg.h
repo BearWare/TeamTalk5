@@ -145,8 +145,6 @@ public:
     void SubscribeCommon(int nUserID, Subscription sub, BOOL bEnable);
 
     void FirewallInstall();
-    int GetSoundInputDevice(SoundDevice* pSoundDev = NULL);
-    int GetSoundOutputDevice(SoundDevice* pSoundDev = NULL);
 
     void UpdateAudioStorage(BOOL bEnable);
     void UpdateMasterVolume(int nVol);
@@ -243,6 +241,8 @@ protected:
     typedef std::map<int, CommmandComplete> cmdreply_t;
     cmdreply_t m_commands;
     int m_nCurrentCmdID;
+
+    std::unique_ptr<class CStreamMediaDlg> m_pStreamMediaDlg;
 
     teamtalk::ClientXML m_xmlSettings;
     BOOL m_bResetSettings;

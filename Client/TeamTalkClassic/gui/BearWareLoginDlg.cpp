@@ -132,8 +132,8 @@ void CBearWareLoginDlg::OnOK()
     szUsername.Trim();
     szUsername.MakeLower();
     auto POSTFIXLEN = _tcslen(_T(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX));
-    if (szUsername.Right(POSTFIXLEN) == WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)
-        szUsername = szUsername.Left(szUsername.GetLength() - POSTFIXLEN);
+    if (szUsername.Right(int(POSTFIXLEN)) == WEBLOGIN_BEARWARE_USERNAMEPOSTFIX)
+        szUsername = szUsername.Left(szUsername.GetLength() - int(POSTFIXLEN));
     m_wndUsername.SetWindowText(szUsername);
 
     TCHAR szUrlUsername[INTERNET_MAX_URL_LENGTH] = _T("");
