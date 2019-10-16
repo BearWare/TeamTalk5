@@ -80,9 +80,9 @@ void CBearWareLoginDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                szNickname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/nickname").c_str());
-                m_szUsername = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/username").c_str());
-                m_szToken = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/token").c_str());
+                szNickname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/nickname", "").c_str());
+                m_szUsername = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/username", "").c_str());
+                m_szToken = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/token", "").c_str());
             }
 
             CString szCaption = LoadText(IDD);

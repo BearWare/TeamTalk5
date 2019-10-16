@@ -474,8 +474,8 @@ namespace teamtalk {
 
     bool ClientXML::GetBearWareLogin(std::string& szUsername, std::string& szToken)
     {
-        szUsername = GetValue(true, "general/bearwareid/username");
-        szToken = GetValue(true, "general/bearwareid/token");
+        szUsername = GetValue(true, "general/bearwareid/username", "");
+        szToken = GetValue(true, "general/bearwareid/token", "");
         return !szUsername.empty();
     }
 
@@ -493,7 +493,7 @@ namespace teamtalk {
     
     std::string ClientXML::GetProfileName()
     {
-        return GetValue(true, "/general/profile-name");
+        return GetValue(true, "/general/profile-name", "");
     }
 
     bool ClientXML::SetGender(int nGender)
@@ -1156,10 +1156,7 @@ namespace teamtalk {
 
     int ClientXML::GetSortOrder()
     {
-        string value = GetValue(true, "window/sort-channels");
-        if(value.size())
-            return str2i(value);
-        return 0;
+        return GetValue(true, "window/sort-channels", 0);
     }
 
 
@@ -2788,6 +2785,57 @@ namespace teamtalk {
         }
         return result;
     }
+
+    void ClientXML::SetAudioPreprocessor(AudioPreprocessorType preproc)
+    {
+        SetValue("mediafiles/audiopreprocessor", preproc);
+    }
+    
+    AudioPreprocessorType ClientXML::GetAudioPreprocessor(AudioPreprocessorType defaultvalue)
+    {
+        return AudioPreprocessorType(GetValue(true, "mediafiles/audiopreprocessor", int(defaultvalue)));
+    }
+
+    void ClientXML::SetTTAudioPreprocessor(const TTAudioPreprocessor& ttaud)
+    {
+        SetValue("mediafiles/ttaudiopreprocessor/gain-level", ttaud.nGainLevel);
+        SetValueBool("mediafiles/ttaudiopreprocessor/mute-left", ttaud.bMuteLeftSpeaker);
+        SetValueBool("mediafiles/ttaudiopreprocessor/mute-right", ttaud.bMuteRightSpeaker);
+    }
+    
+    TTAudioPreprocessor ClientXML::GetTTAudioPreprocessor()
+    {
+        TTAudioPreprocessor ttaud = {};
+        ttaud.nGainLevel = GetValue(true, "mediafiles/ttaudiopreprocessor/gain-level", SOUND_GAIN_DEFAULT);
+        ttaud.bMuteLeftSpeaker = GetValueBool(true, "mediafiles/ttaudiopreprocessor/mute-left", false);
+        ttaud.bMuteRightSpeaker = GetValueBool(true, "mediafiles/ttaudiopreprocessor/mute-right", false);
+        return ttaud;
+    }
+
+    void ClientXML::SetSpeexDSPAudioPreprocessor(const SpeexDSP& spxdsp)
+    {
+        SetValueBool("mediafiles/speexdspaudiopreprocessor/agc", spxdsp.bEnableAGC);
+        SetValue("mediafiles/speexdspaudiopreprocessor/gain-level", spxdsp.nGainLevel);
+        SetValue("mediafiles/speexdspaudiopreprocessor/gain-max", spxdsp.nMaxGainDB);
+        SetValue("mediafiles/speexdspaudiopreprocessor/gain-inc-sec", spxdsp.nMaxIncDBSec);
+        SetValue("mediafiles/speexdspaudiopreprocessor/gain-dec-sec", spxdsp.nMaxDecDBSec);
+        SetValueBool("mediafiles/speexdspaudiopreprocessor/denoise", spxdsp.bEnableDenoise);
+        SetValue("mediafiles/speexdspaudiopreprocessor/denoise-max", spxdsp.nMaxNoiseSuppressDB);
+    }
+    
+    SpeexDSP ClientXML::GetSpeexDSPAudioPreprocessor()
+    {
+        SpeexDSP dsp = {};
+        dsp.bEnableAGC = GetValueBool(true, "mediafiles/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
+        dsp.nGainLevel = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
+        dsp.nMaxGainDB = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
+        dsp.nMaxIncDBSec = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
+        dsp.nMaxDecDBSec = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
+        dsp.bEnableDenoise = GetValueBool(true, "mediafiles/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
+        dsp.nMaxNoiseSuppressDB = GetValue(true, "mediafiles/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
+        return dsp;
+    }
+
     /********** </mediafiles> *********/
 
     void ClientXML::PutHotKey(TiXmlElement& parent, const HotKey& hotkey)

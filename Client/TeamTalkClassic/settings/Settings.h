@@ -80,7 +80,14 @@ namespace teamtalk {
         const std::string& GetFileName() const { return m_filename; }
 
         void SetValue(const std::string& path, const std::string& value);
-        std::string GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue = "");
+        std::string GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue);
+
+        void SetValue(const std::string& path, int value);
+        int GetValue(bool prefixRoot, const std::string& path, int defaultvalue);
+
+        void SetValueBool(const std::string& path, bool value);
+        bool GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue);
+
     protected:
         TiXmlDocument m_xmlDocument;
         void PutElementText(TiXmlElement& element, const std::string& value);

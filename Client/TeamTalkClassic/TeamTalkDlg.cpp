@@ -4618,14 +4618,14 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/update/name").c_str());
+                CString updname = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/update/name", "").c_str());
                 if(!updname.IsEmpty())
                 {
                     CString str;
                     str.Format(_T("New update available: %s"), updname);
                     AddStatusText(str);
                 }
-                CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url").c_str());
+                CString szRegisterUrl = STR_UTF8(xmlDoc.GetValue(false, "teamtalk/bearware/register-url", "").c_str());
                 if (!szRegisterUrl.IsEmpty())
                     CBearWareLoginDlg::szBearWareRegisterUrl = szRegisterUrl;
             }
@@ -4653,8 +4653,8 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             teamtalk::XMLDocument xmlDoc(TT_XML_ROOTNAME, TEAMTALK_XML_VERSION);
             if(xmlDoc.Parse(xml))
             {
-                m_host.szUsername = xmlDoc.GetValue(false, "teamtalk/bearware/username");
-                m_host.szPassword = "token=" + xmlDoc.GetValue(false, "teamtalk/bearware/servertoken");
+                m_host.szUsername = xmlDoc.GetValue(false, "teamtalk/bearware/username", "");
+                m_host.szPassword = "token=" + xmlDoc.GetValue(false, "teamtalk/bearware/servertoken", "");
 
                 KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_ID);
                 KillTimer(TIMER_HTTPREQUEST_WEBLOGIN_TIMEOUT_ID);

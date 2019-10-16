@@ -28,7 +28,7 @@ CTTAudioPreprocessorDlg::~CTTAudioPreprocessorDlg()
 
 void CTTAudioPreprocessorDlg::InitDefault()
 {
-    SetWindowNumber(m_wndGainlevel, SOUND_GAIN_DEFAULT);
+    m_wndGainlevel.SetPos(SOUND_GAIN_DEFAULT);
     m_wndMuteLeft.SetCheck(BST_UNCHECKED);
     m_wndMuteRight.SetCheck(BST_UNCHECKED);
 }

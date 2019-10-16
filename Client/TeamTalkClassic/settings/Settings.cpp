@@ -121,7 +121,7 @@ namespace teamtalk {
         PutString(*item, name, value);
     }
 
-    std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue/* = ""*/)
+    std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue)
     {
         TiXmlElement* item = GetRootElement();
         if (!item)
@@ -155,6 +155,25 @@ namespace teamtalk {
         return value;
     }
 
+    void XMLDocument::SetValue(const std::string& path, int value)
+    {
+        SetValue(path, i2str(value));
+    }
+    
+    int XMLDocument::GetValue(bool prefixRoot, const std::string& path, int defaultvalue)
+    {
+        return str2i(GetValue(prefixRoot, path, i2str(defaultvalue)));
+    }
+
+    void XMLDocument::SetValueBool(const std::string& path, bool value)
+    {
+        SetValue(path, std::string(value?"true":"false"));
+    }
+    
+    bool XMLDocument::GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue)
+    {
+        return GetValue(prefixRoot, path, std::string(defaultvalue?"true":"false")) == "true";
+    }
 
     bool XMLDocument::LoadFile(const std::string& filename)
     {

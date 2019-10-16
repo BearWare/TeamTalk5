@@ -452,6 +452,15 @@ namespace teamtalk {
         /********** <mediafiles> *********/
         bool SetLastMediaFiles(const std::vector<std::string>& filenames);
         std::vector<std::string> GetLastMediaFiles();
+
+        void SetAudioPreprocessor(AudioPreprocessorType preproc);
+        AudioPreprocessorType GetAudioPreprocessor(AudioPreprocessorType defaultvalue);
+
+        void SetTTAudioPreprocessor(const TTAudioPreprocessor& ttaud);
+        TTAudioPreprocessor GetTTAudioPreprocessor();
+
+        void SetSpeexDSPAudioPreprocessor(const SpeexDSP& spxdsp);
+        SpeexDSP GetSpeexDSPAudioPreprocessor();
         /********** </mediafiles> *********/
     protected:
         TiXmlElement* GetRootElement();

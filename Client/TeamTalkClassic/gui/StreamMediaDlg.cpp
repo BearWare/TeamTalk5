@@ -57,6 +57,8 @@ void CStreamMediaDlg::ProcessTTMessage(const TTMessage& msg)
 {
     switch (msg.nClientEvent)
     {
+    case CLIENTEVENT_STREAM_MEDIAFILE :
+        break;
     case CLIENTEVENT_LOCAL_MEDIAFILE :
         m_mfi = msg.mediafileinfo;
         switch (m_mfi.nStatus)
@@ -127,7 +129,7 @@ BOOL CStreamMediaDlg::OnInitDialog()
     AddString(m_wndAudioPreprocessor, _T("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("TeamTalk Audio Preprocessor"), TEAMTALK_AUDIOPREPROCESSOR);
     AddString(m_wndAudioPreprocessor, _T("Speex DSP Audio Preprocessor"), SPEEXDSP_AUDIOPREPROCESSOR);
-    SetCurSelItemData(m_wndAudioPreprocessor, NO_AUDIOPREPROCESSOR);
+    SetCurSelItemData(m_wndAudioPreprocessor, m_xmlSettings.GetAudioPreprocessor(NO_AUDIOPREPROCESSOR));
 
     m_wndOffset.SetRange(0, 10000);
     m_wndOffset.SetPageSize(50);
@@ -232,6 +234,8 @@ void CStreamMediaDlg::OnOK()
             m_fileList.AddTail(s);
     }
 
+    m_xmlSettings.SetAudioPreprocessor(AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor)));
+
     CDialog::OnOK();
 }
 
@@ -242,18 +246,39 @@ void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
     case TEAMTALK_AUDIOPREPROCESSOR :
     {
         CTTAudioPreprocessorDlg dlg;
+        auto ttaud = m_xmlSettings.GetTTAudioPreprocessor();
+        dlg.m_nGainLevel = ttaud.nGainLevel;
+        dlg.m_bMuteLeft = ttaud.bMuteLeftSpeaker;
+        dlg.m_bMuteRight = ttaud.bMuteRightSpeaker;
         if (dlg.DoModal() == IDOK)
         {
             m_mfp.audioPreprocessor.nPreprocessor = TEAMTALK_AUDIOPREPROCESSOR;
             m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel = dlg.m_nGainLevel;
             m_mfp.audioPreprocessor.ttpreprocessor.bMuteLeftSpeaker = dlg.m_bMuteLeft;
             m_mfp.audioPreprocessor.ttpreprocessor.bMuteRightSpeaker = dlg.m_bMuteRight;
+
+            if (m_nPlaybackID)
+            {
+                m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                if (!TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                    MessageBox(_T("Failed to update preprocessor"), LoadText(IDS_PLAY));
+            }
+
+            m_xmlSettings.SetTTAudioPreprocessor(m_mfp.audioPreprocessor.ttpreprocessor);
         }
     }
     break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
     {
         CSpeexDSPDlg dlg;
+        auto speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        dlg.m_bAGC = speexdsp.bEnableAGC;
+        dlg.m_nGainLevel = speexdsp.nGainLevel;
+        dlg.m_nGainInc = speexdsp.nMaxIncDBSec;
+        dlg.m_nGainDec = speexdsp.nMaxDecDBSec;
+        dlg.m_nMaxGainLevel = speexdsp.nMaxGainDB;
+        dlg.m_bDenoise = speexdsp.bEnableDenoise;
+        dlg.m_nDenoiseLevel = speexdsp.nMaxNoiseSuppressDB;
         if(dlg.DoModal() == IDOK)
         {
             m_mfp.audioPreprocessor.nPreprocessor = SPEEXDSP_AUDIOPREPROCESSOR;
@@ -264,6 +289,15 @@ void CStreamMediaDlg::OnBnClickedButtonAudiosetup()
             m_mfp.audioPreprocessor.speexdsp.nMaxDecDBSec = dlg.m_nGainDec;
             m_mfp.audioPreprocessor.speexdsp.bEnableDenoise = dlg.m_bDenoise;
             m_mfp.audioPreprocessor.speexdsp.nMaxNoiseSuppressDB = dlg.m_nDenoiseLevel;
+
+            if(m_nPlaybackID)
+            {
+                m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+                if(!TT_UpdateLocalPlayback(ttInst, m_nPlaybackID, &m_mfp))
+                    MessageBox(_T("Failed to update preprocessor"), LoadText(IDS_PLAY));
+            }
+
+            m_xmlSettings.SetSpeexDSPAudioPreprocessor(m_mfp.audioPreprocessor.speexdsp);
         }
     }
     break;
@@ -358,6 +392,17 @@ void CStreamMediaDlg::OnBnClickedButtonPlay()
     {
         double percent = m_wndOffset.GetPos() / double(m_wndOffset.GetRangeMax());
         m_mfp.uOffsetMSec = UINT32(m_mfi.uDurationMSec * percent);
+    }
+
+    m_mfp.audioPreprocessor.nPreprocessor = AudioPreprocessorType(GetItemData(m_wndAudioPreprocessor));
+    switch(m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.ttpreprocessor = m_xmlSettings.GetTTAudioPreprocessor();
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        m_mfp.audioPreprocessor.speexdsp = m_xmlSettings.GetSpeexDSPAudioPreprocessor();
+        break;
     }
 
     m_nPlaybackID = TT_InitLocalPlayback(ttInst, szFilename, &m_mfp);
