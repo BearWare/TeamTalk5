@@ -2788,51 +2788,51 @@ namespace teamtalk {
 
     void ClientXML::SetAudioPreprocessor(AudioPreprocessorType preproc)
     {
-        SetValue("mediafiles/audiopreprocessor", preproc);
+        SetValue("streammedia/audiopreprocessor", preproc);
     }
     
     AudioPreprocessorType ClientXML::GetAudioPreprocessor(AudioPreprocessorType defaultvalue)
     {
-        return AudioPreprocessorType(GetValue(true, "mediafiles/audiopreprocessor", int(defaultvalue)));
+        return AudioPreprocessorType(GetValue(true, "streammedia/audiopreprocessor", int(defaultvalue)));
     }
 
     void ClientXML::SetTTAudioPreprocessor(const TTAudioPreprocessor& ttaud)
     {
-        SetValue("mediafiles/ttaudiopreprocessor/gain-level", ttaud.nGainLevel);
-        SetValueBool("mediafiles/ttaudiopreprocessor/mute-left", ttaud.bMuteLeftSpeaker);
-        SetValueBool("mediafiles/ttaudiopreprocessor/mute-right", ttaud.bMuteRightSpeaker);
+        SetValue("streammedia/ttaudiopreprocessor/gain-level", ttaud.nGainLevel);
+        SetValueBool("streammedia/ttaudiopreprocessor/mute-left", ttaud.bMuteLeftSpeaker);
+        SetValueBool("streammedia/ttaudiopreprocessor/mute-right", ttaud.bMuteRightSpeaker);
     }
     
     TTAudioPreprocessor ClientXML::GetTTAudioPreprocessor()
     {
         TTAudioPreprocessor ttaud = {};
-        ttaud.nGainLevel = GetValue(true, "mediafiles/ttaudiopreprocessor/gain-level", SOUND_GAIN_DEFAULT);
-        ttaud.bMuteLeftSpeaker = GetValueBool(true, "mediafiles/ttaudiopreprocessor/mute-left", false);
-        ttaud.bMuteRightSpeaker = GetValueBool(true, "mediafiles/ttaudiopreprocessor/mute-right", false);
+        ttaud.nGainLevel = GetValue(true, "streammedia/ttaudiopreprocessor/gain-level", SOUND_GAIN_DEFAULT);
+        ttaud.bMuteLeftSpeaker = GetValueBool(true, "streammedia/ttaudiopreprocessor/mute-left", false);
+        ttaud.bMuteRightSpeaker = GetValueBool(true, "streammedia/ttaudiopreprocessor/mute-right", false);
         return ttaud;
     }
 
     void ClientXML::SetSpeexDSPAudioPreprocessor(const SpeexDSP& spxdsp)
     {
-        SetValueBool("mediafiles/speexdspaudiopreprocessor/agc", spxdsp.bEnableAGC);
-        SetValue("mediafiles/speexdspaudiopreprocessor/gain-level", spxdsp.nGainLevel);
-        SetValue("mediafiles/speexdspaudiopreprocessor/gain-max", spxdsp.nMaxGainDB);
-        SetValue("mediafiles/speexdspaudiopreprocessor/gain-inc-sec", spxdsp.nMaxIncDBSec);
-        SetValue("mediafiles/speexdspaudiopreprocessor/gain-dec-sec", spxdsp.nMaxDecDBSec);
-        SetValueBool("mediafiles/speexdspaudiopreprocessor/denoise", spxdsp.bEnableDenoise);
-        SetValue("mediafiles/speexdspaudiopreprocessor/denoise-max", spxdsp.nMaxNoiseSuppressDB);
+        SetValueBool("streammedia/speexdspaudiopreprocessor/agc", spxdsp.bEnableAGC);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-level", spxdsp.nGainLevel);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-max", spxdsp.nMaxGainDB);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-inc-sec", spxdsp.nMaxIncDBSec);
+        SetValue("streammedia/speexdspaudiopreprocessor/gain-dec-sec", spxdsp.nMaxDecDBSec);
+        SetValueBool("streammedia/speexdspaudiopreprocessor/denoise", spxdsp.bEnableDenoise);
+        SetValue("streammedia/speexdspaudiopreprocessor/denoise-max", spxdsp.nMaxNoiseSuppressDB);
     }
     
     SpeexDSP ClientXML::GetSpeexDSPAudioPreprocessor()
     {
         SpeexDSP dsp = {};
-        dsp.bEnableAGC = GetValueBool(true, "mediafiles/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
-        dsp.nGainLevel = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
-        dsp.nMaxGainDB = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
-        dsp.nMaxIncDBSec = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
-        dsp.nMaxDecDBSec = GetValue(true, "mediafiles/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
-        dsp.bEnableDenoise = GetValueBool(true, "mediafiles/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
-        dsp.nMaxNoiseSuppressDB = GetValue(true, "mediafiles/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
+        dsp.bEnableAGC = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/agc", DEFAULT_AGC_ENABLE);
+        dsp.nGainLevel = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-level", DEFAULT_AGC_GAINLEVEL);
+        dsp.nMaxGainDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-max", DEFAULT_AGC_GAINMAXDB);
+        dsp.nMaxIncDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-inc-sec", DEFAULT_AGC_INC_MAXDB);
+        dsp.nMaxDecDBSec = GetValue(true, "streammedia/speexdspaudiopreprocessor/gain-dec-sec", DEFAULT_AGC_DEC_MAXDB);
+        dsp.bEnableDenoise = GetValueBool(true, "streammedia/speexdspaudiopreprocessor/denoise", DEFAULT_DENOISE_ENABLE);
+        dsp.nMaxNoiseSuppressDB = GetValue(true, "streammedia/speexdspaudiopreprocessor/denoise-max", DEFAULT_DENOISE_SUPPRESS);
         return dsp;
     }
 

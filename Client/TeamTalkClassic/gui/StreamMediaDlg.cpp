@@ -117,6 +117,7 @@ BEGIN_MESSAGE_MAP(CStreamMediaDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_PLAY, &CStreamMediaDlg::OnBnClickedButtonPlay)
     ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnNMReleasedcaptureSliderOffset)
     ON_NOTIFY(TRBN_THUMBPOSCHANGING, IDC_SLIDER_OFFSET, &CStreamMediaDlg::OnTRBNThumbPosChangingSliderOffset)
+    ON_CBN_SELCHANGE(IDC_COMBO_AUDIOPREPROCESSOR, &CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor)
 END_MESSAGE_MAP()
 
 
@@ -145,6 +146,7 @@ BOOL CStreamMediaDlg::OnInitDialog()
     m_wndVidBitrateSpinCtrl.SetRange(0, 1000);
 
     UpdateMediaFile();
+    UpdateControls();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -208,6 +210,17 @@ void CStreamMediaDlg::UpdateControls()
     case MFS_PAUSED :
         m_wndStopPlayback.EnableWindow(TRUE);
         m_wndStartPlayback.EnableWindow(TRUE);
+        break;
+    }
+
+    switch(GetItemData(m_wndAudioPreprocessor))
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        m_wndAudioSetup.EnableWindow(TRUE);
+        break;
+    default :
+        m_wndAudioSetup.EnableWindow(FALSE);
         break;
     }
 }
@@ -457,4 +470,10 @@ void CStreamMediaDlg::UpdateOffset()
     CString szElapsed;
     szElapsed.Format(_T("%d:%02d:%02d.%03d"), uHours, uMinutes, uSeconds, uMSec);
     m_wndTimeOffset.SetWindowText(szElapsed);
+}
+
+
+void CStreamMediaDlg::OnCbnSelchangeComboAudiopreprocessor()
+{
+    UpdateControls();
 }

@@ -84,4 +84,5 @@ public:
     afx_msg void OnBnClickedButtonPlay();
     afx_msg void OnNMReleasedcaptureSliderOffset(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnTRBNThumbPosChangingSliderOffset(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnCbnSelchangeComboAudiopreprocessor();
 };
