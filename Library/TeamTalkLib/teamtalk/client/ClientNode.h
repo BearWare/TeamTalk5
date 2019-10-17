@@ -653,7 +653,7 @@ namespace teamtalk {
         AudioThread m_voice_thread;
         uint8_t m_voice_stream_id; //0 means not used
         uint16_t m_voice_pkt_counter;
-        std::atomic<bool> m_voice_tx_closed = false; // CLIENT_VOICE_TX was toggled (transmit next packet)
+        std::atomic<bool> m_voice_tx_closed{false}; // CLIENT_TX_VOICE was toggled (transmit next packet)
 
         //encode video from video capture
         vidcap::videocapture_t m_vidcap;

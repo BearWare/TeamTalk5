@@ -1341,7 +1341,6 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         capture_buffer = buffer;
 
     AudioFrame audframe;
-    bool bb = m_voice_tx_closed;
     audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
     audframe.soundgrpid = m_soundprop.soundgroupid;
