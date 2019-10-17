@@ -59,6 +59,8 @@
 #include <ace/SOCK_Connector.h>
 #endif
 
+#include <atomic>
+
 #define CLIENT_UDPKEEPALIVE_INTERVAL        10 //secs. Delay between UDP keepalive packets
 #define CLIENT_UDPKEEPALIVE_CHECK_INTERVAL  ACE_Time_Value(1) //Delay between checking if UDP keepalive should be sent
 #define CLIENT_UDPKEEPALIVE_RTX_INTERVAL    ACE_Time_Value(0, 500000) //Delay between UDP keepalive packets
@@ -651,6 +653,7 @@ namespace teamtalk {
         AudioThread m_voice_thread;
         uint8_t m_voice_stream_id; //0 means not used
         uint16_t m_voice_pkt_counter;
+        std::atomic<bool> m_voice_tx_closed = false; // CLIENT_VOICE_TX was toggled (transmit next packet)
 
         //encode video from video capture
         vidcap::videocapture_t m_vidcap;

@@ -1341,7 +1341,8 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         capture_buffer = buffer;
 
     AudioFrame audframe;
-    audframe.force_enc = (m_flags & CLIENT_TX_VOICE);
+    bool bb = m_voice_tx_closed;
+    audframe.force_enc = ((m_flags & CLIENT_TX_VOICE) || m_voice_tx_closed.exchange(false));
     audframe.voiceact_enc = (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED);
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.inputfmt.channels = codec_channels;
@@ -2835,7 +2836,10 @@ void ClientNode::EnableVoiceTransmission(bool enable)
             GEN_NEXT_ID(m_voice_stream_id);
     }
     else
+    {
+        m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
+    }
 }
 
 int ClientNode::GetCurrentVoiceLevel()
