@@ -15,12 +15,12 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27 // Facebook needs minimum 25
+    compileSdkVersion 28 // Facebook needs minimum 25
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -50,19 +50,19 @@ android {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'
-    implementation 'com.android.support:support-v13:27.1.1'
+    implementation 'com.android.support:support-v13:28.0.0'
     implementation files('libs/TeamTalk5.jar')
 
     // Facebook login
-    implementation 'com.facebook.android:facebook-android-sdk:4.26.0'
+    implementation 'com.facebook.android:facebook-android-sdk:5.8.0'
 
     // Required -- JUnit 4 framework
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation files('libs/TeamTalk5Test.jar')
 
-    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test:rules:0.5'
     // Optional -- Hamcrest library
