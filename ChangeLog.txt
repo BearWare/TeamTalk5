@@ -17,6 +17,8 @@ Accessible Windows client
 - Audio preprocessor for media file streaming
 - Control media file offset before streaming to channel
 - Test media file playback before streaming to channel
+iOS client
+- Support for Dark Theme
 
 Version 5.4.1, 2019/10/16
 iOS client
@@ -50,7 +52,7 @@ iOS client
 - Sound event for broadcast message
 - BearWare.dk web-login for TeamTalk 5 Official servers
 - Connect to encrypted TeamTalk servers (TeamTalk 5 Professional Server)
-Android client:
+Android client
 - Minimum Android version is now 5.0
 - OPUS audio codec v1.3
 - Sound event for broadcast message
