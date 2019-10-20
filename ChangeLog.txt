@@ -3,16 +3,16 @@
 ----------------------------------------------
 Version 5.5, unreleased
 Default Qt client
-- VBR selection in OPUS codec 
-- Frame size selection in OPUS codec
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
 - Max transmission interval increased to 500 msec
 - Audio preprocessor for media file streaming
 - Control media file offset before streaming to channel
 - Pause media file while streaming to channel
 - Test media file playback before streaming to channel
 Accessible Windows client
-- VBR selection in OPUS codec 
-- Frame size selection in OPUS codec
+- VBR/CBR selection for OPUS codec 
+- Frame size selection for OPUS codec
 - Max transmission interval increased to 500 msec
 - Audio preprocessor for media file streaming
 - Control media file offset before streaming to channel
