@@ -61,15 +61,6 @@
 
 #include <atomic>
 
-#define CLIENT_UDPKEEPALIVE_INTERVAL        10 //secs. Delay between UDP keepalive packets
-#define CLIENT_UDPKEEPALIVE_CHECK_INTERVAL  ACE_Time_Value(1) //Delay between checking if UDP keepalive should be sent
-#define CLIENT_UDPKEEPALIVE_RTX_INTERVAL    ACE_Time_Value(0, 500000) //Delay between UDP keepalive packets
-#define CLIENT_UDP_CONNECTIONLOST_DELAY     5 //secs. When a p2p connection to a user is considered lost, i.e. UDP keep-alive + this value
-#define CLIENT_CONNECTIONLOST_DELAY         180 //secs (no reply for three minutes, consider server dead)
-#define CLIENT_UDPCONNECT_SERVER_TIMEOUT    ACE_Time_Value(10) //time before giving up on udp connect to server
-#define CLIENT_UDPCONNECT_INTERVAL          ACE_Time_Value(0, 500000) //Interval between UDP connect packets
-#define CLIENT_UDPLIVENESS_INTERVAL         ACE_Time_Value(10) //Interval between recreating UDP socket connection
-#define CLIENT_P2P_CONNECT_TIMEOUT          ACE_Time_Value(5) //Give up p2p connect after this many seconds
 #define CLIENT_DESKTOPNAK_TIMEOUT           ACE_Time_Value(4) //close a desktop session
 #define CLIENT_QUERY_MTU_INTERVAL           ACE_Time_Value(0, 500000) //time between MTU query packets
 #define CLIENT_DESKTOPINPUT_RTX_TIMEOUT     ACE_Time_Value(1)
@@ -96,10 +87,8 @@ enum ClientTimer
 {
     TIMER_ONE_SECOND_ID                     = 1, //timer for checking things every second
     TIMER_TCPKEEPALIVE_ID                   = 2,
-    TIMER_UDPKEEPALIVE_ID                   = 3,
-    TIMER_UDPLIVENESS_ID                    = 4, //check if UDP socket is active to server
-    TIMER_UDPCONNECT_ID                     = 5, //connect to server with UDP
-    TIMER_UDPCONNECT_TIMEOUT_ID             = 6, //give up connecting to server with UDP
+    TIMER_UDPCONNECT_ID                     = 3, //connect to server with UDP
+    TIMER_UDPKEEPALIVE_ID                   = 4,
     TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID      = 8,
     TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
     TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
@@ -197,6 +186,22 @@ namespace teamtalk {
             tcp_silence_sec = udp_silence_sec = 0;
             tcp_ping_dirty = udp_ping_dirty = true;
         }
+    };
+
+    struct ClientKeepAlive
+    {
+        // no reply for three minutes, consider server dead
+        ACE_Time_Value connection_lost = ACE_Time_Value(180, 0);
+        // Defaults to 1/2 of server's user-timeout
+        ACE_Time_Value tcp_keepalive_interval;
+        // Delay between UDP keepalive packets
+        ACE_Time_Value udp_keepalive_interval = ACE_Time_Value(10, 0);
+        // UDP keepalive retransmission interval
+        ACE_Time_Value udp_keepalive_rtx = ACE_Time_Value(1, 0);
+        //Interval between UDP connect packets
+        ACE_Time_Value udp_connect_interval = ACE_Time_Value(0, 500000);
+        // Time before giving up on udp connect to server
+        ACE_Time_Value udp_connect_timeout = ACE_Time_Value(10, 0);
     };
 
     struct SoundProperties
@@ -392,12 +397,8 @@ namespace teamtalk {
         bool OnSend(DefaultStreamHandler::StreamHandler_t& handler);
 
         //set keep alive timer intervals
-        void SetKeepAliveInterval(int tcp_seconds, int udp_seconds);
-        void GetKeepAliveInterval(int &tcp, int& udp) const;
-
-        //server timeout for when to disconnect
-        void SetServerTimeout(int seconds);
-        int GetServerTimeout() const { return m_server_timeout; }
+        void UpdateKeepAlive(const ClientKeepAlive& keepalive);
+        ClientKeepAlive GetKeepAlive();
 
         //Start timer which is handled and terminated outside ClientNode
         long StartUserTimer(uint16_t timer_id, uint16_t userid, 
@@ -621,6 +622,7 @@ namespace teamtalk {
 
         ServerInfo m_serverinfo;
         ClientStats m_clientstats;
+        ClientKeepAlive m_keepalive;
 
         //channels and users
         typedef std::map<int, clientuser_t> musers_t;
@@ -639,8 +641,6 @@ namespace teamtalk {
         //active file transfers
         typedef std::map<int, filenode_t> filenodes_t;
         filenodes_t m_filetransfers;
-
-        ACE_UINT32 m_tcpkeepalive_interval, m_udpkeepalive_interval, m_server_timeout;
 
         //audio resampler for capture
         audio_resampler_t m_capture_resampler;

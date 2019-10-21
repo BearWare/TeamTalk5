@@ -80,9 +80,6 @@ ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        , m_packethandler(&m_reactor)
                        , m_listener(listener)
                        , m_myuserid(0)
-                       , m_tcpkeepalive_interval(0)
-                       , m_udpkeepalive_interval(CLIENT_UDPKEEPALIVE_INTERVAL)
-                       , m_server_timeout(CLIENT_CONNECTIONLOST_DELAY)
                        , m_voice_stream_id(0)
                        , m_voice_pkt_counter(0)
                        , m_vidcap_stream_id(0)
@@ -388,52 +385,63 @@ void ClientNode::GetUsers(std::set<int>& userids)
     }
 }
 
-void ClientNode::SetKeepAliveInterval(int tcp_seconds, int udp_seconds)
+void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    if(TimerExists(TIMER_TCPKEEPALIVE_ID))
-        StopTimer(TIMER_TCPKEEPALIVE_ID);
+    bool restarttcp = false, restartudp = false;
+    if (m_keepalive.tcp_keepalive_interval != keepalive.tcp_keepalive_interval)
+    {
+        if (TimerExists(TIMER_TCPKEEPALIVE_ID))
+        {
+            restarttcp = true;
+            StopTimer(TIMER_TCPKEEPALIVE_ID);
+        }
+    }
+
+    if (m_keepalive.udp_keepalive_interval != keepalive.udp_keepalive_interval ||
+        m_keepalive.udp_keepalive_rtx != keepalive.udp_keepalive_rtx)
+    {
+        if (TimerExists(TIMER_UDPKEEPALIVE_ID))
+        {
+            restartudp = true;
+            StopTimer(TIMER_UDPKEEPALIVE_ID);
+        }
+    }
+    
+    m_keepalive = keepalive;
+    // set TCP keepalive (DoPing) to half of usertimeout
+    m_keepalive.tcp_keepalive_interval = std::max(ACE_Time_Value(m_serverinfo.usertimeout / 2, 0),
+                                                  ACE_Time_Value(1, 0));
 
     //reset keep alive counters (otherwise we might disconnect by mistake)
     m_clientstats.tcp_silence_sec = 0;
     m_clientstats.udp_silence_sec = 0;
 
-    if(udp_seconds <= 0)
-        m_udpkeepalive_interval = CLIENT_UDPKEEPALIVE_INTERVAL;
-    else
-        m_udpkeepalive_interval = udp_seconds;
-
-    m_tcpkeepalive_interval = tcp_seconds;
-
     //only start keep alive timer if HandleWelcome has been called
     TTASSERT((m_serverinfo.usertimeout &&
               (m_flags & (CLIENT_CONNECTING | CLIENT_CONNECTED))) || 
              m_serverinfo.usertimeout == 0);
-    if(m_serverinfo.usertimeout)
+    
+    if (restarttcp && m_serverinfo.usertimeout)
     {
-        if(tcp_seconds <= 0)
-            m_tcpkeepalive_interval = m_serverinfo.usertimeout>1?m_serverinfo.usertimeout/2:1;
+        StartTimer(TIMER_TCPKEEPALIVE_ID, 0, m_keepalive.tcp_keepalive_interval,
+                   m_keepalive.tcp_keepalive_interval);
+    }
 
-        ACE_Time_Value tcptime(m_tcpkeepalive_interval);
-        StartTimer(TIMER_TCPKEEPALIVE_ID, 0, tcptime, tcptime);
+    // restart keep alive timer
+    if (restartudp)
+    {
+        StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
+                   m_keepalive.udp_keepalive_rtx);
     }
 }
 
-void ClientNode::GetKeepAliveInterval(int &tcp, int& udp) const
-{ 
-    ASSERT_REACTOR_LOCKED(this);
-
-    tcp = m_tcpkeepalive_interval; udp = m_udpkeepalive_interval;
-}
-
-void ClientNode::SetServerTimeout(int seconds)
+ClientKeepAlive ClientNode::GetKeepAlive()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    m_clientstats.tcp_silence_sec = m_clientstats.udp_silence_sec = 0;
-    
-    m_server_timeout = std::max(1, seconds);
+    return m_keepalive;
 }
 
 long ClientNode::StartTimer(ACE_UINT32 timer_id, long userdata, 
@@ -551,17 +559,19 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     {
     case TIMER_UDPCONNECT_ID :
     {
-        SendPacket(HelloPacket(m_myuserid, GETTIMESTAMP()),
-                   m_serverinfo.udpaddr);
-        ret = 0;
-    }
-    break;
-    case TIMER_UDPCONNECT_TIMEOUT_ID :
-    {
-        if(m_flags & CLIENT_CONNECTING)
-            OnClosed();
-        
-        ret = -1;
+        ACE_Time_Value duration(m_clientstats.udp_silence_sec, 0);
+        if (duration >= m_keepalive.udp_connect_timeout)
+        {
+            if (m_flags & CLIENT_CONNECTING)
+                OnClosed();
+            ret = -1;
+        }
+        else
+        {
+            SendPacket(HelloPacket(m_myuserid, GETTIMESTAMP()),
+                       m_serverinfo.udpaddr);
+            ret = 0;
+        }
     }
     break;
     case TIMER_ONE_SECOND_ID :
@@ -576,19 +586,6 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     break;
     case TIMER_UDPKEEPALIVE_ID :
         ret = Timer_UdpKeepAlive();
-        break;
-    case TIMER_UDPLIVENESS_ID :
-        if(m_clientstats.udp_silence_sec >= 
-           m_udpkeepalive_interval + CLIENT_UDP_CONNECTIONLOST_DELAY)
-        {
-            MYTRACE(ACE_TEXT("Recreating UDP socket due to connectivity problems\n"));
-            RecreateUdpSocket();
-            ret = 0;
-        }
-        else
-        {
-            ret = -1; //unregister
-        }
         break;
     case TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID :
         ret = Timer_DesktopPacketRTX();
@@ -751,22 +748,6 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     if(ret < 0)
     {
         ClearTimer(timer_event_id);
-        
-        //set of timers which should be restarted ugly....
-        switch(timer_event_id & TIMERID_MASK)
-        {
-        case TIMER_UDPKEEPALIVE_ID :
-        {
-            //create new UDP timer
-            ACE_Time_Value tm(CLIENT_UDPKEEPALIVE_CHECK_INTERVAL);
-            ACE_Time_Value tm_rtx(CLIENT_UDPKEEPALIVE_RTX_INTERVAL);
-            long timer_id = StartTimer(TIMER_UDPKEEPALIVE_ID, 0, tm, tm_rtx);
-            TTASSERT(timer_id >= 0);
-            break;
-        }
-        default :
-            break;
-        }
     }
 
     return ret;
@@ -780,21 +761,11 @@ int ClientNode::Timer_OneSecond()
     m_clientstats.tcp_silence_sec += 1;
     m_clientstats.udp_silence_sec += 1;
 
-    //if no UDP packet has been received within the UDP keepalive time
-    //then recreate the UDP socket
-    if(m_clientstats.udp_silence_sec >= 
-       m_udpkeepalive_interval + CLIENT_UDP_CONNECTIONLOST_DELAY && 
-       !TimerExists(TIMER_UDPLIVENESS_ID))
-    {
-        StartTimer(TIMER_UDPLIVENESS_ID, 0, ACE_Time_Value::zero,
-                   CLIENT_UDPLIVENESS_INTERVAL);
-    }
-
     //check whether server has replied within the timeout limit on TCP and within
     //TIMER_UDPKEEPALIVE_INTERVAL_MS * 3 on UDP
-    if(m_clientstats.tcp_silence_sec >= (ACE_UINT32)m_server_timeout ||
-       (m_clientstats.udp_silence_sec >= (ACE_UINT32)m_server_timeout &&
-        m_serverinfo.udpaddr != ACE_INET_Addr()))
+    if (ACE_Time_Value(m_clientstats.tcp_silence_sec, 0) >= m_keepalive.connection_lost ||
+        (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.connection_lost &&
+         m_serverinfo.udpaddr != ACE_INET_Addr()))
     {
 
         m_packethandler.close();
@@ -818,20 +789,24 @@ int ClientNode::Timer_UdpKeepAlive()
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    //check if we still have a 'live' UDP connection to server
-    bool call_again = false;
+    assert(GetFlags() & (CLIENT_CONNECTED));
 
-    KeepAlivePacket p(m_myuserid, GETTIMESTAMP());
-    if(m_clientstats.udp_silence_sec >= m_udpkeepalive_interval)
+    if (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.udp_keepalive_interval * 2)
     {
-        SendPacket(p, m_serverinfo.udpaddr);
-        call_again = true;
-    }
+        MYTRACE(ACE_TEXT("Recreating UDP socket due to connectivity problems\n"));
+        RecreateUdpSocket();
 
-    if(call_again)
-        return 0;
-    else
-        return -1;
+        if (TimerExists(TIMER_UDPCONNECT_ID))
+            StopTimer(TIMER_UDPCONNECT_ID);
+
+        StartTimer(TIMER_UDPCONNECT_ID, 0, ACE_Time_Value::zero, m_keepalive.udp_connect_interval);
+        
+        return -1; // TIMER_UDPCONNECT_ID will take over
+    }
+    
+    KeepAlivePacket p(m_myuserid, GETTIMESTAMP());
+    SendPacket(p, m_serverinfo.udpaddr);
+    return 0;
 }
 
 int ClientNode::Timer_BuildDesktopPackets()
@@ -1000,12 +975,6 @@ void ClientNode::RecreateUdpSocket()
     m_packethandler.close();
     m_packethandler.open(m_localUdpAddr, UDP_SOCKET_RECV_BUF_SIZE, 
                          UDP_SOCKET_SEND_BUF_SIZE);
-
-    if(TimerExists(TIMER_UDPCONNECT_ID))
-        StopTimer(TIMER_UDPCONNECT_ID);
-
-    StartTimer(TIMER_UDPCONNECT_ID, 0, ACE_Time_Value(),
-               CLIENT_UDPCONNECT_INTERVAL);
 }
 
 void ClientNode::OpenAudioCapture(const AudioCodec& codec)
@@ -1936,22 +1905,25 @@ void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
 
         if(TimerExists(TIMER_UDPCONNECT_ID))
             StopTimer(TIMER_UDPCONNECT_ID);
-        if(TimerExists(TIMER_UDPCONNECT_TIMEOUT_ID))
-            StopTimer(TIMER_UDPCONNECT_TIMEOUT_ID);
 
-        ACE_Time_Value tm(CLIENT_UDPKEEPALIVE_CHECK_INTERVAL);
-        ACE_Time_Value tm_rtx(CLIENT_UDPKEEPALIVE_RTX_INTERVAL);
-
-        StartTimer(TIMER_UDPKEEPALIVE_ID, 0, tm, tm_rtx);
+        StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
+                   m_keepalive.udp_keepalive_rtx);
         
         //notify parent application
         if(m_listener)
             m_listener->OnConnectSuccess();
     }
-    else if( (m_flags & CLIENT_CONNECTED))//server ACK
+    else if ((m_flags & CLIENT_CONNECTED))//server ACK
     {
         if(TimerExists(TIMER_UDPCONNECT_ID))
             StopTimer(TIMER_UDPCONNECT_ID);
+
+        // Hello packet might come from recreated UDP connection
+        if (!TimerExists(TIMER_UDPKEEPALIVE_ID))
+        {
+            StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
+                       m_keepalive.udp_keepalive_rtx);
+        }
     }
 }
 
@@ -2002,6 +1974,13 @@ void ClientNode::ReceivedKeepAliveReplyPacket(const KeepAlivePacket& packet,
             m_listener->OnMTUQueryComplete(m_mtu_max_payload_size);
         }
     }
+
+    // restart keep alive timer
+    if (TimerExists(TIMER_UDPKEEPALIVE_ID))
+        StopTimer(TIMER_UDPKEEPALIVE_ID);
+    
+    StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
+               m_keepalive.udp_keepalive_rtx);
 }
 
 void ClientNode::ReceivedDesktopPacket(ClientUser& user,
@@ -2233,18 +2212,6 @@ void ClientNode::SendPackets()
     int ret;
     while( (p = m_tx_queue.GetNextPacket()) )
     {
-#if SIMULATE_TX_PACKETLOSS
-        static int dropped = 0, transmitted = 0;
-        transmitted++;
-        if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
-        {
-            dropped++;
-            MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
-                (int)p->GetKind(), dropped, transmitted);
-            continue;
-        }
-#endif
-
         switch(p->GetKind())
         {
         case PACKET_KIND_VOICE :
@@ -2599,6 +2566,18 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
     TTASSERT(packet.ValidatePacket());
 #endif
 
+#if SIMULATE_TX_PACKETLOSS
+        static int dropped = 0, transmitted = 0;
+        transmitted++;
+        if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
+        {
+            dropped++;
+            MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
+                (int)packet.GetKind(), dropped, transmitted);
+            return packet.GetPacketSize();
+        }
+#endif
+    
     //normal send without encryption
     int buffers;
     const iovec* vv = packet.GetPacket(buffers);
@@ -4844,25 +4823,13 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
         GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
 
         //start keepalive timer for TCP (if not set, then set it to half the user timeout)
-        if(m_tcpkeepalive_interval>0)
-            SetKeepAliveInterval(m_tcpkeepalive_interval, m_udpkeepalive_interval);
-        else
-        {
-            int tcp_keepalive = m_serverinfo.usertimeout>1?m_serverinfo.usertimeout/2:1;
-            SetKeepAliveInterval(tcp_keepalive, m_udpkeepalive_interval);
-        }
-
-        int max_timeout = std::max(m_tcpkeepalive_interval, m_udpkeepalive_interval) * 2;
-        SetServerTimeout(max_timeout);
+        UpdateKeepAlive(GetKeepAlive());
+        StartTimer(TIMER_TCPKEEPALIVE_ID, 0, m_keepalive.tcp_keepalive_interval,
+                   m_keepalive.tcp_keepalive_interval);
 
         //start connecting on UDP to server. DoLogin() may not be called before UDP connect succeeds
-        StartTimer(TIMER_UDPCONNECT_ID, 0, ACE_Time_Value(),
-                    CLIENT_UDPCONNECT_INTERVAL);
+        StartTimer(TIMER_UDPCONNECT_ID, 0, ACE_Time_Value::zero, m_keepalive.udp_connect_interval);
 
-        //when to give up
-        StartTimer(TIMER_UDPCONNECT_TIMEOUT_ID, 0,
-                    CLIENT_UDPCONNECT_SERVER_TIMEOUT);
-        
         //now wait for UDP timer to complete connection
     }
     else if(m_listener)
@@ -4939,6 +4906,8 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_MOTD, m_serverinfo.motd);
     GetProperty(properties, TT_MOTDRAW, m_serverinfo.motd_raw);
     GetProperty(properties, TT_VERSION, m_serverinfo.version);
+
+    UpdateKeepAlive(GetKeepAlive());
 
     //notify parent application
     m_listener->OnServerUpdate(m_serverinfo);
