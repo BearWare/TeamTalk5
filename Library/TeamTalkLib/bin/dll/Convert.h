@@ -103,6 +103,9 @@ void Convert(const teamtalk::ClientUserStats& stats, UserStatistics& result);
 
 void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result);
 
+void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result);
+void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result);
+
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result);
 void Convert(const DesktopInput& input, teamtalk::DesktopInput& result);
 

@@ -1086,6 +1086,55 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
     }
+
+    public void test_ClientKeepAlive() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client = newClientInstance();
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+
+        ClientKeepAlive ka = new ClientKeepAlive();
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue(client.getServerProperties(srvprop));
+
+        assertEquals("tcp ping is half of user timeout (default)", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+        
+        srvprop.nUserTimeout = 4;
+        assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+
+        assertTrue(client.getServerProperties(srvprop));
+        
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        assertEquals("tcp ping is half of user timeout, 4 sec", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+
+        ka.nUdpKeepAliveIntervalMSec = 1;
+
+        assertTrue("set UDP keepalive", client.setClientKeepAlive(ka));
+
+        assertFalse(waitForEvent(client, ClientEvent.CLIENTEVENT_NONE, 100, interleave));
+
+        ka.nTcpKeepAliveIntervalMSec = 1;
+
+        assertTrue("set TCP keepalive", client.setClientKeepAlive(ka));
+
+        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+
+        assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+    }
     
     public void _test_runServer() {
 

@@ -33,6 +33,7 @@ set (JAVA_SOURCES
   src/dk/bearware/ClientErrorMsg.java
   src/dk/bearware/ClientEvent.java
   src/dk/bearware/ClientFlag.java
+  src/dk/bearware/ClientKeepAlive.java
   src/dk/bearware/ClientStatistics.java
   src/dk/bearware/Codec.java
   src/dk/bearware/Constants.java

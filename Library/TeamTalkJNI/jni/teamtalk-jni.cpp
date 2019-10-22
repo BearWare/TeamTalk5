@@ -858,6 +858,35 @@ extern "C" {
         return false;
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setClientKeepAlive(JNIEnv* env,
+                                                                                jobject thiz,
+                                                                                jlong lpTTInstance,
+                                                                                jobject lpClientKeepAlive)
+    {
+        THROW_NULLEX(env, lpClientKeepAlive, false);
+
+        ClientKeepAlive ka;
+        setClientKeepAlive(env, ka, lpClientKeepAlive, J2N);
+        
+        return TT_SetClientKeepAlive(reinterpret_cast<TTInstance*>(lpTTInstance), &ka);
+    }
+    
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getClientKeepAlive(JNIEnv* env,
+                                                                                jobject thiz,
+                                                                                jlong lpTTInstance,
+                                                                                jobject lpClientKeepAlive)
+    {
+        THROW_NULLEX(env, lpClientKeepAlive, false);
+
+        ClientKeepAlive ka = {};
+        if (TT_GetClientKeepAlive(reinterpret_cast<TTInstance*>(lpTTInstance), &ka)) {
+            setClientKeepAlive(env, ka, lpClientKeepAlive, N2J);
+            return true;
+        }
+
+        return false;
+    }
+    
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doPing(JNIEnv* env,
                                                                 jobject thiz,
                                                                 jlong lpTTInstance)

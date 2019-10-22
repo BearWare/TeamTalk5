@@ -455,6 +455,16 @@ public abstract class TeamTalkBase
         return getClientStatistics(ttInst, lpClientStatistics);
     }
 
+    private native boolean setClientKeepAlive(long lpTTInstance, ClientKeepAlive lpClientKeepAlive);
+    public boolean setClientKeepAlive(ClientKeepAlive lpClientKeepAlive) {
+        return setClientKeepAlive(ttInst, lpClientKeepAlive);
+    }
+
+    private native boolean getClientKeepAlive(long lpTTInstance, ClientKeepAlive lpClientKeepAlive);
+    public boolean getClientKeepAlive(ClientKeepAlive lpClientKeepAlive) {
+        return getClientKeepAlive(ttInst, lpClientKeepAlive);
+    }
+
     private native int doPing(long lpTTInstance);
     public int doPing() {
         return doPing(ttInst);

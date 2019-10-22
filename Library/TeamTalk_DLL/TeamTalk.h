@@ -2218,6 +2218,46 @@ extern "C" {
     /** @} */
 
     /** @ingroup connectivity
+     * @brief Control timers for sending keep alive information to the
+     * server.
+     *
+     * @see TT_DoPing()
+     */
+    typedef struct ClientKeepAlive
+    {
+        /** @brief The duration before the #TTInstance should consider
+         * the client/server connection lost.
+         *
+         * This value must be greater than @c
+         * nTcpKeepAliveIntervalMSec and @c nUdpKeepAliveIntervalMSec.
+         *
+         * This timeout applies to both the TCP and UDP
+         * connection. I.e. @c nTcpServerSilenceSec or @c
+         * nUdpServerSilenceSec in #ClientStatistics should not exceed
+         * this value.  */
+        INT32 nConnectionLostMSec;
+        /** @brief Client instance's interval between DoPing()
+         * command. Read-only value. Will be half of
+         * #ServerProperties' @c nUserTimeout.
+         */
+        INT32 nTcpKeepAliveIntervalMSec;
+        /** @brief Client instance's interval between sending UDP keep
+         * alive packets. This value must be less than @c
+         * nConnectionLostMSec. */
+        INT32 nUdpKeepAliveIntervalMSec;
+        /** @brief Client instance's interval for retransmitting UDP
+         * keep alive packets. */
+        INT32 nUdpKeepAliveRTXMSec;
+        /** @brief Client instance's interval for retransmitting UDP
+         * connect packets. UDP connect packets are only sent when
+         * TT_Connect() is initially called. */
+        INT32 nUdpConnectRTXMSec;
+        /** @brief The duration before the #TTInstance should give up
+         * trying to connect to the server. */
+        INT32 nUdpConnectTimeoutMSec;
+    } ClientKeepAlive;
+    
+    /** @ingroup connectivity
      * @brief Statistics of bandwidth usage and ping times in the local 
      * client instance.
      * @see TT_GetClientStatistics */
@@ -2253,13 +2293,13 @@ extern "C" {
         INT32 nUdpPingTimeMs;
         /** @brief Response time to server on TCP (based on ping/pong
          * sent at a specified interval. Set to -1 if not currently
-         * available.  @see TT_DoPing() */
+         * available.  @see TT_DoPing() @see ClientKeepAlive */
         INT32 nTcpPingTimeMs;
         /** @brief The number of seconds nothing has been received by
-         * the client on TCP. */
+         * the client on TCP. @see TT_DoPing() @see ClientKeepAlive */
         INT32 nTcpServerSilenceSec;
         /** @brief The number of seconds nothing has been received by
-         * the client on UDP. */
+         * the client on UDP. @see ClientKeepAlive */
         INT32 nUdpServerSilenceSec;
     } ClientStatistics;
 
@@ -3124,6 +3164,7 @@ extern "C" {
         __AUDIOPREPROCESSOR       = 35,
         __TTAUDIOPREPROCESSOR     = 36,
         __MEDIAFILEPLAYBACK       = 37,
+        __CLIENTKEEPALIVE         = 38,
     } TTType;
 
     /**
@@ -4854,6 +4895,29 @@ extern "C" {
      * @see ClientStatistics */
      TEAMTALKDLL_API TTBOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
                                                    OUT ClientStatistics* lpClientStatistics);
+
+    /**
+     * @brief Update the client instance's default keep alive settings.
+     *
+     * It is generally discouraged to change the client instance's
+     * keep alive settings unless the network has special
+     * requirements.
+     *
+     * After calling TT_SetClientKeepAlive() it is recommended doing a
+     * TT_DoPing() since all TCP and UDP keep alive timers will be
+     * restarted.
+     *
+     * @see TT_GetClientStatistics() */
+    TEAMTALKDLL_API TTBOOL TT_SetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                                 IN const ClientKeepAlive* lpClientKeepAlive);
+
+    /**
+     * @brief Get the client instance's current keep alive settings.
+     *
+     * @see TT_SetClientKeepAlive() */
+    TEAMTALKDLL_API TTBOOL TT_GetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                                 OUT ClientKeepAlive* lpClientKeepAlive);
+    
     /** @} */
 
     /** @addtogroup commands

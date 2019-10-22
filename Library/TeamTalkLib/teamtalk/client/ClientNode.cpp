@@ -410,6 +410,7 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
     }
     
     m_keepalive = keepalive;
+    
     // set TCP keepalive (DoPing) to half of usertimeout
     m_keepalive.tcp_keepalive_interval = std::max(ACE_Time_Value(m_serverinfo.usertimeout / 2, 0),
                                                   ACE_Time_Value(1, 0));

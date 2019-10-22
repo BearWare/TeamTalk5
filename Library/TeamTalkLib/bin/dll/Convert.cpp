@@ -1552,6 +1552,25 @@ void Convert(const teamtalk::ClientStats& stats, ClientStatistics& result)
     result.nUdpServerSilenceSec = stats.udp_silence_sec;
 }
 
+void Convert(const ClientKeepAlive& ka, teamtalk::ClientKeepAlive& result)
+{
+    result.connection_lost.msec(ka.nConnectionLostMSec);
+    result.tcp_keepalive_interval.msec(ka.nTcpKeepAliveIntervalMSec);
+    result.udp_keepalive_interval.msec(ka.nUdpKeepAliveIntervalMSec);
+    result.udp_keepalive_rtx.msec(ka.nUdpKeepAliveRTXMSec);
+    result.udp_connect_interval.msec(ka.nUdpConnectRTXMSec);
+    result.udp_connect_timeout.msec(ka.nUdpConnectTimeoutMSec);
+}
+
+void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result)
+{
+    result.nConnectionLostMSec = ka.connection_lost.msec();
+    result.nTcpKeepAliveIntervalMSec = ka.tcp_keepalive_interval.msec();
+    result.nUdpKeepAliveIntervalMSec = ka.udp_keepalive_interval.msec();
+    result.nUdpConnectRTXMSec = ka.udp_connect_interval.msec();
+    result.nUdpConnectTimeoutMSec = ka.udp_connect_timeout.msec();
+}
+
 void Convert(const teamtalk::DesktopInput& input, DesktopInput& result)
 {
     ZERO_STRUCT(result);

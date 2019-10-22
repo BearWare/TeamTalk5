@@ -120,6 +120,7 @@ void setTTAudioPreprocessor(JNIEnv* env, TTAudioPreprocessor& preprocessor, jobj
 void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject lpPreprocessor, JConvert conv);
 void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServerProperties, JConvert conv);
 void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats); //N2J
+void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv);
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv);
 void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConvert conv);
 void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerStatistics, JConvert conv);

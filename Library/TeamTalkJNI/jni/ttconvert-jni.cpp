@@ -1065,6 +1065,37 @@ void setClientStatistics(JNIEnv* env, ClientStatistics& stats, jobject lpStats)
     env->SetIntField(lpStats, fid_udpsilen, stats.nUdpServerSilenceSec);
 }
 
+void setClientKeepAlive(JNIEnv* env, ClientKeepAlive& ka, jobject lpClientKeepAlive, JConvert conv) {
+
+    jclass cls_ka = env->GetObjectClass(lpClientKeepAlive);
+
+    jfieldID fid_conlost = env->GetFieldID(cls_ka, "nConnectionLostMSec", "I");
+    jfieldID fid_tcpka = env->GetFieldID(cls_ka, "nTcpKeepAliveIntervalMSec", "I");
+    jfieldID fid_udpka = env->GetFieldID(cls_ka, "nUdpKeepAliveIntervalMSec", "I");
+    jfieldID fid_udprtx = env->GetFieldID(cls_ka, "nUdpKeepAliveRTXMSec", "I");
+    jfieldID fid_udpcon = env->GetFieldID(cls_ka, "nUdpConnectRTXMSec", "I");
+    jfieldID fid_udptm = env->GetFieldID(cls_ka, "nUdpConnectTimeoutMSec", "I");
+
+    if(conv == N2J)
+    {
+        env->SetIntField(lpClientKeepAlive, fid_conlost, ka.nConnectionLostMSec);
+        env->SetIntField(lpClientKeepAlive, fid_tcpka, ka.nTcpKeepAliveIntervalMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udpka, ka.nUdpKeepAliveIntervalMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udprtx, ka.nUdpKeepAliveRTXMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udpcon, ka.nUdpConnectRTXMSec);
+        env->SetIntField(lpClientKeepAlive, fid_udptm, ka.nUdpConnectTimeoutMSec);
+    }
+    else
+    {
+        ka.nConnectionLostMSec = env->GetIntField(lpClientKeepAlive, fid_conlost);
+        ka.nTcpKeepAliveIntervalMSec = env->GetIntField(lpClientKeepAlive, fid_tcpka);
+        ka.nUdpKeepAliveIntervalMSec = env->GetIntField(lpClientKeepAlive, fid_udpka);
+        ka.nUdpKeepAliveRTXMSec = env->GetIntField(lpClientKeepAlive, fid_udprtx);
+        ka.nUdpConnectRTXMSec = env->GetIntField(lpClientKeepAlive, fid_udpcon);
+        ka.nUdpConnectTimeoutMSec = env->GetIntField(lpClientKeepAlive, fid_udptm);
+    }
+}
+
 void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConvert conv)
 {
     jclass cls_txtmsg = env->GetObjectClass(lpTextMessage);

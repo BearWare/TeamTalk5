@@ -1145,6 +1145,29 @@ TEAMTALKDLL_API TTBOOL TT_GetClientStatistics(IN TTInstance* lpTTInstance,
     return FALSE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                             IN const ClientKeepAlive* lpClientKeepAlive)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::ClientKeepAlive ka;
+    Convert(*lpClientKeepAlive, ka);
+    clientnode->UpdateKeepAlive(ka);
+    return TRUE;
+}
+
+TEAMTALKDLL_API TTBOOL TT_GetClientKeepAlive(IN TTInstance* lpTTInstance,
+                                             OUT ClientKeepAlive* lpClientKeepAlive)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    teamtalk::ClientKeepAlive ka = clientnode->GetKeepAlive();
+    Convert(ka, *lpClientKeepAlive);
+    return TRUE;
+}
+
 TEAMTALKDLL_API INT32 TT_DoPing(IN TTInstance* lpTTInstance)
 {
     clientnode_t clientnode;
@@ -3142,6 +3165,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(TTAudioPreprocessor);
     case __MEDIAFILEPLAYBACK :
         return sizeof(MediaFilePlayback);
+    case __CLIENTKEEPALIVE :
+        return sizeof(ClientKeepAlive);
     }
     return 0;
 }
