@@ -348,6 +348,12 @@ namespace c_tt
         public static extern bool TT_GetClientStatistics(IntPtr lpTTInstance,
                                                          ref BearWare.ClientStatistics lpStats);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_SetClientKeepAlive(IntPtr lpTTInstance,
+                                             ref BearWare.ClientKeepAlive lpClientKeepAlive);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern bool TT_GetClientKeepAlive(IntPtr lpTTInstance,
+                                             ref BearWare.ClientKeepAlive lpClientKeepAlive);
+        [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoPing(IntPtr lpTTInstance);
         [DllImport(dllname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TT_DoLogin(IntPtr lpTTInstance,

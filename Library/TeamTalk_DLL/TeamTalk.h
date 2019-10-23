@@ -2236,7 +2236,7 @@ extern "C" {
          * nUdpServerSilenceSec in #ClientStatistics should not exceed
          * this value.  */
         INT32 nConnectionLostMSec;
-        /** @brief Client instance's interval between DoPing()
+        /** @brief Client instance's interval between TT_DoPing()
          * command. Read-only value. Will be half of
          * #ServerProperties' @c nUserTimeout.
          */
@@ -4907,6 +4907,8 @@ extern "C" {
      * TT_DoPing() since all TCP and UDP keep alive timers will be
      * restarted.
      *
+     * @see TT_DoPing()
+     * @see TT_GetClientKeepAlive()
      * @see TT_GetClientStatistics() */
     TEAMTALKDLL_API TTBOOL TT_SetClientKeepAlive(IN TTInstance* lpTTInstance,
                                                  IN const ClientKeepAlive* lpClientKeepAlive);
@@ -4914,7 +4916,9 @@ extern "C" {
     /**
      * @brief Get the client instance's current keep alive settings.
      *
-     * @see TT_SetClientKeepAlive() */
+     * @see TT_DoPing()
+     * @see TT_SetClientKeepAlive()
+     * @see TT_GetClientStatistics() */
     TEAMTALKDLL_API TTBOOL TT_GetClientKeepAlive(IN TTInstance* lpTTInstance,
                                                  OUT ClientKeepAlive* lpClientKeepAlive);
     
