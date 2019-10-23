@@ -47,7 +47,7 @@ BearWare.dk WebLogin. The BearWare.dk WebLogin account is name
 server with a BearWare.dk WebLogin account.
 
 
-Complete the remaining setup items in the wizard and you're ready to
+Complete the remaining wizard items in the wizard and you're ready to
 start your server:
 
 $ ./tt5prosrv -nd -verbose
@@ -66,6 +66,7 @@ Trouble Shooting
 If you don't have OpenSSL installed already then run:
 
 $ sudo apt install openssl
+
 
 If the tt5prosrv binary is missing dependency to libssl1.1 then run:
 
