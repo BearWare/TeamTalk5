@@ -339,7 +339,7 @@ namespace BearWare
         /** @brief Paused processing of media file. */
         MFS_PAUSED          = 5,
         /** @brief Playing media file with updated @c uElapsedMSec of
-         * #MediaFileInfo. */
+         * #BearWare.MediaFileInfo. */
         MFS_PLAYING         = 6
     }
 
@@ -891,13 +891,13 @@ namespace BearWare
         public const int OPUS_MAX_BITRATE = 510000;
 
         /** @brief The minimum frame size for OPUS codec. Checkout @c nFrameSizeMSec
-         * of #OpusCodec. */
+         * of #BearWare.OpusCodec. */
         public const int OPUS_MIN_FRAMESIZE = 2; /* Actually it's 2.5 */
         /** @brief The maximum frame size for OPUS codec. Checkout @c nFrameSizeMSec
-         * of #OpusCodec. */
+         * of #BearWare.OpusCodec. */
         public const int OPUS_MAX_FRAMESIZE = 60;
         /** @brief The real maximum frame size for OPUS codec. Checkout @c nFrameSizeMSec
-         * of #OpusCodec. Although OPUS states it only supports 2.5 - 60 msec, it actually
+         * of #BearWare.OpusCodec. Although OPUS states it only supports 2.5 - 60 msec, it actually
          * support up to 120 msec. */
         public const int OPUS_REALMAX_FRAMESIZE = 120;
 
@@ -1036,8 +1036,8 @@ namespace BearWare
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct TTAudioPreprocessor
     {
-        /** @brief Gain level between #SoundLevel.SOUND_GAIN_MIN and
-         * #SOUND_GAIN_MAX. Default is #SoundLevel.SOUND_GAIN_DEFAULT (no
+        /** @brief Gain level between #BearWare.SoundLevel.SOUND_GAIN_MIN and
+         * #BearWare.SoundLevel.SOUND_GAIN_MAX. Default is #BearWare.SoundLevel.SOUND_GAIN_DEFAULT (no
          * gain). */
         public int nGainLevel;
         /** @brief Whether to mute left speaker in stereo playback. */
@@ -1054,7 +1054,7 @@ namespace BearWare
         /** @brief Value for specifying that no audio preprocessing
          * should occur. */
         NO_AUDIOPREPROCESSOR = 0,
-        /** @brief Use the #SpeexDSP audio preprocessor. */
+        /** @brief Use the #BearWare.SpeexDSP audio preprocessor. */
         SPEEXDSP_AUDIOPREPROCESSOR = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #BearWare.TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR = 2,
@@ -1273,7 +1273,7 @@ namespace BearWare
         /** @brief Offset in milliseconds in the media file where to
          * start playback. Pass -1 (0xffffffff) to ignore this value when 
          * using TeamTalkBase.UpdateLocalPlayback() or TeamTalkBase.UpdateStreamingMediaFileToChannel().
-         * @c uOffsetMSec must be less than @c uDurationMSec in #MediaFileInfo. */
+         * @c uOffsetMSec must be less than @c uDurationMSec in #BearWare.MediaFileInfo. */
         public uint uOffsetMSec;
         /** @brief Start or pause media file playback. */
         public bool bPaused;
@@ -3263,7 +3263,7 @@ namespace BearWare
          * This event is called as a result of TeamTalkBase.InitLocalPlayback()
          * to monitor progress of playback.
          * @param nSource Session ID returned by TeamTalkBase.InitLocalPlayback()
-         * @param ttType #__MEDIAFILEINFO
+         * @param ttType #TTType.__MEDIAFILEINFO
          * @param mediafileinfo Placed in union of #BearWare.TTMessage. Contains
          * properties and status information about the media file
          * being played.
@@ -4867,7 +4867,7 @@ namespace BearWare
          * @param szMediaFilePath File path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
          * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
-         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
          * here. Specify #Codec .NO_CODEC if video should be ignored.
@@ -4889,11 +4889,11 @@ namespace BearWare
          *
          * While streaming a media file to a channel it's possible to
          * pause, seek and manipulate audio preprocessing by passing new
-         * #MediaFilePlayback properties.
+         * #BearWare.MediaFilePlayback properties.
          *
          * @param lpMediaFilePlayback Playback settings to pause, seek and
          * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
-         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
          * here, otherwise NULL.
@@ -4919,14 +4919,14 @@ namespace BearWare
         }
 
         /**
-         * Play media file using settings from @c lpTTInstance,
-         * i.e. TeamTalkBase.SetSoundOutputMute(), TeamTalkBase.SetSoundOutputVolume() and
+         * Play media file using settings from TeamTalk instance.
+         * I.e. TeamTalkBase.SetSoundOutputMute(), TeamTalkBase.SetSoundOutputVolume() and
          * TeamTalkBase.InitSoundOutputDevice().
          *
          * @param szMediaFilePath Path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
          * preprocess audio. If #SPEEXDSP_AUDIOPREPROCESSOR then the echo
-         * cancellation part of #SpeexDSP is unused. Only denoise and AGC
+         * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          *
          * @return A Session ID for identifing the media playback session.
