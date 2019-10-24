@@ -196,6 +196,9 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
+/* codec detail */
+"Frame Size" = "Frame Size";
+
 /* preferences
    user detail */
 "General" = "Genel";
@@ -610,6 +613,9 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
 "Version Information" = "Sürüm Bilgileri";

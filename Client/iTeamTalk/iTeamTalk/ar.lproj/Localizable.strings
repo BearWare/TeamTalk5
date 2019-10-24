@@ -195,6 +195,9 @@
 /* Dialog message */
 "Facebook login was cancelled" = "تم إلغاء تسجيل الدخول عبر ال Facebook";
 
+/* codec detail */
+"Frame Size" = "Frame Size";
+
 /* preferences
    user detail */
 "General" = "عام";
@@ -606,6 +609,9 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Username or password incorrect";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
 "Version Information" = "معلومات الإصدار";

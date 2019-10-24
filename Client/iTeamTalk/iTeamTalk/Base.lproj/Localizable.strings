@@ -663,3 +663,9 @@
 
 /* preferences */
 "Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+
+/* codec detail */
+"Frame Size" = "Frame Size";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";

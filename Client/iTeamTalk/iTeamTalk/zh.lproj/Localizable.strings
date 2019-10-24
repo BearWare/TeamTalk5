@@ -196,6 +196,9 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook 登陆被取消";
 
+/* codec detail */
+"Frame Size" = "Frame Size";
+
 /* preferences
    user detail */
 "General" = "常规";
@@ -610,6 +613,9 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "用户名或密码不正确";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
 "Version Information" = "版本信息";

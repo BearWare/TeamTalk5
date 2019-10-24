@@ -195,6 +195,9 @@
 /* Dialog message */
 "Facebook login was cancelled" = "Se canceló el inicio de sesión con Facebook";
 
+/* codec detail */
+"Frame Size" = "Frame Size";
+
 /* preferences
    user detail */
 "General" = "General";
@@ -606,6 +609,9 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Nombre de usuario o contraseña incorrecta";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
 "Version Information" = "Información de versión";
