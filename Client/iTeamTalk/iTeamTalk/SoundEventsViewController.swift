@@ -116,28 +116,33 @@ class SoundEventsViewController : UITableViewController {
         
         let defaults = UserDefaults.standard
         
-        switch sender.tag {
-        case Sounds.tx_ON.rawValue :
+        let sound = Sounds(rawValue: sender.tag)!
+        switch sound {
+        case Sounds.tx_ON :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_VOICETX)
-        case Sounds.srv_LOST.rawValue :
+        case Sounds.srv_LOST :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_SERVERLOST)
-        case Sounds.chan_MSG.rawValue :
+        case Sounds.chan_MSG :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_CHANMSG)
-        case Sounds.broadcast_MSG.rawValue :
+        case Sounds.broadcast_MSG :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_BCASTMSG)
-        case Sounds.joined_CHAN.rawValue :
+        case Sounds.joined_CHAN :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_JOINEDCHAN)
             
-        case Sounds.left_CHAN.rawValue :
+        case Sounds.left_CHAN :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_LEFTCHAN)
-        case Sounds.user_MSG.rawValue :
+        case Sounds.user_MSG :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_USERMSG)
-        case Sounds.voxtriggered_ON.rawValue :
+        case Sounds.voxtriggered_ON :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_VOXTRIGGER)
-        case Sounds.transmit_ON.rawValue :
+        case Sounds.transmit_ON :
             defaults.set(sender.isOn, forKey: PREF_SNDEVENT_TRANSMITREADY)
         default :
             break
+        }
+        
+        if sender.isOn {
+            playSound(sound)
         }
     }
 }
