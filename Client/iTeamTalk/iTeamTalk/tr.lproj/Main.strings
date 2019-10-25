@@ -78,7 +78,7 @@
 "EHj-xt-HhD.text" = "Boş";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Kayıttan yürütmek için olayları seç";
+"eJb-Cn-ciJ.text" = "Kayıttan oynatmak için olayları seç";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Boş";
@@ -87,7 +87,7 @@
 "gA8-TJ-0RU.title" = "Sohbet Kanalı";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "BearWare.dk Web Oturum Açma";
+"Hcv-zz-riB.text" = "BearWare.dk Web Oturumu";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "Bu kanala özgü seçenekleri genişletmek için çift dokunun.";
@@ -132,7 +132,7 @@
 "nVj-7w-Sta.text" = "Boş";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "BearWare.dk Web Oturum Açma";
+"o7z-cC-U4w.title" = "BearWare.dk Web Oturumu";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "Bağlan button";
@@ -171,7 +171,7 @@
 "vIN-Uc-3Ms.title" = "Tercihler";
 
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Sesi Seç";
+"VWP-v4-bY8.title" = "Ses Seç";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Boş";

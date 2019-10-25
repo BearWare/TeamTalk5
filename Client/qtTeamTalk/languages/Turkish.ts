@@ -61,7 +61,7 @@
     <message>
         <location filename="../bannedusersdlg.cpp" line="52"/>
         <source>Nickname</source>
-        <translation>Takma Ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="53"/>
@@ -89,12 +89,12 @@
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturum Açmayı Etkinleştir</translation>
+        <translation>BearWare.dk Web Oturumunu Etkinleştir</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturum Açma</translation>
+        <translation>BearWare.dk Web Oturumu</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
@@ -380,7 +380,7 @@
     <message>
         <location filename="../channeldlg.cpp" line="160"/>
         <source>View Channel Information</source>
-        <translation>Kanal Bilgilerini Gör</translation>
+        <translation>Kanal Bilgilerini Görüntüle</translation>
     </message>
 </context>
 <context>
@@ -479,7 +479,7 @@
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklıdır. Bu şekilde bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamak gerekmez.</translation>
+        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklı. Bu yol, bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamayı gerektirmez.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
@@ -684,7 +684,7 @@
     <message>
         <location filename="../filetransferdlg.cpp" line="150"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>&quot;%1&quot; açılamıyor. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
+        <translation>&quot;%1&quot; açılamadı. Dosya bir varsayılan dosya ilişkilendirmesine sahip değil</translation>
     </message>
 </context>
 <context>
@@ -746,7 +746,7 @@
     <message>
         <location filename="../generatettfile.ui" line="102"/>
         <source>Nickname</source>
-        <translation>Takma ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="123"/>
@@ -846,7 +846,7 @@
     <message>
         <location filename="../generatettfiledlg.cpp" line="184"/>
         <source>Unable to save file</source>
-        <translation>Dosya kaydedilemiyor</translation>
+        <translation>Dosya kaydedilemedi</translation>
     </message>
 </context>
 <context>
@@ -880,7 +880,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="54"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Değiştiriciler (Option, Kontrol, Komut ve Shift) diğer tuşlarla birleştirilerek kullanılmalıdır.</translation>
+        <translation>Değiştiriciler (Option, Kontrol, Komut ve Shift) diğer tuşlarla birleştirilerek kullanılmalı.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="221"/>
@@ -890,7 +890,7 @@
     <message>
         <location filename="../keycompdlg.cpp" line="222"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>macOS değiştirici tuşları tek başına desteklemediğinden Cmd, Option ve Shift diğer değiştirici olmayan tuşlarla birleştirilerek kullanılmalıdır.</translation>
+        <translation>macOS değiştirici tuşları tek başına desteklemediğinden Cmd, Option ve Shift diğer değiştirici olmayan tuşlarla birleştirilerek kullanılmalı.</translation>
     </message>
 </context>
 <context>
@@ -1061,7 +1061,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1088"/>
         <source>&amp;Mute</source>
-        <translation>&amp;Sustur</translation>
+        <translation>&amp;Sessize Al</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1095"/>
@@ -1214,7 +1214,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1339"/>
         <source>Change &amp;Nickname</source>
-        <translation>&amp;Takma Adı Değiştir</translation>
+        <translation>Rumu&amp;zu Değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1342"/>
@@ -1234,7 +1234,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1355"/>
         <source>&amp;View User Information</source>
-        <translation>Kullanıcı Bilgilerini &amp;Gör</translation>
+        <translation>Kullanıcı Bilgilerini &amp;Görüntüle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1358"/>
@@ -1244,7 +1244,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1370"/>
         <source>Mute &amp;All</source>
-        <translation>&amp;Tümünü Sustur</translation>
+        <translation>&amp;Tümünü Sessize Al</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1373"/>
@@ -1314,7 +1314,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1426"/>
         <source>&amp;View Channel Info</source>
-        <translation>Kanal Bilgilerini &amp;Gör</translation>
+        <translation>Kanal Bilgisini &amp;Görüntüle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1434"/>
@@ -1709,7 +1709,7 @@
     <message>
         <location filename="../mainwindow.ui" line="1910"/>
         <source>Mute Media File</source>
-        <translation>Ortam Dosyasını Sustur</translation>
+        <translation>Ortam Dosyasını Sessize Al</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1913"/>
@@ -2223,7 +2223,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3187"/>
         <source>Select profile</source>
-        <translation>Profili seç</translation>
+        <translation>Profil seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3195"/>
@@ -2238,7 +2238,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3414"/>
         <source>Specify new nickname</source>
-        <translation>Yeni takma adı belirtin</translation>
+        <translation>Yeni rumuzu belirtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3479"/>
@@ -2603,7 +2603,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="101"/>
         <source>&amp;View User Information</source>
-        <translation>Kullanıcı Bilgilerini &amp;Gör</translation>
+        <translation>Kullanıcı Bilgilerini &amp;Görüntüle</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="102"/>
@@ -2636,7 +2636,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="115"/>
         <source>Nickname</source>
-        <translation>Takma ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="117"/>
@@ -2684,7 +2684,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="90"/>
         <source>Nickname</source>
-        <translation>Takma ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="123"/>
@@ -2795,7 +2795,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="405"/>
         <source>Show username instead of nickname</source>
-        <translation>Takma adın yerine kullanıcı adını göster</translation>
+        <translation>Rumuzun yerine kullanıcı adını göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="412"/>
@@ -3019,7 +3019,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1056"/>
         <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation>İkili kipini etkinleştir (yankı iptali için gereklidir)</translation>
+        <translation>İkili kipini etkinleştir (yankı iptali için gerekli)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1063"/>
@@ -3151,7 +3151,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1557"/>
         <source>Enable/disable mute all</source>
-        <translation>Tümünü susturmayı etkinleştir/etkisizleştir</translation>
+        <translation>Tümünü sessize almayı etkinleştir/etkisizleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1584"/>
@@ -3377,7 +3377,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="35"/>
         <source>Include public servers (green ones)</source>
-        <translation>Kamu sunucularını kat (yeşil olanlar)</translation>
+        <translation>Kamu sunucularını kapsa (yeşil olanlar)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="44"/>
@@ -4029,7 +4029,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="435"/>
         <source>User can upload files</source>
-        <translation>Kullanıcı dosyaları yükleyebilir</translation>
+        <translation>Kullanıcı dosyalar yükleyebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="462"/>
@@ -4039,7 +4039,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../useraccounts.ui" line="442"/>
         <source>User can change nickname</source>
-        <translation>Kullanıcı takma ad değiştirebilir</translation>
+        <translation>Kullanıcı rumuz değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="449"/>
@@ -4324,7 +4324,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../userinfo.ui" line="43"/>
         <source>Nickname</source>
-        <translation>Takma ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="63"/>
@@ -4476,13 +4476,13 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../uservolume.ui" line="59"/>
         <location filename="../uservolume.ui" line="115"/>
         <source>Mute left</source>
-        <translation>Solu sustur</translation>
+        <translation>Solu sessize al</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="66"/>
         <location filename="../uservolume.ui" line="122"/>
         <source>Mute right</source>
-        <translation>Sağı sustur</translation>
+        <translation>Sağı sessize al</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="79"/>
@@ -4523,7 +4523,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotext.ui" line="30"/>
         <source>Show nickname</source>
-        <translation>Takma adı göster</translation>
+        <translation>Rumuzu göster</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="40"/>
@@ -4594,7 +4594,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../videotextdlg.cpp" line="185"/>
         <source>Nickname</source>
-        <translation>Takma ad</translation>
+        <translation>Rumuz</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="188"/>

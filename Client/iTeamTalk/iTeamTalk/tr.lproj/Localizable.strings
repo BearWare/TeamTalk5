@@ -197,7 +197,7 @@
 "Facebook login was cancelled" = "Facebook oturumu iptal edildi";
 
 /* codec detail */
-"Frame Size" = "Frame Size";
+"Frame Size" = "Çerçeve Boyutu";
 
 /* preferences
    user detail */
@@ -243,7 +243,7 @@
 "Kick user" = "Kullanıcıyı uzaklaştır";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "Adların kanal listesindeki uzunluk sınırı %d karakterdir";
+"Limit length of names in channel list to %d characters" = "Adların kanal listesindeki uzunluk sınırı %d karakter";
 
 /* text message type */
 "Log message" = "Günlük iletisi";
@@ -285,13 +285,13 @@
 "Music" = "Müzik";
 
 /* channel list */
-"Mute" = "Sustur";
+"Mute" = "Sessize al";
 
 /* user detail */
-"Mute Media File" = "Ortam Dosyasını Sustur";
+"Mute Media File" = "Ortam Dosyasını Sessize Al";
 
 /* user detail */
-"Mute Voice" = "Sesi Sustur";
+"Mute Voice" = "Sesi Sessize Al";
 
 /* create channel
    server entry */
@@ -304,7 +304,7 @@
 "New Server" = "Yeni Sunucu";
 
 /* preferences */
-"Nickname" = "Takma ad";
+"Nickname" = "Rumuz";
 
 /* Dialog message */
 "No" = "Hayır";
@@ -393,7 +393,7 @@
 "Preferences" = "Tercihler";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Return tuşuna basarak metin iletisi gönderilsin";
+"Pressing Return-key sends text message" = "Return tuşuna basmak metin iletisini göndersin";
 
 /* text message type */
 "Private message" = "Özel ileti";
@@ -459,7 +459,7 @@
 "Save server to server list?" = "Sunucu, sunucu listesine kaydedilsin mi?";
 
 /* preferences */
-"Select the text-to-speech voice to use" = "Kullanmak için metin okuma sesi seçin";
+"Select the text-to-speech voice to use" = "Kullanmak için metin okuma sesi seç";
 
 /* text message */
 "Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
@@ -486,7 +486,7 @@
 "Show usernames" = "Kullanıcı adlarını göster";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Takma adların yerine kullanıcı adlarını göster";
+"Show usernames instead of nicknames" = "Rumuzların yerine kullanıcı adlarını göster";
 
 /* channel list */
 "Silent" = "Sessiz";
@@ -615,16 +615,16 @@
 "Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
 
 /* codec detail */
-"Variable Bitrate" = "Variable Bitrate";
+"Variable Bitrate" = "Değişken Bit Hızı";
 
 /* preferences */
 "Version Information" = "Sürüm Bilgileri";
 
 /* channel list */
-"View" = "Gör";
+"View" = "Görüntüle";
 
 /* channel list */
-"View properties" = "Özellikleri gör";
+"View properties" = "Özellikleri görüntüle";
 
 /* preferences
    user detail */
@@ -668,4 +668,4 @@
 "Yes" = "Evet";
 
 /* speech */
-"You have selected %@" = "%@ sesini seçtiniz";
+"You have selected %@" = "Seçtiğiniz: %@";
