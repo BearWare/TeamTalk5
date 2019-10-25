@@ -197,7 +197,7 @@
 "Facebook login was cancelled" = "Facebook 登陆被取消";
 
 /* codec detail */
-"Frame Size" = "Frame Size";
+"Frame Size" = "帧大小";
 
 /* preferences
    user detail */
@@ -615,7 +615,7 @@
 "Username or password incorrect" = "用户名或密码不正确";
 
 /* codec detail */
-"Variable Bitrate" = "Variable Bitrate";
+"Variable Bitrate" = "可变比特率";
 
 /* preferences */
 "Version Information" = "版本信息";
