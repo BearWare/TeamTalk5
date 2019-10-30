@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -19,88 +17,88 @@
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Önişleyici Ayarlaması</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatik Kazanç Denetimi (AGC)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
         <source>Enable AGC</source>
-        <translation type="unfinished"></translation>
+        <translation>AGC&apos;yi Etkinleştir</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translation type="unfinished">Varsayılan</translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
         <location filename="../audiopreprocessor.ui" line="199"/>
         <source>Gain Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Kazanç Düzeyi</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="94"/>
         <source>Max Gain dB</source>
-        <translation type="unfinished"></translation>
+        <translation>En Fazla Kazanç dB</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sn Başına En Fazla Kazanç Artırma (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sn Başına En Fazla Kazanç Azaltma (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
         <source>Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Gürültü Giderme</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="154"/>
         <source>Enable Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Gürültü Gidermeyi Etkinleştir</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
         <source>Max Attenuation of noise (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>En Fazla Gürültü Zayıflatma (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="213"/>
         <source>&amp;Default</source>
-        <translation type="unfinished">&amp;Varsayılan</translation>
+        <translation>&amp;Varsayılan</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="224"/>
         <source>Mute left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Sol kanalı sessize al</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="231"/>
         <source>Mute right channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Sağ kanalı sessize al</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="53"/>
         <source>No Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Önişleyicisi Yok</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="64"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>TeamTalk Ses Önişleyicisi</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="71"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Speex DSP Ses Önişleyicisi</translation>
     </message>
 </context>
 <context>
@@ -417,12 +415,12 @@
     <message>
         <location filename="../channel.ui" line="679"/>
         <source>Variable Bit Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Değişken Bit Hızı</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="733"/>
         <source>Frame size</source>
-        <translation type="unfinished"></translation>
+        <translation>Çerçeve boyutu</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="762"/>
@@ -2049,22 +2047,6 @@
         <translation>%1 kanalına katılınamıyor</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">İkili ses kipini başlatma başarısız</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Varsayılan ses aygıtlarına geçiliyor</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Varsayılan ses aygıtları alınamadı</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Varsayılan ses aygıtlarını başlatma başarısız</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1567"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlanıyor</translation>
@@ -2608,12 +2590,7 @@
         <location filename="../mainwindow.cpp" line="5415"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">%1 dosyası %2 ayarlama bilgisi içeriyor.
+        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.
 Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
@@ -3460,32 +3437,32 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../common.cpp" line="347"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation type="unfinished">İkili ses kipini başlatma başarısız</translation>
+        <translation>İkili ses kipini başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="354"/>
         <source>Failed to initialize sound input device</source>
-        <translation type="unfinished">Ses giriş aygıtını başlatma başarısız</translation>
+        <translation>Ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="358"/>
         <source>Failed to initialize sound output device</source>
-        <translation type="unfinished">Ses çıkış aygıtını başlatma başarısız</translation>
+        <translation>Ses çıkış aygıtını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="372"/>
         <source>Switching to default sound devices</source>
-        <translation type="unfinished">Varsayılan ses aygıtlarına geçiliyor</translation>
+        <translation>Varsayılan ses aygıtlarına geçiliyor</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="376"/>
         <source>Unable to get default sound devices</source>
-        <translation type="unfinished">Varsayılan ses aygıtları alınamadı</translation>
+        <translation>Varsayılan ses aygıtları alınamadı</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="384"/>
         <source>Failed to initialize default sound devices</source>
-        <translation type="unfinished">Varsayılan ses aygıtlarını başlatma başarısız</translation>
+        <translation>Varsayılan ses aygıtlarını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="1573"/>
@@ -3905,32 +3882,32 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafile.ui" line="126"/>
         <source>Playback Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıttan Oynatma Ayarları</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="134"/>
         <source>Audio preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses önişleyicisi</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="144"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayarlama</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="171"/>
         <source>Start position</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıç konumu</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="199"/>
         <source>Test playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıttan oynatmayı sına</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="206"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Durdur</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="217"/>
@@ -3939,7 +3916,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../streammediafiledlg.cpp" line="259"/>
         <location filename="../streammediafiledlg.cpp" line="296"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynat</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="255"/>
@@ -3970,17 +3947,17 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
         <source>No Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Önişleyicisi Yok</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>TeamTalk Ses Önişleyicisi</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="69"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Speex DSP Ses Önişleyicisi</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="132"/>
@@ -4028,29 +4005,29 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../streammediafiledlg.cpp" line="259"/>
         <location filename="../streammediafiledlg.cpp" line="296"/>
         <source>Failed to play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ortam dosyasını oynatma başarısız</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="304"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akıt</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="304"/>
         <source>Failed to stream media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ortam dosyasını akıtma başarısız</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="348"/>
         <location filename="../streammediafiledlg.cpp" line="353"/>
         <source>Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Önişleyicisi</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="348"/>
         <location filename="../streammediafiledlg.cpp" line="353"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses önişleyicisini etkinleştirme başarısız</translation>
     </message>
 </context>
 <context>
