@@ -933,7 +933,11 @@ namespace BearWare
     {
         /** @brief Whether clients who join a #BearWare.Channel should
          * enable AGC with the settings specified @a nGainLevel, @a
-         * nMaxIncDBSec, @a nMaxDecDBSec and @a nMaxGainDB. */
+         * nMaxIncDBSec, @a nMaxDecDBSec and @a nMaxGainDB.
+         *
+         * Note that AGC is not supported on 32-bit ARM (iOS and
+         * Android), since there's no fixed point implementation of
+         * AGC in SpeexDSP. */
         [FieldOffset(0)]
         public bool bEnableAGC;
         /** @brief A value from 0 to 32768. Default is 8000.
