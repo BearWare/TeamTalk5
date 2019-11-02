@@ -995,9 +995,9 @@ extern "C" {
          * @a nGainLevel, @a nMaxIncDBSec, @a nMaxDecDBSec and @a
          * nMaxGainDB.
          * 
-         * Note that AGC is not supported on 32-bit ARM (iOS and
-         * Android), since there's no fixed point implementation of
-         * AGC in SpeexDSP. */
+         * Note that AGC is not supported on ARM (iOS and Android),
+         * since there's no fixed point implementation of AGC in
+         * SpeexDSP. */
         TTBOOL bEnableAGC;
         /** @brief A value from 0 to 32768. Default is 8000.
          * Value is ignored if @a bEnableAGC is FALSE. */
