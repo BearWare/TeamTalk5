@@ -458,9 +458,6 @@
 /* Dialog message */
 "Save server to server list?" = "Sunucu, sunucu listesine kaydedilsin mi?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Kullanmak için metin okuma sesi seç";
-
 /* text message */
 "Send empty message to close keyboard" = "Klavyeyi kapatmak için boş ileti gönderin";
 
@@ -503,9 +500,6 @@
 
 /* preferences */
 "Speaker Output" = "Hoparlör Çıkışı";
-
-/* preferences */
-"Speech" = "Konuşma";
 
 /* preferences */
 "Speech Rate" = "Konuşma Hızı";

@@ -44,8 +44,8 @@
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
 "b6N-H7-SIe.normalTitle" = "Speex 可变速率编解码器";
 
-/* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "空白";
+/* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "语音";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
 "baE-IB-ajD.normalTitle" = "重置 Web 登陆 ID";
@@ -176,8 +176,8 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "空白";
 
-/* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "空白";
+/* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "选择文字转语音使用的声音";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "空白";

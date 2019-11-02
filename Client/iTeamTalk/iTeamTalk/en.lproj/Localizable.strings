@@ -458,9 +458,6 @@
 /* Dialog message */
 "Save server to server list?" = "Save server to server list?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
-
 /* text message */
 "Send empty message to close keyboard" = "Send empty message to close keyboard";
 
@@ -503,9 +500,6 @@
 
 /* preferences */
 "Speaker Output" = "Speaker Output";
-
-/* preferences */
-"Speech" = "Speech";
 
 /* preferences */
 "Speech Rate" = "Speech Rate";

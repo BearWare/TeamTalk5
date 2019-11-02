@@ -455,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "Save server to server list?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Selecteer de te gebruiken tekst-naar-spraak-stem";
-
 /* text message */
 "Send empty message to close keyboard" = "Send empty message to close keyboard";
 
@@ -500,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "Luidsprekeruitvoer";
-
-/* preferences */
-"Speech" = "Spraak";
 
 /* preferences */
 "Speech Rate" = "Spraaksnelheid";

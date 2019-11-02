@@ -455,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "¿Guardar servidor?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Selecciona el motor de texto a voz a utilizar";
-
 /* text message */
 "Send empty message to close keyboard" = "Envía un mensaje en blanco para cerrar el teclado";
 
@@ -500,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "Salida de audio";
-
-/* preferences */
-"Speech" = "Voz";
 
 /* preferences */
 "Speech Rate" = "Velocidad de voz";

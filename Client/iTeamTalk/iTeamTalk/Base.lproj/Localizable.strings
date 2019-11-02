@@ -104,6 +104,9 @@
    user detail */
 "Broadcast Messages" = "Broadcast Messages";
 
+/* preferences */
+"Broadcast Text Message" = "Broadcast Text Message";
+
 /* channel list
    server entry */
 "Channel" = "Channel";
@@ -192,6 +195,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "Facebook login was cancelled";
+
+/* codec detail */
+"Frame Size" = "Frame Size";
 
 /* preferences
    user detail */
@@ -357,6 +363,9 @@
 "Play sound when a user leaves the channel" = "Play sound when a user leaves the channel";
 
 /* preferences */
+"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+
+/* preferences */
 "Play sound when channel text message is received" = "Play sound when channel text message is received";
 
 /* preferences */
@@ -449,9 +458,6 @@
 /* Dialog message */
 "Save server to server list?" = "Save server to server list?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Select the text-to-speech voice to use";
-
 /* text message */
 "Send empty message to close keyboard" = "Send empty message to close keyboard";
 
@@ -494,9 +500,6 @@
 
 /* preferences */
 "Speaker Output" = "Speaker Output";
-
-/* preferences */
-"Speech" = "Speech";
 
 /* preferences */
 "Speech Rate" = "Speech Rate";
@@ -605,6 +608,9 @@
 /* Web Login Controller */
 "Username or password incorrect" = "Username or password incorrect";
 
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
+
 /* preferences */
 "Version Information" = "Version Information";
 
@@ -657,15 +663,3 @@
 
 /* speech */
 "You have selected %@" = "You have selected %@";
-
-/* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
-
-/* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
-
-/* codec detail */
-"Frame Size" = "Frame Size";
-
-/* codec detail */
-"Variable Bitrate" = "Variable Bitrate";

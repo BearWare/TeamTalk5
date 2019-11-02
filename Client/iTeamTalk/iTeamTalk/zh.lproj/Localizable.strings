@@ -458,9 +458,6 @@
 /* Dialog message */
 "Save server to server list?" = "保存服务器至服务器列表吗？";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "选择文字转语音使用的声音";
-
 /* text message */
 "Send empty message to close keyboard" = "发送空消息以关闭键盘";
 
@@ -503,9 +500,6 @@
 
 /* preferences */
 "Speaker Output" = "扬声器输出";
-
-/* preferences */
-"Speech" = "语音";
 
 /* preferences */
 "Speech Rate" = "语速";

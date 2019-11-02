@@ -44,8 +44,8 @@
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
 "b6N-H7-SIe.normalTitle" = "Use Speex VBR Codec";
 
-/* Class = "UILabel"; text = "Blank"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "Blank";
+/* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "Speech";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
 "baE-IB-ajD.normalTitle" = "Reset Web Login ID";
@@ -176,8 +176,8 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Blank";
 
-/* Class = "UILabel"; text = "Blank"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Blank";
+/* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "Select the text-to-speech voice to use";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Blank";

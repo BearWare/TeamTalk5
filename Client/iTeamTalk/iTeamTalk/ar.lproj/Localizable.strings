@@ -455,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "هل تريد حفظ الخادم في قائمة الخوادم?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "تحديد صوت تحويل النص إلى كلام المراد إستخدامَهُ";
-
 /* text message */
 "Send empty message to close keyboard" = "إرسال رسالة فارغة لإغلاق لوحة المفاتيح";
 
@@ -500,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "السماعة الخارجية";
-
-/* preferences */
-"Speech" = "الصوت";
 
 /* preferences */
 "Speech Rate" = "سرعة الكلام";

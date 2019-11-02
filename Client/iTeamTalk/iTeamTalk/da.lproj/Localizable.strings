@@ -455,9 +455,6 @@
 /* Dialog message */
 "Save server to server list?" = "Gem server i serverlisten?";
 
-/* preferences */
-"Select the text-to-speech voice to use" = "Vælg den ønskede Tekst-til-tale-stemme";
-
 /* text message */
 "Send empty message to close keyboard" = "Send tom besked for at lukke tastaturet";
 
@@ -500,9 +497,6 @@
 
 /* preferences */
 "Speaker Output" = "Højtalerudgang";
-
-/* preferences */
-"Speech" = "Tale";
 
 /* preferences */
 "Speech Rate" = "Talehastighed";
