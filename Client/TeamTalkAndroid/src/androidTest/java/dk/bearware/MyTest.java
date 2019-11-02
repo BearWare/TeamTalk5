@@ -223,6 +223,42 @@ public class MyTest extends TeamTalkTestCase {
         }
     }
 
+    public void test_SpeexDSP() {
+
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        initSound(ttclient);
+
+        // setup echo cancellation
+        SpeexDSP spxdsp = new SpeexDSP(true);
+        spxdsp.bEnableAGC = true;
+        spxdsp.bEnableDenoise = true;
+        spxdsp.nMaxNoiseSuppressDB = -30;
+        assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
+
+        TTMessage msg = new TTMessage();
+
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue("join root", ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "") > 0);
+
+        assertTrue("Wait for AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
+
+        assertTrue("Leave channel", waitCmdSuccess(ttclient, ttclient.doLeaveChannel(), DEF_WAIT));
+
+        spxdsp.bEnableAGC = false;
+        assertTrue("SpeexDSP", ttclient.setSoundInputPreprocess(spxdsp));
+
+        assertTrue("join root", ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "") > 0);
+
+        assertFalse("No AGC error on ARMv7A", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 1000));
+    }
+
+
     public void test_EnableAudioBlock() {
         super.test_AudioBlock();
     }
