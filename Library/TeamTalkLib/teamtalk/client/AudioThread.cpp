@@ -252,7 +252,6 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
     int channels = GetAudioCodecChannels(codec());
 
     //set AGC
-    bool ret = true;
     wguard_t gp(m_preprocess_lock);
 
     SpeexAGC agc;
@@ -262,25 +261,28 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
     agc.max_gain = speexdsp.agc_maxgaindb;
 
     //AGC
-    ret &= m_preprocess_left.EnableAGC(speexdsp.enable_agc);
-    ret &= (channels == 1 || m_preprocess_right.EnableAGC(speexdsp.enable_agc));
-    ret &= m_preprocess_left.SetAGCSettings(agc);
-    ret &= (channels == 1 || m_preprocess_right.SetAGCSettings(agc));
+    bool agc_success = true;
+    agc_success &= m_preprocess_left.EnableAGC(speexdsp.enable_agc);
+    agc_success &= (channels == 1 || m_preprocess_right.EnableAGC(speexdsp.enable_agc));
+    agc_success &= m_preprocess_left.SetAGCSettings(agc);
+    agc_success &= (channels == 1 || m_preprocess_right.SetAGCSettings(agc));
 
     //denoise
-    ret &= m_preprocess_left.EnableDenoise(speexdsp.enable_denoise);
-    ret &= (channels == 1 || m_preprocess_right.EnableDenoise(speexdsp.enable_denoise));
-    ret &= m_preprocess_left.SetDenoiseLevel(speexdsp.maxnoisesuppressdb);
-    ret &= (channels == 1 || m_preprocess_right.SetDenoiseLevel(speexdsp.maxnoisesuppressdb));
+    bool denoise_success = true;
+    denoise_success &= m_preprocess_left.EnableDenoise(speexdsp.enable_denoise);
+    denoise_success &= (channels == 1 || m_preprocess_right.EnableDenoise(speexdsp.enable_denoise));
+    denoise_success &= m_preprocess_left.SetDenoiseLevel(speexdsp.maxnoisesuppressdb);
+    denoise_success &= (channels == 1 || m_preprocess_right.SetDenoiseLevel(speexdsp.maxnoisesuppressdb));
 
     //set AEC
-    ret &= m_preprocess_left.EnableEchoCancel(speexdsp.enable_aec);
-    ret &= (channels == 1 || m_preprocess_right.EnableEchoCancel(speexdsp.enable_aec));
+    bool aec_success = true;
+    aec_success &= m_preprocess_left.EnableEchoCancel(speexdsp.enable_aec);
+    aec_success &= (channels == 1 || m_preprocess_right.EnableEchoCancel(speexdsp.enable_aec));
 
-    ret &= m_preprocess_left.SetEchoSuppressLevel(speexdsp.aec_suppress_level);
-    ret &= (channels == 1 || m_preprocess_right.SetEchoSuppressLevel(speexdsp.aec_suppress_level));
-    ret &= m_preprocess_left.SetEchoSuppressActive(speexdsp.aec_suppress_active);
-    ret &= (channels == 1 || m_preprocess_right.SetEchoSuppressActive(speexdsp.aec_suppress_active));
+    aec_success &= m_preprocess_left.SetEchoSuppressLevel(speexdsp.aec_suppress_level);
+    aec_success &= (channels == 1 || m_preprocess_right.SetEchoSuppressLevel(speexdsp.aec_suppress_level));
+    aec_success &= m_preprocess_left.SetEchoSuppressActive(speexdsp.aec_suppress_active);
+    aec_success &= (channels == 1 || m_preprocess_right.SetEchoSuppressActive(speexdsp.aec_suppress_active));
 
     //set dereverb
     bool dereverb = true;
@@ -288,9 +290,13 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
     if(channels == 2)
         m_preprocess_right.EnableDereverb(dereverb);
 
-    MYTRACE_COND(!ret, ACE_TEXT("Failed to set AGC settings\n"));
+    MYTRACE_COND(!agc_success, ACE_TEXT("Failed to set SpeexDSP AGC settings\n"));
+    MYTRACE_COND(!denoise_success, ACE_TEXT("Failed to set SpeexDSP denoise settings\n"));
+    MYTRACE_COND(!aec_success, ACE_TEXT("Failed to set SpeexDSP AEC settings\n"));
 
-    if ((speexdsp.enable_agc || speexdsp.enable_denoise || speexdsp.enable_aec) && !ret)
+    if ((speexdsp.enable_agc && !agc_success) ||
+        (speexdsp.enable_denoise && !denoise_success) ||
+        (speexdsp.enable_aec && !aec_success))
         return false;
 
     MYTRACE(ACE_TEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
