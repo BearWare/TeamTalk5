@@ -234,6 +234,9 @@ void MediaPlayback::MediaStreamStatusCallback(MediaStreamer* streamer,
         m_finished = true;
         break;
     }
+    case MEDIASTREAM_NONE :
+    case MEDIASTREAM_PLAYING :
+        break;
     }
 
     if(m_statusfunc)

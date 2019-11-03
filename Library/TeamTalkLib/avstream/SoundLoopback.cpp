@@ -446,7 +446,7 @@ bool SoundLoopback::SetAGC(int samplerate, int samples, int channels,
 
     // Fixed point SpeexDSP library doesn't support AGC and AEC so
     // only report error if requested.
-    return init && (initagc && enable_agc || !enable_agc) &&
-        (initdenoise && denoise || !denoise) && (initaec && enable_aec || !enable_aec);
+    return init && ((initagc && enable_agc) || !enable_agc) &&
+        ((initdenoise && denoise) || !denoise) && ((initaec && enable_aec) || !enable_aec);
 }
 #endif

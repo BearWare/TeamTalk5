@@ -3204,6 +3204,7 @@ TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN MediaFileInfo* lpMediaFileIn
     {
     case AFF_WAVE_FORMAT :
         break;
+    case AFF_NONE :
     case AFF_CHANNELCODEC_FORMAT :
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :

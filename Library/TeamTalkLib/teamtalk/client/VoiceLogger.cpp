@@ -66,8 +66,8 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 
     switch(aff)
     {
-#if defined(ENABLE_OGG)
     case AFF_CHANNELCODEC_FORMAT :
+#if defined(ENABLE_OGG)
     {
         bool vbr = true;
         ACE_UNUSED_ARG(vbr);
@@ -88,7 +88,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
                 m_active = false;
                 return;
             }
-#endif
+#endif /* ENABLE_SPEEX */
         }
         break;
 #if defined(ENABLE_OPUSTOOLS)
@@ -108,14 +108,14 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         break;
 #else
         case CODEC_OPUS :
-#endif
+#endif /* ENABLE_OPUSTOOLS */
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
         }
     }
+#endif /* ENABLE_OGG */
     break;
-#endif
 
     case AFF_MP3_16KBIT_FORMAT :
     case AFF_MP3_32KBIT_FORMAT :
@@ -325,10 +325,9 @@ void VoiceLog::WritePacket(int packet_no)
     
     switch(m_codec.codec)
     {
-#if defined(ENABLE_OGG)
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :
-#if defined(ENABLE_SPEEX)
+#if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
         TTASSERT(m_speexfile.get());
         if (m_speexfile)
         {
@@ -341,10 +340,10 @@ void VoiceLog::WritePacket(int packet_no)
                 pos += frame_sizes[i];
             }
         }
-#endif /* ENABLE_SPEEX */
+#endif /* ENABLE_OGG && ENABLE_SPEEX */
         break;
     case CODEC_OPUS :
-#if defined(ENABLE_OPUSTOOLS)
+#if defined(ENABLE_OGG) && defined(ENABLE_OPUSTOOLS)
         TTASSERT(m_opusfile.get());
         if (m_opusfile)
         {
@@ -358,9 +357,8 @@ void VoiceLog::WritePacket(int packet_no)
             }
             
         }
-#endif /* ENABLE_OPUSTOOLS */
+#endif /* ENABLE_OGG && ENABLE_OPUSTOOLS */
         break;
-#endif /* ENABLE_OGG */
     case CODEC_NO_CODEC :
     case CODEC_WEBM_VP8 :
         assert(0);
