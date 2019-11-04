@@ -208,7 +208,7 @@ class AudioConfig(Structure):
 	("nGainLevel", INT32),
 	]
 
-class TTType:
+class TTType(INT32):
 	__NONE = 0
 	__AUDIOCODEC = 1
 	__BANNEDUSER              = 2
@@ -577,6 +577,9 @@ class TeamTalk(object):
 
 	def closeTeamTalk(self):
 		return _CloseTeamTalk(self._tt)
+
+	def __del__(self):
+		self.closeTeamTalk()
 
 	def getVersion(self):
 		return _GetVersion()
