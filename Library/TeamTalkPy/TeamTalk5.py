@@ -170,7 +170,7 @@ class OpusCodec(Structure):
 	("bVBR", BOOL),
 	("bVBRConstraint", BOOL),
 	("nTxIntervalMSec", INT32),
-	#("nFrameSizeMSec", INT32),
+	("nFrameSizeMSec", INT32),
 	]
 
 OPUS_APPLICATION_VOIP = 2048
@@ -395,6 +395,22 @@ class User(Structure):
 	("szClientName", TTCHAR * TT_STRLEN)
 	]
 
+class UserStatistics(Structure):
+	_fields_ = [
+	("nVoicePacketsRecv", INT64),
+	("nVoicePacketsLost", INT64),
+	("nVideoCapturePacketsRecv", INT64),
+	("nVideoCaptureFramesRecv", INT64),
+	("nVideoCaptureFramesLost", INT64),
+	("nVideoCaptureFramesDropped", INT64),
+	("nMediaFileAudioPacketsRecv", INT64),
+	("nMediaFileAudioPacketsLost", INT64),
+	("nMediaFileVideoPacketsRecv", INT64),
+	("nMediaFileVideoFramesRecv", INT64),
+	("nMediaFileVideoFramesLost", INT64),
+	("nMediaFileVideoFramesDropped", INT64),
+	]
+
 class TextMsgType(INT32):
 	MSGTYPE_USER      = 1
 	MSGTYPE_CHANNEL   = 2
@@ -465,6 +481,28 @@ class TTMessage(Structure):
 	("u", TTMessageUnion)
 	]
 
+class ClientFlags(UINT32):
+	CLIENT_CLOSED = 0x00000000
+	CLIENT_SNDINPUT_READY = 0x00000001
+	CLIENT_SNDOUTPUT_READY = 0x00000002
+	CLIENT_SNDINOUTPUT_DUPLEX = 0x00000004
+	CLIENT_SNDINPUT_VOICEACTIVATED = 0x00000008
+	CLIENT_SNDINPUT_VOICEACTIVE = 0x00000010
+	CLIENT_SNDOUTPUT_MUTE = 0x00000020
+	CLIENT_SNDOUTPUT_AUTO3DPOSITION = 0x00000040
+	CLIENT_VIDEOCAPTURE_READY = 0x00000080
+	CLIENT_TX_VOICE = 0x00000100
+	CLIENT_TX_VIDEOCAPTURE = 0x00000200
+	CLIENT_TX_DESKTOP = 0x00000400
+	CLIENT_DESKTOP_ACTIVE = 0x00000800
+	CLIENT_MUX_AUDIOFILE = 0x00001000
+	CLIENT_CONNECTING = 0x00002000
+	CLIENT_CONNECTED = 0x00004000
+	CLIENT_CONNECTION               = CLIENT_CONNECTING or CLIENT_CONNECTED
+	CLIENT_AUTHORIZED = 0x00008000
+	CLIENT_STREAM_AUDIO = 0x00010000
+	CLIENT_STREAM_VIDEO = 0x00020000
+
 _GetVersion = dll.TT_GetVersion
 _GetVersion.restype = TTCHAR_P
 _InitTeamTalkPoll = dll.TT_InitTeamTalkPoll
@@ -475,6 +513,9 @@ _CloseTeamTalk.argtypes = [_TTInstance]
 _GetMessage = dll.TT_GetMessage
 _GetMessage.restype = BOOL
 _GetMessage.argtypes = [_TTInstance, POINTER(TTMessage), POINTER(INT32)]
+_GetFlags = dll.TT_GetFlags
+_GetFlags.restype = UINT32
+_GetFlags.argtypes = [_TTInstance]
 _SetLicenseInformation = dll.TT_SetLicenseInformation
 _SetLicenseInformation.restype = BOOL
 _SetLicenseInformation.argtypes = [TTCHAR_P, TTCHAR_P]
@@ -487,6 +528,12 @@ _GetDefaultSoundDevicesEx.argtypes = [SoundSystem, POINTER(INT32), POINTER(INT32
 _GetSoundDevices = dll.TT_GetSoundDevices
 _GetSoundDevices.restype = BOOL
 _GetSoundDevices.argtypes = [POINTER(SoundDevice), POINTER(INT32)]
+_InitSoundInputDevice = dll.TT_InitSoundInputDevice
+_InitSoundInputDevice.restype = BOOL
+_InitSoundInputDevice.argtypes = [_TTInstance, INT32]
+_InitSoundOutputDevice = dll.TT_InitSoundOutputDevice
+_InitSoundOutputDevice.restype = BOOL
+_InitSoundOutputDevice.argtypes = [_TTInstance, INT32]
 _EnableVoiceTransmission = dll.TT_EnableVoiceTransmission
 _EnableVoiceTransmission.restype = BOOL
 _EnableVoiceTransmission.argstype = [_TTInstance, BOOL]
@@ -541,26 +588,69 @@ _DoLeaveChannel.argstype = [_TTInstance]
 _DoChangeNickname = dll.TT_DoChangeNickname
 _DoChangeNickname.restype = INT32
 _DoChangeNickname.argstype = [_TTInstance, TTCHAR_P]
+_DoChangeStatus = dll.TT_DoChangeStatus
+_DoChangeStatus.restype = INT32
+_DoChangeStatus.argstype = [_TTInstance, INT32, TTCHAR_P]
 _DoTextMessage = dll.TT_DoTextMessage
 _DoTextMessage.restype = INT32
 _DoTextMessage.argtypes = [_TTInstance, POINTER(TextMessage)]
-_InitSoundInputDevice = dll.TT_InitSoundInputDevice
-_InitSoundInputDevice.restype = BOOL
-_InitSoundInputDevice.argtypes = [_TTInstance, INT32]
-_InitSoundOutputDevice = dll.TT_InitSoundOutputDevice
-_InitSoundOutputDevice.restype = BOOL
-_InitSoundOutputDevice.argtypes = [_TTInstance, INT32]
-_GetUser = dll.TT_GetUser
-_GetUser.restype = BOOL
-_GetUser.argtypes = [_TTInstance, INT32, POINTER(User)]
+_GetServerProperties = dll.TT_GetServerProperties
+_GetServerProperties.restype = BOOL
+_GetServerProperties.argtypes = [_TTInstance, POINTER(ServerProperties)]
 _GetServerUsers = dll.TT_GetServerUsers
 _GetServerUsers.restype = BOOL
 _GetServerUsers.argtypes = [_TTInstance, POINTER(User), POINTER(INT32)]
+_GetRootChannelID = dll.TT_GetRootChannelID
+_GetRootChannelID.restype = INT32
+_GetRootChannelID.argtypes = [_TTInstance]
+_GetMyChannelID = dll.TT_GetMyChannelID
+_GetMyChannelID.restype = INT32
+_GetMyChannelID.argtypes = [_TTInstance]
+_GetChannel = dll.TT_GetChannel
+_GetChannel.restype = BOOL
+_GetChannel.argtypes = [_TTInstance, INT32, POINTER(Channel)]
+_GetChannelPath = dll.TT_GetChannelPath
+_GetChannelPath.restype = BOOL
+_GetChannelPath.argtypes = [_TTInstance, INT32, POINTER(TTCHAR*TT_STRLEN)]
+_GetChannelIDFromPath = dll.TT_GetChannelIDFromPath
+_GetChannelIDFromPath.restype = INT32
+_GetChannelIDFromPath.argtypes = [_TTInstance, TTCHAR_P]
+_GetChannelUsers = dll.TT_GetChannelUsers
+_GetChannelUsers.restype = BOOL
+_GetChannelUsers.argtypes = [_TTInstance, INT32, POINTER(User), POINTER(INT32)]
+_GetChannelFiles = dll.TT_GetChannelFiles
+_GetChannelFiles.restype = BOOL
+_GetChannelFiles.argtypes = [_TTInstance, INT32, POINTER(RemoteFile), POINTER(INT32)]
 _GetServerChannels = dll.TT_GetServerChannels
 _GetServerChannels.restype = BOOL
 _GetServerChannels.argtypes = [_TTInstance, POINTER(Channel), POINTER(INT32)]
+_GetMyUserID = dll.TT_GetMyUserID
+_GetMyUserID.restype = INT32
+_GetMyUserID.argtypes = [_TTInstance]
+_GetMyUserAccount = dll.TT_GetMyUserAccount
+_GetMyUserAccount.restype = BOOL
+_GetMyUserAccount.argtypes = [_TTInstance, POINTER(UserAccount)]
+_GetMyUserData = dll.TT_GetMyUserData
+_GetMyUserData.restype = INT32
+_GetMyUserData.argtypes = [_TTInstance]
+_GetUser = dll.TT_GetUser
+_GetUser.restype = BOOL
+_GetUser.argtypes = [_TTInstance, INT32, POINTER(User)]
+_GetUserStatistics = dll.TT_GetUserStatistics
+_GetUserStatistics.restype = BOOL
+_GetUserStatistics.argtypes = [_TTInstance, INT32, POINTER(UserStatistics)]
+_GetUserByUsername = dll.TT_GetUserByUsername
+_GetUserByUsername.restype = BOOL
+_GetUserByUsername.argtypes = [_TTInstance, TTCHAR_P, POINTER(User)]
+_GetErrorMessage = dll.TT_GetErrorMessage
+_GetErrorMessage.restype = c_void_p
+_GetErrorMessage.argtypes = [INT32, POINTER(TTCHAR*TT_STRLEN)]
+
 
 # main code
+
+def getVersion():
+	return _GetVersion()
 
 def setLicense(name, key):
 	return _SetLicenseInformation(name, key)
@@ -581,20 +671,14 @@ class TeamTalk(object):
 	def __del__(self):
 		self.closeTeamTalk()
 
-	def getVersion(self):
-		return _GetVersion()
+	def getMessage(self, nWaitMS=-1):
+		msg = TTMessage()
+		nWaitMS = INT32(nWaitMS)
+		_GetMessage(self._tt, byref(msg), byref(nWaitMS))
+		return msg
 
-	def Connect(self, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort=0, nLocalUdpPort=0, bEncrypted=False):
-		return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
-
-	def DoLogin(self, szNickname, szUsername="", szPassword="", szClientname="python"):
-		return _DoLoginEx(self._tt, szNickname, szUsername, szPassword, szClientname)
-
-	def DoJoinChannelByID(self, nChannelid, szChannelpassword=""):
-		return _DoJoinChannelByID(self._tt, nChannelid, szChannelpassword)
-
-	def doTextMessage(self, msg):
-		return _DoTextMessage(self._tt, msg)
+	def getFlags(self):
+		return _GetFlags(self._tt)
 
 	def getDefaultSoundDevices(self):
 		indevid = INT32()
@@ -618,12 +702,80 @@ class TeamTalk(object):
 	def enableVoiceTransmission(self, bEnable):
 		return _EnableVoiceTransmission(self._tt, bEnable)
 
+	def Connect(self, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort=0, nLocalUdpPort=0, bEncrypted=False):
+		return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
+
+	def Disconnect(self):
+		return _Disconnect(self._tt)
+
+	def doPing(self):
+		return _DoPing(self._tt)
+
+	def DoLogin(self, szNickname, szUsername="", szPassword="", szClientname="python"):
+		return _DoLoginEx(self._tt, szNickname, szUsername, szPassword, szClientname)
+
+	def doLogout(self):
+		return _DoLogout(self._tt)
+
+	def DoJoinChannelByID(self, nChannelID, szPassword=""):
+		return _DoJoinChannelByID(self._tt, nChannelID, szPassword)
+
+	def doLeaveChannel(self):
+		return _DoLeaveChannel(self._tt)
+
+	def doChangeNickname(self, szNewNick):
+		return _DoChangeNickname(self._tt, szNewNick)
+
+	def doChangeStatus(self, nStatusMode, szStatusMessage):
+		return _DoChangeStatus(self._tt, nStatusMode, szStatusMessage)
+
+	def doTextMessage(self, msg):
+		return _DoTextMessage(self._tt, msg)
+
+	def getServerProperties(self):
+		srvprops = ServerProperties()
+		_GetServerProperties(self._tt, srvprops)
+		return srvprops
+
 	def getServerUsers(self):
 		count = c_int()
 		_GetServerUsers(self._tt, None, byref(count))
 		users = (User*count.value)()
 		_GetServerUsers(self._tt, users, byref(count))
 		return users
+
+	def getRootChannelID(self):
+		return _GetRootChannelID(self._tt)
+
+	def getMyChannelID(self):
+		return _GetMyChannelID(self._tt)
+
+	def getChannel(self, nChannelID):
+		channel= Channel()
+		_GetChannel(self._tt, nChannelID, channel)
+		return channel
+
+	def getChannelPath(self, nChannelID):
+		szChannelPath = (TTCHAR*TT_STRLEN)()
+		_GetChannelPath(self._tt, nChannelID, szChannelPath)
+		return szChannelPath.value
+
+	def getChannelIDFromPath(self, szChannelPath):
+		return _GetChannelIDFromPath(self._tt, szChannelPath)
+
+	def getChannelUsers(self, nChannelID):
+		count = c_int()
+		_GetChannelUsers(self._tt, nChannelID, None, byref(count))
+		users = (User*count.value)()
+		_GetChannelUsers(self._tt, nChannelID, users, byref(count))
+		return users
+
+	def getChannelFiles(self, nChannelID):
+		count = c_int()
+		_GetChannelFiles(self._tt, nChannelID, None, byref(count))
+		files = (RemoteFile*count.value)()
+		_GetChannelFiles(self._tt, nChannelID, files, byref(count))
+		return files
 
 	def getServerChannels(self):
 		count = c_int()
@@ -632,8 +784,33 @@ class TeamTalk(object):
 		_GetServerChannels(self._tt, channels, byref(count))
 		return channels
 
-	def getMessage(self, nWaitMS=-1):
-		msg = TTMessage()
-		nWaitMS = INT32(nWaitMS)
-		_GetMessage(self._tt, byref(msg), byref(nWaitMS))
-		return msg
+	def getMyUserID(self):
+		return _GetMyUserID(self._tt)
+
+	def getMyUserAccount(self):
+		account = UserAccount()
+		_GetMyUserAccount(self._tt, account)
+		return account
+
+	def getMyUserData(self):
+		return _GetMyUserData(self._tt)
+
+	def getUser(self, nUserID):
+		user = User()
+		_GetUser(self._tt, nUserID, user)
+		return user
+
+	def getUserStatistics(self, nUserID):
+		stats = UserStatistics()
+		_GetUserStatistics(self._tt, nUserID, stats)
+		return stats
+
+	def getUserByUsername(self, szUsername):
+		user = User()
+		_GetUserByUsername(self._tt, szUsername, user)
+		return user
+
+	def getErrorMessage(self, nError):
+		szErrorMsg = (TTCHAR*TT_STRLEN)()
+		_GetErrorMessage(nError, szErrorMsg)
+		return szErrorMsg.value
