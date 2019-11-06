@@ -3886,6 +3886,12 @@ extern "C" {
                                                     IN INT32 nUserID,
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
+
+    
+    TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
+                                               IN StreamType nStreamType,
+                                               IN const AudioBlock* lpAudioBlock);
+    
     /** @} */
 
     /** @addtogroup transmission

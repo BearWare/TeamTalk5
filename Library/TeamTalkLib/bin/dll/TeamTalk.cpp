@@ -791,6 +791,17 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
+                                           IN StreamType nStreamType,
+                                           IN const AudioBlock* lpAudioBlock)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+
+    media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
+                          lpAudioBlock->lpRawAudio, lpAudioBlock->nSamples);
+}
+
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
                                                        IN const AudioCodec* lpAudioCodec,
                                                        IN const TTCHAR* szAudioFileName,

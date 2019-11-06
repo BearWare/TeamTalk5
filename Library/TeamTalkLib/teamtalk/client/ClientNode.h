@@ -320,7 +320,9 @@ namespace teamtalk {
 
         void EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
-
+        
+        bool QueueAudioInput(const media::AudioFrame& frm, StreamType stream_type);
+        
         bool MuteAll(bool muteall);
 
         void SetVoiceGainLevel(int gainlevel);
