@@ -1,15 +1,17 @@
 from ctypes import *
 import sys
+import os
 from time import sleep
 from enum import IntEnum
-
-dll = cdll.TeamTalk5
+from ctypes.util import find_library
 
 if sys.platform == "win32":
+    dll = cdll.TeamTalk5
     TTCHAR = c_wchar
     TTCHAR_P = c_wchar_p
     from ctypes.wintypes import BOOL
 else:
+    dll = cdll.LoadLibrary("libTeamTalk5.so")
     TTCHAR = c_char
     TTCHAR_P = c_char_p
     BOOL = c_int
@@ -468,13 +470,58 @@ class TTMessageUnion(Union):
 	("date", c_char*1)
 	]
 
+class ClientEvent(UINT32):
+        CLIENTEVENT_NONE = 0
+        CLIENTEVENT_CON_SUCCESS = CLIENTEVENT_NONE + 10
+        CLIENTEVENT_CON_FAILED = CLIENTEVENT_NONE + 20
+        CLIENTEVENT_CON_LOST = CLIENTEVENT_NONE + 30
+        CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED = CLIENTEVENT_NONE + 40
+        CLIENTEVENT_CMD_PROCESSING = CLIENTEVENT_NONE + 200
+        CLIENTEVENT_CMD_ERROR = CLIENTEVENT_NONE + 210
+        CLIENTEVENT_CMD_SUCCESS = CLIENTEVENT_NONE + 220
+        CLIENTEVENT_CMD_MYSELF_LOGGEDIN = CLIENTEVENT_NONE + 230
+        CLIENTEVENT_CMD_MYSELF_LOGGEDOUT = CLIENTEVENT_NONE + 240
+        CLIENTEVENT_CMD_MYSELF_KICKED = CLIENTEVENT_NONE + 250
+        CLIENTEVENT_CMD_USER_LOGGEDIN = CLIENTEVENT_NONE + 260
+        CLIENTEVENT_CMD_USER_LOGGEDOUT = CLIENTEVENT_NONE + 270
+        CLIENTEVENT_CMD_USER_UPDATE = CLIENTEVENT_NONE + 280
+        CLIENTEVENT_CMD_USER_JOINED = CLIENTEVENT_NONE + 290
+        CLIENTEVENT_CMD_USER_LEFT = CLIENTEVENT_NONE + 300
+        CLIENTEVENT_CMD_USER_TEXTMSG = CLIENTEVENT_NONE + 310
+        CLIENTEVENT_CMD_CHANNEL_NEW = CLIENTEVENT_NONE + 320
+        CLIENTEVENT_CMD_CHANNEL_UPDATE = CLIENTEVENT_NONE + 330
+        CLIENTEVENT_CMD_CHANNEL_REMOVE = CLIENTEVENT_NONE + 340
+        CLIENTEVENT_CMD_SERVER_UPDATE = CLIENTEVENT_NONE + 350
+        CLIENTEVENT_CMD_SERVERSTATISTICS = CLIENTEVENT_NONE + 360
+        CLIENTEVENT_CMD_FILE_NEW = CLIENTEVENT_NONE + 370
+        CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380
+        CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390
+        CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400
+        CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500
+        CLIENTEVENT_USER_VIDEOCAPTURE = CLIENTEVENT_NONE + 510
+        CLIENTEVENT_USER_MEDIAFILE_VIDEO = CLIENTEVENT_NONE + 520
+        CLIENTEVENT_USER_DESKTOPWINDOW = CLIENTEVENT_NONE + 530
+        CLIENTEVENT_USER_DESKTOPCURSOR = CLIENTEVENT_NONE + 540
+        CLIENTEVENT_USER_DESKTOPINPUT = CLIENTEVENT_NONE + 550
+        CLIENTEVENT_USER_RECORD_MEDIAFILE = CLIENTEVENT_NONE + 560
+        CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570
+        CLIENTEVENT_INTERNAL_ERROR = CLIENTEVENT_NONE + 1000
+        CLIENTEVENT_VOICE_ACTIVATION = CLIENTEVENT_NONE + 1010
+        CLIENTEVENT_HOTKEY = CLIENTEVENT_NONE + 1020
+        CLIENTEVENT_HOTKEY_TEST = CLIENTEVENT_NONE + 1030
+        CLIENTEVENT_FILETRANSFER = CLIENTEVENT_NONE + 1040
+        CLIENTEVENT_DESKTOPWINDOW_TRANSFER = CLIENTEVENT_NONE + 105
+        CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060
+        CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070
+
+    
 class TTMessage(Structure):
 	_anonymous_ = [
 	"u"
 	]
 
 	_fields_ = [
-	("nClientEvent", INT32),
+	("nClientEvent", UINT32),
 	("nSource", INT32),
 	("ttType", INT32),
 	("uReserved", UINT32),
@@ -702,22 +749,22 @@ class TeamTalk(object):
 	def enableVoiceTransmission(self, bEnable):
 		return _EnableVoiceTransmission(self._tt, bEnable)
 
-	def Connect(self, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort=0, nLocalUdpPort=0, bEncrypted=False):
+	def connect(self, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort=0, nLocalUdpPort=0, bEncrypted=False):
 		return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
 
-	def Disconnect(self):
+	def disconnect(self):
 		return _Disconnect(self._tt)
 
 	def doPing(self):
 		return _DoPing(self._tt)
 
-	def DoLogin(self, szNickname, szUsername="", szPassword="", szClientname="python"):
+	def doLogin(self, szNickname, szUsername="", szPassword="", szClientname="python"):
 		return _DoLoginEx(self._tt, szNickname, szUsername, szPassword, szClientname)
 
 	def doLogout(self):
 		return _DoLogout(self._tt)
 
-	def DoJoinChannelByID(self, nChannelID, szPassword=""):
+	def doJoinChannelByID(self, nChannelID, szPassword=""):
 		return _DoJoinChannelByID(self._tt, nChannelID, szPassword)
 
 	def doLeaveChannel(self):
