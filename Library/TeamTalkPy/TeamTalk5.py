@@ -758,13 +758,13 @@ class TeamTalk(object):
 	def doPing(self):
 		return _DoPing(self._tt)
 
-	def doLogin(self, szNickname, szUsername="", szPassword="", szClientname="python"):
+	def doLogin(self, szNickname, szUsername, szPassword, szClientname):
 		return _DoLoginEx(self._tt, szNickname, szUsername, szPassword, szClientname)
 
 	def doLogout(self):
 		return _DoLogout(self._tt)
 
-	def doJoinChannelByID(self, nChannelID, szPassword=""):
+	def doJoinChannelByID(self, nChannelID, szPassword):
 		return _DoJoinChannelByID(self._tt, nChannelID, szPassword)
 
 	def doLeaveChannel(self):
