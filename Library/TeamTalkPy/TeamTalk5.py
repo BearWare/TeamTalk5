@@ -467,7 +467,7 @@ class TTMessageUnion(Union):
 	("nStreamID", INT32),
 	("nPayloadSize", INT32),
 	("nStreamType", INT32),
-	("date", c_char*1)
+	("data", c_char*1)
 	]
 
 class ClientEvent(UINT32):
