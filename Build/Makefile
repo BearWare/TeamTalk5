@@ -135,4 +135,8 @@ xcodeswap-toolchain: toolchain-env
 teamtalk-jar:
 	make BUILDDIR=build-$@ CMAKE_EXTRA="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALKPRO_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALKPRO_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DOTNET=OFF -DBUILD_TEAMTALKPRO_LIBRARY_DOTNET=OFF" buildlib
 
-
+ubuntu18-prepare:
+	# Toolchain dependencies
+	apt install cmake g++ libssl-dev yasm nano automake libtool pkg-config libasound2-dev
+	# TeamTalk 5 dependencies
+	apt install qt5-default libqt5x11extras5-dev qtwebengine5-dev qtmultimedia5-dev doxygen openjdk-11-jdk
