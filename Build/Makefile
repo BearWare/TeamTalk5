@@ -137,6 +137,12 @@ teamtalk-jar:
 
 ubuntu18-prepare:
 	# Toolchain dependencies
-	apt install cmake g++ libssl-dev yasm nano automake libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
 	# TeamTalk 5 dependencies
 	apt install qt5-default libqt5x11extras5-dev qtwebengine5-dev qtmultimedia5-dev doxygen openjdk-11-jdk
+
+debian9-prepare:
+	# Toolchain dependencies
+	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+	# TeamTalk 5 dependencies
+	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev qtwebengine5-dev g++ openjdk-8-jdk
