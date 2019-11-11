@@ -626,7 +626,7 @@ class ClientStatistics(Structure):
 	("nUdpServerSilenceSec", INT32)
 	]
 
-class ClientError(INT32);
+class ClientError(INT32):
 	CMDERR_SUCCESS = 0
 	CMDERR_SYNTAX_ERROR = 1000
 	CMDERR_UNKNOWN_COMMAND = 1001
@@ -719,7 +719,7 @@ class ClientEvent(UINT32):
 	CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060
 	CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070
 
-    class TTType(INT32):
+class TTType(INT32):
 	__NONE = 0
 	__AUDIOCODEC = 1
 	__BANNEDUSER = 2
