@@ -1567,6 +1567,7 @@ void Convert(const teamtalk::ClientKeepAlive& ka, ClientKeepAlive& result)
     result.nConnectionLostMSec = ka.connection_lost.msec();
     result.nTcpKeepAliveIntervalMSec = ka.tcp_keepalive_interval.msec();
     result.nUdpKeepAliveIntervalMSec = ka.udp_keepalive_interval.msec();
+    result.nUdpKeepAliveRTXMSec = ka.udp_keepalive_rtx.msec();
     result.nUdpConnectRTXMSec = ka.udp_connect_interval.msec();
     result.nUdpConnectTimeoutMSec = ka.udp_connect_timeout.msec();
 }
