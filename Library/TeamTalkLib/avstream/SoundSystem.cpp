@@ -49,7 +49,7 @@ namespace soundsystem {
 
         bool GetDefaultDevices(int& inputdeviceid, int& outputdeviceid)
         {
-            inputdeviceid = outputdeviceid = SOUND_DEVICEID_VIRT;
+            inputdeviceid = outputdeviceid = SOUND_DEVICEID_VIRTUAL;
             return true;
         }
 
@@ -58,7 +58,7 @@ namespace soundsystem {
             switch(sndsys)
             {
             case SOUND_API_NOSOUND :
-                inputdeviceid = outputdeviceid = SOUND_DEVICEID_VIRT;
+                inputdeviceid = outputdeviceid = SOUND_DEVICEID_VIRTUAL;
                 return true;
             default:
                 return false;
