@@ -383,7 +383,8 @@ namespace teamtalk {
         bool Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                      const ACE_INET_Addr* localtcpaddr);
         void Disconnect();
-
+        ACE_INET_Addr GetLocalAddr();
+        
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)
         void OnOpened(CryptStreamHandler::StreamHandler_t& handler);
