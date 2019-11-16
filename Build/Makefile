@@ -141,4 +141,4 @@ ubuntu18-depend:
 
 debian9-depend:
 	# TeamTalk 5 dependencies
-	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev qtwebengine5-dev g++ openjdk-8-jdk
+	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev qtwebengine5-dev doxygen g++ openjdk-8-jdk qttools5-dev-tools
