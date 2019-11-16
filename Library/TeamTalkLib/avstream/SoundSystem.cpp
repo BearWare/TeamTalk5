@@ -40,9 +40,10 @@ namespace soundsystem {
     class MySoundSystem : public SoundSystemBase<SoundGroup, InputStreamer, OutputStreamer, DuplexStreamer>
     {
     public:
-        MySoundSystem() {}
+        MySoundSystem() { Init(); }
+        ~MySoundSystem() { Close(); }
 
-        bool Init() { return true; }
+        bool Init() { RefreshDevices(); return true; }
         void Close() {}
 
         void FillDevices(sounddevices_t& sounddevs) {}
