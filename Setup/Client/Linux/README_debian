@@ -1,12 +1,8 @@
-TeamTalk 5 for Debian 9
+TeamTalk 5 for Debian 9 / Ubuntu 18.04
 -----------------------
 
-TeamTalk 5 runs on Debian 9 using ALSA sound system for audio and
+TeamTalk 5 runs on Linux using ALSA sound system for audio and
 Video4Linux2 (V4L2) for video capture.
-
-When joining or creating a channel on a server then ensure that your
-audio input and output devices support the sample rate used by the
-channel, otherwise you'll get an audio device failure.
 
 
 Dependencies
@@ -36,11 +32,12 @@ libqt5webenginecore5 libqt5quick5 libqt5widgets5 \
 libqt5multimedia5 libqt5gui5 libqt5webchannel5 \
 libqt5qml5 libqt5network5 libqt5xml5 libqt5core5a libasound2
 
+
 Run TeamTalk
 ------------
 
 Use the run.sh script to start the TeamTalk client. The run.sh script
-includes the shared library (libTeamTalk.so) dependency in the library
+includes the shared library (libTeamTalk5.so) dependency in the library
 path.
 
 
@@ -61,6 +58,6 @@ here:
 Help
 ----
 
-If you have problems running TeamTalk then look in the forum at
+If you have problems running TeamTalk then search on
 http://www.bearware.dk for help.
 
