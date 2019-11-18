@@ -799,7 +799,7 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
-                          lpAudioBlock->lpRawAudio, lpAudioBlock->nSamples);
+                          reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,

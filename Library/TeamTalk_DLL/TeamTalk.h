@@ -3122,6 +3122,18 @@ extern "C" {
          * being played.
          */
          CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
+
+        /**
+         * @param nSource Stream ID used for sending audio input.
+         * The stream ID will appear in #AudioBlock's @c nStreamID
+         * on the receiving side.
+         * @param ttType #__UINT32
+         * @param uQueueDurationMSec Placed in union of #TTMessage.
+         * Tells how much audio remains in queue. The queue should 
+         * be refilled if audio input is not ending.
+         */
+        CLIENTEVENT_AUDIOINPUT_VOICE = CLIENTEVENT_NONE + 1080,
+        CLIENTEVENT_AUDIOINPUT_MEDIAFILE = CLIENTEVENT_NONE + 1090,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -3166,6 +3178,7 @@ extern "C" {
         __TTAUDIOPREPROCESSOR     = 36,
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
+        __UINT32                  = 39,
     } TTType;
 
     /**
@@ -3224,6 +3237,8 @@ extern "C" {
             INT32 nPayloadSize;
             /** @brief Valid if @c ttType is #__STREAMTYPE. */
             StreamType nStreamType;
+            /** @brief Valie if @c ttType is #__UINT32. */
+            UINT32 uQueueDurationMSec;
             /* brief First byte in union. */
             char data[1];
         };
@@ -3887,7 +3902,29 @@ extern "C" {
                                                     IN StreamType nStreamType,
                                                     IN TTBOOL bEnable);
 
-    
+    /**
+     * Transmit application provided raw audio in #AudioBlock-structs
+     * as either #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE. The
+     * provided audio blocks replaces any existing voice or media file
+     * stream.
+     *
+     * If @c nStreamType is #STREAMTYPE_VOICE then
+     * TT_EnableVoiceTransmission() and TT_EnableVoiceActivation()
+     * will become unavailable. If @c nStreamType is #STREAMTYPE_MEDIA
+     * then TT_StartStreamingMediaFileToChannel() will become
+     * unavailable.
+     *
+     * To end raw audio input set @c lpAudioBlock to NULL and then
+     * TT_EnableVoiceTransmission() or
+     * TT_StartStreamingMediaFileToChannel() will be available again.
+     *
+     * TT_InsertAudioBlock() can be called multiple times until the
+     * client instance's internal queue is full. When the queue is
+     * full then monitor #CLIENTEVENT_AUDIOINPUT_VOICE or
+     * #CLIENTEVENT_AUDIOINPUT_MEDIAFILE to see when more data can be
+     * queued. The members @c nStreamID and @c uSampleIndex of
+     * #AudioBlock are ignored.
+     */
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
                                                IN StreamType nStreamType,
                                                IN const AudioBlock* lpAudioBlock);
