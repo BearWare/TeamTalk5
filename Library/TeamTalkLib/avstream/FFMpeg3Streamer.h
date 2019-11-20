@@ -41,7 +41,7 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
 class FFMpegStreamer : public MediaStreamer
 {
 public:
-    FFMpegStreamer(MediaStreamListener* listener);
+    FFMpegStreamer();
     virtual ~FFMpegStreamer();
     
     virtual bool AddStartTime() const { return true; }

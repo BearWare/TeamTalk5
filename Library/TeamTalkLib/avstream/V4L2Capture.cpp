@@ -101,11 +101,10 @@ V4L2Capture::~V4L2Capture()
 {
 }
 
-ffmpegvideoinput_t V4L2Capture::createStreamer(MediaStreamListener* listener,
-                                            const VidCapDevice& viddevice,
-                                            const media::VideoFormat& fmt)
+ffmpegvideoinput_t V4L2Capture::createStreamer(const VidCapDevice& viddevice,
+                                               const media::VideoFormat& fmt)
 {
-    return ffmpegvideoinput_t(new V4L2Input(listener, viddevice, fmt));
+    return ffmpegvideoinput_t(new V4L2Input(viddevice, fmt));
 }
 
 void FillVidCapDevice(int fd, VidCapDevice& dev);

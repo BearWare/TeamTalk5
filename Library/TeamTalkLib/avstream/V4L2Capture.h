@@ -32,8 +32,7 @@ namespace vidcap {
     {
 
     protected:
-        ffmpegvideoinput_t createStreamer(MediaStreamListener* listener,
-                                          const VidCapDevice& viddevice,
+        ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
                                           const media::VideoFormat& fmt);
     public:
         V4L2Capture();

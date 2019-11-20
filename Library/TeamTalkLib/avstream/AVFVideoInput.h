@@ -28,10 +28,9 @@ namespace vidcap {
     class AVFVideoInput : public FFMpegVideoInput
     {
     public:
-        AVFVideoInput(MediaStreamListener* listener,
-                     const VidCapDevice& viddevice,
-                     const media::VideoFormat& fmt)
-            : FFMpegVideoInput(listener, viddevice, fmt) {
+        AVFVideoInput(const VidCapDevice& viddevice,
+                      const media::VideoFormat& fmt)
+            : FFMpegVideoInput(viddevice, fmt) {
         }
     
         // FFMpegStreamer override

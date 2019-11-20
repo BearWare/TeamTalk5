@@ -31,8 +31,7 @@ namespace vidcap {
     class AVFCapture : public FFMpeg3Capture
     {
     protected:
-        ffmpegvideoinput_t createStreamer(MediaStreamListener* listener,
-                                          const VidCapDevice& viddevice,
+        ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
                                           const media::VideoFormat& fmt);
 
     public:

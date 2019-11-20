@@ -1441,8 +1441,7 @@ bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
     }
 }
 
-bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
-                                          media::VideoFrame& video_frame,
+bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                           ACE_Message_Block* mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
@@ -1461,8 +1460,7 @@ bool ClientNode::MediaStreamVideoCallback(MediaStreamer* streamer,
     return true; //m_video_thread always takes ownership
 }
 
-bool ClientNode::MediaStreamAudioCallback(MediaStreamer* streamer,
-                                          AudioFrame& audio_frame,
+bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
                                           ACE_Message_Block* mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
@@ -1490,8 +1488,7 @@ bool ClientNode::MediaStreamAudioCallback(MediaStreamer* streamer,
     return true;  //m_video_thread always takes ownership
 }
 
-void ClientNode::MediaStreamStatusCallback(MediaStreamer* streamer,
-                                           const MediaFileProp& mfp,
+void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
                                            MediaStreamStatus status)
 {
     TTASSERT(m_flags & (CLIENT_STREAM_AUDIOFILE | CLIENT_STREAM_VIDEOFILE));
@@ -2982,9 +2979,16 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     if ((m_flags & CLIENT_STREAM_VIDEOFILE) || (m_flags & CLIENT_STREAM_AUDIOFILE))
         return false;
 
-    m_media_streamer = MakeMediaStreamer(this);
+    m_media_streamer = MakeMediaStreamer();
     if (!m_media_streamer)
         return false;
+
+    m_media_streamer->RegisterVideoCallback(std::bind(&ClientNode::MediaStreamVideoCallback,
+                                                      this, _1, _2), true);
+    m_media_streamer->RegisterAudioCallback(std::bind(&ClientNode::MediaStreamAudioCallback,
+                                                      this, _1, _2), true);
+    m_media_streamer->RegisterStatusCallback(std::bind(&ClientNode::MediaStreamStatusCallback,
+                                                       this, _1, _2), true);
 
     MediaStreamOutput media_out;
     media_out.video.fourcc = media::FOURCC_I420; // TODO: this is not enforced. FFmpeg will output RGB32

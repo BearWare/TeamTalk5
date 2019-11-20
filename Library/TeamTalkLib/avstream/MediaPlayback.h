@@ -39,8 +39,7 @@
 typedef std::function< void(int userdata, const MediaFileProp& mfp,
                             MediaStreamStatus status) > mediaplayback_status_t;
 
-class MediaPlayback : public MediaStreamListener
-                    , public soundsystem::StreamPlayer
+class MediaPlayback : public soundsystem::StreamPlayer
 {
 public:
     MediaPlayback(mediaplayback_status_t statusfunc,
@@ -68,16 +67,13 @@ public:
 #endif
 
     // MediaStreamListener
-    bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                                  media::VideoFrame& video_frame,
+    bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                   ACE_Message_Block* mb_video);
 
-    bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                                  media::AudioFrame& audio_frame,
+    bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                   ACE_Message_Block* mb_audio);
     
-    void MediaStreamStatusCallback(MediaStreamer* streamer,
-                                   const MediaFileProp& mfp,
+    void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                    MediaStreamStatus status);
 
     // StreamPlayer

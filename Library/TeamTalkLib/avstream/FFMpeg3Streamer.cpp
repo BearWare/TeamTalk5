@@ -194,8 +194,8 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFMpegStreamer::FFMpegStreamer(MediaStreamListener* listener)
-  : MediaStreamer(listener)
+FFMpegStreamer::FFMpegStreamer()
+  : MediaStreamer()
 {
     InitAVConv();
 }
@@ -329,7 +329,8 @@ void FFMpegStreamer::Run()
         // check if we should pause
         if (m_pause)
         {
-            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
             ACE_UINT32 pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
@@ -407,8 +408,8 @@ void FFMpegStreamer::Run()
         
         if (status != MEDIASTREAM_NONE)
         {
-            if(m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, status);
 
             status = MEDIASTREAM_NONE;
         }
@@ -477,7 +478,8 @@ void FFMpegStreamer::Run()
         } // stream index
         av_packet_unref(&packet);
 
-        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
+        if (m_statuscallback)
+            m_statuscallback(this->GetMediaInput(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
 
@@ -486,16 +488,16 @@ void FFMpegStreamer::Run()
     while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, true));
 
     //don't do callback if thread is asked to quit
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_FINISHED);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, MEDIASTREAM_FINISHED);
 
     MYTRACE(ACE_TEXT("FFMpeg3 finished streaming: %s\n"), m_media_in.filename.c_str());
     goto end;
 
 fail:
     //don't do callback if thread is asked to quit
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_ERROR);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, MEDIASTREAM_ERROR);
 
 end:
     if(audio_filter_graph)

@@ -253,7 +253,6 @@ namespace teamtalk {
         , public TimerListener
         , public soundsystem::StreamCapture
         , public soundsystem::StreamDuplex
-        , public MediaStreamListener
         , public FileTransferListener
         , public EventSuspender
     {
@@ -450,14 +449,11 @@ namespace teamtalk {
                                       ACE_Message_Block* mb_video);
 
         //Media stream listener - separate thread
-        bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                                      media::VideoFrame& video_frame,
+        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       ACE_Message_Block* mb_video);
-        bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                                      media::AudioFrame& audio_frame,
+        bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                       ACE_Message_Block* mb_audio);
-        void MediaStreamStatusCallback(MediaStreamer* streamer,
-                                       const MediaFileProp& mfp,
+        void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);

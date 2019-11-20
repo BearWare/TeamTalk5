@@ -51,19 +51,17 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-media_streamer_t MakeMediaStreamer(MediaStreamListener* listener)
+media_streamer_t MakeMediaStreamer()
 {
     media_streamer_t streamer;
-    MediaStreamer* tmp_streamer = NULL;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-    ACE_NEW_RETURN(tmp_streamer, MFStreamer(listener), media_streamer_t());
+    streamer.reset(new MFStreamer());
 #elif defined(ENABLE_DSHOW)
-    ACE_NEW_RETURN(tmp_streamer, DSWrapperThread(listener), media_streamer_t());
+    streamer.reset(new DSWrapperThread());
 #elif defined(ENABLE_FFMPEG3)
-    ACE_NEW_RETURN(tmp_streamer, FFMpegStreamer(listener), media_streamer_t());
+    streamer.reset(new FFMpegStreamer());
 #endif
-    streamer = media_streamer_t(tmp_streamer);
 
     return streamer;
 }
@@ -71,6 +69,30 @@ media_streamer_t MakeMediaStreamer(MediaStreamListener* listener)
 MediaStreamer::~MediaStreamer()
 {
     Close();
+}
+
+void MediaStreamer::RegisterVideoCallback(mediastream_videocallback_t cb, bool enable)
+{
+    if (enable)
+        m_videocallback = cb;
+    else
+        m_videocallback = {};
+}
+
+void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool enable)
+{
+    if (enable)
+        m_audiocallback = cb;
+    else
+        m_audiocallback = {};
+}
+
+void MediaStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)
+{
+    if (enable)
+        m_statuscallback = cb;
+    else
+        m_statuscallback = {};
 }
 
 bool MediaStreamer::OpenFile(const MediaFileProp& in_prop,
@@ -386,7 +408,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
             timestamp - starttime, int((curtime - starttime) - (timestamp - starttime)),
             int(need_more));
     //MYTRACE(ACE_TEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
-    if (!m_listener->MediaStreamAudioCallback(this, *media_frame, out_mb))
+    if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))
     {
         out_mb->release();
         out_mb = NULL;
@@ -447,7 +469,7 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
                     media_frame->timestamp - starttime, curtime - media_frame->timestamp,
                     unsigned(m_video_frames.message_count()));
 
-            if(!m_listener->MediaStreamVideoCallback(this, *media_frame, mb))
+            if (!m_videocallback || !m_videocallback(*media_frame, mb))
             {
                 mb->release();
                 mb = NULL;
