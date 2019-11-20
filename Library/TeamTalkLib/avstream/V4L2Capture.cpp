@@ -46,10 +46,9 @@ using namespace media;
 class V4L2Input : public FFMpegVideoInput
 {
 public:
-    V4L2Input(MediaStreamListener* listener,
-              const VidCapDevice& viddevice,
+    V4L2Input(const VidCapDevice& viddevice,
               const media::VideoFormat& fmt)
-        : FFMpegVideoInput(listener, viddevice, fmt) {
+        : FFMpegVideoInput(viddevice, fmt) {
     }
 
     // FFMpegStreamer override
