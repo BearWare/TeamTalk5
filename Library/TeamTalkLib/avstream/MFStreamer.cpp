@@ -34,7 +34,7 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 {
     MediaFileProp prop;
     prop.filename = filename;
-    MFStreamer s(NULL);
+    MFStreamer s;
     if (s.OpenFile(prop, MediaStreamOutput()))
     {
         fileprop = s.GetMediaInput();
@@ -43,8 +43,8 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-MFStreamer::MFStreamer(MediaStreamListener* listener)
-    : MediaStreamer(listener)
+MFStreamer::MFStreamer()
+    : MediaStreamer()
 {
 }
 
@@ -329,7 +329,8 @@ void MFStreamer::Run()
         // check if we should pause
         if (m_pause)
         {
-            m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_PAUSED);
+            if (m_statuscallback)
+                m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
             ACE_UINT32 pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
@@ -388,8 +389,8 @@ void MFStreamer::Run()
 
         if (status != MEDIASTREAM_NONE)
         {
-            if(m_listener)
-                m_listener->MediaStreamStatusCallback(this, m_media_in, status);
+            if(m_statuscallback)
+                m_statuscallback(m_media_in, status);
 
             status = MEDIASTREAM_NONE;
         }
@@ -460,7 +461,8 @@ void MFStreamer::Run()
             }
         }
 
-        m_listener->MediaStreamStatusCallback(this, this->GetMediaInput(), MEDIASTREAM_PLAYING);
+        if (m_statuscallback)
+            m_statuscallback(this->GetMediaInput(), MEDIASTREAM_PLAYING);
 
         while(!m_stop && !error && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime + offset, false));
     }
@@ -474,8 +476,8 @@ void MFStreamer::Run()
 
     assert(m_stop || m_audio_frames.message_length() == 0);
 
-    if(m_listener && !m_stop)
-        m_listener->MediaStreamStatusCallback(this, m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
+    if (m_statuscallback && !m_stop)
+        m_statuscallback(m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
 
     return;
 
