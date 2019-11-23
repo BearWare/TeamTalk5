@@ -550,30 +550,12 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     int n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
     short* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
 
-    ACE_Message_Block* mb;
-    ACE_NEW_NORETURN(mb, 
-                     ACE_Message_Block(sizeof(AudioFrame) +
-                                       PCM16_BYTES(filt_frame->nb_samples, n_channels)));
-    if(mb)
-    {
-        AudioFrame media_frame;
-        media_frame.timestamp = frame_timestamp;
-        media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
-        media_frame.input_samples = filt_frame->nb_samples;
-        media_frame.inputfmt = m_media_out.audio;
-
-        mb->copy(reinterpret_cast<const char*>(&media_frame), 
-                 sizeof(media_frame));
-        mb->copy(reinterpret_cast<const char*>(audio_data), 
-                 PCM16_BYTES(filt_frame->nb_samples, n_channels));
-
-        ACE_Time_Value tm;
-        if (m_audio_frames.enqueue(mb, &tm) < 0)
-        {
-            mb->release();
-            MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), media_frame.timestamp);
-        }
-    } // mb
+    AudioFrame media_frame;
+    media_frame.timestamp = frame_timestamp;
+    media_frame.input_buffer = audio_data;
+    media_frame.input_samples = filt_frame->nb_samples;
+    media_frame.inputfmt = m_media_out.audio;
+    QueueAudio(media_frame);
         
     av_frame_unref(filt_frame);
 
@@ -640,19 +622,10 @@ int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                            m_media_out.video.fourcc, true);
     media_frame.timestamp = frame_timestamp;
 
-    ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
     assert(filt_frame->width == m_media_in.video.width);
     assert(filt_frame->height == m_media_in.video.height);
-    if(mb)
-    {
-        ACE_Time_Value tm;
-        if (m_video_frames.enqueue(mb, &tm) < 0)
-        {
-            MYTRACE(ACE_TEXT("Dropped video frame %u\n"), media_frame.timestamp);
-            mb->release();
-        }
-            
-    }
+    
+    QueueVideo(media_frame);
 
     av_frame_unref(filt_frame);
 

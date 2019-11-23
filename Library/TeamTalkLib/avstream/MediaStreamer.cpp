@@ -158,6 +158,42 @@ void MediaStreamer::Reset()
     m_video_frames.close();
 }
 
+bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
+{
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
+    assert(mb);
+
+    if (!mb)
+        return false;
+    
+    ACE_Time_Value zero;
+    if (m_audio_frames.enqueue(mb, &zero) >= 0)
+        return true;
+    
+    MYTRACE(ACE_TEXT("Dropped audio frame %u\n"), frame.timestamp);
+    
+    mb->release();
+    return false;
+}
+
+bool MediaStreamer::QueueVideo(const media::VideoFrame& frame)
+{
+    ACE_Message_Block* mb = VideoFrameToMsgBlock(frame);
+    assert(mb);
+
+    if (!mb)
+        return false;
+    
+    ACE_Time_Value zero;
+    if (m_video_frames.enqueue(mb, &zero) >= 0)
+        return true;
+    
+    MYTRACE(ACE_TEXT("Dropped video frame %u\n"), frame.timestamp);
+    
+    mb->release();
+    return false;
+}
+
 void MediaStreamer::InitBuffers()
 {
     assert(m_media_out.HasAudio() || m_media_out.HasVideo());

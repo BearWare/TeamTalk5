@@ -117,10 +117,14 @@ public:
 
     virtual const MediaStream& GetMediaInput() const = 0;
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
-
+    
 protected:
     virtual void Run() = 0;
     virtual void Reset();
+
+    bool QueueAudio(const media::AudioFrame& frame);
+    bool QueueVideo(const media::VideoFrame& frame);
+    
     void InitBuffers();
     void ClearBuffers();
     ACE_UINT32 GetMinimumFrameDurationMSec() const;
@@ -136,9 +140,6 @@ protected:
     //return 'true' if it should be called again
     bool ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
 
-    msg_queue_t m_audio_frames;
-    msg_queue_t m_video_frames;
-
 private:
 
     mediastream_videocallback_t m_videocallback;
@@ -146,6 +147,9 @@ private:
 
     bool ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
     bool ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime);
+    
+    msg_queue_t m_audio_frames;
+    msg_queue_t m_video_frames;
 };
 
 class MediaFileStreamer : public MediaStreamer

@@ -24,6 +24,8 @@
 #include "FFMpeg3Resampler.h"
 #include <assert.h>
 
+#include "FFMpeg3Streamer.h" // need InitAVConv()
+
 extern "C" {
 #include <libswresample/swresample.h>
 #include <libavutil/channel_layout.h>
@@ -36,6 +38,7 @@ extern "C" {
 FFMPEGResampler::FFMPEGResampler()
     : m_ctx(NULL)
 {
+    InitAVConv();
 }
 
 FFMPEGResampler::~FFMPEGResampler()
