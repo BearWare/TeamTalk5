@@ -21,7 +21,7 @@
  *
  */
 
-#include "AVFCapture.h"
+#include "FFMpeg3Capture.h"
 
 #include <memory>
 #include <sstream>
@@ -32,6 +32,7 @@ using namespace vidcap;
 
 FFMpeg3Capture::FFMpeg3Capture()
 {
+    InitAVConv();
 }
 
 FFMpeg3Capture::~FFMpeg3Capture()
