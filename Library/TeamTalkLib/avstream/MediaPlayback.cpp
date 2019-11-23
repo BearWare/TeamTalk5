@@ -76,8 +76,8 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     MediaStreamOutput outprop(inprop.audio, int(PB_FRAMESIZE(inprop.audio.samplerate)),
                               inprop.video);
 
-    m_streamer = MakeMediaStreamer();
-    if (m_streamer && m_streamer->OpenFile(inprop, outprop))
+    m_streamer = MakeMediaFileStreamer();
+    if (m_streamer && m_streamer->OpenFile(filename, outprop))
     {
         m_streamer->RegisterVideoCallback(std::bind(&MediaPlayback::MediaStreamVideoCallback,
                                                     this, _1, _2), true);
@@ -97,7 +97,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!m_streamer)
         return false;
 
-    MediaFileProp inprop = m_streamer->GetMediaInput();
+    auto inprop = m_streamer->GetMediaInput();
     if (!inprop.HasAudio())
         return false;
 

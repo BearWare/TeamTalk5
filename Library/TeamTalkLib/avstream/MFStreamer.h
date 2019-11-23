@@ -33,7 +33,7 @@
 
 bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 
-class MFStreamer : public MediaStreamer
+class MFStreamer : public MediaFileStreamer
 {
 public:
     MFStreamer();

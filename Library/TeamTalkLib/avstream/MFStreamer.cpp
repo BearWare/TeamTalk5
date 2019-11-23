@@ -44,7 +44,6 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 }
 
 MFStreamer::MFStreamer()
-    : MediaStreamer()
 {
 }
 

@@ -195,7 +195,6 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 
 
 FFMpegStreamer::FFMpegStreamer()
-  : MediaStreamer()
 {
     InitAVConv();
 }
@@ -239,6 +238,7 @@ void FFMpegStreamer::Run()
     if(!SetupInput(in_fmt, options, fmt_ctx, aud_dec_ctx, vid_dec_ctx, 
                    audio_stream_index, video_stream_index))
     {
+        MYTRACE("Failed to setup input: %s\n", m_media_in.filename.c_str());
         m_open.set(false);
         goto end;
     }
@@ -343,7 +343,7 @@ void FFMpegStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), GetMediaInput().filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), m_media_in.filename.c_str(), pausetime);
             totalpausetime += pausetime;
         }
 
@@ -365,12 +365,12 @@ void FFMpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, audio_stream_index, difftime_sec / av_q2d(aud_stream->time_base),
                                   (offset_sec > curaudio_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
             }
 
@@ -383,12 +383,12 @@ void FFMpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, video_stream_index, difftime_sec / av_q2d(vid_stream->time_base),
                                   (offset_sec > curvideo_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), GetMediaInput().filename.c_str());
+                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
 
             }
@@ -479,7 +479,7 @@ void FFMpegStreamer::Run()
         av_packet_unref(&packet);
 
         if (m_statuscallback)
-            m_statuscallback(this->GetMediaInput(), MEDIASTREAM_PLAYING);
+            m_statuscallback(m_media_in, MEDIASTREAM_PLAYING);
 
         while(!m_stop && ProcessAVQueues(start_time, GETTIMESTAMP() - totalpausetime, false));
 

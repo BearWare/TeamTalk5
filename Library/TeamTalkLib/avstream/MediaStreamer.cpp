@@ -51,9 +51,9 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-media_streamer_t MakeMediaStreamer()
+mediafile_streamer_t MakeMediaFileStreamer()
 {
-    media_streamer_t streamer;
+    mediafile_streamer_t streamer;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
     streamer.reset(new MFStreamer());
@@ -69,6 +69,7 @@ media_streamer_t MakeMediaStreamer()
 MediaStreamer::~MediaStreamer()
 {
     Close();
+    MYTRACE(ACE_TEXT("~MediaStreamer()\n"));
 }
 
 void MediaStreamer::RegisterVideoCallback(mediastream_videocallback_t cb, bool enable)
@@ -87,26 +88,21 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
         m_audiocallback = {};
 }
 
-void MediaStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)
+bool MediaStreamer::Open(const MediaStreamOutput& out_prop)
 {
-    if (enable)
-        m_statuscallback = cb;
-    else
-        m_statuscallback = {};
-}
+    if (GetMediaInput().IsValid())
+        return false;
 
-bool MediaStreamer::OpenFile(const MediaFileProp& in_prop,
-                             const MediaStreamOutput& out_prop)
-{
-    Close();
-
-    m_media_in = in_prop;
     m_media_out = out_prop;
 
     m_thread.reset(new std::thread(&MediaStreamer::Run, this));
 
     bool ret = false;
     m_open.get(ret);
+
+    if (!ret)
+        Close();
+    
     return ret;
 }
 
@@ -152,19 +148,10 @@ bool MediaStreamer::Pause()
     return true;
 }
 
-ACE_UINT32 MediaStreamer::SetOffset(ACE_UINT32 offset)
-{
-    std::lock_guard<std::mutex> g(m_mutex);
-    auto prev = m_offset;
-    m_offset = offset;
-    return prev;
-}
-
 void MediaStreamer::Reset()
 {
-    m_media_in = MediaFileProp();
     m_media_out = MediaStreamOutput();
-    m_stop = false;
+    m_stop = m_pause = false;
 
     m_audio_frames.close();
     m_video_frames.close();
@@ -187,9 +174,10 @@ void MediaStreamer::InitBuffers()
 
     if (m_media_out.HasVideo())
     {
-        int bmp_size = RGB32_BYTES(m_media_in.video.width, m_media_in.video.height);
+        auto media_in = GetMediaInput();
+        int bmp_size = RGB32_BYTES(media_in.video.width, media_in.video.height);
         int media_frame_size = bmp_size + sizeof(media::VideoFrame);
-        size_t fps = m_media_in.video.fps_numerator / std::max(1, m_media_in.video.fps_denominator);
+        size_t fps = media_in.video.fps_numerator / std::max(1, media_in.video.fps_denominator);
 
         size_t buffer_size = fps * BUF_SECS * media_frame_size;
         m_video_frames.low_water_mark(buffer_size);
@@ -226,7 +214,8 @@ ACE_UINT32 MediaStreamer::GetMinimumFrameDurationMSec() const
 
     if(m_media_out.HasVideo())
     {
-        double fps = std::max(1, m_media_in.video.fps_numerator) / std::max(1, m_media_in.video.fps_denominator);
+        auto media_in = GetMediaInput();
+        double fps = std::max(1, media_in.video.fps_numerator) / std::max(1, media_in.video.fps_denominator);
         wait_ms = ACE_UINT32(std::min(1000. / fps, double(wait_ms)));
     }
     return wait_ms;
@@ -490,3 +479,45 @@ bool MediaStreamer::ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime)
 
     return m_video_frames.message_count() == 0;
 }
+
+
+void MediaFileStreamer::Reset()
+{
+    MediaStreamer::Reset();
+
+    m_media_in = MediaFileProp();
+    m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+}
+
+bool MediaFileStreamer::OpenFile(const ACE_TString& filename,
+                                 const MediaStreamOutput& out_prop)
+{
+    Close();
+
+    m_media_in.filename = filename;
+
+    if (!Open(out_prop))
+    {
+        Close();
+        return false;
+    }
+    
+    return true;
+}
+
+void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable)
+{
+    if (enable)
+        m_statuscallback = cb;
+    else
+        m_statuscallback = {};
+}
+
+ACE_UINT32 MediaFileStreamer::SetOffset(ACE_UINT32 offset)
+{
+    std::lock_guard<std::mutex> g(m_mutex);
+    auto prev = m_offset;
+    m_offset = offset;
+    return prev;
+}
+

@@ -107,37 +107,27 @@ public:
 
     void RegisterVideoCallback(mediastream_videocallback_t cb, bool enable);
     void RegisterAudioCallback(mediastream_audiocallback_t cb, bool enable);
-    void RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable);
     
-    bool OpenFile(const MediaFileProp& in_prop,
-                  const MediaStreamOutput& out_prop);
+    bool Open(const MediaStreamOutput& out_prop);
     void Close();
 
     bool StartStream();
 
     bool Pause();
 
-    // return previous offset (was)
-    ACE_UINT32 SetOffset(ACE_UINT32 offset);
-
-    const MediaFileProp& GetMediaInput() const { return m_media_in; }
+    virtual const MediaStream& GetMediaInput() const = 0;
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
 
 protected:
     virtual void Run() = 0;
-    void Reset();
+    virtual void Reset();
     void InitBuffers();
     void ClearBuffers();
     ACE_UINT32 GetMinimumFrameDurationMSec() const;
     int GetQueuedAudioDataSize();
 
-    MediaFileProp m_media_in;
     MediaStreamOutput m_media_out;
-
-    mediastream_videocallback_t m_videocallback;
-    mediastream_audiocallback_t m_audiocallback;
-    mediastream_statuscallback_t m_statuscallback;
-
+    
     std::shared_ptr< std::thread > m_thread;
     ACE_Future<bool> m_open, m_run;
     bool m_pause = false;
@@ -150,14 +140,42 @@ protected:
     msg_queue_t m_video_frames;
 
 private:
+
+    mediastream_videocallback_t m_videocallback;
+    mediastream_audiocallback_t m_audiocallback;
+
     bool ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
     bool ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime);
-    std::mutex m_mutex;
-    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
 };
 
-typedef std::shared_ptr< MediaStreamer > media_streamer_t;
+class MediaFileStreamer : public MediaStreamer
+{
+public:
+    bool OpenFile(const ACE_TString& filename,
+                  const MediaStreamOutput& out_prop);
+    
+    void RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable);
+    
+    // return previous offset (was)
+    ACE_UINT32 SetOffset(ACE_UINT32 offset);
 
-media_streamer_t MakeMediaStreamer();
+    const MediaStream& GetMediaInput() const { return m_media_in; }
+    const MediaFileProp& GetMediaFile() const { return m_media_in; }
+    
+protected:
+    virtual void Reset();
+
+    MediaFileProp m_media_in;
+    
+    mediastream_statuscallback_t m_statuscallback;
+
+    std::mutex m_mutex;
+    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+    
+};
+
+typedef std::shared_ptr< MediaFileStreamer > mediafile_streamer_t;
+
+mediafile_streamer_t MakeMediaFileStreamer();
 
 #endif

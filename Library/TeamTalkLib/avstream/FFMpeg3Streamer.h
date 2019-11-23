@@ -38,7 +38,7 @@ void InitAVConv();
 
 bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
 
-class FFMpegStreamer : public MediaStreamer
+class FFMpegStreamer : public MediaFileStreamer
 {
 public:
     FFMpegStreamer();

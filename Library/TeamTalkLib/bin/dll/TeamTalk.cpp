@@ -800,6 +800,7 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
 
     media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
                           reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
+    
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
@@ -3162,6 +3163,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(TTBOOL);
     case __INT32 :
         return sizeof(INT32);
+    case __UINT32 :
+        return sizeof(UINT32);
     case __MEDIAFILESTATUS :
         return sizeof(MediaFileStatus);
     case __SPEEXDSP :

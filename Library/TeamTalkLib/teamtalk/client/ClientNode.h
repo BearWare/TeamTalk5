@@ -660,7 +660,7 @@ namespace teamtalk {
         uint8_t m_vidcap_stream_id; //0 means not used
 
         //media streamer to channels
-        media_streamer_t m_media_streamer;
+        mediafile_streamer_t m_mediafile_streamer;
         uint8_t m_mediafile_stream_id; //0 means not used
 
         //encode audio of media file

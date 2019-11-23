@@ -48,8 +48,7 @@ class V4L2Input : public FFMpegVideoInput
 public:
     V4L2Input(const VidCapDevice& viddevice,
               const media::VideoFormat& fmt)
-        : FFMpegVideoInput(viddevice, fmt) {
-    }
+    : FFMpegVideoInput(viddevice, fmt) { }
 
     // FFMpegStreamer override
     bool SetupInput(AVInputFormat *iformat,
@@ -58,13 +57,15 @@ public:
                     AVCodecContext*& aud_dec_ctx,
                     AVCodecContext*& vid_dec_ctx,
                     int& audio_stream_index,
-                    int& video_stream_index) {
+                    int& video_stream_index)
+    {
+        auto vidfmt = GetMediaOutput().video;
 
         iformat = av_find_input_format(m_dev.api.c_str());
         int fps = 1;
-        if (m_media_in.video.fps_denominator)
+        if (vidfmt.fps_denominator)
         {
-            fps = m_media_in.video.fps_numerator / m_media_in.video.fps_denominator;
+            fps = vidfmt.fps_numerator / vidfmt.fps_denominator;
             fps = std::max(1, fps);
         }
 
@@ -73,7 +74,7 @@ public:
         av_dict_set(&options, "framerate", os.str().c_str(), 0);
 
         os.str("");
-        os << m_media_in.video.width << "x" << m_media_in.video.height;
+        os << vidfmt.width << "x" << vidfmt.height;
         av_dict_set(&options, "video_size", os.str().c_str(), 0);
 
         av_dict_set(&options, "pixel_format", "0rgb", 0);

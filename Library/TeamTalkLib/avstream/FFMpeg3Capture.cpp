@@ -57,14 +57,10 @@ bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
     streamer->RegisterStatusCallback(std::bind(&FFMpeg3Capture::MediaStreamStatusCallback,
                                                this, _1, _2), true);
 
-    MediaFileProp in_prop;
-    in_prop.video = vidfmt;
-    in_prop.filename = deviceid;
-
     MediaStreamOutput out_prop;
     out_prop.video = vidfmt;
 
-    if(!streamer->OpenFile(in_prop, out_prop))
+    if(!streamer->OpenFile(deviceid, out_prop))
         return false;
 
     m_videoinput.swap(streamer);

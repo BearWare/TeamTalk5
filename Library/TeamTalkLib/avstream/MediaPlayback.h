@@ -81,7 +81,7 @@ public:
                         short* buffer, int samples);
     
 private:
-    media_streamer_t m_streamer;
+    mediafile_streamer_t m_streamer;
     mediaplayback_status_t m_statusfunc;
     int m_userdata = 0;
     int m_gainlevel = GAIN_NORMAL;
