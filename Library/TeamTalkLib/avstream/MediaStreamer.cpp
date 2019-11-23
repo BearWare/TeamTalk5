@@ -68,7 +68,8 @@ mediafile_streamer_t MakeMediaFileStreamer()
 
 MediaStreamer::~MediaStreamer()
 {
-    Close();
+    // subclasses must call ::Close() manually to finish their ::Run() method
+    assert(!m_thread);
     MYTRACE(ACE_TEXT("~MediaStreamer()\n"));
 }
 
