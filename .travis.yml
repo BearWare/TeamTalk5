@@ -54,14 +54,6 @@ script:
   - cd build
   - cmake -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_STATIC=OFF -DBUILD_TEAMTALK_ACE=OFF -DSPEEXDSP_STATIC=OFF -DFFMPEG_STATIC=OFF -DAVF=OFF -DMSDMO=OFF -DDSHOW=OFF -DVIDCAP=OFF -DMEDIAFOUNDATION=OFF -DOPUS_STATIC=OFF -DLIBVPX_STATIC=OFF -DSPEEX_STATIC=OFF -DOGG_STATIC=OFF -DOPUSTOOLS=OFF -DLAMEMP3=OFF -DMSVS_UNITTEST=OFF -DACE_STATIC=OFF -DTINYXML_STATIC=OFF -DPORTAUDIO_STATIC=OFF -DZLIB_STATIC=OFF ..
   - make -j4
-# Build Qt clients
-  - cd $TRAVIS_BUILD_DIR
-  - cd Client/qtTeamTalk
-  - qmake CONFIG+=nowebengine teamtalk5.pro
-  - make -j4
-  - make clean
-  - qmake CONFIG+=nowebengine teamtalk5pro.pro
-  - make -j4
 # Run JUnit suite TeamTalkServerTestSuite.java
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
@@ -97,3 +89,12 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - cd Library/TeamTalkJNI
   - make runjunitsrv
+
+# Build Qt clients
+#  - cd $TRAVIS_BUILD_DIR
+#  - cd Client/qtTeamTalk
+#  - qmake CONFIG+=nowebengine teamtalk5.pro
+#  - make -j4
+#  - make clean
+#  - qmake CONFIG+=nowebengine teamtalk5pro.pro
+#  - make -j4
