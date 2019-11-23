@@ -209,7 +209,7 @@ void FillVidCapDevice(int fd, VidCapDevice& dev)
                         fmt.fps_denominator = frame_interval.discrete.numerator;
 
                         dev.vidcapformats.push_back(fmt);
-                        MYTRACE("Added format\n");
+                        MYTRACE("Added format %d %dx%d@%d\n", fmt.fourcc, fmt.width, fmt.height, fmt.fps_numerator / fmt.fps_denominator);
                     }
                     break;
                 case V4L2_FRMIVAL_TYPE_STEPWISE :

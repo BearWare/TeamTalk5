@@ -37,6 +37,7 @@ class MFStreamer : public MediaFileStreamer
 {
 public:
     MFStreamer();
+    ~MFStreamer();
 
 protected:
     void Run();

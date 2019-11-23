@@ -201,6 +201,7 @@ FFMpegStreamer::FFMpegStreamer()
 
 FFMpegStreamer::~FFMpegStreamer()
 {
+    Close();
     MYTRACE(ACE_TEXT("~FFMpegStreamer()\n"));
 }
 

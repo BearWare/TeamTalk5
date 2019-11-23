@@ -47,6 +47,12 @@ MFStreamer::MFStreamer()
 {
 }
 
+MFStreamer::~MFStreamer()
+{
+    Close();
+}
+
+
 LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamIndex, 
                       LONGLONG llOffset, const MediaFileProp& prop)
 {
