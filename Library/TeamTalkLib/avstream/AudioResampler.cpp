@@ -128,7 +128,7 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
 #elif defined(ENABLE_FFMPEG3)
     auto ffmpeg = FFMPEGResampler(informat, outformat, input_samples_size)
     resampler.reset(ffmpeg);
-    ret = tmp_resample->Init();
+    ret = ffmpeg->Init();
     MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
 #elif defined(ENABLE_SPEEXDSP)
     auto spx = new SpeexResampler(informat, outformat, input_samples_size);
