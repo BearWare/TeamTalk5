@@ -126,7 +126,7 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
     ret = dmo->Init(SAMPLEFORMAT_INT16, SAMPLEFORMAT_INT16);
     MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
 #elif defined(ENABLE_FFMPEG3)
-    auto ffmpeg = FFMPEGResampler(informat, outformat, input_samples_size)
+    auto ffmpeg = FFMPEGResampler(informat, outformat, input_samples_size);
     resampler.reset(ffmpeg);
     ret = ffmpeg->Init();
     MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
