@@ -41,19 +41,18 @@ class DMOResampler : public AudioResampler
 {
 public:
     DMOResampler(const DMOResampler&) = delete;
-    DMOResampler();
+    DMOResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                 int fixed_input_samples = 0);
     virtual ~DMOResampler();
 
-    bool Init(SampleFormat inputSampleFmt, int input_channels,
-              int input_samplerate, SampleFormat outputSampleFmt,
-              int output_channels, int output_samplerate);
+    bool Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFmt);
     void Close();
 
     //returns no. of samples in output
     int Resample(const short* input_samples, int input_samples_cnt,
                  short* output_samples, int output_samples_cnt);
 private:
-    IMediaObject* m_pDMO;
+    IMediaObject* m_pDMO = nullptr;
     DMO_MEDIA_TYPE m_mt_input, m_mt_output;
 };
 

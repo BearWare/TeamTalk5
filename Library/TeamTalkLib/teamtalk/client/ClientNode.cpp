@@ -1007,11 +1007,9 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         //get callback size for new samplerate
         input_samples = CalcSamples(codec_samplerate, codec_samples,
                                     input_samplerate);
-
-        m_capture_resampler = MakeAudioResampler(input_channels,
-                                                 input_samplerate,
-                                                 codec_channels,
-                                                 codec_samplerate);
+        media::AudioFormat infmt(input_samplerate, input_channels),
+            outfmt(codec_samplerate, codec_channels);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
 
         if (!m_capture_resampler)
         {
@@ -1037,11 +1035,10 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         assert(dev.SupportsOutputFormat(output_channels, input_samplerate));
         if(!dev.SupportsOutputFormat(output_channels, input_samplerate))
         {
-            m_playback_resampler = MakeAudioResampler(output_channels,
-                                                      input_samplerate, //sample rate shared in dpx mode
-                                                      codec_channels,
-                                                      codec_samplerate);
-
+            media::AudioFormat infmt(input_samplerate, output_channels),
+                outfmt(codec_samplerate, codec_channels);
+            m_playback_resampler = MakeAudioResampler(infmt, //sample rate shared in dpx mode
+                                                      outfmt);
             if (!m_playback_resampler)
             {
                 m_playback_resampler.reset();

@@ -1109,10 +1109,9 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         //get callback size for new samplerate
         output_samples = CalcSamples(codec_samplerate, codec_samples,
                                      output_samplerate);
-
-        resampler = MakeAudioResampler(codec_channels, codec_samplerate,
-                                       output_channels, output_samplerate);
-
+        media::AudioFormat infmt(codec_samplerate, codec_channels),
+            outfmt(output_samplerate, output_channels);
+        resampler = MakeAudioResampler(infmt, outfmt);
         assert(resampler);
         if (!resampler)
             return audio_player_t();

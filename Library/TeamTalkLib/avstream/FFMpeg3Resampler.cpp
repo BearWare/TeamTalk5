@@ -35,8 +35,11 @@ extern "C" {
 #define SWR_CH_MAX 32
 #endif
 
-FFMPEGResampler::FFMPEGResampler()
-    : m_ctx(NULL)
+FFMPEGResampler::FFMPEGResampler(const media::AudioFormat& informat,
+                                 const media::AudioFormat& outformat,
+                                 int fixed_input_samples)
+: AudioResampler(informat, outformat, fixed_input_samples)
+, m_ctx(NULL)
 {
     InitAVConv();
 }
@@ -46,23 +49,22 @@ FFMPEGResampler::~FFMPEGResampler()
     Close();
 }
 
-bool FFMPEGResampler::Init(int input_samplerate, int input_channels, 
-                           int output_samplerate, int output_channels)
+bool FFMPEGResampler::Init()
 {
     if(m_ctx)
         return false;
 
     m_ctx = swr_alloc_set_opts(NULL,
-                               output_channels == 2?
+                               GetOutputFormat().channels == 2?
                                AV_CH_LAYOUT_STEREO :
                                AV_CH_LAYOUT_MONO,
                                AV_SAMPLE_FMT_S16,
-                               output_samplerate,
-                               input_channels == 2?
+                               GetOutputFormat().samplerate,
+                               GetInputFormat().channels == 2?
                                AV_CH_LAYOUT_STEREO :
                                AV_CH_LAYOUT_MONO,
                                AV_SAMPLE_FMT_S16,
-                               input_samplerate,
+                               GetInputFormat().samplerate,
                                0,
                                0);
     if(!m_ctx)

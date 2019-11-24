@@ -31,11 +31,11 @@
 class FFMPEGResampler : public AudioResampler
 {
 public:
-    FFMPEGResampler();
+    FFMPEGResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                    int fixed_input_samples = 0);
     virtual ~FFMPEGResampler();
     
-    bool Init(int input_samplerate, int input_channels, 
-              int output_samplerate, int output_channels);
+    bool Init();
     void Close();
 
     //return number of samples written to 'output_samples'

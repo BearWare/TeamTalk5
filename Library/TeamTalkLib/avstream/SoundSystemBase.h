@@ -275,10 +275,9 @@ namespace soundsystem {
             auto key = MakeKey(*streamer);
             if (m_resamplers.find(key) == m_resamplers.end())
             {
-                m_resamplers[key] = MakeAudioResampler(m_originalstream->channels,
-                                                       m_originalstream->samplerate,
-                                                       streamer->channels,
-                                                       streamer->samplerate);
+                media::AudioFormat infmt(m_originalstream->samplerate, m_originalstream->channels),
+                    outfmt(streamer->samplerate, streamer->channels);
+                m_resamplers[key] = MakeAudioResampler(infmt, outfmt);
 
                 int resampleoutput = CalcSamples(m_originalstream->samplerate,
                                                  m_originalstream->framesize, streamer->samplerate);

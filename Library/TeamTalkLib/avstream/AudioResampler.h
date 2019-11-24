@@ -35,6 +35,8 @@ int CalcSamples(int src_samplerate, int src_samples, int dest_samplerate);
 class AudioResampler
 {
 public:
+    AudioResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+                   int fixed_input_samples = 0);
     virtual ~AudioResampler() {}
 
     // resample with varying 'input_sample_size'
@@ -43,29 +45,30 @@ public:
 
     // resample with fixed 'input_sample_size'. Returns 'm_resampleoutput'
     short* Resample(const short* input_samples, int* output_samples_size = nullptr);
+    // resample with fixed 'input_sample_size'
     int Resample(const short* input_samples, short* output_samples);
 
+    const media::AudioFormat& GetInputFormat() const { return m_infmt; }
+    const media::AudioFormat& GetOutputFormat() const { return m_outfmt; }
+
+protected:
     void SetupFixedFrameSize(const media::AudioFormat& informat,
                              const media::AudioFormat& outformat,
                              int input_samples_size);
-protected:
+
     void FillOutput(int channels, short* output_samples,
                     int output_samples_written,
                     int output_samples_total);
 private:
+    media::AudioFormat m_infmt, m_outfmt;
     std::vector<short> m_resampleoutput;
     int m_input_samples_size = 0, m_output_samples_size = 0;
 };
 
 typedef std::shared_ptr< AudioResampler > audio_resampler_t;
 
-audio_resampler_t MakeAudioResampler(int input_channels, 
-                                     int input_samplerate, 
-                                     int output_channels, 
-                                     int output_samplerate);
-
 audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
                                      const media::AudioFormat& outformat,
-                                     int input_samples_size);
+                                     int input_samples_size = 0);
 
 #endif

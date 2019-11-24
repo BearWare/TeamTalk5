@@ -92,14 +92,11 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 
         input_samples = CalcSamples(output_samplerate, output_samples,
                                     input_samplerate);
-        m_capture_resampler = MakeAudioResampler(input_channels,
-                                                 input_samplerate,
-                                                 output_channels,
-                                                 output_samplerate);
-
+        media::AudioFormat infmt(input_samplerate, input_channels),
+            outfmt(output_samplerate, output_channels);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
         if (!m_capture_resampler)
             return false;
-
         m_resample_buffer.resize(output_samples * output_channels);
     }
 
@@ -160,8 +157,9 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
 
     if(input_channels != channels)
     {
-        m_capture_resampler = MakeAudioResampler(input_channels, samplerate,
-                                                 channels, samplerate);
+        media::AudioFormat infmt(samplerate, input_channels),
+            outfmt(samplerate, channels);
+        m_capture_resampler = MakeAudioResampler(infmt, outfmt);
         if (!m_capture_resampler)
             return false;
 
