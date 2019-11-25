@@ -116,7 +116,7 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
 
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 {
-    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->base());
     return frm;
 }
 
@@ -151,6 +151,12 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame)
     assert(ret >= 0);
 
     return mb;
+}
+
+media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)
+{
+    media::AudioFrame* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
+    return frm;
 }
 
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq)

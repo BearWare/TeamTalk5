@@ -91,7 +91,7 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
 
 bool MediaStreamer::Open(const MediaStreamOutput& out_prop)
 {
-    if (GetMediaInput().IsValid())
+    if (GetMediaOutput().IsValid())
         return false;
 
     m_media_out = out_prop;
@@ -160,6 +160,7 @@ void MediaStreamer::Reset()
 
 bool MediaStreamer::QueueAudio(const media::AudioFrame& frame)
 {
+    assert(frame.inputfmt == GetMediaOutput().audio);
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
     assert(mb);
 
@@ -211,10 +212,9 @@ void MediaStreamer::InitBuffers()
 
     if (m_media_out.HasVideo())
     {
-        auto media_in = GetMediaInput();
-        int bmp_size = RGB32_BYTES(media_in.video.width, media_in.video.height);
+        int bmp_size = RGB32_BYTES(m_media_out.video.width, m_media_out.video.height);
         int media_frame_size = bmp_size + sizeof(media::VideoFrame);
-        size_t fps = media_in.video.fps_numerator / std::max(1, media_in.video.fps_denominator);
+        size_t fps = m_media_out.video.fps_numerator / std::max(1, m_media_out.video.fps_denominator);
 
         size_t buffer_size = fps * BUF_SECS * media_frame_size;
         m_video_frames.low_water_mark(buffer_size);
@@ -251,8 +251,7 @@ ACE_UINT32 MediaStreamer::GetMinimumFrameDurationMSec() const
 
     if(m_media_out.HasVideo())
     {
-        auto media_in = GetMediaInput();
-        double fps = std::max(1, media_in.video.fps_numerator) / std::max(1, media_in.video.fps_denominator);
+        double fps = std::max(1, m_media_out.video.fps_numerator) / std::max(1, m_media_out.video.fps_denominator);
         wait_ms = ACE_UINT32(std::min(1000. / fps, double(wait_ms)));
     }
     return wait_ms;

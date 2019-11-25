@@ -66,7 +66,7 @@ MediaPlayback::~MediaPlayback()
 
 bool MediaPlayback::OpenFile(const ACE_TString& filename)
 {
-    if (m_streamer && m_streamer->GetMediaInput().IsValid())
+    if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
 
     MediaFileProp inprop;
@@ -97,7 +97,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!m_streamer)
         return false;
 
-    auto inprop = m_streamer->GetMediaInput();
+    auto inprop = m_streamer->GetMediaFile();
     if (!inprop.HasAudio())
         return false;
 

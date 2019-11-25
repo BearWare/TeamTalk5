@@ -48,33 +48,37 @@ namespace UnitTest
 
     TEST_CLASS(UnitTest1)
     {
+        TEST_CLASS_INITIALIZE(InitClass)
+        {
+#if defined(ENABLE_MEDIAFOUNDATION)
+            TTInstance* ttInit = TT_InitTeamTalkPoll(); //MF_Startup()
+            TT_CloseTeamTalk(ttInit);
+#endif
+        }
+
+        TEST_CLASS_CLEANUP(TearDownClass)
+        {
+        }
 
     public:
 
         TEST_METHOD(TestAudioStream)
         {
-            class : public MediaStreamListener
+
+            class MediaStreamListener
             {
                 WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
-                bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                    media::VideoFrame& video_frame,
-                    ACE_Message_Block* mb_video)
-                {
-                    return false;
-                }
-                bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                    media::AudioFrame& audio_frame,
-                    ACE_Message_Block* mb_audio)
+                bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+                                              ACE_Message_Block* mb_audio)
                 {
                     wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
                     return false;
                 }
-                void MediaStreamStatusCallback(MediaStreamer* streamer,
-                    const MediaFileProp& mfp,
-                    MediaStreamStatus status)
+                void MediaStreamStatusCallback(const MediaFileProp& mfp,
+                                               MediaStreamStatus status)
                 {
                     switch (status)
                     {
@@ -105,10 +109,12 @@ namespace UnitTest
             DSWrapperThread streamer(&listener);
 #endif
 #if defined(ENABLE_MEDIAFOUNDATION)
-            MFStreamer streamer(&listener);
+            MFStreamer streamer;
+            streamer.RegisterAudioCallback(std::bind(&MediaStreamListener::MediaStreamAudioCallback, &listener, _1, _2), true);
+            streamer.RegisterStatusCallback(std::bind(&MediaStreamListener::MediaStreamStatusCallback, &listener, _1, _2), true);
 #endif
 
-            Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
+            Assert::IsTrue(streamer.OpenFile(in_prop.filename, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
 
@@ -118,9 +124,7 @@ namespace UnitTest
 
         TEST_METHOD(TestVideoStream)
         {
-            TT_InitTeamTalkPoll(); // Call MFStartup()
-
-            class : public MediaStreamListener
+            class MediaStreamListener
             {
                 WavePCMFile wavfile;
                 MediaStreamOutput out_prop;
@@ -129,8 +133,7 @@ namespace UnitTest
 #endif
             public:
                 void setOutput(const MediaStreamOutput& o) { out_prop = o; }
-                bool MediaStreamVideoCallback(MediaStreamer* streamer,
-                    media::VideoFrame& video_frame,
+                bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                     ACE_Message_Block* mb_video)
                 {
                     static int n_bmp = 0;
@@ -168,15 +171,13 @@ namespace UnitTest
 
                     return false;
                 }
-                bool MediaStreamAudioCallback(MediaStreamer* streamer,
-                    media::AudioFrame& audio_frame,
+                bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                     ACE_Message_Block* mb_audio)
                 {
                     wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
                     return false;
                 }
-                void MediaStreamStatusCallback(MediaStreamer* streamer,
-                    const MediaFileProp& mfp,
+                void MediaStreamStatusCallback(const MediaFileProp& mfp,
                     MediaStreamStatus status)
                 {
                     switch(status)
@@ -213,12 +214,15 @@ namespace UnitTest
             listener.setOutput(out_prop);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-            MFStreamer streamer(&listener);
+            MFStreamer streamer;
+            streamer.RegisterAudioCallback(std::bind(&MediaStreamListener::MediaStreamAudioCallback, &listener, _1, _2), true);
+            streamer.RegisterVideoCallback(std::bind(&MediaStreamListener::MediaStreamVideoCallback, &listener, _1, _2), true);
+            streamer.RegisterStatusCallback(std::bind(&MediaStreamListener::MediaStreamStatusCallback, &listener, _1, _2), true);
 #endif
 #if defined(ENABLE_DSHOW)
             DSWrapperThread streamer(&listener);
 #endif
-            Assert::IsTrue(streamer.OpenFile(in_prop, out_prop));
+            Assert::IsTrue(streamer.OpenFile(in_prop.filename, out_prop));
 
             Assert::IsTrue(streamer.StartStream());
 
@@ -1392,6 +1396,7 @@ namespace UnitTest
             MediaFileInfo mfi = {};
             wcsncpy(mfi.szFileName, filename3, TT_STRLEN);
             mfi.uDurationMSec = 60 * 1000;
+            mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
             mfi.audioFmt.nChannels = 2;
             mfi.audioFmt.nSampleRate = 44100;
             Assert::IsTrue(TT_DBG_WriteAudioFileTone(&mfi, 700));

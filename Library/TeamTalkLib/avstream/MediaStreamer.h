@@ -115,7 +115,6 @@ public:
 
     bool Pause();
 
-    virtual const MediaStream& GetMediaInput() const = 0;
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
     
 protected:
@@ -163,7 +162,6 @@ public:
     // return previous offset (was)
     ACE_UINT32 SetOffset(ACE_UINT32 offset);
 
-    const MediaStream& GetMediaInput() const { return m_media_in; }
     const MediaFileProp& GetMediaFile() const { return m_media_in; }
     
 protected:
