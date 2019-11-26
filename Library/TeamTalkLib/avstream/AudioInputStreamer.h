@@ -25,13 +25,33 @@
 #define AUDIOINPUTSTREAMER_H
 
 #include "MediaStreamer.h"
+#include "AudioResampler.h"
 
 class AudioInputStreamer : public MediaStreamer
 {
 public:
+    AudioInputStreamer();
     ~AudioInputStreamer();
+
+    const MediaStream& GetMediaInput() const { return GetMediaOutput(); }
+
+    bool InsertAudio(const media::AudioFrame& frame);
+
+private:
     void Run();
+
+    void ProcessResample();
+    msg_queue_t m_resample_frames;
+    audio_resampler_t m_resampler;
+    std::vector<short> m_resamplebuffer;
+
+    bool Submit(const media::AudioFrame& frame);
+    bool Submit(ACE_Message_Block* mb);
+    void UpdateTimeStamp(media::AudioFrame& frame);
+    int64_t m_sampleindex = 0;
 };
+
+typedef std::shared_ptr< AudioInputStreamer > audioinput_streamer_t;
 
 #endif
 

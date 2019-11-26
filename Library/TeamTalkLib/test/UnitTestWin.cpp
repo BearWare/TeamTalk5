@@ -11,6 +11,8 @@
 #endif
 
 #include <avstream/MediaPlayback.h>
+#include <avstream/AudioInputStreamer.h>
+
 #include <codec/WaveFile.h>
 #include <codec/BmpFile.h>
 #include <codec/VpxEncoder.h>
@@ -1509,6 +1511,43 @@ namespace UnitTest
             aud.QueueAudio(frame);
             ACE_Time_Value tm;
             aud.ProcessQueue(&tm);
+        }
+
+        TEST_METHOD(TestAudioInput)
+        {
+            WavePCMFile wavfile;
+            Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 16000, 1));
+
+            audioinput_streamer_t ais(new AudioInputStreamer());
+
+            auto cb = [&](media::AudioFrame& audio_frame,
+                ACE_Message_Block* mb_audio)
+            {
+                wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+                cv.notify_all();
+                return false;
+            };
+
+            ais->RegisterAudioCallback(cb, true);
+
+            media::AudioFormat infmt(16000, 1);
+
+            MediaStreamOutput mso(infmt, 300);
+            Assert::IsTrue(ais->Open(mso));
+            Assert::IsTrue(ais->StartStream());
+
+            std::vector<short> buff(300);
+            media::AudioFrame frame(infmt, &buff[0], 300);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+
+            Assert::AreEqual(300, wavfile.GetSamplesCount());
+
+            Assert::IsTrue(ais->InsertAudio(frame));
+            cv.wait(lk);
+            Assert::AreEqual(600, wavfile.GetSamplesCount());
         }
 
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
