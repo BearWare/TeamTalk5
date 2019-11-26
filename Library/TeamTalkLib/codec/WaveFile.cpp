@@ -85,6 +85,7 @@ bool UpdateWaveFileHeader(ACE_FILE_IO& file)
             file.seek(4, SEEK_CUR) >= 0 /* past 'data' */)
         {
             wavedatasize = int(end - file.tell());
+            wavedatasize -= 4; // don't include size-field as part of data size
             if (file.send_n(&wavedatasize, 4) >= 0)
             {
                 success = true;
