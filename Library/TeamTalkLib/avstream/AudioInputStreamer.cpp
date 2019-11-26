@@ -47,6 +47,11 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
     return true;
 }
 
+void AudioInputStreamer::Flush()
+{
+    InsertAudio(media::AudioFrame());
+}
+
 void AudioInputStreamer::Run()
 {
     bool ready = GetMediaOutput().audio.IsValid();
@@ -65,56 +70,63 @@ void AudioInputStreamer::Run()
 
     ACE_UINT32 starttime = GETTIMESTAMP();
 
+    bool flush = false;
     while (!m_stop)
     {
-        ProcessResample();
-        if (!ProcessAVQueues(starttime, GETTIMESTAMP(), false))
+        if (!ProcessAVQueues(starttime, GETTIMESTAMP(), flush))
         {
+            if (flush)
+                break;
+
             // wait for more data
-            ACE_Message_Block* mb = nullptr;
-            m_resample_frames.peek_dequeue_head(mb);
+            flush = ProcessResample();
         }
     }
 }
 
-void AudioInputStreamer::ProcessResample()
+bool AudioInputStreamer::ProcessResample()
 {
-    while (m_resample_frames.message_count())
-    {
-        ACE_Message_Block* mb = nullptr;
-        int ret = m_resample_frames.dequeue(mb, nullptr);
-        assert(ret >= 0);
-        if (mb)
-        {
-            media::AudioFrame frame(mb);
-            if (frame.inputfmt != GetMediaOutput().audio)
-            {
-                MBGuard g(mb);
+    ACE_Message_Block* mb = nullptr;
+    int ret = m_resample_frames.dequeue(mb, nullptr);
+    if (!mb)
+        return false;
 
-                if (!m_resampler || frame.inputfmt != m_resampler->GetInputFormat())
-                {
-                    m_resampler = MakeAudioResampler(frame.inputfmt, GetMediaOutput().audio);
-                    assert(m_resampler);
-                    if (!m_resampler)
-                    {
-                        continue;
-                    }
-                }
-                int osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
-                if (m_resamplebuffer.size() != osamples * GetMediaOutput().audio.channels)
-                    m_resamplebuffer.resize(osamples * GetMediaOutput().audio.channels);
-                ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, &m_resamplebuffer[0], osamples);
-                assert(ret > 0);
-                media::AudioFrame resam_frame(GetMediaOutput().audio, &m_resamplebuffer[0], osamples);
-                Submit(resam_frame);
-            }
-            else
+    media::AudioFrame frame(mb);
+
+    if (frame.input_samples == 0)
+    {
+        mb->release();
+        return true;
+    }
+
+    if (frame.inputfmt != GetMediaOutput().audio)
+    {
+        MBGuard g(mb);
+
+        if (!m_resampler || frame.inputfmt != m_resampler->GetInputFormat())
+        {
+            m_resampler = MakeAudioResampler(frame.inputfmt, GetMediaOutput().audio);
+            assert(m_resampler);
+            if (!m_resampler)
             {
-                if (!Submit(mb))
-                    mb->release();
+                return false;
             }
         }
+        int osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
+        if (m_resamplebuffer.size() != osamples * GetMediaOutput().audio.channels)
+            m_resamplebuffer.resize(osamples * GetMediaOutput().audio.channels);
+        ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, &m_resamplebuffer[0], osamples);
+        assert(ret > 0);
+        media::AudioFrame resam_frame(GetMediaOutput().audio, &m_resamplebuffer[0], osamples);
+        Submit(resam_frame);
     }
+    else
+    {
+        if (!Submit(mb))
+            mb->release();
+    }
+
+    return false; // no flush
 }
 
 bool AudioInputStreamer::Submit(const media::AudioFrame& frame)

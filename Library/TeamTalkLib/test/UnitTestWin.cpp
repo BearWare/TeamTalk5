@@ -1513,17 +1513,18 @@ namespace UnitTest
             aud.ProcessQueue(&tm);
         }
 
-        TEST_METHOD(TestAudioInput)
+        TEST_METHOD(TestAudioInputNoResample)
         {
             WavePCMFile wavfile;
             Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 16000, 1));
 
             audioinput_streamer_t ais(new AudioInputStreamer());
-
+            std::vector<ACE_UINT32> timestamps;
             auto cb = [&](media::AudioFrame& audio_frame,
                 ACE_Message_Block* mb_audio)
             {
                 wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+                timestamps.push_back(audio_frame.timestamp);
                 cv.notify_all();
                 return false;
             };
@@ -1533,6 +1534,7 @@ namespace UnitTest
             media::AudioFormat infmt(16000, 1);
 
             MediaStreamOutput mso(infmt, 300);
+            ACE_UINT32 outframeduration = ACE_UINT32((300 * 1000) / mso.audio.samplerate);
             Assert::IsTrue(ais->Open(mso));
             Assert::IsTrue(ais->StartStream());
 
@@ -1548,6 +1550,26 @@ namespace UnitTest
             Assert::IsTrue(ais->InsertAudio(frame));
             cv.wait(lk);
             Assert::AreEqual(600, wavfile.GetSamplesCount());
+
+            Assert::AreEqual(outframeduration + timestamps[0], timestamps[1]);
+            Assert::AreEqual(size_t(2), timestamps.size());
+
+            buff.resize(16000);
+            frame = media::AudioFrame(infmt, &buff[0], 16000);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            size_t expect_frames = 2 + (16000 / 300);
+            while (expect_frames != timestamps.size())
+            {
+                cv.wait(lk);
+            }
+            Assert::AreEqual(expect_frames, timestamps.size());
+
+            ais->Flush();
+            cv.wait(lk);
+
+            Assert::AreEqual(expect_frames + 1, timestamps.size());
+            Assert::AreEqual(timestamps[timestamps.size()-1], timestamps[timestamps.size() - 2] + outframeduration);
         }
 
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
