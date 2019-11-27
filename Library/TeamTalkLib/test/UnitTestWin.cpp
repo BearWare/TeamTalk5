@@ -1541,32 +1541,42 @@ namespace UnitTest
 
             media::AudioFormat infmt(16000, 1);
 
-            MediaStreamOutput mso(infmt, 300);
-            ACE_UINT32 outframeduration = ACE_UINT32((300 * 1000) / mso.audio.samplerate);
+            const int ASAMPLES = 300;
+
+            MediaStreamOutput mso(infmt, ASAMPLES);
+            ACE_UINT32 outframeduration = ACE_UINT32((ASAMPLES * 1000) / mso.audio.samplerate);
             Assert::IsTrue(ais->Open(mso));
             Assert::IsTrue(ais->StartStream());
 
-            std::vector<short> buff(300);
-            media::AudioFrame frame(infmt, &buff[0], 300);
+            short val = 1;
+            std::vector<short> buff(ASAMPLES, val);
+            media::AudioFrame frame(infmt, &buff[0], ASAMPLES);
             Assert::IsTrue(ais->InsertAudio(frame));
 
             std::unique_lock<std::mutex> lk(done);
             cv.wait(lk);
 
-            Assert::AreEqual(300, wavfile.GetSamplesCount());
+            Assert::AreEqual(ASAMPLES, wavfile.GetSamplesCount());
 
+            buff.assign(ASAMPLES, ++val);
             Assert::IsTrue(ais->InsertAudio(frame));
             cv.wait(lk);
-            Assert::AreEqual(600, wavfile.GetSamplesCount());
+            Assert::AreEqual(ASAMPLES * 2, wavfile.GetSamplesCount());
 
             Assert::AreEqual(outframeduration + timestamps[0], timestamps[1]);
             Assert::AreEqual(size_t(2), timestamps.size());
 
             buff.resize(16000);
+            for (auto i=0;i<buff.size();++i)
+            {
+                if ((i % ASAMPLES) == 0)
+                    ++val;
+                buff[i] = val;
+            }
             frame = media::AudioFrame(infmt, &buff[0], 16000);
             Assert::IsTrue(ais->InsertAudio(frame));
 
-            size_t expect_frames = 2 + (16000 / 300);
+            size_t expect_frames = 2 + (16000 / ASAMPLES);
             while (expect_frames != timestamps.size())
             {
                 cv.wait(lk);
@@ -1578,6 +1588,33 @@ namespace UnitTest
 
             Assert::AreEqual(expect_frames + 1, timestamps.size());
             Assert::AreEqual(timestamps[timestamps.size()-1], timestamps[timestamps.size() - 2] + outframeduration);
+
+            Assert::IsTrue(wavfile.SeekSamplesBegin());
+            short lastval = val;
+            val = 1;
+            buff.resize(300);
+            int c = 0;
+            do
+            {
+                Assert::AreEqual(ASAMPLES, wavfile.ReadSamples(&buff[0], ASAMPLES));
+                for(int i=0;i<ASAMPLES;++i)
+                {
+                    Assert::AreEqual(buff[i], val);
+                }
+                val++;
+            }
+            while (val < lastval);
+
+            int remain = (16000 + 2 * ASAMPLES) % ASAMPLES, s;
+            Assert::AreEqual(ASAMPLES, wavfile.ReadSamples(&buff[0], ASAMPLES));
+            for(s = 0; s<remain; ++s)
+            {
+                Assert::AreEqual(val, buff[s]);
+            }
+            for(s = remain; s<ASAMPLES; ++s)
+            {
+                Assert::AreEqual(short(0), buff[s]);
+            }
         }
 
         TEST_METHOD(TestAudioInputResample)
