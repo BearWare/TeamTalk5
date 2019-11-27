@@ -118,6 +118,8 @@ public:
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
     
 protected:
+    const int BUF_SECS = 3;
+
     virtual void Run() = 0;
     virtual void Reset();
 

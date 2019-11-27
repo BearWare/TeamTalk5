@@ -37,6 +37,31 @@ AudioInputStreamer::~AudioInputStreamer()
 
 bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
 {
+    if (!m_inputfmt.IsValid())
+    {
+        if (!frame.inputfmt.IsValid())
+            return false;
+
+        m_inputfmt = frame.inputfmt;
+        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
+        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
+    }
+    else if (frame.inputfmt != m_inputfmt) // don't allow input format to change
+        return false;
+
+    if (frame.inputfmt != GetMediaOutput().audio)
+    {
+        if (!m_resampler)
+        {
+            m_resampler = MakeAudioResampler(frame.inputfmt, GetMediaOutput().audio);
+            assert(m_resampler);
+            if (!m_resampler)
+            {
+                return false;
+            }
+        }
+    }
+
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
     ACE_Time_Value zero;
     if (m_resample_frames.enqueue(mb, &zero) < 0)
@@ -47,9 +72,16 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
     return true;
 }
 
-void AudioInputStreamer::Flush()
+bool AudioInputStreamer::Flush()
 {
-    InsertAudio(media::AudioFrame());
+    ACE_Message_Block* mb = AudioFrameToMsgBlock(media::AudioFrame());
+    ACE_Time_Value zero;
+    if (m_resample_frames.enqueue(mb, &zero) < 0)
+    {
+        mb->release();
+        return false;
+    }
+    return true;
 }
 
 void AudioInputStreamer::Run()
@@ -102,16 +134,8 @@ bool AudioInputStreamer::ProcessResample()
     if (frame.inputfmt != GetMediaOutput().audio)
     {
         MBGuard g(mb);
-
-        if (!m_resampler || frame.inputfmt != m_resampler->GetInputFormat())
-        {
-            m_resampler = MakeAudioResampler(frame.inputfmt, GetMediaOutput().audio);
-            assert(m_resampler);
-            if (!m_resampler)
-            {
-                return false;
-            }
-        }
+        assert(frame.inputfmt == m_inputfmt);
+        assert(m_resampler);
         int osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
         if (m_resamplebuffer.size() != osamples * GetMediaOutput().audio.channels)
             m_resamplebuffer.resize(osamples * GetMediaOutput().audio.channels);

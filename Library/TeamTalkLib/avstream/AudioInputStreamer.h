@@ -33,17 +33,16 @@ public:
     AudioInputStreamer();
     ~AudioInputStreamer();
 
-    const MediaStream& GetMediaInput() const { return GetMediaOutput(); }
-
     bool InsertAudio(const media::AudioFrame& frame);
 
-    void Flush();
+    bool Flush();
 
 private:
     void Run();
     // @return True = Flush
     bool ProcessResample();
     msg_queue_t m_resample_frames;
+    media::AudioFormat m_inputfmt;
     audio_resampler_t m_resampler;
     std::vector<short> m_resamplebuffer;
 

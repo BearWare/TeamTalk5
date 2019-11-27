@@ -199,8 +199,6 @@ void MediaStreamer::InitBuffers()
 {
     assert(m_media_out.HasAudio() || m_media_out.HasVideo());
 
-    const int BUF_SECS = 3;
-
     if (m_media_out.HasAudio())
     {
         size_t buffer_size = PCM16_BYTES(m_media_out.audio.samplerate *
