@@ -1518,9 +1518,9 @@ namespace UnitTest
             WavePCMFile wavfile;
             Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 16000, 1));
 
-            audioinput_streamer_t ais(new AudioInputStreamer());
+            audioinput_streamer_t ais(new AudioInputStreamer(1));
             std::vector<ACE_UINT32> timestamps;
-            auto cb = [&](media::AudioFrame& audio_frame,
+            auto acb = [&](media::AudioFrame& audio_frame,
                 ACE_Message_Block* mb_audio)
             {
                 wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
@@ -1529,7 +1529,15 @@ namespace UnitTest
                 return false;
             };
 
-            ais->RegisterAudioCallback(cb, true);
+            ais->RegisterAudioCallback(acb, true);
+
+            auto scb = [&](const AudioInputStatus& stat)
+            {
+                std::wostringstream oss;
+                oss << L"Elapsed: " << stat.elapsed_msec << ". Queued: " << stat.queueduration_msec << std::endl;
+                Logger::WriteMessage(oss.str().c_str());
+            };
+            ais->RegisterAudioInputStatusCallback(scb, true);
 
             media::AudioFormat infmt(16000, 1);
 
@@ -1577,7 +1585,7 @@ namespace UnitTest
             WavePCMFile wavfile;
             Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 48000, 2));
 
-            audioinput_streamer_t ais(new AudioInputStreamer());
+            audioinput_streamer_t ais(new AudioInputStreamer(2));
             std::vector<ACE_UINT32> timestamps;
             auto cb = [&](media::AudioFrame& audio_frame,
                 ACE_Message_Block* mb_audio)

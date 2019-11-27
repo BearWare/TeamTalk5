@@ -24,7 +24,8 @@
 #include "AudioInputStreamer.h"
 #include <assert.h>
 
-AudioInputStreamer::AudioInputStreamer()
+AudioInputStreamer::AudioInputStreamer(int streamid)
+: m_streamid(streamid)
 {
 }
 
@@ -33,6 +34,14 @@ AudioInputStreamer::~AudioInputStreamer()
     m_resample_frames.close();
 
     Close();
+}
+
+void AudioInputStreamer::RegisterAudioInputStatusCallback(audioinput_statuscallback_t cb, bool enable)
+{
+    if (enable)
+        m_statuscb = cb;
+    else
+        m_statuscb = {};
 }
 
 bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
@@ -82,6 +91,12 @@ bool AudioInputStreamer::Flush()
         return false;
     }
     return true;
+}
+
+void AudioInputStreamer::AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec)
+{
+    if (m_statuscb)
+        m_statuscb(AudioInputStatus(queuedmsec, elapsedmsec, m_streamid));
 }
 
 void AudioInputStreamer::Run()

@@ -1294,6 +1294,19 @@ extern "C" {
 
     /** @} */
 
+    /** @addtogroup mediastream
+    * @{ */
+
+    typedef struct AudioInputProgress
+    {
+        INT32 nStreamID;
+        StreamType nStreamType;
+        UINT32 uQueueMSec;
+        UINT32 uElapsedMSec;
+    } AudioInputProgress;
+
+    /** @} */
+
     /** @addtogroup server
      * @{ */
 

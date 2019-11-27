@@ -27,18 +27,36 @@
 #include "MediaStreamer.h"
 #include "AudioResampler.h"
 
+struct AudioInputStatus
+{
+    AudioInputStatus(uint32_t qmsec, uint32_t elapmsec, int sid)
+    : queueduration_msec(qmsec), elapsed_msec(elapmsec), streamid(sid) {}
+    uint32_t queueduration_msec = 0;
+    uint32_t elapsed_msec = 0;
+    int streamid = 0;
+};
+
+typedef std::function< void(const AudioInputStatus& ais) > audioinput_statuscallback_t;
+
 class AudioInputStreamer : public MediaStreamer
 {
 public:
-    AudioInputStreamer();
+    AudioInputStreamer(int streamid);
     ~AudioInputStreamer();
+
+    void RegisterAudioInputStatusCallback(audioinput_statuscallback_t cb, bool enable);
 
     bool InsertAudio(const media::AudioFrame& frame);
 
     bool Flush();
 
-private:
+protected:
+    virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec);
     void Run();
+
+private:
+    audioinput_statuscallback_t m_statuscb;
+
     // @return True = Flush
     bool ProcessResample();
     msg_queue_t m_resample_frames;
@@ -50,6 +68,7 @@ private:
     bool Submit(ACE_Message_Block* mb);
     void UpdateTimeStamp(media::AudioFrame& frame);
     int64_t m_sampleindex = 0;
+    int m_streamid;
 };
 
 typedef std::shared_ptr< AudioInputStreamer > audioinput_streamer_t;

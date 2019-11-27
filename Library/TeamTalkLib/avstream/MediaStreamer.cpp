@@ -336,8 +336,7 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
         return true;
     }
 
-    uint32_t queue_duration = PCM16_BYTES(m_media_out.audio.samplerate, m_media_out.audio.channels);
-    queue_duration = queued_audio_bytes * 1000 / queue_duration;
+    uint32_t queue_duration = PCM16_DURATION(queued_audio_bytes, m_media_out.audio.channels, m_media_out.audio.samplerate);
 
     // check if head is already ahead of time
     AudioFrame* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
@@ -431,6 +430,10 @@ bool MediaStreamer::ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, 
             timestamp - starttime, int((curtime - starttime) - (timestamp - starttime)),
             int(need_more));
     //MYTRACE(ACE_TEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
+    
+    uint32_t newduration = PCM16_DURATION(GetQueuedAudioDataSize(), m_media_out.audio.channels, m_media_out.audio.samplerate);
+    AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
+
     if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))
     {
         out_mb->release();

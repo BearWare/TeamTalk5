@@ -137,6 +137,13 @@ namespace media
             AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;
         }
+
+        uint32_t InputDurationMSec() const
+        {
+            if (!inputfmt.IsValid())
+                return 0;
+            return (input_samples * 1000) / inputfmt.samplerate;
+        }
     };
 
     struct VideoFrame

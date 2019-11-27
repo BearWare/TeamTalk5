@@ -122,6 +122,7 @@ protected:
 
     virtual void Run() = 0;
     virtual void Reset();
+    virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) {}
 
     bool QueueAudio(const media::AudioFrame& frame);
     bool QueueVideo(const media::VideoFrame& frame);
