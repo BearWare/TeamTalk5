@@ -1572,6 +1572,48 @@ namespace UnitTest
             Assert::AreEqual(timestamps[timestamps.size()-1], timestamps[timestamps.size() - 2] + outframeduration);
         }
 
+        TEST_METHOD(TestAudioInputResample)
+        {
+            WavePCMFile wavfile;
+            Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 48000, 2));
+
+            audioinput_streamer_t ais(new AudioInputStreamer());
+            std::vector<ACE_UINT32> timestamps;
+            auto cb = [&](media::AudioFrame& audio_frame,
+                ACE_Message_Block* mb_audio)
+            {
+                wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
+                timestamps.push_back(audio_frame.timestamp);
+                cv.notify_all();
+                return false;
+            };
+
+            ais->RegisterAudioCallback(cb, true);
+
+            media::AudioFormat infmt(44100, 1);
+
+            MediaStreamOutput mso(media::AudioFormat(48000, 2), 48000 * .05);
+            ACE_UINT32 outframeduration = ACE_UINT32((48000 * .05 * 1000) / mso.audio.samplerate);
+            Assert::IsTrue(ais->Open(mso));
+            Assert::IsTrue(ais->StartStream());
+
+            std::vector<short> buff(44100 * .05);
+            media::AudioFrame frame(infmt, &buff[0], 44100 * .05);
+            Assert::IsTrue(ais->InsertAudio(frame));
+
+            std::unique_lock<std::mutex> lk(done);
+            cv.wait(lk);
+
+            Assert::AreEqual(int(48000 * .05), wavfile.GetSamplesCount());
+
+            Assert::IsTrue(ais->InsertAudio(frame));
+            cv.wait(lk);
+            Assert::AreEqual(int(48000 * .05) * 2, wavfile.GetSamplesCount());
+
+            Assert::AreEqual(outframeduration + timestamps[0], timestamps[1]);
+            Assert::AreEqual(size_t(2), timestamps.size());
+        }
+
         bool WaitForEvent(TTInstance* ttClient, ClientEvent ttevent, std::function<bool(TTMessage)> pred, TTMessage& outmsg = TTMessage(), int timeout = DEFWAIT)
         {
             auto start = GETTIMESTAMP();
