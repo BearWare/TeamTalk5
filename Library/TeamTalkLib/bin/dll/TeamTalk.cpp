@@ -800,7 +800,8 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
 
     media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
                           reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
-    
+    frm.userdata = lpAudioBlock->nStreamID;
+    return clientnode->QueueAudioInput(frm, teamtalk::StreamType(nStreamType));
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,

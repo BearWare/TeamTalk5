@@ -96,6 +96,8 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result);
 void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlog,
              MediaFileInfo& result);
 
+void Convert(const AudioInputStatus& ais, AudioInputProgress& result);
+
 void Convert(const media::VideoFrame& imgframe, VideoFrame& result);
 void Convert(const VideoFormat& vidfmt, media::VideoFormat& result);
 

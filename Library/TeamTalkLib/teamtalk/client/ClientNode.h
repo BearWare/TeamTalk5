@@ -42,6 +42,7 @@
 #include <avstream/MediaPlayback.h>
 
 #include <avstream/MediaStreamer.h>
+#include <avstream/AudioInputStreamer.h>
 
 // ACE
 #include <ace/Reactor.h>
@@ -93,6 +94,7 @@ enum ClientTimer
     TIMER_DESKTOPNAKPACKET_TIMEOUT_ID       = 9,
     TIMER_BUILD_DESKTOPPACKETS_ID           = 10,
     TIMER_QUERY_MTU_ID                      = 11,
+    TIMER_STOP_AUDIOINPUT                   = 12,
 
     //User instance timers (termination not handled by ClientNode::StopTimer())
     USER_TIMER_MASK                         = 0x8000,
@@ -456,6 +458,11 @@ namespace teamtalk {
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
+        // AudioInputStreamer listener - separate thread
+        bool AudioInputCallback(media::AudioFrame& audio_frame,
+                                ACE_Message_Block* mb_audio);
+        void AudioInputStatusCallback(const AudioInputStatus& ais);
+
         void OnFileTransferStatus(const teamtalk::FileTransfer& transfer);
 
         bool GetTransferInfo(int transferid, FileTransfer& transfer);
@@ -674,6 +681,9 @@ namespace teamtalk {
         std::map<int, mediaplayback_t> m_mediaplayback_streams;
         uint16_t m_mediaplayback_counter = 0;
 
+        // audio input streamer (replaces voice stream)
+        audioinput_streamer_t m_audioinput_voice;
+
         //desktop session
         desktop_initiator_t m_desktop;
         desktop_transmitter_t m_desktop_tx;
@@ -772,6 +782,8 @@ namespace teamtalk {
 
         virtual void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                               MediaFileStatus status) = 0;
+
+        virtual void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& progress) = 0;
 
         virtual void OnUserAudioBlock(int userid, StreamType stream_type) = 0;
 

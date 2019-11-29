@@ -1248,6 +1248,18 @@ extern "C" {
         AudioPreprocessor audioPreprocessor;
     } MediaFilePlayback;
 
+    /** @brief The progress of the audio currently being processed as audio input.
+     * @see TT_InsertAudioBlock() */
+    typedef struct AudioInputProgress
+    {
+        /** @brief The stream ID provided in the #AudioBlock. */
+        INT32 nStreamID;
+        /** @brief The duration of the audio currently queued for transmission. */
+        UINT32 uQueueMSec;
+        /** @brief The duration of the audio that has been transmitted. */
+        UINT32 uElapsedMSec;
+    } AudioInputProgress;
+
     /** @} */
     
     /** @addtogroup transmission
@@ -1291,19 +1303,6 @@ extern "C" {
 
     /** @brief Mask of #StreamType. */
     typedef UINT32 StreamTypes;
-
-    /** @} */
-
-    /** @addtogroup mediastream
-    * @{ */
-
-    typedef struct AudioInputProgress
-    {
-        INT32 nStreamID;
-        StreamType nStreamType;
-        UINT32 uQueueMSec;
-        UINT32 uElapsedMSec;
-    } AudioInputProgress;
 
     /** @} */
 
@@ -3140,13 +3139,12 @@ extern "C" {
          * @param nSource Stream ID used for sending audio input.
          * The stream ID will appear in #AudioBlock's @c nStreamID
          * on the receiving side.
-         * @param ttType #__UINT32
-         * @param uQueueDurationMSec Placed in union of #TTMessage.
+         * @param ttType #__AUDIOINPUTPROGRESS
+         * @param audioinputprogress Placed in union of #TTMessage.
          * Tells how much audio remains in queue. The queue should 
-         * be refilled if audio input is not ending.
+         * be refilled as long as the audio input should remain active.
          */
-        CLIENTEVENT_AUDIOINPUT_VOICE = CLIENTEVENT_NONE + 1080,
-        CLIENTEVENT_AUDIOINPUT_MEDIAFILE = CLIENTEVENT_NONE + 1090,
+        CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -3192,6 +3190,7 @@ extern "C" {
         __MEDIAFILEPLAYBACK       = 37,
         __CLIENTKEEPALIVE         = 38,
         __UINT32                  = 39,
+        __AUDIOINPUTPROGRESS      = 40
     } TTType;
 
     /**
@@ -3250,8 +3249,8 @@ extern "C" {
             INT32 nPayloadSize;
             /** @brief Valid if @c ttType is #__STREAMTYPE. */
             StreamType nStreamType;
-            /** @brief Valie if @c ttType is #__UINT32. */
-            UINT32 uQueueDurationMSec;
+            /** @brief Valid if @c ttType is #__AUDIOINPUTPROGRESS. */
+            AudioInputProgress audioinputprogress;
             /* brief First byte in union. */
             char data[1];
         };

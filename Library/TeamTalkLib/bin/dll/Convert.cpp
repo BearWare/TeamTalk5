@@ -1490,6 +1490,14 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
     ACE_OS::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
 }
 
+void Convert(const AudioInputStatus& ais, AudioInputProgress& result)
+{
+    ZERO_STRUCT(result);
+    result.uElapsedMSec = ais.elapsed_msec;
+    result.uQueueMSec = ais.queueduration_msec;
+    result.nStreamID = ais.streamid;
+}
+
 void Convert(const media::VideoFrame& imgframe, VideoFrame& result)
 {
     ZERO_STRUCT(result);

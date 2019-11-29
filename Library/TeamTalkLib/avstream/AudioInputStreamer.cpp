@@ -129,6 +129,9 @@ void AudioInputStreamer::Run()
             flush = ProcessResample();
         }
     }
+
+    if (!m_stop && flush && m_statuscb)
+        m_statuscb(AudioInputStatus(0, 0, m_streamid));
 }
 
 bool AudioInputStreamer::ProcessResample()

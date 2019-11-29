@@ -49,6 +49,8 @@ public:
     bool InsertAudio(const media::AudioFrame& frame);
 
     bool Flush();
+    
+    int GetStreamID() const { return m_streamid; }
 
 protected:
     virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec);

@@ -126,6 +126,8 @@ public:
     void OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                   teamtalk::MediaFileStatus status);
 
+    void OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais);
+
     void OnUserAudioBlock(int userid, teamtalk::StreamType stream_type);
 
     void OnMTUQueryComplete(int payload_size);

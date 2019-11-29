@@ -600,6 +600,10 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     case TIMER_QUERY_MTU_ID :
         ret = Timer_QueryMTU(userdata);
         break;
+    case TIMER_STOP_AUDIOINPUT :
+        m_audioinput_voice.reset();
+        ret = -1;
+        break;
     case USER_TIMER_VOICE_PLAYBACK_ID :
     {
         clientuser_t user = GetUser(userid);
@@ -1519,6 +1523,27 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
     }
 
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
+}
+
+bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
+                                    ACE_Message_Block* mb_audio)
+{
+    assert(mb_audio);
+    audio_frame.force_enc = true;
+    m_voice_thread.QueueAudio(mb_audio);
+    return true;
+}
+
+void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
+{
+    if (ais.elapsed_msec == 0 && ais.queueduration_msec == 0)
+    {
+        //schedule timer to kill 'm_audioinput_voice'
+        long ret = StartTimer(TIMER_STOP_AUDIOINPUT, ais.streamid, ACE_Time_Value::zero);
+        assert(ret >= 0);
+    }
+
+    m_listener->OnAudioInputStatus(m_voice_stream_id, ais);
 }
 
 void ClientNode::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
@@ -2882,6 +2907,56 @@ void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
         AUDIOCONTAINER::instance()->RemoveSoundSource(m_soundprop.soundgroupid,
                                                       userid, stream_type);
 }
+
+bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, StreamType stream_type)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    if (GetFlags() & (CLIENT_TX_VOICE | CLIENT_SNDINPUT_VOICEACTIVATED))
+        return false;
+
+    if (!m_mychannel)
+        return false;
+
+    if (TimerExists(TIMER_STOP_AUDIOINPUT))
+    {
+        StopTimer(TIMER_STOP_AUDIOINPUT);
+        m_audioinput_voice.reset();
+    }
+
+    if (frm.input_samples == 0)
+    {
+        if (m_audioinput_voice)
+            m_audioinput_voice->Flush();
+
+        return true;
+    }
+
+    if (m_audioinput_voice && frm.userdata != m_audioinput_voice->GetStreamID())
+        m_audioinput_voice.reset();
+
+    if (!m_audioinput_voice)
+    {
+        m_audioinput_voice.reset(new AudioInputStreamer(frm.userdata));
+
+        m_audioinput_voice->RegisterAudioCallback(std::bind(&ClientNode::AudioInputCallback, this, _1, _2), true);
+        m_audioinput_voice->RegisterAudioInputStatusCallback(std::bind(&ClientNode::AudioInputStatusCallback, this, _1), true);
+
+        media::AudioFormat infmt = GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec());
+        int cbsamples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
+        if (!m_audioinput_voice->Open(MediaStreamOutput(infmt, cbsamples)) ||
+            !m_audioinput_voice->StartStream())
+        {
+            m_audioinput_voice.reset();
+            return false;
+        }
+
+        GEN_NEXT_ID(m_voice_stream_id);
+    }
+
+    return m_audioinput_voice->InsertAudio(frm);
+}
+
 bool ClientNode::MuteAll(bool muteall)
 {
     ASSERT_REACTOR_LOCKED(this);
