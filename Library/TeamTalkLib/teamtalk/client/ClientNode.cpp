@@ -2908,7 +2908,7 @@ void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                                       userid, stream_type);
 }
 
-bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, StreamType stream_type)
+bool ClientNode::QueueAudioInput(const media::AudioFrame& frm)
 {
     ASSERT_REACTOR_LOCKED(this);
 

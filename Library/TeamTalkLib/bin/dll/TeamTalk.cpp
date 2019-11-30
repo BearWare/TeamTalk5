@@ -792,7 +792,6 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEvent(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
-                                           IN StreamType nStreamType,
                                            IN const AudioBlock* lpAudioBlock)
 {
     clientnode_t clientnode;
@@ -801,7 +800,7 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
     media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
                           reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
     frm.userdata = lpAudioBlock->nStreamID;
-    return clientnode->QueueAudioInput(frm, teamtalk::StreamType(nStreamType));
+    return clientnode->QueueAudioInput(frm);
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,
@@ -3182,6 +3181,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(MediaFilePlayback);
     case __CLIENTKEEPALIVE :
         return sizeof(ClientKeepAlive);
+    case __AUDIOINPUTPROGRESS :
+        return sizeof(AudioInputProgress);
     }
     return 0;
 }

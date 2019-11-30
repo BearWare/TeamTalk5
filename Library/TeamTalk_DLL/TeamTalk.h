@@ -1248,15 +1248,17 @@ extern "C" {
         AudioPreprocessor audioPreprocessor;
     } MediaFilePlayback;
 
-    /** @brief The progress of the audio currently being processed as audio input.
-     * @see TT_InsertAudioBlock() */
+    /** @brief The progress of the audio currently being processed as
+     * audio input.  @see TT_InsertAudioBlock() */
     typedef struct AudioInputProgress
     {
         /** @brief The stream ID provided in the #AudioBlock. */
         INT32 nStreamID;
-        /** @brief The duration of the audio currently queued for transmission. */
+        /** @brief The duration of the audio currently queued for
+         * transmission. */
         UINT32 uQueueMSec;
-        /** @brief The duration of the audio that has been transmitted. */
+        /** @brief The duration of the audio that has been
+         * transmitted. */
         UINT32 uElapsedMSec;
     } AudioInputProgress;
 
@@ -3915,30 +3917,36 @@ extern "C" {
                                                     IN TTBOOL bEnable);
 
     /**
-     * Transmit application provided raw audio in #AudioBlock-structs
-     * as either #STREAMTYPE_VOICE or #STREAMTYPE_MEDIAFILE. The
-     * provided audio blocks replaces any existing voice or media file
-     * stream.
+     * @brief Transmit application provided raw audio in
+     * #AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
+     * input.
      *
-     * If @c nStreamType is #STREAMTYPE_VOICE then
-     * TT_EnableVoiceTransmission() and TT_EnableVoiceActivation()
-     * will become unavailable. If @c nStreamType is #STREAMTYPE_MEDIA
-     * then TT_StartStreamingMediaFileToChannel() will become
-     * unavailable.
+     * Since #STREAMTYPE_VOICE is being replaced by audio input this
+     * means that while audio input is active then subsequent calls to
+     * TT_EnableVoiceTransmission() or TT_EnableVoiceActivation() will
+     * fail until the audio input has ended.
+     *
+     * If the flags #CLIENT_TX_VOICE or
+     * #CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
+     * TT_InputAudioBlock() will fail because #STREAMTYPE_VOICE is
+     * already in use.
+     *
+     * TT_InsertAudioBlock() can be called multiple times until the
+     * client instance's internal queue is full. When the queue has
+     * been filled then monitor #CLIENTEVENT_AUDIOINPUT to see when
+     * more data can be queued.
+     *
+     * The member @c nStreamID of #AudioBlock is used to identify the
+     * audio input session which is currently in progress and is
+     * posted as the @c nSource of #CLIENTEVENT_AUDIOINPUT.
+     *
+     * The member @c uSampleIndex of #AudioBlock is ignored.
      *
      * To end raw audio input set @c lpAudioBlock to NULL and then
      * TT_EnableVoiceTransmission() or
      * TT_StartStreamingMediaFileToChannel() will be available again.
-     *
-     * TT_InsertAudioBlock() can be called multiple times until the
-     * client instance's internal queue is full. When the queue is
-     * full then monitor #CLIENTEVENT_AUDIOINPUT_VOICE or
-     * #CLIENTEVENT_AUDIOINPUT_MEDIAFILE to see when more data can be
-     * queued. The members @c nStreamID and @c uSampleIndex of
-     * #AudioBlock are ignored.
      */
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
-                                               IN StreamType nStreamType,
                                                IN const AudioBlock* lpAudioBlock);
     
     /** @} */
