@@ -22,6 +22,7 @@ set (JAVA_SOURCES
   src/dk/bearware/AudioConfigConstants.java
   src/dk/bearware/AudioFileFormat.java
   src/dk/bearware/AudioFormat.java
+  src/dk/bearware/AudioInputProgress.java
   src/dk/bearware/AudioPreprocessor.java
   src/dk/bearware/AudioPreprocessorType.java
   src/dk/bearware/BannedUser.java
@@ -106,6 +107,10 @@ function(set_output_dir target dir)
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${dir}
     ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${dir})
 endfunction()
+
+if (BUILD_TEAMTALKPRO_LIBRARY_JNI OR BUILD_TEAMTALK_LIBRARY_JNI)
+  set (CMAKE_CXX_STANDARD 11)
+endif()
 
 if (BUILD_TEAMTALK_LIBRARY_JNI)
   add_library (TeamTalk5-jni SHARED

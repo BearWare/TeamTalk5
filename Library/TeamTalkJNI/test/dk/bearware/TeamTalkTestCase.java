@@ -2680,4 +2680,29 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("streaming finished", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
     }
 
+    public void test_AudioInput() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getCurrentMethod();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttclient = newClientInstance();
+
+        initSound(ttclient);
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        AudioBlock ab = new AudioBlock();
+        ab.nStreamID = 1;
+        ab.nSampleRate = 16000;
+        ab.nChannels = 1;
+        ab.lpRawAudio = new byte[16000 * 2];
+        ab.nSamples = 16000;
+        ab.uSampleIndex = 0;
+        assertTrue("Send audio block", ttclient.insertAudioBlock(ab));
+    }
+    
 }

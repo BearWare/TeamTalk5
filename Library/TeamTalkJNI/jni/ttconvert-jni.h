@@ -132,7 +132,7 @@ void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientError
 void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, JConvert conv);
 void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWindow, JConvert conv);
 void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame); //N2J
-void setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock); //N2J
+jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock, JConvert conv);
 void setMediaFileInfo(JNIEnv* env, MediaFileInfo& mfi, jobject lpMediaFileInfo, JConvert conv);
 void setAudioFormat(JNIEnv* env, AudioFormat& fmt, jobject lpAudioFormat, JConvert conv);
 void setVideoFormat(JNIEnv* env, VideoFormat& fmt, jobject lpVideoFormat, JConvert conv);
@@ -140,4 +140,5 @@ void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConver
 void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec, JConvert conv);
 void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv);
 void setMediaFilePlayback(JNIEnv* env, MediaFilePlayback& playback, jobject lpMediaPlayback, JConvert conv);
+void setAudioInputProgress(JNIEnv* env, AudioInputProgress& aip, jobject lpAudioInputProgress, JConvert conv);
 #endif

@@ -366,6 +366,18 @@ extern "C" {
                                         nUserID, (StreamType)nStreamType, bEnable);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_insertAudioBlock(JNIEnv* env,
+                                                                              jobject thiz,
+                                                                              jlong lpTTInstance,
+                                                                              jobject lpAudioBlock)
+    {
+        AudioBlock ab = {};
+        auto byteArr = setAudioBlock(env, ab, lpAudioBlock, J2N);
+        jboolean b = TT_InsertAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), &ab);
+        env->ReleaseByteArrayElements(byteArr, reinterpret_cast<jbyte*>(ab.lpRawAudio), JNI_ABORT);
+        return b;
+    }
+    
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableVoiceActivation(JNIEnv* env,
                                                                                    jobject thiz,
                                                                                    jlong lpTTInstance,
@@ -1730,7 +1742,7 @@ extern "C" {
             return NULL;
         jclass cls = env->FindClass("dk/bearware/AudioBlock");
         jobject audblk_obj = newObject(env, cls);
-        setAudioBlock(env, *audblock, audblk_obj);
+        setAudioBlock(env, *audblock, audblk_obj, N2J);
         TT_ReleaseUserAudioBlock(reinterpret_cast<TTInstance*>(lpTTInstance), audblock);
         return audblk_obj;
     }
