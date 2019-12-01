@@ -82,4 +82,6 @@ public interface ClientEvent
     public static final int CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060;
 
     public static final int CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070;
+
+    public static final int CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080;
 }

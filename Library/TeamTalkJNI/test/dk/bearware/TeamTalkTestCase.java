@@ -2695,14 +2695,25 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
 
+        final int STREAMID = 57;
+
         AudioBlock ab = new AudioBlock();
-        ab.nStreamID = 1;
+        ab.nStreamID = STREAMID;
         ab.nSampleRate = 16000;
         ab.nChannels = 1;
-        ab.lpRawAudio = new byte[16000 * 2];
+        ab.lpRawAudio = new byte[16000 * 2]; //PCM16 mono
         ab.nSamples = 16000;
         ab.uSampleIndex = 0;
         assertTrue("Send audio block", ttclient.insertAudioBlock(ab));
+
+        assertTrue("Audio input started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
+
+        do {
+            assertTrue("Audio input in progress", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        } while(msg.audioinputprogress.nStreamID == STREAMID &&
+                msg.audioinputprogress.uElapsedMSec != 0 &&
+                msg.audioinputprogress.uQueueMSec != 0);
     }
     
 }

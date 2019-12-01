@@ -316,15 +316,11 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
 
-            msg.bActive = tmp.bActive;
             msg.channel = tmp.channel;
             msg.clienterrormsg = tmp.clienterrormsg;
             msg.desktopinput = tmp.desktopinput;
             msg.filetransfer = tmp.filetransfer;
             msg.mediafileinfo = tmp.mediafileinfo;
-            msg.nBytesRemain = tmp.nBytesRemain;
-            msg.nPayloadSize = tmp.nPayloadSize;
-            msg.nStreamID = tmp.nStreamID;
             msg.remotefile = tmp.remotefile;
             msg.serverproperties = tmp.serverproperties;
             msg.serverstatistics = tmp.serverstatistics;
@@ -332,9 +328,14 @@ public abstract class TeamTalkTestCaseBase extends TestCase {
             msg.user = tmp.user;
             msg.useraccount = tmp.useraccount;
             msg.banneduser = tmp.banneduser;
+            msg.bActive = tmp.bActive;
+            msg.nBytesRemain = tmp.nBytesRemain;
+            msg.nStreamID = tmp.nStreamID;
+            msg.nPayloadSize = tmp.nPayloadSize;
             msg.nStreamType = tmp.nStreamType;
+            msg.audioinputprogress = tmp.audioinputprogress;
             //if assert fails it's because the TTType isn't handled here
-            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__STREAMTYPE);
+            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
         }
         else
         {
