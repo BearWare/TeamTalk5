@@ -1530,6 +1530,8 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
 {
     assert(mb_audio);
     audio_frame.force_enc = true;
+    audio_frame.userdata = STREAMTYPE_VOICE;
+
     m_voice_thread.QueueAudio(mb_audio);
     return true;
 }

@@ -799,7 +799,6 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
 
     media::AudioFrame frm(media::AudioFormat(lpAudioBlock->nSampleRate, lpAudioBlock->nChannels),
                           reinterpret_cast<short*>(lpAudioBlock->lpRawAudio), lpAudioBlock->nSamples);
-    frm.userdata = STREAMTYPE_VOICE;
     return clientnode->QueueAudioInput(frm, lpAudioBlock->nStreamID);
 }
 
