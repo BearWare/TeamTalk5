@@ -322,7 +322,7 @@ namespace teamtalk {
         void EnableAudioBlockCallback(int userid, StreamType stream_type,
                                       bool enable);
         
-        bool QueueAudioInput(const media::AudioFrame& frm);
+        bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
         
         bool MuteAll(bool muteall);
 

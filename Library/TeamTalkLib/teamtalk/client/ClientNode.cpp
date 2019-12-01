@@ -2908,7 +2908,7 @@ void ClientNode::EnableAudioBlockCallback(int userid, StreamType stream_type,
                                                       userid, stream_type);
 }
 
-bool ClientNode::QueueAudioInput(const media::AudioFrame& frm)
+bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
 {
     ASSERT_REACTOR_LOCKED(this);
 
@@ -2932,12 +2932,12 @@ bool ClientNode::QueueAudioInput(const media::AudioFrame& frm)
         return true;
     }
 
-    if (m_audioinput_voice && frm.userdata != m_audioinput_voice->GetStreamID())
+    if (m_audioinput_voice && streamid != m_audioinput_voice->GetStreamID())
         m_audioinput_voice.reset();
 
     if (!m_audioinput_voice)
     {
-        m_audioinput_voice.reset(new AudioInputStreamer(frm.userdata));
+        m_audioinput_voice.reset(new AudioInputStreamer(streamid));
 
         m_audioinput_voice->RegisterAudioCallback(std::bind(&ClientNode::AudioInputCallback, this, _1, _2), true);
         m_audioinput_voice->RegisterAudioInputStatusCallback(std::bind(&ClientNode::AudioInputStatusCallback, this, _1), true);
