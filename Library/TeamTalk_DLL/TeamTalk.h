@@ -3965,9 +3965,14 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_VOICE
      *
+     * Note that voice activation cannot be enabled when
+     * TT_InsertAudioBlock() is active.
+     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk. 
-     * @param bEnable Enable/disable transmission. */
+     * @param bEnable Enable/disable transmission.
+     * @return TRUE on success. FALSE if voice transmission could
+     * not be activated on the client instance. */
     TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
                                                       IN TTBOOL bEnable);
 
@@ -3976,7 +3981,7 @@ extern "C" {
      *
      * The client instance will start transmitting audio if the
      * recorded audio level is above or equal to the voice activation
-     * level set by #TT_SetVoiceActivationLevel. Once the voice
+     * level set by TT_SetVoiceActivationLevel(). Once the voice
      * activation level is reached the event
      * #CLIENTEVENT_VOICE_ACTIVATION is posted.
      *
@@ -3988,9 +3993,15 @@ extern "C" {
      * User rights required:
      * - #USERRIGHT_TRANSMIT_VOICE
      *
+     * Note that voice activation cannot be enabled when
+     * TT_InsertAudioBlock() is active.
+     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @param bEnable TRUE to enable, otherwise FALSE.
+     * @return TRUE on success. FALSE if voice activation cannot 
+     * be enabled on the client instance.
+     *
      * @see CLIENT_SNDINPUT_VOICEACTIVATION
      * @see TT_SetVoiceActivationStopDelay */
     TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance, 

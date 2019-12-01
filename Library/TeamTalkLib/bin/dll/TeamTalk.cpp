@@ -714,8 +714,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    clientnode->EnableVoiceTransmission(bEnable);
-    return TRUE;
+    return clientnode->EnableVoiceTransmission(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
@@ -723,8 +722,7 @@ TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
-    clientnode->EnableVoiceActivation(bEnable);
-    return TRUE;
+    return clientnode->EnableVoiceActivation(bEnable);
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetVoiceActivationLevel(IN TTInstance* lpTTInstance, 

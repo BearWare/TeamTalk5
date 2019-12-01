@@ -2821,10 +2821,13 @@ int ClientNode::GetSoundOutputVolume()
     return m_soundsystem->GetMasterVolume(m_soundprop.soundgroupid);
 }
 
-void ClientNode::EnableVoiceTransmission(bool enable)
+bool ClientNode::EnableVoiceTransmission(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    if (m_audioinput_voice)
+        return false;
+    
     if(enable)
     {
         m_flags |= CLIENT_TX_VOICE;
@@ -2840,16 +2843,22 @@ void ClientNode::EnableVoiceTransmission(bool enable)
         m_voice_tx_closed = (m_flags & CLIENT_TX_VOICE);
         m_flags &= ~CLIENT_TX_VOICE;
     }
+    
+    return true;
 }
 
 int ClientNode::GetCurrentVoiceLevel()
 {
     return m_voice_thread.m_voicelevel;
 }
-void ClientNode::EnableVoiceActivation(bool enable)
+
+bool ClientNode::EnableVoiceActivation(bool enable)
 {
     ASSERT_REACTOR_LOCKED(this);
 
+    if (m_audioinput_voice)
+        return false;
+    
     if(enable)
         m_flags |= CLIENT_SNDINPUT_VOICEACTIVATED;
     else
@@ -2857,6 +2866,8 @@ void ClientNode::EnableVoiceActivation(bool enable)
         m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVATED;
         m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
     }
+
+    return true;
 }
 void ClientNode::SetVoiceActivationLevel(int voicelevel)
 {

@@ -2695,7 +2695,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
 
-        final int STREAMID = 57;
+        assertTrue("enable voice tx", ttclient.enableVoiceTransmission(true));
+   
+        int STREAMID = 57;
 
         AudioBlock ab = new AudioBlock();
         ab.nStreamID = STREAMID;
@@ -2704,16 +2706,41 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         ab.lpRawAudio = new byte[16000 * 2]; //PCM16 mono
         ab.nSamples = 16000;
         ab.uSampleIndex = 0;
+
+        assertFalse("Reject audio input during voicetx", ttclient.insertAudioBlock(ab));
+
+        assertTrue("disable voice tx", ttclient.enableVoiceTransmission(false));
+
+        assertTrue("enable voice act", ttclient.enableVoiceActivation(true));
+
+        assertFalse("Reject audio input during voiceact", ttclient.insertAudioBlock(ab));
+
+        assertTrue("disable voice act", ttclient.enableVoiceActivation(false));
+        
         assertTrue("Send audio block", ttclient.insertAudioBlock(ab));
 
-        assertTrue("Audio input started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        assertTrue("Audio input "+STREAMID+" started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        
         assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
 
+        assertFalse("Reject voice tx", ttclient.enableVoiceTransmission(true));
+
+        assertFalse("Reject voice act", ttclient.enableVoiceActivation(true));
+        
         do {
             assertTrue("Audio input in progress", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
         } while(msg.audioinputprogress.nStreamID == STREAMID &&
                 msg.audioinputprogress.uElapsedMSec != 0 &&
                 msg.audioinputprogress.uQueueMSec != 0);
+
+        ++STREAMID;
+        ab.nStreamID = STREAMID;
+        assertTrue("Send audio block "+ STREAMID, ttclient.insertAudioBlock(ab));
+
+        assertTrue("Audio input "+STREAMID+" started", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_AUDIOINPUT, DEF_WAIT, msg));
+        
+        assertEquals("Stream ID match", STREAMID, msg.audioinputprogress.nStreamID);
+        
     }
     
 }

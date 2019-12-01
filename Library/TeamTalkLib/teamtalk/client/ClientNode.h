@@ -308,11 +308,11 @@ namespace teamtalk {
         bool SetSoundOutputVolume(int volume);
         int GetSoundOutputVolume();
 
-        void EnableVoiceTransmission(bool enable);
+        bool EnableVoiceTransmission(bool enable);
         int GetCurrentVoiceLevel();
         void SetVoiceActivationLevel(int voicelevel);
         int GetVoiceActivationLevel();
-        void EnableVoiceActivation(bool enable);
+        bool EnableVoiceActivation(bool enable);
         void SetVoiceActivationStoppedDelay(int msec);
         int GetVoiceActivationStoppedDelay();
 
